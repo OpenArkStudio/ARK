@@ -91,15 +91,15 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 6. (Optional)For Release Version, after above, run **BuildNF.VS2015.Release.X64.bat** or **BuildNF.CMake.Release.sh**, then run the binary file by **_Out/Server/Release/run.bat** or **_Out/Server/Release/run_cmake.sh**
 
 ## Documents
-[English](https://https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_EN.md)
+[English](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_EN.md)
 
-[Mandarin](https://https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md)
+[Mandarin](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md)
 
 ## Samples
 Please see ```Src/Samples```.
 
 ## License
-The ArkGameFrame project is currently available under the [Apache License](https://https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE).
+The ArkGameFrame project is currently available under the [Apache License](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE).
 
 
 ----------
