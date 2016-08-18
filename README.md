@@ -1,6 +1,6 @@
 ![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/ArkGameFrame.png)
 
-##### Copyright © http://www.noahframe.com
+##### Copyright © [https://github.com/ArkGame](https://github.com/ArkGame "Ark Game")
 :exclamation: New game frame with some new ideas, this project is based on [NFrame](https://github.com/ketoo/NoahGameFrame)
 
 #####QQ Group：341159815
