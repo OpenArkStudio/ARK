@@ -1,4 +1,4 @@
-![Server Architecture](https://https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/asserts/imgs/ArkGameFrame.png)
+![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/ArkGameFrame.png)
 
 ##### Copyright © http://www.noahframe.com
 :exclamation: New game frame with some new ideas, this project is based on [NFrame](https://github.com/ketoo/NoahGameFrame)
@@ -31,10 +31,10 @@ Please create a new issue to ask a question.
 ## Architecture
 
 ### App Architecture:
-![App Architecture](https://https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/asserts/imgs/AppArchitecture.png)
+![App Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/AppArchitecture.png)
 
 ### Server Architecture
-![Server Architecture](https://https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/asserts/imgs/ServerArchitecture.png)
+![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/ServerArchitecture.png)
 
 ## Get the Sources:
 
