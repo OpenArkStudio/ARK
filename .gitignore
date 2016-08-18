@@ -4,18 +4,9 @@
 *.o
 *.obj
 
-# Precompiled Headers
-*.gch
-*.pch
-
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
 
 # Compiled Static libraries
 *.lai
@@ -27,3 +18,56 @@
 *.exe
 *.out
 *.app
+
+# Visaul Studio
+*.iobj
+*.ipdb
+*.idb
+*.pdb
+*.tlog
+*.log
+*.ilk
+
+# Codeblocks
+*.layout
+*.depend
+
+# CMake
+[cC][mM]ake[lL]ists.txt
+
+/.vs/
+/*.sdf
+
+/Bin/Comm/*
+/Bin/SDK/*
+/Bin/Server/*
+/Bin/Sample/*
+/Dependencies/gperftools-2.1
+/Dependencies/lib
+/Dependencies/boost_1_53_0
+/Dependencies/curl-7.37.1
+/Temp
+/*.opendb
+/Bin/Comm/Debug/*.manifest
+/Bin/Comm/Debug/*.exp
+/Bin/Comm/Debug/*.ilk
+/Bin/Comm/Debug/*.bsc
+/Bin/Comm/Debug/*.pdb
+/Bin/Comm/Debug/*.dll
+
+/Bin/Comm/Release/*.manifest
+/Bin/Comm/Release/*.exp
+/Bin/Comm/Release/*.ilk
+/Bin/Comm/Release/*.bsc
+/Bin/Comm/Release/*.pdb
+/Bin/Comm/Release/*.dll
+
+/Bin/Server/Debug/
+/Bin/Server/NFDataCfg/Ini/
+/Bin/Server/NFDataCfg/Struct/
+/Bin/Server/NFDataCfg/Proto/
+/Bin/Server/Release/
+/Dependencies/libevent
+/Dependencies/curl
+
+/Src/*.sdf
