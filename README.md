@@ -38,11 +38,11 @@ Please create a new issue to ask a question.
 
 ## Get the Sources:
 
-git clone https://github.com/ketoo/NoahGameFrame.git
+git clone https://github.com/ArkGame/ArkGameFrame.git
 
 or
 
-svn checkout https://github.com/ketoo/NoahGameFrame
+svn checkout https://github.com/ArkGame/ArkGameFrame
 
 
 ## Dependencies
@@ -65,21 +65,21 @@ svn checkout https://github.com/ketoo/NoahGameFrame
 ### MSVC >= 2015
 
 1. Git pull all source
-2. Run **install.bat**
-3. Open the solution: **NoahFrame.sln**
+2. Run **Dep/build_dep.bat**
+3. Open the solution: **Src/Ark.sln**
 4. Build the solution
 5. Run **GenerateConfigXML.bat** to generate configuration files
-6. Run the binary file by **_Out/Server/Debug/Run.bat**
+6. Run the binary file by **Bin/Server/Debug/Run.bat**
 
 ### CodeBlocks >= 13.1(Only in linux)
 
 1. Git pull all source
-2. Run **install.sh**
-3. Open the solution with CodeBlocks: **NF.workspace**
+2. Run **Dep/build_dep.sh**
+3. Open the solution with CodeBlocks: **Ark.workspace**
 4. Check **C++11** option in CodeBlocks compiler setting
-5. Build **NF.workspace**
+5. Build **Ark.workspace**
 6. Run **sh ./GenerateConfigXML.sh** to generate configuration files
-6. Run the binary file by **_Out/Server/Debug/rund.sh**
+6. Run the binary file by **Bin/Server/Debug/rund.sh**
 
 > ## :exclamation: Fixing some problem
 > ### CMake
