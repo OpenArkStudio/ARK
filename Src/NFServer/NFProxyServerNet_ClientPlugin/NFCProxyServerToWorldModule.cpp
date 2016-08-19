@@ -101,7 +101,7 @@ void NFCProxyServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF
 void NFCProxyServerToWorldModule::Register(NFINet* pNet)
 {
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (xLogicClass.get())
+    if (nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
@@ -159,7 +159,7 @@ bool NFCProxyServerToWorldModule::AfterInit()
 	m_pNetClientModule->AddEventCallBack(this, &NFCProxyServerToWorldModule::OnSocketWSEvent);
 
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (xLogicClass.get())
+    if (nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
@@ -203,7 +203,7 @@ void NFCProxyServerToWorldModule::OnSelectServerResultProcess(const int nSockInd
     }
 
     NF_SHARE_PTR<ClientConnectData> pConnectData = mWantToConnectMap.GetElement(xMsg.account());
-    if (NULL != pConnectData.get())
+    if (nullptr != pConnectData)
     {
         pConnectData->strConnectKey = xMsg.world_key();
         return;

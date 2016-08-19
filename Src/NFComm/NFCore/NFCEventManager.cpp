@@ -81,7 +81,7 @@ bool NFCEventManager::DoEvent(const int nEventID, const NFIDataList& valueList)
     bool bRet = pEventInfo->First(cb);
     while (bRet)
     {
-        cb->operator()(mSelf, nEventID,  valueList);
+        (*cb)(mSelf, nEventID,  valueList);
 
         bRet = pEventInfo->Next(cb);
     }

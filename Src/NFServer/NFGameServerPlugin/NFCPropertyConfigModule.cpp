@@ -52,7 +52,7 @@ int NFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel
 void NFCPropertyConfigModule::Load()
 {
     NF_SHARE_PTR<NFIClass> pLogicClass = m_pClassModule->GetElement(NFrame::InitProperty::ThisName());
-    if (pLogicClass.get())
+    if (nullptr != pLogicClass)
     {
         NFList<std::string>& xList = pLogicClass->GetConfigNameList();
         std::string strData;
@@ -60,7 +60,7 @@ void NFCPropertyConfigModule::Load()
         while (bRet)
         {
             NF_SHARE_PTR<NFIPropertyManager> pPropertyManager = m_pElementModule->GetPropertyManager(strData);
-            if (pPropertyManager.get())
+            if (nullptr != pPropertyManager)
             {
                 int nJob = m_pElementModule->GetPropertyInt(strData, NFrame::InitProperty::Job());
                 int nLevel = m_pElementModule->GetPropertyInt(strData, NFrame::InitProperty::Level());

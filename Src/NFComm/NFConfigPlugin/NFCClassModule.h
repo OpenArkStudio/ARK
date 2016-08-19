@@ -70,7 +70,7 @@ public:
         bool bRet = mxClassEventInfo.First(cb);
         while (bRet)
         {
-            cb->operator()(objectID, mstrClassName, eClassEvent,  valueList);
+            (*cb)(objectID, mstrClassName, eClassEvent,  valueList);
 
             bRet = mxClassEventInfo.Next(cb);
         }

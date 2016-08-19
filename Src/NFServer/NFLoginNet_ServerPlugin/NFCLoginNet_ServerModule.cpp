@@ -49,7 +49,7 @@ bool NFCLoginNet_ServerModule::AfterInit()
 	m_pNetModule->AddEventCallBack(this, &NFCLoginNet_ServerModule::OnSocketClientEvent);
 
 	NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-	if (xLogicClass.get())
+	if (nullptr != xLogicClass)
 	{
 		NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
 		std::string strConfigName;

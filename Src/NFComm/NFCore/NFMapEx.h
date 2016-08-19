@@ -69,10 +69,8 @@ public:
         {
             return itr->second.get();
         }
-        else
-        {
-            return NULL;
-        }
+        
+        return NULL;
     }
 
     virtual NF_SHARE_PTR<TD> GetElement(const T& name)
@@ -82,10 +80,8 @@ public:
         {
             return itr->second;
         }
-        else
-        {
-            return NF_SHARE_PTR<TD>();
-        }
+        
+        return nullptr;
     }
     virtual TD* FirstNude(T& name)
     {
@@ -100,10 +96,8 @@ public:
             name = mObjectCurIter->first;
             return mObjectCurIter->second.get();
         }
-        else
-        {
-            return NULL;
-        }
+        
+        return NULL;
     }
 
     virtual TD* NextNude(T& name)
@@ -119,11 +113,10 @@ public:
             name = mObjectCurIter->first;
             return mObjectCurIter->second.get();
         }
-        else
-        {
-            return NULL;
-        }
+        
+        return NULL;
     }
+
     virtual TD* FirstNude()
     {
         if (mObjectList.size() <= 0)
@@ -136,11 +129,10 @@ public:
         {
             return mObjectCurIter->second.get();
         }
-        else
-        {
-            return NULL;
-        }
+        
+        return NULL;
     }
+
     virtual TD* NextNude()
     {
         if (mObjectCurIter == mObjectList.end())
@@ -153,17 +145,15 @@ public:
         {
             return mObjectCurIter->second.get();
         }
-        else
-        {
-            return NULL;
-        }
+        
+        return NULL;
     }
 
     virtual NF_SHARE_PTR<TD> First()
     {
         if (mObjectList.size() <= 0)
         {
-            return NF_SHARE_PTR<TD>();
+            return nullptr;
         }
 
         mObjectCurIter = mObjectList.begin();
@@ -171,10 +161,8 @@ public:
         {
             return mObjectCurIter->second;
         }
-        else
-        {
-            return NF_SHARE_PTR<TD>();
-        }
+
+        return nullptr;
     }
 
     virtual NF_SHARE_PTR<TD> Next()
@@ -189,10 +177,8 @@ public:
         {
             return mObjectCurIter->second;
         }
-        else
-        {
-            return NF_SHARE_PTR<TD>();
-        }
+
+        return nullptr;
     }
 
     virtual NF_SHARE_PTR<TD> First(T& name)
@@ -208,10 +194,8 @@ public:
             name = mObjectCurIter->first;
             return mObjectCurIter->second;
         }
-        else
-        {
-            return NF_SHARE_PTR<TD>();
-        }
+
+        return nullptr;
     }
 
     virtual NF_SHARE_PTR<TD> Next(T& name)
@@ -227,10 +211,8 @@ public:
             name = mObjectCurIter->first;
             return mObjectCurIter->second;
         }
-        else
-        {
-            return NF_SHARE_PTR<TD>();
-        }
+
+        return nullptr;
     }
 
     int Count()
@@ -243,6 +225,7 @@ public:
         mObjectList.clear();
         return true;
     }
+
 private:
     NFMapOBJECT     mObjectList;
     typename NFMapOBJECT::iterator mObjectCurIter;

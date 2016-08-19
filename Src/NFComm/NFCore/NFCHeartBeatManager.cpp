@@ -20,7 +20,7 @@ void NFCHeartBeatElement::DoHeartBeatEvent()
     bool bRet = First(cb);
     while (bRet)
     {
-        cb.get()->operator()(self, strBeatName, fBeatTime, nCount);
+        (*cb)(self, strBeatName, fBeatTime, nCount);
 
         bRet = Next(cb);
     }
@@ -29,7 +29,7 @@ void NFCHeartBeatElement::DoHeartBeatEvent()
 bool NFCHeartBeatManager::Execute()
 {
     NF_SHARE_PTR<NFCHeartBeatElement> pElement = mHeartBeatElementMapEx.First();
-    while (pElement.get())
+    while (nullptr != pElement)
     {
         //millisecond
         NFINT64 nTime = NFTime::GetNowTimeMille();
