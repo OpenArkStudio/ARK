@@ -33,7 +33,7 @@ void NFCMasterNet_ServerModule::OnWorldRegisteredProcess(const int nSockIndex, c
     {
         const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         NF_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
-        if (!pServerData.get())
+        if (nullptr == pServerData)
         {
             pServerData = NF_SHARE_PTR<ServerData>(NF_NEW ServerData());
             mWorldMap.AddElement(xData.server_id(), pServerData);
@@ -44,7 +44,6 @@ void NFCMasterNet_ServerModule::OnWorldRegisteredProcess(const int nSockIndex, c
 
         m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, xData.server_id()), xData.server_name(), "WorldRegistered");
     }
-
 
     SynWorldToLogin();
 }
@@ -83,7 +82,7 @@ void NFCMasterNet_ServerModule::OnRefreshWorldInfoProcess(const int nSockIndex, 
     {
         const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         NF_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
-        if (!pServerData.get())
+        if (nullptr == pServerData)
         {
             pServerData = NF_SHARE_PTR<ServerData>(NF_NEW ServerData());
             mWorldMap.AddElement(xData.server_id(), pServerData);
@@ -112,7 +111,7 @@ void NFCMasterNet_ServerModule::OnLoginRegisteredProcess(const int nSockIndex, c
     {
         const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         NF_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
-        if (!pServerData.get())
+        if (nullptr == pServerData)
         {
             pServerData = NF_SHARE_PTR<ServerData>(NF_NEW ServerData());
             mLoginMap.AddElement(xData.server_id(), pServerData);
@@ -160,7 +159,7 @@ void NFCMasterNet_ServerModule::OnRefreshLoginInfoProcess(const int nSockIndex, 
     {
         const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         NF_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
-        if (!pServerData.get())
+        if (nullptr == pServerData)
         {
             pServerData = NF_SHARE_PTR<ServerData>(NF_NEW ServerData());
             mLoginMap.AddElement(xData.server_id(), pServerData);
@@ -184,7 +183,7 @@ void NFCMasterNet_ServerModule::OnSelectWorldProcess(const int nSockIndex, const
     }
 
     NF_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xMsg.world_id());
-    if (!pServerData.get())
+    if (nullptr == pServerData)
     {
         return;
     }
@@ -211,7 +210,7 @@ void NFCMasterNet_ServerModule::OnSelectServerResultProcess(const int nSockIndex
     }
 
     NF_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xMsg.login_id());
-    if (!pServerData.get())
+    if (nullptr == pServerData)
     {
         return;
     }
@@ -241,7 +240,7 @@ bool NFCMasterNet_ServerModule::AfterInit()
 	m_pNetModule->AddEventCallBack(this, &NFCMasterNet_ServerModule::OnSocketEvent);
 
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (xLogicClass.get())
+    if (nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
@@ -303,7 +302,7 @@ void NFCMasterNet_ServerModule::OnClientDisconnect(const int nAddress)
 {
     //不管是login还是world都要找出来,替他反注册
     NF_SHARE_PTR<ServerData> pServerData =  mWorldMap.First();
-    while (pServerData.get())
+    while (nullptr != pServerData)
     {
         if (nAddress == pServerData->nFD)
         {
@@ -321,7 +320,7 @@ void NFCMasterNet_ServerModule::OnClientDisconnect(const int nAddress)
 
     int nServerID = 0;
     pServerData =  mLoginMap.First();
-    while (pServerData.get())
+    while (nullptr != pServerData)
     {
         if (nAddress == pServerData->nFD)
         {
@@ -346,7 +345,7 @@ void NFCMasterNet_ServerModule::SynWorldToLogin()
     NFMsg::ServerInfoReportList xData;
 
     NF_SHARE_PTR<ServerData> pServerData =  mWorldMap.First();
-    while (pServerData.get())
+    while (nullptr != pServerData)
     {
         NFMsg::ServerInfoReport* pData = xData.add_server_list();
         *pData = *(pServerData->pData);
@@ -356,7 +355,7 @@ void NFCMasterNet_ServerModule::SynWorldToLogin()
 
     //广播给所有loginserver
     pServerData =  mLoginMap.First();
-    while (pServerData.get())
+    while (nullptr != pServerData)
     {
 		m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_STS_NET_INFO, xData, pServerData->nFD);
 

@@ -302,7 +302,7 @@ const NFGUID& NFCDataList::Object(const int index) const
         if (TDATA_OBJECT == type)
         {
             NF_SHARE_PTR<TData> var = GetStack(index);
-            if (var.get())
+            if (nullptr != var)
             {
                 return var->GetObject();
             }

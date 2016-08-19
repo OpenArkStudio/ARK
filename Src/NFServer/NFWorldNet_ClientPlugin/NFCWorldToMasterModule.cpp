@@ -41,7 +41,7 @@ bool NFCWorldToMasterModule::AfterInit()
 	m_pNetClientModule->AddEventCallBack(this, &NFCWorldToMasterModule::OnSocketMSEvent);
 
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (xLogicClass.get())
+    if (nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
@@ -84,7 +84,7 @@ bool NFCWorldToMasterModule::Execute()
 void NFCWorldToMasterModule::Register(NFINet* pNet)
 {
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (xLogicClass.get())
+    if (nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;

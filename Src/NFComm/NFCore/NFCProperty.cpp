@@ -83,7 +83,7 @@ void NFCProperty::SetValue(const NFIProperty* pProperty)
 
 const NFIDataList::TData& NFCProperty::GetValue() const
 {
-	if (mxData.get())
+	if (nullptr != mxData)
 	{
 		return *mxData;
 	}
@@ -148,7 +148,7 @@ void NFCProperty::SetRelationValue(const std::string& strRelationValue)
 
 NFINT64 NFCProperty::GetInt() const
 {
-	if (!mxData.get())
+	if (nullptr == mxData)
 	{
 		return 0;
 	}
@@ -158,7 +158,7 @@ NFINT64 NFCProperty::GetInt() const
 
 double NFCProperty::GetFloat() const
 {
-	if (!mxData.get())
+	if (nullptr == mxData)
 	{
 		return 0.0;
 	}
@@ -168,7 +168,7 @@ double NFCProperty::GetFloat() const
 
 const std::string& NFCProperty::GetString() const
 {
-	if (!mxData.get())
+	if (nullptr == mxData)
 	{
 		return NULL_STR;
 	}
@@ -178,7 +178,7 @@ const std::string& NFCProperty::GetString() const
 
 const NFGUID& NFCProperty::GetObject() const
 {
-	if (!mxData.get())
+	if (nullptr == mxData)
 	{
 		return NULL_OBJECT;
 	}
@@ -203,9 +203,7 @@ int NFCProperty::OnEventHandler(const NFIDataList::TData& oldVar, const NFIDataL
 	for (it; it != end; ++it)
 	{
 		//NFIDataList参数:属性名，OLD属性值，NEW属性值, ARG参数(pKernel,self)
-		PROPERTY_EVENT_FUNCTOR_PTR& pFunPtr = *it;
-		PROPERTY_EVENT_FUNCTOR* pFunc = pFunPtr.get();
-		int nTemRet = pFunc->operator()(mSelf, msPropertyName, oldVar, newVar);
+		(**it)(mSelf, msPropertyName, oldVar, newVar);
 	}
 
 	return 0;
@@ -218,7 +216,7 @@ bool NFCProperty::SetInt(const NFINT64 value)
 		return false;
 	}
 
-	if (!mxData.get())
+	if (nullptr == mxData)
 	{
 		//本身是空就是因为没数据，还来个没数据的就不存了
 		if (0 == value)
@@ -252,7 +250,7 @@ bool NFCProperty::SetFloat(const double value)
 		return false;
 	}
 
-	if (!mxData.get())
+	if (nullptr == mxData)
 	{
 		//本身是空就是因为没数据，还来个没数据的就不存了
 		if (IsZeroDouble(value))
@@ -286,7 +284,7 @@ bool NFCProperty::SetString(const std::string& value)
 		return false;
 	}
 
-	if (!mxData.get())
+	if (nullptr == mxData)
 	{
 		//本身是空就是因为没数据，还来个没数据的就不存了
 		if (value.empty())
@@ -320,7 +318,7 @@ bool NFCProperty::SetObject(const NFGUID& value)
 		return false;
 	}
 
-	if (!mxData.get())
+	if (nullptr == mxData)
 	{
 		//本身是空就是因为没数据，还来个没数据的就不存了
 		if (value.IsNull())
@@ -359,7 +357,7 @@ const TDATA_TYPE NFCProperty::GetType() const
 
 const bool NFCProperty::GeUsed() const
 {
-	if (mxData.get())
+	if (nullptr == mxData)
 	{
 		return true;
 	}

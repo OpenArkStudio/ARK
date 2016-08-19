@@ -68,7 +68,7 @@ bool NFCObject::RemoveHeartBeat(const std::string& strHeartBeatName)
 bool NFCObject::AddRecordCallBack(const std::string& strRecordName, const RECORD_EVENT_FUNCTOR_PTR& cb)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         pRecord->AddRecordHook(cb);
 
@@ -81,7 +81,7 @@ bool NFCObject::AddRecordCallBack(const std::string& strRecordName, const RECORD
 bool NFCObject::AddPropertyCallBack(const std::string& strCriticalName, const PROPERTY_EVENT_FUNCTOR_PTR& cb)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(strCriticalName);
-    if (pProperty.get())
+    if (nullptr != pProperty)
     {
         pProperty->RegisterCallback(cb);
 
@@ -104,7 +104,7 @@ bool NFCObject::FindProperty(const std::string& strPropertyName)
 bool NFCObject::SetPropertyInt(const std::string& strPropertyName, const NFINT64 nValue)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(strPropertyName);
-    if (pProperty.get())
+    if (nullptr != pProperty)
     {
         return pProperty->SetInt(nValue);
     }
@@ -115,7 +115,7 @@ bool NFCObject::SetPropertyInt(const std::string& strPropertyName, const NFINT64
 bool NFCObject::SetPropertyFloat(const std::string& strPropertyName, const double dwValue)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(strPropertyName);
-    if (pProperty.get())
+    if (nullptr != pProperty)
     {
         return pProperty->SetFloat(dwValue);
     }
@@ -126,7 +126,7 @@ bool NFCObject::SetPropertyFloat(const std::string& strPropertyName, const doubl
 bool NFCObject::SetPropertyString(const std::string& strPropertyName, const std::string& strValue)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(strPropertyName);
-    if (pProperty.get())
+    if (nullptr != pProperty)
     {
         return pProperty->SetString(strValue);
     }
@@ -137,7 +137,7 @@ bool NFCObject::SetPropertyString(const std::string& strPropertyName, const std:
 bool NFCObject::SetPropertyObject(const std::string& strPropertyName, const NFGUID& obj)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(strPropertyName);
-    if (pProperty.get())
+    if (nullptr != pProperty)
     {
         return pProperty->SetObject(obj);
     }
@@ -148,7 +148,7 @@ bool NFCObject::SetPropertyObject(const std::string& strPropertyName, const NFGU
 NFINT64 NFCObject::GetPropertyInt(const std::string& strPropertyName)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(strPropertyName);
-    if (pProperty.get())
+    if (nullptr != pProperty)
     {
         return pProperty->GetInt();
     }
@@ -159,7 +159,7 @@ NFINT64 NFCObject::GetPropertyInt(const std::string& strPropertyName)
 double NFCObject::GetPropertyFloat(const std::string& strPropertyName)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(strPropertyName);
-    if (pProperty.get())
+    if (nullptr != pProperty)
     {
         return pProperty->GetFloat();
     }
@@ -170,7 +170,7 @@ double NFCObject::GetPropertyFloat(const std::string& strPropertyName)
 const std::string& NFCObject::GetPropertyString(const std::string& strPropertyName)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(strPropertyName);
-    if (pProperty.get())
+    if (nullptr != pProperty)
     {
         return pProperty->GetString();
     }
@@ -181,7 +181,7 @@ const std::string& NFCObject::GetPropertyString(const std::string& strPropertyNa
 const NFGUID& NFCObject::GetPropertyObject(const std::string& strPropertyName)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetPropertyManager()->GetElement(strPropertyName);
-    if (pProperty.get())
+    if (nullptr != pProperty)
     {
         return pProperty->GetObject();
     }
@@ -192,7 +192,7 @@ const NFGUID& NFCObject::GetPropertyObject(const std::string& strPropertyName)
 bool NFCObject::FindRecord(const std::string& strRecordName)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return true;
     }
@@ -203,7 +203,7 @@ bool NFCObject::FindRecord(const std::string& strRecordName)
 bool NFCObject::SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const NFINT64 nValue)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->SetInt(nRow, nCol, nValue);
     }
@@ -214,7 +214,7 @@ bool NFCObject::SetRecordInt(const std::string& strRecordName, const int nRow, c
 bool NFCObject::SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFINT64 value)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->SetInt(nRow, strColTag, value);
     }
@@ -225,7 +225,7 @@ bool NFCObject::SetRecordInt(const std::string& strRecordName, const int nRow, c
 bool NFCObject::SetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol, const double dwValue)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->SetFloat(nRow, nCol, dwValue);
     }
@@ -236,7 +236,7 @@ bool NFCObject::SetRecordFloat(const std::string& strRecordName, const int nRow,
 bool NFCObject::SetRecordFloat(const std::string& strRecordName, const int nRow, const std::string& strColTag, const double value)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->SetFloat(nRow, strColTag, value);
     }
@@ -247,7 +247,7 @@ bool NFCObject::SetRecordFloat(const std::string& strRecordName, const int nRow,
 bool NFCObject::SetRecordString(const std::string& strRecordName, const int nRow, const int nCol, const std::string& strValue)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->SetString(nRow, nCol, strValue.c_str());
     }
@@ -258,7 +258,7 @@ bool NFCObject::SetRecordString(const std::string& strRecordName, const int nRow
 bool NFCObject::SetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag, const std::string& value)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->SetString(nRow, strColTag, value.c_str());
     }
@@ -269,7 +269,7 @@ bool NFCObject::SetRecordString(const std::string& strRecordName, const int nRow
 bool NFCObject::SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const NFGUID& obj)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->SetObject(nRow, nCol, obj);
     }
@@ -280,7 +280,7 @@ bool NFCObject::SetRecordObject(const std::string& strRecordName, const int nRow
 bool NFCObject::SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFGUID& value)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->SetObject(nRow, strColTag, value);
     }
@@ -291,7 +291,7 @@ bool NFCObject::SetRecordObject(const std::string& strRecordName, const int nRow
 NFINT64 NFCObject::GetRecordInt(const std::string& strRecordName, const int nRow, const int nCol)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->GetInt(nRow, nCol);
     }
@@ -302,7 +302,7 @@ NFINT64 NFCObject::GetRecordInt(const std::string& strRecordName, const int nRow
 NFINT64 NFCObject::GetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->GetInt(nRow, strColTag);
     }
@@ -313,7 +313,7 @@ NFINT64 NFCObject::GetRecordInt(const std::string& strRecordName, const int nRow
 double NFCObject::GetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->GetFloat(nRow, nCol);
     }
@@ -324,7 +324,7 @@ double NFCObject::GetRecordFloat(const std::string& strRecordName, const int nRo
 double NFCObject::GetRecordFloat(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->GetFloat(nRow, strColTag);
     }
@@ -335,7 +335,7 @@ double NFCObject::GetRecordFloat(const std::string& strRecordName, const int nRo
 const std::string& NFCObject::GetRecordString(const std::string& strRecordName, const int nRow, const int nCol)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->GetString(nRow, nCol);
     }
@@ -346,7 +346,7 @@ const std::string& NFCObject::GetRecordString(const std::string& strRecordName, 
 const std::string& NFCObject::GetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->GetString(nRow, strColTag);
     }
@@ -357,7 +357,7 @@ const std::string& NFCObject::GetRecordString(const std::string& strRecordName, 
 const NFGUID& NFCObject::GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->GetObject(nRow, nCol);
     }
@@ -368,7 +368,7 @@ const NFGUID& NFCObject::GetRecordObject(const std::string& strRecordName, const
 const NFGUID& NFCObject::GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if (pRecord.get())
+    if (nullptr != pRecord)
     {
         return pRecord->GetObject(nRow, strColTag);
     }

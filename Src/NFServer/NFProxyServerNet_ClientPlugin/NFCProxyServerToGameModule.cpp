@@ -50,7 +50,7 @@ bool NFCProxyServerToGameModule::AfterInit()
 	m_pNetClientModule->AddEventCallBack(this, &NFCProxyServerToGameModule::OnSocketGSEvent);
 
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (xLogicClass.get())
+    if (nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
@@ -108,7 +108,7 @@ void NFCProxyServerToGameModule::OnSocketGSEvent(const int nSockIndex, const NF_
 void NFCProxyServerToGameModule::Register(NFINet* pNet)
 {
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (xLogicClass.get())
+    if (nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;

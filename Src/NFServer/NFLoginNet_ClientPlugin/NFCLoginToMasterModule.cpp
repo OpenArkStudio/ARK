@@ -39,7 +39,7 @@ bool NFCLoginToMasterModule::AfterInit()
 	m_pNetClientModule->AddEventCallBack(this, &NFCLoginToMasterModule::OnSocketMSEvent);
 
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (xLogicClass.get())
+    if (nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
@@ -68,8 +68,6 @@ bool NFCLoginToMasterModule::AfterInit()
         }
     }
 
-
-
     return true;
 }
 
@@ -89,7 +87,7 @@ bool NFCLoginToMasterModule::Execute()
 void NFCLoginToMasterModule::Register(NFINet* pNet)
 {
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (xLogicClass.get())
+    if (nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
@@ -177,7 +175,7 @@ void NFCLoginToMasterModule::OnWorldInfoProcess(const int nSockIndex, const int 
         const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
         NF_SHARE_PTR<NFMsg::ServerInfoReport> pServerData = mWorldMap.GetElement(xData.server_id());
-        if (!pServerData.get())
+        if (nullptr == pServerData)
         {
             pServerData = NF_SHARE_PTR<NFMsg::ServerInfoReport>(NF_NEW NFMsg::ServerInfoReport());
             *pServerData = xData;

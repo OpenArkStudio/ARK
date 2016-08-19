@@ -294,7 +294,7 @@ bool NFCClassModule::AddClassInclude(const char* pstrClassFilePath, NF_SHARE_PTR
 bool NFCClassModule::AddClass(const char* pstrClassFilePath, NF_SHARE_PTR<NFIClass> pClass)
 {
     NF_SHARE_PTR<NFIClass> pParent = pClass->GetParent();
-    while (pParent.get())
+    while (nullptr != pParent)
     {
         //inherited some properties form class of parent
         std::string strFileName = "";
@@ -334,7 +334,7 @@ bool NFCClassModule::AddClass(const std::string& strClassName, const std::string
 {
     NF_SHARE_PTR<NFIClass> pParentClass = GetElement(strParentName);
     NF_SHARE_PTR<NFIClass> pChildClass = GetElement(strClassName);
-    if (!pChildClass.get())
+    if (nullptr == pChildClass)
     {
         pChildClass = NF_SHARE_PTR<NFIClass>(NF_NEW NFCClass(strClassName));
         AddElement(strClassName, pChildClass);
@@ -420,7 +420,7 @@ bool NFCClassModule::Save()
 NF_SHARE_PTR<NFIPropertyManager> NFCClassModule::GetClassPropertyManager(const std::string& strClassName)
 {
     NF_SHARE_PTR<NFIClass> pClass = GetElement(strClassName);
-    if (pClass.get())
+    if (nullptr != pClass)
     {
         return pClass->GetPropertyManager();
     }
@@ -431,7 +431,7 @@ NF_SHARE_PTR<NFIPropertyManager> NFCClassModule::GetClassPropertyManager(const s
 NF_SHARE_PTR<NFIRecordManager> NFCClassModule::GetClassRecordManager(const std::string& strClassName)
 {
     NF_SHARE_PTR<NFIClass> pClass = GetElement(strClassName);
-    if (pClass.get())
+    if (nullptr != pClass)
     {
         return pClass->GetRecordManager();
     }
@@ -442,7 +442,7 @@ NF_SHARE_PTR<NFIRecordManager> NFCClassModule::GetClassRecordManager(const std::
 NF_SHARE_PTR<NFIComponentManager> NFCClassModule::GetClassComponentManager(const std::string& strClassName)
 {
     NF_SHARE_PTR<NFIClass> pClass = GetElement(strClassName);
-    if (pClass.get())
+    if (nullptr != pClass)
     {
         return pClass->GetComponentManager();
     }
