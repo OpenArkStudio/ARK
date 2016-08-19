@@ -71,3 +71,7 @@
 /Dependencies/curl
 
 /Src/*.sdf
+/Dep/lib
+/Dep/libevent
+/Src/.vs/Ark/v14/*.suo
+/Src/*.opendb
