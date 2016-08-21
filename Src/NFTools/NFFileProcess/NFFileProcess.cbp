@@ -8,9 +8,9 @@
 		<Option virtualFolders="MiniExcelReader/;minizip/;tinyxml2/;zlib/;" />
 		<Build>
 			<Target title="Debug">
-				<Option output="../../_Out/Server/NFDataCfg/Tool/NFFileProcess" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="../../_Out/Server/NFDataCfg/Tool" />
-				<Option object_output="obj/Debug/" />
+				<Option output="../../../Bin/Server/NFDataCfg/Tool/NFFileProcess" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../../Bin/Server/NFDataCfg/Tool" />
+				<Option objectBinput="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -22,7 +22,7 @@
 					<Add directory="tinyxml2" />
 					<Add directory="zlib" />
 					<Add directory="../../" />
-					<Add directory="../../Dependencies" />
+					<Add directory="../../../Dep" />
 				</Compiler>
 				<ExtraCommands>
 					<Add after="cd ../../" />
@@ -31,8 +31,8 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="Release">
-				<Option output="../../_Out/Server/NFDataCfg/Tool/NFFileProcess" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
+				<Option output="../../../Bin/Server/NFDataCfg/Tool/NFFileProcess" prefix_auto="1" extension_auto="1" />
+				<Option objectBinput="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>

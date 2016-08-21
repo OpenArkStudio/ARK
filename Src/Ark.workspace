@@ -31,9 +31,9 @@
 		<Project filename="NFServer/NFProxyServerNet_ClientPlugin/NFProxyServerNet_ClientPlugin.cbp" />
 		
 		<!-- NF Tutorial -->
-		<Project filename="Tutorial/Tutorial1/Tutorial1.cbp" />
-		<Project filename="Tutorial/Tutorial2/Tutorial2.cbp" />
-		<Project filename="Tutorial/Tutorial3/Tutorial3.cbp" />
+		<Project filename="Samples/Tutorial1/Tutorial1.cbp" />
+		<Project filename="Samples/Tutorial2/Tutorial2.cbp" />
+		<Project filename="Samples/Tutorial3/Tutorial3.cbp" />
 		<!-- NF Tutorial -->
 		<Project filename="NFTools/NFFileProcess/NFFileProcess.cbp" />
 	</Workspace>
