@@ -34,24 +34,24 @@ chmod -R 755 *
 make
 make check
 
-if [ ! -d ../../_Out/Comm/ ]; then
- mkdir ../../_Out/Comm/
+if [ ! -d ../../Bin/Comm/ ]; then
+ mkdir ../../Bin/Comm/
 fi
-if [ ! -d ../../_Out/Comm/Debug/ ]; then
- mkdir ../../_Out/Comm/Debug/
+if [ ! -d ../../Bin/Comm/Debug/ ]; then
+ mkdir ../../Bin/Comm/Debug/
 fi
-if [ ! -d ../../_Out/Comm/Release/ ]; then
- mkdir ../../_Out/Comm/Release/
+if [ ! -d ../../Bin/Comm/Release/ ]; then
+ mkdir ../../Bin/Comm/Release/
 fi
 
 cp -r -f ./src/.libs/*.so ../lib/Debug/
 cp -r -f ./src/.libs/*.so.* ../lib/Debug/
 cp -r -f ./src/.libs/*.so ../lib/Release/
 cp -r -f ./src/.libs/*.so.* ../lib/Release/
-cp -r -f ./src/.libs/*.so ../../_Out/Comm/Debug/
-cp -r -f ./src/.libs/*.so.* ../../_Out/Comm/Debug/
-cp -r -f ./src/.libs/*.so ../../_Out/Comm/Release/
-cp -r -f ./src/.libs/*.so.* ../../_Out/Comm/Release/
+cp -r -f ./src/.libs/*.so ../../Bin/Comm/Debug/
+cp -r -f ./src/.libs/*.so.* ../../Bin/Comm/Debug/
+cp -r -f ./src/.libs/*.so ../../Bin/Comm/Release/
+cp -r -f ./src/.libs/*.so.* ../../Bin/Comm/Release/
 
 cp -r -f ./src/.libs/*.so ../lib/
 cp -r -f ./src/.libs/*.so.* ../lib/
