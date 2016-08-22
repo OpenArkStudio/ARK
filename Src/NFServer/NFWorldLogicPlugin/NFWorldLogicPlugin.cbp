@@ -7,8 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug x64">
-				<Option output="$(SolutionDir)/../Bin/Comm/Debug/NFWorldLogicPlugin_d" prefix_auto="0" extension_auto="1" />
-				<Option object_output="$(SolutionDir)/../Temp/NFWorldLogicPlugin/Debug/.objs" />
+				<Option output="$(SolutionDir)../Bin/Comm/Debug/NFWorldLogicPlugin_d" prefix_auto="0" extension_auto="1" />
+				<Option object_output="$(SolutionDir)../Temp/NFWorldLogicPlugin/Debug/.objs" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -20,24 +20,24 @@
 					<Add option="-D_DEBUG" />
 					<Add option="-DELPP_NO_DEFAULT_LOG_FILE" />
 					<Add directory="$(SolutionDir)" />
-					<Add directory="$(SolutionDir)/../Dep/" />
-					<Add directory="$(SolutionDir)/../Dep/libevent/" />
-					<Add directory="$(SolutionDir)/../Dep/libevent/include/" />
-					<Add directory="$(SolutionDir)/../Dep/libevent/compat/" />
-					<Add directory="$(SolutionDir)/../Dep/protobuf/src/" />
-					<Add directory="$(SolutionDir)/../Dep/Theron/Include/" />
+					<Add directory="$(SolutionDir)../Dep/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/include/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/compat/" />
+					<Add directory="$(SolutionDir)../Dep/protobuf/src/" />
+					<Add directory="$(SolutionDir)../Dep/Theron/Include/" />
 				</Compiler>
 				<Linker>
 					<Add library="libNFMessageDefine_d" />
-					<Add library="$(SolutionDir)/../Bin/Comm/Debug/NFNet_d.a" />
-					<Add library="$(SolutionDir)/../Dep/lib/Debug/libevent.a" />
-					<Add library="$(SolutionDir)/../Dep/lib/Debug/libevent_core.a" />
+					<Add library="$(SolutionDir)../Bin/Comm/Debug/NFNet_d.a" />
+					<Add library="$(SolutionDir)../Dep/lib/Debug/libevent.a" />
+					<Add library="$(SolutionDir)../Dep/lib/Debug/libevent_core.a" />
 					<Add library="libprotobuf" />
-					<Add directory="$(SolutionDir)/../Bin/Comm/Debug/" />
-					<Add directory="$(SolutionDir)/../Dep/lib/Debug/" />
+					<Add directory="$(SolutionDir)../Bin/Comm/Debug/" />
+					<Add directory="$(SolutionDir)../Dep/lib/Debug/" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp -f $(SolutionDir)/../Bin/Comm/Debug/NFWorldLogicPlugin_d.so $(SolutionDir)/../Bin/Server/Debug/NFWorldServer/" />
+					<Add after="cp -f $(SolutionDir)../Bin/Comm/Debug/NFWorldLogicPlugin_d.so $(SolutionDir)../Bin/Server/Debug/NFWorldServer/" />
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>
@@ -45,8 +45,8 @@
 				</Environment>
 			</Target>
 			<Target title="Release x64">
-				<Option output="$(SolutionDir)/../Bin/Comm/Release/NFWorldLogicPlugin" prefix_auto="0" extension_auto="1" />
-				<Option object_output="$(SolutionDir)/../Temp/NFWorldLogicPlugin/Release/.objs" />
+				<Option output="$(SolutionDir)../Bin/Comm/Release/NFWorldLogicPlugin" prefix_auto="0" extension_auto="1" />
+				<Option object_output="$(SolutionDir)../Temp/NFWorldLogicPlugin/Release/.objs" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -57,24 +57,24 @@
 					<Add option="-D_USRDLL" />
 					<Add option="-DELPP_NO_DEFAULT_LOG_FILE" />
 					<Add directory="$(SolutionDir)" />
-					<Add directory="$(SolutionDir)/../Dep/" />
-					<Add directory="$(SolutionDir)/../Dep/libevent/" />
-					<Add directory="$(SolutionDir)/../Dep/libevent/include/" />
-					<Add directory="$(SolutionDir)/../Dep/libevent/compat/" />
-					<Add directory="$(SolutionDir)/../Dep/protobuf/src/" />
-					<Add directory="$(SolutionDir)/../Dep/Theron/Include/" />
+					<Add directory="$(SolutionDir)../Dep/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/include/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/compat/" />
+					<Add directory="$(SolutionDir)../Dep/protobuf/src/" />
+					<Add directory="$(SolutionDir)../Dep/Theron/Include/" />
 				</Compiler>
 				<Linker>
 					<Add library="libNFMessageDefine" />
-					<Add library="$(SolutionDir)/../Bin/Comm/Release/NFNet.a" />
-					<Add library="$(SolutionDir)/../Dep/lib/Release/libevent.a" />
-					<Add library="$(SolutionDir)/../Dep/lib/Release/libevent_core.a" />
+					<Add library="$(SolutionDir)../Bin/Comm/Release/NFNet.a" />
+					<Add library="$(SolutionDir)../Dep/lib/Release/libevent.a" />
+					<Add library="$(SolutionDir)../Dep/lib/Release/libevent_core.a" />
 					<Add library="libprotobuf" />
-					<Add directory="$(SolutionDir)/../Bin/Comm/Release/" />
-					<Add directory="$(SolutionDir)/../Dep/lib/Release/" />
+					<Add directory="$(SolutionDir)../Bin/Comm/Release/" />
+					<Add directory="$(SolutionDir)../Dep/lib/Release/" />
 				</Linker>
 				<ExtraCommands>
-					<Add after="cp -f $(SolutionDir)/../Bin/Comm/Release/NFWorldLogicPlugin.so $(SolutionDir)/../Bin/Server/Release/NFWorldServer/" />
+					<Add after="cp -f $(SolutionDir)../Bin/Comm/Release/NFWorldLogicPlugin.so $(SolutionDir)../Bin/Server/Release/NFWorldServer/" />
 					<Mode after="always" />
 				</ExtraCommands>
 				<Environment>

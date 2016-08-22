@@ -7,9 +7,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug x64">
-				<Option output="$(SolutionDir)/../Bin/Comm/Debug/NFCore_d" prefix_auto="0" extension_auto="1" />
+				<Option output="$(SolutionDir)../Bin/Comm/Debug/NFCore_d" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="" />
-                <Option object_output="$(SolutionDir)/../Temp/NFCore/Debug/.objs" />
+                <Option object_output="$(SolutionDir)../Temp/NFCore/Debug/.objs" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -20,8 +20,8 @@
 					<Add option="-D_X64" />
 					<Add option="-D_DEBUG" />
 					<Add directory="$(SolutionDir)" />
-					<Add directory="$(SolutionDir)/../Dep/Theron/Include/" />
-					<Add directory="$(SolutionDir)/../Dep/" />
+					<Add directory="$(SolutionDir)../Dep/Theron/Include/" />
+					<Add directory="$(SolutionDir)../Dep/" />
 				</Compiler>
 				<Linker>
 					<Add directory="$(BOOST_LIB)" />
@@ -31,9 +31,9 @@
 				</Environment>
 			</Target>
 			<Target title="Release x64">
-				<Option output="$(SolutionDir)/../Bin/Comm/Release/NFCore" prefix_auto="0" extension_auto="1" />
+				<Option output="$(SolutionDir)../Bin/Comm/Release/NFCore" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="" />
-                <Option object_output="$(SolutionDir)/../Temp/NFCore/Release/.objs" />
+                <Option object_output="$(SolutionDir)../Temp/NFCore/Release/.objs" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -43,8 +43,8 @@
 					<Add option="-D_X64" />
 					<Add option="-DNDEBUG" />
 					<Add directory="$(SolutionDir)" />
-					<Add directory="$(SolutionDir)/../Dep/Theron/Include/" />
-					<Add directory="$(SolutionDir)/../Dep/" />
+					<Add directory="$(SolutionDir)../Dep/Theron/Include/" />
+					<Add directory="$(SolutionDir)../Dep/" />
 				</Compiler>
 				<Environment>
 					<Variable name="SolutionDir" value="../../" />
