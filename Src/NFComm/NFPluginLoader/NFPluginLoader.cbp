@@ -9,7 +9,7 @@
 			<Target title="Debug x64">
 				<Option output="$(SolutionDir)/../Bin/Comm/Debug/NFPluginLoader_d" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="../../../Bin/Server/Debug/NFLoginServer" />
-				<Option objectBinput=".objs/Debug" />
+				<Option object_output="$(SolutionDir)/../Temp/NFPluginLoader/Debug/.objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
@@ -49,7 +49,7 @@
 			</Target>
 			<Target title="Release x64">
 				<Option output="$(SolutionDir)/../Bin/Comm/Release/NFPluginLoader_r" prefix_auto="0" extension_auto="1" />
-				<Option objectBinput=".objs/Release" />
+				<Option object_output="$(SolutionDir)/../Temp/NFPluginLoader/Release/.objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
