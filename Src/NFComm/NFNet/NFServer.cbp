@@ -2,13 +2,14 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="NFClient" />
+		<Option title="NFServer" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug x64">
-				<Option output="$(SolutionDir)/../Bin/Comm/Debug/NFNet_Client" prefix_auto="0" extension_auto="1" />
+				<Option output="$(SolutionDir)/../Bin/Comm/Debug/NFNet_Server" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="$(SolutionDir)/../Bin/Comm/Debug" />
+                <Option object_output="$(SolutionDir)/../Temp/NFNet_Server/Debug/.objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Option use_console_runner="0" />
@@ -37,6 +38,7 @@
 			<Target title="Release x64">
 				<Option output="$(SolutionDir)/../Bin/Comm/Release/NFNet" prefix_auto="0" extension_auto="1" />
 				<Option working_dir="" />
+                <Option object_output="$(SolutionDir)/../Temp/NFNet_Server/Release/.objs" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -48,12 +50,21 @@
 					<Add directory="$(SolutionDir)/../Dep/libevent/include/" />
 					<Add directory="$(SolutionDir)/../Dep/libevent/compat/" />
 				</Compiler>
+                <Linker>
+					<Add option="-lrt" />
+					<Add library="$(SolutionDir)/../Bin/Comm/Debug/NFNet.a" />
+					<Add library="$(SolutionDir)/../Bin/Comm/Debug/libevent.a" />
+					<Add library="$(SolutionDir)/../Bin/Comm/Debug/libevent_core.lib" />
+					<Add library="$(SolutionDir)/../Bin/Comm/Debug/libevent_extra.a" />
+					<Add library="$(SolutionDir)/../Bin/Comm/Debug/libevent_pthreads.a" />
+					<Add library="pthread" />
+				</Linker>
 				<Environment>
 					<Variable name="SolutionDir" value="../../" />
 				</Environment>
 			</Target>
 		</Build>
-		<Unit filename="TestClient.cpp" />
+		<Unit filename="TestServer.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

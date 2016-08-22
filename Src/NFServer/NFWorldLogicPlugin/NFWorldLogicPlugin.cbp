@@ -8,7 +8,7 @@
 		<Build>
 			<Target title="Debug x64">
 				<Option output="$(SolutionDir)/../Bin/Comm/Debug/NFWorldLogicPlugin_d" prefix_auto="0" extension_auto="1" />
-				<Option objectBinput=".objs/Debug" />
+				<Option object_output="$(SolutionDir)/../Temp/NFWorldLogicPlugin/Debug/.objs" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -46,7 +46,7 @@
 			</Target>
 			<Target title="Release x64">
 				<Option output="$(SolutionDir)/../Bin/Comm/Release/NFWorldLogicPlugin" prefix_auto="0" extension_auto="1" />
-				<Option objectBinput=".objs/Release" />
+				<Option object_output="$(SolutionDir)/../Temp/NFWorldLogicPlugin/Release/.objs" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />

@@ -10,7 +10,7 @@
 			<Target title="Debug">
 				<Option output="../../../Bin/Server/NFDataCfg/Tool/NFFileProcess" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="../../../Bin/Server/NFDataCfg/Tool" />
-				<Option objectBinput="obj/Debug/" />
+				<Option object_output="$(SolutionDir)/../Temp/NFFIleProcess/Debug/.objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -29,15 +29,25 @@
 					<Add after="sh ./DoNFFileProcess.sh" />
 					<Mode after="always" />
 				</ExtraCommands>
+                <Environment>
+					<Variable name="SolutionDir" value="../../" />
+				</Environment>
 			</Target>
 			<Target title="Release">
 				<Option output="../../../Bin/Server/NFDataCfg/Tool/NFFileProcess" prefix_auto="1" extension_auto="1" />
-				<Option objectBinput="obj/Release/" />
+				<Option object_output="$(SolutionDir)/../Temp/NFFIleProcess/Release/.objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-std=c++11" />
+                    <Add option="-liconv" />
+					<Add directory="MiniExcelReader" />
+					<Add directory="minizip" />
+					<Add directory="tinyxml2" />
+					<Add directory="zlib" />
+					<Add directory="../../" />
+					<Add directory="../../../Dep" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -47,6 +57,9 @@
 					<Add after="sh ./DoNFFileProcess.sh" />
 					<Mode after="always" />
 				</ExtraCommands>
+                <Environment>
+					<Variable name="SolutionDir" value="../../" />
+				</Environment>
 			</Target>
 		</Build>
 		<Compiler>
