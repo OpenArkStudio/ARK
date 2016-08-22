@@ -8,7 +8,7 @@
 		<Option virtualFolders="MiniExcelReader/;minizip/;tinyxml2/;zlib/;" />
 		<Build>
 			<Target title="Debug">
-				<Option output="$(SolutionDir)../Bin/Server/NFDataCfg/Tool/NFFileProcess_d" prefix_auto="1" extension_auto="1" />
+				<Option output="$(SolutionDir)../Bin/Server/DataConfig/Tool/NFFileProcess_d" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="$(SolutionDir)../Bin/Server/NFDataCfg/Tool" />
 				<Option object_output="$(SolutionDir)../Temp/NFFIleProcess/Debug/.objs" />
 				<Option type="1" />
@@ -21,31 +21,33 @@
 					<Add directory="minizip" />
 					<Add directory="tinyxml2" />
 					<Add directory="zlib" />
+					<Add directory="$(SolutionDir)" />
 					<Add directory="$(SolutionDir)../Dep" />
 				</Compiler>
-                <Environment>
+				<Environment>
 					<Variable name="SolutionDir" value="../../" />
 				</Environment>
 			</Target>
 			<Target title="Release">
-				<Option output="$(SolutionDir)../Bin/Server/NFDataCfg/Tool/NFFileProcess" prefix_auto="1" extension_auto="1" />
+				<Option output="$(SolutionDir)../Bin/Server/DataConfig/Tool/NFFileProcess" prefix_auto="1" extension_auto="1" />
 				<Option object_output="$(SolutionDir)../Temp/NFFIleProcess/Release/.objs" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-std=c++11" />
-                    <Add option="-liconv" />
+					<Add option="-liconv" />
 					<Add directory="MiniExcelReader" />
 					<Add directory="minizip" />
 					<Add directory="tinyxml2" />
 					<Add directory="zlib" />
+					<Add directory="$(SolutionDir)" />
 					<Add directory="$(SolutionDir)../Dep" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 				</Linker>
-                <Environment>
+				<Environment>
 					<Variable name="SolutionDir" value="../../" />
 				</Environment>
 			</Target>
