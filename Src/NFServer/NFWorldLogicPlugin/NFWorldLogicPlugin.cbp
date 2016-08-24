@@ -28,7 +28,7 @@
 					<Add directory="$(SolutionDir)../Dep/Theron/Include/" />
 				</Compiler>
 				<Linker>
-					
+					<Add library="libNFMessageDefine_d" />
 					<Add library="$(SolutionDir)../Bin/Comm/Debug/NFNet_d.a" />
 					<Add library="$(SolutionDir)../Dep/lib/Debug/libevent.a" />
 					<Add library="$(SolutionDir)../Dep/lib/Debug/libevent_core.a" />
@@ -65,7 +65,7 @@
 					<Add directory="$(SolutionDir)../Dep/Theron/Include/" />
 				</Compiler>
 				<Linker>
-					
+					<Add library="libNFMessageDefine" />
 					<Add library="$(SolutionDir)../Bin/Comm/Release/NFNet.a" />
 					<Add library="$(SolutionDir)../Dep/lib/Release/libevent.a" />
 					<Add library="$(SolutionDir)../Dep/lib/Release/libevent_core.a" />
