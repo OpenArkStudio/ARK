@@ -1,8 +1,8 @@
-# 欢迎使用NFrame敏捷服务器开发框架
+# 欢迎使用ArkGameFrame敏捷服务器开发框架
 
 关键字：文档，介绍，入门，教程
 
-**NFrame** 是一个使用C++语言开发的、支持高并发、高性能的跨平台敏捷服务器开发解决方案。
+**ArkGameFrame** 是一个使用C++语言开发的、支持高并发、高性能的跨平台敏捷服务器开发解决方案。
 旨在帮助中小企业降低开发门槛，快速完成项目功能。采用敏捷开发中的分层设计思路，将功能拆分为多个插件模块，让开发人员集中处理单一功能，提高团队效率。特点概述：
 
 * 通用的抽象对象系统
@@ -39,7 +39,7 @@
 </pre>
 
 ## 简述
-NFrame采用成熟的敏捷开发思想——分层设计，分层的程序设计带来的好处是显而易见的，由于层间松散的耦合关系，使得我们可以专注于本层的设计，而不必关心其他层的设计，也不必担心自己的设计会影响其它层，对提高软件质量大有裨益。而且分层设计使得程序结构清晰，升级和维护都变得十分容易，更改层的具体实现代码，只要层接口保持稳定，其他层可以不必修改。即使层的接口发生变化，也只影响上层和下层，修改工作量小而且错误可以控制，不会带来意外的风险。NFrame同时使用了将应用程序设计成三层架构，最顶层是App，中间层是各种插件，插件下是各种对应的具化的模块功能。这种设计的优点是对应模块只处理自己的事务，降低耦合，通过接口与其他模块交互，将模块的风险降到最低。
+ArkGameFrame采用成熟的敏捷开发思想——分层设计，分层的程序设计带来的好处是显而易见的，由于层间松散的耦合关系，使得我们可以专注于本层的设计，而不必关心其他层的设计，也不必担心自己的设计会影响其它层，对提高软件质量大有裨益。而且分层设计使得程序结构清晰，升级和维护都变得十分容易，更改层的具体实现代码，只要层接口保持稳定，其他层可以不必修改。即使层的接口发生变化，也只影响上层和下层，修改工作量小而且错误可以控制，不会带来意外的风险。NFrame同时使用了将应用程序设计成三层架构，最顶层是App，中间层是各种插件，插件下是各种对应的具化的模块功能。这种设计的优点是对应模块只处理自己的事务，降低耦合，通过接口与其他模块交互，将模块的风险降到最低。
 
 **App设计架构图**
 ![App Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/AppArchitecture.png)
@@ -83,7 +83,7 @@ NFrame使用了此种模型来定义应用中的所有数据，避免了以往�
 通过**Heartbeat System**，所有只要注册过同名心跳的观测者的Processer Function均会定时处理逻辑，以便延时/定时处理逻辑。
 
 **NFrame事件驱动设计图**
-![Event Driven](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/EventDriven.png)
+![Event Driven](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/AppArchitecture.png)
 
 **NFrame事件驱动示例代码**
 
@@ -93,7 +93,7 @@ m_pKernelModule->AddPropertyCallBack(self, "Level", this, &NFCPropertyModule::On
 
 m_pKernelModule->SetPropertyInt(self, "Level", 100);
 
-int NFCPropertyModule::OnObjectLevelEvent(const NFIDENTID& self, const std::string& strPropertyName, const NFIDataList& oldVar, const NFIDataList& newVar, const NFIDataList& argVar)
+int NFCPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string& strPropertyName, const NFIDataList& oldVar, const NFIDataList& newVar, const NFIDataList& argVar)
 {
     // do something
     return 0;
@@ -103,7 +103,7 @@ Record驱动代码示例：
 ```cpp
 m_pKernelModule->AddRecordCallBack(self, "TaskList", this, &NFCHeroModule::OnTaskRecordEvent);
 
-int NFCHeroModule::OnHeroRecordEvent(const NFIDENTID& self, const std::string& strRecordName, const int nOpType, const int nRow, const int nCol, const NFIDataList& oldVar, const NFIDataList& newVar, const NFIDataList& argVar)
+int NFCHeroModule::OnHeroRecordEvent(const NFGUID& self, const std::string& strRecordName, const int nOpType, const int nRow, const int nCol, const NFIDataList& oldVar, const NFIDataList& newVar, const NFIDataList& argVar)
 {
     NF_SHARED_PTR<NFIObject> pObject = m_pKernelModule->GetObject(self);
     if (nullptr == pObject)
@@ -140,7 +140,7 @@ Event驱动代码示例
 ```cpp
 m_pEventProcessModule->AddEventCallBack(self, NF_EVENT_DO_SOMETHING, this, &NFCFightValueModule::OnDoSomethingEvent);
 
-int NFCFightValueModule::OnRefreshFightValueEvent(const NFIDENTID& self, const int nEventID, const NFIDataList& var)
+int NFCFightValueModule::OnRefreshFightValueEvent(const NFGUID& self, const int nEventID, const NFIDataList& var)
 {
     // do something
 	return 0;
@@ -151,7 +151,7 @@ HeartBeat驱动代码示例：
 ```cpp
 m_pKernelModule->AddHeartBeat(self, "OnHeartBeat", this, &HelloWorld3Module::OnHeartBeat, 5.0f, 1000);
 
-int HelloWorld3Module::OnHeartBeat(const NFIDENTID& self, const std::string& strHeartBeat, const float fTime, const int nCount)
+int HelloWorld3Module::OnHeartBeat(const NFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount)
 {
     // do something
 	return 0;
