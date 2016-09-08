@@ -263,7 +263,7 @@ bool NFCLogModule::LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const s
     }
     else
     {
-        Log(nll, "Indent[%s] %s", ident.ToString().c_str());
+        Log(nll, "Indent[%s] %s", ident.ToString().c_str(), stream.str().c_str());
     }
 
     return true;
