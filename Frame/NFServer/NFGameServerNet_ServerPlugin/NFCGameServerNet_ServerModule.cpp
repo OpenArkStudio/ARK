@@ -72,7 +72,7 @@ bool NFCGameServerNet_ServerModule::AfterInit()
                 {
                     std::ostringstream strLog;
                     strLog << "Cannot init server net, Port = " << nPort;
-                    m_pLogModule->LogNormal(NFILogModule::NLL_ERROR_NORMAL, NULL_OBJECT, strLog, __FUNCTION__, __LINE__);
+                    m_pLogModule->LogError(NULL_OBJECT, strLog, __FUNCTION__, __LINE__);
                     NFASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
                     exit(0);
                 }
@@ -98,22 +98,22 @@ void NFCGameServerNet_ServerModule::OnSocketPSEvent(const int nSockIndex, const 
 {
     if (eEvent & NF_NET_EVENT_EOF)
     {
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, nSockIndex), "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
         OnClientDisconnect(nSockIndex);
     }
     else if (eEvent & NF_NET_EVENT_ERROR)
     {
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, nSockIndex), "NF_NET_EVENT_ERROR", "Got an error on the connection", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_ERROR", "Got an error on the connection", __FUNCTION__, __LINE__);
         OnClientDisconnect(nSockIndex);
     }
     else if (eEvent & NF_NET_EVENT_TIMEOUT)
     {
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, nSockIndex), "NF_NET_EVENT_TIMEOUT", "read timeout", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_TIMEOUT", "read timeout", __FUNCTION__, __LINE__);
         OnClientDisconnect(nSockIndex);
     }
     else  if (eEvent == NF_NET_EVENT_CONNECTED)
     {
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
         OnClientConnected(nSockIndex);
     }
 }
@@ -1212,7 +1212,7 @@ int NFCGameServerNet_ServerModule::OnContainerEvent(const NFGUID& self, const st
     int nOldSceneID = oldVar.GetInt();
     int nNowSceneID = newVar.GetInt();
 
-    m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, self, "Enter Scene:", nNowSceneID);
+    m_pLogModule->LogInfo(self, "Enter Scene:", nNowSceneID);
 
     //自己消失,玩家不用广播，因为在消失之前，会回到0层，早已广播了玩家
     NFCDataList valueOldAllObjectList;
@@ -1398,7 +1398,7 @@ int NFCGameServerNet_ServerModule::OnObjectClassEvent(const NFGUID& self, const 
     if (CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
     {
         //SaveDataToNoSql( self, true );
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, self, "Player Offline", "");
+        m_pLogModule->LogInfo(self, "Player Offline", "");
     }
     else if (CLASS_OBJECT_EVENT::COE_CREATE_LOADDATA == eClassEvent)
     {
@@ -1501,17 +1501,15 @@ void NFCGameServerNet_ServerModule::OnDeleteRoleGameProcess(const int nSockIndex
 
 void NFCGameServerNet_ServerModule::OnClienSwapSceneProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen)
 {
-    CLIENT_MSG_PROCESS(nSockIndex, nMsgID, msg, nLen, NFMsg::ReqAckSwapScene)
+    CLIENT_MSG_PROCESS(nSockIndex, nMsgID, msg, nLen, NFMsg::ReqAckSwapScene);
 
-        NFCDataList varEntry;
+    NFCDataList varEntry;
     varEntry << pObject->Self();
     varEntry << 0;
     varEntry << xMsg.scene_id();
     varEntry << -1;
     m_pKernelModule->DoEvent(pObject->Self(), NFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
-
-
 
 void NFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen)
 {
@@ -1535,7 +1533,7 @@ void NFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess(const int nSo
         pServerData->xServerData.nFD = nSockIndex;
         *(pServerData->xServerData.pData) = xData;
 
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, xData.server_id()), xData.server_name(), "Proxy Registered");
+        m_pLogModule->LogInfo(NFGUID(0, xData.server_id()), xData.server_name(), "Proxy Registered");
     }
 
     return;
@@ -1556,7 +1554,7 @@ void NFCGameServerNet_ServerModule::OnProxyServerUnRegisteredProcess(const int n
         mProxyMap.RemoveElement(xData.server_id());
 
 
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, xData.server_id()), xData.server_name(), "Proxy UnRegistered");
+        m_pLogModule->LogInfo(NFGUID(0, xData.server_id()), xData.server_name(), "Proxy UnRegistered");
     }
 
     return;
@@ -1584,7 +1582,7 @@ void NFCGameServerNet_ServerModule::OnRefreshProxyServerInfoProcess(const int nS
         pServerData->xServerData.nFD = nSockIndex;
         *(pServerData->xServerData.pData) = xData;
 
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, xData.server_id()), xData.server_name(), "Proxy Registered");
+        m_pLogModule->LogInfo(NFGUID(0, xData.server_id()), xData.server_name(), "Proxy Registered");
     }
 
     return;
@@ -1638,7 +1636,7 @@ bool NFCGameServerNet_ServerModule::AddPlayerGateInfo(const NFGUID& nRoleID, con
     if (nullptr != pBaseData)
     {
         // 已经存在
-        m_pLogModule->LogNormal(NFILogModule::NLL_ERROR_NORMAL, nClientID, "player is exist, cannot enter game", "", __FUNCTION__, __LINE__);
+        m_pLogModule->LogError(nClientID, "player is exist, cannot enter game", "", __FUNCTION__, __LINE__);
         return false;
     }
 

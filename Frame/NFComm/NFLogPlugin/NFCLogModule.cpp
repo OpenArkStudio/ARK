@@ -1,19 +1,10 @@
-// -------------------------------------------------------------------------
-//    @FileName			:    NFCLogModule.cpp
-//    @Author           :    LvSheng.Huang
-//    @Date             :    2012-12-15
-//    @Module           :    NFCLogModule
-//    @Desc             :
-// -------------------------------------------------------------------------
-
-#define GLOG_NO_ABBREVIATED_SEVERITIES
-#include <stdarg.h>
 #include "NFCLogModule.h"
+#include <stdarg.h>
 #include "easylogging++.h"
 
 INITIALIZE_EASYLOGGINGPP
 
-unsigned int NFCLogModule::idx = 0;
+int NFCLogModule::idx = 0;
 
 bool NFCLogModule::CheckLogFileExist(const char* filename)
 {
@@ -42,12 +33,11 @@ void NFCLogModule::rolloutHandler(const char* filename, std::size_t size)
 NFCLogModule::NFCLogModule(NFIPluginManager* p)
 {
     pPluginManager = p;
+    mbSwitchingValue = true;
 }
 
 bool NFCLogModule::Init()
 {
-    mnLogCountTotal = 0;
-
     el::Loggers::addFlag(el::LoggingFlag::StrictLogFileSizeCheck);
     el::Loggers::addFlag(el::LoggingFlag::DisableApplicationAbortOnFatalLog);
 #if NF_PLATFORM == NF_PLATFORM_WIN
@@ -58,39 +48,45 @@ bool NFCLogModule::Init()
     el::Loggers::reconfigureAllLoggers(conf);
     el::Helpers::installPreRollOutCallback(rolloutHandler);
 
+    el::Logger* pLogger = el::Loggers::getLogger("default");
+    if (NULL == pLogger)
+    {
+        return false;
+    }
+
+    el::Configurations* pConfigurations = pLogger->configurations();
+    el::Configuration debugConfiguration(el::Level::Debug, el::ConfigurationType::Enabled, "true");
+    pConfigurations->set(&debugConfiguration);
+
+    el::Loggers::reconfigureAllLoggers(*pConfigurations);
+
     return true;
 }
 
 bool NFCLogModule::Shut()
 {
     el::Helpers::uninstallPreRollOutCallback();
-
     return true;
 }
 
 bool NFCLogModule::BeforeShut()
 {
     return true;
-
 }
 
 bool NFCLogModule::AfterInit()
 {
     return true;
-
 }
 
-bool NFCLogModule::Execute()
+bool NFCLogModule::Execute(const float fLasFrametime, const float fStartedTime)
 {
     return true;
-
 }
 
 bool NFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
 {
-    mnLogCountTotal++;
-
-    char szBuffer[1024 * 10] = {0};
+    char szBuffer[1024 * 10] = { 0 };
 
     va_list args;
     va_start(args, format);
@@ -99,108 +95,43 @@ bool NFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
 
     switch (nll)
     {
-        case NFILogModule::NLL_DEBUG_NORMAL:
-            LOG(DEBUG) << mnLogCountTotal << " | " << szBuffer;
-            break;
-        case NFILogModule::NLL_INFO_NORMAL:
-            LOG(INFO) << mnLogCountTotal << " | " << szBuffer;
-            break;
-        case NFILogModule::NLL_WARING_NORMAL:
-            LOG(WARNING) << mnLogCountTotal << " | " << szBuffer;
-            break;
-        case NFILogModule::NLL_ERROR_NORMAL:
+    case NFILogModule::LOG_DEBUG:
+    {
+        LOG(DEBUG) << szBuffer;
+    }
+    break;
+    case NFILogModule::LOG_INFO:
+    {
+        if (mbSwitchingValue)
         {
-            LOG(ERROR) << mnLogCountTotal << " | " << szBuffer;
-            //LogStack();
+            LOG(INFO) << szBuffer;
         }
+    }
+    break;
+    case NFILogModule::LOG_WARNING:
+    {
+        if (mbSwitchingValue)
+        {
+            LOG(WARNING) << szBuffer;
+        }
+    }
+    break;
+    case NFILogModule::LOG_ERROR:
+        LOG(ERROR) << szBuffer;
         break;
-        case NFILogModule::NLL_FATAL_NORMAL:
-            LOG(FATAL) << mnLogCountTotal << " | " << szBuffer;
-            break;
-        default:
-            LOG(INFO) << mnLogCountTotal << " | " << szBuffer;
-            break;
+    case NFILogModule::LOG_FATAL:
+        LOG(FATAL) << szBuffer;
+        break;
+    default:
+        LOG(INFO) << szBuffer;
+        break;
     }
 
     return true;
-}
-
-bool NFCLogModule::LogElement(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strElement, const std::string& strDesc, const char* func, int line)
-{
-    if (line > 0)
-    {
-        Log(nll, "[ELEMENT] Indent[%s] Element[%s] %s %s %d", ident.ToString().c_str(), strElement.c_str(), strDesc.c_str(), func, line);
-    }
-    else
-    {
-        Log(nll, "[ELEMENT] Indent[%s] Element[%s] %s", ident.ToString().c_str(), strElement.c_str(), strDesc.c_str());
-    }
-
-    return true;
-}
-
-bool NFCLogModule::LogProperty(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strProperty, const std::string& strDesc, const char* func, int line)
-{
-    if (line > 0)
-    {
-        Log(nll, "[PROPERTY] Indent[%s] Property[%s] %s %s %d", ident.ToString().c_str(), strProperty.c_str(), strDesc.c_str(), func, line);
-    }
-    else
-    {
-        Log(nll, "[PROPERTY] Indent[%s] Property[%s] %s", ident.ToString().c_str(), strProperty.c_str(), strDesc.c_str());
-    }
-
-    return true;
-
-}
-
-bool NFCLogModule::LogRecord(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strRecord, const std::string& strDesc, const int nRow, const int nCol, const char* func, int line)
-{
-    if (line > 0)
-    {
-        Log(nll, "[RECORD] Indent[%s] Record[%s] Row[%d] Col[%d] %s %s %d", ident.ToString().c_str(), strRecord.c_str(), nRow, nCol, strDesc.c_str(), func, line);
-    }
-    else
-    {
-        Log(nll, "[RECORD] Indent[%s] Record[%s] Row[%d] Col[%d] %s", ident.ToString().c_str(), strRecord.c_str(), nRow, nCol, strDesc.c_str());
-    }
-
-    return true;
-
-}
-
-bool NFCLogModule::LogRecord(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strRecord, const std::string& strDesc, const char* func, int line)
-{
-    if (line > 0)
-    {
-        Log(nll, "[RECORD] Indent[%s] Record[%s] %s %s %d", ident.ToString().c_str(), strRecord.c_str(), strDesc.c_str(), func, line);
-    }
-    else
-    {
-        Log(nll, "[RECORD] Indent[%s] Record[%s] %s", ident.ToString().c_str(), strRecord.c_str(), strDesc.c_str());
-    }
-
-    return true;
-}
-
-bool NFCLogModule::LogObject(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strDesc, const char* func, int line)
-{
-    if (line > 0)
-    {
-        Log(nll, "[OBJECT] Indent[%s] %s %s %d", ident.ToString().c_str(), strDesc.c_str(), func, line);
-    }
-    else
-    {
-        Log(nll, "[OBJECT] Indent[%s] %s", ident.ToString().c_str(), strDesc.c_str());
-    }
-
-    return true;
-
 }
 
 void NFCLogModule::LogStack()
 {
-
     //To Add
     /*
     #ifdef NF_DEBUG_MODE
@@ -227,72 +158,203 @@ void NFCLogModule::LogStack()
     */
 }
 
-bool NFCLogModule::LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strInfo, const std::string& strDesc, const char* func, int line)
+void NFCLogModule::LogDebug(const NFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
-    if (line > 0)
+    if (nLine > 0 && pFunc != NULL)
     {
-        Log(nll, "Indent[%s] %s %s %s %d", ident.ToString().c_str(), strInfo.c_str(), strDesc.c_str(), func, line);
+        Log(LOG_DEBUG, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(nll, "Indent[%s] %s %s", ident.ToString().c_str(), strInfo.c_str(), strDesc.c_str());
+        Log(LOG_DEBUG, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
-
-    return true;
 }
 
-bool NFCLogModule::LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strInfo, const int nDesc, const char* func, int line)
+void NFCLogModule::LogInfo(const NFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
-    if (line > 0)
+    if (nLine > 0 && pFunc != NULL)
     {
-        Log(nll, "Indent[%s] %s %d %s %d", ident.ToString().c_str(), strInfo.c_str(), nDesc, func, line);
+        Log(LOG_INFO, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(nll, "Indent[%s] %s %d", ident.ToString().c_str(), strInfo.c_str(), nDesc);
+        Log(LOG_INFO, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
-
-    return true;
 }
 
-bool NFCLogModule::LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::ostringstream& stream, const char* func, int line)
+void NFCLogModule::LogWarning(const NFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
-    if (line > 0)
+    if (nLine > 0 && pFunc != NULL)
     {
-        Log(nll, "Indent[%s] %s %d", ident.ToString().c_str(), func, line);
+        Log(LOG_WARNING, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(nll, "Indent[%s] %s", ident.ToString().c_str(), stream.str().c_str());
+        Log(LOG_WARNING, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
-
-    return true;
 }
 
-bool NFCLogModule::LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strInfo, const char* func /*= ""*/, int line /*= 0*/)
+void NFCLogModule::LogError(const NFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
-    if (line > 0)
+    if (nLine > 0 && pFunc != NULL)
     {
-        Log(nll, "Indent[%s] %s %s %d", ident.ToString().c_str(), strInfo.c_str(), func, line);
+        Log(LOG_ERROR, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(nll, "Indent[%s] %s", ident.ToString().c_str(), strInfo.c_str());
+        Log(LOG_ERROR, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
-
-    return true;
 }
 
-bool NFCLogModule::LogDebugFunctionDump(const NFGUID ident, const int nMsg, const std::string& strArg,  const char* func /*= ""*/, const int line /*= 0*/)
+void NFCLogModule::LogFatal(const NFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_FATAL, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_FATAL, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+    }
+}
+
+void NFCLogModule::LogDebug(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_DEBUG, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_DEBUG, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+    }
+}
+
+void NFCLogModule::LogInfo(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_INFO, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_INFO, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+    }
+}
+
+void NFCLogModule::LogWarning(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_WARNING, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_WARNING, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+    }
+}
+
+void NFCLogModule::LogError(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_ERROR, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_ERROR, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+    }
+}
+
+void NFCLogModule::LogFatal(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_FATAL, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_FATAL, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+    }
+}
+
+void NFCLogModule::LogDebug(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_DEBUG, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_DEBUG, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+    }
+}
+
+void NFCLogModule::LogInfo(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_INFO, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_INFO, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+    }
+}
+
+void NFCLogModule::LogWarning(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_WARNING, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_WARNING, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+    }
+}
+
+void NFCLogModule::LogError(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_ERROR, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_ERROR, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+    }
+}
+
+void NFCLogModule::LogFatal(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+{
+    if (nLine > 0 && pFunc != NULL)
+    {
+        Log(LOG_FATAL, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+    }
+    else
+    {
+        Log(LOG_FATAL, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+    }
+}
+
+bool NFCLogModule::LogDebugFunctionDump(const NFGUID ident, const int nMsg, const std::string& strArg, const char* func /*= ""*/, const int line /*= 0*/)
 {
     //#ifdef NF_DEBUG_MODE
-    LogNormal(NFILogModule::NLL_WARING_NORMAL, ident, strArg + "MsgID:", nMsg, func, line);
+    std::ostringstream strLog;
+    strLog << strArg << " MsgID: " << nMsg;
+    LogWarning(ident, strLog, func, line);
     //#endif
     return true;
 }
 
-bool NFCLogModule::ChangeLogLevel(const std::string& strLevel)
+bool NFCLogModule::ChangeLogLevel(const std::string& strLevel, const std::string& strStatus)
 {
+    LogDebug(NFGUID(), "Load log.cnf ------------Begin", " ");
+
+    // 先用默认配置初始化，然后再调整log等级
+    //Init();
+
     el::Level logLevel = el::LevelHelper::convertFromString(strLevel.c_str());
     el::Logger* pLogger = el::Loggers::getLogger("default");
     if (NULL == pLogger)
@@ -312,34 +374,50 @@ bool NFCLogModule::ChangeLogLevel(const std::string& strLevel)
     // !!!!!! NOTICE:故意没有break，请千万注意 !!!!!!
     switch (logLevel)
     {
-        case el::Level::Fatal:
-        {
-            el::Configuration errorConfiguration(el::Level::Error, el::ConfigurationType::Enabled, "false");
-            pConfigurations->set(&errorConfiguration);
-        }
-        case el::Level::Error:
-        {
-            el::Configuration warnConfiguration(el::Level::Warning, el::ConfigurationType::Enabled, "false");
-            pConfigurations->set(&warnConfiguration);
-        }
-        case el::Level::Warning:
-        {
-            el::Configuration infoConfiguration(el::Level::Info, el::ConfigurationType::Enabled, "false");
-            pConfigurations->set(&infoConfiguration);
-        }
-        case el::Level::Info:
-        {
-            el::Configuration debugConfiguration(el::Level::Debug, el::ConfigurationType::Enabled, "false");
-            pConfigurations->set(&debugConfiguration);
-
-        }
-        case el::Level::Debug:
-            break;
-        default:
-            break;
+    case el::Level::Fatal:
+    {
+        el::Configuration errorConfiguration(el::Level::Fatal, el::ConfigurationType::Enabled, strStatus);
+        pConfigurations->set(&errorConfiguration);
+        break;
+    }
+    case el::Level::Error:
+    {
+        el::Configuration warnConfiguration(el::Level::Error, el::ConfigurationType::Enabled, strStatus);
+        pConfigurations->set(&warnConfiguration);
+        break;
+    }
+    case el::Level::Warning:
+    {
+        el::Configuration infoConfiguration(el::Level::Warning, el::ConfigurationType::Enabled, strStatus);
+        pConfigurations->set(&infoConfiguration);
+        break;
+    }
+    case el::Level::Info:
+    {
+        el::Configuration debugConfiguration(el::Level::Info, el::ConfigurationType::Enabled, strStatus);
+        pConfigurations->set(&debugConfiguration);
+        break;
+    }
+    case el::Level::Debug:
+        break;
+    default:
+        break;
     }
 
     el::Loggers::reconfigureAllLoggers(*pConfigurations);
-    LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(), "[Log] Change log level", strLevel, __FUNCTION__, __LINE__);
+
+    std::ostringstream strLog;
+    strLog << "[Log] Change log level = " << strLevel;
+    LogDebug(NFGUID(), strLog, __FUNCTION__, __LINE__);
+
+    LogDebug(NFGUID(), "Load log.cnf ------------End");
+
     return true;
+}
+
+bool NFCLogModule::SetSwitchingValue(const bool bValue)
+{
+    mbSwitchingValue = bValue;
+
+    return mbSwitchingValue;
 }
