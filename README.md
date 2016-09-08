@@ -66,8 +66,8 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 
 1. Git pull all source
 2. Run ```Dep/build_dep.bat```
-3. Open the solution: ```Src/Ark.sln```
-4. Build the solution
+3. Open the solution: ```Frame/Ark.sln```
+4. Build the solution```Ark.sln```
 5. Run ```GenerateConfigXML.bat``` to generate configuration files
 6. Run the binary file by ```Bin/Server/Debug/Run.bat```
 
@@ -75,7 +75,7 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 
 1. Git pull all source
 2. Run ```Dep/build_dep.sh```
-3. Open the solution with CodeBlocks: ```Ark.workspace```
+3. Open the solution with CodeBlocks: ```Frame/Ark.workspace```
 4. Check ```C++11``` option in CodeBlocks compiler setting
 5. Build ```Ark.workspace```
 6. Run ```bash ./GenerateConfigXML.sh``` to generate configuration files
