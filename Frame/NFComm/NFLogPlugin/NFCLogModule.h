@@ -25,35 +25,52 @@ public:
     virtual bool BeforeShut();
     virtual bool AfterInit();
 
-    virtual bool Execute();
+    virtual bool Execute(const float fLasFrametime, const float fStartedTime);
 
     ///////////////////////////////////////////////////////////////////////
     virtual void LogStack();
 
-    virtual bool LogElement(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strElement, const std::string& strDesc, const char* func = "", int line = 0);
-    virtual bool LogProperty(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strProperty, const std::string& strDesc, const char* func = "", int line = 0);
-    virtual bool LogRecord(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strRecord, const std::string& strDesc, const int nRow, const int nCol, const char* func = "", int line = 0);
-    virtual bool LogRecord(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strRecord, const std::string& strDesc, const char* func = "", int line = 0);
-    virtual bool LogObject(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strDesc, const char* func = "", int line = 0);
+    virtual void LogDebug(const NFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
+    virtual void LogInfo(const NFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
+    virtual void LogWarning(const NFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
+    virtual void LogError(const NFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
+    virtual void LogFatal(const NFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
 
-    virtual bool LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strInfo, const char* func = "", int line = 0);
-    virtual bool LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strInfo, const int nDesc, const char* func = "", int line = 0);
-    virtual bool LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::string& strInfo, const std::string& strDesc, const char* func = "", int line = 0);
-    virtual bool LogNormal(const NF_LOG_LEVEL nll, const NFGUID ident, const std::ostringstream& stream, const char* func = "", int line = 0);
+    virtual void LogDebug(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc = "", int nLine = 0);
+    virtual void LogInfo(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc = "", int nLine = 0);
+    virtual void LogWarning(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc = "", int nLine = 0);
+    virtual void LogError(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc = "", int nLine = 0);
+    virtual void LogFatal(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc = "", int nLine = 0);
 
-    virtual bool LogDebugFunctionDump(const NFGUID ident, const int nMsg, const std::string& strArg, const char* func = "", const int line = 0);
-    virtual bool ChangeLogLevel(const std::string& strLevel);
+    virtual void LogDebug(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
+    virtual void LogInfo(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
+    virtual void LogWarning(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
+    virtual void LogError(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
+    virtual void LogFatal(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
+
+    virtual bool LogDebugFunctionDump(const NFGUID ident, const int nMsg, const std::string& strArg, const char* pFunc = "", int nLine = 0);
+    virtual bool ChangeLogLevel(const std::string& strLevel, const std::string& strStatus);
+    virtual bool SetSwitchingValue(const bool bValue);
+
 protected:
-    friend class NFCKernelModule;
+    //friend class NFCKernelModule;
 
     virtual bool Log(const NF_LOG_LEVEL nll, const char* format, ...);
 
     static bool CheckLogFileExist(const char* filename);
     static void rolloutHandler(const char* filename, std::size_t size);
 
+    //NFIConcurrentModule* m_pConcurrentModule;
+    //NFIActor* m_pActor;
+    //NFIActor<std::string>* m_pActor;
+    //NFIActor<std::string>* m_pActor1;
+    //NFIActor<std::string>* m_pActor2;
+    //NFIActor<std::string>* m_pActor3;
+    //NFIReceiver<std::string>* m_pReceiver;
+
 private:
-    static unsigned int idx;
-    uint64_t mnLogCountTotal;
+    static int idx;
+    bool mbSwitchingValue;
 };
 
 #endif

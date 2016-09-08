@@ -70,7 +70,7 @@ bool NFCLoginNet_ServerModule::AfterInit()
 				{
 					std::ostringstream strLog;
 					strLog << "Cannot init server net, Port = " << nPort;
-					m_pLogModule->LogNormal(NFILogModule::NLL_ERROR_NORMAL, NULL_OBJECT, strLog, __FUNCTION__, __LINE__);
+					m_pLogModule->LogError(NULL_OBJECT, strLog, __FUNCTION__, __LINE__);
 					NFASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
 					exit(0);
 				}
@@ -147,7 +147,7 @@ void NFCLoginNet_ServerModule::OnLoginProcess(const int nSockIndex, const int nM
 			{
 				std::ostringstream strLog;
 				strLog << "Check password failed, Account = " << xMsg.account() << " Password = " << xMsg.password();
-				m_pLogModule->LogNormal(NFILogModule::NLL_ERROR_NORMAL, NFGUID(0, nSockIndex), strLog, __FUNCTION__, __LINE__);
+				m_pLogModule->LogError(NFGUID(0, nSockIndex), strLog, __FUNCTION__, __LINE__);
 
 				NFMsg::AckEventResult xMsg;
 				xMsg.set_event_code(NFMsg::EGEC_ACCOUNTPWD_INVALID);
@@ -164,7 +164,7 @@ void NFCLoginNet_ServerModule::OnLoginProcess(const int nSockIndex, const int nM
 
 			m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, nSockIndex);
 
-			m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, nSockIndex), "Login successed :", xMsg.account().c_str());
+			m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "Login successed :", xMsg.account().c_str());
 		}
 	}
 }
@@ -203,22 +203,22 @@ void NFCLoginNet_ServerModule::OnSocketClientEvent(const int nSockIndex, const N
 {
 	if (eEvent & NF_NET_EVENT_EOF)
 	{
-		m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, nSockIndex), "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+		m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
 		OnClientDisconnect(nSockIndex);
 	}
 	else if (eEvent & NF_NET_EVENT_ERROR)
 	{
-		m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, nSockIndex), "NF_NET_EVENT_ERROR", "Got an error on the connection", __FUNCTION__, __LINE__);
+		m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_ERROR", "Got an error on the connection", __FUNCTION__, __LINE__);
 		OnClientDisconnect(nSockIndex);
 	}
 	else if (eEvent & NF_NET_EVENT_TIMEOUT)
 	{
-		m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, nSockIndex), "NF_NET_EVENT_TIMEOUT", "read timeout", __FUNCTION__, __LINE__);
+		m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_TIMEOUT", "read timeout", __FUNCTION__, __LINE__);
 		OnClientDisconnect(nSockIndex);
 	}
 	else  if (eEvent == NF_NET_EVENT_CONNECTED)
 	{
-		m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, NFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+		m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
 		OnClientConnected(nSockIndex);
 	}
 }

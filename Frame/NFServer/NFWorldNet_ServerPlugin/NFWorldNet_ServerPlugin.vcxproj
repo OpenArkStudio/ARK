@@ -61,7 +61,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN;_DEBUG;_WINDOWS;_USRDLL;ELPP_NO_DEFAULT_LOG_FILE;</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\libevent\;$(SolutionDir)..\Dep\libevent\WIN32-Code\;$(SolutionDir)..\Dep\libevent\include\;$(SolutionDir)..\Dep\libevent\compat\;$(SolutionDir)..\Dep\protobuf\src\;$(SolutionDir)..\Dep\Theron\Include\;$(SolutionDir)..\Dep\mysql\</AdditionalIncludeDirectories>
-      <BrowseInformation>true</BrowseInformation>
+      <BrowseInformation>false</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

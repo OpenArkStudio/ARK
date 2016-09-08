@@ -119,7 +119,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
 
     if (self != ident)
     {
-        m_pLogModule->LogNormal(NFILogModule::NLL_ERROR_NORMAL, ident, "you are not you self, but you want to entry this scene", nTargetScene);
+        m_pLogModule->LogError(ident, "you are not you self, but you want to entry this scene", nTargetScene);
         return 1;
     }
 
@@ -127,7 +127,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
         && nTargetGroupID == nNowGroupID)
     {
         //本来就是这个层这个场景就别切换了
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, ident, "in same scene and group but it not a clone scene", nTargetScene);
+        m_pLogModule->LogInfo(ident, "in same scene and group but it not a clone scene", nTargetScene);
 
         return 1;
     }
@@ -145,7 +145,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
 
     if (nNewGroupID <= 0)
     {
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, ident, "CreateCloneScene failed", nTargetScene);
+        m_pLogModule->LogInfo(ident, "CreateCloneScene failed", nTargetScene);
         return 0;
     }
 
@@ -177,7 +177,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
 
     if (!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, fX, fY, fZ, 0.0f, var))
     {
-        m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, ident, "SwitchScene failed", nTargetScene);
+        m_pLogModule->LogInfo(ident, "SwitchScene failed", nTargetScene);
 
         return 0;
     }
@@ -204,7 +204,7 @@ int NFCSceneProcessModule::OnLeaveSceneEvent(const NFGUID& object, const int nEv
         {
             m_pKernelModule->ReleaseGroupScene(nSceneID, nOldGroupID);
 
-            m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, object, "DestroyCloneSceneGroup", nOldGroupID);
+            m_pLogModule->LogInfo(object, "DestroyCloneSceneGroup", nOldGroupID);
         }
     }
 
@@ -225,7 +225,7 @@ int NFCSceneProcessModule::OnObjectClassEvent(const NFGUID& self, const std::str
 
                 m_pKernelModule->ReleaseGroupScene(nSceneID, nGroupID);
 
-                m_pLogModule->LogNormal(NFILogModule::NLL_INFO_NORMAL, self, "DestroyCloneSceneGroup", nGroupID);
+                m_pLogModule->LogInfo(self, "DestroyCloneSceneGroup", nGroupID);
 
             }
         }
