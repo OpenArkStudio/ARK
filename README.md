@@ -96,7 +96,7 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 [Mandarin](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md)
 
 ## Samples
-Please see ```Src/Samples```.
+Please see ```Frame/Samples```.
 
 ## License
 The ArkGameFrame project is currently available under the [Apache License](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE).
