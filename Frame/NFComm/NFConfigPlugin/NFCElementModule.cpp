@@ -336,6 +336,22 @@ bool NFCElementModule::ExistElement(const std::string& strClassName, const std::
     return true;
 }
 
+NF_SHARE_PTR<NFIElementConfigInfo> NFCElementModule::AddNewElement(const std::string& strConfigName)
+{
+    NF_SHARE_PTR<ElementConfigInfo> pElementInfo = NF_SHARE_PTR<ElementConfigInfo>(NF_NEW ElementConfigInfo());
+    if (AddElement(strConfigName, pElementInfo))
+    {
+        return pElementInfo;
+    }
+
+    return nullptr;
+}
+
+NF_SHARE_PTR<NFIElementConfigInfo> NFCElementModule::GetElementInfo(const std::string& strConfigName)
+{
+    return GetElement(strConfigName);
+}
+
 bool NFCElementModule::LegalNumber(const char* str)
 {
     int nLen = int(strlen(str));

@@ -352,6 +352,22 @@ bool NFCClassModule::AddClass(const std::string& strClassName, const std::string
     return true;
 }
 
+NF_SHARE_PTR<NFIClass> NFCClassModule::AddNewClass(const std::string& strClassName)
+{
+    NF_SHARE_PTR<NFIClass> pClass(NF_NEW NFCClass(strClassName));
+    if (AddElement(strClassName, pClass))
+    {
+        return pClass;
+    }
+
+    return nullptr;
+}
+
+NF_SHARE_PTR<NFIClass> NFCClassModule::GetClassInfo(const std::string& strClassName)
+{
+    return GetElement(strClassName);
+}
+
 bool NFCClassModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClass> pParentClass)
 {
     const char* pstrLogicClassName = attrNode->first_attribute("Id")->value();

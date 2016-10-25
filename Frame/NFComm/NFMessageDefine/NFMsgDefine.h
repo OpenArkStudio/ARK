@@ -44,4 +44,18 @@ enum E_CHECK_TYPE
 // bool PropertyFormString( NFIPropertyManager* pProManager, const NFMsg::ObjectPropertyList& propertyDB );
 
 #pragma pack(pop)
+
+class LIBPROTOC_EXPORT PBGUID
+{
+public:
+    PBGUID();
+    ~PBGUID();
+
+public:
+    static NFGUID PBToNF(NFMsg::Ident xID);
+    static NFMsg::Ident NFToPB(NFGUID xID);
+
+};
+
+
 #endif

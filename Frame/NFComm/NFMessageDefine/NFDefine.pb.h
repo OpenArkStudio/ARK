@@ -395,11 +395,12 @@ enum EGameItemSubType {
   EGIT_ITEM_EXP = 3,
   EGIT_ITEM_HP = 4,
   EGIT_ITEM_MP = 5,
-  EGIT_ITEM_SP = 6
+  EGIT_ITEM_SP = 6,
+  EGIT_ITEM_PACK = 7
 };
 LIBPROTOC_EXPORT bool EGameItemSubType_IsValid(int value);
 const EGameItemSubType EGameItemSubType_MIN = EGIT_ITEM_WATER;
-const EGameItemSubType EGameItemSubType_MAX = EGIT_ITEM_SP;
+const EGameItemSubType EGameItemSubType_MAX = EGIT_ITEM_PACK;
 const int EGameItemSubType_ARRAYSIZE = EGameItemSubType_MAX + 1;
 
 LIBPROTOC_EXPORT const ::google::protobuf::EnumDescriptor* EGameItemSubType_descriptor();
