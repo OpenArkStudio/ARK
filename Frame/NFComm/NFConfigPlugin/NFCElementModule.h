@@ -28,7 +28,7 @@
 
 class NFCClass;
 
-class ElementConfigInfo
+class ElementConfigInfo : public NFIElementConfigInfo 
 {
 public:
     ElementConfigInfo()
@@ -42,17 +42,17 @@ public:
     {
     }
 
-    NF_SHARE_PTR<NFIPropertyManager> GetPropertyManager()
+    virtual NF_SHARE_PTR<NFIPropertyManager> GetPropertyManager()
     {
         return m_pPropertyManager;
     }
 
-    NF_SHARE_PTR<NFIRecordManager> GetRecordManager()
+    virtual NF_SHARE_PTR<NFIRecordManager> GetRecordManager()
     {
         return m_pRecordManager;
     }
 
-    NF_SHARE_PTR<NFIComponentManager> GetComponentManager()
+    virtual NF_SHARE_PTR<NFIComponentManager> GetComponentManager()
     {
         return m_pComponentManager;
     }
@@ -88,6 +88,8 @@ public:
 
     virtual bool ExistElement(const std::string& strConfigName);
     virtual bool ExistElement(const std::string& strClassName, const std::string& strConfigName);
+    virtual NF_SHARE_PTR<NFIElementConfigInfo> AddNewElement(const std::string& strConfigName);
+    virtual NF_SHARE_PTR<NFIElementConfigInfo> GetElementInfo(const std::string& strConfigName);
 
     virtual NF_SHARE_PTR<NFIPropertyManager> GetPropertyManager(const std::string& strConfigName);
     virtual NF_SHARE_PTR<NFIRecordManager> GetRecordManager(const std::string& strConfigName);

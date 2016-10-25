@@ -8,6 +8,31 @@
 
 #include "NFMsgDefine.h"
 
+PBGUID::PBGUID()
+{
+}
+
+PBGUID::~PBGUID()
+{
+}
+
+NFGUID PBGUID::PBToNF(NFMsg::Ident xID)
+{
+    NFGUID  xIdent;
+    xIdent.nHead64 = xID.svrid();
+    xIdent.nData64 = xID.index();
+
+    return xIdent;
+}
+
+NFMsg::Ident PBGUID::NFToPB(NFGUID xID)
+{
+    NFMsg::Ident  xIdent;
+    xIdent.set_svrid(xID.nHead64);
+    xIdent.set_index(xID.nData64);
+
+    return xIdent;
+}
 //bool RecordToString( NFIRecord* pRecord, NFMsg::ObjectRecordBase& recordBase, E_CHECK_TYPE nCheckType, const bool bCheck )
 //{
 //  if (!pRecord)
@@ -337,3 +362,4 @@
 //
 //  return true;
 //}
+

@@ -166,7 +166,63 @@ message ObjectRecordSwap//个人玩家单类型属性数据，可直接发送---变化时
 
 //////////////////////////////
 
+////////配置压缩//////////////////////////////
+message ConfigClassPropertyInfo
+{
+	required bytes		property_name		= 1;
+	required int32		property_Type 		= 2;
+	required int32		property_Public 	= 3;
+	required int32 		property_Private 	= 4;
+	required int32 		property_Save 		= 5;
+	required int32 		property_Index 		= 6;
+	required int32 		property_SaveInterval = 7;
+	required bytes 		property_ScriptFunction = 8;
+	required bytes 		property_Desc 			= 9;
+}
+message ConfigClassColInfo
+{ 
+    required int32      colDataType = 1;
+	required int32      col 		= 2;
+	required bytes 		col_Desc	= 3;
+}
 
+message ConfigClassRecordInfo
+{
+	required bytes		Record_name			= 1;
+	required int32		Record_Type 		= 2;
+	required int32		Record_Public 		= 3;
+	required int32 		Record_Private 		= 4;
+	required int32 		Record_Save 		= 5;
+	required int32 		Record_Index 		= 6;
+	required int32 		Record_SaveInterval = 7;
+	required bytes 		Record_ScriptFunction = 8;
+	required bytes 		Record_Desc			= 9;
+	required int32 		Record_MaxRow		= 10;
+	repeated ConfigClassColInfo col_list	= 11;
+}
+
+message ConfigElementData//
+{
+	required bytes  				config_id 			= 1;
+	repeated PropertyInt 			property_int_list 	= 2;
+	repeated PropertyFloat 			property_float_list = 3;
+	repeated PropertyString 		property_string_list = 4;
+	repeated PropertyObject 		property_object_list = 5;
+}
+
+message ConfigClassData//
+{
+	required bytes  				class_name 		= 1;
+	required bytes  				class_Type 		= 2;
+	repeated ConfigElementData 		element_list 	= 3;
+	repeated ConfigClassPropertyInfo	property_info_list 	= 4;
+	repeated ConfigClassRecordInfo 		record_info_list 	= 5;
+}
+
+message ConfigData//
+{	
+	repeated ConfigClassData 		class_list 		= 1;
+}
 
 message ObjectRecordAddRow//个人玩家单类型属性数据，可直接发送---变化时
 {

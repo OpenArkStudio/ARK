@@ -103,7 +103,7 @@ public:
         return mstrClassName;
     }
 
-    const bool AddConfigName(std::string& strConfigName)
+    const bool AddConfigName(const std::string& strConfigName)
     {
         mlConfigList.Add(strConfigName);
 
@@ -162,6 +162,8 @@ public:
     virtual NF_SHARE_PTR<NFIComponentManager> GetClassComponentManager(const std::string& strClassName);
 
     virtual bool AddClass(const std::string& strClassName, const std::string& strParentName);
+    virtual NF_SHARE_PTR<NFIClass> AddNewClass(const std::string& strClassName);
+    virtual NF_SHARE_PTR<NFIClass> GetClassInfo(const std::string& strClassName);
 
 protected:
     virtual TDATA_TYPE ComputerType(const char* pstrTypeName, NFIDataList::TData& var);

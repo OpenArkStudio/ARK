@@ -59,6 +59,12 @@ class ObjectRecordFloat;
 class ObjectRecordString;
 class ObjectRecordObject;
 class ObjectRecordSwap;
+class ConfigClassPropertyInfo;
+class ConfigClassColInfo;
+class ConfigClassRecordInfo;
+class ConfigElementData;
+class ConfigClassData;
+class ConfigData;
 class ObjectRecordAddRow;
 class ObjectRecordRemove;
 class PlayerPropertyBase;
@@ -2597,6 +2603,855 @@ class LIBPROTOC_EXPORT ObjectRecordSwap : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static ObjectRecordSwap* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class LIBPROTOC_EXPORT ConfigClassPropertyInfo : public ::google::protobuf::Message {
+ public:
+  ConfigClassPropertyInfo();
+  virtual ~ConfigClassPropertyInfo();
+
+  ConfigClassPropertyInfo(const ConfigClassPropertyInfo& from);
+
+  inline ConfigClassPropertyInfo& operator=(const ConfigClassPropertyInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ConfigClassPropertyInfo& default_instance();
+
+  void Swap(ConfigClassPropertyInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  ConfigClassPropertyInfo* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ConfigClassPropertyInfo& from);
+  void MergeFrom(const ConfigClassPropertyInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required bytes property_name = 1;
+  inline bool has_property_name() const;
+  inline void clear_property_name();
+  static const int kPropertyNameFieldNumber = 1;
+  inline const ::std::string& property_name() const;
+  inline void set_property_name(const ::std::string& value);
+  inline void set_property_name(const char* value);
+  inline void set_property_name(const void* value, size_t size);
+  inline ::std::string* mutable_property_name();
+  inline ::std::string* release_property_name();
+  inline void set_allocated_property_name(::std::string* property_name);
+
+  // required int32 property_Type = 2;
+  inline bool has_property_type() const;
+  inline void clear_property_type();
+  static const int kPropertyTypeFieldNumber = 2;
+  inline ::google::protobuf::int32 property_type() const;
+  inline void set_property_type(::google::protobuf::int32 value);
+
+  // required int32 property_Public = 3;
+  inline bool has_property_public() const;
+  inline void clear_property_public();
+  static const int kPropertyPublicFieldNumber = 3;
+  inline ::google::protobuf::int32 property_public() const;
+  inline void set_property_public(::google::protobuf::int32 value);
+
+  // required int32 property_Private = 4;
+  inline bool has_property_private() const;
+  inline void clear_property_private();
+  static const int kPropertyPrivateFieldNumber = 4;
+  inline ::google::protobuf::int32 property_private() const;
+  inline void set_property_private(::google::protobuf::int32 value);
+
+  // required int32 property_Save = 5;
+  inline bool has_property_save() const;
+  inline void clear_property_save();
+  static const int kPropertySaveFieldNumber = 5;
+  inline ::google::protobuf::int32 property_save() const;
+  inline void set_property_save(::google::protobuf::int32 value);
+
+  // required int32 property_Index = 6;
+  inline bool has_property_index() const;
+  inline void clear_property_index();
+  static const int kPropertyIndexFieldNumber = 6;
+  inline ::google::protobuf::int32 property_index() const;
+  inline void set_property_index(::google::protobuf::int32 value);
+
+  // required int32 property_SaveInterval = 7;
+  inline bool has_property_saveinterval() const;
+  inline void clear_property_saveinterval();
+  static const int kPropertySaveIntervalFieldNumber = 7;
+  inline ::google::protobuf::int32 property_saveinterval() const;
+  inline void set_property_saveinterval(::google::protobuf::int32 value);
+
+  // required bytes property_ScriptFunction = 8;
+  inline bool has_property_scriptfunction() const;
+  inline void clear_property_scriptfunction();
+  static const int kPropertyScriptFunctionFieldNumber = 8;
+  inline const ::std::string& property_scriptfunction() const;
+  inline void set_property_scriptfunction(const ::std::string& value);
+  inline void set_property_scriptfunction(const char* value);
+  inline void set_property_scriptfunction(const void* value, size_t size);
+  inline ::std::string* mutable_property_scriptfunction();
+  inline ::std::string* release_property_scriptfunction();
+  inline void set_allocated_property_scriptfunction(::std::string* property_scriptfunction);
+
+  // required bytes property_Desc = 9;
+  inline bool has_property_desc() const;
+  inline void clear_property_desc();
+  static const int kPropertyDescFieldNumber = 9;
+  inline const ::std::string& property_desc() const;
+  inline void set_property_desc(const ::std::string& value);
+  inline void set_property_desc(const char* value);
+  inline void set_property_desc(const void* value, size_t size);
+  inline ::std::string* mutable_property_desc();
+  inline ::std::string* release_property_desc();
+  inline void set_allocated_property_desc(::std::string* property_desc);
+
+  // @@protoc_insertion_point(class_scope:NFMsg.ConfigClassPropertyInfo)
+ private:
+  inline void set_has_property_name();
+  inline void clear_has_property_name();
+  inline void set_has_property_type();
+  inline void clear_has_property_type();
+  inline void set_has_property_public();
+  inline void clear_has_property_public();
+  inline void set_has_property_private();
+  inline void clear_has_property_private();
+  inline void set_has_property_save();
+  inline void clear_has_property_save();
+  inline void set_has_property_index();
+  inline void clear_has_property_index();
+  inline void set_has_property_saveinterval();
+  inline void clear_has_property_saveinterval();
+  inline void set_has_property_scriptfunction();
+  inline void clear_has_property_scriptfunction();
+  inline void set_has_property_desc();
+  inline void clear_has_property_desc();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::std::string* property_name_;
+  ::google::protobuf::int32 property_type_;
+  ::google::protobuf::int32 property_public_;
+  ::google::protobuf::int32 property_private_;
+  ::google::protobuf::int32 property_save_;
+  ::google::protobuf::int32 property_index_;
+  ::google::protobuf::int32 property_saveinterval_;
+  ::std::string* property_scriptfunction_;
+  ::std::string* property_desc_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
+
+  friend void LIBPROTOC_EXPORT protobuf_AddDesc_NFMsgBase_2eproto();
+  friend void protobuf_AssignDesc_NFMsgBase_2eproto();
+  friend void protobuf_ShutdownFile_NFMsgBase_2eproto();
+
+  void InitAsDefaultInstance();
+  static ConfigClassPropertyInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class LIBPROTOC_EXPORT ConfigClassColInfo : public ::google::protobuf::Message {
+ public:
+  ConfigClassColInfo();
+  virtual ~ConfigClassColInfo();
+
+  ConfigClassColInfo(const ConfigClassColInfo& from);
+
+  inline ConfigClassColInfo& operator=(const ConfigClassColInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ConfigClassColInfo& default_instance();
+
+  void Swap(ConfigClassColInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  ConfigClassColInfo* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ConfigClassColInfo& from);
+  void MergeFrom(const ConfigClassColInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required int32 colDataType = 1;
+  inline bool has_coldatatype() const;
+  inline void clear_coldatatype();
+  static const int kColDataTypeFieldNumber = 1;
+  inline ::google::protobuf::int32 coldatatype() const;
+  inline void set_coldatatype(::google::protobuf::int32 value);
+
+  // required int32 col = 2;
+  inline bool has_col() const;
+  inline void clear_col();
+  static const int kColFieldNumber = 2;
+  inline ::google::protobuf::int32 col() const;
+  inline void set_col(::google::protobuf::int32 value);
+
+  // required bytes col_Desc = 3;
+  inline bool has_col_desc() const;
+  inline void clear_col_desc();
+  static const int kColDescFieldNumber = 3;
+  inline const ::std::string& col_desc() const;
+  inline void set_col_desc(const ::std::string& value);
+  inline void set_col_desc(const char* value);
+  inline void set_col_desc(const void* value, size_t size);
+  inline ::std::string* mutable_col_desc();
+  inline ::std::string* release_col_desc();
+  inline void set_allocated_col_desc(::std::string* col_desc);
+
+  // @@protoc_insertion_point(class_scope:NFMsg.ConfigClassColInfo)
+ private:
+  inline void set_has_coldatatype();
+  inline void clear_has_coldatatype();
+  inline void set_has_col();
+  inline void clear_has_col();
+  inline void set_has_col_desc();
+  inline void clear_has_col_desc();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::int32 coldatatype_;
+  ::google::protobuf::int32 col_;
+  ::std::string* col_desc_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(3 + 31) / 32];
+
+  friend void LIBPROTOC_EXPORT protobuf_AddDesc_NFMsgBase_2eproto();
+  friend void protobuf_AssignDesc_NFMsgBase_2eproto();
+  friend void protobuf_ShutdownFile_NFMsgBase_2eproto();
+
+  void InitAsDefaultInstance();
+  static ConfigClassColInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class LIBPROTOC_EXPORT ConfigClassRecordInfo : public ::google::protobuf::Message {
+ public:
+  ConfigClassRecordInfo();
+  virtual ~ConfigClassRecordInfo();
+
+  ConfigClassRecordInfo(const ConfigClassRecordInfo& from);
+
+  inline ConfigClassRecordInfo& operator=(const ConfigClassRecordInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ConfigClassRecordInfo& default_instance();
+
+  void Swap(ConfigClassRecordInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  ConfigClassRecordInfo* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ConfigClassRecordInfo& from);
+  void MergeFrom(const ConfigClassRecordInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required bytes Record_name = 1;
+  inline bool has_record_name() const;
+  inline void clear_record_name();
+  static const int kRecordNameFieldNumber = 1;
+  inline const ::std::string& record_name() const;
+  inline void set_record_name(const ::std::string& value);
+  inline void set_record_name(const char* value);
+  inline void set_record_name(const void* value, size_t size);
+  inline ::std::string* mutable_record_name();
+  inline ::std::string* release_record_name();
+  inline void set_allocated_record_name(::std::string* record_name);
+
+  // required int32 Record_Type = 2;
+  inline bool has_record_type() const;
+  inline void clear_record_type();
+  static const int kRecordTypeFieldNumber = 2;
+  inline ::google::protobuf::int32 record_type() const;
+  inline void set_record_type(::google::protobuf::int32 value);
+
+  // required int32 Record_Public = 3;
+  inline bool has_record_public() const;
+  inline void clear_record_public();
+  static const int kRecordPublicFieldNumber = 3;
+  inline ::google::protobuf::int32 record_public() const;
+  inline void set_record_public(::google::protobuf::int32 value);
+
+  // required int32 Record_Private = 4;
+  inline bool has_record_private() const;
+  inline void clear_record_private();
+  static const int kRecordPrivateFieldNumber = 4;
+  inline ::google::protobuf::int32 record_private() const;
+  inline void set_record_private(::google::protobuf::int32 value);
+
+  // required int32 Record_Save = 5;
+  inline bool has_record_save() const;
+  inline void clear_record_save();
+  static const int kRecordSaveFieldNumber = 5;
+  inline ::google::protobuf::int32 record_save() const;
+  inline void set_record_save(::google::protobuf::int32 value);
+
+  // required int32 Record_Index = 6;
+  inline bool has_record_index() const;
+  inline void clear_record_index();
+  static const int kRecordIndexFieldNumber = 6;
+  inline ::google::protobuf::int32 record_index() const;
+  inline void set_record_index(::google::protobuf::int32 value);
+
+  // required int32 Record_SaveInterval = 7;
+  inline bool has_record_saveinterval() const;
+  inline void clear_record_saveinterval();
+  static const int kRecordSaveIntervalFieldNumber = 7;
+  inline ::google::protobuf::int32 record_saveinterval() const;
+  inline void set_record_saveinterval(::google::protobuf::int32 value);
+
+  // required bytes Record_ScriptFunction = 8;
+  inline bool has_record_scriptfunction() const;
+  inline void clear_record_scriptfunction();
+  static const int kRecordScriptFunctionFieldNumber = 8;
+  inline const ::std::string& record_scriptfunction() const;
+  inline void set_record_scriptfunction(const ::std::string& value);
+  inline void set_record_scriptfunction(const char* value);
+  inline void set_record_scriptfunction(const void* value, size_t size);
+  inline ::std::string* mutable_record_scriptfunction();
+  inline ::std::string* release_record_scriptfunction();
+  inline void set_allocated_record_scriptfunction(::std::string* record_scriptfunction);
+
+  // required bytes Record_Desc = 9;
+  inline bool has_record_desc() const;
+  inline void clear_record_desc();
+  static const int kRecordDescFieldNumber = 9;
+  inline const ::std::string& record_desc() const;
+  inline void set_record_desc(const ::std::string& value);
+  inline void set_record_desc(const char* value);
+  inline void set_record_desc(const void* value, size_t size);
+  inline ::std::string* mutable_record_desc();
+  inline ::std::string* release_record_desc();
+  inline void set_allocated_record_desc(::std::string* record_desc);
+
+  // required int32 Record_MaxRow = 10;
+  inline bool has_record_maxrow() const;
+  inline void clear_record_maxrow();
+  static const int kRecordMaxRowFieldNumber = 10;
+  inline ::google::protobuf::int32 record_maxrow() const;
+  inline void set_record_maxrow(::google::protobuf::int32 value);
+
+  // repeated .NFMsg.ConfigClassColInfo col_list = 11;
+  inline int col_list_size() const;
+  inline void clear_col_list();
+  static const int kColListFieldNumber = 11;
+  inline const ::NFMsg::ConfigClassColInfo& col_list(int index) const;
+  inline ::NFMsg::ConfigClassColInfo* mutable_col_list(int index);
+  inline ::NFMsg::ConfigClassColInfo* add_col_list();
+  inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassColInfo >&
+      col_list() const;
+  inline ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassColInfo >*
+      mutable_col_list();
+
+  // @@protoc_insertion_point(class_scope:NFMsg.ConfigClassRecordInfo)
+ private:
+  inline void set_has_record_name();
+  inline void clear_has_record_name();
+  inline void set_has_record_type();
+  inline void clear_has_record_type();
+  inline void set_has_record_public();
+  inline void clear_has_record_public();
+  inline void set_has_record_private();
+  inline void clear_has_record_private();
+  inline void set_has_record_save();
+  inline void clear_has_record_save();
+  inline void set_has_record_index();
+  inline void clear_has_record_index();
+  inline void set_has_record_saveinterval();
+  inline void clear_has_record_saveinterval();
+  inline void set_has_record_scriptfunction();
+  inline void clear_has_record_scriptfunction();
+  inline void set_has_record_desc();
+  inline void clear_has_record_desc();
+  inline void set_has_record_maxrow();
+  inline void clear_has_record_maxrow();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::std::string* record_name_;
+  ::google::protobuf::int32 record_type_;
+  ::google::protobuf::int32 record_public_;
+  ::google::protobuf::int32 record_private_;
+  ::google::protobuf::int32 record_save_;
+  ::google::protobuf::int32 record_index_;
+  ::google::protobuf::int32 record_saveinterval_;
+  ::std::string* record_scriptfunction_;
+  ::std::string* record_desc_;
+  ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassColInfo > col_list_;
+  ::google::protobuf::int32 record_maxrow_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(11 + 31) / 32];
+
+  friend void LIBPROTOC_EXPORT protobuf_AddDesc_NFMsgBase_2eproto();
+  friend void protobuf_AssignDesc_NFMsgBase_2eproto();
+  friend void protobuf_ShutdownFile_NFMsgBase_2eproto();
+
+  void InitAsDefaultInstance();
+  static ConfigClassRecordInfo* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class LIBPROTOC_EXPORT ConfigElementData : public ::google::protobuf::Message {
+ public:
+  ConfigElementData();
+  virtual ~ConfigElementData();
+
+  ConfigElementData(const ConfigElementData& from);
+
+  inline ConfigElementData& operator=(const ConfigElementData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ConfigElementData& default_instance();
+
+  void Swap(ConfigElementData* other);
+
+  // implements Message ----------------------------------------------
+
+  ConfigElementData* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ConfigElementData& from);
+  void MergeFrom(const ConfigElementData& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required bytes config_id = 1;
+  inline bool has_config_id() const;
+  inline void clear_config_id();
+  static const int kConfigIdFieldNumber = 1;
+  inline const ::std::string& config_id() const;
+  inline void set_config_id(const ::std::string& value);
+  inline void set_config_id(const char* value);
+  inline void set_config_id(const void* value, size_t size);
+  inline ::std::string* mutable_config_id();
+  inline ::std::string* release_config_id();
+  inline void set_allocated_config_id(::std::string* config_id);
+
+  // repeated .NFMsg.PropertyInt property_int_list = 2;
+  inline int property_int_list_size() const;
+  inline void clear_property_int_list();
+  static const int kPropertyIntListFieldNumber = 2;
+  inline const ::NFMsg::PropertyInt& property_int_list(int index) const;
+  inline ::NFMsg::PropertyInt* mutable_property_int_list(int index);
+  inline ::NFMsg::PropertyInt* add_property_int_list();
+  inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyInt >&
+      property_int_list() const;
+  inline ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyInt >*
+      mutable_property_int_list();
+
+  // repeated .NFMsg.PropertyFloat property_float_list = 3;
+  inline int property_float_list_size() const;
+  inline void clear_property_float_list();
+  static const int kPropertyFloatListFieldNumber = 3;
+  inline const ::NFMsg::PropertyFloat& property_float_list(int index) const;
+  inline ::NFMsg::PropertyFloat* mutable_property_float_list(int index);
+  inline ::NFMsg::PropertyFloat* add_property_float_list();
+  inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyFloat >&
+      property_float_list() const;
+  inline ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyFloat >*
+      mutable_property_float_list();
+
+  // repeated .NFMsg.PropertyString property_string_list = 4;
+  inline int property_string_list_size() const;
+  inline void clear_property_string_list();
+  static const int kPropertyStringListFieldNumber = 4;
+  inline const ::NFMsg::PropertyString& property_string_list(int index) const;
+  inline ::NFMsg::PropertyString* mutable_property_string_list(int index);
+  inline ::NFMsg::PropertyString* add_property_string_list();
+  inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyString >&
+      property_string_list() const;
+  inline ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyString >*
+      mutable_property_string_list();
+
+  // repeated .NFMsg.PropertyObject property_object_list = 5;
+  inline int property_object_list_size() const;
+  inline void clear_property_object_list();
+  static const int kPropertyObjectListFieldNumber = 5;
+  inline const ::NFMsg::PropertyObject& property_object_list(int index) const;
+  inline ::NFMsg::PropertyObject* mutable_property_object_list(int index);
+  inline ::NFMsg::PropertyObject* add_property_object_list();
+  inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyObject >&
+      property_object_list() const;
+  inline ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyObject >*
+      mutable_property_object_list();
+
+  // @@protoc_insertion_point(class_scope:NFMsg.ConfigElementData)
+ private:
+  inline void set_has_config_id();
+  inline void clear_has_config_id();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::std::string* config_id_;
+  ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyInt > property_int_list_;
+  ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyFloat > property_float_list_;
+  ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyString > property_string_list_;
+  ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyObject > property_object_list_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+
+  friend void LIBPROTOC_EXPORT protobuf_AddDesc_NFMsgBase_2eproto();
+  friend void protobuf_AssignDesc_NFMsgBase_2eproto();
+  friend void protobuf_ShutdownFile_NFMsgBase_2eproto();
+
+  void InitAsDefaultInstance();
+  static ConfigElementData* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class LIBPROTOC_EXPORT ConfigClassData : public ::google::protobuf::Message {
+ public:
+  ConfigClassData();
+  virtual ~ConfigClassData();
+
+  ConfigClassData(const ConfigClassData& from);
+
+  inline ConfigClassData& operator=(const ConfigClassData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ConfigClassData& default_instance();
+
+  void Swap(ConfigClassData* other);
+
+  // implements Message ----------------------------------------------
+
+  ConfigClassData* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ConfigClassData& from);
+  void MergeFrom(const ConfigClassData& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // required bytes class_name = 1;
+  inline bool has_class_name() const;
+  inline void clear_class_name();
+  static const int kClassNameFieldNumber = 1;
+  inline const ::std::string& class_name() const;
+  inline void set_class_name(const ::std::string& value);
+  inline void set_class_name(const char* value);
+  inline void set_class_name(const void* value, size_t size);
+  inline ::std::string* mutable_class_name();
+  inline ::std::string* release_class_name();
+  inline void set_allocated_class_name(::std::string* class_name);
+
+  // required bytes class_Type = 2;
+  inline bool has_class_type() const;
+  inline void clear_class_type();
+  static const int kClassTypeFieldNumber = 2;
+  inline const ::std::string& class_type() const;
+  inline void set_class_type(const ::std::string& value);
+  inline void set_class_type(const char* value);
+  inline void set_class_type(const void* value, size_t size);
+  inline ::std::string* mutable_class_type();
+  inline ::std::string* release_class_type();
+  inline void set_allocated_class_type(::std::string* class_type);
+
+  // repeated .NFMsg.ConfigElementData element_list = 3;
+  inline int element_list_size() const;
+  inline void clear_element_list();
+  static const int kElementListFieldNumber = 3;
+  inline const ::NFMsg::ConfigElementData& element_list(int index) const;
+  inline ::NFMsg::ConfigElementData* mutable_element_list(int index);
+  inline ::NFMsg::ConfigElementData* add_element_list();
+  inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigElementData >&
+      element_list() const;
+  inline ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigElementData >*
+      mutable_element_list();
+
+  // repeated .NFMsg.ConfigClassPropertyInfo property_info_list = 4;
+  inline int property_info_list_size() const;
+  inline void clear_property_info_list();
+  static const int kPropertyInfoListFieldNumber = 4;
+  inline const ::NFMsg::ConfigClassPropertyInfo& property_info_list(int index) const;
+  inline ::NFMsg::ConfigClassPropertyInfo* mutable_property_info_list(int index);
+  inline ::NFMsg::ConfigClassPropertyInfo* add_property_info_list();
+  inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassPropertyInfo >&
+      property_info_list() const;
+  inline ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassPropertyInfo >*
+      mutable_property_info_list();
+
+  // repeated .NFMsg.ConfigClassRecordInfo record_info_list = 5;
+  inline int record_info_list_size() const;
+  inline void clear_record_info_list();
+  static const int kRecordInfoListFieldNumber = 5;
+  inline const ::NFMsg::ConfigClassRecordInfo& record_info_list(int index) const;
+  inline ::NFMsg::ConfigClassRecordInfo* mutable_record_info_list(int index);
+  inline ::NFMsg::ConfigClassRecordInfo* add_record_info_list();
+  inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassRecordInfo >&
+      record_info_list() const;
+  inline ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassRecordInfo >*
+      mutable_record_info_list();
+
+  // @@protoc_insertion_point(class_scope:NFMsg.ConfigClassData)
+ private:
+  inline void set_has_class_name();
+  inline void clear_has_class_name();
+  inline void set_has_class_type();
+  inline void clear_has_class_type();
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::std::string* class_name_;
+  ::std::string* class_type_;
+  ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigElementData > element_list_;
+  ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassPropertyInfo > property_info_list_;
+  ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassRecordInfo > record_info_list_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(5 + 31) / 32];
+
+  friend void LIBPROTOC_EXPORT protobuf_AddDesc_NFMsgBase_2eproto();
+  friend void protobuf_AssignDesc_NFMsgBase_2eproto();
+  friend void protobuf_ShutdownFile_NFMsgBase_2eproto();
+
+  void InitAsDefaultInstance();
+  static ConfigClassData* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class LIBPROTOC_EXPORT ConfigData : public ::google::protobuf::Message {
+ public:
+  ConfigData();
+  virtual ~ConfigData();
+
+  ConfigData(const ConfigData& from);
+
+  inline ConfigData& operator=(const ConfigData& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _unknown_fields_;
+  }
+
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return &_unknown_fields_;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ConfigData& default_instance();
+
+  void Swap(ConfigData* other);
+
+  // implements Message ----------------------------------------------
+
+  ConfigData* New() const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ConfigData& from);
+  void MergeFrom(const ConfigData& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .NFMsg.ConfigClassData class_list = 1;
+  inline int class_list_size() const;
+  inline void clear_class_list();
+  static const int kClassListFieldNumber = 1;
+  inline const ::NFMsg::ConfigClassData& class_list(int index) const;
+  inline ::NFMsg::ConfigClassData* mutable_class_list(int index);
+  inline ::NFMsg::ConfigClassData* add_class_list();
+  inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassData >&
+      class_list() const;
+  inline ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassData >*
+      mutable_class_list();
+
+  // @@protoc_insertion_point(class_scope:NFMsg.ConfigData)
+ private:
+
+  ::google::protobuf::UnknownFieldSet _unknown_fields_;
+
+  ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassData > class_list_;
+
+  mutable int _cached_size_;
+  ::google::protobuf::uint32 _has_bits_[(1 + 31) / 32];
+
+  friend void LIBPROTOC_EXPORT protobuf_AddDesc_NFMsgBase_2eproto();
+  friend void protobuf_AssignDesc_NFMsgBase_2eproto();
+  friend void protobuf_ShutdownFile_NFMsgBase_2eproto();
+
+  void InitAsDefaultInstance();
+  static ConfigData* default_instance_;
 };
 // -------------------------------------------------------------------
 
@@ -5973,6 +6828,1285 @@ inline ::google::protobuf::int32 ObjectRecordSwap::row_target() const {
 inline void ObjectRecordSwap::set_row_target(::google::protobuf::int32 value) {
   set_has_row_target();
   row_target_ = value;
+}
+
+// -------------------------------------------------------------------
+
+// ConfigClassPropertyInfo
+
+// required bytes property_name = 1;
+inline bool ConfigClassPropertyInfo::has_property_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ConfigClassPropertyInfo::set_has_property_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ConfigClassPropertyInfo::clear_has_property_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ConfigClassPropertyInfo::clear_property_name() {
+  if (property_name_ != &::google::protobuf::internal::kEmptyString) {
+    property_name_->clear();
+  }
+  clear_has_property_name();
+}
+inline const ::std::string& ConfigClassPropertyInfo::property_name() const {
+  return *property_name_;
+}
+inline void ConfigClassPropertyInfo::set_property_name(const ::std::string& value) {
+  set_has_property_name();
+  if (property_name_ == &::google::protobuf::internal::kEmptyString) {
+    property_name_ = new ::std::string;
+  }
+  property_name_->assign(value);
+}
+inline void ConfigClassPropertyInfo::set_property_name(const char* value) {
+  set_has_property_name();
+  if (property_name_ == &::google::protobuf::internal::kEmptyString) {
+    property_name_ = new ::std::string;
+  }
+  property_name_->assign(value);
+}
+inline void ConfigClassPropertyInfo::set_property_name(const void* value, size_t size) {
+  set_has_property_name();
+  if (property_name_ == &::google::protobuf::internal::kEmptyString) {
+    property_name_ = new ::std::string;
+  }
+  property_name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* ConfigClassPropertyInfo::mutable_property_name() {
+  set_has_property_name();
+  if (property_name_ == &::google::protobuf::internal::kEmptyString) {
+    property_name_ = new ::std::string;
+  }
+  return property_name_;
+}
+inline ::std::string* ConfigClassPropertyInfo::release_property_name() {
+  clear_has_property_name();
+  if (property_name_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = property_name_;
+    property_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void ConfigClassPropertyInfo::set_allocated_property_name(::std::string* property_name) {
+  if (property_name_ != &::google::protobuf::internal::kEmptyString) {
+    delete property_name_;
+  }
+  if (property_name) {
+    set_has_property_name();
+    property_name_ = property_name;
+  } else {
+    clear_has_property_name();
+    property_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required int32 property_Type = 2;
+inline bool ConfigClassPropertyInfo::has_property_type() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void ConfigClassPropertyInfo::set_has_property_type() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void ConfigClassPropertyInfo::clear_has_property_type() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void ConfigClassPropertyInfo::clear_property_type() {
+  property_type_ = 0;
+  clear_has_property_type();
+}
+inline ::google::protobuf::int32 ConfigClassPropertyInfo::property_type() const {
+  return property_type_;
+}
+inline void ConfigClassPropertyInfo::set_property_type(::google::protobuf::int32 value) {
+  set_has_property_type();
+  property_type_ = value;
+}
+
+// required int32 property_Public = 3;
+inline bool ConfigClassPropertyInfo::has_property_public() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void ConfigClassPropertyInfo::set_has_property_public() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void ConfigClassPropertyInfo::clear_has_property_public() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void ConfigClassPropertyInfo::clear_property_public() {
+  property_public_ = 0;
+  clear_has_property_public();
+}
+inline ::google::protobuf::int32 ConfigClassPropertyInfo::property_public() const {
+  return property_public_;
+}
+inline void ConfigClassPropertyInfo::set_property_public(::google::protobuf::int32 value) {
+  set_has_property_public();
+  property_public_ = value;
+}
+
+// required int32 property_Private = 4;
+inline bool ConfigClassPropertyInfo::has_property_private() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void ConfigClassPropertyInfo::set_has_property_private() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void ConfigClassPropertyInfo::clear_has_property_private() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void ConfigClassPropertyInfo::clear_property_private() {
+  property_private_ = 0;
+  clear_has_property_private();
+}
+inline ::google::protobuf::int32 ConfigClassPropertyInfo::property_private() const {
+  return property_private_;
+}
+inline void ConfigClassPropertyInfo::set_property_private(::google::protobuf::int32 value) {
+  set_has_property_private();
+  property_private_ = value;
+}
+
+// required int32 property_Save = 5;
+inline bool ConfigClassPropertyInfo::has_property_save() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void ConfigClassPropertyInfo::set_has_property_save() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void ConfigClassPropertyInfo::clear_has_property_save() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void ConfigClassPropertyInfo::clear_property_save() {
+  property_save_ = 0;
+  clear_has_property_save();
+}
+inline ::google::protobuf::int32 ConfigClassPropertyInfo::property_save() const {
+  return property_save_;
+}
+inline void ConfigClassPropertyInfo::set_property_save(::google::protobuf::int32 value) {
+  set_has_property_save();
+  property_save_ = value;
+}
+
+// required int32 property_Index = 6;
+inline bool ConfigClassPropertyInfo::has_property_index() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void ConfigClassPropertyInfo::set_has_property_index() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void ConfigClassPropertyInfo::clear_has_property_index() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void ConfigClassPropertyInfo::clear_property_index() {
+  property_index_ = 0;
+  clear_has_property_index();
+}
+inline ::google::protobuf::int32 ConfigClassPropertyInfo::property_index() const {
+  return property_index_;
+}
+inline void ConfigClassPropertyInfo::set_property_index(::google::protobuf::int32 value) {
+  set_has_property_index();
+  property_index_ = value;
+}
+
+// required int32 property_SaveInterval = 7;
+inline bool ConfigClassPropertyInfo::has_property_saveinterval() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void ConfigClassPropertyInfo::set_has_property_saveinterval() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void ConfigClassPropertyInfo::clear_has_property_saveinterval() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void ConfigClassPropertyInfo::clear_property_saveinterval() {
+  property_saveinterval_ = 0;
+  clear_has_property_saveinterval();
+}
+inline ::google::protobuf::int32 ConfigClassPropertyInfo::property_saveinterval() const {
+  return property_saveinterval_;
+}
+inline void ConfigClassPropertyInfo::set_property_saveinterval(::google::protobuf::int32 value) {
+  set_has_property_saveinterval();
+  property_saveinterval_ = value;
+}
+
+// required bytes property_ScriptFunction = 8;
+inline bool ConfigClassPropertyInfo::has_property_scriptfunction() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void ConfigClassPropertyInfo::set_has_property_scriptfunction() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void ConfigClassPropertyInfo::clear_has_property_scriptfunction() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void ConfigClassPropertyInfo::clear_property_scriptfunction() {
+  if (property_scriptfunction_ != &::google::protobuf::internal::kEmptyString) {
+    property_scriptfunction_->clear();
+  }
+  clear_has_property_scriptfunction();
+}
+inline const ::std::string& ConfigClassPropertyInfo::property_scriptfunction() const {
+  return *property_scriptfunction_;
+}
+inline void ConfigClassPropertyInfo::set_property_scriptfunction(const ::std::string& value) {
+  set_has_property_scriptfunction();
+  if (property_scriptfunction_ == &::google::protobuf::internal::kEmptyString) {
+    property_scriptfunction_ = new ::std::string;
+  }
+  property_scriptfunction_->assign(value);
+}
+inline void ConfigClassPropertyInfo::set_property_scriptfunction(const char* value) {
+  set_has_property_scriptfunction();
+  if (property_scriptfunction_ == &::google::protobuf::internal::kEmptyString) {
+    property_scriptfunction_ = new ::std::string;
+  }
+  property_scriptfunction_->assign(value);
+}
+inline void ConfigClassPropertyInfo::set_property_scriptfunction(const void* value, size_t size) {
+  set_has_property_scriptfunction();
+  if (property_scriptfunction_ == &::google::protobuf::internal::kEmptyString) {
+    property_scriptfunction_ = new ::std::string;
+  }
+  property_scriptfunction_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* ConfigClassPropertyInfo::mutable_property_scriptfunction() {
+  set_has_property_scriptfunction();
+  if (property_scriptfunction_ == &::google::protobuf::internal::kEmptyString) {
+    property_scriptfunction_ = new ::std::string;
+  }
+  return property_scriptfunction_;
+}
+inline ::std::string* ConfigClassPropertyInfo::release_property_scriptfunction() {
+  clear_has_property_scriptfunction();
+  if (property_scriptfunction_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = property_scriptfunction_;
+    property_scriptfunction_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void ConfigClassPropertyInfo::set_allocated_property_scriptfunction(::std::string* property_scriptfunction) {
+  if (property_scriptfunction_ != &::google::protobuf::internal::kEmptyString) {
+    delete property_scriptfunction_;
+  }
+  if (property_scriptfunction) {
+    set_has_property_scriptfunction();
+    property_scriptfunction_ = property_scriptfunction;
+  } else {
+    clear_has_property_scriptfunction();
+    property_scriptfunction_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required bytes property_Desc = 9;
+inline bool ConfigClassPropertyInfo::has_property_desc() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void ConfigClassPropertyInfo::set_has_property_desc() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void ConfigClassPropertyInfo::clear_has_property_desc() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void ConfigClassPropertyInfo::clear_property_desc() {
+  if (property_desc_ != &::google::protobuf::internal::kEmptyString) {
+    property_desc_->clear();
+  }
+  clear_has_property_desc();
+}
+inline const ::std::string& ConfigClassPropertyInfo::property_desc() const {
+  return *property_desc_;
+}
+inline void ConfigClassPropertyInfo::set_property_desc(const ::std::string& value) {
+  set_has_property_desc();
+  if (property_desc_ == &::google::protobuf::internal::kEmptyString) {
+    property_desc_ = new ::std::string;
+  }
+  property_desc_->assign(value);
+}
+inline void ConfigClassPropertyInfo::set_property_desc(const char* value) {
+  set_has_property_desc();
+  if (property_desc_ == &::google::protobuf::internal::kEmptyString) {
+    property_desc_ = new ::std::string;
+  }
+  property_desc_->assign(value);
+}
+inline void ConfigClassPropertyInfo::set_property_desc(const void* value, size_t size) {
+  set_has_property_desc();
+  if (property_desc_ == &::google::protobuf::internal::kEmptyString) {
+    property_desc_ = new ::std::string;
+  }
+  property_desc_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* ConfigClassPropertyInfo::mutable_property_desc() {
+  set_has_property_desc();
+  if (property_desc_ == &::google::protobuf::internal::kEmptyString) {
+    property_desc_ = new ::std::string;
+  }
+  return property_desc_;
+}
+inline ::std::string* ConfigClassPropertyInfo::release_property_desc() {
+  clear_has_property_desc();
+  if (property_desc_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = property_desc_;
+    property_desc_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void ConfigClassPropertyInfo::set_allocated_property_desc(::std::string* property_desc) {
+  if (property_desc_ != &::google::protobuf::internal::kEmptyString) {
+    delete property_desc_;
+  }
+  if (property_desc) {
+    set_has_property_desc();
+    property_desc_ = property_desc;
+  } else {
+    clear_has_property_desc();
+    property_desc_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// -------------------------------------------------------------------
+
+// ConfigClassColInfo
+
+// required int32 colDataType = 1;
+inline bool ConfigClassColInfo::has_coldatatype() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ConfigClassColInfo::set_has_coldatatype() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ConfigClassColInfo::clear_has_coldatatype() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ConfigClassColInfo::clear_coldatatype() {
+  coldatatype_ = 0;
+  clear_has_coldatatype();
+}
+inline ::google::protobuf::int32 ConfigClassColInfo::coldatatype() const {
+  return coldatatype_;
+}
+inline void ConfigClassColInfo::set_coldatatype(::google::protobuf::int32 value) {
+  set_has_coldatatype();
+  coldatatype_ = value;
+}
+
+// required int32 col = 2;
+inline bool ConfigClassColInfo::has_col() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void ConfigClassColInfo::set_has_col() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void ConfigClassColInfo::clear_has_col() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void ConfigClassColInfo::clear_col() {
+  col_ = 0;
+  clear_has_col();
+}
+inline ::google::protobuf::int32 ConfigClassColInfo::col() const {
+  return col_;
+}
+inline void ConfigClassColInfo::set_col(::google::protobuf::int32 value) {
+  set_has_col();
+  col_ = value;
+}
+
+// required bytes col_Desc = 3;
+inline bool ConfigClassColInfo::has_col_desc() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void ConfigClassColInfo::set_has_col_desc() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void ConfigClassColInfo::clear_has_col_desc() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void ConfigClassColInfo::clear_col_desc() {
+  if (col_desc_ != &::google::protobuf::internal::kEmptyString) {
+    col_desc_->clear();
+  }
+  clear_has_col_desc();
+}
+inline const ::std::string& ConfigClassColInfo::col_desc() const {
+  return *col_desc_;
+}
+inline void ConfigClassColInfo::set_col_desc(const ::std::string& value) {
+  set_has_col_desc();
+  if (col_desc_ == &::google::protobuf::internal::kEmptyString) {
+    col_desc_ = new ::std::string;
+  }
+  col_desc_->assign(value);
+}
+inline void ConfigClassColInfo::set_col_desc(const char* value) {
+  set_has_col_desc();
+  if (col_desc_ == &::google::protobuf::internal::kEmptyString) {
+    col_desc_ = new ::std::string;
+  }
+  col_desc_->assign(value);
+}
+inline void ConfigClassColInfo::set_col_desc(const void* value, size_t size) {
+  set_has_col_desc();
+  if (col_desc_ == &::google::protobuf::internal::kEmptyString) {
+    col_desc_ = new ::std::string;
+  }
+  col_desc_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* ConfigClassColInfo::mutable_col_desc() {
+  set_has_col_desc();
+  if (col_desc_ == &::google::protobuf::internal::kEmptyString) {
+    col_desc_ = new ::std::string;
+  }
+  return col_desc_;
+}
+inline ::std::string* ConfigClassColInfo::release_col_desc() {
+  clear_has_col_desc();
+  if (col_desc_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = col_desc_;
+    col_desc_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void ConfigClassColInfo::set_allocated_col_desc(::std::string* col_desc) {
+  if (col_desc_ != &::google::protobuf::internal::kEmptyString) {
+    delete col_desc_;
+  }
+  if (col_desc) {
+    set_has_col_desc();
+    col_desc_ = col_desc;
+  } else {
+    clear_has_col_desc();
+    col_desc_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// -------------------------------------------------------------------
+
+// ConfigClassRecordInfo
+
+// required bytes Record_name = 1;
+inline bool ConfigClassRecordInfo::has_record_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ConfigClassRecordInfo::set_has_record_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ConfigClassRecordInfo::clear_has_record_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ConfigClassRecordInfo::clear_record_name() {
+  if (record_name_ != &::google::protobuf::internal::kEmptyString) {
+    record_name_->clear();
+  }
+  clear_has_record_name();
+}
+inline const ::std::string& ConfigClassRecordInfo::record_name() const {
+  return *record_name_;
+}
+inline void ConfigClassRecordInfo::set_record_name(const ::std::string& value) {
+  set_has_record_name();
+  if (record_name_ == &::google::protobuf::internal::kEmptyString) {
+    record_name_ = new ::std::string;
+  }
+  record_name_->assign(value);
+}
+inline void ConfigClassRecordInfo::set_record_name(const char* value) {
+  set_has_record_name();
+  if (record_name_ == &::google::protobuf::internal::kEmptyString) {
+    record_name_ = new ::std::string;
+  }
+  record_name_->assign(value);
+}
+inline void ConfigClassRecordInfo::set_record_name(const void* value, size_t size) {
+  set_has_record_name();
+  if (record_name_ == &::google::protobuf::internal::kEmptyString) {
+    record_name_ = new ::std::string;
+  }
+  record_name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* ConfigClassRecordInfo::mutable_record_name() {
+  set_has_record_name();
+  if (record_name_ == &::google::protobuf::internal::kEmptyString) {
+    record_name_ = new ::std::string;
+  }
+  return record_name_;
+}
+inline ::std::string* ConfigClassRecordInfo::release_record_name() {
+  clear_has_record_name();
+  if (record_name_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = record_name_;
+    record_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void ConfigClassRecordInfo::set_allocated_record_name(::std::string* record_name) {
+  if (record_name_ != &::google::protobuf::internal::kEmptyString) {
+    delete record_name_;
+  }
+  if (record_name) {
+    set_has_record_name();
+    record_name_ = record_name;
+  } else {
+    clear_has_record_name();
+    record_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required int32 Record_Type = 2;
+inline bool ConfigClassRecordInfo::has_record_type() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void ConfigClassRecordInfo::set_has_record_type() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void ConfigClassRecordInfo::clear_has_record_type() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void ConfigClassRecordInfo::clear_record_type() {
+  record_type_ = 0;
+  clear_has_record_type();
+}
+inline ::google::protobuf::int32 ConfigClassRecordInfo::record_type() const {
+  return record_type_;
+}
+inline void ConfigClassRecordInfo::set_record_type(::google::protobuf::int32 value) {
+  set_has_record_type();
+  record_type_ = value;
+}
+
+// required int32 Record_Public = 3;
+inline bool ConfigClassRecordInfo::has_record_public() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+inline void ConfigClassRecordInfo::set_has_record_public() {
+  _has_bits_[0] |= 0x00000004u;
+}
+inline void ConfigClassRecordInfo::clear_has_record_public() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline void ConfigClassRecordInfo::clear_record_public() {
+  record_public_ = 0;
+  clear_has_record_public();
+}
+inline ::google::protobuf::int32 ConfigClassRecordInfo::record_public() const {
+  return record_public_;
+}
+inline void ConfigClassRecordInfo::set_record_public(::google::protobuf::int32 value) {
+  set_has_record_public();
+  record_public_ = value;
+}
+
+// required int32 Record_Private = 4;
+inline bool ConfigClassRecordInfo::has_record_private() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void ConfigClassRecordInfo::set_has_record_private() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void ConfigClassRecordInfo::clear_has_record_private() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void ConfigClassRecordInfo::clear_record_private() {
+  record_private_ = 0;
+  clear_has_record_private();
+}
+inline ::google::protobuf::int32 ConfigClassRecordInfo::record_private() const {
+  return record_private_;
+}
+inline void ConfigClassRecordInfo::set_record_private(::google::protobuf::int32 value) {
+  set_has_record_private();
+  record_private_ = value;
+}
+
+// required int32 Record_Save = 5;
+inline bool ConfigClassRecordInfo::has_record_save() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void ConfigClassRecordInfo::set_has_record_save() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void ConfigClassRecordInfo::clear_has_record_save() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void ConfigClassRecordInfo::clear_record_save() {
+  record_save_ = 0;
+  clear_has_record_save();
+}
+inline ::google::protobuf::int32 ConfigClassRecordInfo::record_save() const {
+  return record_save_;
+}
+inline void ConfigClassRecordInfo::set_record_save(::google::protobuf::int32 value) {
+  set_has_record_save();
+  record_save_ = value;
+}
+
+// required int32 Record_Index = 6;
+inline bool ConfigClassRecordInfo::has_record_index() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void ConfigClassRecordInfo::set_has_record_index() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void ConfigClassRecordInfo::clear_has_record_index() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void ConfigClassRecordInfo::clear_record_index() {
+  record_index_ = 0;
+  clear_has_record_index();
+}
+inline ::google::protobuf::int32 ConfigClassRecordInfo::record_index() const {
+  return record_index_;
+}
+inline void ConfigClassRecordInfo::set_record_index(::google::protobuf::int32 value) {
+  set_has_record_index();
+  record_index_ = value;
+}
+
+// required int32 Record_SaveInterval = 7;
+inline bool ConfigClassRecordInfo::has_record_saveinterval() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void ConfigClassRecordInfo::set_has_record_saveinterval() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void ConfigClassRecordInfo::clear_has_record_saveinterval() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void ConfigClassRecordInfo::clear_record_saveinterval() {
+  record_saveinterval_ = 0;
+  clear_has_record_saveinterval();
+}
+inline ::google::protobuf::int32 ConfigClassRecordInfo::record_saveinterval() const {
+  return record_saveinterval_;
+}
+inline void ConfigClassRecordInfo::set_record_saveinterval(::google::protobuf::int32 value) {
+  set_has_record_saveinterval();
+  record_saveinterval_ = value;
+}
+
+// required bytes Record_ScriptFunction = 8;
+inline bool ConfigClassRecordInfo::has_record_scriptfunction() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void ConfigClassRecordInfo::set_has_record_scriptfunction() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void ConfigClassRecordInfo::clear_has_record_scriptfunction() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void ConfigClassRecordInfo::clear_record_scriptfunction() {
+  if (record_scriptfunction_ != &::google::protobuf::internal::kEmptyString) {
+    record_scriptfunction_->clear();
+  }
+  clear_has_record_scriptfunction();
+}
+inline const ::std::string& ConfigClassRecordInfo::record_scriptfunction() const {
+  return *record_scriptfunction_;
+}
+inline void ConfigClassRecordInfo::set_record_scriptfunction(const ::std::string& value) {
+  set_has_record_scriptfunction();
+  if (record_scriptfunction_ == &::google::protobuf::internal::kEmptyString) {
+    record_scriptfunction_ = new ::std::string;
+  }
+  record_scriptfunction_->assign(value);
+}
+inline void ConfigClassRecordInfo::set_record_scriptfunction(const char* value) {
+  set_has_record_scriptfunction();
+  if (record_scriptfunction_ == &::google::protobuf::internal::kEmptyString) {
+    record_scriptfunction_ = new ::std::string;
+  }
+  record_scriptfunction_->assign(value);
+}
+inline void ConfigClassRecordInfo::set_record_scriptfunction(const void* value, size_t size) {
+  set_has_record_scriptfunction();
+  if (record_scriptfunction_ == &::google::protobuf::internal::kEmptyString) {
+    record_scriptfunction_ = new ::std::string;
+  }
+  record_scriptfunction_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* ConfigClassRecordInfo::mutable_record_scriptfunction() {
+  set_has_record_scriptfunction();
+  if (record_scriptfunction_ == &::google::protobuf::internal::kEmptyString) {
+    record_scriptfunction_ = new ::std::string;
+  }
+  return record_scriptfunction_;
+}
+inline ::std::string* ConfigClassRecordInfo::release_record_scriptfunction() {
+  clear_has_record_scriptfunction();
+  if (record_scriptfunction_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = record_scriptfunction_;
+    record_scriptfunction_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void ConfigClassRecordInfo::set_allocated_record_scriptfunction(::std::string* record_scriptfunction) {
+  if (record_scriptfunction_ != &::google::protobuf::internal::kEmptyString) {
+    delete record_scriptfunction_;
+  }
+  if (record_scriptfunction) {
+    set_has_record_scriptfunction();
+    record_scriptfunction_ = record_scriptfunction;
+  } else {
+    clear_has_record_scriptfunction();
+    record_scriptfunction_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required bytes Record_Desc = 9;
+inline bool ConfigClassRecordInfo::has_record_desc() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void ConfigClassRecordInfo::set_has_record_desc() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void ConfigClassRecordInfo::clear_has_record_desc() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void ConfigClassRecordInfo::clear_record_desc() {
+  if (record_desc_ != &::google::protobuf::internal::kEmptyString) {
+    record_desc_->clear();
+  }
+  clear_has_record_desc();
+}
+inline const ::std::string& ConfigClassRecordInfo::record_desc() const {
+  return *record_desc_;
+}
+inline void ConfigClassRecordInfo::set_record_desc(const ::std::string& value) {
+  set_has_record_desc();
+  if (record_desc_ == &::google::protobuf::internal::kEmptyString) {
+    record_desc_ = new ::std::string;
+  }
+  record_desc_->assign(value);
+}
+inline void ConfigClassRecordInfo::set_record_desc(const char* value) {
+  set_has_record_desc();
+  if (record_desc_ == &::google::protobuf::internal::kEmptyString) {
+    record_desc_ = new ::std::string;
+  }
+  record_desc_->assign(value);
+}
+inline void ConfigClassRecordInfo::set_record_desc(const void* value, size_t size) {
+  set_has_record_desc();
+  if (record_desc_ == &::google::protobuf::internal::kEmptyString) {
+    record_desc_ = new ::std::string;
+  }
+  record_desc_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* ConfigClassRecordInfo::mutable_record_desc() {
+  set_has_record_desc();
+  if (record_desc_ == &::google::protobuf::internal::kEmptyString) {
+    record_desc_ = new ::std::string;
+  }
+  return record_desc_;
+}
+inline ::std::string* ConfigClassRecordInfo::release_record_desc() {
+  clear_has_record_desc();
+  if (record_desc_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = record_desc_;
+    record_desc_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void ConfigClassRecordInfo::set_allocated_record_desc(::std::string* record_desc) {
+  if (record_desc_ != &::google::protobuf::internal::kEmptyString) {
+    delete record_desc_;
+  }
+  if (record_desc) {
+    set_has_record_desc();
+    record_desc_ = record_desc;
+  } else {
+    clear_has_record_desc();
+    record_desc_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required int32 Record_MaxRow = 10;
+inline bool ConfigClassRecordInfo::has_record_maxrow() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+inline void ConfigClassRecordInfo::set_has_record_maxrow() {
+  _has_bits_[0] |= 0x00000200u;
+}
+inline void ConfigClassRecordInfo::clear_has_record_maxrow() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+inline void ConfigClassRecordInfo::clear_record_maxrow() {
+  record_maxrow_ = 0;
+  clear_has_record_maxrow();
+}
+inline ::google::protobuf::int32 ConfigClassRecordInfo::record_maxrow() const {
+  return record_maxrow_;
+}
+inline void ConfigClassRecordInfo::set_record_maxrow(::google::protobuf::int32 value) {
+  set_has_record_maxrow();
+  record_maxrow_ = value;
+}
+
+// repeated .NFMsg.ConfigClassColInfo col_list = 11;
+inline int ConfigClassRecordInfo::col_list_size() const {
+  return col_list_.size();
+}
+inline void ConfigClassRecordInfo::clear_col_list() {
+  col_list_.Clear();
+}
+inline const ::NFMsg::ConfigClassColInfo& ConfigClassRecordInfo::col_list(int index) const {
+  return col_list_.Get(index);
+}
+inline ::NFMsg::ConfigClassColInfo* ConfigClassRecordInfo::mutable_col_list(int index) {
+  return col_list_.Mutable(index);
+}
+inline ::NFMsg::ConfigClassColInfo* ConfigClassRecordInfo::add_col_list() {
+  return col_list_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassColInfo >&
+ConfigClassRecordInfo::col_list() const {
+  return col_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassColInfo >*
+ConfigClassRecordInfo::mutable_col_list() {
+  return &col_list_;
+}
+
+// -------------------------------------------------------------------
+
+// ConfigElementData
+
+// required bytes config_id = 1;
+inline bool ConfigElementData::has_config_id() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ConfigElementData::set_has_config_id() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ConfigElementData::clear_has_config_id() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ConfigElementData::clear_config_id() {
+  if (config_id_ != &::google::protobuf::internal::kEmptyString) {
+    config_id_->clear();
+  }
+  clear_has_config_id();
+}
+inline const ::std::string& ConfigElementData::config_id() const {
+  return *config_id_;
+}
+inline void ConfigElementData::set_config_id(const ::std::string& value) {
+  set_has_config_id();
+  if (config_id_ == &::google::protobuf::internal::kEmptyString) {
+    config_id_ = new ::std::string;
+  }
+  config_id_->assign(value);
+}
+inline void ConfigElementData::set_config_id(const char* value) {
+  set_has_config_id();
+  if (config_id_ == &::google::protobuf::internal::kEmptyString) {
+    config_id_ = new ::std::string;
+  }
+  config_id_->assign(value);
+}
+inline void ConfigElementData::set_config_id(const void* value, size_t size) {
+  set_has_config_id();
+  if (config_id_ == &::google::protobuf::internal::kEmptyString) {
+    config_id_ = new ::std::string;
+  }
+  config_id_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* ConfigElementData::mutable_config_id() {
+  set_has_config_id();
+  if (config_id_ == &::google::protobuf::internal::kEmptyString) {
+    config_id_ = new ::std::string;
+  }
+  return config_id_;
+}
+inline ::std::string* ConfigElementData::release_config_id() {
+  clear_has_config_id();
+  if (config_id_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = config_id_;
+    config_id_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void ConfigElementData::set_allocated_config_id(::std::string* config_id) {
+  if (config_id_ != &::google::protobuf::internal::kEmptyString) {
+    delete config_id_;
+  }
+  if (config_id) {
+    set_has_config_id();
+    config_id_ = config_id;
+  } else {
+    clear_has_config_id();
+    config_id_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// repeated .NFMsg.PropertyInt property_int_list = 2;
+inline int ConfigElementData::property_int_list_size() const {
+  return property_int_list_.size();
+}
+inline void ConfigElementData::clear_property_int_list() {
+  property_int_list_.Clear();
+}
+inline const ::NFMsg::PropertyInt& ConfigElementData::property_int_list(int index) const {
+  return property_int_list_.Get(index);
+}
+inline ::NFMsg::PropertyInt* ConfigElementData::mutable_property_int_list(int index) {
+  return property_int_list_.Mutable(index);
+}
+inline ::NFMsg::PropertyInt* ConfigElementData::add_property_int_list() {
+  return property_int_list_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyInt >&
+ConfigElementData::property_int_list() const {
+  return property_int_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyInt >*
+ConfigElementData::mutable_property_int_list() {
+  return &property_int_list_;
+}
+
+// repeated .NFMsg.PropertyFloat property_float_list = 3;
+inline int ConfigElementData::property_float_list_size() const {
+  return property_float_list_.size();
+}
+inline void ConfigElementData::clear_property_float_list() {
+  property_float_list_.Clear();
+}
+inline const ::NFMsg::PropertyFloat& ConfigElementData::property_float_list(int index) const {
+  return property_float_list_.Get(index);
+}
+inline ::NFMsg::PropertyFloat* ConfigElementData::mutable_property_float_list(int index) {
+  return property_float_list_.Mutable(index);
+}
+inline ::NFMsg::PropertyFloat* ConfigElementData::add_property_float_list() {
+  return property_float_list_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyFloat >&
+ConfigElementData::property_float_list() const {
+  return property_float_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyFloat >*
+ConfigElementData::mutable_property_float_list() {
+  return &property_float_list_;
+}
+
+// repeated .NFMsg.PropertyString property_string_list = 4;
+inline int ConfigElementData::property_string_list_size() const {
+  return property_string_list_.size();
+}
+inline void ConfigElementData::clear_property_string_list() {
+  property_string_list_.Clear();
+}
+inline const ::NFMsg::PropertyString& ConfigElementData::property_string_list(int index) const {
+  return property_string_list_.Get(index);
+}
+inline ::NFMsg::PropertyString* ConfigElementData::mutable_property_string_list(int index) {
+  return property_string_list_.Mutable(index);
+}
+inline ::NFMsg::PropertyString* ConfigElementData::add_property_string_list() {
+  return property_string_list_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyString >&
+ConfigElementData::property_string_list() const {
+  return property_string_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyString >*
+ConfigElementData::mutable_property_string_list() {
+  return &property_string_list_;
+}
+
+// repeated .NFMsg.PropertyObject property_object_list = 5;
+inline int ConfigElementData::property_object_list_size() const {
+  return property_object_list_.size();
+}
+inline void ConfigElementData::clear_property_object_list() {
+  property_object_list_.Clear();
+}
+inline const ::NFMsg::PropertyObject& ConfigElementData::property_object_list(int index) const {
+  return property_object_list_.Get(index);
+}
+inline ::NFMsg::PropertyObject* ConfigElementData::mutable_property_object_list(int index) {
+  return property_object_list_.Mutable(index);
+}
+inline ::NFMsg::PropertyObject* ConfigElementData::add_property_object_list() {
+  return property_object_list_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyObject >&
+ConfigElementData::property_object_list() const {
+  return property_object_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::NFMsg::PropertyObject >*
+ConfigElementData::mutable_property_object_list() {
+  return &property_object_list_;
+}
+
+// -------------------------------------------------------------------
+
+// ConfigClassData
+
+// required bytes class_name = 1;
+inline bool ConfigClassData::has_class_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void ConfigClassData::set_has_class_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void ConfigClassData::clear_has_class_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void ConfigClassData::clear_class_name() {
+  if (class_name_ != &::google::protobuf::internal::kEmptyString) {
+    class_name_->clear();
+  }
+  clear_has_class_name();
+}
+inline const ::std::string& ConfigClassData::class_name() const {
+  return *class_name_;
+}
+inline void ConfigClassData::set_class_name(const ::std::string& value) {
+  set_has_class_name();
+  if (class_name_ == &::google::protobuf::internal::kEmptyString) {
+    class_name_ = new ::std::string;
+  }
+  class_name_->assign(value);
+}
+inline void ConfigClassData::set_class_name(const char* value) {
+  set_has_class_name();
+  if (class_name_ == &::google::protobuf::internal::kEmptyString) {
+    class_name_ = new ::std::string;
+  }
+  class_name_->assign(value);
+}
+inline void ConfigClassData::set_class_name(const void* value, size_t size) {
+  set_has_class_name();
+  if (class_name_ == &::google::protobuf::internal::kEmptyString) {
+    class_name_ = new ::std::string;
+  }
+  class_name_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* ConfigClassData::mutable_class_name() {
+  set_has_class_name();
+  if (class_name_ == &::google::protobuf::internal::kEmptyString) {
+    class_name_ = new ::std::string;
+  }
+  return class_name_;
+}
+inline ::std::string* ConfigClassData::release_class_name() {
+  clear_has_class_name();
+  if (class_name_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = class_name_;
+    class_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void ConfigClassData::set_allocated_class_name(::std::string* class_name) {
+  if (class_name_ != &::google::protobuf::internal::kEmptyString) {
+    delete class_name_;
+  }
+  if (class_name) {
+    set_has_class_name();
+    class_name_ = class_name;
+  } else {
+    clear_has_class_name();
+    class_name_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// required bytes class_Type = 2;
+inline bool ConfigClassData::has_class_type() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void ConfigClassData::set_has_class_type() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void ConfigClassData::clear_has_class_type() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void ConfigClassData::clear_class_type() {
+  if (class_type_ != &::google::protobuf::internal::kEmptyString) {
+    class_type_->clear();
+  }
+  clear_has_class_type();
+}
+inline const ::std::string& ConfigClassData::class_type() const {
+  return *class_type_;
+}
+inline void ConfigClassData::set_class_type(const ::std::string& value) {
+  set_has_class_type();
+  if (class_type_ == &::google::protobuf::internal::kEmptyString) {
+    class_type_ = new ::std::string;
+  }
+  class_type_->assign(value);
+}
+inline void ConfigClassData::set_class_type(const char* value) {
+  set_has_class_type();
+  if (class_type_ == &::google::protobuf::internal::kEmptyString) {
+    class_type_ = new ::std::string;
+  }
+  class_type_->assign(value);
+}
+inline void ConfigClassData::set_class_type(const void* value, size_t size) {
+  set_has_class_type();
+  if (class_type_ == &::google::protobuf::internal::kEmptyString) {
+    class_type_ = new ::std::string;
+  }
+  class_type_->assign(reinterpret_cast<const char*>(value), size);
+}
+inline ::std::string* ConfigClassData::mutable_class_type() {
+  set_has_class_type();
+  if (class_type_ == &::google::protobuf::internal::kEmptyString) {
+    class_type_ = new ::std::string;
+  }
+  return class_type_;
+}
+inline ::std::string* ConfigClassData::release_class_type() {
+  clear_has_class_type();
+  if (class_type_ == &::google::protobuf::internal::kEmptyString) {
+    return NULL;
+  } else {
+    ::std::string* temp = class_type_;
+    class_type_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+    return temp;
+  }
+}
+inline void ConfigClassData::set_allocated_class_type(::std::string* class_type) {
+  if (class_type_ != &::google::protobuf::internal::kEmptyString) {
+    delete class_type_;
+  }
+  if (class_type) {
+    set_has_class_type();
+    class_type_ = class_type;
+  } else {
+    clear_has_class_type();
+    class_type_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  }
+}
+
+// repeated .NFMsg.ConfigElementData element_list = 3;
+inline int ConfigClassData::element_list_size() const {
+  return element_list_.size();
+}
+inline void ConfigClassData::clear_element_list() {
+  element_list_.Clear();
+}
+inline const ::NFMsg::ConfigElementData& ConfigClassData::element_list(int index) const {
+  return element_list_.Get(index);
+}
+inline ::NFMsg::ConfigElementData* ConfigClassData::mutable_element_list(int index) {
+  return element_list_.Mutable(index);
+}
+inline ::NFMsg::ConfigElementData* ConfigClassData::add_element_list() {
+  return element_list_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigElementData >&
+ConfigClassData::element_list() const {
+  return element_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigElementData >*
+ConfigClassData::mutable_element_list() {
+  return &element_list_;
+}
+
+// repeated .NFMsg.ConfigClassPropertyInfo property_info_list = 4;
+inline int ConfigClassData::property_info_list_size() const {
+  return property_info_list_.size();
+}
+inline void ConfigClassData::clear_property_info_list() {
+  property_info_list_.Clear();
+}
+inline const ::NFMsg::ConfigClassPropertyInfo& ConfigClassData::property_info_list(int index) const {
+  return property_info_list_.Get(index);
+}
+inline ::NFMsg::ConfigClassPropertyInfo* ConfigClassData::mutable_property_info_list(int index) {
+  return property_info_list_.Mutable(index);
+}
+inline ::NFMsg::ConfigClassPropertyInfo* ConfigClassData::add_property_info_list() {
+  return property_info_list_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassPropertyInfo >&
+ConfigClassData::property_info_list() const {
+  return property_info_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassPropertyInfo >*
+ConfigClassData::mutable_property_info_list() {
+  return &property_info_list_;
+}
+
+// repeated .NFMsg.ConfigClassRecordInfo record_info_list = 5;
+inline int ConfigClassData::record_info_list_size() const {
+  return record_info_list_.size();
+}
+inline void ConfigClassData::clear_record_info_list() {
+  record_info_list_.Clear();
+}
+inline const ::NFMsg::ConfigClassRecordInfo& ConfigClassData::record_info_list(int index) const {
+  return record_info_list_.Get(index);
+}
+inline ::NFMsg::ConfigClassRecordInfo* ConfigClassData::mutable_record_info_list(int index) {
+  return record_info_list_.Mutable(index);
+}
+inline ::NFMsg::ConfigClassRecordInfo* ConfigClassData::add_record_info_list() {
+  return record_info_list_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassRecordInfo >&
+ConfigClassData::record_info_list() const {
+  return record_info_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassRecordInfo >*
+ConfigClassData::mutable_record_info_list() {
+  return &record_info_list_;
+}
+
+// -------------------------------------------------------------------
+
+// ConfigData
+
+// repeated .NFMsg.ConfigClassData class_list = 1;
+inline int ConfigData::class_list_size() const {
+  return class_list_.size();
+}
+inline void ConfigData::clear_class_list() {
+  class_list_.Clear();
+}
+inline const ::NFMsg::ConfigClassData& ConfigData::class_list(int index) const {
+  return class_list_.Get(index);
+}
+inline ::NFMsg::ConfigClassData* ConfigData::mutable_class_list(int index) {
+  return class_list_.Mutable(index);
+}
+inline ::NFMsg::ConfigClassData* ConfigData::add_class_list() {
+  return class_list_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassData >&
+ConfigData::class_list() const {
+  return class_list_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::NFMsg::ConfigClassData >*
+ConfigData::mutable_class_list() {
+  return &class_list_;
 }
 
 // -------------------------------------------------------------------

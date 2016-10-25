@@ -16,6 +16,22 @@
 #include "NFComm/NFCore/NFIRecordManager.h"
 #include "NFComm/NFCore/NFIComponentManager.h"
 
+class NFIElementConfigInfo
+{
+public:
+    NFIElementConfigInfo()
+    {
+    }
+
+    virtual ~NFIElementConfigInfo()
+    {
+    }
+
+    virtual NF_SHARE_PTR<NFIPropertyManager> GetPropertyManager() = 0;
+    virtual NF_SHARE_PTR<NFIRecordManager> GetRecordManager() = 0;
+    virtual NF_SHARE_PTR<NFIComponentManager> GetComponentManager() = 0;
+};
+
 class NFIElementModule
     : public NFIModule
 {
@@ -29,6 +45,8 @@ public:
 
     virtual bool ExistElement(const std::string& strConfigName) = 0;
     virtual bool ExistElement(const std::string& strClassName, const std::string& strConfigName) = 0;
+    virtual NF_SHARE_PTR<NFIElementConfigInfo> AddNewElement(const std::string& strConfigName) = 0;
+    virtual NF_SHARE_PTR<NFIElementConfigInfo> GetElementInfo(const std::string& strConfigName) = 0;
 
     virtual std::shared_ptr<NFIPropertyManager> GetPropertyManager(const std::string& strConfigName) = 0;
     virtual std::shared_ptr<NFIRecordManager> GetRecordManager(const std::string& strConfigName) = 0;
