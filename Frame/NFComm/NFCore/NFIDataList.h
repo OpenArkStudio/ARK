@@ -61,6 +61,35 @@ public:
         TData(TDATA_TYPE eType)
         {
             nType = eType;
+            switch (eType)
+            {
+            case TDATA_INT:
+            {
+                NFINT64 nVlaue = 0;
+                variantData = nVlaue;
+            }
+            break;
+            case TDATA_FLOAT:
+            {
+                double fVlaue = 0.0f;
+                variantData = fVlaue;
+            }
+            break;
+            case TDATA_STRING:
+            {
+                std::string strVlaue;
+                variantData = strVlaue;
+            }
+            break;
+            case TDATA_OBJECT:
+            {
+                NFGUID nVlaue;
+                variantData = nVlaue;
+            }
+            break;
+            default:
+                break;
+            }
         }
 
         TData(const TData& value)
