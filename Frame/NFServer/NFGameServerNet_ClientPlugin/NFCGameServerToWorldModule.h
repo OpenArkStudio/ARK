@@ -40,12 +40,12 @@ public:
 
 protected:
 
-    void OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
+    void OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID);
 
 protected:
-    void Register(NFINet* pNet);
+    void Register(const int nSeverID);
     void RefreshWorldInfo();
-    void TransPBToProxy(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
+    void TransPBToProxy(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 
     int OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& var);
 

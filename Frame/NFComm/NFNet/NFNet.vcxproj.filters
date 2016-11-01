@@ -2,9 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="NFCNet.cpp" />
+    <ClCompile Include="NFCMulNet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NFCNet.h" />
     <ClInclude Include="NFINet.h" />
+    <ClInclude Include="NFCMulNet.h" />
   </ItemGroup>
 </Project>

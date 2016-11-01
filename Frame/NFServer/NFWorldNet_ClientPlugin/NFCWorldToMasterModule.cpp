@@ -81,7 +81,7 @@ bool NFCWorldToMasterModule::Execute()
 	return true;
 }
 
-void NFCWorldToMasterModule::Register(NFINet* pNet)
+void NFCWorldToMasterModule::Register(const int nServerID)
 {
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if (nullptr != xLogicClass)
@@ -112,7 +112,7 @@ void NFCWorldToMasterModule::Register(NFINet* pNet)
                 pData->set_server_state(NFMsg::EST_NARMAL);
                 pData->set_server_type(nServerType);
 
-                NF_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(pNet);
+                NF_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
                 if (pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
@@ -130,7 +130,7 @@ void NFCWorldToMasterModule::RefreshWorldInfo()
 
 }
 
-void NFCWorldToMasterModule::OnSelectServerProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen)
+void NFCWorldToMasterModule::OnSelectServerProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
 {
     NFGUID nPlayerID;
     NFMsg::ReqConnectWorld xMsg;
@@ -160,7 +160,7 @@ void NFCWorldToMasterModule::OnSelectServerProcess(const int nSockIndex, const i
 
 }
 
-void NFCWorldToMasterModule::OnKickClientProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen)
+void NFCWorldToMasterModule::OnKickClientProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
 {
     NFGUID nPlayerID;
     NFMsg::ReqKickFromWorld xMsg;
@@ -175,12 +175,12 @@ void NFCWorldToMasterModule::OnKickClientProcess(const int nSockIndex, const int
     //     m_pEventProcessModule->DoEvent(NFGUID(), NFED_ON_KICK_FROM_SERVER, var);
 }
 
-void NFCWorldToMasterModule::InvalidMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen)
+void NFCWorldToMasterModule::InvalidMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const NFGUID& xClientID)
 {
 	printf("NFNet || 非法消息:unMsgID=%d\n", nMsgID);
 }
 
-void NFCWorldToMasterModule::OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, NFINet* pNet)
+void NFCWorldToMasterModule::OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID)
 {
     if (eEvent & NF_NET_EVENT_EOF)
     {
@@ -197,7 +197,7 @@ void NFCWorldToMasterModule::OnSocketMSEvent(const int nSockIndex, const NF_NET_
     else  if (eEvent == NF_NET_EVENT_CONNECTED)
     {
         m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
-        Register(pNet);
+        Register(nServerID);
     }
 }
 

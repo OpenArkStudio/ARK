@@ -11,9 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="NFCMulNet.cpp" />
     <ClCompile Include="NFCNet.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="NFCMulNet.h" />
     <ClInclude Include="NFCNet.h" />
     <ClInclude Include="NFINet.h" />
   </ItemGroup>

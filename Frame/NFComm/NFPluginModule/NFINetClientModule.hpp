@@ -93,12 +93,12 @@ public:
     }
 
     template<typename BaseType>
-    bool AddReceiveCallBack(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t))
+    bool AddReceiveCallBack(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID& ))
     {
         std::map<int, NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxReceiveCallBack.find(nMsgID);
         if (mxReceiveCallBack.end() == it)
         {
-            NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+            NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
             NET_RECEIVE_FUNCTOR_PTR functorPtr(new NET_RECEIVE_FUNCTOR(functor));
 
             mxReceiveCallBack.insert(std::map<int, NET_RECEIVE_FUNCTOR_PTR>::value_type(nMsgID, functorPtr));
@@ -112,9 +112,9 @@ public:
     }
 
     template<typename BaseType>
-    int AddReceiveCallBack(BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t))
+    int AddReceiveCallBack(BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID&))
     {
-        NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         NET_RECEIVE_FUNCTOR_PTR functorPtr(new NET_RECEIVE_FUNCTOR(functor));
 
         mxCallBackList.push_back(functorPtr);
@@ -123,9 +123,9 @@ public:
     }
 
     template<typename BaseType>
-    bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const int, const NF_NET_EVENT, NFINet*))
+    bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const int, const NF_NET_EVENT, const NFGUID&, const int ))
     {
-        NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         NET_EVENT_FUNCTOR_PTR functorPtr(new NET_EVENT_FUNCTOR(functor));
 
         mxEventCallBack.push_back(functorPtr);
@@ -339,7 +339,7 @@ protected:
 
                 pServerData->eState = ConnectDataState::CONNECTING;
                 pServerData->mxNetModule = NF_SHARE_PTR<NFINetModule>(NF_NEW NFINetModule(pPluginManager));
-                pServerData->mxNetModule->Initialization(pServerData->strIP.c_str(), pServerData->nPort);
+                pServerData->mxNetModule->Initialization(pServerData->strIP.c_str(), pServerData->nPort, pServerData->nGameID);
                 InitNetCallback(pServerData);
             }
             break;
@@ -386,21 +386,21 @@ private:
         LogServerInfo();
     }
 
-    void OnSocketEvent(const int fd, const NF_NET_EVENT eEvent, NFINet* pNet)
+    void OnSocketEvent(const int fd, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID)
     {
         if (eEvent & BEV_EVENT_CONNECTED)
         {
-            OnConnected(fd, pNet);
+            OnConnected(fd, xClientID, nServerID);
         }
         else
         {
-            OnDisConnected(fd, pNet);
+            OnDisConnected(fd, xClientID, nServerID);
         }
     }
 
-    int OnConnected(const int fd, NFINet* pNet)
+    int OnConnected(const int fd, const NFGUID& xClientID, const int nServerID)
     {
-        NF_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(pNet);
+        NF_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
         if (pServerInfo.get())
         {
             AddServerWeightData(pServerInfo);
@@ -410,9 +410,9 @@ private:
         return 0;
     }
 
-    int OnDisConnected(const int fd, NFINet* pNet)
+    int OnDisConnected(const int fd, const NFGUID& xClientID, const int nServerID)
     {
-        NF_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(pNet);
+        NF_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
         if (nullptr != pServerInfo)
         {
             RemoveServerWeightData(pServerInfo);
@@ -444,7 +444,7 @@ private:
                 xServerData->mnLastActionTime = GetPluginManager()->GetNowTime();
 
                 xServerData->mxNetModule = NF_SHARE_PTR<NFINetModule>(NF_NEW NFINetModule(pPluginManager));
-                xServerData->mxNetModule->Initialization(xServerData->strIP.c_str(), xServerData->nPort);
+                xServerData->mxNetModule->Initialization(xServerData->strIP.c_str(), xServerData->nPort, xServerData->nGameID);
                 InitNetCallback(xServerData.get());
 
                 mxServerMap.AddElement(xInfo.nGameID, xServerData);

@@ -84,7 +84,7 @@ bool NFCLoginToMasterModule::Execute()
 	return true;
 }
 
-void NFCLoginToMasterModule::Register(NFINet* pNet)
+void NFCLoginToMasterModule::Register(const int nServerID)
 {
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if (nullptr != xLogicClass)
@@ -115,7 +115,7 @@ void NFCLoginToMasterModule::Register(NFINet* pNet)
                 pData->set_server_state(NFMsg::EST_NARMAL);
                 pData->set_server_type(nServerType);
 
-                NF_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(pNet);
+                NF_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
                 if (pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
@@ -128,7 +128,7 @@ void NFCLoginToMasterModule::Register(NFINet* pNet)
     }
 }
 
-void NFCLoginToMasterModule::OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen)
+void NFCLoginToMasterModule::OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
 {
     NFGUID nPlayerID;
     NFMsg::AckConnectWorldResult xMsg;
@@ -140,7 +140,7 @@ void NFCLoginToMasterModule::OnSelectServerResultProcess(const int nSockIndex, c
     m_pLoginNet_ServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), NFINetModule::PBToNF(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_ip(), xMsg.world_port(), xMsg.world_key());
 }
 
-void NFCLoginToMasterModule::OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, NFINet* pNet)
+void NFCLoginToMasterModule::OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID)
 {
     if (eEvent & NF_NET_EVENT_EOF)
     {
@@ -157,11 +157,11 @@ void NFCLoginToMasterModule::OnSocketMSEvent(const int nSockIndex, const NF_NET_
     else  if (eEvent == NF_NET_EVENT_CONNECTED)
     {
         m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
-        Register(pNet);
+        Register(nServerID);
     }
 }
 
-void NFCLoginToMasterModule::OnWorldInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen)
+void NFCLoginToMasterModule::OnWorldInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
 {
     NFGUID nPlayerID ;
     NFMsg::ServerInfoReportList xMsg;
