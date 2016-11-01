@@ -67,7 +67,7 @@ bool NFCGameServerNet_ServerModule::AfterInit()
                 const std::string& strName = m_pElementModule->GetPropertyString(strConfigName, "Name");
                 const std::string& strIP = m_pElementModule->GetPropertyString(strConfigName, "IP");
 
-                int nRet = m_pNetModule->Initialization(nMaxConnect, nPort, nCpus, nServerID);
+                int nRet = m_pNetModule->Initialization(nMaxConnect, nPort, nServerID, nCpus);
                 if (nRet < 0)
                 {
                     std::ostringstream strLog;
