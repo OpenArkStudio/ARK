@@ -235,10 +235,10 @@ protected:
 
 class NFINet;
 
-typedef std::function<void(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen)> NET_RECEIVE_FUNCTOR;
+typedef std::function<void(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
 typedef std::shared_ptr<NET_RECEIVE_FUNCTOR> NET_RECEIVE_FUNCTOR_PTR;
 
-typedef std::function<void(const int nSockIndex, const NF_NET_EVENT nEvent, NFINet* pNet)> NET_EVENT_FUNCTOR;
+typedef std::function<void(const int nSockIndex, const NF_NET_EVENT nEvent, const NFGUID& nClientID, const int nServerID)> NET_EVENT_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 
 typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
@@ -249,8 +249,6 @@ class NetObject
 public:
     NetObject(NFINet* pNet, int32_t fd, sockaddr_in& addr, bufferevent* pBev)
     {
-        mnLogicState = 0;
-        mnGameID = 0;
         nFD = fd;
         bNeedRemove = false;
 
@@ -320,16 +318,6 @@ public:
     {
         return m_pNet;
     }
-    //////////////////////////////////////////////////////////////////////////
-    int GetConnectKeyState() const
-    {
-        return mnLogicState;
-    }
-
-    void SetConnectKeyState(const int nState)
-    {
-        mnLogicState = nState;
-    }
     bool NeedRemove()
     {
         return bNeedRemove;
@@ -347,24 +335,6 @@ public:
     {
         mstrUserData = strData;
     }
-    int GetGameID() const
-    {
-        return mnGameID;
-    }
-
-    void SetGameID(const int nData)
-    {
-        mnGameID = nData;
-    }
-    const NFGUID& GetUserID()
-    {
-        return mnUserID;
-    }
-
-    void SetUserID(const NFGUID& nUserID)
-    {
-        mnUserID = nUserID;
-    }
 
     const NFGUID& GetClientID()
     {
@@ -374,15 +344,6 @@ public:
     void SetClientID(const NFGUID& xClientID)
     {
         mnClientID = xClientID;
-    }
-    const NFGUID& GetHashIdentID()
-    {
-        return mnHashIdentID;
-    }
-
-    void SetHashIdentID(const NFGUID& xHashIdentID)
-    {
-        mnHashIdentID = xHashIdentID;
     }
 
     int GetRealFD()
@@ -396,15 +357,12 @@ private:
     std::string mstrBuff;
     std::string mstrUserData;
 
-    int32_t mnLogicState;
-    int32_t mnGameID;
-    NFGUID mnUserID;//player id
-    NFGUID mnClientID;//temporary client id
-    NFGUID mnHashIdentID;//hash ident, special for distributed
+     NFGUID mnClientID;//temporary client id
+
     NFINet* m_pNet;
-    //
     int nFD;
     bool bNeedRemove;
+    
 };
 
 class NFINet
@@ -413,13 +371,14 @@ public:
     //need to call this function every frame to drive network library
     virtual bool Execute() = 0;
 
-    virtual void Initialization(const char* strIP, const unsigned short nPort) = 0;
-    virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nCpuCount = 4) = 0;
+    virtual void Initialization(const char* strIP, const unsigned short nPort, const int nServerID) = 0;
+    virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nServerID, const int nCpuCount) = 0;
 
     virtual bool Final() = 0;
 
     //send a message with out msg-head[auto add msg-head in this function]
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const int nSockIndex = 0) = 0;
+    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID xClientID) = 0;
 
     //send a message to all client[need to add msg-head for this message by youself]
     virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen) = 0;
@@ -428,8 +387,9 @@ public:
     virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen) = 0;
 
     virtual bool CloseNetObject(const int nSockIndex) = 0;
-    virtual NetObject* GetNetObject(const int nSockIndex) = 0;
-    virtual bool AddNetObject(const int nSockIndex, NetObject* pObject) = 0;
+    virtual bool CloseNetObject(const NFGUID& xClientID) = 0;
+//     virtual NetObject* GetNetObject(const int nSockIndex) = 0;
+//     virtual bool AddNetObject(const int nSockIndex, NetObject* pObject) = 0;
 
     virtual bool IsServer() = 0;
 

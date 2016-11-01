@@ -60,31 +60,31 @@ public:
     virtual int OnSelectWorldResultsProcess(const int nWorldID, const NFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strKey);
 
 protected:
-    void OnSocketClientEvent(const int nSockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
+    void OnSocketClientEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID);
 
 protected:
-    void OnClientDisconnect(const int nAddress);
-    void OnClientConnected(const int nAddress);
+    void OnClientDisconnect(const int nAddress, const NFGUID& xClientID);
+    void OnClientConnected(const int nAddress, const NFGUID& xClientID);
 
     //登入
-    void OnLoginProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
+    void OnLoginProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 
     //选择大世界
-    void OnSelectWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
+    void OnSelectWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 
     //申请查看世界列表
-    void OnViewWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
+    void OnViewWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 
-	void OnHeartBeat(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
-	void OnLogOut(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
-	void InvalidMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
+	void OnHeartBeat(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
+	void OnLogOut(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
+	void InvalidMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 
 protected:
 
 protected:
     void SynWorldToClient(const int nFD);
 
-    NFMapEx<NFGUID, int> mxClientIdent;
+    NFMapEx<NFGUID, SessionData> mmClientSessionData;
 
 private:
 

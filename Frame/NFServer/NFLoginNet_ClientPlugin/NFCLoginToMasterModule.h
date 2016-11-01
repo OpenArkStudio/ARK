@@ -44,16 +44,16 @@ public:
     virtual NFMapEx<int, NFMsg::ServerInfoReport>& GetWorldMap();
 
 protected:
-    void OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
+    void OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID);
 
 protected:
 
     //////////////////////////////////////////////////////////////////////////
-	void OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
-	void OnWorldInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
+	void OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
+	void OnWorldInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 
     //////////////////////////////////////////////////////////////////////////
-    void Register(NFINet* pNet);
+    void Register(const int nServerID);
 
 private:
     NFMapEx<int, NFMsg::ServerInfoReport> mWorldMap;

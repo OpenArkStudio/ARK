@@ -35,7 +35,7 @@ bool NFCGameServerToWorldModule::Execute()
 	return true;
 }
 
-void NFCGameServerToWorldModule::Register(NFINet* pNet)
+void NFCGameServerToWorldModule::Register(const int nSeverID)
 {
     //³É¹¦¾Í×¢²á
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
@@ -67,7 +67,7 @@ void NFCGameServerToWorldModule::Register(NFINet* pNet)
                 pData->set_server_state(NFMsg::EST_NARMAL);
                 pData->set_server_type(nServerType);
 
-                NF_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(pNet);
+                NF_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nSeverID);
                 if (pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
@@ -147,7 +147,7 @@ bool NFCGameServerToWorldModule::AfterInit()
     return true;
 }
 
-void NFCGameServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, NFINet* pNet)
+void NFCGameServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID)
 {
     if (eEvent & NF_NET_EVENT_EOF)
     {
@@ -161,7 +161,7 @@ void NFCGameServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF_
     else  if (eEvent == NF_NET_EVENT_CONNECTED)
     {
         m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
-        Register(pNet);
+        Register(nServerID);
 
     }
 }
@@ -205,7 +205,7 @@ void NFCGameServerToWorldModule::SendOffline(const NFGUID& self)
 
 }
 
-void NFCGameServerToWorldModule::TransPBToProxy(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen)
+void NFCGameServerToWorldModule::TransPBToProxy(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
 {
     NFGUID nPlayerID;
     std::string strData;

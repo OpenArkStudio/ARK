@@ -42,14 +42,14 @@ public:
 
 protected:
 
-    void OnSocketGSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
+    void OnSocketGSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID);
 
-    void Register(NFINet* pNet);
+    void Register(const int nServerID);
 
-    void OnAckEnterGame(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
+    void OnAckEnterGame(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
     void LogServerInfo(const std::string& strServerInfo);
 
-	void Transpond(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
+	void Transpond(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 
 private:
 

@@ -38,7 +38,7 @@ public:
 
 protected:
 
-    void OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, NFINet* pNet);
+    void OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID);
 
     //连接丢失,删2层(连接对象，帐号对象)
     void OnClientDisconnect(const int nAddress);
@@ -48,13 +48,13 @@ protected:
     virtual void LogServerInfo(const std::string& strServerInfo);
 
 
-    void Register(NFINet* pNet);
+    void Register(const int nServerID);
     void RefreshWorldInfo();
 
-    void OnSelectServerProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
-    void OnKickClientProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
+    void OnSelectServerProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
+    void OnKickClientProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 
-	void InvalidMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen);
+	void InvalidMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 private:
 
     NFILogModule* m_pLogModule;
