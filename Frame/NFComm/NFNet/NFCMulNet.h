@@ -6,8 +6,8 @@
 //    @Desc             :     NFCMulNet
 // -------------------------------------------------------------------------
 
-#ifndef NFC_NET_H
-#define NFC_NET_H
+#ifndef NFC_MULNET_H
+#define NFC_MULNET_H
 
 #include <thread>
 #include <atomic>
@@ -97,7 +97,7 @@ public:
     };
 
     template<typename BaseType>
-    NFCMulNet(BaseType* pBaseType, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID), void (BaseType::*handleEvent)(const int, const NF_NET_EVENT, const NFGUID, const int))
+    NFCMulNet(BaseType* pBaseType, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID&), void (BaseType::*handleEvent)(const int, const NF_NET_EVENT, const NFGUID&, const int))
     {
         base = NULL;
         listener = NULL;
@@ -132,7 +132,7 @@ public:
 
     //�ް�ͷ���ڲ���װ
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const int nSockIndex);
-    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID xClientID);
+    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 
     //�ް�ͷ���ڲ���װ
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const std::list<int>& fdList);
@@ -142,6 +142,7 @@ public:
 
 
     virtual bool CloseNetObject(const int nSockIndex);
+    virtual bool CloseNetObject(const NFGUID& xClientID);
 
     virtual bool IsServer();
     virtual bool Log(int severity, const char* msg);
@@ -161,8 +162,8 @@ private:
     bool SendMsg(const char* msg, const uint32_t nLen, const int nSockIndex);
     bool SendMsg(const char* msg, const uint32_t nLen, const NFGUID& xClient);
 
-    bool AddNetObject(const int nSockIndex, NetObject* pObject);
-    NetObject* GetNetObject(const int nSockIndex);
+    bool NetThreadAddNetObject(const int nSockIndex, NetObject* pObject);
+    NetObject* NetThreadGetNetObject(const int nSockIndex);
 
 private:
     bool NetThreadSendMsgToAllClient(const char* msg, const uint32_t nLen);
@@ -171,6 +172,7 @@ private:
     void ProcessMsgNetThread();
     void ProcessNetTaskNetThread();
     void ProcessMsgLogicThread();
+    bool NetThreadCloseNetObject(const int nSockIndex);
 
 private:
     void ExecuteClose();
