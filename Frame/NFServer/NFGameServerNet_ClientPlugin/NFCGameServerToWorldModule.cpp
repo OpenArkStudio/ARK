@@ -81,6 +81,51 @@ void NFCGameServerToWorldModule::Register(const int nSeverID)
 }
 
 
+void NFCGameServerToWorldModule::TestNet(const int nSeverID)
+{
+    //成功就注册
+    NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    if (nullptr != xLogicClass)
+    {
+        NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+        std::string strConfigName;
+        for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+        {
+            const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
+            const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
+            if (nServerType == NF_SERVER_TYPES::NF_ST_GAME && pPluginManager->AppID() == nServerID)
+            {
+                const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
+                const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
+                const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
+                const std::string& strName = m_pElementModule->GetPropertyString(strConfigName, "Name");
+                const std::string& strIP = m_pElementModule->GetPropertyString(strConfigName, "IP");
+
+                NFMsg::ServerInfoReportList xMsg;
+                NFMsg::ServerInfoReport* pData = xMsg.add_server_list();
+
+                pData->set_server_id(nServerID);
+                pData->set_server_name(strName);
+                pData->set_server_cur_count(0);
+                pData->set_server_ip(strIP);
+                pData->set_server_port(nPort);
+                pData->set_server_max_online(nMaxConnect);
+                pData->set_server_state(NFMsg::EST_NARMAL);
+                pData->set_server_type(nServerType);
+
+                NF_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nSeverID);
+                if (pServerData)
+                {
+                    int nTargetID = pServerData->nGameID;
+                    m_pNetClientModule->SendToServerByPB(nTargetID, NFMsg::EGameMsgID::EGMI_NET_TEST_PING, xMsg);
+
+                    m_pLogModule->LogInfo(NFGUID(0, pData->server_id()), pData->server_name(), "Register");
+                }
+            }
+        }
+    }
+}
+
 void NFCGameServerToWorldModule::RefreshWorldInfo()
 {
     //     _tagPT_KEY_BASE_MSG baseMsg;
@@ -112,6 +157,7 @@ bool NFCGameServerToWorldModule::AfterInit()
 	m_pNetClientModule->AddEventCallBack(this, &NFCGameServerToWorldModule::OnSocketWSEvent);
 
     m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &NFCGameServerToWorldModule::OnObjectClassEvent);
+    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_STS_NET_INFO, this, &NFCLoginToMasterModule::OnWorldInfoProcess);
 
     // 连接world server
     NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
@@ -162,7 +208,7 @@ void NFCGameServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF_
     {
         m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
         Register(nServerID);
-
+        TestNet(nServerID);
     }
 }
 
@@ -227,4 +273,32 @@ void NFCGameServerToWorldModule::SendBySuit(const int& nHashKey, const int nMsgI
 NFINetClientModule* NFCGameServerToWorldModule::GetClusterClientModule()
 {
     return m_pNetClientModule;
+}
+
+
+void NFCGameServerToWorldModule::OnTestMsgPongProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+{
+    NFGUID nPlayerID;
+    NFMsg::ServerInfoReportList xMsg;
+    if (!NFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
+    {
+        return;
+    }
+
+    for (int i = 0; i < xMsg.server_list_size(); ++i)
+    {
+        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+
+        NF_SHARE_PTR<NFMsg::ServerInfoReport> pServerData = mWorldMap.GetElement(xData.server_id());
+        if (nullptr == pServerData)
+        {
+            pServerData = NF_SHARE_PTR<NFMsg::ServerInfoReport>(NF_NEW NFMsg::ServerInfoReport());
+            *pServerData = xData;
+
+            mWorldMap.AddElement(xData.server_id(), pServerData);
+        }
+
+    }
+
+    m_pLogModule->LogInfo(NFGUID(0, xMsg.server_list_size()), "", "WorldInfo");
 }

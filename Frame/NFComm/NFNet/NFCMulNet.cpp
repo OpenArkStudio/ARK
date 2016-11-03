@@ -24,6 +24,7 @@
 #include <atomic>
 
 std::atomic_uint64_t NFCMulNet::mObjectIndex = 0;
+std::atomic_uint64_t NFCMulNet::mThreadExit = 0;
 
 void NFCMulNet::conn_writecb(struct bufferevent* bev, void* user_data)
 {
@@ -69,7 +70,7 @@ void NFCMulNet::listener_cb(struct evconnlistener* listener, evutil_socket_t fd,
 {
     //����������
     NFCMulNet* pNet = (NFCMulNet*)user_data;
-    bool bClose = pNet->CloseNetObject(fd);
+    bool bClose = pNet->NetThreadCloseNetObject(fd);
     if (bClose)
     {
         return;
@@ -96,7 +97,7 @@ void NFCMulNet::listener_cb(struct evconnlistener* listener, evutil_socket_t fd,
     struct sockaddr_in* pSin = (sockaddr_in*)sa;
 
     NetObject* pObject = new NetObject(pNet, fd, *pSin, bev);
-    pNet->AddNetObject(fd, pObject);
+    pNet->NetThreadAddNetObject(fd, pObject);
 
     //Ϊbufferevent���ø��ֻص�
     bufferevent_setcb(bev, conn_readcb, conn_writecb, conn_eventcb, (void*)pObject);
@@ -174,12 +175,19 @@ bool NFCMulNet::Execute()
 
 void NFCMulNet::Initialization(const char* strIP, const unsigned short nPort, const int nServerID )
 {
-    mpNetThread = new std::thread(&NFCMulNet::MulThreadRunClient, this, strIP, nPort, nServerID);
+    if (!mpNetThread)
+    {
+        mpNetThread = new std::thread(&NFCMulNet::MulThreadRunClient, this, strIP, nPort, nServerID);
+    }
 }
 
 int NFCMulNet::Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nServerID, const int nCpuCount)
 {
-    mpNetThread = new std::thread(&NFCMulNet::MulThreadRunServer, this, nMaxClient, nPort, nCpuCount, nServerID);
+    if (!mpNetThread)
+    {
+        mpNetThread = new std::thread(&NFCMulNet::MulThreadRunServer, this, nMaxClient, nPort, nCpuCount, nServerID);
+    }
+
     return 0;
 }
 
@@ -265,7 +273,10 @@ void NFCMulNet::ProcessMsgLogicThread()
     for (size_t i = 0; i < 500; i++)
     {
         RecivemsgInfo xMsg;
-        mqReciveMsg.Pop(xMsg);
+        if (!mqReciveMsg.Pop(xMsg))
+        {
+            break;
+        }
 
         mRecvCB(xMsg.nRealSockIndex, xMsg.nMsgID, xMsg.strMsg.data(), xMsg.strMsg.size(), xMsg.xClientID);
     }
@@ -274,10 +285,29 @@ void NFCMulNet::ProcessMsgLogicThread()
     for (size_t i = 0; i < 500; i++)
     {
         EventInfo xMsg;
-        mqEventInfo.Pop(xMsg);
+        if (!mqEventInfo.Pop(xMsg))
+        {
+            break;
+        }
 
         mEventCB(xMsg.nSockIndex, (NF_NET_EVENT)xMsg.nEvent, xMsg.xClientID, mnServerID);
     }
+}
+
+bool NFCMulNet::NetThreadCloseNetObject(const int nSockIndex)
+{
+    std::map<int, NetObject*>::iterator it = mmObject.find(nSockIndex);
+    if (it != mmObject.end())
+    {
+        NetObject* pObject = it->second;
+
+        pObject->SetNeedRemove(true);
+        mvRemoveObject.push_back(nSockIndex);
+
+        return true;
+    }
+
+    return false;
 }
 
 void NFCMulNet::ProcessMsgNetThread()
@@ -286,7 +316,10 @@ void NFCMulNet::ProcessMsgNetThread()
     for (size_t i = 0; i < 500; i++)
     {
         SendmsgInfo xMsg;
-        mqSendMsg.Pop(xMsg);
+        if (!mqSendMsg.Pop(xMsg))
+        {
+            break;
+        }
 
         if (xMsg.bSendAllObject)
         {
@@ -483,6 +516,17 @@ bool NFCMulNet::CloseNetObject(const int nSockIndex)
     return false;
 }
 
+bool NFCMulNet::CloseNetObject(const NFGUID& xClientID)
+{
+    NetTaskInfo xMsg;
+    xMsg.nTaskType = NetTaskInfo::NETTASKTYPE_DELETEOBJECT;
+    xMsg.xClientID = xClientID;
+
+    mqNetTaskInfo.Push(xMsg);
+
+    return false;
+}
+
 bool NFCMulNet::Dismantle(NetObject* pObject)
 {
     bool bNeedDismantle = false;
@@ -526,7 +570,7 @@ bool NFCMulNet::Dismantle(NetObject* pObject)
     return bNeedDismantle;
 }
 
-bool NFCMulNet::AddNetObject(const int nSockIndex, NetObject* pObject)
+bool NFCMulNet::NetThreadAddNetObject(const int nSockIndex, NetObject* pObject)
 {
     pObject->SetClientID(NFGUID(nSockIndex, mObjectIndex++));
 
@@ -581,7 +625,7 @@ int NFCMulNet::InitClientNet()
 
     int sockfd = bufferevent_getfd(bev);
     NetObject* pObject = new NetObject(this, sockfd, addr, bev);
-    if (!AddNetObject(0, pObject))
+    if (!NetThreadAddNetObject(0, pObject))
     {
         assert(0);
         return -1;
@@ -718,7 +762,7 @@ bool NFCMulNet::CloseSocketAll()
     return true;
 }
 
-NetObject* NFCMulNet::GetNetObject(const int nSockIndex)
+NetObject* NFCMulNet::NetThreadGetNetObject(const int nSockIndex)
 {
     std::map<int, NetObject*>::iterator it = mmObject.find(nSockIndex);
     if (it != mmObject.end())
@@ -752,7 +796,7 @@ void NFCMulNet::ExecuteClose()
     for (int i = 0; i < mvRemoveObject.size(); ++i)
     {
         int nSocketIndex = mvRemoveObject[i];
-        CloseObject(nSocketIndex);
+        NetThreadCloseNetObject(nSocketIndex);
     }
 
     mvRemoveObject.clear();
@@ -787,7 +831,7 @@ bool NFCMulNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const 
     return false;
 }
 
-bool NFCMulNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID xClientID)
+bool NFCMulNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
 {
     std::string strOutData;
     int nAllLen = EnCode(nMsgID, msg, nLen, strOutData);

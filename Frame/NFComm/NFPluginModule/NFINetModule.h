@@ -443,14 +443,14 @@ public:
     }
 
 protected:
-	void OnReceiveNetPack(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID xClient)
+	void OnReceiveNetPack(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
 	{
 		std::map<int, NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxReceiveCallBack.find(nMsgID);
 		if (mxReceiveCallBack.end() != it)
 		{
 			NET_RECEIVE_FUNCTOR_PTR& pFunPtr = it->second;
 			NET_RECEIVE_FUNCTOR* pFunc = pFunPtr.get();
-			pFunc->operator()(nSockIndex, nMsgID, msg, nLen, xClient);
+			pFunc->operator()(nSockIndex, nMsgID, msg, nLen, xClientID);
 		}
 		else
 		{
@@ -458,18 +458,18 @@ protected:
 			{
 				NET_RECEIVE_FUNCTOR_PTR& pFunPtr = *it;
 				NET_RECEIVE_FUNCTOR* pFunc = pFunPtr.get();
-				pFunc->operator()(nSockIndex, nMsgID, msg, nLen, xClient);
+				pFunc->operator()(nSockIndex, nMsgID, msg, nLen, xClientID);
 			}
 		}
 	}
 
-	void OnSocketNetEvent(const int nSockIndex, const NF_NET_EVENT eEvent, NFGUID xClient, int nServerID)
+	void OnSocketNetEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, int nServerID)
 	{
 		for (std::list<NET_EVENT_FUNCTOR_PTR>::iterator it = mxEventCallBackList.begin(); it != mxEventCallBackList.end(); ++it)
 		{
 			NET_EVENT_FUNCTOR_PTR& pFunPtr = *it;
 			NET_EVENT_FUNCTOR* pFunc = pFunPtr.get();
-			pFunc->operator()(nSockIndex, eEvent, xClient, nServerID);
+			pFunc->operator()(nSockIndex, eEvent, xClientID, nServerID);
 		}
 	}
 

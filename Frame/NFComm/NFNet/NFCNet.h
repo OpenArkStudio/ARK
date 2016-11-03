@@ -34,7 +34,7 @@ public:
     }
 
     template<typename BaseType>
-    NFCNet(BaseType* pBaseType, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID), void (BaseType::*handleEvent)(const int, const NF_NET_EVENT, const NFGUID, const int))
+    NFCNet(BaseType* pBaseType, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID&), void (BaseType::*handleEvent)(const int, const NF_NET_EVENT, const NFGUID&, const int))
     {
         base = NULL;
         listener = NULL;
@@ -67,7 +67,7 @@ public:
 
     //�ް�ͷ���ڲ���װ
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const int nSockIndex);
-    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID xClientID);
+    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
 
     //�ް�ͷ���ڲ���װ
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const std::list<int>& fdList);

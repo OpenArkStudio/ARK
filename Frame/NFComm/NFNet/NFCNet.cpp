@@ -645,7 +645,7 @@ bool NFCNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uin
     return false;
 }
 
-bool NFCNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID xClientID)
+bool NFCNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
 {
     std::string strOutData;
     int nAllLen = EnCode(nMsgID, msg, nLen, strOutData);
