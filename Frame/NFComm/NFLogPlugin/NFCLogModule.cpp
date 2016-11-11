@@ -350,7 +350,7 @@ bool NFCLogModule::LogDebugFunctionDump(const NFGUID ident, const int nMsg, cons
 
 bool NFCLogModule::ChangeLogLevel(const std::string& strLevel, const std::string& strStatus)
 {
-    LogDebug(NFGUID(), "Load log.cnf ------------Begin", " ");
+    LogDebug(NULL_GUID, "Load log.cnf ------------Begin", " ");
 
     // 先用默认配置初始化，然后再调整log等级
     //Init();
@@ -408,9 +408,9 @@ bool NFCLogModule::ChangeLogLevel(const std::string& strLevel, const std::string
 
     std::ostringstream strLog;
     strLog << "[Log] Change log level = " << strLevel;
-    LogDebug(NFGUID(), strLog, __FUNCTION__, __LINE__);
+    LogDebug(NULL_GUID, strLog, __FUNCTION__, __LINE__);
 
-    LogDebug(NFGUID(), "Load log.cnf ------------End");
+    LogDebug(NULL_GUID, "Load log.cnf ------------End");
 
     return true;
 }

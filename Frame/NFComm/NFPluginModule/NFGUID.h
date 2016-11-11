@@ -82,7 +82,7 @@ struct NFGUID
 
     bool operator < (const NFGUID& id) const
     {
-        if (this->nHead64 == id.nHead64)
+        if(this->nHead64 == id.nHead64)
         {
             return this->nData64 < id.nData64;
         }
@@ -99,14 +99,14 @@ struct NFGUID
     {
         size_t nStrLength = strID.length();
         size_t nPos = strID.find('-');
-        if (nPos == std::string::npos)
+        if(nPos == std::string::npos)
         {
             return false;
         }
 
         std::string strHead = strID.substr(0, nPos);
         std::string strData = "";
-        if (nPos + 1 < nStrLength)
+        if(nPos + 1 < nStrLength)
         {
             strData = strID.substr(nPos + 1, nStrLength - nPos);
         }
@@ -118,7 +118,7 @@ struct NFGUID
 
             return true;
         }
-        catch (...)
+        catch(...)
         {
             return false;
         }

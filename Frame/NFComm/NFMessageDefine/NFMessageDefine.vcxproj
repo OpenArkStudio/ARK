@@ -149,7 +149,6 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
     <ClInclude Include="NFFleetingDefine.pb.h" />
     <ClInclude Include="NFLimit.h" />
     <ClInclude Include="NFMsgBase.pb.h" />
-    <ClInclude Include="NFMsgBaseEx.pb.h" />
     <ClInclude Include="NFMsgDefine.h" />
     <ClInclude Include="NFMsgMysql.pb.h" />
     <ClInclude Include="NFMsgPreGame.pb.h" />
@@ -162,7 +161,6 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
     <ClCompile Include="NFDefine.pb.cc" />
     <ClCompile Include="NFFleetingDefine.pb.cc" />
     <ClCompile Include="NFMsgBase.pb.cc" />
-    <ClCompile Include="NFMsgBaseEx.pb.cc" />
     <ClCompile Include="NFMsgDefine.cpp" />
     <ClCompile Include="NFMsgMysql.pb.cc" />
     <ClCompile Include="NFMsgPreGame.pb.cc" />

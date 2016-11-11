@@ -79,7 +79,7 @@ bool NFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGro
             arg << NFrame::NPC::Z() << pResource->fSeedZ;
             arg << NFrame::NPC::SeedID() << pResource->strSeedID;
 
-            m_pKernelModule->CreateObject(NFGUID(), nSceneID, nGroupID, strClassName, pResource->strConfigID, arg);
+            m_pKernelModule->CreateObject(NULL_GUID, nSceneID, nGroupID, strClassName, pResource->strConfigID, arg);
 
             pResource = pSceneResource->Next();
         }
@@ -150,32 +150,22 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
     }
 
     //µÃµ½×ø±ê
-    double fX = 0.0;
-    double fY = 0.0;
-    double fZ = 0.0;
+    Point3D xRelivePos;
     const std::string strSceneID = lexical_cast<std::string>(nTargetScene);
     const std::string& strRelivePosList = m_pElementModule->GetPropertyString(strSceneID, NFrame::Scene::RelivePos());
 
     NFCDataList valueRelivePosList(strRelivePosList.c_str(), ";");
-    if (valueRelivePosList.GetCount() >= 1)
+    if(valueRelivePosList.GetCount() >= 1)
     {
-        NFCDataList valueRelivePos(valueRelivePosList.String(0).c_str(), ",");
-        if (valueRelivePos.GetCount() == 3)
-        {
-            fX = lexical_cast<double>(valueRelivePos.String(0));
-            fY = lexical_cast<double>(valueRelivePos.String(1));
-            fZ = lexical_cast<double>(valueRelivePos.String(2));
-        }
+        xRelivePos.FromString(valueRelivePosList.String(0));
     }
 
     NFCDataList xSceneResult(var);
-    xSceneResult.Add(fX);
-    xSceneResult.Add(fY);
-    xSceneResult.Add(fZ);
+    xSceneResult.Add(xRelivePos);
 
     m_pKernelModule->DoEvent(self, NFED_ON_OBJECT_ENTER_SCENE_BEFORE, xSceneResult);
 
-    if (!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, fX, fY, fZ, 0.0f, var))
+    if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos.x, xRelivePos.y, xRelivePos.z, 0.0f, var))
     {
         m_pLogModule->LogInfo(ident, "SwitchScene failed", nTargetScene);
 

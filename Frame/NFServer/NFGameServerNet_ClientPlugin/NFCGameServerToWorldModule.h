@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCGameServerNet_ClientModule.h
+//    @FileName         :    NFCGameServerNet_ClientModule.h
 //    @Author           :    LvSheng.Huang
 //    @Date             :    2013-01-02
 //    @Module           :    NFCGameServerNet_ClientModule
@@ -39,7 +39,6 @@ public:
     virtual NFINetClientModule* GetClusterClientModule();
 
 protected:
-
     void OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID);
 
 protected:
@@ -49,20 +48,16 @@ protected:
 
     int OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& var);
 
-    void TestNet(const int nSeverID);
-    void OnTestMsgPongProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
-
 private:
     void SendOnline(const NFGUID& self);
     void SendOffline(const NFGUID& self);
 
 private:
-
     NFILogModule* m_pLogModule;
     NFIKernelModule* m_pKernelModule;
     NFIClassModule* m_pClassModule;
     NFIElementModule* m_pElementModule;
-	NFINetClientModule* m_pNetClientModule;
+    NFINetClientModule* m_pNetClientModule;
     NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
 };
 

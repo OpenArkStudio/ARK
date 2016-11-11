@@ -29,9 +29,16 @@ public:
     virtual void SetValue(const NFIProperty* pProperty);
 
     virtual bool SetInt(const NFINT64 value);
-    virtual bool SetFloat(const double value);
+    virtual bool SetDouble(const double value);
     virtual bool SetString(const std::string& value);
     virtual bool SetObject(const NFGUID& value);
+    virtual bool SetPoint(const Point3D& value);
+
+    virtual NFINT64 GetInt() const;
+    virtual double GetDouble() const;
+    virtual const std::string& GetString() const;
+    virtual const NFGUID& GetObject() const;
+    virtual const Point3D& GetPoint() const;
 
     virtual const TDATA_TYPE GetType() const;
     virtual const bool GeUsed() const;
@@ -47,11 +54,6 @@ public:
     virtual void SetPrivate(bool bPrivate);
     virtual void SetCache(bool bCache);
     virtual void SetRelationValue(const std::string& strRelation);
-
-    virtual NFINT64 GetInt() const;
-    virtual double GetFloat() const;
-    virtual const std::string& GetString() const;
-    virtual const NFGUID& GetObject() const;
 
     virtual const NFIDataList::TData& GetValue() const;
     virtual const NF_SHARE_PTR<NFList<std::string>> GetEmbeddedList() const;

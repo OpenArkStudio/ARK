@@ -20,7 +20,7 @@ class NFCHeartBeatManager : public NFIHeartBeatManager
 public:
     NFCHeartBeatManager()
     {
-        mSelf = NFGUID();
+        mSelf = NULL_GUID;
     }
 
     NFCHeartBeatManager(const NFGUID& self)

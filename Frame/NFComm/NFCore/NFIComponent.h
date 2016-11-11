@@ -73,7 +73,7 @@ public:
 
     virtual NFGUID Self()
     {
-        return NULL_OBJECT;
+        return NULL_GUID;
     }
 
     virtual const std::string& GetComponentName() const
