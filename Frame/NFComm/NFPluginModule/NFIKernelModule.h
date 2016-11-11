@@ -54,7 +54,7 @@ public:
     bool AddPropertyCallBack(const NFGUID& self, const std::string& strPropertyName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const NFIDataList::TData&, const NFIDataList::TData&))
     {
         NF_SHARE_PTR<NFIObject> pObject = GetObject(self);
-        if (pObject.get())
+        if(pObject.get())
         {
             return pObject->AddPropertyCallBack(strPropertyName, pBase, handler);
         }
@@ -122,45 +122,49 @@ public:
 
     virtual bool DestroyObject(const NFGUID& self) = 0;
     virtual bool DestroyAll() = 0;
-
+    //////////////////////////////////////////////////////////////////////////
     virtual bool FindProperty(const NFGUID& self, const std::string& strPropertyName) = 0;
 
-    virtual bool SetPropertyInt(const NFGUID& self, const std::string& strPropertyName, const NFINT64 nValue) = 0;
-    virtual bool SetPropertyFloat(const NFGUID& self, const std::string& strPropertyName, const double dValue) = 0;
-    virtual bool SetPropertyString(const NFGUID& self, const std::string& strPropertyName, const std::string& strValue) = 0;
-    virtual bool SetPropertyObject(const NFGUID& self, const std::string& strPropertyName, const NFGUID& objectValue) = 0;
+    virtual bool SetPropertyInt(const NFGUID& self, const std::string& strPropertyName, const NFINT64 value) = 0;
+    virtual bool SetPropertyDouble(const NFGUID& self, const std::string& strPropertyName, const double value) = 0;
+    virtual bool SetPropertyString(const NFGUID& self, const std::string& strPropertyName, const std::string& value) = 0;
+    virtual bool SetPropertyObject(const NFGUID& self, const std::string& strPropertyName, const NFGUID& value) = 0;
+    virtual bool SetPropertyPoint(const NFGUID& self, const std::string& strPropertyName, const Point3D& value) = 0;
 
     virtual NFINT64 GetPropertyInt(const NFGUID& self, const std::string& strPropertyName) = 0;
-    virtual double GetPropertyFloat(const NFGUID& self, const std::string& strPropertyName) = 0;
+    virtual double GetPropertyDouble(const NFGUID& self, const std::string& strPropertyName) = 0;
     virtual const std::string& GetPropertyString(const NFGUID& self, const std::string& strPropertyName) = 0;
     virtual const NFGUID& GetPropertyObject(const NFGUID& self, const std::string& strPropertyName) = 0;
-
+    virtual const Point3D& GetPropertyPoint(const NFGUID& self, const std::string& strPropertyName) = 0;
+    //////////////////////////////////////////////////////////////////////////
     virtual NF_SHARE_PTR<NFIRecord> FindRecord(const NFGUID& self, const std::string& strRecordName) = 0;
     virtual bool ClearRecord(const NFGUID& self, const std::string& strRecordName) = 0;
 
-    virtual bool SetRecordInt(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const NFINT64 nValue) = 0;
-    virtual bool SetRecordFloat(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const double dwValue) = 0;
-    virtual bool SetRecordString(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const std::string& strValue) = 0;
-    virtual bool SetRecordObject(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const NFGUID& objectValue) = 0;
+    virtual bool SetRecordInt(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const NFINT64 value) = 0;
+    virtual bool SetRecordDouble(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const double value) = 0;
+    virtual bool SetRecordString(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const std::string& value) = 0;
+    virtual bool SetRecordObject(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const NFGUID& value) = 0;
+    virtual bool SetRecordPoint(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const Point3D& value) = 0;
 
     virtual bool SetRecordInt(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFINT64 value) = 0;
-    virtual bool SetRecordFloat(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const double value) = 0;
+    virtual bool SetRecordDouble(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const double value) = 0;
     virtual bool SetRecordString(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const std::string& value) = 0;
     virtual bool SetRecordObject(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFGUID& value) = 0;
+    virtual bool SetRecordPoint(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const Point3D& value) = 0;
 
     virtual NFINT64 GetRecordInt(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol) = 0;
-    virtual double GetRecordFloat(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol) = 0;
+    virtual double GetRecordDouble(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol) = 0;
     virtual const std::string& GetRecordString(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol) = 0;
     virtual const NFGUID& GetRecordObject(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol) = 0;
+    virtual const Point3D& GetRecordPoint(const NFGUID& self, const std::string& strRecordName, const int nRow, const int nCol) = 0;
 
     virtual NFINT64 GetRecordInt(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
-    virtual double GetRecordFloat(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
+    virtual double GetRecordDouble(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
     virtual const std::string& GetRecordString(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
     virtual const NFGUID& GetRecordObject(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
-
-    virtual bool SwitchScene(const NFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const NFIDataList& arg) = 0;
-
+    virtual const Point3D& GetRecordPoint(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
     ////////////////////////////////////////////////////////////////
+    virtual bool SwitchScene(const NFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const NFIDataList& arg) = 0;
 
     virtual bool CreateScene(const int nSceneID) = 0;
     virtual bool DestroyScene(const int nSceneID) = 0;

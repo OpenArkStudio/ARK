@@ -30,19 +30,18 @@ public:
     //////////////////////////////////////////////////////////////////////////
     virtual bool SetProperty(const std::string& strPropertyName, const NFIDataList::TData& TData) = 0;
 
-    virtual bool SetPropertyInt(const std::string& strPropertyName, const NFINT64 nValue) = 0;
-    virtual bool SetPropertyFloat(const std::string& strPropertyName, const double dwValue) = 0;
-    virtual bool SetPropertyString(const std::string& strPropertyName, const std::string& strValue) = 0;
-    virtual bool SetPropertyObject(const std::string& strPropertyName, const NFGUID& obj) = 0;
+    virtual bool SetPropertyInt(const std::string& strPropertyName, const NFINT64 value) = 0;
+    virtual bool SetPropertyDouble(const std::string& strPropertyName, const double value) = 0;
+    virtual bool SetPropertyString(const std::string& strPropertyName, const std::string& value) = 0;
+    virtual bool SetPropertyObject(const std::string& strPropertyName, const NFGUID& value) = 0;
+    virtual bool SetPropertyPoint(const std::string& strPropertyName, const Point3D& value) = 0;
 
     virtual NFINT64 GetPropertyInt(const std::string& strPropertyName) = 0;
-    virtual double GetPropertyFloat(const std::string& strPropertyName) = 0;
+    virtual double GetPropertyDouble(const std::string& strPropertyName) = 0;
     virtual const std::string& GetPropertyString(const std::string& strPropertyName) = 0;
     virtual const NFGUID& GetPropertyObject(const std::string& strPropertyName) = 0;
+    virtual const Point3D& GetPropertyPoint(const std::string& strPropertyName) = 0;
 
-    //////////////////////////////////////////////////////////////////////////
-
-private:
 };
 
 #endif

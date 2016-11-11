@@ -25,14 +25,12 @@ message ReqLeaveGameServer
 message PlayerEntryInfo//对象出现基本信息
 {
 	required Ident	object_guid = 1;
-	required float	x = 2;
-	required float	y = 3;
-	required float	z = 4;
-	required int32	career_type = 5;
-	required int32	player_state = 6;
-	required bytes  config_id = 7;
-	required int32  scene_id = 8;
-	required bytes  class_id = 9;
+	required Point3D pos = 2;
+	required int32	career_type = 3;
+	required int32	player_state = 4;
+	required bytes  config_id = 5;
+	required int32  scene_id = 6;
+	required bytes  class_id = 7;
 }
 
 message AckPlayerEntryList//对象出现列表

@@ -46,53 +46,61 @@ public:
     virtual int AddRow(const int nRow, const NFIDataList& var) = 0;
 
     virtual bool SetInt(const int nRow, const int nCol, const NFINT64 value) = 0;
-    virtual bool SetFloat(const int nRow, const int nCol, const double value) = 0;
+    virtual bool SetDouble(const int nRow, const int nCol, const double value) = 0;
     virtual bool SetString(const int nRow, const int nCol, const std::string& value) = 0;
     virtual bool SetObject(const int nRow, const int nCol, const NFGUID& value) = 0;
+    virtual bool SetPoint(const int nRow, const int nCol, const Point3D& value) = 0;
 
     virtual bool SetInt(const int nRow, const std::string& strColTag, const NFINT64 value) = 0;
-    virtual bool SetFloat(const int nRow, const std::string& strColTag, const double value) = 0;
+    virtual bool SetDouble(const int nRow, const std::string& strColTag, const double value) = 0;
     virtual bool SetString(const int nRow, const std::string& strColTag, const std::string& value) = 0;
     virtual bool SetObject(const int nRow, const std::string& strColTag, const NFGUID& value) = 0;
-
-    // 获得数据
-    virtual bool QueryRow(const int nRow, NFIDataList& varList) = 0;
-    virtual bool SwapRowInfo(const int nOriginRow, const int nTargetRow) = 0;
+    virtual bool SetPoint(const int nRow, const std::string& strColTag, const Point3D& value) = 0;
 
     virtual NFINT64 GetInt(const int nRow, const int nCol) const = 0;
-    virtual double GetFloat(const int nRow, const int nCol) const = 0;
+    virtual double GetDouble(const int nRow, const int nCol) const = 0;
     virtual const std::string& GetString(const int nRow, const int nCol) const = 0;
     virtual const NFGUID& GetObject(const int nRow, const int nCol) const = 0;
+    virtual const Point3D& GetPoint(const int nRow, const int nCol) const = 0;
 
     virtual NFINT64 GetInt(const int nRow, const std::string& strColTag) const = 0;
-    virtual double GetFloat(const int nRow, const std::string& strColTag) const = 0;
+    virtual double GetDouble(const int nRow, const std::string& strColTag) const = 0;
     virtual const std::string& GetString(const int nRow, const std::string& strColTag) const = 0;
     virtual const NFGUID& GetObject(const int nRow, const std::string& strColTag) const = 0;
+    virtual const Point3D& GetPoint(const int nRow, const std::string& strColTag) const = 0;
 
     virtual int FindRowByColValue(const int nCol, const NFIDataList& var, NFIDataList& varResult) = 0;
     virtual int FindInt(const int nCol, const NFINT64 value, NFIDataList& varResult) = 0;
-    virtual int FindFloat(const int nCol, const double value, NFIDataList& varResult) = 0;
-	virtual int FindString(const int nCol, const std::string& value, NFIDataList& varResult) = 0;
+    virtual int FindDouble(const int nCol, const double value, NFIDataList& varResult) = 0;
+    virtual int FindString(const int nCol, const std::string& value, NFIDataList& varResult) = 0;
     virtual int FindObject(const int nCol, const NFGUID& value, NFIDataList& varResult) = 0;
+    virtual int FindPoint(const int nCol, const Point3D& value, NFIDataList& varResult) = 0;
+
+    virtual int FindRowByColValue(const std::string& strColTag, const NFIDataList& var, NFIDataList& varResult) = 0;
+    virtual int FindInt(const std::string& strColTag, const NFINT64 value, NFIDataList& varResult) = 0;
+    virtual int FindDouble(const std::string& strColTag, const double value, NFIDataList& varResult) = 0;
+    virtual int FindString(const std::string& strColTag, const std::string& value, NFIDataList& varResult) = 0;
+    virtual int FindObject(const std::string& strColTag, const NFGUID& value, NFIDataList& varResult) = 0;
+    virtual int FindPoint(const std::string& strColTag, const Point3D& value, NFIDataList& varResult) = 0;
+
     virtual int SortByCol(const int nCol, const bool bOrder, NFIDataList& varResult)
     {
         return 0;
     };
 
-    virtual int FindRowByColValue(const std::string& strColTag, const NFIDataList& var, NFIDataList& varResult) = 0;
-    virtual int FindInt(const std::string& strColTag, const NFINT64 value, NFIDataList& varResult) = 0;
-    virtual int FindFloat(const std::string& strColTag, const double value, NFIDataList& varResult) = 0;
-	virtual int FindString(const std::string& strColTag, const std::string& value, NFIDataList& varResult) = 0;
-    virtual int FindObject(const std::string& strColTag, const NFGUID& value, NFIDataList& varResult) = 0;
     virtual int SortByTag(const std::string& strColTag, const bool bOrder,  NFIDataList& varResult)
     {
         return 0;
     };
 
+    // 获得数据
+    virtual bool QueryRow(const int nRow, NFIDataList& varList) = 0;
+    virtual bool SwapRowInfo(const int nOriginRow, const int nTargetRow) = 0;
+
     virtual bool Remove(const int nRow) = 0;
     virtual bool Remove(NFIDataList& varRows) //need to optimize
     {
-        for (int i  = 0; i < varRows.GetCount(); ++i)
+        for(int i  = 0; i < varRows.GetCount(); ++i)
         {
             Remove((int)varRows.Int(i));
         }

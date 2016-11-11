@@ -35,6 +35,37 @@ namespace NFMsg
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"Point3D")]
+  public partial class Point3D : global::ProtoBuf.IExtensible
+  {
+    public Point3D() {}
+    
+    private float _x;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"x", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float x
+    {
+      get { return _x; }
+      set { _x = value; }
+    }
+    private float _y;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"y", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float y
+    {
+      get { return _y; }
+      set { _y = value; }
+    }
+    private float _z;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"z", DataFormat = global::ProtoBuf.DataFormat.FixedSize)]
+    public float z
+    {
+      get { return _z; }
+      set { _z = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PropertyInt")]
   public partial class PropertyInt : global::ProtoBuf.IExtensible
   {
@@ -83,6 +114,30 @@ namespace NFMsg
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PropertyDouble")]
+  public partial class PropertyDouble : global::ProtoBuf.IExtensible
+  {
+    public PropertyDouble() {}
+    
+    private string _property_name;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"property_name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string property_name
+    {
+      get { return _property_name; }
+      set { _property_name = value; }
+    }
+    private double _data;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"data", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public double data
+    {
+      get { return _data; }
+      set { _data = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PropertyString")]
   public partial class PropertyString : global::ProtoBuf.IExtensible
   {
@@ -122,6 +177,30 @@ namespace NFMsg
     private NFMsg.Ident _data;
     [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"data", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public NFMsg.Ident data
+    {
+      get { return _data; }
+      set { _data = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"PropertyPoint")]
+  public partial class PropertyPoint : global::ProtoBuf.IExtensible
+  {
+    public PropertyPoint() {}
+    
+    private string _property_name;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"property_name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string property_name
+    {
+      get { return _property_name; }
+      set { _property_name = value; }
+    }
+    private NFMsg.Point3D _data;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"data", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public NFMsg.Point3D data
     {
       get { return _data; }
       set { _data = value; }
@@ -193,6 +272,37 @@ namespace NFMsg
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RecordDouble")]
+  public partial class RecordDouble : global::ProtoBuf.IExtensible
+  {
+    public RecordDouble() {}
+    
+    private int _row;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"row", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int row
+    {
+      get { return _row; }
+      set { _row = value; }
+    }
+    private int _col;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"col", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int col
+    {
+      get { return _col; }
+      set { _col = value; }
+    }
+    private double _data;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"data", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public double data
+    {
+      get { return _data; }
+      set { _data = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RecordString")]
   public partial class RecordString : global::ProtoBuf.IExtensible
   {
@@ -255,6 +365,37 @@ namespace NFMsg
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RecordPoint")]
+  public partial class RecordPoint : global::ProtoBuf.IExtensible
+  {
+    public RecordPoint() {}
+    
+    private int _row;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"row", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int row
+    {
+      get { return _row; }
+      set { _row = value; }
+    }
+    private int _col;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"col", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public int col
+    {
+      get { return _col; }
+      set { _col = value; }
+    }
+    private NFMsg.Point3D _data;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"data", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public NFMsg.Point3D data
+    {
+      get { return _data; }
+      set { _data = value; }
+    }
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"RecordAddRowStruct")]
   public partial class RecordAddRowStruct : global::ProtoBuf.IExtensible
   {
@@ -281,18 +422,32 @@ namespace NFMsg
       get { return _record_float_list; }
     }
   
+    private readonly global::System.Collections.Generic.List<NFMsg.RecordDouble> _record_double_list = new global::System.Collections.Generic.List<NFMsg.RecordDouble>();
+    [global::ProtoBuf.ProtoMember(4, Name=@"record_double_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.RecordDouble> record_double_list
+    {
+      get { return _record_double_list; }
+    }
+  
     private readonly global::System.Collections.Generic.List<NFMsg.RecordString> _record_string_list = new global::System.Collections.Generic.List<NFMsg.RecordString>();
-    [global::ProtoBuf.ProtoMember(4, Name=@"record_string_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(5, Name=@"record_string_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<NFMsg.RecordString> record_string_list
     {
       get { return _record_string_list; }
     }
   
     private readonly global::System.Collections.Generic.List<NFMsg.RecordObject> _record_object_list = new global::System.Collections.Generic.List<NFMsg.RecordObject>();
-    [global::ProtoBuf.ProtoMember(5, Name=@"record_object_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(6, Name=@"record_object_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<NFMsg.RecordObject> record_object_list
     {
       get { return _record_object_list; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<NFMsg.RecordPoint> _record_point_list = new global::System.Collections.Generic.List<NFMsg.RecordPoint>();
+    [global::ProtoBuf.ProtoMember(7, Name=@"record_point_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.RecordPoint> record_point_list
+    {
+      get { return _record_point_list; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -350,18 +505,32 @@ namespace NFMsg
       get { return _property_float_list; }
     }
   
+    private readonly global::System.Collections.Generic.List<NFMsg.PropertyDouble> _property_double_list = new global::System.Collections.Generic.List<NFMsg.PropertyDouble>();
+    [global::ProtoBuf.ProtoMember(4, Name=@"property_double_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.PropertyDouble> property_double_list
+    {
+      get { return _property_double_list; }
+    }
+  
     private readonly global::System.Collections.Generic.List<NFMsg.PropertyString> _property_string_list = new global::System.Collections.Generic.List<NFMsg.PropertyString>();
-    [global::ProtoBuf.ProtoMember(4, Name=@"property_string_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(5, Name=@"property_string_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<NFMsg.PropertyString> property_string_list
     {
       get { return _property_string_list; }
     }
   
     private readonly global::System.Collections.Generic.List<NFMsg.PropertyObject> _property_object_list = new global::System.Collections.Generic.List<NFMsg.PropertyObject>();
-    [global::ProtoBuf.ProtoMember(5, Name=@"property_object_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(6, Name=@"property_object_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<NFMsg.PropertyObject> property_object_list
     {
       get { return _property_object_list; }
+    }
+  
+    private readonly global::System.Collections.Generic.List<NFMsg.PropertyPoint> _property_point_list = new global::System.Collections.Generic.List<NFMsg.PropertyPoint>();
+    [global::ProtoBuf.ProtoMember(7, Name=@"property_point_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.PropertyPoint> property_point_list
+    {
+      get { return _property_point_list; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -475,6 +644,30 @@ namespace NFMsg
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ObjectPropertyDouble")]
+  public partial class ObjectPropertyDouble : global::ProtoBuf.IExtensible
+  {
+    public ObjectPropertyDouble() {}
+    
+    private NFMsg.Ident _player_id;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"player_id", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public NFMsg.Ident player_id
+    {
+      get { return _player_id; }
+      set { _player_id = value; }
+    }
+    private readonly global::System.Collections.Generic.List<NFMsg.PropertyDouble> _property_list = new global::System.Collections.Generic.List<NFMsg.PropertyDouble>();
+    [global::ProtoBuf.ProtoMember(2, Name=@"property_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.PropertyDouble> property_list
+    {
+      get { return _property_list; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ObjectPropertyString")]
   public partial class ObjectPropertyString : global::ProtoBuf.IExtensible
   {
@@ -523,6 +716,30 @@ namespace NFMsg
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ObjectPropertyPoint")]
+  public partial class ObjectPropertyPoint : global::ProtoBuf.IExtensible
+  {
+    public ObjectPropertyPoint() {}
+    
+    private NFMsg.Ident _player_id;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"player_id", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public NFMsg.Ident player_id
+    {
+      get { return _player_id; }
+      set { _player_id = value; }
+    }
+    private readonly global::System.Collections.Generic.List<NFMsg.PropertyPoint> _property_list = new global::System.Collections.Generic.List<NFMsg.PropertyPoint>();
+    [global::ProtoBuf.ProtoMember(2, Name=@"property_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.PropertyPoint> property_list
+    {
+      get { return _property_list; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
   [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ObjectRecordInt")]
   public partial class ObjectRecordInt : global::ProtoBuf.IExtensible
   {
@@ -542,11 +759,11 @@ namespace NFMsg
       get { return _record_name; }
       set { _record_name = value; }
     }
-    private readonly global::System.Collections.Generic.List<NFMsg.RecordInt> _property_list = new global::System.Collections.Generic.List<NFMsg.RecordInt>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"property_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<NFMsg.RecordInt> property_list
+    private readonly global::System.Collections.Generic.List<NFMsg.RecordInt> _record_list = new global::System.Collections.Generic.List<NFMsg.RecordInt>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"record_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.RecordInt> record_list
     {
-      get { return _property_list; }
+      get { return _record_list; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -573,11 +790,42 @@ namespace NFMsg
       get { return _record_name; }
       set { _record_name = value; }
     }
-    private readonly global::System.Collections.Generic.List<NFMsg.RecordFloat> _property_list = new global::System.Collections.Generic.List<NFMsg.RecordFloat>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"property_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<NFMsg.RecordFloat> property_list
+    private readonly global::System.Collections.Generic.List<NFMsg.RecordFloat> _record_list = new global::System.Collections.Generic.List<NFMsg.RecordFloat>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"record_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.RecordFloat> record_list
     {
-      get { return _property_list; }
+      get { return _record_list; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ObjectRecordDouble")]
+  public partial class ObjectRecordDouble : global::ProtoBuf.IExtensible
+  {
+    public ObjectRecordDouble() {}
+    
+    private NFMsg.Ident _player_id;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"player_id", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public NFMsg.Ident player_id
+    {
+      get { return _player_id; }
+      set { _player_id = value; }
+    }
+    private string _record_name;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"record_name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string record_name
+    {
+      get { return _record_name; }
+      set { _record_name = value; }
+    }
+    private readonly global::System.Collections.Generic.List<NFMsg.RecordDouble> _record_list = new global::System.Collections.Generic.List<NFMsg.RecordDouble>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"record_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.RecordDouble> record_list
+    {
+      get { return _record_list; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -604,11 +852,11 @@ namespace NFMsg
       get { return _record_name; }
       set { _record_name = value; }
     }
-    private readonly global::System.Collections.Generic.List<NFMsg.RecordString> _property_list = new global::System.Collections.Generic.List<NFMsg.RecordString>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"property_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<NFMsg.RecordString> property_list
+    private readonly global::System.Collections.Generic.List<NFMsg.RecordString> _record_list = new global::System.Collections.Generic.List<NFMsg.RecordString>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"record_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.RecordString> record_list
     {
-      get { return _property_list; }
+      get { return _record_list; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -635,11 +883,42 @@ namespace NFMsg
       get { return _record_name; }
       set { _record_name = value; }
     }
-    private readonly global::System.Collections.Generic.List<NFMsg.RecordObject> _property_list = new global::System.Collections.Generic.List<NFMsg.RecordObject>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"property_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    public global::System.Collections.Generic.List<NFMsg.RecordObject> property_list
+    private readonly global::System.Collections.Generic.List<NFMsg.RecordObject> _record_list = new global::System.Collections.Generic.List<NFMsg.RecordObject>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"record_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.RecordObject> record_list
     {
-      get { return _property_list; }
+      get { return _record_list; }
+    }
+  
+    private global::ProtoBuf.IExtension extensionObject;
+    global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
+      { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
+  }
+  
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"ObjectRecordPoint")]
+  public partial class ObjectRecordPoint : global::ProtoBuf.IExtensible
+  {
+    public ObjectRecordPoint() {}
+    
+    private NFMsg.Ident _player_id;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"player_id", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public NFMsg.Ident player_id
+    {
+      get { return _player_id; }
+      set { _player_id = value; }
+    }
+    private string _record_name;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"record_name", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public string record_name
+    {
+      get { return _record_name; }
+      set { _record_name = value; }
+    }
+    private readonly global::System.Collections.Generic.List<NFMsg.RecordPoint> _record_list = new global::System.Collections.Generic.List<NFMsg.RecordPoint>();
+    [global::ProtoBuf.ProtoMember(3, Name=@"record_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    public global::System.Collections.Generic.List<NFMsg.RecordPoint> record_list
+    {
+      get { return _record_list; }
     }
   
     private global::ProtoBuf.IExtension extensionObject;
@@ -1011,7 +1290,10 @@ namespace NFMsg
       EGCT_MODIY_ITEM = 1,
             
       [global::ProtoBuf.ProtoEnum(Name=@"EGCT_CREATE_OBJECT", Value=2)]
-      EGCT_CREATE_OBJECT = 2
+      EGCT_CREATE_OBJECT = 2,
+            
+      [global::ProtoBuf.ProtoEnum(Name=@"EGCT_ADD_ROLE_EXP", Value=3)]
+      EGCT_ADD_ROLE_EXP = 3
     }
   
     private global::ProtoBuf.IExtension extensionObject;

@@ -6,7 +6,6 @@
     <ClInclude Include="NFMsgShare.pb.h" />
     <ClInclude Include="NFDefine.pb.h" />
     <ClInclude Include="NFMsgBase.pb.h" />
-    <ClInclude Include="NFMsgBaseEx.pb.h" />
     <ClInclude Include="NFMsgPreGame.pb.h" />
     <ClInclude Include="NFFleetingDefine.pb.h" />
     <ClInclude Include="NFSLGDefine.pb.h" />
@@ -18,7 +17,6 @@
     <ClCompile Include="NFMsgShare.pb.cc" />
     <ClCompile Include="NFDefine.pb.cc" />
     <ClCompile Include="NFMsgBase.pb.cc" />
-    <ClCompile Include="NFMsgBaseEx.pb.cc" />
     <ClCompile Include="NFMsgPreGame.pb.cc" />
     <ClCompile Include="NFMsgDefine.cpp" />
     <ClCompile Include="NFFleetingDefine.pb.cc" />

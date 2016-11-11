@@ -55,14 +55,24 @@ TDATA_TYPE NFCClassModule::ComputerType(const char* pstrTypeName, NFIDataList::T
         var.SetString(NULL_STR);
         return var.GetType();
     }
-    else if (0 == strcmp(pstrTypeName, "float"))
+    else if(0 == strcmp(pstrTypeName, "float"))
     {
-        var.SetFloat(NULL_FLOAT);
+        var.SetDouble(NULL_DOUBLE);
         return var.GetType();
     }
-    else if (0 == strcmp(pstrTypeName, "object"))
+    else if(0 == strcmp(pstrTypeName, "double"))
     {
-        var.SetObject(NULL_OBJECT);
+        var.SetDouble(NULL_DOUBLE);
+        return var.GetType();
+    }
+    else if(0 == strcmp(pstrTypeName, "object"))
+    {
+        var.SetObject(NULL_GUID);
+        return var.GetType();
+    }
+    else if(0 == strcmp(pstrTypeName, "point"))
+    {
+        var.SetPoint(NULL_POINT);
         return var.GetType();
     }
 
@@ -104,7 +114,7 @@ bool NFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SH
 
             //printf( " Property:%s[%s]\n", pstrPropertyName, pstrType );
 
-            NF_SHARE_PTR<NFIProperty> xProperty = pClass->GetPropertyManager()->AddProperty(NFGUID(), strPropertyName, varProperty.GetType());
+            NF_SHARE_PTR<NFIProperty> xProperty = pClass->GetPropertyManager()->AddProperty(NULL_GUID, strPropertyName, varProperty.GetType());
             xProperty->SetPublic(bPublic);
             xProperty->SetPrivate(bPrivate);
             xProperty->SetSave(bSave);
@@ -179,7 +189,7 @@ bool NFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
                 }
             }
 
-            NF_SHARE_PTR<NFIRecord> xRecord = pClass->GetRecordManager()->AddRecord(NFGUID(), pstrRecordName, recordVar, recordTag, atoi(pstrRow));
+            NF_SHARE_PTR<NFIRecord> xRecord = pClass->GetRecordManager()->AddRecord(NULL_GUID, pstrRecordName, recordVar, recordTag, atoi(pstrRow));
 
             xRecord->SetPublic(bPublic);
             xRecord->SetPrivate(bPrivate);
@@ -209,7 +219,7 @@ bool NFCClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, NF_
                     NFASSERT(0, strComponentName, __FILE__, __FUNCTION__);
                     continue;
                 }
-                NF_SHARE_PTR<NFIComponent> xComponent(NF_NEW NFIComponent(NFGUID(), strComponentName));
+                NF_SHARE_PTR<NFIComponent> xComponent(NF_NEW NFIComponent(NULL_GUID, strComponentName));
                 pClass->GetComponentManager()->AddComponent(strComponentName, xComponent);
             }
         }
@@ -350,22 +360,6 @@ bool NFCClassModule::AddClass(const std::string& strClassName, const std::string
     }
 
     return true;
-}
-
-NF_SHARE_PTR<NFIClass> NFCClassModule::AddNewClass(const std::string& strClassName)
-{
-    NF_SHARE_PTR<NFIClass> pClass(NF_NEW NFCClass(strClassName));
-    if (AddElement(strClassName, pClass))
-    {
-        return pClass;
-    }
-
-    return nullptr;
-}
-
-NF_SHARE_PTR<NFIClass> NFCClassModule::GetClassInfo(const std::string& strClassName)
-{
-    return GetElement(strClassName);
 }
 
 bool NFCClassModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClass> pParentClass)

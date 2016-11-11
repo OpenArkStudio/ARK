@@ -34,9 +34,9 @@ public:
         m_pParentClass = NULL;
         mstrClassName = strClassName;
 
-        m_pPropertyManager = NF_SHARE_PTR<NFIPropertyManager>(NF_NEW NFCPropertyManager(NFGUID()));
-        m_pRecordManager = NF_SHARE_PTR<NFIRecordManager>(NF_NEW NFCRecordManager(NFGUID()));
-        m_pComponentManager = NF_SHARE_PTR<NFIComponentManager>(NF_NEW NFCComponentManager(NFGUID()));
+        m_pPropertyManager = NF_SHARE_PTR<NFIPropertyManager>(NF_NEW NFCPropertyManager(NULL_GUID));
+        m_pRecordManager = NF_SHARE_PTR<NFIRecordManager>(NF_NEW NFCRecordManager(NULL_GUID));
+        m_pComponentManager = NF_SHARE_PTR<NFIComponentManager>(NF_NEW NFCComponentManager(NULL_GUID));
     }
 
     virtual ~NFCClass()
@@ -103,7 +103,7 @@ public:
         return mstrClassName;
     }
 
-    const bool AddConfigName(const std::string& strConfigName)
+    const bool AddConfigName(std::string& strConfigName)
     {
         mlConfigList.Add(strConfigName);
 
@@ -162,8 +162,6 @@ public:
     virtual NF_SHARE_PTR<NFIComponentManager> GetClassComponentManager(const std::string& strClassName);
 
     virtual bool AddClass(const std::string& strClassName, const std::string& strParentName);
-    virtual NF_SHARE_PTR<NFIClass> AddNewClass(const std::string& strClassName);
-    virtual NF_SHARE_PTR<NFIClass> GetClassInfo(const std::string& strClassName);
 
 protected:
     virtual TDATA_TYPE ComputerType(const char* pstrTypeName, NFIDataList::TData& var);

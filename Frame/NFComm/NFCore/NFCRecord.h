@@ -39,40 +39,46 @@ public:
     virtual int AddRow(const int nRow, const NFIDataList& var);
 
     virtual bool SetInt(const int nRow, const int nCol, const NFINT64 value);
-    virtual bool SetFloat(const int nRow, const int nCol, const double value);
+    virtual bool SetDouble(const int nRow, const int nCol, const double value);
     virtual bool SetString(const int nRow, const int nCol, const std::string& value);
     virtual bool SetObject(const int nRow, const int nCol, const NFGUID& value);
+    virtual bool SetPoint(const int nRow, const int nCol, const Point3D& value);
 
     virtual bool SetInt(const int nRow, const std::string& strColTag, const NFINT64 value);
-    virtual bool SetFloat(const int nRow, const std::string& strColTag, const double value);
+    virtual bool SetDouble(const int nRow, const std::string& strColTag, const double value);
     virtual bool SetString(const int nRow, const std::string& strColTag, const std::string& value);
     virtual bool SetObject(const int nRow, const std::string& strColTag, const NFGUID& value);
-
-    virtual bool QueryRow(const int nRow, NFIDataList& varList);
-
-    virtual bool SwapRowInfo(const int nOriginRow, const int nTargetRow);
+    virtual bool SetPoint(const int nRow, const std::string& strColTag, const Point3D& value);
 
     virtual NFINT64 GetInt(const int nRow, const int nCol) const;
-    virtual double GetFloat(const int nRow, const int nCol) const;
+    virtual double GetDouble(const int nRow, const int nCol) const;
     virtual const std::string& GetString(const int nRow, const int nCol) const;
     virtual const NFGUID& GetObject(const int nRow, const int nCol) const;
+    virtual const Point3D& GetPoint(const int nRow, const int nCol) const;
 
     virtual NFINT64 GetInt(const int nRow, const std::string& strColTag) const;
-    virtual double GetFloat(const int nRow, const std::string& strColTag) const;
+    virtual double GetDouble(const int nRow, const std::string& strColTag) const;
     virtual const std::string& GetString(const int nRow, const std::string& strColTag) const;
     virtual const NFGUID& GetObject(const int nRow, const std::string& strColTag) const;
+    virtual const Point3D& GetPoint(const int nRow, const std::string& strColTag) const;
 
     virtual int FindRowByColValue(const int nCol, const NFIDataList& var, NFIDataList& varResult);
     virtual int FindInt(const int nCol, const NFINT64 value, NFIDataList& varResult);
-    virtual int FindFloat(const int nCol, const double value, NFIDataList& varResult);
-	virtual int FindString(const int nCol, const std::string& value, NFIDataList& varResult);
+    virtual int FindDouble(const int nCol, const double value, NFIDataList& varResult);
+    virtual int FindString(const int nCol, const std::string& value, NFIDataList& varResult);
     virtual int FindObject(const int nCol, const NFGUID& value, NFIDataList& varResult);
+    virtual int FindPoint(const int nCol, const Point3D& value, NFIDataList& varResult);
 
     virtual int FindRowByColValue(const std::string& strColTag, const NFIDataList& var, NFIDataList& varResult);
     virtual int FindInt(const std::string& strColTag, const NFINT64 value, NFIDataList& varResult);
-    virtual int FindFloat(const std::string& strColTag, const double value, NFIDataList& varResult);
-	virtual int FindString(const std::string& strColTag, const std::string& value, NFIDataList& varResult);
+    virtual int FindDouble(const std::string& strColTag, const double value, NFIDataList& varResult);
+    virtual int FindString(const std::string& strColTag, const std::string& value, NFIDataList& varResult);
     virtual int FindObject(const std::string& strColTag, const NFGUID& value, NFIDataList& varResult);
+    virtual int FindPoint(const std::string& strColTag, const Point3D& value, NFIDataList& varResult);
+    //////////////////////////////////////////////////////////////////////////
+    virtual bool QueryRow(const int nRow, NFIDataList& varList);
+
+    virtual bool SwapRowInfo(const int nOriginRow, const int nTargetRow);
 
     virtual bool Remove(const int nRow);
 

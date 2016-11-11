@@ -28,31 +28,31 @@
 
 class NFCClass;
 
-class ElementConfigInfo : public NFIElementConfigInfo 
+class ElementConfigInfo
 {
 public:
     ElementConfigInfo()
     {
-        m_pPropertyManager = NF_SHARE_PTR<NFIPropertyManager>(NF_NEW NFCPropertyManager(NFGUID()));
-        m_pRecordManager = NF_SHARE_PTR<NFIRecordManager>(NF_NEW NFCRecordManager(NFGUID()));
-        m_pComponentManager = NF_SHARE_PTR<NFIComponentManager>(NF_NEW NFCComponentManager(NFGUID()));
+        m_pPropertyManager = NF_SHARE_PTR<NFIPropertyManager>(NF_NEW NFCPropertyManager(NULL_GUID));
+        m_pRecordManager = NF_SHARE_PTR<NFIRecordManager>(NF_NEW NFCRecordManager(NULL_GUID));
+        m_pComponentManager = NF_SHARE_PTR<NFIComponentManager>(NF_NEW NFCComponentManager(NULL_GUID));
     }
 
     virtual ~ElementConfigInfo()
     {
     }
 
-    virtual NF_SHARE_PTR<NFIPropertyManager> GetPropertyManager()
+    NF_SHARE_PTR<NFIPropertyManager> GetPropertyManager()
     {
         return m_pPropertyManager;
     }
 
-    virtual NF_SHARE_PTR<NFIRecordManager> GetRecordManager()
+    NF_SHARE_PTR<NFIRecordManager> GetRecordManager()
     {
         return m_pRecordManager;
     }
 
-    virtual NF_SHARE_PTR<NFIComponentManager> GetComponentManager()
+    NF_SHARE_PTR<NFIComponentManager> GetComponentManager()
     {
         return m_pComponentManager;
     }
@@ -88,8 +88,6 @@ public:
 
     virtual bool ExistElement(const std::string& strConfigName);
     virtual bool ExistElement(const std::string& strClassName, const std::string& strConfigName);
-    virtual NF_SHARE_PTR<NFIElementConfigInfo> AddNewElement(const std::string& strConfigName);
-    virtual NF_SHARE_PTR<NFIElementConfigInfo> GetElementInfo(const std::string& strConfigName);
 
     virtual NF_SHARE_PTR<NFIPropertyManager> GetPropertyManager(const std::string& strConfigName);
     virtual NF_SHARE_PTR<NFIRecordManager> GetRecordManager(const std::string& strConfigName);

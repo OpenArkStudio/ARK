@@ -713,45 +713,33 @@ class LIBPROTOC_EXPORT PlayerEntryInfo : public ::google::protobuf::Message {
   inline ::NFMsg::Ident* release_object_guid();
   inline void set_allocated_object_guid(::NFMsg::Ident* object_guid);
 
-  // required float x = 2;
-  inline bool has_x() const;
-  inline void clear_x();
-  static const int kXFieldNumber = 2;
-  inline float x() const;
-  inline void set_x(float value);
+  // required .NFMsg.Point3D pos = 2;
+  inline bool has_pos() const;
+  inline void clear_pos();
+  static const int kPosFieldNumber = 2;
+  inline const ::NFMsg::Point3D& pos() const;
+  inline ::NFMsg::Point3D* mutable_pos();
+  inline ::NFMsg::Point3D* release_pos();
+  inline void set_allocated_pos(::NFMsg::Point3D* pos);
 
-  // required float y = 3;
-  inline bool has_y() const;
-  inline void clear_y();
-  static const int kYFieldNumber = 3;
-  inline float y() const;
-  inline void set_y(float value);
-
-  // required float z = 4;
-  inline bool has_z() const;
-  inline void clear_z();
-  static const int kZFieldNumber = 4;
-  inline float z() const;
-  inline void set_z(float value);
-
-  // required int32 career_type = 5;
+  // required int32 career_type = 3;
   inline bool has_career_type() const;
   inline void clear_career_type();
-  static const int kCareerTypeFieldNumber = 5;
+  static const int kCareerTypeFieldNumber = 3;
   inline ::google::protobuf::int32 career_type() const;
   inline void set_career_type(::google::protobuf::int32 value);
 
-  // required int32 player_state = 6;
+  // required int32 player_state = 4;
   inline bool has_player_state() const;
   inline void clear_player_state();
-  static const int kPlayerStateFieldNumber = 6;
+  static const int kPlayerStateFieldNumber = 4;
   inline ::google::protobuf::int32 player_state() const;
   inline void set_player_state(::google::protobuf::int32 value);
 
-  // required bytes config_id = 7;
+  // required bytes config_id = 5;
   inline bool has_config_id() const;
   inline void clear_config_id();
-  static const int kConfigIdFieldNumber = 7;
+  static const int kConfigIdFieldNumber = 5;
   inline const ::std::string& config_id() const;
   inline void set_config_id(const ::std::string& value);
   inline void set_config_id(const char* value);
@@ -760,17 +748,17 @@ class LIBPROTOC_EXPORT PlayerEntryInfo : public ::google::protobuf::Message {
   inline ::std::string* release_config_id();
   inline void set_allocated_config_id(::std::string* config_id);
 
-  // required int32 scene_id = 8;
+  // required int32 scene_id = 6;
   inline bool has_scene_id() const;
   inline void clear_scene_id();
-  static const int kSceneIdFieldNumber = 8;
+  static const int kSceneIdFieldNumber = 6;
   inline ::google::protobuf::int32 scene_id() const;
   inline void set_scene_id(::google::protobuf::int32 value);
 
-  // required bytes class_id = 9;
+  // required bytes class_id = 7;
   inline bool has_class_id() const;
   inline void clear_class_id();
-  static const int kClassIdFieldNumber = 9;
+  static const int kClassIdFieldNumber = 7;
   inline const ::std::string& class_id() const;
   inline void set_class_id(const ::std::string& value);
   inline void set_class_id(const char* value);
@@ -783,12 +771,8 @@ class LIBPROTOC_EXPORT PlayerEntryInfo : public ::google::protobuf::Message {
  private:
   inline void set_has_object_guid();
   inline void clear_has_object_guid();
-  inline void set_has_x();
-  inline void clear_has_x();
-  inline void set_has_y();
-  inline void clear_has_y();
-  inline void set_has_z();
-  inline void clear_has_z();
+  inline void set_has_pos();
+  inline void clear_has_pos();
   inline void set_has_career_type();
   inline void clear_has_career_type();
   inline void set_has_player_state();
@@ -803,17 +787,15 @@ class LIBPROTOC_EXPORT PlayerEntryInfo : public ::google::protobuf::Message {
   ::google::protobuf::UnknownFieldSet _unknown_fields_;
 
   ::NFMsg::Ident* object_guid_;
-  float x_;
-  float y_;
-  float z_;
+  ::NFMsg::Point3D* pos_;
   ::google::protobuf::int32 career_type_;
-  ::std::string* config_id_;
   ::google::protobuf::int32 player_state_;
-  ::google::protobuf::int32 scene_id_;
+  ::std::string* config_id_;
   ::std::string* class_id_;
+  ::google::protobuf::int32 scene_id_;
 
   mutable int _cached_size_;
-  ::google::protobuf::uint32 _has_bits_[(9 + 31) / 32];
+  ::google::protobuf::uint32 _has_bits_[(7 + 31) / 32];
 
   friend void LIBPROTOC_EXPORT protobuf_AddDesc_NFMsgShare_2eproto();
   friend void protobuf_AssignDesc_NFMsgShare_2eproto();
@@ -10669,81 +10651,53 @@ inline void PlayerEntryInfo::set_allocated_object_guid(::NFMsg::Ident* object_gu
   }
 }
 
-// required float x = 2;
-inline bool PlayerEntryInfo::has_x() const {
+// required .NFMsg.Point3D pos = 2;
+inline bool PlayerEntryInfo::has_pos() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void PlayerEntryInfo::set_has_x() {
+inline void PlayerEntryInfo::set_has_pos() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void PlayerEntryInfo::clear_has_x() {
+inline void PlayerEntryInfo::clear_has_pos() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void PlayerEntryInfo::clear_x() {
-  x_ = 0;
-  clear_has_x();
+inline void PlayerEntryInfo::clear_pos() {
+  if (pos_ != NULL) pos_->::NFMsg::Point3D::Clear();
+  clear_has_pos();
 }
-inline float PlayerEntryInfo::x() const {
-  return x_;
+inline const ::NFMsg::Point3D& PlayerEntryInfo::pos() const {
+  return pos_ != NULL ? *pos_ : *default_instance_->pos_;
 }
-inline void PlayerEntryInfo::set_x(float value) {
-  set_has_x();
-  x_ = value;
+inline ::NFMsg::Point3D* PlayerEntryInfo::mutable_pos() {
+  set_has_pos();
+  if (pos_ == NULL) pos_ = new ::NFMsg::Point3D;
+  return pos_;
+}
+inline ::NFMsg::Point3D* PlayerEntryInfo::release_pos() {
+  clear_has_pos();
+  ::NFMsg::Point3D* temp = pos_;
+  pos_ = NULL;
+  return temp;
+}
+inline void PlayerEntryInfo::set_allocated_pos(::NFMsg::Point3D* pos) {
+  delete pos_;
+  pos_ = pos;
+  if (pos) {
+    set_has_pos();
+  } else {
+    clear_has_pos();
+  }
 }
 
-// required float y = 3;
-inline bool PlayerEntryInfo::has_y() const {
+// required int32 career_type = 3;
+inline bool PlayerEntryInfo::has_career_type() const {
   return (_has_bits_[0] & 0x00000004u) != 0;
 }
-inline void PlayerEntryInfo::set_has_y() {
+inline void PlayerEntryInfo::set_has_career_type() {
   _has_bits_[0] |= 0x00000004u;
 }
-inline void PlayerEntryInfo::clear_has_y() {
-  _has_bits_[0] &= ~0x00000004u;
-}
-inline void PlayerEntryInfo::clear_y() {
-  y_ = 0;
-  clear_has_y();
-}
-inline float PlayerEntryInfo::y() const {
-  return y_;
-}
-inline void PlayerEntryInfo::set_y(float value) {
-  set_has_y();
-  y_ = value;
-}
-
-// required float z = 4;
-inline bool PlayerEntryInfo::has_z() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
-}
-inline void PlayerEntryInfo::set_has_z() {
-  _has_bits_[0] |= 0x00000008u;
-}
-inline void PlayerEntryInfo::clear_has_z() {
-  _has_bits_[0] &= ~0x00000008u;
-}
-inline void PlayerEntryInfo::clear_z() {
-  z_ = 0;
-  clear_has_z();
-}
-inline float PlayerEntryInfo::z() const {
-  return z_;
-}
-inline void PlayerEntryInfo::set_z(float value) {
-  set_has_z();
-  z_ = value;
-}
-
-// required int32 career_type = 5;
-inline bool PlayerEntryInfo::has_career_type() const {
-  return (_has_bits_[0] & 0x00000010u) != 0;
-}
-inline void PlayerEntryInfo::set_has_career_type() {
-  _has_bits_[0] |= 0x00000010u;
-}
 inline void PlayerEntryInfo::clear_has_career_type() {
-  _has_bits_[0] &= ~0x00000010u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void PlayerEntryInfo::clear_career_type() {
   career_type_ = 0;
@@ -10757,15 +10711,15 @@ inline void PlayerEntryInfo::set_career_type(::google::protobuf::int32 value) {
   career_type_ = value;
 }
 
-// required int32 player_state = 6;
+// required int32 player_state = 4;
 inline bool PlayerEntryInfo::has_player_state() const {
-  return (_has_bits_[0] & 0x00000020u) != 0;
+  return (_has_bits_[0] & 0x00000008u) != 0;
 }
 inline void PlayerEntryInfo::set_has_player_state() {
-  _has_bits_[0] |= 0x00000020u;
+  _has_bits_[0] |= 0x00000008u;
 }
 inline void PlayerEntryInfo::clear_has_player_state() {
-  _has_bits_[0] &= ~0x00000020u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline void PlayerEntryInfo::clear_player_state() {
   player_state_ = 0;
@@ -10779,15 +10733,15 @@ inline void PlayerEntryInfo::set_player_state(::google::protobuf::int32 value) {
   player_state_ = value;
 }
 
-// required bytes config_id = 7;
+// required bytes config_id = 5;
 inline bool PlayerEntryInfo::has_config_id() const {
-  return (_has_bits_[0] & 0x00000040u) != 0;
+  return (_has_bits_[0] & 0x00000010u) != 0;
 }
 inline void PlayerEntryInfo::set_has_config_id() {
-  _has_bits_[0] |= 0x00000040u;
+  _has_bits_[0] |= 0x00000010u;
 }
 inline void PlayerEntryInfo::clear_has_config_id() {
-  _has_bits_[0] &= ~0x00000040u;
+  _has_bits_[0] &= ~0x00000010u;
 }
 inline void PlayerEntryInfo::clear_config_id() {
   if (config_id_ != &::google::protobuf::internal::kEmptyString) {
@@ -10849,15 +10803,15 @@ inline void PlayerEntryInfo::set_allocated_config_id(::std::string* config_id) {
   }
 }
 
-// required int32 scene_id = 8;
+// required int32 scene_id = 6;
 inline bool PlayerEntryInfo::has_scene_id() const {
-  return (_has_bits_[0] & 0x00000080u) != 0;
+  return (_has_bits_[0] & 0x00000020u) != 0;
 }
 inline void PlayerEntryInfo::set_has_scene_id() {
-  _has_bits_[0] |= 0x00000080u;
+  _has_bits_[0] |= 0x00000020u;
 }
 inline void PlayerEntryInfo::clear_has_scene_id() {
-  _has_bits_[0] &= ~0x00000080u;
+  _has_bits_[0] &= ~0x00000020u;
 }
 inline void PlayerEntryInfo::clear_scene_id() {
   scene_id_ = 0;
@@ -10871,15 +10825,15 @@ inline void PlayerEntryInfo::set_scene_id(::google::protobuf::int32 value) {
   scene_id_ = value;
 }
 
-// required bytes class_id = 9;
+// required bytes class_id = 7;
 inline bool PlayerEntryInfo::has_class_id() const {
-  return (_has_bits_[0] & 0x00000100u) != 0;
+  return (_has_bits_[0] & 0x00000040u) != 0;
 }
 inline void PlayerEntryInfo::set_has_class_id() {
-  _has_bits_[0] |= 0x00000100u;
+  _has_bits_[0] |= 0x00000040u;
 }
 inline void PlayerEntryInfo::clear_has_class_id() {
-  _has_bits_[0] &= ~0x00000100u;
+  _has_bits_[0] &= ~0x00000040u;
 }
 inline void PlayerEntryInfo::clear_class_id() {
   if (class_id_ != &::google::protobuf::internal::kEmptyString) {
