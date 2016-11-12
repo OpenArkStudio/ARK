@@ -31,7 +31,12 @@
 #include "NFComm/NFPluginModule/NFPlatform.h"
 #include "Math/Vector3.hpp"
 
-//变量类型
+/**
+ * @enum    TDATA_TYPE
+ *
+ * @brief   变量类型.
+ */
+
 enum TDATA_TYPE
 {
     TDATA_UNKNOWN,  // 未知
@@ -43,30 +48,83 @@ enum TDATA_TYPE
     TDATA_MAX,
 };
 
-//////////////////////////////////////////////////////////////////////////
-//default value
+/** @brief   ////////////////////////////////////////////////////////////////////////default value. */
 const static NFINT64 NULL_INT = 0;
+/** @brief   The null double. */
 const static double NULL_DOUBLE = 0.0;
+/** @brief   The null string. */
 const static std::string NULL_STR = "";
+/** @brief   Unique identifier for the null. */
 const static NFGUID NULL_GUID = NULL_GUID;
+/** @brief   The null point. */
 const static Point3D NULL_POINT = Point3D();
-//////////////////////////////////////////////////////////////////////////
-//类型接口
+
+/**
+ * @class   NFIDataList
+ *
+ * @brief   ////////////////////////////////////////////////////////////////////////类型接口.
+ *
+ * @author  Nick Yang
+ * @date    2016/11/12
+ */
+
 class NFIDataList
 {
 public:
+
+    /**
+     * @struct  TData
+     *
+     * @brief   A data.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     */
+
     struct TData
     {
     public:
+
+        /**
+         * @fn  TData()
+         *
+         * @brief   Default constructor.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         */
+
         TData()
         {
             nType = TDATA_UNKNOWN;
         }
 
+        /**
+         * @fn  TData(TDATA_TYPE eType)
+         *
+         * @brief   Constructor.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @param   eType   The type.
+         */
+
         TData(TDATA_TYPE eType)
         {
             nType = eType;
         }
+
+        /**
+         * @fn  TData(const TData& value)
+         *
+         * @brief   Constructor.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @param   value   The value.
+         */
 
         TData(const TData& value)
         {
@@ -74,10 +132,32 @@ public:
             variantData = value.variantData;
         }
 
+        /**
+         * @fn  ~TData()
+         *
+         * @brief   Destructor.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         */
+
         ~TData()
         {
             nType = TDATA_UNKNOWN;
         }
+
+        /**
+         * @fn  inline bool operator==(const TData& src) const
+         *
+         * @brief   Equality operator.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @param   src Source for the.
+         *
+         * @return  True if the parameters are considered equivalent.
+         */
 
         inline bool operator==(const TData& src) const
         {
@@ -135,10 +215,30 @@ public:
             return false;
         }
 
+        /**
+         * @fn  void Reset()
+         *
+         * @brief   Resets this object.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         */
+
         void Reset()
         {
             nType = TDATA_UNKNOWN;
         }
+
+        /**
+         * @fn  bool IsNullValue() const
+         *
+         * @brief   Query if this object is null value.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @return  True if null value, false if not.
+         */
 
         bool IsNullValue() const
         {
@@ -195,12 +295,33 @@ public:
             return !bChanged;
         }
 
+        /**
+         * @fn  TDATA_TYPE GetType() const
+         *
+         * @brief   Gets the type.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @return  The type.
+         */
+
         TDATA_TYPE GetType() const
         {
             return nType;
         }
 
-        // 设置值，类型必须和之前一致
+        /**
+         * @fn  void SetInt(const NFINT64 var)
+         *
+         * @brief   Sets a double.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @param   var The variable.
+         */
+
         void SetInt(const NFINT64 var)
         {
             if(nType == TDATA_INT || TDATA_UNKNOWN == nType)
@@ -209,6 +330,17 @@ public:
                 variantData = (NFINT64)var;
             }
         }
+
+        /**
+         * @fn  void SetDouble(const double var)
+         *
+         * @brief   Sets a double.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @param   var The variable.
+         */
 
         void SetDouble(const double var)
         {
@@ -219,6 +351,17 @@ public:
             }
         }
 
+        /**
+         * @fn  void SetString(const std::string& var)
+         *
+         * @brief   Sets a string.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @param   var The variable.
+         */
+
         void SetString(const std::string& var)
         {
             if(nType == TDATA_STRING || TDATA_UNKNOWN == nType)
@@ -227,6 +370,17 @@ public:
                 variantData = (std::string)var;
             }
         }
+
+        /**
+         * @fn  void SetObject(const NFGUID& var)
+         *
+         * @brief   Sets an object.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @param   var The variable.
+         */
 
         void SetObject(const NFGUID& var)
         {
@@ -237,6 +391,17 @@ public:
             }
         }
 
+        /**
+         * @fn  void SetPoint(const Point3D& var)
+         *
+         * @brief   Sets a point.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @param   var The variable.
+         */
+
         void SetPoint(const Point3D& var)
         {
             if(nType == TDATA_POINT || TDATA_UNKNOWN == nType)
@@ -245,6 +410,17 @@ public:
                 variantData = (Point3D)var;
             }
         }
+
+        /**
+         * @fn  NFINT64 GetInt() const
+         *
+         * @brief   Gets the int.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @return  The int.
+         */
 
         NFINT64 GetInt() const
         {
@@ -257,6 +433,17 @@ public:
             return NULL_INT;
         }
 
+        /**
+         * @fn  double GetDouble() const
+         *
+         * @brief   Gets the double.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @return  The double.
+         */
+
         double GetDouble() const
         {
             if(TDATA_DOUBLE == nType)
@@ -267,6 +454,18 @@ public:
 
             return NULL_DOUBLE;
         }
+
+        /**
+         * @fn  const std::string& GetString() const
+         *
+         * @brief   Gets the string.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @return  The string.
+         */
+
         const std::string& GetString() const
         {
             if(TDATA_STRING == nType)
@@ -277,6 +476,17 @@ public:
 
             return NULL_STR;
         }
+
+        /**
+         * @fn  const char* GetCharArr() const
+         *
+         * @brief   Gets character array.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @return  Null if it fails, else the character array.
+         */
 
         const char* GetCharArr() const
         {
@@ -289,6 +499,17 @@ public:
             return NULL_STR.c_str();
         }
 
+        /**
+         * @fn  const NFGUID& GetObject() const
+         *
+         * @brief   Gets the object.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @return  The object.
+         */
+
         const NFGUID& GetObject() const
         {
             if(TDATA_OBJECT == nType)
@@ -300,6 +521,17 @@ public:
             return NULL_GUID;
         }
 
+        /**
+         * @fn  const Point3D& GetPoint() const
+         *
+         * @brief   Gets the point.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @return  The point.
+         */
+
         const Point3D& GetPoint() const
         {
             if(TDATA_POINT == nType)
@@ -309,6 +541,17 @@ public:
 
             return NULL_POINT;
         }
+
+        /**
+         * @fn  std::string StringValEx() const
+         *
+         * @brief   String value ex.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/12
+         *
+         * @return  A std::string.
+         */
 
         std::string StringValEx() const
         {
@@ -343,11 +586,22 @@ public:
 
     private:
 
+        /** @brief   The type. */
         TDATA_TYPE nType;
 
     public:
+        /** @brief   Information describing the variant. */
         mapbox::util::variant<NFINT64, double, std::string, NFGUID, Point3D> variantData;
     };
+
+    /**
+     * @fn  NFIDataList::NFIDataList()
+     *
+     * @brief   Default constructor.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     */
 
     NFIDataList()
     {
@@ -359,100 +613,657 @@ public:
         }
     }
 
+    /**
+     * @fn  virtual NFIDataList::~NFIDataList() = 0;
+     *
+     * @brief   Destructor.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     */
+
     virtual ~NFIDataList() = 0;
 
+    /**
+     * @fn  virtual std::string NFIDataList::StringValEx(const int index) const = 0;
+     *
+     * @brief   String value ex.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     *
+     * @return  A std::string.
+     */
+
     virtual std::string StringValEx(const int index) const = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::ToString(std::string& str, const std::string& strSplit) const = 0;
+     *
+     * @brief   Convert this object into a string representation.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param [in,out]  str         The string.
+     * @param           strSplit    The split.
+     *
+     * @return  A bool that represents this object.
+     */
+
     virtual bool ToString(std::string& str, const std::string& strSplit) const = 0;
 
 public:
 
+    /**
+     * @fn  virtual const NF_SHARE_PTR<TData> NFIDataList::GetStack(const int index) const = 0;
+     *
+     * @brief   Gets a stack.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     *
+     * @return  The stack.
+     */
+
     virtual const NF_SHARE_PTR<TData> GetStack(const int index) const = 0;
 
-    // 合并
+    /**
+     * @fn  virtual bool NFIDataList::Concat(const NFIDataList& src) = 0;
+     *
+     * @brief   合并.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   src Source for the.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Concat(const NFIDataList& src) = 0;
-    // 部分添加
+
+    /**
+     * @fn  virtual bool NFIDataList::Append(const NFIDataList& src) = 0;
+     *
+     * @brief   部分添加.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   src The Source to append.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Append(const NFIDataList& src) = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::Append(const NFIDataList& src, const int start, const int count) = 0;
+     *
+     * @brief   Appends a src.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   src     Source for the.
+     * @param   start   The start.
+     * @param   count   Number of.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Append(const NFIDataList& src, const int start, const int count) = 0;
-    // 部分添加
+
+    /**
+     * @fn  virtual bool NFIDataList::Append(const NFIDataList::TData& sTData) = 0;
+     *
+     * @brief   部分添加.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   sTData  The t data to append.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Append(const NFIDataList::TData& sTData) = 0;
-    // 清空
+
+    /**
+     * @fn  virtual void NFIDataList::Clear() = 0;
+     *
+     * @brief   清空.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     */
+
     virtual void Clear() = 0;
-    // 是否为空
+
+    /**
+     * @fn  virtual bool NFIDataList::IsEmpty() const = 0;
+     *
+     * @brief   是否为空.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @return  True if empty, false if not.
+     */
+
     virtual bool IsEmpty() const = 0;
-    // 数据数量
+
+    /**
+     * @fn  virtual int NFIDataList::GetCount() const = 0;
+     *
+     * @brief   数据数量.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @return  The count.
+     */
+
     virtual int GetCount() const = 0;
-    // 数据类型
+
+    /**
+     * @fn  virtual TDATA_TYPE NFIDataList::Type(const int index) const = 0;
+     *
+     * @brief   数据类型.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     *
+     * @return  A TDATA_TYPE.
+     */
+
     virtual TDATA_TYPE Type(const int index) const = 0;
-    //数据类型检测
+
+    /**
+     * @fn  virtual bool NFIDataList::TypeEx(const int nType, ...) const = 0;
+     *
+     * @brief   数据类型检测.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   nType   The type.
+     * @param   ...     Variable arguments providing additional information.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool TypeEx(const  int nType, ...) const = 0;
-    //新进入拆分
+
+    /**
+     * @fn  virtual bool NFIDataList::Split(const std::string& str, const std::string& strSplit) = 0;
+     *
+     * @brief   新进入拆分.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   str         The string.
+     * @param   strSplit    The split.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Split(const std::string& str, const std::string& strSplit) = 0;
 
-    // 添加数据
+    /**
+     * @fn  virtual bool NFIDataList::Add(const NFINT64 value) = 0;
+     *
+     * @brief   添加数据.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value to add.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Add(const NFINT64 value) = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::Add(const double value) = 0;
+     *
+     * @brief   Adds value.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value to add.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Add(const double value) = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::Add(const std::string& value) = 0;
+     *
+     * @brief   Adds value.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value to add.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Add(const std::string& value) = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::Add(const NFGUID& value) = 0;
+     *
+     * @brief   Adds value.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value to add.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Add(const NFGUID& value) = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::Add(const Point3D& value) = 0;
+     *
+     * @brief   Adds value.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value to add.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Add(const Point3D& value) = 0;
 
+    /**
+     * @fn  virtual bool NFIDataList::Set(const int index, const NFINT64 value) = 0;
+     *
+     * @brief   Sets.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Set(const int index, const NFINT64 value) = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::Set(const int index, const double value) = 0;
+     *
+     * @brief   Sets.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Set(const int index, const double value) = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::Set(const int index, const std::string& value) = 0;
+     *
+     * @brief   Sets.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Set(const int index, const std::string& value) = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::Set(const int index, const NFGUID& value) = 0;
+     *
+     * @brief   Sets.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Set(const int index, const NFGUID& value) = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::Set(const int index, const Point3D& value) = 0;
+     *
+     * @brief   Sets.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool Set(const int index, const Point3D& value) = 0;
 
-    // 获得数据
+    /**
+     * @fn  virtual NFINT64 NFIDataList::Int(const int index) const = 0;
+     *
+     * @brief   获得数据.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     *
+     * @return  A NFINT64.
+     */
+
     virtual NFINT64 Int(const int index) const = 0;
+
+    /**
+     * @fn  virtual double NFIDataList::Double(const int index) const = 0;
+     *
+     * @brief   Doubles the given index.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     *
+     * @return  A double.
+     */
+
     virtual double Double(const int index) const = 0;
+
+    /**
+     * @fn  virtual const std::string& NFIDataList::String(const int index) const = 0;
+     *
+     * @brief   Strings the given index.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     *
+     * @return  A reference to a const std::string.
+     */
+
     virtual const std::string& String(const int index) const = 0;
+
+    /**
+     * @fn  virtual const NFGUID& NFIDataList::Object(const int index) const = 0;
+     *
+     * @brief   Objects the given index.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     *
+     * @return  A reference to a const NFGUID.
+     */
+
     virtual const NFGUID& Object(const int index) const = 0;
+
+    /**
+     * @fn  virtual const Point3D& NFIDataList::Point(const int index) const = 0;
+     *
+     * @brief   Points the given index.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     *
+     * @return  A reference to a const Point3D.
+     */
+
     virtual const Point3D& Point(const int index) const = 0;
+
+    /**
+     * @fn  bool NFIDataList::AddInt(const NFINT64 value)
+     *
+     * @brief   Adds an int.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
 
     bool AddInt(const NFINT64 value)
     {
         return Add(value);
     }
+
+    /**
+     * @fn  bool NFIDataList::AddDouble(const double value)
+     *
+     * @brief   Adds a double.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     bool AddDouble(const double value)
     {
         return Add(value);
     }
+
+    /**
+     * @fn  bool NFIDataList::AddString(const std::string& value)
+     *
+     * @brief   Adds a string.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     bool AddString(const std::string& value)
     {
         return Add(value);
     }
+
+    /**
+     * @fn  bool NFIDataList::AddStringFromChar(const char* value)
+     *
+     * @brief   Adds a string from character.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     bool AddStringFromChar(const char* value)
     {
         return Add(value);
     }
+
+    /**
+     * @fn  bool NFIDataList::AddObject(const NFGUID& value)
+     *
+     * @brief   Adds an object.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     bool AddObject(const NFGUID& value)
     {
         return Add(value);
     }
+
+    /**
+     * @fn  bool NFIDataList::AddPoint(const Point3D& value)
+     *
+     * @brief   Adds a point.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     bool AddPoint(const Point3D& value)
     {
         return Add(value);
     }
 
+    /**
+     * @fn  bool NFIDataList::SetInt(const int index, const NFINT64 value)
+     *
+     * @brief   Sets an int.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     bool SetInt(const int index, const NFINT64 value)
     {
         return Set(index, value);
     }
+
+    /**
+     * @fn  bool NFIDataList::SetFloat(const int index, const double value)
+     *
+     * @brief   Sets a float.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     bool SetFloat(const int index, const double value)
     {
         return Set(index, value);
     }
+
+    /**
+     * @fn  bool NFIDataList::SetString(const int index, const std::string& value)
+     *
+     * @brief   Sets a string.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     bool SetString(const int index, const std::string& value)
     {
         return Set(index, value);
     }
+
+    /**
+     * @fn  bool NFIDataList::SetObject(const int index, const NFGUID& value)
+     *
+     * @brief   Sets an object.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     bool SetObject(const int index, const NFGUID& value)
     {
         return Set(index, value);
     }
+
+    /**
+     * @fn  bool NFIDataList::SetPoint(const int index, const Point3D& value)
+     *
+     * @brief   Sets a point.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   index   Zero-based index of the.
+     * @param   value   The value.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     bool SetPoint(const int index, const Point3D& value)
     {
         return Set(index, value);
     }
+
+    /**
+     * @fn  inline bool NFIDataList::Compare(const int nPos, const NFIDataList& src) const
+     *
+     * @brief   Compares two const int objects to determine their relative ordering.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   nPos    Constant int to be compared.
+     * @param   src     Constant nfi data list&amp; to be compared.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
 
     inline bool Compare(const int nPos, const NFIDataList& src) const
     {
@@ -486,6 +1297,18 @@ public:
         return false;
     }
 
+    /**
+     * @fn  inline bool NFIDataList::operator==(const NFIDataList& src) const
+     *
+     * @brief   Equality operator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   src Source for the.
+     *
+     * @return  True if the parameters are considered equivalent.
+     */
 
     inline bool operator==(const NFIDataList& src) const
     {
@@ -505,62 +1328,205 @@ public:
         return false;
     }
 
+    /**
+     * @fn  inline bool NFIDataList::operator!=(const NFIDataList& src)
+     *
+     * @brief   Inequality operator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   src Source for the.
+     *
+     * @return  True if the parameters are not considered equivalent.
+     */
+
     inline bool operator!=(const NFIDataList& src)
     {
         return !(*this == src);
     }
+
+    /**
+     * @fn  inline NFIDataList& NFIDataList::operator<<(const double value)
+     *
+     * @brief   Bitwise left shift operator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  The shifted result.
+     */
+
     inline NFIDataList& operator<<(const double value)
     {
         Add(value);
         return *this;
     }
+
+    /**
+     * @fn  inline NFIDataList& NFIDataList::operator<<(const char* value)
+     *
+     * @brief   Bitwise left shift operator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  The shifted result.
+     */
+
     inline NFIDataList& operator<<(const char* value)
     {
         Add(value);
         return *this;
     }
+
+    /**
+     * @fn  inline NFIDataList& NFIDataList::operator<<(const std::string& value)
+     *
+     * @brief   Bitwise left shift operator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  The shifted result.
+     */
+
     inline NFIDataList& operator<<(const std::string& value)
     {
         Add(value);
         return *this;
     }
 
+    /**
+     * @fn  inline NFIDataList& NFIDataList::operator<<(const NFINT64& value)
+     *
+     * @brief   Bitwise left shift operator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  The shifted result.
+     */
+
     inline NFIDataList& operator<<(const NFINT64& value)
     {
         Add(value);
         return *this;
     }
+
+    /**
+     * @fn  inline NFIDataList& NFIDataList::operator<<(const int value)
+     *
+     * @brief   Bitwise left shift operator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  The shifted result.
+     */
+
     inline NFIDataList& operator<<(const int value)
     {
         Add((NFINT64)value);
         return *this;
     }
+
+    /**
+     * @fn  inline NFIDataList& NFIDataList::operator<<(const NFGUID& value)
+     *
+     * @brief   Bitwise left shift operator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  The shifted result.
+     */
+
     inline NFIDataList& operator<<(const NFGUID& value)
     {
         Add(value);
         return *this;
     }
+
+    /**
+     * @fn  inline NFIDataList& NFIDataList::operator<<(const Point3D& value)
+     *
+     * @brief   Bitwise left shift operator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  The shifted result.
+     */
+
     inline NFIDataList& operator<<(const Point3D& value)
     {
         Add(value);
         return *this;
     }
 
+    /**
+     * @fn  inline NFIDataList& NFIDataList::operator<<(const NFIDataList& value)
+     *
+     * @brief   Bitwise left shift operator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/12
+     *
+     * @param   value   The value.
+     *
+     * @return  The shifted result.
+     */
+
     inline NFIDataList& operator<<(const NFIDataList& value)
     {
         Concat(value);
         return *this;
     }
+
+    /**
+     * @enum
+     *
+     * @brief   Values that represent s.
+     */
+
     enum { STACK_SIZE = 8 };
 
 protected:
+    /** @brief   Size of the mn use. */
     int mnUseSize;
+    /** @brief   List of mvs. */
     std::vector< NF_SHARE_PTR<TData> > mvList;
+    /** @brief   The mx map. */
     std::map<std::string, NF_SHARE_PTR<TData> > mxMap;
 };
 
+/**
+ * @fn  inline NFIDataList::~NFIDataList()
+ *
+ * @brief   Destructor.
+ *
+ * @author  Nick Yang
+ * @date    2016/11/12
+ */
+
 inline NFIDataList::~NFIDataList() {}
 
+/** @brief   The null tdata. */
 const static NFIDataList::TData NULL_TDATA = NFIDataList::TData();
 
 #endif
