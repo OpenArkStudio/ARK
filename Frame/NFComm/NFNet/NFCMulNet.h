@@ -13,6 +13,8 @@
 #include <atomic>
 #include "NFINet.h"
 #include "NFComm/NFCore/NFQueue.h"
+#include "common/readerwriterqueue.h"
+#include "NFComm/NFCore/NFLockFreeQueue.h"
 
 #pragma pack(push, 1)
 
@@ -223,10 +225,10 @@ private:
 
     std::thread* mpNetThread;
 
-    NFQueue<SendmsgInfo> mqSendMsg;
-    NFQueue<RecivemsgInfo> mqReciveMsg;
-    NFQueue<EventInfo> mqEventInfo;
-    NFQueue<NetTaskInfo> mqNetTaskInfo;
+    NFLockFreeQueue<SendmsgInfo> mqSendMsg;
+    NFLockFreeQueue<RecivemsgInfo> mqReciveMsg;
+    NFLockFreeQueue<EventInfo> mqEventInfo;
+    NFLockFreeQueue<NetTaskInfo> mqNetTaskInfo;
 
 private:
     static atomic_uint64_t mObjectIndex;
