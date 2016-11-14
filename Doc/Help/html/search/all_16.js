@@ -1,11 +1,10 @@
 var searchData=
 [
-  ['x',['x',['../class_g3_d_1_1_quat.html#a378e8613aa54dec6e707c1f74aa41957',1,'G3D::Quat']]],
-  ['xml_5fattribute',['xml_attribute',['../classrapidxml_1_1xml__attribute.html',1,'rapidxml']]],
-  ['xml_5fattribute',['xml_attribute',['../classrapidxml_1_1xml__attribute.html#a26be291103917d3e8de110d46dd83816',1,'rapidxml::xml_attribute']]],
-  ['xml_5fbase',['xml_base',['../classrapidxml_1_1xml__base.html',1,'rapidxml']]],
-  ['xml_5fdocument',['xml_document',['../classrapidxml_1_1xml__document.html',1,'rapidxml']]],
-  ['xml_5fdocument',['xml_document',['../classrapidxml_1_1xml__document.html#aae8841b15085ba8f32ff46587ace28f5',1,'rapidxml::xml_document']]],
-  ['xml_5fnode',['xml_node',['../classrapidxml_1_1xml__node.html',1,'rapidxml']]],
-  ['xml_5fnode',['xml_node',['../classrapidxml_1_1xml__node.html#a8bd9019960b90605a45998b661fb1b0e',1,'rapidxml::xml_node']]]
+  ['validcol',['ValidCol',['../class_n_f_c_record.html#a94d2329089a455eef490e2a2b98f05a3',1,'NFCRecord']]],
+  ['validindex',['ValidIndex',['../class_n_f_c_data_list.html#a9e169677dfa5837f48adbcd09110df72',1,'NFCDataList']]],
+  ['validpos',['ValidPos',['../class_n_f_c_record.html#a2997225c9557065e60e4703829178193',1,'NFCRecord']]],
+  ['validrow',['ValidRow',['../class_n_f_c_record.html#a1f456da47641a42a236954effbd95f01',1,'NFCRecord']]],
+  ['variantdata',['variantData',['../struct_n_f_i_data_list_1_1_t_data.html#ab19d96f0d7fa4bd828aae6b7390bf66a',1,'NFIDataList::TData']]],
+  ['vector3_2ehpp',['Vector3.hpp',['../_vector3_8hpp.html',1,'']]],
+  ['verifyconnectdata',['VerifyConnectData',['../class_n_f_i_proxy_server_to_world_module.html#a05b4acafce1d32853b0c079c5dd53c55',1,'NFIProxyServerToWorldModule::VerifyConnectData()'],['../class_n_f_c_proxy_server_to_world_module.html#aa100690d965b17fd402ba01cca2b1b9f',1,'NFCProxyServerToWorldModule::VerifyConnectData()']]]
 ];
