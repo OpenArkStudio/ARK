@@ -64,134 +64,1202 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_n_f_c_master_net___server_module-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">NFCMasterNet_ServerModule Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_c_master_net___server_module_8h_source.html">NFCMasterNet_ServerModule.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFCMasterNet_ServerModule:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_c_master_net___server_module.png" usemap="#NFCMasterNet_5FServerModule_map" alt=""/>
-  <map id="NFCMasterNet_5FServerModule_map" name="NFCMasterNet_ServerModule_map">
-<area href="class_n_f_i_master_net___server_module.html" alt="NFIMasterNet_ServerModule" shape="rect" coords="0,56,184,80"/>
-<area href="class_n_f_i_module.html" alt="NFIModule" shape="rect" coords="0,0,184,24"/>
+<div class="center"><img src="class_n_f_c_master_net___server_module__inherit__graph.gif" border="0" usemap="#_n_f_c_master_net___server_module_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_c_master_net___server_module_inherit__map" id="_n_f_c_master_net___server_module_inherit__map">
+<area shape="rect" id="node2" href="class_n_f_i_master_net___server_module.html" title="{NFIMasterNet_ServerModule\n||}" alt="" coords="21,424,208,501"/>
+<area shape="rect" id="node3" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l&#45; mbReloading\l&#45; mRemoveListEx\l&#45; mAddListEx\l&#45; mHeartBeatElementMapEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="21,5,209,376"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFCMasterNet_ServerModule:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_c_master_net___server_module__coll__graph.gif" border="0" usemap="#_n_f_c_master_net___server_module_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_c_master_net___server_module_coll__map" id="_n_f_c_master_net___server_module_coll__map">
+<area shape="rect" id="node2" href="class_n_f_i_master_net___server_module.html" title="{NFIMasterNet_ServerModule\n||}" alt="" coords="429,879,615,957"/>
+<area shape="rect" id="node3" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l&#45; mbReloading\l&#45; mAddListEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="627,321,798,648"/>
+<area shape="rect" id="node5" href="class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="640,791,788,1045"/>
+<area shape="rect" id="node7" href="class_n_f_i_kernel_module.html" title="{NFIKernelModule\n||+ AddHeartBeat()\l+ FindHeartBeat()\l+ RemoveHeartBeat()\l+ AddRecordCallBack()\l+ AddPropertyCallBack()\l+ AddEventCallBack()\l+ AddClassCallBack()\l+ DoEvent()\l+ DoEvent()\l+ RegisterCommonClassEvent()\land 56 more...\l# AddEventCallBack()\l# AddClassCallBack()\l# RegisterCommonClassEvent()\l# RegisterCommonPropertyEvent()\l# RegisterCommonRecordEvent()\l}" alt="" coords="812,769,1035,1067"/>
+<area shape="rect" id="node8" href="class_n_f_i_class_module.html" title="{NFIClassModule\n||+ ~NFIClassModule()\l+ Load()\l+ Save()\l+ Clear()\l+ AddClassCallBack()\l+ DoEvent()\l+ AddClassCallBack()\l+ GetClassPropertyManager()\l+ GetClassRecordManager()\l+ GetClassComponentManager()\l}" alt="" coords="5,813,217,1023"/>
+<area shape="rect" id="node10" href="class_n_f_i_element_module.html" title="{NFIElementModule\n||+ Load()\l+ Save()\l+ Clear()\l+ LoadSceneInfo()\l+ ExistElement()\l+ ExistElement()\l+ GetPropertyManager()\l+ GetRecordManager()\l+ GetComponentManager()\l+ GetPropertyInt()\l+ GetPropertyFloat()\l+ GetPropertyString()\l}" alt="" coords="1059,799,1238,1037"/>
+<area shape="rect" id="node11" href="class_n_f_i_net_module.html" title="{NFINetModule\n|&#45; nLastTime\l&#45; mxReceiveCallBack\l&#45; mxEventCallBackList\l&#45; mxCallBackList\l|+ NFINetModule()\l+ NFINetModule()\l+ ~NFINetModule()\l+ Initialization()\l+ Initialization()\l+ AddReceiveCallBack()\l+ AddReceiveCallBack()\l+ AddReceiveCallBack()\l+ AddReceiveCallBack()\l+ AddEventCallBack()\land 10 more...\l+ PBToNF()\l+ NFToPB()\l+ PBToNF()\l+ NFToPB()\l+ ReceivePB()\l+ ReceivePB()\l# NFINetModule()\l# OnReceiveNetPack()\l# OnSocketNetEvent()\l# KeepAlive()\l}" alt="" coords="242,711,405,1125"/>
+<area shape="rect" id="node13" href="class_n_f_i_log_module.html" title="{NFILogModule\n||+ LogDebug()\l+ LogInfo()\l+ LogWarning()\l+ LogError()\l+ LogFatal()\l+ LogDebug()\l+ LogInfo()\l+ LogWarning()\l+ LogError()\l+ LogFatal()\land 8 more...\l}" alt="" coords="1263,806,1373,1030"/>
+<area shape="rect" id="node4" href="class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="541,27,684,237"/>
+<area shape="rect" id="node6" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFCModuleHeartBeatElement \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="708,5,920,259"/>
+<area shape="rect" id="node9" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFIClass \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="30,358,185,611"/>
+<area shape="rect" id="node12" href="class_n_f_i_net.html" title="{NFINet\n||+ Execute()\l+ Initialization()\l+ Initialization()\l+ Final()\l+ SendMsgWithOutHead()\l+ SendMsgWithOutHead()\l+ SendMsgToAllClient()\l+ SendMsgToAllClientWithOutHead()\l+ CloseNetObject()\l+ CloseNetObject()\l+ IsServer()\l+ Log()\l}" alt="" coords="209,365,446,604"/>
+<area shape="rect" id="node14" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; int, ServerData \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="1398,799,1587,1037"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a15ef56f7db21cccdd9f06e14cce10c66"><td class="memItemLeft" align="right" valign="top"><a id="a15ef56f7db21cccdd9f06e14cce10c66"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>NFCMasterNet_ServerModule</b> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
+<tr class="memitem:a15ef56f7db21cccdd9f06e14cce10c66"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a15ef56f7db21cccdd9f06e14cce10c66">NFCMasterNet_ServerModule</a> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
 <tr class="separator:a15ef56f7db21cccdd9f06e14cce10c66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d8ef7908e882461add38ecf75daa0b6"><td class="memItemLeft" align="right" valign="top"><a id="a6d8ef7908e882461add38ecf75daa0b6"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
+<tr class="memitem:a6d8ef7908e882461add38ecf75daa0b6"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a6d8ef7908e882461add38ecf75daa0b6">Init</a> ()</td></tr>
 <tr class="separator:a6d8ef7908e882461add38ecf75daa0b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add25c1a8bc67a6a053653509abf7b475"><td class="memItemLeft" align="right" valign="top"><a id="add25c1a8bc67a6a053653509abf7b475"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Shut</b> ()</td></tr>
+<tr class="memitem:add25c1a8bc67a6a053653509abf7b475"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#add25c1a8bc67a6a053653509abf7b475">Shut</a> ()</td></tr>
 <tr class="separator:add25c1a8bc67a6a053653509abf7b475"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad96d6db265966fbc8a73ffed19bb35ab"><td class="memItemLeft" align="right" valign="top"><a id="ad96d6db265966fbc8a73ffed19bb35ab"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AfterInit</b> ()</td></tr>
+<tr class="memitem:ad96d6db265966fbc8a73ffed19bb35ab"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#ad96d6db265966fbc8a73ffed19bb35ab">AfterInit</a> ()</td></tr>
 <tr class="separator:ad96d6db265966fbc8a73ffed19bb35ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8dac55b1f7a0b2e294e1d2930fb29c5e"><td class="memItemLeft" align="right" valign="top"><a id="a8dac55b1f7a0b2e294e1d2930fb29c5e"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Execute</b> ()</td></tr>
+<tr class="memitem:a8dac55b1f7a0b2e294e1d2930fb29c5e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a8dac55b1f7a0b2e294e1d2930fb29c5e">Execute</a> ()</td></tr>
 <tr class="separator:a8dac55b1f7a0b2e294e1d2930fb29c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f4eb259dc9880821cdc1181a9cd672d"><td class="memItemLeft" align="right" valign="top"><a id="a5f4eb259dc9880821cdc1181a9cd672d"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogReceive</b> (const char *str)</td></tr>
+<tr class="memitem:a5f4eb259dc9880821cdc1181a9cd672d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a5f4eb259dc9880821cdc1181a9cd672d">LogReceive</a> (const char *str)</td></tr>
 <tr class="separator:a5f4eb259dc9880821cdc1181a9cd672d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5e88b6d1a1feb2542c0bce46815b742"><td class="memItemLeft" align="right" valign="top"><a id="ae5e88b6d1a1feb2542c0bce46815b742"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogSend</b> (const char *str)</td></tr>
+<tr class="memitem:ae5e88b6d1a1feb2542c0bce46815b742"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#ae5e88b6d1a1feb2542c0bce46815b742">LogSend</a> (const char *str)</td></tr>
 <tr class="separator:ae5e88b6d1a1feb2542c0bce46815b742"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a29ebe3a43330203d9f3e9d06b5ce0b33"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>CheckConfig</b> ()</td></tr>
+<tr class="memitem:ac4055db8fca34fbaa8ac24f75a3dc3c7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ac4055db8fca34fbaa8ac24f75a3dc3c7">NFIModule</a> ()</td></tr>
+<tr class="separator:ac4055db8fca34fbaa8ac24f75a3dc3c7 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae50e636e9a4e2c40ce2c86abe0b07865 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ae50e636e9a4e2c40ce2c86abe0b07865">~NFIModule</a> ()</td></tr>
+<tr class="separator:ae50e636e9a4e2c40ce2c86abe0b07865 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a29ebe3a43330203d9f3e9d06b5ce0b33">CheckConfig</a> ()</td></tr>
 <tr class="separator:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a718b98d9795954f4f2982e67c2d98683 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a718b98d9795954f4f2982e67c2d98683"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>BeforeShut</b> ()</td></tr>
+<tr class="memitem:a718b98d9795954f4f2982e67c2d98683 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a718b98d9795954f4f2982e67c2d98683">BeforeShut</a> ()</td></tr>
 <tr class="separator:a718b98d9795954f4f2982e67c2d98683 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="aa44fa391ec7fb2882f208c9b36e3c3f7"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>StartReLoadState</b> ()</td></tr>
+<tr class="memitem:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#aa44fa391ec7fb2882f208c9b36e3c3f7">StartReLoadState</a> ()</td></tr>
 <tr class="separator:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a28217dc4ebbf611a34434ff07fb0d7db"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>EndReLoadState</b> ()</td></tr>
+<tr class="memitem:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a28217dc4ebbf611a34434ff07fb0d7db">EndReLoadState</a> ()</td></tr>
 <tr class="separator:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="ab65d97e11a34f47b4257a4d3175d48b9"></a>
-virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetPluginManager</b> () const</td></tr>
+<tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ab65d97e11a34f47b4257a4d3175d48b9">GetPluginManager</a> () const</td></tr>
 <tr class="separator:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2"><a id="a48581696daeec956659ef3720834bdc9"></a>
-template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AddHeartBeatExecute</b> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
+<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a48581696daeec956659ef3720834bdc9">AddHeartBeatExecute</a> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
 <tr class="separator:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a89b70e2046ffd656fe4cf4bc0963be86"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>RemoveHeartBeat</b> (const std::string &amp;strHeartBeatName)</td></tr>
+<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a89b70e2046ffd656fe4cf4bc0963be86">RemoveHeartBeat</a> (const std::string &amp;strHeartBeatName)</td></tr>
 <tr class="separator:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a4e7340e694a0904b0bc544caaf82819d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Loading</b> () const</td></tr>
+<tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a4e7340e694a0904b0bc544caaf82819d">Loading</a> () const</td></tr>
 <tr class="separator:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a00e2577302b3e45d98efabfaec8d7829"><td class="memItemLeft" align="right" valign="top"><a id="a00e2577302b3e45d98efabfaec8d7829"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnSocketEvent</b> (const int nSockIndex, const NF_NET_EVENT eEvent, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID, const int nServerID)</td></tr>
+<tr class="memitem:a00e2577302b3e45d98efabfaec8d7829"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a00e2577302b3e45d98efabfaec8d7829">OnSocketEvent</a> (const int nSockIndex, const <a class="el" href="_n_f_i_net_8h.html#a5a15754b477432993e21ef833ed79cef">NF_NET_EVENT</a> eEvent, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID, const int nServerID)</td></tr>
 <tr class="separator:a00e2577302b3e45d98efabfaec8d7829"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1922a99c0928e0457a0a372c2c2f21f3"><td class="memItemLeft" align="right" valign="top"><a id="a1922a99c0928e0457a0a372c2c2f21f3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnClientDisconnect</b> (const int nAddress)</td></tr>
+<tr class="memitem:a1922a99c0928e0457a0a372c2c2f21f3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a1922a99c0928e0457a0a372c2c2f21f3">OnClientDisconnect</a> (const int nAddress)</td></tr>
 <tr class="separator:a1922a99c0928e0457a0a372c2c2f21f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76b089ea09d3b0ead6aafab3aed340dc"><td class="memItemLeft" align="right" valign="top"><a id="a76b089ea09d3b0ead6aafab3aed340dc"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnClientConnected</b> (const int nAddress)</td></tr>
+<tr class="memitem:a76b089ea09d3b0ead6aafab3aed340dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a76b089ea09d3b0ead6aafab3aed340dc">OnClientConnected</a> (const int nAddress)</td></tr>
 <tr class="separator:a76b089ea09d3b0ead6aafab3aed340dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c83d5ffa9064d36eda42ac8a39a9ac1"><td class="memItemLeft" align="right" valign="top"><a id="a2c83d5ffa9064d36eda42ac8a39a9ac1"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnWorldRegisteredProcess</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:a2c83d5ffa9064d36eda42ac8a39a9ac1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a2c83d5ffa9064d36eda42ac8a39a9ac1">OnWorldRegisteredProcess</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:a2c83d5ffa9064d36eda42ac8a39a9ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acdd3f71c7cec44d68d63cac02df3b0b6"><td class="memItemLeft" align="right" valign="top"><a id="acdd3f71c7cec44d68d63cac02df3b0b6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnWorldUnRegisteredProcess</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:acdd3f71c7cec44d68d63cac02df3b0b6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#acdd3f71c7cec44d68d63cac02df3b0b6">OnWorldUnRegisteredProcess</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:acdd3f71c7cec44d68d63cac02df3b0b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae7092957029614f172912e7e1fd7d664"><td class="memItemLeft" align="right" valign="top"><a id="ae7092957029614f172912e7e1fd7d664"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnRefreshWorldInfoProcess</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:ae7092957029614f172912e7e1fd7d664"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#ae7092957029614f172912e7e1fd7d664">OnRefreshWorldInfoProcess</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:ae7092957029614f172912e7e1fd7d664"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a77ac18410a3aefa2dae19b95c427f717"><td class="memItemLeft" align="right" valign="top"><a id="a77ac18410a3aefa2dae19b95c427f717"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnLoginRegisteredProcess</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:a77ac18410a3aefa2dae19b95c427f717"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a77ac18410a3aefa2dae19b95c427f717">OnLoginRegisteredProcess</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:a77ac18410a3aefa2dae19b95c427f717"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a64ae3d03dcab17cd6ad7fea0226b5775"><td class="memItemLeft" align="right" valign="top"><a id="a64ae3d03dcab17cd6ad7fea0226b5775"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnLoginUnRegisteredProcess</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:a64ae3d03dcab17cd6ad7fea0226b5775"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a64ae3d03dcab17cd6ad7fea0226b5775">OnLoginUnRegisteredProcess</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:a64ae3d03dcab17cd6ad7fea0226b5775"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc06054148babfba08e4a4c18acde551"><td class="memItemLeft" align="right" valign="top"><a id="abc06054148babfba08e4a4c18acde551"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnRefreshLoginInfoProcess</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:abc06054148babfba08e4a4c18acde551"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#abc06054148babfba08e4a4c18acde551">OnRefreshLoginInfoProcess</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:abc06054148babfba08e4a4c18acde551"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7a224156d7dd7382334ab73ab4bbc93"><td class="memItemLeft" align="right" valign="top"><a id="ab7a224156d7dd7382334ab73ab4bbc93"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnSelectWorldProcess</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:ab7a224156d7dd7382334ab73ab4bbc93"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#ab7a224156d7dd7382334ab73ab4bbc93">OnSelectWorldProcess</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:ab7a224156d7dd7382334ab73ab4bbc93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a810cfdb6202db5132fcc1bbedad259d9"><td class="memItemLeft" align="right" valign="top"><a id="a810cfdb6202db5132fcc1bbedad259d9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnSelectServerResultProcess</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:a810cfdb6202db5132fcc1bbedad259d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a810cfdb6202db5132fcc1bbedad259d9">OnSelectServerResultProcess</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:a810cfdb6202db5132fcc1bbedad259d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff8b3a6f65ccd222d1bcecc88b2556e9"><td class="memItemLeft" align="right" valign="top"><a id="aff8b3a6f65ccd222d1bcecc88b2556e9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SynWorldToLogin</b> ()</td></tr>
+<tr class="memitem:aff8b3a6f65ccd222d1bcecc88b2556e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#aff8b3a6f65ccd222d1bcecc88b2556e9">SynWorldToLogin</a> ()</td></tr>
 <tr class="separator:aff8b3a6f65ccd222d1bcecc88b2556e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c653258fef1fbc504d11591985575f2"><td class="memItemLeft" align="right" valign="top"><a id="a1c653258fef1fbc504d11591985575f2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>LogGameServer</b> ()</td></tr>
+<tr class="memitem:a1c653258fef1fbc504d11591985575f2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a1c653258fef1fbc504d11591985575f2">LogGameServer</a> ()</td></tr>
 <tr class="separator:a1c653258fef1fbc504d11591985575f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d4a8cdf17772e52b511ccc76c616eb9"><td class="memItemLeft" align="right" valign="top"><a id="a0d4a8cdf17772e52b511ccc76c616eb9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnHeartBeat</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:a0d4a8cdf17772e52b511ccc76c616eb9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a0d4a8cdf17772e52b511ccc76c616eb9">OnHeartBeat</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:a0d4a8cdf17772e52b511ccc76c616eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42aecf23247d9efbfcf93d0ef0812148"><td class="memItemLeft" align="right" valign="top"><a id="a42aecf23247d9efbfcf93d0ef0812148"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>InvalidMessage</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:a42aecf23247d9efbfcf93d0ef0812148"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a42aecf23247d9efbfcf93d0ef0812148">InvalidMessage</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:a42aecf23247d9efbfcf93d0ef0812148"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ac3d9dca9095351fc59894c7954224324"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#ac3d9dca9095351fc59894c7954224324">mnLastLogTime</a></td></tr>
+<tr class="separator:ac3d9dca9095351fc59894c7954224324"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a813188005c3a349f4eafdf38c1cf36a3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; int, <a class="el" href="struct_server_data.html">ServerData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a813188005c3a349f4eafdf38c1cf36a3">mWorldMap</a></td></tr>
+<tr class="separator:a813188005c3a349f4eafdf38c1cf36a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a436680050072826a059f53dad1daa8c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; int, <a class="el" href="struct_server_data.html">ServerData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a436680050072826a059f53dad1daa8c1">mLoginMap</a></td></tr>
+<tr class="separator:a436680050072826a059f53dad1daa8c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61a207cccf17d18c1292235f91fe6046"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_element_module.html">NFIElementModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a61a207cccf17d18c1292235f91fe6046">m_pElementModule</a></td></tr>
+<tr class="separator:a61a207cccf17d18c1292235f91fe6046"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5da3dbfeaa73f180fc90a44203d97eba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_class_module.html">NFIClassModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a5da3dbfeaa73f180fc90a44203d97eba">m_pClassModule</a></td></tr>
+<tr class="separator:a5da3dbfeaa73f180fc90a44203d97eba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1314c39276b19328b7831402431482df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_kernel_module.html">NFIKernelModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a1314c39276b19328b7831402431482df">m_pKernelModule</a></td></tr>
+<tr class="separator:a1314c39276b19328b7831402431482df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae79f50b82e3a058525a013a6b03b6c8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_log_module.html">NFILogModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#ae79f50b82e3a058525a013a6b03b6c8a">m_pLogModule</a></td></tr>
+<tr class="separator:ae79f50b82e3a058525a013a6b03b6c8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55e136be7a10b7f4294e3101c49915a2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_net_module.html">NFINetModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_master_net___server_module.html#a55e136be7a10b7f4294e3101c49915a2">m_pNetModule</a></td></tr>
+<tr class="separator:a55e136be7a10b7f4294e3101c49915a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="aa714ce5e40aec7d752d58d068f3efad7"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>strName</b></td></tr>
+<tr class="memitem:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#aa714ce5e40aec7d752d58d068f3efad7">strName</a></td></tr>
 <tr class="separator:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a078fbd0e90c9a9918bba04407d69727c"></a>
-<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>pPluginManager</b></td></tr>
+<tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a078fbd0e90c9a9918bba04407d69727c">pPluginManager</a></td></tr>
 <tr class="separator:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a15ef56f7db21cccdd9f06e14cce10c66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15ef56f7db21cccdd9f06e14cce10c66">&sect;&nbsp;</a></span>NFCMasterNet_ServerModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFCMasterNet_ServerModule::NFCMasterNet_ServerModule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad96d6db265966fbc8a73ffed19bb35ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad96d6db265966fbc8a73ffed19bb35ab">&sect;&nbsp;</a></span>AfterInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCMasterNet_ServerModule::AfterInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#ac7719c4ab72efc1b698eca98968c0f43">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a8dac55b1f7a0b2e294e1d2930fb29c5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8dac55b1f7a0b2e294e1d2930fb29c5e">&sect;&nbsp;</a></span>Execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCMasterNet_ServerModule::Execute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#ad7c55c42281a825974522deaf190eaba">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a6d8ef7908e882461add38ecf75daa0b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d8ef7908e882461add38ecf75daa0b6">&sect;&nbsp;</a></span>Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCMasterNet_ServerModule::Init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#a5dbba4491b7a07074cf4abfe2db95899">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a42aecf23247d9efbfcf93d0ef0812148"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42aecf23247d9efbfcf93d0ef0812148">&sect;&nbsp;</a></span>InvalidMessage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::InvalidMessage </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1c653258fef1fbc504d11591985575f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c653258fef1fbc504d11591985575f2">&sect;&nbsp;</a></span>LogGameServer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::LogGameServer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5f4eb259dc9880821cdc1181a9cd672d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f4eb259dc9880821cdc1181a9cd672d">&sect;&nbsp;</a></span>LogReceive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void NFCMasterNet_ServerModule::LogReceive </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae5e88b6d1a1feb2542c0bce46815b742"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5e88b6d1a1feb2542c0bce46815b742">&sect;&nbsp;</a></span>LogSend()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void NFCMasterNet_ServerModule::LogSend </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76b089ea09d3b0ead6aafab3aed340dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76b089ea09d3b0ead6aafab3aed340dc">&sect;&nbsp;</a></span>OnClientConnected()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnClientConnected </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nAddress</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1922a99c0928e0457a0a372c2c2f21f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1922a99c0928e0457a0a372c2c2f21f3">&sect;&nbsp;</a></span>OnClientDisconnect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnClientDisconnect </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nAddress</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0d4a8cdf17772e52b511ccc76c616eb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d4a8cdf17772e52b511ccc76c616eb9">&sect;&nbsp;</a></span>OnHeartBeat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnHeartBeat </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a77ac18410a3aefa2dae19b95c427f717"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77ac18410a3aefa2dae19b95c427f717">&sect;&nbsp;</a></span>OnLoginRegisteredProcess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnLoginRegisteredProcess </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a64ae3d03dcab17cd6ad7fea0226b5775"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64ae3d03dcab17cd6ad7fea0226b5775">&sect;&nbsp;</a></span>OnLoginUnRegisteredProcess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnLoginUnRegisteredProcess </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abc06054148babfba08e4a4c18acde551"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc06054148babfba08e4a4c18acde551">&sect;&nbsp;</a></span>OnRefreshLoginInfoProcess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnRefreshLoginInfoProcess </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae7092957029614f172912e7e1fd7d664"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7092957029614f172912e7e1fd7d664">&sect;&nbsp;</a></span>OnRefreshWorldInfoProcess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnRefreshWorldInfoProcess </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a810cfdb6202db5132fcc1bbedad259d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a810cfdb6202db5132fcc1bbedad259d9">&sect;&nbsp;</a></span>OnSelectServerResultProcess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnSelectServerResultProcess </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab7a224156d7dd7382334ab73ab4bbc93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7a224156d7dd7382334ab73ab4bbc93">&sect;&nbsp;</a></span>OnSelectWorldProcess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnSelectWorldProcess </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a00e2577302b3e45d98efabfaec8d7829"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00e2577302b3e45d98efabfaec8d7829">&sect;&nbsp;</a></span>OnSocketEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnSocketEvent </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_i_net_8h.html#a5a15754b477432993e21ef833ed79cef">NF_NET_EVENT</a>&#160;</td>
+          <td class="paramname"><em>eEvent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nServerID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2c83d5ffa9064d36eda42ac8a39a9ac1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c83d5ffa9064d36eda42ac8a39a9ac1">&sect;&nbsp;</a></span>OnWorldRegisteredProcess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnWorldRegisteredProcess </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acdd3f71c7cec44d68d63cac02df3b0b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdd3f71c7cec44d68d63cac02df3b0b6">&sect;&nbsp;</a></span>OnWorldUnRegisteredProcess()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::OnWorldUnRegisteredProcess </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="add25c1a8bc67a6a053653509abf7b475"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add25c1a8bc67a6a053653509abf7b475">&sect;&nbsp;</a></span>Shut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCMasterNet_ServerModule::Shut </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#a345cdec76e4e04b92e8635a0b51ed41f">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="aff8b3a6f65ccd222d1bcecc88b2556e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff8b3a6f65ccd222d1bcecc88b2556e9">&sect;&nbsp;</a></span>SynWorldToLogin()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCMasterNet_ServerModule::SynWorldToLogin </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a5da3dbfeaa73f180fc90a44203d97eba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5da3dbfeaa73f180fc90a44203d97eba">&sect;&nbsp;</a></span>m_pClassModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_class_module.html">NFIClassModule</a>* NFCMasterNet_ServerModule::m_pClassModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a61a207cccf17d18c1292235f91fe6046"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61a207cccf17d18c1292235f91fe6046">&sect;&nbsp;</a></span>m_pElementModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_element_module.html">NFIElementModule</a>* NFCMasterNet_ServerModule::m_pElementModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1314c39276b19328b7831402431482df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1314c39276b19328b7831402431482df">&sect;&nbsp;</a></span>m_pKernelModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_kernel_module.html">NFIKernelModule</a>* NFCMasterNet_ServerModule::m_pKernelModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae79f50b82e3a058525a013a6b03b6c8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae79f50b82e3a058525a013a6b03b6c8a">&sect;&nbsp;</a></span>m_pLogModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_log_module.html">NFILogModule</a>* NFCMasterNet_ServerModule::m_pLogModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a55e136be7a10b7f4294e3101c49915a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55e136be7a10b7f4294e3101c49915a2">&sect;&nbsp;</a></span>m_pNetModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_net_module.html">NFINetModule</a>* NFCMasterNet_ServerModule::m_pNetModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a436680050072826a059f53dad1daa8c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a436680050072826a059f53dad1daa8c1">&sect;&nbsp;</a></span>mLoginMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt;int, <a class="el" href="struct_server_data.html">ServerData</a>&gt; NFCMasterNet_ServerModule::mLoginMap</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac3d9dca9095351fc59894c7954224324"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3d9dca9095351fc59894c7954224324">&sect;&nbsp;</a></span>mnLastLogTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> NFCMasterNet_ServerModule::mnLastLogTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a813188005c3a349f4eafdf38c1cf36a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a813188005c3a349f4eafdf38c1cf36a3">&sect;&nbsp;</a></span>mWorldMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt;int, <a class="el" href="struct_server_data.html">ServerData</a>&gt; NFCMasterNet_ServerModule::mWorldMap</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFServer/NFMasterNet_ServerPlugin/<a class="el" href="_n_f_c_master_net___server_module_8h_source.html">NFCMasterNet_ServerModule.h</a></li>
-<li>E:/NF/ArkGameFrame/Frame/NFServer/NFMasterNet_ServerPlugin/NFCMasterNet_ServerModule.cpp</li>
+<li><a class="el" href="_n_f_c_master_net___server_module_8h_source.html">NFCMasterNet_ServerModule.h</a></li>
+<li><a class="el" href="_n_f_c_master_net___server_module_8cpp.html">NFCMasterNet_ServerModule.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

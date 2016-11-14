@@ -68,103 +68,518 @@ $(function() {
 <div class="title">NFIClass Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_i_class_module_8h_source.html">NFIClassModule.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFIClass:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_i_class.png" usemap="#NFIClass_map" alt=""/>
-  <map id="NFIClass_map" name="NFIClass_map">
-<area href="class_n_f_list.html" alt="NFList&lt; std::string &gt;" shape="rect" coords="0,0,125,24"/>
-<area href="class_n_f_c_class.html" alt="NFCClass" shape="rect" coords="0,112,125,136"/>
+<div class="center"><img src="class_n_f_i_class__inherit__graph.gif" border="0" usemap="#_n_f_i_class_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_i_class_inherit__map" id="_n_f_i_class_inherit__map">
+<area shape="rect" id="node3" href="class_n_f_c_class.html" title="{NFCClass\n|&#45; m_pPropertyManager\l&#45; m_pRecordManager\l&#45; m_pComponentManager\l&#45; m_pParentClass\l&#45; mstrType\l&#45; mstrClassName\l&#45; mstrClassInstancePath\l&#45; mlConfigList\l&#45; mxClassEventInfo\l|+ NFCClass()\l+ ~NFCClass()\l+ GetPropertyManager()\l+ GetRecordManager()\l+ GetComponentManager()\l+ AddClassCallBack()\l+ DoEvent()\l+ SetParent()\l+ GetParent()\l+ SetTypeName()\land 6 more...\l}" alt="" coords="5,593,184,935"/>
+<area shape="rect" id="node2" href="class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="23,5,166,215"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFIClass:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_i_class__coll__graph.gif" border="0" usemap="#_n_f_i_class_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_i_class_coll__map" id="_n_f_i_class_coll__map">
+<area shape="rect" id="node2" href="class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="23,5,166,215"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a9cc90517ed78fba532396308148300cf"><td class="memItemLeft" align="right" valign="top"><a id="a9cc90517ed78fba532396308148300cf"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_property_manager.html">NFIPropertyManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetPropertyManager</b> ()=0</td></tr>
+<tr class="memitem:aad0496e8856f9ab536153b5bb18abbd3"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#aad0496e8856f9ab536153b5bb18abbd3">~NFIClass</a> ()</td></tr>
+<tr class="separator:aad0496e8856f9ab536153b5bb18abbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cc90517ed78fba532396308148300cf"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property_manager.html">NFIPropertyManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a9cc90517ed78fba532396308148300cf">GetPropertyManager</a> ()=0</td></tr>
 <tr class="separator:a9cc90517ed78fba532396308148300cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5191d7f25bb973b189d9ad92615c962c"><td class="memItemLeft" align="right" valign="top"><a id="a5191d7f25bb973b189d9ad92615c962c"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record_manager.html">NFIRecordManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetRecordManager</b> ()=0</td></tr>
+<tr class="memitem:a5191d7f25bb973b189d9ad92615c962c"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record_manager.html">NFIRecordManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a5191d7f25bb973b189d9ad92615c962c">GetRecordManager</a> ()=0</td></tr>
 <tr class="separator:a5191d7f25bb973b189d9ad92615c962c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc1be8335f74be2bd63b49e5c20a17e0"><td class="memItemLeft" align="right" valign="top"><a id="abc1be8335f74be2bd63b49e5c20a17e0"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_component_manager.html">NFIComponentManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetComponentManager</b> ()=0</td></tr>
+<tr class="memitem:abc1be8335f74be2bd63b49e5c20a17e0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_component_manager.html">NFIComponentManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#abc1be8335f74be2bd63b49e5c20a17e0">GetComponentManager</a> ()=0</td></tr>
 <tr class="separator:abc1be8335f74be2bd63b49e5c20a17e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e07d5cb7be3004b2935c81d3abb43be"><td class="memItemLeft" align="right" valign="top"><a id="a4e07d5cb7be3004b2935c81d3abb43be"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>SetParent</b> (NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_class.html">NFIClass</a> &gt; pClass)=0</td></tr>
+<tr class="memitem:a4e07d5cb7be3004b2935c81d3abb43be"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a4e07d5cb7be3004b2935c81d3abb43be">SetParent</a> (<a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_class.html">NFIClass</a> &gt; pClass)=0</td></tr>
 <tr class="separator:a4e07d5cb7be3004b2935c81d3abb43be"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c4b76423605e7c5e74620a9aeba9801"><td class="memItemLeft" align="right" valign="top"><a id="a9c4b76423605e7c5e74620a9aeba9801"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_class.html">NFIClass</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetParent</b> ()=0</td></tr>
+<tr class="memitem:a9c4b76423605e7c5e74620a9aeba9801"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_class.html">NFIClass</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a9c4b76423605e7c5e74620a9aeba9801">GetParent</a> ()=0</td></tr>
 <tr class="separator:a9c4b76423605e7c5e74620a9aeba9801"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f0a10a93b3ba5210640d3f582752431"><td class="memItemLeft" align="right" valign="top"><a id="a1f0a10a93b3ba5210640d3f582752431"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>SetTypeName</b> (const char *strType)=0</td></tr>
+<tr class="memitem:a1f0a10a93b3ba5210640d3f582752431"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a1f0a10a93b3ba5210640d3f582752431">SetTypeName</a> (const char *strType)=0</td></tr>
 <tr class="separator:a1f0a10a93b3ba5210640d3f582752431"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28c24d75b7f0071c54272c24ff1eefbb"><td class="memItemLeft" align="right" valign="top"><a id="a28c24d75b7f0071c54272c24ff1eefbb"></a>
-virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetTypeName</b> ()=0</td></tr>
+<tr class="memitem:a28c24d75b7f0071c54272c24ff1eefbb"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a28c24d75b7f0071c54272c24ff1eefbb">GetTypeName</a> ()=0</td></tr>
 <tr class="separator:a28c24d75b7f0071c54272c24ff1eefbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a83a7f68252c4db5b6e0d8c4b3b752a02"><td class="memItemLeft" align="right" valign="top"><a id="a83a7f68252c4db5b6e0d8c4b3b752a02"></a>
-virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetClassName</b> ()=0</td></tr>
+<tr class="memitem:a83a7f68252c4db5b6e0d8c4b3b752a02"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a83a7f68252c4db5b6e0d8c4b3b752a02">GetClassName</a> ()=0</td></tr>
 <tr class="separator:a83a7f68252c4db5b6e0d8c4b3b752a02"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab1a1aa65393cf16121bc656d2e7de20b"><td class="memItemLeft" align="right" valign="top"><a id="ab1a1aa65393cf16121bc656d2e7de20b"></a>
-virtual const bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddConfigName</b> (const std::string &amp;strConfigName)=0</td></tr>
-<tr class="separator:ab1a1aa65393cf16121bc656d2e7de20b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e3814b5d58a951b072ac0a3ddc0c177"><td class="memItemLeft" align="right" valign="top"><a id="a1e3814b5d58a951b072ac0a3ddc0c177"></a>
-virtual <a class="el" href="class_n_f_list.html">NFList</a>&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetConfigNameList</b> ()=0</td></tr>
+<tr class="memitem:a9ea761ef727f266d0f86f5638a7bbb2f"><td class="memItemLeft" align="right" valign="top">virtual const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a9ea761ef727f266d0f86f5638a7bbb2f">AddConfigName</a> (std::string &amp;strConfigName)=0</td></tr>
+<tr class="separator:a9ea761ef727f266d0f86f5638a7bbb2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e3814b5d58a951b072ac0a3ddc0c177"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_list.html">NFList</a>&lt; std::string &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a1e3814b5d58a951b072ac0a3ddc0c177">GetConfigNameList</a> ()=0</td></tr>
 <tr class="separator:a1e3814b5d58a951b072ac0a3ddc0c177"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2174ac13b6284e4fcce1a39d055c7c5b"><td class="memItemLeft" align="right" valign="top"><a id="a2174ac13b6284e4fcce1a39d055c7c5b"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>SetInstancePath</b> (const std::string &amp;strPath)=0</td></tr>
+<tr class="memitem:a2174ac13b6284e4fcce1a39d055c7c5b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a2174ac13b6284e4fcce1a39d055c7c5b">SetInstancePath</a> (const std::string &amp;strPath)=0</td></tr>
 <tr class="separator:a2174ac13b6284e4fcce1a39d055c7c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7d4b1cebcc876b7655e3c1fad1803a2"><td class="memItemLeft" align="right" valign="top"><a id="ad7d4b1cebcc876b7655e3c1fad1803a2"></a>
-virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetInstancePath</b> ()=0</td></tr>
+<tr class="memitem:ad7d4b1cebcc876b7655e3c1fad1803a2"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#ad7d4b1cebcc876b7655e3c1fad1803a2">GetInstancePath</a> ()=0</td></tr>
 <tr class="separator:ad7d4b1cebcc876b7655e3c1fad1803a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8826d5809d9b3e8c5f032e542760300c"><td class="memItemLeft" align="right" valign="top"><a id="a8826d5809d9b3e8c5f032e542760300c"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddClassCallBack</b> (const CLASS_EVENT_FUNCTOR_PTR &amp;cb)=0</td></tr>
+<tr class="memitem:a8826d5809d9b3e8c5f032e542760300c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#a8826d5809d9b3e8c5f032e542760300c">AddClassCallBack</a> (const <a class="el" href="_n_f_define_8h.html#a68007bde80bde4f16ec10ee315e80902">CLASS_EVENT_FUNCTOR_PTR</a> &amp;cb)=0</td></tr>
 <tr class="separator:a8826d5809d9b3e8c5f032e542760300c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af42478c8e5d930929a6bc29e731caa0e"><td class="memItemLeft" align="right" valign="top"><a id="af42478c8e5d930929a6bc29e731caa0e"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>DoEvent</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;objectID, const CLASS_OBJECT_EVENT eClassEvent, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;valueList)=0</td></tr>
+<tr class="memitem:af42478c8e5d930929a6bc29e731caa0e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_class.html#af42478c8e5d930929a6bc29e731caa0e">DoEvent</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;objectID, const <a class="el" href="_n_f_define_8h.html#ad08c07b4cadf7ea63f072e77a2c22033">CLASS_OBJECT_EVENT</a> eClassEvent, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;valueList)=0</td></tr>
 <tr class="separator:af42478c8e5d930929a6bc29e731caa0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_n_f_list"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_list')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_n_f_list.html">NFList&lt; std::string &gt;</a></td></tr>
-<tr class="memitem:a79a2a72d0a2cf6d10580be248e2dadfc inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="a79a2a72d0a2cf6d10580be248e2dadfc"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Add</b> (const std::string &amp;id)</td></tr>
+<tr class="memitem:acb2c89263a9b186c4aaa4f699804a50d inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#acb2c89263a9b186c4aaa4f699804a50d">~NFList</a> ()</td></tr>
+<tr class="separator:acb2c89263a9b186c4aaa4f699804a50d inherit pub_methods_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79a2a72d0a2cf6d10580be248e2dadfc inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#a79a2a72d0a2cf6d10580be248e2dadfc">Add</a> (const std::string &amp;id)</td></tr>
 <tr class="separator:a79a2a72d0a2cf6d10580be248e2dadfc inherit pub_methods_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f076a305a730b57ebd73e2dd88163fa inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="a4f076a305a730b57ebd73e2dd88163fa"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Find</b> (const std::string &amp;id)</td></tr>
+<tr class="memitem:a4f076a305a730b57ebd73e2dd88163fa inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#a4f076a305a730b57ebd73e2dd88163fa">Find</a> (const std::string &amp;id)</td></tr>
 <tr class="separator:a4f076a305a730b57ebd73e2dd88163fa inherit pub_methods_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a10f8ddff9ee0f21cebd0ff55c24f4290 inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="a10f8ddff9ee0f21cebd0ff55c24f4290"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Remove</b> (const std::string &amp;id)</td></tr>
+<tr class="memitem:a10f8ddff9ee0f21cebd0ff55c24f4290 inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#a10f8ddff9ee0f21cebd0ff55c24f4290">Remove</a> (const std::string &amp;id)</td></tr>
 <tr class="separator:a10f8ddff9ee0f21cebd0ff55c24f4290 inherit pub_methods_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e7dd4daa38fbdbea1c691edf9196b20 inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="a3e7dd4daa38fbdbea1c691edf9196b20"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>ClearAll</b> ()</td></tr>
+<tr class="memitem:a3e7dd4daa38fbdbea1c691edf9196b20 inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#a3e7dd4daa38fbdbea1c691edf9196b20">ClearAll</a> ()</td></tr>
 <tr class="separator:a3e7dd4daa38fbdbea1c691edf9196b20 inherit pub_methods_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfefa06aff8c2fe1a530daa4838c74d3 inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="acfefa06aff8c2fe1a530daa4838c74d3"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>First</b> (std::string &amp;id)</td></tr>
+<tr class="memitem:acfefa06aff8c2fe1a530daa4838c74d3 inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#acfefa06aff8c2fe1a530daa4838c74d3">First</a> (std::string &amp;id)</td></tr>
 <tr class="separator:acfefa06aff8c2fe1a530daa4838c74d3 inherit pub_methods_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50d7984943a2a26dc1b0404ec08f41bc inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="a50d7984943a2a26dc1b0404ec08f41bc"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Next</b> (std::string &amp;id)</td></tr>
+<tr class="memitem:a50d7984943a2a26dc1b0404ec08f41bc inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#a50d7984943a2a26dc1b0404ec08f41bc">Next</a> (std::string &amp;id)</td></tr>
 <tr class="separator:a50d7984943a2a26dc1b0404ec08f41bc inherit pub_methods_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a798a18227c8ab26acc1d292aff8e056e inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="a798a18227c8ab26acc1d292aff8e056e"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Get</b> (const int32_t index, std::string &amp;id)</td></tr>
+<tr class="memitem:a798a18227c8ab26acc1d292aff8e056e inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#a798a18227c8ab26acc1d292aff8e056e">Get</a> (const int32_t index, std::string &amp;id)</td></tr>
 <tr class="separator:a798a18227c8ab26acc1d292aff8e056e inherit pub_methods_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c22d683e86930c03edd6e0686fafdf2 inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="a5c22d683e86930c03edd6e0686fafdf2"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>Count</b> ()</td></tr>
+<tr class="memitem:a5c22d683e86930c03edd6e0686fafdf2 inherit pub_methods_class_n_f_list"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#a5c22d683e86930c03edd6e0686fafdf2">Count</a> ()</td></tr>
 <tr class="separator:a5c22d683e86930c03edd6e0686fafdf2 inherit pub_methods_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_types_class_n_f_list"><td colspan="2" onclick="javascript:toggleInherit('pro_types_class_n_f_list')"><img src="closed.png" alt="-"/>&#160;Protected Types inherited from <a class="el" href="class_n_f_list.html">NFList&lt; std::string &gt;</a></td></tr>
-<tr class="memitem:a5ae54a8da543c6e739eb16cf8d0d551b inherit pro_types_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="a5ae54a8da543c6e739eb16cf8d0d551b"></a>
-typedef std::list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>TLISTOBJCONFIGLIST</b></td></tr>
+<tr class="memitem:a5ae54a8da543c6e739eb16cf8d0d551b inherit pro_types_class_n_f_list"><td class="memItemLeft" align="right" valign="top">typedef std::list&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#a5ae54a8da543c6e739eb16cf8d0d551b">TLISTOBJCONFIGLIST</a></td></tr>
 <tr class="separator:a5ae54a8da543c6e739eb16cf8d0d551b inherit pro_types_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_n_f_list"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_n_f_list')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_n_f_list.html">NFList&lt; std::string &gt;</a></td></tr>
-<tr class="memitem:a3124d4b3ca3ad3c4b8b9a4c90299c6e3 inherit pro_attribs_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="a3124d4b3ca3ad3c4b8b9a4c90299c6e3"></a>
-TLISTOBJCONFIGLIST&#160;</td><td class="memItemRight" valign="bottom"><b>mtObjConfigList</b></td></tr>
+<tr class="memitem:a3124d4b3ca3ad3c4b8b9a4c90299c6e3 inherit pro_attribs_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_list.html#a5ae54a8da543c6e739eb16cf8d0d551b">TLISTOBJCONFIGLIST</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#a3124d4b3ca3ad3c4b8b9a4c90299c6e3">mtObjConfigList</a></td></tr>
 <tr class="separator:a3124d4b3ca3ad3c4b8b9a4c90299c6e3 inherit pro_attribs_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae39313cfea9075a46a3e911e18d30c19 inherit pro_attribs_class_n_f_list"><td class="memItemLeft" align="right" valign="top"><a id="ae39313cfea9075a46a3e911e18d30c19"></a>
-std::list&lt; std::string &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><b>mCurIter</b></td></tr>
+<tr class="memitem:ae39313cfea9075a46a3e911e18d30c19 inherit pro_attribs_class_n_f_list"><td class="memItemLeft" align="right" valign="top">std::list&lt; std::string &gt;::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_list.html#ae39313cfea9075a46a3e911e18d30c19">mCurIter</a></td></tr>
 <tr class="separator:ae39313cfea9075a46a3e911e18d30c19 inherit pro_attribs_class_n_f_list"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aad0496e8856f9ab536153b5bb18abbd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad0496e8856f9ab536153b5bb18abbd3">&sect;&nbsp;</a></span>~NFIClass()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual NFIClass::~NFIClass </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8826d5809d9b3e8c5f032e542760300c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8826d5809d9b3e8c5f032e542760300c">&sect;&nbsp;</a></span>AddClassCallBack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIClass::AddClassCallBack </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#a68007bde80bde4f16ec10ee315e80902">CLASS_EVENT_FUNCTOR_PTR</a> &amp;&#160;</td>
+          <td class="paramname"><em>cb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#aa7537fb22f95454c205d95f798c3392e">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="a9ea761ef727f266d0f86f5638a7bbb2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ea761ef727f266d0f86f5638a7bbb2f">&sect;&nbsp;</a></span>AddConfigName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const bool NFIClass::AddConfigName </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>strConfigName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#a3b45433c3ec80eef2fdb03089c130c50">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="af42478c8e5d930929a6bc29e731caa0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af42478c8e5d930929a6bc29e731caa0e">&sect;&nbsp;</a></span>DoEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIClass::DoEvent </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>objectID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#ad08c07b4cadf7ea63f072e77a2c22033">CLASS_OBJECT_EVENT</a>&#160;</td>
+          <td class="paramname"><em>eClassEvent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td>
+          <td class="paramname"><em>valueList</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#a1ad84ce81176b5fcb355d8e4e8212d83">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="a83a7f68252c4db5b6e0d8c4b3b752a02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83a7f68252c4db5b6e0d8c4b3b752a02">&sect;&nbsp;</a></span>GetClassName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const std::string&amp; NFIClass::GetClassName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#aa02254a9f89bfc86cae7684427d00d27">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="abc1be8335f74be2bd63b49e5c20a17e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc1be8335f74be2bd63b49e5c20a17e0">&sect;&nbsp;</a></span>GetComponentManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_component_manager.html">NFIComponentManager</a>&gt; NFIClass::GetComponentManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#aaed1b50440f3deb001c09bf8564b3081">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="a1e3814b5d58a951b072ac0a3ddc0c177"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e3814b5d58a951b072ac0a3ddc0c177">&sect;&nbsp;</a></span>GetConfigNameList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_n_f_list.html">NFList</a>&lt;std::string&gt;&amp; NFIClass::GetConfigNameList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#a7dcf6bef8707a8250912fe58aade3ccb">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="ad7d4b1cebcc876b7655e3c1fad1803a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7d4b1cebcc876b7655e3c1fad1803a2">&sect;&nbsp;</a></span>GetInstancePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const std::string&amp; NFIClass::GetInstancePath </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#a4753c6bea2192b679f7a922556020274">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="a9c4b76423605e7c5e74620a9aeba9801"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c4b76423605e7c5e74620a9aeba9801">&sect;&nbsp;</a></span>GetParent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_class.html">NFIClass</a>&gt; NFIClass::GetParent </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#a68f2e92ab6163cf57c48d1ae5286277a">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="a9cc90517ed78fba532396308148300cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cc90517ed78fba532396308148300cf">&sect;&nbsp;</a></span>GetPropertyManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_property_manager.html">NFIPropertyManager</a>&gt; NFIClass::GetPropertyManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#a934a2c508d360cc48fa085d654d62145">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="a5191d7f25bb973b189d9ad92615c962c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5191d7f25bb973b189d9ad92615c962c">&sect;&nbsp;</a></span>GetRecordManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_record_manager.html">NFIRecordManager</a>&gt; NFIClass::GetRecordManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#a5eb69289100083cc11957a748facfae5">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="a28c24d75b7f0071c54272c24ff1eefbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28c24d75b7f0071c54272c24ff1eefbb">&sect;&nbsp;</a></span>GetTypeName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const std::string&amp; NFIClass::GetTypeName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#a107e3ab3bbe772445f87346622724654">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="a2174ac13b6284e4fcce1a39d055c7c5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2174ac13b6284e4fcce1a39d055c7c5b">&sect;&nbsp;</a></span>SetInstancePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void NFIClass::SetInstancePath </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#a8d1832070952bb7f6813d8445525990d">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="a4e07d5cb7be3004b2935c81d3abb43be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e07d5cb7be3004b2935c81d3abb43be">&sect;&nbsp;</a></span>SetParent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void NFIClass::SetParent </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_class.html">NFIClass</a> &gt;&#160;</td>
+          <td class="paramname"><em>pClass</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#ac49bad4b3856910ec1a10638f304a956">NFCClass</a>.</p>
+
+</div>
+</div>
+<a id="a1f0a10a93b3ba5210640d3f582752431"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f0a10a93b3ba5210640d3f582752431">&sect;&nbsp;</a></span>SetTypeName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void NFIClass::SetTypeName </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>strType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_class.html#a05ffaa8ef9b05556d0ea12da5baa4973">NFCClass</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFPluginModule/<a class="el" href="_n_f_i_class_module_8h_source.html">NFIClassModule.h</a></li>
+<li><a class="el" href="_n_f_i_class_module_8h_source.html">NFIClassModule.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

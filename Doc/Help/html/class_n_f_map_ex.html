@@ -64,77 +64,637 @@ $(function() {
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_n_f_map_ex-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">NFMapEx&lt; T, TD &gt; Class Template Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_map_ex_8h_source.html">NFMapEx.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFMapEx&lt; T, TD &gt;:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_map_ex.png" usemap="#NFMapEx_3C_20T_2C_20TD_20_3E_map" alt=""/>
-  <map id="NFMapEx_3C_20T_2C_20TD_20_3E_map" name="NFMapEx&lt; T, TD &gt;_map">
-<area href="class_n_f_concurrent_map.html" alt="NFConcurrentMap&lt; T, TD &gt;" shape="rect" coords="0,56,174,80"/>
+<div class="center"><img src="class_n_f_map_ex__inherit__graph.gif" border="0" usemap="#_n_f_map_ex_3_01_t_00_01_t_d_01_4_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_map_ex_3_01_t_00_01_t_d_01_4_inherit__map" id="_n_f_map_ex_3_01_t_00_01_t_d_01_4_inherit__map">
+<area shape="rect" id="node2" href="class_n_f_concurrent_map.html" title="{NFConcurrentMap\&lt; T,\l TD \&gt;\n||}" alt="" coords="5,292,156,384"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFMapEx&lt; T, TD &gt;:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_map_ex__coll__graph.gif" border="0" usemap="#_n_f_map_ex_3_01_t_00_01_t_d_01_4_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_map_ex_3_01_t_00_01_t_d_01_4_coll__map" id="_n_f_map_ex_3_01_t_00_01_t_d_01_4_coll__map">
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:ac33526453d3a14f56945a31210f15ffd"><td class="memItemLeft" align="right" valign="top"><a id="ac33526453d3a14f56945a31210f15ffd"></a>
-typedef std::map&lt; T, NF_SHARE_PTR&lt; TD &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>NFMapOBJECT</b></td></tr>
+<tr class="memitem:ac33526453d3a14f56945a31210f15ffd"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; T, <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; TD &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ac33526453d3a14f56945a31210f15ffd">NFMapOBJECT</a></td></tr>
 <tr class="separator:ac33526453d3a14f56945a31210f15ffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aeaddac586447691c674845cb899b3304"><td class="memItemLeft" align="right" valign="top"><a id="aeaddac586447691c674845cb899b3304"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddElement</b> (const T &amp;name, const NF_SHARE_PTR&lt; TD &gt; data)</td></tr>
+<tr class="memitem:a669689226bf84349cea851c5b699fd13"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a669689226bf84349cea851c5b699fd13">NFMapEx</a> ()</td></tr>
+<tr class="separator:a669689226bf84349cea851c5b699fd13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d74623691c6ee6fc074f9937f3fd0b0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a9d74623691c6ee6fc074f9937f3fd0b0">~NFMapEx</a> ()</td></tr>
+<tr class="separator:a9d74623691c6ee6fc074f9937f3fd0b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaddac586447691c674845cb899b3304"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aeaddac586447691c674845cb899b3304">AddElement</a> (const T &amp;name, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; TD &gt; data)</td></tr>
 <tr class="separator:aeaddac586447691c674845cb899b3304"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0353a5766a57fe1df3bddba02418ebb5"><td class="memItemLeft" align="right" valign="top"><a id="a0353a5766a57fe1df3bddba02418ebb5"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetElement</b> (const T &amp;name, const NF_SHARE_PTR&lt; TD &gt; data)</td></tr>
+<tr class="memitem:a0353a5766a57fe1df3bddba02418ebb5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a0353a5766a57fe1df3bddba02418ebb5">SetElement</a> (const T &amp;name, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; TD &gt; data)</td></tr>
 <tr class="separator:a0353a5766a57fe1df3bddba02418ebb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ff2387f940e7d4109895fe1c443abf1"><td class="memItemLeft" align="right" valign="top"><a id="a1ff2387f940e7d4109895fe1c443abf1"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>RemoveElement</b> (const T &amp;name)</td></tr>
+<tr class="memitem:a1ff2387f940e7d4109895fe1c443abf1"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a1ff2387f940e7d4109895fe1c443abf1">RemoveElement</a> (const T &amp;name)</td></tr>
 <tr class="separator:a1ff2387f940e7d4109895fe1c443abf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc397e883869dc42b08f921977b7d675"><td class="memItemLeft" align="right" valign="top"><a id="adc397e883869dc42b08f921977b7d675"></a>
-virtual TD *&#160;</td><td class="memItemRight" valign="bottom"><b>GetElementNude</b> (const T &amp;name)</td></tr>
+<tr class="memitem:adc397e883869dc42b08f921977b7d675"><td class="memItemLeft" align="right" valign="top">virtual TD *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#adc397e883869dc42b08f921977b7d675">GetElementNude</a> (const T &amp;name)</td></tr>
 <tr class="separator:adc397e883869dc42b08f921977b7d675"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad260dc1e8eeb12fb14d07ab73658c671"><td class="memItemLeft" align="right" valign="top"><a id="ad260dc1e8eeb12fb14d07ab73658c671"></a>
-virtual NF_SHARE_PTR&lt; TD &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetElement</b> (const T &amp;name)</td></tr>
+<tr class="memitem:ad260dc1e8eeb12fb14d07ab73658c671"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; TD &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ad260dc1e8eeb12fb14d07ab73658c671">GetElement</a> (const T &amp;name)</td></tr>
 <tr class="separator:ad260dc1e8eeb12fb14d07ab73658c671"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a858febc5c4f341d88c674abd3c504dcc"><td class="memItemLeft" align="right" valign="top"><a id="a858febc5c4f341d88c674abd3c504dcc"></a>
-virtual TD *&#160;</td><td class="memItemRight" valign="bottom"><b>FirstNude</b> (T &amp;name)</td></tr>
+<tr class="memitem:a858febc5c4f341d88c674abd3c504dcc"><td class="memItemLeft" align="right" valign="top">virtual TD *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a858febc5c4f341d88c674abd3c504dcc">FirstNude</a> (T &amp;name)</td></tr>
 <tr class="separator:a858febc5c4f341d88c674abd3c504dcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9de10e6afc469ad6c78ddec41f9cffd0"><td class="memItemLeft" align="right" valign="top"><a id="a9de10e6afc469ad6c78ddec41f9cffd0"></a>
-virtual TD *&#160;</td><td class="memItemRight" valign="bottom"><b>NextNude</b> (T &amp;name)</td></tr>
+<tr class="memitem:a9de10e6afc469ad6c78ddec41f9cffd0"><td class="memItemLeft" align="right" valign="top">virtual TD *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a9de10e6afc469ad6c78ddec41f9cffd0">NextNude</a> (T &amp;name)</td></tr>
 <tr class="separator:a9de10e6afc469ad6c78ddec41f9cffd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54b9dec6a19234bd15795b8fe1411b23"><td class="memItemLeft" align="right" valign="top"><a id="a54b9dec6a19234bd15795b8fe1411b23"></a>
-virtual TD *&#160;</td><td class="memItemRight" valign="bottom"><b>FirstNude</b> ()</td></tr>
+<tr class="memitem:a54b9dec6a19234bd15795b8fe1411b23"><td class="memItemLeft" align="right" valign="top">virtual TD *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a54b9dec6a19234bd15795b8fe1411b23">FirstNude</a> ()</td></tr>
 <tr class="separator:a54b9dec6a19234bd15795b8fe1411b23"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacc03036da49c86ff6ef33039b3aab6b"><td class="memItemLeft" align="right" valign="top"><a id="aacc03036da49c86ff6ef33039b3aab6b"></a>
-virtual TD *&#160;</td><td class="memItemRight" valign="bottom"><b>NextNude</b> ()</td></tr>
+<tr class="memitem:aacc03036da49c86ff6ef33039b3aab6b"><td class="memItemLeft" align="right" valign="top">virtual TD *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aacc03036da49c86ff6ef33039b3aab6b">NextNude</a> ()</td></tr>
 <tr class="separator:aacc03036da49c86ff6ef33039b3aab6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3a295045bbb1ccc915f626b9ddf82b2"><td class="memItemLeft" align="right" valign="top"><a id="ad3a295045bbb1ccc915f626b9ddf82b2"></a>
-virtual NF_SHARE_PTR&lt; TD &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>First</b> ()</td></tr>
+<tr class="memitem:ad3a295045bbb1ccc915f626b9ddf82b2"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; TD &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ad3a295045bbb1ccc915f626b9ddf82b2">First</a> ()</td></tr>
 <tr class="separator:ad3a295045bbb1ccc915f626b9ddf82b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a489b5c7ff5f3353e7a11c2d007e4de47"><td class="memItemLeft" align="right" valign="top"><a id="a489b5c7ff5f3353e7a11c2d007e4de47"></a>
-virtual NF_SHARE_PTR&lt; TD &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Next</b> ()</td></tr>
+<tr class="memitem:a489b5c7ff5f3353e7a11c2d007e4de47"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; TD &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a489b5c7ff5f3353e7a11c2d007e4de47">Next</a> ()</td></tr>
 <tr class="separator:a489b5c7ff5f3353e7a11c2d007e4de47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa588e44331964ca74c1b64c14832c322"><td class="memItemLeft" align="right" valign="top"><a id="aa588e44331964ca74c1b64c14832c322"></a>
-virtual NF_SHARE_PTR&lt; TD &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>First</b> (T &amp;name)</td></tr>
+<tr class="memitem:aa588e44331964ca74c1b64c14832c322"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; TD &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aa588e44331964ca74c1b64c14832c322">First</a> (T &amp;name)</td></tr>
 <tr class="separator:aa588e44331964ca74c1b64c14832c322"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a04493c472bdc99e65ec3f8a28977e6"><td class="memItemLeft" align="right" valign="top"><a id="a0a04493c472bdc99e65ec3f8a28977e6"></a>
-virtual NF_SHARE_PTR&lt; TD &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Next</b> (T &amp;name)</td></tr>
+<tr class="memitem:a0a04493c472bdc99e65ec3f8a28977e6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; TD &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a0a04493c472bdc99e65ec3f8a28977e6">Next</a> (T &amp;name)</td></tr>
 <tr class="separator:a0a04493c472bdc99e65ec3f8a28977e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e854d99cb4f39d9903e9f4a220d52b5"><td class="memItemLeft" align="right" valign="top"><a id="a1e854d99cb4f39d9903e9f4a220d52b5"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>Count</b> ()</td></tr>
+<tr class="memitem:a1e854d99cb4f39d9903e9f4a220d52b5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a1e854d99cb4f39d9903e9f4a220d52b5">Count</a> ()</td></tr>
 <tr class="separator:a1e854d99cb4f39d9903e9f4a220d52b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a529ed80ad881d598d293cc24ae3bc220"><td class="memItemLeft" align="right" valign="top"><a id="a529ed80ad881d598d293cc24ae3bc220"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>ClearAll</b> ()</td></tr>
+<tr class="memitem:a529ed80ad881d598d293cc24ae3bc220"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a529ed80ad881d598d293cc24ae3bc220">ClearAll</a> ()</td></tr>
 <tr class="separator:a529ed80ad881d598d293cc24ae3bc220"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ae64d364bff10b99234007513fc2870fb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_map_ex.html#ac33526453d3a14f56945a31210f15ffd">NFMapOBJECT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ae64d364bff10b99234007513fc2870fb">mObjectList</a></td></tr>
+<tr class="separator:ae64d364bff10b99234007513fc2870fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae14d5c2bab15ae929784b5d892bd86e6"><td class="memItemLeft" align="right" valign="top">NFMapOBJECT::iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ae14d5c2bab15ae929784b5d892bd86e6">mObjectCurIter</a></td></tr>
+<tr class="separator:ae14d5c2bab15ae929784b5d892bd86e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="ac33526453d3a14f56945a31210f15ffd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac33526453d3a14f56945a31210f15ffd">&sect;&nbsp;</a></span>NFMapOBJECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef std::map&lt;T, <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;TD&gt; &gt; <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::<a class="el" href="class_n_f_map_ex.html#ac33526453d3a14f56945a31210f15ffd">NFMapOBJECT</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a669689226bf84349cea851c5b699fd13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a669689226bf84349cea851c5b699fd13">&sect;&nbsp;</a></span>NFMapEx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::<a class="el" href="class_n_f_map_ex.html">NFMapEx</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9d74623691c6ee6fc074f9937f3fd0b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d74623691c6ee6fc074f9937f3fd0b0">&sect;&nbsp;</a></span>~NFMapEx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::~<a class="el" href="class_n_f_map_ex.html">NFMapEx</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aeaddac586447691c674845cb899b3304"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaddac586447691c674845cb899b3304">&sect;&nbsp;</a></span>AddElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::AddElement </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; TD &gt;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a529ed80ad881d598d293cc24ae3bc220"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a529ed80ad881d598d293cc24ae3bc220">&sect;&nbsp;</a></span>ClearAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::ClearAll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1e854d99cb4f39d9903e9f4a220d52b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e854d99cb4f39d9903e9f4a220d52b5">&sect;&nbsp;</a></span>Count()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::Count </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad3a295045bbb1ccc915f626b9ddf82b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3a295045bbb1ccc915f626b9ddf82b2">&sect;&nbsp;</a></span>First() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;TD&gt; <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::First </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa588e44331964ca74c1b64c14832c322"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa588e44331964ca74c1b64c14832c322">&sect;&nbsp;</a></span>First() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;TD&gt; <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::First </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a858febc5c4f341d88c674abd3c504dcc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a858febc5c4f341d88c674abd3c504dcc">&sect;&nbsp;</a></span>FirstNude() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual TD* <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::FirstNude </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a54b9dec6a19234bd15795b8fe1411b23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54b9dec6a19234bd15795b8fe1411b23">&sect;&nbsp;</a></span>FirstNude() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual TD* <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::FirstNude </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad260dc1e8eeb12fb14d07ab73658c671"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad260dc1e8eeb12fb14d07ab73658c671">&sect;&nbsp;</a></span>GetElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;TD&gt; <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::GetElement </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adc397e883869dc42b08f921977b7d675"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc397e883869dc42b08f921977b7d675">&sect;&nbsp;</a></span>GetElementNude()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual TD* <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::GetElementNude </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a489b5c7ff5f3353e7a11c2d007e4de47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a489b5c7ff5f3353e7a11c2d007e4de47">&sect;&nbsp;</a></span>Next() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;TD&gt; <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::Next </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a04493c472bdc99e65ec3f8a28977e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a04493c472bdc99e65ec3f8a28977e6">&sect;&nbsp;</a></span>Next() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;TD&gt; <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::Next </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9de10e6afc469ad6c78ddec41f9cffd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9de10e6afc469ad6c78ddec41f9cffd0">&sect;&nbsp;</a></span>NextNude() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual TD* <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::NextNude </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aacc03036da49c86ff6ef33039b3aab6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacc03036da49c86ff6ef33039b3aab6b">&sect;&nbsp;</a></span>NextNude() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual TD* <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::NextNude </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1ff2387f940e7d4109895fe1c443abf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ff2387f940e7d4109895fe1c443abf1">&sect;&nbsp;</a></span>RemoveElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::RemoveElement </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0353a5766a57fe1df3bddba02418ebb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0353a5766a57fe1df3bddba02418ebb5">&sect;&nbsp;</a></span>SetElement()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::SetElement </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; TD &gt;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ae14d5c2bab15ae929784b5d892bd86e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae14d5c2bab15ae929784b5d892bd86e6">&sect;&nbsp;</a></span>mObjectCurIter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFMapOBJECT::iterator <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::mObjectCurIter</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae64d364bff10b99234007513fc2870fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae64d364bff10b99234007513fc2870fb">&sect;&nbsp;</a></span>mObjectList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T, typename TD&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_map_ex.html#ac33526453d3a14f56945a31210f15ffd">NFMapOBJECT</a> <a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; T, TD &gt;::mObjectList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFCore/<a class="el" href="_n_f_map_ex_8h_source.html">NFMapEx.h</a></li>
+<li><a class="el" href="_n_f_map_ex_8h_source.html">NFMapEx.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

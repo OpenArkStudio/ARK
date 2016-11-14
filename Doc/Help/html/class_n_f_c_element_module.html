@@ -70,139 +70,867 @@ $(function() {
 <div class="title">NFCElementModule Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_c_element_module_8h_source.html">NFCElementModule.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFCElementModule:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_c_element_module.png" usemap="#NFCElementModule_map" alt=""/>
-  <map id="NFCElementModule_map" name="NFCElementModule_map">
-<area href="class_n_f_i_element_module.html" alt="NFIElementModule" shape="rect" coords="0,56,256,80"/>
-<area href="class_n_f_map_ex.html" alt="NFMapEx&lt; std::string, ElementConfigInfo &gt;" shape="rect" coords="266,56,522,80"/>
-<area href="class_n_f_i_module.html" alt="NFIModule" shape="rect" coords="0,0,256,24"/>
+<div class="center"><img src="class_n_f_c_element_module__inherit__graph.gif" border="0" usemap="#_n_f_c_element_module_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_c_element_module_inherit__map" id="_n_f_c_element_module_inherit__map">
+<area shape="rect" id="node2" href="class_n_f_i_element_module.html" title="{NFIElementModule\n||+ Load()\l+ Save()\l+ Clear()\l+ LoadSceneInfo()\l+ ExistElement()\l+ ExistElement()\l+ GetPropertyManager()\l+ GetRecordManager()\l+ GetComponentManager()\l+ GetPropertyInt()\l+ GetPropertyFloat()\l+ GetPropertyString()\l}" alt="" coords="10,431,189,670"/>
+<area shape="rect" id="node3" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l&#45; mbReloading\l&#45; mRemoveListEx\l&#45; mAddListEx\l&#45; mHeartBeatElementMapEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="5,5,193,376"/>
+<area shape="rect" id="node4" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l ElementConfigInfo \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="213,424,367,677"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFCElementModule:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_c_element_module__coll__graph.gif" border="0" usemap="#_n_f_c_element_module_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_c_element_module_coll__map" id="_n_f_c_element_module_coll__map">
+<area shape="rect" id="node2" href="class_n_f_i_element_module.html" title="{NFIElementModule\n||+ Load()\l+ Save()\l+ Clear()\l+ LoadSceneInfo()\l+ ExistElement()\l+ ExistElement()\l+ GetPropertyManager()\l+ GetRecordManager()\l+ GetComponentManager()\l+ GetPropertyInt()\l+ GetPropertyFloat()\l+ GetPropertyString()\l}" alt="" coords="242,718,421,957"/>
+<area shape="rect" id="node3" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l&#45; mbReloading\l&#45; mAddListEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="303,321,474,648"/>
+<area shape="rect" id="node5" href="class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="445,711,593,964"/>
+<area shape="rect" id="node8" href="class_n_f_i_class_module.html" title="{NFIClassModule\n||+ ~NFIClassModule()\l+ Load()\l+ Save()\l+ Clear()\l+ AddClassCallBack()\l+ DoEvent()\l+ AddClassCallBack()\l+ GetClassPropertyManager()\l+ GetClassRecordManager()\l+ GetClassComponentManager()\l}" alt="" coords="5,733,217,942"/>
+<area shape="rect" id="node4" href="class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="217,27,360,237"/>
+<area shape="rect" id="node6" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFCModuleHeartBeatElement \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="384,5,596,259"/>
+<area shape="rect" id="node7" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l ElementConfigInfo \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="618,711,773,964"/>
+<area shape="rect" id="node9" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFIClass \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="34,358,189,611"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa068ac737646844c3ba98221b11720f4"><td class="memItemLeft" align="right" valign="top"><a id="aa068ac737646844c3ba98221b11720f4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>NFCElementModule</b> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
+<tr class="memitem:aa068ac737646844c3ba98221b11720f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#aa068ac737646844c3ba98221b11720f4">NFCElementModule</a> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
 <tr class="separator:aa068ac737646844c3ba98221b11720f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcf0d7497d76c09dd5c1c284dd13d558"><td class="memItemLeft" align="right" valign="top"><a id="abcf0d7497d76c09dd5c1c284dd13d558"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
+<tr class="memitem:a6d8d1821140f094810ebd741f370a1c9"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a6d8d1821140f094810ebd741f370a1c9">~NFCElementModule</a> ()</td></tr>
+<tr class="separator:a6d8d1821140f094810ebd741f370a1c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcf0d7497d76c09dd5c1c284dd13d558"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#abcf0d7497d76c09dd5c1c284dd13d558">Init</a> ()</td></tr>
 <tr class="separator:abcf0d7497d76c09dd5c1c284dd13d558"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affc932c53fb132331eab8767d020abb0"><td class="memItemLeft" align="right" valign="top"><a id="affc932c53fb132331eab8767d020abb0"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Shut</b> ()</td></tr>
+<tr class="memitem:affc932c53fb132331eab8767d020abb0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#affc932c53fb132331eab8767d020abb0">Shut</a> ()</td></tr>
 <tr class="separator:affc932c53fb132331eab8767d020abb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc71532c8aa808ae5c2d464bdb2cee15"><td class="memItemLeft" align="right" valign="top"><a id="acc71532c8aa808ae5c2d464bdb2cee15"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AfterInit</b> ()</td></tr>
+<tr class="memitem:acc71532c8aa808ae5c2d464bdb2cee15"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#acc71532c8aa808ae5c2d464bdb2cee15">AfterInit</a> ()</td></tr>
 <tr class="separator:acc71532c8aa808ae5c2d464bdb2cee15"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0564991b334f1f65e8dc812e7bd5d96a"><td class="memItemLeft" align="right" valign="top"><a id="a0564991b334f1f65e8dc812e7bd5d96a"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>BeforeShut</b> ()</td></tr>
+<tr class="memitem:a0564991b334f1f65e8dc812e7bd5d96a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a0564991b334f1f65e8dc812e7bd5d96a">BeforeShut</a> ()</td></tr>
 <tr class="separator:a0564991b334f1f65e8dc812e7bd5d96a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1850cded11bc7fead4e060cf521cbaab"><td class="memItemLeft" align="right" valign="top"><a id="a1850cded11bc7fead4e060cf521cbaab"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Execute</b> ()</td></tr>
+<tr class="memitem:a1850cded11bc7fead4e060cf521cbaab"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a1850cded11bc7fead4e060cf521cbaab">Execute</a> ()</td></tr>
 <tr class="separator:a1850cded11bc7fead4e060cf521cbaab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07098a7e226f6ec6917cc03252d73ca5"><td class="memItemLeft" align="right" valign="top"><a id="a07098a7e226f6ec6917cc03252d73ca5"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Load</b> ()</td></tr>
+<tr class="memitem:a07098a7e226f6ec6917cc03252d73ca5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a07098a7e226f6ec6917cc03252d73ca5">Load</a> ()</td></tr>
 <tr class="separator:a07098a7e226f6ec6917cc03252d73ca5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58897e6aad40d03fe690fc38bee68742"><td class="memItemLeft" align="right" valign="top"><a id="a58897e6aad40d03fe690fc38bee68742"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Save</b> ()</td></tr>
+<tr class="memitem:a58897e6aad40d03fe690fc38bee68742"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a58897e6aad40d03fe690fc38bee68742">Save</a> ()</td></tr>
 <tr class="separator:a58897e6aad40d03fe690fc38bee68742"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a723c38d560547603adcf923d668f29e7"><td class="memItemLeft" align="right" valign="top"><a id="a723c38d560547603adcf923d668f29e7"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Clear</b> ()</td></tr>
+<tr class="memitem:a723c38d560547603adcf923d668f29e7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a723c38d560547603adcf923d668f29e7">Clear</a> ()</td></tr>
 <tr class="separator:a723c38d560547603adcf923d668f29e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a057c24c96977b3df239ce1be798f05a8"><td class="memItemLeft" align="right" valign="top"><a id="a057c24c96977b3df239ce1be798f05a8"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>LoadSceneInfo</b> (const std::string &amp;strFileName, const std::string &amp;strClassName)</td></tr>
+<tr class="memitem:a057c24c96977b3df239ce1be798f05a8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a057c24c96977b3df239ce1be798f05a8">LoadSceneInfo</a> (const std::string &amp;strFileName, const std::string &amp;strClassName)</td></tr>
 <tr class="separator:a057c24c96977b3df239ce1be798f05a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad42b4a553672a2c2346490c8767a208f"><td class="memItemLeft" align="right" valign="top"><a id="ad42b4a553672a2c2346490c8767a208f"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>ExistElement</b> (const std::string &amp;strConfigName)</td></tr>
+<tr class="memitem:ad42b4a553672a2c2346490c8767a208f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#ad42b4a553672a2c2346490c8767a208f">ExistElement</a> (const std::string &amp;strConfigName)</td></tr>
 <tr class="separator:ad42b4a553672a2c2346490c8767a208f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86e23b5a903ae6ef4ae891976c962c4e"><td class="memItemLeft" align="right" valign="top"><a id="a86e23b5a903ae6ef4ae891976c962c4e"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>ExistElement</b> (const std::string &amp;strClassName, const std::string &amp;strConfigName)</td></tr>
+<tr class="memitem:a86e23b5a903ae6ef4ae891976c962c4e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a86e23b5a903ae6ef4ae891976c962c4e">ExistElement</a> (const std::string &amp;strClassName, const std::string &amp;strConfigName)</td></tr>
 <tr class="separator:a86e23b5a903ae6ef4ae891976c962c4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17698b2a51a9098270e62122d01c328e"><td class="memItemLeft" align="right" valign="top"><a id="a17698b2a51a9098270e62122d01c328e"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_element_config_info.html">NFIElementConfigInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AddNewElement</b> (const std::string &amp;strConfigName)</td></tr>
-<tr class="separator:a17698b2a51a9098270e62122d01c328e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5a05e5fdce1aee50c5b738a334ea8694"><td class="memItemLeft" align="right" valign="top"><a id="a5a05e5fdce1aee50c5b738a334ea8694"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_element_config_info.html">NFIElementConfigInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetElementInfo</b> (const std::string &amp;strConfigName)</td></tr>
-<tr class="separator:a5a05e5fdce1aee50c5b738a334ea8694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4557c9408649dddfb01acad0c7b5052"><td class="memItemLeft" align="right" valign="top"><a id="aa4557c9408649dddfb01acad0c7b5052"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_property_manager.html">NFIPropertyManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetPropertyManager</b> (const std::string &amp;strConfigName)</td></tr>
+<tr class="memitem:aa4557c9408649dddfb01acad0c7b5052"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property_manager.html">NFIPropertyManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#aa4557c9408649dddfb01acad0c7b5052">GetPropertyManager</a> (const std::string &amp;strConfigName)</td></tr>
 <tr class="separator:aa4557c9408649dddfb01acad0c7b5052"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd548144bc979e702d58e5ac4f49c49e"><td class="memItemLeft" align="right" valign="top"><a id="abd548144bc979e702d58e5ac4f49c49e"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record_manager.html">NFIRecordManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetRecordManager</b> (const std::string &amp;strConfigName)</td></tr>
+<tr class="memitem:abd548144bc979e702d58e5ac4f49c49e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record_manager.html">NFIRecordManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#abd548144bc979e702d58e5ac4f49c49e">GetRecordManager</a> (const std::string &amp;strConfigName)</td></tr>
 <tr class="separator:abd548144bc979e702d58e5ac4f49c49e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92aa298866380088d5deb723b06882fe"><td class="memItemLeft" align="right" valign="top"><a id="a92aa298866380088d5deb723b06882fe"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_component_manager.html">NFIComponentManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetComponentManager</b> (const std::string &amp;strConfigName)</td></tr>
+<tr class="memitem:a92aa298866380088d5deb723b06882fe"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_component_manager.html">NFIComponentManager</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a92aa298866380088d5deb723b06882fe">GetComponentManager</a> (const std::string &amp;strConfigName)</td></tr>
 <tr class="separator:a92aa298866380088d5deb723b06882fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03e1025ea91ef6f419c9080c14064b08"><td class="memItemLeft" align="right" valign="top"><a id="a03e1025ea91ef6f419c9080c14064b08"></a>
-virtual NFINT64&#160;</td><td class="memItemRight" valign="bottom"><b>GetPropertyInt</b> (const std::string &amp;strConfigName, const std::string &amp;strPropertyName)</td></tr>
+<tr class="memitem:a03e1025ea91ef6f419c9080c14064b08"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a03e1025ea91ef6f419c9080c14064b08">GetPropertyInt</a> (const std::string &amp;strConfigName, const std::string &amp;strPropertyName)</td></tr>
 <tr class="separator:a03e1025ea91ef6f419c9080c14064b08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1573a43b2ea9fdd88a9155bb60e3e912"><td class="memItemLeft" align="right" valign="top"><a id="a1573a43b2ea9fdd88a9155bb60e3e912"></a>
-virtual double&#160;</td><td class="memItemRight" valign="bottom"><b>GetPropertyFloat</b> (const std::string &amp;strConfigName, const std::string &amp;strPropertyName)</td></tr>
+<tr class="memitem:a1573a43b2ea9fdd88a9155bb60e3e912"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a1573a43b2ea9fdd88a9155bb60e3e912">GetPropertyFloat</a> (const std::string &amp;strConfigName, const std::string &amp;strPropertyName)</td></tr>
 <tr class="separator:a1573a43b2ea9fdd88a9155bb60e3e912"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ef537c89855e91b8d09f1f370dee163"><td class="memItemLeft" align="right" valign="top"><a id="a4ef537c89855e91b8d09f1f370dee163"></a>
-virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetPropertyString</b> (const std::string &amp;strConfigName, const std::string &amp;strPropertyName)</td></tr>
+<tr class="memitem:a4ef537c89855e91b8d09f1f370dee163"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a4ef537c89855e91b8d09f1f370dee163">GetPropertyString</a> (const std::string &amp;strConfigName, const std::string &amp;strPropertyName)</td></tr>
 <tr class="separator:a4ef537c89855e91b8d09f1f370dee163"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a29ebe3a43330203d9f3e9d06b5ce0b33"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>CheckConfig</b> ()</td></tr>
+<tr class="memitem:ac4055db8fca34fbaa8ac24f75a3dc3c7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ac4055db8fca34fbaa8ac24f75a3dc3c7">NFIModule</a> ()</td></tr>
+<tr class="separator:ac4055db8fca34fbaa8ac24f75a3dc3c7 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae50e636e9a4e2c40ce2c86abe0b07865 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ae50e636e9a4e2c40ce2c86abe0b07865">~NFIModule</a> ()</td></tr>
+<tr class="separator:ae50e636e9a4e2c40ce2c86abe0b07865 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a29ebe3a43330203d9f3e9d06b5ce0b33">CheckConfig</a> ()</td></tr>
 <tr class="separator:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="aa44fa391ec7fb2882f208c9b36e3c3f7"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>StartReLoadState</b> ()</td></tr>
+<tr class="memitem:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#aa44fa391ec7fb2882f208c9b36e3c3f7">StartReLoadState</a> ()</td></tr>
 <tr class="separator:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a28217dc4ebbf611a34434ff07fb0d7db"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>EndReLoadState</b> ()</td></tr>
+<tr class="memitem:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a28217dc4ebbf611a34434ff07fb0d7db">EndReLoadState</a> ()</td></tr>
 <tr class="separator:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="ab65d97e11a34f47b4257a4d3175d48b9"></a>
-virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetPluginManager</b> () const</td></tr>
+<tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ab65d97e11a34f47b4257a4d3175d48b9">GetPluginManager</a> () const</td></tr>
 <tr class="separator:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2"><a id="a48581696daeec956659ef3720834bdc9"></a>
-template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AddHeartBeatExecute</b> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
+<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a48581696daeec956659ef3720834bdc9">AddHeartBeatExecute</a> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
 <tr class="separator:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a89b70e2046ffd656fe4cf4bc0963be86"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>RemoveHeartBeat</b> (const std::string &amp;strHeartBeatName)</td></tr>
+<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a89b70e2046ffd656fe4cf4bc0963be86">RemoveHeartBeat</a> (const std::string &amp;strHeartBeatName)</td></tr>
 <tr class="separator:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a4e7340e694a0904b0bc544caaf82819d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Loading</b> () const</td></tr>
+<tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a4e7340e694a0904b0bc544caaf82819d">Loading</a> () const</td></tr>
 <tr class="separator:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:ac4c5e628527d8496413f905016476004"><td class="memItemLeft" align="right" valign="top"><a id="ac4c5e628527d8496413f905016476004"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetProperty</b> (const std::string &amp;strConfigName, const std::string &amp;strPropertyName)</td></tr>
+<tr class="memitem:ac4c5e628527d8496413f905016476004"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#ac4c5e628527d8496413f905016476004">GetProperty</a> (const std::string &amp;strConfigName, const std::string &amp;strPropertyName)</td></tr>
 <tr class="separator:ac4c5e628527d8496413f905016476004"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ee92533c62ea4e5c3312489e5e34140"><td class="memItemLeft" align="right" valign="top"><a id="a5ee92533c62ea4e5c3312489e5e34140"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Load</b> (<a class="el" href="classrapidxml_1_1xml__node.html">rapidxml::xml_node</a>&lt;&gt; *attrNode, NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_class.html">NFIClass</a> &gt; pLogicClass)</td></tr>
+<tr class="memitem:a5ee92533c62ea4e5c3312489e5e34140"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a5ee92533c62ea4e5c3312489e5e34140">Load</a> (rapidxml::xml_node&lt;&gt; *attrNode, <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_class.html">NFIClass</a> &gt; pLogicClass)</td></tr>
 <tr class="separator:a5ee92533c62ea4e5c3312489e5e34140"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab02cb5e0624d55da0d3d36d8267dc8b5"><td class="memItemLeft" align="right" valign="top"><a id="ab02cb5e0624d55da0d3d36d8267dc8b5"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>LegalNumber</b> (const char *str)</td></tr>
+<tr class="memitem:ab02cb5e0624d55da0d3d36d8267dc8b5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#ab02cb5e0624d55da0d3d36d8267dc8b5">LegalNumber</a> (const char *str)</td></tr>
 <tr class="separator:ab02cb5e0624d55da0d3d36d8267dc8b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:aa14a35168a9900c98aa4dc2cd5f2c449"><td class="memItemLeft" align="right" valign="top"><a id="aa14a35168a9900c98aa4dc2cd5f2c449"></a>
-<a class="el" href="class_n_f_i_class_module.html">NFIClassModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>m_pClassModule</b></td></tr>
+<tr class="memitem:aa14a35168a9900c98aa4dc2cd5f2c449"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_class_module.html">NFIClassModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#aa14a35168a9900c98aa4dc2cd5f2c449">m_pClassModule</a></td></tr>
 <tr class="separator:aa14a35168a9900c98aa4dc2cd5f2c449"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76e67b3b6614cf0873d314e67b8cab95"><td class="memItemLeft" align="right" valign="top"><a id="a76e67b3b6614cf0873d314e67b8cab95"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>mbLoaded</b></td></tr>
+<tr class="memitem:a76e67b3b6614cf0873d314e67b8cab95"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_element_module.html#a76e67b3b6614cf0873d314e67b8cab95">mbLoaded</a></td></tr>
 <tr class="separator:a76e67b3b6614cf0873d314e67b8cab95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a078fbd0e90c9a9918bba04407d69727c"></a>
-<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>pPluginManager</b></td></tr>
+<tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a078fbd0e90c9a9918bba04407d69727c">pPluginManager</a></td></tr>
 <tr class="separator:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="aa714ce5e40aec7d752d58d068f3efad7"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>strName</b></td></tr>
+<tr class="memitem:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#aa714ce5e40aec7d752d58d068f3efad7">strName</a></td></tr>
 <tr class="separator:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_types_class_n_f_map_ex"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_n_f_map_ex')"><img src="closed.png" alt="-"/>&#160;Private Types inherited from <a class="el" href="class_n_f_map_ex.html">NFMapEx&lt; std::string, ElementConfigInfo &gt;</a></td></tr>
+<tr class="memitem:ac33526453d3a14f56945a31210f15ffd inherit pub_types_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ac33526453d3a14f56945a31210f15ffd">NFMapOBJECT</a></td></tr>
+<tr class="separator:ac33526453d3a14f56945a31210f15ffd inherit pub_types_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_class_n_f_map_ex"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_map_ex')"><img src="closed.png" alt="-"/>&#160;Private Member Functions inherited from <a class="el" href="class_n_f_map_ex.html">NFMapEx&lt; std::string, ElementConfigInfo &gt;</a></td></tr>
+<tr class="memitem:a669689226bf84349cea851c5b699fd13 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a669689226bf84349cea851c5b699fd13">NFMapEx</a> ()</td></tr>
+<tr class="separator:a669689226bf84349cea851c5b699fd13 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d74623691c6ee6fc074f9937f3fd0b0 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a9d74623691c6ee6fc074f9937f3fd0b0">~NFMapEx</a> ()</td></tr>
+<tr class="separator:a9d74623691c6ee6fc074f9937f3fd0b0 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaddac586447691c674845cb899b3304 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aeaddac586447691c674845cb899b3304">AddElement</a> (const std::string &amp;name, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> &gt; data)</td></tr>
+<tr class="separator:aeaddac586447691c674845cb899b3304 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0353a5766a57fe1df3bddba02418ebb5 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a0353a5766a57fe1df3bddba02418ebb5">SetElement</a> (const std::string &amp;name, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> &gt; data)</td></tr>
+<tr class="separator:a0353a5766a57fe1df3bddba02418ebb5 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ff2387f940e7d4109895fe1c443abf1 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a1ff2387f940e7d4109895fe1c443abf1">RemoveElement</a> (const std::string &amp;name)</td></tr>
+<tr class="separator:a1ff2387f940e7d4109895fe1c443abf1 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc397e883869dc42b08f921977b7d675 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#adc397e883869dc42b08f921977b7d675">GetElementNude</a> (const std::string &amp;name)</td></tr>
+<tr class="separator:adc397e883869dc42b08f921977b7d675 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad260dc1e8eeb12fb14d07ab73658c671 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ad260dc1e8eeb12fb14d07ab73658c671">GetElement</a> (const std::string &amp;name)</td></tr>
+<tr class="separator:ad260dc1e8eeb12fb14d07ab73658c671 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a858febc5c4f341d88c674abd3c504dcc inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a858febc5c4f341d88c674abd3c504dcc">FirstNude</a> (std::string &amp;name)</td></tr>
+<tr class="separator:a858febc5c4f341d88c674abd3c504dcc inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54b9dec6a19234bd15795b8fe1411b23 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a54b9dec6a19234bd15795b8fe1411b23">FirstNude</a> ()</td></tr>
+<tr class="separator:a54b9dec6a19234bd15795b8fe1411b23 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9de10e6afc469ad6c78ddec41f9cffd0 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a9de10e6afc469ad6c78ddec41f9cffd0">NextNude</a> (std::string &amp;name)</td></tr>
+<tr class="separator:a9de10e6afc469ad6c78ddec41f9cffd0 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacc03036da49c86ff6ef33039b3aab6b inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aacc03036da49c86ff6ef33039b3aab6b">NextNude</a> ()</td></tr>
+<tr class="separator:aacc03036da49c86ff6ef33039b3aab6b inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3a295045bbb1ccc915f626b9ddf82b2 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ad3a295045bbb1ccc915f626b9ddf82b2">First</a> ()</td></tr>
+<tr class="separator:ad3a295045bbb1ccc915f626b9ddf82b2 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa588e44331964ca74c1b64c14832c322 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aa588e44331964ca74c1b64c14832c322">First</a> (std::string &amp;name)</td></tr>
+<tr class="separator:aa588e44331964ca74c1b64c14832c322 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a489b5c7ff5f3353e7a11c2d007e4de47 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a489b5c7ff5f3353e7a11c2d007e4de47">Next</a> ()</td></tr>
+<tr class="separator:a489b5c7ff5f3353e7a11c2d007e4de47 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a04493c472bdc99e65ec3f8a28977e6 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_element_config_info.html">ElementConfigInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a0a04493c472bdc99e65ec3f8a28977e6">Next</a> (std::string &amp;name)</td></tr>
+<tr class="separator:a0a04493c472bdc99e65ec3f8a28977e6 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e854d99cb4f39d9903e9f4a220d52b5 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a1e854d99cb4f39d9903e9f4a220d52b5">Count</a> ()</td></tr>
+<tr class="separator:a1e854d99cb4f39d9903e9f4a220d52b5 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a529ed80ad881d598d293cc24ae3bc220 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a529ed80ad881d598d293cc24ae3bc220">ClearAll</a> ()</td></tr>
+<tr class="separator:a529ed80ad881d598d293cc24ae3bc220 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="aa068ac737646844c3ba98221b11720f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa068ac737646844c3ba98221b11720f4">&sect;&nbsp;</a></span>NFCElementModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFCElementModule::NFCElementModule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6d8d1821140f094810ebd741f370a1c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d8d1821140f094810ebd741f370a1c9">&sect;&nbsp;</a></span>~NFCElementModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFCElementModule::~NFCElementModule </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="acc71532c8aa808ae5c2d464bdb2cee15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc71532c8aa808ae5c2d464bdb2cee15">&sect;&nbsp;</a></span>AfterInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::AfterInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#ac7719c4ab72efc1b698eca98968c0f43">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a0564991b334f1f65e8dc812e7bd5d96a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0564991b334f1f65e8dc812e7bd5d96a">&sect;&nbsp;</a></span>BeforeShut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::BeforeShut </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#a718b98d9795954f4f2982e67c2d98683">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a723c38d560547603adcf923d668f29e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a723c38d560547603adcf923d668f29e7">&sect;&nbsp;</a></span>Clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::Clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#a8ab0ebcbd73c3f0c0976d35987a6f840">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="a1850cded11bc7fead4e060cf521cbaab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1850cded11bc7fead4e060cf521cbaab">&sect;&nbsp;</a></span>Execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::Execute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#ad7c55c42281a825974522deaf190eaba">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="ad42b4a553672a2c2346490c8767a208f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad42b4a553672a2c2346490c8767a208f">&sect;&nbsp;</a></span>ExistElement() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::ExistElement </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strConfigName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#a3dc1adf8ceecc0f75996e4ecc98035de">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="a86e23b5a903ae6ef4ae891976c962c4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86e23b5a903ae6ef4ae891976c962c4e">&sect;&nbsp;</a></span>ExistElement() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::ExistElement </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strClassName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strConfigName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#aebeabf0d971d985f5bde4a8678efac64">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="a92aa298866380088d5deb723b06882fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92aa298866380088d5deb723b06882fe">&sect;&nbsp;</a></span>GetComponentManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_component_manager.html">NFIComponentManager</a> &gt; NFCElementModule::GetComponentManager </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strConfigName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#abff6a98d1d4323ad796d27a090a21c9a">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="ac4c5e628527d8496413f905016476004"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac4c5e628527d8496413f905016476004">&sect;&nbsp;</a></span>GetProperty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; NFCElementModule::GetProperty </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strConfigName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strPropertyName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1573a43b2ea9fdd88a9155bb60e3e912"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1573a43b2ea9fdd88a9155bb60e3e912">&sect;&nbsp;</a></span>GetPropertyFloat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double NFCElementModule::GetPropertyFloat </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strConfigName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strPropertyName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#a63089461dc2b21eef594778a683ed599">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="a03e1025ea91ef6f419c9080c14064b08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03e1025ea91ef6f419c9080c14064b08">&sect;&nbsp;</a></span>GetPropertyInt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> NFCElementModule::GetPropertyInt </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strConfigName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strPropertyName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#a693e98c6c3bc0389cf13fcfd757f97f4">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="aa4557c9408649dddfb01acad0c7b5052"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4557c9408649dddfb01acad0c7b5052">&sect;&nbsp;</a></span>GetPropertyManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property_manager.html">NFIPropertyManager</a> &gt; NFCElementModule::GetPropertyManager </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strConfigName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#af931baf7b1b46b5e8eb2071a1645942c">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="a4ef537c89855e91b8d09f1f370dee163"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ef537c89855e91b8d09f1f370dee163">&sect;&nbsp;</a></span>GetPropertyString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; NFCElementModule::GetPropertyString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strConfigName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strPropertyName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#acf3ea7346779daac318979b384792891">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="abd548144bc979e702d58e5ac4f49c49e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd548144bc979e702d58e5ac4f49c49e">&sect;&nbsp;</a></span>GetRecordManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record_manager.html">NFIRecordManager</a> &gt; NFCElementModule::GetRecordManager </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strConfigName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#aa8c895063ab83312f59c2b0b6e566b4b">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="abcf0d7497d76c09dd5c1c284dd13d558"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcf0d7497d76c09dd5c1c284dd13d558">&sect;&nbsp;</a></span>Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::Init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#a5dbba4491b7a07074cf4abfe2db95899">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="ab02cb5e0624d55da0d3d36d8267dc8b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab02cb5e0624d55da0d3d36d8267dc8b5">&sect;&nbsp;</a></span>LegalNumber()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::LegalNumber </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a07098a7e226f6ec6917cc03252d73ca5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07098a7e226f6ec6917cc03252d73ca5">&sect;&nbsp;</a></span>Load() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::Load </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#a5e3c3c97413d04d8f0de200eb29aa9df">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="a5ee92533c62ea4e5c3312489e5e34140"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ee92533c62ea4e5c3312489e5e34140">&sect;&nbsp;</a></span>Load() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::Load </td>
+          <td>(</td>
+          <td class="paramtype">rapidxml::xml_node&lt;&gt; *&#160;</td>
+          <td class="paramname"><em>attrNode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_class.html">NFIClass</a> &gt;&#160;</td>
+          <td class="paramname"><em>pLogicClass</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a057c24c96977b3df239ce1be798f05a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a057c24c96977b3df239ce1be798f05a8">&sect;&nbsp;</a></span>LoadSceneInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::LoadSceneInfo </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strFileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strClassName</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#a08dcfb54d9d961feadbc4dae9d0d55fb">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="a58897e6aad40d03fe690fc38bee68742"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58897e6aad40d03fe690fc38bee68742">&sect;&nbsp;</a></span>Save()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::Save </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_element_module.html#a36dcdcd9d89bf2795bc6f033316eccca">NFIElementModule</a>.</p>
+
+</div>
+</div>
+<a id="affc932c53fb132331eab8767d020abb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affc932c53fb132331eab8767d020abb0">&sect;&nbsp;</a></span>Shut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::Shut </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#a345cdec76e4e04b92e8635a0b51ed41f">NFIModule</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="aa14a35168a9900c98aa4dc2cd5f2c449"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa14a35168a9900c98aa4dc2cd5f2c449">&sect;&nbsp;</a></span>m_pClassModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_class_module.html">NFIClassModule</a>* NFCElementModule::m_pClassModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a76e67b3b6614cf0873d314e67b8cab95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76e67b3b6614cf0873d314e67b8cab95">&sect;&nbsp;</a></span>mbLoaded</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCElementModule::mbLoaded</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFConfigPlugin/<a class="el" href="_n_f_c_element_module_8h_source.html">NFCElementModule.h</a></li>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFConfigPlugin/NFCElementModule.cpp</li>
+<li><a class="el" href="_n_f_c_element_module_8h_source.html">NFCElementModule.h</a></li>
+<li><a class="el" href="_n_f_c_element_module_8cpp.html">NFCElementModule.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['maxlogfilesize',['MaxLogFileSize',['../namespaceel.html#a281f5db6d6163678bc68a8b23b59e124a4b35e615142d60db6383426f051e700b',1,'el']]],
-  ['millisecondswidth',['MillisecondsWidth',['../namespaceel.html#a281f5db6d6163678bc68a8b23b59e124a052bf0f0c813b3c41c5b5046ebc26529',1,'el']]],
-  ['multiloggersupport',['MultiLoggerSupport',['../namespaceel.html#a2784aacd04cb7816ac1c0b20fcbf83cbaa2ce18adf399149a1b75bdafa773617e',1,'el']]]
+  ['undef_5ftime',['UNDEF_TIME',['../class_n_f_time.html#afd85032d5d24341b42e9e080d780e786a844fd16bade5753959915ff10d5aaae6',1,'NFTime']]],
+  ['update',['Update',['../class_n_f_i_record.html#ab2427b89ecf945cce709dc00d275b290a007093fa08712668c2c3efa08fe97bcf',1,'NFIRecord']]]
 ];
