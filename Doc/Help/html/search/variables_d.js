@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['x',['x',['../class_g3_d_1_1_quat.html#a378e8613aa54dec6e707c1f74aa41957',1,'G3D::Quat']]]
+  ['y',['y',['../struct_point3_d.html#ada6edc689bd7733d4dc05d449c5694ea',1,'Point3D']]]
 ];

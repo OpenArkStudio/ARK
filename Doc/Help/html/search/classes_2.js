@@ -1,31 +1,5 @@
 var searchData=
 [
-  ['callback',['Callback',['../classel_1_1_callback.html',1,'el']]],
-  ['callback_3c_20logdispatchdata_20_3e',['Callback&lt; LogDispatchData &gt;',['../classel_1_1_callback.html',1,'el']]],
-  ['callback_3c_20performancetrackingdata_20_3e',['Callback&lt; PerformanceTrackingData &gt;',['../classel_1_1_callback.html',1,'el']]],
-  ['camera',['Camera',['../class_n_f_f_s_1_1_camera_control_events_1_1_camera.html',1,'NFFS::CameraControlEvents']]],
-  ['cameracontrolevents',['CameraControlEvents',['../class_n_f_f_s_1_1_camera_control_events.html',1,'NFFS']]],
-  ['cameracontrolevents_5fcamera',['CameraControlEvents_Camera',['../class_n_f_f_s_1_1_camera_control_events___camera.html',1,'NFFS']]],
-  ['chatcontainer',['ChatContainer',['../class_n_f_msg_1_1_chat_container.html',1,'NFMsg']]],
-  ['chatgroup',['ChatGroup',['../class_n_frame_1_1_chat_group.html',1,'NFrame']]],
-  ['chatinfo',['ChatInfo',['../class_n_f_msg_1_1_chat_info.html',1,'NFMsg']]],
-  ['collisiondetection',['CollisionDetection',['../class_g3_d_1_1_collision_detection.html',1,'G3D']]],
-  ['commandlineargs',['CommandLineArgs',['../classel_1_1base_1_1utils_1_1_command_line_args.html',1,'el::base::utils']]],
-  ['configclasscolinfo',['ConfigClassColInfo',['../class_n_f_msg_1_1_config_class_col_info.html',1,'NFMsg']]],
-  ['configclassdata',['ConfigClassData',['../class_n_f_msg_1_1_config_class_data.html',1,'NFMsg']]],
-  ['configclasspropertyinfo',['ConfigClassPropertyInfo',['../class_n_f_msg_1_1_config_class_property_info.html',1,'NFMsg']]],
-  ['configclassrecordinfo',['ConfigClassRecordInfo',['../class_n_f_msg_1_1_config_class_record_info.html',1,'NFMsg']]],
-  ['configdata',['ConfigData',['../class_n_f_msg_1_1_config_data.html',1,'NFMsg']]],
-  ['configelementdata',['ConfigElementData',['../class_n_f_msg_1_1_config_element_data.html',1,'NFMsg']]],
-  ['configuration',['Configuration',['../classel_1_1_configuration.html',1,'el']]],
-  ['configurations',['Configurations',['../classel_1_1_configurations.html',1,'el']]],
-  ['configurationtypehelper',['ConfigurationTypeHelper',['../classel_1_1_configuration_type_helper.html',1,'el']]],
-  ['connectdata',['ConnectData',['../struct_connect_data.html',1,'']]],
-  ['consumedata',['ConsumeData',['../class_n_frame_1_1_consume_data.html',1,'NFrame']]],
-  ['coordinateframe',['CoordinateFrame',['../class_g3_d_1_1_coordinate_frame.html',1,'G3D']]],
-  ['cost',['Cost',['../class_n_frame_1_1_cost.html',1,'NFrame']]],
-  ['crashhandler',['CrashHandler',['../classel_1_1base_1_1debug_1_1_crash_handler.html',1,'el::base::debug']]],
-  ['crypto',['Crypto',['../class_g3_d_1_1_crypto.html',1,'G3D']]],
-  ['currencystruct',['CurrencyStruct',['../class_n_f_msg_1_1_currency_struct.html',1,'NFMsg']]],
-  ['customformatspecifier',['CustomFormatSpecifier',['../classel_1_1_custom_format_specifier.html',1,'el']]]
+  ['gatebaseinfo',['GateBaseInfo',['../struct_n_f_i_game_server_net___server_module_1_1_gate_base_info.html',1,'NFIGameServerNet_ServerModule']]],
+  ['gateserverinfo',['GateServerInfo',['../struct_n_f_i_game_server_net___server_module_1_1_gate_server_info.html',1,'NFIGameServerNet_ServerModule']]]
 ];
