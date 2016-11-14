@@ -1,0 +1,32 @@
+<map id="NFCMasterNet_ServerModule.cpp" name="NFCMasterNet_ServerModule.cpp">
+<area shape="rect" id="node2" href="$_n_f_c_master_net___server_module_8h.html" title="NFCMasterNet_ServerModule.h" alt="" coords="762,80,966,107"/>
+<area shape="rect" id="node49" href="$_n_f_master_net___server_plugin_8h.html" title="NFMasterNet_ServerPlugin.h" alt="" coords="391,251,580,278"/>
+<area shape="rect" id="node4" href="$_n_f_i_master_net___server_module_8h.html" title="NFComm/NFPluginModule\l/NFIMasterNet_ServerModule.h" alt="" coords="195,423,397,464"/>
+<area shape="rect" id="node27" href="$_n_f_i_kernel_module_8h.html" title="NFComm/NFPluginModule\l/NFIKernelModule.h" alt="" coords="1928,155,2104,196"/>
+<area shape="rect" id="node37" href="$_n_f_i_log_module_8h.html" title="NFComm/NFPluginModule\l/NFILogModule.h" alt="" coords="544,155,720,196"/>
+<area shape="rect" id="node38" href="$_n_f_i_net_module_8h.html" title="NFComm/NFPluginModule\l/NFINetModule.h" alt="" coords="2241,333,2417,375"/>
+<area shape="rect" id="node47" href="$_n_f_i_class_module_8h.html" title="NFComm/NFPluginModule\l/NFIClassModule.h" alt="" coords="683,244,859,285"/>
+<area shape="rect" id="node48" href="$_n_f_i_element_module_8h.html" title="NFComm/NFPluginModule\l/NFIElementModule.h" alt="" coords="883,244,1059,285"/>
+<area shape="rect" id="node6" href="$_n_f_i_module_8h.html" title="NFIModule.h" alt="" coords="813,512,907,539"/>
+<area shape="rect" id="node8" href="$_n_f_map_8h.html" title="NFComm/NFCore/NFMap.h" alt="" coords="398,669,581,695"/>
+<area shape="rect" id="node11" href="$_n_f_list_8h.html" title="NFComm/NFCore/NFList.h" alt="" coords="969,751,1148,777"/>
+<area shape="rect" id="node14" href="$_n_f_define_8h.html" title="NFComm/NFCore/NFDefine.h" alt="" coords="1375,669,1569,695"/>
+<area shape="rect" id="node16" href="$_n_f_i_data_list_8h.html" title="NFIDataList.h" alt="" coords="1172,751,1273,777"/>
+<area shape="rect" id="node25" href="$_n_f_i_record_8h.html" title="NFComm/NFCore/NFIRecord.h" alt="" coords="1523,587,1725,613"/>
+<area shape="rect" id="node26" href="$_n_f_event_define_8h.html" title="NFComm/NFEventDefine\l/NFEventDefine.h" alt="" coords="605,661,771,703"/>
+<area shape="rect" id="node13" href="$_n_f_platform_8h.html" title="NFComm/NFPluginModule\l/NFPlatform.h" alt="" coords="2019,915,2195,956"/>
+<area shape="rect" id="node23" href="$_n_f_g_u_i_d_8h.html" title="NFComm/NFPluginModule\l/NFGUID.h" alt="" coords="1780,825,1956,867"/>
+<area shape="rect" id="node28" href="$_n_f_i_object_8h.html" title="NFComm/NFCore/NFIObject.h" alt="" coords="1551,251,1750,278"/>
+<area shape="rect" id="node29" href="$_n_f_i_record_manager_8h.html" title="NFIRecordManager.h" alt="" coords="960,341,1104,367"/>
+<area shape="rect" id="node30" href="$_n_f_i_heart_beat_manager_8h.html" title="NFIHeartBeatManager.h" alt="" coords="1286,587,1447,613"/>
+<area shape="rect" id="node31" href="$_n_f_i_property_manager_8h.html" title="NFIPropertyManager.h" alt="" coords="523,512,675,539"/>
+<area shape="rect" id="node33" href="$_n_f_i_component_manager_8h.html" title="NFIComponentManager.h" alt="" coords="1230,341,1399,367"/>
+<area shape="rect" id="node35" href="$_n_f_i_event_manager_8h.html" title="NFIEventManager.h" alt="" coords="949,587,1083,613"/>
+<area shape="rect" id="node36" href="$_n_f_i_plugin_manager_8h.html" title="NFComm/NFPluginModule\l/NFIPluginManager.h" alt="" coords="928,423,1104,464"/>
+<area shape="rect" id="node32" href="$_n_f_i_property_8h.html" title="NFIProperty.h" alt="" coords="1107,587,1210,613"/>
+<area shape="rect" id="node34" href="$_n_f_i_component_8h.html" title="NFIComponent.h" alt="" coords="1483,430,1602,457"/>
+<area shape="rect" id="node40" href="$_n_f_c_net_8h.html" title="NFComm/NFNet/NFCNet.h" alt="" coords="2205,669,2384,695"/>
+<area shape="rect" id="node43" href="$_n_f_queue_8h.html" title="NFComm/NFCore/NFQueue.h" alt="" coords="2459,669,2653,695"/>
+<area shape="rect" id="node41" href="$_n_f_i_net_8h.html" title="NFINet.h" alt="" coords="1301,751,1374,777"/>
+<area shape="rect" id="node50" href="$_n_f_i_plugin_8h.html" title="NFComm/NFPluginModule\l/NFIPlugin.h" alt="" coords="397,333,573,375"/>
+</map>

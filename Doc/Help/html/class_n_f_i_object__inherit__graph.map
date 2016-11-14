@@ -1,0 +1,3 @@
+<map id="NFIObject" name="NFIObject">
+<area shape="rect" id="node2" href="$class_n_f_c_object.html" title="{NFCObject\n|&#45; mSelf\l&#45; m_pRecordManager\l&#45; m_pHeartBeatManager\l&#45; m_pPropertyManager\l&#45; m_pComponentManager\l&#45; m_pEventManager\l|+ NFCObject()\l+ ~NFCObject()\l+ Init()\l+ Shut()\l+ Execute()\l+ Self()\l+ FindHeartBeat()\l+ RemoveHeartBeat()\l+ FindProperty()\l+ SetPropertyInt()\land 35 more...\l# AddRecordCallBack()\l# AddPropertyCallBack()\l# AddHeartBeat()\l&#45; NFCObject()\l}" alt="" coords="5,321,176,677"/>
+</map>

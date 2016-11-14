@@ -1,0 +1,4 @@
+<map id="NFCProxyServerToWorldModule" name="NFCProxyServerToWorldModule">
+<area shape="rect" id="node2" href="$class_n_f_i_proxy_server_to_world_module.html" title="{NFIProxyServerToWorldModule\n||+ GetClusterModule()\l+ VerifyConnectData()\l}" alt="" coords="18,424,221,516"/>
+<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l&#45; mbReloading\l&#45; mRemoveListEx\l&#45; mAddListEx\l&#45; mHeartBeatElementMapEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="25,5,213,376"/>
+</map>

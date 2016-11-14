@@ -1,0 +1,32 @@
+<map id="NFCKernelModule.cpp" name="NFCKernelModule.cpp">
+<area shape="rect" id="node2" href="$_n_f_c_kernel_module_8h.html" title="NFCKernelModule.h" alt="" coords="1097,87,1236,114"/>
+<area shape="rect" id="node23" href="$_n_f_g_u_i_d_8h.html" title="NFComm/NFPluginModule\l/NFGUID.h" alt="" coords="69,751,245,792"/>
+<area shape="rect" id="node27" href="$_n_f_define_8h.html" title="NFDefine.h" alt="" coords="1026,601,1113,628"/>
+<area shape="rect" id="node33" href="$_n_f_c_data_list_8h.html" title="NFCDataList.h" alt="" coords="296,601,403,628"/>
+<area shape="rect" id="node46" href="$_n_f_c_object_8h.html" title="NFComm/NFCore/NFCObject.h" alt="" coords="2119,177,2323,203"/>
+<area shape="rect" id="node47" href="$_n_f_c_record_8h.html" title="NFComm/NFCore/NFCRecord.h" alt="" coords="347,445,554,471"/>
+<area shape="rect" id="node48" href="$_n_f_c_mem_manger_8h.html" title="NFComm/NFCore/NFCMemManger.h" alt="" coords="2591,676,2830,703"/>
+<area shape="rect" id="node7" href="$_n_f_i_object_8h.html" title="NFComm/NFCore/NFIObject.h" alt="" coords="1173,266,1371,293"/>
+<area shape="rect" id="node9" href="$_n_f_i_data_list_8h.html" title="NFIDataList.h" alt="" coords="968,676,1069,703"/>
+<area shape="rect" id="node26" href="$_n_f_i_record_8h.html" title="NFIRecord.h" alt="" coords="782,527,877,553"/>
+<area shape="rect" id="node40" href="$_n_f_i_u_u_i_d_module_8h.html" title="NFComm/NFPluginModule\l/NFIUUIDModule.h" alt="" coords="569,259,745,300"/>
+<area shape="rect" id="node41" href="$_n_f_i_log_module_8h.html" title="NFComm/NFPluginModule\l/NFILogModule.h" alt="" coords="921,259,1097,300"/>
+<area shape="rect" id="node42" href="$_n_f_i_kernel_module_8h.html" title="NFComm/NFPluginModule\l/NFIKernelModule.h" alt="" coords="796,169,972,211"/>
+<area shape="rect" id="node43" href="$_n_f_i_class_module_8h.html" title="NFComm/NFPluginModule\l/NFIClassModule.h" alt="" coords="1647,259,1823,300"/>
+<area shape="rect" id="node44" href="$_n_f_i_element_module_8h.html" title="NFComm/NFPluginModule\l/NFIElementModule.h" alt="" coords="1447,259,1623,300"/>
+<area shape="rect" id="node45" href="$_n_f_i_scene_module_8h.html" title="NFComm/NFPluginModule\l/NFISceneModule.h" alt="" coords="1919,169,2095,211"/>
+<area shape="rect" id="node8" href="$_n_f_platform_8h.html" title="NFComm/NFPluginModule\l/NFPlatform.h" alt="" coords="1429,840,1605,881"/>
+<area shape="rect" id="node28" href="$_n_f_i_record_manager_8h.html" title="NFIRecordManager.h" alt="" coords="1252,355,1396,382"/>
+<area shape="rect" id="node31" href="$_n_f_i_heart_beat_manager_8h.html" title="NFIHeartBeatManager.h" alt="" coords="1847,527,2009,553"/>
+<area shape="rect" id="node34" href="$_n_f_i_property_manager_8h.html" title="NFIPropertyManager.h" alt="" coords="1817,355,1969,382"/>
+<area shape="rect" id="node36" href="$_n_f_i_component_manager_8h.html" title="NFIComponentManager.h" alt="" coords="1573,355,1742,382"/>
+<area shape="rect" id="node38" href="$_n_f_i_event_manager_8h.html" title="NFIEventManager.h" alt="" coords="1282,527,1417,553"/>
+<area shape="rect" id="node39" href="$_n_f_i_plugin_manager_8h.html" title="NFComm/NFPluginModule\l/NFIPluginManager.h" alt="" coords="1001,348,1177,389"/>
+<area shape="rect" id="node25" href="$_vector3_8hpp.html" title="Math/Vector3.hpp" alt="" coords="987,758,1112,785"/>
+<area shape="rect" id="node29" href="$_n_f_map_8h.html" title="NFMap.h" alt="" coords="1847,601,1921,628"/>
+<area shape="rect" id="node30" href="$_n_f_map_ex_8h.html" title="NFMapEx.h" alt="" coords="1647,676,1737,703"/>
+<area shape="rect" id="node32" href="$_n_f_list_8h.html" title="NFList.h" alt="" coords="1923,676,1994,703"/>
+<area shape="rect" id="node35" href="$_n_f_i_property_8h.html" title="NFIProperty.h" alt="" coords="1155,527,1258,553"/>
+<area shape="rect" id="node37" href="$_n_f_i_module_8h.html" title="NFComm/NFPluginModule\l/NFIModule.h" alt="" coords="984,437,1160,479"/>
+<area shape="rect" id="node49" href="$_n_f_singleton_8h.html" title="NFSingleton.h" alt="" coords="2653,758,2757,785"/>
+</map>

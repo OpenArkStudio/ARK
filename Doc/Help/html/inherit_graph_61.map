@@ -1,0 +1,90 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$class_n_f_i_module.html" title="NFIModule" alt="" coords="68,967,152,994"/>
+<area shape="rect" id="node2" href="$class_n_f_i_class_module.html" title="NFIClassModule" alt="" coords="319,17,436,43"/>
+<area shape="rect" id="node4" href="$class_n_f_i_component.html" title="NFIComponent" alt="" coords="323,1373,431,1399"/>
+<area shape="rect" id="node5" href="$class_n_f_i_component_manager.html" title="NFIComponentManager" alt="" coords="298,74,457,101"/>
+<area shape="rect" id="node7" href="$class_n_f_i_element_module.html" title="NFIElementModule" alt="" coords="311,799,443,826"/>
+<area shape="rect" id="node9" href="$class_n_f_i_game_logic_module.html" title="NFIGameLogicModule" alt="" coords="302,1474,453,1501"/>
+<area shape="rect" id="node10" href="$class_n_f_i_game_server_config_module.html" title="NFIGameServerConfigModule" alt="" coords="282,1525,473,1551"/>
+<area shape="rect" id="node11" href="$class_n_f_i_game_server_module.html" title="NFIGameServerModule" alt="" coords="300,1677,455,1703"/>
+<area shape="rect" id="node13" href="$class_n_f_i_game_server_net___client_module.html" title="NFIGameServerNet_ClientModule" alt="" coords="270,1626,485,1653"/>
+<area shape="rect" id="node14" href="$class_n_f_i_game_server_net___server_module.html" title="NFIGameServerNet_ServerModule" alt="" coords="268,1727,487,1754"/>
+<area shape="rect" id="node16" href="$class_n_f_i_game_server_to_world_module.html" title="NFIGameServerToWorldModule" alt="" coords="276,1778,479,1805"/>
+<area shape="rect" id="node18" href="$class_n_f_i_kernel_module.html" title="NFIKernelModule" alt="" coords="317,1322,438,1349"/>
+<area shape="rect" id="node20" href="$class_n_f_i_level_module.html" title="NFILevelModule" alt="" coords="321,1829,434,1855"/>
+<area shape="rect" id="node22" href="$class_n_f_i_login_logic_module.html" title="NFILoginLogicModule" alt="" coords="304,125,451,151"/>
+<area shape="rect" id="node24" href="$class_n_f_i_login_net___server_module.html" title="NFILoginNet_ServerModule" alt="" coords="288,175,467,202"/>
+<area shape="rect" id="node26" href="$class_n_f_i_login_to_master_module.html" title="NFILoginToMasterModule" alt="" coords="293,226,462,253"/>
+<area shape="rect" id="node28" href="$class_n_f_i_log_module.html" title="NFILogModule" alt="" coords="325,277,430,303"/>
+<area shape="rect" id="node30" href="$class_n_f_i_master_module.html" title="NFIMasterModule" alt="" coords="315,327,439,354"/>
+<area shape="rect" id="node32" href="$class_n_f_i_master_net___server_module.html" title="NFIMasterNet_ServerModule" alt="" coords="284,378,471,405"/>
+<area shape="rect" id="node34" href="$class_n_f_i_net_client_module.html" title="NFINetClientModule" alt="" coords="309,429,446,455"/>
+<area shape="rect" id="node35" href="$class_n_f_i_net_module.html" title="NFINetModule" alt="" coords="325,479,429,506"/>
+<area shape="rect" id="node36" href="$class_n_f_i_plugin.html" title="NFIPlugin" alt="" coords="338,2259,417,2286"/>
+<area shape="rect" id="node54" href="$class_n_f_i_plugin_manager.html" title="NFIPluginManager" alt="" coords="313,1069,441,1095"/>
+<area shape="rect" id="node56" href="$class_n_f_i_property_config_module.html" title="NFIPropertyConfigModule" alt="" coords="293,530,462,557"/>
+<area shape="rect" id="node58" href="$class_n_f_i_property_module.html" title="NFIPropertyModule" alt="" coords="311,581,444,607"/>
+<area shape="rect" id="node60" href="$class_n_f_i_property_trail_module.html" title="NFIPropertyTrailModule" alt="" coords="299,631,456,658"/>
+<area shape="rect" id="node62" href="$class_n_f_i_proxy_logic_module.html" title="NFIProxyLogicModule" alt="" coords="303,682,452,709"/>
+<area shape="rect" id="node64" href="$class_n_f_i_proxy_server_net___server_module.html" title="NFIProxyServerNet_Server\lModule" alt="" coords="290,851,465,892"/>
+<area shape="rect" id="node66" href="$class_n_f_i_proxy_server_to_game_module.html" title="NFIProxyServerToGameModule" alt="" coords="276,917,479,943"/>
+<area shape="rect" id="node68" href="$class_n_f_i_proxy_server_to_world_module.html" title="NFIProxyServerToWorldModule" alt="" coords="276,967,479,994"/>
+<area shape="rect" id="node70" href="$class_n_f_i_scene_module.html" title="NFISceneModule" alt="" coords="317,2529,438,2555"/>
+<area shape="rect" id="node72" href="$class_n_f_i_scene_process_module.html" title="NFISceneProcessModule" alt="" coords="293,1119,462,1146"/>
+<area shape="rect" id="node74" href="$class_n_f_i_u_u_i_d_module.html" title="NFIUUIDModule" alt="" coords="320,1170,435,1197"/>
+<area shape="rect" id="node76" href="$class_n_f_i_world_logic_module.html" title="NFIWorldLogicModule" alt="" coords="303,1221,452,1247"/>
+<area shape="rect" id="node78" href="$class_n_f_i_world_net___server_module.html" title="NFIWorldNet_ServerModule" alt="" coords="287,1423,468,1450"/>
+<area shape="rect" id="node80" href="$class_n_f_i_world_to_master_module.html" title="NFIWorldToMasterModule" alt="" coords="291,1575,463,1602"/>
+<area shape="rect" id="node3" href="$class_n_f_c_class_module.html" title="NFCClassModule" alt="" coords="591,17,713,43"/>
+<area shape="rect" id="node6" href="$class_n_f_c_component_manager.html" title="NFCComponentManager" alt="" coords="570,74,734,101"/>
+<area shape="rect" id="node8" href="$class_n_f_c_element_module.html" title="NFCElementModule" alt="" coords="583,770,721,797"/>
+<area shape="rect" id="node12" href="$class_n_f_c_game_server_module.html" title="NFCGameServerModule" alt="" coords="571,1677,733,1703"/>
+<area shape="rect" id="node15" href="$class_n_f_c_game_server_net___server_module.html" title="NFCGameServerNet_ServerModule" alt="" coords="540,1727,764,1754"/>
+<area shape="rect" id="node17" href="$class_n_f_c_game_server_to_world_module.html" title="NFCGameServerToWorldModule" alt="" coords="547,1778,757,1805"/>
+<area shape="rect" id="node19" href="$class_n_f_c_kernel_module.html" title="NFCKernelModule" alt="" coords="589,1297,715,1323"/>
+<area shape="rect" id="node21" href="$class_n_f_c_level_module.html" title="NFCLevelModule" alt="" coords="593,1829,711,1855"/>
+<area shape="rect" id="node23" href="$class_n_f_c_login_logic_module.html" title="NFCLoginLogicModule" alt="" coords="576,125,728,151"/>
+<area shape="rect" id="node25" href="$class_n_f_c_login_net___server_module.html" title="NFCLoginNet_ServerModule" alt="" coords="560,175,744,202"/>
+<area shape="rect" id="node27" href="$class_n_f_c_login_to_master_module.html" title="NFCLoginToMasterModule" alt="" coords="565,226,739,253"/>
+<area shape="rect" id="node29" href="$class_n_f_c_log_module.html" title="NFCLogModule" alt="" coords="597,277,707,303"/>
+<area shape="rect" id="node31" href="$class_n_f_c_master_module.html" title="NFCMasterModule" alt="" coords="587,327,717,354"/>
+<area shape="rect" id="node33" href="$class_n_f_c_master_net___server_module.html" title="NFCMasterNet_ServerModule" alt="" coords="555,378,749,405"/>
+<area shape="rect" id="node37" href="$class_n_f_config_plugin.html" title="NFConfigPlugin" alt="" coords="597,2031,707,2058"/>
+<area shape="rect" id="node38" href="$class_n_f_game_server_net___client_plugin.html" title="NFGameServerNet_ClientPlugin" alt="" coords="549,2082,755,2109"/>
+<area shape="rect" id="node39" href="$class_n_f_game_server_net___server_plugin.html" title="NFGameServerNet_ServerPlugin" alt="" coords="547,2133,757,2159"/>
+<area shape="rect" id="node40" href="$class_n_f_game_server_plugin.html" title="NFGameServerPlugin" alt="" coords="579,2183,725,2210"/>
+<area shape="rect" id="node41" href="$class_n_f_kernel_plugin.html" title="NFKernelPlugin" alt="" coords="596,2234,708,2261"/>
+<area shape="rect" id="node42" href="$class_n_f_login_logic_plugin.html" title="NFLoginLogicPlugin" alt="" coords="583,2285,721,2311"/>
+<area shape="rect" id="node43" href="$class_n_f_login_net___client_plugin.html" title="NFLoginNet_ClientPlugin" alt="" coords="569,2335,735,2362"/>
+<area shape="rect" id="node44" href="$class_n_f_login_net___server_plugin.html" title="NFLoginNet_ServerPlugin" alt="" coords="567,2386,737,2413"/>
+<area shape="rect" id="node45" href="$class_n_f_log_plugin.html" title="NFLogPlugin" alt="" coords="604,2437,700,2463"/>
+<area shape="rect" id="node46" href="$class_n_f_master_net___server_plugin.html" title="NFMasterNet_ServerPlugin" alt="" coords="563,2487,741,2514"/>
+<area shape="rect" id="node47" href="$class_n_f_master_server_plugin.html" title="NFMasterServerPlugin" alt="" coords="577,2538,727,2565"/>
+<area shape="rect" id="node48" href="$class_n_f_proxy_logic_plugin.html" title="NFProxyLogicPlugin" alt="" coords="582,2589,722,2615"/>
+<area shape="rect" id="node49" href="$class_n_f_proxy_server_net___client_plugin.html" title="NFProxyServerNet_ClientPlugin" alt="" coords="549,2639,755,2666"/>
+<area shape="rect" id="node50" href="$class_n_f_proxy_server_net___server_plugin.html" title="NFProxyServerNet_ServerPlugin" alt="" coords="548,2690,756,2717"/>
+<area shape="rect" id="node51" href="$class_n_f_world_logic_plugin.html" title="NFWorldLogicPlugin" alt="" coords="582,1879,722,1906"/>
+<area shape="rect" id="node52" href="$class_n_f_world_net___client_plugin.html" title="NFWorldNet_ClientPlugin" alt="" coords="567,1930,737,1957"/>
+<area shape="rect" id="node53" href="$class_n_f_world_net___server_plugin.html" title="NFWorldNet_ServerPlugin" alt="" coords="566,1981,738,2007"/>
+<area shape="rect" id="node55" href="$class_n_f_c_plugin_manager.html" title="NFCPluginManager" alt="" coords="585,1043,719,1070"/>
+<area shape="rect" id="node57" href="$class_n_f_c_property_config_module.html" title="NFCPropertyConfigModule" alt="" coords="565,530,739,557"/>
+<area shape="rect" id="node59" href="$class_n_f_c_property_module.html" title="NFCPropertyModule" alt="" coords="583,581,721,607"/>
+<area shape="rect" id="node61" href="$class_n_f_c_property_trail_module.html" title="NFCPropertyTrailModule" alt="" coords="571,631,733,658"/>
+<area shape="rect" id="node63" href="$class_n_f_c_proxy_logic_module.html" title="NFCProxyLogicModule" alt="" coords="575,682,729,709"/>
+<area shape="rect" id="node65" href="$class_n_f_c_proxy_server_net___server_module.html" title="NFCProxyServerNet_Server\lModule" alt="" coords="561,851,743,892"/>
+<area shape="rect" id="node67" href="$class_n_f_c_proxy_server_to_game_module.html" title="NFCProxyServerToGameModule" alt="" coords="547,917,757,943"/>
+<area shape="rect" id="node69" href="$class_n_f_c_proxy_server_to_world_module.html" title="NFCProxyServerToWorldModule" alt="" coords="548,967,756,994"/>
+<area shape="rect" id="node71" href="$class_n_f_c_scene_module.html" title="NFCSceneModule" alt="" coords="589,2741,715,2767"/>
+<area shape="rect" id="node73" href="$class_n_f_c_scene_process_module.html" title="NFCSceneProcessModule" alt="" coords="565,1119,739,1146"/>
+<area shape="rect" id="node75" href="$class_n_f_c_u_u_i_d_module.html" title="NFCUUIDModule" alt="" coords="592,1170,712,1197"/>
+<area shape="rect" id="node77" href="$class_n_f_c_world_logic_module.html" title="NFCWorldLogicModule" alt="" coords="575,1221,729,1247"/>
+<area shape="rect" id="node79" href="$class_n_f_c_world_net___server_module.html" title="NFCWorldNet_ServerModule" alt="" coords="559,1423,745,1450"/>
+<area shape="rect" id="node81" href="$class_n_f_c_world_to_master_module.html" title="NFCWorldToMasterModule" alt="" coords="563,1575,741,1602"/>
+<area shape="rect" id="node82" href="$class_n_f_map.html" title="NFMap\&lt; std::string,\l NFIModule \&gt;" alt="" coords="41,2252,179,2293"/>
+<area shape="rect" id="node83" href="$class_n_f_map_ex.html" title="NFMapEx\&lt; int, NFCSceneInfo \&gt;" alt="" coords="5,2529,215,2555"/>
+<area shape="rect" id="node84" href="$class_n_f_map_ex.html" title="NFMapEx\&lt; NFGUID, NFIObject \&gt;" alt="" coords="268,1271,487,1298"/>
+<area shape="rect" id="node85" href="$class_n_f_map_ex.html" title="NFMapEx\&lt; std::string,\l ElementConfigInfo \&gt;" alt="" coords="300,733,455,775"/>
+<area shape="rect" id="node86" href="$class_n_f_map_ex.html" title="NFMapEx\&lt; std::string,\l NFIClass \&gt;" alt="" coords="33,5,187,47"/>
+<area shape="rect" id="node87" href="$class_n_f_map_ex.html" title="NFMapEx\&lt; std::string,\l NFIComponent \&gt;" alt="" coords="33,71,187,112"/>
+<area shape="rect" id="node88" href="$class_n_f_singleton.html" title="NFSingleton\&lt; NFCPluginManager \&gt;" alt="" coords="263,1018,492,1045"/>
+</map>

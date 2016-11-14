@@ -1,0 +1,3 @@
+<map id="NFCAddConsistentHash" name="NFCAddConsistentHash">
+<area shape="rect" id="node2" href="$class_n_f_c_consistent_hash.html" title="{NFCConsistentHash\n|&#45; mxNodes\l&#45; m_pHasher\l|+ NFCConsistentHash()\l+ ~NFCConsistentHash()\l+ Size()\l+ Empty()\l+ Insert()\l+ Insert()\l+ Exist()\l+ Erase()\l+ GetSuitNode()\l+ GetSuitNode()\l+ GetSuitNode()\l+ GetNodeList()\l}" alt="" coords="17,5,185,259"/>
+</map>

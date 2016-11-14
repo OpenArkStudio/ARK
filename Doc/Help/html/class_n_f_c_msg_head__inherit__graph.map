@@ -1,0 +1,3 @@
+<map id="NFCMsgHead" name="NFCMsgHead">
+<area shape="rect" id="node2" href="$struct_n_f_i_msg_head.html" title="{NFIMsgHead\n||+ EnCode()\l+ DeCode()\l+ GetMsgID()\l+ SetMsgID()\l+ GetBodyLength()\l+ SetBodyLength()\l+ NF_HTONLL()\l+ NF_NTOHLL()\l+ NF_HTONL()\l+ NF_NTOHL()\l+ NF_HTONS()\l+ NF_NTOHS()\l}" alt="" coords="5,5,137,244"/>
+</map>

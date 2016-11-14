@@ -1,0 +1,3 @@
+<map id="NFIRecord" name="NFIRecord">
+<area shape="rect" id="node2" href="$class_n_f_c_record.html" title="{NFCRecord\n|# mVarRecordType\l# mVarRecordTag\l# mmTag\l# mtRecordVec\l# mVecUsedState\l# mnMaxRow\l# mSelf\l# mbSave\l# mbPublic\l# mbPrivate\l# mbCache\l# mstrRecordName\l# mtRecordCallback\l|+ NFCRecord()\l+ NFCRecord()\l+ ~NFCRecord()\l+ IsUsed()\l+ SetUsed()\l+ GetCols()\l+ GetRows()\l+ GetColType()\l+ GetColTag()\l+ AddRow()\land 51 more...\l# GetPos()\l# GetCol()\l# ValidPos()\l# ValidRow()\l# ValidCol()\l# OnEventHandler()\l}" alt="" coords="5,277,144,765"/>
+</map>
