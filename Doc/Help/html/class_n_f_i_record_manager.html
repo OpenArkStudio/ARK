@@ -68,129 +68,1168 @@ $(function() {
 <div class="title">NFIRecordManager Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_i_record_manager_8h_source.html">NFIRecordManager.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFIRecordManager:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_i_record_manager.png" usemap="#NFIRecordManager_map" alt=""/>
-  <map id="NFIRecordManager_map" name="NFIRecordManager_map">
-<area href="class_n_f_map_ex.html" alt="NFMapEx&lt; std::string, NFIRecord &gt;" shape="rect" coords="0,0,215,24"/>
-<area href="class_n_f_c_record_manager.html" alt="NFCRecordManager" shape="rect" coords="0,112,215,136"/>
+<div class="center"><img src="class_n_f_i_record_manager__inherit__graph.gif" border="0" usemap="#_n_f_i_record_manager_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_i_record_manager_inherit__map" id="_n_f_i_record_manager_inherit__map">
+<area shape="rect" id="node3" href="class_n_f_c_record_manager.html" title="{NFCRecordManager\n|&#45; mSelf\l|+ NFCRecordManager()\l+ ~NFCRecordManager()\l+ AddRecord()\l+ Self()\l+ SetRecordInt()\l+ SetRecordDouble()\l+ SetRecordString()\l+ SetRecordObject()\l+ SetRecordPoint()\l+ SetRecordInt()\land 14 more...\l}" alt="" coords="5,579,172,803"/>
+<area shape="rect" id="node2" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFIRecord \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="11,5,166,259"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFIRecordManager:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_i_record_manager__coll__graph.gif" border="0" usemap="#_n_f_i_record_manager_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_i_record_manager_coll__map" id="_n_f_i_record_manager_coll__map">
+<area shape="rect" id="node2" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFIRecord \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="9,5,163,259"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5a753790e2369d631a4b4749740e8c5e"><td class="memItemLeft" align="right" valign="top"><a id="a5a753790e2369d631a4b4749740e8c5e"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>AddRecord</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self, const std::string &amp;strRecordName, const NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;TData, const NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;tagData, const int nRows)=0</td></tr>
+<tr class="memitem:a3a87efda7b6b6f4c80407f6137fa1f7b"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a3a87efda7b6b6f4c80407f6137fa1f7b">~NFIRecordManager</a> ()</td></tr>
+<tr class="separator:a3a87efda7b6b6f4c80407f6137fa1f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a753790e2369d631a4b4749740e8c5e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a5a753790e2369d631a4b4749740e8c5e">AddRecord</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self, const std::string &amp;strRecordName, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;TData, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;tagData, const int nRows)=0</td></tr>
 <tr class="separator:a5a753790e2369d631a4b4749740e8c5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab336906ae3b4113eb7c1f93631d43e37"><td class="memItemLeft" align="right" valign="top"><a id="ab336906ae3b4113eb7c1f93631d43e37"></a>
-virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>Self</b> ()=0</td></tr>
+<tr class="memitem:ab336906ae3b4113eb7c1f93631d43e37"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#ab336906ae3b4113eb7c1f93631d43e37">Self</a> ()=0</td></tr>
 <tr class="separator:ab336906ae3b4113eb7c1f93631d43e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c2c4498e2e158b5a240cd9a19661f7d"><td class="memItemLeft" align="right" valign="top"><a id="a9c2c4498e2e158b5a240cd9a19661f7d"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetRecordInt</b> (const std::string &amp;strRecordName, const int nRow, const int nCol, const NFINT64 nValue)=0</td></tr>
+<tr class="memitem:a9c2c4498e2e158b5a240cd9a19661f7d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a9c2c4498e2e158b5a240cd9a19661f7d">SetRecordInt</a> (const std::string &amp;strRecordName, const int nRow, const int nCol, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> nValue)=0</td></tr>
 <tr class="separator:a9c2c4498e2e158b5a240cd9a19661f7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac2a56d239dc8a56f5b734d472751f2bf"><td class="memItemLeft" align="right" valign="top"><a id="ac2a56d239dc8a56f5b734d472751f2bf"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetRecordFloat</b> (const std::string &amp;strRecordName, const int nRow, const int nCol, const double dwValue)=0</td></tr>
-<tr class="separator:ac2a56d239dc8a56f5b734d472751f2bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abbfdacbd1244694f4ddd3e9bbd43a8ed"><td class="memItemLeft" align="right" valign="top"><a id="abbfdacbd1244694f4ddd3e9bbd43a8ed"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetRecordString</b> (const std::string &amp;strRecordName, const int nRow, const int nCol, const std::string &amp;strValue)=0</td></tr>
+<tr class="memitem:ad7ba2ab8a9681c0e2b671fadcef8f03d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#ad7ba2ab8a9681c0e2b671fadcef8f03d">SetRecordDouble</a> (const std::string &amp;strRecordName, const int nRow, const int nCol, const double dwValue)=0</td></tr>
+<tr class="separator:ad7ba2ab8a9681c0e2b671fadcef8f03d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbfdacbd1244694f4ddd3e9bbd43a8ed"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#abbfdacbd1244694f4ddd3e9bbd43a8ed">SetRecordString</a> (const std::string &amp;strRecordName, const int nRow, const int nCol, const std::string &amp;strValue)=0</td></tr>
 <tr class="separator:abbfdacbd1244694f4ddd3e9bbd43a8ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9886581ce64a9539e98091adaca735a4"><td class="memItemLeft" align="right" valign="top"><a id="a9886581ce64a9539e98091adaca735a4"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetRecordObject</b> (const std::string &amp;strRecordName, const int nRow, const int nCol, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;obj)=0</td></tr>
+<tr class="memitem:a9886581ce64a9539e98091adaca735a4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a9886581ce64a9539e98091adaca735a4">SetRecordObject</a> (const std::string &amp;strRecordName, const int nRow, const int nCol, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;obj)=0</td></tr>
 <tr class="separator:a9886581ce64a9539e98091adaca735a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae2621af4d4ec9ef03e05dd8622f9648a"><td class="memItemLeft" align="right" valign="top"><a id="ae2621af4d4ec9ef03e05dd8622f9648a"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetRecordInt</b> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag, const NFINT64 value)=0</td></tr>
+<tr class="memitem:ab458f53ad23789fa4054d1d99e210f1f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#ab458f53ad23789fa4054d1d99e210f1f">SetRecordPoint</a> (const std::string &amp;strRecordName, const int nRow, const int nCol, const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)=0</td></tr>
+<tr class="separator:ab458f53ad23789fa4054d1d99e210f1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2621af4d4ec9ef03e05dd8622f9648a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#ae2621af4d4ec9ef03e05dd8622f9648a">SetRecordInt</a> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value)=0</td></tr>
 <tr class="separator:ae2621af4d4ec9ef03e05dd8622f9648a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a355da58f445fcce9ac12c2e0498a97a1"><td class="memItemLeft" align="right" valign="top"><a id="a355da58f445fcce9ac12c2e0498a97a1"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetRecordFloat</b> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag, const double value)=0</td></tr>
-<tr class="separator:a355da58f445fcce9ac12c2e0498a97a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46ec3f9a9fe8ded6bf9e8a51ea796836"><td class="memItemLeft" align="right" valign="top"><a id="a46ec3f9a9fe8ded6bf9e8a51ea796836"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetRecordString</b> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag, const std::string &amp;value)=0</td></tr>
+<tr class="memitem:aeba709d1e58e69f8c20fb193775cd00e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#aeba709d1e58e69f8c20fb193775cd00e">SetRecordDouble</a> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag, const double value)=0</td></tr>
+<tr class="separator:aeba709d1e58e69f8c20fb193775cd00e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46ec3f9a9fe8ded6bf9e8a51ea796836"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a46ec3f9a9fe8ded6bf9e8a51ea796836">SetRecordString</a> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag, const std::string &amp;value)=0</td></tr>
 <tr class="separator:a46ec3f9a9fe8ded6bf9e8a51ea796836"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5034e99758784db29ca7b618d76a1955"><td class="memItemLeft" align="right" valign="top"><a id="a5034e99758784db29ca7b618d76a1955"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetRecordObject</b> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)=0</td></tr>
+<tr class="memitem:a5034e99758784db29ca7b618d76a1955"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a5034e99758784db29ca7b618d76a1955">SetRecordObject</a> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)=0</td></tr>
 <tr class="separator:a5034e99758784db29ca7b618d76a1955"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcc3a55f7eb18f28936b87de7b6e0e05"><td class="memItemLeft" align="right" valign="top"><a id="abcc3a55f7eb18f28936b87de7b6e0e05"></a>
-virtual NFINT64&#160;</td><td class="memItemRight" valign="bottom"><b>GetRecordInt</b> (const std::string &amp;strRecordName, const int nRow, const int nCol)=0</td></tr>
+<tr class="memitem:a0708c11acf6c3195a0a8e81b895fd6ab"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a0708c11acf6c3195a0a8e81b895fd6ab">SetRecordPoint</a> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag, const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)=0</td></tr>
+<tr class="separator:a0708c11acf6c3195a0a8e81b895fd6ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcc3a55f7eb18f28936b87de7b6e0e05"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#abcc3a55f7eb18f28936b87de7b6e0e05">GetRecordInt</a> (const std::string &amp;strRecordName, const int nRow, const int nCol)=0</td></tr>
 <tr class="separator:abcc3a55f7eb18f28936b87de7b6e0e05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad64969fc0d15cfbcfce24f5505057577"><td class="memItemLeft" align="right" valign="top"><a id="ad64969fc0d15cfbcfce24f5505057577"></a>
-virtual double&#160;</td><td class="memItemRight" valign="bottom"><b>GetRecordFloat</b> (const std::string &amp;strRecordName, const int nRow, const int nCol)=0</td></tr>
-<tr class="separator:ad64969fc0d15cfbcfce24f5505057577"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a88e0e579d7ef0c051835faec4e654d50"><td class="memItemLeft" align="right" valign="top"><a id="a88e0e579d7ef0c051835faec4e654d50"></a>
-virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetRecordString</b> (const std::string &amp;strRecordName, const int nRow, const int nCol)=0</td></tr>
+<tr class="memitem:a5158a4705072039b43f23a0671152506"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a5158a4705072039b43f23a0671152506">GetRecordDouble</a> (const std::string &amp;strRecordName, const int nRow, const int nCol)=0</td></tr>
+<tr class="separator:a5158a4705072039b43f23a0671152506"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88e0e579d7ef0c051835faec4e654d50"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a88e0e579d7ef0c051835faec4e654d50">GetRecordString</a> (const std::string &amp;strRecordName, const int nRow, const int nCol)=0</td></tr>
 <tr class="separator:a88e0e579d7ef0c051835faec4e654d50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa03994f3dff26c78648bd9b77c528e74"><td class="memItemLeft" align="right" valign="top"><a id="aa03994f3dff26c78648bd9b77c528e74"></a>
-virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetRecordObject</b> (const std::string &amp;strRecordName, const int nRow, const int nCol)=0</td></tr>
+<tr class="memitem:aa03994f3dff26c78648bd9b77c528e74"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#aa03994f3dff26c78648bd9b77c528e74">GetRecordObject</a> (const std::string &amp;strRecordName, const int nRow, const int nCol)=0</td></tr>
 <tr class="separator:aa03994f3dff26c78648bd9b77c528e74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a02356c008ca9cdc1bcd63e3aff22cdb2"><td class="memItemLeft" align="right" valign="top"><a id="a02356c008ca9cdc1bcd63e3aff22cdb2"></a>
-virtual NFINT64&#160;</td><td class="memItemRight" valign="bottom"><b>GetRecordInt</b> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag)=0</td></tr>
+<tr class="memitem:a14903519d891296ad72d78f2930434bf"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a14903519d891296ad72d78f2930434bf">GetRecordPoint</a> (const std::string &amp;strRecordName, const int nRow, const int nCol)=0</td></tr>
+<tr class="separator:a14903519d891296ad72d78f2930434bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02356c008ca9cdc1bcd63e3aff22cdb2"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a02356c008ca9cdc1bcd63e3aff22cdb2">GetRecordInt</a> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag)=0</td></tr>
 <tr class="separator:a02356c008ca9cdc1bcd63e3aff22cdb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a401a54fdf76fbf1b20ad1d1b9e9a107d"><td class="memItemLeft" align="right" valign="top"><a id="a401a54fdf76fbf1b20ad1d1b9e9a107d"></a>
-virtual double&#160;</td><td class="memItemRight" valign="bottom"><b>GetRecordFloat</b> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag)=0</td></tr>
-<tr class="separator:a401a54fdf76fbf1b20ad1d1b9e9a107d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18efd01b548497e681dfdf53ecbc66e3"><td class="memItemLeft" align="right" valign="top"><a id="a18efd01b548497e681dfdf53ecbc66e3"></a>
-virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetRecordString</b> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag)=0</td></tr>
+<tr class="memitem:a75b1982f9b3d4f276e636bc73902b671"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a75b1982f9b3d4f276e636bc73902b671">GetRecordDouble</a> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag)=0</td></tr>
+<tr class="separator:a75b1982f9b3d4f276e636bc73902b671"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18efd01b548497e681dfdf53ecbc66e3"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a18efd01b548497e681dfdf53ecbc66e3">GetRecordString</a> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag)=0</td></tr>
 <tr class="separator:a18efd01b548497e681dfdf53ecbc66e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a72d58e799d46b940763905e3c7cd2a31"><td class="memItemLeft" align="right" valign="top"><a id="a72d58e799d46b940763905e3c7cd2a31"></a>
-virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>GetRecordObject</b> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag)=0</td></tr>
+<tr class="memitem:a72d58e799d46b940763905e3c7cd2a31"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a72d58e799d46b940763905e3c7cd2a31">GetRecordObject</a> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag)=0</td></tr>
 <tr class="separator:a72d58e799d46b940763905e3c7cd2a31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ca2ec5394d9727b8a823207d06b3090"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record_manager.html#a2ca2ec5394d9727b8a823207d06b3090">GetRecordPoint</a> (const std::string &amp;strRecordName, const int nRow, const std::string &amp;strColTag)=0</td></tr>
+<tr class="separator:a2ca2ec5394d9727b8a823207d06b3090"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_n_f_map_ex"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_map_ex')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_n_f_map_ex.html">NFMapEx&lt; std::string, NFIRecord &gt;</a></td></tr>
-<tr class="memitem:aeaddac586447691c674845cb899b3304 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="aeaddac586447691c674845cb899b3304"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddElement</b> (const std::string &amp;name, const NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt; data)</td></tr>
+<tr class="memitem:a669689226bf84349cea851c5b699fd13 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a669689226bf84349cea851c5b699fd13">NFMapEx</a> ()</td></tr>
+<tr class="separator:a669689226bf84349cea851c5b699fd13 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d74623691c6ee6fc074f9937f3fd0b0 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a9d74623691c6ee6fc074f9937f3fd0b0">~NFMapEx</a> ()</td></tr>
+<tr class="separator:a9d74623691c6ee6fc074f9937f3fd0b0 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaddac586447691c674845cb899b3304 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aeaddac586447691c674845cb899b3304">AddElement</a> (const std::string &amp;name, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt; data)</td></tr>
 <tr class="separator:aeaddac586447691c674845cb899b3304 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0353a5766a57fe1df3bddba02418ebb5 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="a0353a5766a57fe1df3bddba02418ebb5"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetElement</b> (const std::string &amp;name, const NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt; data)</td></tr>
+<tr class="memitem:a0353a5766a57fe1df3bddba02418ebb5 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a0353a5766a57fe1df3bddba02418ebb5">SetElement</a> (const std::string &amp;name, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt; data)</td></tr>
 <tr class="separator:a0353a5766a57fe1df3bddba02418ebb5 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ff2387f940e7d4109895fe1c443abf1 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="a1ff2387f940e7d4109895fe1c443abf1"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>RemoveElement</b> (const std::string &amp;name)</td></tr>
+<tr class="memitem:a1ff2387f940e7d4109895fe1c443abf1 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a1ff2387f940e7d4109895fe1c443abf1">RemoveElement</a> (const std::string &amp;name)</td></tr>
 <tr class="separator:a1ff2387f940e7d4109895fe1c443abf1 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adc397e883869dc42b08f921977b7d675 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="adc397e883869dc42b08f921977b7d675"></a>
-virtual <a class="el" href="class_n_f_i_record.html">NFIRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetElementNude</b> (const std::string &amp;name)</td></tr>
+<tr class="memitem:adc397e883869dc42b08f921977b7d675 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_record.html">NFIRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#adc397e883869dc42b08f921977b7d675">GetElementNude</a> (const std::string &amp;name)</td></tr>
 <tr class="separator:adc397e883869dc42b08f921977b7d675 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad260dc1e8eeb12fb14d07ab73658c671 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="ad260dc1e8eeb12fb14d07ab73658c671"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetElement</b> (const std::string &amp;name)</td></tr>
+<tr class="memitem:ad260dc1e8eeb12fb14d07ab73658c671 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ad260dc1e8eeb12fb14d07ab73658c671">GetElement</a> (const std::string &amp;name)</td></tr>
 <tr class="separator:ad260dc1e8eeb12fb14d07ab73658c671 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a858febc5c4f341d88c674abd3c504dcc inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="a858febc5c4f341d88c674abd3c504dcc"></a>
-virtual <a class="el" href="class_n_f_i_record.html">NFIRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>FirstNude</b> (std::string &amp;name)</td></tr>
+<tr class="memitem:a858febc5c4f341d88c674abd3c504dcc inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_record.html">NFIRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a858febc5c4f341d88c674abd3c504dcc">FirstNude</a> (std::string &amp;name)</td></tr>
 <tr class="separator:a858febc5c4f341d88c674abd3c504dcc inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54b9dec6a19234bd15795b8fe1411b23 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="a54b9dec6a19234bd15795b8fe1411b23"></a>
-virtual <a class="el" href="class_n_f_i_record.html">NFIRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>FirstNude</b> ()</td></tr>
+<tr class="memitem:a54b9dec6a19234bd15795b8fe1411b23 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_record.html">NFIRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a54b9dec6a19234bd15795b8fe1411b23">FirstNude</a> ()</td></tr>
 <tr class="separator:a54b9dec6a19234bd15795b8fe1411b23 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9de10e6afc469ad6c78ddec41f9cffd0 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="a9de10e6afc469ad6c78ddec41f9cffd0"></a>
-virtual <a class="el" href="class_n_f_i_record.html">NFIRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>NextNude</b> (std::string &amp;name)</td></tr>
+<tr class="memitem:a9de10e6afc469ad6c78ddec41f9cffd0 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_record.html">NFIRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a9de10e6afc469ad6c78ddec41f9cffd0">NextNude</a> (std::string &amp;name)</td></tr>
 <tr class="separator:a9de10e6afc469ad6c78ddec41f9cffd0 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacc03036da49c86ff6ef33039b3aab6b inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="aacc03036da49c86ff6ef33039b3aab6b"></a>
-virtual <a class="el" href="class_n_f_i_record.html">NFIRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>NextNude</b> ()</td></tr>
+<tr class="memitem:aacc03036da49c86ff6ef33039b3aab6b inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_record.html">NFIRecord</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aacc03036da49c86ff6ef33039b3aab6b">NextNude</a> ()</td></tr>
 <tr class="separator:aacc03036da49c86ff6ef33039b3aab6b inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3a295045bbb1ccc915f626b9ddf82b2 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="ad3a295045bbb1ccc915f626b9ddf82b2"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>First</b> ()</td></tr>
+<tr class="memitem:ad3a295045bbb1ccc915f626b9ddf82b2 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ad3a295045bbb1ccc915f626b9ddf82b2">First</a> ()</td></tr>
 <tr class="separator:ad3a295045bbb1ccc915f626b9ddf82b2 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa588e44331964ca74c1b64c14832c322 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="aa588e44331964ca74c1b64c14832c322"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>First</b> (std::string &amp;name)</td></tr>
+<tr class="memitem:aa588e44331964ca74c1b64c14832c322 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aa588e44331964ca74c1b64c14832c322">First</a> (std::string &amp;name)</td></tr>
 <tr class="separator:aa588e44331964ca74c1b64c14832c322 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a489b5c7ff5f3353e7a11c2d007e4de47 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="a489b5c7ff5f3353e7a11c2d007e4de47"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Next</b> ()</td></tr>
+<tr class="memitem:a489b5c7ff5f3353e7a11c2d007e4de47 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a489b5c7ff5f3353e7a11c2d007e4de47">Next</a> ()</td></tr>
 <tr class="separator:a489b5c7ff5f3353e7a11c2d007e4de47 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a04493c472bdc99e65ec3f8a28977e6 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="a0a04493c472bdc99e65ec3f8a28977e6"></a>
-virtual NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>Next</b> (std::string &amp;name)</td></tr>
+<tr class="memitem:a0a04493c472bdc99e65ec3f8a28977e6 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a0a04493c472bdc99e65ec3f8a28977e6">Next</a> (std::string &amp;name)</td></tr>
 <tr class="separator:a0a04493c472bdc99e65ec3f8a28977e6 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e854d99cb4f39d9903e9f4a220d52b5 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="a1e854d99cb4f39d9903e9f4a220d52b5"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>Count</b> ()</td></tr>
+<tr class="memitem:a1e854d99cb4f39d9903e9f4a220d52b5 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a1e854d99cb4f39d9903e9f4a220d52b5">Count</a> ()</td></tr>
 <tr class="separator:a1e854d99cb4f39d9903e9f4a220d52b5 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a529ed80ad881d598d293cc24ae3bc220 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="a529ed80ad881d598d293cc24ae3bc220"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>ClearAll</b> ()</td></tr>
+<tr class="memitem:a529ed80ad881d598d293cc24ae3bc220 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a529ed80ad881d598d293cc24ae3bc220">ClearAll</a> ()</td></tr>
 <tr class="separator:a529ed80ad881d598d293cc24ae3bc220 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_types_class_n_f_map_ex"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_n_f_map_ex')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_n_f_map_ex.html">NFMapEx&lt; std::string, NFIRecord &gt;</a></td></tr>
-<tr class="memitem:ac33526453d3a14f56945a31210f15ffd inherit pub_types_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top"><a id="ac33526453d3a14f56945a31210f15ffd"></a>
-typedef std::map&lt; std::string, NF_SHARE_PTR&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>NFMapOBJECT</b></td></tr>
+<tr class="memitem:ac33526453d3a14f56945a31210f15ffd inherit pub_types_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ac33526453d3a14f56945a31210f15ffd">NFMapOBJECT</a></td></tr>
 <tr class="separator:ac33526453d3a14f56945a31210f15ffd inherit pub_types_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a3a87efda7b6b6f4c80407f6137fa1f7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a87efda7b6b6f4c80407f6137fa1f7b">&sect;&nbsp;</a></span>~NFIRecordManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual NFIRecordManager::~NFIRecordManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a5a753790e2369d631a4b4749740e8c5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a753790e2369d631a4b4749740e8c5e">&sect;&nbsp;</a></span>AddRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_record.html">NFIRecord</a>&gt; NFIRecordManager::AddRecord </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>TData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>tagData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRows</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a8bc25ce6406189dfa459bed828d2e126">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a5158a4705072039b43f23a0671152506"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5158a4705072039b43f23a0671152506">&sect;&nbsp;</a></span>GetRecordDouble() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double NFIRecordManager::GetRecordDouble </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a305186b90fd00522d5ab3b16cc90ebf9">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a75b1982f9b3d4f276e636bc73902b671"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75b1982f9b3d4f276e636bc73902b671">&sect;&nbsp;</a></span>GetRecordDouble() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual double NFIRecordManager::GetRecordDouble </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strColTag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a985e0975e4e96ff5e27e4dc8a173eb3a">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="abcc3a55f7eb18f28936b87de7b6e0e05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abcc3a55f7eb18f28936b87de7b6e0e05">&sect;&nbsp;</a></span>GetRecordInt() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> NFIRecordManager::GetRecordInt </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a4138d5d08aca26b036705cdb1681ff2a">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a02356c008ca9cdc1bcd63e3aff22cdb2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02356c008ca9cdc1bcd63e3aff22cdb2">&sect;&nbsp;</a></span>GetRecordInt() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> NFIRecordManager::GetRecordInt </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strColTag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a13acc52832cb7b166d0441072849f680">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="aa03994f3dff26c78648bd9b77c528e74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa03994f3dff26c78648bd9b77c528e74">&sect;&nbsp;</a></span>GetRecordObject() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&amp; NFIRecordManager::GetRecordObject </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#ad46ea64d0eba4c2b83e871539da41673">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a72d58e799d46b940763905e3c7cd2a31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72d58e799d46b940763905e3c7cd2a31">&sect;&nbsp;</a></span>GetRecordObject() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&amp; NFIRecordManager::GetRecordObject </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strColTag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a46967b1b026cb045bc5f3479a5f4e40b">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a14903519d891296ad72d78f2930434bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14903519d891296ad72d78f2930434bf">&sect;&nbsp;</a></span>GetRecordPoint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const <a class="el" href="struct_point3_d.html">Point3D</a>&amp; NFIRecordManager::GetRecordPoint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a5baffe05e37d70d766237a6c7277f9f7">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a2ca2ec5394d9727b8a823207d06b3090"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ca2ec5394d9727b8a823207d06b3090">&sect;&nbsp;</a></span>GetRecordPoint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const <a class="el" href="struct_point3_d.html">Point3D</a>&amp; NFIRecordManager::GetRecordPoint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strColTag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#addd565b15e9f6c392298d676853d8fa8">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a88e0e579d7ef0c051835faec4e654d50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88e0e579d7ef0c051835faec4e654d50">&sect;&nbsp;</a></span>GetRecordString() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const std::string&amp; NFIRecordManager::GetRecordString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCol</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a875ddd9d043876138148fc85adb676b6">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a18efd01b548497e681dfdf53ecbc66e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18efd01b548497e681dfdf53ecbc66e3">&sect;&nbsp;</a></span>GetRecordString() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const std::string&amp; NFIRecordManager::GetRecordString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strColTag</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a827ced9686f8575740c7a3b6e895f604">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="ab336906ae3b4113eb7c1f93631d43e37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab336906ae3b4113eb7c1f93631d43e37">&sect;&nbsp;</a></span>Self()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&amp; NFIRecordManager::Self </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a20867cc0ba1896ef1d35a6b5d30aa757">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="ad7ba2ab8a9681c0e2b671fadcef8f03d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7ba2ab8a9681c0e2b671fadcef8f03d">&sect;&nbsp;</a></span>SetRecordDouble() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIRecordManager::SetRecordDouble </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>dwValue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#aa67a29ad8982bb96255df3869a103ad7">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="aeba709d1e58e69f8c20fb193775cd00e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeba709d1e58e69f8c20fb193775cd00e">&sect;&nbsp;</a></span>SetRecordDouble() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIRecordManager::SetRecordDouble </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strColTag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#aa2729034aa6027742693d52e18ad6d6a">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a9c2c4498e2e158b5a240cd9a19661f7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9c2c4498e2e158b5a240cd9a19661f7d">&sect;&nbsp;</a></span>SetRecordInt() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIRecordManager::SetRecordInt </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td>
+          <td class="paramname"><em>nValue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#afa0a1c8c24071697dded2f6b5e887e23">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="ae2621af4d4ec9ef03e05dd8622f9648a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2621af4d4ec9ef03e05dd8622f9648a">&sect;&nbsp;</a></span>SetRecordInt() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIRecordManager::SetRecordInt </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strColTag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a778965f9b9d4c3483423a3de70ff6885">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a9886581ce64a9539e98091adaca735a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9886581ce64a9539e98091adaca735a4">&sect;&nbsp;</a></span>SetRecordObject() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIRecordManager::SetRecordObject </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>obj</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#af8e177fab933e44ffea7b17f0c2647ca">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a5034e99758784db29ca7b618d76a1955"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5034e99758784db29ca7b618d76a1955">&sect;&nbsp;</a></span>SetRecordObject() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIRecordManager::SetRecordObject </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strColTag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#ab77312337ac5840d29f56eddd35fc5bb">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="ab458f53ad23789fa4054d1d99e210f1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab458f53ad23789fa4054d1d99e210f1f">&sect;&nbsp;</a></span>SetRecordPoint() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIRecordManager::SetRecordPoint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a42db1ef2699a06b3cf144e08eece7bf4">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a0708c11acf6c3195a0a8e81b895fd6ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0708c11acf6c3195a0a8e81b895fd6ab">&sect;&nbsp;</a></span>SetRecordPoint() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIRecordManager::SetRecordPoint </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strColTag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#aa4ca20378ec14520ecca90dd91ee47fd">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="abbfdacbd1244694f4ddd3e9bbd43a8ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbfdacbd1244694f4ddd3e9bbd43a8ed">&sect;&nbsp;</a></span>SetRecordString() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIRecordManager::SetRecordString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strValue</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#a6b572376ce97905e4d4462b0672a65fb">NFCRecordManager</a>.</p>
+
+</div>
+</div>
+<a id="a46ec3f9a9fe8ded6bf9e8a51ea796836"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a46ec3f9a9fe8ded6bf9e8a51ea796836">&sect;&nbsp;</a></span>SetRecordString() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIRecordManager::SetRecordString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strRecordName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nRow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strColTag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="class_n_f_c_record_manager.html#ae3119e62c2a74c7ad628cccf85e928bf">NFCRecordManager</a>.</p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFCore/<a class="el" href="_n_f_i_record_manager_8h_source.html">NFIRecordManager.h</a></li>
+<li><a class="el" href="_n_f_i_record_manager_8h_source.html">NFIRecordManager.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

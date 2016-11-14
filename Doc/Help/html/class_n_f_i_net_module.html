@@ -65,160 +65,1394 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_n_f_i_net_module-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">NFINetModule Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_i_net_module_8h_source.html">NFINetModule.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFINetModule:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_i_net_module.png" usemap="#NFINetModule_map" alt=""/>
-  <map id="NFINetModule_map" name="NFINetModule_map">
-<area href="class_n_f_i_module.html" alt="NFIModule" shape="rect" coords="0,0,93,24"/>
+<div class="center"><img src="class_n_f_i_net_module__inherit__graph.gif" border="0" usemap="#_n_f_i_net_module_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_i_net_module_inherit__map" id="_n_f_i_net_module_inherit__map">
+<area shape="rect" id="node2" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l&#45; mbReloading\l&#45; mRemoveListEx\l&#45; mAddListEx\l&#45; mHeartBeatElementMapEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="5,5,193,376"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFINetModule:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_i_net_module__coll__graph.gif" border="0" usemap="#_n_f_i_net_module_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_i_net_module_coll__map" id="_n_f_i_net_module_coll__map">
+<area shape="rect" id="node2" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l&#45; mbReloading\l&#45; mAddListEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="91,321,262,648"/>
+<area shape="rect" id="node4" href="class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="103,791,251,1045"/>
+<area shape="rect" id="node3" href="class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="5,27,148,237"/>
+<area shape="rect" id="node5" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFCModuleHeartBeatElement \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="172,5,384,259"/>
+<area shape="rect" id="node6" href="class_n_f_i_net.html" title="{NFINet\n||+ Execute()\l+ Initialization()\l+ Initialization()\l+ Final()\l+ SendMsgWithOutHead()\l+ SendMsgWithOutHead()\l+ SendMsgToAllClient()\l+ SendMsgToAllClientWithOutHead()\l+ CloseNetObject()\l+ CloseNetObject()\l+ IsServer()\l+ Log()\l}" alt="" coords="286,365,523,604"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8b629901044d2e70898e7e81fa8c071a"><td class="memTemplParams" colspan="2"><a id="a8b629901044d2e70898e7e81fa8c071a"></a>
-template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a8b629901044d2e70898e7e81fa8c071a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>NFINetModule</b> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p, BaseType *pBase, void(BaseType::*handleRecieve)(const int, const int, const char *, const uint32_t, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>))</td></tr>
+<tr class="memitem:a8b629901044d2e70898e7e81fa8c071a"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a8b629901044d2e70898e7e81fa8c071a"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a8b629901044d2e70898e7e81fa8c071a">NFINetModule</a> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p, BaseType *pBase, void(BaseType::*handleRecieve)(const int, const int, const char *, const uint32_t, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>))</td></tr>
 <tr class="separator:a8b629901044d2e70898e7e81fa8c071a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a344181eb5df1603b15b6f92a31faecfd"><td class="memItemLeft" align="right" valign="top"><a id="a344181eb5df1603b15b6f92a31faecfd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>NFINetModule</b> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
+<tr class="memitem:a344181eb5df1603b15b6f92a31faecfd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a344181eb5df1603b15b6f92a31faecfd">NFINetModule</a> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
 <tr class="separator:a344181eb5df1603b15b6f92a31faecfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd69d20f3e1f79f62ea8dcbd8a69b7d3"><td class="memItemLeft" align="right" valign="top"><a id="abd69d20f3e1f79f62ea8dcbd8a69b7d3"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Initialization</b> (const char *strIP, const unsigned short nPort, const int nServerID)</td></tr>
+<tr class="memitem:a61d162aa90c4af47070f7b93ffddbce1"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a61d162aa90c4af47070f7b93ffddbce1">~NFINetModule</a> ()</td></tr>
+<tr class="separator:a61d162aa90c4af47070f7b93ffddbce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd69d20f3e1f79f62ea8dcbd8a69b7d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#abd69d20f3e1f79f62ea8dcbd8a69b7d3">Initialization</a> (const char *strIP, const unsigned short nPort, const int nServerID)</td></tr>
 <tr class="separator:abd69d20f3e1f79f62ea8dcbd8a69b7d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2a023a4fbdee9bd9d44fde9408ad7d9c"><td class="memItemLeft" align="right" valign="top"><a id="a2a023a4fbdee9bd9d44fde9408ad7d9c"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>Initialization</b> (const unsigned int nMaxClient, const unsigned short nPort, const int nServerID, const int nCpuCount)</td></tr>
+<tr class="memitem:a2a023a4fbdee9bd9d44fde9408ad7d9c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a2a023a4fbdee9bd9d44fde9408ad7d9c">Initialization</a> (const unsigned int nMaxClient, const unsigned short nPort, const int nServerID, const int nCpuCount)</td></tr>
 <tr class="separator:a2a023a4fbdee9bd9d44fde9408ad7d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bb6164820402bb2724616fd6c02dd8d"><td class="memTemplParams" colspan="2"><a id="a7bb6164820402bb2724616fd6c02dd8d"></a>
-template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a7bb6164820402bb2724616fd6c02dd8d"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AddReceiveCallBack</b> (const int nMsgID, BaseType *pBase, void(BaseType::*handleRecieve)(const int, const int, const char *, const uint32_t, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;))</td></tr>
+<tr class="memitem:a7bb6164820402bb2724616fd6c02dd8d"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a7bb6164820402bb2724616fd6c02dd8d"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a7bb6164820402bb2724616fd6c02dd8d">AddReceiveCallBack</a> (const int nMsgID, BaseType *pBase, void(BaseType::*handleRecieve)(const int, const int, const char *, const uint32_t, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;))</td></tr>
 <tr class="separator:a7bb6164820402bb2724616fd6c02dd8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22b7e5a8fe89b53b40b41001c5185c54"><td class="memTemplParams" colspan="2"><a id="a22b7e5a8fe89b53b40b41001c5185c54"></a>
-template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a22b7e5a8fe89b53b40b41001c5185c54"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AddReceiveCallBack</b> (BaseType *pBase, void(BaseType::*handleRecieve)(const int, const int, const char *, const uint32_t, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;))</td></tr>
+<tr class="memitem:a22b7e5a8fe89b53b40b41001c5185c54"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a22b7e5a8fe89b53b40b41001c5185c54"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a22b7e5a8fe89b53b40b41001c5185c54">AddReceiveCallBack</a> (BaseType *pBase, void(BaseType::*handleRecieve)(const int, const int, const char *, const uint32_t, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;))</td></tr>
 <tr class="separator:a22b7e5a8fe89b53b40b41001c5185c54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57114bab0eeffd40dc9ce52657f0a1cf"><td class="memItemLeft" align="right" valign="top"><a id="a57114bab0eeffd40dc9ce52657f0a1cf"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddReceiveCallBack</b> (const int nMsgID, const NET_RECEIVE_FUNCTOR_PTR &amp;cb)</td></tr>
+<tr class="memitem:a57114bab0eeffd40dc9ce52657f0a1cf"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a57114bab0eeffd40dc9ce52657f0a1cf">AddReceiveCallBack</a> (const int nMsgID, const <a class="el" href="_n_f_i_net_8h.html#a876e95ae60c46b5a467eeaee49d544d2">NET_RECEIVE_FUNCTOR_PTR</a> &amp;cb)</td></tr>
 <tr class="separator:a57114bab0eeffd40dc9ce52657f0a1cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a50410f245c3080d98f71afc8585f1a"><td class="memItemLeft" align="right" valign="top"><a id="a0a50410f245c3080d98f71afc8585f1a"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddReceiveCallBack</b> (const NET_RECEIVE_FUNCTOR_PTR &amp;cb)</td></tr>
+<tr class="memitem:a0a50410f245c3080d98f71afc8585f1a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a0a50410f245c3080d98f71afc8585f1a">AddReceiveCallBack</a> (const <a class="el" href="_n_f_i_net_8h.html#a876e95ae60c46b5a467eeaee49d544d2">NET_RECEIVE_FUNCTOR_PTR</a> &amp;cb)</td></tr>
 <tr class="separator:a0a50410f245c3080d98f71afc8585f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a366871513436c578be3512889c29787e"><td class="memTemplParams" colspan="2"><a id="a366871513436c578be3512889c29787e"></a>
-template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a366871513436c578be3512889c29787e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AddEventCallBack</b> (BaseType *pBase, void(BaseType::*handler)(const int, const NF_NET_EVENT, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const int))</td></tr>
+<tr class="memitem:a366871513436c578be3512889c29787e"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a366871513436c578be3512889c29787e"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a366871513436c578be3512889c29787e">AddEventCallBack</a> (BaseType *pBase, void(BaseType::*handler)(const int, const <a class="el" href="_n_f_i_net_8h.html#a5a15754b477432993e21ef833ed79cef">NF_NET_EVENT</a>, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const int))</td></tr>
 <tr class="separator:a366871513436c578be3512889c29787e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89996c1ba3b6c4eba4890aea0b7cfb7c"><td class="memItemLeft" align="right" valign="top"><a id="a89996c1ba3b6c4eba4890aea0b7cfb7c"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddEventCallBack</b> (const NET_EVENT_FUNCTOR_PTR &amp;cb)</td></tr>
+<tr class="memitem:a89996c1ba3b6c4eba4890aea0b7cfb7c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a89996c1ba3b6c4eba4890aea0b7cfb7c">AddEventCallBack</a> (const <a class="el" href="_n_f_i_net_8h.html#abf055b819f1b045c6c31c1da7f79a47e">NET_EVENT_FUNCTOR_PTR</a> &amp;cb)</td></tr>
 <tr class="separator:a89996c1ba3b6c4eba4890aea0b7cfb7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abfb86c7618faaa37fac91c00b6158cc0"><td class="memItemLeft" align="right" valign="top"><a id="abfb86c7618faaa37fac91c00b6158cc0"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Execute</b> ()</td></tr>
+<tr class="memitem:abfb86c7618faaa37fac91c00b6158cc0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#abfb86c7618faaa37fac91c00b6158cc0">Execute</a> ()</td></tr>
 <tr class="separator:abfb86c7618faaa37fac91c00b6158cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6719eeacab1a15a1ee9be339f30e138"><td class="memItemLeft" align="right" valign="top"><a id="ae6719eeacab1a15a1ee9be339f30e138"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SendMsgWithOutHead</b> (const int nMsgID, const std::string &amp;msg, const int nSockIndex)</td></tr>
+<tr class="memitem:ae6719eeacab1a15a1ee9be339f30e138"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#ae6719eeacab1a15a1ee9be339f30e138">SendMsgWithOutHead</a> (const int nMsgID, const std::string &amp;msg, const int nSockIndex)</td></tr>
 <tr class="separator:ae6719eeacab1a15a1ee9be339f30e138"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37d0af3b1883ba32315c3151670b92c7"><td class="memItemLeft" align="right" valign="top"><a id="a37d0af3b1883ba32315c3151670b92c7"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SendMsgToAllClientWithOutHead</b> (const int nMsgID, const std::string &amp;msg)</td></tr>
+<tr class="memitem:a37d0af3b1883ba32315c3151670b92c7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a37d0af3b1883ba32315c3151670b92c7">SendMsgToAllClientWithOutHead</a> (const int nMsgID, const std::string &amp;msg)</td></tr>
 <tr class="separator:a37d0af3b1883ba32315c3151670b92c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc4fee4fce0ffd570396306e3b239120"><td class="memItemLeft" align="right" valign="top"><a id="acc4fee4fce0ffd570396306e3b239120"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SendMsgPB</b> (const google::protobuf::Message &amp;xData, const uint32_t nSockIndex)</td></tr>
+<tr class="memitem:acc4fee4fce0ffd570396306e3b239120"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#acc4fee4fce0ffd570396306e3b239120">SendMsgPB</a> (const google::protobuf::Message &amp;xData, const uint32_t nSockIndex)</td></tr>
 <tr class="separator:acc4fee4fce0ffd570396306e3b239120"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b091abb2f6959c1e18e3ce818fc0ac5"><td class="memItemLeft" align="right" valign="top"><a id="a2b091abb2f6959c1e18e3ce818fc0ac5"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SendMsgPB</b> (const uint16_t nMsgID, const google::protobuf::Message &amp;xData, const uint32_t nSockIndex)</td></tr>
+<tr class="memitem:a2b091abb2f6959c1e18e3ce818fc0ac5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a2b091abb2f6959c1e18e3ce818fc0ac5">SendMsgPB</a> (const uint16_t nMsgID, const google::protobuf::Message &amp;xData, const uint32_t nSockIndex)</td></tr>
 <tr class="separator:a2b091abb2f6959c1e18e3ce818fc0ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d8280ed14d87f71353f6f47c7128b70"><td class="memItemLeft" align="right" valign="top"><a id="a7d8280ed14d87f71353f6f47c7128b70"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SendMsgPBToAllClient</b> (const uint16_t nMsgID, const google::protobuf::Message &amp;xData)</td></tr>
+<tr class="memitem:a7d8280ed14d87f71353f6f47c7128b70"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a7d8280ed14d87f71353f6f47c7128b70">SendMsgPBToAllClient</a> (const uint16_t nMsgID, const google::protobuf::Message &amp;xData)</td></tr>
 <tr class="separator:a7d8280ed14d87f71353f6f47c7128b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa11034edb37f3e4396a7338063365571"><td class="memItemLeft" align="right" valign="top"><a id="aa11034edb37f3e4396a7338063365571"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SendMsgPB</b> (const uint16_t nMsgID, const google::protobuf::Message &amp;xData, const uint32_t nSockIndex, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> nPlayer, const std::vector&lt; <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &gt; *pClientIDList=NULL)</td></tr>
+<tr class="memitem:aa11034edb37f3e4396a7338063365571"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#aa11034edb37f3e4396a7338063365571">SendMsgPB</a> (const uint16_t nMsgID, const google::protobuf::Message &amp;xData, const uint32_t nSockIndex, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> nPlayer, const std::vector&lt; <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &gt; *pClientIDList=NULL)</td></tr>
 <tr class="separator:aa11034edb37f3e4396a7338063365571"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0fc1935f59a2f87214040704daa3d201"><td class="memItemLeft" align="right" valign="top"><a id="a0fc1935f59a2f87214040704daa3d201"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SendMsgPB</b> (const uint16_t nMsgID, const std::string &amp;strData, const uint32_t nSockIndex, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> nPlayer, const std::vector&lt; <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &gt; *pClientIDList=NULL)</td></tr>
+<tr class="memitem:a0fc1935f59a2f87214040704daa3d201"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a0fc1935f59a2f87214040704daa3d201">SendMsgPB</a> (const uint16_t nMsgID, const std::string &amp;strData, const uint32_t nSockIndex, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> nPlayer, const std::vector&lt; <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &gt; *pClientIDList=NULL)</td></tr>
 <tr class="separator:a0fc1935f59a2f87214040704daa3d201"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a76155be35729953c97bde62495c54e89"><td class="memItemLeft" align="right" valign="top"><a id="a76155be35729953c97bde62495c54e89"></a>
-<a class="el" href="class_n_f_i_net.html">NFINet</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetNet</b> ()</td></tr>
+<tr class="memitem:a76155be35729953c97bde62495c54e89"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_net.html">NFINet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a76155be35729953c97bde62495c54e89">GetNet</a> ()</td></tr>
 <tr class="separator:a76155be35729953c97bde62495c54e89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:a5dbba4491b7a07074cf4abfe2db95899 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a5dbba4491b7a07074cf4abfe2db95899"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
+<tr class="memitem:ac4055db8fca34fbaa8ac24f75a3dc3c7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ac4055db8fca34fbaa8ac24f75a3dc3c7">NFIModule</a> ()</td></tr>
+<tr class="separator:ac4055db8fca34fbaa8ac24f75a3dc3c7 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae50e636e9a4e2c40ce2c86abe0b07865 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ae50e636e9a4e2c40ce2c86abe0b07865">~NFIModule</a> ()</td></tr>
+<tr class="separator:ae50e636e9a4e2c40ce2c86abe0b07865 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dbba4491b7a07074cf4abfe2db95899 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a5dbba4491b7a07074cf4abfe2db95899">Init</a> ()</td></tr>
 <tr class="separator:a5dbba4491b7a07074cf4abfe2db95899 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7719c4ab72efc1b698eca98968c0f43 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="ac7719c4ab72efc1b698eca98968c0f43"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AfterInit</b> ()</td></tr>
+<tr class="memitem:ac7719c4ab72efc1b698eca98968c0f43 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ac7719c4ab72efc1b698eca98968c0f43">AfterInit</a> ()</td></tr>
 <tr class="separator:ac7719c4ab72efc1b698eca98968c0f43 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a29ebe3a43330203d9f3e9d06b5ce0b33"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>CheckConfig</b> ()</td></tr>
+<tr class="memitem:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a29ebe3a43330203d9f3e9d06b5ce0b33">CheckConfig</a> ()</td></tr>
 <tr class="separator:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a718b98d9795954f4f2982e67c2d98683 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a718b98d9795954f4f2982e67c2d98683"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>BeforeShut</b> ()</td></tr>
+<tr class="memitem:a718b98d9795954f4f2982e67c2d98683 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a718b98d9795954f4f2982e67c2d98683">BeforeShut</a> ()</td></tr>
 <tr class="separator:a718b98d9795954f4f2982e67c2d98683 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a345cdec76e4e04b92e8635a0b51ed41f inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a345cdec76e4e04b92e8635a0b51ed41f"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Shut</b> ()</td></tr>
+<tr class="memitem:a345cdec76e4e04b92e8635a0b51ed41f inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a345cdec76e4e04b92e8635a0b51ed41f">Shut</a> ()</td></tr>
 <tr class="separator:a345cdec76e4e04b92e8635a0b51ed41f inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="aa44fa391ec7fb2882f208c9b36e3c3f7"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>StartReLoadState</b> ()</td></tr>
+<tr class="memitem:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#aa44fa391ec7fb2882f208c9b36e3c3f7">StartReLoadState</a> ()</td></tr>
 <tr class="separator:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a28217dc4ebbf611a34434ff07fb0d7db"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>EndReLoadState</b> ()</td></tr>
+<tr class="memitem:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a28217dc4ebbf611a34434ff07fb0d7db">EndReLoadState</a> ()</td></tr>
 <tr class="separator:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="ab65d97e11a34f47b4257a4d3175d48b9"></a>
-virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetPluginManager</b> () const</td></tr>
+<tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ab65d97e11a34f47b4257a4d3175d48b9">GetPluginManager</a> () const</td></tr>
 <tr class="separator:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2"><a id="a48581696daeec956659ef3720834bdc9"></a>
-template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AddHeartBeatExecute</b> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
+<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a48581696daeec956659ef3720834bdc9">AddHeartBeatExecute</a> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
 <tr class="separator:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a89b70e2046ffd656fe4cf4bc0963be86"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>RemoveHeartBeat</b> (const std::string &amp;strHeartBeatName)</td></tr>
+<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a89b70e2046ffd656fe4cf4bc0963be86">RemoveHeartBeat</a> (const std::string &amp;strHeartBeatName)</td></tr>
 <tr class="separator:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a4e7340e694a0904b0bc544caaf82819d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Loading</b> () const</td></tr>
+<tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a4e7340e694a0904b0bc544caaf82819d">Loading</a> () const</td></tr>
 <tr class="separator:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a6adf4f4506112a132930c58ab1290462"><td class="memItemLeft" align="right" valign="top"><a id="a6adf4f4506112a132930c58ab1290462"></a>
-static <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>PBToNF</b> (<a class="el" href="class_n_f_msg_1_1_ident.html">NFMsg::Ident</a> xID)</td></tr>
+<tr class="memitem:a6adf4f4506112a132930c58ab1290462"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a6adf4f4506112a132930c58ab1290462">PBToNF</a> (NFMsg::Ident xID)</td></tr>
 <tr class="separator:a6adf4f4506112a132930c58ab1290462"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab37b68cd6f93fb7e62eef82121225f71"><td class="memItemLeft" align="right" valign="top"><a id="ab37b68cd6f93fb7e62eef82121225f71"></a>
-static <a class="el" href="class_n_f_msg_1_1_ident.html">NFMsg::Ident</a>&#160;</td><td class="memItemRight" valign="bottom"><b>NFToPB</b> (<a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> xID)</td></tr>
+<tr class="memitem:ab37b68cd6f93fb7e62eef82121225f71"><td class="memItemLeft" align="right" valign="top">static NFMsg::Ident&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#ab37b68cd6f93fb7e62eef82121225f71">NFToPB</a> (<a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> xID)</td></tr>
 <tr class="separator:ab37b68cd6f93fb7e62eef82121225f71"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac7c87a016ab8c705778640242f2524d6"><td class="memItemLeft" align="right" valign="top"><a id="ac7c87a016ab8c705778640242f2524d6"></a>
-static bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReceivePB</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, std::string &amp;strMsg, <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;nPlayer)</td></tr>
+<tr class="memitem:a2d1ab61850441969197dff4bb7883957"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="struct_point3_d.html">Point3D</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a2d1ab61850441969197dff4bb7883957">PBToNF</a> (NFMsg::Point3D xPoint)</td></tr>
+<tr class="separator:a2d1ab61850441969197dff4bb7883957"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b49576b3da9caa024b09e97df7323d7"><td class="memItemLeft" align="right" valign="top">static NFMsg::Point3D&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a5b49576b3da9caa024b09e97df7323d7">NFToPB</a> (<a class="el" href="struct_point3_d.html">Point3D</a> xID)</td></tr>
+<tr class="separator:a5b49576b3da9caa024b09e97df7323d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7c87a016ab8c705778640242f2524d6"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#ac7c87a016ab8c705778640242f2524d6">ReceivePB</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, std::string &amp;strMsg, <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;nPlayer)</td></tr>
 <tr class="separator:ac7c87a016ab8c705778640242f2524d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ff2c75fc793f81ea962ea5303fa6d62"><td class="memItemLeft" align="right" valign="top"><a id="a4ff2c75fc793f81ea962ea5303fa6d62"></a>
-static bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReceivePB</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, google::protobuf::Message &amp;xData, <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;nPlayer)</td></tr>
+<tr class="memitem:a4ff2c75fc793f81ea962ea5303fa6d62"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a4ff2c75fc793f81ea962ea5303fa6d62">ReceivePB</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, google::protobuf::Message &amp;xData, <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;nPlayer)</td></tr>
 <tr class="separator:a4ff2c75fc793f81ea962ea5303fa6d62"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:aa5f39be0865e1cb9a8313b0f411bf8c2"><td class="memItemLeft" align="right" valign="top"><a id="aa5f39be0865e1cb9a8313b0f411bf8c2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnReceiveNetPack</b> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
+<tr class="memitem:a00e0112b55843450247e88059b97c4e6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a00e0112b55843450247e88059b97c4e6">NFINetModule</a> ()</td></tr>
+<tr class="separator:a00e0112b55843450247e88059b97c4e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5f39be0865e1cb9a8313b0f411bf8c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#aa5f39be0865e1cb9a8313b0f411bf8c2">OnReceiveNetPack</a> (const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID)</td></tr>
 <tr class="separator:aa5f39be0865e1cb9a8313b0f411bf8c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1da27f3e93526b0eb922ef4e7d8891ee"><td class="memItemLeft" align="right" valign="top"><a id="a1da27f3e93526b0eb922ef4e7d8891ee"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>OnSocketNetEvent</b> (const int nSockIndex, const NF_NET_EVENT eEvent, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID, int nServerID)</td></tr>
+<tr class="memitem:a1da27f3e93526b0eb922ef4e7d8891ee"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a1da27f3e93526b0eb922ef4e7d8891ee">OnSocketNetEvent</a> (const int nSockIndex, const <a class="el" href="_n_f_i_net_8h.html#a5a15754b477432993e21ef833ed79cef">NF_NET_EVENT</a> eEvent, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;xClientID, int nServerID)</td></tr>
 <tr class="separator:a1da27f3e93526b0eb922ef4e7d8891ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aac810db088fa39dc5447eb7597b6d1f6"><td class="memItemLeft" align="right" valign="top"><a id="aac810db088fa39dc5447eb7597b6d1f6"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>KeepAlive</b> ()</td></tr>
+<tr class="memitem:aac810db088fa39dc5447eb7597b6d1f6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#aac810db088fa39dc5447eb7597b6d1f6">KeepAlive</a> ()</td></tr>
 <tr class="separator:aac810db088fa39dc5447eb7597b6d1f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a67a585394f03377a0348a57da4075cdc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_net.html">NFINet</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a67a585394f03377a0348a57da4075cdc">m_pNet</a></td></tr>
+<tr class="separator:a67a585394f03377a0348a57da4075cdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4320872ffb3ae0576db581f96d6a8c8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#af4320872ffb3ae0576db581f96d6a8c8">nLastTime</a></td></tr>
+<tr class="separator:af4320872ffb3ae0576db581f96d6a8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a4595ca2caf498c122f29d36e21a094"><td class="memItemLeft" align="right" valign="top">std::map&lt; int, <a class="el" href="_n_f_i_net_8h.html#a876e95ae60c46b5a467eeaee49d544d2">NET_RECEIVE_FUNCTOR_PTR</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a4a4595ca2caf498c122f29d36e21a094">mxReceiveCallBack</a></td></tr>
+<tr class="separator:a4a4595ca2caf498c122f29d36e21a094"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7cb0c05b6c80d9c19f76752fd8a4077"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="_n_f_i_net_8h.html#abf055b819f1b045c6c31c1da7f79a47e">NET_EVENT_FUNCTOR_PTR</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#ab7cb0c05b6c80d9c19f76752fd8a4077">mxEventCallBackList</a></td></tr>
+<tr class="separator:ab7cb0c05b6c80d9c19f76752fd8a4077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dd6faa6d3e033345e6a0e9b593e8de2"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="_n_f_i_net_8h.html#a876e95ae60c46b5a467eeaee49d544d2">NET_RECEIVE_FUNCTOR_PTR</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_net_module.html#a7dd6faa6d3e033345e6a0e9b593e8de2">mxCallBackList</a></td></tr>
+<tr class="separator:a7dd6faa6d3e033345e6a0e9b593e8de2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="aa714ce5e40aec7d752d58d068f3efad7"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>strName</b></td></tr>
+<tr class="memitem:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#aa714ce5e40aec7d752d58d068f3efad7">strName</a></td></tr>
 <tr class="separator:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a078fbd0e90c9a9918bba04407d69727c"></a>
-<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>pPluginManager</b></td></tr>
+<tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a078fbd0e90c9a9918bba04407d69727c">pPluginManager</a></td></tr>
 <tr class="separator:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a00e0112b55843450247e88059b97c4e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00e0112b55843450247e88059b97c4e6">&sect;&nbsp;</a></span>NFINetModule() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFINetModule::NFINetModule </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b629901044d2e70898e7e81fa8c071a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b629901044d2e70898e7e81fa8c071a">&sect;&nbsp;</a></span>NFINetModule() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BaseType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFINetModule::NFINetModule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td>
+          <td class="paramname"><em>p</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BaseType *&#160;</td>
+          <td class="paramname"><em>pBase</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(BaseType::*)(const int, const int, const char *, const uint32_t, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>)&#160;</td>
+          <td class="paramname"><em>handleRecieve</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a344181eb5df1603b15b6f92a31faecfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a344181eb5df1603b15b6f92a31faecfd">&sect;&nbsp;</a></span>NFINetModule() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFINetModule::NFINetModule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a61d162aa90c4af47070f7b93ffddbce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61d162aa90c4af47070f7b93ffddbce1">&sect;&nbsp;</a></span>~NFINetModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual NFINetModule::~NFINetModule </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a366871513436c578be3512889c29787e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a366871513436c578be3512889c29787e">&sect;&nbsp;</a></span>AddEventCallBack() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BaseType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFINetModule::AddEventCallBack </td>
+          <td>(</td>
+          <td class="paramtype">BaseType *&#160;</td>
+          <td class="paramname"><em>pBase</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(BaseType::*)(const int, const <a class="el" href="_n_f_i_net_8h.html#a5a15754b477432993e21ef833ed79cef">NF_NET_EVENT</a>, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const int)&#160;</td>
+          <td class="paramname"><em>handler</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a89996c1ba3b6c4eba4890aea0b7cfb7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89996c1ba3b6c4eba4890aea0b7cfb7c">&sect;&nbsp;</a></span>AddEventCallBack() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFINetModule::AddEventCallBack </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="_n_f_i_net_8h.html#abf055b819f1b045c6c31c1da7f79a47e">NET_EVENT_FUNCTOR_PTR</a> &amp;&#160;</td>
+          <td class="paramname"><em>cb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7bb6164820402bb2724616fd6c02dd8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bb6164820402bb2724616fd6c02dd8d">&sect;&nbsp;</a></span>AddReceiveCallBack() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BaseType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFINetModule::AddReceiveCallBack </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BaseType *&#160;</td>
+          <td class="paramname"><em>pBase</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(BaseType::*)(const int, const int, const char *, const uint32_t, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;)&#160;</td>
+          <td class="paramname"><em>handleRecieve</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a22b7e5a8fe89b53b40b41001c5185c54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22b7e5a8fe89b53b40b41001c5185c54">&sect;&nbsp;</a></span>AddReceiveCallBack() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename BaseType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFINetModule::AddReceiveCallBack </td>
+          <td>(</td>
+          <td class="paramtype">BaseType *&#160;</td>
+          <td class="paramname"><em>pBase</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void(BaseType::*)(const int, const int, const char *, const uint32_t, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;)&#160;</td>
+          <td class="paramname"><em>handleRecieve</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a57114bab0eeffd40dc9ce52657f0a1cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57114bab0eeffd40dc9ce52657f0a1cf">&sect;&nbsp;</a></span>AddReceiveCallBack() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFINetModule::AddReceiveCallBack </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_i_net_8h.html#a876e95ae60c46b5a467eeaee49d544d2">NET_RECEIVE_FUNCTOR_PTR</a> &amp;&#160;</td>
+          <td class="paramname"><em>cb</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0a50410f245c3080d98f71afc8585f1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a50410f245c3080d98f71afc8585f1a">&sect;&nbsp;</a></span>AddReceiveCallBack() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFINetModule::AddReceiveCallBack </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="_n_f_i_net_8h.html#a876e95ae60c46b5a467eeaee49d544d2">NET_RECEIVE_FUNCTOR_PTR</a> &amp;&#160;</td>
+          <td class="paramname"><em>cb</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abfb86c7618faaa37fac91c00b6158cc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfb86c7618faaa37fac91c00b6158cc0">&sect;&nbsp;</a></span>Execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFINetModule::Execute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#ad7c55c42281a825974522deaf190eaba">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a76155be35729953c97bde62495c54e89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76155be35729953c97bde62495c54e89">&sect;&nbsp;</a></span>GetNet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_net.html">NFINet</a>* NFINetModule::GetNet </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abd69d20f3e1f79f62ea8dcbd8a69b7d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd69d20f3e1f79f62ea8dcbd8a69b7d3">&sect;&nbsp;</a></span>Initialization() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFINetModule::Initialization </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>strIP</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned short&#160;</td>
+          <td class="paramname"><em>nPort</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nServerID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2a023a4fbdee9bd9d44fde9408ad7d9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a023a4fbdee9bd9d44fde9408ad7d9c">&sect;&nbsp;</a></span>Initialization() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int NFINetModule::Initialization </td>
+          <td>(</td>
+          <td class="paramtype">const unsigned int&#160;</td>
+          <td class="paramname"><em>nMaxClient</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const unsigned short&#160;</td>
+          <td class="paramname"><em>nPort</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nServerID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCpuCount</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aac810db088fa39dc5447eb7597b6d1f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aac810db088fa39dc5447eb7597b6d1f6">&sect;&nbsp;</a></span>KeepAlive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFINetModule::KeepAlive </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab37b68cd6f93fb7e62eef82121225f71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab37b68cd6f93fb7e62eef82121225f71">&sect;&nbsp;</a></span>NFToPB() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static NFMsg::Ident NFINetModule::NFToPB </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>xID</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5b49576b3da9caa024b09e97df7323d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b49576b3da9caa024b09e97df7323d7">&sect;&nbsp;</a></span>NFToPB() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static NFMsg::Point3D NFINetModule::NFToPB </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_point3_d.html">Point3D</a>&#160;</td>
+          <td class="paramname"><em>xID</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa5f39be0865e1cb9a8313b0f411bf8c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5f39be0865e1cb9a8313b0f411bf8c2">&sect;&nbsp;</a></span>OnReceiveNetPack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFINetModule::OnReceiveNetPack </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1da27f3e93526b0eb922ef4e7d8891ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1da27f3e93526b0eb922ef4e7d8891ee">&sect;&nbsp;</a></span>OnSocketNetEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFINetModule::OnSocketNetEvent </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_i_net_8h.html#a5a15754b477432993e21ef833ed79cef">NF_NET_EVENT</a>&#160;</td>
+          <td class="paramname"><em>eEvent</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>xClientID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nServerID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6adf4f4506112a132930c58ab1290462"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6adf4f4506112a132930c58ab1290462">&sect;&nbsp;</a></span>PBToNF() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> NFINetModule::PBToNF </td>
+          <td>(</td>
+          <td class="paramtype">NFMsg::Ident&#160;</td>
+          <td class="paramname"><em>xID</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2d1ab61850441969197dff4bb7883957"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d1ab61850441969197dff4bb7883957">&sect;&nbsp;</a></span>PBToNF() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="struct_point3_d.html">Point3D</a> NFINetModule::PBToNF </td>
+          <td>(</td>
+          <td class="paramtype">NFMsg::Point3D&#160;</td>
+          <td class="paramname"><em>xPoint</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac7c87a016ab8c705778640242f2524d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7c87a016ab8c705778640242f2524d6">&sect;&nbsp;</a></span>ReceivePB() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool NFINetModule::ReceivePB </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>strMsg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>nPlayer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ff2c75fc793f81ea962ea5303fa6d62"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ff2c75fc793f81ea962ea5303fa6d62">&sect;&nbsp;</a></span>ReceivePB() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static bool NFINetModule::ReceivePB </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nLen</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">google::protobuf::Message &amp;&#160;</td>
+          <td class="paramname"><em>xData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>nPlayer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acc4fee4fce0ffd570396306e3b239120"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc4fee4fce0ffd570396306e3b239120">&sect;&nbsp;</a></span>SendMsgPB() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFINetModule::SendMsgPB </td>
+          <td>(</td>
+          <td class="paramtype">const google::protobuf::Message &amp;&#160;</td>
+          <td class="paramname"><em>xData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2b091abb2f6959c1e18e3ce818fc0ac5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b091abb2f6959c1e18e3ce818fc0ac5">&sect;&nbsp;</a></span>SendMsgPB() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFINetModule::SendMsgPB </td>
+          <td>(</td>
+          <td class="paramtype">const uint16_t&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const google::protobuf::Message &amp;&#160;</td>
+          <td class="paramname"><em>xData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa11034edb37f3e4396a7338063365571"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa11034edb37f3e4396a7338063365571">&sect;&nbsp;</a></span>SendMsgPB() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFINetModule::SendMsgPB </td>
+          <td>(</td>
+          <td class="paramtype">const uint16_t&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const google::protobuf::Message &amp;&#160;</td>
+          <td class="paramname"><em>xData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>nPlayer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &gt; *&#160;</td>
+          <td class="paramname"><em>pClientIDList</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0fc1935f59a2f87214040704daa3d201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fc1935f59a2f87214040704daa3d201">&sect;&nbsp;</a></span>SendMsgPB() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFINetModule::SendMsgPB </td>
+          <td>(</td>
+          <td class="paramtype">const uint16_t&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const uint32_t&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>nPlayer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &gt; *&#160;</td>
+          <td class="paramname"><em>pClientIDList</em> = <code>NULL</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7d8280ed14d87f71353f6f47c7128b70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d8280ed14d87f71353f6f47c7128b70">&sect;&nbsp;</a></span>SendMsgPBToAllClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFINetModule::SendMsgPBToAllClient </td>
+          <td>(</td>
+          <td class="paramtype">const uint16_t&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const google::protobuf::Message &amp;&#160;</td>
+          <td class="paramname"><em>xData</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a37d0af3b1883ba32315c3151670b92c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37d0af3b1883ba32315c3151670b92c7">&sect;&nbsp;</a></span>SendMsgToAllClientWithOutHead()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFINetModule::SendMsgToAllClientWithOutHead </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>msg</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae6719eeacab1a15a1ee9be339f30e138"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6719eeacab1a15a1ee9be339f30e138">&sect;&nbsp;</a></span>SendMsgWithOutHead()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFINetModule::SendMsgWithOutHead </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsgID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>msg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nSockIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a67a585394f03377a0348a57da4075cdc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67a585394f03377a0348a57da4075cdc">&sect;&nbsp;</a></span>m_pNet</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_net.html">NFINet</a>* NFINetModule::m_pNet</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7dd6faa6d3e033345e6a0e9b593e8de2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dd6faa6d3e033345e6a0e9b593e8de2">&sect;&nbsp;</a></span>mxCallBackList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;<a class="el" href="_n_f_i_net_8h.html#a876e95ae60c46b5a467eeaee49d544d2">NET_RECEIVE_FUNCTOR_PTR</a>&gt; NFINetModule::mxCallBackList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab7cb0c05b6c80d9c19f76752fd8a4077"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7cb0c05b6c80d9c19f76752fd8a4077">&sect;&nbsp;</a></span>mxEventCallBackList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;<a class="el" href="_n_f_i_net_8h.html#abf055b819f1b045c6c31c1da7f79a47e">NET_EVENT_FUNCTOR_PTR</a>&gt; NFINetModule::mxEventCallBackList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4a4595ca2caf498c122f29d36e21a094"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a4595ca2caf498c122f29d36e21a094">&sect;&nbsp;</a></span>mxReceiveCallBack</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;int, <a class="el" href="_n_f_i_net_8h.html#a876e95ae60c46b5a467eeaee49d544d2">NET_RECEIVE_FUNCTOR_PTR</a>&gt; NFINetModule::mxReceiveCallBack</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af4320872ffb3ae0576db581f96d6a8c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4320872ffb3ae0576db581f96d6a8c8">&sect;&nbsp;</a></span>nLastTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> NFINetModule::nLastTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFPluginModule/<a class="el" href="_n_f_i_net_module_8h_source.html">NFINetModule.h</a></li>
+<li><a class="el" href="_n_f_i_net_module_8h_source.html">NFINetModule.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

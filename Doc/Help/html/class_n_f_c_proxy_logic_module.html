@@ -69,84 +69,268 @@ $(function() {
 <div class="title">NFCProxyLogicModule Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_c_proxy_logic_module_8h_source.html">NFCProxyLogicModule.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFCProxyLogicModule:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_c_proxy_logic_module.png" usemap="#NFCProxyLogicModule_map" alt=""/>
-  <map id="NFCProxyLogicModule_map" name="NFCProxyLogicModule_map">
-<area href="class_n_f_i_proxy_logic_module.html" alt="NFIProxyLogicModule" shape="rect" coords="0,56,144,80"/>
-<area href="class_n_f_i_module.html" alt="NFIModule" shape="rect" coords="0,0,144,24"/>
+<div class="center"><img src="class_n_f_c_proxy_logic_module__inherit__graph.gif" border="0" usemap="#_n_f_c_proxy_logic_module_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_c_proxy_logic_module_inherit__map" id="_n_f_c_proxy_logic_module_inherit__map">
+<area shape="rect" id="node2" href="class_n_f_i_proxy_logic_module.html" title="{NFIProxyLogicModule\n||}" alt="" coords="25,424,174,501"/>
+<area shape="rect" id="node3" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l&#45; mbReloading\l&#45; mRemoveListEx\l&#45; mAddListEx\l&#45; mHeartBeatElementMapEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="5,5,193,376"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFCProxyLogicModule:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_c_proxy_logic_module__coll__graph.gif" border="0" usemap="#_n_f_c_proxy_logic_module_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_c_proxy_logic_module_coll__map" id="_n_f_c_proxy_logic_module_coll__map">
+<area shape="rect" id="node2" href="class_n_f_i_proxy_logic_module.html" title="{NFIProxyLogicModule\n||}" alt="" coords="242,821,391,898"/>
+<area shape="rect" id="node3" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l&#45; mbReloading\l&#45; mAddListEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="361,321,531,648"/>
+<area shape="rect" id="node5" href="class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="416,733,564,986"/>
+<area shape="rect" id="node7" href="class_n_f_i_kernel_module.html" title="{NFIKernelModule\n||+ AddHeartBeat()\l+ FindHeartBeat()\l+ RemoveHeartBeat()\l+ AddRecordCallBack()\l+ AddPropertyCallBack()\l+ AddEventCallBack()\l+ AddClassCallBack()\l+ DoEvent()\l+ DoEvent()\l+ RegisterCommonClassEvent()\land 56 more...\l# AddEventCallBack()\l# AddClassCallBack()\l# RegisterCommonClassEvent()\l# RegisterCommonPropertyEvent()\l# RegisterCommonRecordEvent()\l}" alt="" coords="588,711,811,1008"/>
+<area shape="rect" id="node8" href="class_n_f_i_class_module.html" title="{NFIClassModule\n||+ ~NFIClassModule()\l+ Load()\l+ Save()\l+ Clear()\l+ AddClassCallBack()\l+ DoEvent()\l+ AddClassCallBack()\l+ GetClassPropertyManager()\l+ GetClassRecordManager()\l+ GetClassComponentManager()\l}" alt="" coords="5,755,217,964"/>
+<area shape="rect" id="node4" href="class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="273,27,416,237"/>
+<area shape="rect" id="node6" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFCModuleHeartBeatElement \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="440,5,652,259"/>
+<area shape="rect" id="node9" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFIClass \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="34,358,189,611"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a69f90ef4e2fbcc463f70acfd5d12501f"><td class="memItemLeft" align="right" valign="top"><a id="a69f90ef4e2fbcc463f70acfd5d12501f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>NFCProxyLogicModule</b> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
+<tr class="memitem:a69f90ef4e2fbcc463f70acfd5d12501f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_proxy_logic_module.html#a69f90ef4e2fbcc463f70acfd5d12501f">NFCProxyLogicModule</a> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
 <tr class="separator:a69f90ef4e2fbcc463f70acfd5d12501f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a54b913f5b9971e4f2d7b7a871f3553ee"><td class="memItemLeft" align="right" valign="top"><a id="a54b913f5b9971e4f2d7b7a871f3553ee"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
+<tr class="memitem:a54b913f5b9971e4f2d7b7a871f3553ee"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_proxy_logic_module.html#a54b913f5b9971e4f2d7b7a871f3553ee">Init</a> ()</td></tr>
 <tr class="separator:a54b913f5b9971e4f2d7b7a871f3553ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a4887efc678e00269163bac04b51d0b"><td class="memItemLeft" align="right" valign="top"><a id="a6a4887efc678e00269163bac04b51d0b"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Shut</b> ()</td></tr>
+<tr class="memitem:a6a4887efc678e00269163bac04b51d0b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_proxy_logic_module.html#a6a4887efc678e00269163bac04b51d0b">Shut</a> ()</td></tr>
 <tr class="separator:a6a4887efc678e00269163bac04b51d0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f19b44bc319e46255420869fea80c47"><td class="memItemLeft" align="right" valign="top"><a id="a8f19b44bc319e46255420869fea80c47"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Execute</b> ()</td></tr>
+<tr class="memitem:a8f19b44bc319e46255420869fea80c47"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_proxy_logic_module.html#a8f19b44bc319e46255420869fea80c47">Execute</a> ()</td></tr>
 <tr class="separator:a8f19b44bc319e46255420869fea80c47"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55c5845ec2341c12a9ca562a2bbd8fb9"><td class="memItemLeft" align="right" valign="top"><a id="a55c5845ec2341c12a9ca562a2bbd8fb9"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AfterInit</b> ()</td></tr>
+<tr class="memitem:a55c5845ec2341c12a9ca562a2bbd8fb9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_proxy_logic_module.html#a55c5845ec2341c12a9ca562a2bbd8fb9">AfterInit</a> ()</td></tr>
 <tr class="separator:a55c5845ec2341c12a9ca562a2bbd8fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a29ebe3a43330203d9f3e9d06b5ce0b33"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>CheckConfig</b> ()</td></tr>
+<tr class="memitem:ac4055db8fca34fbaa8ac24f75a3dc3c7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ac4055db8fca34fbaa8ac24f75a3dc3c7">NFIModule</a> ()</td></tr>
+<tr class="separator:ac4055db8fca34fbaa8ac24f75a3dc3c7 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae50e636e9a4e2c40ce2c86abe0b07865 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ae50e636e9a4e2c40ce2c86abe0b07865">~NFIModule</a> ()</td></tr>
+<tr class="separator:ae50e636e9a4e2c40ce2c86abe0b07865 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a29ebe3a43330203d9f3e9d06b5ce0b33">CheckConfig</a> ()</td></tr>
 <tr class="separator:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a718b98d9795954f4f2982e67c2d98683 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a718b98d9795954f4f2982e67c2d98683"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>BeforeShut</b> ()</td></tr>
+<tr class="memitem:a718b98d9795954f4f2982e67c2d98683 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a718b98d9795954f4f2982e67c2d98683">BeforeShut</a> ()</td></tr>
 <tr class="separator:a718b98d9795954f4f2982e67c2d98683 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="aa44fa391ec7fb2882f208c9b36e3c3f7"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>StartReLoadState</b> ()</td></tr>
+<tr class="memitem:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#aa44fa391ec7fb2882f208c9b36e3c3f7">StartReLoadState</a> ()</td></tr>
 <tr class="separator:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a28217dc4ebbf611a34434ff07fb0d7db"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>EndReLoadState</b> ()</td></tr>
+<tr class="memitem:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a28217dc4ebbf611a34434ff07fb0d7db">EndReLoadState</a> ()</td></tr>
 <tr class="separator:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="ab65d97e11a34f47b4257a4d3175d48b9"></a>
-virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetPluginManager</b> () const</td></tr>
+<tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ab65d97e11a34f47b4257a4d3175d48b9">GetPluginManager</a> () const</td></tr>
 <tr class="separator:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2"><a id="a48581696daeec956659ef3720834bdc9"></a>
-template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AddHeartBeatExecute</b> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
+<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a48581696daeec956659ef3720834bdc9">AddHeartBeatExecute</a> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
 <tr class="separator:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a89b70e2046ffd656fe4cf4bc0963be86"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>RemoveHeartBeat</b> (const std::string &amp;strHeartBeatName)</td></tr>
+<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a89b70e2046ffd656fe4cf4bc0963be86">RemoveHeartBeat</a> (const std::string &amp;strHeartBeatName)</td></tr>
 <tr class="separator:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a4e7340e694a0904b0bc544caaf82819d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Loading</b> () const</td></tr>
+<tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a4e7340e694a0904b0bc544caaf82819d">Loading</a> () const</td></tr>
 <tr class="separator:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:ab3cd1336fe711e964c7b43acd73ea0a9"><td class="memItemLeft" align="right" valign="top"><a id="ab3cd1336fe711e964c7b43acd73ea0a9"></a>
-<a class="el" href="class_n_f_i_class_module.html">NFIClassModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>m_pClassModule</b></td></tr>
+<tr class="memitem:ab3cd1336fe711e964c7b43acd73ea0a9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_class_module.html">NFIClassModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_proxy_logic_module.html#ab3cd1336fe711e964c7b43acd73ea0a9">m_pClassModule</a></td></tr>
 <tr class="separator:ab3cd1336fe711e964c7b43acd73ea0a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa632edf2f9aab465874d1ebb904bebae"><td class="memItemLeft" align="right" valign="top"><a id="aa632edf2f9aab465874d1ebb904bebae"></a>
-<a class="el" href="class_n_f_i_kernel_module.html">NFIKernelModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>m_pKernelModule</b></td></tr>
+<tr class="memitem:aa632edf2f9aab465874d1ebb904bebae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_kernel_module.html">NFIKernelModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_proxy_logic_module.html#aa632edf2f9aab465874d1ebb904bebae">m_pKernelModule</a></td></tr>
 <tr class="separator:aa632edf2f9aab465874d1ebb904bebae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a078fbd0e90c9a9918bba04407d69727c"></a>
-<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>pPluginManager</b></td></tr>
+<tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a078fbd0e90c9a9918bba04407d69727c">pPluginManager</a></td></tr>
 <tr class="separator:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="aa714ce5e40aec7d752d58d068f3efad7"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>strName</b></td></tr>
+<tr class="memitem:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#aa714ce5e40aec7d752d58d068f3efad7">strName</a></td></tr>
 <tr class="separator:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a69f90ef4e2fbcc463f70acfd5d12501f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69f90ef4e2fbcc463f70acfd5d12501f">&sect;&nbsp;</a></span>NFCProxyLogicModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFCProxyLogicModule::NFCProxyLogicModule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a55c5845ec2341c12a9ca562a2bbd8fb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55c5845ec2341c12a9ca562a2bbd8fb9">&sect;&nbsp;</a></span>AfterInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCProxyLogicModule::AfterInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#ac7719c4ab72efc1b698eca98968c0f43">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a8f19b44bc319e46255420869fea80c47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f19b44bc319e46255420869fea80c47">&sect;&nbsp;</a></span>Execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCProxyLogicModule::Execute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#ad7c55c42281a825974522deaf190eaba">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a54b913f5b9971e4f2d7b7a871f3553ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54b913f5b9971e4f2d7b7a871f3553ee">&sect;&nbsp;</a></span>Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCProxyLogicModule::Init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#a5dbba4491b7a07074cf4abfe2db95899">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a6a4887efc678e00269163bac04b51d0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a4887efc678e00269163bac04b51d0b">&sect;&nbsp;</a></span>Shut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCProxyLogicModule::Shut </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#a345cdec76e4e04b92e8635a0b51ed41f">NFIModule</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ab3cd1336fe711e964c7b43acd73ea0a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3cd1336fe711e964c7b43acd73ea0a9">&sect;&nbsp;</a></span>m_pClassModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_class_module.html">NFIClassModule</a>* NFCProxyLogicModule::m_pClassModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa632edf2f9aab465874d1ebb904bebae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa632edf2f9aab465874d1ebb904bebae">&sect;&nbsp;</a></span>m_pKernelModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_kernel_module.html">NFIKernelModule</a>* NFCProxyLogicModule::m_pKernelModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFServer/NFProxyLogicPlugin/<a class="el" href="_n_f_c_proxy_logic_module_8h_source.html">NFCProxyLogicModule.h</a></li>
-<li>E:/NF/ArkGameFrame/Frame/NFServer/NFProxyLogicPlugin/NFCProxyLogicModule.cpp</li>
+<li><a class="el" href="_n_f_c_proxy_logic_module_8h_source.html">NFCProxyLogicModule.h</a></li>
+<li><a class="el" href="_n_f_c_proxy_logic_module_8cpp.html">NFCProxyLogicModule.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

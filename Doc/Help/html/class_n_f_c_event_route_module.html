@@ -63,47 +63,369 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="class_n_f_c_event_route_module-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">NFCEventRouteModule Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_c_event_route_module_8h_source.html">NFCEventRouteModule.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFCEventRouteModule:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_c_event_route_module.png" usemap="#NFCEventRouteModule_map" alt=""/>
-  <map id="NFCEventRouteModule_map" name="NFCEventRouteModule_map">
+<div class="center"><img src="class_n_f_c_event_route_module__inherit__graph.gif" border="0" usemap="#_n_f_c_event_route_module_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_c_event_route_module_inherit__map" id="_n_f_c_event_route_module_inherit__map">
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFCEventRouteModule:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_c_event_route_module__coll__graph.gif" border="0" usemap="#_n_f_c_event_route_module_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_c_event_route_module_coll__map" id="_n_f_c_event_route_module_coll__map">
+<area shape="rect" id="node3" href="class_n_f_i_kernel_module.html" title="{NFIKernelModule\n||+ AddHeartBeat()\l+ FindHeartBeat()\l+ RemoveHeartBeat()\l+ AddRecordCallBack()\l+ AddPropertyCallBack()\l+ AddEventCallBack()\l+ AddClassCallBack()\l+ DoEvent()\l+ DoEvent()\l+ RegisterCommonClassEvent()\land 56 more...\l# AddEventCallBack()\l# AddClassCallBack()\l# RegisterCommonClassEvent()\l# RegisterCommonPropertyEvent()\l# RegisterCommonRecordEvent()\l}" alt="" coords="180,711,403,1008"/>
+<area shape="rect" id="node4" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l&#45; mbReloading\l&#45; mAddListEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="399,321,570,648"/>
+<area shape="rect" id="node6" href="class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="427,733,575,986"/>
+<area shape="rect" id="node8" href="class_n_f_i_log_module.html" title="{NFILogModule\n||+ LogDebug()\l+ LogInfo()\l+ LogWarning()\l+ LogError()\l+ LogFatal()\l+ LogDebug()\l+ LogInfo()\l+ LogWarning()\l+ LogError()\l+ LogFatal()\land 8 more...\l}" alt="" coords="599,747,709,971"/>
+<area shape="rect" id="node5" href="class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="313,27,456,237"/>
+<area shape="rect" id="node7" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFCModuleHeartBeatElement \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="480,5,692,259"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0999682322a7d911377db193d032b5bd"><td class="memItemLeft" align="right" valign="top"><a id="a0999682322a7d911377db193d032b5bd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>NFCEventRouteModule</b> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
+<tr class="memitem:a0999682322a7d911377db193d032b5bd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#a0999682322a7d911377db193d032b5bd">NFCEventRouteModule</a> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
 <tr class="separator:a0999682322a7d911377db193d032b5bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef0f7669124fef51f493f43dae08c683"><td class="memItemLeft" align="right" valign="top"><a id="aef0f7669124fef51f493f43dae08c683"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
+<tr class="memitem:a0cca4e0e1229885f78ecf522ff1d8610"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#a0cca4e0e1229885f78ecf522ff1d8610">~NFCEventRouteModule</a> ()</td></tr>
+<tr class="separator:a0cca4e0e1229885f78ecf522ff1d8610"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef0f7669124fef51f493f43dae08c683"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#aef0f7669124fef51f493f43dae08c683">Init</a> ()</td></tr>
 <tr class="separator:aef0f7669124fef51f493f43dae08c683"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab07f02512e2ce5c6889ca9e4e83c32a0"><td class="memItemLeft" align="right" valign="top"><a id="ab07f02512e2ce5c6889ca9e4e83c32a0"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Shut</b> ()</td></tr>
+<tr class="memitem:ab07f02512e2ce5c6889ca9e4e83c32a0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#ab07f02512e2ce5c6889ca9e4e83c32a0">Shut</a> ()</td></tr>
 <tr class="separator:ab07f02512e2ce5c6889ca9e4e83c32a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea453701d12abe679511720770add818"><td class="memItemLeft" align="right" valign="top"><a id="aea453701d12abe679511720770add818"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Execute</b> (const float fLasFrametime, const float fStartedTime)</td></tr>
+<tr class="memitem:aea453701d12abe679511720770add818"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#aea453701d12abe679511720770add818">Execute</a> (const float fLasFrametime, const float fStartedTime)</td></tr>
 <tr class="separator:aea453701d12abe679511720770add818"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac63a1d4e2add5a739fcf641d260e7ed3"><td class="memItemLeft" align="right" valign="top"><a id="ac63a1d4e2add5a739fcf641d260e7ed3"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AfterInit</b> ()</td></tr>
+<tr class="memitem:ac63a1d4e2add5a739fcf641d260e7ed3"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#ac63a1d4e2add5a739fcf641d260e7ed3">AfterInit</a> ()</td></tr>
 <tr class="separator:ac63a1d4e2add5a739fcf641d260e7ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7db0b063f3b7a50463a004fa97e151bc"><td class="memItemLeft" align="right" valign="top"><a id="a7db0b063f3b7a50463a004fa97e151bc"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>StartRouteEvent</b> (const NFIDENTID &amp;self, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;xDataList)</td></tr>
+<tr class="memitem:a7db0b063f3b7a50463a004fa97e151bc"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#a7db0b063f3b7a50463a004fa97e151bc">StartRouteEvent</a> (const NFIDENTID &amp;self, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;xDataList)</td></tr>
 <tr class="separator:a7db0b063f3b7a50463a004fa97e151bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf35d24b4740e891e249c06eeca50a15"><td class="memItemLeft" align="right" valign="top"><a id="acf35d24b4740e891e249c06eeca50a15"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>ReceiveRouteEvent</b> (const NFIDENTID &amp;self, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;xDataList)</td></tr>
+<tr class="memitem:acf35d24b4740e891e249c06eeca50a15"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#acf35d24b4740e891e249c06eeca50a15">ReceiveRouteEvent</a> (const NFIDENTID &amp;self, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;xDataList)</td></tr>
 <tr class="separator:acf35d24b4740e891e249c06eeca50a15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a4f634fcbea8b8697e7c06cb11d0fc94b"><td class="memItemLeft" align="right" valign="top">NFIEventProcessModule *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#a4f634fcbea8b8697e7c06cb11d0fc94b">m_pEventProcessModule</a></td></tr>
+<tr class="separator:a4f634fcbea8b8697e7c06cb11d0fc94b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada6de864f22877ea502bbf227403e8f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_kernel_module.html">NFIKernelModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#ada6de864f22877ea502bbf227403e8f4">m_pKernelModule</a></td></tr>
+<tr class="separator:ada6de864f22877ea502bbf227403e8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a574677067c1eb9a71ed6c11271d53bf2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_log_module.html">NFILogModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_event_route_module.html#a574677067c1eb9a71ed6c11271d53bf2">m_pLogModule</a></td></tr>
+<tr class="separator:a574677067c1eb9a71ed6c11271d53bf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a0999682322a7d911377db193d032b5bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0999682322a7d911377db193d032b5bd">&sect;&nbsp;</a></span>NFCEventRouteModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFCEventRouteModule::NFCEventRouteModule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0cca4e0e1229885f78ecf522ff1d8610"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cca4e0e1229885f78ecf522ff1d8610">&sect;&nbsp;</a></span>~NFCEventRouteModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual NFCEventRouteModule::~NFCEventRouteModule </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ac63a1d4e2add5a739fcf641d260e7ed3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac63a1d4e2add5a739fcf641d260e7ed3">&sect;&nbsp;</a></span>AfterInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCEventRouteModule::AfterInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aea453701d12abe679511720770add818"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea453701d12abe679511720770add818">&sect;&nbsp;</a></span>Execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCEventRouteModule::Execute </td>
+          <td>(</td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>fLasFrametime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>fStartedTime</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aef0f7669124fef51f493f43dae08c683"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef0f7669124fef51f493f43dae08c683">&sect;&nbsp;</a></span>Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCEventRouteModule::Init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acf35d24b4740e891e249c06eeca50a15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf35d24b4740e891e249c06eeca50a15">&sect;&nbsp;</a></span>ReceiveRouteEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCEventRouteModule::ReceiveRouteEvent </td>
+          <td>(</td>
+          <td class="paramtype">const NFIDENTID &amp;&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td>
+          <td class="paramname"><em>xDataList</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab07f02512e2ce5c6889ca9e4e83c32a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab07f02512e2ce5c6889ca9e4e83c32a0">&sect;&nbsp;</a></span>Shut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCEventRouteModule::Shut </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7db0b063f3b7a50463a004fa97e151bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7db0b063f3b7a50463a004fa97e151bc">&sect;&nbsp;</a></span>StartRouteEvent()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCEventRouteModule::StartRouteEvent </td>
+          <td>(</td>
+          <td class="paramtype">const NFIDENTID &amp;&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td>
+          <td class="paramname"><em>xDataList</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a4f634fcbea8b8697e7c06cb11d0fc94b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f634fcbea8b8697e7c06cb11d0fc94b">&sect;&nbsp;</a></span>m_pEventProcessModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFIEventProcessModule* NFCEventRouteModule::m_pEventProcessModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ada6de864f22877ea502bbf227403e8f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada6de864f22877ea502bbf227403e8f4">&sect;&nbsp;</a></span>m_pKernelModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_kernel_module.html">NFIKernelModule</a>* NFCEventRouteModule::m_pKernelModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a574677067c1eb9a71ed6c11271d53bf2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a574677067c1eb9a71ed6c11271d53bf2">&sect;&nbsp;</a></span>m_pLogModule</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_log_module.html">NFILogModule</a>* NFCEventRouteModule::m_pLogModule</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFServer/NFGameServerPlugin/<a class="el" href="_n_f_c_event_route_module_8h_source.html">NFCEventRouteModule.h</a></li>
-<li>E:/NF/ArkGameFrame/Frame/NFServer/NFGameServerPlugin/NFCEventRouteModule.cpp</li>
+<li><a class="el" href="_n_f_c_event_route_module_8h_source.html">NFCEventRouteModule.h</a></li>
+<li><a class="el" href="_n_f_c_event_route_module_8cpp.html">NFCEventRouteModule.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

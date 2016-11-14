@@ -69,60 +69,400 @@ $(function() {
 <div class="title">NFCHeartBeatManager Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_c_heart_beat_manager_8h_source.html">NFCHeartBeatManager.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFCHeartBeatManager:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_c_heart_beat_manager.png" usemap="#NFCHeartBeatManager_map" alt=""/>
-  <map id="NFCHeartBeatManager_map" name="NFCHeartBeatManager_map">
-<area href="class_n_f_i_heart_beat_manager.html" alt="NFIHeartBeatManager" shape="rect" coords="0,0,145,24"/>
+<div class="center"><img src="class_n_f_c_heart_beat_manager__inherit__graph.gif" border="0" usemap="#_n_f_c_heart_beat_manager_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_c_heart_beat_manager_inherit__map" id="_n_f_c_heart_beat_manager_inherit__map">
+<area shape="rect" id="node2" href="class_n_f_i_heart_beat_manager.html" title="{NFIHeartBeatManager\n||+ ~NFIHeartBeatManager()\l+ Self()\l+ Execute()\l+ Exist()\l+ AddHeartBeat()\l+ RemoveHeartBeat()\l+ AddHeartBeat()\l}" alt="" coords="11,5,190,171"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFCHeartBeatManager:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_c_heart_beat_manager__coll__graph.gif" border="0" usemap="#_n_f_c_heart_beat_manager_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_c_heart_beat_manager_coll__map" id="_n_f_c_heart_beat_manager_coll__map">
+<area shape="rect" id="node2" href="class_n_f_i_heart_beat_manager.html" title="{NFIHeartBeatManager\n||+ ~NFIHeartBeatManager()\l+ Self()\l+ Execute()\l+ Exist()\l+ AddHeartBeat()\l+ RemoveHeartBeat()\l+ AddHeartBeat()\l}" alt="" coords="5,64,184,229"/>
+<area shape="rect" id="node3" href="struct_n_f_g_u_i_d.html" title="{NFGUID\n|+ nData64\l+ nHead64\l|+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ operator=()\l+ GetData()\l+ GetHead()\l+ SetData()\l+ SetHead()\l+ IsNull()\l+ operator==()\l+ operator!=()\l+ operator\&lt;()\l+ ToString()\l+ FromString()\l}" alt="" coords="208,5,315,288"/>
+<area shape="rect" id="node4" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFCHeartBeatElement \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="339,20,509,273"/>
+<area shape="rect" id="node5" href="class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="543,42,686,251"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a7349dd6c4c9e25e7e5961dd6cb8460a8"><td class="memItemLeft" align="right" valign="top"><a id="a7349dd6c4c9e25e7e5961dd6cb8460a8"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>NFCHeartBeatManager</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self)</td></tr>
+<tr class="memitem:a95d11b002be7edb58e745e7315912b98"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#a95d11b002be7edb58e745e7315912b98">NFCHeartBeatManager</a> ()</td></tr>
+<tr class="separator:a95d11b002be7edb58e745e7315912b98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7349dd6c4c9e25e7e5961dd6cb8460a8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#a7349dd6c4c9e25e7e5961dd6cb8460a8">NFCHeartBeatManager</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self)</td></tr>
 <tr class="separator:a7349dd6c4c9e25e7e5961dd6cb8460a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a059caa9cd8a8c74b604bda9d23b24adb"><td class="memItemLeft" align="right" valign="top"><a id="a059caa9cd8a8c74b604bda9d23b24adb"></a>
-virtual <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>Self</b> ()</td></tr>
+<tr class="memitem:a097b627b1ee4d29246ceb8ef60538f7b"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#a097b627b1ee4d29246ceb8ef60538f7b">~NFCHeartBeatManager</a> ()</td></tr>
+<tr class="separator:a097b627b1ee4d29246ceb8ef60538f7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a059caa9cd8a8c74b604bda9d23b24adb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#a059caa9cd8a8c74b604bda9d23b24adb">Self</a> ()</td></tr>
 <tr class="separator:a059caa9cd8a8c74b604bda9d23b24adb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6fb7c4dfcb45a9ad1c95ada6880e6102"><td class="memItemLeft" align="right" valign="top"><a id="a6fb7c4dfcb45a9ad1c95ada6880e6102"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Execute</b> ()</td></tr>
+<tr class="memitem:a6fb7c4dfcb45a9ad1c95ada6880e6102"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#a6fb7c4dfcb45a9ad1c95ada6880e6102">Execute</a> ()</td></tr>
 <tr class="separator:a6fb7c4dfcb45a9ad1c95ada6880e6102"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c10b8b43b0cda51a19e37d6a8460ada"><td class="memItemLeft" align="right" valign="top"><a id="a2c10b8b43b0cda51a19e37d6a8460ada"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Exist</b> (const std::string &amp;strHeartBeatName)</td></tr>
+<tr class="memitem:a2c10b8b43b0cda51a19e37d6a8460ada"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#a2c10b8b43b0cda51a19e37d6a8460ada">Exist</a> (const std::string &amp;strHeartBeatName)</td></tr>
 <tr class="separator:a2c10b8b43b0cda51a19e37d6a8460ada"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4adb4b22e84764d4acebd2303103573a"><td class="memItemLeft" align="right" valign="top"><a id="a4adb4b22e84764d4acebd2303103573a"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddHeartBeat</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR &amp;cb, const float fTime, const int nCount)</td></tr>
+<tr class="memitem:a4adb4b22e84764d4acebd2303103573a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#a4adb4b22e84764d4acebd2303103573a">AddHeartBeat</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strHeartBeatName, const <a class="el" href="_n_f_define_8h.html#af05fc8cc77fb7df651e720c06ff2dc63">HEART_BEAT_FUNCTOR_PTR</a> &amp;cb, const float fTime, const int nCount)</td></tr>
 <tr class="separator:a4adb4b22e84764d4acebd2303103573a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2a89bba1c5c6f895e4eaa70c6222da5"><td class="memItemLeft" align="right" valign="top"><a id="ad2a89bba1c5c6f895e4eaa70c6222da5"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>RemoveHeartBeat</b> (const std::string &amp;strHeartBeatName)</td></tr>
+<tr class="memitem:ad2a89bba1c5c6f895e4eaa70c6222da5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#ad2a89bba1c5c6f895e4eaa70c6222da5">RemoveHeartBeat</a> (const std::string &amp;strHeartBeatName)</td></tr>
 <tr class="separator:ad2a89bba1c5c6f895e4eaa70c6222da5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_n_f_i_heart_beat_manager"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_i_heart_beat_manager')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_n_f_i_heart_beat_manager.html">NFIHeartBeatManager</a></td></tr>
-<tr class="memitem:a21d6271119869cb8d4ac237ab388826b inherit pub_methods_class_n_f_i_heart_beat_manager"><td class="memTemplParams" colspan="2"><a id="a21d6271119869cb8d4ac237ab388826b"></a>
-template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a21d6271119869cb8d4ac237ab388826b inherit pub_methods_class_n_f_i_heart_beat_manager"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AddHeartBeat</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const std::string &amp;, const float, const int), const float fTime, const int nCount)</td></tr>
+<tr class="memitem:a8f41c1f5e811abae147c3cb744544513 inherit pub_methods_class_n_f_i_heart_beat_manager"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a8f41c1f5e811abae147c3cb744544513">~NFIHeartBeatManager</a> ()</td></tr>
+<tr class="separator:a8f41c1f5e811abae147c3cb744544513 inherit pub_methods_class_n_f_i_heart_beat_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21d6271119869cb8d4ac237ab388826b inherit pub_methods_class_n_f_i_heart_beat_manager"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a21d6271119869cb8d4ac237ab388826b inherit pub_methods_class_n_f_i_heart_beat_manager"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a21d6271119869cb8d4ac237ab388826b">AddHeartBeat</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const std::string &amp;, const float, const int), const float fTime, const int nCount)</td></tr>
 <tr class="separator:a21d6271119869cb8d4ac237ab388826b inherit pub_methods_class_n_f_i_heart_beat_manager"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a4610671b13305a793e66676fa4cc6679"><td class="memItemLeft" align="right" valign="top"><a id="a4610671b13305a793e66676fa4cc6679"></a>
-<a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td><td class="memItemRight" valign="bottom"><b>mSelf</b></td></tr>
+<tr class="memitem:a4610671b13305a793e66676fa4cc6679"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#a4610671b13305a793e66676fa4cc6679">mSelf</a></td></tr>
 <tr class="separator:a4610671b13305a793e66676fa4cc6679"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2786966f4e22940cb9cbec9098271b27"><td class="memItemLeft" align="right" valign="top"><a id="a2786966f4e22940cb9cbec9098271b27"></a>
-<a class="el" href="class_n_f_list.html">NFList</a>&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mRemoveListEx</b></td></tr>
+<tr class="memitem:a2786966f4e22940cb9cbec9098271b27"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_list.html">NFList</a>&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#a2786966f4e22940cb9cbec9098271b27">mRemoveListEx</a></td></tr>
 <tr class="separator:a2786966f4e22940cb9cbec9098271b27"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba453c3091e5a5f1aad1f1d51c05863d"><td class="memItemLeft" align="right" valign="top"><a id="aba453c3091e5a5f1aad1f1d51c05863d"></a>
-std::list&lt; <a class="el" href="class_n_f_c_heart_beat_element.html">NFCHeartBeatElement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mAddListEx</b></td></tr>
+<tr class="memitem:aba453c3091e5a5f1aad1f1d51c05863d"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="class_n_f_c_heart_beat_element.html">NFCHeartBeatElement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#aba453c3091e5a5f1aad1f1d51c05863d">mAddListEx</a></td></tr>
 <tr class="separator:aba453c3091e5a5f1aad1f1d51c05863d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a771da0f37cb596cf2025d9608cca351c"><td class="memItemLeft" align="right" valign="top"><a id="a771da0f37cb596cf2025d9608cca351c"></a>
-<a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; std::string, <a class="el" href="class_n_f_c_heart_beat_element.html">NFCHeartBeatElement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mHeartBeatElementMapEx</b></td></tr>
+<tr class="memitem:a771da0f37cb596cf2025d9608cca351c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt; std::string, <a class="el" href="class_n_f_c_heart_beat_element.html">NFCHeartBeatElement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_heart_beat_manager.html#a771da0f37cb596cf2025d9608cca351c">mHeartBeatElementMapEx</a></td></tr>
 <tr class="separator:a771da0f37cb596cf2025d9608cca351c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a95d11b002be7edb58e745e7315912b98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95d11b002be7edb58e745e7315912b98">&sect;&nbsp;</a></span>NFCHeartBeatManager() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFCHeartBeatManager::NFCHeartBeatManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7349dd6c4c9e25e7e5961dd6cb8460a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7349dd6c4c9e25e7e5961dd6cb8460a8">&sect;&nbsp;</a></span>NFCHeartBeatManager() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFCHeartBeatManager::NFCHeartBeatManager </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>self</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a097b627b1ee4d29246ceb8ef60538f7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a097b627b1ee4d29246ceb8ef60538f7b">&sect;&nbsp;</a></span>~NFCHeartBeatManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFCHeartBeatManager::~NFCHeartBeatManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a4adb4b22e84764d4acebd2303103573a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4adb4b22e84764d4acebd2303103573a">&sect;&nbsp;</a></span>AddHeartBeat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCHeartBeatManager::AddHeartBeat </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strHeartBeatName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#af05fc8cc77fb7df651e720c06ff2dc63">HEART_BEAT_FUNCTOR_PTR</a> &amp;&#160;</td>
+          <td class="paramname"><em>cb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>fTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nCount</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_heart_beat_manager.html#a19a3cdd341d19c336ceed740d2b9ccbe">NFIHeartBeatManager</a>.</p>
+
+</div>
+</div>
+<a id="a6fb7c4dfcb45a9ad1c95ada6880e6102"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fb7c4dfcb45a9ad1c95ada6880e6102">&sect;&nbsp;</a></span>Execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCHeartBeatManager::Execute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_heart_beat_manager.html#ac6356165509a5bd954f3a8036133522d">NFIHeartBeatManager</a>.</p>
+
+</div>
+</div>
+<a id="a2c10b8b43b0cda51a19e37d6a8460ada"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c10b8b43b0cda51a19e37d6a8460ada">&sect;&nbsp;</a></span>Exist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCHeartBeatManager::Exist </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strHeartBeatName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_heart_beat_manager.html#a520aa8deecf3feb42186e03be9df1c68">NFIHeartBeatManager</a>.</p>
+
+</div>
+</div>
+<a id="ad2a89bba1c5c6f895e4eaa70c6222da5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2a89bba1c5c6f895e4eaa70c6222da5">&sect;&nbsp;</a></span>RemoveHeartBeat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCHeartBeatManager::RemoveHeartBeat </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strHeartBeatName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_heart_beat_manager.html#adf114c9fe41c673e984609e1a12817d4">NFIHeartBeatManager</a>.</p>
+
+</div>
+</div>
+<a id="a059caa9cd8a8c74b604bda9d23b24adb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a059caa9cd8a8c74b604bda9d23b24adb">&sect;&nbsp;</a></span>Self()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> NFCHeartBeatManager::Self </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_heart_beat_manager.html#a78b06a74a3b03a811dd455fc36cc75cf">NFIHeartBeatManager</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="aba453c3091e5a5f1aad1f1d51c05863d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba453c3091e5a5f1aad1f1d51c05863d">&sect;&nbsp;</a></span>mAddListEx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::list&lt;<a class="el" href="class_n_f_c_heart_beat_element.html">NFCHeartBeatElement</a>&gt; NFCHeartBeatManager::mAddListEx</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a771da0f37cb596cf2025d9608cca351c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a771da0f37cb596cf2025d9608cca351c">&sect;&nbsp;</a></span>mHeartBeatElementMapEx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_map_ex.html">NFMapEx</a>&lt;std::string, <a class="el" href="class_n_f_c_heart_beat_element.html">NFCHeartBeatElement</a>&gt; NFCHeartBeatManager::mHeartBeatElementMapEx</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2786966f4e22940cb9cbec9098271b27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2786966f4e22940cb9cbec9098271b27">&sect;&nbsp;</a></span>mRemoveListEx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_list.html">NFList</a>&lt;std::string&gt; NFCHeartBeatManager::mRemoveListEx</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4610671b13305a793e66676fa4cc6679"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4610671b13305a793e66676fa4cc6679">&sect;&nbsp;</a></span>mSelf</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> NFCHeartBeatManager::mSelf</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFCore/<a class="el" href="_n_f_c_heart_beat_manager_8h_source.html">NFCHeartBeatManager.h</a></li>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFCore/NFCHeartBeatManager.cpp</li>
+<li><a class="el" href="_n_f_c_heart_beat_manager_8h_source.html">NFCHeartBeatManager.h</a></li>
+<li><a class="el" href="_n_f_c_heart_beat_manager_8cpp.html">NFCHeartBeatManager.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

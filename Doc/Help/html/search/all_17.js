@@ -1,6 +1,8 @@
 var searchData=
 [
-  ['zero',['ZERO',['../class_g3_d_1_1_matrix3.html#ab29b8affc82b344424cedb87ea39507b',1,'G3D::Matrix3::ZERO()'],['../class_g3_d_1_1_vector2.html#ab97de7bcff926a138e69af88dc188daf',1,'G3D::Vector2::ZERO()'],['../class_g3_d_1_1_vector3.html#a33b0b596d1104eef5b91d7a0a1e6aab1',1,'G3D::Vector3::ZERO()']]],
-  ['zero3',['ZERO3',['../class_g3_d_1_1_vector3.html#ad3015c349b629aef8c4e8fe5f8886682',1,'G3D::Vector3']]],
-  ['zlookdirection',['zLookDirection',['../class_g3_d_1_1_coordinate_frame.html#a10ddffb5d44c42710fef6cc009ddf37b',1,'G3D::CoordinateFrame']]]
+  ['x',['x',['../struct_point3_d.html#ab0893e4111116772fb777b1519176763',1,'Point3D']]],
+  ['xclientid',['xClientID',['../struct_n_f_c_mul_net_1_1_sendmsg_info.html#a3034857bcf1ebabe07bf69bb662b2e2d',1,'NFCMulNet::SendmsgInfo::xClientID()'],['../struct_n_f_c_mul_net_1_1_recivemsg_info.html#a684686d88a2ca7dee8dc6460cbc69cf2',1,'NFCMulNet::RecivemsgInfo::xClientID()'],['../struct_n_f_c_mul_net_1_1_event_info.html#a0e0e093c694e7b4777db433022a662da',1,'NFCMulNet::EventInfo::xClientID()'],['../struct_n_f_c_mul_net_1_1_net_task_info.html#a04df35164ae5d3e7ea7a4b14eebefa2d',1,'NFCMulNet::NetTaskInfo::xClientID()'],['../struct_n_f_i_game_server_net___server_module_1_1_gate_base_info.html#a66ef343516b572f80509585f0a20741e',1,'NFIGameServerNet_ServerModule::GateBaseInfo::xClientID()']]],
+  ['xrealmachine',['xRealMachine',['../class_n_f_c_machine_node.html#a0cfaed1390443be688a318a2771a9fe6',1,'NFCMachineNode']]],
+  ['xroleinfo',['xRoleInfo',['../struct_n_f_i_game_server_net___server_module_1_1_gate_server_info.html#ac36d4a80d9702d1d67b882107c73c4ac',1,'NFIGameServerNet_ServerModule::GateServerInfo']]],
+  ['xserverdata',['xServerData',['../struct_n_f_i_game_server_net___server_module_1_1_gate_server_info.html#a3668835a0ebd71521639141f1aa79506',1,'NFIGameServerNet_ServerModule::GateServerInfo']]]
 ];

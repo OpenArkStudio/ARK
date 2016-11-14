@@ -64,42 +64,204 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="class_n_f_lock-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">NFLock Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_queue_8h_source.html">NFQueue.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFLock:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_lock.png" usemap="#NFLock_map" alt=""/>
-  <map id="NFLock_map" name="NFLock_map">
-<area href="class_n_f_queue.html" alt="NFQueue&lt; T &gt;" shape="rect" coords="0,56,245,80"/>
-<area href="class_n_f_queue.html" alt="NFQueue&lt; NFCMulNet::EventInfo &gt;" shape="rect" coords="255,56,500,80"/>
-<area href="class_n_f_queue.html" alt="NFQueue&lt; NFCMulNet::NetTaskInfo &gt;" shape="rect" coords="510,56,755,80"/>
-<area href="class_n_f_queue.html" alt="NFQueue&lt; NFCMulNet::RecivemsgInfo &gt;" shape="rect" coords="765,56,1010,80"/>
-<area href="class_n_f_queue.html" alt="NFQueue&lt; NFCMulNet::SendmsgInfo &gt;" shape="rect" coords="1020,56,1265,80"/>
+<div class="center"><img src="class_n_f_lock__inherit__graph.gif" border="0" usemap="#_n_f_lock_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_lock_inherit__map" id="_n_f_lock_inherit__map">
+<area shape="rect" id="node2" href="class_n_f_queue.html" title="{NFQueue\&lt; T \&gt;\n|&#45; mList\l|+ NFQueue()\l+ ~NFQueue()\l+ Push()\l+ Pop()\l}" alt="" coords="5,189,113,311"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFLock:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_lock__coll__graph.gif" border="0" usemap="#_n_f_lock_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_lock_coll__map" id="_n_f_lock_coll__map">
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa647b62e1d31a870b6d8f379a2331c16"><td class="memItemLeft" align="right" valign="top"><a id="aa647b62e1d31a870b6d8f379a2331c16"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>lock</b> ()</td></tr>
+<tr class="memitem:a5d463ec4f85546357347f97f41bdec91"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_lock.html#a5d463ec4f85546357347f97f41bdec91">NFLock</a> ()</td></tr>
+<tr class="separator:a5d463ec4f85546357347f97f41bdec91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a836a53784d115df9bada9cb456eb4c18"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_lock.html#a836a53784d115df9bada9cb456eb4c18">~NFLock</a> ()</td></tr>
+<tr class="separator:a836a53784d115df9bada9cb456eb4c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa647b62e1d31a870b6d8f379a2331c16"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_lock.html#aa647b62e1d31a870b6d8f379a2331c16">lock</a> ()</td></tr>
 <tr class="separator:aa647b62e1d31a870b6d8f379a2331c16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacad2c2887190e9af0819dd4be374cfd"><td class="memItemLeft" align="right" valign="top"><a id="aacad2c2887190e9af0819dd4be374cfd"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>unlock</b> ()</td></tr>
+<tr class="memitem:aacad2c2887190e9af0819dd4be374cfd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_lock.html#aacad2c2887190e9af0819dd4be374cfd">unlock</a> ()</td></tr>
 <tr class="separator:aacad2c2887190e9af0819dd4be374cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a19104eb281e3587c5c5a3e43b0806f95"><td class="memItemLeft" align="right" valign="top"><a id="a19104eb281e3587c5c5a3e43b0806f95"></a>
-std::atomic_flag&#160;</td><td class="memItemRight" valign="bottom"><b>flag</b></td></tr>
+<tr class="memitem:a19104eb281e3587c5c5a3e43b0806f95"><td class="memItemLeft" align="right" valign="top">std::atomic_flag&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_lock.html#a19104eb281e3587c5c5a3e43b0806f95">flag</a></td></tr>
 <tr class="separator:a19104eb281e3587c5c5a3e43b0806f95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a923fcf8793d899f424f2b9c4475350d9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_lock.html">NFLock</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_lock.html#a923fcf8793d899f424f2b9c4475350d9">operator=</a> (const <a class="el" href="class_n_f_lock.html">NFLock</a> &amp;src)</td></tr>
+<tr class="separator:a923fcf8793d899f424f2b9c4475350d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a5d463ec4f85546357347f97f41bdec91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d463ec4f85546357347f97f41bdec91">&sect;&nbsp;</a></span>NFLock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFLock::NFLock </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a836a53784d115df9bada9cb456eb4c18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a836a53784d115df9bada9cb456eb4c18">&sect;&nbsp;</a></span>~NFLock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFLock::~NFLock </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa647b62e1d31a870b6d8f379a2331c16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa647b62e1d31a870b6d8f379a2331c16">&sect;&nbsp;</a></span>lock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFLock::lock </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a923fcf8793d899f424f2b9c4475350d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a923fcf8793d899f424f2b9c4475350d9">&sect;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_lock.html">NFLock</a>&amp; NFLock::operator= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_lock.html">NFLock</a> &amp;&#160;</td>
+          <td class="paramname"><em>src</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aacad2c2887190e9af0819dd4be374cfd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacad2c2887190e9af0819dd4be374cfd">&sect;&nbsp;</a></span>unlock()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFLock::unlock </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a19104eb281e3587c5c5a3e43b0806f95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19104eb281e3587c5c5a3e43b0806f95">&sect;&nbsp;</a></span>flag</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic_flag NFLock::flag</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFCore/<a class="el" href="_n_f_queue_8h_source.html">NFQueue.h</a></li>
+<li><a class="el" href="_n_f_queue_8h_source.html">NFQueue.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

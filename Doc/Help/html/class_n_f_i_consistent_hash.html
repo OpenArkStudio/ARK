@@ -62,13 +62,342 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="class_n_f_i_consistent_hash-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">NFIConsistentHash Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_c_consistent_hash_8hpp_source.html">NFCConsistentHash.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for NFIConsistentHash:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_i_consistent_hash__coll__graph.gif" border="0" usemap="#_n_f_i_consistent_hash_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_i_consistent_hash_coll__map" id="_n_f_i_consistent_hash_coll__map">
+</map>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:afabcd294cb256ff77528965bc5dbcc11"><td class="memItemLeft" align="right" valign="top">virtual std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_consistent_hash.html#afabcd294cb256ff77528965bc5dbcc11">Size</a> () const =0</td></tr>
+<tr class="separator:afabcd294cb256ff77528965bc5dbcc11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add2f17a97f48dc4ff8411afcb60ab990"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_consistent_hash.html#add2f17a97f48dc4ff8411afcb60ab990">Empty</a> () const =0</td></tr>
+<tr class="separator:add2f17a97f48dc4ff8411afcb60ab990"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc220d66689c0a5795ff5c54a8b2d993"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_consistent_hash.html#abc220d66689c0a5795ff5c54a8b2d993">Insert</a> (const int nID, const std::string &amp;strIP, int nPort)=0</td></tr>
+<tr class="separator:abc220d66689c0a5795ff5c54a8b2d993"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6584b74ed6d29a2c69def835106f4761"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_consistent_hash.html#a6584b74ed6d29a2c69def835106f4761">Insert</a> (const <a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;xNode)=0</td></tr>
+<tr class="separator:a6584b74ed6d29a2c69def835106f4761"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf41506e1f1ba2f7e6101eaf360b539e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_consistent_hash.html#acf41506e1f1ba2f7e6101eaf360b539e">Exist</a> (const <a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;xInNode)=0</td></tr>
+<tr class="separator:acf41506e1f1ba2f7e6101eaf360b539e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7360306112bd4a1a82b5a2bb315fc635"><td class="memItemLeft" align="right" valign="top">virtual std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_consistent_hash.html#a7360306112bd4a1a82b5a2bb315fc635">Erase</a> (const <a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;xNode)=0</td></tr>
+<tr class="separator:a7360306112bd4a1a82b5a2bb315fc635"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a800eacc956dc4d6b9d6d0b9a6c8bbe7e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_consistent_hash.html#a800eacc956dc4d6b9d6d0b9a6c8bbe7e">GetSuitNode</a> (<a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;node)=0</td></tr>
+<tr class="separator:a800eacc956dc4d6b9d6d0b9a6c8bbe7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ac2f1ae7b471892f4504ee6a9272ab0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_consistent_hash.html#a4ac2f1ae7b471892f4504ee6a9272ab0">GetSuitNode</a> (const std::string &amp;str, <a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;node)=0</td></tr>
+<tr class="separator:a4ac2f1ae7b471892f4504ee6a9272ab0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9112033639bf589188016d7532ac001"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_consistent_hash.html#ac9112033639bf589188016d7532ac001">GetSuitNode</a> (uint32_t hashValue, <a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;node)=0</td></tr>
+<tr class="separator:ac9112033639bf589188016d7532ac001"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af74d73bfc31e59a3b9398c6d8ee05d87"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_consistent_hash.html#af74d73bfc31e59a3b9398c6d8ee05d87">GetNodeList</a> (std::list&lt; <a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &gt; &amp;nodeList)=0</td></tr>
+<tr class="separator:af74d73bfc31e59a3b9398c6d8ee05d87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="add2f17a97f48dc4ff8411afcb60ab990"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add2f17a97f48dc4ff8411afcb60ab990">&sect;&nbsp;</a></span>Empty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIConsistentHash::Empty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7360306112bd4a1a82b5a2bb315fc635"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7360306112bd4a1a82b5a2bb315fc635">&sect;&nbsp;</a></span>Erase()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::size_t NFIConsistentHash::Erase </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;&#160;</td>
+          <td class="paramname"><em>xNode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="acf41506e1f1ba2f7e6101eaf360b539e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf41506e1f1ba2f7e6101eaf360b539e">&sect;&nbsp;</a></span>Exist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIConsistentHash::Exist </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;&#160;</td>
+          <td class="paramname"><em>xInNode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af74d73bfc31e59a3b9398c6d8ee05d87"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af74d73bfc31e59a3b9398c6d8ee05d87">&sect;&nbsp;</a></span>GetNodeList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIConsistentHash::GetNodeList </td>
+          <td>(</td>
+          <td class="paramtype">std::list&lt; <a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>nodeList</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a800eacc956dc4d6b9d6d0b9a6c8bbe7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a800eacc956dc4d6b9d6d0b9a6c8bbe7e">&sect;&nbsp;</a></span>GetSuitNode() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIConsistentHash::GetSuitNode </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4ac2f1ae7b471892f4504ee6a9272ab0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ac2f1ae7b471892f4504ee6a9272ab0">&sect;&nbsp;</a></span>GetSuitNode() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIConsistentHash::GetSuitNode </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;&#160;</td>
+          <td class="paramname"><em>node</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac9112033639bf589188016d7532ac001"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9112033639bf589188016d7532ac001">&sect;&nbsp;</a></span>GetSuitNode() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool NFIConsistentHash::GetSuitNode </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>hashValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;&#160;</td>
+          <td class="paramname"><em>node</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abc220d66689c0a5795ff5c54a8b2d993"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc220d66689c0a5795ff5c54a8b2d993">&sect;&nbsp;</a></span>Insert() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void NFIConsistentHash::Insert </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strIP</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nPort</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6584b74ed6d29a2c69def835106f4761"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6584b74ed6d29a2c69def835106f4761">&sect;&nbsp;</a></span>Insert() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void NFIConsistentHash::Insert </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_c_machine_node.html">NFCMachineNode</a> &amp;&#160;</td>
+          <td class="paramname"><em>xNode</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afabcd294cb256ff77528965bc5dbcc11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afabcd294cb256ff77528965bc5dbcc11">&sect;&nbsp;</a></span>Size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::size_t NFIConsistentHash::Size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFCore/<a class="el" href="_n_f_c_consistent_hash_8hpp_source.html">NFCConsistentHash.hpp</a></li>
+<li><a class="el" href="_n_f_c_consistent_hash_8hpp_source.html">NFCConsistentHash.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

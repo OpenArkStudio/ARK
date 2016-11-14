@@ -65,166 +65,1454 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="class_n_f_c_log_module-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">NFCLogModule Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="_n_f_c_log_module_8h_source.html">NFCLogModule.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFCLogModule:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_c_log_module.png" usemap="#NFCLogModule_map" alt=""/>
-  <map id="NFCLogModule_map" name="NFCLogModule_map">
-<area href="class_n_f_i_log_module.html" alt="NFILogModule" shape="rect" coords="0,56,101,80"/>
-<area href="class_n_f_i_module.html" alt="NFIModule" shape="rect" coords="0,0,101,24"/>
+<div class="center"><img src="class_n_f_c_log_module__inherit__graph.gif" border="0" usemap="#_n_f_c_log_module_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_c_log_module_inherit__map" id="_n_f_c_log_module_inherit__map">
+<area shape="rect" id="node2" href="class_n_f_i_log_module.html" title="{NFILogModule\n||+ LogDebug()\l+ LogInfo()\l+ LogWarning()\l+ LogError()\l+ LogFatal()\l+ LogDebug()\l+ LogInfo()\l+ LogWarning()\l+ LogError()\l+ LogFatal()\land 8 more...\l}" alt="" coords="44,424,155,648"/>
+<area shape="rect" id="node3" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l&#45; mbReloading\l&#45; mRemoveListEx\l&#45; mAddListEx\l&#45; mHeartBeatElementMapEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="5,5,193,376"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFCLogModule:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_c_log_module__coll__graph.gif" border="0" usemap="#_n_f_c_log_module_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_c_log_module_coll__map" id="_n_f_c_log_module_coll__map">
+<area shape="rect" id="node2" href="class_n_f_i_log_module.html" title="{NFILogModule\n||+ LogDebug()\l+ LogInfo()\l+ LogWarning()\l+ LogError()\l+ LogFatal()\l+ LogDebug()\l+ LogInfo()\l+ LogWarning()\l+ LogError()\l+ LogFatal()\land 8 more...\l}" alt="" coords="25,725,136,949"/>
+<area shape="rect" id="node3" href="class_n_f_i_module.html" title="{NFIModule\n|+ strName\l&#45; mbReloading\l&#45; mAddListEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="105,321,275,648"/>
+<area shape="rect" id="node5" href="class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="160,711,308,964"/>
+<area shape="rect" id="node4" href="class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="19,27,161,237"/>
+<area shape="rect" id="node6" href="class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFCModuleHeartBeatElement \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="185,5,397,259"/>
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a91471dd4828b4d90befb21176797d44f"><td class="memItemLeft" align="right" valign="top"><a id="a91471dd4828b4d90befb21176797d44f"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>NFCLogModule</b> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
+<tr class="memitem:a91471dd4828b4d90befb21176797d44f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a91471dd4828b4d90befb21176797d44f">NFCLogModule</a> (<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *p)</td></tr>
 <tr class="separator:a91471dd4828b4d90befb21176797d44f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6a4ed09f48e06fa4a851ee13fab793c"><td class="memItemLeft" align="right" valign="top"><a id="af6a4ed09f48e06fa4a851ee13fab793c"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Init</b> ()</td></tr>
+<tr class="memitem:aeb23b8a0a2dca544e510681359ecea13"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#aeb23b8a0a2dca544e510681359ecea13">~NFCLogModule</a> ()</td></tr>
+<tr class="separator:aeb23b8a0a2dca544e510681359ecea13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6a4ed09f48e06fa4a851ee13fab793c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#af6a4ed09f48e06fa4a851ee13fab793c">Init</a> ()</td></tr>
 <tr class="separator:af6a4ed09f48e06fa4a851ee13fab793c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab850ded14c648db813b9b9644834cf37"><td class="memItemLeft" align="right" valign="top"><a id="ab850ded14c648db813b9b9644834cf37"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Shut</b> ()</td></tr>
+<tr class="memitem:ab850ded14c648db813b9b9644834cf37"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#ab850ded14c648db813b9b9644834cf37">Shut</a> ()</td></tr>
 <tr class="separator:ab850ded14c648db813b9b9644834cf37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac51f7e776dd75b00a3136e53c5f0a642"><td class="memItemLeft" align="right" valign="top"><a id="ac51f7e776dd75b00a3136e53c5f0a642"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>BeforeShut</b> ()</td></tr>
+<tr class="memitem:ac51f7e776dd75b00a3136e53c5f0a642"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#ac51f7e776dd75b00a3136e53c5f0a642">BeforeShut</a> ()</td></tr>
 <tr class="separator:ac51f7e776dd75b00a3136e53c5f0a642"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59538d6f5de12e4a509ff1765c8bb4d4"><td class="memItemLeft" align="right" valign="top"><a id="a59538d6f5de12e4a509ff1765c8bb4d4"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>AfterInit</b> ()</td></tr>
+<tr class="memitem:a59538d6f5de12e4a509ff1765c8bb4d4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a59538d6f5de12e4a509ff1765c8bb4d4">AfterInit</a> ()</td></tr>
 <tr class="separator:a59538d6f5de12e4a509ff1765c8bb4d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a248299c807f78a0218d808bc57b12811"><td class="memItemLeft" align="right" valign="top"><a id="a248299c807f78a0218d808bc57b12811"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Execute</b> (const float fLasFrametime, const float fStartedTime)</td></tr>
+<tr class="memitem:a248299c807f78a0218d808bc57b12811"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a248299c807f78a0218d808bc57b12811">Execute</a> (const float fLasFrametime, const float fStartedTime)</td></tr>
 <tr class="separator:a248299c807f78a0218d808bc57b12811"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8aef728a282c6ba924c60ab29eeeb940"><td class="memItemLeft" align="right" valign="top"><a id="a8aef728a282c6ba924c60ab29eeeb940"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogStack</b> ()</td></tr>
+<tr class="memitem:a8aef728a282c6ba924c60ab29eeeb940"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a8aef728a282c6ba924c60ab29eeeb940">LogStack</a> ()</td></tr>
 <tr class="separator:a8aef728a282c6ba924c60ab29eeeb940"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7ff30e20ec209ddd226ff94e8e53e30"><td class="memItemLeft" align="right" valign="top"><a id="ad7ff30e20ec209ddd226ff94e8e53e30"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogDebug</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const std::string &amp;strInfo=NULL_STR, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:ad7ff30e20ec209ddd226ff94e8e53e30"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#ad7ff30e20ec209ddd226ff94e8e53e30">LogDebug</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const std::string &amp;strInfo=<a class="el" href="_n_f_i_data_list_8h.html#a58cf7a129f206a0deeb19fc66fb56bf7">NULL_STR</a>, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:ad7ff30e20ec209ddd226ff94e8e53e30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f0105e20970f4b0f49be643cd71daa3"><td class="memItemLeft" align="right" valign="top"><a id="a6f0105e20970f4b0f49be643cd71daa3"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogInfo</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const std::string &amp;strInfo=NULL_STR, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a6f0105e20970f4b0f49be643cd71daa3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a6f0105e20970f4b0f49be643cd71daa3">LogInfo</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const std::string &amp;strInfo=<a class="el" href="_n_f_i_data_list_8h.html#a58cf7a129f206a0deeb19fc66fb56bf7">NULL_STR</a>, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a6f0105e20970f4b0f49be643cd71daa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73acc4c9ef58693b6760ef7d83ca748e"><td class="memItemLeft" align="right" valign="top"><a id="a73acc4c9ef58693b6760ef7d83ca748e"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogWarning</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const std::string &amp;strInfo=NULL_STR, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a73acc4c9ef58693b6760ef7d83ca748e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a73acc4c9ef58693b6760ef7d83ca748e">LogWarning</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const std::string &amp;strInfo=<a class="el" href="_n_f_i_data_list_8h.html#a58cf7a129f206a0deeb19fc66fb56bf7">NULL_STR</a>, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a73acc4c9ef58693b6760ef7d83ca748e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5362db51dae9923c4ac0133c974d4dd2"><td class="memItemLeft" align="right" valign="top"><a id="a5362db51dae9923c4ac0133c974d4dd2"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogError</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const std::string &amp;strInfo=NULL_STR, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a5362db51dae9923c4ac0133c974d4dd2"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a5362db51dae9923c4ac0133c974d4dd2">LogError</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const std::string &amp;strInfo=<a class="el" href="_n_f_i_data_list_8h.html#a58cf7a129f206a0deeb19fc66fb56bf7">NULL_STR</a>, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a5362db51dae9923c4ac0133c974d4dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabcb02e984dcf403e99bfc53d1e16686"><td class="memItemLeft" align="right" valign="top"><a id="aabcb02e984dcf403e99bfc53d1e16686"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogFatal</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const std::string &amp;strInfo=NULL_STR, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:aabcb02e984dcf403e99bfc53d1e16686"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#aabcb02e984dcf403e99bfc53d1e16686">LogFatal</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const std::string &amp;strInfo=<a class="el" href="_n_f_i_data_list_8h.html#a58cf7a129f206a0deeb19fc66fb56bf7">NULL_STR</a>, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:aabcb02e984dcf403e99bfc53d1e16686"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2794bb921e68235235c3de14e7f9618c"><td class="memItemLeft" align="right" valign="top"><a id="a2794bb921e68235235c3de14e7f9618c"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogDebug</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const int nInfo, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a2794bb921e68235235c3de14e7f9618c"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a2794bb921e68235235c3de14e7f9618c">LogDebug</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const int nInfo, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a2794bb921e68235235c3de14e7f9618c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a486df80363cc5dc1fadbaa0673f0c01b"><td class="memItemLeft" align="right" valign="top"><a id="a486df80363cc5dc1fadbaa0673f0c01b"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogInfo</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const int nInfo, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a486df80363cc5dc1fadbaa0673f0c01b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a486df80363cc5dc1fadbaa0673f0c01b">LogInfo</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const int nInfo, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a486df80363cc5dc1fadbaa0673f0c01b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05b05469d14eb45b038f5ab2710068d3"><td class="memItemLeft" align="right" valign="top"><a id="a05b05469d14eb45b038f5ab2710068d3"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogWarning</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const int nInfo, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a05b05469d14eb45b038f5ab2710068d3"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a05b05469d14eb45b038f5ab2710068d3">LogWarning</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const int nInfo, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a05b05469d14eb45b038f5ab2710068d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b6d299ca381ca7a131c0ab4afdfa242"><td class="memItemLeft" align="right" valign="top"><a id="a1b6d299ca381ca7a131c0ab4afdfa242"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogError</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const int nInfo, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a1b6d299ca381ca7a131c0ab4afdfa242"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a1b6d299ca381ca7a131c0ab4afdfa242">LogError</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const int nInfo, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a1b6d299ca381ca7a131c0ab4afdfa242"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a964e11257b11284ccefc37ddd92602b9"><td class="memItemLeft" align="right" valign="top"><a id="a964e11257b11284ccefc37ddd92602b9"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogFatal</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const int nInfo, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a964e11257b11284ccefc37ddd92602b9"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a964e11257b11284ccefc37ddd92602b9">LogFatal</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strDesc, const int nInfo, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a964e11257b11284ccefc37ddd92602b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69897e9f8bb12e227e399005be29ff13"><td class="memItemLeft" align="right" valign="top"><a id="a69897e9f8bb12e227e399005be29ff13"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogDebug</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::ostringstream &amp;strDesc, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a69897e9f8bb12e227e399005be29ff13"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a69897e9f8bb12e227e399005be29ff13">LogDebug</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::ostringstream &amp;strDesc, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a69897e9f8bb12e227e399005be29ff13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ec6015974f03cf219e69160949ad1ca"><td class="memItemLeft" align="right" valign="top"><a id="a0ec6015974f03cf219e69160949ad1ca"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogInfo</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::ostringstream &amp;strDesc, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a0ec6015974f03cf219e69160949ad1ca"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a0ec6015974f03cf219e69160949ad1ca">LogInfo</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::ostringstream &amp;strDesc, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a0ec6015974f03cf219e69160949ad1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5aa4a9a6f10a0faed2af6333aba015a6"><td class="memItemLeft" align="right" valign="top"><a id="a5aa4a9a6f10a0faed2af6333aba015a6"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogWarning</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::ostringstream &amp;strDesc, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a5aa4a9a6f10a0faed2af6333aba015a6"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a5aa4a9a6f10a0faed2af6333aba015a6">LogWarning</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::ostringstream &amp;strDesc, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a5aa4a9a6f10a0faed2af6333aba015a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebc71bf7e63647c52f70e20679bf9ffe"><td class="memItemLeft" align="right" valign="top"><a id="aebc71bf7e63647c52f70e20679bf9ffe"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogError</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::ostringstream &amp;strDesc, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:aebc71bf7e63647c52f70e20679bf9ffe"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#aebc71bf7e63647c52f70e20679bf9ffe">LogError</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::ostringstream &amp;strDesc, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:aebc71bf7e63647c52f70e20679bf9ffe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a846710b3dbb804f63472d04246dbd586"><td class="memItemLeft" align="right" valign="top"><a id="a846710b3dbb804f63472d04246dbd586"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>LogFatal</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::ostringstream &amp;strDesc, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a846710b3dbb804f63472d04246dbd586"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a846710b3dbb804f63472d04246dbd586">LogFatal</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::ostringstream &amp;strDesc, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a846710b3dbb804f63472d04246dbd586"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b8e5b9d7287fb84c5339807d5f0f058"><td class="memItemLeft" align="right" valign="top"><a id="a6b8e5b9d7287fb84c5339807d5f0f058"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>LogDebugFunctionDump</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> ident, const int nMsg, const std::string &amp;strArg, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
+<tr class="memitem:a6b8e5b9d7287fb84c5339807d5f0f058"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a6b8e5b9d7287fb84c5339807d5f0f058">LogDebugFunctionDump</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> ident, const int nMsg, const std::string &amp;strArg, const char *pFunc=&quot;&quot;, int nLine=0)</td></tr>
 <tr class="separator:a6b8e5b9d7287fb84c5339807d5f0f058"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b626b7bb7aa032899fb72c148c427a4"><td class="memItemLeft" align="right" valign="top"><a id="a7b626b7bb7aa032899fb72c148c427a4"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>ChangeLogLevel</b> (const std::string &amp;strLevel, const std::string &amp;strStatus)</td></tr>
+<tr class="memitem:a7b626b7bb7aa032899fb72c148c427a4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a7b626b7bb7aa032899fb72c148c427a4">ChangeLogLevel</a> (const std::string &amp;strLevel, const std::string &amp;strStatus)</td></tr>
 <tr class="separator:a7b626b7bb7aa032899fb72c148c427a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9de448689b47159084aa443d2f98e250"><td class="memItemLeft" align="right" valign="top"><a id="a9de448689b47159084aa443d2f98e250"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetSwitchingValue</b> (const bool bValue)</td></tr>
+<tr class="memitem:a9de448689b47159084aa443d2f98e250"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a9de448689b47159084aa443d2f98e250">SetSwitchingValue</a> (const bool bValue)</td></tr>
 <tr class="separator:a9de448689b47159084aa443d2f98e250"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a29ebe3a43330203d9f3e9d06b5ce0b33"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>CheckConfig</b> ()</td></tr>
+<tr class="memitem:ac4055db8fca34fbaa8ac24f75a3dc3c7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ac4055db8fca34fbaa8ac24f75a3dc3c7">NFIModule</a> ()</td></tr>
+<tr class="separator:ac4055db8fca34fbaa8ac24f75a3dc3c7 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae50e636e9a4e2c40ce2c86abe0b07865 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ae50e636e9a4e2c40ce2c86abe0b07865">~NFIModule</a> ()</td></tr>
+<tr class="separator:ae50e636e9a4e2c40ce2c86abe0b07865 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a29ebe3a43330203d9f3e9d06b5ce0b33">CheckConfig</a> ()</td></tr>
 <tr class="separator:a29ebe3a43330203d9f3e9d06b5ce0b33 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7c55c42281a825974522deaf190eaba inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="ad7c55c42281a825974522deaf190eaba"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Execute</b> ()</td></tr>
+<tr class="memitem:ad7c55c42281a825974522deaf190eaba inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ad7c55c42281a825974522deaf190eaba">Execute</a> ()</td></tr>
 <tr class="separator:ad7c55c42281a825974522deaf190eaba inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="aa44fa391ec7fb2882f208c9b36e3c3f7"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>StartReLoadState</b> ()</td></tr>
+<tr class="memitem:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#aa44fa391ec7fb2882f208c9b36e3c3f7">StartReLoadState</a> ()</td></tr>
 <tr class="separator:aa44fa391ec7fb2882f208c9b36e3c3f7 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a28217dc4ebbf611a34434ff07fb0d7db"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>EndReLoadState</b> ()</td></tr>
+<tr class="memitem:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a28217dc4ebbf611a34434ff07fb0d7db">EndReLoadState</a> ()</td></tr>
 <tr class="separator:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="ab65d97e11a34f47b4257a4d3175d48b9"></a>
-virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>GetPluginManager</b> () const</td></tr>
+<tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ab65d97e11a34f47b4257a4d3175d48b9">GetPluginManager</a> () const</td></tr>
 <tr class="separator:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2"><a id="a48581696daeec956659ef3720834bdc9"></a>
-template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>AddHeartBeatExecute</b> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
+<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a48581696daeec956659ef3720834bdc9">AddHeartBeatExecute</a> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
 <tr class="separator:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a89b70e2046ffd656fe4cf4bc0963be86"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>RemoveHeartBeat</b> (const std::string &amp;strHeartBeatName)</td></tr>
+<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a89b70e2046ffd656fe4cf4bc0963be86">RemoveHeartBeat</a> (const std::string &amp;strHeartBeatName)</td></tr>
 <tr class="separator:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a4e7340e694a0904b0bc544caaf82819d"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Loading</b> () const</td></tr>
+<tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a4e7340e694a0904b0bc544caaf82819d">Loading</a> () const</td></tr>
 <tr class="separator:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a7fa22fc88bb19aed0647efa7962747a5"><td class="memItemLeft" align="right" valign="top"><a id="a7fa22fc88bb19aed0647efa7962747a5"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Log</b> (const NF_LOG_LEVEL nll, const char *format,...)</td></tr>
+<tr class="memitem:a7fa22fc88bb19aed0647efa7962747a5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a7fa22fc88bb19aed0647efa7962747a5">Log</a> (const <a class="el" href="class_n_f_i_log_module.html#a7f81728da504828e4c989d452c708e64">NF_LOG_LEVEL</a> nll, const char *format,...)</td></tr>
 <tr class="separator:a7fa22fc88bb19aed0647efa7962747a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
-<tr class="memitem:a3cdaf94474fe2c46078c3da19b76b07f"><td class="memItemLeft" align="right" valign="top"><a id="a3cdaf94474fe2c46078c3da19b76b07f"></a>
-static bool&#160;</td><td class="memItemRight" valign="bottom"><b>CheckLogFileExist</b> (const char *filename)</td></tr>
+<tr class="memitem:a3cdaf94474fe2c46078c3da19b76b07f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a3cdaf94474fe2c46078c3da19b76b07f">CheckLogFileExist</a> (const char *filename)</td></tr>
 <tr class="separator:a3cdaf94474fe2c46078c3da19b76b07f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57f328d715f69b0b0cc93d16f0e62742"><td class="memItemLeft" align="right" valign="top"><a id="a57f328d715f69b0b0cc93d16f0e62742"></a>
-static void&#160;</td><td class="memItemRight" valign="bottom"><b>rolloutHandler</b> (const char *filename, std::size_t size)</td></tr>
+<tr class="memitem:a57f328d715f69b0b0cc93d16f0e62742"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#a57f328d715f69b0b0cc93d16f0e62742">rolloutHandler</a> (const char *filename, std::size_t size)</td></tr>
 <tr class="separator:a57f328d715f69b0b0cc93d16f0e62742"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ab8b7721e2c3accdd1b879b578b326a93"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#ab8b7721e2c3accdd1b879b578b326a93">mbSwitchingValue</a></td></tr>
+<tr class="separator:ab8b7721e2c3accdd1b879b578b326a93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr class="memitem:acae0e804294c390e946f75434c6f704a"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_log_module.html#acae0e804294c390e946f75434c6f704a">idx</a> = 0</td></tr>
+<tr class="separator:acae0e804294c390e946f75434c6f704a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_types_class_n_f_i_log_module"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_n_f_i_log_module')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_n_f_i_log_module.html">NFILogModule</a></td></tr>
-<tr class="memitem:a7f81728da504828e4c989d452c708e64 inherit pub_types_class_n_f_i_log_module"><td class="memItemLeft" align="right" valign="top"><a id="a7f81728da504828e4c989d452c708e64"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>NF_LOG_LEVEL</b> { <br />
-&#160;&#160;<b>LOG_DEBUG</b>, 
-<b>LOG_INFO</b>, 
-<b>LOG_WARNING</b>, 
-<b>LOG_ERROR</b>, 
+<tr class="memitem:a7f81728da504828e4c989d452c708e64 inherit pub_types_class_n_f_i_log_module"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_log_module.html#a7f81728da504828e4c989d452c708e64">NF_LOG_LEVEL</a> { <br />
+&#160;&#160;<a class="el" href="class_n_f_i_log_module.html#a7f81728da504828e4c989d452c708e64a8e5ecf90b3193db0345dc42948c75c58">LOG_DEBUG</a>, 
+<a class="el" href="class_n_f_i_log_module.html#a7f81728da504828e4c989d452c708e64a25b3becfb61162f56a6a3cde0d284aff">LOG_INFO</a>, 
+<a class="el" href="class_n_f_i_log_module.html#a7f81728da504828e4c989d452c708e64a47f65b41646c0cede5cfe03676b501dc">LOG_WARNING</a>, 
+<a class="el" href="class_n_f_i_log_module.html#a7f81728da504828e4c989d452c708e64aab5da60b4b0cb8a98567a6cde8b3675b">LOG_ERROR</a>, 
 <br />
-&#160;&#160;<b>LOG_FATAL</b>
+&#160;&#160;<a class="el" href="class_n_f_i_log_module.html#a7f81728da504828e4c989d452c708e64a89ec0955d15c85e65ba5da02383e6df8">LOG_FATAL</a>
 <br />
  }</td></tr>
 <tr class="separator:a7f81728da504828e4c989d452c708e64 inherit pub_types_class_n_f_i_log_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pub_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Public Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="aa714ce5e40aec7d752d58d068f3efad7"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>strName</b></td></tr>
+<tr class="memitem:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#aa714ce5e40aec7d752d58d068f3efad7">strName</a></td></tr>
 <tr class="separator:aa714ce5e40aec7d752d58d068f3efad7 inherit pub_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
-<tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a id="a078fbd0e90c9a9918bba04407d69727c"></a>
-<a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>pPluginManager</b></td></tr>
+<tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a078fbd0e90c9a9918bba04407d69727c">pPluginManager</a></td></tr>
 <tr class="separator:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a91471dd4828b4d90befb21176797d44f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91471dd4828b4d90befb21176797d44f">&sect;&nbsp;</a></span>NFCLogModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFCLogModule::NFCLogModule </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td>
+          <td class="paramname"><em>p</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeb23b8a0a2dca544e510681359ecea13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb23b8a0a2dca544e510681359ecea13">&sect;&nbsp;</a></span>~NFCLogModule()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual NFCLogModule::~NFCLogModule </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a59538d6f5de12e4a509ff1765c8bb4d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59538d6f5de12e4a509ff1765c8bb4d4">&sect;&nbsp;</a></span>AfterInit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::AfterInit </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#ac7719c4ab72efc1b698eca98968c0f43">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="ac51f7e776dd75b00a3136e53c5f0a642"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac51f7e776dd75b00a3136e53c5f0a642">&sect;&nbsp;</a></span>BeforeShut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::BeforeShut </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#a718b98d9795954f4f2982e67c2d98683">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a7b626b7bb7aa032899fb72c148c427a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b626b7bb7aa032899fb72c148c427a4">&sect;&nbsp;</a></span>ChangeLogLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::ChangeLogLevel </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strLevel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strStatus</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a41e45a5a4a365fd59a47d01b1771d73e">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a3cdaf94474fe2c46078c3da19b76b07f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cdaf94474fe2c46078c3da19b76b07f">&sect;&nbsp;</a></span>CheckLogFileExist()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::CheckLogFileExist </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a248299c807f78a0218d808bc57b12811"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a248299c807f78a0218d808bc57b12811">&sect;&nbsp;</a></span>Execute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::Execute </td>
+          <td>(</td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>fLasFrametime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const float&#160;</td>
+          <td class="paramname"><em>fStartedTime</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af6a4ed09f48e06fa4a851ee13fab793c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6a4ed09f48e06fa4a851ee13fab793c">&sect;&nbsp;</a></span>Init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::Init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#a5dbba4491b7a07074cf4abfe2db95899">NFIModule</a>.</p>
+
+</div>
+</div>
+<a id="a7fa22fc88bb19aed0647efa7962747a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fa22fc88bb19aed0647efa7962747a5">&sect;&nbsp;</a></span>Log()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::Log </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_log_module.html#a7f81728da504828e4c989d452c708e64">NF_LOG_LEVEL</a>&#160;</td>
+          <td class="paramname"><em>nll</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad7ff30e20ec209ddd226ff94e8e53e30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7ff30e20ec209ddd226ff94e8e53e30">&sect;&nbsp;</a></span>LogDebug() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogDebug </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strInfo</em> = <code><a class="el" href="_n_f_i_data_list_8h.html#a58cf7a129f206a0deeb19fc66fb56bf7">NULL_STR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#acde80955cfb766d03ba8e477f83f358b">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a2794bb921e68235235c3de14e7f9618c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2794bb921e68235235c3de14e7f9618c">&sect;&nbsp;</a></span>LogDebug() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogDebug </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nInfo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a9d1e7214f6786ba2405b71f43452b2b4">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a69897e9f8bb12e227e399005be29ff13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69897e9f8bb12e227e399005be29ff13">&sect;&nbsp;</a></span>LogDebug() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogDebug </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::ostringstream &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a1273b8ca21eeb2825d179ab6272c08af">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a6b8e5b9d7287fb84c5339807d5f0f058"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b8e5b9d7287fb84c5339807d5f0f058">&sect;&nbsp;</a></span>LogDebugFunctionDump()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::LogDebugFunctionDump </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>ident</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nMsg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strArg</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a8237d52d7ced996929719617e9643dc2">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a5362db51dae9923c4ac0133c974d4dd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5362db51dae9923c4ac0133c974d4dd2">&sect;&nbsp;</a></span>LogError() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strInfo</em> = <code><a class="el" href="_n_f_i_data_list_8h.html#a58cf7a129f206a0deeb19fc66fb56bf7">NULL_STR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#af208ebf7dab50f1362061632bcbc4c5f">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a1b6d299ca381ca7a131c0ab4afdfa242"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b6d299ca381ca7a131c0ab4afdfa242">&sect;&nbsp;</a></span>LogError() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nInfo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a55cf3a99cfb5db6755f2a5f75b30e263">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="aebc71bf7e63647c52f70e20679bf9ffe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebc71bf7e63647c52f70e20679bf9ffe">&sect;&nbsp;</a></span>LogError() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogError </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::ostringstream &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a75a8a6098985a74e042b6033f3bc43f9">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="aabcb02e984dcf403e99bfc53d1e16686"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabcb02e984dcf403e99bfc53d1e16686">&sect;&nbsp;</a></span>LogFatal() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogFatal </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strInfo</em> = <code><a class="el" href="_n_f_i_data_list_8h.html#a58cf7a129f206a0deeb19fc66fb56bf7">NULL_STR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a844154bd205bc48b829089d80201705a">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a964e11257b11284ccefc37ddd92602b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a964e11257b11284ccefc37ddd92602b9">&sect;&nbsp;</a></span>LogFatal() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogFatal </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nInfo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a79d6ad23692e5ec4cb589272882951b7">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a846710b3dbb804f63472d04246dbd586"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a846710b3dbb804f63472d04246dbd586">&sect;&nbsp;</a></span>LogFatal() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogFatal </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::ostringstream &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a7423ac94f5da64a07cf4f2d7ecc43afd">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a6f0105e20970f4b0f49be643cd71daa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f0105e20970f4b0f49be643cd71daa3">&sect;&nbsp;</a></span>LogInfo() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogInfo </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strInfo</em> = <code><a class="el" href="_n_f_i_data_list_8h.html#a58cf7a129f206a0deeb19fc66fb56bf7">NULL_STR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#ad0dcb4418cde793f80c2412f8fd074e2">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a486df80363cc5dc1fadbaa0673f0c01b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a486df80363cc5dc1fadbaa0673f0c01b">&sect;&nbsp;</a></span>LogInfo() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogInfo </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nInfo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#adb1d7545781452a6326c611634dbe96f">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a0ec6015974f03cf219e69160949ad1ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ec6015974f03cf219e69160949ad1ca">&sect;&nbsp;</a></span>LogInfo() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogInfo </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::ostringstream &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#ad56202b43450626fa519fc01169c4996">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a8aef728a282c6ba924c60ab29eeeb940"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8aef728a282c6ba924c60ab29eeeb940">&sect;&nbsp;</a></span>LogStack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogStack </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a73acc4c9ef58693b6760ef7d83ca748e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73acc4c9ef58693b6760ef7d83ca748e">&sect;&nbsp;</a></span>LogWarning() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogWarning </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strInfo</em> = <code><a class="el" href="_n_f_i_data_list_8h.html#a58cf7a129f206a0deeb19fc66fb56bf7">NULL_STR</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a821769a111059b95501e7294fa1e6934">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a05b05469d14eb45b038f5ab2710068d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05b05469d14eb45b038f5ab2710068d3">&sect;&nbsp;</a></span>LogWarning() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogWarning </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nInfo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a381c9ab22615c0923d844ecb7b5afe3e">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a5aa4a9a6f10a0faed2af6333aba015a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5aa4a9a6f10a0faed2af6333aba015a6">&sect;&nbsp;</a></span>LogWarning() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::LogWarning </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td>
+          <td class="paramname"><em>self</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::ostringstream &amp;&#160;</td>
+          <td class="paramname"><em>strDesc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>pFunc</em> = <code>&quot;&quot;</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nLine</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#ac937e793e73f28b4684f33ac162e9933">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="a57f328d715f69b0b0cc93d16f0e62742"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57f328d715f69b0b0cc93d16f0e62742">&sect;&nbsp;</a></span>rolloutHandler()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFCLogModule::rolloutHandler </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>size</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9de448689b47159084aa443d2f98e250"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9de448689b47159084aa443d2f98e250">&sect;&nbsp;</a></span>SetSwitchingValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::SetSwitchingValue </td>
+          <td>(</td>
+          <td class="paramtype">const bool&#160;</td>
+          <td class="paramname"><em>bValue</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="class_n_f_i_log_module.html#a8ab09dd10e27c6f5caaa73ea5e1a8c3f">NFILogModule</a>.</p>
+
+</div>
+</div>
+<a id="ab850ded14c648db813b9b9644834cf37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab850ded14c648db813b9b9644834cf37">&sect;&nbsp;</a></span>Shut()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::Shut </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented from <a class="el" href="class_n_f_i_module.html#a345cdec76e4e04b92e8635a0b51ed41f">NFIModule</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="acae0e804294c390e946f75434c6f704a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acae0e804294c390e946f75434c6f704a">&sect;&nbsp;</a></span>idx</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">INITIALIZE_EASYLOGGINGPP int NFCLogModule::idx = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab8b7721e2c3accdd1b879b578b326a93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8b7721e2c3accdd1b879b578b326a93">&sect;&nbsp;</a></span>mbSwitchingValue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFCLogModule::mbSwitchingValue</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFLogPlugin/<a class="el" href="_n_f_c_log_module_8h_source.html">NFCLogModule.h</a></li>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFLogPlugin/NFCLogModule.cpp</li>
+<li><a class="el" href="_n_f_c_log_module_8h_source.html">NFCLogModule.h</a></li>
+<li><a class="el" href="_n_f_c_log_module_8cpp.html">NFCLogModule.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -1,13 +1,16 @@
 var searchData=
 [
-  ['warning',['Warning',['../namespaceel.html#ab0ac6091262344c52dd2d3ad099e8e36a0eaadb4fcb48a0a0ed7bc9868be9fbaa',1,'el']]],
-  ['wcharptrtocharptr',['wcharPtrToCharPtr',['../classel_1_1base_1_1utils_1_1_str.html#a6dc022e7e8d4cbf2c80ba9e1354feaea',1,'el::base::utils::Str']]],
-  ['what',['what',['../classrapidxml_1_1parse__error.html#a986003116ebcb49a69a20228da306232',1,'rapidxml::parse_error']]],
-  ['where',['where',['../classrapidxml_1_1parse__error.html#ab139528f4d9e960f0ee807d22d6c032d',1,'rapidxml::parse_error']]],
-  ['wildcardmatch',['wildCardMatch',['../classel_1_1base_1_1utils_1_1_str.html#a95e007a25dfcbd77d4c573b0f73b3153',1,'el::base::utils::Str']]],
-  ['wordwrap',['wordWrap',['../namespace_g3_d.html#a45dc0f8dd2fad63fee9acd4a25b4a42c',1,'G3D']]],
-  ['worldray',['worldRay',['../class_g3_d_1_1_g_camera.html#a5c9654e83bbdb8bfea54841d49996403',1,'G3D::GCamera']]],
-  ['worldtoscreenspacearea',['worldToScreenSpaceArea',['../class_g3_d_1_1_g_camera.html#a7abb988f7eb5322de36306364d4278b9',1,'G3D::GCamera']]],
-  ['wrap',['wrap',['../namespace_g3_d.html#ac8213cc995ce7d111f6378b94ef6f1db',1,'G3D']]],
-  ['writer',['Writer',['../classel_1_1base_1_1_writer.html',1,'el::base']]]
+  ['undef_5ftime',['UNDEF_TIME',['../class_n_f_time.html#afd85032d5d24341b42e9e080d780e786a844fd16bade5753959915ff10d5aaae6',1,'NFTime']]],
+  ['uninstall',['Uninstall',['../class_n_f_config_plugin.html#adaae2f13e4cfc4a9d578dbc37e1da4e2',1,'NFConfigPlugin::Uninstall()'],['../class_n_f_kernel_plugin.html#a901e608e5436ab1f7bc5f21de155395a',1,'NFKernelPlugin::Uninstall()'],['../class_n_f_log_plugin.html#a83ee3033a5cbf8ebc34d96859d7fbd6d',1,'NFLogPlugin::Uninstall()'],['../class_n_f_i_plugin.html#abf06dee101bcba14de5aedd52c63b72d',1,'NFIPlugin::Uninstall()'],['../class_n_f_game_server_net___client_plugin.html#a7c896ae09bc2bf4285a09d8562c8d385',1,'NFGameServerNet_ClientPlugin::Uninstall()'],['../class_n_f_game_server_net___server_plugin.html#ac2219dc528c242955b91fdad13083e61',1,'NFGameServerNet_ServerPlugin::Uninstall()'],['../class_n_f_game_server_plugin.html#a6e99e3486e18db13e95dfc8b52da10e5',1,'NFGameServerPlugin::Uninstall()'],['../class_n_f_login_logic_plugin.html#a0b8bcc9a80ebe1ac4cb884dae3a6c16f',1,'NFLoginLogicPlugin::Uninstall()'],['../class_n_f_login_net___client_plugin.html#a10d58a158e99a3594600a39400233e5f',1,'NFLoginNet_ClientPlugin::Uninstall()'],['../class_n_f_login_net___server_plugin.html#aba96eea53a3a4c4095a270755e636487',1,'NFLoginNet_ServerPlugin::Uninstall()'],['../class_n_f_master_net___server_plugin.html#a94fb939f635d030c6b266b33f3a34d0b',1,'NFMasterNet_ServerPlugin::Uninstall()'],['../class_n_f_master_server_plugin.html#ad469492832f9ffb60d3166d47db9beef',1,'NFMasterServerPlugin::Uninstall()'],['../class_n_f_proxy_logic_plugin.html#a97191d90cc15915d5f6874d5c3a111e5',1,'NFProxyLogicPlugin::Uninstall()'],['../class_n_f_proxy_server_net___client_plugin.html#a89734a39a360ba7e7a374038819983e1',1,'NFProxyServerNet_ClientPlugin::Uninstall()'],['../class_n_f_proxy_server_net___server_plugin.html#a796bb7b0cedbd29b32bae512e7b9fbf3',1,'NFProxyServerNet_ServerPlugin::Uninstall()'],['../class_n_f_world_logic_plugin.html#a5979bf600dd4288dba7753b89397e947',1,'NFWorldLogicPlugin::Uninstall()'],['../class_n_f_world_net___client_plugin.html#a1e5a328e4bf29e285a6d2bc3865a49c6',1,'NFWorldNet_ClientPlugin::Uninstall()'],['../class_n_f_world_net___server_plugin.html#a3b964fc48eda35408d283401eb942ed9',1,'NFWorldNet_ServerPlugin::Uninstall()']]],
+  ['unload',['UnLoad',['../class_n_f_c_dyn_lib.html#a01ee28d57f700313f324e991fc1bfbe1',1,'NFCDynLib']]],
+  ['unloadpluginlibrary',['UnLoadPluginLibrary',['../class_n_f_c_plugin_manager.html#a54a8f1f77755e12e3aec8ffa24265f0b',1,'NFCPluginManager']]],
+  ['unloadstaticplugin',['UnLoadStaticPlugin',['../class_n_f_c_plugin_manager.html#a9b9ab9dcd8b8a2b3a3b9602ad1f4001b',1,'NFCPluginManager']]],
+  ['unlock',['unlock',['../class_n_f_lock.html#aacad2c2887190e9af0819dd4be374cfd',1,'NFLock']]],
+  ['unregister_5fmodule',['UNREGISTER_MODULE',['../_n_f_i_plugin_8h.html#ae88e37a4033a86c6a11bed6e0c3f55bf',1,'NFIPlugin.h']]],
+  ['unregistered',['UnRegistered',['../class_n_f_c_plugin_manager.html#a54fcbb2eede9c04e504930de7cb38bf0',1,'NFCPluginManager::UnRegistered()'],['../class_n_f_i_plugin_manager.html#a5d2706b09ceabfd7c6e287a4fdcbc213',1,'NFIPluginManager::UnRegistered()']]],
+  ['update',['Update',['../class_n_f_i_record.html#ab2427b89ecf945cce709dc00d275b290a007093fa08712668c2c3efa08fe97bcf',1,'NFIRecord']]],
+  ['upguildmmember',['UpGuildMmember',['../class_n_f_i_world_guild_module.html#ae8b5cbefbe203485cdadc352d1dabbd9',1,'NFIWorldGuildModule']]],
+  ['uuid',['UUID',['../class_u_u_i_d_module_1_1_u_u_i_d.html#ac04243f61cc7a1dd92f9faf0e39909da',1,'UUIDModule::UUID']]],
+  ['uuid',['UUID',['../class_u_u_i_d_module_1_1_u_u_i_d.html',1,'UUIDModule']]],
+  ['uuidmodule',['UUIDModule',['../namespace_u_u_i_d_module.html',1,'']]]
 ];

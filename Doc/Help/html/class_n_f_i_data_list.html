@@ -71,176 +71,2423 @@ $(function() {
 <div class="title">NFIDataList Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>////////////////////////////////////////////////////////////////////////类型接口.  
+ <a href="class_n_f_i_data_list.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_n_f_i_data_list_8h_source.html">NFIDataList.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFIDataList:</div>
 <div class="dyncontent">
- <div class="center">
-  <img src="class_n_f_i_data_list.png" usemap="#NFIDataList_map" alt=""/>
-  <map id="NFIDataList_map" name="NFIDataList_map">
-<area href="class_n_f_c_data_list.html" alt="NFCDataList" shape="rect" coords="0,56,83,80"/>
+<div class="center"><img src="class_n_f_i_data_list__inherit__graph.gif" border="0" usemap="#_n_f_i_data_list_inherit__map" alt="Inheritance graph"/></div>
+<map name="_n_f_i_data_list_inherit__map" id="_n_f_i_data_list_inherit__map">
+<area shape="rect" id="node2" href="class_n_f_c_data_list.html" title="{NFCDataList\n||+ NFCDataList()\l+ NFCDataList()\l+ NFCDataList()\l+ NFCDataList()\l+ ~NFCDataList()\l+ Append()\l+ Append()\l+ Append()\l+ Clear()\l+ IsEmpty()\land 24 more...\l# AddStatck()\l# InnerAppendEx()\l# ValidIndex()\l}" alt="" coords="5,307,135,575"/>
 </map>
- </div></div>
+</div>
+<div class="dynheader">
+Collaboration diagram for NFIDataList:</div>
+<div class="dyncontent">
+<div class="center"><img src="class_n_f_i_data_list__coll__graph.gif" border="0" usemap="#_n_f_i_data_list_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_i_data_list_coll__map" id="_n_f_i_data_list_coll__map">
+</map>
+</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A data.  <a href="struct_n_f_i_data_list_1_1_t_data.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a05771a30657763eac90eeeed16aeeda0"><td class="memItemLeft" align="right" valign="top"><a id="a05771a30657763eac90eeeed16aeeda0"></a>enum &#160;</td><td class="memItemRight" valign="bottom">{ <b>STACK_SIZE</b> = 8
+<tr class="memitem:a05771a30657763eac90eeeed16aeeda0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="class_n_f_i_data_list.html#a05771a30657763eac90eeeed16aeeda0a072e24fd6a1648ed9627bc772a98d7ae">STACK_SIZE</a> = 8
  }</td></tr>
 <tr class="separator:a05771a30657763eac90eeeed16aeeda0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abc73469d6936b2a62bedbb3e34eec69b"><td class="memItemLeft" align="right" valign="top"><a id="abc73469d6936b2a62bedbb3e34eec69b"></a>
-virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>StringValEx</b> (const int index) const =0</td></tr>
-<tr class="separator:abc73469d6936b2a62bedbb3e34eec69b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a521ab171d3ba164b7b2eb04ad4555bcd"><td class="memItemLeft" align="right" valign="top"><a id="a521ab171d3ba164b7b2eb04ad4555bcd"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>ToString</b> (std::string &amp;str, const std::string &amp;strSplit) const =0</td></tr>
-<tr class="separator:a521ab171d3ba164b7b2eb04ad4555bcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacc692a76d31588b187d02f9dff06c95"><td class="memItemLeft" align="right" valign="top"><a id="aacc692a76d31588b187d02f9dff06c95"></a>
-virtual const NF_SHARE_PTR&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetStack</b> (const int index) const =0</td></tr>
-<tr class="separator:aacc692a76d31588b187d02f9dff06c95"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abf2ed77f2044ebe12bda549dd389270e"><td class="memItemLeft" align="right" valign="top"><a id="abf2ed77f2044ebe12bda549dd389270e"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Concat</b> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src)=0</td></tr>
-<tr class="separator:abf2ed77f2044ebe12bda549dd389270e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adfd2314c0b3797f76fbca8ca61f0a28f"><td class="memItemLeft" align="right" valign="top"><a id="adfd2314c0b3797f76fbca8ca61f0a28f"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Append</b> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src)=0</td></tr>
-<tr class="separator:adfd2314c0b3797f76fbca8ca61f0a28f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8818f937589052c248c18e28270d560e"><td class="memItemLeft" align="right" valign="top"><a id="a8818f937589052c248c18e28270d560e"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Append</b> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src, const int start, const int count)=0</td></tr>
-<tr class="separator:a8818f937589052c248c18e28270d560e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e78a462627f56b77430fc0a9a06279b"><td class="memItemLeft" align="right" valign="top"><a id="a4e78a462627f56b77430fc0a9a06279b"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Append</b> (const <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &amp;sTData)=0</td></tr>
-<tr class="separator:a4e78a462627f56b77430fc0a9a06279b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af510ddbc856f446b9e8816467faf60f7"><td class="memItemLeft" align="right" valign="top"><a id="af510ddbc856f446b9e8816467faf60f7"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>Clear</b> ()=0</td></tr>
-<tr class="separator:af510ddbc856f446b9e8816467faf60f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31134d8f0ae0ac0da1a680831776ba11"><td class="memItemLeft" align="right" valign="top"><a id="a31134d8f0ae0ac0da1a680831776ba11"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsEmpty</b> () const =0</td></tr>
-<tr class="separator:a31134d8f0ae0ac0da1a680831776ba11"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae3361af5b779fc6b3edab327be02821d"><td class="memItemLeft" align="right" valign="top"><a id="ae3361af5b779fc6b3edab327be02821d"></a>
-virtual int&#160;</td><td class="memItemRight" valign="bottom"><b>GetCount</b> () const =0</td></tr>
-<tr class="separator:ae3361af5b779fc6b3edab327be02821d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a599f39b94327324f21f8d4048e2a3417"><td class="memItemLeft" align="right" valign="top"><a id="a599f39b94327324f21f8d4048e2a3417"></a>
-virtual TDATA_TYPE&#160;</td><td class="memItemRight" valign="bottom"><b>Type</b> (const int index) const =0</td></tr>
-<tr class="separator:a599f39b94327324f21f8d4048e2a3417"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdb0580574546b9f08545167878f50e1"><td class="memItemLeft" align="right" valign="top"><a id="afdb0580574546b9f08545167878f50e1"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>TypeEx</b> (const int nType,...) const =0</td></tr>
-<tr class="separator:afdb0580574546b9f08545167878f50e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7ad23b302939e086c670b5c3c5d4771"><td class="memItemLeft" align="right" valign="top"><a id="ad7ad23b302939e086c670b5c3c5d4771"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Split</b> (const std::string &amp;str, const std::string &amp;strSplit)=0</td></tr>
-<tr class="separator:ad7ad23b302939e086c670b5c3c5d4771"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a47360a4f6885c55ceabc73a14c41d4"><td class="memItemLeft" align="right" valign="top"><a id="a3a47360a4f6885c55ceabc73a14c41d4"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Add</b> (const NFINT64 value)=0</td></tr>
-<tr class="separator:a3a47360a4f6885c55ceabc73a14c41d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18285fbf6012bf48034b5c1d2f4a10c0"><td class="memItemLeft" align="right" valign="top"><a id="a18285fbf6012bf48034b5c1d2f4a10c0"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Add</b> (const double value)=0</td></tr>
-<tr class="separator:a18285fbf6012bf48034b5c1d2f4a10c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f7355f3ec74be0c3cacedc9fea8a7fe"><td class="memItemLeft" align="right" valign="top"><a id="a1f7355f3ec74be0c3cacedc9fea8a7fe"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Add</b> (const std::string &amp;value)=0</td></tr>
-<tr class="separator:a1f7355f3ec74be0c3cacedc9fea8a7fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09b27857067cd80ac4252203cc9e5f6b"><td class="memItemLeft" align="right" valign="top"><a id="a09b27857067cd80ac4252203cc9e5f6b"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Add</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)=0</td></tr>
-<tr class="separator:a09b27857067cd80ac4252203cc9e5f6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3a16682f1d24945727315a67d0d1df6"><td class="memItemLeft" align="right" valign="top"><a id="aa3a16682f1d24945727315a67d0d1df6"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Set</b> (const int index, const NFINT64 value)=0</td></tr>
-<tr class="separator:aa3a16682f1d24945727315a67d0d1df6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27082cdb3d8d1a8a73e2f9288a5a0ddd"><td class="memItemLeft" align="right" valign="top"><a id="a27082cdb3d8d1a8a73e2f9288a5a0ddd"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Set</b> (const int index, const double value)=0</td></tr>
-<tr class="separator:a27082cdb3d8d1a8a73e2f9288a5a0ddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7902ecf145ba24df5e3eb75a473165f7"><td class="memItemLeft" align="right" valign="top"><a id="a7902ecf145ba24df5e3eb75a473165f7"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Set</b> (const int index, const std::string &amp;value)=0</td></tr>
-<tr class="separator:a7902ecf145ba24df5e3eb75a473165f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05267f61fcbb33f78da122f619a99ea6"><td class="memItemLeft" align="right" valign="top"><a id="a05267f61fcbb33f78da122f619a99ea6"></a>
-virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>Set</b> (const int index, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)=0</td></tr>
-<tr class="separator:a05267f61fcbb33f78da122f619a99ea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc6101e8adf6e14829f03953737a8b37"><td class="memItemLeft" align="right" valign="top"><a id="afc6101e8adf6e14829f03953737a8b37"></a>
-virtual NFINT64&#160;</td><td class="memItemRight" valign="bottom"><b>Int</b> (const int index) const =0</td></tr>
-<tr class="separator:afc6101e8adf6e14829f03953737a8b37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6f08b58e9d020351665b84997502930d"><td class="memItemLeft" align="right" valign="top"><a id="a6f08b58e9d020351665b84997502930d"></a>
-virtual double&#160;</td><td class="memItemRight" valign="bottom"><b>Float</b> (const int index) const =0</td></tr>
-<tr class="separator:a6f08b58e9d020351665b84997502930d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad12d9a108ed21cbcc0bbc978434794c5"><td class="memItemLeft" align="right" valign="top"><a id="ad12d9a108ed21cbcc0bbc978434794c5"></a>
-virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>String</b> (const int index) const =0</td></tr>
-<tr class="separator:ad12d9a108ed21cbcc0bbc978434794c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65a500936ed596554603bcc09420c277"><td class="memItemLeft" align="right" valign="top"><a id="a65a500936ed596554603bcc09420c277"></a>
-virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>Object</b> (const int index) const =0</td></tr>
-<tr class="separator:a65a500936ed596554603bcc09420c277"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab48085b9012be6217257ce9298cb5e82"><td class="memItemLeft" align="right" valign="top"><a id="ab48085b9012be6217257ce9298cb5e82"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddInt</b> (const NFINT64 value)</td></tr>
+<tr class="memitem:a0b748bd12f53b8b35bab010ac35bd7e9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a0b748bd12f53b8b35bab010ac35bd7e9">NFIDataList</a> ()</td></tr>
+<tr class="memdesc:a0b748bd12f53b8b35bab010ac35bd7e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a0b748bd12f53b8b35bab010ac35bd7e9">More...</a><br /></td></tr>
+<tr class="separator:a0b748bd12f53b8b35bab010ac35bd7e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e621ee7819b869f105854db7934609b"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a0e621ee7819b869f105854db7934609b">~NFIDataList</a> ()=0</td></tr>
+<tr class="memdesc:a0e621ee7819b869f105854db7934609b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#a0e621ee7819b869f105854db7934609b">More...</a><br /></td></tr>
+<tr class="separator:a0e621ee7819b869f105854db7934609b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9fb1b53af796a347bbc4d7c59292c1a"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#aa9fb1b53af796a347bbc4d7c59292c1a">StringValEx</a> (const int index) const =0</td></tr>
+<tr class="memdesc:aa9fb1b53af796a347bbc4d7c59292c1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">String value ex.  <a href="#aa9fb1b53af796a347bbc4d7c59292c1a">More...</a><br /></td></tr>
+<tr class="separator:aa9fb1b53af796a347bbc4d7c59292c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8b97ca5e97648e81fda16a4eb52de8e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ab8b97ca5e97648e81fda16a4eb52de8e">ToString</a> (std::string &amp;str, const std::string &amp;strSplit) const =0</td></tr>
+<tr class="memdesc:ab8b97ca5e97648e81fda16a4eb52de8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert this object into a string representation.  <a href="#ab8b97ca5e97648e81fda16a4eb52de8e">More...</a><br /></td></tr>
+<tr class="separator:ab8b97ca5e97648e81fda16a4eb52de8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36eedd921ada84407856e62f69e8f08a"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a36eedd921ada84407856e62f69e8f08a">GetStack</a> (const int index) const =0</td></tr>
+<tr class="memdesc:a36eedd921ada84407856e62f69e8f08a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a stack.  <a href="#a36eedd921ada84407856e62f69e8f08a">More...</a><br /></td></tr>
+<tr class="separator:a36eedd921ada84407856e62f69e8f08a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57d45723d9d2d1a51d1d810206de18c5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a57d45723d9d2d1a51d1d810206de18c5">Concat</a> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src)=0</td></tr>
+<tr class="memdesc:a57d45723d9d2d1a51d1d810206de18c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">合并.  <a href="#a57d45723d9d2d1a51d1d810206de18c5">More...</a><br /></td></tr>
+<tr class="separator:a57d45723d9d2d1a51d1d810206de18c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66c38c9c158b0ba2c3fd15a9f9489b18"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a66c38c9c158b0ba2c3fd15a9f9489b18">Append</a> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src)=0</td></tr>
+<tr class="memdesc:a66c38c9c158b0ba2c3fd15a9f9489b18"><td class="mdescLeft">&#160;</td><td class="mdescRight">部分添加.  <a href="#a66c38c9c158b0ba2c3fd15a9f9489b18">More...</a><br /></td></tr>
+<tr class="separator:a66c38c9c158b0ba2c3fd15a9f9489b18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a676770471a9c50423eefe20552a6c9f5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a676770471a9c50423eefe20552a6c9f5">Append</a> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src, const int start, const int count)=0</td></tr>
+<tr class="memdesc:a676770471a9c50423eefe20552a6c9f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a src.  <a href="#a676770471a9c50423eefe20552a6c9f5">More...</a><br /></td></tr>
+<tr class="separator:a676770471a9c50423eefe20552a6c9f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b12bb48b949ead3109ce843497690bc"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a3b12bb48b949ead3109ce843497690bc">Append</a> (const <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &amp;sTData)=0</td></tr>
+<tr class="memdesc:a3b12bb48b949ead3109ce843497690bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">部分添加.  <a href="#a3b12bb48b949ead3109ce843497690bc">More...</a><br /></td></tr>
+<tr class="separator:a3b12bb48b949ead3109ce843497690bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb38ba5eb61061fa7e543c46b809021d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#adb38ba5eb61061fa7e543c46b809021d">Clear</a> ()=0</td></tr>
+<tr class="memdesc:adb38ba5eb61061fa7e543c46b809021d"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空.  <a href="#adb38ba5eb61061fa7e543c46b809021d">More...</a><br /></td></tr>
+<tr class="separator:adb38ba5eb61061fa7e543c46b809021d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c82ea8a887bc5ed405844998c9da51f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a5c82ea8a887bc5ed405844998c9da51f">IsEmpty</a> () const =0</td></tr>
+<tr class="memdesc:a5c82ea8a887bc5ed405844998c9da51f"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否为空.  <a href="#a5c82ea8a887bc5ed405844998c9da51f">More...</a><br /></td></tr>
+<tr class="separator:a5c82ea8a887bc5ed405844998c9da51f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4ba64603ce1839d1dc3f3323aa226a9"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ab4ba64603ce1839d1dc3f3323aa226a9">GetCount</a> () const =0</td></tr>
+<tr class="memdesc:ab4ba64603ce1839d1dc3f3323aa226a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据数量.  <a href="#ab4ba64603ce1839d1dc3f3323aa226a9">More...</a><br /></td></tr>
+<tr class="separator:ab4ba64603ce1839d1dc3f3323aa226a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65b78fe44fd4a017abdc95223ec42322"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4">TDATA_TYPE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a65b78fe44fd4a017abdc95223ec42322">Type</a> (const int index) const =0</td></tr>
+<tr class="memdesc:a65b78fe44fd4a017abdc95223ec42322"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据类型.  <a href="#a65b78fe44fd4a017abdc95223ec42322">More...</a><br /></td></tr>
+<tr class="separator:a65b78fe44fd4a017abdc95223ec42322"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a673c245bfc6d39a6ae28d3b11b491920"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a673c245bfc6d39a6ae28d3b11b491920">TypeEx</a> (const int nType,...) const =0</td></tr>
+<tr class="memdesc:a673c245bfc6d39a6ae28d3b11b491920"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据类型检测.  <a href="#a673c245bfc6d39a6ae28d3b11b491920">More...</a><br /></td></tr>
+<tr class="separator:a673c245bfc6d39a6ae28d3b11b491920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a623ff6a15496f95cfec5c47ec3139531"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a623ff6a15496f95cfec5c47ec3139531">Split</a> (const std::string &amp;str, const std::string &amp;strSplit)=0</td></tr>
+<tr class="memdesc:a623ff6a15496f95cfec5c47ec3139531"><td class="mdescLeft">&#160;</td><td class="mdescRight">新进入拆分.  <a href="#a623ff6a15496f95cfec5c47ec3139531">More...</a><br /></td></tr>
+<tr class="separator:a623ff6a15496f95cfec5c47ec3139531"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fbcf7294007cabf1f8f38b59d1fe3c5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a8fbcf7294007cabf1f8f38b59d1fe3c5">Add</a> (const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value)=0</td></tr>
+<tr class="memdesc:a8fbcf7294007cabf1f8f38b59d1fe3c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加数据.  <a href="#a8fbcf7294007cabf1f8f38b59d1fe3c5">More...</a><br /></td></tr>
+<tr class="separator:a8fbcf7294007cabf1f8f38b59d1fe3c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a898e1cfa0e38cceb16891269faad15e0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a898e1cfa0e38cceb16891269faad15e0">Add</a> (const double value)=0</td></tr>
+<tr class="memdesc:a898e1cfa0e38cceb16891269faad15e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds value.  <a href="#a898e1cfa0e38cceb16891269faad15e0">More...</a><br /></td></tr>
+<tr class="separator:a898e1cfa0e38cceb16891269faad15e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac74312ae64bc4a75ba546bbd588cb126"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ac74312ae64bc4a75ba546bbd588cb126">Add</a> (const std::string &amp;value)=0</td></tr>
+<tr class="memdesc:ac74312ae64bc4a75ba546bbd588cb126"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds value.  <a href="#ac74312ae64bc4a75ba546bbd588cb126">More...</a><br /></td></tr>
+<tr class="separator:ac74312ae64bc4a75ba546bbd588cb126"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fba2247ff5fe753259fe628455282f3"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a4fba2247ff5fe753259fe628455282f3">Add</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a4fba2247ff5fe753259fe628455282f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds value.  <a href="#a4fba2247ff5fe753259fe628455282f3">More...</a><br /></td></tr>
+<tr class="separator:a4fba2247ff5fe753259fe628455282f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad75dc94c78aee9965742665614a3e6af"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ad75dc94c78aee9965742665614a3e6af">Add</a> (const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)=0</td></tr>
+<tr class="memdesc:ad75dc94c78aee9965742665614a3e6af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds value.  <a href="#ad75dc94c78aee9965742665614a3e6af">More...</a><br /></td></tr>
+<tr class="separator:ad75dc94c78aee9965742665614a3e6af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ec9c791d4cd747bfe9f80094c6fa2e6"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a2ec9c791d4cd747bfe9f80094c6fa2e6">Set</a> (const int index, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value)=0</td></tr>
+<tr class="memdesc:a2ec9c791d4cd747bfe9f80094c6fa2e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets.  <a href="#a2ec9c791d4cd747bfe9f80094c6fa2e6">More...</a><br /></td></tr>
+<tr class="separator:a2ec9c791d4cd747bfe9f80094c6fa2e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a130182db92e29856119baf490fc6bfca"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a130182db92e29856119baf490fc6bfca">Set</a> (const int index, const double value)=0</td></tr>
+<tr class="memdesc:a130182db92e29856119baf490fc6bfca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets.  <a href="#a130182db92e29856119baf490fc6bfca">More...</a><br /></td></tr>
+<tr class="separator:a130182db92e29856119baf490fc6bfca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57df2eb7ddd6c476e76f3539bd3442be"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a57df2eb7ddd6c476e76f3539bd3442be">Set</a> (const int index, const std::string &amp;value)=0</td></tr>
+<tr class="memdesc:a57df2eb7ddd6c476e76f3539bd3442be"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets.  <a href="#a57df2eb7ddd6c476e76f3539bd3442be">More...</a><br /></td></tr>
+<tr class="separator:a57df2eb7ddd6c476e76f3539bd3442be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a566d8a7d0d3d3d0f39199a3b486794"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a6a566d8a7d0d3d3d0f39199a3b486794">Set</a> (const int index, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a6a566d8a7d0d3d3d0f39199a3b486794"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets.  <a href="#a6a566d8a7d0d3d3d0f39199a3b486794">More...</a><br /></td></tr>
+<tr class="separator:a6a566d8a7d0d3d3d0f39199a3b486794"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26c7a56136051fddc365d6e7f91b9c6d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a26c7a56136051fddc365d6e7f91b9c6d">Set</a> (const int index, const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a26c7a56136051fddc365d6e7f91b9c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets.  <a href="#a26c7a56136051fddc365d6e7f91b9c6d">More...</a><br /></td></tr>
+<tr class="separator:a26c7a56136051fddc365d6e7f91b9c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afec44d610267cbcd345b146a034be01b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#afec44d610267cbcd345b146a034be01b">Int</a> (const int index) const =0</td></tr>
+<tr class="memdesc:afec44d610267cbcd345b146a034be01b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获得数据.  <a href="#afec44d610267cbcd345b146a034be01b">More...</a><br /></td></tr>
+<tr class="separator:afec44d610267cbcd345b146a034be01b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21e8a5f1719e6bda9acf3d980d189073"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a21e8a5f1719e6bda9acf3d980d189073">Double</a> (const int index) const =0</td></tr>
+<tr class="memdesc:a21e8a5f1719e6bda9acf3d980d189073"><td class="mdescLeft">&#160;</td><td class="mdescRight">Doubles the given index.  <a href="#a21e8a5f1719e6bda9acf3d980d189073">More...</a><br /></td></tr>
+<tr class="separator:a21e8a5f1719e6bda9acf3d980d189073"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90f2cd69454e57b744f24a031e822705"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a90f2cd69454e57b744f24a031e822705">String</a> (const int index) const =0</td></tr>
+<tr class="memdesc:a90f2cd69454e57b744f24a031e822705"><td class="mdescLeft">&#160;</td><td class="mdescRight">Strings the given index.  <a href="#a90f2cd69454e57b744f24a031e822705">More...</a><br /></td></tr>
+<tr class="separator:a90f2cd69454e57b744f24a031e822705"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9730013e91b098a282a6e884436dda0c"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a9730013e91b098a282a6e884436dda0c">Object</a> (const int index) const =0</td></tr>
+<tr class="memdesc:a9730013e91b098a282a6e884436dda0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Objects the given index.  <a href="#a9730013e91b098a282a6e884436dda0c">More...</a><br /></td></tr>
+<tr class="separator:a9730013e91b098a282a6e884436dda0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad59f11e067928b95ceaf08084f7b1a30"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ad59f11e067928b95ceaf08084f7b1a30">Point</a> (const int index) const =0</td></tr>
+<tr class="memdesc:ad59f11e067928b95ceaf08084f7b1a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Points the given index.  <a href="#ad59f11e067928b95ceaf08084f7b1a30">More...</a><br /></td></tr>
+<tr class="separator:ad59f11e067928b95ceaf08084f7b1a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab48085b9012be6217257ce9298cb5e82"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ab48085b9012be6217257ce9298cb5e82">AddInt</a> (const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value)</td></tr>
+<tr class="memdesc:ab48085b9012be6217257ce9298cb5e82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an int.  <a href="#ab48085b9012be6217257ce9298cb5e82">More...</a><br /></td></tr>
 <tr class="separator:ab48085b9012be6217257ce9298cb5e82"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a647b1b368eafd7868ff2e49b820291d2"><td class="memItemLeft" align="right" valign="top"><a id="a647b1b368eafd7868ff2e49b820291d2"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddFloat</b> (const double value)</td></tr>
-<tr class="separator:a647b1b368eafd7868ff2e49b820291d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd3b27f92b25c5ceadec5e339182ecbb"><td class="memItemLeft" align="right" valign="top"><a id="abd3b27f92b25c5ceadec5e339182ecbb"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddString</b> (const std::string &amp;value)</td></tr>
+<tr class="memitem:a83f7d40a7dab5b31740dfc3a98657b41"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a83f7d40a7dab5b31740dfc3a98657b41">AddDouble</a> (const double value)</td></tr>
+<tr class="memdesc:a83f7d40a7dab5b31740dfc3a98657b41"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a double.  <a href="#a83f7d40a7dab5b31740dfc3a98657b41">More...</a><br /></td></tr>
+<tr class="separator:a83f7d40a7dab5b31740dfc3a98657b41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd3b27f92b25c5ceadec5e339182ecbb"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#abd3b27f92b25c5ceadec5e339182ecbb">AddString</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:abd3b27f92b25c5ceadec5e339182ecbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a string.  <a href="#abd3b27f92b25c5ceadec5e339182ecbb">More...</a><br /></td></tr>
 <tr class="separator:abd3b27f92b25c5ceadec5e339182ecbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65a97e5d8beeaa8d86bd12207a168ead"><td class="memItemLeft" align="right" valign="top"><a id="a65a97e5d8beeaa8d86bd12207a168ead"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddStringFromChar</b> (const char *value)</td></tr>
+<tr class="memitem:a65a97e5d8beeaa8d86bd12207a168ead"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a65a97e5d8beeaa8d86bd12207a168ead">AddStringFromChar</a> (const char *value)</td></tr>
+<tr class="memdesc:a65a97e5d8beeaa8d86bd12207a168ead"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a string from character.  <a href="#a65a97e5d8beeaa8d86bd12207a168ead">More...</a><br /></td></tr>
 <tr class="separator:a65a97e5d8beeaa8d86bd12207a168ead"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a140c71c0c65b41730fc334245405ec2f"><td class="memItemLeft" align="right" valign="top"><a id="a140c71c0c65b41730fc334245405ec2f"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>AddObject</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)</td></tr>
+<tr class="memitem:a140c71c0c65b41730fc334245405ec2f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a140c71c0c65b41730fc334245405ec2f">AddObject</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)</td></tr>
+<tr class="memdesc:a140c71c0c65b41730fc334245405ec2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an object.  <a href="#a140c71c0c65b41730fc334245405ec2f">More...</a><br /></td></tr>
 <tr class="separator:a140c71c0c65b41730fc334245405ec2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2984ead387dba84bb9da6642986608ea"><td class="memItemLeft" align="right" valign="top"><a id="a2984ead387dba84bb9da6642986608ea"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetInt</b> (const int index, const NFINT64 value)</td></tr>
+<tr class="memitem:a747b06e22ab1dd57aae1bf33e77ec8e9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a747b06e22ab1dd57aae1bf33e77ec8e9">AddPoint</a> (const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)</td></tr>
+<tr class="memdesc:a747b06e22ab1dd57aae1bf33e77ec8e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a point.  <a href="#a747b06e22ab1dd57aae1bf33e77ec8e9">More...</a><br /></td></tr>
+<tr class="separator:a747b06e22ab1dd57aae1bf33e77ec8e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2984ead387dba84bb9da6642986608ea"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a2984ead387dba84bb9da6642986608ea">SetInt</a> (const int index, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value)</td></tr>
+<tr class="memdesc:a2984ead387dba84bb9da6642986608ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an int.  <a href="#a2984ead387dba84bb9da6642986608ea">More...</a><br /></td></tr>
 <tr class="separator:a2984ead387dba84bb9da6642986608ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada63abd4cf9fe546add2f5e08abc05ec"><td class="memItemLeft" align="right" valign="top"><a id="ada63abd4cf9fe546add2f5e08abc05ec"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetFloat</b> (const int index, const double value)</td></tr>
+<tr class="memitem:ada63abd4cf9fe546add2f5e08abc05ec"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ada63abd4cf9fe546add2f5e08abc05ec">SetFloat</a> (const int index, const double value)</td></tr>
+<tr class="memdesc:ada63abd4cf9fe546add2f5e08abc05ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a float.  <a href="#ada63abd4cf9fe546add2f5e08abc05ec">More...</a><br /></td></tr>
 <tr class="separator:ada63abd4cf9fe546add2f5e08abc05ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c9ca693ca597fe521694b9e58eea1f1"><td class="memItemLeft" align="right" valign="top"><a id="a6c9ca693ca597fe521694b9e58eea1f1"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetString</b> (const int index, const std::string &amp;value)</td></tr>
+<tr class="memitem:a6c9ca693ca597fe521694b9e58eea1f1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a6c9ca693ca597fe521694b9e58eea1f1">SetString</a> (const int index, const std::string &amp;value)</td></tr>
+<tr class="memdesc:a6c9ca693ca597fe521694b9e58eea1f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a string.  <a href="#a6c9ca693ca597fe521694b9e58eea1f1">More...</a><br /></td></tr>
 <tr class="separator:a6c9ca693ca597fe521694b9e58eea1f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39836a4e2f7aea338cdaa8d5473b3df8"><td class="memItemLeft" align="right" valign="top"><a id="a39836a4e2f7aea338cdaa8d5473b3df8"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>SetObject</b> (const int index, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)</td></tr>
+<tr class="memitem:a39836a4e2f7aea338cdaa8d5473b3df8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a39836a4e2f7aea338cdaa8d5473b3df8">SetObject</a> (const int index, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)</td></tr>
+<tr class="memdesc:a39836a4e2f7aea338cdaa8d5473b3df8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an object.  <a href="#a39836a4e2f7aea338cdaa8d5473b3df8">More...</a><br /></td></tr>
 <tr class="separator:a39836a4e2f7aea338cdaa8d5473b3df8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99104779dbf241a2895085ee7993b8e6"><td class="memItemLeft" align="right" valign="top"><a id="a99104779dbf241a2895085ee7993b8e6"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>Compare</b> (const int nPos, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src) const</td></tr>
+<tr class="memitem:a6c461cab2aab1ef2c415e9dd7e0cfb03"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a6c461cab2aab1ef2c415e9dd7e0cfb03">SetPoint</a> (const int index, const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)</td></tr>
+<tr class="memdesc:a6c461cab2aab1ef2c415e9dd7e0cfb03"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a point.  <a href="#a6c461cab2aab1ef2c415e9dd7e0cfb03">More...</a><br /></td></tr>
+<tr class="separator:a6c461cab2aab1ef2c415e9dd7e0cfb03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99104779dbf241a2895085ee7993b8e6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a99104779dbf241a2895085ee7993b8e6">Compare</a> (const int nPos, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src) const</td></tr>
+<tr class="memdesc:a99104779dbf241a2895085ee7993b8e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compares two const int objects to determine their relative ordering.  <a href="#a99104779dbf241a2895085ee7993b8e6">More...</a><br /></td></tr>
 <tr class="separator:a99104779dbf241a2895085ee7993b8e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6fd77044e285053b43572ed52dad71e"><td class="memItemLeft" align="right" valign="top"><a id="ac6fd77044e285053b43572ed52dad71e"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src) const</td></tr>
+<tr class="memitem:ac6fd77044e285053b43572ed52dad71e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ac6fd77044e285053b43572ed52dad71e">operator==</a> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src) const</td></tr>
+<tr class="memdesc:ac6fd77044e285053b43572ed52dad71e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equality operator.  <a href="#ac6fd77044e285053b43572ed52dad71e">More...</a><br /></td></tr>
 <tr class="separator:ac6fd77044e285053b43572ed52dad71e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39f9d0870578992c9510ce6f3e0437d6"><td class="memItemLeft" align="right" valign="top"><a id="a39f9d0870578992c9510ce6f3e0437d6"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src)</td></tr>
+<tr class="memitem:a39f9d0870578992c9510ce6f3e0437d6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a39f9d0870578992c9510ce6f3e0437d6">operator!=</a> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src)</td></tr>
+<tr class="memdesc:a39f9d0870578992c9510ce6f3e0437d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inequality operator.  <a href="#a39f9d0870578992c9510ce6f3e0437d6">More...</a><br /></td></tr>
 <tr class="separator:a39f9d0870578992c9510ce6f3e0437d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b59c4756b3975cf6daa14717906adf5"><td class="memItemLeft" align="right" valign="top"><a id="a1b59c4756b3975cf6daa14717906adf5"></a>
-<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const double value)</td></tr>
-<tr class="separator:a1b59c4756b3975cf6daa14717906adf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c4267bd17016674f09876235267a198"><td class="memItemLeft" align="right" valign="top"><a id="a6c4267bd17016674f09876235267a198"></a>
-<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const char *value)</td></tr>
-<tr class="separator:a6c4267bd17016674f09876235267a198"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a145c0298d1300e55b8d0a543c6e2913e"><td class="memItemLeft" align="right" valign="top"><a id="a145c0298d1300e55b8d0a543c6e2913e"></a>
-<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const std::string &amp;value)</td></tr>
-<tr class="separator:a145c0298d1300e55b8d0a543c6e2913e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a636e5dd50023efff1bfdb6ca0421cc16"><td class="memItemLeft" align="right" valign="top"><a id="a636e5dd50023efff1bfdb6ca0421cc16"></a>
-<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const NFINT64 &amp;value)</td></tr>
-<tr class="separator:a636e5dd50023efff1bfdb6ca0421cc16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39a5854a8532de57c1a215ceb3ff5ccf"><td class="memItemLeft" align="right" valign="top"><a id="a39a5854a8532de57c1a215ceb3ff5ccf"></a>
-<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const int value)</td></tr>
-<tr class="separator:a39a5854a8532de57c1a215ceb3ff5ccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad229f7348419105590e7e6fa336cfe17"><td class="memItemLeft" align="right" valign="top"><a id="ad229f7348419105590e7e6fa336cfe17"></a>
-<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)</td></tr>
-<tr class="separator:ad229f7348419105590e7e6fa336cfe17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a877ff12eb82661eff44194f478286838"><td class="memItemLeft" align="right" valign="top"><a id="a877ff12eb82661eff44194f478286838"></a>
-<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;value)</td></tr>
-<tr class="separator:a877ff12eb82661eff44194f478286838"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afbd7cbd06adaf6fb5745360130b08803"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#afbd7cbd06adaf6fb5745360130b08803">operator&lt;&lt;</a> (const double value)</td></tr>
+<tr class="memdesc:afbd7cbd06adaf6fb5745360130b08803"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise left shift operator.  <a href="#afbd7cbd06adaf6fb5745360130b08803">More...</a><br /></td></tr>
+<tr class="separator:afbd7cbd06adaf6fb5745360130b08803"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae34ed95a93585d2e2066d42e9168a14b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ae34ed95a93585d2e2066d42e9168a14b">operator&lt;&lt;</a> (const char *value)</td></tr>
+<tr class="memdesc:ae34ed95a93585d2e2066d42e9168a14b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise left shift operator.  <a href="#ae34ed95a93585d2e2066d42e9168a14b">More...</a><br /></td></tr>
+<tr class="separator:ae34ed95a93585d2e2066d42e9168a14b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad93b9b52b503927f52110b9815f912c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ad93b9b52b503927f52110b9815f912c5">operator&lt;&lt;</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:ad93b9b52b503927f52110b9815f912c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise left shift operator.  <a href="#ad93b9b52b503927f52110b9815f912c5">More...</a><br /></td></tr>
+<tr class="separator:ad93b9b52b503927f52110b9815f912c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa34f20a6a2eb891012ef4c3f78d1c40c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#aa34f20a6a2eb891012ef4c3f78d1c40c">operator&lt;&lt;</a> (const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> &amp;value)</td></tr>
+<tr class="memdesc:aa34f20a6a2eb891012ef4c3f78d1c40c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise left shift operator.  <a href="#aa34f20a6a2eb891012ef4c3f78d1c40c">More...</a><br /></td></tr>
+<tr class="separator:aa34f20a6a2eb891012ef4c3f78d1c40c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afae43d69b549ba16cf27af1b94e248ab"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#afae43d69b549ba16cf27af1b94e248ab">operator&lt;&lt;</a> (const int value)</td></tr>
+<tr class="memdesc:afae43d69b549ba16cf27af1b94e248ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise left shift operator.  <a href="#afae43d69b549ba16cf27af1b94e248ab">More...</a><br /></td></tr>
+<tr class="separator:afae43d69b549ba16cf27af1b94e248ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f69d91ee2e5a9f5bf4c3b3c9e37a072"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a7f69d91ee2e5a9f5bf4c3b3c9e37a072">operator&lt;&lt;</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)</td></tr>
+<tr class="memdesc:a7f69d91ee2e5a9f5bf4c3b3c9e37a072"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise left shift operator.  <a href="#a7f69d91ee2e5a9f5bf4c3b3c9e37a072">More...</a><br /></td></tr>
+<tr class="separator:a7f69d91ee2e5a9f5bf4c3b3c9e37a072"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f1dc59856456098a9e6a87e0cecb55f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a2f1dc59856456098a9e6a87e0cecb55f">operator&lt;&lt;</a> (const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)</td></tr>
+<tr class="memdesc:a2f1dc59856456098a9e6a87e0cecb55f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise left shift operator.  <a href="#a2f1dc59856456098a9e6a87e0cecb55f">More...</a><br /></td></tr>
+<tr class="separator:a2f1dc59856456098a9e6a87e0cecb55f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1630e60d313dbddde1a857efed3b9551"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a1630e60d313dbddde1a857efed3b9551">operator&lt;&lt;</a> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;value)</td></tr>
+<tr class="memdesc:a1630e60d313dbddde1a857efed3b9551"><td class="mdescLeft">&#160;</td><td class="mdescRight">Bitwise left shift operator.  <a href="#a1630e60d313dbddde1a857efed3b9551">More...</a><br /></td></tr>
+<tr class="separator:a1630e60d313dbddde1a857efed3b9551"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a8fa8b88365a801ffd70f9a48d0e63cac"><td class="memItemLeft" align="right" valign="top"><a id="a8fa8b88365a801ffd70f9a48d0e63cac"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>mnUseSize</b></td></tr>
+<tr class="memitem:a8fa8b88365a801ffd70f9a48d0e63cac"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a8fa8b88365a801ffd70f9a48d0e63cac">mnUseSize</a></td></tr>
+<tr class="memdesc:a8fa8b88365a801ffd70f9a48d0e63cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Size of the mn use.  <a href="#a8fa8b88365a801ffd70f9a48d0e63cac">More...</a><br /></td></tr>
 <tr class="separator:a8fa8b88365a801ffd70f9a48d0e63cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b8fc41a639c5257f7477f231c3cbd20"><td class="memItemLeft" align="right" valign="top"><a id="a8b8fc41a639c5257f7477f231c3cbd20"></a>
-std::vector&lt; NF_SHARE_PTR&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mvList</b></td></tr>
+<tr class="memitem:a8b8fc41a639c5257f7477f231c3cbd20"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a8b8fc41a639c5257f7477f231c3cbd20">mvList</a></td></tr>
+<tr class="memdesc:a8b8fc41a639c5257f7477f231c3cbd20"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of mvs.  <a href="#a8b8fc41a639c5257f7477f231c3cbd20">More...</a><br /></td></tr>
 <tr class="separator:a8b8fc41a639c5257f7477f231c3cbd20"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24e434bdbb92e0e3dfb0d73251c9d804"><td class="memItemLeft" align="right" valign="top"><a id="a24e434bdbb92e0e3dfb0d73251c9d804"></a>
-std::map&lt; std::string, NF_SHARE_PTR&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>mxMap</b></td></tr>
+<tr class="memitem:a24e434bdbb92e0e3dfb0d73251c9d804"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a24e434bdbb92e0e3dfb0d73251c9d804">mxMap</a></td></tr>
+<tr class="memdesc:a24e434bdbb92e0e3dfb0d73251c9d804"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mx map.  <a href="#a24e434bdbb92e0e3dfb0d73251c9d804">More...</a><br /></td></tr>
 <tr class="separator:a24e434bdbb92e0e3dfb0d73251c9d804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>////////////////////////////////////////////////////////////////////////类型接口. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12 </dd></dl>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a05771a30657763eac90eeeed16aeeda0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05771a30657763eac90eeeed16aeeda0">&sect;&nbsp;</a></span>anonymous enum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">anonymous enum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a05771a30657763eac90eeeed16aeeda0a072e24fd6a1648ed9627bc772a98d7ae"></a>STACK_SIZE&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a0b748bd12f53b8b35bab010ac35bd7e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b748bd12f53b8b35bab010ac35bd7e9">&sect;&nbsp;</a></span>NFIDataList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFIDataList::NFIDataList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default constructor. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12 </dd></dl>
+
+</div>
+</div>
+<a id="a0e621ee7819b869f105854db7934609b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e621ee7819b869f105854db7934609b">&sect;&nbsp;</a></span>~NFIDataList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFIDataList::~NFIDataList </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Destructor. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12 </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a8fbcf7294007cabf1f8f38b59d1fe3c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fbcf7294007cabf1f8f38b59d1fe3c5">&sect;&nbsp;</a></span>Add() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Add </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加数据. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to add.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#aab1527cde47ed98fac90e18f69922a14">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a898e1cfa0e38cceb16891269faad15e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a898e1cfa0e38cceb16891269faad15e0">&sect;&nbsp;</a></span>Add() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Add </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds value. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to add.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a6e6fdbedbfb0f1d78cd0fc0c1a65453e">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="ac74312ae64bc4a75ba546bbd588cb126"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac74312ae64bc4a75ba546bbd588cb126">&sect;&nbsp;</a></span>Add() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Add </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds value. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to add.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a975cd7c3b7a4449294fcb9c509274c44">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a4fba2247ff5fe753259fe628455282f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4fba2247ff5fe753259fe628455282f3">&sect;&nbsp;</a></span>Add() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Add </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds value. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to add.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#ae60e9c2a5efe78cca08a46e17b04691b">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="ad75dc94c78aee9965742665614a3e6af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad75dc94c78aee9965742665614a3e6af">&sect;&nbsp;</a></span>Add() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Add </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds value. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value to add.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a12d5d20a13f1f58725ccb559359265a5">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a83f7d40a7dab5b31740dfc3a98657b41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83f7d40a7dab5b31740dfc3a98657b41">&sect;&nbsp;</a></span>AddDouble()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::AddDouble </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds a double. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="ab48085b9012be6217257ce9298cb5e82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab48085b9012be6217257ce9298cb5e82">&sect;&nbsp;</a></span>AddInt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::AddInt </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds an int. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="a140c71c0c65b41730fc334245405ec2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a140c71c0c65b41730fc334245405ec2f">&sect;&nbsp;</a></span>AddObject()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::AddObject </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds an object. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="a747b06e22ab1dd57aae1bf33e77ec8e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a747b06e22ab1dd57aae1bf33e77ec8e9">&sect;&nbsp;</a></span>AddPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::AddPoint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds a point. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="abd3b27f92b25c5ceadec5e339182ecbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd3b27f92b25c5ceadec5e339182ecbb">&sect;&nbsp;</a></span>AddString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::AddString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds a string. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="a65a97e5d8beeaa8d86bd12207a168ead"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65a97e5d8beeaa8d86bd12207a168ead">&sect;&nbsp;</a></span>AddStringFromChar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::AddStringFromChar </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds a string from character. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="a66c38c9c158b0ba2c3fd15a9f9489b18"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66c38c9c158b0ba2c3fd15a9f9489b18">&sect;&nbsp;</a></span>Append() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Append </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td>
+          <td class="paramname"><em>src</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>部分添加. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>The Source to append.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#aa40f50a393bcbb2ade43f864aa093aed">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a676770471a9c50423eefe20552a6c9f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a676770471a9c50423eefe20552a6c9f5">&sect;&nbsp;</a></span>Append() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Append </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>start</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Appends a src. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>Source for the. </td></tr>
+    <tr><td class="paramname">start</td><td>The start. </td></tr>
+    <tr><td class="paramname">count</td><td>Number of.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a2fc5ae952392f0c5cbe68bb896c8b5d5">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a3b12bb48b949ead3109ce843497690bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b12bb48b949ead3109ce843497690bc">&sect;&nbsp;</a></span>Append() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Append </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &amp;&#160;</td>
+          <td class="paramname"><em>sTData</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>部分添加. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sTData</td><td>The t data to append.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a5f1c126af73b974e63af0ea06799b626">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="adb38ba5eb61061fa7e543c46b809021d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb38ba5eb61061fa7e543c46b809021d">&sect;&nbsp;</a></span>Clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFIDataList::Clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>清空. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12 </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a8140e0cd5e8403673023f29d8aa9ac45">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a99104779dbf241a2895085ee7993b8e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99104779dbf241a2895085ee7993b8e6">&sect;&nbsp;</a></span>Compare()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Compare </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nPos</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td>
+          <td class="paramname"><em>src</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Compares two const int objects to determine their relative ordering. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nPos</td><td>Constant int to be compared. </td></tr>
+    <tr><td class="paramname">src</td><td>Constant nfi data list&amp; to be compared.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="a57d45723d9d2d1a51d1d810206de18c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57d45723d9d2d1a51d1d810206de18c5">&sect;&nbsp;</a></span>Concat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Concat </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td>
+          <td class="paramname"><em>src</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>合并. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>Source for the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a4dd988102d7f9640b6834ee574597ebd">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a21e8a5f1719e6bda9acf3d980d189073"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21e8a5f1719e6bda9acf3d980d189073">&sect;&nbsp;</a></span>Double()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double NFIDataList::Double </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Doubles the given index. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A double. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a6f3f70e8932ad2b5c7675beab54589a6">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="ab4ba64603ce1839d1dc3f3323aa226a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab4ba64603ce1839d1dc3f3323aa226a9">&sect;&nbsp;</a></span>GetCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int NFIDataList::GetCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>数据数量. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The count. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a992a296e68fb578a243f8b5fef675d5c">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a36eedd921ada84407856e62f69e8f08a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36eedd921ada84407856e62f69e8f08a">&sect;&nbsp;</a></span>GetStack()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a> &gt; NFIDataList::GetStack </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Gets a stack. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The stack. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a041cb3b6337a823cde3925ca22cf1a8f">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="afec44d610267cbcd345b146a034be01b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afec44d610267cbcd345b146a034be01b">&sect;&nbsp;</a></span>Int()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> NFIDataList::Int </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获得数据. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A NFINT64. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#ab7604ce8d184941f25e777d0f79a96e7">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a5c82ea8a887bc5ed405844998c9da51f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c82ea8a887bc5ed405844998c9da51f">&sect;&nbsp;</a></span>IsEmpty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::IsEmpty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否为空. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if empty, false if not. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a69157e7fcccae39969429b8c4d6010e8">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a9730013e91b098a282a6e884436dda0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9730013e91b098a282a6e884436dda0c">&sect;&nbsp;</a></span>Object()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp; NFIDataList::Object </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Objects the given index. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to a const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#ae2c78a8cc83a6377bd0ad759defc2ee2">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a39f9d0870578992c9510ce6f3e0437d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39f9d0870578992c9510ce6f3e0437d6">&sect;&nbsp;</a></span>operator!=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::operator!= </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td>
+          <td class="paramname"><em>src</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Inequality operator. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>Source for the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the parameters are not considered equivalent. </dd></dl>
+
+</div>
+</div>
+<a id="afbd7cbd06adaf6fb5745360130b08803"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afbd7cbd06adaf6fb5745360130b08803">&sect;&nbsp;</a></span>operator<<() <span class="overload">[1/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp; NFIDataList::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise left shift operator. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The shifted result. </dd></dl>
+
+</div>
+</div>
+<a id="ae34ed95a93585d2e2066d42e9168a14b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae34ed95a93585d2e2066d42e9168a14b">&sect;&nbsp;</a></span>operator<<() <span class="overload">[2/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp; NFIDataList::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise left shift operator. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The shifted result. </dd></dl>
+
+</div>
+</div>
+<a id="ad93b9b52b503927f52110b9815f912c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad93b9b52b503927f52110b9815f912c5">&sect;&nbsp;</a></span>operator<<() <span class="overload">[3/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp; NFIDataList::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise left shift operator. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The shifted result. </dd></dl>
+
+</div>
+</div>
+<a id="aa34f20a6a2eb891012ef4c3f78d1c40c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa34f20a6a2eb891012ef4c3f78d1c40c">&sect;&nbsp;</a></span>operator<<() <span class="overload">[4/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp; NFIDataList::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise left shift operator. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The shifted result. </dd></dl>
+
+</div>
+</div>
+<a id="afae43d69b549ba16cf27af1b94e248ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afae43d69b549ba16cf27af1b94e248ab">&sect;&nbsp;</a></span>operator<<() <span class="overload">[5/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp; NFIDataList::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise left shift operator. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The shifted result. </dd></dl>
+
+</div>
+</div>
+<a id="a7f69d91ee2e5a9f5bf4c3b3c9e37a072"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f69d91ee2e5a9f5bf4c3b3c9e37a072">&sect;&nbsp;</a></span>operator<<() <span class="overload">[6/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp; NFIDataList::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise left shift operator. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The shifted result. </dd></dl>
+
+</div>
+</div>
+<a id="a2f1dc59856456098a9e6a87e0cecb55f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f1dc59856456098a9e6a87e0cecb55f">&sect;&nbsp;</a></span>operator<<() <span class="overload">[7/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp; NFIDataList::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise left shift operator. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The shifted result. </dd></dl>
+
+</div>
+</div>
+<a id="a1630e60d313dbddde1a857efed3b9551"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1630e60d313dbddde1a857efed3b9551">&sect;&nbsp;</a></span>operator<<() <span class="overload">[8/8]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp; NFIDataList::operator&lt;&lt; </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Bitwise left shift operator. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The shifted result. </dd></dl>
+
+</div>
+</div>
+<a id="ac6fd77044e285053b43572ed52dad71e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6fd77044e285053b43572ed52dad71e">&sect;&nbsp;</a></span>operator==()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::operator== </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;&#160;</td>
+          <td class="paramname"><em>src</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Equality operator. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>Source for the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if the parameters are considered equivalent. </dd></dl>
+
+</div>
+</div>
+<a id="ad59f11e067928b95ceaf08084f7b1a30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad59f11e067928b95ceaf08084f7b1a30">&sect;&nbsp;</a></span>Point()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="struct_point3_d.html">Point3D</a> &amp; NFIDataList::Point </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Points the given index. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to a const <a class="el" href="struct_point3_d.html">Point3D</a>. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a503d8e51f26e4f0c458ae1baecda7894">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a2ec9c791d4cd747bfe9f80094c6fa2e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ec9c791d4cd747bfe9f80094c6fa2e6">&sect;&nbsp;</a></span>Set() <span class="overload">[1/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Set </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#aa4108955f3027b6b222fbc68b93288af">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a130182db92e29856119baf490fc6bfca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a130182db92e29856119baf490fc6bfca">&sect;&nbsp;</a></span>Set() <span class="overload">[2/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Set </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a4e57565f5abee456d53a90026aa101f5">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a57df2eb7ddd6c476e76f3539bd3442be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57df2eb7ddd6c476e76f3539bd3442be">&sect;&nbsp;</a></span>Set() <span class="overload">[3/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Set </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#ad7983044d7d1db7eccb8d0ca4c717d3f">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a6a566d8a7d0d3d3d0f39199a3b486794"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a566d8a7d0d3d3d0f39199a3b486794">&sect;&nbsp;</a></span>Set() <span class="overload">[4/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Set </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a800c855a9e23bb215669cacf6bfaa30d">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a26c7a56136051fddc365d6e7f91b9c6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26c7a56136051fddc365d6e7f91b9c6d">&sect;&nbsp;</a></span>Set() <span class="overload">[5/5]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Set </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a17acb46f8d419b0a48a4e3e4f44eac4a">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="ada63abd4cf9fe546add2f5e08abc05ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada63abd4cf9fe546add2f5e08abc05ec">&sect;&nbsp;</a></span>SetFloat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::SetFloat </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const double&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets a float. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="a2984ead387dba84bb9da6642986608ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2984ead387dba84bb9da6642986608ea">&sect;&nbsp;</a></span>SetInt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::SetInt </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets an int. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="a39836a4e2f7aea338cdaa8d5473b3df8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39836a4e2f7aea338cdaa8d5473b3df8">&sect;&nbsp;</a></span>SetObject()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::SetObject </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets an object. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="a6c461cab2aab1ef2c415e9dd7e0cfb03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c461cab2aab1ef2c415e9dd7e0cfb03">&sect;&nbsp;</a></span>SetPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::SetPoint </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets a point. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="a6c9ca693ca597fe521694b9e58eea1f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c9ca693ca597fe521694b9e58eea1f1">&sect;&nbsp;</a></span>SetString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::SetString </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets a string. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+</div>
+</div>
+<a id="a623ff6a15496f95cfec5c47ec3139531"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a623ff6a15496f95cfec5c47ec3139531">&sect;&nbsp;</a></span>Split()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::Split </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strSplit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>新进入拆分. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>The string. </td></tr>
+    <tr><td class="paramname">strSplit</td><td>The split.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#ab3320215968e1bce8a7084c28e8ab25f">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a90f2cd69454e57b744f24a031e822705"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90f2cd69454e57b744f24a031e822705">&sect;&nbsp;</a></span>String()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; NFIDataList::String </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Strings the given index. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to a const std::string. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#af78e5630e9b6652c74669ee781b5f088">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="aa9fb1b53af796a347bbc4d7c59292c1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9fb1b53af796a347bbc4d7c59292c1a">&sect;&nbsp;</a></span>StringValEx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string NFIDataList::StringValEx </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>String value ex. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A std::string. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a4d4b78e16951cc1cc177eee1e9893b32">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="ab8b97ca5e97648e81fda16a4eb52de8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8b97ca5e97648e81fda16a4eb52de8e">&sect;&nbsp;</a></span>ToString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::ToString </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strSplit</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert this object into a string representation. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">str</td><td>The string. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">strSplit</td><td>The split.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A bool that represents this object. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#abb6476b1c4fd7310087f66bfe957e5fd">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a65b78fe44fd4a017abdc95223ec42322"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65b78fe44fd4a017abdc95223ec42322">&sect;&nbsp;</a></span>Type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4">TDATA_TYPE</a> NFIDataList::Type </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>数据类型. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>Zero-based index of the.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A TDATA_TYPE. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#afeaab1c1583a1cf1be38744dc88e7d60">NFCDataList</a>.</p>
+
+</div>
+</div>
+<a id="a673c245bfc6d39a6ae28d3b11b491920"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a673c245bfc6d39a6ae28d3b11b491920">&sect;&nbsp;</a></span>TypeEx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFIDataList::TypeEx </td>
+          <td>(</td>
+          <td class="paramtype">const int&#160;</td>
+          <td class="paramname"><em>nType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>数据类型检测. </p>
+<dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nType</td><td>The type. </td></tr>
+    <tr><td class="paramname">...</td><td>Variable arguments providing additional information.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a5e97c71640ecda776694316d647a5c24">NFCDataList</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a8fa8b88365a801ffd70f9a48d0e63cac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fa8b88365a801ffd70f9a48d0e63cac">&sect;&nbsp;</a></span>mnUseSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int NFIDataList::mnUseSize</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Size of the mn use. </p>
+
+</div>
+</div>
+<a id="a8b8fc41a639c5257f7477f231c3cbd20"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b8fc41a639c5257f7477f231c3cbd20">&sect;&nbsp;</a></span>mvList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a>&gt; &gt; NFIDataList::mvList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>List of mvs. </p>
+
+</div>
+</div>
+<a id="a24e434bdbb92e0e3dfb0d73251c9d804"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24e434bdbb92e0e3dfb0d73251c9d804">&sect;&nbsp;</a></span>mxMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::string, <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a>&gt; &gt; NFIDataList::mxMap</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The mx map. </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>E:/NF/ArkGameFrame/Frame/NFComm/NFCore/<a class="el" href="_n_f_i_data_list_8h_source.html">NFIDataList.h</a></li>
+<li><a class="el" href="_n_f_i_data_list_8h_source.html">NFIDataList.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

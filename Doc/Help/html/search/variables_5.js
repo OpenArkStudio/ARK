@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['nan3',['NAN3',['../class_g3_d_1_1_vector3.html#a777159deb0a5e52ee8bbda8d6cf2db6e',1,'G3D::Vector3']]]
+  ['listener',['listener',['../class_n_f_c_mul_net.html#a8c3b5240301277c7356585d6c566cbb6',1,'NFCMulNet::listener()'],['../class_n_f_c_net.html#a8cc8867c224f9047e6a525c111007feb',1,'NFCNet::listener()']]]
 ];
