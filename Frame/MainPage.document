@@ -4,6 +4,10 @@
 
 /*! \mainpage ArkGameFrame
 *
+* \section github Project Website:
+*    <b>ArkGameFrame</b> https://github.com/ArkGame/ArkGameFrame
+*
+*
 * \section feature Features
 * - General abstract data system
 * - Interface-oriented programming (IOP)
@@ -35,7 +39,7 @@
 *
 * git clone https://github.com/ArkGame/ArkGameFrame.git
 *
-* or
+* OR
 *
 * svn checkout https://github.com/ArkGame/ArkGameFrame
 *
