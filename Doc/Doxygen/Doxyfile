@@ -44,7 +44,7 @@ PROJECT_NUMBER         = v0.1.0
 # for a project that appears at the top of each page and should give viewer a
 # quick idea about the purpose of the project. Keep the description short.
 
-PROJECT_BRIEF          = "NF is a lightweight, fast, scalable, distributed plugin framework.Greatly inspired by OGRE and Bigworld."
+PROJECT_BRIEF          = "ArkGameFraime is a lightweight, fast, scalable, distributed module and plugin framework to create a game server easily. Greatly inspired by OGRE and Bigworld."
 
 # With the PROJECT_LOGO tag one can specify a logo or an icon that is included
 # in the documentation. The maximum height of the logo should not exceed 55
