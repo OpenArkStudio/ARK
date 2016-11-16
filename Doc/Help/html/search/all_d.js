@@ -43,7 +43,7 @@ var searchData=
   ['machine_5f',['machine_',['../class_u_u_i_d_module_1_1_u_u_i_d.html#a871085ea00f601889277455b9f1db6be',1,'UUIDModule::UUID']]],
   ['maddlistex',['mAddListEx',['../class_n_f_c_heart_beat_manager.html#aba453c3091e5a5f1aad1f1d51c05863d',1,'NFCHeartBeatManager::mAddListEx()'],['../class_n_f_i_module.html#a56159c07000e126abfa89f4d9c5bcc21',1,'NFIModule::mAddListEx()']]],
   ['main',['main',['../_test_client_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;TestClient.cpp'],['../_test_server_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main(int argc, char **argv):&#160;TestServer.cpp'],['../_n_f_plugin_loader_8cpp.html#a0ddf1224851353fc92bfbff6f499fa97',1,'main(int argc, char *argv[]):&#160;NFPluginLoader.cpp']]],
-  ['mainpage_2eh',['MainPage.h',['../_main_page_8h.html',1,'']]],
+  ['mainpage_2edocument',['MainPage.document',['../_main_page_8document.html',1,'']]],
   ['max_5fpath',['MAX_PATH',['../_n_f_platform_8h.html#ab99ded389af74001a6298fc9e44e74e5',1,'NFPlatform.h']]],
   ['mbcache',['mbCache',['../class_n_f_c_property.html#ac0babb81980185d63af513040a9475ac',1,'NFCProperty::mbCache()'],['../class_n_f_c_record.html#a5634ffb5a8fea3339cc2ea6edc702e06',1,'NFCRecord::mbCache()']]],
   ['mbenable',['mbEnable',['../class_n_f_i_component.html#a45536e940eceb39d13176c5d3045e91a',1,'NFIComponent']]],
