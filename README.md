@@ -7,7 +7,7 @@
 
 ## What is it?
 
-NF is a lightweight, fast, scalable, distributed plugin framework.Greatly inspired by OGRE and Bigworld.
+ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework to create game server easily. Greatly inspired by OGRE and Bigworld.
 
 ## Features
 - General abstract data system
@@ -91,6 +91,8 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 6. (Optional)For Release Version, after above, run **BuildNF.VS2015.Release.X64.bat** or **BuildNF.CMake.Release.sh**, then run the binary file by **_Out/Server/Release/run.bat** or **_Out/Server/Release/run_cmake.sh**
 
 ## Documents
+[User Manual](https://arkgame.github.io/ArkGameFrame/)
+
 [English](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_EN.md)
 
 [Mandarin](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md)
@@ -106,5 +108,5 @@ The ArkGameFrame project is currently available under the [Apache License](https
 ### C# Project
 Still working on it, maybe use Akka.net or Orleans
 
-
+----------
 Our team has always specialized in the agile development and try to help different teams to develop game project quickly and easily. After years of development, we create this frame which is a fast, scalable, distributed game server framework written by C++, include the actor library, network library, can be used as a real-time multiplayer game engine. We are still improving it.
