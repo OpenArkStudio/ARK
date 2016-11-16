@@ -1,12 +1,11 @@
 var searchData=
 [
   ['random',['Random',['../class_n_f_c_kernel_module.html#af5c3a95add0ee0fc297061699da4952c',1,'NFCKernelModule::Random()'],['../class_n_f_i_kernel_module.html#abe7eb97db979a64ef93990ed2d3280d4',1,'NFIKernelModule::Random()']]],
-  ['readme_2emd',['ReadMe.md',['../_read_me_8md.html',1,'']]],
   ['receivepb',['ReceivePB',['../class_n_f_i_net_module.html#ac7c87a016ab8c705778640242f2524d6',1,'NFINetModule::ReceivePB(const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, std::string &amp;strMsg, NFGUID &amp;nPlayer)'],['../class_n_f_i_net_module.html#a4ff2c75fc793f81ea962ea5303fa6d62',1,'NFINetModule::ReceivePB(const int nSockIndex, const int nMsgID, const char *msg, const uint32_t nLen, google::protobuf::Message &amp;xData, NFGUID &amp;nPlayer)']]],
   ['receiverouteevent',['ReceiveRouteEvent',['../class_n_f_c_event_route_module.html#acf35d24b4740e891e249c06eeca50a15',1,'NFCEventRouteModule']]],
   ['recivehandler',['ReciveHandler',['../class_test_client_class.html#aa1f50c15fb0877d653ded6ff4c693706',1,'TestClientClass::ReciveHandler()'],['../class_test_server_class.html#a30077ddc3ae5e326e44cd07eb307ef0f',1,'TestServerClass::ReciveHandler()']]],
-  ['recivemsginfo',['RecivemsgInfo',['../struct_n_f_c_mul_net_1_1_recivemsg_info.html#a6fd6d8414fb1f3bc8ccb551fdac01f15',1,'NFCMulNet::RecivemsgInfo']]],
   ['recivemsginfo',['RecivemsgInfo',['../struct_n_f_c_mul_net_1_1_recivemsg_info.html',1,'NFCMulNet']]],
+  ['recivemsginfo',['RecivemsgInfo',['../struct_n_f_c_mul_net_1_1_recivemsg_info.html#a6fd6d8414fb1f3bc8ccb551fdac01f15',1,'NFCMulNet::RecivemsgInfo']]],
   ['reconnect',['RECONNECT',['../_n_f_i_net_client_module_8hpp.html#a36bc93ba880317fd945a86a1a7eeb2ccaf0a5833d071a9c74f91cd1ef5063d2dc',1,'NFINetClientModule.hpp']]],
   ['record_5fevent_5fdata',['RECORD_EVENT_DATA',['../struct_r_e_c_o_r_d___e_v_e_n_t___d_a_t_a.html',1,'RECORD_EVENT_DATA'],['../struct_r_e_c_o_r_d___e_v_e_n_t___d_a_t_a.html#a4dd8a46957b144f2fa6f0395180bfcab',1,'RECORD_EVENT_DATA::RECORD_EVENT_DATA()']]],
   ['record_5fevent_5ffunctor',['RECORD_EVENT_FUNCTOR',['../_n_f_define_8h.html#a9a1c5fc5f53288ca848d10bbb0d744f7',1,'NFDefine.h']]],
