@@ -77,15 +77,15 @@
 * 6. Run the binary file by ```Bin/Server/Debug/rund.sh```
 *
 * \section Documents
-* [English](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_EN.md)
+* <a href=https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_EN.md>English</a>
 *
-* [Mandarin](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md)
+* <a href=https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md>Mandarin</a>
 *
 * \section Samples
 * Please see ```Frame/Samples```.
 *
 * \section License
-* The ArkGameFrame project is currently available under the [Apache License](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE).
+* The ArkGameFrame project is currently available under the <a href=https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE> [Apache License] </a>
 *
 *
 * ----------
