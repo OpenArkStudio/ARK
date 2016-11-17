@@ -72,7 +72,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>////////////////////////////////////////////////////////////////////////类型接口.  
+<p>Vector of <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html" title="A special variant data that can represent different data type(now have 5 types, int64_t, double, string, NFGUID, Point3D). ">TData</a>.  
  <a href="class_n_f_i_data_list.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="_n_f_i_data_list_8h_source.html">NFIDataList.h</a>&gt;</code></p>
@@ -93,7 +93,7 @@ Collaboration diagram for NFIDataList:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">TData</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A data.  <a href="struct_n_f_i_data_list_1_1_t_data.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A special variant data that can represent different data type(now have 5 types, int64_t, double, string, NFGUID, Point3D).  <a href="struct_n_f_i_data_list_1_1_t_data.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
@@ -111,7 +111,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a0e621ee7819b869f105854db7934609b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#a0e621ee7819b869f105854db7934609b">More...</a><br /></td></tr>
 <tr class="separator:a0e621ee7819b869f105854db7934609b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa9fb1b53af796a347bbc4d7c59292c1a"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#aa9fb1b53af796a347bbc4d7c59292c1a">StringValEx</a> (const int index) const =0</td></tr>
-<tr class="memdesc:aa9fb1b53af796a347bbc4d7c59292c1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">String value ex.  <a href="#aa9fb1b53af796a347bbc4d7c59292c1a">More...</a><br /></td></tr>
+<tr class="memdesc:aa9fb1b53af796a347bbc4d7c59292c1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">convert <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html" title="A special variant data that can represent different data type(now have 5 types, int64_t, double, string, NFGUID, Point3D). ">TData</a> in special index to string.  <a href="#aa9fb1b53af796a347bbc4d7c59292c1a">More...</a><br /></td></tr>
 <tr class="separator:aa9fb1b53af796a347bbc4d7c59292c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8b97ca5e97648e81fda16a4eb52de8e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ab8b97ca5e97648e81fda16a4eb52de8e">ToString</a> (std::string &amp;str, const std::string &amp;strSplit) const =0</td></tr>
 <tr class="memdesc:ab8b97ca5e97648e81fda16a4eb52de8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert this object into a string representation.  <a href="#ab8b97ca5e97648e81fda16a4eb52de8e">More...</a><br /></td></tr>
@@ -120,37 +120,37 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a36eedd921ada84407856e62f69e8f08a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a stack.  <a href="#a36eedd921ada84407856e62f69e8f08a">More...</a><br /></td></tr>
 <tr class="separator:a36eedd921ada84407856e62f69e8f08a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57d45723d9d2d1a51d1d810206de18c5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a57d45723d9d2d1a51d1d810206de18c5">Concat</a> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src)=0</td></tr>
-<tr class="memdesc:a57d45723d9d2d1a51d1d810206de18c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">合并.  <a href="#a57d45723d9d2d1a51d1d810206de18c5">More...</a><br /></td></tr>
+<tr class="memdesc:a57d45723d9d2d1a51d1d810206de18c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Concatenates the given source.  <a href="#a57d45723d9d2d1a51d1d810206de18c5">More...</a><br /></td></tr>
 <tr class="separator:a57d45723d9d2d1a51d1d810206de18c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66c38c9c158b0ba2c3fd15a9f9489b18"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a66c38c9c158b0ba2c3fd15a9f9489b18">Append</a> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src)=0</td></tr>
-<tr class="memdesc:a66c38c9c158b0ba2c3fd15a9f9489b18"><td class="mdescLeft">&#160;</td><td class="mdescRight">部分添加.  <a href="#a66c38c9c158b0ba2c3fd15a9f9489b18">More...</a><br /></td></tr>
+<tr class="memdesc:a66c38c9c158b0ba2c3fd15a9f9489b18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a <a class="el" href="class_n_f_i_data_list.html" title="Vector of TData. ">NFIDataList</a> to this pointer.  <a href="#a66c38c9c158b0ba2c3fd15a9f9489b18">More...</a><br /></td></tr>
 <tr class="separator:a66c38c9c158b0ba2c3fd15a9f9489b18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a676770471a9c50423eefe20552a6c9f5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a676770471a9c50423eefe20552a6c9f5">Append</a> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;src, const int start, const int count)=0</td></tr>
 <tr class="memdesc:a676770471a9c50423eefe20552a6c9f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a src.  <a href="#a676770471a9c50423eefe20552a6c9f5">More...</a><br /></td></tr>
 <tr class="separator:a676770471a9c50423eefe20552a6c9f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b12bb48b949ead3109ce843497690bc"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a3b12bb48b949ead3109ce843497690bc">Append</a> (const <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &amp;sTData)=0</td></tr>
-<tr class="memdesc:a3b12bb48b949ead3109ce843497690bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">部分添加.  <a href="#a3b12bb48b949ead3109ce843497690bc">More...</a><br /></td></tr>
+<tr class="memdesc:a3b12bb48b949ead3109ce843497690bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appends a <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html" title="A special variant data that can represent different data type(now have 5 types, int64_t, double, string, NFGUID, Point3D). ">TData</a> into this pointer.  <a href="#a3b12bb48b949ead3109ce843497690bc">More...</a><br /></td></tr>
 <tr class="separator:a3b12bb48b949ead3109ce843497690bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adb38ba5eb61061fa7e543c46b809021d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#adb38ba5eb61061fa7e543c46b809021d">Clear</a> ()=0</td></tr>
-<tr class="memdesc:adb38ba5eb61061fa7e543c46b809021d"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空.  <a href="#adb38ba5eb61061fa7e543c46b809021d">More...</a><br /></td></tr>
+<tr class="memdesc:adb38ba5eb61061fa7e543c46b809021d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears this object to its blank/initial state.  <a href="#adb38ba5eb61061fa7e543c46b809021d">More...</a><br /></td></tr>
 <tr class="separator:adb38ba5eb61061fa7e543c46b809021d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c82ea8a887bc5ed405844998c9da51f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a5c82ea8a887bc5ed405844998c9da51f">IsEmpty</a> () const =0</td></tr>
-<tr class="memdesc:a5c82ea8a887bc5ed405844998c9da51f"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否为空.  <a href="#a5c82ea8a887bc5ed405844998c9da51f">More...</a><br /></td></tr>
+<tr class="memdesc:a5c82ea8a887bc5ed405844998c9da51f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query if this <a class="el" href="class_n_f_i_data_list.html" title="Vector of TData. ">NFIDataList</a> is empty.  <a href="#a5c82ea8a887bc5ed405844998c9da51f">More...</a><br /></td></tr>
 <tr class="separator:a5c82ea8a887bc5ed405844998c9da51f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4ba64603ce1839d1dc3f3323aa226a9"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#ab4ba64603ce1839d1dc3f3323aa226a9">GetCount</a> () const =0</td></tr>
-<tr class="memdesc:ab4ba64603ce1839d1dc3f3323aa226a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据数量.  <a href="#ab4ba64603ce1839d1dc3f3323aa226a9">More...</a><br /></td></tr>
+<tr class="memdesc:ab4ba64603ce1839d1dc3f3323aa226a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the count.  <a href="#ab4ba64603ce1839d1dc3f3323aa226a9">More...</a><br /></td></tr>
 <tr class="separator:ab4ba64603ce1839d1dc3f3323aa226a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65b78fe44fd4a017abdc95223ec42322"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4">TDATA_TYPE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a65b78fe44fd4a017abdc95223ec42322">Type</a> (const int index) const =0</td></tr>
-<tr class="memdesc:a65b78fe44fd4a017abdc95223ec42322"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据类型.  <a href="#a65b78fe44fd4a017abdc95223ec42322">More...</a><br /></td></tr>
+<tr class="memdesc:a65b78fe44fd4a017abdc95223ec42322"><td class="mdescLeft">&#160;</td><td class="mdescRight">Types the given index.  <a href="#a65b78fe44fd4a017abdc95223ec42322">More...</a><br /></td></tr>
 <tr class="separator:a65b78fe44fd4a017abdc95223ec42322"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a673c245bfc6d39a6ae28d3b11b491920"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a673c245bfc6d39a6ae28d3b11b491920">TypeEx</a> (const int nType,...) const =0</td></tr>
-<tr class="memdesc:a673c245bfc6d39a6ae28d3b11b491920"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据类型检测.  <a href="#a673c245bfc6d39a6ae28d3b11b491920">More...</a><br /></td></tr>
+<tr class="memdesc:a673c245bfc6d39a6ae28d3b11b491920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check the types.  <a href="#a673c245bfc6d39a6ae28d3b11b491920">More...</a><br /></td></tr>
 <tr class="separator:a673c245bfc6d39a6ae28d3b11b491920"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a623ff6a15496f95cfec5c47ec3139531"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a623ff6a15496f95cfec5c47ec3139531">Split</a> (const std::string &amp;str, const std::string &amp;strSplit)=0</td></tr>
-<tr class="memdesc:a623ff6a15496f95cfec5c47ec3139531"><td class="mdescLeft">&#160;</td><td class="mdescRight">新进入拆分.  <a href="#a623ff6a15496f95cfec5c47ec3139531">More...</a><br /></td></tr>
+<tr class="memdesc:a623ff6a15496f95cfec5c47ec3139531"><td class="mdescLeft">&#160;</td><td class="mdescRight">Splits string with filter into a <a class="el" href="class_n_f_i_data_list.html" title="Vector of TData. ">NFIDataList</a>.  <a href="#a623ff6a15496f95cfec5c47ec3139531">More...</a><br /></td></tr>
 <tr class="separator:a623ff6a15496f95cfec5c47ec3139531"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8fbcf7294007cabf1f8f38b59d1fe3c5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a8fbcf7294007cabf1f8f38b59d1fe3c5">Add</a> (const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value)=0</td></tr>
-<tr class="memdesc:a8fbcf7294007cabf1f8f38b59d1fe3c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加数据.  <a href="#a8fbcf7294007cabf1f8f38b59d1fe3c5">More...</a><br /></td></tr>
+<tr class="memdesc:a8fbcf7294007cabf1f8f38b59d1fe3c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds value.  <a href="#a8fbcf7294007cabf1f8f38b59d1fe3c5">More...</a><br /></td></tr>
 <tr class="separator:a8fbcf7294007cabf1f8f38b59d1fe3c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a898e1cfa0e38cceb16891269faad15e0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a898e1cfa0e38cceb16891269faad15e0">Add</a> (const double value)=0</td></tr>
 <tr class="memdesc:a898e1cfa0e38cceb16891269faad15e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds value.  <a href="#a898e1cfa0e38cceb16891269faad15e0">More...</a><br /></td></tr>
@@ -180,7 +180,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a26c7a56136051fddc365d6e7f91b9c6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets.  <a href="#a26c7a56136051fddc365d6e7f91b9c6d">More...</a><br /></td></tr>
 <tr class="separator:a26c7a56136051fddc365d6e7f91b9c6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afec44d610267cbcd345b146a034be01b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#afec44d610267cbcd345b146a034be01b">Int</a> (const int index) const =0</td></tr>
-<tr class="memdesc:afec44d610267cbcd345b146a034be01b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获得数据.  <a href="#afec44d610267cbcd345b146a034be01b">More...</a><br /></td></tr>
+<tr class="memdesc:afec44d610267cbcd345b146a034be01b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Ints the given index.  <a href="#afec44d610267cbcd345b146a034be01b">More...</a><br /></td></tr>
 <tr class="separator:afec44d610267cbcd345b146a034be01b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21e8a5f1719e6bda9acf3d980d189073"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_data_list.html#a21e8a5f1719e6bda9acf3d980d189073">Double</a> (const int index) const =0</td></tr>
 <tr class="memdesc:a21e8a5f1719e6bda9acf3d980d189073"><td class="mdescLeft">&#160;</td><td class="mdescRight">Doubles the given index.  <a href="#a21e8a5f1719e6bda9acf3d980d189073">More...</a><br /></td></tr>
@@ -274,9 +274,9 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a24e434bdbb92e0e3dfb0d73251c9d804"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>////////////////////////////////////////////////////////////////////////类型接口. </p>
+<div class="textblock"><p>Vector of <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html" title="A special variant data that can represent different data type(now have 5 types, int64_t, double, string, NFGUID, Point3D). ">TData</a>. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16 </dd></dl>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a05771a30657763eac90eeeed16aeeda0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a05771a30657763eac90eeeed16aeeda0">&sect;&nbsp;</a></span>anonymous enum</h2>
@@ -379,9 +379,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>添加数据. </p>
+<p>Adds value. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">value</td><td>The value to add.</td></tr>
@@ -796,9 +796,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>部分添加. </p>
+<p>Appends a <a class="el" href="class_n_f_i_data_list.html" title="Vector of TData. ">NFIDataList</a> to this pointer. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">src</td><td>The Source to append.</td></tr>
@@ -892,9 +892,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>部分添加. </p>
+<p>Appends a <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html" title="A special variant data that can represent different data type(now have 5 types, int64_t, double, string, NFGUID, Point3D). ">TData</a> into this pointer. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">sTData</td><td>The t data to append.</td></tr>
@@ -930,9 +930,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>清空. </p>
+<p>Clears this object to its blank/initial state. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16 </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a8140e0cd5e8403673023f29d8aa9ac45">NFCDataList</a>.</p>
 
@@ -1010,9 +1010,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>合并. </p>
+<p>Concatenates the given source. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">src</td><td>Source for the.</td></tr>
@@ -1087,9 +1087,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>数据数量. </p>
+<p>Gets the count. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The count. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a992a296e68fb578a243f8b5fef675d5c">NFCDataList</a>.</p>
@@ -1159,9 +1159,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>获得数据. </p>
+<p>Ints the given index. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">index</td><td>Zero-based index of the.</td></tr>
@@ -1197,9 +1197,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>是否为空. </p>
+<p>Query if this <a class="el" href="class_n_f_i_data_list.html" title="Vector of TData. ">NFIDataList</a> is empty. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16</dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>True if empty, false if not. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a69157e7fcccae39969429b8c4d6010e8">NFCDataList</a>.</p>
@@ -1648,7 +1648,7 @@ Protected Attributes</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A reference to a const <a class="el" href="struct_point3_d.html">Point3D</a>. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to a const <a class="el" href="struct_point3_d.html" title="3D point structure. ">Point3D</a>. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_data_list.html#a503d8e51f26e4f0c458ae1baecda7894">NFCDataList</a>.</p>
 
@@ -2178,9 +2178,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>新进入拆分. </p>
+<p>Splits string with filter into a <a class="el" href="class_n_f_i_data_list.html" title="Vector of TData. ">NFIDataList</a>. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">str</td><td>The string. </td></tr>
@@ -2257,7 +2257,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>String value ex. </p>
+<p>convert <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html" title="A special variant data that can represent different data type(now have 5 types, int64_t, double, string, NFGUID, Point3D). ">TData</a> in special index to string. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -2346,9 +2346,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>数据类型. </p>
+<p>Types the given index. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">index</td><td>Zero-based index of the.</td></tr>
@@ -2395,9 +2395,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>数据类型检测. </p>
+<p>Check the types. </p>
 <dl class="section author"><dt>Author</dt><dd>Nick Yang </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>2016/11/12</dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/16</dd></dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">nType</td><td>The type. </td></tr>

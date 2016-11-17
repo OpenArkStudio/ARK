@@ -34,7 +34,7 @@
 /**
  * @enum    TDATA_TYPE
  *
- * @brief   变量类型.
+ * @brief   Values that represent tdata types.
  */
 
 enum TDATA_TYPE
@@ -48,7 +48,8 @@ enum TDATA_TYPE
     TDATA_MAX,
 };
 
-/** @brief   ////////////////////////////////////////////////////////////////////////default value. */
+
+/** @brief   The null int. */
 const static NFINT64 NULL_INT = 0;
 /** @brief   The null double. */
 const static double NULL_DOUBLE = 0.0;
@@ -62,10 +63,10 @@ const static Point3D NULL_POINT = Point3D();
 /**
  * @class   NFIDataList
  *
- * @brief   ////////////////////////////////////////////////////////////////////////类型接口.
+ * @brief   Vector of TData.
  *
  * @author  Nick Yang
- * @date    2016/11/12
+ * @date    2016/11/16
  */
 
 class NFIDataList
@@ -75,7 +76,7 @@ public:
     /**
      * @struct  TData
      *
-     * @brief   A data.
+     * @brief   A special variant data that can represent different data type(now have 5 types, int64_t, double, string, NFGUID, Point3D).
      *
      * @author  Nick Yang
      * @date    2016/11/12
@@ -545,7 +546,7 @@ public:
         /**
          * @fn  std::string StringValEx() const
          *
-         * @brief   String value ex.
+         * @brief   Convert TData to std::string.
          *
          * @author  Nick Yang
          * @date    2016/11/12
@@ -627,7 +628,7 @@ public:
     /**
      * @fn  virtual std::string NFIDataList::StringValEx(const int index) const = 0;
      *
-     * @brief   String value ex.
+     * @brief   convert TData in special index to string.
      *
      * @author  Nick Yang
      * @date    2016/11/12
@@ -675,10 +676,10 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Concat(const NFIDataList& src) = 0;
      *
-     * @brief   合并.
+     * @brief   Concatenates the given source.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      *
      * @param   src Source for the.
      *
@@ -690,10 +691,10 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Append(const NFIDataList& src) = 0;
      *
-     * @brief   部分添加.
+     * @brief   Appends a NFIDataList to this pointer.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      *
      * @param   src The Source to append.
      *
@@ -722,10 +723,10 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Append(const NFIDataList::TData& sTData) = 0;
      *
-     * @brief   部分添加.
+     * @brief   Appends a TData into this pointer.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      *
      * @param   sTData  The t data to append.
      *
@@ -737,10 +738,10 @@ public:
     /**
      * @fn  virtual void NFIDataList::Clear() = 0;
      *
-     * @brief   清空.
+     * @brief   Clears this object to its blank/initial state.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      */
 
     virtual void Clear() = 0;
@@ -748,10 +749,10 @@ public:
     /**
      * @fn  virtual bool NFIDataList::IsEmpty() const = 0;
      *
-     * @brief   是否为空.
+     * @brief   Query if this NFIDataList is empty.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      *
      * @return  True if empty, false if not.
      */
@@ -761,10 +762,10 @@ public:
     /**
      * @fn  virtual int NFIDataList::GetCount() const = 0;
      *
-     * @brief   数据数量.
+     * @brief   Gets the count.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      *
      * @return  The count.
      */
@@ -774,10 +775,10 @@ public:
     /**
      * @fn  virtual TDATA_TYPE NFIDataList::Type(const int index) const = 0;
      *
-     * @brief   数据类型.
+     * @brief   Types the given index.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      *
      * @param   index   Zero-based index of the.
      *
@@ -789,10 +790,10 @@ public:
     /**
      * @fn  virtual bool NFIDataList::TypeEx(const int nType, ...) const = 0;
      *
-     * @brief   数据类型检测.
+     * @brief   Check the types.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      *
      * @param   nType   The type.
      * @param   ...     Variable arguments providing additional information.
@@ -805,10 +806,10 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Split(const std::string& str, const std::string& strSplit) = 0;
      *
-     * @brief   新进入拆分.
+     * @brief   Splits string with filter into a NFIDataList.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      *
      * @param   str         The string.
      * @param   strSplit    The split.
@@ -821,10 +822,10 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Add(const NFINT64 value) = 0;
      *
-     * @brief   添加数据.
+     * @brief   Adds value.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      *
      * @param   value   The value to add.
      *
@@ -976,10 +977,10 @@ public:
     /**
      * @fn  virtual NFINT64 NFIDataList::Int(const int index) const = 0;
      *
-     * @brief   获得数据.
+     * @brief   Ints the given index.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/16
      *
      * @param   index   Zero-based index of the.
      *
