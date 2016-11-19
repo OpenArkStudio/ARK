@@ -69,12 +69,12 @@ public:
     // 获得数据
     virtual NFINT64 Int(const int index) const;
     virtual double Double(const int index) const;
-    virtual std::string StringValEx(const int index) const;
+    virtual std::string ToString(const int index) const;
     virtual const std::string& String(const int index) const;
     virtual const NFGUID& Object(const int index) const;
     virtual const Point3D& Point(const int index) const;
 
-    virtual bool ToString(std::string& str, const std::string& strSplit) const;
+    virtual bool ToString(std::string& strOut, const std::string& strSeparator) const;
 
 protected:
     void AddStatck();

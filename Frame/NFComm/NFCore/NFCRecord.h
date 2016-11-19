@@ -118,20 +118,21 @@ protected:
     bool ValidPos(int nRow, int nCol) const;
     bool ValidRow(int nRow) const;
     bool ValidCol(int nCol) const;
+    bool ValidCheck(TDATA_TYPE eType, const NFIDataList::TData& var, NF_SHARE_PTR<NFIDataList::TData>& pVar);
 
     void OnEventHandler(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
 
 protected:
     //记录这个表的Key类型，那样在读取和设置的时候才能保持正确
-	NF_SHARE_PTR<NFIDataList> mVarRecordType;//初始值类型--应该引用静态的(或者智能指针)，节约大量内存
-	NF_SHARE_PTR<NFIDataList> mVarRecordTag;//col的tag值--应该引用静态的(或者智能指针)，节约大量内存
+    NF_SHARE_PTR<NFIDataList> mVarRecordType;//初始值类型--应该引用静态的(或者智能指针)，节约大量内存
+    NF_SHARE_PTR<NFIDataList> mVarRecordTag;//col的tag值--应该引用静态的(或者智能指针)，节约大量内存
 
     std::map<std::string, int> mmTag;//tag->col转换
 
-	////////////////////////////
-	
-	TRECORDVEC mtRecordVec;//真的数据
-	std::vector<int> mVecUsedState;
+    ////////////////////////////
+
+    TRECORDVEC mtRecordVec;//真的数据
+    std::vector<int> mVecUsedState;
     int mnMaxRow;
 
     NFGUID mSelf;

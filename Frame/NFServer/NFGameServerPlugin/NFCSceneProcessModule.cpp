@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCSceneProcessModule.cpp
+//    @FileName         :    NFCSceneProcessModule.cpp
 //    @Author           :    LvSheng.Huang
 //    @Date             :    2013-04-14
 //    @Module           :    NFCSceneProcessModule
@@ -7,7 +7,6 @@
 // -------------------------------------------------------------------------
 
 #include "NFCSceneProcessModule.h"
-#include "NFComm/Config/NFConfig.h"
 #include "NFComm/NFCore/NFTimer.h"
 #include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
 
@@ -42,13 +41,13 @@ bool NFCSceneProcessModule::AfterInit()
     //  int nSelfActorID = pPluginManager->GetActorID();
     // #endif
     NF_SHARE_PTR<NFIClass> pLogicClass =  m_pClassModule->GetElement("Scene");
-    if (nullptr != pLogicClass)
+    if(nullptr != pLogicClass)
     {
         NFList<std::string>& list = pLogicClass->GetConfigNameList();
 
         std::string strData;
         bool bRet = list.First(strData);
-        while (bRet)
+        while(bRet)
         {
             int nSceneID = lexical_cast<int>(strData);
 
@@ -66,10 +65,10 @@ bool NFCSceneProcessModule::AfterInit()
 bool NFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGroupID)
 {
     NF_SHARE_PTR<NFMapEx<std::string, SceneSeedResource>> pSceneResource = mtSceneResourceConfig.GetElement(nSceneID);
-    if (nullptr != pSceneResource)
+    if(nullptr != pSceneResource)
     {
         NF_SHARE_PTR<SceneSeedResource> pResource = pSceneResource->First();
-        while (nullptr != pResource)
+        while(nullptr != pResource)
         {
             const std::string& strClassName = m_pElementModule->GetPropertyString(pResource->strConfigID, NFrame::NPC::ClassName());
 
@@ -93,7 +92,7 @@ int NFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
     const E_SCENE_TYPE eType = GetCloneSceneType(nSceneID);
     int nTargetGroupID = m_pKernelModule->RequestGroupScene(nSceneID);
 
-    if (nTargetGroupID > 0 && eType == SCENE_TYPE_CLONE_SCENE)
+    if(nTargetGroupID > 0 && eType == SCENE_TYPE_CLONE_SCENE)
     {
         CreateSceneObject(nSceneID, nTargetGroupID);
     }
@@ -103,9 +102,9 @@ int NFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
 
 int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEventID, const NFIDataList& var)
 {
-    if (var.GetCount() != 4
-        || !var.TypeEx(TDATA_TYPE::TDATA_OBJECT, TDATA_TYPE::TDATA_INT,
-                       TDATA_TYPE::TDATA_INT, TDATA_TYPE::TDATA_INT, TDATA_TYPE::TDATA_UNKNOWN))
+    if(var.GetCount() != 4
+            || !var.TypeEx(TDATA_TYPE::TDATA_OBJECT, TDATA_TYPE::TDATA_INT,
+                           TDATA_TYPE::TDATA_INT, TDATA_TYPE::TDATA_INT, TDATA_TYPE::TDATA_UNKNOWN))
     {
         return 0;
     }
@@ -117,14 +116,14 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
     const int nNowSceneID = m_pKernelModule->GetPropertyInt(self, NFrame::Player::SceneID());
     const int nNowGroupID = m_pKernelModule->GetPropertyInt(self, NFrame::Player::GroupID());
 
-    if (self != ident)
+    if(self != ident)
     {
         m_pLogModule->LogError(ident, "you are not you self, but you want to entry this scene", nTargetScene);
         return 1;
     }
 
-    if (nNowSceneID == nTargetScene
-        && nTargetGroupID == nNowGroupID)
+    if(nNowSceneID == nTargetScene
+            && nTargetGroupID == nNowGroupID)
     {
         //本来就是这个层这个场景就别切换了
         m_pLogModule->LogInfo(ident, "in same scene and group but it not a clone scene", nTargetScene);
@@ -134,7 +133,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
 
     //每个玩家，一个副本
     NFINT64 nNewGroupID = 0;
-    if (nTargetGroupID <= 0)
+    if(nTargetGroupID <= 0)
     {
         nNewGroupID = CreateCloneScene(nTargetScene);
     }
@@ -143,7 +142,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
         nNewGroupID = nTargetGroupID;
     }
 
-    if (nNewGroupID <= 0)
+    if(nNewGroupID <= 0)
     {
         m_pLogModule->LogInfo(ident, "CreateCloneScene failed", nTargetScene);
         return 0;
@@ -180,17 +179,17 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
 
 int NFCSceneProcessModule::OnLeaveSceneEvent(const NFGUID& object, const int nEventID, const NFIDataList& var)
 {
-    if (1 != var.GetCount()
-        || !var.TypeEx(TDATA_TYPE::TDATA_INT, TDATA_TYPE::TDATA_UNKNOWN))
+    if(1 != var.GetCount()
+            || !var.TypeEx(TDATA_TYPE::TDATA_INT, TDATA_TYPE::TDATA_UNKNOWN))
     {
         return -1;
     }
 
     NFINT32 nOldGroupID = var.Int(0);
-    if (nOldGroupID > 0)
+    if(nOldGroupID > 0)
     {
         int nSceneID = m_pKernelModule->GetPropertyInt(object, NFrame::Player::SceneID());
-        if (GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
+        if(GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
         {
             m_pKernelModule->ReleaseGroupScene(nSceneID, nOldGroupID);
 
@@ -203,13 +202,13 @@ int NFCSceneProcessModule::OnLeaveSceneEvent(const NFGUID& object, const int nEv
 
 int NFCSceneProcessModule::OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& var)
 {
-    if (strClassName == NFrame::Player::ThisName())
+    if(strClassName == NFrame::Player::ThisName())
     {
-        if (CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
+        if(CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
         {
             //如果在副本中,则删除他的那个副本
             int nSceneID = m_pKernelModule->GetPropertyInt(self, NFrame::Player::SceneID());
-            if (GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
+            if(GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
             {
                 int nGroupID = m_pKernelModule->GetPropertyInt(self, NFrame::Player::GroupID());
 
@@ -219,7 +218,7 @@ int NFCSceneProcessModule::OnObjectClassEvent(const NFGUID& self, const std::str
 
             }
         }
-        else if (CLASS_OBJECT_EVENT::COE_CREATE_HASDATA == eClassEvent)
+        else if(CLASS_OBJECT_EVENT::COE_CREATE_HASDATA == eClassEvent)
         {
             m_pKernelModule->AddEventCallBack(self, NFED_ON_CLIENT_ENTER_SCENE, this, &NFCSceneProcessModule::OnEnterSceneEvent);
             m_pKernelModule->AddEventCallBack(self, NFED_ON_CLIENT_LEAVE_SCENE, this, &NFCSceneProcessModule::OnLeaveSceneEvent);
@@ -233,7 +232,7 @@ E_SCENE_TYPE NFCSceneProcessModule::GetCloneSceneType(const int nSceneID)
 {
     char szSceneIDName[MAX_PATH] = { 0 };
     sprintf(szSceneIDName, "%d", nSceneID);
-    if (m_pElementModule->ExistElement(szSceneIDName))
+    if(m_pElementModule->ExistElement(szSceneIDName))
     {
         return (E_SCENE_TYPE)m_pElementModule->GetPropertyInt(szSceneIDName, NFrame::Scene::CanClone());
     }
@@ -268,7 +267,7 @@ bool NFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 
     //场景对应资源
     NF_SHARE_PTR<NFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = mtSceneResourceConfig.GetElement(nSceneID);
-    if (nullptr == pSceneResourceMap)
+    if(nullptr == pSceneResourceMap)
     {
         pSceneResourceMap = NF_SHARE_PTR<NFMapEx<std::string, SceneSeedResource>>(NF_NEW NFMapEx<std::string, SceneSeedResource>());
         mtSceneResourceConfig.AddElement(nSceneID, pSceneResourceMap);
@@ -280,7 +279,7 @@ bool NFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 
     //资源文件列表
     rapidxml::xml_node<>* pSeedFileRoot = xFileDoc.first_node();
-    for (rapidxml::xml_node<>* pSeedFileNode = pSeedFileRoot->first_node(); pSeedFileNode; pSeedFileNode = pSeedFileNode->next_sibling())
+    for(rapidxml::xml_node<>* pSeedFileNode = pSeedFileRoot->first_node(); pSeedFileNode; pSeedFileNode = pSeedFileNode->next_sibling())
     {
         //种子具体信息
         std::string strSeedID = pSeedFileNode->first_attribute("ID")->value();
@@ -289,13 +288,13 @@ bool NFCSceneProcessModule::LoadSceneResource(const int nSceneID)
         float fSeedY = lexical_cast<float>(pSeedFileNode->first_attribute("SeedY")->value());
         float fSeedZ = lexical_cast<float>(pSeedFileNode->first_attribute("SeedZ")->value());
 
-        if (!m_pElementModule->ExistElement(strConfigID))
+        if(!m_pElementModule->ExistElement(strConfigID))
         {
             assert(0);
         }
 
         NF_SHARE_PTR<SceneSeedResource> pSeedResource = pSceneResourceMap->GetElement(strSeedID);
-        if (nullptr == pSeedResource)
+        if(nullptr == pSeedResource)
         {
             pSeedResource = NF_SHARE_PTR<SceneSeedResource>(NF_NEW SceneSeedResource());
             pSceneResourceMap->AddElement(strSeedID, pSeedResource);

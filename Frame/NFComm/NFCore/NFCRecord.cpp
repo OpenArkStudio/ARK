@@ -198,13 +198,7 @@ bool NFCRecord::SetInt(const int nRow, const int nCol, const NFINT64 value)
     var.SetInt(value);
 
     NF_SHARE_PTR<NFIDataList::TData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-    //must have memory
-    if(nullptr == pVar)
-    {
-        return false;
-    }
-
-    if(var == *pVar)
+    if(!ValidCheck(TDATA_INT, var, pVar))
     {
         return false;
     }
@@ -252,14 +246,7 @@ bool NFCRecord::SetDouble(const int nRow, const int nCol, const double value)
     var.SetDouble(value);
 
     NF_SHARE_PTR<NFIDataList::TData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-
-    //must have memory
-    if(nullptr == pVar)
-    {
-        return false;
-    }
-
-    if(var == *pVar)
+    if(!ValidCheck(TDATA_DOUBLE, var, pVar))
     {
         return false;
     }
@@ -307,14 +294,7 @@ bool NFCRecord::SetString(const int nRow, const int nCol, const std::string& val
     var.SetString(value);
 
     NF_SHARE_PTR<NFIDataList::TData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-
-    //must have memory
-    if(nullptr == pVar)
-    {
-        return false;
-    }
-
-    if(var == *pVar)
+    if(!ValidCheck(TDATA_STRING, var, pVar))
     {
         return false;
     }
@@ -362,14 +342,7 @@ bool NFCRecord::SetObject(const int nRow, const int nCol, const NFGUID& value)
     var.SetObject(value);
 
     NF_SHARE_PTR<NFIDataList::TData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-
-    //must have memory
-    if(nullptr == pVar)
-    {
-        return false;
-    }
-
-    if(var == *pVar)
+    if(!ValidCheck(TDATA_OBJECT, var, pVar))
     {
         return false;
     }
@@ -417,14 +390,7 @@ bool NFCRecord::SetPoint(const int nRow, const int nCol, const Point3D& value)
     var.SetPoint(value);
 
     NF_SHARE_PTR<NFIDataList::TData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-
-    //must have memory
-    if(nullptr == pVar)
-    {
-        return false;
-    }
-
-    if(var == *pVar)
+    if(!ValidCheck(TDATA_POINT, var, pVar))
     {
         return false;
     }
@@ -510,18 +476,18 @@ NFINT64 NFCRecord::GetInt(const int nRow, const int nCol) const
 {
     if(!ValidPos(nRow, nCol))
     {
-        return 0;
+        return NULL_INT;
     }
 
     if(!IsUsed(nRow))
     {
-        return 0;
+        return NULL_INT;
     }
 
     const NF_SHARE_PTR<NFIDataList::TData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(nullptr == pVar)
     {
-        return 0;
+        return NULL_INT;
     }
 
     return pVar->GetInt();
@@ -537,18 +503,18 @@ double NFCRecord::GetDouble(const int nRow, const int nCol) const
 {
     if(!ValidPos(nRow, nCol))
     {
-        return 0.0f;
+        return NULL_DOUBLE;
     }
 
     if(!IsUsed(nRow))
     {
-        return 0.0f;
+        return NULL_DOUBLE;
     }
 
     const NF_SHARE_PTR<NFIDataList::TData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(nullptr == pVar)
     {
-        return 0.0f;
+        return NULL_DOUBLE;
     }
 
     return pVar->GetDouble();
@@ -777,7 +743,6 @@ int NFCRecord::FindString(const int nCol, const std::string& value, NFIDataList&
     {
         return -1;
     }
-
 
     {
         for(int64_t i = 0; i < mnMaxRow; ++i)
@@ -1106,9 +1071,57 @@ bool NFCRecord::ValidCol(int nCol) const
     return true;
 }
 
+bool NFCRecord::ValidCheck(TDATA_TYPE eType, const NFIDataList::TData& var, NF_SHARE_PTR<NFIDataList::TData>& pVar)
+{
+    if(var.GetType() != eType)
+    {
+        return false;
+    }
+
+    if(nullptr == pVar)
+    {
+        pVar = NF_SHARE_PTR<NFIDataList::TData>(NF_NEW NFIDataList::TData());
+        pVar->SetType(eType);
+        switch(eType)
+        {
+        case TDATA_UNKNOWN:
+            break;
+        case TDATA_INT:
+            pVar->variantData = NULL_INT;
+            break;
+        case TDATA_DOUBLE:
+            pVar->variantData = NULL_DOUBLE;
+            break;
+        case TDATA_STRING:
+            pVar->variantData = NULL_STR;
+            break;
+        case TDATA_OBJECT:
+            pVar->variantData = NULL_GUID;
+            break;
+        case TDATA_POINT:
+            pVar->variantData = NULL_POINT;
+            break;
+        default:
+            break;
+        }
+    }
+
+    if(pVar->GetType() != eType)
+    {
+        return false;
+    }
+
+    if(pVar->variantData == var.variantData)
+    {
+        return false;
+    }
+
+    return true;
+}
+
 int NFCRecord::GetCol(const std::string& strTag) const
 {
-    std::map<std::string, int>::const_iterator it = mmTag.find(strTag);
+    auto it = mmTag.find(strTag);
     if(it != mmTag.end())
     {
         return it->second;
