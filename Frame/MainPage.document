@@ -1,7 +1,3 @@
-#ifndef NF_MAINPAGE__H
-#define NF_MAINPAGE__H
-
-
 /*! \mainpage ArkGameFrame
 *
 * \section github Project Website:
@@ -25,7 +21,7 @@
 * Please create a new issue to ask a question.
 *
 * \subsection u3d Unity3D client
-* [Unity3D Client](https://github.com/ArkGame/ArkClient-Unity3D)
+* <a href="https://github.com/ArkGame/ArkClient-Unity3D" target="_blank">Unity3D Client</a>
 *
 * \section arch Architecture
 *
@@ -37,11 +33,11 @@
 *
 * \section source Get the Sources:
 *
-* git clone https://github.com/ArkGame/ArkGameFrame.git
+* git clone <a href="https://github.com/ArkGame/ArkGameFrame.git" target="_blank">https://github.com/ArkGame/ArkGameFrame.git</a>
 *
 * OR
 *
-* svn checkout https://github.com/ArkGame/ArkGameFrame
+* svn checkout <a href="https://github.com/ArkGame/ArkGameFrame" target="_blank">https://github.com/ArkGame/ArkGameFrame</a>
 *
 *
 * \section dep Dependencies
@@ -81,15 +77,15 @@
 * 6. Run the binary file by ```Bin/Server/Debug/rund.sh```
 *
 * \section Documents
-* <a href=https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_EN.md>English</a>
+* <a href=https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_EN.md target="_blank">English</a>
 *
-* <a href=https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md>Mandarin</a>
+* <a href=https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md target="_blank">中文简体 Mandarin</a>
 *
 * \section sample Samples
 * Please see ```Frame/Samples```.
 *
 * \section license License
-* The ArkGameFrame project is currently available under the <a href=https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE> [Apache License] </a>
+* The ArkGameFrame project is currently available under the <a href=https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE target="_blank"> [Apache License] </a>
 *
 *
 * ----------
