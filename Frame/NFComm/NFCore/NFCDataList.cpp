@@ -537,13 +537,13 @@ void NFCDataList::InnerAppendEx(const NFIDataList& src, const int start, const i
     }
 }
 
-std::string NFCDataList::StringValEx(const int index) const
+std::string NFCDataList::ToString(const int index) const
 {
     if(ValidIndex(index))
     {
         std::string strData;
 
-        const TDATA_TYPE eType =  Type(index);
+        const TDATA_TYPE eType = Type(index);
         switch(eType)
         {
         case TDATA_INT:
@@ -570,20 +570,17 @@ std::string NFCDataList::StringValEx(const int index) const
     return NULL_STR;
 }
 
-bool NFCDataList::ToString(std::string& str, const std::string& strSplit) const
+bool NFCDataList::ToString(std::string& strOut, const std::string& strSeparator) const
 {
     for(int i = 0; i < GetCount(); ++i)
     {
-        std::string strVal = StringValEx(i);
-        str += strVal;
-        str += strSplit;
-    }
-
-    std::string strTempSplit(strSplit);
-    std::string::size_type nPos = str.rfind(strSplit);
-    if(nPos == str.length() - strTempSplit.length())
-    {
-        str = str.substr(0, nPos);
+        std::string strVal = ToString(i);
+        strOut += strVal;
+        //do not add separator in the last data
+        if(i != (GetCount() - 1))
+        {
+            strOut += strSeparator;
+        }
     }
 
     return true;

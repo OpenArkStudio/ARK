@@ -7,167 +7,169 @@
 //! \file rapidxml_iterators.hpp This file contains rapidxml iterators
 
 #include "rapidxml.hpp"
-
+#ifdef _MSC_VER
+#include <xutility>
+#endif // _MSC_VER
 namespace rapidxml
 {
 
-    //! Iterator of child nodes of xml_node
-    template<class Ch>
-    class node_iterator
+//! Iterator of child nodes of xml_node
+template<class Ch>
+class node_iterator
+{
+
+public:
+
+    typedef xml_node<Ch> value_type;
+    typedef xml_node<Ch> &reference;
+    typedef xml_node<Ch> *pointer;
+    typedef typename std::ptrdiff_t difference_type;
+    typedef typename std::bidirectional_iterator_tag iterator_category;
+
+    node_iterator()
+        : m_node(0)
     {
+    }
 
-    public:
-
-        typedef xml_node<Ch> value_type;
-        typedef xml_node<Ch> &reference;
-        typedef xml_node<Ch> *pointer;
-        typedef typename std::ptrdiff_t difference_type;
-        typedef typename std::bidirectional_iterator_tag iterator_category;
-
-        node_iterator()
-            : m_node(0)
-        {
-        }
-
-        node_iterator(xml_node<Ch> *node)
-            : m_node(node->first_node())
-        {
-        }
-
-        reference operator *() const
-        {
-            assert(m_node);
-            return *m_node;
-        }
-
-        pointer operator->() const
-        {
-            assert(m_node);
-            return m_node;
-        }
-
-        node_iterator& operator++()
-        {
-            assert(m_node);
-            m_node = m_node->next_sibling();
-            return *this;
-        }
-
-        node_iterator operator++(int)
-        {
-            node_iterator tmp = *this;
-            ++this;
-            return tmp;
-        }
-
-        node_iterator& operator--()
-        {
-            assert(m_node && m_node->previous_sibling());
-            m_node = m_node->previous_sibling();
-            return *this;
-        }
-
-        node_iterator operator--(int)
-        {
-            node_iterator tmp = *this;
-            ++this;
-            return tmp;
-        }
-
-        bool operator ==(const node_iterator<Ch> &rhs)
-        {
-            return m_node == rhs.m_node;
-        }
-
-        bool operator !=(const node_iterator<Ch> &rhs)
-        {
-            return m_node != rhs.m_node;
-        }
-
-    private:
-
-        xml_node<Ch> *m_node;
-
-    };
-
-    //! Iterator of child attributes of xml_node
-    template<class Ch>
-    class attribute_iterator
+    node_iterator(xml_node<Ch> *node)
+        : m_node(node->first_node())
     {
+    }
 
-    public:
+    reference operator *() const
+    {
+        assert(m_node);
+        return *m_node;
+    }
 
-        typedef xml_attribute<Ch> value_type;
-        typedef xml_attribute<Ch> &reference;
-        typedef xml_attribute<Ch> *pointer;
-        typedef typename std::ptrdiff_t difference_type;
-        typedef typename std::bidirectional_iterator_tag iterator_category;
+    pointer operator->() const
+    {
+        assert(m_node);
+        return m_node;
+    }
 
-        attribute_iterator()
-            : m_attribute(0)
-        {
-        }
+    node_iterator& operator++()
+    {
+        assert(m_node);
+        m_node = m_node->next_sibling();
+        return *this;
+    }
 
-        attribute_iterator(xml_node<Ch> *node)
-            : m_attribute(node->first_attribute())
-        {
-        }
+    node_iterator operator++(int)
+    {
+        node_iterator tmp = *this;
+        ++this;
+        return tmp;
+    }
 
-        reference operator *() const
-        {
-            assert(m_attribute);
-            return *m_attribute;
-        }
+    node_iterator& operator--()
+    {
+        assert(m_node && m_node->previous_sibling());
+        m_node = m_node->previous_sibling();
+        return *this;
+    }
 
-        pointer operator->() const
-        {
-            assert(m_attribute);
-            return m_attribute;
-        }
+    node_iterator operator--(int)
+    {
+        node_iterator tmp = *this;
+        ++this;
+        return tmp;
+    }
 
-        attribute_iterator& operator++()
-        {
-            assert(m_attribute);
-            m_attribute = m_attribute->next_attribute();
-            return *this;
-        }
+    bool operator ==(const node_iterator<Ch> &rhs)
+    {
+        return m_node == rhs.m_node;
+    }
 
-        attribute_iterator operator++(int)
-        {
-            attribute_iterator tmp = *this;
-            ++this;
-            return tmp;
-        }
+    bool operator !=(const node_iterator<Ch> &rhs)
+    {
+        return m_node != rhs.m_node;
+    }
 
-        attribute_iterator& operator--()
-        {
-            assert(m_attribute && m_attribute->previous_attribute());
-            m_attribute = m_attribute->previous_attribute();
-            return *this;
-        }
+private:
 
-        attribute_iterator operator--(int)
-        {
-            attribute_iterator tmp = *this;
-            ++this;
-            return tmp;
-        }
+    xml_node<Ch> *m_node;
 
-        bool operator ==(const attribute_iterator<Ch> &rhs)
-        {
-            return m_attribute == rhs.m_attribute;
-        }
+};
 
-        bool operator !=(const attribute_iterator<Ch> &rhs)
-        {
-            return m_attribute != rhs.m_attribute;
-        }
+//! Iterator of child attributes of xml_node
+template<class Ch>
+class attribute_iterator
+{
 
-    private:
+public:
 
-        xml_attribute<Ch> *m_attribute;
+    typedef xml_attribute<Ch> value_type;
+    typedef xml_attribute<Ch> &reference;
+    typedef xml_attribute<Ch> *pointer;
+    typedef typename std::ptrdiff_t difference_type;
+    typedef typename std::bidirectional_iterator_tag iterator_category;
 
-    };
+    attribute_iterator()
+        : m_attribute(0)
+    {
+    }
+
+    attribute_iterator(xml_node<Ch> *node)
+        : m_attribute(node->first_attribute())
+    {
+    }
+
+    reference operator *() const
+    {
+        assert(m_attribute);
+        return *m_attribute;
+    }
+
+    pointer operator->() const
+    {
+        assert(m_attribute);
+        return m_attribute;
+    }
+
+    attribute_iterator& operator++()
+    {
+        assert(m_attribute);
+        m_attribute = m_attribute->next_attribute();
+        return *this;
+    }
+
+    attribute_iterator operator++(int)
+    {
+        attribute_iterator tmp = *this;
+        ++this;
+        return tmp;
+    }
+
+    attribute_iterator& operator--()
+    {
+        assert(m_attribute && m_attribute->previous_attribute());
+        m_attribute = m_attribute->previous_attribute();
+        return *this;
+    }
+
+    attribute_iterator operator--(int)
+    {
+        attribute_iterator tmp = *this;
+        ++this;
+        return tmp;
+    }
+
+    bool operator ==(const attribute_iterator<Ch> &rhs)
+    {
+        return m_attribute == rhs.m_attribute;
+    }
+
+    bool operator !=(const attribute_iterator<Ch> &rhs)
+    {
+        return m_attribute != rhs.m_attribute;
+    }
+
+private:
+
+    xml_attribute<Ch> *m_attribute;
+
+};
 
 }
 

@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCWorldLogicModule.cpp
+//    @FileName         :    NFCWorldLogicModule.cpp
 //    @Author           :    LvSheng.Huang
 //    @Date             :    2013-01-02
 //    @Module           :    NFCWorldLogicModule
@@ -8,12 +8,10 @@
 
 #include "NFWorldLogicPlugin.h"
 #include "NFCWorldLogicModule.h"
-#include "NFComm/Config/NFConfig.h"
 #include "NFComm/NFPluginModule/NFPlatform.h"
 
 bool NFCWorldLogicModule::Init()
 {
-
     return true;
 }
 
@@ -24,11 +22,8 @@ bool NFCWorldLogicModule::Shut()
 
 bool NFCWorldLogicModule::Execute()
 {
-
-
     return true;
 }
-
 
 bool NFCWorldLogicModule::AfterInit()
 {

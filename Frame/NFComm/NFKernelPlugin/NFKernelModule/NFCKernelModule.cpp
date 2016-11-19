@@ -37,7 +37,7 @@ void NFCKernelModule::InitRandom()
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0, 1.0f);
+    std::uniform_real_distribution<> dis(0.0f, 1.0f);
 
     for(int i = 0; i < nRandomMax; i++)
     {

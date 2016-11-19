@@ -16,7 +16,6 @@
 #include <functional>
 #include <atomic>
 #include "NFCPluginManager.h"
-#include "NFComm/Config/NFConfig.h"
 #include "NFComm/NFPluginModule/NFPlatform.h"
 
 #if NF_PLATFORM == NF_PLATFORM_LINUX
@@ -71,18 +70,18 @@ long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 void CloseXButton()
 {
 #if NF_PLATFORM == NF_PLATFORM_WIN
-	HWND hWnd = GetConsoleWindow();
-	if (hWnd)
-	{
-		HMENU hMenu = GetSystemMenu(hWnd, FALSE);
-		EnableMenuItem(hMenu, SC_CLOSE, MF_DISABLED | MF_BYCOMMAND);
-	}
+    HWND hWnd = GetConsoleWindow();
+    if(hWnd)
+    {
+        HMENU hMenu = GetSystemMenu(hWnd, FALSE);
+        EnableMenuItem(hMenu, SC_CLOSE, MF_DISABLED | MF_BYCOMMAND);
+    }
 #endif
 }
 
 void ThreadFunc()
 {
-    while (!bExitApp)
+    while(!bExitApp)
     {
         //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
@@ -133,10 +132,10 @@ void PrintfLogo()
     std::cout << "¡ï                                            ¡ï" << std::endl;
     std::cout << "¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï" << std::endl;
     std::cout << "\n" << std::endl;
-	std::cout << "-d Run itas daemon mode, only on linux" << std::endl;
-	std::cout << "-x Closethe 'X' button, only on windows" << std::endl;
-	std::cout << "name.xml File's name to instead of \"Plugin.xml\" when programs be launched, all platform" << std::endl;
-	std::cout << "\n" << std::endl;
+    std::cout << "-d Run itas daemon mode, only on linux" << std::endl;
+    std::cout << "-x Closethe 'X' button, only on windows" << std::endl;
+    std::cout << "name.xml File's name to instead of \"Plugin.xml\" when programs be launched, all platform" << std::endl;
+    std::cout << "\n" << std::endl;
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -145,58 +144,58 @@ void PrintfLogo()
 
 int main(int argc, char* argv[])
 {
-	for (int i = 0; i < argc; i++)
-	{
-		strArgvList += " ";
-		strArgvList += argv[i];
-	}
+    for(int i = 0; i < argc; i++)
+    {
+        strArgvList += " ";
+        strArgvList += argv[i];
+    }
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
     SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
-	if (strArgvList.find("-x") != string::npos)
-	{
-		CloseXButton();
-	}
+    if(strArgvList.find("-x") != string::npos)
+    {
+        CloseXButton();
+    }
 #elif NF_PLATFORM == NF_PLATFORM_LINUX
     //run it as a daemon process
-	if (strArgvList.find("-d") != string::npos)
-	{
-		InitDaemon();
+    if(strArgvList.find("-d") != string::npos)
+    {
+        InitDaemon();
     }
 
     signal(SIGPIPE, SIG_IGN);
     signal(SIGCHLD, SIG_IGN);
 #endif
 
-	if (strArgvList.find(".xml") != string::npos)
-	{
-		for (int i = 0; i < argc; i++)
-		{
-			strPluginName = argv[i];
-			if (strPluginName.find(".xml") != string::npos)
-			{
-				break;
-			}
-		}
+    if(strArgvList.find(".xml") != string::npos)
+    {
+        for(int i = 0; i < argc; i++)
+        {
+            strPluginName = argv[i];
+            if(strPluginName.find(".xml") != string::npos)
+            {
+                break;
+            }
+        }
 
-		NFCPluginManager::GetSingletonPtr()->SetConfigName(strPluginName);
-	}
+        NFCPluginManager::GetSingletonPtr()->SetConfigName(strPluginName);
+    }
 
 
-	NFCPluginManager::GetSingletonPtr()->Init();
-	NFCPluginManager::GetSingletonPtr()->AfterInit();
-	NFCPluginManager::GetSingletonPtr()->CheckConfig();
+    NFCPluginManager::GetSingletonPtr()->Init();
+    NFCPluginManager::GetSingletonPtr()->AfterInit();
+    NFCPluginManager::GetSingletonPtr()->CheckConfig();
 
-	PrintfLogo();
+    PrintfLogo();
     CreateBackThread();
 
-    while (!bExitApp)    //DEBUG°æ±¾±ÀÀ££¬RELEASE²»±À
+    while(!bExitApp)     //DEBUG°æ±¾±ÀÀ££¬RELEASE²»±À
     {
-        while (true)
+        while(true)
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-            if (bExitApp)
+            if(bExitApp)
             {
                 break;
             }
@@ -205,20 +204,20 @@ int main(int argc, char* argv[])
             __try
             {
 #endif
-				NFCPluginManager::GetSingletonPtr()->Execute();
+                NFCPluginManager::GetSingletonPtr()->Execute();
 #if NF_PLATFORM == NF_PLATFORM_WIN
             }
-            __except (ApplicationCrashHandler(GetExceptionInformation()))
+            __except(ApplicationCrashHandler(GetExceptionInformation()))
             {
             }
 #endif
         }
     }
 
-	NFCPluginManager::GetSingletonPtr()->BeforeShut();
-	NFCPluginManager::GetSingletonPtr()->Shut();
+    NFCPluginManager::GetSingletonPtr()->BeforeShut();
+    NFCPluginManager::GetSingletonPtr()->Shut();
 
-	NFCPluginManager::GetSingletonPtr()->ReleaseInstance();
+    NFCPluginManager::GetSingletonPtr()->ReleaseInstance();
 
     return 0;
 }

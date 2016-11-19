@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCProxyLogicModule.cpp
+//    @FileName         :    NFCProxyLogicModule.cpp
 //    @Author           :    LvSheng.Huang
 //    @Date             :    2013-05-06
 //    @Module           :    NFCProxyLogicModule
@@ -8,13 +8,9 @@
 
 #include "NFCProxyLogicPlugin.h"
 #include "NFCProxyLogicModule.h"
-#include "NFComm/Config/NFConfig.h"
 
 bool NFCProxyLogicModule::Init()
 {
-
-
-
     return true;
 }
 
@@ -25,8 +21,6 @@ bool NFCProxyLogicModule::Shut()
 
 bool NFCProxyLogicModule::Execute()
 {
-
-
     return true;
 }
 

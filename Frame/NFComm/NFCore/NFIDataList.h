@@ -313,6 +313,22 @@ public:
         }
 
         /**
+         * @fn  void SetType(TDATA_TYPE type)
+         *
+         * @brief   Sets a type.
+         *
+         * @author  Nick Yang
+         * @date    2016/11/19
+         *
+         * @param   type    The type.
+         */
+
+        void SetType(TDATA_TYPE type)
+        {
+            nType = type;
+        }
+
+        /**
          * @fn  void SetInt(const NFINT64 var)
          *
          * @brief   Sets a double.
@@ -544,34 +560,31 @@ public:
         }
 
         /**
-         * @fn  std::string StringValEx() const
+         * @fn  std::string ToString() const
          *
-         * @brief   Convert TData to std::string.
+         * @brief   Convert this object into a string representation.
          *
          * @author  Nick Yang
-         * @date    2016/11/12
+         * @date    2016/11/18
          *
-         * @return  A std::string.
+         * @return  A std::string that represents this object.
          */
 
-        std::string StringValEx() const
+        std::string ToString() const
         {
             std::string strData;
 
             switch(nType)
             {
             case TDATA_INT:
-                strData = lexical_cast<std::string> (GetInt());
+                strData = lexical_cast<std::string>(GetInt());
                 break;
-
             case TDATA_DOUBLE:
-                strData = lexical_cast<std::string> (GetDouble());
+                strData = lexical_cast<std::string>(GetDouble());
                 break;
-
             case TDATA_STRING:
                 strData = GetString();
                 break;
-
             case TDATA_OBJECT:
                 strData = GetObject().ToString();
                 break;
@@ -626,35 +639,35 @@ public:
     virtual ~NFIDataList() = 0;
 
     /**
-     * @fn  virtual std::string NFIDataList::StringValEx(const int index) const = 0;
-     *
-     * @brief   convert TData in special index to string.
-     *
-     * @author  Nick Yang
-     * @date    2016/11/12
-     *
-     * @param   index   Zero-based index of the.
-     *
-     * @return  A std::string.
-     */
-
-    virtual std::string StringValEx(const int index) const = 0;
-
-    /**
-     * @fn  virtual bool NFIDataList::ToString(std::string& str, const std::string& strSplit) const = 0;
+     * @fn  virtual std::string NFIDataList::ToString(const int index) const = 0;
      *
      * @brief   Convert this object into a string representation.
      *
      * @author  Nick Yang
-     * @date    2016/11/12
+     * @date    2016/11/18
      *
-     * @param [in,out]  str         The string.
-     * @param           strSplit    The split.
+     * @param   index   Zero-based index of the TData vector.
+     *
+     * @return  A std::string that represents this object.
+     */
+
+    virtual std::string ToString(const int index) const = 0;
+
+    /**
+     * @fn  virtual bool NFIDataList::ToString(std::string& strSource, const std::string& strSeparator) const = 0;
+     *
+     * @brief   Convert this object into a string representation with the given separator.
+     *
+     * @author  Nick Yang
+     * @date    2016/11/18
+     *
+     * @param [in,out]  strSource       The result string.
+     * @param           strSeparator    The separator.
      *
      * @return  A bool that represents this object.
      */
 
-    virtual bool ToString(std::string& str, const std::string& strSplit) const = 0;
+    virtual bool ToString(std::string& strOut, const std::string& strSeparator) const = 0;
 
 public:
 
@@ -676,12 +689,12 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Concat(const NFIDataList& src) = 0;
      *
-     * @brief   Concatenates the given source.
+     * @brief   Concatenates the given source into this DataList.
      *
      * @author  Nick Yang
      * @date    2016/11/16
      *
-     * @param   src Source for the.
+     * @param   The source NFIDataList.
      *
      * @return  True if it succeeds, false if it fails.
      */
@@ -897,12 +910,12 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Set(const int index, const NFINT64 value) = 0;
      *
-     * @brief   Sets.
+     * @brief   Set int64_t value into the given index.
      *
      * @author  Nick Yang
      * @date    2016/11/12
      *
-     * @param   index   Zero-based index of the.
+     * @param   index   Zero-based index of the TData vector.
      * @param   value   The value.
      *
      * @return  True if it succeeds, false if it fails.
@@ -913,12 +926,12 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Set(const int index, const double value) = 0;
      *
-     * @brief   Sets.
+     * @brief   Set double value into the given index.
      *
      * @author  Nick Yang
      * @date    2016/11/12
      *
-     * @param   index   Zero-based index of the.
+     * @param   index   Zero-based index of the TData vector.
      * @param   value   The value.
      *
      * @return  True if it succeeds, false if it fails.
@@ -929,12 +942,12 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Set(const int index, const std::string& value) = 0;
      *
-     * @brief   Sets.
+     * @brief   Set std::string value into the given index.
      *
      * @author  Nick Yang
      * @date    2016/11/12
      *
-     * @param   index   Zero-based index of the.
+     * @param   index   Zero-based index of the TData vector.
      * @param   value   The value.
      *
      * @return  True if it succeeds, false if it fails.
@@ -945,12 +958,12 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Set(const int index, const NFGUID& value) = 0;
      *
-     * @brief   Sets.
+     * @brief   Set NFGUID value into the given index.
      *
      * @author  Nick Yang
      * @date    2016/11/12
      *
-     * @param   index   Zero-based index of the.
+     * @param   index   Zero-based index of the TData vector.
      * @param   value   The value.
      *
      * @return  True if it succeeds, false if it fails.
@@ -961,12 +974,12 @@ public:
     /**
      * @fn  virtual bool NFIDataList::Set(const int index, const Point3D& value) = 0;
      *
-     * @brief   Sets.
+     * @brief   Set Point3D value into the given index.
      *
      * @author  Nick Yang
      * @date    2016/11/12
      *
-     * @param   index   Zero-based index of the.
+     * @param   index   Zero-based index of the TData vector.
      * @param   value   The value.
      *
      * @return  True if it succeeds, false if it fails.
@@ -977,12 +990,12 @@ public:
     /**
      * @fn  virtual NFINT64 NFIDataList::Int(const int index) const = 0;
      *
-     * @brief   Ints the given index.
+     * @brief   Get Int value of the given index.
      *
      * @author  Nick Yang
      * @date    2016/11/16
      *
-     * @param   index   Zero-based index of the.
+     * @param   index   Zero-based index of the TData vector.
      *
      * @return  A NFINT64.
      */

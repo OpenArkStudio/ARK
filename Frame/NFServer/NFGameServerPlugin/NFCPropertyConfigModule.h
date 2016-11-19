@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCPropertyConfigModule.h
+//    @FileName         :    NFCPropertyConfigModule.h
 //    @Author           :    LvSheng.Huang
 //    @Date             :    2013-09-30
 //    @Module           :    NFCPropertyConfigModule
@@ -9,7 +9,6 @@
 #ifndef NFC_PROPERTY_CONFIG_MODULE_H
 #define NFC_PROPERTY_CONFIG_MODULE_H
 
-#include "NFComm/Config/NFConfig.h"
 #include "NFComm/RapidXML/rapidxml.hpp"
 #include "NFComm/RapidXML/rapidxml_iterators.hpp"
 #include "NFComm/RapidXML/rapidxml_print.hpp"
@@ -42,8 +41,8 @@ protected:
 
 private:
     //
-	//diffent job, diffrent PropertyID[Level->EffectData]
-	NFMapEx<int, NFMapEx<int, std::string> > mhtCoefficienData;
+    //diffent job, diffrent PropertyID[Level->EffectData]
+    NFMapEx<int, NFMapEx<int, std::string> > mhtCoefficienData;
 
     NFIClassModule* m_pClassModule;
     NFIElementModule* m_pElementModule;
