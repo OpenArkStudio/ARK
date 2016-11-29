@@ -12,6 +12,15 @@
 #include "NFIDataList.h"
 #include "NFComm/NFPluginModule/NFGUID.h"
 
+/**
+ * @class   NFCDataList
+ *
+ * @brief   List of nfc data.
+ *
+ * @author  flyicegood
+ * @date    2016/11/22
+ */
+
 class NFCDataList: public NFIDataList
 {
 public:

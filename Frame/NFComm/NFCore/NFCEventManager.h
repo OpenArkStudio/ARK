@@ -12,6 +12,15 @@
 #include "NFIEventManager.h"
 #include "NFDefine.h"
 
+/**
+ * @class   NFCEventManager
+ *
+ * @brief   Manager for nfc events.
+ *
+ * @author  flyicegood
+ * @date    2016/11/22
+ */
+
 class NFCEventManager
     : public NFIEventManager
 {

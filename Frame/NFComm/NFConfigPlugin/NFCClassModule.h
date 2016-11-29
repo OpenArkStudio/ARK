@@ -25,6 +25,15 @@
 #include "NFComm/NFPluginModule/NFIElementModule.h"
 #include "NFComm/NFPluginModule/NFIPluginManager.h"
 
+/**
+ * @class   NFCClass
+ *
+ * @brief   A nfc class.
+ *
+ * @author  flyicegood
+ * @date    2016/11/22
+ */
+
 class NFCClass : public NFIClass
 {
 public:

@@ -15,7 +15,15 @@
 #define NFLOGICCLASSPLUGIN_API __declspec(dllimport)
 #endif
 
-//////////////////////////////////////////////////////////////////////////
+/**
+ * @class   NFConfigPlugin
+ *
+ * @brief   ///////////////////////////////////////////////////////////////////////.
+ *
+ * @author  flyicegood
+ * @date    2016/11/22
+ */
+
 class NFConfigPlugin : public NFIPlugin
 {
 public:

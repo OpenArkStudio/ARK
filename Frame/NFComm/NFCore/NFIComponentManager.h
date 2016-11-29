@@ -20,6 +20,19 @@ class NFIComponentManager : public NFIModule, public NFMapEx<std::string, NFICom
 public:
     virtual ~NFIComponentManager() {}
 
+    /**
+     * @fn  template <typename T> bool NFIComponentManager::AddComponent()
+     *
+     * @brief   Adds component.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @tparam  T   Generic type parameter.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     template <typename T>
     bool AddComponent()
     {
@@ -32,6 +45,20 @@ public:
         NFIComponent* pComponent = NF_NEW T();
         return AddComponent(pComponent->GetComponentName(), NF_SHARE_PTR<NFIComponent>(pComponent));
     }
+
+    /**
+     * @fn  template <typename T> NF_SHARE_PTR<T> NFIComponentManager::FindComponent(const std::string& strName)
+     *
+     * @brief   Searches for the first component.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @tparam  T   Generic type parameter.
+     * @param   strName The name.
+     *
+     * @return  The found component.
+     */
 
     template <typename T>
     NF_SHARE_PTR<T> FindComponent(const std::string& strName)
@@ -64,7 +91,32 @@ public:
         return NF_SHARE_PTR<T>();
     }
 
+    /**
+     * @fn  virtual NFGUID NFIComponentManager::Self() = 0;
+     *
+     * @brief   Gets the self ID.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @return  A NFGUID.
+     */
+
     virtual NFGUID Self() = 0;
+
+    /**
+     * @fn  virtual bool NFIComponentManager::AddComponent(const std::string& strComponentName, NF_SHARE_PTR<NFIComponent> pNewComponent) = 0;
+     *
+     * @brief   Adds a component to 'pNewComponent'.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @param   strComponentName    Name of the component.
+     * @param   pNewComponent       The new component.
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
 
     virtual bool AddComponent(const std::string& strComponentName, NF_SHARE_PTR<NFIComponent> pNewComponent) = 0;
 

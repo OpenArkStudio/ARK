@@ -292,31 +292,6 @@ NF_SHARE_PTR<NFIRecordManager> NFCElementModule::GetRecordManager(const std::str
     return nullptr;
 }
 
-bool NFCElementModule::LoadSceneInfo(const std::string& strFileName, const std::string& strClassName)
-{
-    rapidxml::file<> fdoc(strFileName.c_str());
-    //std::cout << fdoc.data() << std::endl;
-    rapidxml::xml_document<>  doc;
-    doc.parse<0>(fdoc.data());
-
-    NF_SHARE_PTR<NFIClass> pLogicClass = m_pClassModule->GetElement(strClassName.c_str());
-    if(nullptr != pLogicClass)
-    {
-        //support for unlimited layer class inherits
-        rapidxml::xml_node<>* root = doc.first_node();
-        for(rapidxml::xml_node<>* attrNode = root->first_node(); attrNode; attrNode = attrNode->next_sibling())
-        {
-            Load(attrNode, pLogicClass);
-        }
-    }
-    else
-    {
-        std::cout << "error load scene info failed, name is:" << strClassName << " file name is :" << strFileName << std::endl;
-    }
-
-    return true;
-}
-
 bool NFCElementModule::ExistElement(const std::string& strConfigName)
 {
     NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);

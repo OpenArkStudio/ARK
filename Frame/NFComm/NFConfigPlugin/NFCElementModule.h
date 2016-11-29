@@ -28,6 +28,15 @@
 
 class NFCClass;
 
+/**
+ * @class   ElementConfigInfo
+ *
+ * @brief   Information about the element configuration.
+ *
+ * @author  flyicegood
+ * @date    2016/11/22
+ */
+
 class ElementConfigInfo
 {
 public:
@@ -65,6 +74,15 @@ protected:
     NF_SHARE_PTR<NFIComponentManager> m_pComponentManager;
 };
 
+/**
+ * @class   NFCElementModule
+ *
+ * @brief   A nfc element module.
+ *
+ * @author  flyicegood
+ * @date    2016/11/22
+ */
+
 class NFCElementModule
     : public NFIElementModule,
       NFMapEx<std::string, ElementConfigInfo>
@@ -83,8 +101,6 @@ public:
     virtual bool Load();
     virtual bool Save();
     virtual bool Clear();
-
-    virtual bool LoadSceneInfo(const std::string& strFileName, const std::string& strClassName);
 
     virtual bool ExistElement(const std::string& strConfigName);
     virtual bool ExistElement(const std::string& strClassName, const std::string& strConfigName);

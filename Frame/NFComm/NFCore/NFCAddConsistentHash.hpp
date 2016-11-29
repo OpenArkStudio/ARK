@@ -16,14 +16,40 @@
 #ifndef NFC_ADDCONSISTENT_HASH_H
 #define NFC_ADDCONSISTENT_HASH_H
 
+/**
+ * @class   NFCAddConsistentHash
+ *
+ * @brief   A nfc add consistent hash.
+ *
+ * @author  flyicegood
+ * @date    2016/11/22
+ */
 
 class NFCAddConsistentHash : public NFCConsistentHash
 {
 public:
 
+    /**
+     * @fn  NFCAddConsistentHash::NFCAddConsistentHash()
+     *
+     * @brief   Default constructor.
+     *
+     * @author  flyicegood
+     * @date    2016/11/29
+     */
+
     NFCAddConsistentHash()
     {
     }
+
+    /**
+     * @fn  virtual NFCAddConsistentHash::~NFCAddConsistentHash()
+     *
+     * @brief   Destructor.
+     *
+     * @author  flyicegood
+     * @date    2016/11/29
+     */
 
     virtual ~NFCAddConsistentHash()
     {
@@ -31,6 +57,18 @@ public:
 
 public:
    //添加备胎
+
+    /**
+     * @fn  void NFCAddConsistentHash::AddCandidateMachine(const int nServerID)
+     *
+     * @brief   Adds a candidate machine.
+     *
+     * @author  flyicegood
+     * @date    2016/11/29
+     *
+     * @param   nServerID   Identifier for the server.
+     */
+
 	void AddCandidateMachine(const int nServerID) 
 	{
 		std::list<NFCMachineNode> xNodeList;
@@ -54,7 +92,16 @@ public:
 
 		Insert(xNode);
 	}
-	//实例话一个备胎
+
+    /**
+     * @fn  void NFCAddConsistentHash::IntanceCandidateMachine()
+     *
+     * @brief   实例话一个备胎.
+     *
+     * @author  flyicegood
+     * @date    2016/11/29
+     */
+
 	void IntanceCandidateMachine()
 	{
 

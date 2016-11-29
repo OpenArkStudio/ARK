@@ -50,11 +50,53 @@ class NFIPlugin : public NFIModule,
 
 public:
 
+    /**
+     * @fn  virtual const int GetPluginVersion() = 0;
+     *
+     * @brief   Gets plugin version.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @return  The plugin version.
+     */
+
     virtual const int GetPluginVersion() = 0;
+
+    /**
+     * @fn  virtual const std::string GetPluginName() = 0;
+     *
+     * @brief   Gets plugin name.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @return  The plugin name.
+     */
 
     virtual const std::string GetPluginName() = 0;
 
+    /**
+     * @fn  virtual void Install() = 0;
+     *
+     * @brief   Installs this plugin.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     */
+
     virtual void Install() = 0;
+
+    /**
+     * @fn  virtual bool Init()
+     *
+     * @brief   init this plugin.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
 
     virtual bool Init()
     {
@@ -72,6 +114,17 @@ public:
         return true;
     }
 
+    /**
+     * @fn  virtual bool AfterInit()
+     *
+     * @brief   Determines if we can after init.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool AfterInit()
     {
         NFIModule* pModule = First();
@@ -88,6 +141,17 @@ public:
         return true;
     }
 
+    /**
+     * @fn  virtual bool CheckConfig()
+     *
+     * @brief   Determines if we can check configuration.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool CheckConfig()
     {
         NFIModule* pModule = First();
@@ -100,6 +164,17 @@ public:
 
         return true;
     }
+
+    /**
+     * @fn  virtual bool Execute()
+     *
+     * @brief   Executes this object.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
 
     virtual bool Execute()
     {
@@ -114,6 +189,17 @@ public:
         return true;
     }
 
+    /**
+     * @fn  virtual bool BeforeShut()
+     *
+     * @brief   Determines if we can before shut.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
+
     virtual bool BeforeShut()
     {
         NFIModule* pModule = First();
@@ -125,6 +211,17 @@ public:
         }
         return true;
     }
+
+    /**
+     * @fn  virtual bool Shut()
+     *
+     * @brief   Shuts this object.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     *
+     * @return  True if it succeeds, false if it fails.
+     */
 
     virtual bool Shut()
     {
@@ -138,6 +235,15 @@ public:
 
         return true;
     }
+
+    /**
+     * @fn  virtual void Uninstall() = 0;
+     *
+     * @brief   Uninstalls this object.
+     *
+     * @author  flyicegood
+     * @date    2016/11/22
+     */
 
     virtual void Uninstall() = 0;
 };
