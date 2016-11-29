@@ -16,6 +16,15 @@
 #include "NFComm/NFCore/NFIHeartBeatManager.h"
 #include "NFComm/NFCore/NFIPropertyManager.h"
 
+/**
+ * @class   NFCObject
+ *
+ * @brief   A nfc object.
+ *
+ * @author  flyicegood
+ * @date    2016/11/29
+ */
+
 class NFCObject
     : public NFIObject
 {
