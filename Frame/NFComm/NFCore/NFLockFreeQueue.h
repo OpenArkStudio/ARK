@@ -34,7 +34,13 @@ public:
 
     bool Pop(T& object)
     {
-        return mList.wait_dequeue_timed(object, 5);
+        //return mList.wait_dequeue_timed(object, std::chrono::milliseconds(5));
+        return mList.try_dequeue(object);
+    }
+
+    int Count()
+    {
+        return mList.size_approx();
     }
 
 private:
