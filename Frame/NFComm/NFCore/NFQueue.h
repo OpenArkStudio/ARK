@@ -85,6 +85,11 @@ public:
         return true;
     }
 
+    int Count()
+    {
+        return mList.size();
+    }
+
 private:
     std::list<T> mList;
 };
