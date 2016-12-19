@@ -84,6 +84,8 @@ void NFCMulNet::listener_cb(struct evconnlistener* listener, evutil_socket_t fd,
 
     struct event_base* base = pNet->base;
     //����һ������socket��bufferevent
+//     int flag = 1;
+//     int nRet = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (char*)& flag, sizeof(flag));
     struct bufferevent* bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
     if (!bev)
     {
@@ -270,7 +272,8 @@ void NFCMulNet::MulThreadRunServer(const unsigned int nMaxClient, const unsigned
 void NFCMulNet::ProcessMsgLogicThread()
 {
     //Handle Msg;
-    for (size_t i = 0; i < 500; i++)
+    const int nReceiveCount = mqReciveMsg.Count();
+    for (size_t i = 0; (i < nReceiveCount) && (i < 100 ); i++)
     {
         RecivemsgInfo xMsg;
         if (!mqReciveMsg.Pop(xMsg))
@@ -282,7 +285,8 @@ void NFCMulNet::ProcessMsgLogicThread()
     }
 
     //Handle event;
-    for (size_t i = 0; i < 500; i++)
+    const int nEventCount = mqEventInfo.Count();
+    for (size_t i = 0; (i < nEventCount) && (i < 100) ; i++)
     {
         EventInfo xMsg;
         if (!mqEventInfo.Pop(xMsg))
@@ -313,7 +317,8 @@ bool NFCMulNet::NetThreadCloseNetObject(const int nSockIndex)
 void NFCMulNet::ProcessMsgNetThread()
 {
     //Send Msg;
-    for (size_t i = 0; i < 500; i++)
+    const int nCount = mqSendMsg.Count();
+    for (size_t i = 0; (i < nCount) && (i < 100); i++)
     {
         SendmsgInfo xMsg;
         if (!mqSendMsg.Pop(xMsg))

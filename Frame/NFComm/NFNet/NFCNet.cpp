@@ -81,6 +81,8 @@ void NFCNet::listener_cb(struct evconnlistener* listener, evutil_socket_t fd, st
 
     struct event_base* base = pNet->base;
     //����һ������socket��bufferevent
+//     int flag = 1;
+//     int nRet = setsockopt(fd, IPPROTO_TCP, TCP_NODELAY, (char*)& flag, sizeof(flag));
     struct bufferevent* bev = bufferevent_socket_new(base, fd, BEV_OPT_CLOSE_ON_FREE);
     if (!bev)
     {
