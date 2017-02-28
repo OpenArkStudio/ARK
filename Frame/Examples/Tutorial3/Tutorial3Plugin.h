@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName			:    NFTutorial3.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2014-05-14 08:51
 //    @Module           :   NFTutorial3
 //
