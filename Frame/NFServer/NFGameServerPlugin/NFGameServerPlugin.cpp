@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName			:    NFGameServerPlugin.cpp
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2012-07-14 08:51
 //    @Module           :    NFGameServerPlugin
 //

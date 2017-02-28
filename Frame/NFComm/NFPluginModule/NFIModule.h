@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName			:    NFIModule.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
 //    @Module           :    NFIModule
 //

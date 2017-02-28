@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName         £º    NFIGameServerScriptModule.h
-//    @Author           £º    LvSheng.Huang
+//    @Author           £º    Ark Game Tech
 //    @Date             £º    2013-07-08
 //    @Module           £º    NFIGameServerScriptModule
 //

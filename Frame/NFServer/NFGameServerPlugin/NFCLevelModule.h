@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName			:    NFCLevelModule.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2013-09-28
 //    @Module           :    NFCLevelModule
 //

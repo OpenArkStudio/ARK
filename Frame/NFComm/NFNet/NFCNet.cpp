@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName         ��    NFCNet.cpp
-//    @Author           ��    LvSheng.Huang
+//    @Author           ��    Ark Game Tech
 //    @Date             ��    2013-12-15
 //    @Module           ��    NFIPacket
 //    @Desc             :     CNet

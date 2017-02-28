@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName      :    NFCEventRouteModule.h.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2015-01-02
 //    @Module           :    NFCEventRouteModule.h
 //    @Desc         :   事件路由，主要用来代替分布式中有些对象不在本服务器然后需要转发的事件（邮件）

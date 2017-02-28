@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName         :    NFCComponentManager.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2014-02-17
 //    @Module           :    NFCComponentManager
 //

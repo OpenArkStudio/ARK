@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName			:    NFQueue.h
-//    @Author      :    LvSheng.Huang
+//    @Author      :    Ark Game Tech
 //    @Date    :    2011-01-21 21:49
 //    @Module    :
 //

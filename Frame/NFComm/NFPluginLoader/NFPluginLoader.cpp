@@ -1,12 +1,11 @@
 // -------------------------------------------------------------------------
 //    @FileName         :    NFPluginLoader.cpp
-//    @Author           :    LvSheng.Huang
-//    @Date             :
+//    @Author           :    Ark Game Tech
+//    @Date             :    2012/03/15
 //    @Module           :    NFPluginLoader
 //
 // -------------------------------------------------------------------------
 
-//#include <crtdbg.h>
 #include <time.h>
 #include <stdio.h>
 #include <iostream>

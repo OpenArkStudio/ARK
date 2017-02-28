@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName			:    NFCLoginLogicModule.cpp
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
 //    @Module           :    NFCLoginLogicModule
 //    @Desc             :

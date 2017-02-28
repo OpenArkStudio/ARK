@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName			:    NFCProxyServerToGameModule.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2013-05-06
 //    @Module           :    NFCProxyServerToGameModule
 //

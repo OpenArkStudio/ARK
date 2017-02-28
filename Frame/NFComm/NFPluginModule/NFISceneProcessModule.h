@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName         :    NFISceneProcessModule.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2013-04-14
 //    @Module           :    NFISceneProcessModule
 //

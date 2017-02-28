@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName      :    NFCCreateRoleModule.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2013-03-29
 //    @Module           :    NFCCreateRoleModule
 //
