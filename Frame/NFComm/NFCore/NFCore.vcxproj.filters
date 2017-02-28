@@ -24,9 +24,6 @@
     <ClInclude Include="NFCMemManger.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="NFTimer.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="NFQueue.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -102,11 +99,11 @@
     <ClInclude Include="NFCDataList.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="NFTime.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NFTimer.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="NFCComponentManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -135,6 +132,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="NFCDataList.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="NFTime.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>

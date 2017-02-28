@@ -25,6 +25,12 @@ struct NFGUID
         nHead64 = 0;
     }
 
+    NFGUID(NFINT64 nData)
+    {
+        nHead64 = 0;
+        nData64 = nData;
+    }
+
     NFGUID(NFINT64 nHeadData, NFINT64 nData)
     {
         nHead64 = nHeadData;

@@ -30,7 +30,7 @@ class  NFCHeartBeatElement
 public:
     bool operator==(const NFCHeartBeatElement& src)
     {
-        if (strBeatName == src.strBeatName)
+        if(strBeatName == src.strBeatName)
         {
             return true;
         }
@@ -40,10 +40,10 @@ public:
 
     NFCHeartBeatElement()
     {
-        fBeatTime = 0.0f;
+        nBeatTime = 0;
         nNextTriggerTime = 0;
         nCount = 0;
-        strBeatName = "";
+        strBeatName = NULL_STR;
     };
 
     virtual ~NFCHeartBeatElement()
@@ -52,11 +52,12 @@ public:
 
     void DoHeartBeatEvent();
 
-    float fBeatTime;
+    NFGUID self;
+    NFINT64 nBeatTime;
     NFINT64 nNextTriggerTime;//next trigger time, millisecond
     int nCount;
     std::string strBeatName;
-    NFGUID self;
+    //datalist
 };
 
 /**
@@ -135,13 +136,13 @@ public:
      * @param   self                The class instance that this method operates on.
      * @param   strHeartBeatName    Name of the heart beat.
      * @param   cb                  The cb.
-     * @param   fTime               The time.
+     * @param   nTime               The dalay time.
      * @param   nCount              Number of.
      *
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const float fTime, const int nCount) = 0;
+    virtual bool AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const NFINT64 nTime, const int nCount) = 0;
 
     /**
      * @fn  virtual bool NFIHeartBeatManager::RemoveHeartBeat(const std::string& strHeartBeatName) = 0;
@@ -178,11 +179,11 @@ public:
      */
 
     template<typename BaseType>
-    bool AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const float, const int), const float fTime, const int nCount)
+    bool AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const NFINT64, const int), const NFINT64 nTime, const int nCount)
     {
         HEART_BEAT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         HEART_BEAT_FUNCTOR_PTR functorPtr(NF_NEW HEART_BEAT_FUNCTOR(functor));
-        return AddHeartBeat(self, strHeartBeatName, functorPtr, fTime, nCount);
+        return AddHeartBeat(self, strHeartBeatName, functorPtr, nTime, nCount);
     }
 };
 

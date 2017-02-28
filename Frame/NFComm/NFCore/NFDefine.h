@@ -75,7 +75,7 @@ struct RECORD_EVENT_DATA
  * @brief   functor.
  */
 
-typedef std::function<int(const NFGUID&, const std::string&, const float, const int)> HEART_BEAT_FUNCTOR;
+typedef std::function<int(const NFGUID&, const std::string&, const NFINT64, const int)> HEART_BEAT_FUNCTOR;
 
 /**
  * @typedef std::function<void()> MODULE_HEART_BEAT_FUNCTOR

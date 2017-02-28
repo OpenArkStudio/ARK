@@ -85,6 +85,9 @@ public:
     struct TData
     {
     public:
+        using variant_type = Variant<NFINT64, double, std::string, NFGUID, Point3D>;
+
+    public:
 
         /**
          * @fn  TData()
@@ -443,8 +446,7 @@ public:
         {
             if(TDATA_INT == nType)
             {
-                //return boost::get<NFINT64>(variantData);
-                return variantData.get<NFINT64>();
+                return const_cast<variant_type&>(variantData).get<NFINT64>();
             }
 
             return NULL_INT;
@@ -465,8 +467,7 @@ public:
         {
             if(TDATA_DOUBLE == nType)
             {
-                //return boost::get<double>(variantData);
-                return variantData.get<double>();
+                return const_cast<variant_type&>(variantData).get<double>();
             }
 
             return NULL_DOUBLE;
@@ -487,8 +488,7 @@ public:
         {
             if(TDATA_STRING == nType)
             {
-                //return boost::get<const std::string&>(variantData);
-                return variantData.get<std::string>();
+                return const_cast<variant_type&>(variantData).get<std::string>();
             }
 
             return NULL_STR;
@@ -509,8 +509,7 @@ public:
         {
             if(TDATA_STRING == nType)
             {
-                //return boost::get<const std::string&>(variantData);
-                return variantData.get<std::string>().c_str();
+                return const_cast<variant_type&>(variantData).get<std::string>().c_str();
             }
 
             return NULL_STR.c_str();
@@ -531,8 +530,7 @@ public:
         {
             if(TDATA_OBJECT == nType)
             {
-                //return boost::get<const NFGUID&>(variantData);
-                return variantData.get<NFGUID>();
+                return const_cast<variant_type&>(variantData).get<NFGUID>();
             }
 
             return NULL_GUID;
@@ -553,7 +551,7 @@ public:
         {
             if(TDATA_POINT == nType)
             {
-                return variantData.get<Point3D>();
+                return const_cast<variant_type&>(variantData).get<Point3D>();
             }
 
             return NULL_POINT;
@@ -605,7 +603,7 @@ public:
 
     public:
         /** @brief   Information describing the variant. */
-        mapbox::util::variant<NFINT64, double, std::string, NFGUID, Point3D> variantData;
+        variant_type variantData;
     };
 
     /**

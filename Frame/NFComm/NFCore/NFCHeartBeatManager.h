@@ -121,13 +121,13 @@ public:
      * @param   self                The class instance that this method operates on.
      * @param   strHeartBeatName    Name of the heart beat.
      * @param   cb                  The cb.
-     * @param   fTime               The time.
+     * @param   nTime               The delay time.
      * @param   nCount              Number of.
      *
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const float fTime, const int nCount);
+    virtual bool AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const NFINT64 nTime, const int nCount);
 
     /**
      * @fn  virtual bool NFCHeartBeatManager::RemoveHeartBeat(const std::string& strHeartBeatName);
