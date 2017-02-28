@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "NFCSceneProcessModule.h"
-#include "NFComm/NFCore/NFTimer.h"
+#include "NFComm/NFCore/NFTime.h"
 #include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
 
 bool NFCSceneProcessModule::Init()

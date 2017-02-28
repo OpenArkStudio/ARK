@@ -39,7 +39,7 @@ NFCProperty::NFCProperty(const NFGUID& self, const std::string& strPropertyName,
 
 NFCProperty::~NFCProperty()
 {
-    for(TPROPERTYCALLBACKEX::iterator iter = mtPropertyCallback.begin(); iter != mtPropertyCallback.end(); ++iter)
+    for(auto& iter = mtPropertyCallback.begin(); iter != mtPropertyCallback.end(); ++iter)
     {
         iter->reset();
     }
