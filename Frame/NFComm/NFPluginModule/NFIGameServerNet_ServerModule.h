@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName         £º    NFIGameServerNet_ServerModule.h
-//    @Author           £º    LvSheng.Huang
+//    @Author           £º    Ark Game Tech
 //    @Date             £º    2012-12-15
 //    @Module           £º    NFIGameServerNet_ServerModule
 //

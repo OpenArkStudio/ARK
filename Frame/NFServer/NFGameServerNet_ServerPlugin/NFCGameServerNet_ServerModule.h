@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName			:    NFCGameServerNet_ServerModule.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
 //    @Module           :    NFCGameServerNet_ServerModule
 //    @Desc             :

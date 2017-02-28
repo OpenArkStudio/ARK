@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName      :    NFCEventRouteModule.cpp
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2015-01-02
 //    @Module           :    NFCEventRouteModule
 //

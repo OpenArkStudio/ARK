@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName         :    NFSingleton.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2011-01-21
 //    @Module           :    NFSingleton
 //

@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName			:    NFProxyServerNet_ClientPlugin.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2013-05-06
 //    @Module           :    NFProxyServerNet_ClientPlugin
 //

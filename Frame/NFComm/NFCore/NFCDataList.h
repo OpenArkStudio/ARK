@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName         :    NFCDataList.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2012-03-01
 //    @Module           :    NFCDataList
 //

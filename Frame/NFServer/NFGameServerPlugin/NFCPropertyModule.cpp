@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName         :    NFCPropertyModule.cpp
-//    @Author               :    LvSheng.Huang
+//    @Author               :    Ark Game Tech
 //    @Date                 :    2013-07-05
 //    @Module               :    NFCPropertyModule
 //    @Desc                 :

@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName         ��    NFCMulNet.h
-//    @Author           ��    LvSheng.Huang
+//    @Author           ��    Ark Game Tech
 //    @Date             ��    2013-12-15
 //    @Module           ��    NFCMulNet
 //    @Desc             :     NFCMulNet

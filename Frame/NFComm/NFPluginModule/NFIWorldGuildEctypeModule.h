@@ -1,6 +1,6 @@
 // -------------------------------------------------------------------------
 //    @FileName      :    NFIWorldGuildModule.h
-//    @Author           :    LvSheng.Huang
+//    @Author           :    Ark Game Tech
 //    @Date             :    2015-05-24 08:51
 //    @Module           :   NFIWorldGuildModule
 //
