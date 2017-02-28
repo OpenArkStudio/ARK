@@ -126,8 +126,8 @@ void PrintfLogo()
     std::cout << "\n" << std::endl;
     std::cout << "¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï" << std::endl;
     std::cout << "¡ï                                            ¡ï" << std::endl;
-    std::cout << "¡ï                 NoahFrame                  ¡ï" << std::endl;
-    std::cout << "¡ï   Copyright (c) 2011-2016  NFrame Studio   ¡ï" << std::endl;
+    std::cout << "¡ï                 ArkGame                    ¡ï" << std::endl;
+    std::cout << "¡ï   Copyright (c) 2011-2017  ArkGame Studio  ¡ï" << std::endl;
     std::cout << "¡ï             All rights reserved.           ¡ï" << std::endl;
     std::cout << "¡ï                                            ¡ï" << std::endl;
     std::cout << "¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï" << std::endl;
