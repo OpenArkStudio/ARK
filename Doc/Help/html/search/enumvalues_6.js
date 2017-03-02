@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['reconnect',['RECONNECT',['../_n_f_i_net_client_module_8hpp.html#a36bc93ba880317fd945a86a1a7eeb2ccaf0a5833d071a9c74f91cd1ef5063d2dc',1,'NFINetClientModule.hpp']]],
-  ['result',['Result',['../class_t_is_derived.html#a3adc364b2b03fa9bb9e8cddf09a1fd72ad39d2eb7fb02943cfa701df57f61d8d4',1,'TIsDerived']]]
+  ['millisecond',['MILLISECOND',['../class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da3eb327dd00c785aaea5e5e3bd0279b2b',1,'NFTime']]],
+  ['minute',['MINUTE',['../class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da9bc12cdc90226ef0c27de3b853da0e11',1,'NFTime']]],
+  ['month',['MONTH',['../class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da1ce6573d52eaf7dfa8feb653e0b582d5',1,'NFTime']]]
 ];
