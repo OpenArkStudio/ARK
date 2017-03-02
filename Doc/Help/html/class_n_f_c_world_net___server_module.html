@@ -133,9 +133,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9ed39a0ba87a769f6d84e550b8a173a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59f20d92a0b239a22d1b33bb602cb3ca"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_world_net___server_module.html#a59f20d92a0b239a22d1b33bb602cb3ca">OnRecordEnter</a> (const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;argVar, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;argGameID, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self)</td></tr>
 <tr class="separator:a59f20d92a0b239a22d1b33bb602cb3ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a211bc30a5c074c670142bfea5cdd58d0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_world_net___server_module.html#a211bc30a5c074c670142bfea5cdd58d0">OnRecordEnterPack</a> (<a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt; pRecord, NFMsg::ObjectRecordBase *pObjectRecordBase)</td></tr>
+<tr class="memitem:a211bc30a5c074c670142bfea5cdd58d0"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_world_net___server_module.html#a211bc30a5c074c670142bfea5cdd58d0">OnRecordEnterPack</a> (<a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt; pRecord, NFMsg::ObjectRecordBase *pObjectRecordBase)</td></tr>
 <tr class="separator:a211bc30a5c074c670142bfea5cdd58d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abd2d81276a97700cebc8776e5e5afa61"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_server_data.html">ServerData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_world_net___server_module.html#abd2d81276a97700cebc8776e5e5afa61">GetSuitProxyForEnter</a> ()</td></tr>
+<tr class="memitem:abd2d81276a97700cebc8776e5e5afa61"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_server_data.html">ServerData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_world_net___server_module.html#abd2d81276a97700cebc8776e5e5afa61">GetSuitProxyForEnter</a> ()</td></tr>
 <tr class="separator:abd2d81276a97700cebc8776e5e5afa61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a995a7c8df93dd6f77b2cec4c56189041"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_net_module.html">NFINetModule</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_world_net___server_module.html#a995a7c8df93dd6f77b2cec4c56189041">GetNetModule</a> ()</td></tr>
 <tr class="separator:a995a7c8df93dd6f77b2cec4c56189041"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,11 +156,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a28217dc4ebbf611a34434ff07fb0d7db inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#ab65d97e11a34f47b4257a4d3175d48b9">GetPluginManager</a> () const</td></tr>
 <tr class="separator:ab65d97e11a34f47b4257a4d3175d48b9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a48581696daeec956659ef3720834bdc9">AddHeartBeatExecute</a> (const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(), const float fTime)</td></tr>
-<tr class="separator:a48581696daeec956659ef3720834bdc9 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a89b70e2046ffd656fe4cf4bc0963be86">RemoveHeartBeat</a> (const std::string &amp;strHeartBeatName)</td></tr>
-<tr class="separator:a89b70e2046ffd656fe4cf4bc0963be86 inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a4e7340e694a0904b0bc544caaf82819d">Loading</a> () const</td></tr>
 <tr class="separator:a4e7340e694a0904b0bc544caaf82819d inherit pub_methods_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -226,6 +221,8 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_class_n_f_i_module"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_class_n_f_i_module')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="class_n_f_i_module.html">NFIModule</a></td></tr>
 <tr class="memitem:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_plugin_manager.html">NFIPluginManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a078fbd0e90c9a9918bba04407d69727c">pPluginManager</a></td></tr>
 <tr class="separator:a078fbd0e90c9a9918bba04407d69727c inherit pro_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9662825a9ac81c1d1a4d098837cd7194 inherit pro_attribs_class_n_f_i_module"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_module.html#a9662825a9ac81c1d1a4d098837cd7194">mbReloading</a></td></tr>
+<tr class="separator:a9662825a9ac81c1d1a4d098837cd7194 inherit pro_attribs_class_n_f_i_module"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="abc1c5416752f03d618e9cd8dc5ae9cdd"></a>
@@ -372,7 +369,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_server_data.html">ServerData</a> &gt; NFCWorldNet_ServerModule::GetSuitProxyForEnter </td>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_server_data.html">ServerData</a> &gt; NFCWorldNet_ServerModule::GetSuitProxyForEnter </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -1099,7 +1096,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">bool NFCWorldNet_ServerModule::OnRecordEnterPack </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_record.html">NFIRecord</a> &gt;&#160;</td>
           <td class="paramname"><em>pRecord</em>, </td>
         </tr>
         <tr>

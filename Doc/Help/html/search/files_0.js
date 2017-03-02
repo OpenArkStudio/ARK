@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['mainpage_2edocument',['MainPage.document',['../_main_page_8document.html',1,'']]]
+  ['dllmain_2ecpp',['dllmain.cpp',['../_examples_2_tutorial1_2dllmain_8cpp.html',1,'']]],
+  ['dllmain_2ecpp',['dllmain.cpp',['../_examples_2_tutorial3_2dllmain_8cpp.html',1,'']]],
+  ['dllmain_2ecpp',['dllmain.cpp',['../_examples_2_tutorial2_2dllmain_8cpp.html',1,'']]]
 ];

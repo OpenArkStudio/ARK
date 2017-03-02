@@ -65,140 +65,204 @@ $(function() {
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#pri-static-attribs">Static Private Attributes</a> &#124;
 <a href="class_n_f_time-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">NFTime Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="_n_f_timer_8h_source.html">NFTimer.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="_n_f_time_8h_source.html">NFTime.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for NFTime:</div>
 <div class="dyncontent">
 <div class="center"><img src="class_n_f_time__coll__graph.gif" border="0" usemap="#_n_f_time_coll__map" alt="Collaboration graph"/></div>
+<map name="_n_f_time_coll__map" id="_n_f_time_coll__map">
+</map>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:afd85032d5d24341b42e9e080d780e786"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom">{ <a class="el" href="class_n_f_time.html#afd85032d5d24341b42e9e080d780e786a844fd16bade5753959915ff10d5aaae6">UNDEF_TIME</a> = -1
+<tr class="memitem:ad4ce39739fc65275b98b47ab89919e7d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7d">TimeType</a> { <br />
+&#160;&#160;<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da3fed26cfed33697924696996a4c9908b">YEAR</a>, 
+<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da1ce6573d52eaf7dfa8feb653e0b582d5">MONTH</a>, 
+<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da5d77a6ddb9b6083ea3690796727af44b">DAY</a>, 
+<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da1fbef177e6265671e79f88ae89209afd">HOUR</a>, 
+<br />
+&#160;&#160;<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da9bc12cdc90226ef0c27de3b853da0e11">MINUTE</a>, 
+<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da78743dbeac955f1707d3679a25402760">SECOND</a>, 
+<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da3eb327dd00c785aaea5e5e3bd0279b2b">MILLISECOND</a>, 
+<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7dad418587296fe1c0ff0d9b1d18ccff760">WEEK_SINCE_EPOCH</a>, 
+<br />
+&#160;&#160;<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7da3c983e3c4599760b28830194bdf1404c">DAY_SINCE_EPOCH</a>, 
+<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7daf3a26dddfd3daea0ecadab07e9cf9f4b">HOUR_SINCE_EPOCH</a>, 
+<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7dadd26e915d2d85ab6671d2ea902ca2246">DAY_OF_WEEK</a>
+<br />
  }</td></tr>
-<tr class="separator:afd85032d5d24341b42e9e080d780e786"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ad4ce39739fc65275b98b47ab89919e7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0bea3afeed60a9f93830f652f5a80238"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a0bea3afeed60a9f93830f652f5a80238">NFTime</a> ()  throw ()</td></tr>
+<tr class="memitem:a0bea3afeed60a9f93830f652f5a80238"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a0bea3afeed60a9f93830f652f5a80238">NFTime</a> ()</td></tr>
 <tr class="separator:a0bea3afeed60a9f93830f652f5a80238"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cb71579abb18853601a7f59f43ab3f3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a5cb71579abb18853601a7f59f43ab3f3">NFTime</a> (time_t time)  throw ()</td></tr>
-<tr class="separator:a5cb71579abb18853601a7f59f43ab3f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa4de13d64bcdadf9683755cfc6364eae"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aa4de13d64bcdadf9683755cfc6364eae">NFTime</a> (int nYear, int nMonth, int nDay, int nHour, int nMin, int nSec, int nDST=-1)</td></tr>
-<tr class="separator:aa4de13d64bcdadf9683755cfc6364eae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2003740915f15b3a97af3fba5136d7e5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a2003740915f15b3a97af3fba5136d7e5">NFTime</a> (uint16_t wDosDate, uint16_t wDosTime, int nDST=-1)</td></tr>
-<tr class="separator:a2003740915f15b3a97af3fba5136d7e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad641e72e358bacdb639e79eb7e086f54"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_time.html">NFTime</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ad641e72e358bacdb639e79eb7e086f54">operator=</a> (time_t time)  throw ()</td></tr>
-<tr class="separator:ad641e72e358bacdb639e79eb7e086f54"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0dfa1a7384b8a9550c11e84bf986c671"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_time.html">NFTime</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a0dfa1a7384b8a9550c11e84bf986c671">operator+=</a> (<a class="el" href="class_n_f_time_span.html">NFTimeSpan</a> span)  throw ()</td></tr>
-<tr class="separator:a0dfa1a7384b8a9550c11e84bf986c671"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d1f0921607f7a2e46de3e1437f8df7d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_time.html">NFTime</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a4d1f0921607f7a2e46de3e1437f8df7d">operator-=</a> (<a class="el" href="class_n_f_time_span.html">NFTimeSpan</a> span)  throw ()</td></tr>
-<tr class="separator:a4d1f0921607f7a2e46de3e1437f8df7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad28f77ed844ef4b98757222050dbc830"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_time_span.html">NFTimeSpan</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ad28f77ed844ef4b98757222050dbc830">operator-</a> (<a class="el" href="class_n_f_time.html">NFTime</a> time) const  throw ()</td></tr>
-<tr class="separator:ad28f77ed844ef4b98757222050dbc830"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a097f58bf5d1e7b1caf46a8d6a9b51743"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_time.html">NFTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a097f58bf5d1e7b1caf46a8d6a9b51743">operator-</a> (<a class="el" href="class_n_f_time_span.html">NFTimeSpan</a> span) const  throw ()</td></tr>
-<tr class="separator:a097f58bf5d1e7b1caf46a8d6a9b51743"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0771eacc3bf08612cc3cbdb25747a6b8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_time.html">NFTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a0771eacc3bf08612cc3cbdb25747a6b8">operator+</a> (<a class="el" href="class_n_f_time_span.html">NFTimeSpan</a> span) const  throw ()</td></tr>
-<tr class="separator:a0771eacc3bf08612cc3cbdb25747a6b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b9c49f1c5eaa204e728871177a6e2d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a2b9c49f1c5eaa204e728871177a6e2d4">operator==</a> (<a class="el" href="class_n_f_time.html">NFTime</a> time) const  throw ()</td></tr>
-<tr class="separator:a2b9c49f1c5eaa204e728871177a6e2d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24eb2b8cb6e7017c3c45388889fe8e08"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a24eb2b8cb6e7017c3c45388889fe8e08">operator!=</a> (<a class="el" href="class_n_f_time.html">NFTime</a> time) const  throw ()</td></tr>
-<tr class="separator:a24eb2b8cb6e7017c3c45388889fe8e08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae10a918c144e19383de9a6a4f49da681"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ae10a918c144e19383de9a6a4f49da681">operator&lt;</a> (<a class="el" href="class_n_f_time.html">NFTime</a> time) const  throw ()</td></tr>
-<tr class="separator:ae10a918c144e19383de9a6a4f49da681"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4add08699a308c957f6b0b0210f9b8bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a4add08699a308c957f6b0b0210f9b8bf">operator&gt;</a> (<a class="el" href="class_n_f_time.html">NFTime</a> time) const  throw ()</td></tr>
-<tr class="separator:a4add08699a308c957f6b0b0210f9b8bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7cacaaee8a17e39371b37e76fc871ec"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aa7cacaaee8a17e39371b37e76fc871ec">operator&lt;=</a> (<a class="el" href="class_n_f_time.html">NFTime</a> time) const  throw ()</td></tr>
-<tr class="separator:aa7cacaaee8a17e39371b37e76fc871ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c8e97481e76ec2cea75f77f6488c5ba"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a0c8e97481e76ec2cea75f77f6488c5ba">operator&gt;=</a> (<a class="el" href="class_n_f_time.html">NFTime</a> time) const  throw ()</td></tr>
-<tr class="separator:a0c8e97481e76ec2cea75f77f6488c5ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afe8e8d1ff7ed4752289aa1dc6ecad02c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#afe8e8d1ff7ed4752289aa1dc6ecad02c">GetYear</a> () const  throw ()</td></tr>
-<tr class="separator:afe8e8d1ff7ed4752289aa1dc6ecad02c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a052ad8b19c097bcd3bae0184ef7c2823"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a052ad8b19c097bcd3bae0184ef7c2823">GetMonth</a> () const  throw ()</td></tr>
-<tr class="separator:a052ad8b19c097bcd3bae0184ef7c2823"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea5f6947966322bab4e5a3213742594c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aea5f6947966322bab4e5a3213742594c">GetDay</a> () const  throw ()</td></tr>
-<tr class="separator:aea5f6947966322bab4e5a3213742594c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aca3af2b45fd8bc4211e7930d8b5d898d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aca3af2b45fd8bc4211e7930d8b5d898d">GetHour</a> () const  throw ()</td></tr>
-<tr class="separator:aca3af2b45fd8bc4211e7930d8b5d898d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b34282d279985dcedb0542577821af2"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a6b34282d279985dcedb0542577821af2">GetMinute</a> () const  throw ()</td></tr>
-<tr class="separator:a6b34282d279985dcedb0542577821af2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3bb58fd4f19df355de65bb3a4922e1fd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a3bb58fd4f19df355de65bb3a4922e1fd">GetSecond</a> () const  throw ()</td></tr>
-<tr class="separator:a3bb58fd4f19df355de65bb3a4922e1fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a293344fbab00568c8b5440b8c1b2c2eb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a293344fbab00568c8b5440b8c1b2c2eb">GetDayOfWeek</a> () const  throw ()</td></tr>
-<tr class="separator:a293344fbab00568c8b5440b8c1b2c2eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7d9c311be841445ac0e15b37c30f2c3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ad7d9c311be841445ac0e15b37c30f2c3">NFTime</a> (int64_t nTime)</td></tr>
+<tr class="separator:ad7d9c311be841445ac0e15b37c30f2c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac471bc757c55461a3cc75665b995b380"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ac471bc757c55461a3cc75665b995b380">NFTime</a> (int64_t nTime, int nTimeZone)</td></tr>
+<tr class="separator:ac471bc757c55461a3cc75665b995b380"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4572149ead3cfec69f12f0a03ec1a561"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a4572149ead3cfec69f12f0a03ec1a561">NFTime</a> (std::string strTime)</td></tr>
+<tr class="separator:a4572149ead3cfec69f12f0a03ec1a561"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae05b3dbadfb6b6fb49c668e3fc082526"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ae05b3dbadfb6b6fb49c668e3fc082526">NFTime</a> (std::string strTime, int nTimeZone)</td></tr>
+<tr class="separator:ae05b3dbadfb6b6fb49c668e3fc082526"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a3ef6cb465b1b30fa6131f400ed5d15"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a3a3ef6cb465b1b30fa6131f400ed5d15">NFTime</a> (int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond)</td></tr>
+<tr class="separator:a3a3ef6cb465b1b30fa6131f400ed5d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42e9c3d28882843a380210257da4a307"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a42e9c3d28882843a380210257da4a307">NFTime</a> (int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond, int nMilliSecond, int nTimeZone=<a class="el" href="class_n_f_time.html#ac566b1a592144020911c6db3e45c4df3">mnDefaultTimeZone</a>)</td></tr>
+<tr class="separator:a42e9c3d28882843a380210257da4a307"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01a584830eb857d6800fd6333e695596"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a01a584830eb857d6800fd6333e695596">GetStr</a> ()</td></tr>
+<tr class="separator:a01a584830eb857d6800fd6333e695596"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3d6912d5130d748becafa9f9ad7d40a"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ac3d6912d5130d748becafa9f9ad7d40a">GetStr_YMD</a> ()</td></tr>
+<tr class="separator:ac3d6912d5130d748becafa9f9ad7d40a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a165307a7b53fae3255d3286ca2f7df4c"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a165307a7b53fae3255d3286ca2f7df4c">GetStr_HMS</a> ()</td></tr>
+<tr class="separator:a165307a7b53fae3255d3286ca2f7df4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e9f11eb04717b953e6902e716a892e6"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a7e9f11eb04717b953e6902e716a892e6">GetStr_YMDHMS</a> ()</td></tr>
+<tr class="separator:a7e9f11eb04717b953e6902e716a892e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a466ee722753b6ddb8c6168e027fe7fbe"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a466ee722753b6ddb8c6168e027fe7fbe">GetStr_YMDHMSM</a> ()</td></tr>
+<tr class="separator:a466ee722753b6ddb8c6168e027fe7fbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc28f1227a13af50b84295db0520b28e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#adc28f1227a13af50b84295db0520b28e">FromString</a> (const std::string &amp;strTime)</td></tr>
+<tr class="separator:adc28f1227a13af50b84295db0520b28e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6659f63eb399c56ae052ebbfdbbeaca0"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a6659f63eb399c56ae052ebbfdbbeaca0">GetTime</a> ()</td></tr>
+<tr class="separator:a6659f63eb399c56ae052ebbfdbbeaca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9076f66a979d2a0bb92ea2dce8a616df"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a9076f66a979d2a0bb92ea2dce8a616df">Get</a> (<a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7d">TimeType</a> type)</td></tr>
+<tr class="separator:a9076f66a979d2a0bb92ea2dce8a616df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e0836870a2358ae218af6c0764fe071"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a9e0836870a2358ae218af6c0764fe071">GetTimeZone</a> ()</td></tr>
+<tr class="separator:a9e0836870a2358ae218af6c0764fe071"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca76d64fe098ed38c8ee833d103724b0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aca76d64fe098ed38c8ee833d103724b0">SetTime</a> (int64_t nTime)</td></tr>
+<tr class="separator:aca76d64fe098ed38c8ee833d103724b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a113178b9c2a88f8dab415bbd0b1e5859"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a113178b9c2a88f8dab415bbd0b1e5859">GetYear</a> ()</td></tr>
+<tr class="separator:a113178b9c2a88f8dab415bbd0b1e5859"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28e5afc662e6a7f7c07144bdbae994e1"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a28e5afc662e6a7f7c07144bdbae994e1">GetMonth</a> ()</td></tr>
+<tr class="separator:a28e5afc662e6a7f7c07144bdbae994e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7f17be7dc842013b2966e48ba126609"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ae7f17be7dc842013b2966e48ba126609">GetDay</a> ()</td></tr>
+<tr class="separator:ae7f17be7dc842013b2966e48ba126609"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab080b950e638a12f7dcfe7eecdc66b03"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ab080b950e638a12f7dcfe7eecdc66b03">GetHour</a> ()</td></tr>
+<tr class="separator:ab080b950e638a12f7dcfe7eecdc66b03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab44e7cb9c989b48fa1d8d75ed36c81ba"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ab44e7cb9c989b48fa1d8d75ed36c81ba">GetMinute</a> ()</td></tr>
+<tr class="separator:ab44e7cb9c989b48fa1d8d75ed36c81ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45069c937678826a5b2753d6f6746254"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a45069c937678826a5b2753d6f6746254">GetSecond</a> ()</td></tr>
+<tr class="separator:a45069c937678826a5b2753d6f6746254"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a973fa65126e596adf2bee5f3c6a6bc69"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a973fa65126e596adf2bee5f3c6a6bc69">SameMinute</a> (int64_t nTime)</td></tr>
 <tr class="separator:a973fa65126e596adf2bee5f3c6a6bc69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af6b343c8f46d4eac04c9840fb528d143"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#af6b343c8f46d4eac04c9840fb528d143">SameHour</a> (int64_t nTime)</td></tr>
 <tr class="separator:af6b343c8f46d4eac04c9840fb528d143"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a02fa0428dcae28aa66ebe8523f4835"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a7a02fa0428dcae28aa66ebe8523f4835">SameDay</a> (int64_t nTime)</td></tr>
 <tr class="separator:a7a02fa0428dcae28aa66ebe8523f4835"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8032cbe1796c10a0e33e24c405f566e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ab8032cbe1796c10a0e33e24c405f566e">SameWeek</a> (int64_t nTime)</td></tr>
-<tr class="separator:ab8032cbe1796c10a0e33e24c405f566e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1919cce11843e4fb47ad8adb747e595d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a1919cce11843e4fb47ad8adb747e595d">SameMonth</a> (int64_t nTime)</td></tr>
 <tr class="separator:a1919cce11843e4fb47ad8adb747e595d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a42acdf3fd3a1361c4511152581d5a7e1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a42acdf3fd3a1361c4511152581d5a7e1">SameYear</a> (int64_t nTime)</td></tr>
 <tr class="separator:a42acdf3fd3a1361c4511152581d5a7e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d3b8d57a1a7f0ba48958c7275722175"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a1d3b8d57a1a7f0ba48958c7275722175">Print</a> (std::string &amp;strTime)</td></tr>
-<tr class="separator:a1d3b8d57a1a7f0ba48958c7275722175"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8032cbe1796c10a0e33e24c405f566e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ab8032cbe1796c10a0e33e24c405f566e">SameWeek</a> (int64_t nTime)</td></tr>
+<tr class="separator:ab8032cbe1796c10a0e33e24c405f566e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26022d1a554767702a03a555b402979a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a26022d1a554767702a03a555b402979a">GetDayOfWeek</a> ()</td></tr>
+<tr class="separator:a26022d1a554767702a03a555b402979a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0fdbe2ee7f2db2827402926b03fe120d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a0fdbe2ee7f2db2827402926b03fe120d">GetWeekOfMonth</a> ()</td></tr>
+<tr class="separator:a0fdbe2ee7f2db2827402926b03fe120d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2cebfc2a350ed68d3a3c59911ec2990"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aa2cebfc2a350ed68d3a3c59911ec2990">GetDayOfYear</a> ()</td></tr>
+<tr class="separator:aa2cebfc2a350ed68d3a3c59911ec2990"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2701fc049281657160a7866a491de5ce"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a2701fc049281657160a7866a491de5ce">GetWeekOfYear</a> ()</td></tr>
+<tr class="separator:a2701fc049281657160a7866a491de5ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aea98ccf91cf9ccf52e813eae0b0cd907"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="class_n_f_time.html">NFTime</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aea98ccf91cf9ccf52e813eae0b0cd907">GetCurrentTime</a> ()  throw ()</td></tr>
-<tr class="separator:aea98ccf91cf9ccf52e813eae0b0cd907"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac90b9c81af5736d8f0c3f0c86242a848"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ac90b9c81af5736d8f0c3f0c86242a848">IsPassCurrentTime</a> (time_t n64Time)</td></tr>
-<tr class="separator:ac90b9c81af5736d8f0c3f0c86242a848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad240f8e440148522fd9cf33f219aff59"><td class="memItemLeft" align="right" valign="top">static time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ad240f8e440148522fd9cf33f219aff59">GetNowTime</a> ()</td></tr>
-<tr class="separator:ad240f8e440148522fd9cf33f219aff59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad90cdddcb0796468b2a1ee4ae54df239"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ad90cdddcb0796468b2a1ee4ae54df239">GetNowTimeMille</a> ()</td></tr>
-<tr class="separator:ad90cdddcb0796468b2a1ee4ae54df239"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac98ba0edcaac649a619d9303ca72c917"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ac98ba0edcaac649a619d9303ca72c917">GetUTCTime</a> ()</td></tr>
+<tr class="separator:ac98ba0edcaac649a619d9303ca72c917"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0be0650f95f7086d37b0189467d6cc06"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a0be0650f95f7086d37b0189467d6cc06">GetNowMillisecond</a> ()</td></tr>
+<tr class="separator:a0be0650f95f7086d37b0189467d6cc06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae24408b50d075f48709b110e35e5f29"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aae24408b50d075f48709b110e35e5f29">GetTimeZoneSecond</a> ()</td></tr>
+<tr class="separator:aae24408b50d075f48709b110e35e5f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7ae921db2677d8149b713ed89cd57b6"><td class="memItemLeft" align="right" valign="top">static int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ad7ae921db2677d8149b713ed89cd57b6">GetTimeZoneMillisecond</a> ()</td></tr>
+<tr class="separator:ad7ae921db2677d8149b713ed89cd57b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac502ab3f08e8e0f04e2cc08d7784c220"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ac502ab3f08e8e0f04e2cc08d7784c220">SetTimeZone</a> (int nTimeZone)</td></tr>
+<tr class="separator:ac502ab3f08e8e0f04e2cc08d7784c220"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:af37b3f80ff5e2dc78547a2c5f348cfc3"><td class="memItemLeft" align="right" valign="top">time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#af37b3f80ff5e2dc78547a2c5f348cfc3">GetTime</a> () const  throw ()</td></tr>
-<tr class="separator:af37b3f80ff5e2dc78547a2c5f348cfc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeed08323855f7ca4a67714a531ebdf7d"><td class="memItemLeft" align="right" valign="top">struct tm *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aeed08323855f7ca4a67714a531ebdf7d">GetGmtTm</a> (struct tm *ptm) const</td></tr>
-<tr class="separator:aeed08323855f7ca4a67714a531ebdf7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab4e48bba39b67f2da69db03c2830b81a"><td class="memItemLeft" align="right" valign="top">struct tm *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ab4e48bba39b67f2da69db03c2830b81a">GetLocalTm</a> (struct tm *ptm) const</td></tr>
-<tr class="separator:ab4e48bba39b67f2da69db03c2830b81a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c8d06feac0de0c37e8fb67211d7bee0"><td class="memItemLeft" align="right" valign="top">struct tm *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a7c8d06feac0de0c37e8fb67211d7bee0">GetGmtTm</a> () const  throw ()</td></tr>
-<tr class="separator:a7c8d06feac0de0c37e8fb67211d7bee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aed72ee3a4799110b8bebd4258f507506"><td class="memItemLeft" align="right" valign="top">struct tm *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aed72ee3a4799110b8bebd4258f507506">GetLocalTm</a> () const  throw ()</td></tr>
-<tr class="separator:aed72ee3a4799110b8bebd4258f507506"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:af0acc781134b55d388423acd109c6b8a"><td class="memItemLeft" align="right" valign="top">static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#af0acc781134b55d388423acd109c6b8a">NSECOND_MS</a> = 1000L</td></tr>
+<tr class="separator:af0acc781134b55d388423acd109c6b8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae57e7191e7980dd3e82e167b6afccc0"><td class="memItemLeft" align="right" valign="top">static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aae57e7191e7980dd3e82e167b6afccc0">NMINUTE_MS</a> = 60 * 1000L</td></tr>
+<tr class="separator:aae57e7191e7980dd3e82e167b6afccc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0824e3f7b27f788d2ae41555c6682a8b"><td class="memItemLeft" align="right" valign="top">static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a0824e3f7b27f788d2ae41555c6682a8b">NHOUR_MS</a> = 60 * 60 * 1000L</td></tr>
+<tr class="separator:a0824e3f7b27f788d2ae41555c6682a8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe2c14e3cf49505bb64790d7beb03060"><td class="memItemLeft" align="right" valign="top">static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#afe2c14e3cf49505bb64790d7beb03060">NDAY_MS</a> = 24 * 60 * 60 * 1000L</td></tr>
+<tr class="separator:afe2c14e3cf49505bb64790d7beb03060"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dbe7d54d18b49e19b0a82f76467da7c"><td class="memItemLeft" align="right" valign="top">static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a7dbe7d54d18b49e19b0a82f76467da7c">NWEEK_MS</a> = 7 * 24 * 60 * 60 * 1000L</td></tr>
+<tr class="separator:a7dbe7d54d18b49e19b0a82f76467da7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b4a9a976fb451c364d9f125a4c96b07"><td class="memItemLeft" align="right" valign="top">static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a7b4a9a976fb451c364d9f125a4c96b07">NSECOND_S</a> = 1L</td></tr>
+<tr class="separator:a7b4a9a976fb451c364d9f125a4c96b07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeecacea7df9595ca46f35ea5c549c3a0"><td class="memItemLeft" align="right" valign="top">static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aeecacea7df9595ca46f35ea5c549c3a0">NMINUTE_S</a> = 60L</td></tr>
+<tr class="separator:aeecacea7df9595ca46f35ea5c549c3a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa71be49a69104e64a1d37bd6ef729717"><td class="memItemLeft" align="right" valign="top">static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aa71be49a69104e64a1d37bd6ef729717">NHOUR_S</a> = 60 * 60L</td></tr>
+<tr class="separator:aa71be49a69104e64a1d37bd6ef729717"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a175f93b56f83a32c2b822522d5cfd35b"><td class="memItemLeft" align="right" valign="top">static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a175f93b56f83a32c2b822522d5cfd35b">NDAY_S</a> = 24 * 60 * 60L</td></tr>
+<tr class="separator:a175f93b56f83a32c2b822522d5cfd35b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb27dd59f8d3e41880916d3357b40503"><td class="memItemLeft" align="right" valign="top">static const int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#abb27dd59f8d3e41880916d3357b40503">NWEEK_S</a> = 7 * 24 * 60 * 60L</td></tr>
+<tr class="separator:abb27dd59f8d3e41880916d3357b40503"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac566b1a592144020911c6db3e45c4df3"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ac566b1a592144020911c6db3e45c4df3">mnDefaultTimeZone</a> = 8</td></tr>
+<tr class="separator:ac566b1a592144020911c6db3e45c4df3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:aa9668cbc2aebf84a83fd0d61b475d785"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aa9668cbc2aebf84a83fd0d61b475d785">InitWithYMDHMSM</a> (std::string strTime)</td></tr>
+<tr class="separator:aa9668cbc2aebf84a83fd0d61b475d785"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1f5a994ab23feb534518184b56fd26a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ab1f5a994ab23feb534518184b56fd26a">InitWithYMDHMSM</a> (int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond, int nMilliSecond)</td></tr>
+<tr class="separator:ab1f5a994ab23feb534518184b56fd26a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba5f5343b2194d3cecabc5e7068e9c35"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#aba5f5343b2194d3cecabc5e7068e9c35">IsLeapYear</a> (int nYear)</td></tr>
+<tr class="separator:aba5f5343b2194d3cecabc5e7068e9c35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b23de5699eb5f05b84cabfde8d4ea92"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a8b23de5699eb5f05b84cabfde8d4ea92">Split</a> (const std::string &amp;str, std::vector&lt; std::string &gt; &amp;ret_, std::string sep)</td></tr>
+<tr class="separator:a8b23de5699eb5f05b84cabfde8d4ea92"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a9b477a793f11bf38be9498dda3c29fa6"><td class="memItemLeft" align="right" valign="top">time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a9b477a793f11bf38be9498dda3c29fa6">m_time</a></td></tr>
-<tr class="separator:a9b477a793f11bf38be9498dda3c29fa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad809a680e57268b12c52150bf58f1435"><td class="memItemLeft" align="right" valign="top">int64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#ad809a680e57268b12c52150bf58f1435">mnTime</a></td></tr>
+<tr class="separator:ad809a680e57268b12c52150bf58f1435"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-attribs"></a>
+Static Private Attributes</h2></td></tr>
+<tr class="memitem:a723234d0eff4c67c76b3caac52979ddb"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_time.html#a723234d0eff4c67c76b3caac52979ddb">mnTimeZone</a> = <a class="el" href="class_n_f_time.html#ac566b1a592144020911c6db3e45c4df3">NFTime::mnDefaultTimeZone</a></td></tr>
+<tr class="separator:a723234d0eff4c67c76b3caac52979ddb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="afd85032d5d24341b42e9e080d780e786"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afd85032d5d24341b42e9e080d780e786">&sect;&nbsp;</a></span>anonymous enum</h2>
+<a id="ad4ce39739fc65275b98b47ab89919e7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4ce39739fc65275b98b47ab89919e7d">&sect;&nbsp;</a></span>TimeType</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">anonymous enum</td>
+          <td class="memname">enum <a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7d">NFTime::TimeType</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="afd85032d5d24341b42e9e080d780e786a844fd16bade5753959915ff10d5aaae6"></a>UNDEF_TIME&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7da3fed26cfed33697924696996a4c9908b"></a>YEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7da1ce6573d52eaf7dfa8feb653e0b582d5"></a>MONTH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7da5d77a6ddb9b6083ea3690796727af44b"></a>DAY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7da1fbef177e6265671e79f88ae89209afd"></a>HOUR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7da9bc12cdc90226ef0c27de3b853da0e11"></a>MINUTE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7da78743dbeac955f1707d3679a25402760"></a>SECOND&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7da3eb327dd00c785aaea5e5e3bd0279b2b"></a>MILLISECOND&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7dad418587296fe1c0ff0d9b1d18ccff760"></a>WEEK_SINCE_EPOCH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7da3c983e3c4599760b28830194bdf1404c"></a>DAY_SINCE_EPOCH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7daf3a26dddfd3daea0ecadab07e9cf9f4b"></a>HOUR_SINCE_EPOCH&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad4ce39739fc65275b98b47ab89919e7dadd26e915d2d85ab6671d2ea902ca2246"></a>DAY_OF_WEEK&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a0bea3afeed60a9f93830f652f5a80238"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0bea3afeed60a9f93830f652f5a80238">&sect;&nbsp;</a></span>NFTime() <span class="overload">[1/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bea3afeed60a9f93830f652f5a80238">&sect;&nbsp;</a></span>NFTime() <span class="overload">[1/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -209,19 +273,13 @@ Private Attributes</h2></td></tr>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a5cb71579abb18853601a7f59f43ab3f3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5cb71579abb18853601a7f59f43ab3f3">&sect;&nbsp;</a></span>NFTime() <span class="overload">[2/4]</span></h2>
+<a id="ad7d9c311be841445ac0e15b37c30f2c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7d9c311be841445ac0e15b37c30f2c3">&sect;&nbsp;</a></span>NFTime() <span class="overload">[2/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -229,23 +287,91 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">NFTime::NFTime </td>
           <td>(</td>
-          <td class="paramtype">time_t&#160;</td>
-          <td class="paramname"><em>time</em></td><td>)</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>nTime</em></td><td>)</td>
           <td></td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="aa4de13d64bcdadf9683755cfc6364eae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa4de13d64bcdadf9683755cfc6364eae">&sect;&nbsp;</a></span>NFTime() <span class="overload">[3/4]</span></h2>
+<a id="ac471bc757c55461a3cc75665b995b380"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac471bc757c55461a3cc75665b995b380">&sect;&nbsp;</a></span>NFTime() <span class="overload">[3/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFTime::NFTime </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>nTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nTimeZone</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4572149ead3cfec69f12f0a03ec1a561"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4572149ead3cfec69f12f0a03ec1a561">&sect;&nbsp;</a></span>NFTime() <span class="overload">[4/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFTime::NFTime </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>strTime</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae05b3dbadfb6b6fb49c668e3fc082526"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae05b3dbadfb6b6fb49c668e3fc082526">&sect;&nbsp;</a></span>NFTime() <span class="overload">[5/7]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">NFTime::NFTime </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>strTime</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nTimeZone</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3a3ef6cb465b1b30fa6131f400ed5d15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a3ef6cb465b1b30fa6131f400ed5d15">&sect;&nbsp;</a></span>NFTime() <span class="overload">[6/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -278,19 +404,13 @@ Private Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nMin</em>, </td>
+          <td class="paramname"><em>nMinute</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nSec</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nDST</em> = <code>-1</code>&#160;</td>
+          <td class="paramname"><em>nSecond</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -302,8 +422,8 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a2003740915f15b3a97af3fba5136d7e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2003740915f15b3a97af3fba5136d7e5">&sect;&nbsp;</a></span>NFTime() <span class="overload">[4/4]</span></h2>
+<a id="a42e9c3d28882843a380210257da4a307"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42e9c3d28882843a380210257da4a307">&sect;&nbsp;</a></span>NFTime() <span class="overload">[7/7]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,20 +431,50 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="memname">NFTime::NFTime </td>
           <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>wDosDate</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>wDosTime</em>, </td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nYear</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>nDST</em> = <code>-1</code>&#160;</td>
+          <td class="paramname"><em>nMonth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nDay</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nHour</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nMinute</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nSecond</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nMilliSecond</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nTimeZone</em> = <code><a class="el" href="class_n_f_time.html#ac566b1a592144020911c6db3e45c4df3">mnDefaultTimeZone</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -337,62 +487,61 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aea98ccf91cf9ccf52e813eae0b0cd907"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea98ccf91cf9ccf52e813eae0b0cd907">&sect;&nbsp;</a></span>GetCurrentTime()</h2>
+<a id="adc28f1227a13af50b84295db0520b28e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc28f1227a13af50b84295db0520b28e">&sect;&nbsp;</a></span>FromString()</h2>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="class_n_f_time.html">NFTime</a> NFTime::GetCurrentTime </td>
+          <td class="memname">bool NFTime::FromString </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>strTime</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9076f66a979d2a0bb92ea2dce8a616df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9076f66a979d2a0bb92ea2dce8a616df">&sect;&nbsp;</a></span>Get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t NFTime::Get </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_n_f_time.html#ad4ce39739fc65275b98b47ab89919e7d">TimeType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae7f17be7dc842013b2966e48ba126609"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7f17be7dc842013b2966e48ba126609">&sect;&nbsp;</a></span>GetDay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t NFTime::GetDay </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aea5f6947966322bab4e5a3213742594c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea5f6947966322bab4e5a3213742594c">&sect;&nbsp;</a></span>GetDay()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int NFTime::GetDay </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a293344fbab00568c8b5440b8c1b2c2eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a293344fbab00568c8b5440b8c1b2c2eb">&sect;&nbsp;</a></span>GetDayOfWeek()</h2>
+<a id="a26022d1a554767702a03a555b402979a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26022d1a554767702a03a555b402979a">&sect;&nbsp;</a></span>GetDayOfWeek()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -401,21 +550,83 @@ Private Attributes</h2></td></tr>
           <td class="memname">int NFTime::GetDayOfWeek </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="aeed08323855f7ca4a67714a531ebdf7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeed08323855f7ca4a67714a531ebdf7d">&sect;&nbsp;</a></span>GetGmtTm() <span class="overload">[1/2]</span></h2>
+<a id="aa2cebfc2a350ed68d3a3c59911ec2990"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2cebfc2a350ed68d3a3c59911ec2990">&sect;&nbsp;</a></span>GetDayOfYear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int NFTime::GetDayOfYear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab080b950e638a12f7dcfe7eecdc66b03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab080b950e638a12f7dcfe7eecdc66b03">&sect;&nbsp;</a></span>GetHour()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t NFTime::GetHour </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab44e7cb9c989b48fa1d8d75ed36c81ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab44e7cb9c989b48fa1d8d75ed36c81ba">&sect;&nbsp;</a></span>GetMinute()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t NFTime::GetMinute </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a28e5afc662e6a7f7c07144bdbae994e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28e5afc662e6a7f7c07144bdbae994e1">&sect;&nbsp;</a></span>GetMonth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t NFTime::GetMonth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0be0650f95f7086d37b0189467d6cc06"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0be0650f95f7086d37b0189467d6cc06">&sect;&nbsp;</a></span>GetNowMillisecond()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -424,190 +635,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">struct tm * NFTime::GetGmtTm </td>
-          <td>(</td>
-          <td class="paramtype">struct tm *&#160;</td>
-          <td class="paramname"><em>ptm</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7c8d06feac0de0c37e8fb67211d7bee0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7c8d06feac0de0c37e8fb67211d7bee0">&sect;&nbsp;</a></span>GetGmtTm() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct tm * NFTime::GetGmtTm </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aca3af2b45fd8bc4211e7930d8b5d898d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aca3af2b45fd8bc4211e7930d8b5d898d">&sect;&nbsp;</a></span>GetHour()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int NFTime::GetHour </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ab4e48bba39b67f2da69db03c2830b81a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4e48bba39b67f2da69db03c2830b81a">&sect;&nbsp;</a></span>GetLocalTm() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct tm * NFTime::GetLocalTm </td>
-          <td>(</td>
-          <td class="paramtype">struct tm *&#160;</td>
-          <td class="paramname"><em>ptm</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aed72ee3a4799110b8bebd4258f507506"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed72ee3a4799110b8bebd4258f507506">&sect;&nbsp;</a></span>GetLocalTm() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct tm * NFTime::GetLocalTm </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a6b34282d279985dcedb0542577821af2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b34282d279985dcedb0542577821af2">&sect;&nbsp;</a></span>GetMinute()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int NFTime::GetMinute </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a052ad8b19c097bcd3bae0184ef7c2823"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a052ad8b19c097bcd3bae0184ef7c2823">&sect;&nbsp;</a></span>GetMonth()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int NFTime::GetMonth </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad240f8e440148522fd9cf33f219aff59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad240f8e440148522fd9cf33f219aff59">&sect;&nbsp;</a></span>GetNowTime()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static time_t NFTime::GetNowTime </td>
+          <td class="memname">int64_t NFTime::GetNowMillisecond </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -615,15 +643,151 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="ad90cdddcb0796468b2a1ee4ae54df239"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad90cdddcb0796468b2a1ee4ae54df239">&sect;&nbsp;</a></span>GetNowTimeMille()</h2>
+<a id="a45069c937678826a5b2753d6f6746254"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45069c937678826a5b2753d6f6746254">&sect;&nbsp;</a></span>GetSecond()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t NFTime::GetSecond </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a01a584830eb857d6800fd6333e695596"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01a584830eb857d6800fd6333e695596">&sect;&nbsp;</a></span>GetStr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string NFTime::GetStr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a165307a7b53fae3255d3286ca2f7df4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a165307a7b53fae3255d3286ca2f7df4c">&sect;&nbsp;</a></span>GetStr_HMS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string NFTime::GetStr_HMS </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac3d6912d5130d748becafa9f9ad7d40a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3d6912d5130d748becafa9f9ad7d40a">&sect;&nbsp;</a></span>GetStr_YMD()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string NFTime::GetStr_YMD </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7e9f11eb04717b953e6902e716a892e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e9f11eb04717b953e6902e716a892e6">&sect;&nbsp;</a></span>GetStr_YMDHMS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string NFTime::GetStr_YMDHMS </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a466ee722753b6ddb8c6168e027fe7fbe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a466ee722753b6ddb8c6168e027fe7fbe">&sect;&nbsp;</a></span>GetStr_YMDHMSM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string NFTime::GetStr_YMDHMSM </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6659f63eb399c56ae052ebbfdbbeaca0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6659f63eb399c56ae052ebbfdbbeaca0">&sect;&nbsp;</a></span>GetTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t NFTime::GetTime </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9e0836870a2358ae218af6c0764fe071"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e0836870a2358ae218af6c0764fe071">&sect;&nbsp;</a></span>GetTimeZone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int NFTime::GetTimeZone </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad7ae921db2677d8149b713ed89cd57b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7ae921db2677d8149b713ed89cd57b6">&sect;&nbsp;</a></span>GetTimeZoneMillisecond()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -632,7 +796,7 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static int64_t NFTime::GetNowTimeMille </td>
+          <td class="memname">int64_t NFTime::GetTimeZoneMillisecond </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -640,38 +804,15 @@ Private Attributes</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a3bb58fd4f19df355de65bb3a4922e1fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3bb58fd4f19df355de65bb3a4922e1fd">&sect;&nbsp;</a></span>GetSecond()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int NFTime::GetSecond </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="af37b3f80ff5e2dc78547a2c5f348cfc3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af37b3f80ff5e2dc78547a2c5f348cfc3">&sect;&nbsp;</a></span>GetTime()</h2>
+<a id="aae24408b50d075f48709b110e35e5f29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae24408b50d075f48709b110e35e5f29">&sect;&nbsp;</a></span>GetTimeZoneSecond()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -680,366 +821,23 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">time_t NFTime::GetTime </td>
+          <td class="memname">int64_t NFTime::GetTimeZoneSecond </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="afe8e8d1ff7ed4752289aa1dc6ecad02c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afe8e8d1ff7ed4752289aa1dc6ecad02c">&sect;&nbsp;</a></span>GetYear()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">int NFTime::GetYear </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ac90b9c81af5736d8f0c3f0c86242a848"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac90b9c81af5736d8f0c3f0c86242a848">&sect;&nbsp;</a></span>IsPassCurrentTime()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static bool NFTime::IsPassCurrentTime </td>
-          <td>(</td>
-          <td class="paramtype">time_t&#160;</td>
-          <td class="paramname"><em>n64Time</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 </div>
 </div>
-<a id="a24eb2b8cb6e7017c3c45388889fe8e08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a24eb2b8cb6e7017c3c45388889fe8e08">&sect;&nbsp;</a></span>operator!=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool NFTime::operator!= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time.html">NFTime</a>&#160;</td>
-          <td class="paramname"><em>time</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0771eacc3bf08612cc3cbdb25747a6b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0771eacc3bf08612cc3cbdb25747a6b8">&sect;&nbsp;</a></span>operator+()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_n_f_time.html">NFTime</a> NFTime::operator+ </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time_span.html">NFTimeSpan</a>&#160;</td>
-          <td class="paramname"><em>span</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0dfa1a7384b8a9550c11e84bf986c671"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0dfa1a7384b8a9550c11e84bf986c671">&sect;&nbsp;</a></span>operator+=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_n_f_time.html">NFTime</a> &amp; NFTime::operator+= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time_span.html">NFTimeSpan</a>&#160;</td>
-          <td class="paramname"><em>span</em></td><td>)</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad28f77ed844ef4b98757222050dbc830"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad28f77ed844ef4b98757222050dbc830">&sect;&nbsp;</a></span>operator-() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_n_f_time_span.html">NFTimeSpan</a> NFTime::operator- </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time.html">NFTime</a>&#160;</td>
-          <td class="paramname"><em>time</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a097f58bf5d1e7b1caf46a8d6a9b51743"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a097f58bf5d1e7b1caf46a8d6a9b51743">&sect;&nbsp;</a></span>operator-() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_n_f_time.html">NFTime</a> NFTime::operator- </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time_span.html">NFTimeSpan</a>&#160;</td>
-          <td class="paramname"><em>span</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4d1f0921607f7a2e46de3e1437f8df7d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4d1f0921607f7a2e46de3e1437f8df7d">&sect;&nbsp;</a></span>operator-=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_n_f_time.html">NFTime</a> &amp; NFTime::operator-= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time_span.html">NFTimeSpan</a>&#160;</td>
-          <td class="paramname"><em>span</em></td><td>)</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ae10a918c144e19383de9a6a4f49da681"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae10a918c144e19383de9a6a4f49da681">&sect;&nbsp;</a></span>operator<()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool NFTime::operator&lt; </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time.html">NFTime</a>&#160;</td>
-          <td class="paramname"><em>time</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="aa7cacaaee8a17e39371b37e76fc871ec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa7cacaaee8a17e39371b37e76fc871ec">&sect;&nbsp;</a></span>operator<=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool NFTime::operator&lt;= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time.html">NFTime</a>&#160;</td>
-          <td class="paramname"><em>time</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="ad641e72e358bacdb639e79eb7e086f54"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad641e72e358bacdb639e79eb7e086f54">&sect;&nbsp;</a></span>operator=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="class_n_f_time.html">NFTime</a> &amp; NFTime::operator= </td>
-          <td>(</td>
-          <td class="paramtype">time_t&#160;</td>
-          <td class="paramname"><em>time</em></td><td>)</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a2b9c49f1c5eaa204e728871177a6e2d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b9c49f1c5eaa204e728871177a6e2d4">&sect;&nbsp;</a></span>operator==()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool NFTime::operator== </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time.html">NFTime</a>&#160;</td>
-          <td class="paramname"><em>time</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4add08699a308c957f6b0b0210f9b8bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4add08699a308c957f6b0b0210f9b8bf">&sect;&nbsp;</a></span>operator>()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool NFTime::operator&gt; </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time.html">NFTime</a>&#160;</td>
-          <td class="paramname"><em>time</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a0c8e97481e76ec2cea75f77f6488c5ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c8e97481e76ec2cea75f77f6488c5ba">&sect;&nbsp;</a></span>operator>=()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool NFTime::operator&gt;= </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="class_n_f_time.html">NFTime</a>&#160;</td>
-          <td class="paramname"><em>time</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-        <tr>
-          <td align="right">throw </td><td>(</td><td colspan="2"></td>
-        </tr>
-        <tr>
-          <td align="right"></td><td>)</td><td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a1d3b8d57a1a7f0ba48958c7275722175"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d3b8d57a1a7f0ba48958c7275722175">&sect;&nbsp;</a></span>Print()</h2>
+<a id="ac98ba0edcaac649a619d9303ca72c917"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac98ba0edcaac649a619d9303ca72c917">&sect;&nbsp;</a></span>GetUTCTime()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1048,16 +846,184 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void NFTime::Print </td>
+          <td class="memname">int64_t NFTime::GetUTCTime </td>
           <td>(</td>
-          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0fdbe2ee7f2db2827402926b03fe120d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0fdbe2ee7f2db2827402926b03fe120d">&sect;&nbsp;</a></span>GetWeekOfMonth()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int NFTime::GetWeekOfMonth </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2701fc049281657160a7866a491de5ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2701fc049281657160a7866a491de5ce">&sect;&nbsp;</a></span>GetWeekOfYear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int NFTime::GetWeekOfYear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a113178b9c2a88f8dab415bbd0b1e5859"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a113178b9c2a88f8dab415bbd0b1e5859">&sect;&nbsp;</a></span>GetYear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t NFTime::GetYear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa9668cbc2aebf84a83fd0d61b475d785"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9668cbc2aebf84a83fd0d61b475d785">&sect;&nbsp;</a></span>InitWithYMDHMSM() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFTime::InitWithYMDHMSM </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
           <td class="paramname"><em>strTime</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ab1f5a994ab23feb534518184b56fd26a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1f5a994ab23feb534518184b56fd26a">&sect;&nbsp;</a></span>InitWithYMDHMSM() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFTime::InitWithYMDHMSM </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nYear</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nMonth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nDay</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nHour</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nMinute</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nSecond</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nMilliSecond</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aba5f5343b2194d3cecabc5e7068e9c35"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba5f5343b2194d3cecabc5e7068e9c35">&sect;&nbsp;</a></span>IsLeapYear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool NFTime::IsLeapYear </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nYear</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -1172,9 +1138,26 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
-<h2 class="groupheader">Member Data Documentation</h2>
-<a id="a9b477a793f11bf38be9498dda3c29fa6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b477a793f11bf38be9498dda3c29fa6">&sect;&nbsp;</a></span>m_time</h2>
+<a id="aca76d64fe098ed38c8ee833d103724b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca76d64fe098ed38c8ee833d103724b0">&sect;&nbsp;</a></span>SetTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void NFTime::SetTime </td>
+          <td>(</td>
+          <td class="paramtype">int64_t&#160;</td>
+          <td class="paramname"><em>nTime</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac502ab3f08e8e0f04e2cc08d7784c220"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac502ab3f08e8e0f04e2cc08d7784c220">&sect;&nbsp;</a></span>SetTimeZone()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1183,7 +1166,53 @@ Private Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">time_t NFTime::m_time</td>
+          <td class="memname">void NFTime::SetTimeZone </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nTimeZone</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8b23de5699eb5f05b84cabfde8d4ea92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b23de5699eb5f05b84cabfde8d4ea92">&sect;&nbsp;</a></span>Split()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int NFTime::Split </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>ret_</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>sep</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -1195,9 +1224,296 @@ Private Attributes</h2></td></tr>
 
 </div>
 </div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ac566b1a592144020911c6db3e45c4df3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac566b1a592144020911c6db3e45c4df3">&sect;&nbsp;</a></span>mnDefaultTimeZone</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int NFTime::mnDefaultTimeZone = 8</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad809a680e57268b12c52150bf58f1435"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad809a680e57268b12c52150bf58f1435">&sect;&nbsp;</a></span>mnTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int64_t NFTime::mnTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a723234d0eff4c67c76b3caac52979ddb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a723234d0eff4c67c76b3caac52979ddb">&sect;&nbsp;</a></span>mnTimeZone</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int NFTime::mnTimeZone = <a class="el" href="class_n_f_time.html#ac566b1a592144020911c6db3e45c4df3">NFTime::mnDefaultTimeZone</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="afe2c14e3cf49505bb64790d7beb03060"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe2c14e3cf49505bb64790d7beb03060">&sect;&nbsp;</a></span>NDAY_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int64_t NFTime::NDAY_MS = 24 * 60 * 60 * 1000L</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a175f93b56f83a32c2b822522d5cfd35b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a175f93b56f83a32c2b822522d5cfd35b">&sect;&nbsp;</a></span>NDAY_S</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int64_t NFTime::NDAY_S = 24 * 60 * 60L</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0824e3f7b27f788d2ae41555c6682a8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0824e3f7b27f788d2ae41555c6682a8b">&sect;&nbsp;</a></span>NHOUR_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int64_t NFTime::NHOUR_MS = 60 * 60 * 1000L</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aa71be49a69104e64a1d37bd6ef729717"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa71be49a69104e64a1d37bd6ef729717">&sect;&nbsp;</a></span>NHOUR_S</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int64_t NFTime::NHOUR_S = 60 * 60L</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aae57e7191e7980dd3e82e167b6afccc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae57e7191e7980dd3e82e167b6afccc0">&sect;&nbsp;</a></span>NMINUTE_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int64_t NFTime::NMINUTE_MS = 60 * 1000L</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aeecacea7df9595ca46f35ea5c549c3a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeecacea7df9595ca46f35ea5c549c3a0">&sect;&nbsp;</a></span>NMINUTE_S</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int64_t NFTime::NMINUTE_S = 60L</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="af0acc781134b55d388423acd109c6b8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0acc781134b55d388423acd109c6b8a">&sect;&nbsp;</a></span>NSECOND_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int64_t NFTime::NSECOND_MS = 1000L</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7b4a9a976fb451c364d9f125a4c96b07"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b4a9a976fb451c364d9f125a4c96b07">&sect;&nbsp;</a></span>NSECOND_S</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int64_t NFTime::NSECOND_S = 1L</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7dbe7d54d18b49e19b0a82f76467da7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7dbe7d54d18b49e19b0a82f76467da7c">&sect;&nbsp;</a></span>NWEEK_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int64_t NFTime::NWEEK_MS = 7 * 24 * 60 * 60 * 1000L</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abb27dd59f8d3e41880916d3357b40503"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb27dd59f8d3e41880916d3357b40503">&sect;&nbsp;</a></span>NWEEK_S</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int64_t NFTime::NWEEK_S = 7 * 24 * 60 * 60L</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="_n_f_timer_8h_source.html">NFTimer.h</a></li>
-<li><a class="el" href="_n_f_timer_8cpp.html">NFTimer.cpp</a></li>
+<li><a class="el" href="_n_f_time_8h_source.html">NFTime.h</a></li>
+<li><a class="el" href="_n_f_time_8cpp.html">NFTime.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
