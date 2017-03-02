@@ -14,14 +14,17 @@
 class NFILogModule
     : public NFIModule
 {
+
 public:
+
     enum NF_LOG_LEVEL
     {
-        LOG_DEBUG       , // debug调试信息(Debug和Release版本都会打印)
-        LOG_INFO        , // info级别
-        LOG_WARNING     , // warning级别 
-        LOG_ERROR       , // error级别
-        LOG_FATAL       , // fatal级别
+        LOG_DEBUG,        // debug调试信息(Debug和Release版本都会打印)
+        LOG_INFO,         // info级别
+        LOG_WARNING,      // warning级别
+        LOG_ERROR,        // error级别
+        LOG_FATAL,        // fatal级别
+        LOG_MAX,
     };
 
     virtual void LogDebug(const NFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0) = 0;
@@ -30,11 +33,11 @@ public:
     virtual void LogError(const NFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0) = 0;
     virtual void LogFatal(const NFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0) = 0;
 
-    virtual void LogDebug(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc = "", int nLine = 0) = 0;
-    virtual void LogInfo(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc = "", int nLine = 0) = 0;
-    virtual void LogWarning(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc = "", int nLine = 0) = 0;
-    virtual void LogError(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc = "", int nLine = 0) = 0;
-    virtual void LogFatal(const NFGUID self, const std::string& strDesc, const int nInfo, const char* pFunc = "", int nLine = 0) = 0;
+    virtual void LogDebug(const NFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc = "", int nLine = 0) = 0;
+    virtual void LogInfo(const NFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc = "", int nLine = 0) = 0;
+    virtual void LogWarning(const NFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc = "", int nLine = 0) = 0;
+    virtual void LogError(const NFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc = "", int nLine = 0) = 0;
+    virtual void LogFatal(const NFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc = "", int nLine = 0) = 0;
 
     virtual void LogDebug(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0) = 0;
     virtual void LogInfo(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0) = 0;
