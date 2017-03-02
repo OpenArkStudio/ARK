@@ -69,6 +69,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Manager for nfi properties.  
+ <a href="class_n_f_i_property_manager.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_n_f_i_property_manager_8h_source.html">NFIPropertyManager.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFIPropertyManager:</div>
@@ -92,50 +95,65 @@ Collaboration diagram for NFIPropertyManager:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:af53c683d794486517c51c9cbc55d55f8"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#af53c683d794486517c51c9cbc55d55f8">~NFIPropertyManager</a> ()</td></tr>
 <tr class="separator:af53c683d794486517c51c9cbc55d55f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea6ac427fc7f24671248887a08fd3cec"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#aea6ac427fc7f24671248887a08fd3cec">RegisterCallback</a> (const std::string &amp;strProperty, const <a class="el" href="_n_f_define_8h.html#acfbbd1a41318e191f117ec1d12d1e0ac">PROPERTY_EVENT_FUNCTOR_PTR</a> &amp;cb)=0</td></tr>
-<tr class="separator:aea6ac427fc7f24671248887a08fd3cec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af95b98132ea39cc6644011dfd53cc935"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#af95b98132ea39cc6644011dfd53cc935">AddProperty</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self, <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; pProperty)=0</td></tr>
-<tr class="separator:af95b98132ea39cc6644011dfd53cc935"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2e9f5032619bdf37d8c21264e817dbce"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a2e9f5032619bdf37d8c21264e817dbce">AddProperty</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self, const std::string &amp;strPropertyName, const <a class="el" href="_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4">TDATA_TYPE</a> varType)=0</td></tr>
-<tr class="separator:a2e9f5032619bdf37d8c21264e817dbce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a2b66e957e01f9f474ba4f79dd0b708"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a0a2b66e957e01f9f474ba4f79dd0b708">Self</a> ()=0</td></tr>
-<tr class="separator:a0a2b66e957e01f9f474ba4f79dd0b708"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43c86eea7bc6692632dd74ed72cb9533"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a43c86eea7bc6692632dd74ed72cb9533">SetProperty</a> (const std::string &amp;strPropertyName, const <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &amp;TData)=0</td></tr>
-<tr class="separator:a43c86eea7bc6692632dd74ed72cb9533"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a874c19577461b031a106bbaef5465d4f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a874c19577461b031a106bbaef5465d4f">SetPropertyInt</a> (const std::string &amp;strPropertyName, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value)=0</td></tr>
-<tr class="separator:a874c19577461b031a106bbaef5465d4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bba8f543f5436f244ee54e96d94f995"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a8bba8f543f5436f244ee54e96d94f995">SetPropertyDouble</a> (const std::string &amp;strPropertyName, const double value)=0</td></tr>
-<tr class="separator:a8bba8f543f5436f244ee54e96d94f995"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08bec42f89646f85258c732a74afcb93"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a08bec42f89646f85258c732a74afcb93">SetPropertyString</a> (const std::string &amp;strPropertyName, const std::string &amp;value)=0</td></tr>
-<tr class="separator:a08bec42f89646f85258c732a74afcb93"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa3898373d80a5e81d7d31e7b73364cd7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#aa3898373d80a5e81d7d31e7b73364cd7">SetPropertyObject</a> (const std::string &amp;strPropertyName, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)=0</td></tr>
-<tr class="separator:aa3898373d80a5e81d7d31e7b73364cd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b64c9234e2b80920a458f83d8920d40"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a2b64c9234e2b80920a458f83d8920d40">SetPropertyPoint</a> (const std::string &amp;strPropertyName, const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)=0</td></tr>
-<tr class="separator:a2b64c9234e2b80920a458f83d8920d40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c07ec47016961e53cafe54631460a10"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a0c07ec47016961e53cafe54631460a10">GetPropertyInt</a> (const std::string &amp;strPropertyName)=0</td></tr>
-<tr class="separator:a0c07ec47016961e53cafe54631460a10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a549d420d4250f783353abb017a0cce2d"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a549d420d4250f783353abb017a0cce2d">GetPropertyDouble</a> (const std::string &amp;strPropertyName)=0</td></tr>
-<tr class="separator:a549d420d4250f783353abb017a0cce2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a5d3812c1c7c062c39ade8768efd299"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a8a5d3812c1c7c062c39ade8768efd299">GetPropertyString</a> (const std::string &amp;strPropertyName)=0</td></tr>
-<tr class="separator:a8a5d3812c1c7c062c39ade8768efd299"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0b4c44ee154990650aad407d0af95d3"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#ae0b4c44ee154990650aad407d0af95d3">GetPropertyObject</a> (const std::string &amp;strPropertyName)=0</td></tr>
-<tr class="separator:ae0b4c44ee154990650aad407d0af95d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa37889e2527bf39beef370b60d3aff9"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#aaa37889e2527bf39beef370b60d3aff9">GetPropertyPoint</a> (const std::string &amp;strPropertyName)=0</td></tr>
-<tr class="separator:aaa37889e2527bf39beef370b60d3aff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73eed07e05886f392376f71ea2ad39e8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a73eed07e05886f392376f71ea2ad39e8">RegisterCallback</a> (const std::string &amp;strProperty, const <a class="el" href="_n_f_define_8h.html#ac4030d8b6573ffcfc1aab64a9914efc4">PROPERTY_EVENT_FUNCTOR_PTR</a> &amp;cb)=0</td></tr>
+<tr class="memdesc:a73eed07e05886f392376f71ea2ad39e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Registers the callback.  <a href="#a73eed07e05886f392376f71ea2ad39e8">More...</a><br /></td></tr>
+<tr class="separator:a73eed07e05886f392376f71ea2ad39e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76d26281f1720dca083acc1e9ee4d71a"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a76d26281f1720dca083acc1e9ee4d71a">AddProperty</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self, <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; pProperty)=0</td></tr>
+<tr class="memdesc:a76d26281f1720dca083acc1e9ee4d71a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a property to 'pProperty'.  <a href="#a76d26281f1720dca083acc1e9ee4d71a">More...</a><br /></td></tr>
+<tr class="separator:a76d26281f1720dca083acc1e9ee4d71a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44560d7f80f4ea2776429045f20fd257"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a44560d7f80f4ea2776429045f20fd257">AddProperty</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self, const std::string &amp;strPropertyName, const <a class="el" href="_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4">TDATA_TYPE</a> varType)=0</td></tr>
+<tr class="memdesc:a44560d7f80f4ea2776429045f20fd257"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a property.  <a href="#a44560d7f80f4ea2776429045f20fd257">More...</a><br /></td></tr>
+<tr class="separator:a44560d7f80f4ea2776429045f20fd257"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bec41e166241d43b877489facfaa42f"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a0bec41e166241d43b877489facfaa42f">Self</a> ()=0</td></tr>
+<tr class="memdesc:a0bec41e166241d43b877489facfaa42f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the self.  <a href="#a0bec41e166241d43b877489facfaa42f">More...</a><br /></td></tr>
+<tr class="separator:a0bec41e166241d43b877489facfaa42f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43cfbcbff4059e5b55260eed6911ba1b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a43cfbcbff4059e5b55260eed6911ba1b">SetProperty</a> (const std::string &amp;strPropertyName, const <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &amp;TData)=0</td></tr>
+<tr class="memdesc:a43cfbcbff4059e5b55260eed6911ba1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">///////////////////////////////////////////////////////////////////////.  <a href="#a43cfbcbff4059e5b55260eed6911ba1b">More...</a><br /></td></tr>
+<tr class="separator:a43cfbcbff4059e5b55260eed6911ba1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40327199ac2133f45dd67f6e43f43420"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a40327199ac2133f45dd67f6e43f43420">SetPropertyInt</a> (const std::string &amp;strPropertyName, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value)=0</td></tr>
+<tr class="memdesc:a40327199ac2133f45dd67f6e43f43420"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets property int.  <a href="#a40327199ac2133f45dd67f6e43f43420">More...</a><br /></td></tr>
+<tr class="separator:a40327199ac2133f45dd67f6e43f43420"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe0d6a59da6d0c12b83367060d8a9dc3"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#afe0d6a59da6d0c12b83367060d8a9dc3">SetPropertyDouble</a> (const std::string &amp;strPropertyName, const double value)=0</td></tr>
+<tr class="memdesc:afe0d6a59da6d0c12b83367060d8a9dc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets property double.  <a href="#afe0d6a59da6d0c12b83367060d8a9dc3">More...</a><br /></td></tr>
+<tr class="separator:afe0d6a59da6d0c12b83367060d8a9dc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4fe751cdf48c9fdd7c4b87f4d6befb6"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#ad4fe751cdf48c9fdd7c4b87f4d6befb6">SetPropertyString</a> (const std::string &amp;strPropertyName, const std::string &amp;value)=0</td></tr>
+<tr class="memdesc:ad4fe751cdf48c9fdd7c4b87f4d6befb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets property string.  <a href="#ad4fe751cdf48c9fdd7c4b87f4d6befb6">More...</a><br /></td></tr>
+<tr class="separator:ad4fe751cdf48c9fdd7c4b87f4d6befb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab9eb94932ebc70e1be61a53d38fefd4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#aab9eb94932ebc70e1be61a53d38fefd4">SetPropertyObject</a> (const std::string &amp;strPropertyName, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)=0</td></tr>
+<tr class="memdesc:aab9eb94932ebc70e1be61a53d38fefd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets property object.  <a href="#aab9eb94932ebc70e1be61a53d38fefd4">More...</a><br /></td></tr>
+<tr class="separator:aab9eb94932ebc70e1be61a53d38fefd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a31dcacdca1d34fcd1738360a015982"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a8a31dcacdca1d34fcd1738360a015982">SetPropertyPoint</a> (const std::string &amp;strPropertyName, const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)=0</td></tr>
+<tr class="memdesc:a8a31dcacdca1d34fcd1738360a015982"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets property point.  <a href="#a8a31dcacdca1d34fcd1738360a015982">More...</a><br /></td></tr>
+<tr class="separator:a8a31dcacdca1d34fcd1738360a015982"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9257f31f1ba972c316354756307b0bed"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a9257f31f1ba972c316354756307b0bed">GetPropertyInt</a> (const std::string &amp;strPropertyName)=0</td></tr>
+<tr class="memdesc:a9257f31f1ba972c316354756307b0bed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets property int.  <a href="#a9257f31f1ba972c316354756307b0bed">More...</a><br /></td></tr>
+<tr class="separator:a9257f31f1ba972c316354756307b0bed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73b872ae6dbada9b21950962a5bb617b"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a73b872ae6dbada9b21950962a5bb617b">GetPropertyDouble</a> (const std::string &amp;strPropertyName)=0</td></tr>
+<tr class="memdesc:a73b872ae6dbada9b21950962a5bb617b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets property double.  <a href="#a73b872ae6dbada9b21950962a5bb617b">More...</a><br /></td></tr>
+<tr class="separator:a73b872ae6dbada9b21950962a5bb617b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bfb2349ee8da6fcf315089dd90cc5e1"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#a2bfb2349ee8da6fcf315089dd90cc5e1">GetPropertyString</a> (const std::string &amp;strPropertyName)=0</td></tr>
+<tr class="memdesc:a2bfb2349ee8da6fcf315089dd90cc5e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets property string.  <a href="#a2bfb2349ee8da6fcf315089dd90cc5e1">More...</a><br /></td></tr>
+<tr class="separator:a2bfb2349ee8da6fcf315089dd90cc5e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca69c1ac8fe25aa1ec47305e18c424a6"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#aca69c1ac8fe25aa1ec47305e18c424a6">GetPropertyObject</a> (const std::string &amp;strPropertyName)=0</td></tr>
+<tr class="memdesc:aca69c1ac8fe25aa1ec47305e18c424a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets property object.  <a href="#aca69c1ac8fe25aa1ec47305e18c424a6">More...</a><br /></td></tr>
+<tr class="separator:aca69c1ac8fe25aa1ec47305e18c424a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe372028e3d55ce76337ae1cdb2a6676"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_property_manager.html#afe372028e3d55ce76337ae1cdb2a6676">GetPropertyPoint</a> (const std::string &amp;strPropertyName)=0</td></tr>
+<tr class="memdesc:afe372028e3d55ce76337ae1cdb2a6676"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets property point.  <a href="#afe372028e3d55ce76337ae1cdb2a6676">More...</a><br /></td></tr>
+<tr class="separator:afe372028e3d55ce76337ae1cdb2a6676"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_n_f_map_ex"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_map_ex')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_n_f_map_ex.html">NFMapEx&lt; std::string, NFIProperty &gt;</a></td></tr>
 <tr class="memitem:a669689226bf84349cea851c5b699fd13 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a669689226bf84349cea851c5b699fd13">NFMapEx</a> ()</td></tr>
 <tr class="separator:a669689226bf84349cea851c5b699fd13 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9d74623691c6ee6fc074f9937f3fd0b0 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a9d74623691c6ee6fc074f9937f3fd0b0">~NFMapEx</a> ()</td></tr>
 <tr class="separator:a9d74623691c6ee6fc074f9937f3fd0b0 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeaddac586447691c674845cb899b3304 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aeaddac586447691c674845cb899b3304">AddElement</a> (const std::string &amp;name, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; data)</td></tr>
+<tr class="memitem:aeaddac586447691c674845cb899b3304 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aeaddac586447691c674845cb899b3304">AddElement</a> (const std::string &amp;name, const <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; data)</td></tr>
 <tr class="separator:aeaddac586447691c674845cb899b3304 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0353a5766a57fe1df3bddba02418ebb5 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a0353a5766a57fe1df3bddba02418ebb5">SetElement</a> (const std::string &amp;name, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; data)</td></tr>
+<tr class="memitem:a0353a5766a57fe1df3bddba02418ebb5 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a0353a5766a57fe1df3bddba02418ebb5">SetElement</a> (const std::string &amp;name, const <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; data)</td></tr>
 <tr class="separator:a0353a5766a57fe1df3bddba02418ebb5 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ff2387f940e7d4109895fe1c443abf1 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a1ff2387f940e7d4109895fe1c443abf1">RemoveElement</a> (const std::string &amp;name)</td></tr>
 <tr class="separator:a1ff2387f940e7d4109895fe1c443abf1 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc397e883869dc42b08f921977b7d675 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_property.html">NFIProperty</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#adc397e883869dc42b08f921977b7d675">GetElementNude</a> (const std::string &amp;name)</td></tr>
 <tr class="separator:adc397e883869dc42b08f921977b7d675 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad260dc1e8eeb12fb14d07ab73658c671 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ad260dc1e8eeb12fb14d07ab73658c671">GetElement</a> (const std::string &amp;name)</td></tr>
+<tr class="memitem:ad260dc1e8eeb12fb14d07ab73658c671 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ad260dc1e8eeb12fb14d07ab73658c671">GetElement</a> (const std::string &amp;name)</td></tr>
 <tr class="separator:ad260dc1e8eeb12fb14d07ab73658c671 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a858febc5c4f341d88c674abd3c504dcc inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_property.html">NFIProperty</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a858febc5c4f341d88c674abd3c504dcc">FirstNude</a> (std::string &amp;name)</td></tr>
 <tr class="separator:a858febc5c4f341d88c674abd3c504dcc inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,13 +163,13 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9de10e6afc469ad6c78ddec41f9cffd0 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacc03036da49c86ff6ef33039b3aab6b inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="class_n_f_i_property.html">NFIProperty</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aacc03036da49c86ff6ef33039b3aab6b">NextNude</a> ()</td></tr>
 <tr class="separator:aacc03036da49c86ff6ef33039b3aab6b inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3a295045bbb1ccc915f626b9ddf82b2 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ad3a295045bbb1ccc915f626b9ddf82b2">First</a> ()</td></tr>
+<tr class="memitem:ad3a295045bbb1ccc915f626b9ddf82b2 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ad3a295045bbb1ccc915f626b9ddf82b2">First</a> ()</td></tr>
 <tr class="separator:ad3a295045bbb1ccc915f626b9ddf82b2 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa588e44331964ca74c1b64c14832c322 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aa588e44331964ca74c1b64c14832c322">First</a> (std::string &amp;name)</td></tr>
+<tr class="memitem:aa588e44331964ca74c1b64c14832c322 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#aa588e44331964ca74c1b64c14832c322">First</a> (std::string &amp;name)</td></tr>
 <tr class="separator:aa588e44331964ca74c1b64c14832c322 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a489b5c7ff5f3353e7a11c2d007e4de47 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a489b5c7ff5f3353e7a11c2d007e4de47">Next</a> ()</td></tr>
+<tr class="memitem:a489b5c7ff5f3353e7a11c2d007e4de47 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a489b5c7ff5f3353e7a11c2d007e4de47">Next</a> ()</td></tr>
 <tr class="separator:a489b5c7ff5f3353e7a11c2d007e4de47 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0a04493c472bdc99e65ec3f8a28977e6 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a0a04493c472bdc99e65ec3f8a28977e6">Next</a> (std::string &amp;name)</td></tr>
+<tr class="memitem:a0a04493c472bdc99e65ec3f8a28977e6 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a0a04493c472bdc99e65ec3f8a28977e6">Next</a> (std::string &amp;name)</td></tr>
 <tr class="separator:a0a04493c472bdc99e65ec3f8a28977e6 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e854d99cb4f39d9903e9f4a220d52b5 inherit pub_methods_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#a1e854d99cb4f39d9903e9f4a220d52b5">Count</a> ()</td></tr>
 <tr class="separator:a1e854d99cb4f39d9903e9f4a220d52b5 inherit pub_methods_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -161,10 +179,14 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_types_class_n_f_map_ex"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_n_f_map_ex')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="class_n_f_map_ex.html">NFMapEx&lt; std::string, NFIProperty &gt;</a></td></tr>
-<tr class="memitem:ac33526453d3a14f56945a31210f15ffd inherit pub_types_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ac33526453d3a14f56945a31210f15ffd">NFMapOBJECT</a></td></tr>
+<tr class="memitem:ac33526453d3a14f56945a31210f15ffd inherit pub_types_class_n_f_map_ex"><td class="memItemLeft" align="right" valign="top">typedef std::map&lt; std::string, <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_map_ex.html#ac33526453d3a14f56945a31210f15ffd">NFMapOBJECT</a></td></tr>
 <tr class="separator:ac33526453d3a14f56945a31210f15ffd inherit pub_types_class_n_f_map_ex"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Manager for nfi properties. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af53c683d794486517c51c9cbc55d55f8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af53c683d794486517c51c9cbc55d55f8">&sect;&nbsp;</a></span>~NFIPropertyManager()</h2>
 
@@ -191,8 +213,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af95b98132ea39cc6644011dfd53cc935"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af95b98132ea39cc6644011dfd53cc935">&sect;&nbsp;</a></span>AddProperty() <span class="overload">[1/2]</span></h2>
+<a id="a76d26281f1720dca083acc1e9ee4d71a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76d26281f1720dca083acc1e9ee4d71a">&sect;&nbsp;</a></span>AddProperty() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -201,7 +223,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_property.html">NFIProperty</a>&gt; NFIPropertyManager::AddProperty </td>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; NFIPropertyManager::AddProperty </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
           <td class="paramname"><em>self</em>, </td>
@@ -209,7 +231,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt;&#160;</td>
           <td class="paramname"><em>pProperty</em>&#160;</td>
         </tr>
         <tr>
@@ -225,12 +247,24 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Adds a property to 'pProperty'. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>The class instance that this method operates on. </td></tr>
+    <tr><td class="paramname">pProperty</td><td>The property.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A NF_SHARE_PTR&lt;<a class="el" href="class_n_f_i_property.html" title="A nfi property. ">NFIProperty</a>&gt; </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#a8bae709063c46c3ab66dd97cdf14a754">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="a2e9f5032619bdf37d8c21264e817dbce"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2e9f5032619bdf37d8c21264e817dbce">&sect;&nbsp;</a></span>AddProperty() <span class="overload">[2/2]</span></h2>
+<a id="a44560d7f80f4ea2776429045f20fd257"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44560d7f80f4ea2776429045f20fd257">&sect;&nbsp;</a></span>AddProperty() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,7 +273,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_property.html">NFIProperty</a>&gt; NFIPropertyManager::AddProperty </td>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_property.html">NFIProperty</a> &gt; NFIPropertyManager::AddProperty </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td>
           <td class="paramname"><em>self</em>, </td>
@@ -269,12 +303,25 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Adds a property. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>The class instance that this method operates on. </td></tr>
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property. </td></tr>
+    <tr><td class="paramname">varType</td><td>Type of the variable.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A NF_SHARE_PTR&lt;<a class="el" href="class_n_f_i_property.html" title="A nfi property. ">NFIProperty</a>&gt; </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#acea8c4ec49cc41e00eae52cf8251a3c2">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="a549d420d4250f783353abb017a0cce2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a549d420d4250f783353abb017a0cce2d">&sect;&nbsp;</a></span>GetPropertyDouble()</h2>
+<a id="a73b872ae6dbada9b21950962a5bb617b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73b872ae6dbada9b21950962a5bb617b">&sect;&nbsp;</a></span>GetPropertyDouble()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -283,7 +330,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual double NFIPropertyManager::GetPropertyDouble </td>
+          <td class="memname">double NFIPropertyManager::GetPropertyDouble </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em></td><td>)</td>
@@ -296,13 +343,24 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Gets property double. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The property double. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#a28df1670965b35495933625cb6b73ab8">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="a0c07ec47016961e53cafe54631460a10"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c07ec47016961e53cafe54631460a10">&sect;&nbsp;</a></span>GetPropertyInt()</h2>
+<a id="a9257f31f1ba972c316354756307b0bed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9257f31f1ba972c316354756307b0bed">&sect;&nbsp;</a></span>GetPropertyInt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -311,7 +369,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> NFIPropertyManager::GetPropertyInt </td>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> NFIPropertyManager::GetPropertyInt </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em></td><td>)</td>
@@ -324,13 +382,24 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Gets property int. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The property int. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#aeca60dda7adca8942661726afbe3ab4f">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="ae0b4c44ee154990650aad407d0af95d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0b4c44ee154990650aad407d0af95d3">&sect;&nbsp;</a></span>GetPropertyObject()</h2>
+<a id="aca69c1ac8fe25aa1ec47305e18c424a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca69c1ac8fe25aa1ec47305e18c424a6">&sect;&nbsp;</a></span>GetPropertyObject()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -339,7 +408,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&amp; NFIPropertyManager::GetPropertyObject </td>
+          <td class="memname">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp; NFIPropertyManager::GetPropertyObject </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em></td><td>)</td>
@@ -352,13 +421,24 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Gets property object. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The property object. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#a4716a4ce5c070fc80593760d1fb3f7b9">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="aaa37889e2527bf39beef370b60d3aff9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa37889e2527bf39beef370b60d3aff9">&sect;&nbsp;</a></span>GetPropertyPoint()</h2>
+<a id="afe372028e3d55ce76337ae1cdb2a6676"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe372028e3d55ce76337ae1cdb2a6676">&sect;&nbsp;</a></span>GetPropertyPoint()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -367,7 +447,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const <a class="el" href="struct_point3_d.html">Point3D</a>&amp; NFIPropertyManager::GetPropertyPoint </td>
+          <td class="memname">const <a class="el" href="struct_point3_d.html">Point3D</a> &amp; NFIPropertyManager::GetPropertyPoint </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em></td><td>)</td>
@@ -380,13 +460,24 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Gets property point. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The property point. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#a4c27df4ad647af713f677c5d9b9bf14c">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="a8a5d3812c1c7c062c39ade8768efd299"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a5d3812c1c7c062c39ade8768efd299">&sect;&nbsp;</a></span>GetPropertyString()</h2>
+<a id="a2bfb2349ee8da6fcf315089dd90cc5e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bfb2349ee8da6fcf315089dd90cc5e1">&sect;&nbsp;</a></span>GetPropertyString()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -395,7 +486,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const std::string&amp; NFIPropertyManager::GetPropertyString </td>
+          <td class="memname">const std::string &amp; NFIPropertyManager::GetPropertyString </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em></td><td>)</td>
@@ -409,12 +500,23 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets property string. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The property string. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#a77004160c5ce1e37c9cbd253ebd4e7c2">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="aea6ac427fc7f24671248887a08fd3cec"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea6ac427fc7f24671248887a08fd3cec">&sect;&nbsp;</a></span>RegisterCallback()</h2>
+<a id="a73eed07e05886f392376f71ea2ad39e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73eed07e05886f392376f71ea2ad39e8">&sect;&nbsp;</a></span>RegisterCallback()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -423,7 +525,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIPropertyManager::RegisterCallback </td>
+          <td class="memname">bool NFIPropertyManager::RegisterCallback </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strProperty</em>, </td>
@@ -431,7 +533,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#acfbbd1a41318e191f117ec1d12d1e0ac">PROPERTY_EVENT_FUNCTOR_PTR</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#ac4030d8b6573ffcfc1aab64a9914efc4">PROPERTY_EVENT_FUNCTOR_PTR</a> &amp;&#160;</td>
           <td class="paramname"><em>cb</em>&#160;</td>
         </tr>
         <tr>
@@ -447,12 +549,24 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Registers the callback. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strProperty</td><td>The property. </td></tr>
+    <tr><td class="paramname">cb</td><td>The cb.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#aac6b7c876a71e9e87aa2aae524cce270">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="a0a2b66e957e01f9f474ba4f79dd0b708"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a2b66e957e01f9f474ba4f79dd0b708">&sect;&nbsp;</a></span>Self()</h2>
+<a id="a0bec41e166241d43b877489facfaa42f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0bec41e166241d43b877489facfaa42f">&sect;&nbsp;</a></span>Self()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -461,7 +575,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&amp; NFIPropertyManager::Self </td>
+          <td class="memname">const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp; NFIPropertyManager::Self </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -474,12 +588,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets the self. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to a const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#a35ba8c4e8929a8e17cd1178983d91728">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="a43c86eea7bc6692632dd74ed72cb9533"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43c86eea7bc6692632dd74ed72cb9533">&sect;&nbsp;</a></span>SetProperty()</h2>
+<a id="a43cfbcbff4059e5b55260eed6911ba1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43cfbcbff4059e5b55260eed6911ba1b">&sect;&nbsp;</a></span>SetProperty()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -488,7 +607,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIPropertyManager::SetProperty </td>
+          <td class="memname">bool NFIPropertyManager::SetProperty </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em>, </td>
@@ -512,12 +631,24 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>///////////////////////////////////////////////////////////////////////. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property. </td></tr>
+    <tr><td class="paramname">TData</td><td>The data.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#a5fb3a5e61e1740ab24bfd555996f371b">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="a8bba8f543f5436f244ee54e96d94f995"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8bba8f543f5436f244ee54e96d94f995">&sect;&nbsp;</a></span>SetPropertyDouble()</h2>
+<a id="afe0d6a59da6d0c12b83367060d8a9dc3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe0d6a59da6d0c12b83367060d8a9dc3">&sect;&nbsp;</a></span>SetPropertyDouble()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -526,7 +657,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIPropertyManager::SetPropertyDouble </td>
+          <td class="memname">bool NFIPropertyManager::SetPropertyDouble </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em>, </td>
@@ -550,12 +681,24 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets property double. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#a29be4902855e94d8eba61c328151b137">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="a874c19577461b031a106bbaef5465d4f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a874c19577461b031a106bbaef5465d4f">&sect;&nbsp;</a></span>SetPropertyInt()</h2>
+<a id="a40327199ac2133f45dd67f6e43f43420"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40327199ac2133f45dd67f6e43f43420">&sect;&nbsp;</a></span>SetPropertyInt()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -564,7 +707,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIPropertyManager::SetPropertyInt </td>
+          <td class="memname">bool NFIPropertyManager::SetPropertyInt </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em>, </td>
@@ -588,12 +731,24 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets property int. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#ad5e35837bff6174cc448489d031cf44a">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="aa3898373d80a5e81d7d31e7b73364cd7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa3898373d80a5e81d7d31e7b73364cd7">&sect;&nbsp;</a></span>SetPropertyObject()</h2>
+<a id="aab9eb94932ebc70e1be61a53d38fefd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aab9eb94932ebc70e1be61a53d38fefd4">&sect;&nbsp;</a></span>SetPropertyObject()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -602,7 +757,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIPropertyManager::SetPropertyObject </td>
+          <td class="memname">bool NFIPropertyManager::SetPropertyObject </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em>, </td>
@@ -626,12 +781,24 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets property object. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#a73c7035e45ec9c0b4bb1918537fd1930">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="a2b64c9234e2b80920a458f83d8920d40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b64c9234e2b80920a458f83d8920d40">&sect;&nbsp;</a></span>SetPropertyPoint()</h2>
+<a id="a8a31dcacdca1d34fcd1738360a015982"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a31dcacdca1d34fcd1738360a015982">&sect;&nbsp;</a></span>SetPropertyPoint()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -640,7 +807,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIPropertyManager::SetPropertyPoint </td>
+          <td class="memname">bool NFIPropertyManager::SetPropertyPoint </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em>, </td>
@@ -664,12 +831,24 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Sets property point. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#acdcedce5b34bfb3336c678380040623b">NFCPropertyManager</a>.</p>
 
 </div>
 </div>
-<a id="a08bec42f89646f85258c732a74afcb93"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08bec42f89646f85258c732a74afcb93">&sect;&nbsp;</a></span>SetPropertyString()</h2>
+<a id="ad4fe751cdf48c9fdd7c4b87f4d6befb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4fe751cdf48c9fdd7c4b87f4d6befb6">&sect;&nbsp;</a></span>SetPropertyString()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -678,7 +857,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIPropertyManager::SetPropertyString </td>
+          <td class="memname">bool NFIPropertyManager::SetPropertyString </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strPropertyName</em>, </td>
@@ -701,6 +880,18 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Sets property string. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strPropertyName</td><td>Name of the property. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_property_manager.html#a1f7c0133b1982d22342826ccd8d7344f">NFCPropertyManager</a>.</p>
 

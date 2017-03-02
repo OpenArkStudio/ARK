@@ -1,10 +1,5 @@
 var searchData=
 [
-  ['tdata_5fdouble',['TDATA_DOUBLE',['../_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4a4530e42b9609941570e46d0379a4ed6f',1,'NFIDataList.h']]],
-  ['tdata_5fint',['TDATA_INT',['../_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4aca7943592c0a9cb36be711b55bb4b070',1,'NFIDataList.h']]],
-  ['tdata_5fmax',['TDATA_MAX',['../_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4ad17644954e84587782ff18581f53489d',1,'NFIDataList.h']]],
-  ['tdata_5fobject',['TDATA_OBJECT',['../_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4ac4a3baf2a602244435b3b5105c93c3fe',1,'NFIDataList.h']]],
-  ['tdata_5fpoint',['TDATA_POINT',['../_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4a9205e3f9558cafc9d30f5686c0d2b596',1,'NFIDataList.h']]],
-  ['tdata_5fstring',['TDATA_STRING',['../_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4ac1b64291a66e64b2b5c2bfe96a2d001f',1,'NFIDataList.h']]],
-  ['tdata_5funknown',['TDATA_UNKNOWN',['../_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4a510df073f60bcd73cd5c466208d561c0',1,'NFIDataList.h']]]
+  ['reconnect',['RECONNECT',['../_n_f_i_net_client_module_8hpp.html#a36bc93ba880317fd945a86a1a7eeb2ccaf0a5833d071a9c74f91cd1ef5063d2dc',1,'NFINetClientModule.hpp']]],
+  ['result',['Result',['../class_t_is_derived.html#a9e472ea4f662c15ad31bafd6c8f4e44dad39d2eb7fb02943cfa701df57f61d8d4',1,'TIsDerived']]]
 ];

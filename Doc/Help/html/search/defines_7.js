@@ -25,7 +25,7 @@ var searchData=
   ['nf_5fplatform_5fwin',['NF_PLATFORM_WIN',['../_n_f_platform_8h.html#ab41d5c81621c4c537e4a0b3f84b59944',1,'NFPlatform.h']]],
   ['nf_5fquote',['NF_QUOTE',['../_n_f_platform_8h.html#ac276f8bf25f7a73eccf5a9e1afcec474',1,'NFPlatform.h']]],
   ['nf_5fquote_5finplace',['NF_QUOTE_INPLACE',['../_n_f_platform_8h.html#a846e3891c143e76b6fcb272884f862bc',1,'NFPlatform.h']]],
-  ['nf_5fshare_5fptr',['NF_SHARE_PTR',['../_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483',1,'NFPlatform.h']]],
+  ['nf_5fshare_5fptr',['NF_SHARE_PTR',['../_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5',1,'NFPlatform.h']]],
   ['nf_5funicode_5fsupport',['NF_UNICODE_SUPPORT',['../_n_f_platform_8h.html#a7ae56dcd834e6d80ea12ea20ce22672f',1,'NFPlatform.h']]],
   ['nf_5fuse_5factor',['NF_USE_ACTOR',['../_n_f_platform_8h.html#af829e0397a87ed44bde0755a9fb06981',1,'NFPlatform.h']]],
   ['nf_5fwarn',['NF_WARN',['../_n_f_platform_8h.html#a7e7e60415d9efbc977e4a27ba578497e',1,'NFPlatform.h']]],

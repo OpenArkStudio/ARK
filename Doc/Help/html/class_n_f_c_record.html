@@ -72,6 +72,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Information about the nfc.  
+ <a href="class_n_f_c_record.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_n_f_c_record_8h_source.html">NFCRecord.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFCRecord:</div>
@@ -94,186 +97,271 @@ Collaboration diagram for NFCRecord:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9833b1c54247c06023bc7f11062b291e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a9833b1c54247c06023bc7f11062b291e">NFCRecord</a> ()</td></tr>
+<tr class="memdesc:a9833b1c54247c06023bc7f11062b291e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructor.  <a href="#a9833b1c54247c06023bc7f11062b291e">More...</a><br /></td></tr>
 <tr class="separator:a9833b1c54247c06023bc7f11062b291e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a09f875a30f8534f621ac42be0b0fa4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a8a09f875a30f8534f621ac42be0b0fa4">NFCRecord</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self, const std::string &amp;strRecordName, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;valueList, const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;tagList, const int nMaxRow)</td></tr>
+<tr class="memitem:a8a09f875a30f8534f621ac42be0b0fa4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a8a09f875a30f8534f621ac42be0b0fa4">NFCRecord</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self, const std::string &amp;strRecordName, const <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;valueList, const <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;tagList, const int nMaxRow)</td></tr>
+<tr class="memdesc:a8a09f875a30f8534f621ac42be0b0fa4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a8a09f875a30f8534f621ac42be0b0fa4">More...</a><br /></td></tr>
 <tr class="separator:a8a09f875a30f8534f621ac42be0b0fa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4ffc367808d36158cc930a2d12a8f3f"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ac4ffc367808d36158cc930a2d12a8f3f">~NFCRecord</a> ()</td></tr>
+<tr class="memdesc:ac4ffc367808d36158cc930a2d12a8f3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#ac4ffc367808d36158cc930a2d12a8f3f">More...</a><br /></td></tr>
 <tr class="separator:ac4ffc367808d36158cc930a2d12a8f3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a147549e18afaab27b8d498025b34e8f5"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a147549e18afaab27b8d498025b34e8f5">IsUsed</a> (const int nRow) const</td></tr>
+<tr class="memdesc:a147549e18afaab27b8d498025b34e8f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Query if 'nRow' is used.  <a href="#a147549e18afaab27b8d498025b34e8f5">More...</a><br /></td></tr>
 <tr class="separator:a147549e18afaab27b8d498025b34e8f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1483485cd4a5c7f8b671a9af8dc2a061"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a1483485cd4a5c7f8b671a9af8dc2a061">SetUsed</a> (const int nRow, const int bUse)</td></tr>
+<tr class="memdesc:a1483485cd4a5c7f8b671a9af8dc2a061"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an used.  <a href="#a1483485cd4a5c7f8b671a9af8dc2a061">More...</a><br /></td></tr>
 <tr class="separator:a1483485cd4a5c7f8b671a9af8dc2a061"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8849e88d10d118a211db056244f5a311"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a8849e88d10d118a211db056244f5a311">GetCols</a> () const</td></tr>
+<tr class="memdesc:a8849e88d10d118a211db056244f5a311"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the cols.  <a href="#a8849e88d10d118a211db056244f5a311">More...</a><br /></td></tr>
 <tr class="separator:a8849e88d10d118a211db056244f5a311"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f7b182d15f4cac6974d47e1337edd8e"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a3f7b182d15f4cac6974d47e1337edd8e">GetRows</a> () const</td></tr>
+<tr class="memdesc:a3f7b182d15f4cac6974d47e1337edd8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the rows.  <a href="#a3f7b182d15f4cac6974d47e1337edd8e">More...</a><br /></td></tr>
 <tr class="separator:a3f7b182d15f4cac6974d47e1337edd8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa0e2badb30c0b411bdbd1021fe202023"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4">TDATA_TYPE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#aa0e2badb30c0b411bdbd1021fe202023">GetColType</a> (const int nCol) const</td></tr>
+<tr class="memdesc:aa0e2badb30c0b411bdbd1021fe202023"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets col type.  <a href="#aa0e2badb30c0b411bdbd1021fe202023">More...</a><br /></td></tr>
 <tr class="separator:aa0e2badb30c0b411bdbd1021fe202023"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae23c0567efb179b33523d11cd9b87cfa"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ae23c0567efb179b33523d11cd9b87cfa">GetColTag</a> (const int nCol) const</td></tr>
+<tr class="memdesc:ae23c0567efb179b33523d11cd9b87cfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets col tag.  <a href="#ae23c0567efb179b33523d11cd9b87cfa">More...</a><br /></td></tr>
 <tr class="separator:ae23c0567efb179b33523d11cd9b87cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a147c712a012012c3345d83e48136d069"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a147c712a012012c3345d83e48136d069">AddRow</a> (const int nRow)</td></tr>
+<tr class="memdesc:a147c712a012012c3345d83e48136d069"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加数据.  <a href="#a147c712a012012c3345d83e48136d069">More...</a><br /></td></tr>
 <tr class="separator:a147c712a012012c3345d83e48136d069"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bd38e7d9dd30569375f707b1c41fa0c"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a5bd38e7d9dd30569375f707b1c41fa0c">AddRow</a> (const int nRow, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;var)</td></tr>
+<tr class="memdesc:a5bd38e7d9dd30569375f707b1c41fa0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a row to 'var'.  <a href="#a5bd38e7d9dd30569375f707b1c41fa0c">More...</a><br /></td></tr>
 <tr class="separator:a5bd38e7d9dd30569375f707b1c41fa0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a598e91d736cbeca3a431eab2a2f5402b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a598e91d736cbeca3a431eab2a2f5402b">SetInt</a> (const int nRow, const int nCol, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value)</td></tr>
+<tr class="memdesc:a598e91d736cbeca3a431eab2a2f5402b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an int.  <a href="#a598e91d736cbeca3a431eab2a2f5402b">More...</a><br /></td></tr>
 <tr class="separator:a598e91d736cbeca3a431eab2a2f5402b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87770b6cc6d432b4aa0da78397b674c7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a87770b6cc6d432b4aa0da78397b674c7">SetDouble</a> (const int nRow, const int nCol, const double value)</td></tr>
+<tr class="memdesc:a87770b6cc6d432b4aa0da78397b674c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a double.  <a href="#a87770b6cc6d432b4aa0da78397b674c7">More...</a><br /></td></tr>
 <tr class="separator:a87770b6cc6d432b4aa0da78397b674c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14f16e4717cb56bf933ad571084111ae"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a14f16e4717cb56bf933ad571084111ae">SetString</a> (const int nRow, const int nCol, const std::string &amp;value)</td></tr>
+<tr class="memdesc:a14f16e4717cb56bf933ad571084111ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a string.  <a href="#a14f16e4717cb56bf933ad571084111ae">More...</a><br /></td></tr>
 <tr class="separator:a14f16e4717cb56bf933ad571084111ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8790f3acfc56288504ce274212d8cbc9"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a8790f3acfc56288504ce274212d8cbc9">SetObject</a> (const int nRow, const int nCol, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)</td></tr>
+<tr class="memdesc:a8790f3acfc56288504ce274212d8cbc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an object.  <a href="#a8790f3acfc56288504ce274212d8cbc9">More...</a><br /></td></tr>
 <tr class="separator:a8790f3acfc56288504ce274212d8cbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acba622a940b7cfcabcc75f153761acb8"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#acba622a940b7cfcabcc75f153761acb8">SetPoint</a> (const int nRow, const int nCol, const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)</td></tr>
+<tr class="memdesc:acba622a940b7cfcabcc75f153761acb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a point.  <a href="#acba622a940b7cfcabcc75f153761acb8">More...</a><br /></td></tr>
 <tr class="separator:acba622a940b7cfcabcc75f153761acb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8122bf977e858d5b7d5cc6abdaafd874"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a8122bf977e858d5b7d5cc6abdaafd874">SetInt</a> (const int nRow, const std::string &amp;strColTag, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value)</td></tr>
+<tr class="memdesc:a8122bf977e858d5b7d5cc6abdaafd874"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an int.  <a href="#a8122bf977e858d5b7d5cc6abdaafd874">More...</a><br /></td></tr>
 <tr class="separator:a8122bf977e858d5b7d5cc6abdaafd874"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a0b83259ec81b4c5c1de0b1b396c3fa"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a7a0b83259ec81b4c5c1de0b1b396c3fa">SetDouble</a> (const int nRow, const std::string &amp;strColTag, const double value)</td></tr>
+<tr class="memdesc:a7a0b83259ec81b4c5c1de0b1b396c3fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a double.  <a href="#a7a0b83259ec81b4c5c1de0b1b396c3fa">More...</a><br /></td></tr>
 <tr class="separator:a7a0b83259ec81b4c5c1de0b1b396c3fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2615737880167a3341835206efc4233"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ab2615737880167a3341835206efc4233">SetString</a> (const int nRow, const std::string &amp;strColTag, const std::string &amp;value)</td></tr>
+<tr class="memdesc:ab2615737880167a3341835206efc4233"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a string.  <a href="#ab2615737880167a3341835206efc4233">More...</a><br /></td></tr>
 <tr class="separator:ab2615737880167a3341835206efc4233"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a57f911337fb4ef5b6767159516ba037a"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a57f911337fb4ef5b6767159516ba037a">SetObject</a> (const int nRow, const std::string &amp;strColTag, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value)</td></tr>
+<tr class="memdesc:a57f911337fb4ef5b6767159516ba037a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets an object.  <a href="#a57f911337fb4ef5b6767159516ba037a">More...</a><br /></td></tr>
 <tr class="separator:a57f911337fb4ef5b6767159516ba037a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd897bed0b18b20958919bdf98ca5c32"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#afd897bed0b18b20958919bdf98ca5c32">SetPoint</a> (const int nRow, const std::string &amp;strColTag, const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value)</td></tr>
+<tr class="memdesc:afd897bed0b18b20958919bdf98ca5c32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a point.  <a href="#afd897bed0b18b20958919bdf98ca5c32">More...</a><br /></td></tr>
 <tr class="separator:afd897bed0b18b20958919bdf98ca5c32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa6d45ec5bda391c4ae63b853dd767d1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#afa6d45ec5bda391c4ae63b853dd767d1">GetInt</a> (const int nRow, const int nCol) const</td></tr>
+<tr class="memdesc:afa6d45ec5bda391c4ae63b853dd767d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets an int.  <a href="#afa6d45ec5bda391c4ae63b853dd767d1">More...</a><br /></td></tr>
 <tr class="separator:afa6d45ec5bda391c4ae63b853dd767d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8dbfb8d51c7f33e46e408101f8ab5b99"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a8dbfb8d51c7f33e46e408101f8ab5b99">GetDouble</a> (const int nRow, const int nCol) const</td></tr>
+<tr class="memdesc:a8dbfb8d51c7f33e46e408101f8ab5b99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a double.  <a href="#a8dbfb8d51c7f33e46e408101f8ab5b99">More...</a><br /></td></tr>
 <tr class="separator:a8dbfb8d51c7f33e46e408101f8ab5b99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bccdfd45530c4bc66e153f2eeeb7dbc"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a5bccdfd45530c4bc66e153f2eeeb7dbc">GetString</a> (const int nRow, const int nCol) const</td></tr>
+<tr class="memdesc:a5bccdfd45530c4bc66e153f2eeeb7dbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a string.  <a href="#a5bccdfd45530c4bc66e153f2eeeb7dbc">More...</a><br /></td></tr>
 <tr class="separator:a5bccdfd45530c4bc66e153f2eeeb7dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afcf3510ae05081793b4a4d5f72073c99"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#afcf3510ae05081793b4a4d5f72073c99">GetObject</a> (const int nRow, const int nCol) const</td></tr>
+<tr class="memdesc:afcf3510ae05081793b4a4d5f72073c99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets an object.  <a href="#afcf3510ae05081793b4a4d5f72073c99">More...</a><br /></td></tr>
 <tr class="separator:afcf3510ae05081793b4a4d5f72073c99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10491375accf4cb9a6d27a056f48fdb6"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a10491375accf4cb9a6d27a056f48fdb6">GetPoint</a> (const int nRow, const int nCol) const</td></tr>
+<tr class="memdesc:a10491375accf4cb9a6d27a056f48fdb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a point.  <a href="#a10491375accf4cb9a6d27a056f48fdb6">More...</a><br /></td></tr>
 <tr class="separator:a10491375accf4cb9a6d27a056f48fdb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac228062b73185b3887783e74ae5b204b"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ac228062b73185b3887783e74ae5b204b">GetInt</a> (const int nRow, const std::string &amp;strColTag) const</td></tr>
+<tr class="memdesc:ac228062b73185b3887783e74ae5b204b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets an int.  <a href="#ac228062b73185b3887783e74ae5b204b">More...</a><br /></td></tr>
 <tr class="separator:ac228062b73185b3887783e74ae5b204b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac30b49daea093abc919dadd080951624"><td class="memItemLeft" align="right" valign="top">virtual double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ac30b49daea093abc919dadd080951624">GetDouble</a> (const int nRow, const std::string &amp;strColTag) const</td></tr>
+<tr class="memdesc:ac30b49daea093abc919dadd080951624"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a double.  <a href="#ac30b49daea093abc919dadd080951624">More...</a><br /></td></tr>
 <tr class="separator:ac30b49daea093abc919dadd080951624"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa63595b5545d3b6c7ac8aeb2113967af"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#aa63595b5545d3b6c7ac8aeb2113967af">GetString</a> (const int nRow, const std::string &amp;strColTag) const</td></tr>
+<tr class="memdesc:aa63595b5545d3b6c7ac8aeb2113967af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a string.  <a href="#aa63595b5545d3b6c7ac8aeb2113967af">More...</a><br /></td></tr>
 <tr class="separator:aa63595b5545d3b6c7ac8aeb2113967af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7439b10518ee60f676256f154203166c"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a7439b10518ee60f676256f154203166c">GetObject</a> (const int nRow, const std::string &amp;strColTag) const</td></tr>
+<tr class="memdesc:a7439b10518ee60f676256f154203166c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets an object.  <a href="#a7439b10518ee60f676256f154203166c">More...</a><br /></td></tr>
 <tr class="separator:a7439b10518ee60f676256f154203166c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adca66f2613a900ca1240c5d1f8af842b"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#adca66f2613a900ca1240c5d1f8af842b">GetPoint</a> (const int nRow, const std::string &amp;strColTag) const</td></tr>
+<tr class="memdesc:adca66f2613a900ca1240c5d1f8af842b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a point.  <a href="#adca66f2613a900ca1240c5d1f8af842b">More...</a><br /></td></tr>
 <tr class="separator:adca66f2613a900ca1240c5d1f8af842b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad97beaf9ed7a5ab9e69b953d501523b8"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ad97beaf9ed7a5ab9e69b953d501523b8">FindRowByColValue</a> (const int nCol, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;var, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:ad97beaf9ed7a5ab9e69b953d501523b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first row by col value.  <a href="#ad97beaf9ed7a5ab9e69b953d501523b8">More...</a><br /></td></tr>
 <tr class="separator:ad97beaf9ed7a5ab9e69b953d501523b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12328159917be4a6fcd40b2ee42e1b74"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a12328159917be4a6fcd40b2ee42e1b74">FindInt</a> (const int nCol, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:a12328159917be4a6fcd40b2ee42e1b74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first int.  <a href="#a12328159917be4a6fcd40b2ee42e1b74">More...</a><br /></td></tr>
 <tr class="separator:a12328159917be4a6fcd40b2ee42e1b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86ecbd887d96286b1599c9e105d8b8ac"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a86ecbd887d96286b1599c9e105d8b8ac">FindDouble</a> (const int nCol, const double value, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:a86ecbd887d96286b1599c9e105d8b8ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first double.  <a href="#a86ecbd887d96286b1599c9e105d8b8ac">More...</a><br /></td></tr>
 <tr class="separator:a86ecbd887d96286b1599c9e105d8b8ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4196dbcb26ca1ec5d3c07c9a3b9c8434"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a4196dbcb26ca1ec5d3c07c9a3b9c8434">FindString</a> (const int nCol, const std::string &amp;value, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:a4196dbcb26ca1ec5d3c07c9a3b9c8434"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first string.  <a href="#a4196dbcb26ca1ec5d3c07c9a3b9c8434">More...</a><br /></td></tr>
 <tr class="separator:a4196dbcb26ca1ec5d3c07c9a3b9c8434"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51a5d918b6d9df70a71ea3dd2e319bd6"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a51a5d918b6d9df70a71ea3dd2e319bd6">FindObject</a> (const int nCol, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:a51a5d918b6d9df70a71ea3dd2e319bd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first object.  <a href="#a51a5d918b6d9df70a71ea3dd2e319bd6">More...</a><br /></td></tr>
 <tr class="separator:a51a5d918b6d9df70a71ea3dd2e319bd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7705a85b626a8817bb38fefc68f15dc"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ae7705a85b626a8817bb38fefc68f15dc">FindPoint</a> (const int nCol, const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:ae7705a85b626a8817bb38fefc68f15dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first point.  <a href="#ae7705a85b626a8817bb38fefc68f15dc">More...</a><br /></td></tr>
 <tr class="separator:ae7705a85b626a8817bb38fefc68f15dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4815ed1e71fb198185ad3cfb147fc41c"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a4815ed1e71fb198185ad3cfb147fc41c">FindRowByColValue</a> (const std::string &amp;strColTag, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;var, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:a4815ed1e71fb198185ad3cfb147fc41c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first row by col value.  <a href="#a4815ed1e71fb198185ad3cfb147fc41c">More...</a><br /></td></tr>
 <tr class="separator:a4815ed1e71fb198185ad3cfb147fc41c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a64c33d74753489ae683f3f27aa285ed8"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a64c33d74753489ae683f3f27aa285ed8">FindInt</a> (const std::string &amp;strColTag, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> value, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:a64c33d74753489ae683f3f27aa285ed8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first int.  <a href="#a64c33d74753489ae683f3f27aa285ed8">More...</a><br /></td></tr>
 <tr class="separator:a64c33d74753489ae683f3f27aa285ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b5d5efd79c26d3776d52d8c04083943"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a9b5d5efd79c26d3776d52d8c04083943">FindDouble</a> (const std::string &amp;strColTag, const double value, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:a9b5d5efd79c26d3776d52d8c04083943"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first double.  <a href="#a9b5d5efd79c26d3776d52d8c04083943">More...</a><br /></td></tr>
 <tr class="separator:a9b5d5efd79c26d3776d52d8c04083943"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a35f00fd533ce83c47f3ee50f855cac"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a5a35f00fd533ce83c47f3ee50f855cac">FindString</a> (const std::string &amp;strColTag, const std::string &amp;value, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:a5a35f00fd533ce83c47f3ee50f855cac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first string.  <a href="#a5a35f00fd533ce83c47f3ee50f855cac">More...</a><br /></td></tr>
 <tr class="separator:a5a35f00fd533ce83c47f3ee50f855cac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabee19ba5c99cd011f48ca009eb5a115"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#aabee19ba5c99cd011f48ca009eb5a115">FindObject</a> (const std::string &amp;strColTag, const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;value, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:aabee19ba5c99cd011f48ca009eb5a115"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first object.  <a href="#aabee19ba5c99cd011f48ca009eb5a115">More...</a><br /></td></tr>
 <tr class="separator:aabee19ba5c99cd011f48ca009eb5a115"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0ba5228341479bac6c13b0ae6c3dc710"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a0ba5228341479bac6c13b0ae6c3dc710">FindPoint</a> (const std::string &amp;strColTag, const <a class="el" href="struct_point3_d.html">Point3D</a> &amp;value, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:a0ba5228341479bac6c13b0ae6c3dc710"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches for the first point.  <a href="#a0ba5228341479bac6c13b0ae6c3dc710">More...</a><br /></td></tr>
 <tr class="separator:a0ba5228341479bac6c13b0ae6c3dc710"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a145f735d0d22aac96b67f64f5a401431"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a145f735d0d22aac96b67f64f5a401431">QueryRow</a> (const int nRow, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varList)</td></tr>
+<tr class="memdesc:a145f735d0d22aac96b67f64f5a401431"><td class="mdescLeft">&#160;</td><td class="mdescRight">///////////////////////////////////////////////////////////////////////.  <a href="#a145f735d0d22aac96b67f64f5a401431">More...</a><br /></td></tr>
 <tr class="separator:a145f735d0d22aac96b67f64f5a401431"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5a43f2e0db94d2ab9537db1874e752d2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a5a43f2e0db94d2ab9537db1874e752d2">SwapRowInfo</a> (const int nOriginRow, const int nTargetRow)</td></tr>
+<tr class="memdesc:a5a43f2e0db94d2ab9537db1874e752d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swap row information.  <a href="#a5a43f2e0db94d2ab9537db1874e752d2">More...</a><br /></td></tr>
 <tr class="separator:a5a43f2e0db94d2ab9537db1874e752d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a957a2cd707bf49e3e6fda79b6137ffb2"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a957a2cd707bf49e3e6fda79b6137ffb2">Remove</a> (const int nRow)</td></tr>
+<tr class="memdesc:a957a2cd707bf49e3e6fda79b6137ffb2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the given nRow.  <a href="#a957a2cd707bf49e3e6fda79b6137ffb2">More...</a><br /></td></tr>
 <tr class="separator:a957a2cd707bf49e3e6fda79b6137ffb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad8f51d971dd070b74fc6e6420d3709b6"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ad8f51d971dd070b74fc6e6420d3709b6">Clear</a> ()</td></tr>
+<tr class="memdesc:ad8f51d971dd070b74fc6e6420d3709b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Clears this object to its blank/initial state.  <a href="#ad8f51d971dd070b74fc6e6420d3709b6">More...</a><br /></td></tr>
 <tr class="separator:ad8f51d971dd070b74fc6e6420d3709b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac480a6b4c5b8fbe2d23d6762526b0dfa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ac480a6b4c5b8fbe2d23d6762526b0dfa">AddRecordHook</a> (const <a class="el" href="_n_f_define_8h.html#a8ff0b365f58d3a69dde0625b5873845a">RECORD_EVENT_FUNCTOR_PTR</a> &amp;cb)</td></tr>
+<tr class="memitem:ac480a6b4c5b8fbe2d23d6762526b0dfa"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ac480a6b4c5b8fbe2d23d6762526b0dfa">AddRecordHook</a> (const <a class="el" href="_n_f_define_8h.html#ab3fde62b1e3572a8f685b97629ec57da">RECORD_EVENT_FUNCTOR_PTR</a> &amp;cb)</td></tr>
+<tr class="memdesc:ac480a6b4c5b8fbe2d23d6762526b0dfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a record hook.  <a href="#ac480a6b4c5b8fbe2d23d6762526b0dfa">More...</a><br /></td></tr>
 <tr class="separator:ac480a6b4c5b8fbe2d23d6762526b0dfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7dcdc1de8ed8b5ce66467093bcc98ffa"><td class="memItemLeft" align="right" valign="top">virtual const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a7dcdc1de8ed8b5ce66467093bcc98ffa">GetSave</a> ()</td></tr>
+<tr class="memdesc:a7dcdc1de8ed8b5ce66467093bcc98ffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the save.  <a href="#a7dcdc1de8ed8b5ce66467093bcc98ffa">More...</a><br /></td></tr>
 <tr class="separator:a7dcdc1de8ed8b5ce66467093bcc98ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a768e1aba8ca026224605b9fa07adf0ec"><td class="memItemLeft" align="right" valign="top">virtual const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a768e1aba8ca026224605b9fa07adf0ec">GetCache</a> ()</td></tr>
+<tr class="memdesc:a768e1aba8ca026224605b9fa07adf0ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the cache.  <a href="#a768e1aba8ca026224605b9fa07adf0ec">More...</a><br /></td></tr>
 <tr class="separator:a768e1aba8ca026224605b9fa07adf0ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0aac957ba75920fda736e43389e91b8d"><td class="memItemLeft" align="right" valign="top">virtual const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a0aac957ba75920fda736e43389e91b8d">GetPublic</a> ()</td></tr>
+<tr class="memdesc:a0aac957ba75920fda736e43389e91b8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the public.  <a href="#a0aac957ba75920fda736e43389e91b8d">More...</a><br /></td></tr>
 <tr class="separator:a0aac957ba75920fda736e43389e91b8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac5cbc0fefb3d52dd479438510e606dd5"><td class="memItemLeft" align="right" valign="top">virtual const bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ac5cbc0fefb3d52dd479438510e606dd5">GetPrivate</a> ()</td></tr>
+<tr class="memdesc:ac5cbc0fefb3d52dd479438510e606dd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the private.  <a href="#ac5cbc0fefb3d52dd479438510e606dd5">More...</a><br /></td></tr>
 <tr class="separator:ac5cbc0fefb3d52dd479438510e606dd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35ca7c945828c75a88a6a19d0e755f89"><td class="memItemLeft" align="right" valign="top">virtual const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a35ca7c945828c75a88a6a19d0e755f89">GetName</a> () const</td></tr>
+<tr class="memdesc:a35ca7c945828c75a88a6a19d0e755f89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the name.  <a href="#a35ca7c945828c75a88a6a19d0e755f89">More...</a><br /></td></tr>
 <tr class="separator:a35ca7c945828c75a88a6a19d0e755f89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4cd99f4ac6381406f93b7d8a533d19a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ab4cd99f4ac6381406f93b7d8a533d19a">SetSave</a> (const bool bSave)</td></tr>
+<tr class="memdesc:ab4cd99f4ac6381406f93b7d8a533d19a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a save.  <a href="#ab4cd99f4ac6381406f93b7d8a533d19a">More...</a><br /></td></tr>
 <tr class="separator:ab4cd99f4ac6381406f93b7d8a533d19a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a793e60e8f27d286b7de0877cded92a94"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a793e60e8f27d286b7de0877cded92a94">SetCache</a> (const bool bCache)</td></tr>
+<tr class="memdesc:a793e60e8f27d286b7de0877cded92a94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a cache.  <a href="#a793e60e8f27d286b7de0877cded92a94">More...</a><br /></td></tr>
 <tr class="separator:a793e60e8f27d286b7de0877cded92a94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a580af6e296622a0778dacb04d0ea1273"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a580af6e296622a0778dacb04d0ea1273">SetPublic</a> (const bool bPublic)</td></tr>
+<tr class="memdesc:a580af6e296622a0778dacb04d0ea1273"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a public.  <a href="#a580af6e296622a0778dacb04d0ea1273">More...</a><br /></td></tr>
 <tr class="separator:a580af6e296622a0778dacb04d0ea1273"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56f3b237744a9d6c2e29f4101b8fcd0e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a56f3b237744a9d6c2e29f4101b8fcd0e">SetPrivate</a> (const bool bPrivate)</td></tr>
+<tr class="memdesc:a56f3b237744a9d6c2e29f4101b8fcd0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a private.  <a href="#a56f3b237744a9d6c2e29f4101b8fcd0e">More...</a><br /></td></tr>
 <tr class="separator:a56f3b237744a9d6c2e29f4101b8fcd0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad82d7dc1a0f4f4280b0fbddc5a32e4d1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ad82d7dc1a0f4f4280b0fbddc5a32e4d1">SetName</a> (const std::string &amp;strName)</td></tr>
+<tr class="memdesc:ad82d7dc1a0f4f4280b0fbddc5a32e4d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets a name.  <a href="#ad82d7dc1a0f4f4280b0fbddc5a32e4d1">More...</a><br /></td></tr>
 <tr class="separator:ad82d7dc1a0f4f4280b0fbddc5a32e4d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa052cd4f701b90b3e0b24049bd12709"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#aaa052cd4f701b90b3e0b24049bd12709">GetInitData</a> () const</td></tr>
+<tr class="memitem:aaa052cd4f701b90b3e0b24049bd12709"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#aaa052cd4f701b90b3e0b24049bd12709">GetInitData</a> () const</td></tr>
+<tr class="memdesc:aaa052cd4f701b90b3e0b24049bd12709"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets init data.  <a href="#aaa052cd4f701b90b3e0b24049bd12709">More...</a><br /></td></tr>
 <tr class="separator:aaa052cd4f701b90b3e0b24049bd12709"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae71132cfb7ec4bceca76a959aec37306"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ae71132cfb7ec4bceca76a959aec37306">GetTag</a> () const</td></tr>
+<tr class="memitem:ae71132cfb7ec4bceca76a959aec37306"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ae71132cfb7ec4bceca76a959aec37306">GetTag</a> () const</td></tr>
+<tr class="memdesc:ae71132cfb7ec4bceca76a959aec37306"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the tag.  <a href="#ae71132cfb7ec4bceca76a959aec37306">More...</a><br /></td></tr>
 <tr class="separator:ae71132cfb7ec4bceca76a959aec37306"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79e6663505b05b2ae8419cde344d871b"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="class_n_f_i_record.html#ad9a65b1ee6297ee200e8e495c2614d61">TRECORDVEC</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a79e6663505b05b2ae8419cde344d871b">GetRecordVec</a> () const</td></tr>
-<tr class="separator:a79e6663505b05b2ae8419cde344d871b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a348710e0cd90d890ecca62c210dde8f3"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="class_n_f_i_record.html#ad9a65b1ee6297ee200e8e495c2614d61">TRECORDVEC</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a348710e0cd90d890ecca62c210dde8f3">GetRecordVec</a> () const</td></tr>
+<tr class="memdesc:a348710e0cd90d890ecca62c210dde8f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets record vector.  <a href="#a348710e0cd90d890ecca62c210dde8f3">More...</a><br /></td></tr>
+<tr class="separator:a348710e0cd90d890ecca62c210dde8f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_n_f_i_record"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_n_f_i_record')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="class_n_f_i_record.html">NFIRecord</a></td></tr>
 <tr class="memitem:a5d64c79c02cc984b4fb44845b6f2da65 inherit pub_methods_class_n_f_i_record"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record.html#a5d64c79c02cc984b4fb44845b6f2da65">~NFIRecord</a> ()</td></tr>
 <tr class="separator:a5d64c79c02cc984b4fb44845b6f2da65 inherit pub_methods_class_n_f_i_record"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2581fe55ec0aebb858d33449b2f3c3f0 inherit pub_methods_class_n_f_i_record"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record.html#a2581fe55ec0aebb858d33449b2f3c3f0">SortByCol</a> (const int nCol, const bool bOrder, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
-<tr class="separator:a2581fe55ec0aebb858d33449b2f3c3f0 inherit pub_methods_class_n_f_i_record"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa7bb91606dc41e762e2a275b9895b278 inherit pub_methods_class_n_f_i_record"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record.html#aa7bb91606dc41e762e2a275b9895b278">SortByTag</a> (const std::string &amp;strColTag, const bool bOrder, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
-<tr class="separator:aa7bb91606dc41e762e2a275b9895b278 inherit pub_methods_class_n_f_i_record"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc2aa4497716302c6d40e91de3235e38 inherit pub_methods_class_n_f_i_record"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record.html#acc2aa4497716302c6d40e91de3235e38">Remove</a> (<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varRows)</td></tr>
-<tr class="separator:acc2aa4497716302c6d40e91de3235e38 inherit pub_methods_class_n_f_i_record"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5379841a8bffdccaaa21409023224fe inherit pub_methods_class_n_f_i_record"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record.html#ab5379841a8bffdccaaa21409023224fe">SortByCol</a> (const int nCol, const bool bOrder, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:ab5379841a8bffdccaaa21409023224fe inherit pub_methods_class_n_f_i_record"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort by col.  <a href="class_n_f_i_record.html#ab5379841a8bffdccaaa21409023224fe">More...</a><br /></td></tr>
+<tr class="separator:ab5379841a8bffdccaaa21409023224fe inherit pub_methods_class_n_f_i_record"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24fa6b2e4f34787a9a4dadcf5e5a6243 inherit pub_methods_class_n_f_i_record"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record.html#a24fa6b2e4f34787a9a4dadcf5e5a6243">SortByTag</a> (const std::string &amp;strColTag, const bool bOrder, <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varResult)</td></tr>
+<tr class="memdesc:a24fa6b2e4f34787a9a4dadcf5e5a6243 inherit pub_methods_class_n_f_i_record"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sort by tag.  <a href="class_n_f_i_record.html#a24fa6b2e4f34787a9a4dadcf5e5a6243">More...</a><br /></td></tr>
+<tr class="separator:a24fa6b2e4f34787a9a4dadcf5e5a6243 inherit pub_methods_class_n_f_i_record"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21431f283e6e45c9a03d8c82c4f403e8 inherit pub_methods_class_n_f_i_record"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record.html#a21431f283e6e45c9a03d8c82c4f403e8">Remove</a> (<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;varRows)</td></tr>
+<tr class="memdesc:a21431f283e6e45c9a03d8c82c4f403e8 inherit pub_methods_class_n_f_i_record"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the given varRows.  <a href="class_n_f_i_record.html#a21431f283e6e45c9a03d8c82c4f403e8">More...</a><br /></td></tr>
+<tr class="separator:a21431f283e6e45c9a03d8c82c4f403e8 inherit pub_methods_class_n_f_i_record"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-types"></a>
 Protected Types</h2></td></tr>
-<tr class="memitem:a0a308a9dcdf6053ac34398561bc8acf5"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="_n_f_define_8h.html#a8ff0b365f58d3a69dde0625b5873845a">RECORD_EVENT_FUNCTOR_PTR</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a0a308a9dcdf6053ac34398561bc8acf5">TRECORDCALLBACKEX</a></td></tr>
-<tr class="separator:a0a308a9dcdf6053ac34398561bc8acf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ac2c14af4440384098552854fbae3ec"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="_n_f_define_8h.html#ab3fde62b1e3572a8f685b97629ec57da">RECORD_EVENT_FUNCTOR_PTR</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a8ac2c14af4440384098552854fbae3ec">TRECORDCALLBACKEX</a></td></tr>
+<tr class="memdesc:a8ac2c14af4440384098552854fbae3ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines an alias representing the trecordcallbackex.  <a href="#a8ac2c14af4440384098552854fbae3ec">More...</a><br /></td></tr>
+<tr class="separator:a8ac2c14af4440384098552854fbae3ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:af57413539c15a2b1a1ce247ef9a19eac"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#af57413539c15a2b1a1ce247ef9a19eac">GetPos</a> (int nRow, int nCol) const</td></tr>
+<tr class="memdesc:af57413539c15a2b1a1ce247ef9a19eac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a position.  <a href="#af57413539c15a2b1a1ce247ef9a19eac">More...</a><br /></td></tr>
 <tr class="separator:af57413539c15a2b1a1ce247ef9a19eac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac61c7c6b59fd762cdbe6adc9e9572f8e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ac61c7c6b59fd762cdbe6adc9e9572f8e">GetCol</a> (const std::string &amp;strTag) const</td></tr>
+<tr class="memdesc:ac61c7c6b59fd762cdbe6adc9e9572f8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a col.  <a href="#ac61c7c6b59fd762cdbe6adc9e9572f8e">More...</a><br /></td></tr>
 <tr class="separator:ac61c7c6b59fd762cdbe6adc9e9572f8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2997225c9557065e60e4703829178193"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a2997225c9557065e60e4703829178193">ValidPos</a> (int nRow, int nCol) const</td></tr>
+<tr class="memdesc:a2997225c9557065e60e4703829178193"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valid position.  <a href="#a2997225c9557065e60e4703829178193">More...</a><br /></td></tr>
 <tr class="separator:a2997225c9557065e60e4703829178193"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1f456da47641a42a236954effbd95f01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a1f456da47641a42a236954effbd95f01">ValidRow</a> (int nRow) const</td></tr>
+<tr class="memdesc:a1f456da47641a42a236954effbd95f01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valid row.  <a href="#a1f456da47641a42a236954effbd95f01">More...</a><br /></td></tr>
 <tr class="separator:a1f456da47641a42a236954effbd95f01"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a94d2329089a455eef490e2a2b98f05a3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a94d2329089a455eef490e2a2b98f05a3">ValidCol</a> (int nCol) const</td></tr>
+<tr class="memdesc:a94d2329089a455eef490e2a2b98f05a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valid col.  <a href="#a94d2329089a455eef490e2a2b98f05a3">More...</a><br /></td></tr>
 <tr class="separator:a94d2329089a455eef490e2a2b98f05a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41ef028c68269cea9af585ff21969517"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a41ef028c68269cea9af585ff21969517">ValidCheck</a> (<a class="el" href="_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4">TDATA_TYPE</a> eType, const <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &amp;var, <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &gt; &amp;pVar)</td></tr>
+<tr class="memitem:a41ef028c68269cea9af585ff21969517"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a41ef028c68269cea9af585ff21969517">ValidCheck</a> (<a class="el" href="_n_f_i_data_list_8h.html#ab46763a4096c883e3ce4a56a4cc9e4b4">TDATA_TYPE</a> eType, const <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &amp;var, <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &gt; &amp;pVar)</td></tr>
+<tr class="memdesc:a41ef028c68269cea9af585ff21969517"><td class="mdescLeft">&#160;</td><td class="mdescRight">Valid check.  <a href="#a41ef028c68269cea9af585ff21969517">More...</a><br /></td></tr>
 <tr class="separator:a41ef028c68269cea9af585ff21969517"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae99d0b1bc84d5659ca55b41fce651736"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ae99d0b1bc84d5659ca55b41fce651736">OnEventHandler</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;self, const <a class="el" href="struct_r_e_c_o_r_d___e_v_e_n_t___d_a_t_a.html">RECORD_EVENT_DATA</a> &amp;xEventData, const <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &amp;oldVar, const <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &amp;newVar)</td></tr>
+<tr class="memdesc:ae99d0b1bc84d5659ca55b41fce651736"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes the event handler action.  <a href="#ae99d0b1bc84d5659ca55b41fce651736">More...</a><br /></td></tr>
 <tr class="separator:ae99d0b1bc84d5659ca55b41fce651736"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a01f084af5675c49420bb31a8bf73b5a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a01f084af5675c49420bb31a8bf73b5a7">mVarRecordType</a></td></tr>
+<tr class="memitem:a01f084af5675c49420bb31a8bf73b5a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a01f084af5675c49420bb31a8bf73b5a7">mVarRecordType</a></td></tr>
+<tr class="memdesc:a01f084af5675c49420bb31a8bf73b5a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始值类型&ndash;应该引用静态的(或者智能指针)，节约大量内存.  <a href="#a01f084af5675c49420bb31a8bf73b5a7">More...</a><br /></td></tr>
 <tr class="separator:a01f084af5675c49420bb31a8bf73b5a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30a41f7027a3631d2d0d5ee7232b30ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a30a41f7027a3631d2d0d5ee7232b30ac">mVarRecordTag</a></td></tr>
+<tr class="memitem:a30a41f7027a3631d2d0d5ee7232b30ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a30a41f7027a3631d2d0d5ee7232b30ac">mVarRecordTag</a></td></tr>
+<tr class="memdesc:a30a41f7027a3631d2d0d5ee7232b30ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">col的tag值&ndash;应该引用静态的(或者智能指针)，节约大量内存.  <a href="#a30a41f7027a3631d2d0d5ee7232b30ac">More...</a><br /></td></tr>
 <tr class="separator:a30a41f7027a3631d2d0d5ee7232b30ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbfb94339fdb6e4f87f2639284b71301"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::string, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#acbfb94339fdb6e4f87f2639284b71301">mmTag</a></td></tr>
+<tr class="memdesc:acbfb94339fdb6e4f87f2639284b71301"><td class="mdescLeft">&#160;</td><td class="mdescRight">tag-&gt;col转换.  <a href="#acbfb94339fdb6e4f87f2639284b71301">More...</a><br /></td></tr>
 <tr class="separator:acbfb94339fdb6e4f87f2639284b71301"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60cb903d48b3008ca5ae49824f75b4c2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_i_record.html#ad9a65b1ee6297ee200e8e495c2614d61">TRECORDVEC</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a60cb903d48b3008ca5ae49824f75b4c2">mtRecordVec</a></td></tr>
+<tr class="memdesc:a60cb903d48b3008ca5ae49824f75b4c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">/////////////////////////.  <a href="#a60cb903d48b3008ca5ae49824f75b4c2">More...</a><br /></td></tr>
 <tr class="separator:a60cb903d48b3008ca5ae49824f75b4c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb5300d6f4c5a482fc3c5faf345b5ae9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#afb5300d6f4c5a482fc3c5faf345b5ae9">mVecUsedState</a></td></tr>
+<tr class="memdesc:afb5300d6f4c5a482fc3c5faf345b5ae9"><td class="mdescLeft">&#160;</td><td class="mdescRight">State of the vector used.  <a href="#afb5300d6f4c5a482fc3c5faf345b5ae9">More...</a><br /></td></tr>
 <tr class="separator:afb5300d6f4c5a482fc3c5faf345b5ae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1e567fb07d6f340cd5c1039c91832eb9"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a1e567fb07d6f340cd5c1039c91832eb9">mnMaxRow</a></td></tr>
+<tr class="memdesc:a1e567fb07d6f340cd5c1039c91832eb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mn maximum row.  <a href="#a1e567fb07d6f340cd5c1039c91832eb9">More...</a><br /></td></tr>
 <tr class="separator:a1e567fb07d6f340cd5c1039c91832eb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae94ec65dbd47fcf84e706ca59c8f5571"><td class="memItemLeft" align="right" valign="top"><a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#ae94ec65dbd47fcf84e706ca59c8f5571">mSelf</a></td></tr>
+<tr class="memdesc:ae94ec65dbd47fcf84e706ca59c8f5571"><td class="mdescLeft">&#160;</td><td class="mdescRight">The self.  <a href="#ae94ec65dbd47fcf84e706ca59c8f5571">More...</a><br /></td></tr>
 <tr class="separator:ae94ec65dbd47fcf84e706ca59c8f5571"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aacd302bcc9bf43c50927ae8ef55204bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#aacd302bcc9bf43c50927ae8ef55204bf">mbSave</a></td></tr>
+<tr class="memdesc:aacd302bcc9bf43c50927ae8ef55204bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">True to megabytes save.  <a href="#aacd302bcc9bf43c50927ae8ef55204bf">More...</a><br /></td></tr>
 <tr class="separator:aacd302bcc9bf43c50927ae8ef55204bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1e88b4aece91de67de0ae5c849d9fd7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#af1e88b4aece91de67de0ae5c849d9fd7">mbPublic</a></td></tr>
+<tr class="memdesc:af1e88b4aece91de67de0ae5c849d9fd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">True to megabytes public.  <a href="#af1e88b4aece91de67de0ae5c849d9fd7">More...</a><br /></td></tr>
 <tr class="separator:af1e88b4aece91de67de0ae5c849d9fd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaaf3f76721f579511321ed924c9fb1af"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#aaaf3f76721f579511321ed924c9fb1af">mbPrivate</a></td></tr>
+<tr class="memdesc:aaaf3f76721f579511321ed924c9fb1af"><td class="mdescLeft">&#160;</td><td class="mdescRight">True to megabytes private.  <a href="#aaaf3f76721f579511321ed924c9fb1af">More...</a><br /></td></tr>
 <tr class="separator:aaaf3f76721f579511321ed924c9fb1af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5634ffb5a8fea3339cc2ea6edc702e06"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a5634ffb5a8fea3339cc2ea6edc702e06">mbCache</a></td></tr>
+<tr class="memdesc:a5634ffb5a8fea3339cc2ea6edc702e06"><td class="mdescLeft">&#160;</td><td class="mdescRight">True to megabytes cache.  <a href="#a5634ffb5a8fea3339cc2ea6edc702e06">More...</a><br /></td></tr>
 <tr class="separator:a5634ffb5a8fea3339cc2ea6edc702e06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7f946695554e9a8d827598ebd15e2a2b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a7f946695554e9a8d827598ebd15e2a2b">mstrRecordName</a></td></tr>
+<tr class="memdesc:a7f946695554e9a8d827598ebd15e2a2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Name of the mstr record.  <a href="#a7f946695554e9a8d827598ebd15e2a2b">More...</a><br /></td></tr>
 <tr class="separator:a7f946695554e9a8d827598ebd15e2a2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8aaa1f0f735bd6f7afb3a8b655f6372a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_c_record.html#a0a308a9dcdf6053ac34398561bc8acf5">TRECORDCALLBACKEX</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a8aaa1f0f735bd6f7afb3a8b655f6372a">mtRecordCallback</a></td></tr>
+<tr class="memitem:a8aaa1f0f735bd6f7afb3a8b655f6372a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="class_n_f_c_record.html#a8ac2c14af4440384098552854fbae3ec">TRECORDCALLBACKEX</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_c_record.html#a8aaa1f0f735bd6f7afb3a8b655f6372a">mtRecordCallback</a></td></tr>
+<tr class="memdesc:a8aaa1f0f735bd6f7afb3a8b655f6372a"><td class="mdescLeft">&#160;</td><td class="mdescRight">The mt record callback.  <a href="#a8aaa1f0f735bd6f7afb3a8b655f6372a">More...</a><br /></td></tr>
 <tr class="separator:a8aaa1f0f735bd6f7afb3a8b655f6372a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
@@ -292,14 +380,18 @@ Additional Inherited Members</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="separator:ab2427b89ecf945cce709dc00d275b290 inherit pub_types_class_n_f_i_record"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9a65b1ee6297ee200e8e495c2614d61 inherit pub_types_class_n_f_i_record"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record.html#ad9a65b1ee6297ee200e8e495c2614d61">TRECORDVEC</a></td></tr>
+<tr class="memitem:ad9a65b1ee6297ee200e8e495c2614d61 inherit pub_types_class_n_f_i_record"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record.html#ad9a65b1ee6297ee200e8e495c2614d61">TRECORDVEC</a></td></tr>
 <tr class="separator:ad9a65b1ee6297ee200e8e495c2614d61 inherit pub_types_class_n_f_i_record"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add278c59e8ab13fa1fbdc638dacc458d inherit pub_types_class_n_f_i_record"><td class="memItemLeft" align="right" valign="top">typedef TRECORDVEC::const_iterator&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_record.html#add278c59e8ab13fa1fbdc638dacc458d">TRECORDVECCONSTITER</a></td></tr>
 <tr class="separator:add278c59e8ab13fa1fbdc638dacc458d inherit pub_types_class_n_f_i_record"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a0a308a9dcdf6053ac34398561bc8acf5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0a308a9dcdf6053ac34398561bc8acf5">&sect;&nbsp;</a></span>TRECORDCALLBACKEX</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Information about the nfc. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29 </dd></dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a8ac2c14af4440384098552854fbae3ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ac2c14af4440384098552854fbae3ec">&sect;&nbsp;</a></span>TRECORDCALLBACKEX</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -308,7 +400,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::vector&lt;<a class="el" href="_n_f_define_8h.html#a8ff0b365f58d3a69dde0625b5873845a">RECORD_EVENT_FUNCTOR_PTR</a>&gt; <a class="el" href="class_n_f_c_record.html#a0a308a9dcdf6053ac34398561bc8acf5">NFCRecord::TRECORDCALLBACKEX</a></td>
+          <td class="memname">std::vector&lt; <a class="el" href="_n_f_define_8h.html#ab3fde62b1e3572a8f685b97629ec57da">RECORD_EVENT_FUNCTOR_PTR</a> &gt; <a class="el" href="class_n_f_c_record.html#a8ac2c14af4440384098552854fbae3ec">NFCRecord::TRECORDCALLBACKEX</a></td>
         </tr>
       </table>
   </td>
@@ -317,6 +409,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Defines an alias representing the trecordcallbackex. </p>
 
 </div>
 </div>
@@ -335,6 +429,10 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Default constructor. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29 </dd></dl>
 
 </div>
 </div>
@@ -359,13 +457,13 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>valueList</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>tagList</em>, </td>
         </tr>
         <tr>
@@ -381,6 +479,20 @@ Additional Inherited Members</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Constructor. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>The class instance that this method operates on. </td></tr>
+    <tr><td class="paramname">strRecordName</td><td>Name of the record. </td></tr>
+    <tr><td class="paramname">valueList</td><td>List of values. </td></tr>
+    <tr><td class="paramname">tagList</td><td>List of tags. </td></tr>
+    <tr><td class="paramname">nMaxRow</td><td>The maximum row. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -407,6 +519,10 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Destructor. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29 </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -422,7 +538,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="memname">void NFCRecord::AddRecordHook </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#a8ff0b365f58d3a69dde0625b5873845a">RECORD_EVENT_FUNCTOR_PTR</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#ab3fde62b1e3572a8f685b97629ec57da">RECORD_EVENT_FUNCTOR_PTR</a> &amp;&#160;</td>
           <td class="paramname"><em>cb</em></td><td>)</td>
           <td></td>
         </tr>
@@ -434,7 +550,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#accd97c834903b847adf03259305b5f3b">NFIRecord</a>.</p>
+<p>Adds a record hook. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cb</td><td>The cb. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ae7c55e3eb727cdcf419211d399c56652">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -462,7 +588,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#afc4de0077c6c1c4be365e59767de3dfb">NFIRecord</a>.</p>
+<p>添加数据. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An int. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a1a16fffcd32f7945cd87ccbfa6f11257">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -500,7 +637,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#afc34427c6e96a62e5623534883a16103">NFIRecord</a>.</p>
+<p>Adds a row to 'var'. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">var</td><td>The variable.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An int. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#aab8c69b4b3379b65ee02e47942c7c12e">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -527,7 +676,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a0f69dbe909f9a906eff0e92d14e71867">NFIRecord</a>.</p>
+<p>Clears this object to its blank/initial state. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a0a6c98ec135a7c033bb159677ca95ecf">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -571,7 +725,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a1a388a0ee7e04ca52dbc128845b8fff8">NFIRecord</a>.</p>
+<p>Searches for the first double. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">value</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found double. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#abad84cb8f8bd78ce988a9c49572fd1b7">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -615,7 +782,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ad792088541b7d47cd9ac1d19e8e707d0">NFIRecord</a>.</p>
+<p>Searches for the first double. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">value</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found double. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a2c84b550a327fb86f94e6cf71d69a190">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -659,7 +839,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a907f040c10ddef36dd7f7a39a2bf17db">NFIRecord</a>.</p>
+<p>Searches for the first int. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">value</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found int. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a684e397eb59f4eaefaaf04131e99747a">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -703,7 +896,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#aa0758e96e47203bbac784e176aee43f9">NFIRecord</a>.</p>
+<p>Searches for the first int. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">value</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found int. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#aa135698c31cf843bb161166da563ae9a">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -747,7 +953,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a13ea897b3c8eb6e4fadfae0386d2bd64">NFIRecord</a>.</p>
+<p>Searches for the first object. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">value</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found object. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a554f3b12658b1bee0b4be0cbea729f45">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -791,7 +1010,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a1d481550e20fb072a05ab63ff9319a69">NFIRecord</a>.</p>
+<p>Searches for the first object. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">value</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found object. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#afb5b4ed741ca2178c38fe343ee0758fb">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -835,7 +1067,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ade7d52b1341bca8fe1d8b7631bc04e3b">NFIRecord</a>.</p>
+<p>Searches for the first point. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">value</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found point. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ae608237f184dd3d09415b1eb9f793ba6">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -879,7 +1124,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#aa56cf154a59abf5084e91911b63fb46a">NFIRecord</a>.</p>
+<p>Searches for the first point. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">value</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found point. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ae03575100e6550ee3318773d87595a88">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -923,7 +1181,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a2e86ff21e84b1542fc34cda89bcd8f83">NFIRecord</a>.</p>
+<p>Searches for the first row by col value. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">var</td><td>The variable. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found row by col value. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ac910068b86e1ee59e316bce4973f22c5">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -967,7 +1238,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a5d30156a3d56fc5ec3eefb11332d48f8">NFIRecord</a>.</p>
+<p>Searches for the first row by col value. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">var</td><td>The variable. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found row by col value. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ae9a3e6f4e8975c581b2be3f94edb24b1">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1011,7 +1295,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#aaf173b37e5954c8c6be825805100ea7c">NFIRecord</a>.</p>
+<p>Searches for the first string. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">value</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found string. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a47d64ec83fe3643e1d2aa45c415d914f">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1055,7 +1352,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ac0f1cdffc6fa82c30cf2bafa7d95ca14">NFIRecord</a>.</p>
+<p>Searches for the first string. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">value</td><td>The value. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varResult</td><td>The variable result.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The found string. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a4390098ac9942cb738903a8dc66b0bca">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1082,7 +1392,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#aeec98fc6ea33fc7a815c0cfdaea5ffb7">NFIRecord</a>.</p>
+<p>Gets the cache. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The cache. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a5e894566514c3ec7c201cc24431cdc57">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1110,6 +1425,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets a col. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strTag</td><td>The tag.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The col. </dd></dl>
+
 </div>
 </div>
 <a id="a8849e88d10d118a211db056244f5a311"></a>
@@ -1135,7 +1461,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a9f3aaffd7c7ad6437ef6d4ca19f6c888">NFIRecord</a>.</p>
+<p>Gets the cols. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The cols. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a9f69d1d30d3f93b719858c9166d3f468">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1163,7 +1494,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ac953bace294c5fbf39d5cdc8021287c7">NFIRecord</a>.</p>
+<p>Gets col tag. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nCol</td><td>The col.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The col tag. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#aaab386450d447b76c52afabc26ffcdd2">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1191,7 +1533,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a939d6f562b44db74152017e3fe327598">NFIRecord</a>.</p>
+<p>Gets col type. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nCol</td><td>The col.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The col type. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#abd5b08e59f19e230035bccaed670daa8">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1229,7 +1582,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a51e021e44495f2e81d38495b48e448cf">NFIRecord</a>.</p>
+<p>Gets a double. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The double. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#aae7dc000c0b5bd798d1b29ce498ff849">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1267,7 +1632,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a105f08e3e9deffdf790a7e39a50953a9">NFIRecord</a>.</p>
+<p>Gets a double. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">strColTag</td><td>The col tag.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The double. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a75ee45753e0edf5dbbd9c53e90f0738a">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1281,7 +1658,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; NFCRecord::GetInitData </td>
+          <td class="memname">const <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; NFCRecord::GetInitData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1294,7 +1671,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a0ff363afd849d161c1c8b0c10c64ca2e">NFIRecord</a>.</p>
+<p>Gets init data. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The init data. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a6bd4ca0cc593b8cf5055f1f866e8ab81">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1332,7 +1714,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a57add90a5a8605c5538987ce737b0765">NFIRecord</a>.</p>
+<p>Gets an int. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The int. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a5c06072d54ab644b01b145f17918cc0e">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1370,7 +1764,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a08bd41698da22abef4bb017172a4c124">NFIRecord</a>.</p>
+<p>Gets an int. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">strColTag</td><td>The col tag.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The int. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#aaf31b050af421c9b2665bf8e9d10139f">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1397,7 +1803,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#aef7d11b98f462c4585389503c28f9882">NFIRecord</a>.</p>
+<p>Gets the name. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The name. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ab99ade6de23e7e12d04f3a05ab7fbe6c">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1435,7 +1846,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#aa6e1b938964ab7fe5c66bb8c13e29851">NFIRecord</a>.</p>
+<p>Gets an object. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The object. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a8b86729f88aacd94cea47aa623763f9b">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1473,7 +1896,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a3bb600f57fae8bc21e1bb2e3c1275c62">NFIRecord</a>.</p>
+<p>Gets an object. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">strColTag</td><td>The col tag.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The object. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a1849ca181cb6dc5429127d436573a07a">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1511,7 +1946,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#aee44707cd49b2d7d3af8274fedbf4944">NFIRecord</a>.</p>
+<p>Gets a point. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The point. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#aa496ade683b9cc7a7579d93dbcc45c18">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1549,7 +1996,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ad1408fd8f3209616ace227949ef96d56">NFIRecord</a>.</p>
+<p>Gets a point. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">strColTag</td><td>The col tag.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The point. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a539bdc9b752458a5ecff8658ba125b77">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1587,6 +2046,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Gets a position. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The position. </dd></dl>
+
 </div>
 </div>
 <a id="ac5cbc0fefb3d52dd479438510e606dd5"></a>
@@ -1612,7 +2083,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a7c7c7bbb89d5f9f9f0a3d0725c4f8942">NFIRecord</a>.</p>
+<p>Gets the private. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The private. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a518619d808ee05e0868e78d18f4af003">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1639,12 +2115,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a117db08e2065398881298e9bf0410808">NFIRecord</a>.</p>
+<p>Gets the public. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The public. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a12a461c9a523d87c575f033a7a8deb93">NFIRecord</a>.</p>
 
 </div>
 </div>
-<a id="a79e6663505b05b2ae8419cde344d871b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a79e6663505b05b2ae8419cde344d871b">&sect;&nbsp;</a></span>GetRecordVec()</h2>
+<a id="a348710e0cd90d890ecca62c210dde8f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a348710e0cd90d890ecca62c210dde8f3">&sect;&nbsp;</a></span>GetRecordVec()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1653,7 +2134,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="class_n_f_i_record.html#ad9a65b1ee6297ee200e8e495c2614d61">NFIRecord::TRECORDVEC</a> &amp; NFCRecord::GetRecordVec </td>
+          <td class="memname">const <a class="el" href="class_n_f_i_record.html#ad9a65b1ee6297ee200e8e495c2614d61">TRECORDVEC</a> &amp; NFCRecord::GetRecordVec </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1666,7 +2147,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#aca02c259fcf4aa0df89fdad09ddc9dba">NFIRecord</a>.</p>
+<p>Gets record vector. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The record vector. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ae9a1b870fede5fd53f05ffbc225be7e7">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1693,7 +2179,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ac8f85ed5ec8795442cbe35f7ef623b9e">NFIRecord</a>.</p>
+<p>Gets the rows. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The rows. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#abefe41e8191dbafeb32374ddfd714eea">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1720,7 +2211,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ad18937863bb273cc92dd45b29caa4c2c">NFIRecord</a>.</p>
+<p>Gets the save. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The save. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#af499da9069eb63c4e50b453d0f495e0d">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1758,7 +2254,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a2ae458f8bb6ee6f8e5b47d35f010c3d2">NFIRecord</a>.</p>
+<p>Gets a string. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a56c57a80e037ad2ff3c2bbccc78a2836">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1796,7 +2304,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a239f14bfe60d6d3c9b59d9ef53851588">NFIRecord</a>.</p>
+<p>Gets a string. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">strColTag</td><td>The col tag.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The string. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#abe9324ef68fe845ab9c9c92d5ca39354">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1810,7 +2330,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const <a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; NFCRecord::GetTag </td>
+          <td class="memname">const <a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &gt; NFCRecord::GetTag </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -1823,7 +2343,12 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a63b6609b7d3b582d4960de0b30c6cccf">NFIRecord</a>.</p>
+<p>Gets the tag. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The tag. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ab12b7276e46921e4425bfa3cd9d4aeb8">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1851,7 +2376,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a18212e7de0c6b27a29136cec5dcbef69">NFIRecord</a>.</p>
+<p>Query if 'nRow' is used. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if used, false if not. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ac2e9dab5d096c7da1167201c77db2dd2">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1901,6 +2437,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Executes the event handler action. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">self</td><td>The class instance that this method operates on. </td></tr>
+    <tr><td class="paramname">xEventData</td><td>Information describing the event. </td></tr>
+    <tr><td class="paramname">oldVar</td><td>The old variable. </td></tr>
+    <tr><td class="paramname">newVar</td><td>The new variable. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a145f735d0d22aac96b67f64f5a401431"></a>
@@ -1937,7 +2486,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a0d0ac509a7f93d866e2d25c7718dfbdf">NFIRecord</a>.</p>
+<p>///////////////////////////////////////////////////////////////////////. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">varList</td><td>List of variables.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#aaeac7a157b7910f9512b940c3f6a4d65">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1965,7 +2526,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#af742cf3335cb1565aeb6be77ae5d8368">NFIRecord</a>.</p>
+<p>Removes the given nRow. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row to remove.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ac86e6e0efe07652d96b8ebbc2cf56e6a">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -1993,7 +2565,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ad21f35103c94c0f4a495c75602b1f00e">NFIRecord</a>.</p>
+<p>Sets a cache. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bCache</td><td>The cache. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a6ed54dc873e2bef5cb04200423c52050">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2037,7 +2619,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a278a2c7f942ccacd747f92121260411d">NFIRecord</a>.</p>
+<p>Sets a double. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a4ce75b9818346c2db20231e253c39e06">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2081,7 +2676,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a1cde66a8df6b2cee6765ca6707b56f6e">NFIRecord</a>.</p>
+<p>Sets a double. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ad7cbc175116596777c6b15a941972b8e">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2125,7 +2733,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a2bc3b07c9a5002b825fd15207bcf8d3b">NFIRecord</a>.</p>
+<p>Sets an int. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#ac2de86d31043da26cdc6027a78d393cb">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2169,7 +2790,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a5c053be3e63a7d7dd3ca3f47abdb2261">NFIRecord</a>.</p>
+<p>Sets an int. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a026afc53b5c8e50d0eb86ef167ea70be">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2197,7 +2831,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a32208c5ecff78facbd0a9a80c489fc04">NFIRecord</a>.</p>
+<p>Sets a name. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strName</td><td>The name. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a4848e60d66af31b26b68fd595d15f47b">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2241,7 +2885,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a139c727f68ba0e369326e1b3107a2468">NFIRecord</a>.</p>
+<p>Sets an object. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#afe4fe67c74dc6cb8cd8abd58c02088d6">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2285,7 +2942,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a7569a63b8149bc6f0bb21f798a742fd4">NFIRecord</a>.</p>
+<p>Sets an object. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a43d485423c09ef138b035bdf8c9ff524">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2329,7 +2999,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#aaa87b6b0369c160cc8b251a5ecc00a25">NFIRecord</a>.</p>
+<p>Sets a point. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a58b56b963522e5ab86e65b6cfcd3fca6">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2373,7 +3056,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a88fdc1d63fb0bfb58ade91dd1da074fd">NFIRecord</a>.</p>
+<p>Sets a point. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a042bbf4aa936c01799536be837e231be">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2401,7 +3097,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a84a8bd2ad107672919d577207caf2ef8">NFIRecord</a>.</p>
+<p>Sets a private. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bPrivate</td><td>The private. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a42fff221d35798924cefc6674c12bc3a">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2429,7 +3135,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a0d8782e682a3eabc3ab0aabb6f3ba002">NFIRecord</a>.</p>
+<p>Sets a public. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bPublic</td><td>The public. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a5707ba8bea93f89b77cb1033610ec993">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2457,7 +3173,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a4a9e6e7a331ae5a44459b00869b901c7">NFIRecord</a>.</p>
+<p>Sets a save. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bSave</td><td>The save. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a2ae571eaee503b0950ff5e94d905201f">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2501,7 +3227,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ae48c144887018bf6d1c9d86149e747fc">NFIRecord</a>.</p>
+<p>Sets a string. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a83fa132e4317aacbbc222a986dc81594">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2545,7 +3284,20 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#a11e1c4bce781ac8e8d54aa1ad329e86e">NFIRecord</a>.</p>
+<p>Sets a string. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">strColTag</td><td>The col tag. </td></tr>
+    <tr><td class="paramname">value</td><td>The value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a83e836d10a874cc41e869c3c1882c848">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2583,7 +3335,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ae794b4d35d6d3eb04b858fa4bc301e51">NFIRecord</a>.</p>
+<p>Sets an used. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">bUse</td><td>The use.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#a8d82944942104fd75086449505f57f5e">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2621,7 +3385,19 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="class_n_f_i_record.html#ab0297d75472042a78609990cbf2528dd">NFIRecord</a>.</p>
+<p>Swap row information. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nOriginRow</td><td>The origin row. </td></tr>
+    <tr><td class="paramname">nTargetRow</td><td>Target row.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
+<p>Implements <a class="el" href="class_n_f_i_record.html#aa1359c8b500381816552ff89733deb0b">NFIRecord</a>.</p>
 
 </div>
 </div>
@@ -2649,7 +3425,7 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &gt; &amp;&#160;</td>
+          <td class="paramtype"><a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt; <a class="el" href="struct_n_f_i_data_list_1_1_t_data.html">NFIDataList::TData</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>pVar</em>&#160;</td>
         </tr>
         <tr>
@@ -2664,6 +3440,19 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Valid check. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">eType</td><td>The type. </td></tr>
+    <tr><td class="paramdir"></td><td class="paramname">var</td><td>The variable. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pVar</td><td>The variable.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
 
 </div>
 </div>
@@ -2690,6 +3479,17 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Valid col. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nCol</td><td>The col.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
 
 </div>
 </div>
@@ -2727,6 +3527,18 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Valid position. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row. </td></tr>
+    <tr><td class="paramname">nCol</td><td>The col.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 </div>
 </div>
 <a id="a1f456da47641a42a236954effbd95f01"></a>
@@ -2753,6 +3565,17 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Valid row. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/29</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nRow</td><td>The row.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -2776,6 +3599,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>True to megabytes cache. </p>
+
 </div>
 </div>
 <a id="aaaf3f76721f579511321ed924c9fb1af"></a>
@@ -2797,6 +3622,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>True to megabytes private. </p>
 
 </div>
 </div>
@@ -2820,6 +3647,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>True to megabytes public. </p>
+
 </div>
 </div>
 <a id="aacd302bcc9bf43c50927ae8ef55204bf"></a>
@@ -2841,6 +3670,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>True to megabytes save. </p>
 
 </div>
 </div>
@@ -2864,6 +3695,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>tag-&gt;col转换. </p>
+
 </div>
 </div>
 <a id="a1e567fb07d6f340cd5c1039c91832eb9"></a>
@@ -2885,6 +3718,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>The mn maximum row. </p>
 
 </div>
 </div>
@@ -2908,6 +3743,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>The self. </p>
+
 </div>
 </div>
 <a id="a7f946695554e9a8d827598ebd15e2a2b"></a>
@@ -2930,6 +3767,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Name of the mstr record. </p>
+
 </div>
 </div>
 <a id="a8aaa1f0f735bd6f7afb3a8b655f6372a"></a>
@@ -2942,7 +3781,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="class_n_f_c_record.html#a0a308a9dcdf6053ac34398561bc8acf5">TRECORDCALLBACKEX</a> NFCRecord::mtRecordCallback</td>
+          <td class="memname"><a class="el" href="class_n_f_c_record.html#a8ac2c14af4440384098552854fbae3ec">TRECORDCALLBACKEX</a> NFCRecord::mtRecordCallback</td>
         </tr>
       </table>
   </td>
@@ -2951,6 +3790,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>The mt record callback. </p>
 
 </div>
 </div>
@@ -2974,6 +3815,8 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>/////////////////////////. </p>
+
 </div>
 </div>
 <a id="a30a41f7027a3631d2d0d5ee7232b30ac"></a>
@@ -2986,7 +3829,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a>&gt; NFCRecord::mVarRecordTag</td>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a>&gt; NFCRecord::mVarRecordTag</td>
         </tr>
       </table>
   </td>
@@ -2995,6 +3838,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>col的tag值&ndash;应该引用静态的(或者智能指针)，节约大量内存. </p>
 
 </div>
 </div>
@@ -3008,7 +3853,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="_n_f_platform_8h.html#acccd387047595ad4160bc234e7de2483">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a>&gt; NFCRecord::mVarRecordType</td>
+          <td class="memname"><a class="el" href="_n_f_platform_8h.html#a6e9c1484e0d917ecf8dc7067d70959c5">NF_SHARE_PTR</a>&lt;<a class="el" href="class_n_f_i_data_list.html">NFIDataList</a>&gt; NFCRecord::mVarRecordType</td>
         </tr>
       </table>
   </td>
@@ -3017,6 +3862,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>初始值类型&ndash;应该引用静态的(或者智能指针)，节约大量内存. </p>
 
 </div>
 </div>
@@ -3039,6 +3886,8 @@ Additional Inherited Members</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>State of the vector used. </p>
 
 </div>
 </div>

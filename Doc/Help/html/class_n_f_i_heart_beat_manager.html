@@ -69,6 +69,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Manager for nfi heart beats.  
+ <a href="class_n_f_i_heart_beat_manager.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_n_f_i_heart_beat_manager_8h_source.html">NFIHeartBeatManager.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFIHeartBeatManager:</div>
@@ -86,25 +89,34 @@ Collaboration diagram for NFIHeartBeatManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8f41c1f5e811abae147c3cb744544513"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a8f41c1f5e811abae147c3cb744544513">~NFIHeartBeatManager</a> ()</td></tr>
-<tr class="separator:a8f41c1f5e811abae147c3cb744544513"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a78b06a74a3b03a811dd455fc36cc75cf"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a78b06a74a3b03a811dd455fc36cc75cf">Self</a> ()=0</td></tr>
-<tr class="separator:a78b06a74a3b03a811dd455fc36cc75cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6356165509a5bd954f3a8036133522d"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#ac6356165509a5bd954f3a8036133522d">Execute</a> ()=0</td></tr>
-<tr class="separator:ac6356165509a5bd954f3a8036133522d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a520aa8deecf3feb42186e03be9df1c68"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a520aa8deecf3feb42186e03be9df1c68">Exist</a> (const std::string &amp;strHeartBeatName)=0</td></tr>
-<tr class="separator:a520aa8deecf3feb42186e03be9df1c68"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a19a3cdd341d19c336ceed740d2b9ccbe"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a19a3cdd341d19c336ceed740d2b9ccbe">AddHeartBeat</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strHeartBeatName, const <a class="el" href="_n_f_define_8h.html#af05fc8cc77fb7df651e720c06ff2dc63">HEART_BEAT_FUNCTOR_PTR</a> &amp;cb, const float fTime, const int nCount)=0</td></tr>
-<tr class="separator:a19a3cdd341d19c336ceed740d2b9ccbe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf114c9fe41c673e984609e1a12817d4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#adf114c9fe41c673e984609e1a12817d4">RemoveHeartBeat</a> (const std::string &amp;strHeartBeatName)=0</td></tr>
-<tr class="separator:adf114c9fe41c673e984609e1a12817d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a21d6271119869cb8d4ac237ab388826b"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a21d6271119869cb8d4ac237ab388826b"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a21d6271119869cb8d4ac237ab388826b">AddHeartBeat</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const std::string &amp;, const float, const int), const float fTime, const int nCount)</td></tr>
-<tr class="separator:a21d6271119869cb8d4ac237ab388826b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2179034230235e3e19ad10e791e270d0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a2179034230235e3e19ad10e791e270d0">~NFIHeartBeatManager</a> ()</td></tr>
+<tr class="memdesc:a2179034230235e3e19ad10e791e270d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#a2179034230235e3e19ad10e791e270d0">More...</a><br /></td></tr>
+<tr class="separator:a2179034230235e3e19ad10e791e270d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ffe81aa85fce022c45fbed0b5a48f98"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a0ffe81aa85fce022c45fbed0b5a48f98">Self</a> ()=0</td></tr>
+<tr class="memdesc:a0ffe81aa85fce022c45fbed0b5a48f98"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets the self.  <a href="#a0ffe81aa85fce022c45fbed0b5a48f98">More...</a><br /></td></tr>
+<tr class="separator:a0ffe81aa85fce022c45fbed0b5a48f98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66d94e0bee033a34e6faa50dc3123f4e"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a66d94e0bee033a34e6faa50dc3123f4e">Execute</a> ()=0</td></tr>
+<tr class="memdesc:a66d94e0bee033a34e6faa50dc3123f4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes this object.  <a href="#a66d94e0bee033a34e6faa50dc3123f4e">More...</a><br /></td></tr>
+<tr class="separator:a66d94e0bee033a34e6faa50dc3123f4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a661e9309436861c310b6bd0993f71f0b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a661e9309436861c310b6bd0993f71f0b">Exist</a> (const std::string &amp;strHeartBeatName)=0</td></tr>
+<tr class="memdesc:a661e9309436861c310b6bd0993f71f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Exists the given string heart beat name.  <a href="#a661e9309436861c310b6bd0993f71f0b">More...</a><br /></td></tr>
+<tr class="separator:a661e9309436861c310b6bd0993f71f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba2354682c8a52d361d8cd3fa909bf33"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#aba2354682c8a52d361d8cd3fa909bf33">AddHeartBeat</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strHeartBeatName, const <a class="el" href="_n_f_define_8h.html#aeb0254eb4e6b81f4949a241ec53e3503">HEART_BEAT_FUNCTOR_PTR</a> &amp;cb, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> nTime, const int nCount)=0</td></tr>
+<tr class="separator:aba2354682c8a52d361d8cd3fa909bf33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a134bbe3651b11ca404b3e8f5837724ea"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#a134bbe3651b11ca404b3e8f5837724ea">RemoveHeartBeat</a> (const std::string &amp;strHeartBeatName)=0</td></tr>
+<tr class="memdesc:a134bbe3651b11ca404b3e8f5837724ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the heart beat described by strHeartBeatName.  <a href="#a134bbe3651b11ca404b3e8f5837724ea">More...</a><br /></td></tr>
+<tr class="separator:a134bbe3651b11ca404b3e8f5837724ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9c31ec188f58c430ba286f107857d86"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:ab9c31ec188f58c430ba286f107857d86"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_heart_beat_manager.html#ab9c31ec188f58c430ba286f107857d86">AddHeartBeat</a> (const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> self, const std::string &amp;strHeartBeatName, BaseType *pBase, int(BaseType::*handler)(const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const std::string &amp;, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>, const int), const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a> nTime, const int nCount)</td></tr>
+<tr class="separator:ab9c31ec188f58c430ba286f107857d86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a8f41c1f5e811abae147c3cb744544513"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f41c1f5e811abae147c3cb744544513">&sect;&nbsp;</a></span>~NFIHeartBeatManager()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Manager for nfi heart beats. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a2179034230235e3e19ad10e791e270d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2179034230235e3e19ad10e791e270d0">&sect;&nbsp;</a></span>~NFIHeartBeatManager()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -113,7 +125,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual NFIHeartBeatManager::~NFIHeartBeatManager </td>
+          <td class="memname">NFIHeartBeatManager::~NFIHeartBeatManager </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -126,11 +138,15 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Destructor. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22 </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a19a3cdd341d19c336ceed740d2b9ccbe"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a19a3cdd341d19c336ceed740d2b9ccbe">&sect;&nbsp;</a></span>AddHeartBeat() <span class="overload">[1/2]</span></h2>
+<a id="aba2354682c8a52d361d8cd3fa909bf33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba2354682c8a52d361d8cd3fa909bf33">&sect;&nbsp;</a></span>AddHeartBeat() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -153,14 +169,14 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#af05fc8cc77fb7df651e720c06ff2dc63">HEART_BEAT_FUNCTOR_PTR</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#aeb0254eb4e6b81f4949a241ec53e3503">HEART_BEAT_FUNCTOR_PTR</a> &amp;&#160;</td>
           <td class="paramname"><em>cb</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const float&#160;</td>
-          <td class="paramname"><em>fTime</em>, </td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td>
+          <td class="paramname"><em>nTime</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -181,12 +197,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="class_n_f_c_heart_beat_manager.html#a4adb4b22e84764d4acebd2303103573a">NFCHeartBeatManager</a>.</p>
+<p>Implemented in <a class="el" href="class_n_f_c_heart_beat_manager.html#a76220c8df60ec678ef492533bf540137">NFCHeartBeatManager</a>.</p>
 
 </div>
 </div>
-<a id="a21d6271119869cb8d4ac237ab388826b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a21d6271119869cb8d4ac237ab388826b">&sect;&nbsp;</a></span>AddHeartBeat() <span class="overload">[2/2]</span></h2>
+<a id="ab9c31ec188f58c430ba286f107857d86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9c31ec188f58c430ba286f107857d86">&sect;&nbsp;</a></span>AddHeartBeat() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,14 +233,14 @@ template&lt;typename BaseType &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">int(BaseType::*)(const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const std::string &amp;, const float, const int)&#160;</td>
+          <td class="paramtype">int(BaseType::*)(const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const std::string &amp;, const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>, const int)&#160;</td>
           <td class="paramname"><em>handler</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const float&#160;</td>
-          <td class="paramname"><em>fTime</em>, </td>
+          <td class="paramtype">const <a class="el" href="_n_f_platform_8h.html#a60ed708964326112470aa1ad20386919">NFINT64</a>&#160;</td>
+          <td class="paramname"><em>nTime</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -247,8 +263,8 @@ template&lt;typename BaseType &gt; </div>
 
 </div>
 </div>
-<a id="ac6356165509a5bd954f3a8036133522d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6356165509a5bd954f3a8036133522d">&sect;&nbsp;</a></span>Execute()</h2>
+<a id="a66d94e0bee033a34e6faa50dc3123f4e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66d94e0bee033a34e6faa50dc3123f4e">&sect;&nbsp;</a></span>Execute()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -257,7 +273,7 @@ template&lt;typename BaseType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIHeartBeatManager::Execute </td>
+          <td class="memname">bool NFIHeartBeatManager::Execute </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -269,13 +285,18 @@ template&lt;typename BaseType &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Executes this object. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_heart_beat_manager.html#a6fb7c4dfcb45a9ad1c95ada6880e6102">NFCHeartBeatManager</a>.</p>
 
 </div>
 </div>
-<a id="a520aa8deecf3feb42186e03be9df1c68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a520aa8deecf3feb42186e03be9df1c68">&sect;&nbsp;</a></span>Exist()</h2>
+<a id="a661e9309436861c310b6bd0993f71f0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a661e9309436861c310b6bd0993f71f0b">&sect;&nbsp;</a></span>Exist()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -284,7 +305,7 @@ template&lt;typename BaseType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIHeartBeatManager::Exist </td>
+          <td class="memname">bool NFIHeartBeatManager::Exist </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strHeartBeatName</em></td><td>)</td>
@@ -297,13 +318,24 @@ template&lt;typename BaseType &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Exists the given string heart beat name. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strHeartBeatName</td><td>Name of the heart beat.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_heart_beat_manager.html#a2c10b8b43b0cda51a19e37d6a8460ada">NFCHeartBeatManager</a>.</p>
 
 </div>
 </div>
-<a id="adf114c9fe41c673e984609e1a12817d4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf114c9fe41c673e984609e1a12817d4">&sect;&nbsp;</a></span>RemoveHeartBeat()</h2>
+<a id="a134bbe3651b11ca404b3e8f5837724ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a134bbe3651b11ca404b3e8f5837724ea">&sect;&nbsp;</a></span>RemoveHeartBeat()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -312,7 +344,7 @@ template&lt;typename BaseType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIHeartBeatManager::RemoveHeartBeat </td>
+          <td class="memname">bool NFIHeartBeatManager::RemoveHeartBeat </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>strHeartBeatName</em></td><td>)</td>
@@ -326,12 +358,23 @@ template&lt;typename BaseType &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Removes the heart beat described by strHeartBeatName. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">strHeartBeatName</td><td>Name of the heart beat.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_heart_beat_manager.html#ad2a89bba1c5c6f895e4eaa70c6222da5">NFCHeartBeatManager</a>.</p>
 
 </div>
 </div>
-<a id="a78b06a74a3b03a811dd455fc36cc75cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a78b06a74a3b03a811dd455fc36cc75cf">&sect;&nbsp;</a></span>Self()</h2>
+<a id="a0ffe81aa85fce022c45fbed0b5a48f98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ffe81aa85fce022c45fbed0b5a48f98">&sect;&nbsp;</a></span>Self()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -340,7 +383,7 @@ template&lt;typename BaseType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> NFIHeartBeatManager::Self </td>
+          <td class="memname"><a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> NFIHeartBeatManager::Self </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -352,6 +395,11 @@ template&lt;typename BaseType &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Gets the self. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a>. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_heart_beat_manager.html#a059caa9cd8a8c74b604bda9d23b24adb">NFCHeartBeatManager</a>.</p>
 

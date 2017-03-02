@@ -70,6 +70,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Manager for nfi events.  
+ <a href="class_n_f_i_event_manager.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="_n_f_i_event_manager_8h_source.html">NFIEventManager.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NFIEventManager:</div>
@@ -87,28 +90,39 @@ Collaboration diagram for NFIEventManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ade057f0c5d5aba28119cb777ed50c16d"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#ade057f0c5d5aba28119cb777ed50c16d">~NFIEventManager</a> ()</td></tr>
-<tr class="separator:ade057f0c5d5aba28119cb777ed50c16d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae17416bb1f58b10f6e20e7bbf05266f4"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#ae17416bb1f58b10f6e20e7bbf05266f4">Execute</a> ()=0</td></tr>
-<tr class="separator:ae17416bb1f58b10f6e20e7bbf05266f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f622e90d62734a5aad14cabe230001f"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
-<tr class="memitem:a1f622e90d62734a5aad14cabe230001f"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#a1f622e90d62734a5aad14cabe230001f">AddEventCallBack</a> (const int nEventID, BaseType *pBase, int(BaseType::*handler)(const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const int, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;))</td></tr>
-<tr class="separator:a1f622e90d62734a5aad14cabe230001f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a745a3106bc4d0360d52991e9866738de"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#a745a3106bc4d0360d52991e9866738de">RemoveEventCallBack</a> (const int nEventID)=0</td></tr>
-<tr class="separator:a745a3106bc4d0360d52991e9866738de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afbdabc77e5dc0afceea8ce8836825851"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#afbdabc77e5dc0afceea8ce8836825851">DoEvent</a> (const int nEventID, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;valueList)=0</td></tr>
-<tr class="separator:afbdabc77e5dc0afceea8ce8836825851"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fe07ec77fb5d0dc43af7a7d0724b174"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#a9fe07ec77fb5d0dc43af7a7d0724b174">AddEventCallBack</a> (const int nEventID, const <a class="el" href="_n_f_define_8h.html#a3179967fa4350f0fe80ac8ef7776a75b">EVENT_PROCESS_FUNCTOR_PTR</a> &amp;cb)=0</td></tr>
-<tr class="separator:a9fe07ec77fb5d0dc43af7a7d0724b174"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc72107a4e0303132c274b73861a140e"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#adc72107a4e0303132c274b73861a140e">~NFIEventManager</a> ()</td></tr>
+<tr class="memdesc:adc72107a4e0303132c274b73861a140e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor.  <a href="#adc72107a4e0303132c274b73861a140e">More...</a><br /></td></tr>
+<tr class="separator:adc72107a4e0303132c274b73861a140e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac805ab605d5c67c8a6c2854db65c288c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#ac805ab605d5c67c8a6c2854db65c288c">Execute</a> ()=0</td></tr>
+<tr class="memdesc:ac805ab605d5c67c8a6c2854db65c288c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes this object.  <a href="#ac805ab605d5c67c8a6c2854db65c288c">More...</a><br /></td></tr>
+<tr class="separator:ac805ab605d5c67c8a6c2854db65c288c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a660f96bc0d4a67b2fb4e302d07c6eda2"><td class="memTemplParams" colspan="2">template&lt;typename BaseType &gt; </td></tr>
+<tr class="memitem:a660f96bc0d4a67b2fb4e302d07c6eda2"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#a660f96bc0d4a67b2fb4e302d07c6eda2">AddEventCallBack</a> (const int nEventID, BaseType *pBase, int(BaseType::*handler)(const <a class="el" href="struct_n_f_g_u_i_d.html">NFGUID</a> &amp;, const int, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;))</td></tr>
+<tr class="memdesc:a660f96bc0d4a67b2fb4e302d07c6eda2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an event call back.  <a href="#a660f96bc0d4a67b2fb4e302d07c6eda2">More...</a><br /></td></tr>
+<tr class="separator:a660f96bc0d4a67b2fb4e302d07c6eda2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bc320631e04e8db245369b9b0a5c720"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#a3bc320631e04e8db245369b9b0a5c720">RemoveEventCallBack</a> (const int nEventID)=0</td></tr>
+<tr class="memdesc:a3bc320631e04e8db245369b9b0a5c720"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the event call back described by nEventID.  <a href="#a3bc320631e04e8db245369b9b0a5c720">More...</a><br /></td></tr>
+<tr class="separator:a3bc320631e04e8db245369b9b0a5c720"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26bf89772bcaba10d7ecdacb25561f44"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#a26bf89772bcaba10d7ecdacb25561f44">DoEvent</a> (const int nEventID, const <a class="el" href="class_n_f_i_data_list.html">NFIDataList</a> &amp;valueList)=0</td></tr>
+<tr class="memdesc:a26bf89772bcaba10d7ecdacb25561f44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executes the event operation.  <a href="#a26bf89772bcaba10d7ecdacb25561f44">More...</a><br /></td></tr>
+<tr class="separator:a26bf89772bcaba10d7ecdacb25561f44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a132c5efa92de642c4287f33a31f34e21"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#a132c5efa92de642c4287f33a31f34e21">AddEventCallBack</a> (const int nEventID, const <a class="el" href="_n_f_define_8h.html#a6706657f89f330e200252b215fe463a9">EVENT_PROCESS_FUNCTOR_PTR</a> &amp;cb)=0</td></tr>
+<tr class="memdesc:a132c5efa92de642c4287f33a31f34e21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds an event call back to 'cb'.  <a href="#a132c5efa92de642c4287f33a31f34e21">More...</a><br /></td></tr>
+<tr class="separator:a132c5efa92de642c4287f33a31f34e21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a15ba83f4b7037b21ffcb31b06ecc6630"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#a15ba83f4b7037b21ffcb31b06ecc6630">HasEventCallBack</a> (const int nEventID)=0</td></tr>
-<tr class="separator:a15ba83f4b7037b21ffcb31b06ecc6630"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87cac12f9a51255ae9912f79659a7200"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_n_f_i_event_manager.html#a87cac12f9a51255ae9912f79659a7200">HasEventCallBack</a> (const int nEventID)=0</td></tr>
+<tr class="memdesc:a87cac12f9a51255ae9912f79659a7200"><td class="mdescLeft">&#160;</td><td class="mdescRight">///////////////////////////////////////////////////////////////////////.  <a href="#a87cac12f9a51255ae9912f79659a7200">More...</a><br /></td></tr>
+<tr class="separator:a87cac12f9a51255ae9912f79659a7200"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ade057f0c5d5aba28119cb777ed50c16d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade057f0c5d5aba28119cb777ed50c16d">&sect;&nbsp;</a></span>~NFIEventManager()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Manager for nfi events. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22 </dd></dl>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="adc72107a4e0303132c274b73861a140e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc72107a4e0303132c274b73861a140e">&sect;&nbsp;</a></span>~NFIEventManager()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -117,7 +131,7 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual NFIEventManager::~NFIEventManager </td>
+          <td class="memname">NFIEventManager::~NFIEventManager </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -130,11 +144,15 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Destructor. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22 </dd></dl>
+
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1f622e90d62734a5aad14cabe230001f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f622e90d62734a5aad14cabe230001f">&sect;&nbsp;</a></span>AddEventCallBack() <span class="overload">[1/2]</span></h2>
+<a id="a660f96bc0d4a67b2fb4e302d07c6eda2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a660f96bc0d4a67b2fb4e302d07c6eda2">&sect;&nbsp;</a></span>AddEventCallBack() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -145,7 +163,7 @@ template&lt;typename BaseType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool NFIEventManager::AddEventCallBack </td>
+          <td class="memname">template&lt; typename BaseType &gt; bool NFIEventManager::AddEventCallBack </td>
           <td>(</td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>nEventID</em>, </td>
@@ -175,10 +193,29 @@ template&lt;typename BaseType &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Adds an event call back. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">BaseType</td><td>Type of the base type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir"></td><td class="paramname">nEventID</td><td>Identifier for the event. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">pBase</td><td>If non-null, the base. </td></tr>
+    <tr><td class="paramdir">[in,out]</td><td class="paramname">handler</td><td>If non-null, the handler.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 </div>
 </div>
-<a id="a9fe07ec77fb5d0dc43af7a7d0724b174"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fe07ec77fb5d0dc43af7a7d0724b174">&sect;&nbsp;</a></span>AddEventCallBack() <span class="overload">[2/2]</span></h2>
+<a id="a132c5efa92de642c4287f33a31f34e21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a132c5efa92de642c4287f33a31f34e21">&sect;&nbsp;</a></span>AddEventCallBack() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,7 +224,7 @@ template&lt;typename BaseType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIEventManager::AddEventCallBack </td>
+          <td class="memname">bool NFIEventManager::AddEventCallBack </td>
           <td>(</td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>nEventID</em>, </td>
@@ -195,7 +232,7 @@ template&lt;typename BaseType &gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#a3179967fa4350f0fe80ac8ef7776a75b">EVENT_PROCESS_FUNCTOR_PTR</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="_n_f_define_8h.html#a6706657f89f330e200252b215fe463a9">EVENT_PROCESS_FUNCTOR_PTR</a> &amp;&#160;</td>
           <td class="paramname"><em>cb</em>&#160;</td>
         </tr>
         <tr>
@@ -211,12 +248,24 @@ template&lt;typename BaseType &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Adds an event call back to 'cb'. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nEventID</td><td>Identifier for the event. </td></tr>
+    <tr><td class="paramname">cb</td><td>The cb.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_event_manager.html#af6422fc1b3451d441f8e425ebdd45c4b">NFCEventManager</a>.</p>
 
 </div>
 </div>
-<a id="afbdabc77e5dc0afceea8ce8836825851"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afbdabc77e5dc0afceea8ce8836825851">&sect;&nbsp;</a></span>DoEvent()</h2>
+<a id="a26bf89772bcaba10d7ecdacb25561f44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26bf89772bcaba10d7ecdacb25561f44">&sect;&nbsp;</a></span>DoEvent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -225,7 +274,7 @@ template&lt;typename BaseType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIEventManager::DoEvent </td>
+          <td class="memname">bool NFIEventManager::DoEvent </td>
           <td>(</td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>nEventID</em>, </td>
@@ -249,12 +298,24 @@ template&lt;typename BaseType &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Executes the event operation. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nEventID</td><td>Identifier for the event. </td></tr>
+    <tr><td class="paramname">valueList</td><td>List of values.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_event_manager.html#a96fc7790bbd09e3d622aba388a3a7623">NFCEventManager</a>.</p>
 
 </div>
 </div>
-<a id="ae17416bb1f58b10f6e20e7bbf05266f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae17416bb1f58b10f6e20e7bbf05266f4">&sect;&nbsp;</a></span>Execute()</h2>
+<a id="ac805ab605d5c67c8a6c2854db65c288c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac805ab605d5c67c8a6c2854db65c288c">&sect;&nbsp;</a></span>Execute()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -263,7 +324,7 @@ template&lt;typename BaseType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIEventManager::Execute </td>
+          <td class="memname">bool NFIEventManager::Execute </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -276,12 +337,17 @@ template&lt;typename BaseType &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Executes this object. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_event_manager.html#a3744ea3d24c7d62e8653f2ae766aa15e">NFCEventManager</a>.</p>
 
 </div>
 </div>
-<a id="a15ba83f4b7037b21ffcb31b06ecc6630"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15ba83f4b7037b21ffcb31b06ecc6630">&sect;&nbsp;</a></span>HasEventCallBack()</h2>
+<a id="a87cac12f9a51255ae9912f79659a7200"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87cac12f9a51255ae9912f79659a7200">&sect;&nbsp;</a></span>HasEventCallBack()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -290,7 +356,7 @@ template&lt;typename BaseType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIEventManager::HasEventCallBack </td>
+          <td class="memname">bool NFIEventManager::HasEventCallBack </td>
           <td>(</td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>nEventID</em></td><td>)</td>
@@ -304,12 +370,23 @@ template&lt;typename BaseType &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>///////////////////////////////////////////////////////////////////////. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nEventID</td><td>Identifier for the event.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if event call back, false if not. </dd></dl>
+
 <p>Implemented in <a class="el" href="class_n_f_c_event_manager.html#ad10edf75222f9b7bcda536c0a7bc009b">NFCEventManager</a>.</p>
 
 </div>
 </div>
-<a id="a745a3106bc4d0360d52991e9866738de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a745a3106bc4d0360d52991e9866738de">&sect;&nbsp;</a></span>RemoveEventCallBack()</h2>
+<a id="a3bc320631e04e8db245369b9b0a5c720"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3bc320631e04e8db245369b9b0a5c720">&sect;&nbsp;</a></span>RemoveEventCallBack()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -318,7 +395,7 @@ template&lt;typename BaseType &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual bool NFIEventManager::RemoveEventCallBack </td>
+          <td class="memname">bool NFIEventManager::RemoveEventCallBack </td>
           <td>(</td>
           <td class="paramtype">const int&#160;</td>
           <td class="paramname"><em>nEventID</em></td><td>)</td>
@@ -331,6 +408,17 @@ template&lt;typename BaseType &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Removes the event call back described by nEventID. </p>
+<dl class="section author"><dt>Author</dt><dd>flyicegood </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>2016/11/22</dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nEventID</td><td>Identifier for the event.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if it succeeds, false if it fails. </dd></dl>
 
 <p>Implemented in <a class="el" href="class_n_f_c_event_manager.html#a3504b3453eaa7180ab05241d89d3af27">NFCEventManager</a>.</p>
 
