@@ -11,7 +11,7 @@
 
 #include <vector>
 #include "NFIRecord.h"
-#include "NFCDataList.h"
+#include "AFDataList.hpp"
 #include "NFMapEx.h"
 
 /**
@@ -39,7 +39,7 @@ public:
     NFCRecord();
 
     /**
-     * @fn  NFCRecord::NFCRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<NFIDataList>& valueList, const NF_SHARE_PTR<NFIDataList>& tagList, const int nMaxRow);
+     * @fn  NFCRecord::NFCRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& valueList, const NF_SHARE_PTR<AFDataList>& tagList, const int nMaxRow);
      *
      * @brief   Constructor.
      *
@@ -53,7 +53,7 @@ public:
      * @param   nMaxRow         The maximum row.
      */
 
-    NFCRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<NFIDataList>& valueList, const NF_SHARE_PTR<NFIDataList>& tagList, const int nMaxRow);
+    NFCRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& valueList, const NF_SHARE_PTR<AFDataList>& tagList, const int nMaxRow);
 
     /**
      * @fn  virtual NFCRecord::~NFCRecord();
@@ -169,7 +169,7 @@ public:
     virtual int AddRow(const int nRow);
 
     /**
-     * @fn  virtual int NFCRecord::AddRow(const int nRow, const NFIDataList& var);
+     * @fn  virtual int NFCRecord::AddRow(const int nRow, const AFDataList& var);
      *
      * @brief   Adds a row to 'var'.
      *
@@ -182,7 +182,7 @@ public:
      * @return  An int.
      */
 
-    virtual int AddRow(const int nRow, const NFIDataList& var);
+    virtual int AddRow(const int nRow, const AFDataList& var);
 
     /**
      * @fn  virtual bool NFCRecord::SetInt(const int nRow, const int nCol, const NFINT64 value);
@@ -515,7 +515,7 @@ public:
     virtual const Point3D& GetPoint(const int nRow, const std::string& strColTag) const;
 
     /**
-     * @fn  virtual int NFCRecord::FindRowByColValue(const int nCol, const NFIDataList& var, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindRowByColValue(const int nCol, const AFDataList& var, AFDataList& varResult);
      *
      * @brief   Searches for the first row by col value.
      *
@@ -529,10 +529,10 @@ public:
      * @return  The found row by col value.
      */
 
-    virtual int FindRowByColValue(const int nCol, const NFIDataList& var, NFIDataList& varResult);
+    virtual int FindRowByColValue(const int nCol, const AFDataList& var, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindInt(const int nCol, const NFINT64 value, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindInt(const int nCol, const NFINT64 value, AFDataList& varResult);
      *
      * @brief   Searches for the first int.
      *
@@ -546,10 +546,10 @@ public:
      * @return  The found int.
      */
 
-    virtual int FindInt(const int nCol, const NFINT64 value, NFIDataList& varResult);
+    virtual int FindInt(const int nCol, const NFINT64 value, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindDouble(const int nCol, const double value, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindDouble(const int nCol, const double value, AFDataList& varResult);
      *
      * @brief   Searches for the first double.
      *
@@ -563,10 +563,10 @@ public:
      * @return  The found double.
      */
 
-    virtual int FindDouble(const int nCol, const double value, NFIDataList& varResult);
+    virtual int FindDouble(const int nCol, const double value, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindString(const int nCol, const std::string& value, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindString(const int nCol, const std::string& value, AFDataList& varResult);
      *
      * @brief   Searches for the first string.
      *
@@ -580,10 +580,10 @@ public:
      * @return  The found string.
      */
 
-    virtual int FindString(const int nCol, const std::string& value, NFIDataList& varResult);
+    virtual int FindString(const int nCol, const std::string& value, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindObject(const int nCol, const NFGUID& value, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindObject(const int nCol, const NFGUID& value, AFDataList& varResult);
      *
      * @brief   Searches for the first object.
      *
@@ -597,10 +597,10 @@ public:
      * @return  The found object.
      */
 
-    virtual int FindObject(const int nCol, const NFGUID& value, NFIDataList& varResult);
+    virtual int FindObject(const int nCol, const NFGUID& value, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindPoint(const int nCol, const Point3D& value, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindPoint(const int nCol, const Point3D& value, AFDataList& varResult);
      *
      * @brief   Searches for the first point.
      *
@@ -614,10 +614,10 @@ public:
      * @return  The found point.
      */
 
-    virtual int FindPoint(const int nCol, const Point3D& value, NFIDataList& varResult);
+    virtual int FindPoint(const int nCol, const Point3D& value, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindRowByColValue(const std::string& strColTag, const NFIDataList& var, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindRowByColValue(const std::string& strColTag, const AFDataList& var, AFDataList& varResult);
      *
      * @brief   Searches for the first row by col value.
      *
@@ -631,10 +631,10 @@ public:
      * @return  The found row by col value.
      */
 
-    virtual int FindRowByColValue(const std::string& strColTag, const NFIDataList& var, NFIDataList& varResult);
+    virtual int FindRowByColValue(const std::string& strColTag, const AFDataList& var, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindInt(const std::string& strColTag, const NFINT64 value, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindInt(const std::string& strColTag, const NFINT64 value, AFDataList& varResult);
      *
      * @brief   Searches for the first int.
      *
@@ -648,10 +648,10 @@ public:
      * @return  The found int.
      */
 
-    virtual int FindInt(const std::string& strColTag, const NFINT64 value, NFIDataList& varResult);
+    virtual int FindInt(const std::string& strColTag, const NFINT64 value, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindDouble(const std::string& strColTag, const double value, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindDouble(const std::string& strColTag, const double value, AFDataList& varResult);
      *
      * @brief   Searches for the first double.
      *
@@ -665,10 +665,10 @@ public:
      * @return  The found double.
      */
 
-    virtual int FindDouble(const std::string& strColTag, const double value, NFIDataList& varResult);
+    virtual int FindDouble(const std::string& strColTag, const double value, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindString(const std::string& strColTag, const std::string& value, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindString(const std::string& strColTag, const std::string& value, AFDataList& varResult);
      *
      * @brief   Searches for the first string.
      *
@@ -682,10 +682,10 @@ public:
      * @return  The found string.
      */
 
-    virtual int FindString(const std::string& strColTag, const std::string& value, NFIDataList& varResult);
+    virtual int FindString(const std::string& strColTag, const std::string& value, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindObject(const std::string& strColTag, const NFGUID& value, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindObject(const std::string& strColTag, const NFGUID& value, AFDataList& varResult);
      *
      * @brief   Searches for the first object.
      *
@@ -699,10 +699,10 @@ public:
      * @return  The found object.
      */
 
-    virtual int FindObject(const std::string& strColTag, const NFGUID& value, NFIDataList& varResult);
+    virtual int FindObject(const std::string& strColTag, const NFGUID& value, AFDataList& varResult);
 
     /**
-     * @fn  virtual int NFCRecord::FindPoint(const std::string& strColTag, const Point3D& value, NFIDataList& varResult);
+     * @fn  virtual int NFCRecord::FindPoint(const std::string& strColTag, const Point3D& value, AFDataList& varResult);
      *
      * @brief   Searches for the first point.
      *
@@ -716,10 +716,10 @@ public:
      * @return  The found point.
      */
 
-    virtual int FindPoint(const std::string& strColTag, const Point3D& value, NFIDataList& varResult);
+    virtual int FindPoint(const std::string& strColTag, const Point3D& value, AFDataList& varResult);
 
     /**
-     * @fn  virtual bool NFCRecord::QueryRow(const int nRow, NFIDataList& varList);
+     * @fn  virtual bool NFCRecord::QueryRow(const int nRow, AFDataList& varList);
      *
      * @brief   ///////////////////////////////////////////////////////////////////////.
      *
@@ -732,7 +732,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool QueryRow(const int nRow, NFIDataList& varList);
+    virtual bool QueryRow(const int nRow, AFDataList& varList);
 
     /**
      * @fn  virtual bool NFCRecord::SwapRowInfo(const int nOriginRow, const int nTargetRow);
@@ -922,7 +922,7 @@ public:
     virtual void SetName(const std::string& strName);
 
     /**
-     * @fn  virtual const NF_SHARE_PTR<NFIDataList> NFCRecord::GetInitData() const;
+     * @fn  virtual const NF_SHARE_PTR<AFDataList> NFCRecord::GetInitData() const;
      *
      * @brief   Gets init data.
      *
@@ -932,10 +932,10 @@ public:
      * @return  The init data.
      */
 
-    virtual const NF_SHARE_PTR<NFIDataList> GetInitData() const;
+    virtual const NF_SHARE_PTR<AFDataList> GetInitData() const;
 
     /**
-     * @fn  virtual const NF_SHARE_PTR<NFIDataList> NFCRecord::GetTag() const;
+     * @fn  virtual const NF_SHARE_PTR<AFDataList> NFCRecord::GetTag() const;
      *
      * @brief   Gets the tag.
      *
@@ -945,7 +945,7 @@ public:
      * @return  The tag.
      */
 
-    virtual const NF_SHARE_PTR<NFIDataList> GetTag() const;
+    virtual const NF_SHARE_PTR<AFDataList> GetTag() const;
 
     /**
      * @fn  virtual const TRECORDVEC& NFCRecord::GetRecordVec() const;
@@ -1039,7 +1039,7 @@ protected:
     bool ValidCol(int nCol) const;
 
     /**
-     * @fn  bool NFCRecord::ValidCheck(TDATA_TYPE eType, const NFIDataList::TData& var, NF_SHARE_PTR<NFIDataList::TData>& pVar);
+     * @fn  bool NFCRecord::ValidCheck(TDATA_TYPE eType, const AFDataList::TData& var, NF_SHARE_PTR<AFDataList::TData>& pVar);
      *
      * @brief   Valid check.
      *
@@ -1053,10 +1053,10 @@ protected:
      * @return  True if it succeeds, false if it fails.
      */
 
-    bool ValidCheck(TDATA_TYPE eType, const NFIDataList::TData& var, NF_SHARE_PTR<NFIDataList::TData>& pVar);
+    bool ValidCheck(TDATA_TYPE eType, const AFDataList::TData& var, NF_SHARE_PTR<AFDataList::TData>& pVar);
 
     /**
-     * @fn  void NFCRecord::OnEventHandler(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
+     * @fn  void NFCRecord::OnEventHandler(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
      *
      * @brief   Executes the event handler action.
      *
@@ -1069,14 +1069,14 @@ protected:
      * @param   newVar      The new variable.
      */
 
-    void OnEventHandler(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
+    void OnEventHandler(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
 
 protected:
     //记录这个表的Key类型，那样在读取和设置的时候才能保持正确
     /** @brief   初始值类型--应该引用静态的(或者智能指针)，节约大量内存. */
-    NF_SHARE_PTR<NFIDataList> mVarRecordType;
+    NF_SHARE_PTR<AFDataList> mVarRecordType;
     /** @brief   col的tag值--应该引用静态的(或者智能指针)，节约大量内存. */
-    NF_SHARE_PTR<NFIDataList> mVarRecordTag;
+    NF_SHARE_PTR<AFDataList> mVarRecordTag;
 
     /** @brief   tag->col转换. */
     std::map<std::string, int> mmTag;

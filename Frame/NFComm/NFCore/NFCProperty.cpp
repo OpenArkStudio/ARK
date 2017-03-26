@@ -48,7 +48,7 @@ NFCProperty::~NFCProperty()
     mxData.reset();
 }
 
-void NFCProperty::SetValue(const NFIDataList::TData& xData)
+void NFCProperty::SetValue(const AFDataList::TData& xData)
 {
     if(eType != xData.GetType())
     {
@@ -62,15 +62,15 @@ void NFCProperty::SetValue(const NFIDataList::TData& xData)
 
     if(nullptr == mxData)
     {
-        mxData = NF_SHARE_PTR<NFIDataList::TData>(NF_NEW NFIDataList::TData(xData));
+        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(xData));
     }
 
-    NFCDataList::TData oldValue;
+    AFDataList::TData oldValue;
     oldValue = *mxData;
 
     mxData->variantData = xData.variantData;
 
-    NFCDataList::TData newValue;
+    AFDataList::TData newValue;
     newValue = *mxData;
 
     OnEventHandler(oldValue, newValue);
@@ -81,7 +81,7 @@ void NFCProperty::SetValue(const NFIProperty* pProperty)
     SetValue(pProperty->GetValue());
 }
 
-const NFIDataList::TData& NFCProperty::GetValue() const
+const AFDataList::TData& NFCProperty::GetValue() const
 {
     if(nullptr != mxData)
     {
@@ -201,7 +201,7 @@ void NFCProperty::RegisterCallback(const PROPERTY_EVENT_FUNCTOR_PTR& cb)
     mtPropertyCallback.push_back(cb);
 }
 
-int NFCProperty::OnEventHandler(const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar)
+int NFCProperty::OnEventHandler(const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
 {
     if(mtPropertyCallback.size() <= 0)
     {
@@ -212,7 +212,7 @@ int NFCProperty::OnEventHandler(const NFIDataList::TData& oldVar, const NFIDataL
     TPROPERTYCALLBACKEX::iterator end = mtPropertyCallback.end();
     for(it; it != end; ++it)
     {
-        //NFIDataList参数:属性名，OLD属性值，NEW属性值, ARG参数(pKernel,self)
+        //AFDataList参数:属性名，OLD属性值，NEW属性值, ARG参数(pKernel,self)
         (**it)(mSelf, msPropertyName, oldVar, newVar);
     }
 
@@ -234,7 +234,7 @@ bool NFCProperty::SetInt(const NFINT64 value)
             return false;
         }
 
-        mxData = NF_SHARE_PTR<NFIDataList::TData>(NF_NEW NFIDataList::TData(TDATA_INT));
+        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(TDATA_INT));
         mxData->SetInt(0);
     }
 
@@ -243,7 +243,7 @@ bool NFCProperty::SetInt(const NFINT64 value)
         return false;
     }
 
-    NFCDataList::TData oldValue;
+    AFDataList::TData oldValue;
     oldValue = *mxData;
 
     mxData->SetInt(value);
@@ -268,7 +268,7 @@ bool NFCProperty::SetDouble(const double value)
             return false;
         }
 
-        mxData = NF_SHARE_PTR<NFIDataList::TData>(NF_NEW NFIDataList::TData(TDATA_DOUBLE));
+        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(TDATA_DOUBLE));
         mxData->SetDouble(NULL_DOUBLE);
     }
 
@@ -277,7 +277,7 @@ bool NFCProperty::SetDouble(const double value)
         return false;
     }
 
-    NFCDataList::TData oldValue;
+    AFDataList::TData oldValue;
     oldValue = *mxData;
 
     mxData->SetDouble(value);
@@ -302,7 +302,7 @@ bool NFCProperty::SetString(const std::string& value)
             return false;
         }
 
-        mxData = NF_SHARE_PTR<NFIDataList::TData>(NF_NEW NFIDataList::TData(TDATA_STRING));
+        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(TDATA_STRING));
         mxData->SetString(NULL_STR);
     }
 
@@ -311,7 +311,7 @@ bool NFCProperty::SetString(const std::string& value)
         return false;
     }
 
-    NFCDataList::TData oldValue;
+    AFDataList::TData oldValue;
     oldValue = *mxData;
 
     mxData->SetString(value);
@@ -336,7 +336,7 @@ bool NFCProperty::SetObject(const NFGUID& value)
             return false;
         }
 
-        mxData = NF_SHARE_PTR<NFIDataList::TData>(NF_NEW NFIDataList::TData(TDATA_OBJECT));
+        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(TDATA_OBJECT));
         mxData->SetObject(NULL_GUID);
     }
 
@@ -345,7 +345,7 @@ bool NFCProperty::SetObject(const NFGUID& value)
         return false;
     }
 
-    NFCDataList::TData oldValue;
+    AFDataList::TData oldValue;
     oldValue = *mxData;
 
     mxData->SetObject(value);
@@ -370,7 +370,7 @@ bool NFCProperty::SetPoint(const Point3D& value)
             return false;
         }
 
-        mxData = NF_SHARE_PTR<NFIDataList::TData>(NF_NEW NFIDataList::TData(TDATA_POINT));
+        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(TDATA_POINT));
         mxData->SetPoint(NULL_POINT);
     }
 
@@ -379,7 +379,7 @@ bool NFCProperty::SetPoint(const Point3D& value)
         return false;
     }
 
-    NFCDataList::TData oldValue;
+    AFDataList::TData oldValue;
     oldValue = *mxData;
 
     mxData->SetPoint(value);
@@ -495,7 +495,7 @@ bool NFCProperty::DeSerialization()
     const TDATA_TYPE eType = GetType();
     if(eType == TDATA_STRING && nullptr != mxData && !mxData->IsNullValue())
     {
-        NFCDataList xDataList;
+        AFDataList xDataList;
         const std::string& strData = mxData->GetString();
 
         xDataList.Split(strData.c_str(), ";");
@@ -504,7 +504,7 @@ bool NFCProperty::DeSerialization()
             return bRet;
         }
 
-        NFCDataList xTemDataList;
+        AFDataList xTemDataList;
         xTemDataList.Split(xDataList.String(0).c_str(), ",");
         const int nSubDataLength = xTemDataList.GetCount();
 
@@ -553,7 +553,7 @@ bool NFCProperty::DeSerialization()
 
         for(int i = 0; i < xDataList.GetCount(); ++i)
         {
-            NFCDataList xTemDataList;
+            AFDataList xTemDataList;
             const std::string& strTemData = xDataList.String(i);
             xTemDataList.Split(strTemData.c_str(), ",");
             {

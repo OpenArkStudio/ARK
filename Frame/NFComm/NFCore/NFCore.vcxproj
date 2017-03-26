@@ -96,11 +96,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AFDataList.hpp" />
     <ClInclude Include="Math\Vector3.hpp" />
     <ClInclude Include="NFCAddConsistentHash.hpp" />
     <ClInclude Include="NFCComponentManager.h" />
     <ClInclude Include="NFCConsistentHash.hpp" />
-    <ClInclude Include="NFCDataList.h" />
     <ClInclude Include="NFCEventManager.h" />
     <ClInclude Include="NFCHeartBeatManager.h" />
     <ClInclude Include="NFCMemManger.h" />
@@ -110,7 +110,6 @@
     <ClInclude Include="NFCRecordManager.h" />
     <ClInclude Include="NFIComponent.h" />
     <ClInclude Include="NFIComponentManager.h" />
-    <ClInclude Include="NFIDataList.h" />
     <ClInclude Include="NFIEventManager.h" />
     <ClInclude Include="NFIHeartBeatManager.h" />
     <ClInclude Include="NFMapEx.h" />
@@ -129,7 +128,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NFCComponentManager.cpp" />
-    <ClCompile Include="NFCDataList.cpp" />
     <ClCompile Include="NFCEventManager.cpp" />
     <ClCompile Include="NFCHeartBeatManager.cpp" />
     <ClCompile Include="NFCMemManger.cpp" />

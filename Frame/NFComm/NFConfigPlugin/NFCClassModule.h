@@ -16,7 +16,7 @@
 #include "NFComm/RapidXML/rapidxml.hpp"
 #include "NFComm/NFCore/NFMap.h"
 #include "NFComm/NFCore/NFList.h"
-#include "NFComm/NFCore/NFCDataList.h"
+#include "NFComm/NFCore/AFDataList.hpp"
 #include "NFComm/NFCore/NFCRecord.h"
 #include "NFComm/NFCore/NFList.h"
 #include "NFComm/NFCore/NFCPropertyManager.h"
@@ -73,7 +73,7 @@ public:
         return mxClassEventInfo.Add(cb);
     }
 
-    virtual bool DoEvent(const NFGUID& objectID, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& valueList)
+    virtual bool DoEvent(const NFGUID& objectID, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList)
     {
         CLASS_EVENT_FUNCTOR_PTR cb;
         bool bRet = mxClassEventInfo.First(cb);
@@ -164,7 +164,7 @@ public:
     virtual bool Clear();
 
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
-    virtual bool DoEvent(const NFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& valueList);
+    virtual bool DoEvent(const NFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList);
 
     virtual NF_SHARE_PTR<NFIPropertyManager> GetClassPropertyManager(const std::string& strClassName);
     virtual NF_SHARE_PTR<NFIRecordManager> GetClassRecordManager(const std::string& strClassName);
@@ -173,7 +173,7 @@ public:
     virtual bool AddClass(const std::string& strClassName, const std::string& strParentName);
 
 protected:
-    virtual TDATA_TYPE ComputerType(const char* pstrTypeName, NFIDataList::TData& var);
+    virtual TDATA_TYPE ComputerType(const char* pstrTypeName, AFDataList::TData& var);
     virtual bool AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SHARE_PTR<NFIClass> pClass);
     virtual bool AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_PTR<NFIClass> pClass);
     virtual bool AddComponents(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_PTR<NFIClass> pClass);

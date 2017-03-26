@@ -12,7 +12,7 @@
 #include "NFDefine.h"
 #include "NFMap.h"
 #include "NFList.h"
-#include "NFCDataList.h"
+#include "AFDataList.hpp"
 #include "NFIProperty.h"
 
 /**
@@ -68,7 +68,7 @@ public:
     virtual ~NFCProperty();
 
     /**
-     * @fn  virtual void NFCProperty::SetValue(const NFIDataList::TData& TData);
+     * @fn  virtual void NFCProperty::SetValue(const AFDataList::TData& TData);
      *
      * @brief   Sets a value.
      *
@@ -78,7 +78,7 @@ public:
      * @param   TData   The data.
      */
 
-    virtual void SetValue(const NFIDataList::TData& TData);
+    virtual void SetValue(const AFDataList::TData& TData);
 
     /**
      * @fn  virtual void NFCProperty::SetValue(const NFIProperty* pProperty);
@@ -403,7 +403,7 @@ public:
     virtual void SetRelationValue(const std::string& strRelation);
 
     /**
-     * @fn  virtual const NFIDataList::TData& NFCProperty::GetValue() const;
+     * @fn  virtual const AFDataList::TData& NFCProperty::GetValue() const;
      *
      * @brief   Gets the value.
      *
@@ -413,7 +413,7 @@ public:
      * @return  The value.
      */
 
-    virtual const NFIDataList::TData& GetValue() const;
+    virtual const AFDataList::TData& GetValue() const;
 
     /**
      * @fn  virtual const NF_SHARE_PTR<NFList<std::string>> NFCProperty::GetEmbeddedList() const;
@@ -511,7 +511,7 @@ public:
 private:
 
     /**
-     * @fn  int NFCProperty::OnEventHandler(const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
+     * @fn  int NFCProperty::OnEventHandler(const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
      *
      * @brief   Executes the event handler action.
      *
@@ -524,7 +524,7 @@ private:
      * @return  An int.
      */
 
-    int OnEventHandler(const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
+    int OnEventHandler(const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
 
 private:
 
@@ -548,7 +548,7 @@ private:
     TDATA_TYPE eType;
 
     /** @brief   Information describing the mx. */
-    NF_SHARE_PTR<NFIDataList::TData> mxData;
+    NF_SHARE_PTR<AFDataList::TData> mxData;
     /** @brief   The mx embedded map. */
     NF_SHARE_PTR<NFMapEx<std::string, std::string>> mxEmbeddedMap;
     /** @brief   List of mx embedded. */

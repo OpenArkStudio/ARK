@@ -72,7 +72,7 @@ bool NFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGro
         {
             const std::string& strClassName = m_pElementModule->GetPropertyString(pResource->strConfigID, NFrame::NPC::ClassName());
 
-            NFCDataList arg;
+            AFDataList arg;
             arg << NFrame::NPC::X() << pResource->fSeedX;
             arg << NFrame::NPC::Y() << pResource->fSeedY;
             arg << NFrame::NPC::Z() << pResource->fSeedZ;
@@ -100,7 +100,7 @@ int NFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
     return nTargetGroupID;
 }
 
-int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEventID, const NFIDataList& var)
+int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEventID, const AFDataList& var)
 {
     if(var.GetCount() != 4
             || !var.TypeEx(TDATA_TYPE::TDATA_OBJECT, TDATA_TYPE::TDATA_INT,
@@ -153,13 +153,13 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
     const std::string strSceneID = lexical_cast<std::string>(nTargetScene);
     const std::string& strRelivePosList = m_pElementModule->GetPropertyString(strSceneID, NFrame::Scene::RelivePos());
 
-    NFCDataList valueRelivePosList(strRelivePosList.c_str(), ";");
+    AFDataList valueRelivePosList(strRelivePosList.c_str(), ";");
     if(valueRelivePosList.GetCount() >= 1)
     {
         xRelivePos.FromString(valueRelivePosList.String(0));
     }
 
-    NFCDataList xSceneResult(var);
+    AFDataList xSceneResult(var);
     xSceneResult.Add(xRelivePos);
 
     m_pKernelModule->DoEvent(self, NFED_ON_OBJECT_ENTER_SCENE_BEFORE, xSceneResult);
@@ -177,7 +177,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
     return 0;
 }
 
-int NFCSceneProcessModule::OnLeaveSceneEvent(const NFGUID& object, const int nEventID, const NFIDataList& var)
+int NFCSceneProcessModule::OnLeaveSceneEvent(const NFGUID& object, const int nEventID, const AFDataList& var)
 {
     if(1 != var.GetCount()
             || !var.TypeEx(TDATA_TYPE::TDATA_INT, TDATA_TYPE::TDATA_UNKNOWN))
@@ -200,7 +200,7 @@ int NFCSceneProcessModule::OnLeaveSceneEvent(const NFGUID& object, const int nEv
     return 0;
 }
 
-int NFCSceneProcessModule::OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& var)
+int NFCSceneProcessModule::OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var)
 {
     if(strClassName == NFrame::Player::ThisName())
     {
@@ -314,7 +314,7 @@ bool NFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 void NFCSceneProcessModule::OnClienSwapSceneProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
 {
     //CLIENT_MSG_PROCESS(nSockIndex, nMsgID, msg, nLen, NFMsg::ReqAckSwapScene);
-    //NFCDataList varEntry;
+    //AFDataList varEntry;
     //varEntry << pObject->Self();
     //varEntry << 0;
     //varEntry << xMsg.scene_id();

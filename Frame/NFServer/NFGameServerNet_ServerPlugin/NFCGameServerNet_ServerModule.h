@@ -57,11 +57,11 @@ public:
     virtual NF_SHARE_PTR<GateServerInfo> GetGateServerInfo(const int nGateID);
     virtual NF_SHARE_PTR<GateServerInfo> GetGateServerInfoBySockIndex(const int nSockIndex);
 
-    virtual int OnPropertyEnter(const NFIDataList& argVar, const NFGUID& self);
-    virtual int OnRecordEnter(const NFIDataList& argVar, const NFGUID& self);
+    virtual int OnPropertyEnter(const AFDataList& argVar, const NFGUID& self);
+    virtual int OnRecordEnter(const AFDataList& argVar, const NFGUID& self);
 
-    virtual int OnObjectListEnter(const NFIDataList& self, const NFIDataList& argVar);
-    virtual int OnObjectListLeave(const NFIDataList& self, const NFIDataList& argVar);
+    virtual int OnObjectListEnter(const AFDataList& self, const AFDataList& argVar);
+    virtual int OnObjectListLeave(const AFDataList& self, const AFDataList& argVar);
 
 protected:
     void OnSocketPSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID);
@@ -87,18 +87,18 @@ protected:
 	
 protected:
     //网络同步
-    int OnPropertyCommonEvent(const NFGUID& self, const std::string& strPropertyName, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
-    int OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
-    int OnClassCommonEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& var);
+    int OnPropertyCommonEvent(const NFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnClassCommonEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
 
-    int OnGroupEvent(const NFGUID& self, const std::string& strPropertyName, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
-    int OnContainerEvent(const NFGUID& self, const std::string& strPropertyName, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
+    int OnGroupEvent(const NFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnContainerEvent(const NFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
 
-    int OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& var);
-    int OnSwapSceneResultEvent(const NFGUID& self, const int nEventID, const NFIDataList& var);
+    int OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
+    int OnSwapSceneResultEvent(const NFGUID& self, const int nEventID, const AFDataList& var);
 
-    int GetBroadCastObject(const NFGUID& self, const std::string& strPropertyName, const bool bTable, NFIDataList& valueObject);
-    int GetBroadCastObject(const int nObjectContainerID, const int nGroupID, NFIDataList& valueObject);
+    int GetBroadCastObject(const NFGUID& self, const std::string& strPropertyName, const bool bTable, AFDataList& valueObject);
+    int GetBroadCastObject(const int nObjectContainerID, const int nGroupID, AFDataList& valueObject);
 
 private:
     //<角色id,角色网关基础信息>//其实可以在object系统中被代替

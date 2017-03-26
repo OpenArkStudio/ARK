@@ -1,8 +1,8 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFIDataList.h
+//    @FileName         :    AFDataList.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-03-01
-//    @Module           :    NFIDataList
+//    @Module           :    AFDataList
 //
 // -------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ const static NFGUID NULL_GUID = NULL_GUID;
 const static Point3D NULL_POINT = Point3D();
 
 /**
- * @class   NFIDataList
+ * @class   AFDataList
  *
  * @brief   Vector of TData.
  *
@@ -69,7 +69,7 @@ const static Point3D NULL_POINT = Point3D();
  * @date    2016/11/16
  */
 
-class NFIDataList
+class AFDataList
 {
 public:
 
@@ -607,7 +607,7 @@ public:
     };
 
     /**
-     * @fn  NFIDataList::NFIDataList()
+     * @fn  AFDataList::AFDataList()
      *
      * @brief   Default constructor.
      *
@@ -615,7 +615,7 @@ public:
      * @date    2016/11/12
      */
 
-    NFIDataList()
+    AFDataList()
     {
         mnUseSize = 0;
         mvList.reserve(STACK_SIZE);
@@ -626,7 +626,7 @@ public:
     }
 
     /**
-     * @fn  virtual NFIDataList::~NFIDataList() = 0;
+     * @fn  virtual AFDataList::~AFDataList() = 0;
      *
      * @brief   Destructor.
      *
@@ -634,10 +634,27 @@ public:
      * @date    2016/11/12
      */
 
-    virtual ~NFIDataList() = 0;
+    virtual ~AFDataList()
+    {
+        Clear();
+    }
+
+    AFDataList(const std::string& str, const std::string& strSplit)
+    {
+        Clear();
+
+        Split(str, strSplit);
+    }
+
+    AFDataList(const AFDataList& src)
+    {
+        Clear();
+
+        InnerAppendEx(src, 0, src.GetCount());
+    }
 
     /**
-     * @fn  virtual std::string NFIDataList::ToString(const int index) const = 0;
+     * @fn  virtual std::string AFDataList::ToString(const int index) const = 0;
      *
      * @brief   Convert this object into a string representation.
      *
@@ -649,10 +666,41 @@ public:
      * @return  A std::string that represents this object.
      */
 
-    virtual std::string ToString(const int index) const = 0;
+    virtual std::string ToString(const int index) const
+    {
+        if(ValidIndex(index))
+        {
+            std::string strData;
+
+            const TDATA_TYPE eType = Type(index);
+            switch(eType)
+            {
+            case TDATA_INT:
+                strData = lexical_cast<std::string>(Int(index));
+                break;
+            case TDATA_DOUBLE:
+                strData = lexical_cast<std::string>(Double(index));
+                break;
+            case TDATA_STRING:
+                strData = String(index);
+                break;
+            case TDATA_OBJECT:
+                strData = Object(index).ToString();
+                break;
+            case TDATA_POINT:
+                strData = Point(index).ToString();
+                break;
+            default:
+                strData = NULL_STR;
+                break;
+            }
+        }
+
+        return NULL_STR;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::ToString(std::string& strSource, const std::string& strSeparator) const = 0;
+     * @fn  virtual bool AFDataList::ToString(std::string& strSource, const std::string& strSeparator) const = 0;
      *
      * @brief   Convert this object into a string representation with the given separator.
      *
@@ -665,12 +713,26 @@ public:
      * @return  A bool that represents this object.
      */
 
-    virtual bool ToString(std::string& strOut, const std::string& strSeparator) const = 0;
+    virtual bool ToString(std::string& strOut, const std::string& strSeparator) const
+    {
+        for(int i = 0; i < GetCount(); ++i)
+        {
+            std::string strVal = ToString(i);
+            strOut += strVal;
+            //do not add separator in the last data
+            if(i != (GetCount() - 1))
+            {
+                strOut += strSeparator;
+            }
+        }
+
+        return true;
+    }
 
 public:
 
     /**
-     * @fn  virtual const NF_SHARE_PTR<TData> NFIDataList::GetStack(const int index) const = 0;
+     * @fn  virtual const NF_SHARE_PTR<TData> AFDataList::GetStack(const int index) const = 0;
      *
      * @brief   Gets a stack.
      *
@@ -682,27 +744,39 @@ public:
      * @return  The stack.
      */
 
-    virtual const NF_SHARE_PTR<TData> GetStack(const int index) const = 0;
+    virtual const NF_SHARE_PTR<TData> GetStack(const int index) const
+    {
+        if(index < mvList.size())
+        {
+            return mvList[index];
+        }
+
+        return NF_SHARE_PTR<TData>();
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Concat(const NFIDataList& src) = 0;
+     * @fn  virtual bool AFDataList::Concat(const AFDataList& src) = 0;
      *
      * @brief   Concatenates the given source into this DataList.
      *
      * @author  Nick Yang
      * @date    2016/11/16
      *
-     * @param   The source NFIDataList.
+     * @param   The source AFDataList.
      *
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Concat(const NFIDataList& src) = 0;
+    virtual bool Concat(const AFDataList& src)
+    {
+        InnerAppendEx(src, 0, src.GetCount());
+        return true;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Append(const NFIDataList& src) = 0;
+     * @fn  virtual bool AFDataList::Append(const AFDataList& src) = 0;
      *
-     * @brief   Appends a NFIDataList to this pointer.
+     * @brief   Appends a AFDataList to this pointer.
      *
      * @author  Nick Yang
      * @date    2016/11/16
@@ -712,10 +786,13 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Append(const NFIDataList& src) = 0;
+    virtual bool Append(const AFDataList& src)
+    {
+        return Append(src, 0, src.GetCount());
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Append(const NFIDataList& src, const int start, const int count) = 0;
+     * @fn  virtual bool AFDataList::Append(const AFDataList& src, const int start, const int count) = 0;
      *
      * @brief   Appends a src.
      *
@@ -729,10 +806,27 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Append(const NFIDataList& src, const int start, const int count) = 0;
+    virtual bool Append(const AFDataList& src, const int start, const int count)
+    {
+        if(start >= src.GetCount())
+        {
+            return false;
+        }
+
+        int end = start + count;
+
+        if(end > src.GetCount())
+        {
+            return false;
+        }
+
+        InnerAppendEx(src, start, end);
+
+        return true;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Append(const NFIDataList::TData& sTData) = 0;
+     * @fn  virtual bool AFDataList::Append(const AFDataList::TData& sTData) = 0;
      *
      * @brief   Appends a TData into this pointer.
      *
@@ -744,10 +838,40 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Append(const NFIDataList::TData& sTData) = 0;
+    virtual bool Append(const AFDataList::TData& xData)
+    {
+        if(xData.GetType() <= TDATA_UNKNOWN
+                || xData.GetType() >= TDATA_MAX)
+        {
+            return false;
+        }
+
+        switch(xData.GetType())
+        {
+        case TDATA_INT:
+            AddInt(xData.GetInt());
+            break;
+        case TDATA_DOUBLE:
+            AddDouble(xData.GetDouble());
+            break;
+        case TDATA_OBJECT:
+            AddObject(xData.GetObject());
+            break;
+        case TDATA_STRING:
+            AddString(xData.GetString());
+            break;
+        case TDATA_POINT:
+            AddPoint(xData.GetPoint());
+            break;
+        default:
+            break;
+        }
+
+        return true;
+    }
 
     /**
-     * @fn  virtual void NFIDataList::Clear() = 0;
+     * @fn  virtual void AFDataList::Clear() = 0;
      *
      * @brief   Clears this object to its blank/initial state.
      *
@@ -755,12 +879,25 @@ public:
      * @date    2016/11/16
      */
 
-    virtual void Clear() = 0;
+    virtual void Clear()
+    {
+        mnUseSize = 0;
+        //8个以后的清除掉
+        if(mvList.size() > STACK_SIZE)
+        {
+            for(int i = 0; i < STACK_SIZE; ++i)
+            {
+                mvList[i]->Reset();
+            }
+
+            mvList.erase(mvList.begin() + 8, mvList.end());
+        }
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::IsEmpty() const = 0;
+     * @fn  virtual bool AFDataList::IsEmpty() const = 0;
      *
-     * @brief   Query if this NFIDataList is empty.
+     * @brief   Query if this AFDataList is empty.
      *
      * @author  Nick Yang
      * @date    2016/11/16
@@ -768,10 +905,13 @@ public:
      * @return  True if empty, false if not.
      */
 
-    virtual bool IsEmpty() const = 0;
+    virtual bool IsEmpty() const
+    {
+        return (0 == mnUseSize);
+    }
 
     /**
-     * @fn  virtual int NFIDataList::GetCount() const = 0;
+     * @fn  virtual int AFDataList::GetCount() const = 0;
      *
      * @brief   Gets the count.
      *
@@ -781,10 +921,13 @@ public:
      * @return  The count.
      */
 
-    virtual int GetCount() const = 0;
+    virtual int GetCount() const
+    {
+        return mnUseSize;
+    }
 
     /**
-     * @fn  virtual TDATA_TYPE NFIDataList::Type(const int index) const = 0;
+     * @fn  virtual TDATA_TYPE AFDataList::Type(const int index) const = 0;
      *
      * @brief   Types the given index.
      *
@@ -796,10 +939,31 @@ public:
      * @return  A TDATA_TYPE.
      */
 
-    virtual TDATA_TYPE Type(const int index) const = 0;
+    virtual TDATA_TYPE Type(const int index) const
+    {
+        if(!ValidIndex(index))
+        {
+            return TDATA_UNKNOWN;
+        }
+
+        if(index < STACK_SIZE)
+        {
+            return mvList[index]->GetType();
+        }
+        else
+        {
+            const NF_SHARE_PTR<TData> pData = GetStack(index);
+            if(pData)
+            {
+                return pData->GetType();
+            }
+        }
+
+        return TDATA_UNKNOWN;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::TypeEx(const int nType, ...) const = 0;
+     * @fn  virtual bool AFDataList::TypeEx(const int nType, ...) const = 0;
      *
      * @brief   Check the types.
      *
@@ -812,12 +976,44 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool TypeEx(const  int nType, ...) const = 0;
+    virtual bool TypeEx(const  int nType, ...) const
+    {
+        bool bRet = true;
+
+        if(TDATA_UNKNOWN == nType)
+        {
+            bRet = false;
+            return bRet;
+        }
+
+        TDATA_TYPE pareType = (TDATA_TYPE)nType;
+        va_list arg_ptr;
+        va_start(arg_ptr, nType);
+        int index = 0;
+
+        while(pareType != TDATA_UNKNOWN)
+        {
+            //比较
+            TDATA_TYPE varType = Type(index);
+            if(varType != pareType)
+            {
+                bRet = false;
+                break;
+            }
+
+            ++index;
+            pareType = (TDATA_TYPE)va_arg(arg_ptr, int);   //获取下一个参数
+        }
+
+        va_end(arg_ptr); //结束
+
+        return bRet;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Split(const std::string& str, const std::string& strSplit) = 0;
+     * @fn  virtual bool AFDataList::Split(const std::string& str, const std::string& strSplit) = 0;
      *
-     * @brief   Splits string with filter into a NFIDataList.
+     * @brief   Splits string with filter into a AFDataList.
      *
      * @author  Nick Yang
      * @date    2016/11/16
@@ -828,10 +1024,38 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Split(const std::string& str, const std::string& strSplit) = 0;
+    virtual bool Split(const std::string& str, const std::string& strSplit)
+    {
+        Clear();
+
+        std::string strData(str);
+        if(strData.empty())
+        {
+            return true;
+        }
+
+        std::string temstrSplit(strSplit);
+        std::string::size_type pos;
+        strData += temstrSplit;
+        std::string::size_type size = strData.length();
+
+        for(std::string::size_type i = 0; i < size; i++)
+        {
+            pos = int(strData.find(temstrSplit, i));
+            if(pos < size)
+            {
+                std::string strSub = strData.substr(i, pos - i);
+                Add(strSub.c_str());
+
+                i = pos + temstrSplit.size() - 1;
+            }
+        }
+
+        return true;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Add(const NFINT64 value) = 0;
+     * @fn  virtual bool AFDataList::Add(const NFINT64 value) = 0;
      *
      * @brief   Adds value.
      *
@@ -843,10 +1067,27 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Add(const NFINT64 value) = 0;
+    virtual bool Add(const NFINT64 value)
+    {
+        if(GetCount() == mvList.size())
+        {
+            AddStatck();
+        }
+
+        NF_SHARE_PTR<TData> var = GetStack(GetCount());
+        if(var)
+        {
+            var->SetInt(value);
+            mnUseSize++;
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Add(const double value) = 0;
+     * @fn  virtual bool AFDataList::Add(const double value) = 0;
      *
      * @brief   Adds value.
      *
@@ -858,10 +1099,27 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Add(const double value) = 0;
+    virtual bool Add(const double value)
+    {
+        if(GetCount() == mvList.size())
+        {
+            AddStatck();
+        }
+
+        NF_SHARE_PTR<TData> var = GetStack(GetCount());
+        if(var)
+        {
+            var->SetDouble(value);
+            mnUseSize++;
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Add(const std::string& value) = 0;
+     * @fn  virtual bool AFDataList::Add(const std::string& value) = 0;
      *
      * @brief   Adds value.
      *
@@ -873,10 +1131,27 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Add(const std::string& value) = 0;
+    virtual bool Add(const std::string& value)
+    {
+        if(GetCount() == mvList.size())
+        {
+            AddStatck();
+        }
+
+        NF_SHARE_PTR<TData> var = GetStack(GetCount());
+        if(var)
+        {
+            var->SetString(value);
+            mnUseSize++;
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Add(const NFGUID& value) = 0;
+     * @fn  virtual bool AFDataList::Add(const NFGUID& value) = 0;
      *
      * @brief   Adds value.
      *
@@ -888,10 +1163,27 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Add(const NFGUID& value) = 0;
+    virtual bool Add(const NFGUID& value)
+    {
+        if(GetCount() == mvList.size())
+        {
+            AddStatck();
+        }
+
+        NF_SHARE_PTR<TData> var = GetStack(GetCount());
+        if(var)
+        {
+            var->SetObject(value);
+            mnUseSize++;
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Add(const Point3D& value) = 0;
+     * @fn  virtual bool AFDataList::Add(const Point3D& value) = 0;
      *
      * @brief   Adds value.
      *
@@ -903,10 +1195,27 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Add(const Point3D& value) = 0;
+    virtual bool Add(const Point3D& value)
+    {
+        if(GetCount() == mvList.size())
+        {
+            AddStatck();
+        }
+
+        NF_SHARE_PTR<TData> var = GetStack(GetCount());
+        if(var)
+        {
+            var->SetPoint(value);
+            mnUseSize++;
+
+            return true;
+        }
+
+        return false;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Set(const int index, const NFINT64 value) = 0;
+     * @fn  virtual bool AFDataList::Set(const int index, const NFINT64 value) = 0;
      *
      * @brief   Set int64_t value into the given index.
      *
@@ -919,10 +1228,24 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Set(const int index, const NFINT64 value) = 0;
+    virtual bool Set(const int index, const NFINT64 value)
+    {
+        if(ValidIndex(index) && Type(index) == TDATA_INT)
+        {
+            NF_SHARE_PTR<TData> var = GetStack(index);
+            if(var)
+            {
+                var->SetInt(value);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Set(const int index, const double value) = 0;
+     * @fn  virtual bool AFDataList::Set(const int index, const double value) = 0;
      *
      * @brief   Set double value into the given index.
      *
@@ -935,10 +1258,24 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Set(const int index, const double value) = 0;
+    virtual bool Set(const int index, const double value)
+    {
+        if(ValidIndex(index) && Type(index) == TDATA_DOUBLE)
+        {
+            NF_SHARE_PTR<TData> var = GetStack(index);
+            if(var)
+            {
+                var->SetDouble(value);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Set(const int index, const std::string& value) = 0;
+     * @fn  virtual bool AFDataList::Set(const int index, const std::string& value) = 0;
      *
      * @brief   Set std::string value into the given index.
      *
@@ -951,10 +1288,24 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Set(const int index, const std::string& value) = 0;
+    virtual bool Set(const int index, const std::string& value)
+    {
+        if(ValidIndex(index) && Type(index) == TDATA_STRING)
+        {
+            NF_SHARE_PTR<TData> var = GetStack(index);
+            if(var)
+            {
+                var->SetString(value);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Set(const int index, const NFGUID& value) = 0;
+     * @fn  virtual bool AFDataList::Set(const int index, const NFGUID& value) = 0;
      *
      * @brief   Set NFGUID value into the given index.
      *
@@ -967,10 +1318,24 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Set(const int index, const NFGUID& value) = 0;
+    virtual bool Set(const int index, const NFGUID& value)
+    {
+        if(ValidIndex(index) && Type(index) == TDATA_OBJECT)
+        {
+            NF_SHARE_PTR<TData> var = GetStack(index);
+            if(var)
+            {
+                var->SetObject(value);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
-     * @fn  virtual bool NFIDataList::Set(const int index, const Point3D& value) = 0;
+     * @fn  virtual bool AFDataList::Set(const int index, const Point3D& value) = 0;
      *
      * @brief   Set Point3D value into the given index.
      *
@@ -983,10 +1348,24 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Set(const int index, const Point3D& value) = 0;
+    virtual bool Set(const int index, const Point3D& value)
+    {
+        if(ValidIndex(index) && Type(index) == TDATA_POINT)
+        {
+            NF_SHARE_PTR<TData> var = GetStack(index);
+            if(var)
+            {
+                var->SetPoint(value);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /**
-     * @fn  virtual NFINT64 NFIDataList::Int(const int index) const = 0;
+     * @fn  virtual NFINT64 AFDataList::Int(const int index) const = 0;
      *
      * @brief   Get Int value of the given index.
      *
@@ -998,10 +1377,22 @@ public:
      * @return  A NFINT64.
      */
 
-    virtual NFINT64 Int(const int index) const = 0;
+    virtual NFINT64 Int(const int index) const
+    {
+        if(ValidIndex(index))
+        {
+            if(Type(index) == TDATA_INT)
+            {
+                const NF_SHARE_PTR<TData> var = GetStack(index);
+                return var->GetInt();
+            }
+        }
+
+        return NULL_INT;
+    }
 
     /**
-     * @fn  virtual double NFIDataList::Double(const int index) const = 0;
+     * @fn  virtual double AFDataList::Double(const int index) const = 0;
      *
      * @brief   Doubles the given index.
      *
@@ -1013,10 +1404,22 @@ public:
      * @return  A double.
      */
 
-    virtual double Double(const int index) const = 0;
+    virtual double Double(const int index) const
+    {
+        if(ValidIndex(index))
+        {
+            const NF_SHARE_PTR<TData> var = mvList[index];
+            if(var && TDATA_DOUBLE == var->GetType())
+            {
+                return var->GetDouble();
+            }
+        }
+
+        return NULL_DOUBLE;
+    }
 
     /**
-     * @fn  virtual const std::string& NFIDataList::String(const int index) const = 0;
+     * @fn  virtual const std::string& AFDataList::String(const int index) const = 0;
      *
      * @brief   Strings the given index.
      *
@@ -1028,10 +1431,22 @@ public:
      * @return  A reference to a const std::string.
      */
 
-    virtual const std::string& String(const int index) const = 0;
+    virtual const std::string& String(const int index) const
+    {
+        if(ValidIndex(index))
+        {
+            const NF_SHARE_PTR<TData> var = mvList[index];
+            if(var && TDATA_STRING == var->GetType())
+            {
+                return var->GetString();
+            }
+        }
+
+        return NULL_STR;
+    }
 
     /**
-     * @fn  virtual const NFGUID& NFIDataList::Object(const int index) const = 0;
+     * @fn  virtual const NFGUID& AFDataList::Object(const int index) const = 0;
      *
      * @brief   Objects the given index.
      *
@@ -1043,10 +1458,26 @@ public:
      * @return  A reference to a const NFGUID.
      */
 
-    virtual const NFGUID& Object(const int index) const = 0;
+    virtual const NFGUID& Object(const int index) const
+    {
+        if(ValidIndex(index))
+        {
+            TDATA_TYPE type = Type(index);
+            if(TDATA_OBJECT == type)
+            {
+                NF_SHARE_PTR<TData> var = GetStack(index);
+                if(nullptr != var)
+                {
+                    return var->GetObject();
+                }
+            }
+        }
+
+        return NULL_GUID;
+    }
 
     /**
-     * @fn  virtual const Point3D& NFIDataList::Point(const int index) const = 0;
+     * @fn  virtual const Point3D& AFDataList::Point(const int index) const = 0;
      *
      * @brief   Points the given index.
      *
@@ -1058,10 +1489,26 @@ public:
      * @return  A reference to a const Point3D.
      */
 
-    virtual const Point3D& Point(const int index) const = 0;
+    virtual const Point3D& Point(const int index) const
+    {
+        if(ValidIndex(index))
+        {
+            TDATA_TYPE type = Type(index);
+            if(TDATA_OBJECT == type)
+            {
+                NF_SHARE_PTR<TData> var = GetStack(index);
+                if(nullptr != var)
+                {
+                    return var->GetPoint();
+                }
+            }
+        }
+
+        return NULL_POINT;
+    }
 
     /**
-     * @fn  bool NFIDataList::AddInt(const NFINT64 value)
+     * @fn  bool AFDataList::AddInt(const NFINT64 value)
      *
      * @brief   Adds an int.
      *
@@ -1079,7 +1526,7 @@ public:
     }
 
     /**
-     * @fn  bool NFIDataList::AddDouble(const double value)
+     * @fn  bool AFDataList::AddDouble(const double value)
      *
      * @brief   Adds a double.
      *
@@ -1097,7 +1544,7 @@ public:
     }
 
     /**
-     * @fn  bool NFIDataList::AddString(const std::string& value)
+     * @fn  bool AFDataList::AddString(const std::string& value)
      *
      * @brief   Adds a string.
      *
@@ -1115,7 +1562,7 @@ public:
     }
 
     /**
-     * @fn  bool NFIDataList::AddStringFromChar(const char* value)
+     * @fn  bool AFDataList::AddStringFromChar(const char* value)
      *
      * @brief   Adds a string from character.
      *
@@ -1133,7 +1580,7 @@ public:
     }
 
     /**
-     * @fn  bool NFIDataList::AddObject(const NFGUID& value)
+     * @fn  bool AFDataList::AddObject(const NFGUID& value)
      *
      * @brief   Adds an object.
      *
@@ -1151,7 +1598,7 @@ public:
     }
 
     /**
-     * @fn  bool NFIDataList::AddPoint(const Point3D& value)
+     * @fn  bool AFDataList::AddPoint(const Point3D& value)
      *
      * @brief   Adds a point.
      *
@@ -1169,7 +1616,7 @@ public:
     }
 
     /**
-     * @fn  bool NFIDataList::SetInt(const int index, const NFINT64 value)
+     * @fn  bool AFDataList::SetInt(const int index, const NFINT64 value)
      *
      * @brief   Sets an int.
      *
@@ -1188,7 +1635,7 @@ public:
     }
 
     /**
-     * @fn  bool NFIDataList::SetFloat(const int index, const double value)
+     * @fn  bool AFDataList::SetFloat(const int index, const double value)
      *
      * @brief   Sets a float.
      *
@@ -1207,7 +1654,7 @@ public:
     }
 
     /**
-     * @fn  bool NFIDataList::SetString(const int index, const std::string& value)
+     * @fn  bool AFDataList::SetString(const int index, const std::string& value)
      *
      * @brief   Sets a string.
      *
@@ -1226,7 +1673,7 @@ public:
     }
 
     /**
-     * @fn  bool NFIDataList::SetObject(const int index, const NFGUID& value)
+     * @fn  bool AFDataList::SetObject(const int index, const NFGUID& value)
      *
      * @brief   Sets an object.
      *
@@ -1245,7 +1692,7 @@ public:
     }
 
     /**
-     * @fn  bool NFIDataList::SetPoint(const int index, const Point3D& value)
+     * @fn  bool AFDataList::SetPoint(const int index, const Point3D& value)
      *
      * @brief   Sets a point.
      *
@@ -1264,7 +1711,7 @@ public:
     }
 
     /**
-     * @fn  inline bool NFIDataList::Compare(const int nPos, const NFIDataList& src) const
+     * @fn  inline bool AFDataList::Compare(const int nPos, const AFDataList& src) const
      *
      * @brief   Compares two const int objects to determine their relative ordering.
      *
@@ -1277,7 +1724,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    inline bool Compare(const int nPos, const NFIDataList& src) const
+    inline bool Compare(const int nPos, const AFDataList& src) const
     {
         if(src.GetCount() > nPos
                 && GetCount() > nPos
@@ -1310,7 +1757,7 @@ public:
     }
 
     /**
-     * @fn  inline bool NFIDataList::operator==(const NFIDataList& src) const
+     * @fn  inline bool AFDataList::operator==(const AFDataList& src) const
      *
      * @brief   Equality operator.
      *
@@ -1322,7 +1769,7 @@ public:
      * @return  True if the parameters are considered equivalent.
      */
 
-    inline bool operator==(const NFIDataList& src) const
+    inline bool operator==(const AFDataList& src) const
     {
         if(src.GetCount() == GetCount())
         {
@@ -1341,7 +1788,7 @@ public:
     }
 
     /**
-     * @fn  inline bool NFIDataList::operator!=(const NFIDataList& src)
+     * @fn  inline bool AFDataList::operator!=(const AFDataList& src)
      *
      * @brief   Inequality operator.
      *
@@ -1353,13 +1800,13 @@ public:
      * @return  True if the parameters are not considered equivalent.
      */
 
-    inline bool operator!=(const NFIDataList& src)
+    inline bool operator!=(const AFDataList& src)
     {
         return !(*this == src);
     }
 
     /**
-     * @fn  inline NFIDataList& NFIDataList::operator<<(const double value)
+     * @fn  inline AFDataList& AFDataList::operator<<(const double value)
      *
      * @brief   Bitwise left shift operator.
      *
@@ -1371,14 +1818,14 @@ public:
      * @return  The shifted result.
      */
 
-    inline NFIDataList& operator<<(const double value)
+    inline AFDataList& operator<<(const double value)
     {
         Add(value);
         return *this;
     }
 
     /**
-     * @fn  inline NFIDataList& NFIDataList::operator<<(const char* value)
+     * @fn  inline AFDataList& AFDataList::operator<<(const char* value)
      *
      * @brief   Bitwise left shift operator.
      *
@@ -1390,14 +1837,14 @@ public:
      * @return  The shifted result.
      */
 
-    inline NFIDataList& operator<<(const char* value)
+    inline AFDataList& operator<<(const char* value)
     {
         Add(value);
         return *this;
     }
 
     /**
-     * @fn  inline NFIDataList& NFIDataList::operator<<(const std::string& value)
+     * @fn  inline AFDataList& AFDataList::operator<<(const std::string& value)
      *
      * @brief   Bitwise left shift operator.
      *
@@ -1409,14 +1856,14 @@ public:
      * @return  The shifted result.
      */
 
-    inline NFIDataList& operator<<(const std::string& value)
+    inline AFDataList& operator<<(const std::string& value)
     {
         Add(value);
         return *this;
     }
 
     /**
-     * @fn  inline NFIDataList& NFIDataList::operator<<(const NFINT64& value)
+     * @fn  inline AFDataList& AFDataList::operator<<(const NFINT64& value)
      *
      * @brief   Bitwise left shift operator.
      *
@@ -1428,14 +1875,14 @@ public:
      * @return  The shifted result.
      */
 
-    inline NFIDataList& operator<<(const NFINT64& value)
+    inline AFDataList& operator<<(const NFINT64& value)
     {
         Add(value);
         return *this;
     }
 
     /**
-     * @fn  inline NFIDataList& NFIDataList::operator<<(const int value)
+     * @fn  inline AFDataList& AFDataList::operator<<(const int value)
      *
      * @brief   Bitwise left shift operator.
      *
@@ -1447,14 +1894,14 @@ public:
      * @return  The shifted result.
      */
 
-    inline NFIDataList& operator<<(const int value)
+    inline AFDataList& operator<<(const int value)
     {
         Add((NFINT64)value);
         return *this;
     }
 
     /**
-     * @fn  inline NFIDataList& NFIDataList::operator<<(const NFGUID& value)
+     * @fn  inline AFDataList& AFDataList::operator<<(const NFGUID& value)
      *
      * @brief   Bitwise left shift operator.
      *
@@ -1466,14 +1913,14 @@ public:
      * @return  The shifted result.
      */
 
-    inline NFIDataList& operator<<(const NFGUID& value)
+    inline AFDataList& operator<<(const NFGUID& value)
     {
         Add(value);
         return *this;
     }
 
     /**
-     * @fn  inline NFIDataList& NFIDataList::operator<<(const Point3D& value)
+     * @fn  inline AFDataList& AFDataList::operator<<(const Point3D& value)
      *
      * @brief   Bitwise left shift operator.
      *
@@ -1485,14 +1932,14 @@ public:
      * @return  The shifted result.
      */
 
-    inline NFIDataList& operator<<(const Point3D& value)
+    inline AFDataList& operator<<(const Point3D& value)
     {
         Add(value);
         return *this;
     }
 
     /**
-     * @fn  inline NFIDataList& NFIDataList::operator<<(const NFIDataList& value)
+     * @fn  inline AFDataList& AFDataList::operator<<(const AFDataList& value)
      *
      * @brief   Bitwise left shift operator.
      *
@@ -1504,7 +1951,7 @@ public:
      * @return  The shifted result.
      */
 
-    inline NFIDataList& operator<<(const NFIDataList& value)
+    inline AFDataList& operator<<(const AFDataList& value)
     {
         Concat(value);
         return *this;
@@ -1519,6 +1966,49 @@ public:
     enum { STACK_SIZE = 8 };
 
 protected:
+    void AddStatck()
+    {
+        for(int i = 0; i < STACK_SIZE; ++i)
+        {
+            NF_SHARE_PTR<TData> pData(NF_NEW TData());
+            mvList.push_back(pData);
+        }
+    }
+
+    bool ValidIndex(int index) const
+    {
+        return (index < GetCount()) && (index >= 0);
+    }
+
+    void InnerAppendEx(const AFDataList& src, const int start, const int end)
+    {
+        for(int i = start; i < end; ++i)
+        {
+            TDATA_TYPE vType = src.Type(i);
+            switch(vType)
+            {
+            case TDATA_INT:
+                AddInt(src.Int(i));
+                break;
+            case TDATA_DOUBLE:
+                AddDouble(src.Double(i));
+                break;
+            case TDATA_STRING:
+                AddString(src.String(i));
+                break;
+            case TDATA_OBJECT:
+                AddObject(src.Object(i));
+                break;
+            case TDATA_POINT:
+                AddPoint(src.Point(i));
+                break;
+            default:
+                break;
+            }
+        }
+    }
+
+protected:
     /** @brief   Size of the mn use. */
     int mnUseSize;
     /** @brief   List of mvs. */
@@ -1527,18 +2017,7 @@ protected:
     std::map<std::string, NF_SHARE_PTR<TData> > mxMap;
 };
 
-/**
- * @fn  inline NFIDataList::~NFIDataList()
- *
- * @brief   Destructor.
- *
- * @author  Nick Yang
- * @date    2016/11/12
- */
-
-inline NFIDataList::~NFIDataList() {}
-
 /** @brief   The null tdata. */
-const static NFIDataList::TData NULL_TDATA = NFIDataList::TData();
+const static AFDataList::TData NULL_TDATA = AFDataList::TData();
 
 #endif

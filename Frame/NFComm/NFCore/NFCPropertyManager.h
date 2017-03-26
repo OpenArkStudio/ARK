@@ -11,7 +11,7 @@
 
 #include "NFDefine.h"
 #include "NFMap.h"
-#include "NFIDataList.h"
+#include "AFDataList.hpp"
 #include "NFIPropertyManager.h"
 
 /**
@@ -117,7 +117,7 @@ public:
     virtual const NFGUID& Self();
 
     /**
-     * @fn  virtual bool NFCPropertyManager::SetProperty(const std::string& strPropertyName, const NFIDataList::TData& TData);
+     * @fn  virtual bool NFCPropertyManager::SetProperty(const std::string& strPropertyName, const AFDataList::TData& TData);
      *
      * @brief   Sets a property.
      *
@@ -130,7 +130,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetProperty(const std::string& strPropertyName, const NFIDataList::TData& TData);
+    virtual bool SetProperty(const std::string& strPropertyName, const AFDataList::TData& TData);
 
     /**
      * @fn  virtual bool NFCPropertyManager::SetPropertyInt(const std::string& strPropertyName, const NFINT64 value);

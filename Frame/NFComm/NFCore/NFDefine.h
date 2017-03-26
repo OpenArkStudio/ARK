@@ -10,7 +10,7 @@
 #define NF_DEFINE_H
 
 #include <functional>
-#include "NFIDataList.h"
+#include "AFDataList.hpp"
 #include "NFComm/NFPluginModule/NFGUID.h"
 
 /**
@@ -86,36 +86,36 @@ typedef std::function<int(const NFGUID&, const std::string&, const NFINT64, cons
 typedef std::function<void()> MODULE_HEART_BEAT_FUNCTOR;
 
 /**
- * @typedef std::function<int(const NFGUID&, const std::string&, const NFIDataList::TData&, const NFIDataList::TData&)> PROPERTY_EVENT_FUNCTOR
+ * @typedef std::function<int(const NFGUID&, const std::string&, const AFDataList::TData&, const AFDataList::TData&)> PROPERTY_EVENT_FUNCTOR
  *
  * @brief   Defines an alias representing the property event functor.
  */
 
-typedef std::function<int(const NFGUID&, const std::string&, const NFIDataList::TData&, const NFIDataList::TData&)> PROPERTY_EVENT_FUNCTOR;
+typedef std::function<int(const NFGUID&, const std::string&, const AFDataList::TData&, const AFDataList::TData&)> PROPERTY_EVENT_FUNCTOR;
 
 /**
- * @typedef std::function<int(const NFGUID&, const RECORD_EVENT_DATA&, const NFIDataList::TData&, const NFIDataList::TData&)> RECORD_EVENT_FUNCTOR
+ * @typedef std::function<int(const NFGUID&, const RECORD_EVENT_DATA&, const AFDataList::TData&, const AFDataList::TData&)> RECORD_EVENT_FUNCTOR
  *
  * @brief   Defines an alias representing the record event functor.
  */
 
-typedef std::function<int(const NFGUID&, const RECORD_EVENT_DATA&, const NFIDataList::TData&, const NFIDataList::TData&)> RECORD_EVENT_FUNCTOR;
+typedef std::function<int(const NFGUID&, const RECORD_EVENT_DATA&, const AFDataList::TData&, const AFDataList::TData&)> RECORD_EVENT_FUNCTOR;
 
 /**
- * @typedef std::function<int(const NFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const NFIDataList&)> CLASS_EVENT_FUNCTOR
+ * @typedef std::function<int(const NFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFDataList&)> CLASS_EVENT_FUNCTOR
  *
  * @brief   Defines an alias representing the class event functor.
  */
 
-typedef std::function<int(const NFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const NFIDataList&)> CLASS_EVENT_FUNCTOR;
+typedef std::function<int(const NFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFDataList&)> CLASS_EVENT_FUNCTOR;
 
 /**
- * @typedef std::function<int(const NFGUID&, const int, const NFIDataList&)> EVENT_PROCESS_FUNCTOR
+ * @typedef std::function<int(const NFGUID&, const int, const AFDataList&)> EVENT_PROCESS_FUNCTOR
  *
  * @brief   Defines an alias representing the event process functor.
  */
 
-typedef std::function<int(const NFGUID&, const int, const NFIDataList&)> EVENT_PROCESS_FUNCTOR;
+typedef std::function<int(const NFGUID&, const int, const AFDataList&)> EVENT_PROCESS_FUNCTOR;
 
 /**
  * @typedef std::function<int(const NFGUID&, const int, std::string&)> EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR
