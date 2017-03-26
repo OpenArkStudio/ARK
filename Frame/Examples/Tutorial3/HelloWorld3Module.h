@@ -31,10 +31,10 @@ public:
     virtual bool Shut();
 
 protected:
-    int OnEvent(const NFGUID& self, const int event, const NFIDataList& arg);
-    int OnClassCallBackEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const NFIDataList& arg);
-    int OnPropertyCallBackEvent( const NFGUID& self, const std::string& strProperty, const NFIDataList::TData& oldVarList, const NFIDataList::TData& newVarList );
-    int OnPropertyStrCallBackEvent( const NFGUID& self, const std::string& strProperty, const NFIDataList::TData& oldVarList, const NFIDataList::TData& newVarList );
+    int OnEvent(const NFGUID& self, const int event, const AFDataList& arg);
+    int OnClassCallBackEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFDataList& arg);
+    int OnPropertyCallBackEvent( const NFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList );
+    int OnPropertyStrCallBackEvent( const NFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList );
 
     int OnHeartBeat(const NFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount);
 
