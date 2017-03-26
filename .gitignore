@@ -76,3 +76,5 @@
 /Src/.vs/Ark/v14/*.suo
 /Src/*.opendb
 /Src/*.db
+/Frame/*.db
+/Frame/*

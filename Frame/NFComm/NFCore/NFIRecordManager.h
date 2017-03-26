@@ -28,7 +28,7 @@ public:
     virtual ~NFIRecordManager() {}
 
     /**
-     * @fn  virtual NF_SHARE_PTR<NFIRecord> NFIRecordManager::AddRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<NFIDataList>& TData, const NF_SHARE_PTR<NFIDataList>& tagData, const int nRows) = 0;
+     * @fn  virtual NF_SHARE_PTR<NFIRecord> NFIRecordManager::AddRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& TData, const NF_SHARE_PTR<AFDataList>& tagData, const int nRows) = 0;
      *
      * @brief   Adds a record.
      *
@@ -44,7 +44,7 @@ public:
      * @return  A NF_SHARE_PTR&lt;NFIRecord&gt;
      */
 
-    virtual NF_SHARE_PTR<NFIRecord> AddRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<NFIDataList>& TData, const NF_SHARE_PTR<NFIDataList>& tagData, const int nRows) = 0;
+    virtual NF_SHARE_PTR<NFIRecord> AddRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& TData, const NF_SHARE_PTR<AFDataList>& tagData, const int nRows) = 0;
 
     /**
      * @fn  virtual const NFGUID& NFIRecordManager::Self() = 0;

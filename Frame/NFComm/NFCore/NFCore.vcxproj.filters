@@ -75,9 +75,6 @@
     <ClInclude Include="NFIComponentManager.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="NFIDataList.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="NFIEventManager.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -96,10 +93,10 @@
     <ClInclude Include="NFIRecord.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="NFCDataList.h">
+    <ClInclude Include="NFTime.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="NFTime.h">
+    <ClInclude Include="AFDataList.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
@@ -130,9 +127,6 @@
     </ClCompile>
     <ClCompile Include="NFCEventManager.cpp">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCDataList.cpp">
-      <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="NFTime.cpp">
       <Filter>Utils</Filter>

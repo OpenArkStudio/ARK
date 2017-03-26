@@ -61,7 +61,7 @@ protected:
 
 
     //客户端的连接60秒删掉
-    int HB_OnConnectCheckTime(const NFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const NFIDataList& var);
+    int HB_OnConnectCheckTime(const NFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFDataList& var);
     //////////////////////////////////////////////////////////////////////////
 
 	void OnOtherMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);

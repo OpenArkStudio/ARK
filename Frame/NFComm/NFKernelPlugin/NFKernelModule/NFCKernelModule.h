@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCKernelModule.h
+//    @FileName         :    NFCKernelModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
 //    @Module           :    NFCKernelModule
@@ -14,7 +14,7 @@
 #include <string>
 #include <random>
 #include "NFComm/NFCore/NFIObject.h"
-#include "NFComm/NFCore/NFIDataList.h"
+#include "NFComm/NFCore/AFDataList.hpp"
 #include "NFComm/NFCore/NFIRecord.h"
 #include "NFComm/NFPluginModule/NFGUID.h"
 #include "NFComm/NFPluginModule/NFIUUIDModule.h"
@@ -26,7 +26,7 @@
 
 class NFCKernelModule
     : public NFIKernelModule,
-  public NFMapEx<NFGUID, NFIObject>
+      public NFMapEx<NFGUID, NFIObject>
 {
 public:
     NFCKernelModule(NFIPluginManager* p);
@@ -49,7 +49,7 @@ public:
     virtual bool ExistContainer(const int nSceneID);
 
     virtual NF_SHARE_PTR<NFIObject> GetObject(const NFGUID& ident);
-    virtual NF_SHARE_PTR<NFIObject> CreateObject(const NFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const NFIDataList& arg);
+    virtual NF_SHARE_PTR<NFIObject> CreateObject(const NFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFDataList& arg);
 
     virtual bool DestroyAll();
     virtual bool DestroySelf(const NFGUID& self);
@@ -98,7 +98,7 @@ public:
     virtual const Point3D& GetRecordPoint(const NFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag);
 
     //////////////////////////////////////////////////////////////////////////
-    virtual bool SwitchScene(const NFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const NFIDataList& arg);
+    virtual bool SwitchScene(const NFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const AFDataList& arg);
 
     virtual bool CreateScene(const int nSceneID);
     virtual bool DestroyScene(const int nSceneID);
@@ -108,16 +108,16 @@ public:
     virtual int GetSceneOnLineCount(const int nSceneID);
     virtual int GetSceneOnLineCount(const int nSceneID, const int nGroupID);
 
-    virtual int GetSceneOnLineList(const int nSceneID, NFIDataList& var);
+    virtual int GetSceneOnLineList(const int nSceneID, AFDataList& var);
 
     virtual int RequestGroupScene(const int nSceneID);
     virtual bool ReleaseGroupScene(const int nSceneID, const int nGroupID);
     virtual bool ExitGroupScene(const int nSceneID, const int nGroupID);
 
-    virtual bool GetGroupObjectList(const int nSceneID, const int nGroupID, NFIDataList& list);
-    virtual int GetObjectByProperty(const int nSceneID, const std::string& strPropertyName, const NFIDataList& valueArgArg, NFIDataList& list);
+    virtual bool GetGroupObjectList(const int nSceneID, const int nGroupID, AFDataList& list);
+    virtual int GetObjectByProperty(const int nSceneID, const std::string& strPropertyName, const AFDataList& valueArgArg, AFDataList& list);
 
-    virtual void Random(int nStart, int nEnd, int nCount, NFIDataList& valueList);
+    virtual void Random(int nStart, int nEnd, int nCount, AFDataList& valueList);
 
     //////////////////////////////////////////////////////////////////////////
     virtual bool LogStack();
@@ -126,8 +126,8 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    virtual bool DoEvent(const NFGUID& self, const std::string& strClassName, CLASS_OBJECT_EVENT eEvent, const NFIDataList& valueList);
-    virtual bool DoEvent(const NFGUID& self, const int nEventID, const NFIDataList& valueList);
+    virtual bool DoEvent(const NFGUID& self, const std::string& strClassName, CLASS_OBJECT_EVENT eEvent, const AFDataList& valueList);
+    virtual bool DoEvent(const NFGUID& self, const int nEventID, const AFDataList& valueList);
 
 protected:
 
@@ -147,9 +147,9 @@ protected:
 
     void InitRandom();
 
-    int OnClassCommonEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& var);
-    int OnPropertyCommonEvent(const NFGUID& self, const std::string& strPropertyName, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
-    int OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar);
+    int OnClassCommonEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
+    int OnPropertyCommonEvent(const NFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
 
     void ProcessMemFree();
 

@@ -18,7 +18,7 @@
 #include "NFComm/RapidXML/rapidxml_utils.hpp"
 #include "NFComm/NFCore/NFMap.h"
 #include "NFComm/NFCore/NFList.h"
-#include "NFComm/NFCore/NFCDataList.h"
+#include "NFComm/NFCore/AFDataList.hpp"
 #include "NFComm/NFCore/NFCRecord.h"
 #include "NFComm/NFCore/NFCPropertyManager.h"
 #include "NFComm/NFCore/NFCRecordManager.h"

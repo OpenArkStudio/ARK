@@ -9,7 +9,7 @@
 #include "NFCKernelModule.h"
 #include "NFComm/NFCore/NFDefine.h"
 #include "NFComm/NFCore/NFCObject.h"
-#include "NFComm/NFCore/NFCDataList.h"
+#include "NFComm/NFCore/AFDataList.hpp"
 #include "NFComm/NFCore/NFCRecord.h"
 #include "NFComm/NFPluginModule/NFGUID.h"
 #include "NFComm/NFCore/NFCMemManger.h"
@@ -119,7 +119,7 @@ bool NFCKernelModule::RemoveHeartBeat(const NFGUID& self, const std::string& str
     return false;
 }
 
-NF_SHARE_PTR<NFIObject> NFCKernelModule::CreateObject(const NFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const NFIDataList& arg)
+NF_SHARE_PTR<NFIObject> NFCKernelModule::CreateObject(const NFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFDataList& arg)
 {
     NF_SHARE_PTR<NFIObject> pObject;
     NFGUID ident = self;
@@ -303,8 +303,8 @@ bool NFCKernelModule::DestroyObject(const NFGUID& self)
 
         pContainerInfo->RemoveObjectFromGroup(nGroupID, self, strClassName == NFrame::Player::ThisName() ? true : false);
 
-        DoEvent(self, strClassName, COE_BEFOREDESTROY, NFCDataList());
-        DoEvent(self, strClassName, COE_DESTROY, NFCDataList());
+        DoEvent(self, strClassName, COE_BEFOREDESTROY, AFDataList());
+        DoEvent(self, strClassName, COE_DESTROY, AFDataList());
 
         RemoveElement(self);
 
@@ -786,7 +786,7 @@ const Point3D& NFCKernelModule::GetRecordPoint(const NFGUID& self, const std::st
     return NULL_POINT;
 }
 
-bool NFCKernelModule::SwitchScene(const NFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const NFIDataList& arg)
+bool NFCKernelModule::SwitchScene(const NFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const AFDataList& arg)
 {
     NF_SHARE_PTR<NFIObject> pObject = GetElement(self);
     if(nullptr == pObject)
@@ -937,8 +937,8 @@ int NFCKernelModule::GetSceneOnLineCount(const int nSceneID, const int nGroupID)
     return nCount;
 }
 
-//int NFCKernelModule::GetSceneOnLineList( const int nSceneID, type, NFIDataList& var )
-int NFCKernelModule::GetSceneOnLineList(const int nSceneID, NFIDataList& var)
+//int NFCKernelModule::GetSceneOnLineList( const int nSceneID, type, AFDataList& var )
+int NFCKernelModule::GetSceneOnLineList(const int nSceneID, AFDataList& var)
 {
     NF_SHARE_PTR<NFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
     if(nullptr != pSceneInfo)
@@ -995,7 +995,7 @@ bool NFCKernelModule::ReleaseGroupScene(const int nSceneID, const int nGroupID)
     {
         if(nullptr != pSceneInfo->GetElement(nGroupID))
         {
-            NFCDataList listObject;
+            AFDataList listObject;
             if(GetGroupObjectList(nSceneID, nGroupID, listObject))
             {
                 for(int i = 0; i < listObject.GetCount(); ++i)
@@ -1026,7 +1026,7 @@ bool NFCKernelModule::ExitGroupScene(const int nSceneID, const int nGroupID)
     return false;
 }
 
-bool NFCKernelModule::GetGroupObjectList(const int nSceneID, const int nGroupID, NFIDataList& list)
+bool NFCKernelModule::GetGroupObjectList(const int nSceneID, const int nGroupID, AFDataList& list)
 {
     NF_SHARE_PTR<NFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
     if(nullptr != pSceneInfo)
@@ -1089,7 +1089,7 @@ bool NFCKernelModule::LogInfo(const NFGUID ident)
 
             m_pLogModule->LogInfo(ident, "//----------child object list-------- SceneID = ", nSceneID);
 
-            NFCDataList valObjectList;
+            AFDataList valObjectList;
             int nCount = GetSceneOnLineList(nSceneID, valObjectList);
             for(int i  = 0; i < nCount; i++)
             {
@@ -1113,7 +1113,7 @@ bool NFCKernelModule::LogInfo(const NFGUID ident)
     return true;
 }
 
-int NFCKernelModule::OnPropertyCommonEvent(const NFGUID& self, const std::string& strPropertyName, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar)
+int NFCKernelModule::OnPropertyCommonEvent(const NFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
 {
     if(IsContainer(self))
     {
@@ -1146,9 +1146,9 @@ bool NFCKernelModule::IsContainer(const NFGUID& self)
     return false;
 }
 
-int NFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& strPropertyName, const NFIDataList& valueArg, NFIDataList& list)
+int NFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& strPropertyName, const AFDataList& valueArg, AFDataList& list)
 {
-    NFCDataList varObjectList;
+    AFDataList varObjectList;
     GetSceneOnLineList(nSceneID, varObjectList);
     int nWorldCount = varObjectList.GetCount();
     for(int i = 0; i < nWorldCount; i++)
@@ -1227,7 +1227,7 @@ bool NFCKernelModule::DestroySelf(const NFGUID& self)
     return true;
 }
 
-int NFCKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar)
+int NFCKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
 {
     if(IsContainer(self))
     {
@@ -1243,7 +1243,7 @@ int NFCKernelModule::OnRecordCommonEvent(const NFGUID& self, const RECORD_EVENT_
     return 0;
 }
 
-int NFCKernelModule::OnClassCommonEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& var)
+int NFCKernelModule::OnClassCommonEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var)
 {
     if(IsContainer(self))
     {
@@ -1323,7 +1323,7 @@ bool NFCKernelModule::BeforeShut()
     return true;
 }
 
-void NFCKernelModule::Random(int nStart, int nEnd, int nCount, NFIDataList& valueList)
+void NFCKernelModule::Random(int nStart, int nEnd, int nCount, AFDataList& valueList)
 {
     if(mnRandomPos + nCount >= mvRandom.size())
     {
@@ -1368,12 +1368,12 @@ void NFCKernelModule::ProcessMemFree()
     NFCMemManger::GetSingletonPtr()->FreeMem();
 }
 
-bool NFCKernelModule::DoEvent(const NFGUID& self, const std::string& strClassName, CLASS_OBJECT_EVENT eEvent, const NFIDataList& valueList)
+bool NFCKernelModule::DoEvent(const NFGUID& self, const std::string& strClassName, CLASS_OBJECT_EVENT eEvent, const AFDataList& valueList)
 {
     return m_pClassModule->DoEvent(self, strClassName, eEvent, valueList);
 }
 
-bool NFCKernelModule::DoEvent(const NFGUID& self, const int nEventID, const NFIDataList& valueList)
+bool NFCKernelModule::DoEvent(const NFGUID& self, const int nEventID, const AFDataList& valueList)
 {
     NF_SHARE_PTR<NFIObject> pObject = GetElement(self);
     if(nullptr != pObject)

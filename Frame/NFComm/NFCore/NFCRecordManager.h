@@ -57,7 +57,7 @@ public:
     virtual ~NFCRecordManager();
 
     /**
-     * @fn  virtual NF_SHARE_PTR<NFIRecord> NFCRecordManager::AddRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<NFIDataList>& TData, const NF_SHARE_PTR<NFIDataList>& tagData, const int nRows);
+     * @fn  virtual NF_SHARE_PTR<NFIRecord> NFCRecordManager::AddRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& TData, const NF_SHARE_PTR<AFDataList>& tagData, const int nRows);
      *
      * @brief   Adds a record.
      *
@@ -73,7 +73,7 @@ public:
      * @return  A NF_SHARE_PTR&lt;NFIRecord&gt;
      */
 
-    virtual NF_SHARE_PTR<NFIRecord> AddRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<NFIDataList>& TData, const NF_SHARE_PTR<NFIDataList>& tagData, const int nRows);
+    virtual NF_SHARE_PTR<NFIRecord> AddRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& TData, const NF_SHARE_PTR<AFDataList>& tagData, const int nRows);
 
     /**
      * @fn  virtual const NFGUID& NFCRecordManager::Self();

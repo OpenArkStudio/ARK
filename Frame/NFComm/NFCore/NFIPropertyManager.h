@@ -91,7 +91,7 @@ public:
     virtual const NFGUID& Self() = 0;
 
     /**
-     * @fn  virtual bool NFIPropertyManager::SetProperty(const std::string& strPropertyName, const NFIDataList::TData& TData) = 0;
+     * @fn  virtual bool NFIPropertyManager::SetProperty(const std::string& strPropertyName, const AFDataList::TData& TData) = 0;
      *
      * @brief   ///////////////////////////////////////////////////////////////////////.
      *
@@ -104,7 +104,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetProperty(const std::string& strPropertyName, const NFIDataList::TData& TData) = 0;
+    virtual bool SetProperty(const std::string& strPropertyName, const AFDataList::TData& TData) = 0;
 
     /**
      * @fn  virtual bool NFIPropertyManager::SetPropertyInt(const std::string& strPropertyName, const NFINT64 value) = 0;

@@ -115,7 +115,7 @@ int NFCPropertyModule::SubPropertyValue(const NFGUID& self, const std::string& s
     return 0;
 }
 
-int NFCPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string& strPropertyName, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar)
+int NFCPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
 {
     RefreshBaseProperty(self);
 
@@ -125,7 +125,7 @@ int NFCPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string&
     return 0;
 }
 
-int NFCPropertyModule::OnRecordPropertyEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const NFIDataList::TData& oldVar, const NFIDataList::TData& newVar)
+int NFCPropertyModule::OnRecordPropertyEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
 {
     //¼ÆËã×ÜÖµ
     const std::string& strRecordName = xEventData.strRecordName;
@@ -149,7 +149,7 @@ int NFCPropertyModule::OnRecordPropertyEvent(const NFGUID& self, const RECORD_EV
     return 0;
 }
 
-int NFCPropertyModule::OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const NFIDataList& var)
+int NFCPropertyModule::OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var)
 {
     if(strClassName == NFrame::Player::ThisName())
     {

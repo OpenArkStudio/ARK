@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCEventManager.h
+//    @FileName         :    NFCEventManager.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
 //    @Module           :    NFCEventManager
@@ -35,7 +35,7 @@ public:
 
     virtual bool RemoveEventCallBack(const int nEventID);
 
-    virtual bool DoEvent(const int nEventID, const NFIDataList& valueList);
+    virtual bool DoEvent(const int nEventID, const AFDataList& valueList);
 
     virtual bool AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb);
 

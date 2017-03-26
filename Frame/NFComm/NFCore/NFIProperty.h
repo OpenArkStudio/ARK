@@ -10,7 +10,7 @@
 #define NFI_PROPERTY_H
 
 #include "NFDefine.h"
-#include "NFIDataList.h"
+#include "AFDataList.hpp"
 #include "NFList.h"
 
 /**
@@ -38,7 +38,7 @@ public:
     virtual ~NFIProperty() {}
 
     /**
-     * @fn  virtual void NFIProperty::SetValue(const NFIDataList::TData& TData) = 0;
+     * @fn  virtual void NFIProperty::SetValue(const AFDataList::TData& TData) = 0;
      *
      * @brief   Sets a value.
      *
@@ -48,7 +48,7 @@ public:
      * @param   TData   The data.
      */
 
-    virtual void SetValue(const NFIDataList::TData& TData) = 0;
+    virtual void SetValue(const AFDataList::TData& TData) = 0;
 
     /**
      * @fn  virtual void NFIProperty::SetValue(const NFIProperty* pProperty) = 0;
@@ -373,7 +373,7 @@ public:
     virtual void SetRelationValue(const std::string& strRelation) = 0;
 
     /**
-     * @fn  virtual const NFIDataList::TData& NFIProperty::GetValue() const = 0;
+     * @fn  virtual const AFDataList::TData& NFIProperty::GetValue() const = 0;
      *
      * @brief   Gets the value.
      *
@@ -383,7 +383,7 @@ public:
      * @return  The value.
      */
 
-    virtual const NFIDataList::TData& GetValue() const = 0;
+    virtual const AFDataList::TData& GetValue() const = 0;
 
     /**
      * @fn  virtual const NF_SHARE_PTR<NFList<std::string>> NFIProperty::GetEmbeddedList() const = 0;

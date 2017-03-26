@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCEventProcessModule.cpp
+//    @FileName         :    NFCEventProcessModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
 //    @Module           :    NFCEventProcessModule
@@ -36,7 +36,7 @@ bool NFCEventManager::Shut()
 bool NFCEventManager::AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb)
 {
     NF_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-    if (nullptr == pEventInfo)
+    if(nullptr == pEventInfo)
     {
         pEventInfo = NF_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>>(NF_NEW NFList<EVENT_PROCESS_FUNCTOR_PTR>());
         mObjectEventInfoMapEx.AddElement(nEventID, pEventInfo);
@@ -51,7 +51,7 @@ bool NFCEventManager::Execute()
 {
     int nEvent = 0;
     bool bRet = mRemoveEventListEx.First(nEvent);
-    while (bRet)
+    while(bRet)
     {
         mObjectEventInfoMapEx.RemoveElement(nEvent);
 
@@ -69,17 +69,17 @@ bool NFCEventManager::RemoveEventCallBack(const int nEventID/*, const EVENT_PROC
     return true;
 }
 
-bool NFCEventManager::DoEvent(const int nEventID, const NFIDataList& valueList)
+bool NFCEventManager::DoEvent(const int nEventID, const AFDataList& valueList)
 {
     NF_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-    if (nullptr == pEventInfo)
+    if(nullptr == pEventInfo)
     {
         return false;
     }
 
     EVENT_PROCESS_FUNCTOR_PTR cb;
     bool bRet = pEventInfo->First(cb);
-    while (bRet)
+    while(bRet)
     {
         (*cb)(mSelf, nEventID,  valueList);
 
@@ -92,7 +92,7 @@ bool NFCEventManager::DoEvent(const int nEventID, const NFIDataList& valueList)
 bool NFCEventManager::HasEventCallBack(const int nEventID)
 {
     NF_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-    if (nullptr != pEventInfo)
+    if(nullptr != pEventInfo)
     {
         return true;
     }
