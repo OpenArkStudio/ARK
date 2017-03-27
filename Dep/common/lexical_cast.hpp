@@ -210,4 +210,35 @@ typename std::enable_if<std::is_same<To, From>::value, To>::type lexical_cast(co
     return from;
 }
 
+template<typename ValueTYPE>
+bool ValueFromString(const std::string& strValue, ValueTYPE& nValue)
+{
+    try
+    {
+        nValue = lexical_cast<ValueTYPE>(strValue);
+        return true;
+    }
+    catch(...)
+    {
+        return false;
+    }
+
+    return false;
+}
+
+template<typename ValueTYPE>
+bool ValueToString(const ValueTYPE& nValue, std::string& strData)
+{
+    try
+    {
+        strData = lexical_cast<std::string>(nValue);
+        return true;
+    }
+    catch(...)
+    {
+        return false;
+    }
+
+    return false;
+}
 #endif //!CPP_11_LEXICAL_CAST_HPP
