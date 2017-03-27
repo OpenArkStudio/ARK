@@ -94,8 +94,25 @@ bool HelloWorld3Module::AfterInit()
     pObject->SetPropertyString("Hello", "hello,World");
     pObject->SetPropertyInt("World", 1111);
 
-
     m_pKernelModule->DoEvent(pObject->Self(), 11111111, AFDataList() << int(100) << "200");
+
+
+    //for(int i = 0; i < 100000; ++i)
+    //{
+    //    AFDataList testData;
+    //    testData << 1 << 5656.22f << "sdfgsdgsdfsdfds" << NFGUID(33, 55) << Point3D(1, 3, 4);
+
+    //    AFDataList testData2;
+    //    testData2 << 1 << 5656.22f << "sdfgsdgsdfsdfds" << NFGUID(33, 55) << Point3D(1, 3, 4);
+
+
+    //    testData2.Append(testData);
+
+    //    AFDataList testData3;
+
+    //    testData3 = testData2;
+
+    //}
 
     return true;
 }
