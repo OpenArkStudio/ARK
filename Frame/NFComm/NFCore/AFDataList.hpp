@@ -615,13 +615,13 @@ public:
      * @date    2016/11/12
      */
 
-    AFDataList()
+    explicit AFDataList()
     {
         mnUseSize = 0;
         mvList.reserve(STACK_SIZE);
         for(int i = 0; i < STACK_SIZE; ++i)
         {
-            mvList.push_back(NF_SHARE_PTR<TData>(NF_NEW TData()));
+            mvList.push_back(NF_NEW TData());
         }
     }
 
@@ -637,16 +637,25 @@ public:
     virtual ~AFDataList()
     {
         Clear();
+
+        for(int i = 0; i < STACK_SIZE; ++i)
+        {
+            if(nullptr != mvList[i])
+            {
+                delete mvList[i];
+                mvList[i] = nullptr;
+            }
+        }
     }
 
-    AFDataList(const std::string& str, const std::string& strSplit)
+    explicit AFDataList(const std::string& str, const std::string& strSplit)
     {
         Clear();
 
         Split(str, strSplit);
     }
 
-    AFDataList(const AFDataList& src)
+    explicit AFDataList(const AFDataList& src)
     {
         Clear();
 
@@ -744,14 +753,14 @@ public:
      * @return  The stack.
      */
 
-    virtual const NF_SHARE_PTR<TData> GetStack(const int index) const
+    virtual TData* GetStack(const int index) const
     {
         if(index < mvList.size())
         {
             return mvList[index];
         }
 
-        return NF_SHARE_PTR<TData>();
+        return nullptr;
     }
 
     /**
@@ -890,7 +899,16 @@ public:
                 mvList[i]->Reset();
             }
 
-            mvList.erase(mvList.begin() + 8, mvList.end());
+            for(int i = STACK_SIZE; i < mvList.size(); ++i)
+            {
+                if(nullptr != mvList[i])
+                {
+                    delete mvList[i];
+                    mvList[i] = NULL;
+                }
+            }
+
+            mvList.erase(mvList.begin() + STACK_SIZE, mvList.end());
         }
     }
 
@@ -952,7 +970,7 @@ public:
         }
         else
         {
-            const NF_SHARE_PTR<TData> pData = GetStack(index);
+            const TData* pData = GetStack(index);
             if(pData)
             {
                 return pData->GetType();
@@ -1074,7 +1092,7 @@ public:
             AddStatck();
         }
 
-        NF_SHARE_PTR<TData> var = GetStack(GetCount());
+        TData* var = GetStack(GetCount());
         if(var)
         {
             var->SetInt(value);
@@ -1106,7 +1124,7 @@ public:
             AddStatck();
         }
 
-        NF_SHARE_PTR<TData> var = GetStack(GetCount());
+        TData* var = GetStack(GetCount());
         if(var)
         {
             var->SetDouble(value);
@@ -1138,7 +1156,7 @@ public:
             AddStatck();
         }
 
-        NF_SHARE_PTR<TData> var = GetStack(GetCount());
+        TData* var = GetStack(GetCount());
         if(var)
         {
             var->SetString(value);
@@ -1170,7 +1188,7 @@ public:
             AddStatck();
         }
 
-        NF_SHARE_PTR<TData> var = GetStack(GetCount());
+        TData* var = GetStack(GetCount());
         if(var)
         {
             var->SetObject(value);
@@ -1202,7 +1220,7 @@ public:
             AddStatck();
         }
 
-        NF_SHARE_PTR<TData> var = GetStack(GetCount());
+        TData* var = GetStack(GetCount());
         if(var)
         {
             var->SetPoint(value);
@@ -1232,7 +1250,7 @@ public:
     {
         if(ValidIndex(index) && Type(index) == TDATA_INT)
         {
-            NF_SHARE_PTR<TData> var = GetStack(index);
+            TData* var = GetStack(index);
             if(var)
             {
                 var->SetInt(value);
@@ -1262,7 +1280,7 @@ public:
     {
         if(ValidIndex(index) && Type(index) == TDATA_DOUBLE)
         {
-            NF_SHARE_PTR<TData> var = GetStack(index);
+            TData* var = GetStack(index);
             if(var)
             {
                 var->SetDouble(value);
@@ -1292,7 +1310,7 @@ public:
     {
         if(ValidIndex(index) && Type(index) == TDATA_STRING)
         {
-            NF_SHARE_PTR<TData> var = GetStack(index);
+            TData* var = GetStack(index);
             if(var)
             {
                 var->SetString(value);
@@ -1322,7 +1340,7 @@ public:
     {
         if(ValidIndex(index) && Type(index) == TDATA_OBJECT)
         {
-            NF_SHARE_PTR<TData> var = GetStack(index);
+            TData* var = GetStack(index);
             if(var)
             {
                 var->SetObject(value);
@@ -1352,7 +1370,7 @@ public:
     {
         if(ValidIndex(index) && Type(index) == TDATA_POINT)
         {
-            NF_SHARE_PTR<TData> var = GetStack(index);
+            TData* var = GetStack(index);
             if(var)
             {
                 var->SetPoint(value);
@@ -1383,7 +1401,7 @@ public:
         {
             if(Type(index) == TDATA_INT)
             {
-                const NF_SHARE_PTR<TData> var = GetStack(index);
+                const TData* var = GetStack(index);
                 return var->GetInt();
             }
         }
@@ -1408,7 +1426,7 @@ public:
     {
         if(ValidIndex(index))
         {
-            const NF_SHARE_PTR<TData> var = mvList[index];
+            const TData* var = mvList[index];
             if(var && TDATA_DOUBLE == var->GetType())
             {
                 return var->GetDouble();
@@ -1435,7 +1453,7 @@ public:
     {
         if(ValidIndex(index))
         {
-            const NF_SHARE_PTR<TData> var = mvList[index];
+            const TData* var = mvList[index];
             if(var && TDATA_STRING == var->GetType())
             {
                 return var->GetString();
@@ -1465,7 +1483,7 @@ public:
             TDATA_TYPE type = Type(index);
             if(TDATA_OBJECT == type)
             {
-                NF_SHARE_PTR<TData> var = GetStack(index);
+                TData* var = GetStack(index);
                 if(nullptr != var)
                 {
                     return var->GetObject();
@@ -1496,7 +1514,7 @@ public:
             TDATA_TYPE type = Type(index);
             if(TDATA_OBJECT == type)
             {
-                NF_SHARE_PTR<TData> var = GetStack(index);
+                TData* var = GetStack(index);
                 if(nullptr != var)
                 {
                     return var->GetPoint();
@@ -1957,6 +1975,18 @@ public:
         return *this;
     }
 
+
+    AFDataList& operator=(const AFDataList& xData)
+    {
+        if(this != &xData)
+        {
+            this->Clear();
+            Append(xData);
+        }
+
+        return *this;
+    }
+
     /**
      * @enum
      *
@@ -1970,8 +2000,7 @@ protected:
     {
         for(int i = 0; i < STACK_SIZE; ++i)
         {
-            NF_SHARE_PTR<TData> pData(NF_NEW TData());
-            mvList.push_back(pData);
+            mvList.push_back(NF_NEW TData());
         }
     }
 
@@ -2008,13 +2037,12 @@ protected:
         }
     }
 
+
 protected:
     /** @brief   Size of the mn use. */
     int mnUseSize;
     /** @brief   List of mvs. */
-    std::vector< NF_SHARE_PTR<TData> > mvList;
-    /** @brief   The mx map. */
-    std::map<std::string, NF_SHARE_PTR<TData> > mxMap;
+    std::vector< TData*> mvList;
 };
 
 /** @brief   The null tdata. */
