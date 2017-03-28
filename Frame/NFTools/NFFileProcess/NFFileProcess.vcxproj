@@ -61,7 +61,7 @@
     <PostBuildEvent>
       <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\DataConfig\Tool\$(ProjectName)_d.exe
 copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\DataConfig\Tool\$(ProjectName)_d.pdb
-cd $(SolutionDir)..\
+cd $(SolutionDir)..\Shell\
 GenerateConfigXML.bat 1</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -82,7 +82,7 @@ GenerateConfigXML.bat 1</Command>
     <PostBuildEvent>
       <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\DataConfig\Tool\$(ProjectName).exe
 copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\DataConfig\Tool\$(ProjectName).pdb
-cd $(SolutionDir)..\
+cd $(SolutionDir)..\Shell\
 GenerateConfigXML.bat 1</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

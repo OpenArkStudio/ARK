@@ -168,7 +168,7 @@ bool NFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClas
                 {
                     NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
                 }
-                var.SetInt(lexical_cast<NFINT64>(pstrConfigValue));
+                var.SetInt(AF_LEXICAL_CAST<NFINT64>(pstrConfigValue));
             }
             break;
         case TDATA_DOUBLE:
@@ -177,7 +177,7 @@ bool NFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClas
                 {
                     NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
                 }
-                var.SetDouble(lexical_cast<double>(pstrConfigValue));
+                var.SetDouble(AF_LEXICAL_CAST<double>(pstrConfigValue));
             }
             break;
         case TDATA_STRING:

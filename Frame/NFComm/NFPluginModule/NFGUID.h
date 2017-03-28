@@ -98,7 +98,7 @@ struct NFGUID
 
     std::string ToString() const
     {
-        return lexical_cast<std::string>(nHead64) + "-" + lexical_cast<std::string>(nData64);
+        return AF_LEXICAL_CAST<std::string>(nHead64) + "-" + AF_LEXICAL_CAST<std::string>(nData64);
     }
 
     bool FromString(const std::string& strID)
@@ -119,8 +119,8 @@ struct NFGUID
 
         try
         {
-            nHead64 = lexical_cast<NFINT64>(strHead);
-            nData64 = lexical_cast<NFINT64>(strData);
+            nHead64 = AF_LEXICAL_CAST<NFINT64>(strHead);
+            nData64 = AF_LEXICAL_CAST<NFINT64>(strData);
 
             return true;
         }

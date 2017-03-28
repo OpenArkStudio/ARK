@@ -230,7 +230,7 @@ public:
         }
 
         NFCMachineNode xNode;
-        if (!GetServerMachineData(lexical_cast<std::string>(nHashKey), xNode))
+        if (!GetServerMachineData(AF_LEXICAL_CAST<std::string>(nHashKey), xNode))
         {
             return;
         }
@@ -252,7 +252,7 @@ public:
         }
 
         NFCMachineNode xNode;
-        if (!GetServerMachineData(lexical_cast<std::string> (nHashKey), xNode))
+        if (!GetServerMachineData(AF_LEXICAL_CAST<std::string> (nHashKey), xNode))
         {
             return;
         }

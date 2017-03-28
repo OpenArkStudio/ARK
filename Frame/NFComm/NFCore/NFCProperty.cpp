@@ -416,10 +416,10 @@ std::string NFCProperty::ToString()
     switch(eType)
     {
     case TDATA_INT:
-        strData = lexical_cast<std::string> (GetInt());
+        strData = AF_LEXICAL_CAST<std::string> (GetInt());
         break;
     case TDATA_DOUBLE:
-        strData = lexical_cast<std::string> (GetDouble());
+        strData = AF_LEXICAL_CAST<std::string> (GetDouble());
         break;
     case TDATA_STRING:
         strData = GetString();

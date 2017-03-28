@@ -26,7 +26,13 @@
 #include <iostream>
 #include <fstream>
 #include <memory>
+
+#ifdef HAVE_BOOST
+#include <boost/variant.hpp>
+#else
 #include "common/variant.hpp"
+#endif
+
 #include "NFComm/NFPluginModule/NFGUID.h"
 #include "NFComm/NFPluginModule/NFPlatform.h"
 #include "Math/Vector3.hpp"
@@ -85,7 +91,12 @@ public:
     struct TData
     {
     public:
+
+#ifdef AF_HAVE_BOOST
+        using variant_type = boost::variant<NFINT64, double, std::string, NFGUID, Point3D>;
+#else
         using variant_type = Variant<NFINT64, double, std::string, NFGUID, Point3D>;
+#endif // USE_BOOST
 
     public:
 
@@ -446,7 +457,11 @@ public:
         {
             if(TDATA_INT == nType)
             {
+#ifdef HAVE_BOOST
+                return boost::get<NFINT64>(variantData);
+#else
                 return const_cast<variant_type&>(variantData).get<NFINT64>();
+#endif
             }
 
             return NULL_INT;
@@ -467,7 +482,11 @@ public:
         {
             if(TDATA_DOUBLE == nType)
             {
+#ifdef HAVE_BOOST
+                return boost::get<double>(variantData);
+#else
                 return const_cast<variant_type&>(variantData).get<double>();
+#endif
             }
 
             return NULL_DOUBLE;
@@ -488,7 +507,11 @@ public:
         {
             if(TDATA_STRING == nType)
             {
+#ifdef HAVE_BOOST
+                return boost::get<const std::string&>(variantData);
+#else
                 return const_cast<variant_type&>(variantData).get<std::string>();
+#endif
             }
 
             return NULL_STR;
@@ -509,7 +532,11 @@ public:
         {
             if(TDATA_STRING == nType)
             {
+#ifdef HAVE_BOOST
+                return boost::get<const std::string&>(variantData).c_str();
+#else
                 return const_cast<variant_type&>(variantData).get<std::string>().c_str();
+#endif
             }
 
             return NULL_STR.c_str();
@@ -530,7 +557,11 @@ public:
         {
             if(TDATA_OBJECT == nType)
             {
+#ifdef HAVE_BOOST
+                return boost::get<const NFGUID&>(variantData);
+#else
                 return const_cast<variant_type&>(variantData).get<NFGUID>();
+#endif
             }
 
             return NULL_GUID;
@@ -551,7 +582,11 @@ public:
         {
             if(TDATA_POINT == nType)
             {
+#ifdef HAVE_BOOST
+                return boost::get<const Point3D&>(variantData);
+#else
                 return const_cast<variant_type&>(variantData).get<Point3D>();
+#endif
             }
 
             return NULL_POINT;
@@ -575,10 +610,10 @@ public:
             switch(nType)
             {
             case TDATA_INT:
-                strData = lexical_cast<std::string>(GetInt());
+                strData = AF_LEXICAL_CAST<std::string>(GetInt());
                 break;
             case TDATA_DOUBLE:
-                strData = lexical_cast<std::string>(GetDouble());
+                strData = AF_LEXICAL_CAST<std::string>(GetDouble());
                 break;
             case TDATA_STRING:
                 strData = GetString();
@@ -597,7 +632,6 @@ public:
         }
 
     private:
-
         /** @brief   The type. */
         TDATA_TYPE nType;
 
@@ -685,10 +719,10 @@ public:
             switch(eType)
             {
             case TDATA_INT:
-                strData = lexical_cast<std::string>(Int(index));
+                strData = AF_LEXICAL_CAST<std::string>(Int(index));
                 break;
             case TDATA_DOUBLE:
-                strData = lexical_cast<std::string>(Double(index));
+                strData = AF_LEXICAL_CAST<std::string>(Double(index));
                 break;
             case TDATA_STRING:
                 strData = String(index);

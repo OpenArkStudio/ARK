@@ -268,9 +268,6 @@ typedef int64_t NFINT64;
 #define NFASSERT(exp_, msg_, file_, func_)
 #endif
 
-
-//#define GOOGLE_GLOG_DLL_DECL=
-
 ///////////////////////////////////////////////////////////////
 #include <time.h>
 #include <sstream>
@@ -327,21 +324,28 @@ inline unsigned long NF_GetTickCount()
 #endif
 //use actor mode--end
 
-
-#define NF_SHARE_PTR std::shared_ptr
 #define NF_NEW new
 
+#ifdef HAVE_BOOST
+#include <boost/lexical_cast.hpp>
+#define AF_LEXICAL_CAST boost::lexical_cast
+#define NF_SHARE_PTR boost::shared_ptr
+#else
+#include "common/lexical_cast.hpp"
+#define AF_LEXICAL_CAST lexical_cast
+#define NF_SHARE_PTR std::shared_ptr
+#endif
+
 #include <string>
-#include <common/lexical_cast.hpp>
 template<typename DTYPE>
 bool NF_StrTo(const std::string& strValue, DTYPE& nValue)
 {
     try
     {
-        nValue = lexical_cast<DTYPE>(strValue);
+        nValue = AF_LEXICAL_CAST<DTYPE>(strValue);
         return true;
     }
-    catch (...)
+    catch(...)
     {
         return false;
     }
@@ -364,4 +368,4 @@ inline bool IsZeroDouble(const double dValue, double epsilon = 1e-15)
 #define PROTOBUF_USE_DLLS
 #endif
 
-#endif
+#endif //!NF_PLATFORM_H

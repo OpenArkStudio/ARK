@@ -49,7 +49,7 @@ bool NFCSceneProcessModule::AfterInit()
         bool bRet = list.First(strData);
         while(bRet)
         {
-            int nSceneID = lexical_cast<int>(strData);
+            int nSceneID = AF_LEXICAL_CAST<int>(strData);
 
             LoadSceneResource(nSceneID);
 
@@ -150,7 +150,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
 
     //得到坐标
     Point3D xRelivePos;
-    const std::string strSceneID = lexical_cast<std::string>(nTargetScene);
+    const std::string strSceneID = AF_LEXICAL_CAST<std::string>(nTargetScene);
     const std::string& strRelivePosList = m_pElementModule->GetPropertyString(strSceneID, NFrame::Scene::RelivePos());
 
     AFDataList valueRelivePosList(strRelivePosList.c_str(), ";");
@@ -284,9 +284,9 @@ bool NFCSceneProcessModule::LoadSceneResource(const int nSceneID)
         //种子具体信息
         std::string strSeedID = pSeedFileNode->first_attribute("ID")->value();
         std::string strConfigID = pSeedFileNode->first_attribute("NPCConfigID")->value();
-        float fSeedX = lexical_cast<float>(pSeedFileNode->first_attribute("SeedX")->value());
-        float fSeedY = lexical_cast<float>(pSeedFileNode->first_attribute("SeedY")->value());
-        float fSeedZ = lexical_cast<float>(pSeedFileNode->first_attribute("SeedZ")->value());
+        float fSeedX = AF_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedX")->value());
+        float fSeedY = AF_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedY")->value());
+        float fSeedZ = AF_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedZ")->value());
 
         if(!m_pElementModule->ExistElement(strConfigID))
         {
