@@ -162,10 +162,10 @@ bool NFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
                 strView = pRecordNode->first_attribute("View")->value();
             }
 
-            bool bPublic = lexical_cast<bool>(pstrPublic);
-            bool bPrivate = lexical_cast<bool>(pstrPrivate);
-            bool bSave = lexical_cast<bool>(pstrSave);
-            bool bCache = lexical_cast<bool>(pstrCache);
+            bool bPublic = AF_LEXICAL_CAST<bool>(pstrPublic);
+            bool bPrivate = AF_LEXICAL_CAST<bool>(pstrPrivate);
+            bool bSave = AF_LEXICAL_CAST<bool>(pstrSave);
+            bool bCache = AF_LEXICAL_CAST<bool>(pstrCache);
 
             NF_SHARE_PTR<AFDataList> recordVar(NF_NEW AFDataList());
             NF_SHARE_PTR<AFDataList> recordTag(NF_NEW AFDataList());
@@ -215,7 +215,7 @@ bool NFCClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, NF_
             const char* strComponentName = pComponentNode->first_attribute("Name")->value();
             const char* strLanguage = pComponentNode->first_attribute("Language")->value();
             const char* strEnable = pComponentNode->first_attribute("Enable")->value();
-            bool bEnable = lexical_cast<bool>(strEnable);
+            bool bEnable = AF_LEXICAL_CAST<bool>(strEnable);
             if(bEnable)
             {
                 if(pClass->GetComponentManager()->GetElement(strComponentName))

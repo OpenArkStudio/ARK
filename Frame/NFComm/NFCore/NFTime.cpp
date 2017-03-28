@@ -1,7 +1,7 @@
 #include <chrono>
 #include <sstream>
 #include "NFTime.h"
-#include "common/lexical_cast.hpp"
+#include "NFComm/NFPluginModule/NFPlatform.h"
 #ifndef _MSC_VER
 #include <string.h>
 #endif
@@ -417,16 +417,16 @@ void NFTime::InitWithYMDHMSM(std::string strTime)
     {
         return;
     }
-    int nYear = lexical_cast<int>(cellsYMD[0]);
-    int nMonth = lexical_cast<int>(cellsYMD[1]);
-    int nDay = lexical_cast<int>(cellsYMD[2]);
-    int nHour = lexical_cast<int>(cellsHMS[0]);
-    int nMinute = lexical_cast<int>(cellsHMS[1]);
-    int nSecond = lexical_cast<int>(cellsHMS[2]);
+    int nYear = AF_LEXICAL_CAST<int>(cellsYMD[0]);
+    int nMonth = AF_LEXICAL_CAST<int>(cellsYMD[1]);
+    int nDay = AF_LEXICAL_CAST<int>(cellsYMD[2]);
+    int nHour = AF_LEXICAL_CAST<int>(cellsHMS[0]);
+    int nMinute = AF_LEXICAL_CAST<int>(cellsHMS[1]);
+    int nSecond = AF_LEXICAL_CAST<int>(cellsHMS[2]);
     int nMilliSecond = 0;
     if(cells.size() == 3)
     {
-        nMilliSecond = lexical_cast<int>(cells[2]);
+        nMilliSecond = AF_LEXICAL_CAST<int>(cells[2]);
     }
 
     if(nYear < 1970)
