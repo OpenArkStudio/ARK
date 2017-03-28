@@ -126,17 +126,25 @@ static bool convert(const char* from)
     bool r = true;
     if(len == 4)
     {
+        //"true"
         r = checkbool(from, len, strue);
 
         if(r)
             return true;
     }
-    else
+    else if(len == 5)
     {
+        //"false"
         r = checkbool(from, len, sfalse);
 
         if(r)
             return false;
+    }
+    else
+    {
+        // Êý×Ö×ªÎªbool
+        int value = Converter<int, const char*>::convert(from);
+        return (value > 0);
     }
 
     throw std::invalid_argument("argument is invalid");
