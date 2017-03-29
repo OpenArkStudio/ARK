@@ -120,8 +120,8 @@ static bool checkbool(const char* from, const size_t len, const char* s)
 static bool convert(const char* from)
 {
     const unsigned int len = strlen(from);
-    if(len != 4 && len != 5)
-        throw std::invalid_argument("argument is invalid");
+    //if(len != 4 && len != 5)
+    //    throw std::invalid_argument("argument is invalid");
 
     bool r = true;
     if(len == 4)
