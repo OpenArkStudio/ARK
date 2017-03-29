@@ -92,7 +92,7 @@ public:
     {
     public:
 
-#ifdef AF_HAVE_BOOST
+#ifdef HAVE_BOOST
         using variant_type = boost::variant<NFINT64, double, std::string, NFGUID, Point3D>;
 #else
         using variant_type = Variant<NFINT64, double, std::string, NFGUID, Point3D>;
