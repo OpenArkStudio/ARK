@@ -1,4 +1,4 @@
 <map id="NFCWorldToMasterModule" name="NFCWorldToMasterModule">
-<area shape="rect" id="node2" href="$class_n_f_i_world_to_master_module.html" title="{NFIWorldToMasterModule\n||}" alt="" coords="19,424,191,501"/>
-<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l&#45; mbReloading\l&#45; mRemoveListEx\l&#45; mAddListEx\l&#45; mHeartBeatElementMapEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="11,5,199,376"/>
+<area shape="rect" id="node2" href="$class_n_f_i_world_to_master_module.html" title="{NFIWorldToMasterModule\n||}" alt="" coords="19,321,191,399"/>
+<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="30,5,179,273"/>
 </map>

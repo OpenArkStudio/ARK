@@ -1,3 +1,3 @@
 <map id="NFIEventManager" name="NFIEventManager">
-<area shape="rect" id="node2" href="$class_n_f_c_event_manager.html" title="{NFCEventManager\n|&#45; mSelf\l&#45; mRemoveEventListEx\l&#45; mObjectEventInfoMapEx\l|+ NFCEventManager()\l+ ~NFCEventManager()\l+ Init()\l+ Shut()\l+ Execute()\l+ RemoveEventCallBack()\l+ DoEvent()\l+ AddEventCallBack()\l# HasEventCallBack()\l}" alt="" coords="5,219,177,443"/>
+<area shape="rect" id="node2" href="$class_n_f_c_event_manager.html" title="Manager for nfc events. " alt="" coords="5,219,177,443"/>
 </map>

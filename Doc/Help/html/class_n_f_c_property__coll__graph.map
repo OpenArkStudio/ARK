@@ -1,4 +1,4 @@
 <map id="NFCProperty" name="NFCProperty">
-<area shape="rect" id="node2" href="$class_n_f_i_property.html" title="{NFIProperty\n||+ ~NFIProperty()\l+ SetValue()\l+ SetValue()\l+ SetInt()\l+ SetDouble()\l+ SetString()\l+ SetObject()\l+ SetPoint()\l+ GetInt()\l+ GetDouble()\land 24 more...\l}" alt="" coords="5,35,124,259"/>
-<area shape="rect" id="node3" href="$struct_n_f_g_u_i_d.html" title="{NFGUID\n|+ nData64\l+ nHead64\l|+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ operator=()\l+ GetData()\l+ GetHead()\l+ SetData()\l+ SetHead()\l+ IsNull()\l+ operator==()\l+ operator!=()\l+ operator\&lt;()\l+ ToString()\l+ FromString()\l}" alt="" coords="149,5,255,288"/>
+<area shape="rect" id="node2" href="$class_n_f_i_property.html" title="A nfi property. " alt="" coords="5,42,124,266"/>
+<area shape="rect" id="node3" href="$struct_n_f_g_u_i_d.html" title="{NFGUID\n|+ nData64\l+ nHead64\l|+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ operator=()\l+ GetData()\l+ GetHead()\l+ SetData()\l+ SetHead()\l+ IsNull()\l+ operator==()\l+ operator!=()\l+ operator\&lt;()\l+ ToString()\l+ FromString()\l}" alt="" coords="149,5,255,303"/>
 </map>

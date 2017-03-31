@@ -1,3 +1,3 @@
 <map id="NFIHeartBeatManager" name="NFIHeartBeatManager">
-<area shape="rect" id="node2" href="$class_n_f_c_heart_beat_manager.html" title="{NFCHeartBeatManager\n|# mSelf\l# mRemoveListEx\l# mAddListEx\l# mHeartBeatElementMapEx\l|+ NFCHeartBeatManager()\l+ NFCHeartBeatManager()\l+ ~NFCHeartBeatManager()\l+ Self()\l+ Execute()\l+ Exist()\l+ AddHeartBeat()\l+ RemoveHeartBeat()\l}" alt="" coords="5,219,196,443"/>
+<area shape="rect" id="node2" href="$class_n_f_c_heart_beat_manager.html" title="Manager for nfc heart beats. " alt="" coords="5,219,196,443"/>
 </map>

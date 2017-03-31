@@ -1,4 +1,4 @@
 <map id="NFCRecordManager" name="NFCRecordManager">
-<area shape="rect" id="node2" href="$class_n_f_i_record_manager.html" title="{NFIRecordManager\n||+ ~NFIRecordManager()\l+ AddRecord()\l+ Self()\l+ SetRecordInt()\l+ SetRecordDouble()\l+ SetRecordString()\l+ SetRecordObject()\l+ SetRecordPoint()\l+ SetRecordInt()\l+ SetRecordDouble()\land 13 more...\l}" alt="" coords="8,307,169,531"/>
+<area shape="rect" id="node2" href="$class_n_f_i_record_manager.html" title="Manager for nfi records. " alt="" coords="8,307,169,531"/>
 <area shape="rect" id="node3" href="$class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFIRecord \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="11,5,166,259"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="NFCRecord" name="NFCRecord">
-<area shape="rect" id="node2" href="$class_n_f_i_record.html" title="{NFIRecord\n||+ ~NFIRecord()\l+ IsUsed()\l+ SetUsed()\l+ GetCols()\l+ GetRows()\l+ GetColType()\l+ GetColTag()\l+ AddRow()\l+ AddRow()\l+ SetInt()\land 52 more...\l}" alt="" coords="5,35,116,259"/>
-<area shape="rect" id="node3" href="$struct_n_f_g_u_i_d.html" title="{NFGUID\n|+ nData64\l+ nHead64\l|+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ operator=()\l+ GetData()\l+ GetHead()\l+ SetData()\l+ SetHead()\l+ IsNull()\l+ operator==()\l+ operator!=()\l+ operator\&lt;()\l+ ToString()\l+ FromString()\l}" alt="" coords="141,5,247,288"/>
+<area shape="rect" id="node2" href="$class_n_f_i_record.html" title="Information about the nfi. " alt="" coords="5,42,116,266"/>
+<area shape="rect" id="node3" href="$struct_n_f_g_u_i_d.html" title="{NFGUID\n|+ nData64\l+ nHead64\l|+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ operator=()\l+ GetData()\l+ GetHead()\l+ SetData()\l+ SetHead()\l+ IsNull()\l+ operator==()\l+ operator!=()\l+ operator\&lt;()\l+ ToString()\l+ FromString()\l}" alt="" coords="141,5,247,303"/>
 </map>
