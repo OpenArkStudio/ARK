@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['helloworld1',['HelloWorld1',['../class_hello_world1.html',1,'']]],
-  ['helloworld2',['HelloWorld2',['../class_hello_world2.html',1,'']]],
-  ['helloworld3module',['HelloWorld3Module',['../class_hello_world3_module.html',1,'']]]
+  ['gatebaseinfo',['GateBaseInfo',['../struct_n_f_i_game_server_net___server_module_1_1_gate_base_info.html',1,'NFIGameServerNet_ServerModule']]],
+  ['gateserverinfo',['GateServerInfo',['../struct_n_f_i_game_server_net___server_module_1_1_gate_server_info.html',1,'NFIGameServerNet_ServerModule']]]
 ];
