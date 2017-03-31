@@ -95,7 +95,7 @@ public:
 #ifdef AF_HAVE_BOOST
         using variant_type = boost::variant<NFINT64, double, std::string, NFGUID, Point3D>;
 #else
-        using variant_type = Variant<NFINT64, double, std::string, NFGUID, Point3D>;
+        using variant_type = mapbox::util::variant<NFINT64, double, std::string, NFGUID, Point3D>;
 #endif // USE_BOOST
 
     public:
