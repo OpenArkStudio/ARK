@@ -99,15 +99,10 @@ bool NFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SH
             const char* pstrSave = pPropertyNode->first_attribute("Save")->value();
             const char* pstrCache = pPropertyNode->first_attribute("Cache")->value();
 
-            bool bPublic = false;
-            bool bPrivate = false;
-            bool bSave = false;
-            bool bCache = false;
-
-            ValueFromString(pstrPublic, bPublic);
-            ValueFromString(pstrPrivate, bPrivate);
-            ValueFromString(pstrSave, bSave);
-            ValueFromString(pstrCache, bCache);
+            bool bPublic = AF_LEXICAL_CAST<bool>(pstrPublic);
+            bool bPrivate = AF_LEXICAL_CAST<bool>(pstrPrivate);
+            bool bSave = AF_LEXICAL_CAST<bool>(pstrSave);
+            bool bCache = AF_LEXICAL_CAST<bool>(pstrCache);
 
             AFDataList::TData varProperty;
             if(TDATA_UNKNOWN == ComputerType(pstrType, varProperty))
