@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['clientconnectdata',['ClientConnectData',['../struct_n_f_c_proxy_server_to_world_module_1_1_client_connect_data.html',1,'NFCProxyServerToWorldModule']]],
-  ['connectdata',['ConnectData',['../struct_connect_data.html',1,'']]]
+  ['afdatalist',['AFDataList',['../class_a_f_data_list.html',1,'']]],
+  ['aoiobject',['AOIObject',['../struct_n_f_c_a_o_i_module_1_1_a_o_i_object.html',1,'NFCAOIModule']]]
 ];

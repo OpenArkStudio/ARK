@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['time_5f',['time_',['../class_u_u_i_d_module_1_1_u_u_i_d.html#a84ab27eea3a72554457d4b6e79992476',1,'UUIDModule::UUID']]]
+  ['radius',['radius',['../struct_n_f_c_a_o_i_module_1_1_a_o_i_object.html#a422fab70ac09dc5993b56bce215142b0',1,'NFCAOIModule::AOIObject']]]
 ];
