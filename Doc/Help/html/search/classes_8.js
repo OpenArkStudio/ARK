@@ -1,10 +1,8 @@
 var searchData=
 [
-  ['tdata',['TData',['../struct_n_f_i_data_list_1_1_t_data.html',1,'NFIDataList']]],
-  ['testclientclass',['TestClientClass',['../class_test_client_class.html',1,'']]],
-  ['testserverclass',['TestServerClass',['../class_test_server_class.html',1,'']]],
-  ['tisderived',['TIsDerived',['../class_t_is_derived.html',1,'']]],
-  ['tutorial1',['Tutorial1',['../class_tutorial1.html',1,'']]],
-  ['tutorial2',['Tutorial2',['../class_tutorial2.html',1,'']]],
-  ['tutorial3plugin',['Tutorial3Plugin',['../class_tutorial3_plugin.html',1,'']]]
+  ['sceneseedresource',['SceneSeedResource',['../struct_n_f_c_scene_process_module_1_1_scene_seed_resource.html',1,'NFCSceneProcessModule']]],
+  ['searchguildobject',['SearchGuildObject',['../struct_n_f_i_world_guild_data_module_1_1_search_guild_object.html',1,'NFIWorldGuildDataModule']]],
+  ['sendmsginfo',['SendmsgInfo',['../struct_n_f_c_mul_net_1_1_sendmsg_info.html',1,'NFCMulNet']]],
+  ['serverdata',['ServerData',['../struct_server_data.html',1,'']]],
+  ['sessiondata',['SessionData',['../struct_session_data.html',1,'']]]
 ];

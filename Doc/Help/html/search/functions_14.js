@@ -6,6 +6,8 @@ var searchData=
   ['unloadstaticplugin',['UnLoadStaticPlugin',['../class_n_f_c_plugin_manager.html#a9b9ab9dcd8b8a2b3a3b9602ad1f4001b',1,'NFCPluginManager']]],
   ['unlock',['unlock',['../class_n_f_lock.html#aacad2c2887190e9af0819dd4be374cfd',1,'NFLock']]],
   ['unregistered',['UnRegistered',['../class_n_f_c_plugin_manager.html#a54fcbb2eede9c04e504930de7cb38bf0',1,'NFCPluginManager::UnRegistered()'],['../class_n_f_i_plugin_manager.html#a5d2706b09ceabfd7c6e287a4fdcbc213',1,'NFIPluginManager::UnRegistered()']]],
+  ['update',['Update',['../class_n_f_c_a_o_i_module.html#a18c61b83ffae5146679a515fd780ef35',1,'NFCAOIModule']]],
+  ['updateobejctpos',['UpdateObejctPos',['../class_n_f_c_a_o_i_module.html#ad56d4517530b537ee874d8e1898aa35d',1,'NFCAOIModule']]],
   ['upguildmmember',['UpGuildMmember',['../class_n_f_i_world_guild_module.html#ae8b5cbefbe203485cdadc352d1dabbd9',1,'NFIWorldGuildModule']]],
   ['uuid',['UUID',['../class_u_u_i_d_module_1_1_u_u_i_d.html#ac04243f61cc7a1dd92f9faf0e39909da',1,'UUIDModule::UUID']]]
 ];
