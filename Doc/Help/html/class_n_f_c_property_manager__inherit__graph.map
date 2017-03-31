@@ -1,4 +1,4 @@
 <map id="NFCPropertyManager" name="NFCPropertyManager">
-<area shape="rect" id="node2" href="$class_n_f_i_property_manager.html" title="{NFIPropertyManager\n||+ ~NFIPropertyManager()\l+ RegisterCallback()\l+ AddProperty()\l+ AddProperty()\l+ Self()\l+ SetProperty()\l+ SetPropertyInt()\l+ SetPropertyDouble()\l+ SetPropertyString()\l+ SetPropertyObject()\land 6 more...\l}" alt="" coords="8,307,177,531"/>
+<area shape="rect" id="node2" href="$class_n_f_i_property_manager.html" title="Manager for nfi properties. " alt="" coords="8,307,177,531"/>
 <area shape="rect" id="node3" href="$class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFIProperty \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="15,5,170,259"/>
 </map>

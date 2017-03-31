@@ -1,4 +1,4 @@
 <map id="NFCLoginNet_ServerModule" name="NFCLoginNet_ServerModule">
-<area shape="rect" id="node2" href="$class_n_f_i_login_net___server_module.html" title="{NFILoginNet_ServerModule\n||+ OnSelectWorldResultsProcess()\l}" alt="" coords="5,424,228,501"/>
-<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l&#45; mbReloading\l&#45; mRemoveListEx\l&#45; mAddListEx\l&#45; mHeartBeatElementMapEx\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ AddHeartBeatExecute()\l+ RemoveHeartBeat()\l+ Loading()\l&#45; AddHeartBeat()\l&#45; ExecuteHeartBeat()\l}" alt="" coords="23,5,211,376"/>
+<area shape="rect" id="node2" href="$class_n_f_i_login_net___server_module.html" title="{NFILoginNet_ServerModule\n||+ OnSelectWorldResultsProcess()\l}" alt="" coords="5,321,228,399"/>
+<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="42,5,191,273"/>
 </map>

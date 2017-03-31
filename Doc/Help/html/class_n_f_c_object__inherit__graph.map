@@ -1,3 +1,3 @@
 <map id="NFCObject" name="NFCObject">
-<area shape="rect" id="node2" href="$class_n_f_i_object.html" title="{NFIObject\n|# m_pPluginManager\l|+ NFIObject()\l+ ~NFIObject()\l+ Execute()\l+ Self()\l+ AddPropertyCallBack()\l+ AddRecordCallBack()\l+ AddHeartBeat()\l+ AddComponent()\l+ AddComponent()\l+ FindComponent()\land 39 more...\l# AddRecordCallBack()\l# AddPropertyCallBack()\l# AddHeartBeat()\l}" alt="" coords="7,5,174,273"/>
+<area shape="rect" id="node2" href="$class_n_f_i_object.html" title="A nfi object. " alt="" coords="7,5,174,273"/>
 </map>

@@ -1,4 +1,4 @@
 <map id="NFIClass" name="NFIClass">
-<area shape="rect" id="node3" href="$class_n_f_c_class.html" title="{NFCClass\n|&#45; m_pPropertyManager\l&#45; m_pRecordManager\l&#45; m_pComponentManager\l&#45; m_pParentClass\l&#45; mstrType\l&#45; mstrClassName\l&#45; mstrClassInstancePath\l&#45; mlConfigList\l&#45; mxClassEventInfo\l|+ NFCClass()\l+ ~NFCClass()\l+ GetPropertyManager()\l+ GetRecordManager()\l+ GetComponentManager()\l+ AddClassCallBack()\l+ DoEvent()\l+ SetParent()\l+ GetParent()\l+ SetTypeName()\land 6 more...\l}" alt="" coords="5,593,184,935"/>
+<area shape="rect" id="node3" href="$class_n_f_c_class.html" title="A nfc class. " alt="" coords="5,593,184,935"/>
 <area shape="rect" id="node2" href="$class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="23,5,166,215"/>
 </map>
