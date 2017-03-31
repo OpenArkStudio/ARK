@@ -1,4 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_n_f_i_property.html" title="NFIProperty" alt="" coords="5,5,96,32"/>
-<area shape="rect" id="node2" href="$class_n_f_c_property.html" title="NFCProperty" alt="" coords="144,5,241,32"/>
+<area shape="rect" id="node1" href="$struct_n_f_i_msg_head.html" title="NFIMsgHead" alt="" coords="5,5,103,32"/>
+<area shape="rect" id="node2" href="$class_n_f_c_msg_head.html" title="NFCMsgHead" alt="" coords="151,5,253,32"/>
 </map>
