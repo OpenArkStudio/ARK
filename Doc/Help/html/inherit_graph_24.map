@@ -1,5 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_n_f_i_net.html" title="NFINet" alt="" coords="5,31,68,57"/>
-<area shape="rect" id="node2" href="$class_n_f_c_mul_net.html" title="NFCMulNet" alt="" coords="116,5,205,32"/>
-<area shape="rect" id="node3" href="$class_n_f_c_net.html" title="NFCNet" alt="" coords="127,56,195,83"/>
+<area shape="rect" id="node1" href="$class_n_f_i_hasher.html" title="A nfi hasher. " alt="" coords="5,5,88,32"/>
+<area shape="rect" id="node2" href="$class_n_f_c_hasher.html" title="A nfc hasher. " alt="" coords="136,5,225,32"/>
 </map>

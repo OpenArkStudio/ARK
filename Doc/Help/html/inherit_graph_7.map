@@ -1,3 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$struct_n_f_c_mul_net_1_1_event_info.html" title="NFCMulNet::EventInfo" alt="" coords="5,5,155,32"/>
+<area shape="rect" id="node1" href="$class_n_f_c_consistent_hash.html" title="A nfc consistent hash. " alt="" coords="5,5,145,32"/>
+<area shape="rect" id="node2" href="$class_n_f_c_add_consistent_hash.html" title="A nfc add consistent hash. " alt="" coords="193,5,356,32"/>
 </map>
