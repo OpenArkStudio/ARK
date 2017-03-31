@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['destroy_5fplugin',['DESTROY_PLUGIN',['../_n_f_i_plugin_8h.html#aaa3d26a2abc943708991c6e647be39e1',1,'NFIPlugin.h']]],
-  ['dynlib_5fgetsym',['DYNLIB_GETSYM',['../_n_f_c_dyn_lib_8h.html#a611f8319ce7e78bfb274017c2b53a81b',1,'NFCDynLib.h']]],
-  ['dynlib_5fhandle',['DYNLIB_HANDLE',['../_n_f_c_dyn_lib_8h.html#a72233679ad2f01755e375b6fcbf8cfdb',1,'NFCDynLib.h']]],
-  ['dynlib_5fload',['DYNLIB_LOAD',['../_n_f_c_dyn_lib_8h.html#a134d80db854047b000a6a3d5dc023bcc',1,'NFCDynLib.h']]],
-  ['dynlib_5funload',['DYNLIB_UNLOAD',['../_n_f_c_dyn_lib_8h.html#aea4c10bca1e97e459d97b4c9b7aee51a',1,'NFCDynLib.h']]]
+  ['clear_5fhour',['CLEAR_HOUR',['../_n_f_time_8h.html#ad1f32c6fce99dad50e220593486e767f',1,'NFTime.h']]],
+  ['client_5fmsg_5fprocess',['CLIENT_MSG_PROCESS',['../_n_f_i_net_module_8h.html#aa50721c2cfc0b046423f64331f0d162b',1,'NFINetModule.h']]],
+  ['client_5fmsg_5fprocess_5fno_5fobject',['CLIENT_MSG_PROCESS_NO_OBJECT',['../_n_f_i_net_module_8h.html#a06d271a16f840415586366b3be5bebb4',1,'NFINetModule.h']]],
+  ['create_5fplugin',['CREATE_PLUGIN',['../_n_f_i_plugin_8h.html#af2824df6e94c4de55eedd6515f6f7f3e',1,'NFIPlugin.h']]]
 ];
