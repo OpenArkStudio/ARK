@@ -805,7 +805,7 @@ public:
      * @author  Nick Yang
      * @date    2016/11/16
      *
-     * @param   The source AFDataList.
+     * @param   src     The source AFDataList.
      *
      * @return  True if it succeeds, false if it fails.
      */
