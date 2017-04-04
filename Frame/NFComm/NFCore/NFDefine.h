@@ -107,7 +107,7 @@ typedef std::function<int(const NFGUID&, const RECORD_EVENT_DATA&, const AFDataL
  * @brief   Defines an alias representing the class event functor.
  */
 
-typedef std::function<int(const NFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFDataList&)> CLASS_EVENT_FUNCTOR;
+typedef std::function<bool(const NFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFDataList&)> CLASS_EVENT_FUNCTOR;
 
 /**
  * @typedef std::function<int(const NFGUID&, const int, const AFDataList&)> EVENT_PROCESS_FUNCTOR

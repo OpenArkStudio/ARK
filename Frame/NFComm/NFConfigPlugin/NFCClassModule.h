@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCClassModule.h
+//    @FileName         :    NFCClassModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
 //    @Module           :    NFCClassModule
@@ -77,7 +77,7 @@ public:
     {
         CLASS_EVENT_FUNCTOR_PTR cb;
         bool bRet = mxClassEventInfo.First(cb);
-        while (bRet)
+        while(bRet)
         {
             (*cb)(objectID, mstrClassName, eClassEvent,  valueList);
 
