@@ -3,7 +3,7 @@
 ##### Copyright © [https://github.com/ArkGame](https://github.com/ArkGame "Ark Game")
 :exclamation: New game frame with some new ideas, this project is based on [NFrame](https://github.com/ketoo/NoahGameFrame)
 
-#####QQ Group：341159815
+#####QQ Group�?341159815
 
 ## What is it?
 
@@ -58,8 +58,9 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 
 ## Supported Compilers
 
-* GCC >= 4.8 (**Tested in Ubuntu 15.04**)
-* MSVC >= VS2015 (**Tested in Win7/10**)
+* GCC >= 4.8 (**<font color=red>Recommend</font> Tested in Ubuntu 15.04**)
+* MSVC >= VS2015 (**<font color=red>Recommend</font> Tested in Win7/10**)
+* MSVC >= VS2012+ & GCC >= 4.4+ (By using ```boost```, define macro ```HAVE_BOOST```, then you need to add boost include files and libraries yourself, just to replace ```boost::variant``` and ```boost::lexical_cast```)
 
 ## Build and Install
 ### MSVC >= 2015
@@ -83,12 +84,12 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 
 > ## :exclamation: Fixing some problem
 > ### CMake
-1. Git pull all source
-2. Install cmake[>= 2.8] please choose options for installing: **Add CMake to the system PATH for all users and restart your computer**
-3. Install VS2015 or gcc[>= 4.8]
-4. Run **install.bat** or **install.sh** to build NF
-5. Run the binary file by **_Out/Server/Debug/run.bat** or **_Out/Server/Debug/rund_cmake.sh**
-6. (Optional)For Release Version, after above, run **BuildNF.VS2015.Release.X64.bat** or **BuildNF.CMake.Release.sh**, then run the binary file by **_Out/Server/Release/run.bat** or **_Out/Server/Release/run_cmake.sh**
+> 1. Git pull all source
+> 2. Install cmake[>= 2.8] please choose options for installing: **Add CMake to the system PATH for all users and restart your computer**
+> 3. Install VS2015 or gcc[>= 4.8]
+> 4. Run **install.bat** or **install.sh** to build NF
+> 5. Run the binary file by **_Out/Server/Debug/run.bat** or **_Out/Server/Debug/rund_cmake.sh**
+> 6. (Optional)For Release Version, after above, run **BuildNF.VS2015.Release.X64.bat** or **BuildNF.CMake.Release.sh**, then run the binary file by **_Out/Server/Release/run.bat** or **_Out/Server/Release/run_cmake.sh**
 
 ## Documents
 [User Manual](https://arkgame.github.io/ArkGameFrame/)
