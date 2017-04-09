@@ -46,8 +46,8 @@ void NFCGameServerToWorldModule::Register(const int nSeverID)
         for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
             const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
-            const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_GAME && pPluginManager->AppID() == nServerID)
+            const int nSelfServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
+            if(nServerType == NF_SERVER_TYPES::NF_ST_GAME && pPluginManager->AppID() == nSelfServerID)
             {
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
@@ -58,7 +58,7 @@ void NFCGameServerToWorldModule::Register(const int nSeverID)
                 NFMsg::ServerInfoReportList xMsg;
                 NFMsg::ServerInfoReport* pData = xMsg.add_server_list();
 
-                pData->set_server_id(nServerID);
+                pData->set_server_id(nSelfServerID);
                 pData->set_server_name(strName);
                 pData->set_server_cur_count(0);
                 pData->set_server_ip(strIP);
