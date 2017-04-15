@@ -96,6 +96,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AFArrayPod.hpp" />
     <ClInclude Include="AFDataList.hpp" />
     <ClInclude Include="Math\Vector3.hpp" />
     <ClInclude Include="NFCAddConsistentHash.hpp" />
