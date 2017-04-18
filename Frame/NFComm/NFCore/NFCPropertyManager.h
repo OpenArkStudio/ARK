@@ -13,6 +13,8 @@
 #include "NFMap.h"
 #include "AFDataList.hpp"
 #include "NFIPropertyManager.h"
+#include "AFCoreDef.hpp"
+#include "AFArrayPod.hpp"
 
 /**
  * @class   NFCPropertyManager
@@ -290,8 +292,9 @@ public:
 private:
     /** @brief   The self. */
     NFGUID mSelf;
-    /** @brief   The mx property index map. */
-    std::map<std::string, int> mxPropertyIndexMap;
+
+    //TODO:
+    //ArraryPod<NFIProperty*, 1, CoreAlloc> mxPropertys;
 };
 
 
