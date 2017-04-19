@@ -15,6 +15,7 @@
 #include "NFIPropertyManager.h"
 #include "AFCoreDef.hpp"
 #include "AFArrayPod.hpp"
+#include "AFStringPod.hpp"
 
 /**
  * @class   NFCPropertyManager
@@ -295,6 +296,7 @@ private:
 
     //TODO:
     //ArraryPod<NFIProperty*, 1, CoreAlloc> mxPropertys;
+    //StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
 };
 
 
