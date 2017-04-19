@@ -3,7 +3,7 @@
 ##### Copyright Â© [https://github.com/ArkGame](https://github.com/ArkGame "Ark Game")
 :exclamation: New game frame with some new ideas, this project is based on [NFrame](https://github.com/ketoo/NoahGameFrame)
 
-#####QQ Groupï¼?341159815
+###### QQ Group:341159815
 
 ## What is it?
 
