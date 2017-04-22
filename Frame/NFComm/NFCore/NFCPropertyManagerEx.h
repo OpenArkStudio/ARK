@@ -17,6 +17,12 @@
 #include "AFArrayPod.hpp"
 #include "AFStringPod.hpp"
 
+//struct AFProperty
+//{
+//    std::string name;
+//    AFDataList::TData value;
+//};
+
 /**
  * @class   NFCPropertyManager
  *
@@ -293,6 +299,10 @@ public:
 private:
     /** @brief   The self. */
     NFGUID mSelf;
+
+    ////TODO:
+    //ArraryPod<AFProperty*, 1, CoreAlloc> mxPropertys;
+    //StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
 };
 
 
