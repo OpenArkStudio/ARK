@@ -108,6 +108,9 @@
     <ClInclude Include="AFStringPod.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="AFString.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NFCComponentManager.cpp">

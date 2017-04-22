@@ -7,11 +7,7 @@
 template<typename TYPE>
 class StringTraits
 {
-public:
-    static size_t Hash(const TYPE* value);
-    static size_t Length(const TYPE* value);
-    static bool Equal(const TYPE* lvalue, const TYPE* rvalue);
-    static void Copy(TYPE* dst, const TYPE* src, size_t len);
+
 };
 
 template<>

@@ -99,6 +99,7 @@
     <ClInclude Include="AFArrayPod.hpp" />
     <ClInclude Include="AFCoreDef.hpp" />
     <ClInclude Include="AFDataList.hpp" />
+    <ClInclude Include="AFString.hpp" />
     <ClInclude Include="AFStringPod.hpp" />
     <ClInclude Include="Math\Vector3.hpp" />
     <ClInclude Include="NFCAddConsistentHash.hpp" />
