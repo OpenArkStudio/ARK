@@ -66,7 +66,7 @@ public:
     self_t& operator=(const self_t& rhs)
     {
         self_t tmp(rhs);
-        Swap(tmp);
+        swap(tmp);
         return *this;
     }
 
@@ -148,25 +148,25 @@ public:
 
     void pop_back()
     {
-        Assert(mnSize > 0);
+        assert(mnSize > 0);
         --mnSize;
     }
 
     TYPE& back()
     {
-        Assert(mnSize > 0);
+        assert(mnSize > 0);
         return mpData[mnSize - 1];
     }
 
     const TYPE& back() const
     {
-        Assert(mnSize > 0);
+        assert(mnSize > 0);
         return mpData[mnSize - 1];
     }
 
     TYPE& operator[](size_t index)
     {
-        Assert(mnSize > 0);
+        assert(mnSize > 0);
         return mpData[index];
     }
 

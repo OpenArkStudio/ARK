@@ -111,6 +111,9 @@
     <ClInclude Include="AFString.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="AFPropertyMgr.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NFCComponentManager.cpp">
@@ -142,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="NFTime.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="AFPropertyMgr.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
