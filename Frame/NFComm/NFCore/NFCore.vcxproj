@@ -99,6 +99,7 @@
     <ClInclude Include="AFArrayPod.hpp" />
     <ClInclude Include="AFCoreDef.hpp" />
     <ClInclude Include="AFDataList.hpp" />
+    <ClInclude Include="AFPropertyMgr.h" />
     <ClInclude Include="AFString.hpp" />
     <ClInclude Include="AFStringPod.hpp" />
     <ClInclude Include="Math\Vector3.hpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="NFTime.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AFPropertyMgr.cpp" />
     <ClCompile Include="NFCComponentManager.cpp" />
     <ClCompile Include="NFCEventManager.cpp" />
     <ClCompile Include="NFCHeartBeatManager.cpp" />

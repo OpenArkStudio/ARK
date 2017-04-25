@@ -17,6 +17,11 @@ public:
     {
         delete[] (char*)ptr;
     }
+
+    void Swap(CoreAlloc& src)
+    {
+        //TODO:
+    }
 };
 
 // 取哈希值，忽略大小写

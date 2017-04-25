@@ -104,7 +104,7 @@ public:
     {
         if (mnCapacity > SIZE)
         {
-            mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE))
+            mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
         }
     }
 
@@ -128,7 +128,7 @@ public:
         InitWithTwo(value1, TRAITS::Length(value1), value2, TRAITS::Length(value2));
     }
 
-    AFString(const TYPE* value2, size_t len1, const TYPE* value2, size_t len2)
+    AFString(const TYPE* value1, size_t len1, const TYPE* value2, size_t len2)
     {
         InitWithTwo(value1, len1, value2, len2);
     }
@@ -179,13 +179,13 @@ public:
         mxAlloc.Swap(src.mxAlloc);
     }
 
-    self_t& operator=(cosnt selt_t& src)
+    self_t& operator=(const self_t& src)
     {
         return InnerAssign(src.c_str(), src.length());
     }
 
     template<size_t NEW_SIZE>
-    self_t& operator=(cosnt AFString<TYPE, NEW_SIZE, TRAITS, ALLOC>& src)
+    self_t& operator=(const AFString<TYPE, NEW_SIZE, TRAITS, ALLOC>& src)
     {
         return InnerAssign(src.c_str(), src.length());
     }
@@ -202,12 +202,12 @@ public:
 
     self_t& operator+=(const self_t& src)
     {
-        return InnerAppend(src.c_str(), src.lenght());
+        return InnerAppend(src.c_str(), src.length());
     }
 
     self_t& operator+=(const TYPE* src)
     {
-        return InnerAppend(src, TRAITS::Lenght(src));
+        return InnerAppend(src, TRAITS::Length(src));
     }
 
     self_t& operator+=(TYPE value)
@@ -325,7 +325,7 @@ public:
 private:
     void Init(const TYPE* src, size_t len)
     {
-        mnSize = size;
+        mnSize = len;
         if (mnSize < SIZE)
         {
             mnCapacity = SIZE;

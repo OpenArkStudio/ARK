@@ -219,7 +219,7 @@ public:
 
         if (mpBuckets)
         {
-            mxAlloc.Free(mpBuckets, sizeof(node_t*) * size);
+            mxAlloc.Free(mpBuckets, sizeof(node_t*) * mnSize);
         }
     }
 
@@ -280,7 +280,7 @@ public:
             Expand();
         }
 
-        size_t hash = TRAITS::hash(name);
+        size_t hash = TRAITS::Hash(name);
         size_t bucket = GetBucket(hash);
         node_t* p = NewNode(name);
 
@@ -473,21 +473,40 @@ private:
 
     node_t* NewNode(const TYPE* name)
     {
-        const size_t length = TRAITS::length(name);
+        const size_t length = TRAITS::Length(name);
         const size_t size = sizeof(node_t) + length * sizeof(TYPE);
         node_t* p = (node_t*)mxAlloc.Alloc(size);
-        TRAITS::copy(p->name, name, length + 1);
+        TRAITS::Copy(p->name, name, length + 1);
         return p;
     }
 
     void DeleteNode(node_t* p)
     {
-        mxAlloc.Free(p, sizeof(node_t) + TRAITS::length(p->name) * sizeof(TYPE));
+        mxAlloc.Free(p, sizeof(node_t) + TRAITS::Length(p->name) * sizeof(TYPE));
     }
 
     void EraseNode(size_t bucket, node_t* p)
     {
+        assert(bucket < mnSize);
+        assert(NULL != P);
 
+        node_t* node = mpBuckets[bucket];
+        if (node == p)
+        {
+            mpBuckets[bucket] = p->next;
+            return;
+        }
+        
+        while (node)
+        {
+            if (node->next == p)
+            {
+                node->next = p->next;
+                return;
+            }
+
+            node = node->next;
+        }
     }
 
     node_t* FindNode(const TYPE* name) const
@@ -501,15 +520,15 @@ private:
 
         size_t hash = TRAITS::Hash(name);
         size_t bucket = GetBucket(hash);
-        node_t* p = mpBuckets[bucket];
-        while (p)
+        node_t* node = mpBuckets[bucket];
+        while (node)
         {
-            if ((p->hash == hash) && TRAITS::Equal(p->name, name))
+            if ((node->hash == hash) && TRAITS::Equal(node->name, name))
             {
-                return p;
+                return node;
             }
 
-            p = p->next;
+            node = node->next;
         }
 
         return NULL;
