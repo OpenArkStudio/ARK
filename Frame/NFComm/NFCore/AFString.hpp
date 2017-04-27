@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "AFCoreDef.hpp"
 
 template<typename TYPE>
 class CharTraits
@@ -402,3 +403,6 @@ private:
     size_t mnCapacity;
     size_t mnSize;
 };
+
+using PropertyName = AFString<char, 16, CharTraits<char>, CoreAlloc>;
+using RecordName = AFString<char, 16, CharTraits<char>, CoreAlloc>;

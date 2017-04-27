@@ -52,11 +52,15 @@ bool AFPropertyMgr::FindIndex(const char* name, size_t& index)
     return true;
 }
 
-bool AFPropertyMgr::AddProperty(const char* name, const AFDataList::TData& value)
+bool AFPropertyMgr::AddProperty(const char* name, const AFDataList::TData& value, bool bPublic, bool bPrivate, bool bSave, bool bRealTime)
 {
     AFProperty* pProperty = new AFProperty();
     pProperty->name = name;
     pProperty->value = value;
+    pProperty->bPublic = bPublic;
+    pProperty->bPrivate = bPrivate;
+    pProperty->bSave = bSave;
+    pProperty->bRealtime = bRealTime;
     mxIndices.Add(name, mxPropertys.size());
     mxPropertys.push_back(pProperty);
 
