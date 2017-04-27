@@ -10,17 +10,21 @@
 #define NFC_PROPERTYMANAGER_H
 
 #include "NFDefine.h"
-#include "NFMap.h"
 #include "AFDataList.hpp"
-#include "AFCoreDef.hpp"
+#include "AFString.hpp"
 #include "AFArrayPod.hpp"
 #include "AFStringPod.hpp"
-#include "AFString.hpp"
 
 struct AFProperty
 {
-    AFString<char, 16, CharTraits<char>, CoreAlloc> name; //属性名，最大16个字符
+    PropertyName name; //属性名，最大16个字符
     AFDataList::TData value;    //属性值
+
+    //TODO:暂时还没用上
+    bool bPublic;
+    bool bPrivate;
+    bool bSave;
+    bool bRealtime;
 };
 
 class AFPropertyMgr
@@ -31,8 +35,8 @@ public:
     ~AFPropertyMgr();
     void Clear();
 
-    bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
-    bool AddProperty(const char* name, const AFDataList::TData& value);
+    //bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
+    bool AddProperty(const char* name, const AFDataList::TData& value, bool bPublic, bool bPrivate, bool bSave, bool bRealTime);
 
     bool SetProperty(const char* name, const AFDataList::TData& value);
     bool SetPropertyInt(const char* name, const NFINT64 value);

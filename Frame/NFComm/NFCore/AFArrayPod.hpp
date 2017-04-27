@@ -166,7 +166,13 @@ public:
 
     TYPE& operator[](size_t index)
     {
-        assert(mnSize > 0);
+        assert(index < mnSize);
+        return mpData[index];
+    }
+
+    const TYPE& operator[](size_t index) const
+    {
+        assert(index < mnSize);
         return mpData[index];
     }
 
