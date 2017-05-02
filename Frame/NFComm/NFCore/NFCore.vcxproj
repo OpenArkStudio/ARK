@@ -100,11 +100,12 @@
     <ClInclude Include="AFCoreDef.hpp" />
     <ClInclude Include="AFDataList.hpp" />
     <ClInclude Include="AFPropertyMgr.h" />
+    <ClInclude Include="AFRecord.h" />
+    <ClInclude Include="AFRecordMgr.h" />
     <ClInclude Include="AFString.hpp" />
     <ClInclude Include="AFStringPod.hpp" />
     <ClInclude Include="Math\Vector3.hpp" />
     <ClInclude Include="NFCAddConsistentHash.hpp" />
-    <ClInclude Include="NFCComponentManager.h" />
     <ClInclude Include="NFCConsistentHash.hpp" />
     <ClInclude Include="NFCEventManager.h" />
     <ClInclude Include="NFCHeartBeatManager.h" />
@@ -114,7 +115,6 @@
     <ClInclude Include="NFCPropertyManager.h" />
     <ClInclude Include="NFCRecordManager.h" />
     <ClInclude Include="NFIComponent.h" />
-    <ClInclude Include="NFIComponentManager.h" />
     <ClInclude Include="NFIEventManager.h" />
     <ClInclude Include="NFIHeartBeatManager.h" />
     <ClInclude Include="NFMapEx.h" />
@@ -133,7 +133,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFPropertyMgr.cpp" />
-    <ClCompile Include="NFCComponentManager.cpp" />
+    <ClCompile Include="AFRecord.cpp" />
+    <ClCompile Include="AFRecordMgr.cpp" />
     <ClCompile Include="NFCEventManager.cpp" />
     <ClCompile Include="NFCHeartBeatManager.cpp" />
     <ClCompile Include="NFCMemManger.cpp" />
