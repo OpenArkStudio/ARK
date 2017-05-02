@@ -10,7 +10,7 @@
 #include "NFCRecordManager.h"
 #include "NFCHeartBeatManager.h"
 #include "NFCPropertyManager.h"
-#include "NFCComponentManager.h"
+//#include "NFCComponentManager.h"
 #include "NFCEventManager.h"
 
 NFCObject::NFCObject(NFGUID self, NFIPluginManager* pLuginManager)
@@ -22,7 +22,7 @@ NFCObject::NFCObject(NFGUID self, NFIPluginManager* pLuginManager)
     m_pRecordManager = NF_SHARE_PTR<NFCRecordManager>(NF_NEW NFCRecordManager(mSelf));
     m_pHeartBeatManager = NF_SHARE_PTR<NFCHeartBeatManager>(NF_NEW NFCHeartBeatManager(mSelf));
     m_pPropertyManager = NF_SHARE_PTR<NFCPropertyManager>(NF_NEW NFCPropertyManager(mSelf));
-    m_pComponentManager = NF_SHARE_PTR<NFCComponentManager>(NF_NEW NFCComponentManager(mSelf));
+    //m_pComponentManager = NF_SHARE_PTR<NFCComponentManager>(NF_NEW NFCComponentManager(mSelf));
     m_pEventManager = NF_SHARE_PTR<NFIEventManager>(NF_NEW NFCEventManager(mSelf));
 }
 
@@ -44,7 +44,7 @@ bool NFCObject::Shut()
 bool NFCObject::Execute()
 {
     GetHeartBeatManager()->Execute();
-    GetComponentManager()->Execute();
+    //GetComponentManager()->Execute();
     GetEventManager()->Execute();
 
     return true;
@@ -282,10 +282,10 @@ NFGUID NFCObject::Self()
     return mSelf;
 }
 
-NF_SHARE_PTR<NFIComponentManager> NFCObject::GetComponentManager()
-{
-    return m_pComponentManager;
-}
+//NF_SHARE_PTR<NFIComponentManager> NFCObject::GetComponentManager()
+//{
+//    return m_pComponentManager;
+//}
 
 NF_SHARE_PTR<NFIEventManager> NFCObject::GetEventManager()
 {

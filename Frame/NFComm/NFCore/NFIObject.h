@@ -16,7 +16,6 @@
 #include "NFIRecordManager.h"
 #include "NFIHeartBeatManager.h"
 #include "NFIPropertyManager.h"
-#include "NFIComponentManager.h"
 #include "NFIEventManager.h"
 #include "NFComm/NFPluginModule/NFIPluginManager.h"
 
@@ -844,7 +843,7 @@ public:
      * @return  The component manager.
      */
 
-    virtual NF_SHARE_PTR<NFIComponentManager> GetComponentManager() = 0;
+    //virtual NF_SHARE_PTR<NFIComponentManager> GetComponentManager() = 0;
 
     /**
      * @fn  virtual NF_SHARE_PTR<NFIEventManager> NFIObject::GetEventManager() = 0;

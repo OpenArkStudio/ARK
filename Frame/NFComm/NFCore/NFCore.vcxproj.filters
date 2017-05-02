@@ -42,9 +42,6 @@
     <ClInclude Include="NFIRecordManager.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="NFCComponentManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="NFCEventManager.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -70,9 +67,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="NFIComponent.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFIComponentManager.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="NFIEventManager.h">
@@ -114,11 +108,14 @@
     <ClInclude Include="AFPropertyMgr.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="AFRecordMgr.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFRecord.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NFCComponentManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="NFCHeartBeatManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -147,6 +144,12 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="AFPropertyMgr.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFRecordMgr.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFRecord.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
