@@ -62,7 +62,7 @@ const static double NULL_DOUBLE = 0.0;
 /** @brief   The null string. */
 const static std::string NULL_STR = "";
 /** @brief   Unique identifier for the null. */
-const static NFGUID NULL_GUID = NULL_GUID;
+const static NFGUID NULL_GUID = NFGUID();
 /** @brief   The null point. */
 const static Point3D NULL_POINT = Point3D();
 
