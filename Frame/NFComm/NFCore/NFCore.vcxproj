@@ -100,6 +100,7 @@
     <ClInclude Include="AFCData.h" />
     <ClInclude Include="AFCoreDef.hpp" />
     <ClInclude Include="AFDataList.hpp" />
+    <ClInclude Include="AFGUID.h" />
     <ClInclude Include="AFIData.h" />
     <ClInclude Include="AFPropertyMgr.h" />
     <ClInclude Include="AFRecord.h" />

@@ -114,8 +114,15 @@
     <ClInclude Include="AFRecord.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFIData.h" />
-    <ClInclude Include="AFCData.h" />
+    <ClInclude Include="AFIData.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCData.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFGUID.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NFCHeartBeatManager.cpp">

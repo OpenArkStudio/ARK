@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "AFGUID.h"
 
 enum AF_DATA_TYPE
 {
@@ -17,6 +18,14 @@ enum AF_DATA_TYPE
     DT_TABLE        , //table
     DT_MAX          , //max
 };
+
+const static bool NULL_BOOLEAN = false;
+const static int NULL_INT = 0;
+const static int64_t NULL_INT64 = 0;
+const static float NULL_FLOAT = 0.0f;
+const static double NULL_DOUBLE = 0.0;
+const static std::string NULL_STR = "";
+const static AFGUID NULL_GUID = AFGUID();
 
 class AFIData
 {
@@ -60,12 +69,13 @@ public:
     virtual double GetDouble() const = 0;
     virtual const char* GetString() const = 0;
     virtual AFGUID GetObject() const = 0;
-    virtual const void* GetUserData() const = 0;
+    virtual void* GetPointer() const = 0;
+    virtual const void* GetUserData(size_t& size) const = 0;
     virtual void GetRawUserData() const = 0;
 
     //Set data
     virtual void SetUnknown() = 0;
-    virtual void SetBool(bool vale) = 0;
+    virtual void SetBool(bool value) = 0;
     virtual void SetInt(int value) = 0;
     virtual void SetInt64(int64_t value) = 0;
     virtual void SetFloat(float value) = 0;

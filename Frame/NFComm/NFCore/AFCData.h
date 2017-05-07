@@ -37,6 +37,11 @@ public:
         mn64Value = 0;
     }
 
+    virtual ~AFCData()
+    {
+        Release();
+    }
+
     AFCData(const self_t& src)
     {
         this->mnType = src.mnType;
@@ -87,27 +92,27 @@ public:
         switch (this->mnType)
         {
         case DT_BOOLEAN:
-            mbValue = src.Bool();
+            mbValue = src.GetBool();
             break;
         case DT_INT:
-            mnValue = src.Int();
+            mnValue = src.GetInt();
             break;
         case DT_INT64:
-            mn64Value = src.Int64();
+            mn64Value = src.GetInt64();
             break;
         case DT_FLOAT:
-            mfValue = src.Float();
+            mfValue = src.GetFloat();
             break;
         case DT_DOUBLE:
-            mdValue = src.Double();
+            mdValue = src.GetDouble();
             break;
         case DT_STRING:
-            InnerSetString(src.String());
+            InnerSetString(src.GetString());
             break;
         case DT_OBJECT:
         {
-            mnIdent = src.Object().nIdent;
-            mnSerial = src.Object().nSerial;
+            mnIdent = src.GetObject().nIdent;
+            mnSerial = src.GetObject().nSerial;
         }
         break;
         case DT_POINTER:
@@ -116,7 +121,7 @@ public:
         case DT_USERDATA:
         {
             size_t size;
-            const void* pData = src.UserData(size);
+            const void* pData = src.GetUserData(size);
             InnerSetUserData(pData, size);
         }
         break;
@@ -125,7 +130,329 @@ public:
         }
     }
 
-    //TODO
+    AFCData(int type, bool value)
+    {
+        assert(type == DT_BOOLEAN);
+
+        mnType = DT_BOOLEAN;
+        mbValue = value;
+    }
+    
+    AFCData(int type, int value)
+    {
+        assert(type == DT_INT);
+
+        mnType = DT_INT;
+        mnValue = value;
+    }
+
+    AFCData(int type, int64_t value)
+    {
+        assert(type == DT_INT64);
+
+        mnType = DT_INT64;
+        mnValue = value;
+    }
+
+    AFCData(int type, float value)
+    {
+        assert(type == DT_FLOAT);
+
+        mnType = DT_FLOAT;
+        mfValue = value;
+    }
+
+    AFCData(int type, double value)
+    {
+        assert(type == DT_DOUBLE);
+
+        mnType = DT_DOUBLE;
+        mdValue = value;
+    }
+
+    AFCData(int type, const char* value)
+    {
+        assert(type == DT_STRING);
+
+        mnType = DT_STRING;
+        InnerSetString(value);
+    }
+
+    AFCData(int type, const AFGUID& value)
+    {
+        assert(type == DT_OBJECT);
+
+        mnType = DT_OBJECT;
+        mnIdent = value.nIdent;
+        mnSerial = value.nSerial;
+    }
+
+    AFCData(int type, const void* value, size_t size)
+    {
+        assert(type == DT_USERDATA);
+
+        mnType = DT_USERDATA;
+        InnerSetUserData(value, size);
+    }
+
+    self_t& operator=(const self_t& src)
+    {
+        self_t tmp(src);
+        Swap(tmp);
+        return *this;
+    }
+    
+    self_t& operator=(const AFIData& src)
+    {
+        self_t tmp(src);
+        Swap(tmp);
+        return *this;
+    }
+
+    void Swap(self_t* src)
+    {
+        //TODO
+    }
+    //////////////////////////////////////////////////////////////////////////
+
+    virtual int GetType() const
+    {
+        return mnType;
+    }
+
+    //Get data
+    virtual bool GetBool() const
+    {
+        assert(mnType == DT_BOOLEAN);
+
+        if (mnType != DT_BOOLEAN)
+        {
+            return NULL_BOOLEAN;
+        }
+
+        return mbValue;
+    }
+
+    virtual int GetInt() const
+    {
+        assert(mnType == DT_INT);
+
+        if (mnType != DT_INT)
+        {
+            return NULL_INT;
+        }
+
+        return mnValue;
+    }
+
+    virtual int64_t GetInt64() const
+    {
+        assert(mnType == DT_INT64);
+
+        if (mnType != DT_INT64)
+        {
+            return NULL_INT64;
+        }
+
+        return mn64Value;
+    }
+
+    virtual float GetFloat() const 
+    {
+        assert(mnType == DT_FLOAT);
+
+        if (mnType != DT_FLOAT)
+        {
+            return NULL_FLOAT;
+        }
+
+        return mfValue;
+    }
+
+    virtual double GetDouble() const
+    {
+        assert(mnType == DT_DOUBLE);
+
+        if (mnType != DT_DOUBLE)
+        {
+            return NULL_DOUBLE;
+        }
+
+        return mdValue;
+    }
+
+    virtual const char* GetString() const
+    {
+        assert(mnType == DT_STRING);
+
+        if (mnType != DT_STRING)
+        {
+            return NULL_STR;
+        }
+
+        return mstrValue;
+    }
+
+    virtual AFGUID GetObject() const
+    {
+        assert(mnType == DT_OBJECT);
+
+        if (mnType != DT_OBJECT)
+        {
+            return NULL_GUID;
+        }
+
+        return AFGUID(mnIdent, mnSerial);
+    }
+
+    virtual void* GetPointer() const
+    {
+        assert(mnType == DT_POINTER);
+
+        if (mnType != DT_POINTER)
+        {
+            return NULL;
+        }
+
+        return mpVaule;
+    }
+
+    virtual const void* GetUserData(size_t& size) const
+    {
+        assert(mnType == DT_POINTER);
+
+        if (mnType != DT_POINTER)
+        {
+            size = 0;
+            return NULL;
+        }
+
+        size = AFIData::GetUserDataSize(mpUserData);
+        return AFIData::GetUserData(mpUserData);
+    }
+
+    virtual void GetRawUserData() const
+    {
+        assert(mnType == DT_POINTER);
+
+        if (mnType != DT_POINTER)
+        {
+            return NULL;
+        }
+
+        return mpUserData;
+    }
+
+    //Set data
+    virtual void SetUnknown()
+    {
+        Release();
+        mnType = DT_UNKNOWN;
+        mn64Value = 0;
+    }
+
+    virtual void SetBool(bool value)
+    {
+        Release();
+        mnType = DT_BOOLEAN;
+        mbValue = value;
+    }
+
+    virtual void SetInt(int value)
+    {
+        Release();
+        mnType = DT_INT;
+        mnValue = value;
+    }
+
+    virtual void SetInt64(int64_t value)
+    {
+        Release();
+        mnType = DT_INT64;
+        mn64Value = value;
+    }
+
+    virtual void SetFloat(float value)
+    {
+        Release();
+        mnType = DT_FLOAT;
+        mfValue = value;
+    }
+
+    virtual void SetDouble(double value)
+    {
+        Release();
+        mnType = DT_DOUBLE;
+        mdValue = value;
+    }
+
+    virtual void SetString(const char* value)
+    {
+        Release();
+        mnType = DT_STRING;
+        InnerSetString(value);
+    }
+
+    virtual void SetObject(const AFGUID& value)
+    {
+        Release();
+        mnType = DT_OBJECT;
+        mnIdent = value.nIdent;
+        mnSerial = value.nSerial;
+    }
+
+    virtual void SetPointer(void* value)
+    {
+        Release();
+        mnType = DT_POINTER;
+        mpVaule = value;
+    }
+
+    virtual void SetUserData(const void* value, size_t size)
+    {
+        Release();
+        mnType = DT_USERDATA;
+        InnerSetUserData(value, size);
+    }
+
+    virtual void SetRawUserData(void* value)
+    {
+        SetUserData(AFIData::GetUserData(value), AFIData::GetUserDataSize(value));
+    }
+
+    virtual void Assign(const AFIData& src)
+    {
+        self_t tmp(src);
+        Swap(tmp);
+    }
+
+    virtual size_t GetMemUsage() const
+    {
+        size_t size = sizeof(self_t);
+        switch (mnType)
+        {
+        case DT_STRING:
+        {
+            if (NULL != mstrValue)
+            {
+                size += strlen(mstrValue) + 1;
+            }
+        }
+            break;
+        case DT_USERDATA:
+        {
+            if (NULL != mpUserData)
+            {
+                size += AFIData::GetUserDataSize(mpUserData);
+            }
+        }
+            break;
+        default:
+            break;
+        }
+
+        return size;
+    }
 
 protected:
     void Release()
@@ -187,7 +514,7 @@ private:
     ALLOC mxAlloc;
     int mnType;
 
-    //可变数据联合体
+    //可变数据联合体,size = 8
     union
     {
         bool mbValue;
