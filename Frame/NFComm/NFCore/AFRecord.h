@@ -20,7 +20,7 @@ private:
 
 public:
     AFRecord();
-    ~AFRecord();
+    virtual ~AFRecord();
 
     const char* GetName() const;
 

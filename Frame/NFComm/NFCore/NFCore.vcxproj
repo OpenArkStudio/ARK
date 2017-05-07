@@ -97,8 +97,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AFArrayPod.hpp" />
+    <ClInclude Include="AFCData.h" />
     <ClInclude Include="AFCoreDef.hpp" />
     <ClInclude Include="AFDataList.hpp" />
+    <ClInclude Include="AFIData.h" />
     <ClInclude Include="AFPropertyMgr.h" />
     <ClInclude Include="AFRecord.h" />
     <ClInclude Include="AFRecordMgr.h" />
