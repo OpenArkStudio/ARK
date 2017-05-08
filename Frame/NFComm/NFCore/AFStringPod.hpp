@@ -88,10 +88,13 @@ public:
     TYPE name[1]; //like TYPE* name /  char* name
 };
 
+//////////////////////////////////////////////////////////////////////////
+
+//predeclare
 template<typename TYPE, typename DATA, typename TRAITS = StringTraits<TYPE>, typename ALLOC = StringPodAlloc>
 class StringPod;
 
-template<typename TYPE, typename DATA, typename TRAITS = StringTraits<TYPE>, typename ALLOC = StringPodAlloc>
+template<typename TYPE, typename DATA, typename TRAITS = StringTraits<TYPE>, typename ALLOC>
 class StringPodIter
 {
 private:
@@ -117,7 +120,7 @@ public:
         }
         else
         {
-            mpNode = mpSelf->to_next(mpNode);
+            mpNode = mpSelf->ToNext(mpNode);
         }
 
         return *this;
@@ -160,7 +163,7 @@ private:
     node_t* mpNode;
 };
 
-template<typename TYPE, typename DATA, typename TRAITS = StringTraits<TYPE>, typename ALLOC = StringPodAlloc>
+template<typename TYPE, typename DATA, typename TRAITS, typename ALLOC>
 class StringPod
 {
 private:
