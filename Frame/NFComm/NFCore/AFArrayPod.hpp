@@ -24,7 +24,11 @@ public:
     }
 };
 
+//predeclare
 template<typename TYPE, size_t SIZE, typename ALLOC = ArrayPodAlloc>
+class ArraryPod;
+
+template<typename TYPE, size_t SIZE, typename ALLOC>
 class ArraryPod
 {
 public:

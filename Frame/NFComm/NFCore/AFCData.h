@@ -209,9 +209,44 @@ public:
         return *this;
     }
 
-    void Swap(self_t* src)
+    void Swap(self_t& src)
     {
-        //TODO
+        int tmp_type = this->mnType;
+        int64_t tmp_value = this->mn64Value;
+        uint32_t tmp_alloc_len = this->mnAllocLen;
+        char tmp_buffer[BUFFER_SIZE];
+        bool tmp_use_buffer = (tmp_type == DT_STRING) || (this->mstrValue == this->mBuffer);
+        if ((src.mnType == DT_STRING) || (src.mstrValue == src.mBuffer))
+        {
+            if (tmp_use_buffer)
+            {
+                memcpy(tmp_buffer, this->mBuffer, BUFFER_SIZE);
+            }
+
+            memcpy(this->mBuffer, src.mBuffer, BUFFER_SIZE);
+            mstrValue = mBuffer;
+        }
+        else
+        {
+            this->mn64Value = src.mn64Value;
+            mnAllocLen = src.mnAllocLen;
+        }
+
+        this->mnType = src.mnType;
+
+        if (tmp_use_buffer)
+        {
+            memcpy(src.mBuffer, tmp_buffer, BUFFER_SIZE);
+            src.mstrValue = src.mBuffer;
+        }
+        else
+        {
+            src.mn64Value = tmp_value;
+            src.mnAllocLen = tmp_alloc_len;
+        }
+
+        src.mnType = tmp_type;
+        mxAlloc.Swap(src.mxAlloc);
     }
     //////////////////////////////////////////////////////////////////////////
 
@@ -514,7 +549,7 @@ private:
     ALLOC mxAlloc;
     int mnType;
 
-    //可变数据联合体,size = 8
+    //可变数据联合体 size = 8
     union
     {
         bool mbValue;
