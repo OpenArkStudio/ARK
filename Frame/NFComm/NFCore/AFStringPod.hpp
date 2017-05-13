@@ -94,7 +94,7 @@ public:
 template<typename TYPE, typename DATA, typename TRAITS = StringTraits<TYPE>, typename ALLOC = StringPodAlloc>
 class StringPod;
 
-template<typename TYPE, typename DATA, typename TRAITS = StringTraits<TYPE>, typename ALLOC>
+template<typename TYPE, typename DATA, typename TRAITS = StringTraits<TYPE>, typename ALLOC = StringPodAlloc>
 class StringPodIter
 {
 private:
