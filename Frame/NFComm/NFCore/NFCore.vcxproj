@@ -98,10 +98,12 @@
   <ItemGroup>
     <ClInclude Include="AFArrayPod.hpp" />
     <ClInclude Include="AFCData.h" />
+    <ClInclude Include="AFCDataList.h" />
     <ClInclude Include="AFCoreDef.hpp" />
     <ClInclude Include="AFDataList.hpp" />
     <ClInclude Include="AFGUID.h" />
     <ClInclude Include="AFIData.h" />
+    <ClInclude Include="AFIDataList.h" />
     <ClInclude Include="AFPropertyMgr.h" />
     <ClInclude Include="AFRecord.h" />
     <ClInclude Include="AFRecordMgr.h" />
@@ -135,6 +137,7 @@
     <ClInclude Include="NFTime.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AFCDataList.cpp" />
     <ClCompile Include="AFPropertyMgr.cpp" />
     <ClCompile Include="AFRecord.cpp" />
     <ClCompile Include="AFRecordMgr.cpp" />

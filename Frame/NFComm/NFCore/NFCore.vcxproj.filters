@@ -123,6 +123,12 @@
     <ClInclude Include="AFGUID.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="AFIDataList.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCDataList.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NFCHeartBeatManager.cpp">
@@ -160,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="AFRecord.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCDataList.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
