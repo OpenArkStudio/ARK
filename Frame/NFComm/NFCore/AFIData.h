@@ -2,21 +2,23 @@
 
 #include <string>
 #include "AFGUID.h"
+namespace ArkFrame
+{
 
 enum AF_DATA_TYPE
 {
-    DT_UNKNOWN      , //unknown type
-    DT_BOOLEAN      , //bool
-    DT_INT          , //int32_t
-    DT_INT64        , //int64_t
-    DT_FLOAT        , //float
-    DT_DOUBLE       , //double
-    DT_STRING       , //string(char*)
-    DT_OBJECT       , //object(ident + serial)
-    DT_POINTER      , //pointer(void*)
-    DT_USERDATA     , //user data(char*)
-    DT_TABLE        , //table
-    DT_MAX          , //max
+    DT_UNKNOWN, //unknown type
+    DT_BOOLEAN, //bool
+    DT_INT, //int32_t
+    DT_INT64, //int64_t
+    DT_FLOAT, //float
+    DT_DOUBLE, //double
+    DT_STRING, //string(char*)
+    DT_OBJECT, //object(ident + serial)
+    DT_POINTER, //pointer(void*)
+    DT_USERDATA, //user data(char*)
+    DT_TABLE, //table
+    DT_MAX, //max
 };
 
 const static bool NULL_BOOLEAN = false;
@@ -60,7 +62,7 @@ public:
     virtual ~AFIData() = 0;
 
     virtual int GetType() const = 0;
-    
+
     //Get data
     virtual bool GetBool() const = 0;
     virtual int GetInt() const = 0;
@@ -89,3 +91,5 @@ public:
     virtual void Assign(const AFIData& src) = 0;
     virtual size_t GetMemUsage() const = 0;
 };
+
+}

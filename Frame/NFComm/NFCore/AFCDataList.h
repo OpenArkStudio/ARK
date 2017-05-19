@@ -3,6 +3,9 @@
 #include "AFIData.h"
 #include "AFIDataList.h"
 
+namespace ArkFrame
+{
+
 class AFDataListAlloc
 {
 public:
@@ -245,9 +248,9 @@ public:
         p->nType = DT_USERDATA;
         p->mnUserData = mnBufferUsed;
 
-        const size_t value_size = strlen(value) + 1;
-        char* data = AddBuffer(value_size);
-        AFIData::InitRawUserData(data, value, value_size);
+        const size_t value_size = AFIData::GetRawUserDataSize(size);
+        char* value = AddBuffer(value_size);
+        AFIData::InitRawUserData(value, pData, size);
 
         return true;
     }
@@ -357,7 +360,7 @@ public:
     {
         if (index > mnDataUsed)
         {
-            return NULL_STR;
+            return NULL_STR.c_str();
         }
 
         switch (mpData[index].nType)
@@ -369,7 +372,7 @@ public:
             break;
         }
 
-        return NULL_STR;
+        return NULL_STR.c_str();
     }
 
     virtual AFGUID Object(size_t index) const
@@ -720,3 +723,7 @@ private:
     size_t mnBufferSize;
     size_t mnBufferUsed;
 };
+
+using AFXDataList = AFCDataList<8, 128>;
+
+}

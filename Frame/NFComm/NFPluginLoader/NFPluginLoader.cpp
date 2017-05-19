@@ -131,7 +131,7 @@ void PrintfLogo()
     std::cout << "¡ï                                            ¡ï" << std::endl;
     std::cout << "¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï" << std::endl;
     std::cout << "\n" << std::endl;
-    std::cout << "-d Run itas daemon mode, only on linux" << std::endl;
+    std::cout << "-d Run it as daemon mode, only on linux" << std::endl;
     std::cout << "-x Closethe 'X' button, only on windows" << std::endl;
     std::cout << "name.xml File's name to instead of \"Plugin.xml\" when programs be launched, all platform" << std::endl;
     std::cout << "\n" << std::endl;
