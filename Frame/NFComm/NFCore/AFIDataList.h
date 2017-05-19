@@ -4,6 +4,9 @@
 #include "AFGUID.h"
 #include "AFString.hpp"
 
+namespace ArkFrame
+{
+
 class AFIDataList
 {
 public:
@@ -74,12 +77,6 @@ public:
     }
 
     inline AFIDataList& operator<<(uint16_t value)
-    {
-        AddInt(value);
-        return *this;
-    }
-
-    inline AFIDataList& operator<<(int value)
     {
         AddInt(value);
         return *this;
@@ -162,14 +159,12 @@ public:
         AddObject(value);
         return *this;
     }
-    inline AFIDataList& operator<<(const AFGUID& value)
-    {
-        AddObject(value);
-        return *this;
-    }
+
     inline AFIDataList& operator<<(const AFIDataList& value)
     {
         Concat(value);
         return *this;
     }
 };
+
+}
