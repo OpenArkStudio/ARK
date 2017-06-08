@@ -82,15 +82,6 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 6. Run ```bash ./GenerateConfigXML.sh``` to generate configuration files
 6. Run the binary file by ```Bin/Server/Debug/rund.sh```
 
-> ## :exclamation: Fixing some problem
-> ### CMake
-> 1. Git pull all source
-> 2. Install cmake[>= 2.8] please choose options for installing: **Add CMake to the system PATH for all users and restart your computer**
-> 3. Install VS2015 or gcc[>= 4.8]
-> 4. Run **install.bat** or **install.sh** to build NF
-> 5. Run the binary file by **_Out/Server/Debug/run.bat** or **_Out/Server/Debug/rund_cmake.sh**
-> 6. (Optional)For Release Version, after above, run **BuildNF.VS2015.Release.X64.bat** or **BuildNF.CMake.Release.sh**, then run the binary file by **_Out/Server/Release/run.bat** or **_Out/Server/Release/run_cmake.sh**
-
 ## Documents
 [User Manual](https://arkgame.github.io/ArkGameFrame/)
 
@@ -111,3 +102,14 @@ Still working on it, maybe use Akka.net or Orleans
 
 ----------
 Our team has always specialized in the agile development and try to help different teams to develop game project quickly and easily. After years of development, we create this frame which is a fast, scalable, distributed game server framework written by C++, include the actor library, network library, can be used as a real-time multiplayer game engine. We are still improving it.
+
+----------
+
+#### Plan
+- 1.优化数据管理性能
+- 2.优化网络性能
+- 3.优化heartbeat性能，降低精度为秒(现在是毫秒)
+- 4.增加Utility插件(放置一些常用功能)
+- 5.增加其他中间件(coroutine, mongoDB)
+- 6.增加通用的proxy-server(参考tconnd, tbus)
+- 7.完整的带业务功能的demo
