@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFUtilityPlugin.cpp" />
+    <ClCompile Include="AFCGUIDModule.cpp">
+      <Filter>AFGUIDModule</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFUtilityPlugin.h" />
+    <ClInclude Include="AFCGUIDModule.h">
+      <Filter>AFGUIDModule</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="AFGUIDModule">
+      <UniqueIdentifier>{90913ee5-a19d-4abe-9140-c81509172c54}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
