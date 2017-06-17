@@ -31,12 +31,12 @@ public:
     virtual bool Shut();
 
 protected:
-    int OnEvent(const NFGUID& self, const int event, const AFDataList& arg);
-    int OnClassCallBackEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFDataList& arg);
-    int OnPropertyCallBackEvent( const NFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList );
-    int OnPropertyStrCallBackEvent( const NFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList );
+    int OnEvent(const AFGUID& self, const int event, const AFDataList& arg);
+    int OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFDataList& arg);
+    int OnPropertyCallBackEvent( const AFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList );
+    int OnPropertyStrCallBackEvent( const AFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList );
 
-    int OnHeartBeat(const NFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount);
+    int OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount);
 
 protected:
     unsigned long mLastTime;
