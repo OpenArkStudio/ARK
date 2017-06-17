@@ -1,7 +1,8 @@
-#include "NFComm/NFCore/AFDataList.hpp"
 #include "NFComm/NFCore/AFCDataList.h"
 #include "NFComm/NFCore/NFTime.h"
 #include <chrono>
+
+using namespace ArkFrame;
 
 std::string gen_random(const int len) {
     static const char alphanum[] =
@@ -31,7 +32,7 @@ void gen_rand_str_vetor()
 
 void test_old_datalist()
 {
-    AFDataList xList;
+    AFXDataList xList;
 
     for (int i = 0; i < 100000; ++i)
     {
@@ -58,7 +59,7 @@ void test_old_datalist()
 
 void test_new_datalist()
 {
-    ArkFrame::AFXDataList xList;
+    AFXDataList xList;
 
     for (int i = 0; i < 100000; ++i)
     {
