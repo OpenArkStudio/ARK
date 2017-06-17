@@ -11,7 +11,7 @@
 
 
 #include "NFComm/NFPluginModule/NFPlatform.h"
-#include "AFDataList.hpp"
+#include "AFCDataList.h"
 #include "NFIRecord.h"
 #include "NFIRecordManager.h"
 #include "NFIHeartBeatManager.h"
@@ -33,7 +33,7 @@ class NFIObject
 public:
 
     /**
-     * @fn  NFIObject::NFIObject(NFGUID self)
+     * @fn  NFIObject::NFIObject(AFGUID self)
      *
      * @brief   Constructor.
      *
@@ -43,7 +43,7 @@ public:
      * @param   self    The class instance that this method operates on.
      */
 
-    NFIObject(NFGUID self)
+    NFIObject(AFGUID self)
     {
 
     }
@@ -73,20 +73,20 @@ public:
     virtual bool Execute() = 0;
 
     /**
-     * @fn  virtual NFGUID NFIObject::Self() = 0;
+     * @fn  virtual AFGUID NFIObject::Self() = 0;
      *
      * @brief   Gets the self.
      *
      * @author  flyicegood
      * @date    2016/11/22
      *
-     * @return  A NFGUID.
+     * @return  A AFGUID.
      */
 
-    virtual NFGUID Self() = 0;
+    virtual AFGUID Self() = 0;
 
     /**
-     * @fn  template<typename BaseType> bool NFIObject::AddPropertyCallBack(const std::string& strPropertyName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const AFDataList::TData&, const AFDataList::TData&))
+     * @fn  template<typename BaseType> bool NFIObject::AddPropertyCallBack(const std::string& strPropertyName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFDataList::TData&, const AFDataList::TData&))
      *
      * @brief   Adds a property call back.
      *
@@ -102,7 +102,7 @@ public:
      */
 
     template<typename BaseType>
-    bool AddPropertyCallBack(const std::string& strPropertyName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const AFDataList::TData&, const AFDataList::TData&))
+    bool AddPropertyCallBack(const std::string& strPropertyName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFDataList::TData&, const AFDataList::TData&))
     {
         PROPERTY_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         PROPERTY_EVENT_FUNCTOR_PTR functorPtr(NF_NEW PROPERTY_EVENT_FUNCTOR(functor));
@@ -110,7 +110,7 @@ public:
     }
 
     /**
-     * @fn  template<typename BaseType> bool NFIObject::AddRecordCallBack(const std::string& strRecordName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const RECORD_EVENT_DATA&, const AFDataList::TData&, const AFDataList::TData&))
+     * @fn  template<typename BaseType> bool NFIObject::AddRecordCallBack(const std::string& strRecordName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const RECORD_EVENT_DATA&, const AFDataList::TData&, const AFDataList::TData&))
      *
      * @brief   Adds a record call back.
      *
@@ -126,7 +126,7 @@ public:
      */
 
     template<typename BaseType>
-    bool AddRecordCallBack(const std::string& strRecordName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const RECORD_EVENT_DATA&, const AFDataList::TData&, const AFDataList::TData&))
+    bool AddRecordCallBack(const std::string& strRecordName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const RECORD_EVENT_DATA&, const AFDataList::TData&, const AFDataList::TData&))
     {
         RECORD_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         RECORD_EVENT_FUNCTOR_PTR functorPtr(NF_NEW RECORD_EVENT_FUNCTOR(functor));
@@ -134,7 +134,7 @@ public:
     }
 
     /**
-     * @fn  template<typename BaseType> bool NFIObject::AddHeartBeat(const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const float, const int), const float fTime, const int nCount)
+     * @fn  template<typename BaseType> bool NFIObject::AddHeartBeat(const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const float, const int), const float fTime, const int nCount)
      *
      * @brief   Adds a heart beat.
      *
@@ -152,7 +152,7 @@ public:
      */
 
     template<typename BaseType>
-    bool AddHeartBeat(const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const float, const int), const float fTime, const int nCount)
+    bool AddHeartBeat(const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const float, const int), const float fTime, const int nCount)
     {
         HEART_BEAT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         HEART_BEAT_FUNCTOR_PTR functorPtr(NF_NEW HEART_BEAT_FUNCTOR(functor));
@@ -322,7 +322,7 @@ public:
     virtual bool SetPropertyString(const std::string& strPropertyName, const std::string& value) = 0;
 
     /**
-     * @fn  virtual bool NFIObject::SetPropertyObject(const std::string& strPropertyName, const NFGUID& value) = 0;
+     * @fn  virtual bool NFIObject::SetPropertyObject(const std::string& strPropertyName, const AFGUID& value) = 0;
      *
      * @brief   Sets property object.
      *
@@ -335,7 +335,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetPropertyObject(const std::string& strPropertyName, const NFGUID& value) = 0;
+    virtual bool SetPropertyObject(const std::string& strPropertyName, const AFGUID& value) = 0;
 
     /**
      * @fn  virtual bool NFIObject::SetPropertyPoint(const std::string& strPropertyName, const Point3D& value) = 0;
@@ -351,7 +351,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetPropertyPoint(const std::string& strPropertyName, const Point3D& value) = 0;
+    //virtual bool SetPropertyPoint(const std::string& strPropertyName, const Point3D& value) = 0;
 
     /**
      * @fn  virtual NFINT64 NFIObject::GetPropertyInt(const std::string& strPropertyName) = 0;
@@ -399,7 +399,7 @@ public:
     virtual const std::string& GetPropertyString(const std::string& strPropertyName) = 0;
 
     /**
-     * @fn  virtual const NFGUID& NFIObject::GetPropertyObject(const std::string& strPropertyName) = 0;
+     * @fn  virtual const AFGUID& NFIObject::GetPropertyObject(const std::string& strPropertyName) = 0;
      *
      * @brief   Gets property object.
      *
@@ -411,7 +411,7 @@ public:
      * @return  The property object.
      */
 
-    virtual const NFGUID& GetPropertyObject(const std::string& strPropertyName) = 0;
+    virtual const AFGUID& GetPropertyObject(const std::string& strPropertyName) = 0;
 
     /**
      * @fn  virtual const Point3D& NFIObject::GetPropertyPoint(const std::string& strPropertyName) = 0;
@@ -426,7 +426,7 @@ public:
      * @return  The property point.
      */
 
-    virtual const Point3D& GetPropertyPoint(const std::string& strPropertyName) = 0;
+    //virtual const Point3D& GetPropertyPoint(const std::string& strPropertyName) = 0;
 
     /**
      * @fn  virtual bool NFIObject::FindRecord(const std::string& strRecordName) = 0;
@@ -498,7 +498,7 @@ public:
     virtual bool SetRecordString(const std::string& strRecordName, const int nRow, const int nCol, const std::string& value) = 0;
 
     /**
-     * @fn  virtual bool NFIObject::SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const NFGUID& value) = 0;
+     * @fn  virtual bool NFIObject::SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value) = 0;
      *
      * @brief   Sets record object.
      *
@@ -513,7 +513,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const NFGUID& value) = 0;
+    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value) = 0;
 
     /**
      * @fn  virtual bool NFIObject::SetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol, const Point3D& value) = 0;
@@ -531,7 +531,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol, const Point3D& value) = 0;
+    //virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol, const Point3D& value) = 0;
 
     /**
      * @fn  virtual bool NFIObject::SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFINT64 value) = 0;
@@ -588,7 +588,7 @@ public:
     virtual bool SetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag, const std::string& value) = 0;
 
     /**
-     * @fn  virtual bool NFIObject::SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFGUID& value) = 0;
+     * @fn  virtual bool NFIObject::SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const AFGUID& value) = 0;
      *
      * @brief   Sets record object.
      *
@@ -603,7 +603,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFGUID& value) = 0;
+    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const AFGUID& value) = 0;
 
     /**
      * @fn  virtual bool NFIObject::SetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag, const Point3D& value) = 0;
@@ -621,7 +621,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag, const Point3D& value) = 0;
+    //virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag, const Point3D& value) = 0;
 
     /**
      * @fn  virtual NFINT64 NFIObject::GetRecordInt(const std::string& strRecordName, const int nRow, const int nCol) = 0;
@@ -675,7 +675,7 @@ public:
     virtual const std::string& GetRecordString(const std::string& strRecordName, const int nRow, const int nCol) = 0;
 
     /**
-     * @fn  virtual const NFGUID& NFIObject::GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol) = 0;
+     * @fn  virtual const AFGUID& NFIObject::GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol) = 0;
      *
      * @brief   Gets record object.
      *
@@ -689,7 +689,7 @@ public:
      * @return  The record object.
      */
 
-    virtual const NFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol) = 0;
+    virtual const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol) = 0;
 
     /**
      * @fn  virtual const Point3D& NFIObject::GetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol) = 0;
@@ -706,7 +706,7 @@ public:
      * @return  The record point.
      */
 
-    virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol) = 0;
+    //virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol) = 0;
 
     /**
      * @fn  virtual NFINT64 NFIObject::GetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
@@ -760,7 +760,7 @@ public:
     virtual const std::string& GetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
 
     /**
-     * @fn  virtual const NFGUID& NFIObject::GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
+     * @fn  virtual const AFGUID& NFIObject::GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
      *
      * @brief   Gets record object.
      *
@@ -774,7 +774,7 @@ public:
      * @return  The record object.
      */
 
-    virtual const NFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
+    virtual const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
 
     /**
      * @fn  virtual const Point3D& NFIObject::GetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
@@ -791,7 +791,7 @@ public:
      * @return  The record point.
      */
 
-    virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
+    //virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
 
     /**
      * @fn  virtual NF_SHARE_PTR<NFIRecordManager> NFIObject::GetRecordManager() = 0;

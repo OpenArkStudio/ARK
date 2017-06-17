@@ -39,18 +39,18 @@ public:
     virtual NFINetClientModule* GetClusterClientModule();
 
 protected:
-    void OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID);
+    void OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID);
 
 protected:
     void Register(const int nSeverID);
     void RefreshWorldInfo();
-    void TransPBToProxy(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
+    void TransPBToProxy(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    int OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
+    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
 
 private:
-    void SendOnline(const NFGUID& self);
-    void SendOffline(const NFGUID& self);
+    void SendOnline(const AFGUID& self);
+    void SendOffline(const AFGUID& self);
 
 private:
     NFILogModule* m_pLogModule;

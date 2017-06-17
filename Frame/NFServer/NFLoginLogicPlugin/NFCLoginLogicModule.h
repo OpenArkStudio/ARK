@@ -29,7 +29,7 @@ public:
 
     virtual bool AfterInit();
 
-    virtual int OnLoginProcess(const NFGUID& object, const std::string& strAccount, const std::string& strPwd);
+    virtual int OnLoginProcess(const AFGUID& object, const std::string& strAccount, const std::string& strPwd);
 
 protected:
 

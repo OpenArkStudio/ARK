@@ -30,7 +30,7 @@ public:
     virtual bool Shut();
 
 protected:
-    int OnPropertyCallBackEvent(const NFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList);
+    int OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList);
 
 
 

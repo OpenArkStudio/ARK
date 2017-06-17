@@ -35,14 +35,14 @@ private:
     }
 
 public:
-    NFCObject(NFGUID self, NFIPluginManager* pLuginManager);
+    NFCObject(AFGUID self, NFIPluginManager* pLuginManager);
     virtual ~NFCObject();
 
     virtual bool Init();
     virtual bool Shut();
     virtual bool Execute();
     ///////////////////////////////////////////////////////////////////////
-    virtual NFGUID Self();
+    virtual AFGUID Self();
 
     virtual bool FindHeartBeat(const std::string& strHeartBeatName);
     virtual bool RemoveHeartBeat(const std::string& strHeartBeatName);
@@ -52,40 +52,40 @@ public:
     virtual bool SetPropertyInt(const std::string& strPropertyName, const NFINT64 value);
     virtual bool SetPropertyDouble(const std::string& strPropertyName, const double value);
     virtual bool SetPropertyString(const std::string& strPropertyName, const std::string& value);
-    virtual bool SetPropertyObject(const std::string& strPropertyName, const NFGUID& value);
-    virtual bool SetPropertyPoint(const std::string& strPropertyName, const Point3D& value);
+    virtual bool SetPropertyObject(const std::string& strPropertyName, const AFGUID& value);
+    //virtual bool SetPropertyPoint(const std::string& strPropertyName, const Point3D& value);
 
     virtual NFINT64 GetPropertyInt(const std::string& strPropertyName);
     virtual double GetPropertyDouble(const std::string& strPropertyName);
     virtual const std::string& GetPropertyString(const std::string& strPropertyName);
-    virtual const NFGUID& GetPropertyObject(const std::string& strPropertyName);
-    virtual const Point3D& GetPropertyPoint(const std::string& strPropertyName);
+    virtual const AFGUID& GetPropertyObject(const std::string& strPropertyName);
+    //virtual const Point3D& GetPropertyPoint(const std::string& strPropertyName);
     //////////////////////////////////////////////////////////////////////////
     virtual bool FindRecord(const std::string& strRecordName);
 
     virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const NFINT64 value);
     virtual bool SetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol, const double value);
     virtual bool SetRecordString(const std::string& strRecordName, const int nRow, const int nCol, const std::string& value);
-    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const NFGUID& value);
-    virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol, const Point3D& value);
+    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value);
+    //virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol, const Point3D& value);
 
     virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFINT64 value);
     virtual bool SetRecordDouble(const std::string& strRecordName, const int nRow, const std::string& strColTag, const double value);
     virtual bool SetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag, const std::string& value);
-    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFGUID& value);
-    virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag, const Point3D& value);
+    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const AFGUID& value);
+    //virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag, const Point3D& value);
 
     virtual NFINT64 GetRecordInt(const std::string& strRecordName, const int nRow, const int nCol);
     virtual double GetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol);
     virtual const std::string& GetRecordString(const std::string& strRecordName, const int nRow, const int nCol);
-    virtual const NFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol);
-    virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol);
+    virtual const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol);
+    //virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol);
 
     virtual NFINT64 GetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag);
     virtual double GetRecordDouble(const std::string& strRecordName, const int nRow, const std::string& strColTag);
     virtual const std::string& GetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag);
-    virtual const NFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag);
-    virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag);
+    virtual const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag);
+    //virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag);
     //////////////////////////////////////////////////////////////////////////
     virtual NF_SHARE_PTR<NFIRecordManager> GetRecordManager();
     virtual NF_SHARE_PTR<NFIHeartBeatManager> GetHeartBeatManager();
@@ -101,7 +101,7 @@ protected:
     virtual bool AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const float fTime, const int nCount);
 
 private:
-    NFGUID mSelf;
+    AFGUID mSelf;
 
     NF_SHARE_PTR<NFIRecordManager> m_pRecordManager;
     NF_SHARE_PTR<NFIHeartBeatManager> m_pHeartBeatManager;

@@ -177,7 +177,7 @@ void NFCLogModule::LogStack()
     //#endif
 }
 
-void NFCLogModule::LogDebug(const NFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -189,7 +189,7 @@ void NFCLogModule::LogDebug(const NFGUID self, const std::string& strDesc, const
     }
 }
 
-void NFCLogModule::LogInfo(const NFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -201,7 +201,7 @@ void NFCLogModule::LogInfo(const NFGUID self, const std::string& strDesc, const 
     }
 }
 
-void NFCLogModule::LogWarning(const NFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -213,7 +213,7 @@ void NFCLogModule::LogWarning(const NFGUID self, const std::string& strDesc, con
     }
 }
 
-void NFCLogModule::LogError(const NFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -225,7 +225,7 @@ void NFCLogModule::LogError(const NFGUID self, const std::string& strDesc, const
     }
 }
 
-void NFCLogModule::LogFatal(const NFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -237,7 +237,7 @@ void NFCLogModule::LogFatal(const NFGUID self, const std::string& strDesc, const
     }
 }
 
-void NFCLogModule::LogDebug(const NFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -249,7 +249,7 @@ void NFCLogModule::LogDebug(const NFGUID self, const std::string& strDesc, const
     }
 }
 
-void NFCLogModule::LogInfo(const NFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -261,7 +261,7 @@ void NFCLogModule::LogInfo(const NFGUID self, const std::string& strDesc, const 
     }
 }
 
-void NFCLogModule::LogWarning(const NFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -273,7 +273,7 @@ void NFCLogModule::LogWarning(const NFGUID self, const std::string& strDesc, con
     }
 }
 
-void NFCLogModule::LogError(const NFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -285,7 +285,7 @@ void NFCLogModule::LogError(const NFGUID self, const std::string& strDesc, const
     }
 }
 
-void NFCLogModule::LogFatal(const NFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -297,7 +297,7 @@ void NFCLogModule::LogFatal(const NFGUID self, const std::string& strDesc, const
     }
 }
 
-void NFCLogModule::LogDebug(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogDebug(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -309,7 +309,7 @@ void NFCLogModule::LogDebug(const NFGUID self, const std::ostringstream& strDesc
     }
 }
 
-void NFCLogModule::LogInfo(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogInfo(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -321,7 +321,7 @@ void NFCLogModule::LogInfo(const NFGUID self, const std::ostringstream& strDesc,
     }
 }
 
-void NFCLogModule::LogWarning(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogWarning(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -333,7 +333,7 @@ void NFCLogModule::LogWarning(const NFGUID self, const std::ostringstream& strDe
     }
 }
 
-void NFCLogModule::LogError(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogError(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -345,7 +345,7 @@ void NFCLogModule::LogError(const NFGUID self, const std::ostringstream& strDesc
     }
 }
 
-void NFCLogModule::LogFatal(const NFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void NFCLogModule::LogFatal(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -357,7 +357,7 @@ void NFCLogModule::LogFatal(const NFGUID self, const std::ostringstream& strDesc
     }
 }
 
-bool NFCLogModule::LogDebugFunctionDump(const NFGUID ident, const int nMsg, const std::string& strArg, const char* func /*= ""*/, const int line /*= 0*/)
+bool NFCLogModule::LogDebugFunctionDump(const AFGUID ident, const int nMsg, const std::string& strArg, const char* func /*= ""*/, const int line /*= 0*/)
 {
     //#ifdef NF_DEBUG_MODE
     std::ostringstream strLog;

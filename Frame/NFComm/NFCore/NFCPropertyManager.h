@@ -11,7 +11,7 @@
 
 #include "NFDefine.h"
 #include "NFMap.h"
-#include "AFDataList.hpp"
+#include "AFCDataList.h"
 #include "NFIPropertyManager.h"
 #include "AFCoreDef.hpp"
 #include "AFArrayPod.hpp"
@@ -31,7 +31,7 @@ class NFCPropertyManager : public NFIPropertyManager
 public:
 
     /**
-     * @fn  NFCPropertyManager::NFCPropertyManager(const NFGUID& self)
+     * @fn  NFCPropertyManager::NFCPropertyManager(const AFGUID& self)
      *
      * @brief   Constructor.
      *
@@ -41,7 +41,7 @@ public:
      * @param   self    The class instance that this method operates on.
      */
 
-    NFCPropertyManager(const NFGUID& self)
+    NFCPropertyManager(const AFGUID& self)
     {
         mSelf = self;
     };
@@ -74,7 +74,7 @@ public:
     virtual bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
 
     /**
-     * @fn  virtual NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const NFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty);
+     * @fn  virtual NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const AFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty);
      *
      * @brief   Adds a property to 'pProperty'.
      *
@@ -87,10 +87,10 @@ public:
      * @return  A NF_SHARE_PTR&lt;NFIProperty&gt;
      */
 
-    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const NFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty);
+    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const AFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty);
 
     /**
-     * @fn  virtual NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const NFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType);
+     * @fn  virtual NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const AFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType);
      *
      * @brief   Adds a property.
      *
@@ -104,20 +104,20 @@ public:
      * @return  A NF_SHARE_PTR&lt;NFIProperty&gt;
      */
 
-    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const NFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType);
+    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const AFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType);
 
     /**
-     * @fn  virtual const NFGUID& NFCPropertyManager::Self();
+     * @fn  virtual const AFGUID& NFCPropertyManager::Self();
      *
      * @brief   Gets the self.
      *
      * @author  flyicegood
      * @date    2016/11/29
      *
-     * @return  A reference to a const NFGUID.
+     * @return  A reference to a const AFGUID.
      */
 
-    virtual const NFGUID& Self();
+    virtual const AFGUID& Self();
 
     /**
      * @fn  virtual bool NFCPropertyManager::SetProperty(const std::string& strPropertyName, const AFDataList::TData& TData);
@@ -184,7 +184,7 @@ public:
     virtual bool SetPropertyString(const std::string& strPropertyName, const std::string& value);
 
     /**
-     * @fn  virtual bool NFCPropertyManager::SetPropertyObject(const std::string& strPropertyName, const NFGUID& value);
+     * @fn  virtual bool NFCPropertyManager::SetPropertyObject(const std::string& strPropertyName, const AFGUID& value);
      *
      * @brief   Sets property object.
      *
@@ -197,7 +197,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetPropertyObject(const std::string& strPropertyName, const NFGUID& value);
+    virtual bool SetPropertyObject(const std::string& strPropertyName, const AFGUID& value);
 
     /**
      * @fn  virtual bool NFCPropertyManager::SetPropertyPoint(const std::string& strPropertyName, const Point3D& value);
@@ -261,7 +261,7 @@ public:
     virtual const std::string& GetPropertyString(const std::string& strPropertyName);
 
     /**
-     * @fn  virtual const NFGUID& NFCPropertyManager::GetPropertyObject(const std::string& strPropertyName);
+     * @fn  virtual const AFGUID& NFCPropertyManager::GetPropertyObject(const std::string& strPropertyName);
      *
      * @brief   Gets property object.
      *
@@ -273,7 +273,7 @@ public:
      * @return  The property object.
      */
 
-    virtual const NFGUID& GetPropertyObject(const std::string& strPropertyName);
+    virtual const AFGUID& GetPropertyObject(const std::string& strPropertyName);
 
     /**
      * @fn  virtual const Point3D& NFCPropertyManager::GetPropertyPoint(const std::string& strPropertyName);
@@ -292,7 +292,7 @@ public:
 
 private:
     /** @brief   The self. */
-    NFGUID mSelf;
+    AFGUID mSelf;
 };
 
 

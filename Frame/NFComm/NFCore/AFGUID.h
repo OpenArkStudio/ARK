@@ -76,8 +76,8 @@ struct AFGUID
 
         try
         {
-            nIdent = AF_LEXICAL_CAST<NFINT64>(strIdent);
-            nSerial = AF_LEXICAL_CAST<NFINT64>(strSerial);
+            nIdent = AF_LEXICAL_CAST<NFINT32>(strIdent);
+            nSerial = AF_LEXICAL_CAST<NFINT32>(strSerial);
 
             return true;
         }
@@ -90,12 +90,12 @@ struct AFGUID
     }
 };
 
-inline bool operator==(const AFGUID& source, const AFGUID& other)
-{
-    return source.n64Value == other.n64Value;
-}
-
-inline bool operator!=(const AFGUID& source, const AFGUID& other)
-{
-    return source.n64Value != other.n64Value;
-}
+//inline bool operator==(const AFGUID& source, const AFGUID& other)
+//{
+//    return source.n64Value == other.n64Value;
+//}
+//
+//inline bool operator!=(const AFGUID& source, const AFGUID& other)
+//{
+//    return source.n64Value != other.n64Value;
+//}

@@ -21,7 +21,7 @@ bool NFCLoginLogicModule::Shut()
     return true;
 }
 
-int NFCLoginLogicModule::OnLoginProcess(const NFGUID& object, const std::string& strAccount, const std::string& strPwd)
+int NFCLoginLogicModule::OnLoginProcess(const AFGUID& object, const std::string& strAccount, const std::string& strPwd)
 {
 	return 0;
 }

@@ -35,7 +35,7 @@ bool NFCLevelModule::AfterInit()
     return true;
 }
 
-int NFCLevelModule::AddExp(const NFGUID& self, const int nExp)
+int NFCLevelModule::AddExp(const AFGUID& self, const int nExp)
 {
     int eJobType = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Job());
     int nCurExp = m_pKernelModule->GetPropertyInt(self, NFrame::Player::EXP());

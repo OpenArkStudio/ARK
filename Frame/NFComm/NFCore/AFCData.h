@@ -2,6 +2,9 @@
 
 #include "AFIData.h"
 
+namespace ArkFrame
+{
+
 class AFDataAlloc
 {
 public:
@@ -15,7 +18,7 @@ public:
 
     void Free(void* ptr, size_t size)
     {
-        delete [](char*)ptr;
+        delete[](char*)ptr;
     }
 
     void Swap(AFDataAlloc& src)
@@ -25,7 +28,7 @@ public:
 };
 
 template<size_t BUFFER_SIZE, typename ALLOC = AFDataAlloc>
-class AFCData
+class AFCData : public AFIData
 {
 public:
     using self_t = AFCData<BUFFER_SIZE, ALLOC>;
@@ -66,11 +69,11 @@ public:
             InnerSetString(src.String());
             break;
         case DT_OBJECT:
-            {
-                mnIdent = src.mnIdent;
-                mnSerial = src.mnSerial;
-            }
-            break;
+        {
+            mnIdent = src.mnIdent;
+            mnSerial = src.mnSerial;
+        }
+        break;
         case DT_POINTER:
             mpVaule = src.mpVaule;
             break;
@@ -80,7 +83,7 @@ public:
             const void* pData = src.mpUserData(size);
             InnerSetUserData(pData, size);
         }
-            break;
+        break;
         default:
             break;
         }
@@ -137,7 +140,7 @@ public:
         mnType = DT_BOOLEAN;
         mbValue = value;
     }
-    
+
     AFCData(int type, int value)
     {
         assert(type == DT_INT);
@@ -201,7 +204,7 @@ public:
         Swap(tmp);
         return *this;
     }
-    
+
     self_t& operator=(const AFIData& src)
     {
         self_t tmp(src);
@@ -292,7 +295,7 @@ public:
         return mn64Value;
     }
 
-    virtual float GetFloat() const 
+    virtual float GetFloat() const
     {
         assert(mnType == DT_FLOAT);
 
@@ -322,7 +325,7 @@ public:
 
         if (mnType != DT_STRING)
         {
-            return NULL_STR;
+            return NULL_STR.c_str();
         }
 
         return mstrValue;
@@ -366,7 +369,7 @@ public:
         return AFIData::GetUserData(mpUserData);
     }
 
-    virtual void GetRawUserData() const
+    virtual void* GetRawUserData() const
     {
         assert(mnType == DT_POINTER);
 
@@ -473,7 +476,7 @@ public:
                 size += strlen(mstrValue) + 1;
             }
         }
-            break;
+        break;
         case DT_USERDATA:
         {
             if (NULL != mpUserData)
@@ -481,7 +484,7 @@ public:
                 size += AFIData::GetUserDataSize(mpUserData);
             }
         }
-            break;
+        break;
         default:
             break;
         }
@@ -495,23 +498,23 @@ protected:
         switch (mnType)
         {
         case DT_STRING:
+        {
+            if (mstrValue != mBuffer)
             {
-                if (mstrValue != mBuffer)
-                {
-                    mxAlloc.Free(mstrValue, mnAllocLen);
-                    mstrValue = NULL;
-                }
+                mxAlloc.Free(mstrValue, mnAllocLen);
+                mstrValue = NULL;
             }
-            break;
+        }
+        break;
         case DT_USERDATA:
+        {
+            if (NULL != mpUserData)
             {
-                if (NULL != mpUserData)
-                {
-                    mxAlloc.Free(mpUserData, mnAllocLen);
-                    mpUserData = NULL;
-                }
+                mxAlloc.Free(mpUserData, mnAllocLen);
+                mpUserData = NULL;
             }
-            break;
+        }
+        break;
         default:
             break;
         }
@@ -561,7 +564,7 @@ private:
         void* mpVaule;
         char* mpUserData;
 
-        struct 
+        struct
         {
             uint32_t mnIdent;
             uint32_t mnSerial;
@@ -575,3 +578,8 @@ private:
         char mBuffer[BUFFER_SIZE];
     };
 };
+
+//special
+using AFXData = AFCData<4>;
+
+}

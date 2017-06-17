@@ -34,17 +34,17 @@ public:
     virtual bool Execute();
     virtual bool AfterInit();
 
-    virtual void StartTrail(const NFGUID self);
-    virtual void EndTrail(const NFGUID self);
+    virtual void StartTrail(const AFGUID self);
+    virtual void EndTrail(const AFGUID self);
 
 protected:
 
-    int LogObjectData(const NFGUID& self);
-    int TrailObjectData(const NFGUID& self);
+    int LogObjectData(const AFGUID& self);
+    int TrailObjectData(const AFGUID& self);
 
-    int OnObjectPropertyEvent(const NFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnObjectPropertyEvent(const AFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
 
-    int OnObjectRecordEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
 
 private:
 

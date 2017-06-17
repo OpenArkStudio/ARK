@@ -35,9 +35,9 @@ bool NFCProxyServerToWorldModule::Execute()
     return true;
 }
 
-void NFCProxyServerToWorldModule::OnServerInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+void NFCProxyServerToWorldModule::OnServerInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    NFGUID nPlayerID;
+    AFGUID nPlayerID;
     NFMsg::ServerInfoReportList xMsg;
     if(!NFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
@@ -77,23 +77,23 @@ void NFCProxyServerToWorldModule::OnServerInfoProcess(const int nSockIndex, cons
     }
 }
 
-void NFCProxyServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID)
+void NFCProxyServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
 {
     if(eEvent & NF_NET_EVENT_EOF)
     {
-        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
     }
     else if(eEvent & NF_NET_EVENT_ERROR)
     {
-        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_ERROR", "Got an error on the connection", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_ERROR", "Got an error on the connection", __FUNCTION__, __LINE__);
     }
     else if(eEvent & NF_NET_EVENT_TIMEOUT)
     {
-        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_TIMEOUT", "read timeout", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_TIMEOUT", "read timeout", __FUNCTION__, __LINE__);
     }
     else  if(eEvent == NF_NET_EVENT_CONNECTED)
     {
-        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
         Register(nServerID);
     }
 }
@@ -135,7 +135,7 @@ void NFCProxyServerToWorldModule::Register(const int nServerID)
                     int nTargetID = pServerData->nGameID;
                     GetClusterModule()->SendToServerByPB(nTargetID, NFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg);
 
-                    m_pLogModule->LogInfo(NFGUID(0, pData->server_id()), pData->server_name(), "Register");
+                    m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
                 }
             }
         }
@@ -192,10 +192,10 @@ bool NFCProxyServerToWorldModule::AfterInit()
 }
 
 
-void NFCProxyServerToWorldModule::OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+void NFCProxyServerToWorldModule::OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //保持记录,直到下线,或者1分钟不上线即可删除
-    NFGUID nPlayerID;
+    AFGUID nPlayerID;
     NFMsg::AckConnectWorldResult xMsg;
     if(!NFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
@@ -235,10 +235,10 @@ bool NFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccoun
 
 void NFCProxyServerToWorldModule::LogServerInfo(const std::string& strServerInfo)
 {
-    m_pLogModule->LogInfo(NFGUID(), strServerInfo, "");
+    m_pLogModule->LogInfo(AFGUID(), strServerInfo, "");
 }
 
-void NFCProxyServerToWorldModule::OnOtherMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const NFGUID& xClientID)
+void NFCProxyServerToWorldModule::OnOtherMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     m_pProxyServerNet_ServerModule->Transpond(nSockIndex, nMsgID, msg, nLen, xClientID);
 }

@@ -13,7 +13,7 @@
 //#include "NFCComponentManager.h"
 #include "NFCEventManager.h"
 
-NFCObject::NFCObject(NFGUID self, NFIPluginManager* pLuginManager)
+NFCObject::NFCObject(AFGUID self, NFIPluginManager* pLuginManager)
     : NFIObject(self)
 {
     mSelf = self;
@@ -116,15 +116,15 @@ bool NFCObject::SetPropertyString(const std::string& strPropertyName, const std:
     return GetPropertyManager()->SetPropertyString(strPropertyName, value);
 }
 
-bool NFCObject::SetPropertyObject(const std::string& strPropertyName, const NFGUID& value)
+bool NFCObject::SetPropertyObject(const std::string& strPropertyName, const AFGUID& value)
 {
     return GetPropertyManager()->SetPropertyObject(strPropertyName, value);
 }
 
-bool NFCObject::SetPropertyPoint(const std::string& strPropertyName, const Point3D& value)
-{
-    return GetPropertyManager()->SetPropertyPoint(strPropertyName, value);
-}
+//bool NFCObject::SetPropertyPoint(const std::string& strPropertyName, const Point3D& value)
+//{
+//    return GetPropertyManager()->SetPropertyPoint(strPropertyName, value);
+//}
 
 NFINT64 NFCObject::GetPropertyInt(const std::string& strPropertyName)
 {
@@ -141,15 +141,15 @@ const std::string& NFCObject::GetPropertyString(const std::string& strPropertyNa
     return GetPropertyManager()->GetPropertyString(strPropertyName);
 }
 
-const NFGUID& NFCObject::GetPropertyObject(const std::string& strPropertyName)
+const AFGUID& NFCObject::GetPropertyObject(const std::string& strPropertyName)
 {
     return GetPropertyManager()->GetPropertyObject(strPropertyName);
 }
 
-const Point3D& NFCObject::GetPropertyPoint(const std::string& strPropertyName)
-{
-    return GetPropertyManager()->GetPropertyPoint(strPropertyName);
-}
+//const Point3D& NFCObject::GetPropertyPoint(const std::string& strPropertyName)
+//{
+//    return GetPropertyManager()->GetPropertyPoint(strPropertyName);
+//}
 
 bool NFCObject::FindRecord(const std::string& strRecordName)
 {
@@ -192,25 +192,25 @@ bool NFCObject::SetRecordString(const std::string& strRecordName, const int nRow
     return GetRecordManager()->SetRecordString(strRecordName, nRow, strColTag, value);
 }
 
-bool NFCObject::SetRecordObject(const std::string & strRecordName, const int nRow, const int nCol, const NFGUID & value)
+bool NFCObject::SetRecordObject(const std::string & strRecordName, const int nRow, const int nCol, const AFGUID & value)
 {
     return GetRecordManager()->SetRecordObject(strRecordName, nRow, nCol, value);
 }
 
-bool NFCObject::SetRecordObject(const std::string & strRecordName, const int nRow, const std::string & strColTag, const NFGUID & value)
+bool NFCObject::SetRecordObject(const std::string & strRecordName, const int nRow, const std::string & strColTag, const AFGUID & value)
 {
     return GetRecordManager()->SetRecordObject(strRecordName, nRow, strColTag, value);
 }
 
-bool NFCObject::SetRecordPoint(const std::string & strRecordName, const int nRow, const int nCol, const Point3D & value)
-{
-    return GetRecordManager()->SetRecordPoint(strRecordName, nRow, nCol, value);
-}
-
-bool NFCObject::SetRecordPoint(const std::string & strRecordName, const int nRow, const std::string & strColTag, const Point3D & value)
-{
-    return GetRecordManager()->SetRecordPoint(strRecordName, nRow, strColTag, value);
-}
+//bool NFCObject::SetRecordPoint(const std::string & strRecordName, const int nRow, const int nCol, const Point3D & value)
+//{
+//    return GetRecordManager()->SetRecordPoint(strRecordName, nRow, nCol, value);
+//}
+//
+//bool NFCObject::SetRecordPoint(const std::string & strRecordName, const int nRow, const std::string & strColTag, const Point3D & value)
+//{
+//    return GetRecordManager()->SetRecordPoint(strRecordName, nRow, strColTag, value);
+//}
 
 NFINT64 NFCObject::GetRecordInt(const std::string & strRecordName, const int nRow, const int nCol)
 {
@@ -242,25 +242,25 @@ const std::string& NFCObject::GetRecordString(const std::string & strRecordName,
     return GetRecordManager()->GetRecordString(strRecordName, nRow, strColTag);
 }
 
-const NFGUID& NFCObject::GetRecordObject(const std::string & strRecordName, const int nRow, const int nCol)
+const AFGUID& NFCObject::GetRecordObject(const std::string & strRecordName, const int nRow, const int nCol)
 {
     return GetRecordManager()->GetRecordObject(strRecordName, nRow, nCol);
 }
 
-const NFGUID& NFCObject::GetRecordObject(const std::string & strRecordName, const int nRow, const std::string & strColTag)
+const AFGUID& NFCObject::GetRecordObject(const std::string & strRecordName, const int nRow, const std::string & strColTag)
 {
     return GetRecordManager()->GetRecordObject(strRecordName, nRow, strColTag);
 }
 
-const Point3D& NFCObject::GetRecordPoint(const std::string & strRecordName, const int nRow, const int nCol)
-{
-    return GetRecordManager()->GetRecordPoint(strRecordName, nRow, nCol);
-}
-
-const Point3D& NFCObject::GetRecordPoint(const std::string & strRecordName, const int nRow, const std::string & strColTag)
-{
-    return GetRecordManager()->GetRecordPoint(strRecordName, nRow, strColTag);
-}
+//const Point3D& NFCObject::GetRecordPoint(const std::string & strRecordName, const int nRow, const int nCol)
+//{
+//    return GetRecordManager()->GetRecordPoint(strRecordName, nRow, nCol);
+//}
+//
+//const Point3D& NFCObject::GetRecordPoint(const std::string & strRecordName, const int nRow, const std::string & strColTag)
+//{
+//    return GetRecordManager()->GetRecordPoint(strRecordName, nRow, strColTag);
+//}
 
 NF_SHARE_PTR<NFIRecordManager> NFCObject::GetRecordManager()
 {
@@ -277,7 +277,7 @@ NF_SHARE_PTR<NFIPropertyManager> NFCObject::GetPropertyManager()
     return m_pPropertyManager;
 }
 
-NFGUID NFCObject::Self()
+AFGUID NFCObject::Self()
 {
     return mSelf;
 }

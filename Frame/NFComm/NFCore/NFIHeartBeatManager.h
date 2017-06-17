@@ -13,8 +13,8 @@
 #include "NFMap.h"
 #include "NFList.h"
 #include "NFDefine.h"
-#include "AFDataList.hpp"
-
+#include "AFCDataList.h"
+using namespace ArkFrame;
 /**
  * @class   NFCHeartBeatElement
  *
@@ -52,7 +52,7 @@ public:
 
     void DoHeartBeatEvent();
 
-    NFGUID self;
+    AFGUID self;
     NFINT64 nBeatTime;
     NFINT64 nNextTriggerTime;//next trigger time, millisecond
     int nCount;
@@ -85,17 +85,17 @@ public:
     virtual ~NFIHeartBeatManager() {}
 
     /**
-     * @fn  virtual NFGUID NFIHeartBeatManager::Self() = 0;
+     * @fn  virtual AFGUID NFIHeartBeatManager::Self() = 0;
      *
      * @brief   Gets the self.
      *
      * @author  flyicegood
      * @date    2016/11/22
      *
-     * @return  A NFGUID.
+     * @return  A AFGUID.
      */
 
-    virtual NFGUID Self() = 0;
+    virtual AFGUID Self() = 0;
 
     /**
      * @fn  virtual bool NFIHeartBeatManager::Execute() = 0;
@@ -126,7 +126,7 @@ public:
     virtual bool Exist(const std::string& strHeartBeatName) = 0;
 
     /**
-     * @fn  virtual bool NFIHeartBeatManager::AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const float fTime, const int nCount) = 0;
+     * @fn  virtual bool NFIHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const float fTime, const int nCount) = 0;
      *
      * @brief   Adds a heart beat.
      *
@@ -142,7 +142,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const NFINT64 nTime, const int nCount) = 0;
+    virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const NFINT64 nTime, const int nCount) = 0;
 
     /**
      * @fn  virtual bool NFIHeartBeatManager::RemoveHeartBeat(const std::string& strHeartBeatName) = 0;
@@ -160,7 +160,7 @@ public:
     virtual bool RemoveHeartBeat(const std::string& strHeartBeatName) = 0;
 
     /**
-     * @fn  template<typename BaseType> bool NFIHeartBeatManager::AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const float, const int), const float fTime, const int nCount)
+     * @fn  template<typename BaseType> bool NFIHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const float, const int), const float fTime, const int nCount)
      *
      * @brief   Adds a heart beat.
      *
@@ -179,7 +179,7 @@ public:
      */
 
     template<typename BaseType>
-    bool AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const NFINT64, const int), const NFINT64 nTime, const int nCount)
+    bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const NFINT64, const int), const NFINT64 nTime, const int nCount)
     {
         HEART_BEAT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         HEART_BEAT_FUNCTOR_PTR functorPtr(NF_NEW HEART_BEAT_FUNCTOR(functor));

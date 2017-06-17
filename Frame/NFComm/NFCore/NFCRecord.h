@@ -11,728 +11,61 @@
 
 #include <vector>
 #include "NFIRecord.h"
-#include "AFDataList.hpp"
+#include "AFCDataList.h"
 #include "NFMapEx.h"
-
-/**
- * @class   NFCRecord
- *
- * @brief   Information about the nfc.
- *
- * @author  flyicegood
- * @date    2016/11/29
- */
 
 class NFCRecord : public NFIRecord
 {
 public:
-
-    /**
-     * @fn  NFCRecord::NFCRecord();
-     *
-     * @brief   Default constructor.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     */
-
     NFCRecord();
-
-    /**
-     * @fn  NFCRecord::NFCRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& valueList, const NF_SHARE_PTR<AFDataList>& tagList, const int nMaxRow);
-     *
-     * @brief   Constructor.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   self            The class instance that this method operates on.
-     * @param   strRecordName   Name of the record.
-     * @param   valueList       List of values.
-     * @param   tagList         List of tags.
-     * @param   nMaxRow         The maximum row.
-     */
-
-    NFCRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& valueList, const NF_SHARE_PTR<AFDataList>& tagList, const int nMaxRow);
-
-    /**
-     * @fn  virtual NFCRecord::~NFCRecord();
-     *
-     * @brief   Destructor.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     */
-
+    NFCRecord(const AFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFIDataList>& valueList, const NF_SHARE_PTR<AFIDataList>& tagList, const int nMaxRow);
     virtual ~NFCRecord();
 
-    /**
-     * @fn  virtual bool NFCRecord::IsUsed(const int nRow) const;
-     *
-     * @brief   Query if 'nRow' is used.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     *
-     * @return  True if used, false if not.
-     */
-
     virtual bool IsUsed(const int nRow) const;
-
-    /**
-     * @fn  virtual bool NFCRecord::SetUsed(const int nRow, const int bUse);
-     *
-     * @brief   Sets an used.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   bUse    The use.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
     virtual bool SetUsed(const int nRow, const int bUse);
-
-    /**
-     * @fn  virtual int NFCRecord::GetCols() const;
-     *
-     * @brief   Gets the cols.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @return  The cols.
-     */
-
     virtual int GetCols() const;
-
-    /**
-     * @fn  virtual int NFCRecord::GetRows() const;
-     *
-     * @brief   Gets the rows.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @return  The rows.
-     */
-
     virtual int GetRows() const;
 
-    /**
-     * @fn  virtual TDATA_TYPE NFCRecord::GetColType(const int nCol) const;
-     *
-     * @brief   Gets col type.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nCol    The col.
-     *
-     * @return  The col type.
-     */
-
-    virtual TDATA_TYPE GetColType(const int nCol) const;
-
-    /**
-     * @fn  virtual const std::string& NFCRecord::GetColTag(const int nCol) const;
-     *
-     * @brief   Gets col tag.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nCol    The col.
-     *
-     * @return  The col tag.
-     */
-
+    virtual int GetColType(const int nCol) const;
     virtual const std::string& GetColTag(const int nCol) const;
 
-    /**
-     * @fn  virtual int NFCRecord::AddRow(const int nRow);
-     *
-     * @brief   添加数据.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     *
-     * @return  An int.
-     */
-
     virtual int AddRow(const int nRow);
+    virtual int AddRow(const int nRow, const AFIDataList& var);
 
-    /**
-     * @fn  virtual int NFCRecord::AddRow(const int nRow, const AFDataList& var);
-     *
-     * @brief   Adds a row to 'var'.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   var     The variable.
-     *
-     * @return  An int.
-     */
-
-    virtual int AddRow(const int nRow, const AFDataList& var);
-
-    /**
-     * @fn  virtual bool NFCRecord::SetInt(const int nRow, const int nCol, const NFINT64 value);
-     *
-     * @brief   Sets an int.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   nCol    The col.
-     * @param   value   The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetInt(const int nRow, const int nCol, const NFINT64 value);
-
-    /**
-     * @fn  virtual bool NFCRecord::SetDouble(const int nRow, const int nCol, const double value);
-     *
-     * @brief   Sets a double.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   nCol    The col.
-     * @param   value   The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
+    virtual bool SetInt(const int nRow, const int nCol, const NFINT32 value);
     virtual bool SetDouble(const int nRow, const int nCol, const double value);
-
-    /**
-     * @fn  virtual bool NFCRecord::SetString(const int nRow, const int nCol, const std::string& value);
-     *
-     * @brief   Sets a string.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   nCol    The col.
-     * @param   value   The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
     virtual bool SetString(const int nRow, const int nCol, const std::string& value);
+    virtual bool SetObject(const int nRow, const int nCol, const AFGUID& value);
 
-    /**
-     * @fn  virtual bool NFCRecord::SetObject(const int nRow, const int nCol, const NFGUID& value);
-     *
-     * @brief   Sets an object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   nCol    The col.
-     * @param   value   The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetObject(const int nRow, const int nCol, const NFGUID& value);
-
-    /**
-     * @fn  virtual bool NFCRecord::SetPoint(const int nRow, const int nCol, const Point3D& value);
-     *
-     * @brief   Sets a point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   nCol    The col.
-     * @param   value   The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetPoint(const int nRow, const int nCol, const Point3D& value);
-
-    /**
-     * @fn  virtual bool NFCRecord::SetInt(const int nRow, const std::string& strColTag, const NFINT64 value);
-     *
-     * @brief   Sets an int.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow        The row.
-     * @param   strColTag   The col tag.
-     * @param   value       The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetInt(const int nRow, const std::string& strColTag, const NFINT64 value);
-
-    /**
-     * @fn  virtual bool NFCRecord::SetDouble(const int nRow, const std::string& strColTag, const double value);
-     *
-     * @brief   Sets a double.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow        The row.
-     * @param   strColTag   The col tag.
-     * @param   value       The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
+    virtual bool SetInt(const int nRow, const std::string& strColTag, const NFINT32 value);
     virtual bool SetDouble(const int nRow, const std::string& strColTag, const double value);
-
-    /**
-     * @fn  virtual bool NFCRecord::SetString(const int nRow, const std::string& strColTag, const std::string& value);
-     *
-     * @brief   Sets a string.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow        The row.
-     * @param   strColTag   The col tag.
-     * @param   value       The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
     virtual bool SetString(const int nRow, const std::string& strColTag, const std::string& value);
+    virtual bool SetObject(const int nRow, const std::string& strColTag, const AFGUID& value);
 
-    /**
-     * @fn  virtual bool NFCRecord::SetObject(const int nRow, const std::string& strColTag, const NFGUID& value);
-     *
-     * @brief   Sets an object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow        The row.
-     * @param   strColTag   The col tag.
-     * @param   value       The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetObject(const int nRow, const std::string& strColTag, const NFGUID& value);
-
-    /**
-     * @fn  virtual bool NFCRecord::SetPoint(const int nRow, const std::string& strColTag, const Point3D& value);
-     *
-     * @brief   Sets a point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow        The row.
-     * @param   strColTag   The col tag.
-     * @param   value       The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetPoint(const int nRow, const std::string& strColTag, const Point3D& value);
-
-    /**
-     * @fn  virtual NFINT64 NFCRecord::GetInt(const int nRow, const int nCol) const;
-     *
-     * @brief   Gets an int.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   nCol    The col.
-     *
-     * @return  The int.
-     */
-
-    virtual NFINT64 GetInt(const int nRow, const int nCol) const;
-
-    /**
-     * @fn  virtual double NFCRecord::GetDouble(const int nRow, const int nCol) const;
-     *
-     * @brief   Gets a double.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   nCol    The col.
-     *
-     * @return  The double.
-     */
-
+    virtual NFINT32 GetInt(const int nRow, const int nCol) const;
     virtual double GetDouble(const int nRow, const int nCol) const;
-
-    /**
-     * @fn  virtual const std::string& NFCRecord::GetString(const int nRow, const int nCol) const;
-     *
-     * @brief   Gets a string.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   nCol    The col.
-     *
-     * @return  The string.
-     */
-
     virtual const std::string& GetString(const int nRow, const int nCol) const;
+    virtual const AFGUID& GetObject(const int nRow, const int nCol) const;
 
-    /**
-     * @fn  virtual const NFGUID& NFCRecord::GetObject(const int nRow, const int nCol) const;
-     *
-     * @brief   Gets an object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   nCol    The col.
-     *
-     * @return  The object.
-     */
-
-    virtual const NFGUID& GetObject(const int nRow, const int nCol) const;
-
-    /**
-     * @fn  virtual const Point3D& NFCRecord::GetPoint(const int nRow, const int nCol) const;
-     *
-     * @brief   Gets a point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow    The row.
-     * @param   nCol    The col.
-     *
-     * @return  The point.
-     */
-
-    virtual const Point3D& GetPoint(const int nRow, const int nCol) const;
-
-    /**
-     * @fn  virtual NFINT64 NFCRecord::GetInt(const int nRow, const std::string& strColTag) const;
-     *
-     * @brief   Gets an int.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow        The row.
-     * @param   strColTag   The col tag.
-     *
-     * @return  The int.
-     */
-
-    virtual NFINT64 GetInt(const int nRow, const std::string& strColTag) const;
-
-    /**
-     * @fn  virtual double NFCRecord::GetDouble(const int nRow, const std::string& strColTag) const;
-     *
-     * @brief   Gets a double.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow        The row.
-     * @param   strColTag   The col tag.
-     *
-     * @return  The double.
-     */
-
+    virtual NFINT32 GetInt(const int nRow, const std::string& strColTag) const;
     virtual double GetDouble(const int nRow, const std::string& strColTag) const;
-
-    /**
-     * @fn  virtual const std::string& NFCRecord::GetString(const int nRow, const std::string& strColTag) const;
-     *
-     * @brief   Gets a string.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow        The row.
-     * @param   strColTag   The col tag.
-     *
-     * @return  The string.
-     */
-
     virtual const std::string& GetString(const int nRow, const std::string& strColTag) const;
+    virtual const AFGUID& GetObject(const int nRow, const std::string& strColTag) const;
 
-    /**
-     * @fn  virtual const NFGUID& NFCRecord::GetObject(const int nRow, const std::string& strColTag) const;
-     *
-     * @brief   Gets an object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow        The row.
-     * @param   strColTag   The col tag.
-     *
-     * @return  The object.
-     */
+    virtual int FindRowByColValue(const int nCol, const AFIDataList& var, AFIDataList& varResult);
 
-    virtual const NFGUID& GetObject(const int nRow, const std::string& strColTag) const;
+    virtual int FindInt(const int nCol, const NFINT32 value, AFIDataList& varResult);
+    virtual int FindDouble(const int nCol, const double value, AFIDataList& varResult);
+    virtual int FindString(const int nCol, const std::string& value, AFIDataList& varResult);
+    virtual int FindObject(const int nCol, const AFGUID& value, AFIDataList& varResult);
 
-    /**
-     * @fn  virtual const Point3D& NFCRecord::GetPoint(const int nRow, const std::string& strColTag) const;
-     *
-     * @brief   Gets a point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nRow        The row.
-     * @param   strColTag   The col tag.
-     *
-     * @return  The point.
-     */
+    virtual int FindRowByColValue(const std::string& strColTag, const AFIDataList& var, AFIDataList& varResult);
+    virtual int FindInt(const std::string& strColTag, const NFINT32 value, AFIDataList& varResult);
+    virtual int FindDouble(const std::string& strColTag, const double value, AFIDataList& varResult);
+    virtual int FindString(const std::string& strColTag, const std::string& value, AFIDataList& varResult);
+    virtual int FindObject(const std::string& strColTag, const AFGUID& value, AFIDataList& varResult);
 
-    virtual const Point3D& GetPoint(const int nRow, const std::string& strColTag) const;
-
-    /**
-     * @fn  virtual int NFCRecord::FindRowByColValue(const int nCol, const AFDataList& var, AFDataList& varResult);
-     *
-     * @brief   Searches for the first row by col value.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           nCol        The col.
-     * @param           var         The variable.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found row by col value.
-     */
-
-    virtual int FindRowByColValue(const int nCol, const AFDataList& var, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindInt(const int nCol, const NFINT64 value, AFDataList& varResult);
-     *
-     * @brief   Searches for the first int.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           nCol        The col.
-     * @param           value       The value.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found int.
-     */
-
-    virtual int FindInt(const int nCol, const NFINT64 value, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindDouble(const int nCol, const double value, AFDataList& varResult);
-     *
-     * @brief   Searches for the first double.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           nCol        The col.
-     * @param           value       The value.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found double.
-     */
-
-    virtual int FindDouble(const int nCol, const double value, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindString(const int nCol, const std::string& value, AFDataList& varResult);
-     *
-     * @brief   Searches for the first string.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           nCol        The col.
-     * @param           value       The value.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found string.
-     */
-
-    virtual int FindString(const int nCol, const std::string& value, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindObject(const int nCol, const NFGUID& value, AFDataList& varResult);
-     *
-     * @brief   Searches for the first object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           nCol        The col.
-     * @param           value       The value.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found object.
-     */
-
-    virtual int FindObject(const int nCol, const NFGUID& value, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindPoint(const int nCol, const Point3D& value, AFDataList& varResult);
-     *
-     * @brief   Searches for the first point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           nCol        The col.
-     * @param           value       The value.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found point.
-     */
-
-    virtual int FindPoint(const int nCol, const Point3D& value, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindRowByColValue(const std::string& strColTag, const AFDataList& var, AFDataList& varResult);
-     *
-     * @brief   Searches for the first row by col value.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           strColTag   The col tag.
-     * @param           var         The variable.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found row by col value.
-     */
-
-    virtual int FindRowByColValue(const std::string& strColTag, const AFDataList& var, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindInt(const std::string& strColTag, const NFINT64 value, AFDataList& varResult);
-     *
-     * @brief   Searches for the first int.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           strColTag   The col tag.
-     * @param           value       The value.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found int.
-     */
-
-    virtual int FindInt(const std::string& strColTag, const NFINT64 value, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindDouble(const std::string& strColTag, const double value, AFDataList& varResult);
-     *
-     * @brief   Searches for the first double.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           strColTag   The col tag.
-     * @param           value       The value.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found double.
-     */
-
-    virtual int FindDouble(const std::string& strColTag, const double value, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindString(const std::string& strColTag, const std::string& value, AFDataList& varResult);
-     *
-     * @brief   Searches for the first string.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           strColTag   The col tag.
-     * @param           value       The value.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found string.
-     */
-
-    virtual int FindString(const std::string& strColTag, const std::string& value, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindObject(const std::string& strColTag, const NFGUID& value, AFDataList& varResult);
-     *
-     * @brief   Searches for the first object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           strColTag   The col tag.
-     * @param           value       The value.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found object.
-     */
-
-    virtual int FindObject(const std::string& strColTag, const NFGUID& value, AFDataList& varResult);
-
-    /**
-     * @fn  virtual int NFCRecord::FindPoint(const std::string& strColTag, const Point3D& value, AFDataList& varResult);
-     *
-     * @brief   Searches for the first point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           strColTag   The col tag.
-     * @param           value       The value.
-     * @param [in,out]  varResult   The variable result.
-     *
-     * @return  The found point.
-     */
-
-    virtual int FindPoint(const std::string& strColTag, const Point3D& value, AFDataList& varResult);
-
-    /**
-     * @fn  virtual bool NFCRecord::QueryRow(const int nRow, AFDataList& varList);
-     *
-     * @brief   ///////////////////////////////////////////////////////////////////////.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param           nRow    The row.
-     * @param [in,out]  varList List of variables.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool QueryRow(const int nRow, AFDataList& varList);
+    virtual bool QueryRow(const int nRow, AFIDataList& varList);
 
     /**
      * @fn  virtual bool NFCRecord::SwapRowInfo(const int nOriginRow, const int nTargetRow);
@@ -932,7 +265,7 @@ public:
      * @return  The init data.
      */
 
-    virtual const NF_SHARE_PTR<AFDataList> GetInitData() const;
+    virtual const NF_SHARE_PTR<AFIDataList> GetInitData() const;
 
     /**
      * @fn  virtual const NF_SHARE_PTR<AFDataList> NFCRecord::GetTag() const;
@@ -945,7 +278,7 @@ public:
      * @return  The tag.
      */
 
-    virtual const NF_SHARE_PTR<AFDataList> GetTag() const;
+    virtual const NF_SHARE_PTR<AFIDataList> GetTag() const;
 
     /**
      * @fn  virtual const TRECORDVEC& NFCRecord::GetRecordVec() const;
@@ -1053,10 +386,10 @@ protected:
      * @return  True if it succeeds, false if it fails.
      */
 
-    bool ValidCheck(TDATA_TYPE eType, const AFDataList::TData& var, NF_SHARE_PTR<AFDataList::TData>& pVar);
+    bool ValidCheck(AF_DATA_TYPE eType, const AFIData& var, NF_SHARE_PTR<AFIData>& pVar);
 
     /**
-     * @fn  void NFCRecord::OnEventHandler(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+     * @fn  void NFCRecord::OnEventHandler(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
      *
      * @brief   Executes the event handler action.
      *
@@ -1069,14 +402,14 @@ protected:
      * @param   newVar      The new variable.
      */
 
-    void OnEventHandler(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    void OnEventHandler(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
 protected:
     //记录这个表的Key类型，那样在读取和设置的时候才能保持正确
     /** @brief   初始值类型--应该引用静态的(或者智能指针)，节约大量内存. */
-    NF_SHARE_PTR<AFDataList> mVarRecordType;
+    NF_SHARE_PTR<AFIDataList> mVarRecordType;
     /** @brief   col的tag值--应该引用静态的(或者智能指针)，节约大量内存. */
-    NF_SHARE_PTR<AFDataList> mVarRecordTag;
+    NF_SHARE_PTR<AFIDataList> mVarRecordTag;
 
     /** @brief   tag->col转换. */
     std::map<std::string, int> mmTag;
@@ -1090,7 +423,7 @@ protected:
     int mnMaxRow;
 
     /** @brief   The self. */
-    NFGUID mSelf;
+    AFGUID mSelf;
     /** @brief   True to megabytes save. */
     bool mbSave;
     /** @brief   True to megabytes public. */

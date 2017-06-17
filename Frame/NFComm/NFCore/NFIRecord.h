@@ -10,8 +10,10 @@
 #define NFI_RECORD_H
 
 #include "NFDefine.h"
-#include "AFDataList.hpp"
+#include "AFCData.h"
+#include "AFCDataList.h"
 
+using namespace ArkFrame;
 /**
  * @class   NFIRecord
  *
@@ -36,7 +38,7 @@ public:
         Cover,
     };
 
-    typedef std::vector< NF_SHARE_PTR<AFDataList::TData> > TRECORDVEC;
+    typedef std::vector<NF_SHARE_PTR<AFIData>> TRECORDVEC;
     typedef TRECORDVEC::const_iterator TRECORDVECCONSTITER;
 
     virtual ~NFIRecord() {}
@@ -111,7 +113,7 @@ public:
      * @return  The col type.
      */
 
-    virtual TDATA_TYPE GetColType(const int nCol) const = 0;
+    virtual int GetColType(const int nCol) const = 0;
 
     /**
      * @fn  virtual const std::string& NFIRecord::GetColTag(const int nCol) const = 0;
@@ -157,7 +159,7 @@ public:
      * @return  An int.
      */
 
-    virtual int AddRow(const int nRow, const AFDataList& var) = 0;
+    virtual int AddRow(const int nRow, const AFIDataList& var) = 0;
 
     /**
      * @fn  virtual bool NFIRecord::SetInt(const int nRow, const int nCol, const NFINT64 value) = 0;
@@ -174,7 +176,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetInt(const int nRow, const int nCol, const NFINT64 value) = 0;
+    virtual bool SetInt(const int nRow, const int nCol, const NFINT32 value) = 0;
 
     /**
      * @fn  virtual bool NFIRecord::SetDouble(const int nRow, const int nCol, const double value) = 0;
@@ -211,7 +213,7 @@ public:
     virtual bool SetString(const int nRow, const int nCol, const std::string& value) = 0;
 
     /**
-     * @fn  virtual bool NFIRecord::SetObject(const int nRow, const int nCol, const NFGUID& value) = 0;
+     * @fn  virtual bool NFIRecord::SetObject(const int nRow, const int nCol, const AFGUID& value) = 0;
      *
      * @brief   Sets an object.
      *
@@ -225,7 +227,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetObject(const int nRow, const int nCol, const NFGUID& value) = 0;
+    virtual bool SetObject(const int nRow, const int nCol, const AFGUID& value) = 0;
 
     /**
      * @fn  virtual bool NFIRecord::SetPoint(const int nRow, const int nCol, const Point3D& value) = 0;
@@ -242,7 +244,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetPoint(const int nRow, const int nCol, const Point3D& value) = 0;
+    //virtual bool SetPoint(const int nRow, const int nCol, const Point3D& value) = 0;
 
     /**
      * @fn  virtual bool NFIRecord::SetInt(const int nRow, const std::string& strColTag, const NFINT64 value) = 0;
@@ -259,7 +261,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetInt(const int nRow, const std::string& strColTag, const NFINT64 value) = 0;
+    virtual bool SetInt(const int nRow, const std::string& strColTag, const NFINT32 value) = 0;
 
     /**
      * @fn  virtual bool NFIRecord::SetDouble(const int nRow, const std::string& strColTag, const double value) = 0;
@@ -296,7 +298,7 @@ public:
     virtual bool SetString(const int nRow, const std::string& strColTag, const std::string& value) = 0;
 
     /**
-     * @fn  virtual bool NFIRecord::SetObject(const int nRow, const std::string& strColTag, const NFGUID& value) = 0;
+     * @fn  virtual bool NFIRecord::SetObject(const int nRow, const std::string& strColTag, const AFGUID& value) = 0;
      *
      * @brief   Sets an object.
      *
@@ -310,7 +312,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetObject(const int nRow, const std::string& strColTag, const NFGUID& value) = 0;
+    virtual bool SetObject(const int nRow, const std::string& strColTag, const AFGUID& value) = 0;
 
     /**
      * @fn  virtual bool NFIRecord::SetPoint(const int nRow, const std::string& strColTag, const Point3D& value) = 0;
@@ -327,7 +329,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetPoint(const int nRow, const std::string& strColTag, const Point3D& value) = 0;
+    //virtual bool SetPoint(const int nRow, const std::string& strColTag, const Point3D& value) = 0;
 
     /**
      * @fn  virtual NFINT64 NFIRecord::GetInt(const int nRow, const int nCol) const = 0;
@@ -343,7 +345,7 @@ public:
      * @return  The int.
      */
 
-    virtual NFINT64 GetInt(const int nRow, const int nCol) const = 0;
+    virtual NFINT32 GetInt(const int nRow, const int nCol) const = 0;
 
     /**
      * @fn  virtual double NFIRecord::GetDouble(const int nRow, const int nCol) const = 0;
@@ -378,7 +380,7 @@ public:
     virtual const std::string& GetString(const int nRow, const int nCol) const = 0;
 
     /**
-     * @fn  virtual const NFGUID& NFIRecord::GetObject(const int nRow, const int nCol) const = 0;
+     * @fn  virtual const AFGUID& NFIRecord::GetObject(const int nRow, const int nCol) const = 0;
      *
      * @brief   Gets an object.
      *
@@ -391,7 +393,7 @@ public:
      * @return  The object.
      */
 
-    virtual const NFGUID& GetObject(const int nRow, const int nCol) const = 0;
+    virtual const AFGUID& GetObject(const int nRow, const int nCol) const = 0;
 
     /**
      * @fn  virtual const Point3D& NFIRecord::GetPoint(const int nRow, const int nCol) const = 0;
@@ -407,7 +409,7 @@ public:
      * @return  The point.
      */
 
-    virtual const Point3D& GetPoint(const int nRow, const int nCol) const = 0;
+    //virtual const Point3D& GetPoint(const int nRow, const int nCol) const = 0;
 
     /**
      * @fn  virtual NFINT64 NFIRecord::GetInt(const int nRow, const std::string& strColTag) const = 0;
@@ -423,7 +425,7 @@ public:
      * @return  The int.
      */
 
-    virtual NFINT64 GetInt(const int nRow, const std::string& strColTag) const = 0;
+    virtual NFINT32 GetInt(const int nRow, const std::string& strColTag) const = 0;
 
     /**
      * @fn  virtual double NFIRecord::GetDouble(const int nRow, const std::string& strColTag) const = 0;
@@ -458,7 +460,7 @@ public:
     virtual const std::string& GetString(const int nRow, const std::string& strColTag) const = 0;
 
     /**
-     * @fn  virtual const NFGUID& NFIRecord::GetObject(const int nRow, const std::string& strColTag) const = 0;
+     * @fn  virtual const AFGUID& NFIRecord::GetObject(const int nRow, const std::string& strColTag) const = 0;
      *
      * @brief   Gets an object.
      *
@@ -471,7 +473,7 @@ public:
      * @return  The object.
      */
 
-    virtual const NFGUID& GetObject(const int nRow, const std::string& strColTag) const = 0;
+    virtual const AFGUID& GetObject(const int nRow, const std::string& strColTag) const = 0;
 
     /**
      * @fn  virtual const Point3D& NFIRecord::GetPoint(const int nRow, const std::string& strColTag) const = 0;
@@ -487,7 +489,7 @@ public:
      * @return  The point.
      */
 
-    virtual const Point3D& GetPoint(const int nRow, const std::string& strColTag) const = 0;
+    //virtual const Point3D& GetPoint(const int nRow, const std::string& strColTag) const = 0;
 
     /**
      * @fn  virtual int NFIRecord::FindRowByColValue(const int nCol, const AFDataList& var, AFDataList& varResult) = 0;
@@ -504,7 +506,7 @@ public:
      * @return  The found row by col value.
      */
 
-    virtual int FindRowByColValue(const int nCol, const AFDataList& var, AFDataList& varResult) = 0;
+    virtual int FindRowByColValue(const int nCol, const AFIDataList& var, AFIDataList& varResult) = 0;
 
     /**
      * @fn  virtual int NFIRecord::FindInt(const int nCol, const NFINT64 value, AFDataList& varResult) = 0;
@@ -521,7 +523,7 @@ public:
      * @return  The found int.
      */
 
-    virtual int FindInt(const int nCol, const NFINT64 value, AFDataList& varResult) = 0;
+    virtual int FindInt(const int nCol, const NFINT32 value, AFIDataList& varResult) = 0;
 
     /**
      * @fn  virtual int NFIRecord::FindDouble(const int nCol, const double value, AFDataList& varResult) = 0;
@@ -538,7 +540,7 @@ public:
      * @return  The found double.
      */
 
-    virtual int FindDouble(const int nCol, const double value, AFDataList& varResult) = 0;
+    virtual int FindDouble(const int nCol, const double value, AFIDataList& varResult) = 0;
 
     /**
      * @fn  virtual int NFIRecord::FindString(const int nCol, const std::string& value, AFDataList& varResult) = 0;
@@ -555,10 +557,10 @@ public:
      * @return  The found string.
      */
 
-    virtual int FindString(const int nCol, const std::string& value, AFDataList& varResult) = 0;
+    virtual int FindString(const int nCol, const std::string& value, AFIDataList& varResult) = 0;
 
     /**
-     * @fn  virtual int NFIRecord::FindObject(const int nCol, const NFGUID& value, AFDataList& varResult) = 0;
+     * @fn  virtual int NFIRecord::FindObject(const int nCol, const AFGUID& value, AFDataList& varResult) = 0;
      *
      * @brief   Searches for the first object.
      *
@@ -572,7 +574,7 @@ public:
      * @return  The found object.
      */
 
-    virtual int FindObject(const int nCol, const NFGUID& value, AFDataList& varResult) = 0;
+    virtual int FindObject(const int nCol, const AFGUID& value, AFIDataList& varResult) = 0;
 
     /**
      * @fn  virtual int NFIRecord::FindPoint(const int nCol, const Point3D& value, AFDataList& varResult) = 0;
@@ -589,7 +591,7 @@ public:
      * @return  The found point.
      */
 
-    virtual int FindPoint(const int nCol, const Point3D& value, AFDataList& varResult) = 0;
+    //virtual int FindPoint(const int nCol, const Point3D& value, AFIDataList& varResult) = 0;
 
     /**
      * @fn  virtual int NFIRecord::FindRowByColValue(const std::string& strColTag, const AFDataList& var, AFDataList& varResult) = 0;
@@ -606,7 +608,7 @@ public:
      * @return  The found row by col value.
      */
 
-    virtual int FindRowByColValue(const std::string& strColTag, const AFDataList& var, AFDataList& varResult) = 0;
+    virtual int FindRowByColValue(const std::string& strColTag, const AFIDataList& var, AFIDataList& varResult) = 0;
 
     /**
      * @fn  virtual int NFIRecord::FindInt(const std::string& strColTag, const NFINT64 value, AFDataList& varResult) = 0;
@@ -623,7 +625,7 @@ public:
      * @return  The found int.
      */
 
-    virtual int FindInt(const std::string& strColTag, const NFINT64 value, AFDataList& varResult) = 0;
+    virtual int FindInt(const std::string& strColTag, const NFINT32 value, AFIDataList& varResult) = 0;
 
     /**
      * @fn  virtual int NFIRecord::FindDouble(const std::string& strColTag, const double value, AFDataList& varResult) = 0;
@@ -640,7 +642,7 @@ public:
      * @return  The found double.
      */
 
-    virtual int FindDouble(const std::string& strColTag, const double value, AFDataList& varResult) = 0;
+    virtual int FindDouble(const std::string& strColTag, const double value, AFIDataList& varResult) = 0;
 
     /**
      * @fn  virtual int NFIRecord::FindString(const std::string& strColTag, const std::string& value, AFDataList& varResult) = 0;
@@ -657,10 +659,10 @@ public:
      * @return  The found string.
      */
 
-    virtual int FindString(const std::string& strColTag, const std::string& value, AFDataList& varResult) = 0;
+    virtual int FindString(const std::string& strColTag, const std::string& value, AFIDataList& varResult) = 0;
 
     /**
-     * @fn  virtual int NFIRecord::FindObject(const std::string& strColTag, const NFGUID& value, AFDataList& varResult) = 0;
+     * @fn  virtual int NFIRecord::FindObject(const std::string& strColTag, const AFGUID& value, AFDataList& varResult) = 0;
      *
      * @brief   Searches for the first object.
      *
@@ -674,7 +676,7 @@ public:
      * @return  The found object.
      */
 
-    virtual int FindObject(const std::string& strColTag, const NFGUID& value, AFDataList& varResult) = 0;
+    virtual int FindObject(const std::string& strColTag, const AFGUID& value, AFIDataList& varResult) = 0;
 
     /**
      * @fn  virtual int NFIRecord::FindPoint(const std::string& strColTag, const Point3D& value, AFDataList& varResult) = 0;
@@ -691,7 +693,7 @@ public:
      * @return  The found point.
      */
 
-    virtual int FindPoint(const std::string& strColTag, const Point3D& value, AFDataList& varResult) = 0;
+    //virtual int FindPoint(const std::string& strColTag, const Point3D& value, AFIDataList& varResult) = 0;
 
     /**
      * @fn  virtual int NFIRecord::SortByCol(const int nCol, const bool bOrder, AFDataList& varResult)
@@ -708,7 +710,7 @@ public:
      * @return  The sorted by col.
      */
 
-    virtual int SortByCol(const int nCol, const bool bOrder, AFDataList& varResult)
+    virtual int SortByCol(const int nCol, const bool bOrder, AFIDataList& varResult)
     {
         return 0;
     };
@@ -728,7 +730,7 @@ public:
      * @return  The sorted by tag.
      */
 
-    virtual int SortByTag(const std::string& strColTag, const bool bOrder,  AFDataList& varResult)
+    virtual int SortByTag(const std::string& strColTag, const bool bOrder, AFIDataList& varResult)
     {
         return 0;
     };
@@ -747,7 +749,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool QueryRow(const int nRow, AFDataList& varList) = 0;
+    virtual bool QueryRow(const int nRow, AFIDataList& varList) = 0;
 
     /**
      * @fn  virtual bool NFIRecord::SwapRowInfo(const int nOriginRow, const int nTargetRow) = 0;
@@ -793,7 +795,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool Remove(AFDataList& varRows) //need to optimize
+    virtual bool Remove(AFIDataList& varRows) //need to optimize
     {
         for(int i  = 0; i < varRows.GetCount(); ++i)
         {
@@ -905,7 +907,7 @@ public:
      * @return  The init data.
      */
 
-    virtual const NF_SHARE_PTR<AFDataList> GetInitData() const = 0;
+    virtual const NF_SHARE_PTR<AFIDataList> GetInitData() const = 0;
 
     /**
      * @fn  virtual const NF_SHARE_PTR<AFDataList> NFIRecord::GetTag() const = 0;
@@ -918,7 +920,7 @@ public:
      * @return  The tag.
      */
 
-    virtual const NF_SHARE_PTR<AFDataList> GetTag() const = 0;
+    virtual const NF_SHARE_PTR<AFIDataList> GetTag() const = 0;
 
     /**
      * @fn  virtual void NFIRecord::SetSave(const bool bSave) = 0;

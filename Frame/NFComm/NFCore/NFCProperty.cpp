@@ -17,12 +17,12 @@ NFCProperty::NFCProperty()
     mbCache = false;
 
     mSelf = NULL_GUID;
-    eType = TDATA_UNKNOWN;
+    eType = DT_UNKNOWN;
 
     msPropertyName = "";
 }
 
-NFCProperty::NFCProperty(const NFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType)
+NFCProperty::NFCProperty(const AFGUID& self, const std::string& strPropertyName, const int varType)
 {
     mbPublic = false;
     mbPrivate = false;
@@ -48,29 +48,30 @@ NFCProperty::~NFCProperty()
     mxData.reset();
 }
 
-void NFCProperty::SetValue(const AFDataList::TData& xData)
+void NFCProperty::SetValue(const AFIData& xData)
 {
     if(eType != xData.GetType())
     {
         return;
     }
 
-    if(xData.IsNullValue())
-    {
-        return;
-    }
+    //TODO:如果为空就不用设置了
+    //if(xData.IsNullValue())
+    //{
+    //    return;
+    //}
 
     if(nullptr == mxData)
     {
-        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(xData));
+        mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData(xData));
     }
 
-    AFDataList::TData oldValue;
+    AFXData oldValue;
     oldValue = *mxData;
 
-    mxData->variantData = xData.variantData;
+    *mxData = xData;
 
-    AFDataList::TData newValue;
+    AFXData newValue;
     newValue = *mxData;
 
     OnEventHandler(oldValue, newValue);
@@ -81,14 +82,14 @@ void NFCProperty::SetValue(const NFIProperty* pProperty)
     SetValue(pProperty->GetValue());
 }
 
-const AFDataList::TData& NFCProperty::GetValue() const
+const AFIData& NFCProperty::GetValue() const
 {
     if(nullptr != mxData)
     {
         return *mxData;
     }
 
-    return NULL_TDATA;
+    return AFXData();
 }
 
 const std::string&  NFCProperty::GetKey() const
@@ -176,7 +177,7 @@ const std::string& NFCProperty::GetString() const
     return mxData->GetString();
 }
 
-const NFGUID& NFCProperty::GetObject() const
+const AFGUID& NFCProperty::GetObject() const
 {
     if(nullptr == mxData)
     {
@@ -186,15 +187,15 @@ const NFGUID& NFCProperty::GetObject() const
     return mxData->GetObject();
 }
 
-const Point3D& NFCProperty::GetPoint() const
-{
-    if(nullptr == mxData)
-    {
-        return NULL_POINT;
-    }
-
-    return mxData->GetPoint();
-}
+//const Point3D& NFCProperty::GetPoint() const
+//{
+//    if(nullptr == mxData)
+//    {
+//        return NULL_POINT;
+//    }
+//
+//    return mxData->GetPoint();
+//}
 
 void NFCProperty::RegisterCallback(const PROPERTY_EVENT_FUNCTOR_PTR& cb)
 {
@@ -321,7 +322,7 @@ bool NFCProperty::SetString(const std::string& value)
     return true;
 }
 
-bool NFCProperty::SetObject(const NFGUID& value)
+bool NFCProperty::SetObject(const AFGUID& value)
 {
     if(eType != TDATA_OBJECT)
     {
@@ -394,7 +395,7 @@ bool NFCProperty::Changed() const
     return !(GetValue().IsNullValue());
 }
 
-const TDATA_TYPE NFCProperty::GetType() const
+const int NFCProperty::GetType() const
 {
     return eType;
 }
@@ -412,24 +413,33 @@ const bool NFCProperty::GeUsed() const
 std::string NFCProperty::ToString()
 {
     std::string strData;
-    const TDATA_TYPE eType = GetType();
+    const int eType = GetType();
     switch(eType)
     {
-    case TDATA_INT:
+    case DT_BOOLEAN:
+        strData = AF_LEXICAL_CAST<std::string>(GetBool());
+        break;
+    case DT_INT:
         strData = AF_LEXICAL_CAST<std::string> (GetInt());
         break;
-    case TDATA_DOUBLE:
+    case DT_INT64:
+        //TODO
+        break;
+    case DT_FLOAT:
+        //TODO
+        break;
+    case DT_DOUBLE:
         strData = AF_LEXICAL_CAST<std::string> (GetDouble());
         break;
-    case TDATA_STRING:
+    case DT_STRING:
         strData = GetString();
         break;
-    case TDATA_OBJECT:
+    case DT_OBJECT:
         strData = GetObject().ToString();
         break;
-    case TDATA_POINT:
-        strData = GetPoint().ToString();
-        break;
+    //case DT_POINT:
+    //    strData = GetPoint().ToString();
+    //    break;
     default:
         strData = NULL_STR;
         break;
@@ -440,19 +450,33 @@ std::string NFCProperty::ToString()
 
 bool NFCProperty::FromString(const std::string& strData)
 {
-    const TDATA_TYPE eType = GetType();
+    const int eType = GetType();
     bool bRet = false;
     switch(eType)
     {
-    case TDATA_INT:
+    case DT_BOOLEAN:
+        {
+            //TODO
+        }
+        break;
+    case DT_INT:
         {
             NFINT64  nValue = 0;
             bRet = NF_StrTo(strData, nValue);
             SetInt(nValue);
         }
         break;
-
-    case TDATA_DOUBLE:
+    case DT_INT64:
+        {
+            //todo
+        }
+        break;
+    case DT_FLOAT:
+        {
+            //todo
+        }
+        break;
+    case DT_DOUBLE:
         {
             double  dValue = 0;
             bRet = NF_StrTo(strData, dValue);
@@ -460,25 +484,18 @@ bool NFCProperty::FromString(const std::string& strData)
         }
         break;
 
-    case TDATA_STRING:
+    case DT_STRING:
         {
             SetString(strData);
             bRet = true;
         }
         break;
-    case TDATA_OBJECT:
+    case DT_OBJECT:
         {
-            NFGUID xID;
+            AFGUID xID;
 
             bRet = xID.FromString(strData);
             SetObject(xID);
-        }
-        break;
-    case TDATA_POINT:
-        {
-            Point3D xPoint;
-            bRet = xPoint.FromString(strData);
-            SetPoint(xPoint);
         }
         break;
     default:
@@ -492,7 +509,7 @@ bool NFCProperty::DeSerialization()
 {
     bool bRet = false;
 
-    const TDATA_TYPE eType = GetType();
+    const int eType = GetType();
     if(eType == TDATA_STRING && nullptr != mxData && !mxData->IsNullValue())
     {
         AFDataList xDataList;

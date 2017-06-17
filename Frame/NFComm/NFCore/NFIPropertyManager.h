@@ -45,7 +45,7 @@ public:
     virtual bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb) = 0;
 
     /**
-     * @fn  virtual NF_SHARE_PTR<NFIProperty> NFIPropertyManager::AddProperty(const NFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty) = 0;
+     * @fn  virtual NF_SHARE_PTR<NFIProperty> NFIPropertyManager::AddProperty(const AFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty) = 0;
      *
      * @brief   Adds a property to 'pProperty'.
      *
@@ -58,10 +58,10 @@ public:
      * @return  A NF_SHARE_PTR&lt;NFIProperty&gt;
      */
 
-    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const NFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty) = 0;
+    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const AFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty) = 0;
 
     /**
-     * @fn  virtual NF_SHARE_PTR<NFIProperty> NFIPropertyManager::AddProperty(const NFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType) = 0;
+     * @fn  virtual NF_SHARE_PTR<NFIProperty> NFIPropertyManager::AddProperty(const AFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType) = 0;
      *
      * @brief   Adds a property.
      *
@@ -75,20 +75,20 @@ public:
      * @return  A NF_SHARE_PTR&lt;NFIProperty&gt;
      */
 
-    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const NFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType) = 0;
+    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const AFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType) = 0;
 
     /**
-     * @fn  virtual const NFGUID& NFIPropertyManager::Self() = 0;
+     * @fn  virtual const AFGUID& NFIPropertyManager::Self() = 0;
      *
      * @brief   Gets the self.
      *
      * @author  flyicegood
      * @date    2016/11/22
      *
-     * @return  A reference to a const NFGUID.
+     * @return  A reference to a const AFGUID.
      */
 
-    virtual const NFGUID& Self() = 0;
+    virtual const AFGUID& Self() = 0;
 
     /**
      * @fn  virtual bool NFIPropertyManager::SetProperty(const std::string& strPropertyName, const AFDataList::TData& TData) = 0;
@@ -155,7 +155,7 @@ public:
     virtual bool SetPropertyString(const std::string& strPropertyName, const std::string& value) = 0;
 
     /**
-     * @fn  virtual bool NFIPropertyManager::SetPropertyObject(const std::string& strPropertyName, const NFGUID& value) = 0;
+     * @fn  virtual bool NFIPropertyManager::SetPropertyObject(const std::string& strPropertyName, const AFGUID& value) = 0;
      *
      * @brief   Sets property object.
      *
@@ -168,7 +168,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetPropertyObject(const std::string& strPropertyName, const NFGUID& value) = 0;
+    virtual bool SetPropertyObject(const std::string& strPropertyName, const AFGUID& value) = 0;
 
     /**
      * @fn  virtual bool NFIPropertyManager::SetPropertyPoint(const std::string& strPropertyName, const Point3D& value) = 0;
@@ -232,7 +232,7 @@ public:
     virtual const std::string& GetPropertyString(const std::string& strPropertyName) = 0;
 
     /**
-     * @fn  virtual const NFGUID& NFIPropertyManager::GetPropertyObject(const std::string& strPropertyName) = 0;
+     * @fn  virtual const AFGUID& NFIPropertyManager::GetPropertyObject(const std::string& strPropertyName) = 0;
      *
      * @brief   Gets property object.
      *
@@ -244,7 +244,7 @@ public:
      * @return  The property object.
      */
 
-    virtual const NFGUID& GetPropertyObject(const std::string& strPropertyName) = 0;
+    virtual const AFGUID& GetPropertyObject(const std::string& strPropertyName) = 0;
 
     /**
      * @fn  virtual const Point3D& NFIPropertyManager::GetPropertyPoint(const std::string& strPropertyName) = 0;

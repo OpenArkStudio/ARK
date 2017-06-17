@@ -81,7 +81,7 @@ bool NFCLoginNet_ServerModule::AfterInit()
     return true;
 }
 
-int NFCLoginNet_ServerModule::OnSelectWorldResultsProcess(const int nWorldID, const NFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strWorldKey)
+int NFCLoginNet_ServerModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strWorldKey)
 {
     NF_SHARE_PTR<SessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
     if(pSessionData)
@@ -106,7 +106,7 @@ bool NFCLoginNet_ServerModule::Execute()
     return m_pNetModule->Execute();
 }
 
-void NFCLoginNet_ServerModule::OnClientConnected(const int nAddress, const NFGUID& xClientID)
+void NFCLoginNet_ServerModule::OnClientConnected(const int nAddress, const AFGUID& xClientID)
 {
     NF_SHARE_PTR<SessionData> pSessionData(NF_NEW SessionData());
 
@@ -115,14 +115,14 @@ void NFCLoginNet_ServerModule::OnClientConnected(const int nAddress, const NFGUI
     mmClientSessionData.AddElement(xClientID, pSessionData);
 }
 
-void NFCLoginNet_ServerModule::OnClientDisconnect(const int nAddress, const NFGUID& xClientID)
+void NFCLoginNet_ServerModule::OnClientDisconnect(const int nAddress, const AFGUID& xClientID)
 {
     mmClientSessionData.RemoveElement(xClientID);
 }
 
-void NFCLoginNet_ServerModule::OnLoginProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+void NFCLoginNet_ServerModule::OnLoginProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    NFGUID nPlayerID;
+    AFGUID nPlayerID;
     NFMsg::ReqAccountLogin xMsg;
     if(!m_pNetModule->ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
@@ -140,7 +140,7 @@ void NFCLoginNet_ServerModule::OnLoginProcess(const int nSockIndex, const int nM
             {
                 std::ostringstream strLog;
                 strLog << "Check password failed, Account = " << xMsg.account() << " Password = " << xMsg.password();
-                m_pLogModule->LogError(NFGUID(0, nSockIndex), strLog, __FUNCTION__, __LINE__);
+                m_pLogModule->LogError(AFGUID(0, nSockIndex), strLog, __FUNCTION__, __LINE__);
 
                 NFMsg::AckEventResult xMsg;
                 xMsg.set_event_code(NFMsg::EGEC_ACCOUNTPWD_INVALID);
@@ -157,14 +157,14 @@ void NFCLoginNet_ServerModule::OnLoginProcess(const int nSockIndex, const int nM
 
             m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, nSockIndex);
 
-            m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "Login successed :", xMsg.account().c_str());
+            m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "Login successed :", xMsg.account().c_str());
         }
     }
 }
 
-void NFCLoginNet_ServerModule::OnSelectWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+void NFCLoginNet_ServerModule::OnSelectWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    NFGUID nPlayerID;
+    AFGUID nPlayerID;
     NFMsg::ReqConnectWorld xMsg;
     if(!m_pNetModule->ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
@@ -192,26 +192,26 @@ void NFCLoginNet_ServerModule::OnSelectWorldProcess(const int nSockIndex, const 
     m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, NFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData);//here has a problem to be solve
 }
 
-void NFCLoginNet_ServerModule::OnSocketClientEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID)
+void NFCLoginNet_ServerModule::OnSocketClientEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
 {
     if(eEvent & NF_NET_EVENT_EOF)
     {
-        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
         OnClientDisconnect(nSockIndex, xClientID);
     }
     else if(eEvent & NF_NET_EVENT_ERROR)
     {
-        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_ERROR", "Got an error on the connection", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_ERROR", "Got an error on the connection", __FUNCTION__, __LINE__);
         OnClientDisconnect(nSockIndex, xClientID);
     }
     else if(eEvent & NF_NET_EVENT_TIMEOUT)
     {
-        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_TIMEOUT", "read timeout", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_TIMEOUT", "read timeout", __FUNCTION__, __LINE__);
         OnClientDisconnect(nSockIndex, xClientID);
     }
     else  if(eEvent == NF_NET_EVENT_CONNECTED)
     {
-        m_pLogModule->LogInfo(NFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
         OnClientConnected(nSockIndex, xClientID);
     }
 }
@@ -239,9 +239,9 @@ void NFCLoginNet_ServerModule::SynWorldToClient(const int nFD)
     m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, nFD);
 }
 
-void NFCLoginNet_ServerModule::OnViewWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+void NFCLoginNet_ServerModule::OnViewWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    NFGUID nPlayerID;
+    AFGUID nPlayerID;
     NFMsg::ReqServerList xMsg;
     if(!m_pNetModule->ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
@@ -254,15 +254,15 @@ void NFCLoginNet_ServerModule::OnViewWorldProcess(const int nSockIndex, const in
     }
 }
 
-void NFCLoginNet_ServerModule::OnHeartBeat(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const NFGUID& xClientID)
+void NFCLoginNet_ServerModule::OnHeartBeat(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
 }
 
-void NFCLoginNet_ServerModule::OnLogOut(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const NFGUID& xClientID)
+void NFCLoginNet_ServerModule::OnLogOut(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
 }
 
-void NFCLoginNet_ServerModule::InvalidMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const NFGUID& xClientID)
+void NFCLoginNet_ServerModule::InvalidMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     printf("NFNet || 非法消息:unMsgID=%d\n", nMsgID);
 }

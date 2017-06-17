@@ -125,6 +125,12 @@ public:
         return true;
     }
 
+    virtual bool Append(const AFIData& data)
+    {
+        InnerAppend(data);
+        return true;
+    }
+
     virtual bool Append(const AFIDataList& src, size_t start, size_t count)
     {
         if (start >= src.GetCount())
@@ -666,6 +672,47 @@ protected:
         char* ret = mpBuffer + mnBufferUsed; //返回的是加buffer之前的位置
         mnBufferUsed = new_used;
         return ret;
+    }
+
+    void InnerAppend(AFIData& data)
+    {
+        switch (data.GetType())
+        {
+        case DT_BOOLEAN:
+            AddBool(data.Bool());
+            break;
+        case DT_INT:
+            AddInt(data.Int());
+            break;
+        case DT_INT64:
+            AddInt64(data.Int64());
+            break;
+        case DT_FLOAT:
+            AddFloat(data.Float());
+            break;
+        case DT_DOUBLE:
+            AddDouble(data.Double());
+            break;
+        case DT_STRING:
+            AddString(data.String());
+            break;
+        case DT_OBJECT:
+            AddObject(data.Object());
+            break;
+        case DT_POINTER:
+            AddPointer(data.Pointer());
+            break;
+        case DT_USERDATA:
+        {
+            size_t size;
+            const void* pData = data.GetUserData(size);
+            AddUserData(pData, size);
+        }
+        break;
+        default:
+            assert(0);
+            break;
+        }
     }
 
     void InnerAppend(const AFIDataList& src, size_t start, size_t end)

@@ -14,7 +14,7 @@
 #include "NFDefine.h"
 #include "NFList.h"
 #include "NFMapEx.h"
-#include "NFComm/NFCore/AFDataList.hpp"
+#include "NFComm/NFCore/AFCDataList.h"
 #include "NFComm/NFEventDefine/NFEventDefine.h"
 
 /**
@@ -55,7 +55,7 @@ public:
     virtual bool Execute() = 0;
 
     /**
-     * @fn  template<typename BaseType> bool NFIEventManager::AddEventCallBack(const int nEventID, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const int, const AFDataList&))
+     * @fn  template<typename BaseType> bool NFIEventManager::AddEventCallBack(const int nEventID, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const int, const AFDataList&))
      *
      * @brief   Adds an event call back.
      *
@@ -71,7 +71,7 @@ public:
      */
 
     template<typename BaseType>
-    bool AddEventCallBack(const int nEventID, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const int, const AFDataList&))
+    bool AddEventCallBack(const int nEventID, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const int, const AFIDataList&))
     {
         EVENT_PROCESS_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         EVENT_PROCESS_FUNCTOR_PTR functorPtr(new EVENT_PROCESS_FUNCTOR(functor));
@@ -107,7 +107,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool DoEvent(const int nEventID, const AFDataList& valueList) = 0;
+    virtual bool DoEvent(const int nEventID, const AFIDataList& valueList) = 0;
 
     /**
      * @fn  virtual bool NFIEventManager::AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb) = 0;

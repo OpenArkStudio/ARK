@@ -37,37 +37,37 @@ public:
 
     virtual bool AfterInit();
 
-    virtual int Transpond(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
+    virtual int Transpond(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     //进入游戏成功
-    virtual int EnterGameSuccessEvent(const NFGUID xClientID, const NFGUID xPlayerID);
+    virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID);
 
 protected:
 
-    void OnSocketClientEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nSeverID);
+    void OnSocketClientEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nSeverID);
 
     //连接丢失,删2层(连接对象，帐号对象)
-    void OnClientDisconnect(const int nAddress, const NFGUID& xClientID);
+    void OnClientDisconnect(const int nAddress, const AFGUID& xClientID);
     //有连接
-    void OnClientConnected(const int nAddress, const NFGUID& xClientID);
+    void OnClientConnected(const int nAddress, const AFGUID& xClientID);
 
-    void OnConnectKeyProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
-    void OnReqServerListProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
-    void OnSelectServerProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
-    void OnReqRoleListProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
-    void OnReqCreateRoleProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
-    void OnReqDelRoleProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
-    void OnReqEnterGameServer(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
+    void OnConnectKeyProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqServerListProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnSelectServerProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqRoleListProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqCreateRoleProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqDelRoleProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqEnterGameServer(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 
     //客户端的连接60秒删掉
-    int HB_OnConnectCheckTime(const NFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFDataList& var);
+    int HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFDataList& var);
     //////////////////////////////////////////////////////////////////////////
 
-	void OnOtherMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
+	void OnOtherMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 protected:
 
-    NFMapEx<NFGUID, SessionData> mmSessionData;
+    NFMapEx<AFGUID, SessionData> mmSessionData;
     NFCConsistentHash mxConsistentHash;
 protected:
     NFIProxyServerToWorldModule* m_pProxyToWorldModule;

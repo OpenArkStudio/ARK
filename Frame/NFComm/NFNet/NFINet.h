@@ -17,7 +17,7 @@
 #include <iostream>
 #include <map>
 
-#include "NFComm/NFPluginModule/NFGUID.h"
+#include "NFComm/NFPluginModule/AFGUID.h"
 
 #ifndef _MSC_VER
 #include <netinet/in.h>
@@ -235,10 +235,10 @@ protected:
 
 class NFINet;
 
-typedef std::function<void(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
+typedef std::function<void(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
 typedef std::shared_ptr<NET_RECEIVE_FUNCTOR> NET_RECEIVE_FUNCTOR_PTR;
 
-typedef std::function<void(const int nSockIndex, const NF_NET_EVENT nEvent, const NFGUID& nClientID, const int nServerID)> NET_EVENT_FUNCTOR;
+typedef std::function<void(const int nSockIndex, const NF_NET_EVENT nEvent, const AFGUID& nClientID, const int nServerID)> NET_EVENT_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 
 typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
@@ -336,12 +336,12 @@ public:
         mstrUserData = strData;
     }
 
-    const NFGUID& GetClientID()
+    const AFGUID& GetClientID()
     {
         return mnClientID;
     }
 
-    void SetClientID(const NFGUID& xClientID)
+    void SetClientID(const AFGUID& xClientID)
     {
         mnClientID = xClientID;
     }
@@ -357,7 +357,7 @@ private:
     std::string mstrBuff;
     std::string mstrUserData;
 
-     NFGUID mnClientID;//temporary client id
+     AFGUID mnClientID;//temporary client id
 
     NFINet* m_pNet;
     int nFD;
@@ -378,7 +378,7 @@ public:
 
     //send a message with out msg-head[auto add msg-head in this function]
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const int nSockIndex = 0) = 0;
-    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID) = 0;
+    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID) = 0;
 
     //send a message to all client[need to add msg-head for this message by youself]
     virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen) = 0;
@@ -387,7 +387,7 @@ public:
     virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen) = 0;
 
     virtual bool CloseNetObject(const int nSockIndex) = 0;
-    virtual bool CloseNetObject(const NFGUID& xClientID) = 0;
+    virtual bool CloseNetObject(const AFGUID& xClientID) = 0;
 //     virtual NetObject* GetNetObject(const int nSockIndex) = 0;
 //     virtual bool AddNetObject(const int nSockIndex, NetObject* pObject) = 0;
 

@@ -15,14 +15,14 @@
 #include "NFComm/NFCore/NFList.h"
 #include "NFComm/NFCore/NFMap.h"
 #include "NFComm/NFCore/NFIObject.h"
-#include "NFComm/NFPluginModule/NFGUID.h"
+#include "NFComm/NFPluginModule/AFGUID.h"
 
 // all object in this group
 /*
 if a object in the group of '0', them it can be see by all object in this scene.
 */
 class NFCSceneGroupInfo
-    //: public NFList<NFGUID>
+    //: public NFList<AFGUID>
 {
 public:
     NFCSceneGroupInfo(int nSceneID, int nGroupID)
@@ -44,8 +44,8 @@ public:
         return true;
     }
 
-    NFMapEx<NFGUID, int> mxPlayerList;
-    NFMapEx<NFGUID, int> mxOtherList;
+    NFMapEx<AFGUID, int> mxPlayerList;
+    NFMapEx<AFGUID, int> mxOtherList;
     int mnGroupID;
 };
 
@@ -84,7 +84,7 @@ public:
         return mnWidth;
     }
 
-    bool AddObjectToGroup(const int nGroupID, const NFGUID& ident, bool bPlayer)
+    bool AddObjectToGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
         NF_SHARE_PTR<NFCSceneGroupInfo> pInfo = GetElement(nGroupID);
         if (pInfo.get())
@@ -102,7 +102,7 @@ public:
         return false;
     }
 
-    bool RemoveObjectFromGroup(const int nGroupID, const NFGUID& ident, bool bPlayer)
+    bool RemoveObjectFromGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
         NF_SHARE_PTR<NFCSceneGroupInfo> pInfo = GetElement(nGroupID);
         if (pInfo.get())

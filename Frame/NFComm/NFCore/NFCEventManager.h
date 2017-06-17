@@ -11,21 +11,15 @@
 
 #include "NFIEventManager.h"
 #include "NFDefine.h"
+#include "AFCDataList.h"
 
-/**
- * @class   NFCEventManager
- *
- * @brief   Manager for nfc events.
- *
- * @author  flyicegood
- * @date    2016/11/22
- */
+using namespace ArkFrame;
 
 class NFCEventManager
     : public NFIEventManager
 {
 public:
-    NFCEventManager(NFGUID self);
+    NFCEventManager(AFGUID self);
     virtual ~NFCEventManager();
 
     virtual bool Init();
@@ -35,7 +29,7 @@ public:
 
     virtual bool RemoveEventCallBack(const int nEventID);
 
-    virtual bool DoEvent(const int nEventID, const AFDataList& valueList);
+    virtual bool DoEvent(const int nEventID, const AFIDataList& valueList);
 
     virtual bool AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb);
 
@@ -43,7 +37,7 @@ protected:
     virtual bool HasEventCallBack(const int nEventID);
 
 private:
-    NFGUID mSelf;
+    AFGUID mSelf;
 
     NFList<int> mRemoveEventListEx;
     NFMapEx<int, NFList<EVENT_PROCESS_FUNCTOR_PTR>> mObjectEventInfoMapEx;

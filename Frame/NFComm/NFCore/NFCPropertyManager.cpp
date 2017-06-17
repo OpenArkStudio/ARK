@@ -26,7 +26,7 @@ bool NFCPropertyManager::RegisterCallback(const std::string& strProperty, const 
     return false;
 }
 
-NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const NFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty)
+NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const AFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty)
 {
     const std::string& strProperty = pProperty->GetKey();
     NF_SHARE_PTR<NFIProperty> pOldProperty = this->GetElement(strProperty);
@@ -46,7 +46,7 @@ NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const NFGUID& self, NF
     return pOldProperty;
 }
 
-NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const NFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType)
+NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const AFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = this->GetElement(strPropertyName);
     if(nullptr == pProperty)
@@ -71,7 +71,7 @@ bool NFCPropertyManager::SetProperty(const std::string& strPropertyName, const A
     return false;
 }
 
-const NFGUID& NFCPropertyManager::Self()
+const AFGUID& NFCPropertyManager::Self()
 {
     return mSelf;
 }
@@ -109,7 +109,7 @@ bool NFCPropertyManager::SetPropertyString(const std::string& strPropertyName, c
     return false;
 }
 
-bool NFCPropertyManager::SetPropertyObject(const std::string& strPropertyName, const NFGUID& value)
+bool NFCPropertyManager::SetPropertyObject(const std::string& strPropertyName, const AFGUID& value)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
     if(nullptr != pProperty)
@@ -164,7 +164,7 @@ const std::string& NFCPropertyManager::GetPropertyString(const std::string& strP
     return NULL_STR;
 }
 
-const NFGUID& NFCPropertyManager::GetPropertyObject(const std::string& strPropertyName)
+const AFGUID& NFCPropertyManager::GetPropertyObject(const std::string& strPropertyName)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
     if(nullptr != pProperty)

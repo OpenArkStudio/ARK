@@ -331,6 +331,7 @@ inline unsigned long NF_GetTickCount()
 #define AF_LEXICAL_CAST boost::lexical_cast
 #define NF_SHARE_PTR boost::shared_ptr
 #else
+#include <memory>
 #include "common/lexical_cast.hpp"
 #define AF_LEXICAL_CAST lexical_cast
 #define NF_SHARE_PTR std::shared_ptr

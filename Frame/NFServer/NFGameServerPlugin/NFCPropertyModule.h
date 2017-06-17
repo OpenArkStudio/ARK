@@ -33,42 +33,42 @@ public:
     virtual bool Execute();
     virtual bool AfterInit();
 
-    virtual int RefreshBaseProperty(const NFGUID& self);
+    virtual int RefreshBaseProperty(const AFGUID& self);
 
-    virtual int GetPropertyValue(const NFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType);
-    virtual int SetPropertyValue(const NFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
+    virtual int GetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType);
+    virtual int SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
 
-    virtual int AddPropertyValue(const NFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
-    virtual int SubPropertyValue(const NFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
+    virtual int AddPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
+    virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
 
-    virtual bool FullHPMP(const NFGUID& self);
-    virtual bool AddHP(const NFGUID& self, const NFINT64& nValue);
-    virtual bool ConsumeHP(const NFGUID& self, const NFINT64& nValue);
-    virtual bool EnoughHP(const NFGUID& self, const NFINT64& nValue);
+    virtual bool FullHPMP(const AFGUID& self);
+    virtual bool AddHP(const AFGUID& self, const NFINT64& nValue);
+    virtual bool ConsumeHP(const AFGUID& self, const NFINT64& nValue);
+    virtual bool EnoughHP(const AFGUID& self, const NFINT64& nValue);
 
-    virtual bool AddMP(const NFGUID& self, const NFINT64& nValue);
-    virtual bool ConsumeMP(const NFGUID& self, const NFINT64& nValue);
-    virtual bool EnoughMP(const NFGUID& self, const NFINT64& nValue);
+    virtual bool AddMP(const AFGUID& self, const NFINT64& nValue);
+    virtual bool ConsumeMP(const AFGUID& self, const NFINT64& nValue);
+    virtual bool EnoughMP(const AFGUID& self, const NFINT64& nValue);
 
-    virtual bool FullSP(const NFGUID& self);
-    virtual bool AddSP(const NFGUID& self, const NFINT64& nValue);
-    virtual bool ConsumeSP(const NFGUID& self, const NFINT64& nValue);
-    virtual bool EnoughSP(const NFGUID& self, const NFINT64& nValue);
+    virtual bool FullSP(const AFGUID& self);
+    virtual bool AddSP(const AFGUID& self, const NFINT64& nValue);
+    virtual bool ConsumeSP(const AFGUID& self, const NFINT64& nValue);
+    virtual bool EnoughSP(const AFGUID& self, const NFINT64& nValue);
 
-    virtual bool AddMoney(const NFGUID& self, const NFINT64& nValue);
-    virtual bool ConsumeMoney(const NFGUID& self, const NFINT64& nValue);
-    virtual bool EnoughMoney(const NFGUID& self, const NFINT64& nValue);
+    virtual bool AddMoney(const AFGUID& self, const NFINT64& nValue);
+    virtual bool ConsumeMoney(const AFGUID& self, const NFINT64& nValue);
+    virtual bool EnoughMoney(const AFGUID& self, const NFINT64& nValue);
 
-    virtual bool AddDiamond(const NFGUID& self, const NFINT64& nValue);
-    virtual bool ConsumeDiamond(const NFGUID& self, const NFINT64& nValue);
-    virtual bool EnoughDiamond(const NFGUID& self, const NFINT64& nValue);
+    virtual bool AddDiamond(const AFGUID& self, const NFINT64& nValue);
+    virtual bool ConsumeDiamond(const AFGUID& self, const NFINT64& nValue);
+    virtual bool EnoughDiamond(const AFGUID& self, const NFINT64& nValue);
 
 protected:
-    int OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
+    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
 
-    int OnObjectLevelEvent(const NFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
 
-    int OnRecordPropertyEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnRecordPropertyEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
 
 private:
     NFIKernelModule* m_pKernelModule;

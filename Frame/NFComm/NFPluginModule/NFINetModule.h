@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <iosfwd>
-#include "NFGUID.h"
+#include "AFGUID.h"
 #include "NFIModule.h"
 #include "NFIPluginManager.h"
 #include "NFComm/NFNet/NFCNet.h"
@@ -37,11 +37,11 @@ enum NF_SERVER_TYPES
 
 // 客户端消息处理宏
 #define CLIENT_MSG_PROCESS(nSockIndex, nMsgID, msgData, nLen, msg)                 \
-    NFGUID nPlayerID;                                \
+    AFGUID nPlayerID;                                \
     msg xMsg;                                           \
     if (!NFINetModule::ReceivePB(nSockIndex, nMsgID, msgData, nLen, xMsg, nPlayerID))   \
     {                                                   \
-        m_pLogModule->LogError(NFGUID(), "", "Parse msg error", __FUNCTION__, __LINE__); \
+        m_pLogModule->LogError(AFGUID(), "", "Parse msg error", __FUNCTION__, __LINE__); \
         return;                                         \
     }                                                   \
     \
@@ -53,11 +53,11 @@ enum NF_SERVER_TYPES
     }
 
 #define CLIENT_MSG_PROCESS_NO_OBJECT(nSockIndex, nMsgID, msgData, nLen, msg)                 \
-    NFGUID nPlayerID;                                \
+    AFGUID nPlayerID;                                \
     msg xMsg;                                           \
     if (!NFINetModule::ReceivePB(nSockIndex, nMsgID, msgData, nLen, xMsg, nPlayerID))             \
     {                                                   \
-        m_pLogModule->LogError(NFGUID(), "", "Parse msg error", __FUNCTION__, __LINE__); \
+        m_pLogModule->LogError(AFGUID(), "", "Parse msg error", __FUNCTION__, __LINE__); \
         return;                                         \
     }
 
@@ -90,9 +90,9 @@ struct SessionData
 
     int32_t mnLogicState;
     int32_t mnGameID;
-    NFGUID mnUserID;
-    NFGUID mnClientID;
-    NFGUID mnHashIdentID;
+    AFGUID mnUserID;
+    AFGUID mnClientID;
+    AFGUID mnHashIdentID;
     std::string mstrAccout;
     int mnFD;
 };
@@ -110,7 +110,7 @@ protected:
     }
 public:
     template<typename BaseType>
-    NFINetModule(NFIPluginManager* p, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID))
+    NFINetModule(NFIPluginManager* p, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID))
     {
         pPluginManager = p;
         nLastTime = GetPluginManager()->GetNowTime();
@@ -150,7 +150,7 @@ public:
     }
 
     template<typename BaseType>
-    bool AddReceiveCallBack(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID&))
+    bool AddReceiveCallBack(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID&))
     {
         NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         NET_RECEIVE_FUNCTOR_PTR functorPtr(new NET_RECEIVE_FUNCTOR(functor));
@@ -158,7 +158,7 @@ public:
         return AddReceiveCallBack(nMsgID, functorPtr);
     }
     template<typename BaseType>
-    bool AddReceiveCallBack(BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID&))
+    bool AddReceiveCallBack(BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID&))
     {
         NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         NET_RECEIVE_FUNCTOR_PTR functorPtr(new NET_RECEIVE_FUNCTOR(functor));
@@ -186,7 +186,7 @@ public:
     }
 
     template<typename BaseType>
-    bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const int, const NF_NET_EVENT, const NFGUID& , const int))
+    bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const int, const NF_NET_EVENT, const AFGUID& , const int))
     {
         NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         NET_EVENT_FUNCTOR_PTR functorPtr(new NET_EVENT_FUNCTOR(functor));
@@ -214,16 +214,16 @@ public:
         return m_pNet->Execute();
     }
 
-    static NFGUID PBToNF(NFMsg::Ident xID)
+    static AFGUID PBToNF(NFMsg::Ident xID)
     {
-        NFGUID  xIdent;
+        AFGUID  xIdent;
         xIdent.nHead64 = xID.svrid();
         xIdent.nData64 = xID.index();
 
         return xIdent;
     }
 
-    static NFMsg::Ident NFToPB(NFGUID xID)
+    static NFMsg::Ident NFToPB(AFGUID xID)
     {
         NFMsg::Ident  xIdent;
         xIdent.set_svrid(xID.nHead64);
@@ -250,7 +250,7 @@ public:
         return xPoint;
     }
 
-    static bool ReceivePB(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, std::string& strMsg, NFGUID& nPlayer)
+    static bool ReceivePB(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
     {
         NFMsg::MsgBase xMsg;
         if(!xMsg.ParseFromArray(msg, nLen))
@@ -269,7 +269,7 @@ public:
         return true;
     }
 
-    static bool ReceivePB(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, NFGUID& nPlayer)
+    static bool ReceivePB(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, AFGUID& nPlayer)
     {
         NFMsg::MsgBase xMsg;
         if(!xMsg.ParseFromArray(msg, nLen))
@@ -322,7 +322,7 @@ public:
         }
 
         NFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
-        *pPlayerID = NFToPB(NFGUID());
+        *pPlayerID = NFToPB(AFGUID());
 
         std::string strMsg;
         if(!xMsg.SerializeToString(&strMsg))
@@ -350,7 +350,7 @@ public:
         }
 
         NFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
-        *pPlayerID = NFToPB(NFGUID());
+        *pPlayerID = NFToPB(AFGUID());
 
         std::string strMsg;
         if(!xMsg.SerializeToString(&strMsg))
@@ -364,7 +364,7 @@ public:
         return SendMsgToAllClientWithOutHead(nMsgID, strMsg);
     }
 
-    bool SendMsgPB(const uint16_t nMsgID, const google::protobuf::Message& xData, const uint32_t nSockIndex, const NFGUID nPlayer, const std::vector<NFGUID>* pClientIDList = NULL)
+    bool SendMsgPB(const uint16_t nMsgID, const google::protobuf::Message& xData, const uint32_t nSockIndex, const AFGUID nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
     {
         if(!m_pNet)
         {
@@ -390,7 +390,7 @@ public:
         {
             for(int i = 0; i < pClientIDList->size(); ++i)
             {
-                const NFGUID& ClientID = (*pClientIDList)[i];
+                const AFGUID& ClientID = (*pClientIDList)[i];
 
                 NFMsg::Ident* pData = xMsg.add_player_client_list();
                 if(pData)
@@ -412,7 +412,7 @@ public:
         return SendMsgWithOutHead(nMsgID, strMsg, nSockIndex);
     }
 
-    bool SendMsgPB(const uint16_t nMsgID, const std::string& strData, const uint32_t nSockIndex, const NFGUID nPlayer, const std::vector<NFGUID>* pClientIDList = NULL)
+    bool SendMsgPB(const uint16_t nMsgID, const std::string& strData, const uint32_t nSockIndex, const AFGUID nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
     {
         if(!m_pNet)
         {
@@ -433,7 +433,7 @@ public:
         {
             for(int i = 0; i < pClientIDList->size(); ++i)
             {
-                const NFGUID& ClientID = (*pClientIDList)[i];
+                const AFGUID& ClientID = (*pClientIDList)[i];
 
                 NFMsg::Ident* pData = xMsg.add_player_client_list();
                 if(pData)
@@ -462,7 +462,7 @@ public:
     }
 
 protected:
-    void OnReceiveNetPack(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+    void OnReceiveNetPack(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
         std::map<int, NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxReceiveCallBack.find(nMsgID);
         if(mxReceiveCallBack.end() != it)
@@ -482,7 +482,7 @@ protected:
         }
     }
 
-    void OnSocketNetEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const NFGUID& xClientID, int nServerID)
+    void OnSocketNetEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, int nServerID)
     {
         for(std::list<NET_EVENT_FUNCTOR_PTR>::iterator it = mxEventCallBackList.begin(); it != mxEventCallBackList.end(); ++it)
         {

@@ -12,8 +12,11 @@
 #include "NFMap.h"
 #include "NFList.h"
 #include "NFDefine.h"
-#include "AFDataList.hpp"
+#include "AFCDataList.h"
 #include "NFIHeartBeatManager.h"
+#include "AFIData.h"
+
+using namespace ArkFrame;
 
 /**
  * @class   NFCHeartBeatManager
@@ -43,7 +46,7 @@ public:
     }
 
     /**
-     * @fn  NFCHeartBeatManager::NFCHeartBeatManager(const NFGUID& self)
+     * @fn  NFCHeartBeatManager::NFCHeartBeatManager(const AFGUID& self)
      *
      * @brief   Constructor.
      *
@@ -53,7 +56,7 @@ public:
      * @param   self    The class instance that this method operates on.
      */
 
-    NFCHeartBeatManager(const NFGUID& self)
+    NFCHeartBeatManager(const AFGUID& self)
     {
         mSelf = self;
     }
@@ -70,17 +73,17 @@ public:
     virtual ~NFCHeartBeatManager();
 
     /**
-     * @fn  virtual NFGUID NFCHeartBeatManager::Self();
+     * @fn  virtual AFGUID NFCHeartBeatManager::Self();
      *
      * @brief   Gets the self.
      *
      * @author  flyicegood
      * @date    2016/11/22
      *
-     * @return  A NFGUID.
+     * @return  A AFGUID.
      */
 
-    virtual NFGUID Self();
+    virtual AFGUID Self();
 
     /**
      * @fn  virtual bool NFCHeartBeatManager::Execute();
@@ -111,7 +114,7 @@ public:
     virtual bool Exist(const std::string& strHeartBeatName);
 
     /**
-     * @fn  virtual bool NFCHeartBeatManager::AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const float fTime, const int nCount);
+     * @fn  virtual bool NFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const float fTime, const int nCount);
      *
      * @brief   Adds a heart beat.
      *
@@ -127,7 +130,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const NFINT64 nTime, const int nCount);
+    virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const NFINT64 nTime, const int nCount);
 
     /**
      * @fn  virtual bool NFCHeartBeatManager::RemoveHeartBeat(const std::string& strHeartBeatName);
@@ -146,7 +149,7 @@ public:
 
 protected:
     /** @brief   The self. */
-    NFGUID mSelf;
+    AFGUID mSelf;
 
     /** @brief   The remove list ex. */
     NFList<std::string> mRemoveListEx;

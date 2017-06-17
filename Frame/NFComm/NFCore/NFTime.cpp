@@ -701,12 +701,12 @@ bool NFTime::SameWeek(int64_t nTime)
 
 int NFTime::GetDayOfWeek()
 {
-    return Get(DAY_OF_WEEK);
+    return (int)Get(DAY_OF_WEEK);
 }
 
 int NFTime::GetWeekOfMonth()
 {
-    NFTime xTime(Get(YEAR), Get(MONTH), 1, 0, 0, 0, 0);
+    NFTime xTime((int)Get(YEAR), (int)Get(MONTH), 1, 0, 0, 0, 0);
     int nFirstDayOfWeek = xTime.GetDayOfWeek();
     int nDaySpan = Get(DAY) - 1;
     return (nFirstDayOfWeek + nDaySpan) / 7;
@@ -716,8 +716,8 @@ int NFTime::GetDayOfYear()
 {
     int nDays[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     int nDayOfYear = 0;
-    int nYear = Get(YEAR);
-    int nMonth = Get(MONTH);
+    int nYear = (int)Get(YEAR);
+    int nMonth = (int)Get(MONTH);
     for(int i = 0; i < nMonth - 1; ++i)
     {
         nDayOfYear += nDays[i];

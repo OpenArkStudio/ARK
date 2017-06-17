@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "NFComm/NFCore/NFIObject.h"
-#include "NFComm/NFPluginModule/NFGUID.h"
+#include "NFComm/NFPluginModule/AFGUID.h"
 #include "NFComm/NFPluginModule/NFISceneModule.h"
 
 class NFCSceneModule

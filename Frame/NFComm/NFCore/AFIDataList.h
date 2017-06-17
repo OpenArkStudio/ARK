@@ -14,6 +14,7 @@ public:
 
     virtual bool Concat(const AFIDataList& src) = 0;
 
+    virtual bool Append(const AFIData& data) = 0;
     virtual bool Append(const AFIDataList& src, size_t start, size_t count) = 0;
 
     virtual void Clear() = 0;
