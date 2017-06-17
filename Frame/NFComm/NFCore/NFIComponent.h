@@ -10,7 +10,7 @@
 #define NFI_COMPONENT_H
 
 #include "NFComm/NFPluginModule/NFPlatform.h"
-#include "NFComm/NFPluginModule/NFGUID.h"
+#include "NFComm/NFPluginModule/AFGUID.h"
 #include "NFComm/NFPluginModule/NFIModule.h"
 
 /**
@@ -42,7 +42,7 @@ private:
 public:
 
     /**
-     * @fn  NFIComponent::NFIComponent(NFGUID self, const std::string& strName)
+     * @fn  NFIComponent::NFIComponent(AFGUID self, const std::string& strName)
      *
      * @brief   Constructor.
      *
@@ -53,7 +53,7 @@ public:
      * @param   strName The name.
      */
 
-    NFIComponent(NFGUID self, const std::string& strName)
+    NFIComponent(AFGUID self, const std::string& strName)
     {
         mbHasInit = false;
         mbEnable = true;
@@ -174,17 +174,17 @@ public:
     }
 
     /**
-     * @fn  virtual NFGUID NFIComponent::Self()
+     * @fn  virtual AFGUID NFIComponent::Self()
      *
      * @brief   Gets the self.
      *
      * @author  flyicegood
      * @date    2016/11/22
      *
-     * @return  A NFGUID.
+     * @return  A AFGUID.
      */
 
-    virtual NFGUID Self()
+    virtual AFGUID Self()
     {
         return NULL_GUID;
     }
@@ -206,7 +206,7 @@ public:
     };
 
     /**
-     * @fn  virtual int NFIComponent::OnASyncEvent(const NFGUID& self, const int event, std::string& arg)
+     * @fn  virtual int NFIComponent::OnASyncEvent(const AFGUID& self, const int event, std::string& arg)
      *
      * @brief   for actor.
      *
@@ -220,7 +220,7 @@ public:
      * @return  An int.
      */
 
-    virtual int OnASyncEvent(const NFGUID& self, const int event, std::string& arg)
+    virtual int OnASyncEvent(const AFGUID& self, const int event, std::string& arg)
     {
         return 0;
     }
@@ -249,7 +249,7 @@ private:
     /** @brief   True if megabytes has init. */
     bool mbHasInit;
     /** @brief   The self. */
-    NFGUID mSelf;
+    AFGUID mSelf;
     /** @brief   Name of the mstr. */
     std::string mstrName;
 };

@@ -430,7 +430,7 @@ bool NFCMulNet::SendMsg(const char* msg, const uint32_t nLen, const int nSockInd
     return false;
 }
 
-bool NFCMulNet::SendMsg(const char* msg, const uint32_t nLen, const NFGUID& xClient)
+bool NFCMulNet::SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient)
 {
     if (nLen <= 0)
     {
@@ -483,7 +483,7 @@ bool NFCMulNet::NetThreadSendMsg(const char* msg, const uint32_t nLen, const int
     return true;
 }
 
-bool NFCMulNet::NetThreadSendMsg(const char* msg, const uint32_t nLen, const NFGUID& xClient)
+bool NFCMulNet::NetThreadSendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient)
 {
     if (nLen <= 0)
     {
@@ -521,7 +521,7 @@ bool NFCMulNet::CloseNetObject(const int nSockIndex)
     return false;
 }
 
-bool NFCMulNet::CloseNetObject(const NFGUID& xClientID)
+bool NFCMulNet::CloseNetObject(const AFGUID& xClientID)
 {
     NetTaskInfo xMsg;
     xMsg.nTaskType = NetTaskInfo::NETTASKTYPE_DELETEOBJECT;
@@ -577,7 +577,7 @@ bool NFCMulNet::Dismantle(NetObject* pObject)
 
 bool NFCMulNet::NetThreadAddNetObject(const int nSockIndex, NetObject* pObject)
 {
-    pObject->SetClientID(NFGUID(nSockIndex, mObjectIndex++));
+    pObject->SetClientID(AFGUID(nSockIndex, mObjectIndex++));
 
     //lock
     return mmObject.insert(std::map<int, NetObject*>::value_type(nSockIndex, pObject)).second;
@@ -836,7 +836,7 @@ bool NFCMulNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const 
     return false;
 }
 
-bool NFCMulNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+bool NFCMulNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     std::string strOutData;
     int nAllLen = EnCode(nMsgID, msg, nLen, strOutData);

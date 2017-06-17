@@ -30,7 +30,7 @@ class NFCRecordManager : public NFIRecordManager
 public:
 
     /**
-     * @fn  NFCRecordManager::NFCRecordManager(const NFGUID& self)
+     * @fn  NFCRecordManager::NFCRecordManager(const AFGUID& self)
      *
      * @brief   Constructor.
      *
@@ -40,7 +40,7 @@ public:
      * @param   self    The class instance that this method operates on.
      */
 
-    NFCRecordManager(const NFGUID& self)
+    NFCRecordManager(const AFGUID& self)
     {
         mSelf = self;
     }
@@ -57,7 +57,7 @@ public:
     virtual ~NFCRecordManager();
 
     /**
-     * @fn  virtual NF_SHARE_PTR<NFIRecord> NFCRecordManager::AddRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& TData, const NF_SHARE_PTR<AFDataList>& tagData, const int nRows);
+     * @fn  virtual NF_SHARE_PTR<NFIRecord> NFCRecordManager::AddRecord(const AFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& TData, const NF_SHARE_PTR<AFDataList>& tagData, const int nRows);
      *
      * @brief   Adds a record.
      *
@@ -73,20 +73,20 @@ public:
      * @return  A NF_SHARE_PTR&lt;NFIRecord&gt;
      */
 
-    virtual NF_SHARE_PTR<NFIRecord> AddRecord(const NFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFDataList>& TData, const NF_SHARE_PTR<AFDataList>& tagData, const int nRows);
+    virtual NF_SHARE_PTR<NFIRecord> AddRecord(const AFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFIDataList>& TData, const NF_SHARE_PTR<AFIDataList>& tagData, const int nRows);
 
     /**
-     * @fn  virtual const NFGUID& NFCRecordManager::Self();
+     * @fn  virtual const AFGUID& NFCRecordManager::Self();
      *
      * @brief   Gets the self.
      *
      * @author  flyicegood
      * @date    2016/11/29
      *
-     * @return  A reference to a const NFGUID.
+     * @return  A reference to a const AFGUID.
      */
 
-    virtual const NFGUID& Self();
+    virtual const AFGUID& Self();
 
     /**
      * @fn  virtual bool NFCRecordManager::SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const NFINT64 value);
@@ -143,7 +143,7 @@ public:
     virtual bool SetRecordString(const std::string& strRecordName, const int nRow, const int nCol, const std::string& value);
 
     /**
-     * @fn  virtual bool NFCRecordManager::SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const NFGUID& value);
+     * @fn  virtual bool NFCRecordManager::SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value);
      *
      * @brief   Sets record object.
      *
@@ -158,7 +158,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const NFGUID& value);
+    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value);
 
     /**
      * @fn  virtual bool NFCRecordManager::SetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol, const Point3D& value);
@@ -176,7 +176,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol, const Point3D& value);
+    //virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol, const Point3D& value);
 
     /**
      * @fn  virtual bool NFCRecordManager::SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFINT64 value);
@@ -233,7 +233,7 @@ public:
     virtual bool SetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag, const std::string& value);
 
     /**
-     * @fn  virtual bool NFCRecordManager::SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFGUID& value);
+     * @fn  virtual bool NFCRecordManager::SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const AFGUID& value);
      *
      * @brief   Sets record object.
      *
@@ -248,7 +248,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFGUID& value);
+    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const AFGUID& value);
 
     /**
      * @fn  virtual bool NFCRecordManager::SetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag, const Point3D& value);
@@ -266,7 +266,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag, const Point3D& value);
+    //virtual bool SetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag, const Point3D& value);
 
     /**
      * @fn  virtual NFINT64 NFCRecordManager::GetRecordInt(const std::string& strRecordName, const int nRow, const int nCol);
@@ -320,7 +320,7 @@ public:
     virtual const std::string& GetRecordString(const std::string& strRecordName, const int nRow, const int nCol);
 
     /**
-     * @fn  virtual const NFGUID& NFCRecordManager::GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol);
+     * @fn  virtual const AFGUID& NFCRecordManager::GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol);
      *
      * @brief   Gets record object.
      *
@@ -334,7 +334,7 @@ public:
      * @return  The record object.
      */
 
-    virtual const NFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol);
+    virtual const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol);
 
     /**
      * @fn  virtual const Point3D& NFCRecordManager::GetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol);
@@ -351,7 +351,7 @@ public:
      * @return  The record point.
      */
 
-    virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol);
+    //virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol);
 
     /**
      * @fn  virtual NFINT64 NFCRecordManager::GetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag);
@@ -405,7 +405,7 @@ public:
     virtual const std::string& GetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag);
 
     /**
-     * @fn  virtual const NFGUID& NFCRecordManager::GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag);
+     * @fn  virtual const AFGUID& NFCRecordManager::GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag);
      *
      * @brief   Gets record object.
      *
@@ -419,7 +419,7 @@ public:
      * @return  The record object.
      */
 
-    virtual const NFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag);
+    virtual const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag);
 
     /**
      * @fn  virtual const Point3D& NFCRecordManager::GetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag);
@@ -436,10 +436,10 @@ public:
      * @return  The record point.
      */
 
-    virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag);
+    //virtual const Point3D& GetRecordPoint(const std::string& strRecordName, const int nRow, const std::string& strColTag);
     /** @brief   ///////////////////////////////////////////////////////////////////////. */
 private:
-    NFGUID mSelf;
+    AFGUID mSelf;
 
 };
 

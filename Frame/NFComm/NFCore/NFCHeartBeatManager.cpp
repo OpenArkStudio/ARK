@@ -88,13 +88,13 @@ bool NFCHeartBeatManager::RemoveHeartBeat(const std::string& strHeartBeatName)
     return mRemoveListEx.Add(strHeartBeatName);
 }
 
-NFGUID NFCHeartBeatManager::Self()
+AFGUID NFCHeartBeatManager::Self()
 {
     return mSelf;
 }
 
 //////////////////////////////////////////////////////////////////////////
-bool NFCHeartBeatManager::AddHeartBeat(const NFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const NFINT64 nTime, const int nCount)
+bool NFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const NFINT64 nTime, const int nCount)
 {
     NFCHeartBeatElement xHeartBeat;
     xHeartBeat.nNextTriggerTime = NFTime::GetNowMillisecond() + nTime;

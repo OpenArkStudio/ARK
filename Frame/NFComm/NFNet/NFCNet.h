@@ -34,7 +34,7 @@ public:
     }
 
     template<typename BaseType>
-    NFCNet(BaseType* pBaseType, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID&), void (BaseType::*handleEvent)(const int, const NF_NET_EVENT, const NFGUID&, const int))
+    NFCNet(BaseType* pBaseType, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID&), void (BaseType::*handleEvent)(const int, const NF_NET_EVENT, const AFGUID&, const int))
     {
         base = NULL;
         listener = NULL;
@@ -67,7 +67,7 @@ public:
 
     //�ް�ͷ���ڲ���װ
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const int nSockIndex);
-    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
+    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     //�ް�ͷ���ڲ���װ
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const std::list<int>& fdList);
@@ -77,7 +77,7 @@ public:
 
 
     virtual bool CloseNetObject(const int nSockIndex);
-    virtual bool CloseNetObject(const NFGUID& xClient);
+    virtual bool CloseNetObject(const AFGUID& xClient);
 
     virtual bool IsServer();
     virtual bool Log(int severity, const char* msg);
@@ -91,7 +91,7 @@ private:
 
     //�Ѵ��ϰ�ͷ
     bool SendMsg(const char* msg, const uint32_t nLen, const int nSockIndex);
-    bool SendMsg(const char* msg, const uint32_t nLen, const NFGUID& xClient);
+    bool SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient);
 
     bool AddNetObject(const int nSockIndex, NetObject* pObject);
     NetObject* GetNetObject(const int nSockIndex);

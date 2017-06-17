@@ -90,9 +90,6 @@
     <ClInclude Include="NFTime.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="AFDataList.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="AFArrayPod.hpp">
       <Filter>Utils</Filter>
     </ClInclude>

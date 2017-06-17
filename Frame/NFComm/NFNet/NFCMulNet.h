@@ -50,7 +50,7 @@ public:
         int nSockIndex;
         int bSendAllObject;
         std::string strMsg;
-        NFGUID xClientID;
+        AFGUID xClientID;
     };
 
     struct RecivemsgInfo
@@ -64,7 +64,7 @@ public:
         int nRealSockIndex;
         int nMsgID;
         std::string strMsg;
-        NFGUID xClientID;
+        AFGUID xClientID;
     };
 
     struct EventInfo
@@ -77,7 +77,7 @@ public:
 
         int nSockIndex;
         int nEvent;
-        NFGUID xClientID;
+        AFGUID xClientID;
     };
 
     struct NetTaskInfo
@@ -95,11 +95,11 @@ public:
 
         int nSockIndex;
         int nTaskType;
-        NFGUID xClientID;
+        AFGUID xClientID;
     };
 
     template<typename BaseType>
-    NFCMulNet(BaseType* pBaseType, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID&), void (BaseType::*handleEvent)(const int, const NF_NET_EVENT, const NFGUID&, const int))
+    NFCMulNet(BaseType* pBaseType, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID&), void (BaseType::*handleEvent)(const int, const NF_NET_EVENT, const AFGUID&, const int))
     {
         base = NULL;
         listener = NULL;
@@ -134,7 +134,7 @@ public:
 
     //�ް�ͷ���ڲ���װ
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const int nSockIndex);
-    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID);
+    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     //�ް�ͷ���ڲ���װ
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const std::list<int>& fdList);
@@ -144,7 +144,7 @@ public:
 
 
     virtual bool CloseNetObject(const int nSockIndex);
-    virtual bool CloseNetObject(const NFGUID& xClientID);
+    virtual bool CloseNetObject(const AFGUID& xClientID);
 
     virtual bool IsServer();
     virtual bool Log(int severity, const char* msg);
@@ -162,7 +162,7 @@ private:
 
     //�Ѵ��ϰ�ͷ
     bool SendMsg(const char* msg, const uint32_t nLen, const int nSockIndex);
-    bool SendMsg(const char* msg, const uint32_t nLen, const NFGUID& xClient);
+    bool SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient);
 
     bool NetThreadAddNetObject(const int nSockIndex, NetObject* pObject);
     NetObject* NetThreadGetNetObject(const int nSockIndex);
@@ -170,7 +170,7 @@ private:
 private:
     bool NetThreadSendMsgToAllClient(const char* msg, const uint32_t nLen);
     bool NetThreadSendMsg(const char* msg, const uint32_t nLen, const int nSockIndex);
-    bool NetThreadSendMsg(const char* msg, const uint32_t nLen, const NFGUID& xclient);
+    bool NetThreadSendMsg(const char* msg, const uint32_t nLen, const AFGUID& xclient);
     void ProcessMsgNetThread();
     void ProcessNetTaskNetThread();
     void ProcessMsgLogicThread();

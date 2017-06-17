@@ -12,8 +12,11 @@
 #include "NFDefine.h"
 #include "NFMap.h"
 #include "NFList.h"
-#include "AFDataList.hpp"
+#include "AFCDataList.h"
 #include "NFIProperty.h"
+#include "AFIData.h"
+
+using namespace ArkFrame;
 
 /**
  * @class   NFCProperty
@@ -42,7 +45,7 @@ private:
 public:
 
     /**
-     * @fn  NFCProperty::NFCProperty(const NFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType);
+     * @fn  NFCProperty::NFCProperty(const AFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType);
      *
      * @brief   Constructor.
      *
@@ -54,7 +57,7 @@ public:
      * @param   varType         Type of the variable.
      */
 
-    NFCProperty(const NFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType);
+    NFCProperty(const AFGUID& self, const std::string& strPropertyName, const int varType);
 
     /**
      * @fn  virtual NFCProperty::~NFCProperty();
@@ -78,7 +81,7 @@ public:
      * @param   TData   The data.
      */
 
-    virtual void SetValue(const AFDataList::TData& TData);
+    virtual void SetValue(const AFIData& TData);
 
     /**
      * @fn  virtual void NFCProperty::SetValue(const NFIProperty* pProperty);
@@ -139,7 +142,7 @@ public:
     virtual bool SetString(const std::string& value);
 
     /**
-     * @fn  virtual bool NFCProperty::SetObject(const NFGUID& value);
+     * @fn  virtual bool NFCProperty::SetObject(const AFGUID& value);
      *
      * @brief   Sets an object.
      *
@@ -151,7 +154,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetObject(const NFGUID& value);
+    virtual bool SetObject(const AFGUID& value);
 
     /**
      * @fn  virtual bool NFCProperty::SetPoint(const Point3D& value);
@@ -208,7 +211,7 @@ public:
     virtual const std::string& GetString() const;
 
     /**
-     * @fn  virtual const NFGUID& NFCProperty::GetObject() const;
+     * @fn  virtual const AFGUID& NFCProperty::GetObject() const;
      *
      * @brief   Gets the object.
      *
@@ -218,7 +221,7 @@ public:
      * @return  The object.
      */
 
-    virtual const NFGUID& GetObject() const;
+    virtual const AFGUID& GetObject() const;
 
     /**
      * @fn  virtual const Point3D& NFCProperty::GetPoint() const;
@@ -231,7 +234,7 @@ public:
      * @return  The point.
      */
 
-    virtual const Point3D& GetPoint() const;
+    //virtual const Point3D& GetPoint() const;
 
     /**
      * @fn  virtual const TDATA_TYPE NFCProperty::GetType() const;
@@ -244,7 +247,7 @@ public:
      * @return  The type.
      */
 
-    virtual const TDATA_TYPE GetType() const;
+    virtual const int GetType() const;
 
     /**
      * @fn  virtual const bool NFCProperty::GeUsed() const;
@@ -413,7 +416,7 @@ public:
      * @return  The value.
      */
 
-    virtual const AFDataList::TData& GetValue() const;
+    virtual const AFIData& GetValue() const;
 
     /**
      * @fn  virtual const NF_SHARE_PTR<NFList<std::string>> NFCProperty::GetEmbeddedList() const;
@@ -539,7 +542,7 @@ private:
     TPROPERTYCALLBACKEX mtPropertyCallback;
 
     /** @brief   The self. */
-    NFGUID mSelf;
+    AFGUID mSelf;
     /** @brief   可以想办法与基本类型共用. */
     std::string msPropertyName;
     /** @brief   The mstr relation value. */

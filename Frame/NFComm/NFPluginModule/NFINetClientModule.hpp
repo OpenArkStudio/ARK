@@ -93,7 +93,7 @@ public:
     }
 
     template<typename BaseType>
-    bool AddReceiveCallBack(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID& ))
+    bool AddReceiveCallBack(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID& ))
     {
         std::map<int, NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxReceiveCallBack.find(nMsgID);
         if (mxReceiveCallBack.end() == it)
@@ -112,7 +112,7 @@ public:
     }
 
     template<typename BaseType>
-    int AddReceiveCallBack(BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const NFGUID&))
+    int AddReceiveCallBack(BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID&))
     {
         NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         NET_RECEIVE_FUNCTOR_PTR functorPtr(new NET_RECEIVE_FUNCTOR(functor));
@@ -123,7 +123,7 @@ public:
     }
 
     template<typename BaseType>
-    bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const int, const NF_NET_EVENT, const NFGUID&, const int ))
+    bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const int, const NF_NET_EVENT, const AFGUID&, const int ))
     {
         NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         NET_EVENT_FUNCTOR_PTR functorPtr(new NET_EVENT_FUNCTOR(functor));
@@ -183,7 +183,7 @@ public:
             NF_SHARE_PTR<NFINetModule> pNetModule = pServer->mxNetModule;
             if (pNetModule.get())
             {
-                pNetModule->SendMsgPB(nMsgID, xData, 0, NFGUID(), NULL);
+                pNetModule->SendMsgPB(nMsgID, xData, 0, AFGUID(), NULL);
             }
         }
     }
@@ -386,7 +386,7 @@ private:
         LogServerInfo();
     }
 
-    void OnSocketEvent(const int fd, const NF_NET_EVENT eEvent, const NFGUID& xClientID, const int nServerID)
+    void OnSocketEvent(const int fd, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
     {
         if (eEvent & BEV_EVENT_CONNECTED)
         {
@@ -398,7 +398,7 @@ private:
         }
     }
 
-    int OnConnected(const int fd, const NFGUID& xClientID, const int nServerID)
+    int OnConnected(const int fd, const AFGUID& xClientID, const int nServerID)
     {
         NF_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
         if (pServerInfo.get())
@@ -410,7 +410,7 @@ private:
         return 0;
     }
 
-    int OnDisConnected(const int fd, const NFGUID& xClientID, const int nServerID)
+    int OnDisConnected(const int fd, const AFGUID& xClientID, const int nServerID)
     {
         NF_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
         if (nullptr != pServerInfo)

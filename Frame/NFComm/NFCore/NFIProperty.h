@@ -10,7 +10,7 @@
 #define NFI_PROPERTY_H
 
 #include "NFDefine.h"
-#include "AFDataList.hpp"
+#include "AFCDataList.h"
 #include "NFList.h"
 
 /**
@@ -48,7 +48,7 @@ public:
      * @param   TData   The data.
      */
 
-    virtual void SetValue(const AFDataList::TData& TData) = 0;
+    virtual void SetValue(const AFIData& TData) = 0;
 
     /**
      * @fn  virtual void NFIProperty::SetValue(const NFIProperty* pProperty) = 0;
@@ -109,7 +109,7 @@ public:
     virtual bool SetString(const std::string& value) = 0;
 
     /**
-     * @fn  virtual bool NFIProperty::SetObject(const NFGUID& value) = 0;
+     * @fn  virtual bool NFIProperty::SetObject(const AFGUID& value) = 0;
      *
      * @brief   Sets an object.
      *
@@ -121,7 +121,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetObject(const NFGUID& value) = 0;
+    virtual bool SetObject(const AFGUID& value) = 0;
 
     /**
      * @fn  virtual bool NFIProperty::SetPoint(const Point3D& value) = 0;
@@ -178,7 +178,7 @@ public:
     virtual const std::string& GetString() const = 0;
 
     /**
-     * @fn  virtual const NFGUID& NFIProperty::GetObject() const = 0;
+     * @fn  virtual const AFGUID& NFIProperty::GetObject() const = 0;
      *
      * @brief   Gets the object.
      *
@@ -188,7 +188,7 @@ public:
      * @return  The object.
      */
 
-    virtual const NFGUID& GetObject() const = 0;
+    virtual const AFGUID& GetObject() const = 0;
 
     /**
      * @fn  virtual const Point3D& NFIProperty::GetPoint() const = 0;
@@ -201,7 +201,7 @@ public:
      * @return  The point.
      */
 
-    virtual const Point3D& GetPoint() const = 0;
+    //virtual const Point3D& GetPoint() const = 0;
 
     /**
      * @fn  virtual const TDATA_TYPE NFIProperty::GetType() const = 0;
@@ -214,7 +214,7 @@ public:
      * @return  The type.
      */
 
-    virtual const TDATA_TYPE GetType() const = 0;
+    virtual const int GetType() const = 0;
 
     /**
      * @fn  virtual const bool NFIProperty::GeUsed() const = 0;
@@ -383,7 +383,7 @@ public:
      * @return  The value.
      */
 
-    virtual const AFDataList::TData& GetValue() const = 0;
+    virtual const AFIData& GetValue() const = 0;
 
     /**
      * @fn  virtual const NF_SHARE_PTR<NFList<std::string>> NFIProperty::GetEmbeddedList() const = 0;

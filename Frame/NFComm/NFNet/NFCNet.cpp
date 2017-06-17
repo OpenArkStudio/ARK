@@ -274,7 +274,7 @@ bool NFCNet::SendMsg(const char* msg, const uint32_t nLen, const int nSockIndex)
     return false;
 }
 
-bool NFCNet::SendMsg(const char* msg, const uint32_t nLen, const NFGUID& xClient)
+bool NFCNet::SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient)
 {
     if (nLen <= 0)
     {
@@ -326,7 +326,7 @@ bool NFCNet::CloseNetObject(const int nSockIndex)
     return false;
 }
 
-bool NFCNet::CloseNetObject(const NFGUID& xClient)
+bool NFCNet::CloseNetObject(const AFGUID& xClient)
 {
     for (std::map<int, NetObject*>::iterator it = mmObject.begin(); it != mmObject.end(); ++it)
     {
@@ -388,7 +388,7 @@ bool NFCNet::Dismantle(NetObject* pObject)
 
 bool NFCNet::AddNetObject(const int nSockIndex, NetObject* pObject)
 {
-    pObject->SetClientID(NFGUID(nSockIndex, mObjectIndex++));
+    pObject->SetClientID(AFGUID(nSockIndex, mObjectIndex++));
 
     //lock
     return mmObject.insert(std::map<int, NetObject*>::value_type(nSockIndex, pObject)).second;
@@ -647,7 +647,7 @@ bool NFCNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uin
     return false;
 }
 
-bool NFCNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+bool NFCNet::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     std::string strOutData;
     int nAllLen = EnCode(nMsgID, msg, nLen, strOutData);

@@ -8,7 +8,7 @@
 
 #include "NFCEventManager.h"
 
-NFCEventManager::NFCEventManager(NFGUID self)
+NFCEventManager::NFCEventManager(AFGUID self)
 {
     mSelf = self;
 }
@@ -63,13 +63,13 @@ bool NFCEventManager::Execute()
     return true;
 }
 
-bool NFCEventManager::RemoveEventCallBack(const int nEventID/*, const EVENT_PROCESS_FUNCTOR_PTR& cb*/)
+bool NFCEventManager::RemoveEventCallBack(const int nEventID)
 {
     mRemoveEventListEx.Add(nEventID);
     return true;
 }
 
-bool NFCEventManager::DoEvent(const int nEventID, const AFDataList& valueList)
+bool NFCEventManager::DoEvent(const int nEventID, const AFIDataList& valueList)
 {
     NF_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
     if(nullptr == pEventInfo)
@@ -92,10 +92,5 @@ bool NFCEventManager::DoEvent(const int nEventID, const AFDataList& valueList)
 bool NFCEventManager::HasEventCallBack(const int nEventID)
 {
     NF_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-    if(nullptr != pEventInfo)
-    {
-        return true;
-    }
-
-    return false;
+    return nullptr != pEventInfo;
 }

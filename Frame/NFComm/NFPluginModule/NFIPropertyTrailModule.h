@@ -16,8 +16,8 @@ class NFIPropertyTrailModule
     : public NFIModule
 {
 public:
-    virtual void StartTrail(const NFGUID self) = 0;
-    virtual void EndTrail(const NFGUID self) = 0;
+    virtual void StartTrail(const AFGUID self) = 0;
+    virtual void EndTrail(const AFGUID self) = 0;
 
 };
 

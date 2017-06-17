@@ -37,19 +37,19 @@ bool NFCPropertyTrailModule::AfterInit()
     return true;
 }
 
-void NFCPropertyTrailModule::StartTrail(const NFGUID self)
+void NFCPropertyTrailModule::StartTrail(const AFGUID self)
 {
     LogObjectData(self);
 
 
 }
 
-void NFCPropertyTrailModule::EndTrail(const NFGUID self)
+void NFCPropertyTrailModule::EndTrail(const AFGUID self)
 {
 
 }
 
-int NFCPropertyTrailModule::LogObjectData(const NFGUID& self)
+int NFCPropertyTrailModule::LogObjectData(const AFGUID& self)
 {
     NF_SHARE_PTR<NFIObject> xObject = m_pKernelModule->GetObject(self);
     if(nullptr == xObject)
@@ -105,7 +105,7 @@ int NFCPropertyTrailModule::LogObjectData(const NFGUID& self)
     return 0;
 }
 
-int NFCPropertyTrailModule::OnObjectPropertyEvent(const NFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
+int NFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
 {
     std::ostringstream stream;
 
@@ -120,7 +120,7 @@ int NFCPropertyTrailModule::OnObjectPropertyEvent(const NFGUID& self, const std:
     return 0;
 }
 
-int NFCPropertyTrailModule::OnObjectRecordEvent(const NFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
+int NFCPropertyTrailModule::OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
 {
     std::ostringstream stream;
     NF_SHARE_PTR<NFIRecord> xRecord = m_pKernelModule->FindRecord(self, xEventData.strRecordName);
@@ -181,7 +181,7 @@ int NFCPropertyTrailModule::OnObjectRecordEvent(const NFGUID& self, const RECORD
     return 0;
 }
 
-int NFCPropertyTrailModule::TrailObjectData(const NFGUID& self)
+int NFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
 {
     NF_SHARE_PTR<NFIObject> xObject = m_pKernelModule->GetObject(self);
     if(nullptr == xObject)

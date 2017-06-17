@@ -8,6 +8,7 @@
 
 #include "AFPropertyMgr.h"
 
+
 AFPropertyMgr::AFPropertyMgr()
 {
 
@@ -52,7 +53,7 @@ bool AFPropertyMgr::FindIndex(const char* name, size_t& index)
     return true;
 }
 
-bool AFPropertyMgr::AddProperty(const char* name, const AFDataList::TData& value, bool bPublic, bool bPrivate, bool bSave, bool bRealTime)
+bool AFPropertyMgr::AddProperty(const char* name, const AFXData& value, bool bPublic, bool bPrivate, bool bSave, bool bRealTime)
 {
     AFProperty* pProperty = new AFProperty();
     pProperty->name = name;
@@ -67,7 +68,7 @@ bool AFPropertyMgr::AddProperty(const char* name, const AFDataList::TData& value
     return true;
 }
 
-bool AFPropertyMgr::SetProperty(const char* name, const AFDataList::TData& value)
+bool AFPropertyMgr::SetProperty(const char* name, const AFXData& value)
 {
     size_t index;
     if (!FindIndex(name, index))
@@ -111,11 +112,11 @@ bool AFPropertyMgr::SetPropertyString(const char* name, const std::string& value
         return false;
     }
 
-    mxPropertys[index]->value.SetString(value);
+    mxPropertys[index]->value.SetString(value.c_str());
     return true;
 }
 
-bool AFPropertyMgr::SetPropertyObject(const char* name, const NFGUID& value)
+bool AFPropertyMgr::SetPropertyObject(const char* name, const AFGUID& value)
 {
     size_t index;
     if (!FindIndex(name, index))
@@ -129,13 +130,13 @@ bool AFPropertyMgr::SetPropertyObject(const char* name, const NFGUID& value)
 
 bool AFPropertyMgr::SetPropertyPoint(const char* name, const Point3D& value)
 {
-    size_t index;
-    if (!FindIndex(name, index))
-    {
-        return false;
-    }
+    //size_t index;
+    //if (!FindIndex(name, index))
+    //{
+    //    return false;
+    //}
 
-    mxPropertys[index]->value.SetPoint(value);
+    //mxPropertys[index]->value.SetPoint(value);
     return true;
 }
 
@@ -172,7 +173,7 @@ const std::string& AFPropertyMgr::GetPropertyString(const char* name)
     return mxPropertys[index]->value.GetString();
 }
 
-const NFGUID& AFPropertyMgr::GetPropertyObject(const char* name)
+const AFGUID& AFPropertyMgr::GetPropertyObject(const char* name)
 {
     size_t index;
     if (!FindIndex(name, index))
@@ -185,11 +186,13 @@ const NFGUID& AFPropertyMgr::GetPropertyObject(const char* name)
 
 const Point3D& AFPropertyMgr::GetPropertyPoint(const char* name)
 {
-    size_t index;
-    if (!FindIndex(name, index))
-    {
-        return NULL_POINT;
-    }
+    //size_t index;
+    //if (!FindIndex(name, index))
+    //{
+    //    return NULL_POINT;
+    //}
 
-    return mxPropertys[index]->value.GetPoint();
+    //return mxPropertys[index]->value.GetPoint();
+
+    return Point3D();
 }

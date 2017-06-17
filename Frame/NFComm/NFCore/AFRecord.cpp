@@ -68,7 +68,7 @@ bool AFRecord::SetString(const int nRow, const int nCol, const std::string& valu
     return true;
 }
 
-bool AFRecord::SetObject(const int nRow, const int nCol, const NFGUID& value)
+bool AFRecord::SetObject(const int nRow, const int nCol, const AFGUID& value)
 {
     return true;
 }
@@ -93,7 +93,7 @@ const std::string& AFRecord::GetString(const int nRow, const int nCol) const
     return NULL_STR;
 }
 
-const NFGUID& AFRecord::GetObject(const int nRow, const int nCol) const
+const AFGUID& AFRecord::GetObject(const int nRow, const int nCol) const
 {
     return NULL_GUID;
 }
@@ -118,7 +118,7 @@ int AFRecord::FindString(const int nCol, const std::string& value, AFDataList& v
     return 0;
 }
 
-int AFRecord::FindObject(const int nCol, const NFGUID& value, AFDataList& varResult)
+int AFRecord::FindObject(const int nCol, const AFGUID& value, AFDataList& varResult)
 {
     return 0;
 }

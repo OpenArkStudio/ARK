@@ -2,13 +2,36 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="NFConfigPlugin.cpp" />
-    <ClCompile Include="NFCElementModule.cpp" />
-    <ClCompile Include="NFCClassModule.cpp" />
+    <ClCompile Include="NFConfigPlugin.cpp">
+      <Filter>Plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="NFCClassModule.cpp">
+      <Filter>NFClassModule</Filter>
+    </ClCompile>
+    <ClCompile Include="NFCElementModule.cpp">
+      <Filter>NFElementModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NFConfigPlugin.h" />
-    <ClInclude Include="NFCElementModule.h" />
-    <ClInclude Include="NFCClassModule.h" />
+    <ClInclude Include="NFConfigPlugin.h">
+      <Filter>Plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="NFCClassModule.h">
+      <Filter>NFClassModule</Filter>
+    </ClInclude>
+    <ClInclude Include="NFCElementModule.h">
+      <Filter>NFElementModule</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{7b20af2e-e6c1-47f9-af4d-c9f3a413d883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NFClassModule">
+      <UniqueIdentifier>{6f9f783d-8e11-4950-b0a6-2f71a7e235b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NFElementModule">
+      <UniqueIdentifier>{c0f3de19-c004-43cd-a113-ca4bb5779a93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

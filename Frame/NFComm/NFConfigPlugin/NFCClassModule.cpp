@@ -476,7 +476,7 @@ bool NFCClassModule::AddClassCallBack(const std::string& strClassName, const CLA
     return pClass->AddClassCallBack(cb);
 }
 
-bool NFCClassModule::DoEvent(const NFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList)
+bool NFCClassModule::DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList)
 {
     NF_SHARE_PTR<NFIClass> pClass = GetElement(strClassName);
     if(nullptr == pClass)

@@ -2,6 +2,7 @@
 
 #include <string>
 #include "AFGUID.h"
+
 namespace ArkFrame
 {
 
@@ -73,7 +74,7 @@ public:
     virtual AFGUID GetObject() const = 0;
     virtual void* GetPointer() const = 0;
     virtual const void* GetUserData(size_t& size) const = 0;
-    virtual void GetRawUserData() const = 0;
+    virtual void* GetRawUserData() const = 0;
 
     //Set data
     virtual void SetUnknown() = 0;

@@ -195,7 +195,7 @@ public:
     virtual bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
 
     /**
-     * @fn  virtual bool DoEvent(const NFGUID& objectID, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList) = 0;
+     * @fn  virtual bool DoEvent(const AFGUID& objectID, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList) = 0;
      *
      * @brief   Executes the event operation.
      *
@@ -209,7 +209,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool DoEvent(const NFGUID& objectID, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList) = 0;
+    virtual bool DoEvent(const AFGUID& objectID, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList) = 0;
 };
 
 class NFIClassModule
@@ -259,7 +259,7 @@ public:
     virtual bool Clear() = 0;
 
     /**
-     * @fn  template<typename BaseType> bool AddClassCallBack(const std::string& strClassName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const NFIDataList&))
+     * @fn  template<typename BaseType> bool AddClassCallBack(const std::string& strClassName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const NFIDataList&))
      *
      * @brief   Adds the class call back.
      *
@@ -275,7 +275,7 @@ public:
      */
 
     template<typename BaseType>
-    bool AddClassCallBack(const std::string& strClassName, BaseType* pBase, int (BaseType::*handler)(const NFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFDataList&))
+    bool AddClassCallBack(const std::string& strClassName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFDataList&))
     {
         CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         CLASS_EVENT_FUNCTOR_PTR functorPtr(new CLASS_EVENT_FUNCTOR(functor));
@@ -283,7 +283,7 @@ public:
     }
 
     /**
-     * @fn  virtual bool DoEvent(const NFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList) = 0;
+     * @fn  virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList) = 0;
      *
      * @brief   Executes the event operation.
      *
@@ -298,7 +298,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool DoEvent(const NFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList) = 0;
+    virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList) = 0;
 
     /**
      * @fn  virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;

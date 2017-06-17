@@ -5,13 +5,16 @@
 //    @Module           :    NFDefine
 //
 // -------------------------------------------------------------------------
-
-#ifndef NF_DEFINE_H
-#define NF_DEFINE_H
+#pragma once
 
 #include <functional>
-#include "AFDataList.hpp"
-#include "NFComm/NFPluginModule/NFGUID.h"
+#include "AFCData.h"
+#include "AFCDataList.h"
+#include "AFGUID.h"
+#include "NFComm/NFPluginModule/NFPlatform.h"
+
+namespace ArkFrame
+{
 
 /**
  * @enum    CLASS_OBJECT_EVENT
@@ -70,12 +73,12 @@ struct RECORD_EVENT_DATA
 };
 
 /**
- * @typedef std::function<int(const NFGUID&, const std::string&, const float, const int)> HEART_BEAT_FUNCTOR
+ * @typedef std::function<int(const AFGUID&, const std::string&, const float, const int)> HEART_BEAT_FUNCTOR
  *
  * @brief   functor.
  */
 
-typedef std::function<int(const NFGUID&, const std::string&, const NFINT64, const int)> HEART_BEAT_FUNCTOR;
+using HEART_BEAT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const NFINT64, const int)>;
 
 /**
  * @typedef std::function<void()> MODULE_HEART_BEAT_FUNCTOR
@@ -83,55 +86,55 @@ typedef std::function<int(const NFGUID&, const std::string&, const NFINT64, cons
  * @brief   Defines an alias representing the module heart beat functor.
  */
 
-typedef std::function<void()> MODULE_HEART_BEAT_FUNCTOR;
+using MODULE_HEART_BEAT_FUNCTOR = std::function<void()>;
 
 /**
- * @typedef std::function<int(const NFGUID&, const std::string&, const AFDataList::TData&, const AFDataList::TData&)> PROPERTY_EVENT_FUNCTOR
+ * @typedef std::function<int(const AFGUID&, const std::string&, const AFDataList::TData&, const AFDataList::TData&)> PROPERTY_EVENT_FUNCTOR
  *
  * @brief   Defines an alias representing the property event functor.
  */
 
-typedef std::function<int(const NFGUID&, const std::string&, const AFDataList::TData&, const AFDataList::TData&)> PROPERTY_EVENT_FUNCTOR;
+using PROPERTY_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
 
 /**
- * @typedef std::function<int(const NFGUID&, const RECORD_EVENT_DATA&, const AFDataList::TData&, const AFDataList::TData&)> RECORD_EVENT_FUNCTOR
+ * @typedef std::function<int(const AFGUID&, const RECORD_EVENT_DATA&, const AFDataList::TData&, const AFDataList::TData&)> RECORD_EVENT_FUNCTOR
  *
  * @brief   Defines an alias representing the record event functor.
  */
 
-typedef std::function<int(const NFGUID&, const RECORD_EVENT_DATA&, const AFDataList::TData&, const AFDataList::TData&)> RECORD_EVENT_FUNCTOR;
+using RECORD_EVENT_FUNCTOR = std::function<int(const AFGUID&, const RECORD_EVENT_DATA&, const AFIData&, const AFIData&)>;
 
 /**
- * @typedef std::function<int(const NFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFDataList&)> CLASS_EVENT_FUNCTOR
+ * @typedef std::function<int(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFDataList&)> CLASS_EVENT_FUNCTOR
  *
  * @brief   Defines an alias representing the class event functor.
  */
 
-typedef std::function<bool(const NFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFDataList&)> CLASS_EVENT_FUNCTOR;
+using CLASS_EVENT_FUNCTOR = std::function<bool(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFIDataList&)>;
 
 /**
- * @typedef std::function<int(const NFGUID&, const int, const AFDataList&)> EVENT_PROCESS_FUNCTOR
+ * @typedef std::function<int(const AFGUID&, const int, const AFDataList&)> EVENT_PROCESS_FUNCTOR
  *
  * @brief   Defines an alias representing the event process functor.
  */
 
-typedef std::function<int(const NFGUID&, const int, const AFDataList&)> EVENT_PROCESS_FUNCTOR;
+using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const AFIDataList&)>;
 
 /**
- * @typedef std::function<int(const NFGUID&, const int, std::string&)> EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR
+ * @typedef std::function<int(const AFGUID&, const int, std::string&)> EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR
  *
  * @brief   Defines an alias representing the event asynchronous process begin functor.
  */
 
-typedef std::function<int(const NFGUID&, const int, std::string&)> EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR;
+using EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR = std::function<int(const AFGUID&, const int, std::string&)>;
 
 /**
- * @typedef std::function<int(const NFGUID&, const int, const int, const std::string&)> EVENT_ASYNC_PROCESS_END_FUNCTOR
+ * @typedef std::function<int(const AFGUID&, const int, const int, const std::string&)> EVENT_ASYNC_PROCESS_END_FUNCTOR
  *
  * @brief   Defines an alias representing the event asynchronous process end functor.
  */
 
-typedef std::function<int(const NFGUID&, const int, const int, const std::string&)> EVENT_ASYNC_PROCESS_END_FUNCTOR;
+using EVENT_ASYNC_PROCESS_END_FUNCTOR = std::function<int(const AFGUID&, const int, const int, const std::string&)>;
 
 /**
  * @typedef NF_SHARE_PTR<HEART_BEAT_FUNCTOR> HEART_BEAT_FUNCTOR_PTR
@@ -139,7 +142,7 @@ typedef std::function<int(const NFGUID&, const int, const int, const std::string
  * @brief   Defines an alias representing the heart beat functor pointer.
  */
 
-typedef NF_SHARE_PTR<HEART_BEAT_FUNCTOR> HEART_BEAT_FUNCTOR_PTR;
+using HEART_BEAT_FUNCTOR_PTR = NF_SHARE_PTR<HEART_BEAT_FUNCTOR>;
 
 /**
  * @typedef NF_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR> MODULE_HEART_BEAT_FUNCTOR_PTR
@@ -147,7 +150,7 @@ typedef NF_SHARE_PTR<HEART_BEAT_FUNCTOR> HEART_BEAT_FUNCTOR_PTR;
  * @brief   Defines an alias representing the module heart beat functor pointer.
  */
 
-typedef NF_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR> MODULE_HEART_BEAT_FUNCTOR_PTR;
+using MODULE_HEART_BEAT_FUNCTOR_PTR = NF_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR>;
 
 /**
  * @typedef NF_SHARE_PTR<PROPERTY_EVENT_FUNCTOR> PROPERTY_EVENT_FUNCTOR_PTR
@@ -155,7 +158,7 @@ typedef NF_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR> MODULE_HEART_BEAT_FUNCTOR_PTR;
  * @brief   Defines an alias representing the property event functor pointer.
  */
 
-typedef NF_SHARE_PTR<PROPERTY_EVENT_FUNCTOR> PROPERTY_EVENT_FUNCTOR_PTR;
+using PROPERTY_EVENT_FUNCTOR_PTR = NF_SHARE_PTR<PROPERTY_EVENT_FUNCTOR>;
 
 /**
  * @typedef NF_SHARE_PTR<RECORD_EVENT_FUNCTOR> RECORD_EVENT_FUNCTOR_PTR
@@ -163,7 +166,7 @@ typedef NF_SHARE_PTR<PROPERTY_EVENT_FUNCTOR> PROPERTY_EVENT_FUNCTOR_PTR;
  * @brief   Defines an alias representing the record event functor pointer.
  */
 
-typedef NF_SHARE_PTR<RECORD_EVENT_FUNCTOR> RECORD_EVENT_FUNCTOR_PTR;
+using RECORD_EVENT_FUNCTOR_PTR = NF_SHARE_PTR<RECORD_EVENT_FUNCTOR>;
 
 /**
  * @typedef NF_SHARE_PTR<CLASS_EVENT_FUNCTOR> CLASS_EVENT_FUNCTOR_PTR
@@ -171,7 +174,7 @@ typedef NF_SHARE_PTR<RECORD_EVENT_FUNCTOR> RECORD_EVENT_FUNCTOR_PTR;
  * @brief   Defines an alias representing the class event functor pointer.
  */
 
-typedef NF_SHARE_PTR<CLASS_EVENT_FUNCTOR> CLASS_EVENT_FUNCTOR_PTR;
+using CLASS_EVENT_FUNCTOR_PTR = NF_SHARE_PTR<CLASS_EVENT_FUNCTOR> ;
 
 /**
  * @typedef NF_SHARE_PTR<EVENT_PROCESS_FUNCTOR> EVENT_PROCESS_FUNCTOR_PTR
@@ -179,7 +182,7 @@ typedef NF_SHARE_PTR<CLASS_EVENT_FUNCTOR> CLASS_EVENT_FUNCTOR_PTR;
  * @brief   Defines an alias representing the event process functor pointer.
  */
 
-typedef NF_SHARE_PTR<EVENT_PROCESS_FUNCTOR> EVENT_PROCESS_FUNCTOR_PTR;
+using EVENT_PROCESS_FUNCTOR_PTR = NF_SHARE_PTR<EVENT_PROCESS_FUNCTOR>;
 
 /**
  * @typedef NF_SHARE_PTR<EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR> EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR_PTR
@@ -188,7 +191,7 @@ typedef NF_SHARE_PTR<EVENT_PROCESS_FUNCTOR> EVENT_PROCESS_FUNCTOR_PTR;
  *          pointer.
  */
 
-typedef NF_SHARE_PTR<EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR> EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR_PTR;
+using EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR_PTR = NF_SHARE_PTR<EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR>;
 
 /**
  * @typedef NF_SHARE_PTR<EVENT_ASYNC_PROCESS_END_FUNCTOR> EVENT_ASYNC_PROCESS_END_FUNCTOR_PTR
@@ -196,6 +199,6 @@ typedef NF_SHARE_PTR<EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR> EVENT_ASYNC_PROCESS_BEGI
  * @brief   Defines an alias representing the event asynchronous process end functor pointer.
  */
 
-typedef NF_SHARE_PTR<EVENT_ASYNC_PROCESS_END_FUNCTOR> EVENT_ASYNC_PROCESS_END_FUNCTOR_PTR;
+using EVENT_ASYNC_PROCESS_END_FUNCTOR_PTR = NF_SHARE_PTR<EVENT_ASYNC_PROCESS_END_FUNCTOR>;
 
-#endif
+}

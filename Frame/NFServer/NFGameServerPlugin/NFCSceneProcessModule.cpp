@@ -100,7 +100,7 @@ int NFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
     return nTargetGroupID;
 }
 
-int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEventID, const AFDataList& var)
+int NFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEventID, const AFDataList& var)
 {
     if(var.GetCount() != 4
             || !var.TypeEx(TDATA_TYPE::TDATA_OBJECT, TDATA_TYPE::TDATA_INT,
@@ -109,7 +109,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
         return 0;
     }
 
-    const NFGUID ident = var.Object(0);
+    const AFGUID ident = var.Object(0);
     const int nType = var.Int(1);
     const int nTargetScene = var.Int(2);
     const int nTargetGroupID = var.Int(3);
@@ -177,7 +177,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const NFGUID& self, const int nEven
     return 0;
 }
 
-int NFCSceneProcessModule::OnLeaveSceneEvent(const NFGUID& object, const int nEventID, const AFDataList& var)
+int NFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFDataList& var)
 {
     if(1 != var.GetCount()
             || !var.TypeEx(TDATA_TYPE::TDATA_INT, TDATA_TYPE::TDATA_UNKNOWN))
@@ -200,7 +200,7 @@ int NFCSceneProcessModule::OnLeaveSceneEvent(const NFGUID& object, const int nEv
     return 0;
 }
 
-int NFCSceneProcessModule::OnObjectClassEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var)
+int NFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var)
 {
     if(strClassName == NFrame::Player::ThisName())
     {
@@ -311,7 +311,7 @@ bool NFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     return true;
 }
 
-void NFCSceneProcessModule::OnClienSwapSceneProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+void NFCSceneProcessModule::OnClienSwapSceneProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //CLIENT_MSG_PROCESS(nSockIndex, nMsgID, msg, nLen, NFMsg::ReqAckSwapScene);
     //AFDataList varEntry;
@@ -320,5 +320,5 @@ void NFCSceneProcessModule::OnClienSwapSceneProcess(const int nSockIndex, const 
     //varEntry << xMsg.scene_id();
     //varEntry << -1;
 
-    //const NFGUID self = NFINetModule::PBToNF((xMsg.selfid()));
+    //const AFGUID self = NFINetModule::PBToNF((xMsg.selfid()));
 }

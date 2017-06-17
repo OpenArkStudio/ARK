@@ -8,30 +8,31 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Plguin">
+      <UniqueIdentifier>{0452a471-5564-4f23-a749-62f784ce1789}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NFKernelPlugin.h" />
-    <ClInclude Include="NFKernelModule\NFCKernelModule.h">
+    <ClInclude Include="NFCKernelModule.h">
       <Filter>NFKernelModule</Filter>
     </ClInclude>
-    <ClInclude Include="NFKernelModule\NFCUUIDModule.h">
-      <Filter>NFKernelModule</Filter>
-    </ClInclude>
-    <ClInclude Include="NFSceneModule\NFCSceneModule.h">
+    <ClInclude Include="NFCSceneModule.h">
       <Filter>NFSceneModule</Filter>
     </ClInclude>
+    <ClInclude Include="NFKernelPlugin.h">
+      <Filter>Plguin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NFKernelPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="NFKernelModule\NFCKernelModule.cpp">
+    <ClCompile Include="NFCKernelModule.cpp">
       <Filter>NFKernelModule</Filter>
     </ClCompile>
-    <ClCompile Include="NFKernelModule\NFCUUIDModule.cpp">
-      <Filter>NFKernelModule</Filter>
-    </ClCompile>
-    <ClCompile Include="NFSceneModule\NFCSceneModule.cpp">
+    <ClCompile Include="NFCSceneModule.cpp">
       <Filter>NFSceneModule</Filter>
+    </ClCompile>
+    <ClCompile Include="NFKernelPlugin.cpp">
+      <Filter>Plguin</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
