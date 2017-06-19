@@ -104,7 +104,7 @@ public:
      * @return  A NF_SHARE_PTR&lt;NFIProperty&gt;
      */
 
-    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const AFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType);
+    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const AFGUID& self, const std::string& strPropertyName, const int varType);
 
     /**
      * @fn  virtual const AFGUID& NFCPropertyManager::Self();
@@ -133,7 +133,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetProperty(const std::string& strPropertyName, const AFDataList::TData& TData);
+    virtual bool SetProperty(const std::string& strPropertyName, const AFIData& TData);
 
     /**
      * @fn  virtual bool NFCPropertyManager::SetPropertyInt(const std::string& strPropertyName, const NFINT64 value);
@@ -200,22 +200,6 @@ public:
     virtual bool SetPropertyObject(const std::string& strPropertyName, const AFGUID& value);
 
     /**
-     * @fn  virtual bool NFCPropertyManager::SetPropertyPoint(const std::string& strPropertyName, const Point3D& value);
-     *
-     * @brief   Sets property point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     * @param   value           The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetPropertyPoint(const std::string& strPropertyName, const Point3D& value);
-
-    /**
      * @fn  virtual NFINT64 NFCPropertyManager::GetPropertyInt(const std::string& strPropertyName);
      *
      * @brief   Gets property int.
@@ -274,21 +258,6 @@ public:
      */
 
     virtual const AFGUID& GetPropertyObject(const std::string& strPropertyName);
-
-    /**
-     * @fn  virtual const Point3D& NFCPropertyManager::GetPropertyPoint(const std::string& strPropertyName);
-     *
-     * @brief   Gets property point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     *
-     * @return  The property point.
-     */
-
-    virtual const Point3D& GetPropertyPoint(const std::string& strPropertyName);
 
 private:
     /** @brief   The self. */

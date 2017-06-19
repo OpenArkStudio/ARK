@@ -12,6 +12,7 @@
 #include "NFDefine.h"
 #include "AFCData.h"
 #include "AFCDataList.h"
+#include <vector>
 
 using namespace ArkFrame;
 /**

@@ -46,7 +46,7 @@ NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const AFGUID& self, NF
     return pOldProperty;
 }
 
-NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const AFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType)
+NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const AFGUID& self, const std::string& strPropertyName, const int varType)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = this->GetElement(strPropertyName);
     if(nullptr == pProperty)
@@ -59,7 +59,7 @@ NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const AFGUID& self, co
     return pProperty;
 }
 
-bool NFCPropertyManager::SetProperty(const std::string& strPropertyName, const AFDataList::TData& TData)
+bool NFCPropertyManager::SetProperty(const std::string& strPropertyName, const AFIData& TData)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
     if(nullptr != pProperty)
@@ -120,17 +120,6 @@ bool NFCPropertyManager::SetPropertyObject(const std::string& strPropertyName, c
     return false;
 }
 
-bool NFCPropertyManager::SetPropertyPoint(const std::string& strPropertyName, const Point3D& value)
-{
-    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
-    if(nullptr != pProperty)
-    {
-        return pProperty->SetPoint(value);
-    }
-
-    return false;
-}
-
 NFINT64 NFCPropertyManager::GetPropertyInt(const std::string& strPropertyName)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
@@ -173,15 +162,4 @@ const AFGUID& NFCPropertyManager::GetPropertyObject(const std::string& strProper
     }
 
     return NULL_GUID;
-}
-
-const Point3D& NFCPropertyManager::GetPropertyPoint(const std::string& strPropertyName)
-{
-    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
-    if(nullptr != pProperty)
-    {
-        return pProperty->GetPoint();
-    }
-
-    return NULL_POINT;
 }

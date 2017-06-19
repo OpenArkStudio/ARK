@@ -48,7 +48,7 @@ bool AFRecord::AddRow(const int row)
     return true;
 }
 
-bool AFRecord::AddRow(const int row, const AFDataList& data)
+bool AFRecord::AddRow(const int row, const AFIDataList& data)
 {
     return true;
 }
@@ -73,11 +73,6 @@ bool AFRecord::SetObject(const int nRow, const int nCol, const AFGUID& value)
     return true;
 }
 
-bool AFRecord::SetPoint(const int nRow, const int nCol, const Point3D& value)
-{
-    return true;
-}
-
 NFINT64 AFRecord::GetInt(const int nRow, const int nCol) const
 {
     return NULL_INT;
@@ -98,37 +93,27 @@ const AFGUID& AFRecord::GetObject(const int nRow, const int nCol) const
     return NULL_GUID;
 }
 
-const Point3D& AFRecord::GetPoint(const int nRow, const int nCol) const
-{
-    return NULL_POINT;
-}
-
-int AFRecord::FindInt(const int nCol, const NFINT64 value, AFDataList& varResult)
+int AFRecord::FindInt(const int nCol, const NFINT64 value, AFIDataList& varResult)
 {
     return 0;
 }
 
-int AFRecord::FindDouble(const int nCol, const double value, AFDataList& varResult)
+int AFRecord::FindDouble(const int nCol, const double value, AFIDataList& varResult)
 {
     return 0;
 }
 
-int AFRecord::FindString(const int nCol, const std::string& value, AFDataList& varResult)
+int AFRecord::FindString(const int nCol, const std::string& value, AFIDataList& varResult)
 {
     return 0;
 }
 
-int AFRecord::FindObject(const int nCol, const AFGUID& value, AFDataList& varResult)
+int AFRecord::FindObject(const int nCol, const AFGUID& value, AFIDataList& varResult)
 {
     return 0;
 }
 
-int AFRecord::FindPoint(const int nCol, const Point3D& value, AFDataList& varResult)
-{
-    return 0;
-}
-
-bool AFRecord::QueryRow(const int nRow, AFDataList& varList)
+bool AFRecord::QueryRow(const int nRow, AFIDataList& varList)
 {
     return true;
 }

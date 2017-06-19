@@ -66,24 +66,24 @@ public:
             mdValue = src.mdValue;
             break;
         case DT_STRING:
-            InnerSetString(src.String());
+            InnerSetString(src.GetString());
             break;
         case DT_OBJECT:
-        {
-            mnIdent = src.mnIdent;
-            mnSerial = src.mnSerial;
-        }
-        break;
+            {
+                mnIdent = src.mnIdent;
+                mnSerial = src.mnSerial;
+            }
+            break;
         case DT_POINTER:
             mpVaule = src.mpVaule;
             break;
         case DT_USERDATA:
-        {
-            size_t size;
-            const void* pData = src.mpUserData(size);
-            InnerSetUserData(pData, size);
-        }
-        break;
+            {
+                size_t size;
+                const void* pData = src.GetUserData(size);
+                InnerSetUserData(pData, size);
+            }
+            break;
         default:
             break;
         }
@@ -113,21 +113,21 @@ public:
             InnerSetString(src.GetString());
             break;
         case DT_OBJECT:
-        {
-            mnIdent = src.GetObject().nIdent;
-            mnSerial = src.GetObject().nSerial;
-        }
-        break;
+            {
+                mnIdent = src.GetObject().nIdent;
+                mnSerial = src.GetObject().nSerial;
+            }
+            break;
         case DT_POINTER:
-            mpVaule = src.Pointer();
+            mpVaule = src.GetPointer();
             break;
         case DT_USERDATA:
-        {
-            size_t size;
-            const void* pData = src.GetUserData(size);
-            InnerSetUserData(pData, size);
-        }
-        break;
+            {
+                size_t size;
+                const void* pData = src.GetUserData(size);
+                InnerSetUserData(pData, size);
+            }
+            break;
         default:
             break;
         }

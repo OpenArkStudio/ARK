@@ -12,11 +12,14 @@
 #include "AFArrayPod.hpp"
 #include "AFCoreDef.hpp"
 #include "AFString.hpp"
+#include "AFIData.h"
+
+using namespace ArkFrame;
 
 class AFRecord
 {
 private:
-    using row_data_t = AFDataList::TData;
+    using row_data_t = AFIData;
 
 public:
     AFRecord();
@@ -33,27 +36,24 @@ public:
     virtual int GetColType(int col) const;
 
     virtual bool AddRow(const int row);
-    virtual bool AddRow(const int row, const AFDataList& data);
+    virtual bool AddRow(const int row, const AFIDataList& data);
 
     virtual bool SetInt(const int nRow, const int nCol, const NFINT64 value);
     virtual bool SetDouble(const int nRow, const int nCol, const double value);
     virtual bool SetString(const int nRow, const int nCol, const std::string& value);
     virtual bool SetObject(const int nRow, const int nCol, const AFGUID& value);
-    virtual bool SetPoint(const int nRow, const int nCol, const Point3D& value);
 
     virtual NFINT64 GetInt(const int nRow, const int nCol) const;
     virtual double GetDouble(const int nRow, const int nCol) const;
     virtual const std::string& GetString(const int nRow, const int nCol) const;
     virtual const AFGUID& GetObject(const int nRow, const int nCol) const;
-    virtual const Point3D& GetPoint(const int nRow, const int nCol) const;
 
-    virtual int FindInt(const int nCol, const NFINT64 value, AFDataList& varResult);
-    virtual int FindDouble(const int nCol, const double value, AFDataList& varResult);
-    virtual int FindString(const int nCol, const std::string& value, AFDataList& varResult);
-    virtual int FindObject(const int nCol, const AFGUID& value, AFDataList& varResult);
-    virtual int FindPoint(const int nCol, const Point3D& value, AFDataList& varResult);
+    virtual int FindInt(const int nCol, const NFINT64 value, AFIDataList& varResult);
+    virtual int FindDouble(const int nCol, const double value, AFIDataList& varResult);
+    virtual int FindString(const int nCol, const std::string& value, AFIDataList& varResult);
+    virtual int FindObject(const int nCol, const AFGUID& value, AFIDataList& varResult);
 
-    virtual bool QueryRow(const int nRow, AFDataList& varList);
+    virtual bool QueryRow(const int nRow, AFIDataList& varList);
 
 protected:
 

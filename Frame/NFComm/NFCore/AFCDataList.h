@@ -674,41 +674,41 @@ protected:
         return ret;
     }
 
-    void InnerAppend(AFIData& data)
+    void InnerAppend(const AFIData& data)
     {
         switch (data.GetType())
         {
         case DT_BOOLEAN:
-            AddBool(data.Bool());
+            AddBool(data.GetBool());
             break;
         case DT_INT:
-            AddInt(data.Int());
+            AddInt(data.GetInt());
             break;
         case DT_INT64:
-            AddInt64(data.Int64());
+            AddInt64(data.GetInt64());
             break;
         case DT_FLOAT:
-            AddFloat(data.Float());
+            AddFloat(data.GetFloat());
             break;
         case DT_DOUBLE:
-            AddDouble(data.Double());
+            AddDouble(data.GetDouble());
             break;
         case DT_STRING:
-            AddString(data.String());
+            AddString(data.GetString());
             break;
         case DT_OBJECT:
-            AddObject(data.Object());
+            AddObject(data.GetObject());
             break;
         case DT_POINTER:
-            AddPointer(data.Pointer());
+            AddPointer(data.GetPointer());
             break;
         case DT_USERDATA:
-        {
-            size_t size;
-            const void* pData = data.GetUserData(size);
-            AddUserData(pData, size);
-        }
-        break;
+            {
+                size_t size;
+                const void* pData = data.GetUserData(size);
+                AddUserData(pData, size);
+            }
+            break;
         default:
             assert(0);
             break;

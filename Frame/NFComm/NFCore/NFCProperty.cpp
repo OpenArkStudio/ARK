@@ -34,7 +34,7 @@ NFCProperty::NFCProperty(const AFGUID& self, const std::string& strPropertyName,
     mSelf = self;
 
     msPropertyName = strPropertyName;
-    eType = varType;
+    eType = (AF_DATA_TYPE)varType;
 }
 
 NFCProperty::~NFCProperty()
@@ -50,31 +50,32 @@ NFCProperty::~NFCProperty()
 
 void NFCProperty::SetValue(const AFIData& xData)
 {
-    if(eType != xData.GetType())
-    {
-        return;
-    }
-
-    //TODO:如果为空就不用设置了
-    //if(xData.IsNullValue())
+    //TODO:
+    //if(eType != xData.GetType())
     //{
     //    return;
     //}
 
-    if(nullptr == mxData)
-    {
-        mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData(xData));
-    }
+    ////TODO:如果为空就不用设置了
+    ////if(xData.IsNullValue())
+    ////{
+    ////    return;
+    ////}
 
-    AFXData oldValue;
-    oldValue = *mxData;
+    //if(nullptr == mxData)
+    //{
+    //    mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData(xData));
+    //}
 
-    *mxData = xData;
+    //AFXData oldValue;
+    //oldValue = *mxData;
 
-    AFXData newValue;
-    newValue = *mxData;
+    //*mxData = xData;
 
-    OnEventHandler(oldValue, newValue);
+    //AFXData newValue;
+    //newValue = *mxData;
+
+    //OnEventHandler(oldValue, newValue);
 }
 
 void NFCProperty::SetValue(const NFIProperty* pProperty)
@@ -202,7 +203,7 @@ void NFCProperty::RegisterCallback(const PROPERTY_EVENT_FUNCTOR_PTR& cb)
     mtPropertyCallback.push_back(cb);
 }
 
-int NFCProperty::OnEventHandler(const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
+int NFCProperty::OnEventHandler(const AFIData& oldVar, const AFIData& newVar)
 {
     if(mtPropertyCallback.size() <= 0)
     {
@@ -222,7 +223,7 @@ int NFCProperty::OnEventHandler(const AFDataList::TData& oldVar, const AFDataLis
 
 bool NFCProperty::SetInt(const NFINT64 value)
 {
-    if(eType != TDATA_INT)
+    if(eType != DT_INT)
     {
         return false;
     }
@@ -235,7 +236,7 @@ bool NFCProperty::SetInt(const NFINT64 value)
             return false;
         }
 
-        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(TDATA_INT));
+        mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
         mxData->SetInt(0);
     }
 
@@ -244,7 +245,7 @@ bool NFCProperty::SetInt(const NFINT64 value)
         return false;
     }
 
-    AFDataList::TData oldValue;
+    AFXData oldValue;
     oldValue = *mxData;
 
     mxData->SetInt(value);
@@ -256,7 +257,7 @@ bool NFCProperty::SetInt(const NFINT64 value)
 
 bool NFCProperty::SetDouble(const double value)
 {
-    if(eType != TDATA_DOUBLE)
+    if(eType != DT_DOUBLE)
     {
         return false;
     }
@@ -269,7 +270,7 @@ bool NFCProperty::SetDouble(const double value)
             return false;
         }
 
-        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(TDATA_DOUBLE));
+        mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
         mxData->SetDouble(NULL_DOUBLE);
     }
 
@@ -278,7 +279,7 @@ bool NFCProperty::SetDouble(const double value)
         return false;
     }
 
-    AFDataList::TData oldValue;
+    AFXData oldValue;
     oldValue = *mxData;
 
     mxData->SetDouble(value);
@@ -290,7 +291,7 @@ bool NFCProperty::SetDouble(const double value)
 
 bool NFCProperty::SetString(const std::string& value)
 {
-    if(eType != TDATA_STRING)
+    if(eType != DT_STRING)
     {
         return false;
     }
@@ -303,8 +304,8 @@ bool NFCProperty::SetString(const std::string& value)
             return false;
         }
 
-        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(TDATA_STRING));
-        mxData->SetString(NULL_STR);
+        mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
+        mxData->SetString(NULL_STR.c_str());
     }
 
     if(value == mxData->GetString())
@@ -312,10 +313,10 @@ bool NFCProperty::SetString(const std::string& value)
         return false;
     }
 
-    AFDataList::TData oldValue;
+    AFXData oldValue;
     oldValue = *mxData;
 
-    mxData->SetString(value);
+    mxData->SetString(value.c_str());
 
     OnEventHandler(oldValue, *mxData);
 
@@ -324,7 +325,7 @@ bool NFCProperty::SetString(const std::string& value)
 
 bool NFCProperty::SetObject(const AFGUID& value)
 {
-    if(eType != TDATA_OBJECT)
+    if(eType != DT_OBJECT)
     {
         return false;
     }
@@ -337,7 +338,7 @@ bool NFCProperty::SetObject(const AFGUID& value)
             return false;
         }
 
-        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(TDATA_OBJECT));
+        mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
         mxData->SetObject(NULL_GUID);
     }
 
@@ -346,7 +347,7 @@ bool NFCProperty::SetObject(const AFGUID& value)
         return false;
     }
 
-    AFDataList::TData oldValue;
+    AFXData oldValue;
     oldValue = *mxData;
 
     mxData->SetObject(value);
@@ -356,43 +357,11 @@ bool NFCProperty::SetObject(const AFGUID& value)
     return true;
 }
 
-bool NFCProperty::SetPoint(const Point3D& value)
-{
-    if(eType != TDATA_POINT)
-    {
-        return false;
-    }
-
-    if(nullptr == mxData)
-    {
-        //本身是空就是因为没数据，还来个没数据的就不存了
-        if(value.IsZero())
-        {
-            return false;
-        }
-
-        mxData = NF_SHARE_PTR<AFDataList::TData>(NF_NEW AFDataList::TData(TDATA_POINT));
-        mxData->SetPoint(NULL_POINT);
-    }
-
-    if(value == mxData->GetPoint())
-    {
-        return false;
-    }
-
-    AFDataList::TData oldValue;
-    oldValue = *mxData;
-
-    mxData->SetPoint(value);
-
-    OnEventHandler(oldValue, *mxData);
-
-    return true;
-}
-
 bool NFCProperty::Changed() const
 {
-    return !(GetValue().IsNullValue());
+    //TODO:
+    //return !(GetValue().IsNullValue());
+    return true;
 }
 
 const int NFCProperty::GetType() const
@@ -417,7 +386,7 @@ std::string NFCProperty::ToString()
     switch(eType)
     {
     case DT_BOOLEAN:
-        strData = AF_LEXICAL_CAST<std::string>(GetBool());
+        //strData = AF_LEXICAL_CAST<std::string>(GetBool());
         break;
     case DT_INT:
         strData = AF_LEXICAL_CAST<std::string> (GetInt());
@@ -507,94 +476,95 @@ bool NFCProperty::FromString(const std::string& strData)
 
 bool NFCProperty::DeSerialization()
 {
-    bool bRet = false;
+    //bool bRet = false;
 
-    const int eType = GetType();
-    if(eType == TDATA_STRING && nullptr != mxData && !mxData->IsNullValue())
-    {
-        AFDataList xDataList;
-        const std::string& strData = mxData->GetString();
+    //const int eType = GetType();
+    //if(eType == TDATA_STRING && nullptr != mxData && !mxData->IsNullValue())
+    //{
+    //    AFDataList xDataList;
+    //    const std::string& strData = mxData->GetString();
 
-        xDataList.Split(strData.c_str(), ";");
-        if(xDataList.GetCount() <= 0)
-        {
-            return bRet;
-        }
+    //    xDataList.Split(strData.c_str(), ";");
+    //    if(xDataList.GetCount() <= 0)
+    //    {
+    //        return bRet;
+    //    }
 
-        AFDataList xTemDataList;
-        xTemDataList.Split(xDataList.String(0).c_str(), ",");
-        const int nSubDataLength = xTemDataList.GetCount();
+    //    AFDataList xTemDataList;
+    //    xTemDataList.Split(xDataList.String(0).c_str(), ",");
+    //    const int nSubDataLength = xTemDataList.GetCount();
 
-        if(xDataList.GetCount() == 1 && nSubDataLength == 1)
-        {
-            //most of property value only one value
-            return bRet;
-        }
+    //    if(xDataList.GetCount() == 1 && nSubDataLength == 1)
+    //    {
+    //        //most of property value only one value
+    //        return bRet;
+    //    }
 
-        if(nullptr == mxEmbeddedList)
-        {
-            mxEmbeddedList = NF_SHARE_PTR<NFList<std::string>>(NF_NEW NFList<std::string>());
-        }
-        else
-        {
-            mxEmbeddedList->ClearAll();
-        }
+    //    if(nullptr == mxEmbeddedList)
+    //    {
+    //        mxEmbeddedList = NF_SHARE_PTR<NFList<std::string>>(NF_NEW NFList<std::string>());
+    //    }
+    //    else
+    //    {
+    //        mxEmbeddedList->ClearAll();
+    //    }
 
-        for(int i = 0; i < xDataList.GetCount(); ++i)
-        {
-            if(xDataList.String(i).empty())
-            {
-                NFASSERT(0, strData, __FILE__, __FUNCTION__);
-            }
+    //    for(int i = 0; i < xDataList.GetCount(); ++i)
+    //    {
+    //        if(xDataList.String(i).empty())
+    //        {
+    //            NFASSERT(0, strData, __FILE__, __FUNCTION__);
+    //        }
 
-            mxEmbeddedList->Add(xDataList.String(i));
-        }
+    //        mxEmbeddedList->Add(xDataList.String(i));
+    //    }
 
 
 
-        ////////////////////////////////////////
+    //    ////////////////////////////////////////
 
-        if(nSubDataLength < 2 || nSubDataLength > 2)
-        {
-            return bRet;
-        }
+    //    if(nSubDataLength < 2 || nSubDataLength > 2)
+    //    {
+    //        return bRet;
+    //    }
 
-        if(nullptr == mxEmbeddedMap)
-        {
-            mxEmbeddedMap = NF_SHARE_PTR<NFMapEx<std::string, std::string>>(NF_NEW NFMapEx<std::string, std::string>());
-        }
-        else
-        {
-            mxEmbeddedMap->ClearAll();
-        }
+    //    if(nullptr == mxEmbeddedMap)
+    //    {
+    //        mxEmbeddedMap = NF_SHARE_PTR<NFMapEx<std::string, std::string>>(NF_NEW NFMapEx<std::string, std::string>());
+    //    }
+    //    else
+    //    {
+    //        mxEmbeddedMap->ClearAll();
+    //    }
 
-        for(int i = 0; i < xDataList.GetCount(); ++i)
-        {
-            AFDataList xTemDataList;
-            const std::string& strTemData = xDataList.String(i);
-            xTemDataList.Split(strTemData.c_str(), ",");
-            {
-                if(xTemDataList.GetCount() != nSubDataLength)
-                {
-                    NFASSERT(0, strTemData, __FILE__, __FUNCTION__);
-                }
+    //    for(int i = 0; i < xDataList.GetCount(); ++i)
+    //    {
+    //        AFDataList xTemDataList;
+    //        const std::string& strTemData = xDataList.String(i);
+    //        xTemDataList.Split(strTemData.c_str(), ",");
+    //        {
+    //            if(xTemDataList.GetCount() != nSubDataLength)
+    //            {
+    //                NFASSERT(0, strTemData, __FILE__, __FUNCTION__);
+    //            }
 
-                const std::string& strKey = xTemDataList.String(0);
-                const std::string& strValue = xTemDataList.String(1);
+    //            const std::string& strKey = xTemDataList.String(0);
+    //            const std::string& strValue = xTemDataList.String(1);
 
-                if(strKey.empty() || strValue.empty())
-                {
-                    NFASSERT(0, strTemData, __FILE__, __FUNCTION__);
-                }
+    //            if(strKey.empty() || strValue.empty())
+    //            {
+    //                NFASSERT(0, strTemData, __FILE__, __FUNCTION__);
+    //            }
 
-                mxEmbeddedMap->AddElement(strKey, NF_SHARE_PTR<std::string>(NF_NEW std::string(strValue)));
-            }
-        }
+    //            mxEmbeddedMap->AddElement(strKey, NF_SHARE_PTR<std::string>(NF_NEW std::string(strValue)));
+    //        }
+    //    }
 
-        bRet = true;
-    }
+    //    bRet = true;
+    //}
 
-    return bRet;
+    //return bRet;
+    return true;
 }
 
 const NF_SHARE_PTR<NFList<std::string>> NFCProperty::GetEmbeddedList() const
