@@ -12,7 +12,8 @@
 #include "NFDefine.h"
 #include "AFCDataList.h"
 #include "NFList.h"
-
+#include "AFCData.h"
+using namespace ArkFrame;
 /**
  * @class   NFIProperty
  *
@@ -122,21 +123,6 @@ public:
      */
 
     virtual bool SetObject(const AFGUID& value) = 0;
-
-    /**
-     * @fn  virtual bool NFIProperty::SetPoint(const Point3D& value) = 0;
-     *
-     * @brief   Sets a point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @param   value   The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetPoint(const Point3D& value) = 0;
 
     /**
      * @fn  virtual NFINT64 NFIProperty::GetInt() const = 0;

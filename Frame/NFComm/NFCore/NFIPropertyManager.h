@@ -12,6 +12,9 @@
 #include "NFMap.h"
 #include "NFIProperty.h"
 #include <map>
+#include "AFIData.h"
+
+using namespace ArkFrame;
 
 /**
  * @class   NFIPropertyManager
@@ -75,7 +78,7 @@ public:
      * @return  A NF_SHARE_PTR&lt;NFIProperty&gt;
      */
 
-    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const AFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType) = 0;
+    virtual NF_SHARE_PTR<NFIProperty> AddProperty(const AFGUID& self, const std::string& strPropertyName, const int varType) = 0;
 
     /**
      * @fn  virtual const AFGUID& NFIPropertyManager::Self() = 0;
@@ -104,7 +107,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetProperty(const std::string& strPropertyName, const AFDataList::TData& TData) = 0;
+    virtual bool SetProperty(const std::string& strPropertyName, const AFIData& TData) = 0;
 
     /**
      * @fn  virtual bool NFIPropertyManager::SetPropertyInt(const std::string& strPropertyName, const NFINT64 value) = 0;
@@ -171,22 +174,6 @@ public:
     virtual bool SetPropertyObject(const std::string& strPropertyName, const AFGUID& value) = 0;
 
     /**
-     * @fn  virtual bool NFIPropertyManager::SetPropertyPoint(const std::string& strPropertyName, const Point3D& value) = 0;
-     *
-     * @brief   Sets property point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @param   strPropertyName Name of the property.
-     * @param   value           The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetPropertyPoint(const std::string& strPropertyName, const Point3D& value) = 0;
-
-    /**
      * @fn  virtual NFINT64 NFIPropertyManager::GetPropertyInt(const std::string& strPropertyName) = 0;
      *
      * @brief   Gets property int.
@@ -245,21 +232,6 @@ public:
      */
 
     virtual const AFGUID& GetPropertyObject(const std::string& strPropertyName) = 0;
-
-    /**
-     * @fn  virtual const Point3D& NFIPropertyManager::GetPropertyPoint(const std::string& strPropertyName) = 0;
-     *
-     * @brief   Gets property point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @param   strPropertyName Name of the property.
-     *
-     * @return  The property point.
-     */
-
-    virtual const Point3D& GetPropertyPoint(const std::string& strPropertyName) = 0;
 
 };
 

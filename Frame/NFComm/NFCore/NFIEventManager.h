@@ -14,9 +14,10 @@
 #include "NFDefine.h"
 #include "NFList.h"
 #include "NFMapEx.h"
-#include "NFComm/NFCore/AFCDataList.h"
 #include "NFComm/NFEventDefine/NFEventDefine.h"
+#include "AFIDataList.h"
 
+using namespace ArkFrame;
 /**
  * @class   NFIEventManager
  *

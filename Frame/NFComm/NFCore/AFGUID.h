@@ -33,6 +33,11 @@ struct AFGUID
         return (0 == n64Value);
     }
 
+    bool IsNull() const
+    {
+        return (0 == n64Value);
+    }
+
     bool operator==(const AFGUID& rhs) const
     {
         return (this->n64Value == rhs.n64Value);

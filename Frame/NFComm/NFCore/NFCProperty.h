@@ -15,6 +15,7 @@
 #include "AFCDataList.h"
 #include "NFIProperty.h"
 #include "AFIData.h"
+#include <vector>
 
 using namespace ArkFrame;
 
@@ -157,21 +158,6 @@ public:
     virtual bool SetObject(const AFGUID& value);
 
     /**
-     * @fn  virtual bool NFCProperty::SetPoint(const Point3D& value);
-     *
-     * @brief   Sets a point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   value   The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetPoint(const Point3D& value);
-
-    /**
      * @fn  virtual NFINT64 NFCProperty::GetInt() const;
      *
      * @brief   Gets the int.
@@ -222,19 +208,6 @@ public:
      */
 
     virtual const AFGUID& GetObject() const;
-
-    /**
-     * @fn  virtual const Point3D& NFCProperty::GetPoint() const;
-     *
-     * @brief   Gets the point.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @return  The point.
-     */
-
-    //virtual const Point3D& GetPoint() const;
 
     /**
      * @fn  virtual const TDATA_TYPE NFCProperty::GetType() const;
@@ -527,7 +500,7 @@ private:
      * @return  An int.
      */
 
-    int OnEventHandler(const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnEventHandler(const AFIData& oldVar, const AFIData& newVar);
 
 private:
 
@@ -548,10 +521,10 @@ private:
     /** @brief   The mstr relation value. */
     std::string mstrRelationValue;
     /** @brief   只有在不存在指针的时候才用这个判断类型--为节约内存. */
-    TDATA_TYPE eType;
+    AF_DATA_TYPE eType;
 
     /** @brief   Information describing the mx. */
-    NF_SHARE_PTR<AFDataList::TData> mxData;
+    NF_SHARE_PTR<AFIData> mxData;
     /** @brief   The mx embedded map. */
     NF_SHARE_PTR<NFMapEx<std::string, std::string>> mxEmbeddedMap;
     /** @brief   List of mx embedded. */
