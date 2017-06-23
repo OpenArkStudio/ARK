@@ -63,6 +63,7 @@ public:
     virtual ~AFIData() = 0;
 
     virtual int GetType() const = 0;
+    virtual bool IsNullValue() const = 0;
 
     //Get data
     virtual bool GetBool() const = 0;

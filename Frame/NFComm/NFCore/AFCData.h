@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AFIData.h"
+#include "NFComm/NFPluginModule/NFPlatform.h"
 
 namespace ArkFrame
 {
@@ -256,6 +257,38 @@ public:
     virtual int GetType() const
     {
         return mnType;
+    }
+
+    virtual bool IsNullValue() const
+    {
+        switch (GetType())
+        {
+        case DT_BOOLEAN:
+            return mbValue == NULL_BOOLEAN;
+            break;
+        case DT_INT:
+            return mnValue == NULL_INT;
+            break;
+        case DT_INT64:
+            return mn64Value == NULL_INT64;
+            break;
+        case DT_FLOAT:
+            return IsZeroFloat(mfValue);
+            break;
+        case DT_DOUBLE:
+            return IsZeroDouble(mdValue);
+            break;
+        case DT_STRING:
+            return mstrValue == NULL_STR.c_str();
+            break;
+        case DT_OBJECT:
+            return GetObject() == NULL_GUID;
+            break;
+        default:
+            break;
+        }
+
+        return false;
     }
 
     //Get data

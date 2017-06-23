@@ -53,7 +53,7 @@ public:
 
     static bool equal(const char* lvalue, const char* rvalue)
     {
-        return (0 == stricmp(lvalue, rvalue));
+        return (0 == NFSTRICMP(lvalue, rvalue));
     }
 };
 //////////////////////////////////////////////////////////////////////////
