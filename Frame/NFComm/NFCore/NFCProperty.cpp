@@ -50,32 +50,31 @@ NFCProperty::~NFCProperty()
 
 void NFCProperty::SetValue(const AFIData& xData)
 {
-    //TODO:
-    //if(eType != xData.GetType())
-    //{
-    //    return;
-    //}
+    if(eType != xData.GetType())
+    {
+        return;
+    }
 
-    ////TODO:如果为空就不用设置了
-    ////if(xData.IsNullValue())
-    ////{
-    ////    return;
-    ////}
+    //新值旧值都是默认值，则不用设置了
+    if(xData.IsNullValue() && mxData->IsNullValue())
+    {
+        return;
+    }
 
-    //if(nullptr == mxData)
-    //{
-    //    mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData(xData));
-    //}
+    if(nullptr == mxData)
+    {
+        mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData(xData));
+    }
 
-    //AFXData oldValue;
-    //oldValue = *mxData;
+    AFXData oldValue;
+    oldValue = *mxData;
 
-    //*mxData = xData;
+    mxData->Assign(xData);
 
-    //AFXData newValue;
-    //newValue = *mxData;
+    AFXData newValue;
+    newValue = *mxData;
 
-    //OnEventHandler(oldValue, newValue);
+    OnEventHandler(oldValue, newValue);
 }
 
 void NFCProperty::SetValue(const NFIProperty* pProperty)
