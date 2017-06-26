@@ -80,7 +80,7 @@ bool AFPropertyMgr::SetProperty(const char* name, const AFXData& value)
     return true;
 }
 
-bool AFPropertyMgr::SetPropertyInt(const char* name, const NFINT64 value)
+bool AFPropertyMgr::SetPropertyInt(const char* name, const int32_t value)
 {
     size_t index;
     if (!FindIndex(name, index))

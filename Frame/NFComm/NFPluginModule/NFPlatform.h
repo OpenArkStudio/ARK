@@ -290,7 +290,7 @@ inline unsigned long NF_GetTickCount()
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #define NFSPRINTF sprintf_s
-#define NFSTRICMP stricmp
+#define NFSTRICMP _stricmp
 #define NFSLEEP(s) Sleep(s)
 #else
 #define NFSPRINTF snprintf

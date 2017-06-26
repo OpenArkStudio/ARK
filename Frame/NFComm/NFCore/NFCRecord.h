@@ -32,12 +32,18 @@ public:
     virtual int AddRow(const int nRow);
     virtual int AddRow(const int nRow, const AFIDataList& var);
 
-    virtual bool SetInt(const int nRow, const int nCol, const NFINT32 value);
+    virtual bool SetBool(const int nRow, const int nCol, const bool value);
+    virtual bool SetInt(const int nRow, const int nCol, const int32_t value);
+    virtual bool SetInt64(const int nRow, const int nCol, const int64_t value);
+    virtual bool SetFloat(const int nRow, const int nCol, const float value);
     virtual bool SetDouble(const int nRow, const int nCol, const double value);
     virtual bool SetString(const int nRow, const int nCol, const std::string& value);
     virtual bool SetObject(const int nRow, const int nCol, const AFGUID& value);
 
-    virtual bool SetInt(const int nRow, const std::string& strColTag, const NFINT32 value);
+    virtual bool SetBool(const int nRow, const std::string& strColTag, const bool value);
+    virtual bool SetInt(const int nRow, const std::string& strColTag, const int32_t value);
+    virtual bool SetInt64(const int nRow, const std::string& strColTag, const int64_t value);
+    virtual bool SetFloat(const int nRow, const std::string& strColTag, const float value);
     virtual bool SetDouble(const int nRow, const std::string& strColTag, const double value);
     virtual bool SetString(const int nRow, const std::string& strColTag, const std::string& value);
     virtual bool SetObject(const int nRow, const std::string& strColTag, const AFGUID& value);
