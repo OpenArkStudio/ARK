@@ -104,7 +104,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const NFINT64 value);
+    virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const int32_t value);
 
     /**
      * @fn  virtual bool NFCRecordManager::SetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol, const double value);
@@ -194,7 +194,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFINT64 value);
+    virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const int32_t value);
 
     /**
      * @fn  virtual bool NFCRecordManager::SetRecordDouble(const std::string& strRecordName, const int nRow, const std::string& strColTag, const double value);

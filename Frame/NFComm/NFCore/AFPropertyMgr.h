@@ -43,7 +43,7 @@ public:
     bool AddProperty(const char* name, const AFXData& value, bool bPublic, bool bPrivate, bool bSave, bool bRealTime);
 
     bool SetProperty(const char* name, const AFXData& value);
-    bool SetPropertyInt(const char* name, const NFINT64 value);
+    bool SetPropertyInt(const char* name, const int32_t value);
     bool SetPropertyDouble(const char* name, const double value);
     bool SetPropertyString(const char* name, const std::string& value);
     bool SetPropertyObject(const char* name, const AFGUID& value);

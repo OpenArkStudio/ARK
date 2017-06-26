@@ -31,7 +31,7 @@ const AFGUID& NFCRecordManager::Self()
     return mSelf;
 }
 
-bool NFCRecordManager::SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const NFINT64 nValue)
+bool NFCRecordManager::SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const int32_t nValue)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
@@ -42,7 +42,7 @@ bool NFCRecordManager::SetRecordInt(const std::string& strRecordName, const int 
     return false;
 }
 
-bool NFCRecordManager::SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFINT64 value)
+bool NFCRecordManager::SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const int32_t value)
 {
     NF_SHARE_PTR<NFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)

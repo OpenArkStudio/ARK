@@ -77,7 +77,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const NFINT64 nValue) = 0;
+    virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const int32_t nValue) = 0;
 
     /**
      * @fn  virtual bool NFIRecordManager::SetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol, const double dwValue) = 0;
@@ -167,7 +167,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const NFINT64 value) = 0;
+    virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const int32_t value) = 0;
 
     /**
      * @fn  virtual bool NFIRecordManager::SetRecordDouble(const std::string& strRecordName, const int nRow, const std::string& strColTag, const double value) = 0;

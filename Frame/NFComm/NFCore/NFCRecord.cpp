@@ -186,7 +186,55 @@ int NFCRecord::AddRow(const int nRow, const AFIDataList& var)
     return nFindRow;
 }
 
-bool NFCRecord::SetInt(const int nRow, const int nCol, const NFINT32 value)
+bool NFCRecord::SetBool(const int nRow, const int nCol, const bool value)
+{
+    if (!ValidPos(nRow, nCol))
+    {
+        return false;
+    }
+
+    if (DT_BOOLEAN != GetColType(nCol))
+    {
+        return false;
+    }
+
+    if (!IsUsed(nRow))
+    {
+        return false;
+    }
+
+    AFXData var;
+    var.SetBool(value);
+
+    NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    if (!ValidCheck(DT_BOOLEAN, var, pVar))
+    {
+        return false;
+    }
+
+    AFXData oldValue;
+    oldValue.SetBool(pVar->GetBool());
+
+    pVar->SetBool(value);
+
+    RECORD_EVENT_DATA xEventData;
+    xEventData.nOpType = Update;
+    xEventData.nRow = nRow;
+    xEventData.nCol = nCol;
+    xEventData.strRecordName = mstrRecordName;
+
+    OnEventHandler(mSelf, xEventData, oldValue, *pVar);
+
+    return true;
+}
+
+bool NFCRecord::SetBool(const int nRow, const std::string& strColTag, const bool value)
+{
+    int nCol = GetCol(strColTag);
+    return SetBool(nRow, nCol, value);
+}
+
+bool NFCRecord::SetInt(const int nRow, const int nCol, const int32_t value)
 {
     if(!ValidPos(nRow, nCol))
     {
@@ -228,10 +276,106 @@ bool NFCRecord::SetInt(const int nRow, const int nCol, const NFINT32 value)
     return true;
 }
 
-bool NFCRecord::SetInt(const int nRow, const std::string& strColTag, const NFINT32 value)
+bool NFCRecord::SetInt(const int nRow, const std::string& strColTag, const int32_t value)
 {
     int nCol = GetCol(strColTag);
     return SetInt(nRow, nCol, value);
+}
+
+bool NFCRecord::SetInt64(const int nRow, const int nCol, const int64_t value)
+{
+    if (!ValidPos(nRow, nCol))
+    {
+        return false;
+    }
+
+    if (DT_INT64 != GetColType(nCol))
+    {
+        return false;
+    }
+
+    if (!IsUsed(nRow))
+    {
+        return false;
+    }
+
+    AFXData var;
+    var.SetInt64(value);
+
+    NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    if (!ValidCheck(DT_INT64, var, pVar))
+    {
+        return false;
+    }
+
+    AFXData oldValue;
+    oldValue.SetInt64(pVar->GetInt64());
+
+    pVar->SetInt64(value);
+
+    RECORD_EVENT_DATA xEventData;
+    xEventData.nOpType = Update;
+    xEventData.nRow = nRow;
+    xEventData.nCol = nCol;
+    xEventData.strRecordName = mstrRecordName;
+
+    OnEventHandler(mSelf, xEventData, oldValue, *pVar);
+
+    return true;
+}
+
+bool NFCRecord::SetInt64(const int nRow, const std::string& strColTag, const int64_t value)
+{
+    int nCol = GetCol(strColTag);
+    return SetInt64(nRow, nCol, value);
+}
+
+bool NFCRecord::SetFloat(const int nRow, const int nCol, const float value)
+{
+    if (!ValidPos(nRow, nCol))
+    {
+        return false;
+    }
+
+    if (DT_FLOAT != GetColType(nCol))
+    {
+        return false;
+    }
+
+    if (!IsUsed(nRow))
+    {
+        return false;
+    }
+
+    AFXData var;
+    var.SetFloat(value);
+
+    NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    if (!ValidCheck(DT_FLOAT, var, pVar))
+    {
+        return false;
+    }
+
+    AFXData oldValue;
+    oldValue.SetFloat(pVar->GetFloat());
+
+    pVar->SetFloat(value);
+
+    RECORD_EVENT_DATA xEventData;
+    xEventData.nOpType = Update;
+    xEventData.nRow = nRow;
+    xEventData.nCol = nCol;
+    xEventData.strRecordName = mstrRecordName;
+
+    OnEventHandler(mSelf, xEventData, oldValue, *pVar);
+
+    return true;
+}
+
+bool NFCRecord::SetFloat(const int nRow, const std::string& strColTag, const float value)
+{
+    int nCol = GetCol(strColTag);
+    return SetFloat(nRow, nCol, value);
 }
 
 bool NFCRecord::SetDouble(const int nRow, const int nCol, const double value)
