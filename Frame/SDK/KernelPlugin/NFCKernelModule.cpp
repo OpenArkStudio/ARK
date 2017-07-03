@@ -7,13 +7,12 @@
 // -------------------------------------------------------------------------
 
 #include "NFCKernelModule.h"
-#include "NFComm/NFCore/NFDefine.h"
-#include "NFComm/NFCore/NFCObject.h"
-#include "NFComm/NFCore/AFDataList.hpp"
-#include "NFComm/NFCore/NFCRecord.h"
-#include "NFComm/NFPluginModule/AFGUID.h"
-#include "NFComm/NFCore/NFCMemManger.h"
-#include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
+#include "SDK/Core/NFDefine.h"
+#include "SDK/Core/NFCObject.h"
+#include "SDK/Core/NFCRecord.h"
+#include "SDK/Core/AFGUID.h"
+#include "SDK/Core/NFCMemManger.h"
+#include "SDK/MsgDef/NFProtocolDefine.hpp"
 
 NFCKernelModule::NFCKernelModule(NFIPluginManager* p)
 {
