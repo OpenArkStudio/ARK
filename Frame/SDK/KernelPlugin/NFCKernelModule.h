@@ -13,16 +13,17 @@
 #include <fstream>
 #include <string>
 #include <random>
-#include "NFComm/NFCore/NFIObject.h"
-#include "NFComm/NFCore/AFDataList.hpp"
-#include "NFComm/NFCore/NFIRecord.h"
-#include "NFComm/NFPluginModule/AFGUID.h"
-#include "NFComm/NFPluginModule/NFIUUIDModule.h"
-#include "NFComm/NFPluginModule/NFILogModule.h"
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
-#include "NFComm/NFPluginModule/NFISceneModule.h"
+#include "SDK/Core/NFIObject.h"
+#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/NFIRecord.h"
+#include "SDK/Core/AFGUID.h"
+#include "SDK/Interface/AFIGUIDModule.h"
+#include "SDK/Interface/NFILogModule.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Interface/NFIElementModule.h"
+#include "SDK/Interface/NFISceneModule.h"
+#include "SDK/Interface/NFPlatform.h"
 
 class NFCKernelModule
     : public NFIKernelModule,
