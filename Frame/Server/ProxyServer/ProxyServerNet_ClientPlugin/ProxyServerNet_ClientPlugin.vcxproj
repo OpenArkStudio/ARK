@@ -10,6 +10,17 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AFCProxyServerToGameModule.cpp" />
+    <ClCompile Include="AFCProxyServerToWorldModule.cpp" />
+    <ClCompile Include="AFProxyServerNet_ClientPlugin.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFCProxyServerToGameModule.h" />
+    <ClInclude Include="AFCProxyServerToWorldModule.h" />
+    <ClInclude Include="AFProxyServerNet_ClientPlugin.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{68C19326-3080-4389-A302-5DB95416C623}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -99,17 +110,6 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(Soluti
 copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\NFProxyServer1\$(ProjectName).pdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="NFCProxyServerToGameModule.cpp" />
-    <ClCompile Include="NFCProxyServerToWorldModule.cpp" />
-    <ClCompile Include="NFProxyServerNet_ClientPlugin.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="NFCProxyServerToGameModule.h" />
-    <ClInclude Include="NFCProxyServerToWorldModule.h" />
-    <ClInclude Include="NFProxyServerNet_ClientPlugin.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -12,7 +12,7 @@
 #include "SDK/Core/NFCRecord.h"
 #include "SDK/Core/AFGUID.h"
 #include "SDK/Core/NFCMemManger.h"
-#include "SDK/MsgDef/NFProtocolDefine.hpp"
+#include "SDK/Proto/NFProtocolDefine.hpp"
 
 NFCKernelModule::NFCKernelModule(NFIPluginManager* p)
 {
