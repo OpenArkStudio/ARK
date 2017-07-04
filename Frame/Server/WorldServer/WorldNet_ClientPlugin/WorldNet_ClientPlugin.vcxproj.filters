@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="NFWorldNet_ClientPlugin.h" />
-    <ClInclude Include="NFCWorldToMasterModule.h" />
+    <ClCompile Include="AFCWorldToMasterModule.cpp" />
+    <ClCompile Include="AFWorldNet_ClientPlugin.cpp" />
+    <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="NFWorldNet_ClientPlugin.cpp" />
-    <ClCompile Include="NFCWorldToMasterModule.cpp" />
+    <ClInclude Include="AFCWorldToMasterModule.h" />
+    <ClInclude Include="AFWorldNet_ClientPlugin.h" />
   </ItemGroup>
 </Project>
