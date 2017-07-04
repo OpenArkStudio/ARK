@@ -12,42 +12,46 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NFGameServerPlugin.h" />
-    <ClInclude Include="NFCSceneProcessModule.h">
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFCCreateRoleModule.cpp" />
+    <ClCompile Include="AFCEventRouteModule.cpp" />
+    <ClCompile Include="AFCGameServerModule.cpp" />
+    <ClCompile Include="AFGameServerPlugin.cpp" />
+    <ClCompile Include="AFCPropertyConfigModule.cpp">
+      <Filter>NFPropertyModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCPropertyModule.cpp">
+      <Filter>NFPropertyModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCPropertyTrailModule.cpp">
+      <Filter>NFPropertyModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCSceneProcessModule.cpp">
       <Filter>NFSceneModule</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCPropertyModule.h">
-      <Filter>NFPropertyModule</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCLevelModule.h">
+    </ClCompile>
+    <ClCompile Include="AFCLevelModule.cpp">
       <Filter>NFLevelModule</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCPropertyConfigModule.h">
-      <Filter>NFPropertyModule</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCGameServerModule.h" />
-    <ClInclude Include="NFCPropertyTrailModule.h">
-      <Filter>NFPropertyModule</Filter>
-    </ClInclude>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="NFGameServerPlugin.cpp" />
-    <ClCompile Include="NFCSceneProcessModule.cpp">
+    <ClInclude Include="AFCCreateRoleModule.h" />
+    <ClInclude Include="AFCEventRouteModule.h" />
+    <ClInclude Include="AFCGameServerModule.h" />
+    <ClInclude Include="AFGameServerPlugin.h" />
+    <ClInclude Include="AFCPropertyConfigModule.h">
+      <Filter>NFPropertyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCPropertyModule.h">
+      <Filter>NFPropertyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCPropertyTrailModule.h">
+      <Filter>NFPropertyModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCSceneProcessModule.h">
       <Filter>NFSceneModule</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCPropertyModule.cpp">
-      <Filter>NFPropertyModule</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCLevelModule.cpp">
+    </ClInclude>
+    <ClInclude Include="AFCLevelModule.h">
       <Filter>NFLevelModule</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCPropertyConfigModule.cpp">
-      <Filter>NFPropertyModule</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCGameServerModule.cpp" />
-    <ClCompile Include="NFCPropertyTrailModule.cpp">
-      <Filter>NFPropertyModule</Filter>
-    </ClCompile>
+    </ClInclude>
   </ItemGroup>
 </Project>
