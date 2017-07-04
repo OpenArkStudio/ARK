@@ -60,7 +60,7 @@ public:
     }
 
 public:
-    virtual ~AFIData() = 0;
+    virtual ~AFIData() {}
 
     virtual int GetType() const = 0;
     virtual bool IsNullValue() const = 0;
