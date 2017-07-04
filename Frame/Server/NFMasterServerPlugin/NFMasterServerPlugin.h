@@ -9,8 +9,8 @@
 #ifndef NF_MASTERSERVERPLUGIN_H
 #define NF_MASTERSERVERPLUGIN_H
 ///
-#include "NFComm/NFPluginModule/NFIPlugin.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFIPlugin.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 #ifdef NFMASTERSERVERPLUGIN_EXPORTS
 #define NFMASTERSERVERPLUGIN_API __declspec(dllexport)

@@ -634,7 +634,34 @@ bool NFCRecord::QueryRow(const int nRow, AFIDataList& varList)
     return true;
 }
 
-NFINT32 NFCRecord::GetInt(const int nRow, const int nCol) const
+bool NFCRecord::GetBool(const int nRow, const int nCol) const
+{
+    if (!ValidPos(nRow, nCol))
+    {
+        return NULL_BOOLEAN;
+    }
+
+    if (!IsUsed(nRow))
+    {
+        return NULL_BOOLEAN;
+    }
+
+    const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    if (nullptr == pVar)
+    {
+        return NULL_BOOLEAN;
+    }
+
+    return pVar->GetBool();
+}
+
+bool NFCRecord::GetBool(const int nRow, const std::string& strColTag) const
+{
+    int nCol = GetCol(strColTag);
+    return GetBool(nRow, nCol);
+}
+
+int32_t NFCRecord::GetInt(const int nRow, const int nCol) const
 {
     if(!ValidPos(nRow, nCol))
     {
@@ -655,10 +682,64 @@ NFINT32 NFCRecord::GetInt(const int nRow, const int nCol) const
     return pVar->GetInt();
 }
 
-NFINT32 NFCRecord::GetInt(const int nRow, const std::string& strColTag) const
+int32_t NFCRecord::GetInt(const int nRow, const std::string& strColTag) const
 {
     int nCol = GetCol(strColTag);
     return GetInt(nRow, nCol);
+}
+
+int64_t NFCRecord::GetInt64(const int nRow, const int nCol) const
+{
+    if (!ValidPos(nRow, nCol))
+    {
+        return NULL_INT64;
+    }
+
+    if (!IsUsed(nRow))
+    {
+        return NULL_INT64;
+    }
+
+    const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    if (nullptr == pVar)
+    {
+        return NULL_INT64;
+    }
+
+    return pVar->GetInt64();
+}
+
+int64_t NFCRecord::GetInt64(const int nRow, const std::string& strColTag) const
+{
+    int nCol = GetCol(strColTag);
+    return GetInt64(nRow, nCol);
+}
+
+float NFCRecord::GetFloat(const int nRow, const int nCol) const
+{
+    if (!ValidPos(nRow, nCol))
+    {
+        return NULL_FLOAT;
+    }
+
+    if (!IsUsed(nRow))
+    {
+        return NULL_FLOAT;
+    }
+
+    const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    if (nullptr == pVar)
+    {
+        return NULL_FLOAT;
+    }
+
+    return pVar->GetFloat();
+}
+
+float NFCRecord::GetFloat(const int nRow, const std::string& strColTag) const
+{
+    int nCol = GetCol(strColTag);
+    return GetFloat(nRow, nCol);
 }
 
 double NFCRecord::GetDouble(const int nRow, const int nCol) const
@@ -746,28 +827,28 @@ int NFCRecord::FindRowByColValue(const int nCol, const AFIDataList& var, AFIData
 {
     if(!ValidCol(nCol))
     {
-        return -1;
+        return 0;
     }
 
     int eType = var.GetType(0);
     if(eType != mVarRecordType->GetType(nCol))
     {
-        return -1;
+        return 0;
     }
 
     switch(eType)
     {
     case DT_BOOLEAN:
-        //return FindBool(nCol, var.Bool(nCol), varResult);
+        return FindBool(nCol, var.Bool(nCol), varResult);
         break;
     case DT_INT:
         return FindInt(nCol, var.Int(nCol), varResult);
         break;
     case DT_INT64:
-        //return FindInt64(nCol, var.Int64(nCol), varResult);
+        return FindInt64(nCol, var.Int64(nCol), varResult);
         break;
     case DT_FLOAT:
-        //return FindFloat(nCol, var.Float(nCol), varResult);
+        return FindFloat(nCol, var.Float(nCol), varResult);
         break;
     case DT_DOUBLE:
         return FindDouble(nCol, var.Double(nCol), varResult);
@@ -782,7 +863,7 @@ int NFCRecord::FindRowByColValue(const int nCol, const AFIDataList& var, AFIData
         break;
     }
 
-    return -1;
+    return 0;
 }
 
 int NFCRecord::FindRowByColValue(const std::string& strColTag, const AFIDataList& var, AFIDataList& varResult)
@@ -791,59 +872,172 @@ int NFCRecord::FindRowByColValue(const std::string& strColTag, const AFIDataList
     return FindRowByColValue(nCol, var, varResult);
 }
 
-int NFCRecord::FindInt(const int nCol, const int value, AFIDataList& varResult)
+int NFCRecord::FindBool(const int nCol, const bool value, AFIDataList& varResult)
+{
+    if (!ValidCol(nCol))
+    {
+        return 0;
+    }
+
+    if (AF_DATA_TYPE::DT_BOOLEAN != mVarRecordType->GetType(nCol))
+    {
+        return 0;
+    }
+
+    for (int i = 0; i < mnMaxRow; ++i)
+    {
+        if (!IsUsed(i))
+        {
+            continue;
+        }
+
+        if (GetBool(i, nCol) == value)
+        {
+            varResult << i;
+        }
+    }
+
+    return varResult.GetCount();
+}
+
+int NFCRecord::FindBool(const std::string& strColTag, const bool value, AFIDataList& varResult)
+{
+    if (strColTag.empty())
+    {
+        return 0;
+    }
+
+    int nCol = GetCol(strColTag);
+    return FindBool(nCol, value, varResult);
+}
+
+int NFCRecord::FindInt(const int nCol, const int32_t value, AFIDataList& varResult)
 {
     if(!ValidCol(nCol))
     {
-        return -1;
+        return 0;
     }
 
     if(AF_DATA_TYPE::DT_INT != mVarRecordType->GetType(nCol))
     {
-        return -1;
+        return 0;
     }
 
+    for (int i = 0; i < mnMaxRow; ++i)
     {
-        for(int i = 0; i < mnMaxRow; ++i)
+        if (!IsUsed(i))
         {
-            if(!IsUsed(i))
-            {
-                continue;
-            }
-
-            if(GetInt(i, nCol) == value)
-            {
-                varResult << i;
-            }
+            continue;
         }
 
-        return varResult.GetCount();
+        if (GetInt(i, nCol) == value)
+        {
+            varResult << i;
+        }
     }
 
-    return -1;
+    return varResult.GetCount();
 }
 
-int NFCRecord::FindInt(const std::string& strColTag, const int value, AFIDataList& varResult)
+int NFCRecord::FindInt(const std::string& strColTag, const int32_t value, AFIDataList& varResult)
 {
     if(strColTag.empty())
     {
-        return -1;
+        return 0;
     }
 
     int nCol = GetCol(strColTag);
     return FindInt(nCol, value, varResult);
 }
 
+int NFCRecord::FindInt64(const int nCol, const int64_t value, AFIDataList& varResult)
+{
+    if (!ValidCol(nCol))
+    {
+        return 0;
+    }
+
+    if (AF_DATA_TYPE::DT_INT64 != mVarRecordType->GetType(nCol))
+    {
+        return 0;
+    }
+
+    for (int i = 0; i < mnMaxRow; ++i)
+    {
+        if (!IsUsed(i))
+        {
+            continue;
+        }
+
+        if (GetInt64(i, nCol) == value)
+        {
+            varResult << i;
+        }
+    }
+
+    return varResult.GetCount();
+}
+
+int NFCRecord::FindInt64(const std::string& strColTag, const int64_t value, AFIDataList& varResult)
+{
+    if (strColTag.empty())
+    {
+        return 0;
+    }
+
+    int nCol = GetCol(strColTag);
+    return FindInt64(nCol, value, varResult);
+}
+
+int NFCRecord::FindFloat(const int nCol, const float value, AFIDataList& varResult)
+{
+    if (!ValidCol(nCol))
+    {
+        return 0;
+    }
+
+    if (AF_DATA_TYPE::DT_FLOAT != mVarRecordType->GetType(nCol))
+    {
+        return 0;
+    }
+
+    for (int i = 0; i < mnMaxRow; ++i)
+    {
+        if (!IsUsed(i))
+        {
+            continue;
+        }
+
+        if (GetFloat(i, nCol) == value)
+        {
+            varResult << i;
+        }
+    }
+
+    return varResult.GetCount();
+}
+
+int NFCRecord::FindFloat(const std::string& strColTag, const float value, AFIDataList& varResult)
+{
+    if (strColTag.empty())
+    {
+        return 0;
+    }
+
+    int nCol = GetCol(strColTag);
+    return FindFloat(nCol, value, varResult);
+}
+
 int NFCRecord::FindDouble(const int nCol, const double value, AFIDataList& varResult)
 {
     if(!ValidCol(nCol))
     {
-        return -1;
+        return 0;
     }
 
     if(AF_DATA_TYPE::DT_DOUBLE != mVarRecordType->GetType(nCol))
     {
-        return -1;
+        return 0;
     }
 
     for(int i = 0; i < mnMaxRow; ++i)
@@ -866,7 +1060,7 @@ int NFCRecord::FindDouble(const std::string& strColTag, const double value, AFID
 {
     if(strColTag.empty())
     {
-        return -1;
+        return 0;
     }
 
     int nCol = GetCol(strColTag);
@@ -877,40 +1071,36 @@ int NFCRecord::FindString(const int nCol, const std::string& value, AFIDataList&
 {
     if(!ValidCol(nCol))
     {
-        return -1;
+        return 0;
     }
 
     if(AF_DATA_TYPE::DT_STRING != mVarRecordType->GetType(nCol))
     {
-        return -1;
+        return 0;
     }
 
+    for(int64_t i = 0; i < mnMaxRow; ++i)
     {
-        for(int64_t i = 0; i < mnMaxRow; ++i)
+        if(!IsUsed(i))
         {
-            if(!IsUsed(i))
-            {
-                continue;
-            }
-
-            const std::string& strData = GetString(i, nCol);
-            if(0 == strcmp(strData.c_str(), value.c_str()))
-            {
-                varResult << i;
-            }
+            continue;
         }
 
-        return varResult.GetCount();
+        const std::string& strData = GetString(i, nCol);
+        if(0 == strcmp(strData.c_str(), value.c_str()))
+        {
+            varResult << i;
+        }
     }
 
-    return -1;
+    return varResult.GetCount();
 }
 
 int NFCRecord::FindString(const std::string& strColTag, const std::string& value, AFIDataList& varResult)
 {
     if(strColTag.empty())
     {
-        return -1;
+        return 0;
     }
 
     int nCol = GetCol(strColTag);
@@ -921,39 +1111,35 @@ int NFCRecord::FindObject(const int nCol, const AFGUID& value, AFIDataList& varR
 {
     if(!ValidCol(nCol))
     {
-        return -1;
+        return 0;
     }
 
     if(AF_DATA_TYPE::DT_OBJECT != mVarRecordType->GetType(nCol))
     {
-        return -1;
+        return 0;
     }
 
+    for(int64_t i = 0; i < mnMaxRow; ++i)
     {
-        for(int64_t i = 0; i < mnMaxRow; ++i)
+        if(!IsUsed(i))
         {
-            if(!IsUsed(i))
-            {
-                continue;
-            }
-
-            if(GetObject(i, nCol) == value)
-            {
-                varResult << i;
-            }
+            continue;
         }
 
-        return varResult.GetCount();
+        if(GetObject(i, nCol) == value)
+        {
+            varResult << i;
+        }
     }
 
-    return -1;
+    return varResult.GetCount();
 }
 
 int NFCRecord::FindObject(const std::string& strColTag, const AFGUID& value, AFIDataList& varResult)
 {
     if(strColTag.empty())
     {
-        return -1;
+        return 0;
     }
 
     int nCol = GetCol(strColTag);

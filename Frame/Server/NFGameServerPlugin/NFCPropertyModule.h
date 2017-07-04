@@ -9,15 +9,15 @@
 #ifndef NFC_PROPERTY_MODULE_H
 #define NFC_PROPERTY_MODULE_H
 
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIGameLogicModule.h"
-#include "NFComm/NFPluginModule/NFIPropertyModule.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
-#include "NFComm/NFPluginModule/NFIPropertyConfigModule.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFIGameLogicModule.h"
+#include "SDK/Interface/NFIPropertyModule.h"
+#include "SDK/Interface/NFIElementModule.h"
+#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Interface/NFIPropertyConfigModule.h"
+#include "SDK/Interface/NFIPluginManager.h"
 #include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
-#include "NFComm/NFPluginModule/NFILevelModule.h"
+#include "SDK/Interface/NFILevelModule.h"
 
 class NFCPropertyModule : public NFIPropertyModule
 {

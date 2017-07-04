@@ -158,20 +158,30 @@ bool NFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClas
             continue;
         }
 
-        AFDataList::TData var;
-        const TDATA_TYPE eType = temProperty->GetType();
+        AFXData var;
+        const int eType = temProperty->GetType();
         switch(eType)
         {
-        case TDATA_INT:
+        case DT_BOOLEAN:
+            {
+                //TODO
+            }
+            break;
+        case DT_INT:
             {
                 if(!LegalNumber(pstrConfigValue))
                 {
                     NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
                 }
-                var.SetInt(AF_LEXICAL_CAST<NFINT64>(pstrConfigValue));
+                var.SetInt(AF_LEXICAL_CAST<int32_t>(pstrConfigValue));
             }
             break;
-        case TDATA_DOUBLE:
+        case DT_INT64:
+            {
+                //TODO
+            }
+            break;
+        case DT_DOUBLE:
             {
                 if(strlen(pstrConfigValue) <= 0)
                 {
@@ -180,12 +190,12 @@ bool NFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClas
                 var.SetDouble(AF_LEXICAL_CAST<double>(pstrConfigValue));
             }
             break;
-        case TDATA_STRING:
+        case DT_STRING:
             {
                 var.SetString(pstrConfigValue);
             }
             break;
-        case TDATA_OBJECT:
+        case DT_OBJECT:
             {
                 if(strlen(pstrConfigValue) <= 0)
                 {
@@ -194,29 +204,29 @@ bool NFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<NFIClas
                 var.SetObject(NULL_GUID);
             }
             break;
-        case TDATA_POINT:
-            {
-                if(strlen(pstrConfigValue) <= 0)
-                {
-                    NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
-                }
-                var.SetPoint(NULL_POINT);
-            }
-            break;
+        //case TDATA_POINT:
+        //    {
+        //        if(strlen(pstrConfigValue) <= 0)
+        //        {
+        //            NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
+        //        }
+        //        var.SetPoint(NULL_POINT);
+        //    }
+        //    break;
         default:
             NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
             break;
         }
 
-        temProperty->SetValue(var);
-        if(eType == TDATA_STRING)
-        {
-            temProperty->DeSerialization();
-        }
+        //temProperty->SetValue(var);
+        //if(eType == TDATA_STRING)
+        //{
+        //    temProperty->DeSerialization();
+        //}
     }
 
-    AFDataList::TData xData;
-    xData.SetString(pLogicClass->GetClassName());
+    AFXData xData;
+    xData.SetString(pLogicClass->GetClassName().c_str());
     pElementPropertyManager->SetProperty("ClassName", xData);
 
     return true;
@@ -371,13 +381,13 @@ bool NFCElementModule::Clear()
     return true;
 }
 
-NF_SHARE_PTR<NFIComponentManager> NFCElementModule::GetComponentManager(const std::string& strConfigName)
-{
-    NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    if(nullptr != pElementInfo)
-    {
-        return pElementInfo->GetComponentManager();
-    }
-
-    return nullptr;
-}
+//NF_SHARE_PTR<NFIComponentManager> NFCElementModule::GetComponentManager(const std::string& strConfigName)
+//{
+//    NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+//    if(nullptr != pElementInfo)
+//    {
+//        return pElementInfo->GetComponentManager();
+//    }
+//
+//    return nullptr;
+//}

@@ -12,19 +12,19 @@
 #include <map>
 #include <string>
 #include <iostream>
-#include "NFComm/RapidXML/rapidxml.hpp"
-#include "NFComm/RapidXML/rapidxml_iterators.hpp"
-#include "NFComm/RapidXML/rapidxml_print.hpp"
-#include "NFComm/RapidXML/rapidxml_utils.hpp"
-#include "NFComm/NFCore/NFMap.h"
-#include "NFComm/NFCore/NFList.h"
-#include "NFComm/NFCore/AFDataList.hpp"
-#include "NFComm/NFCore/NFCRecord.h"
-#include "NFComm/NFCore/NFCPropertyManager.h"
-#include "NFComm/NFCore/NFCRecordManager.h"
-#include "NFComm/NFCore/NFCComponentManager.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
+#include "RapidXML/rapidxml.hpp"
+#include "RapidXML/rapidxml_iterators.hpp"
+#include "RapidXML/rapidxml_print.hpp"
+#include "RapidXML/rapidxml_utils.hpp"
+#include "SDK/Core/NFMap.h"
+#include "SDK/Core/NFList.h"
+#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/NFCRecord.h"
+#include "SDK/Core/NFCPropertyManager.h"
+#include "SDK/Core/NFCRecordManager.h"
+//#include "SDK/Core/NFCComponentManager.h"
+#include "SDK/Interface/NFIElementModule.h"
+#include "SDK/Interface/NFIClassModule.h"
 
 class NFCClass;
 
@@ -44,7 +44,7 @@ public:
     {
         m_pPropertyManager = NF_SHARE_PTR<NFIPropertyManager>(NF_NEW NFCPropertyManager(NULL_GUID));
         m_pRecordManager = NF_SHARE_PTR<NFIRecordManager>(NF_NEW NFCRecordManager(NULL_GUID));
-        m_pComponentManager = NF_SHARE_PTR<NFIComponentManager>(NF_NEW NFCComponentManager(NULL_GUID));
+        //m_pComponentManager = NF_SHARE_PTR<NFIComponentManager>(NF_NEW NFCComponentManager(NULL_GUID));
     }
 
     virtual ~ElementConfigInfo()
@@ -61,17 +61,17 @@ public:
         return m_pRecordManager;
     }
 
-    NF_SHARE_PTR<NFIComponentManager> GetComponentManager()
-    {
-        return m_pComponentManager;
-    }
+    //NF_SHARE_PTR<NFIComponentManager> GetComponentManager()
+    //{
+    //    return m_pComponentManager;
+    //}
 protected:
 
     //std::string mstrConfigID;
 
     NF_SHARE_PTR<NFIPropertyManager> m_pPropertyManager;
     NF_SHARE_PTR<NFIRecordManager> m_pRecordManager;
-    NF_SHARE_PTR<NFIComponentManager> m_pComponentManager;
+    //NF_SHARE_PTR<NFIComponentManager> m_pComponentManager;
 };
 
 /**
@@ -107,7 +107,7 @@ public:
 
     virtual NF_SHARE_PTR<NFIPropertyManager> GetPropertyManager(const std::string& strConfigName);
     virtual NF_SHARE_PTR<NFIRecordManager> GetRecordManager(const std::string& strConfigName);
-    virtual NF_SHARE_PTR<NFIComponentManager> GetComponentManager(const std::string& strConfigName);
+    //virtual NF_SHARE_PTR<NFIComponentManager> GetComponentManager(const std::string& strConfigName);
 
     virtual NFINT64 GetPropertyInt(const std::string& strConfigName, const std::string& strPropertyName);
     virtual double GetPropertyFloat(const std::string& strConfigName, const std::string& strPropertyName);

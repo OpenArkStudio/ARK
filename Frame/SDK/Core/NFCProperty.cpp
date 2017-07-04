@@ -9,19 +9,6 @@
 #include "NFCProperty.h"
 #include <complex>
 
-NFCProperty::NFCProperty()
-{
-    mbPublic = false;
-    mbPrivate = false;
-    mbSave = false;
-    mbCache = false;
-
-    mSelf = NULL_GUID;
-    eType = DT_UNKNOWN;
-
-    msPropertyName = "";
-}
-
 NFCProperty::NFCProperty(const AFGUID& self, const std::string& strPropertyName, const int varType)
 {
     mbPublic = false;
@@ -147,14 +134,44 @@ void NFCProperty::SetRelationValue(const std::string& strRelationValue)
     mstrRelationValue = strRelationValue;
 }
 
-NFINT64 NFCProperty::GetInt() const
+bool NFCProperty::GetBool() const
+{
+    if (nullptr == mxData)
+    {
+        return NULL_BOOLEAN;
+    }
+
+    return mxData->GetBool();
+}
+
+int32_t NFCProperty::GetInt() const
 {
     if(nullptr == mxData)
     {
-        return 0;
+        return NULL_INT;
     }
 
     return mxData->GetInt();
+}
+
+int64_t NFCProperty::GetInt64() const
+{
+    if (nullptr == mxData)
+    {
+        return NULL_INT64;
+    }
+
+    return mxData->GetInt64();
+}
+
+float NFCProperty::GetFloat() const
+{
+    if (nullptr == mxData)
+    {
+        return NULL_FLOAT;
+    }
+
+    return mxData->GetFloat();
 }
 
 double NFCProperty::GetDouble() const
@@ -187,16 +204,6 @@ const AFGUID& NFCProperty::GetObject() const
     return mxData->GetObject();
 }
 
-//const Point3D& NFCProperty::GetPoint() const
-//{
-//    if(nullptr == mxData)
-//    {
-//        return NULL_POINT;
-//    }
-//
-//    return mxData->GetPoint();
-//}
-
 void NFCProperty::RegisterCallback(const PROPERTY_EVENT_FUNCTOR_PTR& cb)
 {
     mtPropertyCallback.push_back(cb);
@@ -220,7 +227,41 @@ int NFCProperty::OnEventHandler(const AFIData& oldVar, const AFIData& newVar)
     return 0;
 }
 
-bool NFCProperty::SetInt(const NFINT64 value)
+bool NFCProperty::SetBool(const bool value)
+{
+    if (eType != DT_BOOLEAN)
+    {
+        return false;
+    }
+
+    if (nullptr == mxData)
+    {
+        //本身是空就是因为没数据，还来个没数据的就不存了
+        if (NULL_BOOLEAN == value)
+        {
+            return false;
+        }
+
+        mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
+        mxData->SetBool(NULL_BOOLEAN);
+    }
+
+    if (value == mxData->GetBool())
+    {
+        return false;
+    }
+
+    AFXData oldValue;
+    oldValue = *mxData;
+
+    mxData->SetBool(value);
+
+    OnEventHandler(oldValue, *mxData);
+
+    return true;
+}
+
+bool NFCProperty::SetInt(const int32_t value)
 {
     if(eType != DT_INT)
     {
@@ -230,13 +271,13 @@ bool NFCProperty::SetInt(const NFINT64 value)
     if(nullptr == mxData)
     {
         //本身是空就是因为没数据，还来个没数据的就不存了
-        if(0 == value)
+        if(NULL_INT == value)
         {
             return false;
         }
 
         mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
-        mxData->SetInt(0);
+        mxData->SetInt(NULL_INT);
     }
 
     if(value == mxData->GetInt())
@@ -248,6 +289,74 @@ bool NFCProperty::SetInt(const NFINT64 value)
     oldValue = *mxData;
 
     mxData->SetInt(value);
+
+    OnEventHandler(oldValue, *mxData);
+
+    return true;
+}
+
+bool NFCProperty::SetInt64(const int32_t value)
+{
+    if (eType != DT_INT64)
+    {
+        return false;
+    }
+
+    if (nullptr == mxData)
+    {
+        //本身是空就是因为没数据，还来个没数据的就不存了
+        if (NULL_INT64 == value)
+        {
+            return false;
+        }
+
+        mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
+        mxData->SetInt64(NULL_INT64);
+    }
+
+    if (value == mxData->GetInt64())
+    {
+        return false;
+    }
+
+    AFXData oldValue;
+    oldValue = *mxData;
+
+    mxData->SetInt64(value);
+
+    OnEventHandler(oldValue, *mxData);
+
+    return true;
+}
+
+bool NFCProperty::SetFloat(const float value)
+{
+    if (eType != DT_FLOAT)
+    {
+        return false;
+    }
+
+    if (nullptr == mxData)
+    {
+        //本身是空就是因为没数据，还来个没数据的就不存了
+        if (NULL_FLOAT == value)
+        {
+            return false;
+        }
+
+        mxData = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
+        mxData->SetFloat(NULL_FLOAT);
+    }
+
+    if (value == mxData->GetFloat())
+    {
+        return false;
+    }
+
+    AFXData oldValue;
+    oldValue = *mxData;
+
+    mxData->SetFloat(value);
 
     OnEventHandler(oldValue, *mxData);
 
@@ -358,9 +467,7 @@ bool NFCProperty::SetObject(const AFGUID& value)
 
 bool NFCProperty::Changed() const
 {
-    //TODO:
-    //return !(GetValue().IsNullValue());
-    return true;
+    return !(GetValue().IsNullValue());
 }
 
 const int NFCProperty::GetType() const
@@ -385,16 +492,16 @@ std::string NFCProperty::ToString()
     switch(eType)
     {
     case DT_BOOLEAN:
-        //strData = AF_LEXICAL_CAST<std::string>(GetBool());
+        strData = AF_LEXICAL_CAST<std::string>(GetBool());
         break;
     case DT_INT:
         strData = AF_LEXICAL_CAST<std::string> (GetInt());
         break;
     case DT_INT64:
-        //TODO
+        strData = AF_LEXICAL_CAST<std::string>(GetInt64());
         break;
     case DT_FLOAT:
-        //TODO
+        strData = AF_LEXICAL_CAST<std::string>(GetFloat());
         break;
     case DT_DOUBLE:
         strData = AF_LEXICAL_CAST<std::string> (GetDouble());
@@ -405,9 +512,6 @@ std::string NFCProperty::ToString()
     case DT_OBJECT:
         strData = GetObject().ToString();
         break;
-    //case DT_POINT:
-    //    strData = GetPoint().ToString();
-    //    break;
     default:
         strData = NULL_STR;
         break;
@@ -424,34 +528,39 @@ bool NFCProperty::FromString(const std::string& strData)
     {
     case DT_BOOLEAN:
         {
-            //TODO
+            bool value = NULL_BOOLEAN;
+            bRet = NF_StrTo(strData, value);
+            SetBool(value);
         }
         break;
     case DT_INT:
         {
-            NFINT64  nValue = 0;
-            bRet = NF_StrTo(strData, nValue);
-            SetInt(nValue);
+            int32_t value = NULL_INT;
+            bRet = NF_StrTo(strData, value);
+            SetInt(value);
         }
         break;
     case DT_INT64:
         {
-            //todo
+            int64_t value = NULL_INT64;
+            bRet = NF_StrTo(strData, value);
+            SetInt64(value);
         }
         break;
     case DT_FLOAT:
         {
-            //todo
+            float value = NULL_FLOAT;
+            bRet = NF_StrTo(strData, value);
+            SetFloat(value);
         }
         break;
     case DT_DOUBLE:
         {
-            double  dValue = 0;
-            bRet = NF_StrTo(strData, dValue);
-            SetDouble(dValue);
+            double value = 0;
+            bRet = NF_StrTo(strData, value);
+            SetDouble(value);
         }
         break;
-
     case DT_STRING:
         {
             SetString(strData);

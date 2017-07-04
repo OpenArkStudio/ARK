@@ -6,8 +6,7 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFI_PLUGIN_MANAGER_H
-#define NFI_PLUGIN_MANAGER_H
+#pragma once
 
 #include "NFIModule.h"
 
@@ -62,5 +61,3 @@ public:
 	virtual const std::string& GetConfigPath() const = 0;
 	virtual void SetConfigName(const std::string& strFileName) = 0;
 };
-
-#endif

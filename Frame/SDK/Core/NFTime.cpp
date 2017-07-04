@@ -1,7 +1,7 @@
 #include <chrono>
 #include <sstream>
 #include "NFTime.h"
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "SDK/Interface/NFPlatform.h"
 #ifndef _MSC_VER
 #include <string.h>
 #endif

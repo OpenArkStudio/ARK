@@ -17,7 +17,7 @@
 #include <iostream>
 #include <map>
 
-#include "NFComm/NFPluginModule/AFGUID.h"
+#include "SDK/Core/AFGUID.h"
 
 #ifndef _MSC_VER
 #include <netinet/in.h>

@@ -13,7 +13,7 @@
 #include <list>
 #include <functional> 
 #include <algorithm>
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "SDK/Interface/NFPlatform.h"
 #include "common/crc32.hpp"
 
 /**

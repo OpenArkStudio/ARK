@@ -10,17 +10,17 @@
 #define NFC_LOGINNET_SERVER_MODULE_H
 
 //  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
-#include "NFComm/NFCore/NFMap.h"
+#include "SDK/Core/NFMap.h"
 #include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFILoginNet_ServerModule.h"
-#include "NFComm/NFPluginModule/NFILoginLogicModule.h"
-#include "NFComm/NFPluginModule/NFILogModule.h"
-#include "NFComm/NFPluginModule/NFINetModule.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
-#include "NFComm/NFPluginModule/NFILoginToMasterModule.h"
-#include "NFComm/NFPluginModule/NFIUUIDModule.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFILoginNet_ServerModule.h"
+#include "SDK/Interface/NFILoginLogicModule.h"
+#include "SDK/Interface/NFILogModule.h"
+#include "SDK/Interface/NFINetModule.h"
+#include "SDK/Interface/NFIElementModule.h"
+#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Interface/NFILoginToMasterModule.h"
+#include "SDK/Interface/NFIUUIDModule.h"
 
 #define NET_MSG_PROCESS(xNFMsg, msg) \
     AFGUID nPlayerID; \

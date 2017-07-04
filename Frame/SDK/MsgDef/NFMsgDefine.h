@@ -9,10 +9,10 @@
 #ifndef NF_MSGDEFINE_H
 #define NF_MSGDEFINE_H
 
-#include "NFComm/NFPluginModule/NFPlatform.h"
-#include "NFComm/NFCore/NFIRecordManager.h"
-#include "NFComm/NFCore/NFIPropertyManager.h"
-#include "NFComm/NFCore/NFList.h"
+#include "SDK/Interface/NFPlatform.h"
+#include "SDK/Core/NFIRecordManager.h"
+#include "SDK/Core/NFIPropertyManager.h"
+#include "SDK/Core/NFList.h"
 #include "NFLimit.h"
 #include "NFDefine.pb.h"
 #include "NFMsgBase.pb.h"

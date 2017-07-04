@@ -7,8 +7,8 @@
 // -------------------------------------------------------------------------
 
 #include "NFCPropertyTrailModule.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
-#include "NFComm/NFCore/AFDataList.hpp"
+#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Core/AFCDataList.h"
 
 bool NFCPropertyTrailModule::Init()
 {

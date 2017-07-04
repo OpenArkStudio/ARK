@@ -9,14 +9,14 @@
 #ifndef NFC_LEVEL_MODULE_H
 #define NFC_LEVEL_MODULE_H
 
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIGameLogicModule.h"
-#include "NFComm/NFPluginModule/NFILevelModule.h"
-#include "NFComm/NFPluginModule/NFILogModule.h"
-#include "NFComm/NFPluginModule/NFIPropertyConfigModule.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFIGameLogicModule.h"
+#include "SDK/Interface/NFILevelModule.h"
+#include "SDK/Interface/NFILogModule.h"
+#include "SDK/Interface/NFIPropertyConfigModule.h"
+#include "SDK/Interface/NFIPluginManager.h"
 #include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
+#include "SDK/Interface/NFIElementModule.h"
 
 class NFCLevelModule
     : public NFILevelModule

@@ -76,12 +76,45 @@ const AFGUID& NFCPropertyManager::Self()
     return mSelf;
 }
 
-bool NFCPropertyManager::SetPropertyInt(const std::string& strPropertyName, const NFINT64 value)
+bool NFCPropertyManager::SetPropertyBool(const std::string& strPropertyName, const bool value)
+{
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
+    if (nullptr != pProperty)
+    {
+        return pProperty->SetBool(value);
+    }
+
+    return false;
+}
+
+bool NFCPropertyManager::SetPropertyInt(const std::string& strPropertyName, const int32_t value)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
     if(nullptr != pProperty)
     {
         return pProperty->SetInt(value);
+    }
+
+    return false;
+}
+
+bool NFCPropertyManager::SetPropertyInt64(const std::string& strPropertyName, const int64_t value)
+{
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
+    if (nullptr != pProperty)
+    {
+        return pProperty->SetInt64(value);
+    }
+
+    return false;
+}
+
+bool NFCPropertyManager::SetPropertyFloat(const std::string& strPropertyName, const float value)
+{
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
+    if (nullptr != pProperty)
+    {
+        return pProperty->SetFloat(value);
     }
 
     return false;
@@ -120,7 +153,18 @@ bool NFCPropertyManager::SetPropertyObject(const std::string& strPropertyName, c
     return false;
 }
 
-NFINT64 NFCPropertyManager::GetPropertyInt(const std::string& strPropertyName)
+bool NFCPropertyManager::GetPropertyBool(const std::string& strPropertyName)
+{
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
+    if (nullptr != pProperty)
+    {
+        return pProperty->GetBool();
+    }
+
+    return NULL_BOOLEAN;
+}
+
+int32_t NFCPropertyManager::GetPropertyInt(const std::string& strPropertyName)
 {
     NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
     if(nullptr != pProperty)
@@ -128,7 +172,29 @@ NFINT64 NFCPropertyManager::GetPropertyInt(const std::string& strPropertyName)
         return pProperty->GetInt();
     }
 
-    return 0;
+    return NULL_INT;
+}
+
+int64_t NFCPropertyManager::GetPropertyInt64(const std::string& strPropertyName)
+{
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
+    if (nullptr != pProperty)
+    {
+        return pProperty->GetInt64();
+    }
+
+    return NULL_INT64;
+}
+
+float NFCPropertyManager::GetPropertyFloat(const std::string& strPropertyName)
+{
+    NF_SHARE_PTR<NFIProperty> pProperty = GetElement(strPropertyName);
+    if (nullptr != pProperty)
+    {
+        return pProperty->GetFloat();
+    }
+
+    return NULL_FLOAT;
 }
 
 double NFCPropertyManager::GetPropertyDouble(const std::string& strPropertyName)
@@ -139,7 +205,7 @@ double NFCPropertyManager::GetPropertyDouble(const std::string& strPropertyName)
         return pProperty->GetDouble();
     }
 
-    return 0.0;
+    return NULL_DOUBLE;
 }
 
 const std::string& NFCPropertyManager::GetPropertyString(const std::string& strPropertyName)

@@ -12,23 +12,23 @@
 #include <string>
 #include <map>
 #include <iostream>
-#include "NFComm/NFCore/NFMap.h"
-#include "NFComm/NFCore/NFList.h"
+#include "SDK/Core/NFMap.h"
+#include "SDK/Core/NFList.h"
 #include "NFComm/RapidXML/rapidxml.hpp"
 #include "NFComm/RapidXML/rapidxml_iterators.hpp"
 #include "NFComm/RapidXML/rapidxml_print.hpp"
 #include "NFComm/RapidXML/rapidxml_utils.hpp"
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIGameLogicModule.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
-#include "NFComm/NFPluginModule/NFIGameServerConfigModule.h"
-#include "NFComm/NFPluginModule/NFISceneProcessModule.h"
-#include "NFComm/NFPluginModule/NFIPropertyModule.h"
-#include "NFComm/NFPluginModule/NFILogModule.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFIGameLogicModule.h"
+#include "SDK/Interface/NFIElementModule.h"
+#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Interface/NFIGameServerConfigModule.h"
+#include "SDK/Interface/NFISceneProcessModule.h"
+#include "SDK/Interface/NFIPropertyModule.h"
+#include "SDK/Interface/NFILogModule.h"
+#include "SDK/Interface/NFIPluginManager.h"
 #include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
-#include "NFComm/NFPluginModule/NFIGameServerNet_ServerModule.h"
+#include "SDK/Interface/NFIGameServerNet_ServerModule.h"
 
 class NFCSceneProcessModule
     : public NFISceneProcessModule

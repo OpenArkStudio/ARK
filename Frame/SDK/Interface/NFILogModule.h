@@ -6,12 +6,11 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFI_LOG_MODULE_H
-#define NFI_LOG_MODULE_H
+#pragma once
 
 #include "NFIModule.h"
 
-class NFILogModule
+class AFILogModule
     : public NFIModule
 {
 
@@ -49,5 +48,3 @@ public:
     virtual bool ChangeLogLevel(const std::string& strLevel, const std::string& strStatus) = 0;
     virtual bool SetSwitchingValue(const bool bValue) = 0;
 };
-
-#endif

@@ -13,17 +13,17 @@
 #include <map>
 #include <iostream>
 #include "NFCElementModule.h"
-#include "NFComm/RapidXML/rapidxml.hpp"
-#include "NFComm/NFCore/NFMap.h"
-#include "NFComm/NFCore/NFList.h"
-#include "NFComm/NFCore/AFDataList.hpp"
-#include "NFComm/NFCore/NFCRecord.h"
-#include "NFComm/NFCore/NFList.h"
-#include "NFComm/NFCore/NFCPropertyManager.h"
-#include "NFComm/NFCore/NFCRecordManager.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "RapidXML/rapidxml.hpp"
+#include "SDK/Core/NFMap.h"
+#include "SDK/Core/NFList.h"
+#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/NFCRecord.h"
+#include "SDK/Core/NFList.h"
+#include "SDK/Core/NFCPropertyManager.h"
+#include "SDK/Core/NFCRecordManager.h"
+#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Interface/NFIElementModule.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 /**
  * @class   NFCClass
@@ -45,7 +45,7 @@ public:
 
         m_pPropertyManager = NF_SHARE_PTR<NFIPropertyManager>(NF_NEW NFCPropertyManager(NULL_GUID));
         m_pRecordManager = NF_SHARE_PTR<NFIRecordManager>(NF_NEW NFCRecordManager(NULL_GUID));
-        m_pComponentManager = NF_SHARE_PTR<NFIComponentManager>(NF_NEW NFCComponentManager(NULL_GUID));
+        //m_pComponentManager = NF_SHARE_PTR<NFIComponentManager>(NF_NEW NFCComponentManager(NULL_GUID));
     }
 
     virtual ~NFCClass()
@@ -63,17 +63,17 @@ public:
         return m_pRecordManager;
     }
 
-    virtual NF_SHARE_PTR<NFIComponentManager> GetComponentManager()
-    {
-        return m_pComponentManager;
-    }
+    //virtual NF_SHARE_PTR<NFIComponentManager> GetComponentManager()
+    //{
+    //    return m_pComponentManager;
+    //}
 
     virtual bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR& cb)
     {
         return mxClassEventInfo.Add(cb);
     }
 
-    virtual bool DoEvent(const AFGUID& objectID, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList)
+    virtual bool DoEvent(const AFGUID& objectID, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList)
     {
         CLASS_EVENT_FUNCTOR_PTR cb;
         bool bRet = mxClassEventInfo.First(cb);
@@ -137,7 +137,7 @@ public:
 private:
     NF_SHARE_PTR<NFIPropertyManager> m_pPropertyManager;
     NF_SHARE_PTR<NFIRecordManager> m_pRecordManager;
-    NF_SHARE_PTR<NFIComponentManager> m_pComponentManager;
+    //NF_SHARE_PTR<NFIComponentManager> m_pComponentManager;
 
     NF_SHARE_PTR<NFIClass> m_pParentClass;
     std::string mstrType;
@@ -164,16 +164,16 @@ public:
     virtual bool Clear();
 
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
-    virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList);
+    virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList);
 
     virtual NF_SHARE_PTR<NFIPropertyManager> GetClassPropertyManager(const std::string& strClassName);
     virtual NF_SHARE_PTR<NFIRecordManager> GetClassRecordManager(const std::string& strClassName);
-    virtual NF_SHARE_PTR<NFIComponentManager> GetClassComponentManager(const std::string& strClassName);
+    //virtual NF_SHARE_PTR<NFIComponentManager> GetClassComponentManager(const std::string& strClassName);
 
     virtual bool AddClass(const std::string& strClassName, const std::string& strParentName);
 
 protected:
-    virtual TDATA_TYPE ComputerType(const char* pstrTypeName, AFDataList::TData& var);
+    virtual int ComputerType(const char* pstrTypeName, AFIData& var);
     virtual bool AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SHARE_PTR<NFIClass> pClass);
     virtual bool AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_PTR<NFIClass> pClass);
     virtual bool AddComponents(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_PTR<NFIClass> pClass);

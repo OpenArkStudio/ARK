@@ -11,10 +11,10 @@
 
 #include <iostream>
 #include "NFIModule.h"
-#include "NFComm/NFCore/AFDataList.hpp"
-#include "NFComm/NFCore/NFIPropertyManager.h"
-#include "NFComm/NFCore/NFIRecordManager.h"
-#include "NFComm/NFCore/NFIComponentManager.h"
+#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/NFIPropertyManager.h"
+#include "SDK/Core/NFIRecordManager.h"
+//#include "SDK/Core/NFIComponentManager.h"
 
 class NFIElementModule
     : public NFIModule
@@ -134,7 +134,7 @@ public:
      * @return  The component manager.
      */
 
-    virtual std::shared_ptr<NFIComponentManager> GetComponentManager(const std::string& strConfigName) = 0;
+    //virtual std::shared_ptr<NFIComponentManager> GetComponentManager(const std::string& strConfigName) = 0;
 
     /**
      * @fn  virtual NFINT64 GetPropertyInt(const std::string& strConfigName, const std::string& strPropertyName) = 0;
@@ -183,8 +183,5 @@ public:
      */
 
     virtual const std::string& GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-
-protected:
-private:
 };
 #endif

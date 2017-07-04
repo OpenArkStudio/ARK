@@ -9,11 +9,11 @@
 #ifndef NFC_GAMESERVER_MODULE_H
 #define NFC_GAMESERVER_MODULE_H
 
-#include "NFComm/NFCore/NFMap.h"
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIGameServerModule.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
-#include "NFComm/NFPluginModule/NFIUUIDModule.h"
+#include "SDK/Core/NFMap.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFIGameServerModule.h"
+#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Interface/NFIUUIDModule.h"
 
 class NFCGameServerModule
     : public NFIGameServerModule

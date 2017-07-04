@@ -11,8 +11,8 @@
 #include "NFComm/RapidXML/rapidxml_iterators.hpp"
 #include "NFComm/RapidXML/rapidxml_print.hpp"
 #include "NFComm/RapidXML/rapidxml_utils.hpp"
-#include "NFComm/NFPluginModule/NFIPlugin.h"
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "SDK/Interface/NFIPlugin.h"
+#include "SDK/Interface/NFPlatform.h"
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #pragma comment( lib, "ws2_32.lib" )

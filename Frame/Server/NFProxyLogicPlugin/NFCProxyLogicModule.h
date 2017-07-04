@@ -9,11 +9,11 @@
 #ifndef NFC_PROXYLOGIC_MODULE_H
 #define NFC_PROXYLOGIC_MODULE_H
 
-#include "NFComm/NFCore/NFMap.h"
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIGameLogicModule.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
-#include "NFComm/NFPluginModule/NFIProxyLogicModule.h"
+#include "SDK/Core/NFMap.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFIGameLogicModule.h"
+#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Interface/NFIProxyLogicModule.h"
 
 class NFCProxyLogicModule
     : public NFIProxyLogicModule

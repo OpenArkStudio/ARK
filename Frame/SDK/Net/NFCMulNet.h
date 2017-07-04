@@ -12,9 +12,9 @@
 #include <thread>
 #include <atomic>
 #include "NFINet.h"
-#include "NFComm/NFCore/NFQueue.h"
+#include "SDK/Core/NFQueue.h"
 #include "common/readerwriterqueue.h"
-#include "NFComm/NFCore/NFLockFreeQueue.h"
+#include "SDK/Core/NFLockFreeQueue.h"
 
 #pragma pack(push, 1)
 

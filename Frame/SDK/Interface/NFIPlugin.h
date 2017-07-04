@@ -11,10 +11,10 @@
 
 #include <iostream>
 #include <assert.h>
-#include "NFComm/NFCore/NFMap.h"
-#include "NFComm/NFPluginModule/NFIModule.h"
-#include "NFComm/NFPluginModule/NFPlatform.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Core/NFMap.h"
+#include "SDK/Interface/NFIModule.h"
+#include "SDK/Interface/NFPlatform.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 #define REGISTER_MODULE(pManager, classBaseName, className)  \
 	assert((TIsDerived<classBaseName, NFIModule>::Result));	\
