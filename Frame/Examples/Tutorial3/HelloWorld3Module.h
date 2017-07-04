@@ -9,9 +9,9 @@
 #ifndef NFC_HELLO_WORLD3_H
 #define NFC_HELLO_WORLD3_H
 
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFIElementModule.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 class HelloWorld3Module
     : public NFIModule

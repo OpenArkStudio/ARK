@@ -9,8 +9,8 @@
 #ifndef NFC_HELLO_WORLD2_H
 #define NFC_HELLO_WORLD2_H
 
-#include "NFComm/NFPluginModule/NFIPlugin.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFIPlugin.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 class HelloWorld2
     : public NFIModule
