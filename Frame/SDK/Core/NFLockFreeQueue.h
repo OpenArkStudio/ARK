@@ -11,7 +11,7 @@
 
 #include <list>
 #include <thread>
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "SDK/Interface/NFPlatform.h"
 #include "common/readerwriterqueue.h"
 
 
