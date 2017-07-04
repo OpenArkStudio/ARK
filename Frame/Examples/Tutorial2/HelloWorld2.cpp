@@ -1,6 +1,6 @@
 #include "HelloWorld2.h"
-#include "NFComm/NFCore/NFCObject.h"
-#include "NFComm/NFCore/NFIComponent.h"
+#include "SDK/Core/NFCObject.h"
+#include "SDK/Core/NFIComponent.h"
 
 bool HelloWorld2::Init()
 {
