@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "NFComm/NFPluginModule/AFIGUIDModule.h"
+#include "SDK/Interface/AFIGUIDModule.h"
 
 namespace GUIDModule
 {

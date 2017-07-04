@@ -1,5 +1,5 @@
 #pragma once
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "SDK/Interface/NFPlatform.h"
 
 struct AFGUID 
 {
@@ -28,6 +28,11 @@ struct AFGUID
         nSerial = serial;
     }
 
+    AFGUID(uint64_t value)
+    {
+        n64Value = value;
+    }
+
     bool IsNull()
     {
         return (0 == n64Value);
@@ -36,6 +41,12 @@ struct AFGUID
     bool IsNull() const
     {
         return (0 == n64Value);
+    }
+
+    AFGUID& operator=(const uint64_t value)
+    {
+        n64Value = value;
+        return *this;
     }
 
     bool operator==(const AFGUID& rhs) const
