@@ -190,7 +190,7 @@ private:
     NFINT64 nLastTime;
 
     NFISceneModule* m_pSceneModule;
-    NFILogModule* m_pLogModule;
+    AFILogModule* m_pLogModule;
     NFIClassModule* m_pClassModule;
     NFIElementModule* m_pElementModule;
     AFIGUIDModule* m_pGUIDModule;

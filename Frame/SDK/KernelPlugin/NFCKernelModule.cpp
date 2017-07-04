@@ -51,7 +51,7 @@ bool NFCKernelModule::Init()
     m_pSceneModule = pPluginManager->FindModule<NFISceneModule>();
     m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
     m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
+    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
 
     return true;
@@ -1541,8 +1541,8 @@ void NFCKernelModule::Random(int nStart, int nEnd, int nCount, AFIDataList& valu
     for(int i = mnRandomPos; i < mnRandomPos + nCount; i++)
     {
         float fRanValue = mvRandom.at(i);
-        int nValue = (nEnd - nStart) * fRanValue + nStart;
-        valueList.AddInt64((NFINT64)nValue);
+        int32_t nValue = int32_t((nEnd - nStart) * fRanValue + nStart);
+        valueList.AddInt(nValue);
     }
 
     mnRandomPos += nCount;
