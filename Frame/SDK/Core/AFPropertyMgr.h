@@ -50,9 +50,9 @@ public:
     bool SetPropertyPoint(const char* name, const Point3D& value);
     NFINT64 GetPropertyInt(const char* name);
     double GetPropertyDouble(const char* name);
-    const std::string& GetPropertyString(const char* name);
+    const char* GetPropertyString(const char* name);
     const AFGUID& GetPropertyObject(const char* name);
-    const Point3D& GetPropertyPoint(const char* name);
+    //const Point3D& GetPropertyPoint(const char* name);
 
 protected:
     bool FindIndex(const char* name, size_t& index);
