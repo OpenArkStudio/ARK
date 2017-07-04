@@ -10,8 +10,8 @@
 #define NF_TUTORIAL2_H
 
 ///
-#include "NFComm/NFPluginModule/NFIPlugin.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFIPlugin.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 class Tutorial2 : public NFIPlugin
 {

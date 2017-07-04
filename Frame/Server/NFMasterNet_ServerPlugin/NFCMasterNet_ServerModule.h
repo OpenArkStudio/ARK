@@ -12,12 +12,12 @@
 //  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
 
 #include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "NFComm/NFPluginModule/NFIMasterNet_ServerModule.h"
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFILogModule.h"
-#include "NFComm/NFPluginModule/NFINetModule.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
+#include "SDK/Interface/NFIMasterNet_ServerModule.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFILogModule.h"
+#include "SDK/Interface/NFINetModule.h"
+#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Interface/NFIElementModule.h"
 
 class NFCMasterNet_ServerModule
     : public NFIMasterNet_ServerModule

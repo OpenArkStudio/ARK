@@ -6,8 +6,7 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_PROPERTYMANAGER_H
-#define NFC_PROPERTYMANAGER_H
+#pragma once
 
 #include "NFDefine.h"
 #include "NFMap.h"
@@ -17,252 +16,41 @@
 #include "AFArrayPod.hpp"
 #include "AFStringPod.hpp"
 
-/**
- * @class   NFCPropertyManager
- *
- * @brief   Manager for nfc properties.
- *
- * @author  flyicegood
- * @date    2016/11/29
- */
-
 class NFCPropertyManager : public NFIPropertyManager
 {
 public:
-
-    /**
-     * @fn  NFCPropertyManager::NFCPropertyManager(const AFGUID& self)
-     *
-     * @brief   Constructor.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   self    The class instance that this method operates on.
-     */
-
+    
     NFCPropertyManager(const AFGUID& self)
     {
         mSelf = self;
     };
 
-    /**
-     * @fn  virtual NFCPropertyManager::~NFCPropertyManager();
-     *
-     * @brief   Destructor.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     */
-
     virtual ~NFCPropertyManager();
-
-    /**
-     * @fn  virtual bool NFCPropertyManager::RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
-     *
-     * @brief   Registers the callback.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strProperty The property.
-     * @param   cb          The cb.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
 
     virtual bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
 
-    /**
-     * @fn  virtual NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const AFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty);
-     *
-     * @brief   Adds a property to 'pProperty'.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   self        The class instance that this method operates on.
-     * @param   pProperty   The property.
-     *
-     * @return  A NF_SHARE_PTR&lt;NFIProperty&gt;
-     */
-
     virtual NF_SHARE_PTR<NFIProperty> AddProperty(const AFGUID& self, NF_SHARE_PTR<NFIProperty> pProperty);
-
-    /**
-     * @fn  virtual NF_SHARE_PTR<NFIProperty> NFCPropertyManager::AddProperty(const AFGUID& self, const std::string& strPropertyName, const TDATA_TYPE varType);
-     *
-     * @brief   Adds a property.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   self            The class instance that this method operates on.
-     * @param   strPropertyName Name of the property.
-     * @param   varType         Type of the variable.
-     *
-     * @return  A NF_SHARE_PTR&lt;NFIProperty&gt;
-     */
-
     virtual NF_SHARE_PTR<NFIProperty> AddProperty(const AFGUID& self, const std::string& strPropertyName, const int varType);
-
-    /**
-     * @fn  virtual const AFGUID& NFCPropertyManager::Self();
-     *
-     * @brief   Gets the self.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @return  A reference to a const AFGUID.
-     */
-
     virtual const AFGUID& Self();
-
-    /**
-     * @fn  virtual bool NFCPropertyManager::SetProperty(const std::string& strPropertyName, const AFDataList::TData& TData);
-     *
-     * @brief   Sets a property.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     * @param   TData           The data.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
 
     virtual bool SetProperty(const std::string& strPropertyName, const AFIData& TData);
 
-    /**
-     * @fn  virtual bool NFCPropertyManager::SetPropertyInt(const std::string& strPropertyName, const NFINT64 value);
-     *
-     * @brief   Sets property int.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     * @param   value           The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
-    virtual bool SetPropertyInt(const std::string& strPropertyName, const NFINT64 value);
-
-    /**
-     * @fn  virtual bool NFCPropertyManager::SetPropertyDouble(const std::string& strPropertyName, const double value);
-     *
-     * @brief   Sets property double.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     * @param   value           The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
+    virtual bool SetPropertyBool(const std::string& strPropertyName, const bool value);
+    virtual bool SetPropertyInt(const std::string& strPropertyName, const int32_t value);
+    virtual bool SetPropertyInt64(const std::string& strPropertyName, const int64_t value);
+    virtual bool SetPropertyFloat(const std::string& strPropertyName, const float value);
     virtual bool SetPropertyDouble(const std::string& strPropertyName, const double value);
-
-    /**
-     * @fn  virtual bool NFCPropertyManager::SetPropertyString(const std::string& strPropertyName, const std::string& value);
-     *
-     * @brief   Sets property string.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     * @param   value           The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
     virtual bool SetPropertyString(const std::string& strPropertyName, const std::string& value);
-
-    /**
-     * @fn  virtual bool NFCPropertyManager::SetPropertyObject(const std::string& strPropertyName, const AFGUID& value);
-     *
-     * @brief   Sets property object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     * @param   value           The value.
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
     virtual bool SetPropertyObject(const std::string& strPropertyName, const AFGUID& value);
 
-    /**
-     * @fn  virtual NFINT64 NFCPropertyManager::GetPropertyInt(const std::string& strPropertyName);
-     *
-     * @brief   Gets property int.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     *
-     * @return  The property int.
-     */
-
-    virtual NFINT64 GetPropertyInt(const std::string& strPropertyName);
-
-    /**
-     * @fn  virtual double NFCPropertyManager::GetPropertyDouble(const std::string& strPropertyName);
-     *
-     * @brief   Gets property double.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     *
-     * @return  The property double.
-     */
-
+    virtual bool GetPropertyBool(const std::string& strPropertyName);
+    virtual int32_t GetPropertyInt(const std::string& strPropertyName);
+    virtual int64_t GetPropertyInt64(const std::string& strPropertyName);
+    virtual float GetPropertyFloat(const std::string& strPropertyName);
     virtual double GetPropertyDouble(const std::string& strPropertyName);
-
-    /**
-     * @fn  virtual const std::string& NFCPropertyManager::GetPropertyString(const std::string& strPropertyName);
-     *
-     * @brief   Gets property string.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     *
-     * @return  The property string.
-     */
-
     virtual const std::string& GetPropertyString(const std::string& strPropertyName);
-
-    /**
-     * @fn  virtual const AFGUID& NFCPropertyManager::GetPropertyObject(const std::string& strPropertyName);
-     *
-     * @brief   Gets property object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   strPropertyName Name of the property.
-     *
-     * @return  The property object.
-     */
-
     virtual const AFGUID& GetPropertyObject(const std::string& strPropertyName);
 
 private:
-    /** @brief   The self. */
     AFGUID mSelf;
 };
-
-
-#endif

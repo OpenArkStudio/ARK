@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "NFCPropertyConfigModule.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 bool NFCPropertyConfigModule::Init()
 {

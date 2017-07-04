@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "NFCGameServerNet_ServerModule.h"
-#include "NFComm/NFPluginModule/NFIModule.h"
+#include "SDK/Interface/NFIModule.h"
 #include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
 
 bool NFCGameServerNet_ServerModule::Init()

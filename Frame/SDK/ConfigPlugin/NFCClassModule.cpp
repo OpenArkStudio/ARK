@@ -10,8 +10,8 @@
 #include <algorithm>
 #include "NFConfigPlugin.h"
 #include "NFCClassModule.h"
-#include "NFComm/RapidXML/rapidxml.hpp"
-#include "NFComm/RapidXML/rapidxml_print.hpp"
+#include "RapidXML/rapidxml.hpp"
+#include "RapidXML/rapidxml_print.hpp"
 
 bool NFCClassModule::Init()
 {
@@ -43,40 +43,50 @@ NFCClassModule::~NFCClassModule()
     ClearAll();
 }
 
-TDATA_TYPE NFCClassModule::ComputerType(const char* pstrTypeName, AFDataList::TData& var)
+int NFCClassModule::ComputerType(const char* pstrTypeName, AFIData& var)
 {
-    if(0 == strcmp(pstrTypeName, "int"))
+    if (0 == NFSTRICMP(pstrTypeName, "bool"))
+    {
+        var.SetBool(NULL_BOOLEAN);
+        return var.GetType();
+    }
+    if(0 == NFSTRICMP(pstrTypeName, "int"))
     {
         var.SetInt(NULL_INT);
         return var.GetType();
     }
-    else if(0 == strcmp(pstrTypeName, "string"))
+    if (0 == NFSTRICMP(pstrTypeName, "int64"))
     {
-        var.SetString(NULL_STR);
+        var.SetInt64(NULL_INT64);
         return var.GetType();
     }
-    else if(0 == strcmp(pstrTypeName, "float"))
+    else if(0 == NFSTRICMP(pstrTypeName, "float"))
+    {
+        var.SetFloat(NULL_FLOAT);
+        return var.GetType();
+    }
+    else if(0 == NFSTRICMP(pstrTypeName, "double"))
     {
         var.SetDouble(NULL_DOUBLE);
         return var.GetType();
     }
-    else if(0 == strcmp(pstrTypeName, "double"))
+    else if (0 == NFSTRICMP(pstrTypeName, "string"))
     {
-        var.SetDouble(NULL_DOUBLE);
+        var.SetString(NULL_STR.c_str());
         return var.GetType();
     }
-    else if(0 == strcmp(pstrTypeName, "object"))
+    else if(0 == NFSTRICMP(pstrTypeName, "object"))
     {
         var.SetObject(NULL_GUID);
         return var.GetType();
     }
-    else if(0 == strcmp(pstrTypeName, "point"))
-    {
-        var.SetPoint(NULL_POINT);
-        return var.GetType();
-    }
+    //else if(0 == strcmp(pstrTypeName, "point"))
+    //{
+    //    var.SetPoint(NULL_POINT);
+    //    return var.GetType();
+    //}
 
-    return TDATA_UNKNOWN;
+    return DT_UNKNOWN;
 }
 
 bool NFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SHARE_PTR<NFIClass> pClass)
@@ -104,8 +114,8 @@ bool NFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SH
             bool bSave = AF_LEXICAL_CAST<bool>(pstrSave);
             bool bCache = AF_LEXICAL_CAST<bool>(pstrCache);
 
-            AFDataList::TData varProperty;
-            if(TDATA_UNKNOWN == ComputerType(pstrType, varProperty))
+            AFXData varProperty;
+            if(DT_UNKNOWN == ComputerType(pstrType, varProperty))
             {
                 //std::cout << "error:" << pClass->GetTypeName() << "  " << pClass->GetInstancePath() << ": " << strPropertyName << " type error!!!" << std::endl;
 
@@ -162,31 +172,31 @@ bool NFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
             bool bSave = AF_LEXICAL_CAST<bool>(pstrSave);
             bool bCache = AF_LEXICAL_CAST<bool>(pstrCache);
 
-            NF_SHARE_PTR<AFDataList> recordVar(NF_NEW AFDataList());
-            NF_SHARE_PTR<AFDataList> recordTag(NF_NEW AFDataList());
+            NF_SHARE_PTR<AFIDataList> recordVar(NF_NEW AFXDataList());
+            NF_SHARE_PTR<AFIDataList> recordTag(NF_NEW AFXDataList());
 
             for(rapidxml::xml_node<>* recordColNode = pRecordNode->first_node(); recordColNode;  recordColNode = recordColNode->next_sibling())
             {
                 //const char* pstrColName = recordColNode->first_attribute( "Id" )->value();
-                AFDataList::TData TData;
+                AFXData TData;
                 const char* pstrColType = recordColNode->first_attribute("Type")->value();
-                if(TDATA_UNKNOWN == ComputerType(pstrColType, TData))
+                if(DT_UNKNOWN == ComputerType(pstrColType, TData))
                 {
                     //assert(0);
                     NFASSERT(0, pstrRecordName, __FILE__, __FUNCTION__);
                 }
 
                 recordVar->Append(TData);
-                //////////////////////////////////////////////////////////////////////////
-                if(recordColNode->first_attribute("Tag") != NULL)
-                {
-                    const char* pstrTag = recordColNode->first_attribute("Tag")->value();
-                    recordTag->Add(pstrTag);
-                }
-                else
-                {
-                    recordTag->Add("");
-                }
+                ////////////////////////////////////////////////////////////////////////////
+                //if(recordColNode->first_attribute("Tag") != NULL)
+                //{
+                //    const char* pstrTag = recordColNode->first_attribute("Tag")->value();
+                //    recordTag->Add(pstrTag);
+                //}
+                //else
+                //{
+                //    recordTag->Add("");
+                //}
             }
 
             NF_SHARE_PTR<NFIRecord> xRecord = pClass->GetRecordManager()->AddRecord(NULL_GUID, pstrRecordName, recordVar, recordTag, atoi(pstrRow));
@@ -203,27 +213,27 @@ bool NFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
 
 bool NFCClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, NF_SHARE_PTR<NFIClass> pClass)
 {
-    for(rapidxml::xml_node<>* pComponentNode = pComponentRootNode->first_node(); pComponentNode; pComponentNode = pComponentNode->next_sibling())
-    {
-        if(pComponentNode)
-        {
-            const char* strComponentName = pComponentNode->first_attribute("Name")->value();
-            const char* strLanguage = pComponentNode->first_attribute("Language")->value();
-            const char* strEnable = pComponentNode->first_attribute("Enable")->value();
-            bool bEnable = AF_LEXICAL_CAST<bool>(strEnable);
-            if(bEnable)
-            {
-                if(pClass->GetComponentManager()->GetElement(strComponentName))
-                {
-                    //error
-                    NFASSERT(0, strComponentName, __FILE__, __FUNCTION__);
-                    continue;
-                }
-                NF_SHARE_PTR<NFIComponent> xComponent(NF_NEW NFIComponent(NULL_GUID, strComponentName));
-                pClass->GetComponentManager()->AddComponent(strComponentName, xComponent);
-            }
-        }
-    }
+    //for(rapidxml::xml_node<>* pComponentNode = pComponentRootNode->first_node(); pComponentNode; pComponentNode = pComponentNode->next_sibling())
+    //{
+    //    if(pComponentNode)
+    //    {
+    //        const char* strComponentName = pComponentNode->first_attribute("Name")->value();
+    //        const char* strLanguage = pComponentNode->first_attribute("Language")->value();
+    //        const char* strEnable = pComponentNode->first_attribute("Enable")->value();
+    //        bool bEnable = AF_LEXICAL_CAST<bool>(strEnable);
+    //        if(bEnable)
+    //        {
+    //            if(pClass->GetComponentManager()->GetElement(strComponentName))
+    //            {
+    //                //error
+    //                NFASSERT(0, strComponentName, __FILE__, __FUNCTION__);
+    //                continue;
+    //            }
+    //            NF_SHARE_PTR<NFIComponent> xComponent(NF_NEW NFIComponent(NULL_GUID, strComponentName));
+    //            pClass->GetComponentManager()->AddComponent(strComponentName, xComponent);
+    //        }
+    //    }
+    //}
 
     return true;
 }
@@ -449,16 +459,16 @@ NF_SHARE_PTR<NFIRecordManager> NFCClassModule::GetClassRecordManager(const std::
     return NULL;
 }
 
-NF_SHARE_PTR<NFIComponentManager> NFCClassModule::GetClassComponentManager(const std::string& strClassName)
-{
-    NF_SHARE_PTR<NFIClass> pClass = GetElement(strClassName);
-    if(nullptr != pClass)
-    {
-        return pClass->GetComponentManager();
-    }
-
-    return NULL;
-}
+//NF_SHARE_PTR<NFIComponentManager> NFCClassModule::GetClassComponentManager(const std::string& strClassName)
+//{
+//    NF_SHARE_PTR<NFIClass> pClass = GetElement(strClassName);
+//    if(nullptr != pClass)
+//    {
+//        return pClass->GetComponentManager();
+//    }
+//
+//    return NULL;
+//}
 
 bool NFCClassModule::Clear()
 {
@@ -476,7 +486,7 @@ bool NFCClassModule::AddClassCallBack(const std::string& strClassName, const CLA
     return pClass->AddClassCallBack(cb);
 }
 
-bool NFCClassModule::DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& valueList)
+bool NFCClassModule::DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList)
 {
     NF_SHARE_PTR<NFIClass> pClass = GetElement(strClassName);
     if(nullptr == pClass)

@@ -14,7 +14,7 @@
 #include "NFDefine.h"
 #include "NFList.h"
 #include "NFMapEx.h"
-#include "NFComm/NFEventDefine/NFEventDefine.h"
+#include "SDK/EventDefine/NFEventDefine.h"
 #include "AFIDataList.h"
 
 using namespace ArkFrame;

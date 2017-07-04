@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "NFCPropertyModule.h"
-#include "NFComm/NFCore/NFTime.h"
+#include "SDK/Core/NFTime.h"
 
 bool NFCPropertyModule::Init()
 {

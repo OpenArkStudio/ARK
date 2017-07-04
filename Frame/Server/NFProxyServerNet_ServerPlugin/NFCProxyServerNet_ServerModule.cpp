@@ -8,7 +8,7 @@
 
 #include "NFCProxyServerNet_ServerModule.h"
 #include "NFProxyServerNet_ServerPlugin.h"
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
+#include "SDK/Interface/NFIKernelModule.h"
 
 bool NFCProxyServerNet_ServerModule::Init()
 {

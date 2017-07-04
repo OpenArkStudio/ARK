@@ -9,8 +9,8 @@
 #ifndef NF_TUTORIAL1_H
 #define NF_TUTORIAL1_H
 
-#include "NFComm/NFPluginModule/NFIPlugin.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFIPlugin.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 class Tutorial1 : public NFIPlugin
 {

@@ -162,12 +162,12 @@ double AFPropertyMgr::GetPropertyDouble(const char* name)
     return mxPropertys[index]->value.GetDouble();
 }
 
-const std::string& AFPropertyMgr::GetPropertyString(const char* name)
+const char* AFPropertyMgr::GetPropertyString(const char* name)
 {
     size_t index;
     if (!FindIndex(name, index))
     {
-        return NULL_STR;
+        return NULL_STR.c_str();
     }
 
     return mxPropertys[index]->value.GetString();
@@ -184,15 +184,15 @@ const AFGUID& AFPropertyMgr::GetPropertyObject(const char* name)
     return mxPropertys[index]->value.GetObject();
 }
 
-const Point3D& AFPropertyMgr::GetPropertyPoint(const char* name)
-{
-    //size_t index;
-    //if (!FindIndex(name, index))
-    //{
-    //    return NULL_POINT;
-    //}
-
-    //return mxPropertys[index]->value.GetPoint();
-
-    return Point3D();
-}
+//const Point3D& AFPropertyMgr::GetPropertyPoint(const char* name)
+//{
+//    //size_t index;
+//    //if (!FindIndex(name, index))
+//    //{
+//    //    return NULL_POINT;
+//    //}
+//
+//    //return mxPropertys[index]->value.GetPoint();
+//
+//    return Point3D();
+//}

@@ -9,9 +9,9 @@
 #ifndef NFI_COMPONENT_H
 #define NFI_COMPONENT_H
 
-#include "NFComm/NFPluginModule/NFPlatform.h"
-#include "NFComm/NFPluginModule/AFGUID.h"
-#include "NFComm/NFPluginModule/NFIModule.h"
+#include "SDK/Interface/NFPlatform.h"
+#include "SDK/Core/AFGUID.h"
+#include "SDK/Interface/NFIModule.h"
 
 /**
  * @class   NFIComponent

@@ -151,6 +151,9 @@
     <ClCompile Include="NFCRecord.cpp" />
     <ClCompile Include="NFTime.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ConfigPlugin\ConfigPlugin.vcxproj" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

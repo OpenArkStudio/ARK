@@ -9,7 +9,7 @@
 #include "NFCGameServerToWorldModule.h"
 #include "NFGameServerNet_ClientPlugin.h"
 #include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "NFComm/NFPluginModule/NFINetClientModule.hpp"
+#include "SDK/Interface/NFINetClientModule.hpp"
 #include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
 
 bool NFCGameServerToWorldModule::Init()

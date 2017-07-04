@@ -9,9 +9,9 @@
 #ifndef NFC_MASTER_MODULE_H
 #define NFC_MASTER_MODULE_H
 
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIMasterModule.h"
-#include "NFComm/NFPluginModule/NFIMasterNet_ServerModule.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFIMasterModule.h"
+#include "SDK/Interface/NFIMasterNet_ServerModule.h"
 
 class NFCMasterModule
     : public NFIMasterModule

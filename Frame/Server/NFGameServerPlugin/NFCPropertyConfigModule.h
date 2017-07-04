@@ -13,9 +13,9 @@
 #include "NFComm/RapidXML/rapidxml_iterators.hpp"
 #include "NFComm/RapidXML/rapidxml_print.hpp"
 #include "NFComm/RapidXML/rapidxml_utils.hpp"
-#include "NFComm/NFPluginModule/NFIPropertyConfigModule.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
+#include "SDK/Interface/NFIPropertyConfigModule.h"
+#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Interface/NFIElementModule.h"
 #include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
 
 class NFCPropertyConfigModule

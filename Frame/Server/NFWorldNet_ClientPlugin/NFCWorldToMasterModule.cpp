@@ -8,9 +8,9 @@
 
 #include "NFCWorldToMasterModule.h"
 #include "NFWorldNet_ClientPlugin.h"
-#include "NFComm/NFCore/AFDataList.hpp"
+#include "SDK/Core/AFCDataList.h"
 #include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "NFComm/NFPluginModule/NFINetClientModule.hpp"
+#include "SDK/Interface/NFINetClientModule.hpp"
 
 bool NFCWorldToMasterModule::Init()
 {

@@ -13,8 +13,8 @@
 #include <string>
 #include <time.h>
 #include "NFCDynLib.h"
-#include "NFComm/NFCore/NFSingleton.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Core/NFSingleton.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 class NFCPluginManager
     : public NFIPluginManager,

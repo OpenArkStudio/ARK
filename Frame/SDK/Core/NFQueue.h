@@ -13,7 +13,7 @@
 #include <thread>
 #include <mutex>
 #include <atomic>
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "SDK/Interface/NFPlatform.h"
 
 class NFLock
 {

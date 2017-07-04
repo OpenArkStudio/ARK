@@ -12,10 +12,10 @@
 #include <list>
 #include <iostream>
 #include <algorithm>
-#include "NFComm/NFCore/NFList.h"
-#include "NFComm/NFCore/NFMap.h"
-#include "NFComm/NFCore/NFIObject.h"
-#include "NFComm/NFPluginModule/AFGUID.h"
+#include "SDK/Core/NFList.h"
+#include "SDK/Core/NFMap.h"
+#include "SDK/Core/NFIObject.h"
+#include "SDK/Core/AFGUID.h"
 
 // all object in this group
 /*

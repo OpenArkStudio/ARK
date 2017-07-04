@@ -168,4 +168,7 @@
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ConfigPlugin\ConfigPlugin.vcxproj" />
+  </ItemGroup>
 </Project>

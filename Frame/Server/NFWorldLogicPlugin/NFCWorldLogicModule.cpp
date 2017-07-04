@@ -8,7 +8,7 @@
 
 #include "NFWorldLogicPlugin.h"
 #include "NFCWorldLogicModule.h"
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "SDK/Interface/NFPlatform.h"
 
 bool NFCWorldLogicModule::Init()
 {

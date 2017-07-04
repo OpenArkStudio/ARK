@@ -9,10 +9,10 @@
 #ifndef NFC_LOGINLOGIC_MODULE_H
 #define NFC_LOGINLOGIC_MODULE_H
 
-#include "NFComm/NFCore/NFMap.h"
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFILoginLogicModule.h"
-#include "NFComm/NFPluginModule/NFILoginNet_ServerModule.h"
+#include "SDK/Core/NFMap.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFILoginLogicModule.h"
+#include "SDK/Interface/NFILoginNet_ServerModule.h"
 
 class NFCLoginLogicModule
     : public NFILoginLogicModule

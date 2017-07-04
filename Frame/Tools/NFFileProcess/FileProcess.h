@@ -1,5 +1,5 @@
 #pragma once
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "SDK/Interface/NFPlatform.h"
 #include "tinyxml2.h"
 #include "MiniExcelReader.h"
 #include <algorithm>

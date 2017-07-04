@@ -10,9 +10,9 @@
 #define NFC_SCENE_MODULE_H
 
 #include <iostream>
-#include "NFComm/NFCore/NFIObject.h"
-#include "NFComm/NFPluginModule/AFGUID.h"
-#include "NFComm/NFPluginModule/NFISceneModule.h"
+#include "SDK/Core/NFIObject.h"
+#include "SDK/Core/AFGUID.h"
+#include "SDK/Interface/NFISceneModule.h"
 
 class NFCSceneModule
     : public NFISceneModule
@@ -33,11 +33,6 @@ public:
     virtual bool BeforeShut();
     virtual bool Shut();
     virtual bool Execute();
-
-
-
-protected:
-private:
 };
 
 #endif

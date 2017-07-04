@@ -9,9 +9,9 @@
 #ifndef NFC_WORLDLOGICPLUGIN_MODULE_H
 #define NFC_WORLDLOGICPLUGIN_MODULE_H
 
-#include "NFComm/NFPluginModule/NFPlatform.h"
-#include "NFComm/NFPluginModule/NFIPlugin.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFPlatform.h"
+#include "SDK/Interface/NFIPlugin.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 #ifdef NFWORLDLOGICPLUGIN_EXPORTS
 #define NFWORLDLOGICPLUGIN_API __declspec(dllexport)

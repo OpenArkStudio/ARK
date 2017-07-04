@@ -6,8 +6,8 @@
 // defined with this macro as being exported.
 
 ///
-#include "NFComm/NFPluginModule/NFIPlugin.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/NFIPlugin.h"
+#include "SDK/Interface/NFIPluginManager.h"
 
 #ifdef NFLOGINNET_SERVERPLUGIN_EXPORTS
 #define NFLOGINNET_SERVERPLUGIN_API __declspec(dllexport)

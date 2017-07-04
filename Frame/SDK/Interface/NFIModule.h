@@ -10,12 +10,12 @@
 #define NFI_LOGIC_MODULE_H
 
 #include <string>
-#include "NFComm/NFCore/NFMap.h"
-#include "NFComm/NFCore/NFList.h"
-#include "NFComm/NFCore/NFDefine.h"
-#include "NFComm/NFCore/AFCDataList.h"
-#include "NFComm/NFCore/NFIRecord.h"
-#include "NFComm/NFEventDefine/NFEventDefine.h"
+#include "SDK/Core/NFMap.h"
+#include "SDK/Core/NFList.h"
+#include "SDK/Core/NFDefine.h"
+#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/NFIRecord.h"
+#include "SDK/EventDefine/NFEventDefine.h"
 
 template<typename DerivedType, typename BaseType>
 class TIsDerived

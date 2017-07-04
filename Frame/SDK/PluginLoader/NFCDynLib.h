@@ -11,7 +11,7 @@
 
 #include <stdio.h>
 #include <iostream>
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "SDK/Interface/NFPlatform.h"
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
 #    define DYNLIB_HANDLE hInstance

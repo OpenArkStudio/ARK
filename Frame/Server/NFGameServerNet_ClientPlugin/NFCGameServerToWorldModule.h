@@ -11,17 +11,17 @@
 
 //  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
 #include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "NFComm/NFPluginModule/NFINetModule.h"
-#include "NFComm/NFPluginModule/NFINetClientModule.hpp"
-#include "NFComm/NFPluginModule/NFIGameServerNet_ClientModule.h"
-#include "NFComm/NFPluginModule/NFIGameServerNet_ServerModule.h"
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIGameLogicModule.h"
-#include "NFComm/NFPluginModule/NFINetModule.h"
-#include "NFComm/NFPluginModule/NFIClassModule.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
-#include "NFComm/NFPluginModule/NFILogModule.h"
-#include "NFComm/NFPluginModule/NFIGameServerToWorldModule.h"
+#include "SDK/Interface/NFINetModule.h"
+#include "SDK/Interface/NFINetClientModule.hpp"
+#include "SDK/Interface/NFIGameServerNet_ClientModule.h"
+#include "SDK/Interface/NFIGameServerNet_ServerModule.h"
+#include "SDK/Interface/NFIKernelModule.h"
+#include "SDK/Interface/NFIGameLogicModule.h"
+#include "SDK/Interface/NFINetModule.h"
+#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Interface/NFIElementModule.h"
+#include "SDK/Interface/NFILogModule.h"
+#include "SDK/Interface/NFIGameServerToWorldModule.h"
 
 class NFCGameServerToWorldModule : public NFIGameServerToWorldModule
 {

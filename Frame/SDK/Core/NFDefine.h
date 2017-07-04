@@ -11,7 +11,7 @@
 #include "AFCData.h"
 #include "AFCDataList.h"
 #include "AFGUID.h"
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "SDK/Interface/NFPlatform.h"
 
 namespace ArkFrame
 {
