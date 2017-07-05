@@ -14,8 +14,8 @@
 #include <chrono>
 #include <functional>
 #include <atomic>
-#include "NFCPluginManager.h"
-#include "SDK/Interface/NFPlatform.h"
+#include "AFCPluginManager.h"
+#include "SDK/Interface/AFPlatform.h"
 
 #if NF_PLATFORM == NF_PLATFORM_LINUX
 #include <unistd.h>
@@ -177,13 +177,13 @@ int main(int argc, char* argv[])
             }
         }
 
-        NFCPluginManager::GetSingletonPtr()->SetConfigName(strPluginName);
+        AFCPluginManager::GetSingletonPtr()->SetConfigName(strPluginName);
     }
 
 
-    NFCPluginManager::GetSingletonPtr()->Init();
-    NFCPluginManager::GetSingletonPtr()->AfterInit();
-    NFCPluginManager::GetSingletonPtr()->CheckConfig();
+    AFCPluginManager::GetSingletonPtr()->Init();
+    AFCPluginManager::GetSingletonPtr()->AfterInit();
+    AFCPluginManager::GetSingletonPtr()->CheckConfig();
 
     PrintfLogo();
     CreateBackThread();
@@ -203,7 +203,7 @@ int main(int argc, char* argv[])
             __try
             {
 #endif
-                NFCPluginManager::GetSingletonPtr()->Execute();
+                AFCPluginManager::GetSingletonPtr()->Execute();
 #if NF_PLATFORM == NF_PLATFORM_WIN
             }
             __except(ApplicationCrashHandler(GetExceptionInformation()))
@@ -213,10 +213,10 @@ int main(int argc, char* argv[])
         }
     }
 
-    NFCPluginManager::GetSingletonPtr()->BeforeShut();
-    NFCPluginManager::GetSingletonPtr()->Shut();
+    AFCPluginManager::GetSingletonPtr()->BeforeShut();
+    AFCPluginManager::GetSingletonPtr()->Shut();
 
-    NFCPluginManager::GetSingletonPtr()->ReleaseInstance();
+    AFCPluginManager::GetSingletonPtr()->ReleaseInstance();
 
     return 0;
 }

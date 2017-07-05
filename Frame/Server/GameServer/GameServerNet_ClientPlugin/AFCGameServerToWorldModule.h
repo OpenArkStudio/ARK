@@ -1,32 +1,30 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCGameServerNet_ClientModule.h
+//    @FileName         :    AFCGameServerNet_ClientModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCGameServerNet_ClientModule
+//    @Module           :    AFCGameServerNet_ClientModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#ifndef NFC_GAMESERVER_NETCLIENT_MODULE_H
-#define NFC_GAMESERVER_NETCLIENT_MODULE_H
+#pragma once
 
-//  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
-#include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFINetClientModule.hpp"
-#include "SDK/Interface/NFIGameServerNet_ClientModule.h"
-#include "SDK/Interface/NFIGameServerNet_ServerModule.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIGameLogicModule.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFIGameServerToWorldModule.h"
+#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFINetClientModule.hpp"
+#include "SDK/Interface/AFIGameServerNet_ClientModule.h"
+#include "SDK/Interface/AFIGameServerNet_ServerModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIGameLogicModule.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIGameServerToWorldModule.h"
 
-class NFCGameServerToWorldModule : public NFIGameServerToWorldModule
+class AFCGameServerToWorldModule : public AFIGameServerToWorldModule
 {
 public:
-    NFCGameServerToWorldModule(NFIPluginManager* p)
+    AFCGameServerToWorldModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -36,7 +34,7 @@ public:
     virtual bool AfterInit();
 
     virtual void SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen);
-    virtual NFINetClientModule* GetClusterClientModule();
+    virtual AFINetClientModule* GetClusterClientModule();
 
 protected:
     void OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID);
@@ -46,19 +44,17 @@ protected:
     void RefreshWorldInfo();
     void TransPBToProxy(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
+    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
 
 private:
     void SendOnline(const AFGUID& self);
     void SendOffline(const AFGUID& self);
 
 private:
-    NFILogModule* m_pLogModule;
-    NFIKernelModule* m_pKernelModule;
-    NFIClassModule* m_pClassModule;
-    NFIElementModule* m_pElementModule;
-    NFINetClientModule* m_pNetClientModule;
-    NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
+    AFILogModule* m_pLogModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIClassModule* m_pClassModule;
+    AFIElementModule* m_pElementModule;
+    AFINetClientModule* m_pNetClientModule;
+    AFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
 };
-
-#endif

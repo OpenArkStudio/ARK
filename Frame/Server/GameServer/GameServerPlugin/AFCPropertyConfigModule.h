@@ -1,32 +1,32 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCPropertyConfigModule.h
+//    @FileName         :    AFCPropertyConfigModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-09-30
-//    @Module           :    NFCPropertyConfigModule
+//    @Module           :    AFCPropertyConfigModule
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_PROPERTY_CONFIG_MODULE_H
-#define NFC_PROPERTY_CONFIG_MODULE_H
+#ifndef AFC_PROPERTY_COAFIG_MODULE_H
+#define AFC_PROPERTY_COAFIG_MODULE_H
 
-#include "NFComm/RapidXML/rapidxml.hpp"
-#include "NFComm/RapidXML/rapidxml_iterators.hpp"
-#include "NFComm/RapidXML/rapidxml_print.hpp"
-#include "NFComm/RapidXML/rapidxml_utils.hpp"
-#include "SDK/Interface/NFIPropertyConfigModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
+#include "AFComm/RapidXML/rapidxml.hpp"
+#include "AFComm/RapidXML/rapidxml_iterators.hpp"
+#include "AFComm/RapidXML/rapidxml_print.hpp"
+#include "AFComm/RapidXML/rapidxml_utils.hpp"
+#include "SDK/Interface/AFIPropertyConfigModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Proto/NFProtocolDefine.hpp"
 
-class NFCPropertyConfigModule
-    : public NFIPropertyConfigModule
+class AFCPropertyConfigModule
+    : public AFIPropertyConfigModule
 {
 public:
-    NFCPropertyConfigModule(NFIPluginManager* p)
+    AFCPropertyConfigModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
-    virtual ~NFCPropertyConfigModule() {};
+    virtual ~AFCPropertyConfigModule() {};
 
     virtual bool Init();
     virtual bool Shut();
@@ -42,10 +42,10 @@ protected:
 private:
     //
     //diffent job, diffrent PropertyID[Level->EffectData]
-    NFMapEx<int, NFMapEx<int, std::string> > mhtCoefficienData;
+    AFMapEx<int, AFMapEx<int, std::string> > mhtCoefficienData;
 
-    NFIClassModule* m_pClassModule;
-    NFIElementModule* m_pElementModule;
+    AFIClassModule* m_pClassModule;
+    AFIElementModule* m_pElementModule;
 };
 
 

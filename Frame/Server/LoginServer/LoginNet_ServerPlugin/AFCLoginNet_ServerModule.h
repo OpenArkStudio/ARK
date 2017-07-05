@@ -1,26 +1,26 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCLoginNet_ServerModule.h
+//    @FileName			:    AFCLoginNet_ServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCLoginNet_ServerModule
+//    @Module           :    AFCLoginNet_ServerModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#ifndef NFC_LOGINNET_SERVER_MODULE_H
-#define NFC_LOGINNET_SERVER_MODULE_H
+#ifndef AFC_LOGINNET_SERVER_MODULE_H
+#define AFC_LOGINNET_SERVER_MODULE_H
 
-//  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
-#include "SDK/Core/NFMap.h"
-#include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFILoginNet_ServerModule.h"
-#include "SDK/Interface/NFILoginLogicModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFILoginToMasterModule.h"
-#include "SDK/Interface/NFIUUIDModule.h"
+//  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
+#include "SDK/Core/AFMap.h"
+#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFILoginNet_ServerModule.h"
+#include "SDK/Interface/AFILoginLogicModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFILoginToMasterModule.h"
+#include "SDK/Interface/AFIUUIDModule.h"
 
 #define NET_MSG_PROCESS(xNFMsg, msg) \
     AFGUID nPlayerID; \
@@ -30,18 +30,18 @@
         return 0; \
     } \
     \
-    NFIActorMessage xActorMsg; \
-    xActorMsg.eType = NFIActorMessage::EACTOR_NET_MSG; \
+    AFIActorMessage xActorMsg; \
+    xActorMsg.eType = AFIActorMessage::EACTOR_NET_MSG; \
     xActorMsg.nSubMsgID = nMsgID; \
     xMsg.SerializeToString(&xActorMsg.data); \
     pPluginManager->GetFramework().Send(xActorMsg, pPluginManager->GetAddress(), pPluginManager->GetAddress());
 
-class NFCLoginNet_ServerModule
-    : public NFILoginNet_ServerModule
+class AFCLoginNet_ServerModule
+    : public AFILoginNet_ServerModule
 
 {
 public:
-    NFCLoginNet_ServerModule(NFIPluginManager* p)
+    AFCLoginNet_ServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -84,18 +84,18 @@ protected:
 protected:
     void SynWorldToClient(const int nFD);
 
-    NFMapEx<AFGUID, SessionData> mmClientSessionData;
+    AFMapEx<AFGUID, SessionData> mmClientSessionData;
 
 private:
 
-    NFILoginToMasterModule* m_pLoginToMasterModule;
-    NFIClassModule* m_pClassModule;
-    NFIElementModule* m_pElementModule;
-    NFIKernelModule* m_pKernelModule;
-    NFILogModule* m_pLogModule;
-    NFILoginLogicModule* m_pLoginLogicModule;
-    NFIUUIDModule* m_pUUIDModule;
-	NFINetModule* m_pNetModule;
+    AFILoginToMasterModule* m_pLoginToMasterModule;
+    AFIClassModule* m_pClassModule;
+    AFIElementModule* m_pElementModule;
+    AFIKernelModule* m_pKernelModule;
+    AFILogModule* m_pLogModule;
+    AFILoginLogicModule* m_pLoginLogicModule;
+    AFIUUIDModule* m_pUUIDModule;
+	AFINetModule* m_pNetModule;
 };
 
 #endif

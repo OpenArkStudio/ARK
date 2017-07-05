@@ -6,10 +6,10 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_PROPERTYMANAGER_H
-#define NFC_PROPERTYMANAGER_H
+#ifndef AFC_PROPERTYMANAGER_H
+#define AFC_PROPERTYMANAGER_H
 
-#include "NFDefine.h"
+#include "AFDefine.h"
 #include "AFCDataList.h"
 #include "AFString.hpp"
 #include "AFArrayPod.hpp"
@@ -48,7 +48,7 @@ public:
     bool SetPropertyString(const char* name, const std::string& value);
     bool SetPropertyObject(const char* name, const AFGUID& value);
     bool SetPropertyPoint(const char* name, const Point3D& value);
-    NFINT64 GetPropertyInt(const char* name);
+    AFINT64 GetPropertyInt(const char* name);
     double GetPropertyDouble(const char* name);
     const char* GetPropertyString(const char* name);
     const AFGUID& GetPropertyObject(const char* name);

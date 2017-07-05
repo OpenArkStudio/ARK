@@ -5973,14 +5973,14 @@ public:
     ///         If true is returned that does not mean it has been configured successfully, it only means that it
     ///         has attempeted to configure logger using configuration file provided in argument
     static inline bool configureFromArg(const char* argKey) {
-#if defined(ELPP_DISABLE_CONFIGURATION_FROM_PROGRAM_ARGS)
+#if defined(ELPP_DISABLE_COAFIGURATION_FROM_PROGRAM_ARGS)
         ELPP_UNUSED(argKey);
 #else
         if (!Helpers::commandLineArgs()->hasParamWithValue(argKey)) {
             return false;
         }
         configureFromGlobal(Helpers::commandLineArgs()->getParamValue(argKey));
-#endif  // defined(ELPP_DISABLE_CONFIGURATION_FROM_PROGRAM_ARGS)
+#endif  // defined(ELPP_DISABLE_COAFIGURATION_FROM_PROGRAM_ARGS)
         return true;
     }
     /// @brief Flushes all loggers for all levels - Be careful if you dont know how many loggers are registered

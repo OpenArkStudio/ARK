@@ -1,34 +1,34 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCCreateRoleModule.cpp
+//    @FileName         :    AFCCreateRoleModule.cpp
 //    @Author               :    Ark Game Tech
 //    @Date                 :    2013-03-29
-//    @Module               :    NFCCreateRoleModule
+//    @Module               :    AFCCreateRoleModule
 //    @Desc                 :
 // -------------------------------------------------------------------------
 
 ////#include "stdafx.h"
-#include "NFCCreateRoleModule.h"
+#include "AFCCreateRoleModule.h"
 
 //
 
-int NFCCreateRoleModule::mnConnectContainer = -1;
-int NFCCreateRoleModule::mnRoleHallContainer = -3;
+int AFCCreateRoleModule::mnConnectContainer = -1;
+int AFCCreateRoleModule::mnRoleHallContainer = -3;
 
-NFIGameLogicModule* NFCCreateRoleModule::m_pGameLogicModule = NULL;
-NFIKernelModule* NFCCreateRoleModule::m_pKernelModule = NULL;
-//NFIDataBaseModule* NFCCreateRoleModule::m_pDataBaseModule = NULL;
-NFIDataNoSqlModule* NFCCreateRoleModule::m_pNoSqlModule = NULL;
-NFIEventProcessModule* NFCCreateRoleModule::m_pEventProcessModule = NULL;
-NFIElementInfoModule* NFCCreateRoleModule::m_pElementInfoModule = NULL;
-NFCCreateRoleModule* NFCCreateRoleModule::m_pThis = NULL;
+AFIGameLogicModule* AFCCreateRoleModule::m_pGameLogicModule = NULL;
+AFIKernelModule* AFCCreateRoleModule::m_pKernelModule = NULL;
+//AFIDataBaseModule* AFCCreateRoleModule::m_pDataBaseModule = NULL;
+AFIDataNoSqlModule* AFCCreateRoleModule::m_pNoSqlModule = NULL;
+AFIEventProcessModule* AFCCreateRoleModule::m_pEventProcessModule = NULL;
+AFIElementInfoModule* AFCCreateRoleModule::m_pElementInfoModule = NULL;
+AFCCreateRoleModule* AFCCreateRoleModule::m_pThis = NULL;
 
-bool NFCCreateRoleModule::Init()
+bool AFCCreateRoleModule::Init()
 {
-    m_pEventProcessModule = dynamic_cast<NFIEventProcessModule*>(pPluginManager->FindModule("NFCEventProcessModule"));
-    m_pNoSqlModule = dynamic_cast<NFIDataNoSqlModule*>(pPluginManager->FindModule("NFCDataNoSqlModule"));
-    m_pKernelModule = dynamic_cast<NFIKernelModule*>(pPluginManager->FindModule("NFCKernelModule"));
-    m_pElementInfoModule = dynamic_cast<NFIElementInfoModule*>(pPluginManager->FindModule("NFCElementInfoModule"));
-    m_pGameLogicModule = dynamic_cast<NFIGameLogicModule*>(pPluginManager->FindModule("NFCGameLogicModule"));
+    m_pEventProcessModule = dynamic_cast<AFIEventProcessModule*>(pPluginManager->FindModule("AFCEventProcessModule"));
+    m_pNoSqlModule = dynamic_cast<AFIDataNoSqlModule*>(pPluginManager->FindModule("AFCDataNoSqlModule"));
+    m_pKernelModule = dynamic_cast<AFIKernelModule*>(pPluginManager->FindModule("AFCKernelModule"));
+    m_pElementInfoModule = dynamic_cast<AFIElementInfoModule*>(pPluginManager->FindModule("AFCElementInfoModule"));
+    m_pGameLogicModule = dynamic_cast<AFIGameLogicModule*>(pPluginManager->FindModule("AFCGameLogicModule"));
 
     assert(NULL != m_pElementInfoModule);
     assert(NULL != m_pEventProcessModule);
@@ -44,17 +44,17 @@ bool NFCCreateRoleModule::Init()
     return true;
 }
 
-bool NFCCreateRoleModule::Shut()
+bool AFCCreateRoleModule::Shut()
 {
     return true;
 }
 
-bool NFCCreateRoleModule::Execute(const float fLasFrametime, const float fStartedTime)
+bool AFCCreateRoleModule::Execute(const float fLasFrametime, const float fStartedTime)
 {
     return true;
 }
 
-int NFCCreateRoleModule::OnLoadRoleFinalEvent(const NFIDENTID& object, const int nEventID, const NFIValueList& var)
+int AFCCreateRoleModule::OnLoadRoleFinalEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var)
 {
     if (9 != var.GetCount())
     {
@@ -63,7 +63,7 @@ int NFCCreateRoleModule::OnLoadRoleFinalEvent(const NFIDENTID& object, const int
 
     //赋予属性
     const char* pstrAccount = var.StringVal(0);
-    NFCValueList valueInfo;
+    AFCValueList valueInfo;
     valueInfo << pstrAccount;
 
     int nCount = 0;
@@ -73,8 +73,8 @@ int NFCCreateRoleModule::OnLoadRoleFinalEvent(const NFIDENTID& object, const int
         if (strlen(pstrRoleName) > 0)
         {
             //看容器中是否已经存在，存在则不创建
-            NFCValueList varHallObjectList;
-            NFCValueList varHalvalueInfo;
+            AFCValueList varHallObjectList;
+            AFCValueList varHalvalueInfo;
             varHalvalueInfo << pstrRoleName;
             int nHallObjectCount = m_pKernelModule->GetObjectByProperty(mnRoleHallContainer, "RoleName", varHalvalueInfo, varHallObjectList);
             if (nHallObjectCount > 0)
@@ -89,12 +89,12 @@ int NFCCreateRoleModule::OnLoadRoleFinalEvent(const NFIDENTID& object, const int
 
             GTProperty* gtPproperty = m_pElementInfoModule->GetPropertyManager("Scene0")->GetElement("RelivePos");
             const char* pstrRelivePos = gtPproperty->QueryString();
-            NFCValueList valueRelivePos(pstrRelivePos, ",");
+            AFCValueList valueRelivePos(pstrRelivePos, ",");
 
             char szConfigIindex[MAX_PATH] = { 0 };
             sprintf(szConfigIindex, "%d", var.IntVal(i + 1));
 
-            NFCValueList arg;
+            AFCValueList arg;
             arg << "Account" << pstrAccount;
             arg << "RoleName" << pstrRoleName;
             arg << "SceneID" << mnRoleHallContainer;
@@ -114,7 +114,7 @@ int NFCCreateRoleModule::OnLoadRoleFinalEvent(const NFIDENTID& object, const int
     return 0;
 }
 
-bool NFCCreateRoleModule::AfterInit()
+bool AFCCreateRoleModule::AfterInit()
 {
     m_pKernelModule->CreateContainer(mnRoleHallContainer, "");
 
@@ -123,7 +123,7 @@ bool NFCCreateRoleModule::AfterInit()
     return true;
 }
 
-int NFCCreateRoleModule::OnCreateRoleEvent(const NFIDENTID& object, const int nEventID, const NFIValueList& var)
+int AFCCreateRoleModule::OnCreateRoleEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var)
 {
     if (6 != var.GetCount())
     {
@@ -138,7 +138,7 @@ int NFCCreateRoleModule::OnCreateRoleEvent(const NFIDENTID& object, const int nE
     int nRoleRace = var.IntVal(4);
     int nRoleCamp = var.IntVal(5);
 
-    NFCValueList roleLlist;
+    AFCValueList roleLlist;
     if (m_pNoSqlModule->QueryAccountRoleList(pstrAccountName, roleLlist) >= 4)
         //if (m_pDataBaseModule->QueryAccountRoleList(pstrAccountName, roleLlist) >= 4)
     {
@@ -153,8 +153,8 @@ int NFCCreateRoleModule::OnCreateRoleEvent(const NFIDENTID& object, const int nE
         return 0;
     }
 
-    NFCValueList varPropertyKeyList;
-    NFCValueList varPropertyValueList;
+    AFCValueList varPropertyKeyList;
+    AFCValueList varPropertyValueList;
 
     varPropertyKeyList << "RoleName"
                        << "Sex"
@@ -192,7 +192,7 @@ int NFCCreateRoleModule::OnCreateRoleEvent(const NFIDENTID& object, const int nE
                 continue;
             }
             //这个属性RoleName是玩家的，因此，这里不能有RoleName
-            const NFIValueList& valueList = pConfigPropertyInfo->GetValue();
+            const AFIValueList& valueList = pConfigPropertyInfo->GetValue();
 
 
             if (0 != strcmp(pConfigPropertyInfo->GetKey(), "RoleName")
@@ -236,9 +236,9 @@ int NFCCreateRoleModule::OnCreateRoleEvent(const NFIDENTID& object, const int nE
     //////////////////////////////////////////////////////////////////////////
     GTProperty* gtPproperty = m_pElementInfoModule->GetPropertyManager("Scene0")->GetElement("RelivePos");
     const char* pstrRelivePos = gtPproperty->QueryString();
-    NFCValueList valueRelivePos(pstrRelivePos, ",");
+    AFCValueList valueRelivePos(pstrRelivePos, ",");
 
-    NFCValueList arg;
+    AFCValueList arg;
     arg << "Account" << pstrAccountName;
     arg << "RoleName" << pstrRoleName;
     arg << "SceneID" << mnRoleHallContainer;
@@ -247,12 +247,12 @@ int NFCCreateRoleModule::OnCreateRoleEvent(const NFIDENTID& object, const int nE
     arg << "Z" << atof(valueRelivePos.StringVal(2));
     m_pKernelModule->CreateObject(0, mnRoleHallContainer, 0, "Player", szConfigName, arg);
     //nosql 则不需要这样了
-    //m_pEventProcessModule->DoEvent(0, NFED_ON_DATABASE_SERVER_LOADROE_BEGIN, NFCValueList() << pstrAccountName);
+    //m_pEventProcessModule->DoEvent(0, NFED_ON_DATABASE_SERVER_LOADROE_BEGIN, AFCValueList() << pstrAccountName);
 
     return 0;
 }
 
-int NFCCreateRoleModule::OnDeleteRoleEvent(const NFIDENTID& object, const int nEventID, const NFIValueList& var)
+int AFCCreateRoleModule::OnDeleteRoleEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var)
 {
     if (2 != var.GetCount())
     {
@@ -262,26 +262,26 @@ int NFCCreateRoleModule::OnDeleteRoleEvent(const NFIDENTID& object, const int nE
     const char* pstrAccountName = var.StringVal(0);
     const char* pstrRoleName = var.StringVal(1);
 
-    NFCValueList valObjctList;
-    m_pKernelModule->GetObjectByProperty(mnRoleHallContainer, "RoleName", NFCValueList() << pstrRoleName, valObjctList);
+    AFCValueList valObjctList;
+    m_pKernelModule->GetObjectByProperty(mnRoleHallContainer, "RoleName", AFCValueList() << pstrRoleName, valObjctList);
     if (valObjctList.GetCount() == 1)
     {
         m_pNoSqlModule->DeleteRole(pstrAccountName, pstrRoleName);
         //m_pDataBaseModule->DeleteRole(pstrAccountName, pstrRoleName);
         m_pKernelModule->DestroyObject(valObjctList.ObjectVal(0));
-        //m_pEventProcessModule->DoEvent( 0, NFED_ON_CLIENT_DELETEROLE_RESULTS, NFCValueList() << pstrAccountName << pstrRoleName );
+        //m_pEventProcessModule->DoEvent( 0, NFED_ON_CLIENT_DELETEROLE_RESULTS, AFCValueList() << pstrAccountName << pstrRoleName );
     }
 
     return 0;
 }
 
-int NFCCreateRoleModule::OnAcountDisConnectEvent(const NFIDENTID& object, const int nEventID, const NFIValueList& var)
+int AFCCreateRoleModule::OnAcountDisConnectEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var)
 {
     if (var.GetCount() == 3)
     {
         const char* pstrAccount = var.StringVal(0);
         const char* pstrRoleName = var.StringVal(1);
-        NFIDENTID ident = var.ObjectVal(2);
+        AFIDENTID ident = var.ObjectVal(2);
 
         if (strlen(pstrAccount) > 0)
         {
@@ -294,14 +294,14 @@ int NFCCreateRoleModule::OnAcountDisConnectEvent(const NFIDENTID& object, const 
                 }
                 else
                 {
-                    NFCValueList varHallObjectList;
-                    NFCValueList varHalvalueInfo;
+                    AFCValueList varHallObjectList;
+                    AFCValueList varHalvalueInfo;
                     varHalvalueInfo << pstrAccount;
 
                     int nHallObjectCount = m_pKernelModule->GetObjectByProperty(mnRoleHallContainer, "Account", varHalvalueInfo, varHallObjectList);
                     for (int i  = 0; i < varHallObjectList.GetCount(); i++)
                     {
-                        NFIDENTID identHall = varHallObjectList.ObjectVal(i);
+                        AFIDENTID identHall = varHallObjectList.ObjectVal(i);
                         if (ident.nSerial == m_pGameLogicModule->GetGameID()
                             && m_pKernelModule->GetObject(identHall))
                         {
@@ -316,11 +316,11 @@ int NFCCreateRoleModule::OnAcountDisConnectEvent(const NFIDENTID& object, const 
     return 0;
 }
 
-int NFCCreateRoleModule::OnLoadRoleBeginEvent(const NFIDENTID& object, const int nEventID, const NFIValueList& var)
+int AFCCreateRoleModule::OnLoadRoleBeginEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var)
 {
     //直接从NOSQL数据库拉
     const char* pstrAccount = var.StringVal(0);
-    NFCValueList roleLlist;
+    AFCValueList roleLlist;
     if (m_pNoSqlModule->QueryAccountRoleList(pstrAccount, roleLlist) > 0)
     {
         for (int i = 0; i < roleLlist.GetCount(); i++)
@@ -329,8 +329,8 @@ int NFCCreateRoleModule::OnLoadRoleBeginEvent(const NFIDENTID& object, const int
             if (strlen(pstrRoleName) > 0)
             {
                 //看容器中是否已经存在，存在则不创建
-                NFCValueList varHallObjectList;
-                NFCValueList varHalvalueInfo;
+                AFCValueList varHallObjectList;
+                AFCValueList varHalvalueInfo;
                 varHalvalueInfo << pstrRoleName;
                 int nHallObjectCount = m_pKernelModule->GetObjectByProperty(mnRoleHallContainer, "RoleName", varHalvalueInfo, varHallObjectList);
                 if (nHallObjectCount > 0)
@@ -344,12 +344,12 @@ int NFCCreateRoleModule::OnLoadRoleBeginEvent(const NFIDENTID& object, const int
 
                 GTProperty* gtPproperty = m_pElementInfoModule->GetPropertyManager("Scene0")->GetElement("RelivePos");
                 const char* pstrRelivePos = gtPproperty->QueryString();
-                NFCValueList valueRelivePos(pstrRelivePos, ",");
+                AFCValueList valueRelivePos(pstrRelivePos, ",");
 
                 char szConfigIindex[MAX_PATH] = { 0 };
                 sprintf(szConfigIindex, "%d", var.IntVal(i + 1));
 
-                NFCValueList arg;
+                AFCValueList arg;
                 arg << "Account" << pstrAccount;
                 arg << "RoleName" << pstrRoleName;
                 arg << "SceneID" << mnRoleHallContainer;

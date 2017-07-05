@@ -11,15 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AFCClassModule.cpp" />
+    <ClCompile Include="AFCElementModule.cpp" />
+    <ClCompile Include="AFConfigPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="NFCClassModule.cpp" />
-    <ClCompile Include="NFCElementModule.cpp" />
-    <ClCompile Include="NFConfigPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NFCClassModule.h" />
-    <ClInclude Include="NFCElementModule.h" />
-    <ClInclude Include="NFConfigPlugin.h" />
+    <ClInclude Include="AFCClassModule.h" />
+    <ClInclude Include="AFCElementModule.h" />
+    <ClInclude Include="AFConfigPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{79DD0147-06CD-4F60-A8A5-19E2962B3D56}</ProjectGuid>

@@ -1,20 +1,20 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCProxyPlugin.h
+//    @FileName			:    AFCProxyPlugin.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-05-06
-//    @Module           :    NFCProxyPlugin
+//    @Module           :    AFCProxyPlugin
 //
 // -------------------------------------------------------------------------
 
 
-#include "NFCProxyLogicPlugin.h"
-#include "NFCProxyLogicModule.h"
+#include "AFCProxyLogicPlugin.h"
+#include "AFCProxyLogicModule.h"
 
 //
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 #if NF_PLATFORM == NF_PLATFORM_WIN
     SetConsoleTitle("NFProxyServer");
@@ -23,7 +23,7 @@ NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
 
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFProxyLogicPlugin)
 };
@@ -44,11 +44,11 @@ const std::string NFProxyLogicPlugin::GetPluginName()
 void NFProxyLogicPlugin::Install()
 {
 
-    REGISTER_MODULE(pPluginManager, NFIProxyLogicModule, NFCProxyLogicModule)
+    REGISTER_MODULE(pPluginManager, AFIProxyLogicModule, AFCProxyLogicModule)
 
 }
 
 void NFProxyLogicPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIProxyLogicModule, NFCProxyLogicModule)
+    UNREGISTER_MODULE(pPluginManager, AFIProxyLogicModule, AFCProxyLogicModule)
 }

@@ -1,42 +1,42 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCPropertyConfigModule.cpp
+//    @FileName			:    AFCPropertyConfigModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-09-30
-//    @Module           :    NFCPropertyConfigModule
+//    @Module           :    AFCPropertyConfigModule
 //
 // -------------------------------------------------------------------------
 
-#include "NFCPropertyConfigModule.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "AFCPropertyConfigModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
-bool NFCPropertyConfigModule::Init()
+bool AFCPropertyConfigModule::Init()
 {
     return true;
 }
 
-bool NFCPropertyConfigModule::Shut()
+bool AFCPropertyConfigModule::Shut()
 {
     return true;
 }
 
-bool NFCPropertyConfigModule::Execute()
+bool AFCPropertyConfigModule::Execute()
 {
     return true;
 }
 
-bool NFCPropertyConfigModule::AfterInit()
+bool AFCPropertyConfigModule::AfterInit()
 {
-    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
 
     Load();
 
     return true;
 }
 
-int NFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty)
+int AFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty)
 {
-	NF_SHARE_PTR <NFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
+	NF_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
 	if (xPropertyMap)
 	{
 		NF_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
@@ -49,9 +49,9 @@ int NFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel
     return 0;
 }
 
-void NFCPropertyConfigModule::Load()
+void AFCPropertyConfigModule::Load()
 {
-    NF_SHARE_PTR<NFIClass> pLogicClass = m_pClassModule->GetElement(NFrame::InitProperty::ThisName());
+    NF_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->GetElement(NFrame::InitProperty::ThisName());
     if (nullptr != pLogicClass)
     {
         NFList<std::string>& xList = pLogicClass->GetConfigNameList();
@@ -59,17 +59,17 @@ void NFCPropertyConfigModule::Load()
         bool bRet = xList.First(strData);
         while (bRet)
         {
-            NF_SHARE_PTR<NFIPropertyManager> pPropertyManager = m_pElementModule->GetPropertyManager(strData);
+            NF_SHARE_PTR<AFIPropertyManager> pPropertyManager = m_pElementModule->GetPropertyManager(strData);
             if (nullptr != pPropertyManager)
             {
                 int nJob = m_pElementModule->GetPropertyInt(strData, NFrame::InitProperty::Job());
                 int nLevel = m_pElementModule->GetPropertyInt(strData, NFrame::InitProperty::Level());
                 std::string strEffectData = m_pElementModule->GetPropertyString(strData, NFrame::InitProperty::EffectData());
 
-				NF_SHARE_PTR <NFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
+				NF_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
 				if (!xPropertyMap)
 				{
-					xPropertyMap = NF_SHARE_PTR<NFMapEx<int, std::string>>(NF_NEW NFMapEx<int, std::string>());
+					xPropertyMap = NF_SHARE_PTR<AFMapEx<int, std::string>>(NF_NEW AFMapEx<int, std::string>());
 					mhtCoefficienData.AddElement(nJob, xPropertyMap);
 
 					NF_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
@@ -86,9 +86,9 @@ void NFCPropertyConfigModule::Load()
     }
 }
 
-bool NFCPropertyConfigModule::LegalLevel(const int nJob, const int nLevel)
+bool AFCPropertyConfigModule::LegalLevel(const int nJob, const int nLevel)
 {
-	NF_SHARE_PTR <NFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
+	NF_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
 	if (xPropertyMap)
 	{
 		NF_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);

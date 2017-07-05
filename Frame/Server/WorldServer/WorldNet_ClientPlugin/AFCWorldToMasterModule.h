@@ -1,31 +1,31 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCLoginNet_ServerModule.h
+//    @FileName			:    AFCLoginNet_ServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCLoginNet_ServerModule
+//    @Module           :    AFCLoginNet_ServerModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#ifndef NFC_WORLDNET_CLIENT_MODULE_H
-#define NFC_WORLDNET_CLIENT_MODULE_H
+#ifndef AFC_WORLDNET_CLIENT_MODULE_H
+#define AFC_WORLDNET_CLIENT_MODULE_H
 
-//  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
+//  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
 
-#include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "SDK/Interface/NFIWorldToMasterModule.h"
-#include "SDK/Interface/NFIWorldLogicModule.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFIWorldNet_ServerModule.h"
-#include "SDK/Interface/NFINetClientModule.hpp"
+#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Interface/AFIWorldToMasterModule.h"
+#include "SDK/Interface/AFIWorldLogicModule.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIWorldNet_ServerModule.h"
+#include "SDK/Interface/AFINetClientModule.hpp"
 
-class NFCWorldToMasterModule
-    : public NFIWorldToMasterModule
+class AFCWorldToMasterModule
+    : public AFIWorldToMasterModule
 {
 public:
-    NFCWorldToMasterModule(NFIPluginManager* p)
+    AFCWorldToMasterModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -57,12 +57,12 @@ protected:
 	void InvalidMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 private:
 
-    NFILogModule* m_pLogModule;
-    NFIElementModule* m_pElementModule;
-    NFIClassModule* m_pClassModule;
-    NFIWorldLogicModule* m_pWorldLogicModule;
-    NFIWorldNet_ServerModule* m_pWorldNet_ServerModule;
-	NFINetClientModule* m_pNetClientModule;
+    AFILogModule* m_pLogModule;
+    AFIElementModule* m_pElementModule;
+    AFIClassModule* m_pClassModule;
+    AFIWorldLogicModule* m_pWorldLogicModule;
+    AFIWorldNet_ServerModule* m_pWorldNet_ServerModule;
+	AFINetClientModule* m_pNetClientModule;
 };
 
 #endif

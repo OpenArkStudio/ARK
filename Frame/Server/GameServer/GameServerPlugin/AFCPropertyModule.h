@@ -1,32 +1,32 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCPropertyModule.h
+//    @FileName			:    AFCPropertyModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-07-05
-//    @Module           :    NFCPropertyModule
+//    @Module           :    AFCPropertyModule
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_PROPERTY_MODULE_H
-#define NFC_PROPERTY_MODULE_H
+#ifndef AFC_PROPERTY_MODULE_H
+#define AFC_PROPERTY_MODULE_H
 
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIGameLogicModule.h"
-#include "SDK/Interface/NFIPropertyModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFIPropertyConfigModule.h"
-#include "SDK/Interface/NFIPluginManager.h"
-#include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
-#include "SDK/Interface/NFILevelModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIGameLogicModule.h"
+#include "SDK/Interface/AFIPropertyModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIPropertyConfigModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Proto/NFProtocolDefine.hpp"
+#include "SDK/Interface/AFILevelModule.h"
 
-class NFCPropertyModule : public NFIPropertyModule
+class AFCPropertyModule : public AFIPropertyModule
 {
 public:
-    NFCPropertyModule(NFIPluginManager* p)
+    AFCPropertyModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
-    virtual ~NFCPropertyModule() {};
+    virtual ~AFCPropertyModule() {};
 
     virtual bool Init();
     virtual bool Shut();
@@ -42,40 +42,40 @@ public:
     virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
 
     virtual bool FullHPMP(const AFGUID& self);
-    virtual bool AddHP(const AFGUID& self, const NFINT64& nValue);
-    virtual bool ConsumeHP(const AFGUID& self, const NFINT64& nValue);
-    virtual bool EnoughHP(const AFGUID& self, const NFINT64& nValue);
+    virtual bool AddHP(const AFGUID& self, const AFINT64& nValue);
+    virtual bool ConsumeHP(const AFGUID& self, const AFINT64& nValue);
+    virtual bool EnoughHP(const AFGUID& self, const AFINT64& nValue);
 
-    virtual bool AddMP(const AFGUID& self, const NFINT64& nValue);
-    virtual bool ConsumeMP(const AFGUID& self, const NFINT64& nValue);
-    virtual bool EnoughMP(const AFGUID& self, const NFINT64& nValue);
+    virtual bool AddMP(const AFGUID& self, const AFINT64& nValue);
+    virtual bool ConsumeMP(const AFGUID& self, const AFINT64& nValue);
+    virtual bool EnoughMP(const AFGUID& self, const AFINT64& nValue);
 
     virtual bool FullSP(const AFGUID& self);
-    virtual bool AddSP(const AFGUID& self, const NFINT64& nValue);
-    virtual bool ConsumeSP(const AFGUID& self, const NFINT64& nValue);
-    virtual bool EnoughSP(const AFGUID& self, const NFINT64& nValue);
+    virtual bool AddSP(const AFGUID& self, const AFINT64& nValue);
+    virtual bool ConsumeSP(const AFGUID& self, const AFINT64& nValue);
+    virtual bool EnoughSP(const AFGUID& self, const AFINT64& nValue);
 
-    virtual bool AddMoney(const AFGUID& self, const NFINT64& nValue);
-    virtual bool ConsumeMoney(const AFGUID& self, const NFINT64& nValue);
-    virtual bool EnoughMoney(const AFGUID& self, const NFINT64& nValue);
+    virtual bool AddMoney(const AFGUID& self, const AFINT64& nValue);
+    virtual bool ConsumeMoney(const AFGUID& self, const AFINT64& nValue);
+    virtual bool EnoughMoney(const AFGUID& self, const AFINT64& nValue);
 
-    virtual bool AddDiamond(const AFGUID& self, const NFINT64& nValue);
-    virtual bool ConsumeDiamond(const AFGUID& self, const NFINT64& nValue);
-    virtual bool EnoughDiamond(const AFGUID& self, const NFINT64& nValue);
+    virtual bool AddDiamond(const AFGUID& self, const AFINT64& nValue);
+    virtual bool ConsumeDiamond(const AFGUID& self, const AFINT64& nValue);
+    virtual bool EnoughDiamond(const AFGUID& self, const AFINT64& nValue);
 
 protected:
-    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
+    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
 
-    int OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar);
 
-    int OnRecordPropertyEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnRecordPropertyEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar);
 
 private:
-    NFIKernelModule* m_pKernelModule;
-    NFIPropertyConfigModule* m_pPropertyConfigModule;
-    NFIElementModule* m_pElementModule;
-    NFIClassModule* m_pClassModule;
-    NFILevelModule* m_pLevelModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIPropertyConfigModule* m_pPropertyConfigModule;
+    AFIElementModule* m_pElementModule;
+    AFIClassModule* m_pClassModule;
+    AFILevelModule* m_pLevelModule;
 };
 
 

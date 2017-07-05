@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "AFGUID.h"
+#include "SDK/Core/AFGUID.h"
 
 namespace ArkFrame
 {

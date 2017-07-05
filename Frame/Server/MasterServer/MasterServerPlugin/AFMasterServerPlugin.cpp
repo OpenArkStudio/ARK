@@ -7,14 +7,14 @@
 // -------------------------------------------------------------------------
 
 
-#include "NFCMasterModule.h"
+#include "AFCMasterModule.h"
 #include "NFMasterServerPlugin.h"
 
 //
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 #if NF_PLATFORM == NF_PLATFORM_WIN
     SetConsoleTitle("NFMasterServer");
@@ -25,7 +25,7 @@ NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
     //std::cout << "DllStartPlugin::thread id=" << GetCurrentThreadId() << std::endl;
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFMasterServerPlugin)
 };
@@ -45,12 +45,12 @@ const std::string NFMasterServerPlugin::GetPluginName()
 
 void NFMasterServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFIMasterModule, NFCMasterModule)
+    REGISTER_MODULE(pPluginManager, AFIMasterModule, AFCMasterModule)
 
 
 }
 
 void NFMasterServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIMasterModule, NFCMasterModule)
+    UNREGISTER_MODULE(pPluginManager, AFIMasterModule, AFCMasterModule)
 }

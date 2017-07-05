@@ -1,5 +1,5 @@
 #include "HelloWorld3Module.h"
-#include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
+#include "SDK/Proto/NFProtocolDefine.hpp"
 
 bool HelloWorld3Module::Init()
 {
@@ -9,7 +9,7 @@ bool HelloWorld3Module::Init()
     return true;
 }
 
-int HelloWorld3Module::OnEvent(const AFGUID& self, const int event, const AFDataList& arg)
+int HelloWorld3Module::OnEvent(const AFGUID& self, const int event, const AFIDataList& arg)
 {
     //事件回调函数
     std::cout << "OnEvent EventID: " << event << " self: " << self.nData64 << " argList: " << arg.Int(0) << " " << " " << arg.String(1) << std::endl;
@@ -32,7 +32,7 @@ int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHea
     return 0;
 }
 
-int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFDataList& arg)
+int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFIDataList& arg)
 {
     //虚拟类事件，只要有此虚拟类创建或者销毁即会回调
     std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.nData64 << " Event: " << event << std::endl;
@@ -49,7 +49,7 @@ int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::strin
     return 0;
 }
 
-int HelloWorld3Module::OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
+int HelloWorld3Module::OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar)
 {
     //属性回调事件，只要属性值内容有变化，就会被回调
     std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt() << std::endl;
@@ -57,7 +57,7 @@ int HelloWorld3Module::OnPropertyCallBackEvent(const AFGUID& self, const std::st
     return 0;
 }
 
-int HelloWorld3Module::OnPropertyStrCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVar, const AFDataList::TData& newVar)
+int HelloWorld3Module::OnPropertyStrCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar)
 {
     //属性回调事件，只要属性值内容有变化，就会被回调
     std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetString() << " NewValue: " << newVar.GetString() << std::endl;
@@ -70,8 +70,8 @@ bool HelloWorld3Module::AfterInit()
     //初始化完毕
     std::cout << "Hello, world3, AfterInit" << std::endl;
 
-    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
 
     //创建容器，所有的对象均需在容器中
     m_pKernelModule->CreateScene(1);
@@ -79,7 +79,7 @@ bool HelloWorld3Module::AfterInit()
     m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
 
     //创建对象，挂类回调和属性回调,然后事件处理对象
-    NF_SHARE_PTR<NFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, NFrame::Player::ThisName(), "", AFDataList());
+    NF_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, NFrame::Player::ThisName(), "", AFIDataList());
     if(nullptr == pObject)
     {
         return false;
@@ -94,21 +94,21 @@ bool HelloWorld3Module::AfterInit()
     pObject->SetPropertyString("Hello", "hello,World");
     pObject->SetPropertyInt("World", 1111);
 
-    m_pKernelModule->DoEvent(pObject->Self(), 11111111, AFDataList() << int(100) << "200");
+    m_pKernelModule->DoEvent(pObject->Self(), 11111111, AFIDataList() << int(100) << "200");
 
 
     //for(int i = 0; i < 100000; ++i)
     //{
-    //    AFDataList testData;
+    //    AFIDataList testData;
     //    testData << 1 << 5656.22f << "sdfgsdgsdfsdfds" << AFGUID(33, 55) << Point3D(1, 3, 4);
 
-    //    AFDataList testData2;
+    //    AFIDataList testData2;
     //    testData2 << 1 << 5656.22f << "sdfgsdgsdfsdfds" << AFGUID(33, 55) << Point3D(1, 3, 4);
 
 
     //    testData2.Append(testData);
 
-    //    AFDataList testData3;
+    //    AFIDataList testData3;
 
     //    testData3 = testData2;
 

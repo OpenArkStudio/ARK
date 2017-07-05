@@ -1,25 +1,25 @@
 
-#include "NFCNet.h"
+#include "AFCNet.h"
 #include <thread>
 #include <string>
-#include "NFComm/NFCore/NFTimer.h"
-#include "NFCMulNet.h"
+#include "SDK/Core/NFTimer.h"
+#include "AFCMulNet.h"
 #pragma comment(lib,"ws2_32.lib")
 
 #ifdef NF_DEBUG_MODE
 #pragma comment(lib,"NFNet_d.lib")
-#pragma comment(lib,"NFCore_d.lib")
+#pragma comment(lib,"AFCore_d.lib")
 #else
 #pragma comment(lib,"NFNet.lib")
-#pragma comment(lib,"NFCore.lib")
+#pragma comment(lib,"AFCore.lib")
 #endif
 class TestClientClass
 {
 public:
     TestClientClass(const int nID)
     {
-        pNet = new NFCNet(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
-        //pNet = new NFCMulNet(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
+        pNet = new AFCNet(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
+        //pNet = new AFCMulNet(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
         pNet->Initialization("192.168.1.124", 8088, 1);
 		bConnected = false;
         nSendMsgCount = 0;
@@ -70,7 +70,7 @@ public:
     bool mbTestSendMsg;
 
 protected:
-    NFINet* pNet;
+    AFINet* pNet;
 	bool bConnected;
     int nSendMsgCount;
     int nReciveMsgCount;

@@ -2,19 +2,19 @@
 //
 
 #include "NFWorldNet_ServerPlugin.h"
-#include "NFCWorldNet_ServerModule.h"
+#include "AFCWorldNet_ServerModule.h"
 
 //
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
     CREATE_PLUGIN(pm, NFWorldNet_ServerPlugin)
 
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFWorldNet_ServerPlugin)
 };
@@ -34,10 +34,10 @@ const std::string NFWorldNet_ServerPlugin::GetPluginName()
 
 void NFWorldNet_ServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFIWorldNet_ServerModule, NFCWorldNet_ServerModule)
+    REGISTER_MODULE(pPluginManager, AFIWorldNet_ServerModule, AFCWorldNet_ServerModule)
 }
 
 void NFWorldNet_ServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIWorldNet_ServerModule, NFCWorldNet_ServerModule)
+    UNREGISTER_MODULE(pPluginManager, AFIWorldNet_ServerModule, AFCWorldNet_ServerModule)
 }

@@ -1,14 +1,14 @@
 // -------------------------------------------------------------------------
-//    @FileName      :    NFCEventRouteModule.cpp
+//    @FileName      :    AFCEventRouteModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2015-01-02
-//    @Module           :    NFCEventRouteModule
+//    @Module           :    AFCEventRouteModule
 //
 // -------------------------------------------------------------------------
 
-#include "NFCEventRouteModule.h"
+#include "AFCEventRouteModule.h"
 
-bool NFCEventRouteModule::Init()
+bool AFCEventRouteModule::Init()
 {
 
 
@@ -16,22 +16,22 @@ bool NFCEventRouteModule::Init()
 }
 
 
-bool NFCEventRouteModule::Shut()
+bool AFCEventRouteModule::Shut()
 {
     return true;
 }
 
-bool NFCEventRouteModule::Execute(const float fLasFrametime, const float fStartedTime)
+bool AFCEventRouteModule::Execute(const float fLasFrametime, const float fStartedTime)
 {
     //Œª÷√ƒÿ
     return true;
 }
 
-bool NFCEventRouteModule::AfterInit()
+bool AFCEventRouteModule::AfterInit()
 {
-    m_pEventProcessModule = dynamic_cast<NFIEventProcessModule*>(pPluginManager->FindModule("NFCEventProcessModule"));
-    m_pKernelModule = dynamic_cast<NFIKernelModule*>(pPluginManager->FindModule("NFCKernelModule"));
-    m_pLogModule = dynamic_cast<NFILogModule*>(pPluginManager->FindModule("NFCLogModule"));
+    m_pEventProcessModule = dynamic_cast<AFIEventProcessModule*>(pPluginManager->FindModule("AFCEventProcessModule"));
+    m_pKernelModule = dynamic_cast<AFIKernelModule*>(pPluginManager->FindModule("AFCKernelModule"));
+    m_pLogModule = dynamic_cast<AFILogModule*>(pPluginManager->FindModule("AFCLogModule"));
 
     assert(NULL != m_pEventProcessModule);
     assert(NULL != m_pKernelModule);
@@ -41,12 +41,12 @@ bool NFCEventRouteModule::AfterInit()
     return true;
 }
 
-bool NFCEventRouteModule::StartRouteEvent(const NFIDENTID& self, const NFIDataList& xDataList)
+bool AFCEventRouteModule::StartRouteEvent(const AFIDENTID& self, const AFIDataList& xDataList)
 {
     return false;
 }
 
-bool NFCEventRouteModule::ReceiveRouteEvent(const NFIDENTID& self, const NFIDataList& xDataList)
+bool AFCEventRouteModule::ReceiveRouteEvent(const AFIDENTID& self, const AFIDataList& xDataList)
 {
     return false;
 }
