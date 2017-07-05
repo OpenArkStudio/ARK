@@ -9,13 +9,13 @@
 #ifndef NF_TUTORIAL1_H
 #define NF_TUTORIAL1_H
 
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
-class Tutorial1 : public NFIPlugin
+class Tutorial1 : public AFIPlugin
 {
 public:
-    Tutorial1(NFIPluginManager* p)
+    Tutorial1(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

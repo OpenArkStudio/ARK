@@ -1,46 +1,46 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCSceneProcessModule.cpp
+//    @FileName         :    AFCSceneProcessModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-04-14
-//    @Module           :    NFCSceneProcessModule
+//    @Module           :    AFCSceneProcessModule
 //
 // -------------------------------------------------------------------------
 
-#include "NFCSceneProcessModule.h"
-#include "SDK/Core/NFTime.h"
-#include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
+#include "AFCSceneProcessModule.h"
+#include "SDK/Core/AFTime.h"
+#include "SDK/Proto/NFProtocolDefine.hpp"
 
-bool NFCSceneProcessModule::Init()
+bool AFCSceneProcessModule::Init()
 {
     return true;
 }
 
-bool NFCSceneProcessModule::Shut()
+bool AFCSceneProcessModule::Shut()
 {
     return true;
 }
 
-bool NFCSceneProcessModule::Execute()
+bool AFCSceneProcessModule::Execute()
 {
     return true;
 }
 
-bool NFCSceneProcessModule::AfterInit()
+bool AFCSceneProcessModule::AfterInit()
 {
-    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-    m_pGameServerNet_ServerModule = pPluginManager->FindModule<NFIGameServerNet_ServerModule>();
+    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pGameServerNet_ServerModule = pPluginManager->FindModule<AFIGameServerNet_ServerModule>();
 
-    m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &NFCSceneProcessModule::OnObjectClassEvent);
+    m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &AFCSceneProcessModule::OnObjectClassEvent);
     //////////////////////////////////////////////////////////////////////////
 
     //初始化场景容器
     // #ifdef NF_USE_ACTOR
     //  int nSelfActorID = pPluginManager->GetActorID();
     // #endif
-    NF_SHARE_PTR<NFIClass> pLogicClass =  m_pClassModule->GetElement("Scene");
+    NF_SHARE_PTR<AFIClass> pLogicClass =  m_pClassModule->GetElement("Scene");
     if(nullptr != pLogicClass)
     {
         NFList<std::string>& list = pLogicClass->GetConfigNameList();
@@ -62,9 +62,9 @@ bool NFCSceneProcessModule::AfterInit()
     return true;
 }
 
-bool NFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGroupID)
+bool AFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGroupID)
 {
-    NF_SHARE_PTR<NFMapEx<std::string, SceneSeedResource>> pSceneResource = mtSceneResourceConfig.GetElement(nSceneID);
+    NF_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResource = mtSceneResourceConfig.GetElement(nSceneID);
     if(nullptr != pSceneResource)
     {
         NF_SHARE_PTR<SceneSeedResource> pResource = pSceneResource->First();
@@ -72,7 +72,7 @@ bool NFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGro
         {
             const std::string& strClassName = m_pElementModule->GetPropertyString(pResource->strConfigID, NFrame::NPC::ClassName());
 
-            AFDataList arg;
+            AFIDataList arg;
             arg << NFrame::NPC::X() << pResource->fSeedX;
             arg << NFrame::NPC::Y() << pResource->fSeedY;
             arg << NFrame::NPC::Z() << pResource->fSeedZ;
@@ -87,7 +87,7 @@ bool NFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGro
     return true;
 }
 
-int NFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
+int AFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
 {
     const E_SCENE_TYPE eType = GetCloneSceneType(nSceneID);
     int nTargetGroupID = m_pKernelModule->RequestGroupScene(nSceneID);
@@ -100,7 +100,7 @@ int NFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
     return nTargetGroupID;
 }
 
-int NFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEventID, const AFDataList& var)
+int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEventID, const AFIDataList& var)
 {
     if(var.GetCount() != 4
             || !var.TypeEx(TDATA_TYPE::TDATA_OBJECT, TDATA_TYPE::TDATA_INT,
@@ -132,7 +132,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
     }
 
     //每个玩家，一个副本
-    NFINT64 nNewGroupID = 0;
+    AFINT64 nNewGroupID = 0;
     if(nTargetGroupID <= 0)
     {
         nNewGroupID = CreateCloneScene(nTargetScene);
@@ -153,13 +153,13 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
     const std::string strSceneID = AF_LEXICAL_CAST<std::string>(nTargetScene);
     const std::string& strRelivePosList = m_pElementModule->GetPropertyString(strSceneID, NFrame::Scene::RelivePos());
 
-    AFDataList valueRelivePosList(strRelivePosList.c_str(), ";");
+    AFIDataList valueRelivePosList(strRelivePosList.c_str(), ";");
     if(valueRelivePosList.GetCount() >= 1)
     {
         xRelivePos.FromString(valueRelivePosList.String(0));
     }
 
-    AFDataList xSceneResult(var);
+    AFIDataList xSceneResult(var);
     xSceneResult.Add(xRelivePos);
 
     m_pKernelModule->DoEvent(self, NFED_ON_OBJECT_ENTER_SCENE_BEFORE, xSceneResult);
@@ -177,7 +177,7 @@ int NFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
     return 0;
 }
 
-int NFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFDataList& var)
+int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     if(1 != var.GetCount()
             || !var.TypeEx(TDATA_TYPE::TDATA_INT, TDATA_TYPE::TDATA_UNKNOWN))
@@ -185,7 +185,7 @@ int NFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEv
         return -1;
     }
 
-    NFINT32 nOldGroupID = var.Int(0);
+    AFINT32 nOldGroupID = var.Int(0);
     if(nOldGroupID > 0)
     {
         int nSceneID = m_pKernelModule->GetPropertyInt(object, NFrame::Player::SceneID());
@@ -200,7 +200,7 @@ int NFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEv
     return 0;
 }
 
-int NFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var)
+int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
 {
     if(strClassName == NFrame::Player::ThisName())
     {
@@ -220,15 +220,15 @@ int NFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::str
         }
         else if(CLASS_OBJECT_EVENT::COE_CREATE_HASDATA == eClassEvent)
         {
-            m_pKernelModule->AddEventCallBack(self, NFED_ON_CLIENT_ENTER_SCENE, this, &NFCSceneProcessModule::OnEnterSceneEvent);
-            m_pKernelModule->AddEventCallBack(self, NFED_ON_CLIENT_LEAVE_SCENE, this, &NFCSceneProcessModule::OnLeaveSceneEvent);
+            m_pKernelModule->AddEventCallBack(self, NFED_ON_CLIENT_ENTER_SCENE, this, &AFCSceneProcessModule::OnEnterSceneEvent);
+            m_pKernelModule->AddEventCallBack(self, NFED_ON_CLIENT_LEAVE_SCENE, this, &AFCSceneProcessModule::OnLeaveSceneEvent);
         }
     }
 
     return 0;
 }
 
-E_SCENE_TYPE NFCSceneProcessModule::GetCloneSceneType(const int nSceneID)
+E_SCENE_TYPE AFCSceneProcessModule::GetCloneSceneType(const int nSceneID)
 {
     char szSceneIDName[MAX_PATH] = { 0 };
     sprintf(szSceneIDName, "%d", nSceneID);
@@ -240,24 +240,24 @@ E_SCENE_TYPE NFCSceneProcessModule::GetCloneSceneType(const int nSceneID)
     return SCENE_TYPE_ERROR;
 }
 
-bool NFCSceneProcessModule::IsCloneScene(const int nSceneID)
+bool AFCSceneProcessModule::IsCloneScene(const int nSceneID)
 {
     return GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE;
 }
 
-bool NFCSceneProcessModule::ApplyCloneGroup(const int nSceneID, int& nGroupID)
+bool AFCSceneProcessModule::ApplyCloneGroup(const int nSceneID, int& nGroupID)
 {
     nGroupID = CreateCloneScene(nSceneID);
 
     return true;
 }
 
-bool NFCSceneProcessModule::ExitCloneGroup(const int nSceneID, const int& nGroupID)
+bool AFCSceneProcessModule::ExitCloneGroup(const int nSceneID, const int& nGroupID)
 {
     return m_pKernelModule->ExitGroupScene(nSceneID, nGroupID);
 }
 
-bool NFCSceneProcessModule::LoadSceneResource(const int nSceneID)
+bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 {
     char szSceneIDName[MAX_PATH] = { 0 };
     sprintf(szSceneIDName, "%d", nSceneID);
@@ -266,10 +266,10 @@ bool NFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     const int nCanClone = m_pElementModule->GetPropertyInt(szSceneIDName, NFrame::Scene::CanClone());
 
     //场景对应资源
-    NF_SHARE_PTR<NFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = mtSceneResourceConfig.GetElement(nSceneID);
+    NF_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = mtSceneResourceConfig.GetElement(nSceneID);
     if(nullptr == pSceneResourceMap)
     {
-        pSceneResourceMap = NF_SHARE_PTR<NFMapEx<std::string, SceneSeedResource>>(NF_NEW NFMapEx<std::string, SceneSeedResource>());
+        pSceneResourceMap = NF_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>>(NF_NEW AFMapEx<std::string, SceneSeedResource>());
         mtSceneResourceConfig.AddElement(nSceneID, pSceneResourceMap);
     }
 
@@ -311,14 +311,14 @@ bool NFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     return true;
 }
 
-void NFCSceneProcessModule::OnClienSwapSceneProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCSceneProcessModule::OnClienSwapSceneProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //CLIENT_MSG_PROCESS(nSockIndex, nMsgID, msg, nLen, NFMsg::ReqAckSwapScene);
-    //AFDataList varEntry;
+    //AFIDataList varEntry;
     //varEntry << pObject->Self();
     //varEntry << 0;
     //varEntry << xMsg.scene_id();
     //varEntry << -1;
 
-    //const AFGUID self = NFINetModule::PBToNF((xMsg.selfid()));
+    //const AFGUID self = AFINetModule::PBToNF((xMsg.selfid()));
 }

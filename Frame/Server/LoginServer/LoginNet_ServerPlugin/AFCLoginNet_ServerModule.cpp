@@ -1,54 +1,54 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCLoginNet_ServerModule.cpp
+//    @FileName         :    AFCLoginNet_ServerModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCLoginNet_ServerModule
+//    @Module           :    AFCLoginNet_ServerModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#include "NFCLoginNet_ServerModule.h"
+#include "AFCLoginNet_ServerModule.h"
 #include "NFLoginNet_ServerPlugin.h"
 
 const std::string PROPERTY_ACCOUNT = "Account";
 const std::string PROPERTY_VERIFIED = "Verified";
 
-bool NFCLoginNet_ServerModule::Init()
+bool AFCLoginNet_ServerModule::Init()
 {
-    m_pNetModule = NF_NEW NFINetModule(pPluginManager);
+    m_pNetModule = NF_NEW AFINetModule(pPluginManager);
     return true;
 }
 
-bool NFCLoginNet_ServerModule::Shut()
-{
-    return true;
-}
-
-bool NFCLoginNet_ServerModule::BeforeShut()
+bool AFCLoginNet_ServerModule::Shut()
 {
     return true;
 }
 
-bool NFCLoginNet_ServerModule::AfterInit()
+bool AFCLoginNet_ServerModule::BeforeShut()
 {
-    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-    m_pLoginLogicModule = pPluginManager->FindModule<NFILoginLogicModule>();
-    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-    m_pLoginToMasterModule = pPluginManager->FindModule<NFILoginToMasterModule>();
-    m_pUUIDModule = pPluginManager->FindModule<NFIUUIDModule>();
+    return true;
+}
+
+bool AFCLoginNet_ServerModule::AfterInit()
+{
+    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    m_pLoginLogicModule = pPluginManager->FindModule<AFILoginLogicModule>();
+    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pLoginToMasterModule = pPluginManager->FindModule<AFILoginToMasterModule>();
+    m_pUUIDModule = pPluginManager->FindModule<AFIUUIDModule>();
 
 
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_STS_HEART_BEAT, this, &NFCLoginNet_ServerModule::OnHeartBeat);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_LOGIN, this, &NFCLoginNet_ServerModule::OnLoginProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_LOGOUT, this, &NFCLoginNet_ServerModule::OnLogOut);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_CONNECT_WORLD, this, &NFCLoginNet_ServerModule::OnSelectWorldProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_WORLD_LIST, this, &NFCLoginNet_ServerModule::OnViewWorldProcess);
-    m_pNetModule->AddReceiveCallBack(this, &NFCLoginNet_ServerModule::InvalidMessage);
+    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNet_ServerModule::OnHeartBeat);
+    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNet_ServerModule::OnLoginProcess);
+    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNet_ServerModule::OnLogOut);
+    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNet_ServerModule::OnSelectWorldProcess);
+    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNet_ServerModule::OnViewWorldProcess);
+    m_pNetModule->AddReceiveCallBack(this, &AFCLoginNet_ServerModule::InvalidMessage);
 
-    m_pNetModule->AddEventCallBack(this, &NFCLoginNet_ServerModule::OnSocketClientEvent);
+    m_pNetModule->AddEventCallBack(this, &AFCLoginNet_ServerModule::OnSocketClientEvent);
 
-    NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -81,14 +81,14 @@ bool NFCLoginNet_ServerModule::AfterInit()
     return true;
 }
 
-int NFCLoginNet_ServerModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strWorldKey)
+int AFCLoginNet_ServerModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strWorldKey)
 {
     NF_SHARE_PTR<SessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
     if(pSessionData)
     {
         NFMsg::AckConnectWorldResult xMsg;
         xMsg.set_world_id(nWorldID);
-        xMsg.mutable_sender()->CopyFrom(NFINetModule::NFToPB(xSenderID));
+        xMsg.mutable_sender()->CopyFrom(AFINetModule::NFToPB(xSenderID));
         xMsg.set_login_id(nLoginID);
         xMsg.set_account(strAccount);
         xMsg.set_world_ip(strWorldIP);
@@ -101,12 +101,12 @@ int NFCLoginNet_ServerModule::OnSelectWorldResultsProcess(const int nWorldID, co
     return 0;
 }
 
-bool NFCLoginNet_ServerModule::Execute()
+bool AFCLoginNet_ServerModule::Execute()
 {
     return m_pNetModule->Execute();
 }
 
-void NFCLoginNet_ServerModule::OnClientConnected(const int nAddress, const AFGUID& xClientID)
+void AFCLoginNet_ServerModule::OnClientConnected(const int nAddress, const AFGUID& xClientID)
 {
     NF_SHARE_PTR<SessionData> pSessionData(NF_NEW SessionData());
 
@@ -115,12 +115,12 @@ void NFCLoginNet_ServerModule::OnClientConnected(const int nAddress, const AFGUI
     mmClientSessionData.AddElement(xClientID, pSessionData);
 }
 
-void NFCLoginNet_ServerModule::OnClientDisconnect(const int nAddress, const AFGUID& xClientID)
+void AFCLoginNet_ServerModule::OnClientDisconnect(const int nAddress, const AFGUID& xClientID)
 {
     mmClientSessionData.RemoveElement(xClientID);
 }
 
-void NFCLoginNet_ServerModule::OnLoginProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNet_ServerModule::OnLoginProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     NFMsg::ReqAccountLogin xMsg;
@@ -162,7 +162,7 @@ void NFCLoginNet_ServerModule::OnLoginProcess(const int nSockIndex, const int nM
     }
 }
 
-void NFCLoginNet_ServerModule::OnSelectWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNet_ServerModule::OnSelectWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     NFMsg::ReqConnectWorld xMsg;
@@ -186,13 +186,13 @@ void NFCLoginNet_ServerModule::OnSelectWorldProcess(const int nSockIndex, const 
     NFMsg::ReqConnectWorld xData;
     xData.set_world_id(xMsg.world_id());
     xData.set_login_id(pPluginManager->AppID());
-    xData.mutable_sender()->CopyFrom(NFINetModule::NFToPB(pSession->mnClientID));
+    xData.mutable_sender()->CopyFrom(AFINetModule::NFToPB(pSession->mnClientID));
     xData.set_account(pSession->mstrAccout);
 
     m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, NFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData);//here has a problem to be solve
 }
 
-void NFCLoginNet_ServerModule::OnSocketClientEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
+void AFCLoginNet_ServerModule::OnSocketClientEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
 {
     if(eEvent & NF_NET_EVENT_EOF)
     {
@@ -216,12 +216,12 @@ void NFCLoginNet_ServerModule::OnSocketClientEvent(const int nSockIndex, const N
     }
 }
 
-void NFCLoginNet_ServerModule::SynWorldToClient(const int nFD)
+void AFCLoginNet_ServerModule::SynWorldToClient(const int nFD)
 {
     NFMsg::AckServerList xData;
     xData.set_type(NFMsg::RSLT_WORLD_SERVER);
 
-    NFMapEx<int, NFMsg::ServerInfoReport>& xWorldMap = m_pLoginToMasterModule->GetWorldMap();
+    AFMapEx<int, NFMsg::ServerInfoReport>& xWorldMap = m_pLoginToMasterModule->GetWorldMap();
     NFMsg::ServerInfoReport* pWorldData = xWorldMap.FirstNude();
     while(pWorldData)
     {
@@ -239,7 +239,7 @@ void NFCLoginNet_ServerModule::SynWorldToClient(const int nFD)
     m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, nFD);
 }
 
-void NFCLoginNet_ServerModule::OnViewWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNet_ServerModule::OnViewWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     NFMsg::ReqServerList xMsg;
@@ -254,15 +254,15 @@ void NFCLoginNet_ServerModule::OnViewWorldProcess(const int nSockIndex, const in
     }
 }
 
-void NFCLoginNet_ServerModule::OnHeartBeat(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNet_ServerModule::OnHeartBeat(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
 }
 
-void NFCLoginNet_ServerModule::OnLogOut(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNet_ServerModule::OnLogOut(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
 }
 
-void NFCLoginNet_ServerModule::InvalidMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNet_ServerModule::InvalidMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     printf("NFNet || 非法消息:unMsgID=%d\n", nMsgID);
 }

@@ -6,11 +6,11 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_LOGINLOGICPLUGIN_MODULE_H
-#define NFC_LOGINLOGICPLUGIN_MODULE_H
+#ifndef AFC_LOGINLOGICPLUGIN_MODULE_H
+#define AFC_LOGINLOGICPLUGIN_MODULE_H
 
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 #ifdef NFLOGINLOGICPLUGIN_EXPORTS
 #define NFLOGINLOGICPLUGIN_API __declspec(dllexport)
@@ -19,10 +19,10 @@
 #endif
 
 //////////////////////////////////////////////////////////////////////////
-class NFLoginLogicPlugin : public NFIPlugin
+class NFLoginLogicPlugin : public AFIPlugin
 {
 public:
-    NFLoginLogicPlugin(NFIPluginManager* p)
+    NFLoginLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

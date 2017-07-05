@@ -1,40 +1,40 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCGameServerNet_ServerModule.h
+//    @FileName			:    AFCGameServerNet_ServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCGameServerNet_ServerModule
+//    @Module           :    AFCGameServerNet_ServerModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#ifndef NFC_GAMESERVER_SERVER_MODULE_H
-#define NFC_GAMESERVER_SERVER_MODULE_H
+#ifndef AFC_GAMESERVER_SERVER_MODULE_H
+#define AFC_GAMESERVER_SERVER_MODULE_H
 
 //#include "GameServerPCH.h"
 //#include "NW_Helper.h"
-//  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
+//  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
 #include <memory>
-#include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFISceneProcessModule.h"
-#include "SDK/Interface/NFIGameLogicModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFIPluginManager.h"
-#include "SDK/Interface/NFIUUIDModule.h"
-#include "SDK/Interface/NFIGameServerToWorldModule.h"
-#include "SDK/Interface/NFIGameServerNet_ServerModule.h"
-#include "SDK/Interface/NFIGameServerNet_ServerModule.h"
+#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFISceneProcessModule.h"
+#include "SDK/Interface/AFIGameLogicModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Interface/AFIUUIDModule.h"
+#include "SDK/Interface/AFIGameServerToWorldModule.h"
+#include "SDK/Interface/AFIGameServerNet_ServerModule.h"
+#include "SDK/Interface/AFIGameServerNet_ServerModule.h"
 ////////////////////////////////////////////////////////////////////////////
 
 
 
-class NFCGameServerNet_ServerModule
-    : public NFIGameServerNet_ServerModule
+class AFCGameServerNet_ServerModule
+    : public AFIGameServerNet_ServerModule
 {
 public:
-    NFCGameServerNet_ServerModule(NFIPluginManager* p)
+    AFCGameServerNet_ServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -48,7 +48,7 @@ public:
     virtual void LogSend(const char* str) {}
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self);
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self);
-	virtual NFINetModule* GetNetModule();
+	virtual AFINetModule* GetNetModule();
 
     virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID);
     virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID);
@@ -57,11 +57,11 @@ public:
     virtual NF_SHARE_PTR<GateServerInfo> GetGateServerInfo(const int nGateID);
     virtual NF_SHARE_PTR<GateServerInfo> GetGateServerInfoBySockIndex(const int nSockIndex);
 
-    virtual int OnPropertyEnter(const AFDataList& argVar, const AFGUID& self);
-    virtual int OnRecordEnter(const AFDataList& argVar, const AFGUID& self);
+    virtual int OnPropertyEnter(const AFIDataList& argVar, const AFGUID& self);
+    virtual int OnRecordEnter(const AFIDataList& argVar, const AFGUID& self);
 
-    virtual int OnObjectListEnter(const AFDataList& self, const AFDataList& argVar);
-    virtual int OnObjectListLeave(const AFDataList& self, const AFDataList& argVar);
+    virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar);
+    virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar);
 
 protected:
     void OnSocketPSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID);
@@ -87,34 +87,34 @@ protected:
 	
 protected:
     //网络同步
-    int OnPropertyCommonEvent(const AFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
-    int OnRecordCommonEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
-    int OnClassCommonEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
+    int OnPropertyCommonEvent(const AFGUID& self, const std::string& strPropertyName, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar);
+    int OnRecordCommonEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar);
+    int OnClassCommonEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
 
-    int OnGroupEvent(const AFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
-    int OnContainerEvent(const AFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnGroupEvent(const AFGUID& self, const std::string& strPropertyName, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar);
+    int OnContainerEvent(const AFGUID& self, const std::string& strPropertyName, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar);
 
-    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
-    int OnSwapSceneResultEvent(const AFGUID& self, const int nEventID, const AFDataList& var);
+    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
+    int OnSwapSceneResultEvent(const AFGUID& self, const int nEventID, const AFIDataList& var);
 
-    int GetBroadCastObject(const AFGUID& self, const std::string& strPropertyName, const bool bTable, AFDataList& valueObject);
-    int GetBroadCastObject(const int nObjectContainerID, const int nGroupID, AFDataList& valueObject);
+    int GetBroadCastObject(const AFGUID& self, const std::string& strPropertyName, const bool bTable, AFIDataList& valueObject);
+    int GetBroadCastObject(const int nObjectContainerID, const int nGroupID, AFIDataList& valueObject);
 
 private:
     //<角色id,角色网关基础信息>//其实可以在object系统中被代替
-    NFMapEx<AFGUID, GateBaseInfo> mRoleBaseData;
+    AFMapEx<AFGUID, GateBaseInfo> mRoleBaseData;
     //gateid,data
-    NFMapEx<int, GateServerInfo> mProxyMap;
+    AFMapEx<int, GateServerInfo> mProxyMap;
 
     //////////////////////////////////////////////////////////////////////////
-    NFIUUIDModule* m_pUUIDModule;
-    NFIKernelModule* m_pKernelModule;
-    NFIClassModule* m_pClassModule;
-    NFILogModule* m_pLogModule;
-    NFISceneProcessModule* m_pSceneProcessModule;
-    NFIElementModule* m_pElementModule;
-	NFINetModule* m_pNetModule;
+    AFIUUIDModule* m_pUUIDModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIClassModule* m_pClassModule;
+    AFILogModule* m_pLogModule;
+    AFISceneProcessModule* m_pSceneProcessModule;
+    AFIElementModule* m_pElementModule;
+	AFINetModule* m_pNetModule;
     //////////////////////////////////////////////////////////////////////////
-    NFIGameServerToWorldModule* m_pGameServerToWorldModule;
+    AFIGameServerToWorldModule* m_pGameServerToWorldModule;
 };
 #endif

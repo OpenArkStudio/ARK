@@ -1,32 +1,32 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCGameServerNet_ServerModule.h
+//    @FileName			:    AFCGameServerNet_ServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCGameServerNet_ServerModule
+//    @Module           :    AFCGameServerNet_ServerModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#ifndef NFC_PROXYSERVER_SERVER_MODULE_H
-#define NFC_PROXYSERVER_SERVER_MODULE_H
+#ifndef AFC_PROXYSERVER_SERVER_MODULE_H
+#define AFC_PROXYSERVER_SERVER_MODULE_H
 
-//  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
-#include "SDK/Core/NFCConsistentHash.hpp"
-#include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "SDK/Interface/NFIProxyServerNet_ServerModule.h"
-#include "SDK/Interface/NFIProxyServerToWorldModule.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFIUUIDModule.h"
-#include "SDK/Interface/NFIProxyServerToGameModule.h"
-#include "SDK/Interface/NFINetClientModule.hpp"
+//  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
+#include "SDK/Core/AFCConsistentHash.hpp"
+#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Interface/AFIProxyServerNet_ServerModule.h"
+#include "SDK/Interface/AFIProxyServerToWorldModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIUUIDModule.h"
+#include "SDK/Interface/AFIProxyServerToGameModule.h"
+#include "SDK/Interface/AFINetClientModule.hpp"
 
-class NFCProxyServerNet_ServerModule : public NFIProxyServerNet_ServerModule
+class AFCProxyServerNet_ServerModule : public AFIProxyServerNet_ServerModule
 {
 public:
-    NFCProxyServerNet_ServerModule(NFIPluginManager* p)
+    AFCProxyServerNet_ServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -61,23 +61,23 @@ protected:
 
 
     //客户端的连接60秒删掉
-    int HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFDataList& var);
+    int HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFIDataList& var);
     //////////////////////////////////////////////////////////////////////////
 
 	void OnOtherMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 protected:
 
-    NFMapEx<AFGUID, SessionData> mmSessionData;
-    NFCConsistentHash mxConsistentHash;
+    AFMapEx<AFGUID, SessionData> mmSessionData;
+    AFCConsistentHash mxConsistentHash;
 protected:
-    NFIProxyServerToWorldModule* m_pProxyToWorldModule;
-    NFIProxyServerToGameModule* m_pProxyServerToGameModule;
-    NFIKernelModule* m_pKernelModule;
-    NFILogModule* m_pLogModule;
-    NFIElementModule* m_pElementModule;
-    NFIClassModule* m_pClassModule;
-    NFIUUIDModule* m_pUUIDModule;
-	NFINetModule* m_pNetModule;
+    AFIProxyServerToWorldModule* m_pProxyToWorldModule;
+    AFIProxyServerToGameModule* m_pProxyServerToGameModule;
+    AFIKernelModule* m_pKernelModule;
+    AFILogModule* m_pLogModule;
+    AFIElementModule* m_pElementModule;
+    AFIClassModule* m_pClassModule;
+    AFIUUIDModule* m_pUUIDModule;
+	AFINetModule* m_pNetModule;
 
 };
 

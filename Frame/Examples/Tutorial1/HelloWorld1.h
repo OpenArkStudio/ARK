@@ -6,17 +6,17 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_HELLO_WORLD1_H
-#define NFC_HELLO_WORLD1_H
+#ifndef AFC_HELLO_WORLD1_H
+#define AFC_HELLO_WORLD1_H
 
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 class HelloWorld1
-    : public NFIModule
+    : public AFIModule
 {
 public:
-    HelloWorld1(NFIPluginManager* p)
+    HelloWorld1(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

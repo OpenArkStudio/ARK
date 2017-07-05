@@ -1,32 +1,32 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCLevelModule.h
+//    @FileName			:    AFCLevelModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-09-28
-//    @Module           :    NFCLevelModule
+//    @Module           :    AFCLevelModule
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_LEVEL_MODULE_H
-#define NFC_LEVEL_MODULE_H
+#ifndef AFC_LEVEL_MODULE_H
+#define AFC_LEVEL_MODULE_H
 
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIGameLogicModule.h"
-#include "SDK/Interface/NFILevelModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFIPropertyConfigModule.h"
-#include "SDK/Interface/NFIPluginManager.h"
-#include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
-#include "SDK/Interface/NFIElementModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIGameLogicModule.h"
+#include "SDK/Interface/AFILevelModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIPropertyConfigModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Proto/NFProtocolDefine.hpp"
+#include "SDK/Interface/AFIElementModule.h"
 
-class NFCLevelModule
-    : public NFILevelModule
+class AFCLevelModule
+    : public AFILevelModule
 {
 public:
-    NFCLevelModule(NFIPluginManager* p)
+    AFCLevelModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
-    virtual ~NFCLevelModule() {};
+    virtual ~AFCLevelModule() {};
 
     virtual bool Init();
     virtual bool Shut();
@@ -36,10 +36,10 @@ public:
     virtual int AddExp(const AFGUID& self, const int nExp);
 
 private:
-    NFIPropertyConfigModule* m_pPropertyConfigModule;
-    NFIKernelModule* m_pKernelModule;
-    NFILogModule* m_pLogModule;
-    NFIElementModule* m_pElementModule;
+    AFIPropertyConfigModule* m_pPropertyConfigModule;
+    AFIKernelModule* m_pKernelModule;
+    AFILogModule* m_pLogModule;
+    AFIElementModule* m_pElementModule;
 };
 
 #endif

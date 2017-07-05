@@ -10,7 +10,7 @@
 #include "AFString.hpp"
 #include "AFArrayPod.hpp"
 #include "AFCDataList.h"
-#include "NFIRecord.h"
+#include "AFIRecord.h"
 
 using namespace ArkFrame;
 
@@ -22,14 +22,14 @@ using namespace ArkFrame;
 //public:
 //    AFRecordMgr();
 //    ~AFRecordMgr();
-//    NF_SHARE_PTR<NFIRecord> AddRecord(const std::string& strRecordName, const NF_SHARE_PTR<AFIDataList>& TData, const NF_SHARE_PTR<AFIDataList>& tagData, const int nRows);
-//    bool SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const NFINT64 value);
+//    NF_SHARE_PTR<AFIRecord> AddRecord(const std::string& strRecordName, const NF_SHARE_PTR<AFIDataList>& TData, const NF_SHARE_PTR<AFIDataList>& tagData, const int nRows);
+//    bool SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const AFINT64 value);
 //    bool SetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol, const double value);
 //    bool SetRecordString(const std::string& strRecordName, const int nRow, const int nCol, const std::string& value);
 //    bool SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value);
 //    //bool SetRecordPoint(const std::string& strRecordName, const int nRow, const int nCol, const Point3D& value);
 //
-//    NFINT64 GetRecordInt(const std::string& strRecordName, const int nRow, const int nCol);
+//    AFINT64 GetRecordInt(const std::string& strRecordName, const int nRow, const int nCol);
 //    double GetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol);
 //    const std::string& GetRecordString(const std::string& strRecordName, const int nRow, const int nCol);
 //    const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol);

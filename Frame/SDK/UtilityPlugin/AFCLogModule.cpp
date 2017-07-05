@@ -30,7 +30,7 @@ void AFCLogModule::rolloutHandler(const char* filename, std::size_t size)
     }
 }
 
-AFCLogModule::AFCLogModule(NFIPluginManager* p)
+AFCLogModule::AFCLogModule(AFIPluginManager* p)
 {
     pPluginManager = p;
     mbSwitchingValue = true;
@@ -237,7 +237,7 @@ void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const
     }
 }
 
-void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -249,7 +249,7 @@ void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const
     }
 }
 
-void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -261,7 +261,7 @@ void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const 
     }
 }
 
-void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -273,7 +273,7 @@ void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, con
     }
 }
 
-void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -285,7 +285,7 @@ void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const
     }
 }
 
-void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {

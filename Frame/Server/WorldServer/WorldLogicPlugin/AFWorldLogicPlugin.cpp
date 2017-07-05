@@ -7,13 +7,13 @@
 // -------------------------------------------------------------------------
 
 
-#include "NFCWorldLogicModule.h"
+#include "AFCWorldLogicModule.h"
 #include "NFWorldLogicPlugin.h"
 
 //
 //
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 #if NF_PLATFORM == NF_PLATFORM_WIN
     SetConsoleTitle("NFWorldServer");
@@ -21,7 +21,7 @@ NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
     CREATE_PLUGIN(pm, NFWorldLogicPlugin)
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFWorldLogicPlugin)
 };
@@ -41,10 +41,10 @@ const std::string NFWorldLogicPlugin::GetPluginName()
 void NFWorldLogicPlugin::Install()
 {
 
-    REGISTER_MODULE(pPluginManager, NFIWorldLogicModule, NFCWorldLogicModule)
+    REGISTER_MODULE(pPluginManager, AFIWorldLogicModule, AFCWorldLogicModule)
 }
 
 void NFWorldLogicPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIWorldLogicModule, NFCWorldLogicModule)
+    UNREGISTER_MODULE(pPluginManager, AFIWorldLogicModule, AFCWorldLogicModule)
 }

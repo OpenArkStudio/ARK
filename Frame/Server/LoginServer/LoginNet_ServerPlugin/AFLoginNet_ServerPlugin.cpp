@@ -2,19 +2,19 @@
 //
 
 #include "NFLoginNet_ServerPlugin.h"
-#include "NFCLoginNet_ServerModule.h"
+#include "AFCLoginNet_ServerModule.h"
 
 //
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
     CREATE_PLUGIN(pm, NFLoginNet_ServerPlugin)
 
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFLoginNet_ServerPlugin)
 };
@@ -35,10 +35,10 @@ const std::string NFLoginNet_ServerPlugin::GetPluginName()
 
 void NFLoginNet_ServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFILoginNet_ServerModule, NFCLoginNet_ServerModule)
+    REGISTER_MODULE(pPluginManager, AFILoginNet_ServerModule, AFCLoginNet_ServerModule)
 }
 
 void NFLoginNet_ServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFILoginNet_ServerModule, NFCLoginNet_ServerModule)
+    UNREGISTER_MODULE(pPluginManager, AFILoginNet_ServerModule, AFCLoginNet_ServerModule)
 }
