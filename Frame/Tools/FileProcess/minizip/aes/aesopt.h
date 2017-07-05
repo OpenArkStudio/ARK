@@ -97,7 +97,7 @@ Issue Date: 20/12/2007
 
 #include "brg_endian.h"
 
-/*  CONFIGURATION - THE USE OF DEFINES
+/*  COAFIGURATION - THE USE OF DEFINES
 
     Later in this section there are a number of defines that control the
     operation of the code.  In each section, the purpose of each define is
@@ -118,7 +118,7 @@ Issue Date: 20/12/2007
 #define PARTIAL             1
 #define FULL                2
 
-/*  --- START OF USER CONFIGURED OPTIONS --- */
+/*  --- START OF USER COAFIGURED OPTIONS --- */
 
 /*  1. BYTE ORDER WITHIN 32 BIT WORDS
 
@@ -409,7 +409,7 @@ Issue Date: 20/12/2007
 #  define KEY_SCHED   NO_TABLES
 #endif
 
-/*  ---- END OF USER CONFIGURED OPTIONS ---- */
+/*  ---- END OF USER COAFIGURED OPTIONS ---- */
 
 /* VIA ACE support is only available for VC++ and GCC */
 
@@ -485,7 +485,7 @@ Issue Date: 20/12/2007
 
 #define FUNCS_IN_C  ( EFUNCS_IN_C | DFUNCS_IN_C )
 
-/* END OF CONFIGURATION OPTIONS */
+/* END OF COAFIGURATION OPTIONS */
 
 #define RC_LENGTH   (5 * (AES_BLOCK_SIZE / 4 - 2))
 

@@ -7,21 +7,21 @@
 // -------------------------------------------------------------------------
 
 
-#include "NFCGameServerNet_ServerModule.h"
+#include "AFCGameServerNet_ServerModule.h"
 #include "NFGameServerNet_ServerPlugin.h"
 
 //
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 
     CREATE_PLUGIN(pm, NFGameServerNet_ServerPlugin)
 
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFGameServerNet_ServerPlugin)
 };
@@ -41,11 +41,11 @@ const std::string NFGameServerNet_ServerPlugin::GetPluginName()
 
 void NFGameServerNet_ServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFIGameServerNet_ServerModule, NFCGameServerNet_ServerModule)
+    REGISTER_MODULE(pPluginManager, AFIGameServerNet_ServerModule, AFCGameServerNet_ServerModule)
 
 }
 
 void NFGameServerNet_ServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIGameServerNet_ServerModule, NFCGameServerNet_ServerModule)
+    UNREGISTER_MODULE(pPluginManager, AFIGameServerNet_ServerModule, AFCGameServerNet_ServerModule)
 }

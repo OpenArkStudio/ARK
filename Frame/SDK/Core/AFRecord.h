@@ -38,17 +38,17 @@ public:
     virtual bool AddRow(const int row);
     virtual bool AddRow(const int row, const AFIDataList& data);
 
-    virtual bool SetInt(const int nRow, const int nCol, const NFINT64 value);
+    virtual bool SetInt(const int nRow, const int nCol, const AFINT64 value);
     virtual bool SetDouble(const int nRow, const int nCol, const double value);
     virtual bool SetString(const int nRow, const int nCol, const std::string& value);
     virtual bool SetObject(const int nRow, const int nCol, const AFGUID& value);
 
-    virtual NFINT64 GetInt(const int nRow, const int nCol) const;
+    virtual AFINT64 GetInt(const int nRow, const int nCol) const;
     virtual double GetDouble(const int nRow, const int nCol) const;
     virtual const std::string& GetString(const int nRow, const int nCol) const;
     virtual const AFGUID& GetObject(const int nRow, const int nCol) const;
 
-    virtual int FindInt(const int nCol, const NFINT64 value, AFIDataList& varResult);
+    virtual int FindInt(const int nCol, const AFINT64 value, AFIDataList& varResult);
     virtual int FindDouble(const int nCol, const double value, AFIDataList& varResult);
     virtual int FindString(const int nCol, const std::string& value, AFIDataList& varResult);
     virtual int FindObject(const int nCol, const AFGUID& value, AFIDataList& varResult);

@@ -23,7 +23,7 @@ class AFCGUIDModule
 {
 public:
 
-    AFCGUIDModule(NFIPluginManager* p);
+    AFCGUIDModule(AFIPluginManager* p);
     virtual ~AFCGUIDModule() {}
 
     virtual bool Init();

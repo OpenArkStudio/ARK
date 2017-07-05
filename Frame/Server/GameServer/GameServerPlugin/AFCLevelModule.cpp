@@ -1,41 +1,41 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCLevelModule.h
+//    @FileName			:    AFCLevelModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-09-28
-//    @Module           :    NFCLevelModule
+//    @Module           :    AFCLevelModule
 //
 // -------------------------------------------------------------------------
 
-#include "NFCLevelModule.h"
+#include "AFCLevelModule.h"
 
-bool NFCLevelModule::Init()
+bool AFCLevelModule::Init()
 {
     return true;
 }
 
 
-bool NFCLevelModule::Shut()
+bool AFCLevelModule::Shut()
 {
     return true;
 }
 
-bool NFCLevelModule::Execute()
+bool AFCLevelModule::Execute()
 {
     //Î»ÖÃÄØ
     return true;
 }
 
-bool NFCLevelModule::AfterInit()
+bool AFCLevelModule::AfterInit()
 {
-    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-    m_pPropertyConfigModule = pPluginManager->FindModule<NFIPropertyConfigModule>();
-    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
+    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pPropertyConfigModule = pPluginManager->FindModule<AFIPropertyConfigModule>();
+    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
 
     return true;
 }
 
-int NFCLevelModule::AddExp(const AFGUID& self, const int nExp)
+int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
 {
     int eJobType = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Job());
     int nCurExp = m_pKernelModule->GetPropertyInt(self, NFrame::Player::EXP());

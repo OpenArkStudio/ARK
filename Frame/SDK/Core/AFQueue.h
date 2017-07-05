@@ -1,0 +1,95 @@
+// -------------------------------------------------------------------------
+//    @FileName			:    AFQueue.h
+//    @Author      :    Ark Game Tech
+//    @Date    :    2011-01-21 21:49
+//    @Module    :
+//
+// -------------------------------------------------------------------------
+
+#ifndef NF_QUEUE_H
+#define NF_QUEUE_H
+
+#include <list>
+#include <thread>
+#include <mutex>
+#include <atomic>
+#include "SDK/Interface/AFPlatform.h"
+#include "SDK/UtilityPlugin/Noncopyable.hpp"
+
+class AFLock : noncopyable
+{
+public:
+    explicit AFLock()
+    {
+        flag.clear();
+    }
+
+    ~AFLock()
+    {
+    }
+    void lock()
+    {
+        while (flag.test_and_set(std::memory_order_acquire));
+    }
+
+    void unlock()
+    {
+        flag.clear(std::memory_order_release);
+    }
+
+protected:
+    mutable std::atomic_flag flag;
+};
+
+template<typename T>
+class AFQueue : public AFLock
+{
+public:
+    AFQueue()
+    {
+    }
+
+    virtual ~AFQueue()
+    {
+    }
+
+    bool Push(const T& object)
+    {
+        lock();
+
+        mList.push_back(object);
+
+        unlock();
+
+        return true;
+    }
+
+    bool Pop(T& object)
+    {
+        lock();
+
+        if (mList.empty())
+        {
+            unlock();
+
+            return false;
+        }
+
+        object = mList.front();
+        mList.pop_front();
+
+        unlock();
+
+        return true;
+    }
+
+    int Count()
+    {
+        return mList.size();
+    }
+
+private:
+    std::list<T> mList;
+};
+
+#endif

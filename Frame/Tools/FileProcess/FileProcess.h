@@ -1,5 +1,5 @@
 #pragma once
-#include "SDK/Interface/NFPlatform.h"
+#include "SDK/Interface/AFPlatform.h"
 #include "tinyxml2.h"
 #include "MiniExcelReader.h"
 #include <algorithm>
@@ -63,7 +63,7 @@ private:
 
 	std::string strLogicClassFile = "";
 	std::string strMySQLFile = "../mysql/NFrame.sql";
-	std::string strMySQLClassFile = "../mysql/NFClass.sql";
+	std::string strMySQLClassFile = "../mysql/AFClass.sql";
 
 	std::string strProtoFile = "../proto/NFRecordDefine.proto";
 

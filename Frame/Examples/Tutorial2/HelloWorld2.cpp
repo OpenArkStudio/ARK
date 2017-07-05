@@ -1,6 +1,6 @@
 #include "HelloWorld2.h"
-#include "SDK/Core/NFCObject.h"
-#include "SDK/Core/NFIComponent.h"
+#include "SDK/Core/AFCObject.h"
+#include "SDK/Core/AFIComponent.h"
 
 bool HelloWorld2::Init()
 {
@@ -11,7 +11,7 @@ bool HelloWorld2::Init()
     return true;
 }
 
-int HelloWorld2::OnPropertyCallBackEvent( const AFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVar, const AFDataList::TData& newVar )
+int HelloWorld2::OnPropertyCallBackEvent( const AFGUID& self, const std::string& strProperty, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar )
 {
     //属性回调事件，只要属性值内容有变化，就会被回调
     std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt() << std::endl;
@@ -21,20 +21,20 @@ int HelloWorld2::OnPropertyCallBackEvent( const AFGUID& self, const std::string&
 
 bool HelloWorld2::AfterInit()
 {
-	AFDataList xData;
+	AFIDataList xData;
 	xData.AddInt(111);
 
 
 
 
 // #ifdef NF_USE_ACTOR
-//     if(pPluginManager->GetActorID() == NFIActorManager::EACTOR_MAIN)
+//     if(pPluginManager->GetActorID() == AFIActorManager::EACTOR_MAIN)
 // #endif
     {
         std::cout << "Hello, world2, AfterInit" << std::endl;
 
 		//created a object for this test
-        NFIObject* pObject = new NFCObject(AFGUID(0, 1), pPluginManager);
+        AFIObject* pObject = new AFCObject(AFGUID(0, 1), pPluginManager);
 
 		//add a property name is "Hello" of this object
         pObject->GetPropertyManager()->AddProperty(pObject->Self(), "Hello", TDATA_STRING);

@@ -1,33 +1,33 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCWorldLogicModule.cpp
+//    @FileName         :    AFCWorldLogicModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCWorldLogicModule
+//    @Module           :    AFCWorldLogicModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
 #include "NFWorldLogicPlugin.h"
-#include "NFCWorldLogicModule.h"
-#include "SDK/Interface/NFPlatform.h"
+#include "AFCWorldLogicModule.h"
+#include "SDK/Interface/AFPlatform.h"
 
-bool NFCWorldLogicModule::Init()
+bool AFCWorldLogicModule::Init()
 {
     return true;
 }
 
-bool NFCWorldLogicModule::Shut()
+bool AFCWorldLogicModule::Shut()
 {
     return true;
 }
 
-bool NFCWorldLogicModule::Execute()
+bool AFCWorldLogicModule::Execute()
 {
     return true;
 }
 
-bool NFCWorldLogicModule::AfterInit()
+bool AFCWorldLogicModule::AfterInit()
 {
-    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
 
     return true;
 }

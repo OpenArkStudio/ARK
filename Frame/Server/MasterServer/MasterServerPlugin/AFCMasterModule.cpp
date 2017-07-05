@@ -1,28 +1,28 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCMasterModle.cpp
+//    @FileName			:    AFCMasterModle.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCMasterModle
+//    @Module           :    AFCMasterModle
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#include "NFCMasterModule.h"
+#include "AFCMasterModule.h"
 #include "NFMasterServerPlugin.h"
 
-bool NFCMasterModule::Init()
+bool AFCMasterModule::Init()
 {
 
-    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
+    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
 
     return true;
 }
 
-bool NFCMasterModule::Shut()
+bool AFCMasterModule::Shut()
 {
     return true;
 }
 
-bool NFCMasterModule::Execute()
+bool AFCMasterModule::Execute()
 {
 
 

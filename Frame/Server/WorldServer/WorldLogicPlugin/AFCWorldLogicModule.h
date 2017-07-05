@@ -1,23 +1,23 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCWorldLogicModule.h
+//    @FileName			:    AFCWorldLogicModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
-//    @Module           :    NFCWorldLogicModule
+//    @Module           :    AFCWorldLogicModule
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_WORLDLOGIC_MODULE_H
-#define NFC_WORLDLOGIC_MODULE_H
+#ifndef AFC_WORLDLOGIC_MODULE_H
+#define AFC_WORLDLOGIC_MODULE_H
 
-#include "SDK/Core/NFMap.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIWorldLogicModule.h"
+#include "SDK/Core/AFMap.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIWorldLogicModule.h"
 
-class NFCWorldLogicModule
-    : public NFIWorldLogicModule
+class AFCWorldLogicModule
+    : public AFIWorldLogicModule
 {
 public:
-    NFCWorldLogicModule(NFIPluginManager* p)
+    AFCWorldLogicModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -31,7 +31,7 @@ public:
 protected:
 
 protected:
-    NFIKernelModule* m_pKernelModule;
+    AFIKernelModule* m_pKernelModule;
 private:
 };
 

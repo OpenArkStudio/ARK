@@ -10,8 +10,8 @@
 #define NF_GAMESERVERNET_SERVERPLUGIN_H
 
 ///
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 #ifdef NFGAMESERVERNET_SERVERPLUGIN_EXPORTS
 #define NFGAMESERVERNET_SERVERPLUGIN_API __declspec(dllexport)
@@ -19,10 +19,10 @@
 #define NFGAMESERVERNET_SERVERPLUGIN_API __declspec(dllimport)
 #endif
 
-class NFGameServerNet_ServerPlugin : public NFIPlugin
+class NFGameServerNet_ServerPlugin : public AFIPlugin
 {
 public:
-    NFGameServerNet_ServerPlugin(NFIPluginManager* p)
+    NFGameServerNet_ServerPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
