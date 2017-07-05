@@ -33,7 +33,7 @@ void AFPropertyMgr::Clear()
 //TODO:变化回调函数
 //bool AFPropertyMgr::RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb)
 //{
-//    NF_SHARE_PTR<NFIProperty> pProperty = this->GetElement(strProperty);
+//    NF_SHARE_PTR<AFIProperty> pProperty = this->GetElement(strProperty);
 //    if(nullptr != pProperty)
 //    {
 //        pProperty->RegisterCallback(cb);
@@ -140,7 +140,7 @@ bool AFPropertyMgr::SetPropertyPoint(const char* name, const Point3D& value)
     return true;
 }
 
-NFINT64 AFPropertyMgr::GetPropertyInt(const char* name)
+AFINT64 AFPropertyMgr::GetPropertyInt(const char* name)
 {
     size_t index;
     if (!FindIndex(name, index))

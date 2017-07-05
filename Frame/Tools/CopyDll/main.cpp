@@ -2,13 +2,13 @@
 #include <vector>
 #include <string>
 #include <time.h>
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
-#include "NFComm/NFCore/NFQueue.h"
-#include "NFComm/RapidXML/rapidxml.hpp"
-#include "NFComm/RapidXML/rapidxml_iterators.hpp"
-#include "NFComm/RapidXML/rapidxml_print.hpp"
-#include "NFComm/RapidXML/rapidxml_utils.hpp"
-#include "NFComm/NFPluginModule/NFPlatform.h"
+#include "AFComm/NFPluginModule/AFIPluginManager.h"
+#include "SDK/Core/AFQueue.h"
+#include "AFComm/RapidXML/rapidxml.hpp"
+#include "AFComm/RapidXML/rapidxml_iterators.hpp"
+#include "AFComm/RapidXML/rapidxml_print.hpp"
+#include "AFComm/RapidXML/rapidxml_utils.hpp"
+#include "AFComm/NFPluginModule/AFPlatform.h"
 
 #include <time.h>
 #include <stdio.h>

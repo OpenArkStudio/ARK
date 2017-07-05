@@ -1,22 +1,22 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCProxyPlugin.h
+//    @FileName			:    AFCProxyPlugin.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-05-06
-//    @Module           :    NFCProxyPlugin
+//    @Module           :    AFCProxyPlugin
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_PROXYSERVERPLUGIN_H
-#define NFC_PROXYSERVERPLUGIN_H
+#ifndef AFC_PROXYSERVERPLUGIN_H
+#define AFC_PROXYSERVERPLUGIN_H
 
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 
-class NFProxyLogicPlugin : public NFIPlugin
+class NFProxyLogicPlugin : public AFIPlugin
 {
 public:
-    NFProxyLogicPlugin(NFIPluginManager* p)
+    NFProxyLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

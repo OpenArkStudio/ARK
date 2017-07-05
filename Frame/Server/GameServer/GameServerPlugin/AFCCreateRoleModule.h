@@ -1,32 +1,32 @@
 // -------------------------------------------------------------------------
-//    @FileName      :    NFCCreateRoleModule.h
+//    @FileName      :    AFCCreateRoleModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-03-29
-//    @Module           :    NFCCreateRoleModule
+//    @Module           :    AFCCreateRoleModule
 //
 // -------------------------------------------------------------------------
 
-#ifndef _NFC_CREATEROLE_MODULE_H_
-#define _NFC_CREATEROLE_MODULE_H_
+#ifndef _AFC_CREATEROLE_MODULE_H_
+#define _AFC_CREATEROLE_MODULE_H_
 
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIDataNoSqlModule.h"
-#include "NFComm/NFPluginModule/NFIGameLogicModule.h"
-#include "NFComm/NFPluginModule/NFIEventProcessModule.h"
-//#include "NFComm/NFPluginModule/NFIShareMemoryModule.h"
-#include "NFComm/NFPluginModule/NFIElementInfoModule.h"
+#include "AFComm/NFPluginModule/AFIPluginManager.h"
+#include "AFComm/NFPluginModule/AFIKernelModule.h"
+#include "AFComm/NFPluginModule/AFIDataNoSqlModule.h"
+#include "AFComm/NFPluginModule/AFIGameLogicModule.h"
+#include "AFComm/NFPluginModule/AFIEventProcessModule.h"
+//#include "AFComm/NFPluginModule/AFIShareMemoryModule.h"
+#include "AFComm/NFPluginModule/AFIElementInfoModule.h"
 
 
-class NFCCreateRoleModule
-    : public NFILogicModule
+class AFCCreateRoleModule
+    : public AFILogicModule
 {
 public:
-    NFCCreateRoleModule(NFIPluginManager* p)
+    AFCCreateRoleModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
-    virtual ~NFCCreateRoleModule() {};
+    virtual ~AFCCreateRoleModule() {};
 
     virtual bool Init();
     virtual bool Shut();
@@ -34,15 +34,15 @@ public:
     virtual bool AfterInit();
 
 protected:
-    static int OnLoadRoleBeginEvent(const NFIDENTID& object, const int nEventID, const NFIValueList& var);
+    static int OnLoadRoleBeginEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var);
 
-    static int OnLoadRoleFinalEvent(const NFIDENTID& object, const int nEventID, const NFIValueList& var);
+    static int OnLoadRoleFinalEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var);
 
-    static int OnCreateRoleEvent(const NFIDENTID& object, const int nEventID, const NFIValueList& var);
+    static int OnCreateRoleEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var);
 
-    static int OnDeleteRoleEvent(const NFIDENTID& object, const int nEventID, const NFIValueList& var);
+    static int OnDeleteRoleEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var);
 
-    static int OnAcountDisConnectEvent(const NFIDENTID& object, const int nEventID, const NFIValueList& var);
+    static int OnAcountDisConnectEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var);
 
 private:
 
@@ -54,13 +54,13 @@ private:
     //-3
     static int mnRoleHallContainer;
 
-    static NFIGameLogicModule* m_pGameLogicModule;
-    static NFIEventProcessModule* m_pEventProcessModule;
-    //static NFIDataBaseModule* m_pDataBaseModule;
-    static NFIDataNoSqlModule* m_pNoSqlModule;
-    static NFIKernelModule* m_pKernelModule;
-    static NFIElementInfoModule* m_pElementInfoModule;
-    static NFCCreateRoleModule* m_pThis;
+    static AFIGameLogicModule* m_pGameLogicModule;
+    static AFIEventProcessModule* m_pEventProcessModule;
+    //static AFIDataBaseModule* m_pDataBaseModule;
+    static AFIDataNoSqlModule* m_pNoSqlModule;
+    static AFIKernelModule* m_pKernelModule;
+    static AFIElementInfoModule* m_pElementInfoModule;
+    static AFCCreateRoleModule* m_pThis;
 };
 
 #endif

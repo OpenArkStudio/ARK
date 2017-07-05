@@ -12,15 +12,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCLogModule.cpp" />
+    <ClCompile Include="AFUtilityPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="AFCGUIDModule.cpp" />
-    <ClCompile Include="UtilityPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCGUIDModule.h" />
     <ClInclude Include="AFCLogModule.h" />
-    <ClInclude Include="Noncopyable.h" />
-    <ClInclude Include="UtilityPlugin.h" />
+    <ClInclude Include="AFUtilityPlugin.h" />
+    <ClInclude Include="Noncopyable.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A50912AD-3AD8-410D-BB58-F7FC1565C5E9}</ProjectGuid>

@@ -1,29 +1,29 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCGameServerModule.h
+//    @FileName			:    AFCGameServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
-//    @Module           :    NFCGameServerModule
+//    @Module           :    AFCGameServerModule
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_GAMESERVER_MODULE_H
-#define NFC_GAMESERVER_MODULE_H
+#ifndef AFC_GAMESERVER_MODULE_H
+#define AFC_GAMESERVER_MODULE_H
 
-#include "SDK/Core/NFMap.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIGameServerModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFIUUIDModule.h"
+#include "SDK/Core/AFMap.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIGameServerModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIUUIDModule.h"
 
-class NFCGameServerModule
-    : public NFIGameServerModule
+class AFCGameServerModule
+    : public AFIGameServerModule
 {
 public:
-    NFCGameServerModule(NFIPluginManager* p)
+    AFCGameServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
-    virtual ~NFCGameServerModule() {};
+    virtual ~AFCGameServerModule() {};
 
     virtual bool Init();
     virtual bool Shut();
@@ -37,9 +37,9 @@ protected:
 
 
 protected:
-    NFIUUIDModule* m_pUUIDModule;
-    NFIClassModule* m_pClassModule;
-    NFIKernelModule* m_pKernelModule;
+    AFIUUIDModule* m_pUUIDModule;
+    AFIClassModule* m_pClassModule;
+    AFIKernelModule* m_pKernelModule;
 private:
 };
 

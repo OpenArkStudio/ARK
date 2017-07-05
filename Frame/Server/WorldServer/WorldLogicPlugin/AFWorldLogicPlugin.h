@@ -6,12 +6,12 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_WORLDLOGICPLUGIN_MODULE_H
-#define NFC_WORLDLOGICPLUGIN_MODULE_H
+#ifndef AFC_WORLDLOGICPLUGIN_MODULE_H
+#define AFC_WORLDLOGICPLUGIN_MODULE_H
 
-#include "SDK/Interface/NFPlatform.h"
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 #ifdef NFWORLDLOGICPLUGIN_EXPORTS
 #define NFWORLDLOGICPLUGIN_API __declspec(dllexport)
@@ -20,10 +20,10 @@
 #endif
 
 //////////////////////////////////////////////////////////////////////////
-class NFWorldLogicPlugin : public NFIPlugin
+class NFWorldLogicPlugin : public AFIPlugin
 {
 public:
-    NFWorldLogicPlugin(NFIPluginManager* p)
+    NFWorldLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

@@ -15,81 +15,6 @@
     <ClInclude Include="Math\Vector3.hpp">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="NFCAddConsistentHash.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCConsistentHash.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCMemManger.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="NFQueue.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="NFMapEx.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="NFMap.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="NFList.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="NFSingleton.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="NFIRecordManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCEventManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCHeartBeatManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCObject.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCProperty.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCPropertyManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCRecord.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFCRecordManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFDefine.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFIComponent.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFIEventManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFIHeartBeatManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFIObject.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFIProperty.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFIPropertyManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFIRecord.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="NFTime.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="AFArrayPod.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -126,35 +51,89 @@
     <ClInclude Include="AFCDataList.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="AFCEventManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCHeartBeatManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCProperty.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCPropertyManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCRecord.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCRecordManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFDefine.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIComponent.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIEventManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIHeartBeatManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIProperty.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIPropertyManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIRecord.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIRecordManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCAddConsistentHash.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCConsistentHash.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCMemManger.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFHashmap.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFList.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFLockFreeQueue.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFMap.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFMapEx.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFQueue.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFSingleton.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="AFTime.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NFCHeartBeatManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCMemManger.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCObject.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCProperty.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCPropertyManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCRecord.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCRecordManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="NFCEventManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="NFTime.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="AFPropertyMgr.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -164,7 +143,31 @@
     <ClCompile Include="AFRecord.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="AFCDataList.cpp">
+    <ClCompile Include="AFCHeartBeatManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCProperty.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCPropertyManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCRecord.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCRecordManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCEventManager.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCMemManger.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="AFTime.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
   </ItemGroup>

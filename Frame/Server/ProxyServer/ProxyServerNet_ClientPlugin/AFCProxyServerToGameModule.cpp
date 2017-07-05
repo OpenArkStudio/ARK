@@ -1,55 +1,55 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCProxyServerNet_ClientModule.cpp
+//    @FileName         :    AFCProxyServerNet_ClientModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-05-06
-//    @Module           :    NFCProxyServerNet_ClientModule
+//    @Module           :    AFCProxyServerNet_ClientModule
 //
 // -------------------------------------------------------------------------
 
-#include "NFCProxyServerToGameModule.h"
+#include "AFCProxyServerToGameModule.h"
 #include "NFProxyServerNet_ClientPlugin.h"
-#include "SDK/Core/NFIHeartBeatManager.h"
-#include "SDK/Core/NFCHeartBeatManager.h"
-#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Core/AFIHeartBeatManager.h"
+#include "SDK/Core/AFCHeartBeatManager.h"
+#include "SDK/Interface/AFIClassModule.h"
 
-bool NFCProxyServerToGameModule::Init()
+bool AFCProxyServerToGameModule::Init()
 {
-    m_pNetClientModule = NF_NEW NFINetClientModule(pPluginManager);
+    m_pNetClientModule = NF_NEW AFINetClientModule(pPluginManager);
 
     m_pNetClientModule->Init();
 
     return true;
 }
 
-bool NFCProxyServerToGameModule::Shut()
+bool AFCProxyServerToGameModule::Shut()
 {
     //Final();
     //Clear();
     return true;
 }
 
-bool NFCProxyServerToGameModule::Execute()
+bool AFCProxyServerToGameModule::Execute()
 {
     m_pNetClientModule->Execute();
 
     return true;
 }
 
-bool NFCProxyServerToGameModule::AfterInit()
+bool AFCProxyServerToGameModule::AfterInit()
 {
-    m_pProxyLogicModule = pPluginManager->FindModule<NFIProxyLogicModule>();
-    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-    m_pProxyServerNet_ServerModule = pPluginManager->FindModule<NFIProxyServerNet_ServerModule>();
-    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pProxyLogicModule = pPluginManager->FindModule<AFIProxyLogicModule>();
+    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    m_pProxyServerNet_ServerModule = pPluginManager->FindModule<AFIProxyServerNet_ServerModule>();
+    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
 
-    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_ACK_ENTER_GAME, this, &NFCProxyServerToGameModule::OnAckEnterGame);
-    m_pNetClientModule->AddReceiveCallBack(this, &NFCProxyServerToGameModule::Transpond);
+    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_ACK_ENTER_GAME, this, &AFCProxyServerToGameModule::OnAckEnterGame);
+    m_pNetClientModule->AddReceiveCallBack(this, &AFCProxyServerToGameModule::Transpond);
 
-    m_pNetClientModule->AddEventCallBack(this, &NFCProxyServerToGameModule::OnSocketGSEvent);
+    m_pNetClientModule->AddEventCallBack(this, &AFCProxyServerToGameModule::OnSocketGSEvent);
 
-    NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -82,12 +82,12 @@ bool NFCProxyServerToGameModule::AfterInit()
     return true;
 }
 
-NFINetClientModule* NFCProxyServerToGameModule::GetClusterModule()
+AFINetClientModule* AFCProxyServerToGameModule::GetClusterModule()
 {
     return m_pNetClientModule;
 }
 
-void NFCProxyServerToGameModule::OnSocketGSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
+void AFCProxyServerToGameModule::OnSocketGSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
 {
     if(eEvent & NF_NET_EVENT_EOF)
     {
@@ -105,9 +105,9 @@ void NFCProxyServerToGameModule::OnSocketGSEvent(const int nSockIndex, const NF_
     }
 }
 
-void NFCProxyServerToGameModule::Register(const int nServerID)
+void AFCProxyServerToGameModule::Register(const int nServerID)
 {
-    NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -149,30 +149,30 @@ void NFCProxyServerToGameModule::Register(const int nServerID)
     }
 }
 
-void NFCProxyServerToGameModule::OnAckEnterGame(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerToGameModule::OnAckEnterGame(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     NFMsg::AckEventResult xData;
-    if(!NFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xData, nPlayerID))
+    if(!AFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
     }
 
     if(xData.event_code() == NFMsg::EGEC_ENTER_GAME_SUCCESS)
     {
-        const AFGUID& xClient = NFINetModule::PBToNF(xData.event_client());
-        const AFGUID& xPlayer = NFINetModule::PBToNF(xData.event_object());
+        const AFGUID& xClient = AFINetModule::PBToNF(xData.event_client());
+        const AFGUID& xPlayer = AFINetModule::PBToNF(xData.event_object());
 
         m_pProxyServerNet_ServerModule->EnterGameSuccessEvent(xClient, xPlayer);
     }
 }
 
-void NFCProxyServerToGameModule::LogServerInfo(const std::string& strServerInfo)
+void AFCProxyServerToGameModule::LogServerInfo(const std::string& strServerInfo)
 {
     m_pLogModule->LogInfo(AFGUID(), strServerInfo, "");
 }
 
-void NFCProxyServerToGameModule::Transpond(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerToGameModule::Transpond(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     m_pProxyServerNet_ServerModule->Transpond(nSockIndex, nMsgID, msg, nLen, xClientID);
 }

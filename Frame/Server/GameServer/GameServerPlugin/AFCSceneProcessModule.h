@@ -1,44 +1,44 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCSceneProcessModule.h
+//    @FileName			:    AFCSceneProcessModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-04-14
-//    @Module           :    NFCSceneProcessModule
+//    @Module           :    AFCSceneProcessModule
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_SCENEPROCESS_MODULE_H
-#define NFC_SCENEPROCESS_MODULE_H
+#ifndef AFC_SCENEPROCESS_MODULE_H
+#define AFC_SCENEPROCESS_MODULE_H
 
 #include <string>
 #include <map>
 #include <iostream>
-#include "SDK/Core/NFMap.h"
-#include "SDK/Core/NFList.h"
-#include "NFComm/RapidXML/rapidxml.hpp"
-#include "NFComm/RapidXML/rapidxml_iterators.hpp"
-#include "NFComm/RapidXML/rapidxml_print.hpp"
-#include "NFComm/RapidXML/rapidxml_utils.hpp"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIGameLogicModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFIGameServerConfigModule.h"
-#include "SDK/Interface/NFISceneProcessModule.h"
-#include "SDK/Interface/NFIPropertyModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFIPluginManager.h"
-#include "NFComm/NFMessageDefine/NFProtocolDefine.hpp"
-#include "SDK/Interface/NFIGameServerNet_ServerModule.h"
+#include "SDK/Core/AFMap.h"
+#include "SDK/Core/AFList.h"
+#include "AFComm/RapidXML/rapidxml.hpp"
+#include "AFComm/RapidXML/rapidxml_iterators.hpp"
+#include "AFComm/RapidXML/rapidxml_print.hpp"
+#include "AFComm/RapidXML/rapidxml_utils.hpp"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIGameLogicModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIGameServerConfigModule.h"
+#include "SDK/Interface/AFISceneProcessModule.h"
+#include "SDK/Interface/AFIPropertyModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Proto/NFProtocolDefine.hpp"
+#include "SDK/Interface/AFIGameServerNet_ServerModule.h"
 
-class NFCSceneProcessModule
-    : public NFISceneProcessModule
+class AFCSceneProcessModule
+    : public AFISceneProcessModule
 {
 public:
-    NFCSceneProcessModule(NFIPluginManager* p)
+    AFCSceneProcessModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
-    virtual ~NFCSceneProcessModule() {};
+    virtual ~AFCSceneProcessModule() {};
 
     virtual bool Init();
     virtual bool Shut();
@@ -59,21 +59,21 @@ protected:
 
 protected:
 
-    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFDataList& var);
+    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
 
-    int OnEnterSceneEvent(const AFGUID& object, const int nEventID, const AFDataList& var);
-    int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFDataList& var);
+    int OnEnterSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
+    int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
 protected:
     void OnClienSwapSceneProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 private:
 
-    NFIElementModule* m_pElementModule;
-    NFIClassModule* m_pClassModule;
-    NFIKernelModule* m_pKernelModule;
-    NFILogModule* m_pLogModule;
-    NFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
+    AFIElementModule* m_pElementModule;
+    AFIClassModule* m_pClassModule;
+    AFIKernelModule* m_pKernelModule;
+    AFILogModule* m_pLogModule;
+    AFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
     //////////////////////////////////////////////////////////////////////////
     struct SceneSeedResource
     {
@@ -85,7 +85,7 @@ private:
     };
 
     //SceneID,(SeedID,SeedData)
-    NFMapEx<int, NFMapEx<std::string, SceneSeedResource>> mtSceneResourceConfig;
+    AFMapEx<int, AFMapEx<std::string, SceneSeedResource>> mtSceneResourceConfig;
 
     //////////////////////////////////////////////////////////////////////////
 };
