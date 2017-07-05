@@ -1,34 +1,34 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCProxyServerToGameModule.h
+//    @FileName			:    AFCProxyServerToGameModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-05-06
-//    @Module           :    NFCProxyServerToGameModule
+//    @Module           :    AFCProxyServerToGameModule
 //
-//     @Changed         : NFCProxyConnectObject Add HeartBeat by hahaya 2013-11-1
+//     @Changed         : AFCProxyConnectObject Add HeartBeat by hahaya 2013-11-1
 // -------------------------------------------------------------------------
 
-#ifndef NFC_PROXYSERVER_TO_GAME_MODULE_H
-#define NFC_PROXYSERVER_TO_GAME_MODULE_H
+#ifndef AFC_PROXYSERVER_TO_GAME_MODULE_H
+#define AFC_PROXYSERVER_TO_GAME_MODULE_H
 
 #include <string>
-#include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "SDK/Core/NFCHeartBeatManager.h"
-#include "SDK/Interface/NFIProxyServerToGameModule.h"
-#include "SDK/Interface/NFIProxyServerNet_ServerModule.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIProxyLogicModule.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFINetClientModule.hpp"
+#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Core/AFCHeartBeatManager.h"
+#include "SDK/Interface/AFIProxyServerToGameModule.h"
+#include "SDK/Interface/AFIProxyServerNet_ServerModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIProxyLogicModule.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFINetClientModule.hpp"
 
 
-class NFCProxyServerToGameModule : public NFIProxyServerToGameModule
+class AFCProxyServerToGameModule : public AFIProxyServerToGameModule
 {
 public:
 
-    NFCProxyServerToGameModule(NFIPluginManager* p)
+    AFCProxyServerToGameModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -38,7 +38,7 @@ public:
     virtual bool Execute();
 
     virtual bool AfterInit();
-	virtual NFINetClientModule* GetClusterModule();
+	virtual AFINetClientModule* GetClusterModule();
 
 protected:
 
@@ -53,13 +53,13 @@ protected:
 
 private:
 
-    NFILogModule* m_pLogModule;
-    NFIProxyLogicModule* m_pProxyLogicModule;
-    NFIKernelModule* m_pKernelModule;
-    NFIProxyServerNet_ServerModule* m_pProxyServerNet_ServerModule;
-    NFIElementModule* m_pElementModule;
-    NFIClassModule* m_pClassModule;
-	NFINetClientModule* m_pNetClientModule;
+    AFILogModule* m_pLogModule;
+    AFIProxyLogicModule* m_pProxyLogicModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIProxyServerNet_ServerModule* m_pProxyServerNet_ServerModule;
+    AFIElementModule* m_pElementModule;
+    AFIClassModule* m_pClassModule;
+	AFINetClientModule* m_pNetClientModule;
 };
 
 #endif

@@ -1,5 +1,5 @@
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 #ifdef NFLOGPLUGIN_EXPORTS
 #define NFLOGPLUGIN_API __declspec(dllexport)
@@ -9,10 +9,10 @@
 
 
 //////////////////////////////////////////////////////////////////////////
-class UtilityPlugin : public NFIPlugin
+class UtilityPlugin : public AFIPlugin
 {
 public:
-    UtilityPlugin(NFIPluginManager* p)
+    UtilityPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

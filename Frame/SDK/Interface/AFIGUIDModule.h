@@ -8,10 +8,10 @@
 
 #pragma once
 
-#include "NFIModule.h"
+#include "AFIModule.h"
 
 class AFIGUIDModule
-    : public NFIModule
+    : public AFIModule
 {
 public:
     //You need to call this function first then you can call CreateGUID, please follow this order

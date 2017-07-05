@@ -1,34 +1,34 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCProxyServerNet_ClientModule.h
+//    @FileName			:    AFCProxyServerNet_ClientModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-05-06
-//    @Module           :    NFCProxyServerNet_ClientModule
+//    @Module           :    AFCProxyServerNet_ClientModule
 //
-//     @Changed         : NFCProxyConnectObject Add HeartBeat by hahaya 2013-11-1
+//     @Changed         : AFCProxyConnectObject Add HeartBeat by hahaya 2013-11-1
 // -------------------------------------------------------------------------
 
-#ifndef NFC_PROXYSERVER_NETCLIENT_MODULE_H
-#define NFC_PROXYSERVER_NETCLIENT_MODULE_H
+#ifndef AFC_PROXYSERVER_NETCLIENT_MODULE_H
+#define AFC_PROXYSERVER_NETCLIENT_MODULE_H
 
 #include <string>
-#include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "SDK/Core/NFCHeartBeatManager.h"
-#include "SDK/Interface/NFIProxyServerToWorldModule.h"
-#include "SDK/Interface/NFIProxyServerNet_ServerModule.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIProxyLogicModule.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFINetClientModule.hpp"
-#include "SDK/Interface/NFIProxyServerToGameModule.h"
+#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Core/AFCHeartBeatManager.h"
+#include "SDK/Interface/AFIProxyServerToWorldModule.h"
+#include "SDK/Interface/AFIProxyServerNet_ServerModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIProxyLogicModule.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFINetClientModule.hpp"
+#include "SDK/Interface/AFIProxyServerToGameModule.h"
 
-class NFCProxyServerToWorldModule : public NFIProxyServerToWorldModule
+class AFCProxyServerToWorldModule : public AFIProxyServerToWorldModule
 {
 public:
 
-    NFCProxyServerToWorldModule(NFIPluginManager* p)
+    AFCProxyServerToWorldModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -42,7 +42,7 @@ public:
     virtual void LogReceive(const char* str) {}
     virtual void LogSend(const char* str) {}
 
-	virtual NFINetClientModule* GetClusterModule();
+	virtual AFINetClientModule* GetClusterModule();
     virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey);
 
 protected:
@@ -71,18 +71,18 @@ private:
     };
 
 
-    NFMapEx<std::string, ClientConnectData> mWantToConnectMap;
+    AFMapEx<std::string, ClientConnectData> mWantToConnectMap;
 
 private:
 
-    NFILogModule* m_pLogModule;
-    NFIProxyLogicModule* m_pProxyLogicModule;
-    NFIKernelModule* m_pKernelModule;
-    NFIProxyServerNet_ServerModule* m_pProxyServerNet_ServerModule;
-    NFIElementModule* m_pElementModule;
-    NFIClassModule* m_pClassModule;
-    NFIProxyServerToGameModule* m_pProxyServerToGameModule;
-	NFINetClientModule* m_pNetClientModule;
+    AFILogModule* m_pLogModule;
+    AFIProxyLogicModule* m_pProxyLogicModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIProxyServerNet_ServerModule* m_pProxyServerNet_ServerModule;
+    AFIElementModule* m_pElementModule;
+    AFIClassModule* m_pClassModule;
+    AFIProxyServerToGameModule* m_pProxyServerToGameModule;
+	AFINetClientModule* m_pNetClientModule;
 
 };
 

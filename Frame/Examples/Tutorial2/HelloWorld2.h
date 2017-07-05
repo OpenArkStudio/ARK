@@ -6,17 +6,17 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_HELLO_WORLD2_H
-#define NFC_HELLO_WORLD2_H
+#ifndef AFC_HELLO_WORLD2_H
+#define AFC_HELLO_WORLD2_H
 
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 class HelloWorld2
-    : public NFIModule
+    : public AFIModule
 {
 public:
-    HelloWorld2(NFIPluginManager* p)
+    HelloWorld2(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -30,7 +30,7 @@ public:
     virtual bool Shut();
 
 protected:
-    int OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList);
+    int OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIDataList::TData& oldVarList, const AFIDataList::TData& newVarList);
 
 
 

@@ -6,16 +6,16 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_GAMESERVERPLUGIN_H
-#define NFC_GAMESERVERPLUGIN_H
+#ifndef AFC_GAMESERVERPLUGIN_H
+#define AFC_GAMESERVERPLUGIN_H
 
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
-class NFGameServerPlugin : public NFIPlugin
+class NFGameServerPlugin : public AFIPlugin
 {
 public:
-    NFGameServerPlugin(NFIPluginManager* p)
+    NFGameServerPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

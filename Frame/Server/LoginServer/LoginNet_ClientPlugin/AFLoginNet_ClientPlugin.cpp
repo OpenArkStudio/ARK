@@ -2,20 +2,20 @@
 //
 
 #include "NFLoginNet_ClientPlugin.h"
-#include "NFCLoginToMasterModule.h"
+#include "AFCLoginToMasterModule.h"
 
 //
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 
     CREATE_PLUGIN(pm, NFLoginNet_ClientPlugin)
 
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFLoginNet_ClientPlugin)
 };
@@ -35,10 +35,10 @@ const std::string NFLoginNet_ClientPlugin::GetPluginName()
 
 void NFLoginNet_ClientPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFILoginToMasterModule, NFCLoginToMasterModule)
+    REGISTER_MODULE(pPluginManager, AFILoginToMasterModule, AFCLoginToMasterModule)
 }
 
 void NFLoginNet_ClientPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFILoginToMasterModule, NFCLoginToMasterModule)
+    UNREGISTER_MODULE(pPluginManager, AFILoginToMasterModule, AFCLoginToMasterModule)
 }

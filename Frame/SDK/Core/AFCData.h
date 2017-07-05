@@ -1,7 +1,7 @@
 #pragma once
 
 #include "AFIData.h"
-#include "SDK/Interface/NFPlatform.h"
+#include "SDK/Interface/AFPlatform.h"
 
 namespace ArkFrame
 {

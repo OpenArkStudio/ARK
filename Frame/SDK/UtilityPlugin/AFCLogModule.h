@@ -1,21 +1,21 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCLogModule.h
+//    @FileName         :    AFCLogModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
-//    @Module           :    NFCLogModule
+//    @Module           :    AFCLogModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
 #pragma once
 
-#include "SDK/Interface/NFILogModule.h"
+#include "SDK/Interface/AFILogModule.h"
 
 class AFCLogModule
     : public AFILogModule
 {
 public:
 
-    AFCLogModule(NFIPluginManager* p);
+    AFCLogModule(AFIPluginManager* p);
     virtual ~AFCLogModule() {}
 
     virtual bool Init();
@@ -35,11 +35,11 @@ public:
     virtual void LogError(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
     virtual void LogFatal(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
 
-    virtual void LogDebug(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc = "", int nLine = 0);
-    virtual void LogInfo(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc = "", int nLine = 0);
-    virtual void LogWarning(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc = "", int nLine = 0);
-    virtual void LogError(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc = "", int nLine = 0);
-    virtual void LogFatal(const AFGUID self, const std::string& strDesc, const NFINT64 nInfo, const char* pFunc = "", int nLine = 0);
+    virtual void LogDebug(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc = "", int nLine = 0);
+    virtual void LogInfo(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc = "", int nLine = 0);
+    virtual void LogWarning(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc = "", int nLine = 0);
+    virtual void LogError(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc = "", int nLine = 0);
+    virtual void LogFatal(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc = "", int nLine = 0);
 
     virtual void LogDebug(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
     virtual void LogInfo(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);

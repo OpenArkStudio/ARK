@@ -1,45 +1,45 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCProxyServerNet_ClientModule.cpp
+//    @FileName         :    AFCProxyServerNet_ClientModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-05-06
-//    @Module           :    NFCProxyServerNet_ClientModule
+//    @Module           :    AFCProxyServerNet_ClientModule
 //
 // -------------------------------------------------------------------------
 
-#include "NFCProxyServerToWorldModule.h"
+#include "AFCProxyServerToWorldModule.h"
 #include "NFProxyServerNet_ClientPlugin.h"
-#include "SDK/Core/NFIHeartBeatManager.h"
-#include "SDK/Core/NFCHeartBeatManager.h"
-#include "SDK/Interface/NFIClassModule.h"
+#include "SDK/Core/AFIHeartBeatManager.h"
+#include "SDK/Core/AFCHeartBeatManager.h"
+#include "SDK/Interface/AFIClassModule.h"
 
-bool NFCProxyServerToWorldModule::Init()
+bool AFCProxyServerToWorldModule::Init()
 {
-    m_pNetClientModule = NF_NEW NFINetClientModule(pPluginManager);
+    m_pNetClientModule = NF_NEW AFINetClientModule(pPluginManager);
 
     m_pNetClientModule->Init();
 
     return true;
 }
 
-bool NFCProxyServerToWorldModule::Shut()
+bool AFCProxyServerToWorldModule::Shut()
 {
     //Final();
     //Clear();
     return true;
 }
 
-bool NFCProxyServerToWorldModule::Execute()
+bool AFCProxyServerToWorldModule::Execute()
 {
     m_pNetClientModule->Execute();
 
     return true;
 }
 
-void NFCProxyServerToWorldModule::OnServerInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerToWorldModule::OnServerInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     NFMsg::ServerInfoReportList xMsg;
-    if(!NFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!AFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -77,7 +77,7 @@ void NFCProxyServerToWorldModule::OnServerInfoProcess(const int nSockIndex, cons
     }
 }
 
-void NFCProxyServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
+void AFCProxyServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
 {
     if(eEvent & NF_NET_EVENT_EOF)
     {
@@ -98,9 +98,9 @@ void NFCProxyServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF
     }
 }
 
-void NFCProxyServerToWorldModule::Register(const int nServerID)
+void AFCProxyServerToWorldModule::Register(const int nServerID)
 {
-    NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -142,23 +142,23 @@ void NFCProxyServerToWorldModule::Register(const int nServerID)
     }
 }
 
-bool NFCProxyServerToWorldModule::AfterInit()
+bool AFCProxyServerToWorldModule::AfterInit()
 {
-    m_pProxyLogicModule = pPluginManager->FindModule<NFIProxyLogicModule>();
-    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-    m_pProxyServerNet_ServerModule = pPluginManager->FindModule<NFIProxyServerNet_ServerModule>();
-    m_pElementModule = pPluginManager->FindModule<NFIElementModule>();
-    m_pLogModule = pPluginManager->FindModule<NFILogModule>();
-    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-    m_pProxyServerToGameModule = pPluginManager->FindModule<NFIProxyServerToGameModule>();
+    m_pProxyLogicModule = pPluginManager->FindModule<AFIProxyLogicModule>();
+    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    m_pProxyServerNet_ServerModule = pPluginManager->FindModule<AFIProxyServerNet_ServerModule>();
+    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+    m_pProxyServerToGameModule = pPluginManager->FindModule<AFIProxyServerToGameModule>();
 
-    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_ACK_CONNECT_WORLD, this, &NFCProxyServerToWorldModule::OnSelectServerResultProcess);
-    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_STS_NET_INFO, this, &NFCProxyServerToWorldModule::OnServerInfoProcess);
-    m_pNetClientModule->AddReceiveCallBack(this, &NFCProxyServerToWorldModule::OnOtherMessage);
+    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyServerToWorldModule::OnSelectServerResultProcess);
+    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_STS_NET_INFO, this, &AFCProxyServerToWorldModule::OnServerInfoProcess);
+    m_pNetClientModule->AddReceiveCallBack(this, &AFCProxyServerToWorldModule::OnOtherMessage);
 
-    m_pNetClientModule->AddEventCallBack(this, &NFCProxyServerToWorldModule::OnSocketWSEvent);
+    m_pNetClientModule->AddEventCallBack(this, &AFCProxyServerToWorldModule::OnSocketWSEvent);
 
-    NF_SHARE_PTR<NFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -192,12 +192,12 @@ bool NFCProxyServerToWorldModule::AfterInit()
 }
 
 
-void NFCProxyServerToWorldModule::OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //保持记录,直到下线,或者1分钟不上线即可删除
     AFGUID nPlayerID;
     NFMsg::AckConnectWorldResult xMsg;
-    if(!NFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!AFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -215,12 +215,12 @@ void NFCProxyServerToWorldModule::OnSelectServerResultProcess(const int nSockInd
     mWantToConnectMap.AddElement(pConnectData->strAccount, pConnectData);
 }
 
-NFINetClientModule* NFCProxyServerToWorldModule::GetClusterModule()
+AFINetClientModule* AFCProxyServerToWorldModule::GetClusterModule()
 {
     return m_pNetClientModule;
 }
 
-bool NFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccount, const std::string& strKey)
+bool AFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccount, const std::string& strKey)
 {
     NF_SHARE_PTR<ClientConnectData> pConnectData = mWantToConnectMap.GetElement(strAccount);
     if(pConnectData && strKey == pConnectData->strConnectKey)
@@ -233,12 +233,12 @@ bool NFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccoun
     return false;
 }
 
-void NFCProxyServerToWorldModule::LogServerInfo(const std::string& strServerInfo)
+void AFCProxyServerToWorldModule::LogServerInfo(const std::string& strServerInfo)
 {
     m_pLogModule->LogInfo(AFGUID(), strServerInfo, "");
 }
 
-void NFCProxyServerToWorldModule::OnOtherMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerToWorldModule::OnOtherMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     m_pProxyServerNet_ServerModule->Transpond(nSockIndex, nMsgID, msg, nLen, xClientID);
 }

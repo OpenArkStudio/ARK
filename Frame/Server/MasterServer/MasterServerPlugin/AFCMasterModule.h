@@ -1,24 +1,24 @@
 // -------------------------------------------------------------------------
-//    @FileName         £º    NFCMasterModule.h
+//    @FileName         £º    AFCMasterModule.h
 //    @Author           £º    Ark Game Tech
 //    @Date             £º    2012-12-15
-//    @Module           £º    NFCMasterModule
+//    @Module           £º    AFCMasterModule
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_MASTER_MODULE_H
-#define NFC_MASTER_MODULE_H
+#ifndef AFC_MASTER_MODULE_H
+#define AFC_MASTER_MODULE_H
 
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIMasterModule.h"
-#include "SDK/Interface/NFIMasterNet_ServerModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIMasterModule.h"
+#include "SDK/Interface/AFIMasterNet_ServerModule.h"
 
-class NFCMasterModule
-    : public NFIMasterModule
+class AFCMasterModule
+    : public AFIMasterModule
 {
 
 public:
-    NFCMasterModule(NFIPluginManager* p)
+    AFCMasterModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -31,7 +31,7 @@ protected:
 
 private:
 
-    NFIKernelModule* m_pKernelModule;
+    AFIKernelModule* m_pKernelModule;
 };
 
 #endif
