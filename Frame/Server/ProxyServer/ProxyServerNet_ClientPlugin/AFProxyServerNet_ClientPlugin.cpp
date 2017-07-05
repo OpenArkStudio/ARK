@@ -7,21 +7,21 @@
 // -------------------------------------------------------------------------
 
 
-#include "NFCProxyServerToWorldModule.h"
+#include "AFCProxyServerToWorldModule.h"
 #include "NFProxyServerNet_ClientPlugin.h"
-#include "NFCProxyServerToGameModule.h"
+#include "AFCProxyServerToGameModule.h"
 
 //
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
     CREATE_PLUGIN(pm, NFProxyServerNet_ClientPlugin)
 
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFProxyServerNet_ClientPlugin)
 };
@@ -41,12 +41,12 @@ const std::string NFProxyServerNet_ClientPlugin::GetPluginName()
 
 void NFProxyServerNet_ClientPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFIProxyServerToWorldModule, NFCProxyServerToWorldModule)
-    REGISTER_MODULE(pPluginManager, NFIProxyServerToGameModule, NFCProxyServerToGameModule)
+    REGISTER_MODULE(pPluginManager, AFIProxyServerToWorldModule, AFCProxyServerToWorldModule)
+    REGISTER_MODULE(pPluginManager, AFIProxyServerToGameModule, AFCProxyServerToGameModule)
 }
 
 void NFProxyServerNet_ClientPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIProxyServerToGameModule, NFCProxyServerToGameModule)
-    UNREGISTER_MODULE(pPluginManager, NFIProxyServerToWorldModule, NFCProxyServerToWorldModule)
+    UNREGISTER_MODULE(pPluginManager, AFIProxyServerToGameModule, AFCProxyServerToGameModule)
+    UNREGISTER_MODULE(pPluginManager, AFIProxyServerToWorldModule, AFCProxyServerToWorldModule)
 }

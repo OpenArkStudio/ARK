@@ -2,20 +2,20 @@
 //
 
 #include "NFMasterNet_ServerPlugin.h"
-#include "NFCMasterNet_ServerModule.h"
+#include "AFCMasterNet_ServerModule.h"
 
 //
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 
     CREATE_PLUGIN(pm, NFMasterNet_ServerPlugin)
 
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFMasterNet_ServerPlugin)
 };
@@ -36,10 +36,10 @@ const std::string NFMasterNet_ServerPlugin::GetPluginName()
 
 void NFMasterNet_ServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFIMasterNet_ServerModule, NFCMasterNet_ServerModule)
+    REGISTER_MODULE(pPluginManager, AFIMasterNet_ServerModule, AFCMasterNet_ServerModule)
 }
 
 void NFMasterNet_ServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIMasterNet_ServerModule, NFCMasterNet_ServerModule)
+    UNREGISTER_MODULE(pPluginManager, AFIMasterNet_ServerModule, AFCMasterNet_ServerModule)
 }

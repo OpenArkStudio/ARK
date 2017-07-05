@@ -1,33 +1,33 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCPropertyTrailModule.h
+//    @FileName			:    AFCPropertyTrailModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-09-30
-//    @Module           :    NFCPropertyTrailModule
+//    @Module           :    AFCPropertyTrailModule
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_PROPERTY_TRAIL_MODULE_H
-#define NFC_PROPERTY_TRAIL_MODULE_H
+#ifndef AFC_PROPERTY_TRAIL_MODULE_H
+#define AFC_PROPERTY_TRAIL_MODULE_H
 
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFIGameLogicModule.h"
-#include "SDK/Interface/NFIPropertyModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFIPropertyConfigModule.h"
-#include "SDK/Interface/NFIPluginManager.h"
-#include "SDK/Interface/NFIPropertyTrailModule.h"
-#include "SDK/Interface/NFILogModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIGameLogicModule.h"
+#include "SDK/Interface/AFIPropertyModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIPropertyConfigModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Interface/AFIPropertyTrailModule.h"
+#include "SDK/Interface/AFILogModule.h"
 
-class NFCPropertyTrailModule
-    : public NFIPropertyTrailModule
+class AFCPropertyTrailModule
+    : public AFIPropertyTrailModule
 {
 public:
-    NFCPropertyTrailModule(NFIPluginManager* p)
+    AFCPropertyTrailModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
-    virtual ~NFCPropertyTrailModule() {};
+    virtual ~AFCPropertyTrailModule() {};
 
     virtual bool Init();
     virtual bool Shut();
@@ -42,16 +42,16 @@ protected:
     int LogObjectData(const AFGUID& self);
     int TrailObjectData(const AFGUID& self);
 
-    int OnObjectPropertyEvent(const AFGUID& self, const std::string& strPropertyName, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnObjectPropertyEvent(const AFGUID& self, const std::string& strPropertyName, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar);
 
-    int OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFDataList::TData& oldVar, const AFDataList::TData& newVar);
+    int OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar);
 
 private:
 
-    NFIKernelModule* m_pKernelModule;
-    NFIElementModule* m_pElementModule;
-    NFIClassModule* m_pClassModule;
-    NFILogModule* m_pLogModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIElementModule* m_pElementModule;
+    AFIClassModule* m_pClassModule;
+    AFILogModule* m_pLogModule;
 };
 
 

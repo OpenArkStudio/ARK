@@ -1,34 +1,34 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCProxyLogicModule.cpp
+//    @FileName         :    AFCProxyLogicModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-05-06
-//    @Module           :    NFCProxyLogicModule
+//    @Module           :    AFCProxyLogicModule
 //
 // -------------------------------------------------------------------------
 
-#include "NFCProxyLogicPlugin.h"
-#include "NFCProxyLogicModule.h"
+#include "AFCProxyLogicPlugin.h"
+#include "AFCProxyLogicModule.h"
 
-bool NFCProxyLogicModule::Init()
+bool AFCProxyLogicModule::Init()
 {
     return true;
 }
 
-bool NFCProxyLogicModule::Shut()
+bool AFCProxyLogicModule::Shut()
 {
     return true;
 }
 
-bool NFCProxyLogicModule::Execute()
+bool AFCProxyLogicModule::Execute()
 {
     return true;
 }
 
 
-bool NFCProxyLogicModule::AfterInit()
+bool AFCProxyLogicModule::AfterInit()
 {
-    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
+    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
 
     return true;
 }

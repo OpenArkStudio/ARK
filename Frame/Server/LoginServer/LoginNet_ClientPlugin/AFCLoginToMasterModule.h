@@ -1,30 +1,30 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCLoginNet_ServerModule.h
+//    @FileName			:    AFCLoginNet_ServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCLoginNet_ServerModule
+//    @Module           :    AFCLoginNet_ServerModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#ifndef NFC_LOGINNET_CLIENT_MODULE_H
-#define NFC_LOGINNET_CLIENT_MODULE_H
+#ifndef AFC_LOGINNET_CLIENT_MODULE_H
+#define AFC_LOGINNET_CLIENT_MODULE_H
 
-//  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
+//  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
 
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFILoginLogicModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFILoginNet_ServerModule.h"
-#include "SDK/Interface/NFILoginToMasterModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFILoginLogicModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFILoginNet_ServerModule.h"
+#include "SDK/Interface/AFILoginToMasterModule.h"
 
-class NFCLoginToMasterModule
-    : public NFILoginToMasterModule
+class AFCLoginToMasterModule
+    : public AFILoginToMasterModule
 {
 public:
-    NFCLoginToMasterModule(NFIPluginManager* p)
+    AFCLoginToMasterModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -40,8 +40,8 @@ public:
     virtual void LogReceive(const char* str) {}
     virtual void LogSend(const char* str) {}
 
-	virtual NFINetClientModule* GetClusterModule();
-    virtual NFMapEx<int, NFMsg::ServerInfoReport>& GetWorldMap();
+	virtual AFINetClientModule* GetClusterModule();
+    virtual AFMapEx<int, NFMsg::ServerInfoReport>& GetWorldMap();
 
 protected:
     void OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID);
@@ -56,15 +56,15 @@ protected:
     void Register(const int nServerID);
 
 private:
-    NFMapEx<int, NFMsg::ServerInfoReport> mWorldMap;
+    AFMapEx<int, NFMsg::ServerInfoReport> mWorldMap;
 
-    NFILoginLogicModule* m_pLoginLogicModule;
-    NFILoginNet_ServerModule* m_pLoginNet_ServerModule;
-    NFIElementModule* m_pElementModule;
-    NFIKernelModule* m_pKernelModule;
-    NFIClassModule* m_pClassModule;
-    NFILogModule* m_pLogModule;
-	NFINetClientModule* m_pNetClientModule;
+    AFILoginLogicModule* m_pLoginLogicModule;
+    AFILoginNet_ServerModule* m_pLoginNet_ServerModule;
+    AFIElementModule* m_pElementModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIClassModule* m_pClassModule;
+    AFILogModule* m_pLogModule;
+	AFINetClientModule* m_pNetClientModule;
 };
 
 #endif

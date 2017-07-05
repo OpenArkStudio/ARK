@@ -1,29 +1,29 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCMasterNet_ServerModule.h
+//    @FileName			:    AFCMasterNet_ServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCMasterNet_ServerModule
+//    @Module           :    AFCMasterNet_ServerModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#ifndef NFC_MASTERNET_SERVER_MODULE_H
-#define NFC_MASTERNET_SERVER_MODULE_H
+#ifndef AFC_MASTERNET_SERVER_MODULE_H
+#define AFC_MASTERNET_SERVER_MODULE_H
 
-//  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
+//  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
 
-#include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "SDK/Interface/NFIMasterNet_ServerModule.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFIElementModule.h"
+#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Interface/AFIMasterNet_ServerModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIElementModule.h"
 
-class NFCMasterNet_ServerModule
-    : public NFIMasterNet_ServerModule
+class AFCMasterNet_ServerModule
+    : public AFIMasterNet_ServerModule
 {
 public:
-    NFCMasterNet_ServerModule(NFIPluginManager* p)
+    AFCMasterNet_ServerModule(AFIPluginManager* p)
     {
 		pPluginManager = p;
         mnLastLogTime = pPluginManager->GetNowTime();
@@ -73,18 +73,18 @@ protected:
 
 private:
 
-    NFINT64 mnLastLogTime;
+    AFINT64 mnLastLogTime;
 
     //serverid,data
-    NFMapEx<int, ServerData> mWorldMap;
-    NFMapEx<int, ServerData> mLoginMap;
+    AFMapEx<int, ServerData> mWorldMap;
+    AFMapEx<int, ServerData> mLoginMap;
 
 
-    NFIElementModule* m_pElementModule;
-    NFIClassModule* m_pClassModule;
-    NFIKernelModule* m_pKernelModule;
-    NFILogModule* m_pLogModule;
-	NFINetModule* m_pNetModule;
+    AFIElementModule* m_pElementModule;
+    AFIClassModule* m_pClassModule;
+    AFIKernelModule* m_pKernelModule;
+    AFILogModule* m_pLogModule;
+	AFINetModule* m_pNetModule;
 };
 
 #endif

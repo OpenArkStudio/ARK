@@ -121,7 +121,7 @@ namespace GUIDModule
 
 //////////////////////////////////////////////////////////////////////////
 
-AFCGUIDModule::AFCGUIDModule(NFIPluginManager* p)
+AFCGUIDModule::AFCGUIDModule(AFIPluginManager* p)
 {
     pPluginManager = p;
 }
