@@ -1,24 +1,24 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCLoginLogicModule.h
+//    @FileName			:    AFCLoginLogicModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
-//    @Module           :    NFCLoginLogicModule
+//    @Module           :    AFCLoginLogicModule
 //
 // -------------------------------------------------------------------------
 
-#ifndef NFC_LOGINLOGIC_MODULE_H
-#define NFC_LOGINLOGIC_MODULE_H
+#ifndef AFC_LOGINLOGIC_MODULE_H
+#define AFC_LOGINLOGIC_MODULE_H
 
-#include "SDK/Core/NFMap.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFILoginLogicModule.h"
-#include "SDK/Interface/NFILoginNet_ServerModule.h"
+#include "SDK/Core/AFMap.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFILoginLogicModule.h"
+#include "SDK/Interface/AFILoginNet_ServerModule.h"
 
-class NFCLoginLogicModule
-    : public NFILoginLogicModule
+class AFCLoginLogicModule
+    : public AFILoginLogicModule
 {
 public:
-    NFCLoginLogicModule(NFIPluginManager* p)
+    AFCLoginLogicModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -35,7 +35,7 @@ protected:
 
 protected:
 
-    NFILoginNet_ServerModule* m_pLoginNet_ServerModule;
+    AFILoginNet_ServerModule* m_pLoginNet_ServerModule;
 private:
 };
 

@@ -8,15 +8,15 @@
 
 
 #include "NFGameServerPlugin.h"
-#include "NFCGameServerModule.h"
-#include "NFCSceneProcessModule.h"
-#include "NFCPropertyModule.h"
-#include "NFCLevelModule.h"
-#include "NFCPropertyConfigModule.h"
+#include "AFCGameServerModule.h"
+#include "AFCSceneProcessModule.h"
+#include "AFCPropertyModule.h"
+#include "AFCLevelModule.h"
+#include "AFCPropertyConfigModule.h"
 
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 #if NF_PLATFORM == NF_PLATFORM_WIN
     SetConsoleTitle("NFGameServer");
@@ -25,7 +25,7 @@ NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
 
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFGameServerPlugin)
 };
@@ -46,20 +46,20 @@ const std::string NFGameServerPlugin::GetPluginName()
 void NFGameServerPlugin::Install()
 {
 
-    REGISTER_MODULE(pPluginManager, NFIGameServerModule, NFCGameServerModule)
-    REGISTER_MODULE(pPluginManager, NFISceneProcessModule, NFCSceneProcessModule)
+    REGISTER_MODULE(pPluginManager, AFIGameServerModule, AFCGameServerModule)
+    REGISTER_MODULE(pPluginManager, AFISceneProcessModule, AFCSceneProcessModule)
 
-    REGISTER_MODULE(pPluginManager, NFIPropertyModule, NFCPropertyModule)
-    REGISTER_MODULE(pPluginManager, NFILevelModule, NFCLevelModule)
-    REGISTER_MODULE(pPluginManager, NFIPropertyConfigModule, NFCPropertyConfigModule)
+    REGISTER_MODULE(pPluginManager, AFIPropertyModule, AFCPropertyModule)
+    REGISTER_MODULE(pPluginManager, AFILevelModule, AFCLevelModule)
+    REGISTER_MODULE(pPluginManager, AFIPropertyConfigModule, AFCPropertyConfigModule)
 }
 
 void NFGameServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIPropertyConfigModule, NFCPropertyConfigModule)
-    UNREGISTER_MODULE(pPluginManager, NFILevelModule, NFCLevelModule)
-    UNREGISTER_MODULE(pPluginManager, NFIPropertyModule, NFCPropertyModule)
+    UNREGISTER_MODULE(pPluginManager, AFIPropertyConfigModule, AFCPropertyConfigModule)
+    UNREGISTER_MODULE(pPluginManager, AFILevelModule, AFCLevelModule)
+    UNREGISTER_MODULE(pPluginManager, AFIPropertyModule, AFCPropertyModule)
 
-    UNREGISTER_MODULE(pPluginManager, NFISceneProcessModule, NFCSceneProcessModule)
-    UNREGISTER_MODULE(pPluginManager, NFIGameServerModule, NFCGameServerModule)
+    UNREGISTER_MODULE(pPluginManager, AFISceneProcessModule, AFCSceneProcessModule)
+    UNREGISTER_MODULE(pPluginManager, AFIGameServerModule, AFCGameServerModule)
 }

@@ -8,7 +8,7 @@
     <ClCompile Include="AFCLogModule.cpp">
       <Filter>AFLogModule</Filter>
     </ClCompile>
-    <ClCompile Include="UtilityPlugin.cpp">
+    <ClCompile Include="AFUtilityPlugin.cpp">
       <Filter>Plugin</Filter>
     </ClCompile>
   </ItemGroup>
@@ -19,10 +19,10 @@
     <ClInclude Include="AFCLogModule.h">
       <Filter>AFLogModule</Filter>
     </ClInclude>
-    <ClInclude Include="UtilityPlugin.h">
+    <ClInclude Include="AFUtilityPlugin.h">
       <Filter>Plugin</Filter>
     </ClInclude>
-    <ClInclude Include="Noncopyable.h">
+    <ClInclude Include="Noncopyable.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>

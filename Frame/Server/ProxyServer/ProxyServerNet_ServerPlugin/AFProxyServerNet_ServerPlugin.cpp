@@ -7,21 +7,21 @@
 // -------------------------------------------------------------------------
 
 
-#include "NFCProxyServerNet_ServerModule.h"
+#include "AFCProxyServerNet_ServerModule.h"
 #include "NFProxyServerNet_ServerPlugin.h"
 
 //
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 
     CREATE_PLUGIN(pm, NFProxyServerNet_ServerPlugin)
 
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFProxyServerNet_ServerPlugin)
 };
@@ -41,11 +41,11 @@ const std::string NFProxyServerNet_ServerPlugin::GetPluginName()
 
 void NFProxyServerNet_ServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, NFIProxyServerNet_ServerModule, NFCProxyServerNet_ServerModule)
+    REGISTER_MODULE(pPluginManager, AFIProxyServerNet_ServerModule, AFCProxyServerNet_ServerModule)
 
 }
 
 void NFProxyServerNet_ServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFIProxyServerNet_ServerModule, NFCProxyServerNet_ServerModule)
+    UNREGISTER_MODULE(pPluginManager, AFIProxyServerNet_ServerModule, AFCProxyServerNet_ServerModule)
 }

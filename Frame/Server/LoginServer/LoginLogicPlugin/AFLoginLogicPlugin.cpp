@@ -8,12 +8,12 @@
 
 
 #include "NFLoginLogicPlugin.h"
-#include "NFCLoginLogicModule.h"
+#include "AFCLoginLogicModule.h"
 
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 #if NF_PLATFORM == NF_PLATFORM_WIN
     SetConsoleTitle("NFLoginServer");
@@ -22,7 +22,7 @@ NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
 
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFLoginLogicPlugin)
 };
@@ -43,11 +43,11 @@ const std::string NFLoginLogicPlugin::GetPluginName()
 void NFLoginLogicPlugin::Install()
 {
 
-    REGISTER_MODULE(pPluginManager, NFILoginLogicModule, NFCLoginLogicModule)
+    REGISTER_MODULE(pPluginManager, AFILoginLogicModule, AFCLoginLogicModule)
 
 }
 
 void NFLoginLogicPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, NFILoginLogicModule, NFCLoginLogicModule)
+    UNREGISTER_MODULE(pPluginManager, AFILoginLogicModule, AFCLoginLogicModule)
 }

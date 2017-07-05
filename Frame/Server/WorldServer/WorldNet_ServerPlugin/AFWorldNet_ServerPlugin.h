@@ -6,8 +6,8 @@
 // defined with this macro as being exported.
 
 ///
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 #ifdef NFWORLDNET_SERVERPLUGIN_EXPORTS
 #define NFWORLDNET_SERVERPLUGIN_API __declspec(dllexport)
@@ -16,10 +16,10 @@
 #endif
 
 //////////////////////////////////////////////////////////////////////////
-class NFWorldNet_ServerPlugin : public NFIPlugin
+class NFWorldNet_ServerPlugin : public AFIPlugin
 {
 public:
-    NFWorldNet_ServerPlugin(NFIPluginManager* p)
+    NFWorldNet_ServerPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
