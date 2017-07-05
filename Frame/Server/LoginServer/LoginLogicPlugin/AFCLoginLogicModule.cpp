@@ -1,32 +1,32 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCLoginLogicModule.cpp
+//    @FileName			:    AFCLoginLogicModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCLoginLogicModule
+//    @Module           :    AFCLoginLogicModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
 #include "NFLoginLogicPlugin.h"
-#include "NFCLoginLogicModule.h"
+#include "AFCLoginLogicModule.h"
 
 
-bool NFCLoginLogicModule::Init()
+bool AFCLoginLogicModule::Init()
 {
 
     return true;
 }
 
-bool NFCLoginLogicModule::Shut()
+bool AFCLoginLogicModule::Shut()
 {
     return true;
 }
 
-int NFCLoginLogicModule::OnLoginProcess(const AFGUID& object, const std::string& strAccount, const std::string& strPwd)
+int AFCLoginLogicModule::OnLoginProcess(const AFGUID& object, const std::string& strAccount, const std::string& strPwd)
 {
 	return 0;
 }
 
-bool NFCLoginLogicModule::Execute()
+bool AFCLoginLogicModule::Execute()
 {
 
 
@@ -34,9 +34,9 @@ bool NFCLoginLogicModule::Execute()
 }
 
 
-bool NFCLoginLogicModule::AfterInit()
+bool AFCLoginLogicModule::AfterInit()
 {
-    m_pLoginNet_ServerModule = pPluginManager->FindModule<NFILoginNet_ServerModule>();
+    m_pLoginNet_ServerModule = pPluginManager->FindModule<AFILoginNet_ServerModule>();
 
     return true;
 }

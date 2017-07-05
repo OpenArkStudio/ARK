@@ -1,16 +1,16 @@
 
-#include "NFCNet.h"
+#include "AFCNet.h"
 #include <thread>
 #include <string>
 #include <processthreadsapi.h>
-#include "NFCMulNet.h"
-#include "NFComm/NFCore/NFTimer.h"
+#include "AFCMulNet.h"
+#include "SDK/Core/NFTimer.h"
 #ifdef NF_DEBUG_MODE
 #pragma comment(lib,"NFNet_d.lib")
-#pragma comment(lib,"NFCore_d.lib")
+#pragma comment(lib,"AFCore_d.lib")
 #else
 #pragma comment(lib,"NFNet.lib")
-#pragma comment(lib,"NFCore.lib")
+#pragma comment(lib,"AFCore.lib")
 #endif
 
 class TestServerClass
@@ -18,8 +18,8 @@ class TestServerClass
 public:
     TestServerClass()
     {
-        pNet = new NFCNet(this, &TestServerClass::ReciveHandler, &TestServerClass::EventHandler);
-        //pNet = new NFCMulNet(this, &TestServerClass::ReciveHandler, &TestServerClass::EventHandler);
+        pNet = new AFCNet(this, &TestServerClass::ReciveHandler, &TestServerClass::EventHandler);
+        //pNet = new AFCMulNet(this, &TestServerClass::ReciveHandler, &TestServerClass::EventHandler);
         pNet->Initialization(10000, 8088, 2, 4);
         nSendMsgCount = 0;
         nReciveMsgCount = 0;
@@ -72,7 +72,7 @@ public:
     }
 
 protected:
-    NFINet* pNet;
+    AFINet* pNet;
     int nSendMsgCount;
     int nReciveMsgCount;
     int nStartTime;

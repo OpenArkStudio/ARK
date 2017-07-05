@@ -11,13 +11,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NFCMulNet.cpp" />
-    <ClCompile Include="NFCNet.cpp" />
+    <ClCompile Include="AFCMulNet.cpp" />
+    <ClCompile Include="AFCNet.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NFCMulNet.h" />
-    <ClInclude Include="NFCNet.h" />
-    <ClInclude Include="NFINet.h" />
+    <ClInclude Include="AFCMulNet.h" />
+    <ClInclude Include="AFCNet.h" />
+    <ClInclude Include="AFINet.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{403EB74F-6AF5-4250-8DA5-9D3CBFB7E545}</ProjectGuid>

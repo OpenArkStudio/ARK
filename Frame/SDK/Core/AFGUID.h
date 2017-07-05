@@ -1,5 +1,5 @@
 #pragma once
-#include "SDK/Interface/NFPlatform.h"
+#include "SDK/Interface/AFPlatform.h"
 
 struct AFGUID 
 {
@@ -92,8 +92,8 @@ struct AFGUID
 
         try
         {
-            nIdent = AF_LEXICAL_CAST<NFINT32>(strIdent);
-            nSerial = AF_LEXICAL_CAST<NFINT32>(strSerial);
+            nIdent = AF_LEXICAL_CAST<AFINT32>(strIdent);
+            nSerial = AF_LEXICAL_CAST<AFINT32>(strSerial);
 
             return true;
         }

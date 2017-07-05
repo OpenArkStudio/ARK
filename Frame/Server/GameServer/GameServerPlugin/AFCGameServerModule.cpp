@@ -1,42 +1,42 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFCGameServerModule.cpp
+//    @FileName         :    AFCGameServerModule.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCGameServerModule
+//    @Module           :    AFCGameServerModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
 #include "NFGameServerPlugin.h"
-#include "NFCGameServerModule.h"
+#include "AFCGameServerModule.h"
 
-bool NFCGameServerModule::Init()
+bool AFCGameServerModule::Init()
 {
-    m_pKernelModule = pPluginManager->FindModule<NFIKernelModule>();
-    m_pClassModule = pPluginManager->FindModule<NFIClassModule>();
-    m_pUUIDModule = pPluginManager->FindModule<NFIUUIDModule>();
+    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+    m_pUUIDModule = pPluginManager->FindModule<AFIUUIDModule>();
 
     m_pUUIDModule->SetIdentID(1);
 
     return true;
 }
 
-bool NFCGameServerModule::Shut()
+bool AFCGameServerModule::Shut()
 {
 
     return true;
 }
 
-bool NFCGameServerModule::Execute()
+bool AFCGameServerModule::Execute()
 {
     return true;
 }
 
-bool NFCGameServerModule::AfterInit()
+bool AFCGameServerModule::AfterInit()
 {
     return true;
 }
 
-bool NFCGameServerModule::BeforeShut()
+bool AFCGameServerModule::BeforeShut()
 {
     return true;
 }

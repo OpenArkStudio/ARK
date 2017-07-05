@@ -1,32 +1,32 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFCWorldNet_ServerModule.h
+//    @FileName			:    AFCWorldNet_ServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
-//    @Module           :    NFCWorldNet_ServerModule
+//    @Module           :    AFCWorldNet_ServerModule
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#ifndef NFC_WORLDNET_SERVER_MODULE_H
-#define NFC_WORLDNET_SERVER_MODULE_H
+#ifndef AFC_WORLDNET_SERVER_MODULE_H
+#define AFC_WORLDNET_SERVER_MODULE_H
 
-//  the cause of sock'libariy, thenfore "NFCNet.h" much be included first.
-#include "SDK/Core/NFMap.h"
-#include "NFComm/NFMessageDefine/NFMsgDefine.h"
-#include "SDK/Interface/NFIWorldToMasterModule.h"
-#include "SDK/Interface/NFIWorldLogicModule.h"
-#include "SDK/Interface/NFINetModule.h"
-#include "SDK/Interface/NFIClassModule.h"
-#include "SDK/Interface/NFIElementModule.h"
-#include "SDK/Interface/NFILogModule.h"
-#include "SDK/Interface/NFIWorldNet_ServerModule.h"
-#include "SDK/Interface/NFIKernelModule.h"
-#include "SDK/Interface/NFILoginNet_ServerModule.h"
+//  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
+#include "SDK/Core/AFMap.h"
+#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Interface/AFIWorldToMasterModule.h"
+#include "SDK/Interface/AFIWorldLogicModule.h"
+#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIWorldNet_ServerModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFILoginNet_ServerModule.h"
 
-class NFCWorldNet_ServerModule
-    : public NFIWorldNet_ServerModule
+class AFCWorldNet_ServerModule
+    : public AFIWorldNet_ServerModule
 {
 public:
-    NFCWorldNet_ServerModule(NFIPluginManager* p)
+    AFCWorldNet_ServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
         mnLastCheckTime = pPluginManager->GetNowTime();
@@ -42,17 +42,17 @@ public:
     virtual void LogSend(const char* str) {}
 
     virtual bool SendMsgToGame(const int nGameID, const NFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer = AFGUID());
-    virtual bool SendMsgToGame(const AFDataList& argObjectVar, const AFDataList& argGameID,  const NFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData);
+    virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID,  const NFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData);
     virtual bool SendMsgToPlayer(const NFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer);
 
-    virtual int OnObjectListEnter(const AFDataList& self, const AFDataList& argVar);
-    virtual int OnObjectListLeave(const AFDataList& self, const AFDataList& argVar);
-    virtual int OnPropertyEnter(const AFDataList& argVar, const AFDataList& argGameID, const AFGUID& self);
-    virtual int OnRecordEnter(const AFDataList& argVar, const AFDataList& argGameID, const AFGUID& self);
-    virtual bool OnRecordEnterPack(NF_SHARE_PTR<NFIRecord> pRecord, NFMsg::ObjectRecordBase* pObjectRecordBase);
+    virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar);
+    virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar);
+    virtual int OnPropertyEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
+    virtual int OnRecordEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
+    virtual bool OnRecordEnterPack(NF_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase* pObjectRecordBase);
 
     virtual NF_SHARE_PTR<ServerData> GetSuitProxyForEnter();
-	virtual NFINetModule* GetNetModule();
+	virtual AFINetModule* GetNetModule();
 
     virtual int GetPlayerGameID(const AFGUID self);
 
@@ -94,18 +94,18 @@ protected:
 
 private:
 
-    NFINT64 mnLastCheckTime;
+    AFINT64 mnLastCheckTime;
 
     //serverid,data
-    NFMapEx<int, ServerData> mGameMap;
-    NFMapEx<int, ServerData> mProxyMap;
+    AFMapEx<int, ServerData> mGameMap;
+    AFMapEx<int, ServerData> mProxyMap;
 
-    NFIElementModule* m_pElementModule;
-    NFIClassModule* m_pClassModule;
-    NFIWorldLogicModule* m_pWorldLogicModule;
-    NFIKernelModule* m_pKernelModule;
-    NFILogModule* m_pLogModule;
-	NFINetModule* m_pNetModule;
+    AFIElementModule* m_pElementModule;
+    AFIClassModule* m_pClassModule;
+    AFIWorldLogicModule* m_pWorldLogicModule;
+    AFIKernelModule* m_pKernelModule;
+    AFILogModule* m_pLogModule;
+	AFINetModule* m_pNetModule;
 
 };
 

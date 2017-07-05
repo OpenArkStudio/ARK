@@ -9,8 +9,8 @@
 #ifndef NF_PROXYSERVER_NETCLIENTPLUGIN_MODULE_H
 #define NF_PROXYSERVER_NETCLIENTPLUGIN_MODULE_H
 ///
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 #ifdef NFPROXYSERVERNET_CLIENTPLUGIN_EXPORTS
 #define NFPROXYSERVERNET_CLIENTPLUGIN_API __declspec(dllexport)
@@ -18,10 +18,10 @@
 #define NFPROXYSERVERNET_CLIENTPLUGIN_API __declspec(dllimport)
 #endif
 
-class NFProxyServerNet_ClientPlugin : public NFIPlugin
+class NFProxyServerNet_ClientPlugin : public AFIPlugin
 {
 public:
-    NFProxyServerNet_ClientPlugin(NFIPluginManager* p)
+    NFProxyServerNet_ClientPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

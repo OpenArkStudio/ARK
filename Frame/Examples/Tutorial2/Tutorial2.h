@@ -10,13 +10,13 @@
 #define NF_TUTORIAL2_H
 
 ///
-#include "SDK/Interface/NFIPlugin.h"
-#include "SDK/Interface/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
-class Tutorial2 : public NFIPlugin
+class Tutorial2 : public AFIPlugin
 {
 public:
-    Tutorial2(NFIPluginManager* p)
+    Tutorial2(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

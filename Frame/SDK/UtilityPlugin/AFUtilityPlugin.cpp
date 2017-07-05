@@ -1,18 +1,18 @@
 // NFLogPlugin.cpp : Defines the exported functions for the DLL application.
 //
 
-#include "UtilityPlugin.h"
+#include "AFUtilityPlugin.h"
 #include "AFCGUIDModule.h"
 #include "AFCLogModule.h"
 
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
     CREATE_PLUGIN(pm, UtilityPlugin)
 };
 
-NF_EXPORT void DllStopPlugin(NFIPluginManager* pm)
+NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, UtilityPlugin)
 };
