@@ -14,13 +14,14 @@
 #include "AFArrayPod.hpp"
 #include "AFStringPod.hpp"
 #include "AFCData.h"
+#include <unordered_map>
 
 using namespace ArkFrame;
 
 struct AFProperty
 {
     PropertyName name; //属性名，最大16个字符
-    AFXData value;    //属性值
+    AFXData prop_value;    //属性值
 
     //TODO:暂时还没用上
     bool bPublic;
@@ -33,11 +34,11 @@ class AFPropertyMgr
 {
 public:
 
-    AFPropertyMgr();
+    AFPropertyMgr(const AFGUID& self);
     ~AFPropertyMgr();
     void Clear();
 
-    //bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
+    bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
     bool AddProperty(const char* name, const AFXData& value, bool bPublic, bool bPrivate, bool bSave, bool bRealTime);
 
     bool SetProperty(const char* name, const AFXData& value);
@@ -61,7 +62,14 @@ public:
 protected:
     bool FindIndex(const char* name, size_t& index);
 
+    bool OnPropertyCallback(const char* name, const AFIData& oldValue, const AFIData& newValue);
+
 private:
     ArraryPod<AFProperty*, 1, CoreAlloc> mxPropertys;
     StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
+
+    using PROERTY_CALLBACKS = std::unordered_multimap<PropertyName, PROPERTY_EVENT_FUNCTOR_PTR>;
+    PROERTY_CALLBACKS mxPropertyCBs;
+
+    AFGUID mxSelf;
 };
