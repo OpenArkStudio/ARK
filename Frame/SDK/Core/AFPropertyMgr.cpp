@@ -9,9 +9,9 @@
 #include "AFPropertyMgr.h"
 
 
-AFPropertyMgr::AFPropertyMgr()
+AFPropertyMgr::AFPropertyMgr(const AFGUID& self)
 {
-
+    mxSelf = self;
 }
 
 AFPropertyMgr::~AFPropertyMgr()
@@ -30,18 +30,17 @@ void AFPropertyMgr::Clear()
     mxIndices.Clear();
 }
 
-//TODO:变化回调函数
-//bool AFPropertyMgr::RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb)
-//{
-//    NF_SHARE_PTR<AFIProperty> pProperty = this->GetElement(strProperty);
-//    if(nullptr != pProperty)
-//    {
-//        pProperty->RegisterCallback(cb);
-//        return true;
-//    }
-//
-//    return false;
-//}
+bool AFPropertyMgr::RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb)
+{
+    size_t index;
+    if (!FindIndex(strProperty.c_str(), index))
+    {
+        return false;
+    }
+
+    mxPropertyCBs.emplace(std::make_pair(strProperty.c_str(), cb));
+    return true;
+}
 
 bool AFPropertyMgr::FindIndex(const char* name, size_t& index)
 {
@@ -53,11 +52,26 @@ bool AFPropertyMgr::FindIndex(const char* name, size_t& index)
     return true;
 }
 
+bool AFPropertyMgr::OnPropertyCallback(const char* name, const AFIData& oldValue, const AFIData& newValue)
+{
+    if (mxPropertyCBs.empty())
+    {
+        return false;
+    }
+
+    for (auto& iter : mxPropertyCBs)
+    {
+        (*(iter.second))(mxSelf, name, oldValue, newValue);
+    }
+
+    return true;
+}
+
 bool AFPropertyMgr::AddProperty(const char* name, const AFXData& value, bool bPublic, bool bPrivate, bool bSave, bool bRealTime)
 {
     AFProperty* pProperty = new AFProperty();
     pProperty->name = name;
-    pProperty->value = value;
+    pProperty->prop_value = value;
     pProperty->bPublic = bPublic;
     pProperty->bPrivate = bPrivate;
     pProperty->bSave = bSave;
@@ -76,7 +90,10 @@ bool AFPropertyMgr::SetProperty(const char* name, const AFXData& value)
         return false;
     }
 
-    mxPropertys[index]->value = value;
+    mxPropertys[index]->prop_value = value;
+
+    //TODO:call cb
+
     return true;
 }
 
@@ -88,7 +105,15 @@ bool AFPropertyMgr::SetPropertyBool(const char* name, const bool value)
         return false;
     }
 
-    mxPropertys[index]->value.SetBool(value);
+    //old value
+    AFXData oldValue;
+    oldValue.SetBool(mxPropertys[index]->prop_value.GetBool());
+
+    mxPropertys[index]->prop_value.SetBool(value);
+
+    //property callbacks
+    OnPropertyCallback(name, oldValue, mxPropertys[index]->prop_value);
+
     return true;
 }
 
@@ -100,7 +125,10 @@ bool AFPropertyMgr::SetPropertyInt(const char* name, const int32_t value)
         return false;
     }
 
-    mxPropertys[index]->value.SetInt(value);
+    mxPropertys[index]->prop_value.SetInt(value);
+
+    //TODO:call cb
+
     return true;
 }
 
@@ -112,7 +140,10 @@ bool AFPropertyMgr::SetPropertyInt64(const char* name, const int64_t value)
         return false;
     }
 
-    mxPropertys[index]->value.SetInt64(value);
+    mxPropertys[index]->prop_value.SetInt64(value);
+
+    //TODO:call cb
+
     return true;
 }
 
@@ -124,7 +155,10 @@ bool AFPropertyMgr::SetPropertyFloat(const char* name, const float value)
         return false;
     }
 
-    mxPropertys[index]->value.SetFloat(value);
+    mxPropertys[index]->prop_value.SetFloat(value);
+
+    //TODO:call cb
+
     return true;
 }
 
@@ -136,7 +170,10 @@ bool AFPropertyMgr::SetPropertyDouble(const char* name, const double value)
         return false;
     }
 
-    mxPropertys[index]->value.SetDouble(value);
+    mxPropertys[index]->prop_value.SetDouble(value);
+
+    //TODO:call cb
+
     return true;
 }
 
@@ -148,7 +185,10 @@ bool AFPropertyMgr::SetPropertyString(const char* name, const std::string& value
         return false;
     }
 
-    mxPropertys[index]->value.SetString(value.c_str());
+    mxPropertys[index]->prop_value.SetString(value.c_str());
+
+    //TODO:call cb
+
     return true;
 }
 
@@ -160,7 +200,10 @@ bool AFPropertyMgr::SetPropertyObject(const char* name, const AFGUID& value)
         return false;
     }
 
-    mxPropertys[index]->value.SetObject(value);
+    mxPropertys[index]->prop_value.SetObject(value);
+
+    //TODO:call cb
+
     return true;
 }
 
@@ -172,7 +215,7 @@ bool AFPropertyMgr::GetPropertyBool(const char* name)
         return NULL_BOOLEAN;
     }
 
-    return mxPropertys[index]->value.GetBool();
+    return mxPropertys[index]->prop_value.GetBool();
 }
 
 int32_t AFPropertyMgr::GetPropertyInt(const char* name)
@@ -183,7 +226,7 @@ int32_t AFPropertyMgr::GetPropertyInt(const char* name)
         return NULL_INT;
     }
 
-    return mxPropertys[index]->value.GetInt();
+    return mxPropertys[index]->prop_value.GetInt();
 }
 
 int64_t AFPropertyMgr::GetPropertyInt64(const char* name)
@@ -194,7 +237,7 @@ int64_t AFPropertyMgr::GetPropertyInt64(const char* name)
         return NULL_INT64;
     }
 
-    return mxPropertys[index]->value.GetInt64();
+    return mxPropertys[index]->prop_value.GetInt64();
 }
 
 float AFPropertyMgr::GetPropertyFloat(const char* name)
@@ -205,7 +248,7 @@ float AFPropertyMgr::GetPropertyFloat(const char* name)
         return NULL_FLOAT;
     }
 
-    return mxPropertys[index]->value.GetFloat();
+    return mxPropertys[index]->prop_value.GetFloat();
 }
 
 double AFPropertyMgr::GetPropertyDouble(const char* name)
@@ -216,7 +259,7 @@ double AFPropertyMgr::GetPropertyDouble(const char* name)
         return NULL_DOUBLE;
     }
 
-    return mxPropertys[index]->value.GetDouble();
+    return mxPropertys[index]->prop_value.GetDouble();
 }
 
 const char* AFPropertyMgr::GetPropertyString(const char* name)
@@ -227,7 +270,7 @@ const char* AFPropertyMgr::GetPropertyString(const char* name)
         return NULL_STR.c_str();
     }
 
-    return mxPropertys[index]->value.GetString();
+    return mxPropertys[index]->prop_value.GetString();
 }
 
 const AFGUID& AFPropertyMgr::GetPropertyObject(const char* name)
@@ -238,5 +281,5 @@ const AFGUID& AFPropertyMgr::GetPropertyObject(const char* name)
         return NULL_GUID;
     }
 
-    return mxPropertys[index]->value.GetObject();
+    return mxPropertys[index]->prop_value.GetObject();
 }
