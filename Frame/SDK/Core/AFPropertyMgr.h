@@ -6,8 +6,7 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef AFC_PROPERTYMANAGER_H
-#define AFC_PROPERTYMANAGER_H
+#pragma once
 
 #include "AFDefine.h"
 #include "AFCDataList.h"
@@ -15,7 +14,6 @@
 #include "AFArrayPod.hpp"
 #include "AFStringPod.hpp"
 #include "AFCData.h"
-#include "Math/Vector3.hpp"
 
 using namespace ArkFrame;
 
@@ -43,16 +41,22 @@ public:
     bool AddProperty(const char* name, const AFXData& value, bool bPublic, bool bPrivate, bool bSave, bool bRealTime);
 
     bool SetProperty(const char* name, const AFXData& value);
+
+    bool SetPropertyBool(const char* name, const bool value);
     bool SetPropertyInt(const char* name, const int32_t value);
+    bool SetPropertyInt64(const char* name, const int64_t value);
+    bool SetPropertyFloat(const char* name, const float value);
     bool SetPropertyDouble(const char* name, const double value);
     bool SetPropertyString(const char* name, const std::string& value);
     bool SetPropertyObject(const char* name, const AFGUID& value);
-    bool SetPropertyPoint(const char* name, const Point3D& value);
-    AFINT64 GetPropertyInt(const char* name);
+
+    bool GetPropertyBool(const char* name);
+    int32_t GetPropertyInt(const char* name);
+    int64_t GetPropertyInt64(const char* name);
+    float GetPropertyFloat(const char* name);
     double GetPropertyDouble(const char* name);
     const char* GetPropertyString(const char* name);
     const AFGUID& GetPropertyObject(const char* name);
-    //const Point3D& GetPropertyPoint(const char* name);
 
 protected:
     bool FindIndex(const char* name, size_t& index);
@@ -61,6 +65,3 @@ private:
     ArraryPod<AFProperty*, 1, CoreAlloc> mxPropertys;
     StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
 };
-
-
-#endif
