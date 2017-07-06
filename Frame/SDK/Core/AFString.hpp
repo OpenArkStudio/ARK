@@ -215,7 +215,7 @@ public:
     {
         return InnerAppend(&value, 1);
     }
-    
+
     size_t length() const
     {
         return mnSize;
@@ -406,3 +406,73 @@ private:
 
 using PropertyName = AFString<char, 16, CharTraits<char>, CoreAlloc>;
 using RecordName = AFString<char, 16, CharTraits<char>, CoreAlloc>;
+
+template<>
+struct hash<PropertyName>
+{
+    size_t operator()(PropertyName const& pro) const
+    {
+        const char* value = pro.c_str();
+        return GetHashValue(value);
+    }
+};
+
+template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+inline bool operator==(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
+{
+    return (s1.compare(s2) == 0);
+}
+
+template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+inline bool operator==(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const TYPE* s2)
+{
+    return (s1.compare(s2) == 0);
+}
+
+template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+inline bool operator==(const TYPE* s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
+{
+    return (s2.compare(s1) == 0);
+}
+
+template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+inline bool operator!=(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
+{
+    return (s1.compare(s2) != 0);
+}
+
+template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+inline bool operator!=(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const TYPE* s2)
+{
+    return (s1.compare(s2) != 0);
+}
+
+template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+inline bool operator!=(const TYPE* s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
+{
+    return (s2.compare(s1) != 0);
+}
+
+template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
+{
+    return AFString<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
+}
+
+template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const TYPE* s2)
+{
+    return AFString<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
+}
+
+template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, TYPE ch)
+{
+    return AFString<TYPE, SIZE, TRAITS, ALLOC>(s1).append(ch);
+}
+
+template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
+inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const TYPE* s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)
+{
+    return AFString<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
+}
