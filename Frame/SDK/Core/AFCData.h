@@ -561,7 +561,7 @@ protected:
         if (value_size > BUFFER_SIZE)
         {
             p = (char*)mxAlloc.Alloc(value_size);
-            mnAllocLen = value_size;
+            mnAllocLen = (uint32_t)value_size;
         }
         else
         {
@@ -578,7 +578,7 @@ protected:
         char* p = (char*)mxAlloc.Alloc(value_size);
         InitRawUserData(p, data, size);
         mpUserData = p;
-        mnAllocLen = value_size;
+        mnAllocLen = (uint32_t)value_size;
     }
 
 private:

@@ -80,6 +80,18 @@ bool AFPropertyMgr::SetProperty(const char* name, const AFXData& value)
     return true;
 }
 
+bool AFPropertyMgr::SetPropertyBool(const char* name, const bool value)
+{
+    size_t index;
+    if (!FindIndex(name, index))
+    {
+        return false;
+    }
+
+    mxPropertys[index]->value.SetBool(value);
+    return true;
+}
+
 bool AFPropertyMgr::SetPropertyInt(const char* name, const int32_t value)
 {
     size_t index;
@@ -89,6 +101,30 @@ bool AFPropertyMgr::SetPropertyInt(const char* name, const int32_t value)
     }
 
     mxPropertys[index]->value.SetInt(value);
+    return true;
+}
+
+bool AFPropertyMgr::SetPropertyInt64(const char* name, const int64_t value)
+{
+    size_t index;
+    if (!FindIndex(name, index))
+    {
+        return false;
+    }
+
+    mxPropertys[index]->value.SetInt64(value);
+    return true;
+}
+
+bool AFPropertyMgr::SetPropertyFloat(const char* name, const float value)
+{
+    size_t index;
+    if (!FindIndex(name, index))
+    {
+        return false;
+    }
+
+    mxPropertys[index]->value.SetFloat(value);
     return true;
 }
 
@@ -128,19 +164,18 @@ bool AFPropertyMgr::SetPropertyObject(const char* name, const AFGUID& value)
     return true;
 }
 
-bool AFPropertyMgr::SetPropertyPoint(const char* name, const Point3D& value)
+bool AFPropertyMgr::GetPropertyBool(const char* name)
 {
-    //size_t index;
-    //if (!FindIndex(name, index))
-    //{
-    //    return false;
-    //}
+    size_t index;
+    if (!FindIndex(name, index))
+    {
+        return NULL_BOOLEAN;
+    }
 
-    //mxPropertys[index]->value.SetPoint(value);
-    return true;
+    return mxPropertys[index]->value.GetBool();
 }
 
-AFINT64 AFPropertyMgr::GetPropertyInt(const char* name)
+int32_t AFPropertyMgr::GetPropertyInt(const char* name)
 {
     size_t index;
     if (!FindIndex(name, index))
@@ -149,6 +184,28 @@ AFINT64 AFPropertyMgr::GetPropertyInt(const char* name)
     }
 
     return mxPropertys[index]->value.GetInt();
+}
+
+int64_t AFPropertyMgr::GetPropertyInt64(const char* name)
+{
+    size_t index;
+    if (!FindIndex(name, index))
+    {
+        return NULL_INT64;
+    }
+
+    return mxPropertys[index]->value.GetInt64();
+}
+
+float AFPropertyMgr::GetPropertyFloat(const char* name)
+{
+    size_t index;
+    if (!FindIndex(name, index))
+    {
+        return NULL_FLOAT;
+    }
+
+    return mxPropertys[index]->value.GetFloat();
 }
 
 double AFPropertyMgr::GetPropertyDouble(const char* name)
@@ -183,16 +240,3 @@ const AFGUID& AFPropertyMgr::GetPropertyObject(const char* name)
 
     return mxPropertys[index]->value.GetObject();
 }
-
-//const Point3D& AFPropertyMgr::GetPropertyPoint(const char* name)
-//{
-//    //size_t index;
-//    //if (!FindIndex(name, index))
-//    //{
-//    //    return NULL_POINT;
-//    //}
-//
-//    //return mxPropertys[index]->value.GetPoint();
-//
-//    return Point3D();
-//}
