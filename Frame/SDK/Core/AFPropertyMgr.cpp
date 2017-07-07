@@ -52,7 +52,7 @@ bool AFPropertyMgr::FindIndex(const char* name, size_t& index)
     return true;
 }
 
-bool AFPropertyMgr::OnPropertyCallback(const char* name, const AFIData& oldValue, const AFIData& newValue)
+bool AFPropertyMgr::OnPropertyCallback(const char* name, const AFIData& oldData, const AFIData& newData)
 {
     if (mxPropertyCBs.empty())
     {
@@ -61,7 +61,7 @@ bool AFPropertyMgr::OnPropertyCallback(const char* name, const AFIData& oldValue
 
     for (auto& iter : mxPropertyCBs)
     {
-        (*(iter.second))(mxSelf, name, oldValue, newValue);
+        (*(iter.second))(mxSelf, name, oldData, newData);
     }
 
     return true;
@@ -106,13 +106,17 @@ bool AFPropertyMgr::SetPropertyBool(const char* name, const bool value)
     }
 
     //old value
-    AFXData oldValue;
-    oldValue.SetBool(mxPropertys[index]->prop_value.GetBool());
+    AFXData oldData;
+    bool oldValue = mxPropertys[index]->prop_value.GetBool();
+    oldData.SetBool(oldValue);
 
     mxPropertys[index]->prop_value.SetBool(value);
 
-    //property callbacks
-    OnPropertyCallback(name, oldValue, mxPropertys[index]->prop_value);
+    if (oldValue != value)
+    {
+        //property callbacks
+        OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
+    }
 
     return true;
 }
@@ -125,9 +129,18 @@ bool AFPropertyMgr::SetPropertyInt(const char* name, const int32_t value)
         return false;
     }
 
+    //old value
+    AFXData oldData;
+    int32_t oldValue = mxPropertys[index]->prop_value.GetInt();
+    oldData.SetInt(oldValue);
+
     mxPropertys[index]->prop_value.SetInt(value);
 
-    //TODO:call cb
+    if (oldValue != value)
+    {
+        //property callbacks
+        OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
+    }
 
     return true;
 }
@@ -140,9 +153,18 @@ bool AFPropertyMgr::SetPropertyInt64(const char* name, const int64_t value)
         return false;
     }
 
+    //old value
+    AFXData oldData;
+    int64_t oldValue = mxPropertys[index]->prop_value.GetInt64();
+    oldData.SetInt64(oldValue);
+
     mxPropertys[index]->prop_value.SetInt64(value);
 
-    //TODO:call cb
+    if (oldValue != value)
+    {
+        //property callbacks
+        OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
+    }
 
     return true;
 }
@@ -155,9 +177,18 @@ bool AFPropertyMgr::SetPropertyFloat(const char* name, const float value)
         return false;
     }
 
+    //old value
+    AFXData oldData;
+    float oldValue = mxPropertys[index]->prop_value.GetFloat();
+    oldData.SetFloat(oldValue);
+
     mxPropertys[index]->prop_value.SetFloat(value);
 
-    //TODO:call cb
+    if (!IsZeroFloat(oldValue - value))
+    {
+        //property callbacks
+        OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
+    }
 
     return true;
 }
@@ -170,9 +201,18 @@ bool AFPropertyMgr::SetPropertyDouble(const char* name, const double value)
         return false;
     }
 
+    //old value
+    AFXData oldData;
+    double oldValue = mxPropertys[index]->prop_value.GetDouble();
+    oldData.SetDouble(oldValue);
+
     mxPropertys[index]->prop_value.SetDouble(value);
 
-    //TODO:call cb
+    if (!IsZeroDouble(oldValue - value))
+    {
+        //property callbacks
+        OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
+    }
 
     return true;
 }
@@ -185,9 +225,18 @@ bool AFPropertyMgr::SetPropertyString(const char* name, const std::string& value
         return false;
     }
 
+    //old value
+    AFXData oldData;
+    std::string oldValue = mxPropertys[index]->prop_value.GetString();
+    oldData.SetString(oldValue.c_str());
+
     mxPropertys[index]->prop_value.SetString(value.c_str());
 
-    //TODO:call cb
+    if (oldValue == value)
+    {
+        //property callbacks
+        OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
+    }
 
     return true;
 }
@@ -200,9 +249,18 @@ bool AFPropertyMgr::SetPropertyObject(const char* name, const AFGUID& value)
         return false;
     }
 
+    //old value
+    AFXData oldData;
+    AFGUID oldValue = mxPropertys[index]->prop_value.GetObject();
+    oldData.SetObject(oldValue);
+
     mxPropertys[index]->prop_value.SetObject(value);
 
-    //TODO:call cb
+    if (oldValue == value)
+    {
+        //property callbacks
+        OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
+    }
 
     return true;
 }
