@@ -109,6 +109,7 @@
     <ClInclude Include="AFCoreDef.hpp" />
     <ClInclude Include="AFCProperty.h" />
     <ClInclude Include="AFCPropertyManager.h" />
+    <ClInclude Include="AFCPropertyMgr.h" />
     <ClInclude Include="AFCRecord.h" />
     <ClInclude Include="AFCRecordManager.h" />
     <ClInclude Include="AFDefine.h" />
@@ -122,21 +123,21 @@
     <ClInclude Include="AFIObject.h" />
     <ClInclude Include="AFIProperty.h" />
     <ClInclude Include="AFIPropertyManager.h" />
+    <ClInclude Include="AFIPropertyMgr.h" />
     <ClInclude Include="AFIRecord.h" />
     <ClInclude Include="AFIRecordManager.h" />
     <ClInclude Include="AFList.h" />
     <ClInclude Include="AFLockFreeQueue.h" />
     <ClInclude Include="AFMap.h" />
     <ClInclude Include="AFMapEx.h" />
-    <ClInclude Include="AFPropertyMgr.h" />
     <ClInclude Include="AFQueue.h" />
     <ClInclude Include="AFRecord.h" />
-    <ClInclude Include="AFRecordMgr.h" />
     <ClInclude Include="AFSingleton.h" />
     <ClInclude Include="AFString.hpp" />
     <ClInclude Include="AFStringPod.hpp" />
     <ClInclude Include="AFTime.h" />
     <ClInclude Include="Math\Vector3.hpp" />
+    <ClInclude Include="Noncopyable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCEventManager.cpp" />
@@ -145,11 +146,10 @@
     <ClCompile Include="AFCObject.cpp" />
     <ClCompile Include="AFCProperty.cpp" />
     <ClCompile Include="AFCPropertyManager.cpp" />
+    <ClCompile Include="AFCPropertyMgr.cpp" />
     <ClCompile Include="AFCRecord.cpp" />
     <ClCompile Include="AFCRecordManager.cpp" />
-    <ClCompile Include="AFPropertyMgr.cpp" />
     <ClCompile Include="AFRecord.cpp" />
-    <ClCompile Include="AFRecordMgr.cpp" />
     <ClCompile Include="AFTime.cpp" />
   </ItemGroup>
   <ItemGroup>

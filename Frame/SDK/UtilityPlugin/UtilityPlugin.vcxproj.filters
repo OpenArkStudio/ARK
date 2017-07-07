@@ -22,16 +22,10 @@
     <ClInclude Include="AFUtilityPlugin.h">
       <Filter>Plugin</Filter>
     </ClInclude>
-    <ClInclude Include="Noncopyable.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="AFGUIDModule">
       <UniqueIdentifier>{90913ee5-a19d-4abe-9140-c81509172c54}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utils">
-      <UniqueIdentifier>{298b2f3a-ee7d-4acc-83ca-0ff4b677a086}</UniqueIdentifier>
     </Filter>
     <Filter Include="AFLogModule">
       <UniqueIdentifier>{c58ba43f-0a44-4368-b6ca-2a0f9401c1a3}</UniqueIdentifier>

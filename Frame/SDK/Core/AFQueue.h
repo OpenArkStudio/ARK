@@ -14,7 +14,7 @@
 #include <mutex>
 #include <atomic>
 #include "SDK/Interface/AFPlatform.h"
-#include "SDK/UtilityPlugin/Noncopyable.hpp"
+#include "Noncopyable.hpp"
 
 class AFLock : noncopyable
 {

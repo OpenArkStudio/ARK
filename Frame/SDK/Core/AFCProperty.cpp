@@ -295,7 +295,7 @@ bool AFCProperty::SetInt(const int32_t value)
     return true;
 }
 
-bool AFCProperty::SetInt64(const int32_t value)
+bool AFCProperty::SetInt64(const int64_t value)
 {
     if (eType != DT_INT64)
     {
@@ -475,7 +475,7 @@ const int AFCProperty::GetType() const
     return eType;
 }
 
-const bool AFCProperty::GeUsed() const
+const bool AFCProperty::GetUsed() const
 {
     if(nullptr == mxData)
     {
