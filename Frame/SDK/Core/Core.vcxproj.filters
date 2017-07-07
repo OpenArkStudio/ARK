@@ -27,12 +27,6 @@
     <ClInclude Include="AFString.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="AFPropertyMgr.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFRecordMgr.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="AFRecord.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -132,14 +126,17 @@
     <ClInclude Include="AFTime.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="AFIPropertyMgr.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCPropertyMgr.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Noncopyable.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFPropertyMgr.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AFRecordMgr.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="AFRecord.cpp">
       <Filter>Core</Filter>
     </ClCompile>
@@ -169,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="AFTime.cpp">
       <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCPropertyMgr.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

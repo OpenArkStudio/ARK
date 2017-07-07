@@ -32,7 +32,7 @@ public:
 
     virtual bool SetBool(const bool value);
     virtual bool SetInt(const int32_t value);
-    virtual bool SetInt64(const int32_t value);
+    virtual bool SetInt64(const int64_t value);
     virtual bool SetFloat(const float value);
     virtual bool SetDouble(const double value);
     virtual bool SetString(const std::string& value);
@@ -47,7 +47,7 @@ public:
     virtual const AFGUID& GetObject() const;
 
     virtual const int GetType() const;
-    virtual const bool GeUsed() const;
+    virtual const bool GetUsed() const;
     virtual const std::string& GetKey() const;
 
     virtual const bool GetSave() const;
