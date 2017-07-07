@@ -20,7 +20,6 @@
     <ClInclude Include="AFCGUIDModule.h" />
     <ClInclude Include="AFCLogModule.h" />
     <ClInclude Include="AFUtilityPlugin.h" />
-    <ClInclude Include="Noncopyable.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A50912AD-3AD8-410D-BB58-F7FC1565C5E9}</ProjectGuid>
