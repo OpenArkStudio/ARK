@@ -62,7 +62,7 @@ public:
 protected:
     bool FindIndex(const char* name, size_t& index);
 
-    bool OnPropertyCallback(const char* name, const AFIData& oldValue, const AFIData& newValue);
+    bool OnPropertyCallback(const char* name, const AFIData& oldData, const AFIData& newData);
 
 private:
     ArraryPod<AFProperty*, 1, CoreAlloc> mxPropertys;
