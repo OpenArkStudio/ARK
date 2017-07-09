@@ -21,7 +21,7 @@ AFCPropertyMgr::~AFCPropertyMgr()
 
 void AFCPropertyMgr::Clear()
 {
-    for (size_t i = 0; i < mxPropertys.size(); ++i)
+    for(size_t i = 0; i < mxPropertys.size(); ++i)
     {
         delete mxPropertys[i];
     }
@@ -38,7 +38,7 @@ const AFGUID& AFCPropertyMgr::Self() const
 bool AFCPropertyMgr::RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb)
 {
     size_t index;
-    if (!FindIndex(strProperty.c_str(), index))
+    if(!FindIndex(strProperty.c_str(), index))
     {
         return false;
     }
@@ -49,7 +49,7 @@ bool AFCPropertyMgr::RegisterCallback(const std::string& strProperty, const PROP
 
 bool AFCPropertyMgr::FindIndex(const char* name, size_t& index)
 {
-    if (!mxIndices.GetData(name, index))
+    if(!mxIndices.GetData(name, index))
     {
         return false;
     }
@@ -59,14 +59,15 @@ bool AFCPropertyMgr::FindIndex(const char* name, size_t& index)
 
 bool AFCPropertyMgr::OnPropertyCallback(const char* name, const AFIData& oldData, const AFIData& newData)
 {
-    if (mxPropertyCBs.empty())
+    if(mxPropertyCBs.empty())
     {
         return false;
     }
 
-    for (auto& iter : mxPropertyCBs)
+    auto& range = mxPropertyCBs.equal_range(name);
+    for(auto& iter = range.first; iter != range.second; ++iter)
     {
-        (*(iter.second))(mxSelf, name, oldData, newData);
+        (*(iter->second))(mxSelf, name, oldData, newData);
     }
 
     return true;
@@ -90,7 +91,7 @@ bool AFCPropertyMgr::AddProperty(const char* name, const AFIData& value, bool bP
 bool AFCPropertyMgr::SetProperty(const char* name, const AFIData& value)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return false;
     }
@@ -105,7 +106,7 @@ bool AFCPropertyMgr::SetProperty(const char* name, const AFIData& value)
 bool AFCPropertyMgr::SetPropertyBool(const char* name, const bool value)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return false;
     }
@@ -117,7 +118,7 @@ bool AFCPropertyMgr::SetPropertyBool(const char* name, const bool value)
 
     mxPropertys[index]->prop_value.SetBool(value);
 
-    if (oldValue != value)
+    if(oldValue != value)
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -129,7 +130,7 @@ bool AFCPropertyMgr::SetPropertyBool(const char* name, const bool value)
 bool AFCPropertyMgr::SetPropertyInt(const char* name, const int32_t value)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return false;
     }
@@ -141,7 +142,7 @@ bool AFCPropertyMgr::SetPropertyInt(const char* name, const int32_t value)
 
     mxPropertys[index]->prop_value.SetInt(value);
 
-    if (oldValue != value)
+    if(oldValue != value)
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -153,7 +154,7 @@ bool AFCPropertyMgr::SetPropertyInt(const char* name, const int32_t value)
 bool AFCPropertyMgr::SetPropertyInt64(const char* name, const int64_t value)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return false;
     }
@@ -165,7 +166,7 @@ bool AFCPropertyMgr::SetPropertyInt64(const char* name, const int64_t value)
 
     mxPropertys[index]->prop_value.SetInt64(value);
 
-    if (oldValue != value)
+    if(oldValue != value)
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -177,7 +178,7 @@ bool AFCPropertyMgr::SetPropertyInt64(const char* name, const int64_t value)
 bool AFCPropertyMgr::SetPropertyFloat(const char* name, const float value)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return false;
     }
@@ -189,7 +190,7 @@ bool AFCPropertyMgr::SetPropertyFloat(const char* name, const float value)
 
     mxPropertys[index]->prop_value.SetFloat(value);
 
-    if (!IsZeroFloat(oldValue - value))
+    if(!IsZeroFloat(oldValue - value))
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -201,7 +202,7 @@ bool AFCPropertyMgr::SetPropertyFloat(const char* name, const float value)
 bool AFCPropertyMgr::SetPropertyDouble(const char* name, const double value)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return false;
     }
@@ -213,7 +214,7 @@ bool AFCPropertyMgr::SetPropertyDouble(const char* name, const double value)
 
     mxPropertys[index]->prop_value.SetDouble(value);
 
-    if (!IsZeroDouble(oldValue - value))
+    if(!IsZeroDouble(oldValue - value))
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -225,7 +226,7 @@ bool AFCPropertyMgr::SetPropertyDouble(const char* name, const double value)
 bool AFCPropertyMgr::SetPropertyString(const char* name, const std::string& value)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return false;
     }
@@ -237,7 +238,7 @@ bool AFCPropertyMgr::SetPropertyString(const char* name, const std::string& valu
 
     mxPropertys[index]->prop_value.SetString(value.c_str());
 
-    if (oldValue == value)
+    if(oldValue == value)
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -249,7 +250,7 @@ bool AFCPropertyMgr::SetPropertyString(const char* name, const std::string& valu
 bool AFCPropertyMgr::SetPropertyObject(const char* name, const AFGUID& value)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return false;
     }
@@ -261,7 +262,7 @@ bool AFCPropertyMgr::SetPropertyObject(const char* name, const AFGUID& value)
 
     mxPropertys[index]->prop_value.SetObject(value);
 
-    if (oldValue == value)
+    if(oldValue == value)
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -273,7 +274,7 @@ bool AFCPropertyMgr::SetPropertyObject(const char* name, const AFGUID& value)
 bool AFCPropertyMgr::GetPropertyBool(const char* name)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return NULL_BOOLEAN;
     }
@@ -284,7 +285,7 @@ bool AFCPropertyMgr::GetPropertyBool(const char* name)
 int32_t AFCPropertyMgr::GetPropertyInt(const char* name)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return NULL_INT;
     }
@@ -295,7 +296,7 @@ int32_t AFCPropertyMgr::GetPropertyInt(const char* name)
 int64_t AFCPropertyMgr::GetPropertyInt64(const char* name)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return NULL_INT64;
     }
@@ -306,7 +307,7 @@ int64_t AFCPropertyMgr::GetPropertyInt64(const char* name)
 float AFCPropertyMgr::GetPropertyFloat(const char* name)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return NULL_FLOAT;
     }
@@ -317,7 +318,7 @@ float AFCPropertyMgr::GetPropertyFloat(const char* name)
 double AFCPropertyMgr::GetPropertyDouble(const char* name)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return NULL_DOUBLE;
     }
@@ -328,7 +329,7 @@ double AFCPropertyMgr::GetPropertyDouble(const char* name)
 const char* AFCPropertyMgr::GetPropertyString(const char* name)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return NULL_STR.c_str();
     }
@@ -339,7 +340,7 @@ const char* AFCPropertyMgr::GetPropertyString(const char* name)
 const AFGUID& AFCPropertyMgr::GetPropertyObject(const char* name)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return NULL_GUID;
     }
