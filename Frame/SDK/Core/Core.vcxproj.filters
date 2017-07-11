@@ -135,6 +135,9 @@
     <ClInclude Include="Noncopyable.hpp">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="BitValue.hpp">
+      <Filter>Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFRecord.cpp">
