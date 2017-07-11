@@ -73,15 +73,12 @@ bool AFCPropertyMgr::OnPropertyCallback(const char* name, const AFIData& oldData
     return true;
 }
 
-bool AFCPropertyMgr::AddProperty(const char* name, const AFIData& value, bool bPublic, bool bPrivate, bool bSave, bool bRealTime)
+bool AFCPropertyMgr::AddProperty(const char* name, const AFIData& value, const int8_t feature)
 {
     AFProperty* pProperty = new AFProperty();
     pProperty->name = name;
     pProperty->prop_value = value;
-    pProperty->bPublic = bPublic;
-    pProperty->bPrivate = bPrivate;
-    pProperty->bSave = bSave;
-    pProperty->bRealtime = bRealTime;
+    pProperty->feature = feature;
     mxIndices.Add(name, mxPropertys.size());
     mxPropertys.push_back(pProperty);
 
