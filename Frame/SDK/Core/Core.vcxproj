@@ -136,6 +136,7 @@
     <ClInclude Include="AFString.hpp" />
     <ClInclude Include="AFStringPod.hpp" />
     <ClInclude Include="AFTime.h" />
+    <ClInclude Include="BitValue.hpp" />
     <ClInclude Include="Math\Vector3.hpp" />
     <ClInclude Include="Noncopyable.hpp" />
   </ItemGroup>
