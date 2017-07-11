@@ -11,17 +11,46 @@
 #include <unordered_map>
 #include "AFIPropertyMgr.h"
 #include "Noncopyable.hpp"
+#include "BitValue.hpp"
 
 struct AFProperty
 {
-    PropertyName name; //属性名，最大16个字符
-    AFXData prop_value;    //属性值
+    enum PROP_FEATURE
+    {
+        PF_PUBLIC   = 0, //send to others
+        PF_PRIVATE  = 1, //send to self
+        PF_REAL_TIME= 2, //send real-time when changed
+        PF_SAVE     = 3, //if need save to database
+    };
 
-    //TODO:暂时还没用上
-    bool bPublic;
-    bool bPrivate;
-    bool bSave;
-    bool bRealtime;
+    PropertyName name;  //属性名，最大16个字符
+    AFXData prop_value; //属性值
+    int8_t feature;     //特性
+
+    bool IsPublic() const
+    {
+        return BitValue<int8_t>::HaveBitValue(feature, PF_PUBLIC);
+    }
+
+    bool IsPrivate() const
+    {
+        return BitValue<int8_t>::HaveBitValue(feature, PF_PRIVATE);
+    }
+
+    bool IsRealTime() const
+    {
+        return BitValue<int8_t>::HaveBitValue(feature, PF_REAL_TIME);
+    }
+
+    bool IsSave() const
+    {
+        return BitValue<int8_t>::HaveBitValue(feature, PF_SAVE);
+    }
+
+    bool Changed() const
+    {
+        return !(prop_value.IsNullValue());
+    }
 };
 
 class AFCPropertyMgr : public AFIPropertyMgr, noncopyable
@@ -36,7 +65,7 @@ public:
     virtual const AFGUID& Self() const;
 
     virtual bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
-    virtual bool AddProperty(const char* name, const AFIData& value, bool bPublic, bool bPrivate, bool bSave, bool bRealTime);
+    virtual bool AddProperty(const char* name, const AFIData& value, const int8_t feature);
 
     virtual bool SetProperty(const char* name, const AFIData& value);
 
