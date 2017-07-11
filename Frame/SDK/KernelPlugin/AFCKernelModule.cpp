@@ -265,10 +265,6 @@ NF_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const 
                     case DT_OBJECT:
                         pObject->SetPropertyObject(strPropertyName, arg.Object(i + 1));
                         break;
-                    //case TDATA_POINT:
-                    //    pObject->SetPropertyPoint(strPropertyName, arg.Point(i + 1));
-                    //    break;
-                    default:
                         break;
                     }
                 }
