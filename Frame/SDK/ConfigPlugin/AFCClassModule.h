@@ -19,20 +19,11 @@
 #include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFCRecord.h"
 #include "SDK/Core/AFList.h"
-#include "SDK/Core/AFCPropertyManager.h"
+#include "SDK/Core/AFCPropertyMgr.h"
 #include "SDK/Core/AFCRecordManager.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-
-/**
- * @class   AFCClass
- *
- * @brief   A nfc class.
- *
- * @author  flyicegood
- * @date    2016/11/22
- */
 
 class AFCClass : public AFIClass
 {
@@ -43,9 +34,8 @@ public:
         m_pParentClass = NULL;
         mstrClassName = strClassName;
 
-        m_pPropertyManager = NF_SHARE_PTR<AFIPropertyManager>(NF_NEW AFCPropertyManager(NULL_GUID));
+        m_pPropertyManager = NF_SHARE_PTR<AFIPropertyMgr>(NF_NEW AFCPropertyMgr(NULL_GUID));
         m_pRecordManager = NF_SHARE_PTR<AFIRecordManager>(NF_NEW AFCRecordManager(NULL_GUID));
-        //m_pComponentManager = NF_SHARE_PTR<AFIComponentManager>(NF_NEW AFCComponentManager(NULL_GUID));
     }
 
     virtual ~AFCClass()
@@ -53,7 +43,7 @@ public:
         ClearAll();
     }
 
-    virtual NF_SHARE_PTR<AFIPropertyManager> GetPropertyManager()
+    virtual NF_SHARE_PTR<AFIPropertyMgr> GetPropertyManager()
     {
         return m_pPropertyManager;
     }
@@ -62,11 +52,6 @@ public:
     {
         return m_pRecordManager;
     }
-
-    //virtual NF_SHARE_PTR<AFIComponentManager> GetComponentManager()
-    //{
-    //    return m_pComponentManager;
-    //}
 
     virtual bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR& cb)
     {
@@ -114,14 +99,14 @@ public:
 
     const bool AddConfigName(std::string& strConfigName)
     {
-        mlConfigList.Add(strConfigName);
+        mxConfigList.Add(strConfigName);
 
         return true;
     }
 
     NFList<std::string>& GetConfigNameList()
     {
-        return mlConfigList;
+        return mxConfigList;
     }
 
     void SetInstancePath(const std::string& strPath)
@@ -135,16 +120,15 @@ public:
     }
 
 private:
-    NF_SHARE_PTR<AFIPropertyManager> m_pPropertyManager;
+    NF_SHARE_PTR<AFIPropertyMgr> m_pPropertyManager;
     NF_SHARE_PTR<AFIRecordManager> m_pRecordManager;
-    //NF_SHARE_PTR<AFIComponentManager> m_pComponentManager;
 
     NF_SHARE_PTR<AFIClass> m_pParentClass;
     std::string mstrType;
     std::string mstrClassName;
     std::string mstrClassInstancePath;
 
-    NFList<std::string> mlConfigList;
+    NFList<std::string> mxConfigList;
 
     NFList<CLASS_EVENT_FUNCTOR_PTR> mxClassEventInfo;
 };
@@ -166,7 +150,7 @@ public:
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
     virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList);
 
-    virtual NF_SHARE_PTR<AFIPropertyManager> GetClassPropertyManager(const std::string& strClassName);
+    virtual NF_SHARE_PTR<AFIPropertyMgr> GetClassPropertyManager(const std::string& strClassName);
     virtual NF_SHARE_PTR<AFIRecordManager> GetClassRecordManager(const std::string& strClassName);
     //virtual NF_SHARE_PTR<AFIComponentManager> GetClassComponentManager(const std::string& strClassName);
 
