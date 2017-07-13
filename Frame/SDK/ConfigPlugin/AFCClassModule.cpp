@@ -11,6 +11,7 @@
 #include "AFCClassModule.h"
 #include "RapidXML/rapidxml.hpp"
 #include "RapidXML/rapidxml_print.hpp"
+#include "SDK/Core/AFIData.h"
 
 bool AFCClassModule::Init()
 {
@@ -79,11 +80,6 @@ int AFCClassModule::ComputerType(const char* pstrTypeName, AFIData& var)
         var.SetObject(NULL_GUID);
         return var.GetType();
     }
-    //else if(0 == strcmp(pstrTypeName, "point"))
-    //{
-    //    var.SetPoint(NULL_POINT);
-    //    return var.GetType();
-    //}
 
     return DT_UNKNOWN;
 }
@@ -92,44 +88,52 @@ bool AFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SH
 {
     for(rapidxml::xml_node<>* pPropertyNode = pPropertyRootNode->first_node(); pPropertyNode; pPropertyNode = pPropertyNode->next_sibling())
     {
-        if(pPropertyNode)
+        if (NULL == pPropertyNode)
         {
-            const char* strPropertyName = pPropertyNode->first_attribute("Id")->value();
-            if(pClass->GetPropertyManager()->GetElement(strPropertyName))
-            {
-                //error
-                NFASSERT(0, strPropertyName, __FILE__, __FUNCTION__);
-                continue;
-            }
-
-            const char* pstrType = pPropertyNode->first_attribute("Type")->value();
-            const char* pstrPublic = pPropertyNode->first_attribute("Public")->value();
-            const char* pstrPrivate = pPropertyNode->first_attribute("Private")->value();
-            const char* pstrSave = pPropertyNode->first_attribute("Save")->value();
-            const char* pstrCache = pPropertyNode->first_attribute("Cache")->value();
-
-            bool bPublic = AF_LEXICAL_CAST<bool>(pstrPublic);
-            bool bPrivate = AF_LEXICAL_CAST<bool>(pstrPrivate);
-            bool bSave = AF_LEXICAL_CAST<bool>(pstrSave);
-            bool bCache = AF_LEXICAL_CAST<bool>(pstrCache);
-
-            AFXData varProperty;
-            if(DT_UNKNOWN == ComputerType(pstrType, varProperty))
-            {
-                //std::cout << "error:" << pClass->GetTypeName() << "  " << pClass->GetInstancePath() << ": " << strPropertyName << " type error!!!" << std::endl;
-
-                NFASSERT(0, strPropertyName, __FILE__, __FUNCTION__);
-            }
-
-            //printf( " Property:%s[%s]\n", pstrPropertyName, pstrType );
-
-            NF_SHARE_PTR<AFIProperty> xProperty = pClass->GetPropertyManager()->AddProperty(NULL_GUID, strPropertyName, varProperty.GetType());
-            xProperty->SetPublic(bPublic);
-            xProperty->SetPrivate(bPrivate);
-            xProperty->SetSave(bSave);
-            xProperty->SetCache(bCache);
-
+            continue;
         }
+
+        const char* strPropertyName = pPropertyNode->first_attribute("Id")->value();
+        if(NULL != pClass->GetPropertyManager()->GetProperty(strPropertyName))
+        {
+            NFASSERT(0, strPropertyName, __FILE__, __FUNCTION__);
+            continue;
+        }
+
+        const char* pstrType = pPropertyNode->first_attribute("Type")->value();
+        bool bPublic = AF_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Public")->value());
+        bool bPrivate = AF_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Private")->value());
+        bool bSave = AF_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Save")->value());
+        bool bRealTime = AF_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("RealTime")->value());
+
+        AFXData varProperty;
+        if(DT_UNKNOWN == ComputerType(pstrType, varProperty))
+        {
+            NFASSERT(0, strPropertyName, __FILE__, __FUNCTION__);
+        }
+
+        int8_t feature;
+        if (bPublic)
+        {
+            BitValue<int8_t>::SetBitValue(feature, AFProperty::PF_PUBLIC);
+        }
+
+        if (bPrivate)
+        {
+            BitValue<int8_t>::SetBitValue(feature, AFProperty::PF_PRIVATE);
+        }
+
+        if (bRealTime)
+        {
+            BitValue<int8_t>::SetBitValue(feature, AFProperty::PF_REAL_TIME);
+        }
+
+        if (bSave)
+        {
+            BitValue<int8_t>::SetBitValue(feature, AFProperty::PF_SAVE);
+        }
+
+        pClass->GetPropertyManager()->AddProperty(strPropertyName, varProperty, feature);
     }
 
     return true;
@@ -145,9 +149,6 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
 
             if(pClass->GetRecordManager()->GetElement(pstrRecordName))
             {
-                //error
-                //file << pClass->mstrType << ":" << pstrRecordName << std::endl;
-                //assert(0);
                 NFASSERT(0, pstrRecordName, __FILE__, __FUNCTION__);
                 continue;
             }
@@ -176,7 +177,6 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
 
             for(rapidxml::xml_node<>* recordColNode = pRecordNode->first_node(); recordColNode;  recordColNode = recordColNode->next_sibling())
             {
-                //const char* pstrColName = recordColNode->first_attribute( "Id" )->value();
                 AFXData TData;
                 const char* pstrColType = recordColNode->first_attribute("Type")->value();
                 if(DT_UNKNOWN == ComputerType(pstrColType, TData))
@@ -186,16 +186,6 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
                 }
 
                 recordVar->Append(TData);
-                ////////////////////////////////////////////////////////////////////////////
-                //if(recordColNode->first_attribute("Tag") != NULL)
-                //{
-                //    const char* pstrTag = recordColNode->first_attribute("Tag")->value();
-                //    recordTag->Add(pstrTag);
-                //}
-                //else
-                //{
-                //    recordTag->Add("");
-                //}
             }
 
             NF_SHARE_PTR<AFIRecord> xRecord = pClass->GetRecordManager()->AddRecord(NULL_GUID, pstrRecordName, recordVar, recordTag, atoi(pstrRow));
@@ -436,7 +426,7 @@ bool AFCClassModule::Save()
     return true;
 }
 
-NF_SHARE_PTR<AFIPropertyManager> AFCClassModule::GetClassPropertyManager(const std::string& strClassName)
+NF_SHARE_PTR<AFIPropertyMgr> AFCClassModule::GetClassPropertyManager(const std::string& strClassName)
 {
     NF_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
     if(nullptr != pClass)
