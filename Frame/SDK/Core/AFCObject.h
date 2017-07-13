@@ -6,15 +6,14 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef AFC_OBJECT_H
-#define AFC_OBJECT_H
+#pragma once
 
 #include <iostream>
 #include <string>
 #include "SDK/Core/AFIObject.h"
 #include "SDK/Core/AFIRecordManager.h"
 #include "SDK/Core/AFIHeartBeatManager.h"
-#include "SDK/Core/AFIPropertyManager.h"
+#include "SDK/Core/AFIPropertyMgr.h"
 
 class AFCObject
     : public AFIObject
@@ -86,9 +85,9 @@ public:
     virtual const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag);
 
     //////////////////////////////////////////////////////////////////////////
+    virtual NF_SHARE_PTR<AFIPropertyMgr> GetPropertyManager();
     virtual NF_SHARE_PTR<AFIRecordManager> GetRecordManager();
     virtual NF_SHARE_PTR<AFIHeartBeatManager> GetHeartBeatManager();
-    virtual NF_SHARE_PTR<AFIPropertyManager> GetPropertyManager();
     virtual NF_SHARE_PTR<AFIEventManager> GetEventManager();
 
 protected:
@@ -103,10 +102,6 @@ private:
 
     NF_SHARE_PTR<AFIRecordManager> m_pRecordManager;
     NF_SHARE_PTR<AFIHeartBeatManager> m_pHeartBeatManager;
-    NF_SHARE_PTR<AFIPropertyManager> m_pPropertyManager;
-    //NF_SHARE_PTR<AFIComponentManager> m_pComponentManager;
+    NF_SHARE_PTR<AFIPropertyMgr> m_pPropertyManager;
     NF_SHARE_PTR<AFIEventManager> m_pEventManager;
-
 };
-
-#endif
