@@ -13,45 +13,6 @@
 #include "Noncopyable.hpp"
 #include "BitValue.hpp"
 
-struct AFProperty
-{
-    enum PROP_FEATURE
-    {
-        PF_PUBLIC   = 0, //send to others
-        PF_PRIVATE  = 1, //send to self
-        PF_REAL_TIME= 2, //send real-time when changed
-        PF_SAVE     = 3, //if need save to database
-    };
-
-    PropertyName name;  //属性名，最大16个字符
-    AFXData prop_value; //属性值
-    int8_t feature;     //特性
-
-    bool IsPublic() const
-    {
-        return BitValue<int8_t>::HaveBitValue(feature, PF_PUBLIC);
-    }
-
-    bool IsPrivate() const
-    {
-        return BitValue<int8_t>::HaveBitValue(feature, PF_PRIVATE);
-    }
-
-    bool IsRealTime() const
-    {
-        return BitValue<int8_t>::HaveBitValue(feature, PF_REAL_TIME);
-    }
-
-    bool IsSave() const
-    {
-        return BitValue<int8_t>::HaveBitValue(feature, PF_SAVE);
-    }
-
-    bool Changed() const
-    {
-        return !(prop_value.IsNullValue());
-    }
-};
 
 class AFCPropertyMgr : public AFIPropertyMgr, noncopyable
 {
@@ -65,8 +26,11 @@ public:
     virtual const AFGUID& Self() const;
 
     virtual bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
+    
+    virtual size_t GetPropertyCount();
+    virtual AFProperty* GetPropertyByIndex(size_t index);
+    virtual AFProperty* GetProperty(const char* name);
     virtual bool AddProperty(const char* name, const AFIData& value, const int8_t feature);
-
     virtual bool SetProperty(const char* name, const AFIData& value);
 
     virtual bool SetPropertyBool(const char* name, const bool value);

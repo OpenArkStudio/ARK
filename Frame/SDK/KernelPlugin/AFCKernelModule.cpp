@@ -154,10 +154,9 @@ NF_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const 
         return pObject;
     }
 
-    NF_SHARE_PTR<AFIPropertyManager> pStaticClassPropertyManager = m_pClassModule->GetClassPropertyManager(strClassName);
+    NF_SHARE_PTR<AFIPropertyMgr> pStaticClassPropertyManager = m_pClassModule->GetClassPropertyManager(strClassName);
     NF_SHARE_PTR<AFIRecordManager> pStaticClassRecordManager = m_pClassModule->GetClassRecordManager(strClassName);
-    //NF_SHARE_PTR<AFIComponentManager> pStaticClasComponentManager = m_pClassModule->GetClassComponentManager(strClassName);
-    if(pStaticClassPropertyManager && pStaticClassRecordManager/* && pStaticClasComponentManager*/)
+    if(pStaticClassPropertyManager && pStaticClassRecordManager)
     {
 
         pObject = NF_SHARE_PTR<AFIObject>(NF_NEW AFCObject(ident, pPluginManager));
@@ -165,9 +164,8 @@ NF_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const 
         AddElement(ident, pObject);
         pContainerInfo->AddObjectToGroup(nGroupID, ident, strClassName == NFrame::Player::ThisName() ? true : false);
 
-        NF_SHARE_PTR<AFIPropertyManager> pPropertyManager = pObject->GetPropertyManager();
+        NF_SHARE_PTR<AFIPropertyMgr> pPropertyManager = pObject->GetPropertyManager();
         NF_SHARE_PTR<AFIRecordManager> pRecordManager = pObject->GetRecordManager();
-        //NF_SHARE_PTR<AFIComponentManager> pComponentManager = pObject->GetComponentManager();
 
         //默认属性
         NF_SHARE_PTR<AFIProperty> pStaticConfigPropertyInfo = pStaticClassPropertyManager->First();
@@ -211,7 +209,7 @@ NF_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const 
 
         //////////////////////////////////////////////////////////////////////////
         //配置属性
-        NF_SHARE_PTR<AFIPropertyManager> pConfigPropertyManager = m_pElementModule->GetPropertyManager(strConfigIndex);
+        NF_SHARE_PTR<AFIPropertyMgr> pConfigPropertyManager = m_pElementModule->GetPropertyManager(strConfigIndex);
         NF_SHARE_PTR<AFIRecordManager> pConfigRecordManager = m_pElementModule->GetRecordManager(strConfigIndex);
 
         if(nullptr != pConfigPropertyManager && nullptr != pConfigRecordManager)
@@ -239,34 +237,36 @@ NF_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const 
                     && NFrame::IObject::SceneID() != strPropertyName
                     && NFrame::IObject::GroupID() != strPropertyName)
             {
-                NF_SHARE_PTR<AFIProperty> pArgProperty = pStaticClassPropertyManager->GetElement(strPropertyName);
-                if(pArgProperty)
+                AFProperty* pArgProperty = pStaticClassPropertyManager->GetProperty(strPropertyName.c_str());
+                if (NULL == pArgProperty)
                 {
-                    switch(pArgProperty->GetType())
-                    {
-                    case DT_BOOLEAN:
-                        pObject->SetPropertyBool(strPropertyName, arg.Bool(i + 1));
-                        break;
-                    case DT_INT:
-                        pObject->SetPropertyInt(strPropertyName, arg.Int(i + 1));
-                        break;
-                    case DT_INT64:
-                        pObject->SetPropertyInt64(strPropertyName, arg.Int64(i + 1));
-                        break;
-                    case DT_FLOAT:
-                        pObject->SetPropertyFloat(strPropertyName, arg.Float(i + 1));
-                        break;
-                    case DT_DOUBLE:
-                        pObject->SetPropertyDouble(strPropertyName, arg.Double(i + 1));
-                        break;
-                    case DT_STRING:
-                        pObject->SetPropertyString(strPropertyName, arg.String(i + 1));
-                        break;
-                    case DT_OBJECT:
-                        pObject->SetPropertyObject(strPropertyName, arg.Object(i + 1));
-                        break;
-                        break;
-                    }
+                    continue;
+                }
+
+                switch (pArgProperty->GetType())
+                {
+                case DT_BOOLEAN:
+                    pObject->SetPropertyBool(strPropertyName, arg.Bool(i + 1));
+                    break;
+                case DT_INT:
+                    pObject->SetPropertyInt(strPropertyName, arg.Int(i + 1));
+                    break;
+                case DT_INT64:
+                    pObject->SetPropertyInt64(strPropertyName, arg.Int64(i + 1));
+                    break;
+                case DT_FLOAT:
+                    pObject->SetPropertyFloat(strPropertyName, arg.Float(i + 1));
+                    break;
+                case DT_DOUBLE:
+                    pObject->SetPropertyDouble(strPropertyName, arg.Double(i + 1));
+                    break;
+                case DT_STRING:
+                    pObject->SetPropertyString(strPropertyName, arg.String(i + 1));
+                    break;
+                case DT_OBJECT:
+                    pObject->SetPropertyObject(strPropertyName, arg.Object(i + 1));
+                    break;
+                    break;
                 }
             }
         }
