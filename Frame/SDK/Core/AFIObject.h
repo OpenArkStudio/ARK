@@ -6,16 +6,14 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef AFI_OBJECT_H
-#define AFI_OBJECT_H
-
+#pragma once
 
 #include "SDK/Interface/AFPlatform.h"
 #include "AFCDataList.h"
 #include "AFIRecord.h"
 #include "AFIRecordManager.h"
 #include "AFIHeartBeatManager.h"
-#include "AFIPropertyManager.h"
+#include "AFIPropertyMgr.h"
 #include "AFIEventManager.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
@@ -110,7 +108,7 @@ public:
 
     virtual NF_SHARE_PTR<AFIRecordManager> GetRecordManager() = 0;
     virtual NF_SHARE_PTR<AFIHeartBeatManager> GetHeartBeatManager() = 0;
-    virtual NF_SHARE_PTR<AFIPropertyManager> GetPropertyManager() = 0;
+    virtual NF_SHARE_PTR<AFIPropertyMgr> GetPropertyManager() = 0;
     virtual NF_SHARE_PTR<AFIEventManager> GetEventManager() = 0;
 
 protected:
@@ -122,5 +120,3 @@ protected:
 protected:
     AFIPluginManager* m_pPluginManager;
 };
-
-#endif
