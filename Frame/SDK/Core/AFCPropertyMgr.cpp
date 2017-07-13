@@ -47,6 +47,32 @@ bool AFCPropertyMgr::RegisterCallback(const std::string& strProperty, const PROP
     return true;
 }
 
+size_t AFCPropertyMgr::GetPropertyCount()
+{
+    return mxPropertys.size();
+}
+
+AFProperty* AFCPropertyMgr::GetPropertyByIndex(size_t index)
+{
+    if (index < 0 || index > mxPropertys.size())
+    {
+        return NULL;
+    }
+
+    return mxPropertys[index];
+}
+
+AFProperty* AFCPropertyMgr::GetProperty(const char* name)
+{
+    size_t index;
+    if (!FindIndex(name, index))
+    {
+        return false;
+    }
+
+    return mxPropertys[index];
+}
+
 bool AFCPropertyMgr::FindIndex(const char* name, size_t& index)
 {
     if(!mxIndices.GetData(name, index))
