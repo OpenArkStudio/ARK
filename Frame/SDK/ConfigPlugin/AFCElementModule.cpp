@@ -110,20 +110,23 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClas
     pLogicClass->AddConfigName(strConfigID);
 
     //ElementConfigInfo* pElementInfo = CreateElement( strConfigID, pElementInfo );
-    NF_SHARE_PTR<AFIPropertyManager> pElementPropertyManager = pElementInfo->GetPropertyManager();
+    NF_SHARE_PTR<AFIPropertyMgr> pElementPropertyManager = pElementInfo->GetPropertyManager();
     NF_SHARE_PTR<AFIRecordManager> pElementRecordManager = pElementInfo->GetRecordManager();
 
     //1.add property
     //2.set the default value  of them
-    NF_SHARE_PTR<AFIPropertyManager> pClassPropertyManager = pLogicClass->GetPropertyManager();
+    NF_SHARE_PTR<AFIPropertyMgr> pClassPropertyManager = pLogicClass->GetPropertyManager();
     NF_SHARE_PTR<AFIRecordManager> pClassRecordManager = pLogicClass->GetRecordManager();
     if(nullptr != pClassPropertyManager && nullptr != pClassRecordManager)
     {
-        NF_SHARE_PTR<AFIProperty> pProperty = pClassPropertyManager->First();
-        while(nullptr != pProperty)
+        size_t nCount = pClassPropertyManager->GetPropertyCount();
+        for (size_t i = 0; i < nCount; ++i)
         {
-            pElementPropertyManager->AddProperty(NULL_GUID, pProperty);
-            pProperty = pClassPropertyManager->Next();
+            AFProperty* pProperty = pClassPropertyManager->GetPropertyByIndex(i);
+            if (NULL != pProperty)
+            {
+                pElementPropertyManager->AddProperty(pProperty->name.c_str(), pProperty->prop_value, pProperty->feature);
+            }
         }
 
         NF_SHARE_PTR<AFIRecord> pRecord = pClassRecordManager->First();
@@ -149,40 +152,49 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClas
         const char* pstrConfigValue = pAttribute->value();
         //printf( "%s : %s\n", pstrConfigName, pstrConfigValue );
 
-        NF_SHARE_PTR<AFIProperty> temProperty = pElementPropertyManager->GetElement(pstrConfigName);
-        if(!temProperty)
+        AFProperty* pTmpProperty = pElementPropertyManager->GetProperty(pstrConfigName);
+        if(!pTmpProperty)
         {
             continue;
         }
 
         AFXData var;
-        const int eType = temProperty->GetType();
+        const int eType = pTmpProperty->GetType();
         switch(eType)
         {
         case DT_BOOLEAN:
             {
-                //TODO
+                var.SetInt(AF_LEXICAL_CAST<bool>(pstrConfigValue));
             }
             break;
         case DT_INT:
             {
                 if(!LegalNumber(pstrConfigValue))
                 {
-                    NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
+                    NFASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
                 var.SetInt(AF_LEXICAL_CAST<int32_t>(pstrConfigValue));
             }
             break;
         case DT_INT64:
             {
-                //TODO
+                var.SetInt(AF_LEXICAL_CAST<int64_t>(pstrConfigValue));
+            }
+            break;
+        case DT_FLOAT:
+            {
+                if (strlen(pstrConfigValue) <= 0)
+                {
+                    NFASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+                }
+                var.SetDouble(AF_LEXICAL_CAST<float>(pstrConfigValue));
             }
             break;
         case DT_DOUBLE:
             {
                 if(strlen(pstrConfigValue) <= 0)
                 {
-                    NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
+                    NFASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
                 var.SetDouble(AF_LEXICAL_CAST<double>(pstrConfigValue));
             }
@@ -196,30 +208,15 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClas
             {
                 if(strlen(pstrConfigValue) <= 0)
                 {
-                    NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
+                    NFASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
                 var.SetObject(NULL_GUID);
             }
             break;
-        //case TDATA_POINT:
-        //    {
-        //        if(strlen(pstrConfigValue) <= 0)
-        //        {
-        //            NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
-        //        }
-        //        var.SetPoint(NULL_POINT);
-        //    }
-        //    break;
         default:
-            NFASSERT(0, temProperty->GetKey(), __FILE__, __FUNCTION__);
+            NFASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
             break;
         }
-
-        //temProperty->SetValue(var);
-        //if(eType == TDATA_STRING)
-        //{
-        //    temProperty->DeSerialization();
-        //}
     }
 
     AFXData xData;
@@ -234,51 +231,84 @@ bool AFCElementModule::Save()
     return true;
 }
 
-AFINT64 AFCElementModule::GetPropertyInt(const std::string& strConfigName, const std::string& strPropertyName)
+bool AFCElementModule::GetPropertyBool(const std::string& strConfigName, const std::string& strPropertyName)
 {
-    NF_SHARE_PTR<AFIProperty> pProperty = GetProperty(strConfigName, strPropertyName);
-    if(nullptr != pProperty)
+    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
+    if (NULL != pProperty)
     {
-        return pProperty->GetInt();
+        return pProperty->prop_value.GetBool();
     }
 
-    return 0;
+    return NULL_BOOLEAN;
 }
 
-double AFCElementModule::GetPropertyFloat(const std::string& strConfigName, const std::string& strPropertyName)
+int32_t AFCElementModule::GetPropertyInt(const std::string& strConfigName, const std::string& strPropertyName)
 {
-    NF_SHARE_PTR<AFIProperty> pProperty = GetProperty(strConfigName, strPropertyName);
-    if(nullptr != pProperty)
+    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
+    if(NULL != pProperty)
     {
-        return pProperty->GetDouble();
+        return pProperty->prop_value.GetInt();
     }
 
-    return 0.0;
+    return NULL_INT;
+}
+
+int64_t AFCElementModule::GetPropertyInt64(const std::string& strConfigName, const std::string& strPropertyName)
+{
+    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
+    if (NULL != pProperty)
+    {
+        return pProperty->prop_value.GetInt64();
+    }
+
+    return NULL_INT64;
+}
+
+float AFCElementModule::GetPropertyFloat(const std::string& strConfigName, const std::string& strPropertyName)
+{
+    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
+    if (NULL != pProperty)
+    {
+        return pProperty->prop_value.GetFloat();
+    }
+
+    return NULL_FLOAT;
+}
+
+double AFCElementModule::GetPropertyDouble(const std::string& strConfigName, const std::string& strPropertyName)
+{
+    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
+    if (NULL != pProperty)
+    {
+        return pProperty->prop_value.GetFloat();
+    }
+
+    return NULL_DOUBLE;
 }
 
 const std::string& AFCElementModule::GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName)
 {
-    NF_SHARE_PTR<AFIProperty> pProperty = GetProperty(strConfigName, strPropertyName);
-    if(nullptr != pProperty)
+    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
+    if (NULL != pProperty)
     {
-        return pProperty->GetString();
+        return pProperty->prop_value.GetString();
     }
 
-    return  NULL_STR;
+    return NULL_STR;
 }
 
-NF_SHARE_PTR<AFIProperty> AFCElementModule::GetProperty(const std::string& strConfigName, const std::string& strPropertyName)
+AFProperty* AFCElementModule::GetProperty(const std::string& strConfigName, const std::string& strPropertyName)
 {
     NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
     if(nullptr != pElementInfo)
     {
-        return pElementInfo->GetPropertyManager()->GetElement(strPropertyName);
+        return pElementInfo->GetPropertyManager()->GetProperty(strPropertyName.c_str());
     }
 
-    return nullptr;
+    return NULL;
 }
 
-NF_SHARE_PTR<AFIPropertyManager> AFCElementModule::GetPropertyManager(const std::string& strConfigName)
+NF_SHARE_PTR<AFIPropertyMgr> AFCElementModule::GetPropertyManager(const std::string& strConfigName)
 {
     NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
     if(nullptr != pElementInfo)
