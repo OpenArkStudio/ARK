@@ -9,8 +9,7 @@
 #include "AFCObject.h"
 #include "AFCRecordManager.h"
 #include "AFCHeartBeatManager.h"
-#include "AFCPropertyManager.h"
-//#include "AFCComponentManager.h"
+#include "AFCPropertyMgr.h"
 #include "AFCEventManager.h"
 
 AFCObject::AFCObject(const AFGUID& self, AFIPluginManager* pLuginManager)
@@ -19,10 +18,9 @@ AFCObject::AFCObject(const AFGUID& self, AFIPluginManager* pLuginManager)
     mSelf = self;
     m_pPluginManager = pLuginManager;
 
+    m_pPropertyManager = NF_SHARE_PTR<AFCPropertyMgr>(NF_NEW AFCPropertyMgr(mSelf));
     m_pRecordManager = NF_SHARE_PTR<AFCRecordManager>(NF_NEW AFCRecordManager(mSelf));
     m_pHeartBeatManager = NF_SHARE_PTR<AFCHeartBeatManager>(NF_NEW AFCHeartBeatManager(mSelf));
-    m_pPropertyManager = NF_SHARE_PTR<AFCPropertyManager>(NF_NEW AFCPropertyManager(mSelf));
-    //m_pComponentManager = NF_SHARE_PTR<AFCComponentManager>(NF_NEW AFCComponentManager(mSelf));
     m_pEventManager = NF_SHARE_PTR<AFIEventManager>(NF_NEW AFCEventManager(mSelf));
 }
 
@@ -44,7 +42,6 @@ bool AFCObject::Shut()
 bool AFCObject::Execute()
 {
     GetHeartBeatManager()->Execute();
-    //GetComponentManager()->Execute();
     GetEventManager()->Execute();
 
     return true;
@@ -80,112 +77,88 @@ bool AFCObject::AddRecordCallBack(const std::string& strRecordName, const RECORD
 
 bool AFCObject::AddPropertyCallBack(const std::string& strCriticalName, const PROPERTY_EVENT_FUNCTOR_PTR& cb)
 {
-    NF_SHARE_PTR<AFIProperty> pProperty = GetPropertyManager()->GetElement(strCriticalName);
-    if(nullptr != pProperty)
-    {
-        pProperty->RegisterCallback(cb);
-
-        return true;
-    }
-
-    return false;
+    return GetPropertyManager()->RegisterCallback(strCriticalName, cb);
 }
 
 bool AFCObject::FindProperty(const std::string& strPropertyName)
 {
-    if(GetPropertyManager()->GetElement(strPropertyName))
-    {
-        return true;
-    }
-
-    return false;
+    return (NULL != GetPropertyManager()->GetProperty(strPropertyName.c_str()));
 }
 
 bool AFCObject::SetPropertyBool(const std::string& strPropertyName, const bool value)
 {
-    return GetPropertyManager()->SetPropertyBool(strPropertyName, value);
+    return GetPropertyManager()->SetPropertyBool(strPropertyName.c_str(), value);
 }
 
 bool AFCObject::SetPropertyInt(const std::string& strPropertyName, const int32_t value)
 {
-    return GetPropertyManager()->SetPropertyInt(strPropertyName, value);
+    return GetPropertyManager()->SetPropertyInt(strPropertyName.c_str(), value);
 }
 
 bool AFCObject::SetPropertyInt64(const std::string& strPropertyName, const int64_t value)
 {
-    return GetPropertyManager()->SetPropertyInt64(strPropertyName, value);
+    return GetPropertyManager()->SetPropertyInt64(strPropertyName.c_str(), value);
 }
 
 bool AFCObject::SetPropertyFloat(const std::string& strPropertyName, const float value)
 {
-    return GetPropertyManager()->SetPropertyFloat(strPropertyName, value);
+    return GetPropertyManager()->SetPropertyFloat(strPropertyName.c_str(), value);
 }
 
 bool AFCObject::SetPropertyDouble(const std::string& strPropertyName, const double value)
 {
-    return GetPropertyManager()->SetPropertyDouble(strPropertyName, value);
+    return GetPropertyManager()->SetPropertyDouble(strPropertyName.c_str(), value);
 }
 
 bool AFCObject::SetPropertyString(const std::string& strPropertyName, const std::string& value)
 {
-    return GetPropertyManager()->SetPropertyString(strPropertyName, value);
+    return GetPropertyManager()->SetPropertyString(strPropertyName.c_str(), value);
 }
 
 bool AFCObject::SetPropertyObject(const std::string& strPropertyName, const AFGUID& value)
 {
-    return GetPropertyManager()->SetPropertyObject(strPropertyName, value);
+    return GetPropertyManager()->SetPropertyObject(strPropertyName.c_str(), value);
 }
-
-
-//bool AFCObject::SetPropertyPoint(const std::string& strPropertyName, const Point3D& value)
-//{
-//    return GetPropertyManager()->SetPropertyPoint(strPropertyName, value);
-//}
 
 bool AFCObject::GetPropertyBool(const std::string& strPropertyName)
 {
-    return GetPropertyManager()->GetPropertyBool(strPropertyName);
+    return GetPropertyManager()->GetPropertyBool(strPropertyName.c_str());
 }
 
 int32_t AFCObject::GetPropertyInt(const std::string& strPropertyName)
 {
-    return GetPropertyManager()->GetPropertyInt(strPropertyName);
+    return GetPropertyManager()->GetPropertyInt(strPropertyName.c_str());
 }
 
 int64_t AFCObject::GetPropertyInt64(const std::string& strPropertyName)
 {
-    return GetPropertyManager()->GetPropertyInt64(strPropertyName);
+    return GetPropertyManager()->GetPropertyInt64(strPropertyName.c_str());
 }
 
 float AFCObject::GetPropertyFloat(const std::string& strPropertyName)
 {
-    return GetPropertyManager()->GetPropertyFloat(strPropertyName);
+    return GetPropertyManager()->GetPropertyFloat(strPropertyName.c_str());
 }
 
 double AFCObject::GetPropertyDouble(const std::string& strPropertyName)
 {
-    return GetPropertyManager()->GetPropertyDouble(strPropertyName);
+    return GetPropertyManager()->GetPropertyDouble(strPropertyName.c_str());
 }
 
 const std::string& AFCObject::GetPropertyString(const std::string& strPropertyName)
 {
-    return GetPropertyManager()->GetPropertyString(strPropertyName);
+    return GetPropertyManager()->GetPropertyString(strPropertyName.c_str());
 }
 
 const AFGUID& AFCObject::GetPropertyObject(const std::string& strPropertyName)
 {
-    return GetPropertyManager()->GetPropertyObject(strPropertyName);
+    return GetPropertyManager()->GetPropertyObject(strPropertyName.c_str());
 }
 
 bool AFCObject::FindRecord(const std::string& strRecordName)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
-    if(nullptr != pRecord)
-    {
-        return true;
-    }
-
-    return false;
+    return (nullptr != pRecord);
 }
 
 bool AFCObject::SetRecordBool(const std::string& strRecordName, const int nRow, const int nCol, const bool value)
@@ -338,7 +311,7 @@ NF_SHARE_PTR<AFIHeartBeatManager> AFCObject::GetHeartBeatManager()
     return m_pHeartBeatManager;
 }
 
-NF_SHARE_PTR<AFIPropertyManager> AFCObject::GetPropertyManager()
+NF_SHARE_PTR<AFIPropertyMgr> AFCObject::GetPropertyManager()
 {
     return m_pPropertyManager;
 }
@@ -347,11 +320,6 @@ const AFGUID& AFCObject::Self()
 {
     return mSelf;
 }
-
-//NF_SHARE_PTR<AFIComponentManager> AFCObject::GetComponentManager()
-//{
-//    return m_pComponentManager;
-//}
 
 NF_SHARE_PTR<AFIEventManager> AFCObject::GetEventManager()
 {
