@@ -48,9 +48,24 @@ struct AFProperty
         return !(prop_value.IsNullValue());
     }
 
+    const PropertyName& GetName()
+    {
+        return name;
+    }
+
+    const AFIData& GetValue()
+    {
+        return prop_value;
+    }
+
     int GetType()
     {
         return prop_value.GetType();
+    }
+
+    const int8_t GetFeature()
+    {
+        return feature;
     }
 };
 
