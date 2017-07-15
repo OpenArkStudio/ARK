@@ -158,7 +158,6 @@ NF_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const 
     NF_SHARE_PTR<AFIRecordManager> pStaticClassRecordManager = m_pClassModule->GetClassRecordManager(strClassName);
     if(pStaticClassPropertyManager && pStaticClassRecordManager)
     {
-
         pObject = NF_SHARE_PTR<AFIObject>(NF_NEW AFCObject(ident, pPluginManager));
         //是否是应该晚点等到事件2时才加入容器，这样能保证进入容器的对象都是有完整数据的，否则因为协程的原因，其他对象找到他时他却没数据或者部分数据
         AddElement(ident, pObject);
@@ -168,38 +167,39 @@ NF_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const 
         NF_SHARE_PTR<AFIRecordManager> pRecordManager = pObject->GetRecordManager();
 
         //默认属性
-        NF_SHARE_PTR<AFIProperty> pStaticConfigPropertyInfo = pStaticClassPropertyManager->First();
-        while(nullptr != pStaticConfigPropertyInfo)
+        size_t staticPropertyCount = pStaticClassPropertyManager->GetPropertyCount();
+        for (size_t i = 0; i < staticPropertyCount; ++i)
         {
-            NF_SHARE_PTR<AFIProperty> xProperty = pPropertyManager->AddProperty(ident, pStaticConfigPropertyInfo->GetKey(), pStaticConfigPropertyInfo->GetType());
+            AFProperty* pStaticConfigProperty = pStaticClassPropertyManager->GetPropertyByIndex(i);
+            if (NULL != pStaticConfigProperty)
+            {
+                continue;
+            }
 
-            xProperty->SetPublic(pStaticConfigPropertyInfo->GetPublic());
-            xProperty->SetPrivate(pStaticConfigPropertyInfo->GetPrivate());
-            xProperty->SetSave(pStaticConfigPropertyInfo->GetSave());
-            xProperty->SetCache(pStaticConfigPropertyInfo->GetCache());
-            xProperty->SetRelationValue(pStaticConfigPropertyInfo->GetRelationValue());
+            bool bRet = pPropertyManager->AddProperty(pStaticConfigProperty->GetName().c_str(), pStaticConfigProperty->GetValue(), pStaticConfigProperty->GetFeature());
+            if (!bRet)
+            {
+                NFASSERT(0, "Add property failed, please check it", __FILE__, __FUNCTION__);
+                continue;
+            }
 
             //通用回调，方便NET同步
-            pObject->AddPropertyCallBack(pStaticConfigPropertyInfo->GetKey(), this, &AFCKernelModule::OnPropertyCommonEvent);
-
-            pStaticConfigPropertyInfo = pStaticClassPropertyManager->Next();
+            pObject->AddPropertyCallBack(pStaticConfigProperty->GetName().c_str(), this, &AFCKernelModule::OnPropertyCommonEvent);
         }
 
         NF_SHARE_PTR<AFIRecord> pConfigRecordInfo = pStaticClassRecordManager->First();
         while(nullptr != pConfigRecordInfo)
         {
             NF_SHARE_PTR<AFIRecord> xRecord =  pRecordManager->AddRecord(ident,
-                                               pConfigRecordInfo->GetName(),
-                                               pConfigRecordInfo->GetInitData(),
-                                               pConfigRecordInfo->GetTag(),
-                                               pConfigRecordInfo->GetRows());
+                pConfigRecordInfo->GetName(),
+                pConfigRecordInfo->GetInitData(),
+                pConfigRecordInfo->GetTag(),
+                pConfigRecordInfo->GetRows());
 
             xRecord->SetPublic(pConfigRecordInfo->GetPublic());
             xRecord->SetPrivate(pConfigRecordInfo->GetPrivate());
             xRecord->SetSave(pConfigRecordInfo->GetSave());
             xRecord->SetCache(pConfigRecordInfo->GetCache());
-
-
 
             //通用回调，方便NET同步
             pObject->AddRecordCallBack(pConfigRecordInfo->GetName(), this, &AFCKernelModule::OnRecordCommonEvent);
@@ -214,15 +214,19 @@ NF_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const 
 
         if(nullptr != pConfigPropertyManager && nullptr != pConfigRecordManager)
         {
-            NF_SHARE_PTR<AFIProperty> pConfigPropertyInfo = pConfigPropertyManager->First();
-            while(nullptr != pConfigPropertyInfo)
+            size_t configPropertyCount = pConfigPropertyManager->GetPropertyCount();
+            for (size_t i = 0; i < configPropertyCount; ++i)
             {
-                if(pConfigPropertyInfo->Changed())
+                AFProperty* pConfigProperty = pConfigPropertyManager->GetPropertyByIndex(i);
+                if (NULL != pConfigProperty)
                 {
-                    pPropertyManager->SetProperty(pConfigPropertyInfo->GetKey(), pConfigPropertyInfo->GetValue());
+                    continue;
                 }
 
-                pConfigPropertyInfo = pConfigPropertyManager->Next();
+                if (pConfigProperty->Changed())
+                {
+                    pPropertyManager->SetProperty(pConfigProperty->GetName().c_str(), pConfigProperty->GetValue());
+                }
             }
         }
 
