@@ -43,6 +43,8 @@ public:
 
     static const int mnDefaultTimeZone = 8;
 
+    const int MONTH_DAY[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
 public:
     AFTime();
     AFTime(int64_t nTime);
