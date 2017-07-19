@@ -200,20 +200,21 @@ int64_t AFTime::Get(TimeType nType)
                 {
                     nDays++;
                 }
+
                 for(int month = 1; month <= 12; month++)
                 {
-                    int64_t nMothDays;
+                    int64_t nMonthDays;
                     switch(month)
                     {
                     case 2:
                         {
                             if(nDays == 365)
                             {
-                                nMothDays = 28;
+                                nMonthDays = 28;
                             }
                             else
                             {
-                                nMothDays = 29;
+                                nMonthDays = 29;
                             }
                         }
                         break;
@@ -225,22 +226,22 @@ int64_t AFTime::Get(TimeType nType)
                     case 10:
                     case 12:
                         {
-                            nMothDays = 31;
+                            nMonthDays = 31;
                         }
                         break;
                     default:
                         {
-                            nMothDays = 30;
+                            nMonthDays = 30;
                         }
                         break;
                     }
 
-                    if(nFixTime < nMothDays * AFTime::NDAY_MS)
+                    if(nFixTime < nMonthDays * AFTime::NDAY_MS)
                     {
                         return month;
                     }
 
-                    nFixTime -= nMothDays * AFTime::NDAY_MS;
+                    nFixTime -= nMonthDays * AFTime::NDAY_MS;
                 }
 
                 year++;
@@ -714,13 +715,13 @@ int AFTime::GetWeekOfMonth()
 
 int AFTime::GetDayOfYear()
 {
-    int nDays[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     int nDayOfYear = 0;
     int nYear = (int)Get(YEAR);
     int nMonth = (int)Get(MONTH);
+    int nDay = (int)Get(DAY);
     for(int i = 0; i < nMonth - 1; ++i)
     {
-        nDayOfYear += nDays[i];
+        nDayOfYear += MONTH_DAY[i];
 
         //闰年2月是29，所以多加1
         if(IsLeapYear(nYear) && i == 2)
@@ -728,6 +729,9 @@ int AFTime::GetDayOfYear()
             nDayOfYear += 1;
         }
     }
+
+    //add this month
+    nDayOfYear += nDay;
 
     return nDayOfYear;
 }
