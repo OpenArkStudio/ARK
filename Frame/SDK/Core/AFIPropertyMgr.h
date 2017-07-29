@@ -78,7 +78,7 @@ public:
     virtual const AFGUID& Self() const = 0;
 
     virtual bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb) = 0;
-    
+
     virtual size_t GetPropertyCount() = 0;
     virtual AFProperty* GetPropertyByIndex(size_t index) = 0;
     virtual AFProperty* GetProperty(const char* name) = 0;
