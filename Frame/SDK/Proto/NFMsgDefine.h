@@ -11,7 +11,7 @@
 
 #include "SDK/Interface/AFPlatform.h"
 #include "SDK/Core/AFIRecordManager.h"
-#include "SDK/Core/AFIPropertyManager.h"
+#include "SDK/Core/AFIPropertyMgr.h"
 #include "SDK/Core/AFList.h"
 #include "NFLimit.h"
 #include "NFDefine.pb.h"
