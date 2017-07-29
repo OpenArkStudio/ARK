@@ -26,7 +26,7 @@ public:
     virtual const AFGUID& Self() const;
 
     virtual bool RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
-    
+
     virtual size_t GetPropertyCount();
     virtual AFProperty* GetPropertyByIndex(size_t index);
     virtual AFProperty* GetProperty(const char* name);
@@ -55,11 +55,20 @@ protected:
     bool OnPropertyCallback(const char* name, const AFIData& oldData, const AFIData& newData);
 
 private:
+    struct  AFPropertyCallBack
+    {
+        std::vector<PROPERTY_EVENT_FUNCTOR_PTR> mxCallBackList;
+    };
+
+private:
     ArraryPod<AFProperty*, 1, CoreAlloc> mxPropertys;
     StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
 
-    using PROERTY_CALLBACKS = std::unordered_multimap<PropertyName, PROPERTY_EVENT_FUNCTOR_PTR>;
-    PROERTY_CALLBACKS mxPropertyCBs;
+    ArraryPod<AFPropertyCallBack*, 1, CoreAlloc> mxPropertyCBs;
+    StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxCallBackIndices;
+
+    //using PROERTY_CALLBACKS = std::unordered_multimap<PropertyName, PROPERTY_EVENT_FUNCTOR_PTR>;
+    //PROERTY_CALLBACKS mxPropertyCBs;
 
     AFGUID mxSelf;
 };
