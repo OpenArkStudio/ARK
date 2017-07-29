@@ -26,8 +26,15 @@ void AFCPropertyMgr::Clear()
         delete mxPropertys[i];
     }
 
+    for(size_t i = 0; i < mxPropertyCBs.size(); ++i)
+    {
+        delete mxPropertyCBs[i];
+    }
+
     mxPropertys.clear();
     mxIndices.Clear();
+    mxPropertyCBs.clear();
+    mxCallBackIndices.Clear();
 }
 
 const AFGUID& AFCPropertyMgr::Self() const
@@ -37,13 +44,25 @@ const AFGUID& AFCPropertyMgr::Self() const
 
 bool AFCPropertyMgr::RegisterCallback(const std::string& strProperty, const PROPERTY_EVENT_FUNCTOR_PTR& cb)
 {
-    size_t index;
+    size_t index(0);
     if(!FindIndex(strProperty.c_str(), index))
     {
         return false;
     }
 
-    mxPropertyCBs.emplace(std::make_pair(strProperty.c_str(), cb));
+    //mxPropertyCBs.emplace(std::make_pair(strProperty.c_str(), cb));
+    size_t indexCallback(0);
+    if(mxCallBackIndices.GetData(strProperty.c_str(), indexCallback))
+    {
+        mxPropertyCBs[indexCallback]->mxCallBackList.push_back(cb);
+    }
+    else
+    {
+        AFPropertyCallBack* pPropertyCB = new AFPropertyCallBack();
+        pPropertyCB->mxCallBackList.push_back(cb);
+        mxCallBackIndices.Add(strProperty.c_str(), mxPropertyCBs.size());
+        mxPropertyCBs.push_back(pPropertyCB);
+    }
     return true;
 }
 
@@ -54,7 +73,7 @@ size_t AFCPropertyMgr::GetPropertyCount()
 
 AFProperty* AFCPropertyMgr::GetPropertyByIndex(size_t index)
 {
-    if (index < 0 || index > mxPropertys.size())
+    if(index < 0 || index > mxPropertys.size())
     {
         return NULL;
     }
@@ -65,7 +84,7 @@ AFProperty* AFCPropertyMgr::GetPropertyByIndex(size_t index)
 AFProperty* AFCPropertyMgr::GetProperty(const char* name)
 {
     size_t index;
-    if (!FindIndex(name, index))
+    if(!FindIndex(name, index))
     {
         return false;
     }
@@ -85,15 +104,26 @@ bool AFCPropertyMgr::FindIndex(const char* name, size_t& index)
 
 bool AFCPropertyMgr::OnPropertyCallback(const char* name, const AFIData& oldData, const AFIData& newData)
 {
-    if(mxPropertyCBs.empty())
+    //if(mxPropertyCBs.empty())
+    //{
+    //    return false;
+    //}
+
+    //auto& range = mxPropertyCBs.equal_range(name);
+    //for(auto& iter = range.first; iter != range.second; ++iter)
+    //{
+    //    (*(iter->second))(mxSelf, name, oldData, newData);
+    //}
+
+    size_t indexCallBack = 0;
+    if(!mxCallBackIndices.GetData(name, indexCallBack))
     {
         return false;
     }
 
-    auto& range = mxPropertyCBs.equal_range(name);
-    for(auto& iter = range.first; iter != range.second; ++iter)
+    for(int i = 0; i < mxPropertyCBs[indexCallBack]->mxCallBackList.size(); i++)
     {
-        (*(iter->second))(mxSelf, name, oldData, newData);
+        (*(mxPropertyCBs[indexCallBack]->mxCallBackList[i]))(mxSelf, name, oldData, newData);
     }
 
     return true;
@@ -107,7 +137,6 @@ bool AFCPropertyMgr::AddProperty(const char* name, const AFIData& value, const i
     pProperty->feature = feature;
     mxIndices.Add(name, mxPropertys.size());
     mxPropertys.push_back(pProperty);
-
     return true;
 }
 
@@ -119,6 +148,7 @@ bool AFCPropertyMgr::SetProperty(const char* name, const AFIData& value)
         return false;
     }
 
+    AFXData oldValue = mxPropertys[index]->prop_value;
     mxPropertys[index]->prop_value = value;
 
     //TODO:call cb
