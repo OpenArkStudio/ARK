@@ -354,6 +354,22 @@ bool NF_StrTo(const std::string& strValue, DTYPE& nValue)
     return false;
 }
 
+template<typename DTYPE>
+bool NF_ToStr(std::string& strValue, DTYPE& nValue)
+{
+    try
+    {
+        strValue = AF_LEXICAL_CAST<std::string>(nValue);
+        return true;
+    }
+    catch(...)
+    {
+        return false;
+    }
+
+    return false;
+}
+
 inline bool IsZeroFloat(const float fValue, float epsilon = 1e-6)
 {
     return std::abs(fValue) <= epsilon;
