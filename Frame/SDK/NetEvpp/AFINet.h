@@ -233,13 +233,20 @@ protected:
     uint32_t munSize;
     uint16_t munMsgID;
 };
+enum NetEventType
+{
+    None = 0,
+    CONNECTED = 1,
+    DISCONNECTED = 2,
+    RECIVEDATA = 3,
+};
 
 class AFINet;
 
-typedef std::function<void(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
+typedef std::function<void(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
 typedef std::shared_ptr<NET_RECEIVE_FUNCTOR> NET_RECEIVE_FUNCTOR_PTR;
 
-typedef std::function<void(const int nSockIndex, const NF_NET_EVENT nEvent, const AFGUID& nClientID, const int nServerID)> NET_EVENT_FUNCTOR;
+typedef std::function<void(const NetEventType nEvent, const AFGUID& nClientID, const int nServerID)> NET_EVENT_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 
 typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
@@ -253,7 +260,7 @@ public:
     {
         bNeedRemove = false;
         m_pNet = pNet;
-
+        mnClientID = xClientID;
         memset(&sin, 0, sizeof(sin));
     }
 
@@ -351,7 +358,7 @@ public:
 
 private:
     sockaddr_in sin;
-    const evpp::TCPConnPtr& mConnPtr;
+    const evpp::TCPConnPtr mConnPtr;
     std::string mstrBuff;
     std::string mstrUserData;
 
@@ -363,24 +370,17 @@ private:
 
 };
 
+
 struct MsgFromNetInfo
 {
-    MsgFromNetInfo(const evpp::TCPConnPtr& TCPConPtr) : mTCPConPtr(TCPConPtr)
+    MsgFromNetInfo(const evpp::TCPConnPtr TCPConPtr) : mTCPConPtr(TCPConPtr)
     {
         nType = None;
     }
 
-    enum NetInfoType
-    {
-        None = 0,
-        CONNECTED = 1,
-        RECIVEDATA = 2,
-        DISCONNECTED = 3,
-    };
-
-    NetInfoType nType;
+    NetEventType nType;
     AFGUID xClientID;
-    const evpp::TCPConnPtr& mTCPConPtr;
+    const evpp::TCPConnPtr mTCPConPtr;
     std::string strMsg;
 };
 
@@ -390,8 +390,11 @@ public:
     //need to call this function every frame to drive network library
     virtual bool Execute() = 0;
 
-    virtual void Initialization(const char* strIP, const unsigned short nPort, const int nServerID) {};
-    virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nServerID, const int nCpuCount) = 0;
+    virtual void Initialization(const std::string& strAddrPort, const int nServerID) {};
+    virtual int Initialization(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nCpuCount)
+    {
+        return -1;
+    };
 
     virtual bool Final() = 0;
 
@@ -399,16 +402,27 @@ public:
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID) = 0;
 
     //send a message to all client[need to add msg-head for this message by youself]
-    virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen) = 0;
+    virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen)
+    {
+        return false;
+    }
 
     //send a message with out msg-head to all client[auto add msg-head in this function]
-    virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen) = 0;
+    virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen)
+    {
+        return false;
+    }
 
     virtual bool CloseNetObject(const AFGUID& xClientID) = 0;
 
     virtual bool IsServer() = 0;
 
     virtual bool Log(int severity, const char* msg) = 0;
+    virtual bool IsStop() = 0;
+    virtual bool StopAfter(double dTime)
+    {
+        return false;
+    };
 };
 
 #pragma pack(pop)
