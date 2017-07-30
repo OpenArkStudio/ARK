@@ -22,7 +22,6 @@
 #include "event2/bufferevent_struct.h"
 #include "event2/event.h"
 #include <atomic>
-std::atomic_uint64_t AFCNetServer::mObjectIndex = 0;
 
 bool AFCNetServer::Execute()
 {
@@ -31,25 +30,30 @@ bool AFCNetServer::Execute()
     return true;
 }
 
-int AFCNetServer::Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nServerID, const int nCpuCount)
+int AFCNetServer::Initialization(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nCpuCount)
 {
-    std::string addr = "127.0.0.1";
-    std::string strPort;
-    NF_ToStr(strPort, nPort);
-    addr += ":" + strPort;
-    mnMaxConnect = nMaxClient;
-    mnPort = nPort;
+#ifdef _MSC_VER
+    WSADATA wsa_data;
+    WSAStartup(MAKEWORD(2, 2), &wsa_data);
+#endif
 
+    mnMaxConnect = nMaxClient;
+    mstrIPPort = strAddrPort;
     m_pListenThread.reset(new evpp::EventLoopThread);
-    m_pListenThread->SetName("LisenThread");
-    m_pTcpSrv.reset(new evpp::TCPServer(m_pListenThread->event_loop(), addr, "tcp_server", nCpuCount));
+    m_pListenThread->set_name("LisenThread");
+    m_pListenThread->Start(true);
+    m_pTcpSrv.reset(new evpp::TCPServer(m_pListenThread->loop(), strAddrPort, "tcp_server", nCpuCount));
     m_pTcpSrv->SetMessageCallback(std::bind(&AFCNetServer::OnMessage, std::placeholders::_1, std::placeholders::_2, (void*)this));
     m_pTcpSrv->SetConnectionCallback(std::bind(&AFCNetServer::OnClientConnection, std::placeholders::_1, (void*) this));
-    m_pTcpSrv->Init() && m_pTcpSrv->Start();
-    m_pListenThread->Start(true);
-
-
+    m_pTcpSrv->Init();
+    m_pTcpSrv->Start();
+    bWorking = true;
     return 0;
+}
+
+bool AFCNetServer::IsStop()
+{
+    return !bWorking;
 }
 
 void AFCNetServer::OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* msg, void* pData)
@@ -64,12 +68,11 @@ void AFCNetServer::OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* msg, vo
 void AFCNetServer::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* msg)
 {
     MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
-    pMsg->nType = MsgFromNetInfo::RECIVEDATA;
-    pMsg->xClientID = conn->GetID();
+    pMsg->nType = RECIVEDATA;
+    pMsg->xClientID = conn->id();
     if(msg)
     {
-        int nLen = msg->WritableBytes();
-        pMsg->strMsg = msg->NextString(nLen);
+        pMsg->strMsg = msg->NextAllString();
     }
 
     mqMsgFromNet.Push(pMsg);
@@ -88,16 +91,15 @@ void AFCNetServer::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
     if(conn->IsConnected())
     {
         MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
-        pMsg->xClientID = ++mObjectIndex;
-        conn->SetID(pMsg->xClientID.n64Value);
-        pMsg->nType = MsgFromNetInfo::CONNECTED;
+        pMsg->xClientID = conn->id();
+        pMsg->nType = CONNECTED;
         mqMsgFromNet.Push(pMsg);
     }
     else
     {
         MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
-        pMsg->xClientID = conn->GetID();
-        pMsg->nType = MsgFromNetInfo::DISCONNECTED;
+        pMsg->xClientID = conn->id();
+        pMsg->nType = DISCONNECTED;
         mqMsgFromNet.Push(pMsg);
     }
 }
@@ -121,7 +123,7 @@ void AFCNetServer::ProcessMsgLogicThread()
 
         switch(pMsgFromNet->nType)
         {
-        case MsgFromNetInfo::RECIVEDATA:
+        case RECIVEDATA:
             {
                 NetObject* pObject = GetNetObject(pMsgFromNet->xClientID);
                 if(NULL != pObject)
@@ -131,16 +133,16 @@ void AFCNetServer::ProcessMsgLogicThread()
                 }
             }
             break;
-        case MsgFromNetInfo::CONNECTED:
+        case CONNECTED:
             {
                 NetObject* pObject = new NetObject(this, pMsgFromNet->xClientID, pMsgFromNet->mTCPConPtr);
                 AddNetObject(pMsgFromNet->xClientID, pObject);
-                mEventCB(0, (NF_NET_EVENT)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
+                mEventCB((NetEventType)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
             }
             break;
-        case MsgFromNetInfo::DISCONNECTED:
+        case DISCONNECTED:
             {
-                mEventCB(0, (NF_NET_EVENT)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
+                mEventCB((NetEventType)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
                 RemoveNetObject(pMsgFromNet->xClientID);
             }
             break;
@@ -156,7 +158,7 @@ bool AFCNetServer::Final()
 {
     m_pTcpSrv->Stop();
     m_pListenThread->Stop(true);
-
+    bWorking = false;
     return true;
 }
 
@@ -234,7 +236,7 @@ bool AFCNetServer::Dismantle(NetObject* pObject)
             int nRet = 0;
             if(mRecvCB)
             {
-                mRecvCB(pObject->GetRealFD(), xHead.GetMsgID(), pObject->GetBuff() + AFIMsgHead::NF_Head::NF_HEAD_LENGTH, nMsgBodyLength, pObject->GetClientID());
+                mRecvCB(xHead.GetMsgID(), pObject->GetBuff() + AFIMsgHead::NF_Head::NF_HEAD_LENGTH, nMsgBodyLength, pObject->GetClientID());
             }
 
             pObject->RemoveBuff(0, nMsgBodyLength + AFIMsgHead::NF_Head::NF_HEAD_LENGTH);
