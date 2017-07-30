@@ -22,7 +22,6 @@
 #include "event2/bufferevent_struct.h"
 #include "event2/event.h"
 
-std::uint64_t AFCNetClient::mObjectIndex = 0;
 bool AFCNetClient::Execute()
 {
     ProcessMsgLogicThread();
@@ -48,27 +47,25 @@ void AFCNetClient::ProcessMsgLogicThread()
 
         switch(pMsgFromNet->nType)
         {
-        case MsgFromNetInfo::RECIVEDATA:
+        case RECIVEDATA:
             {
-                NetObject* pObject = GetNetObject(pMsgFromNet->xClientID);
-                if(NULL != pObject)
+                if(NULL != m_pClientObject &&  m_pClientObject->GetClientID() == pMsgFromNet->xClientID)
                 {
-                    pObject->AddBuff(pMsgFromNet->strMsg.c_str(), pMsgFromNet->strMsg.length());
-                    Dismantle(pObject);
+                    m_pClientObject->AddBuff(pMsgFromNet->strMsg.c_str(), pMsgFromNet->strMsg.length());
+                    Dismantle(m_pClientObject.get());
                 }
             }
             break;
-        case MsgFromNetInfo::CONNECTED:
+        case CONNECTED:
             {
-                NetObject* pObject = new NetObject(this, pMsgFromNet->xClientID, pMsgFromNet->mTCPConPtr);
-                AddNetObject(pMsgFromNet->xClientID, pObject);
-                mEventCB(0, (NF_NET_EVENT)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
+                m_pClientObject.reset(new NetObject(this, pMsgFromNet->xClientID, pMsgFromNet->mTCPConPtr));
+                mEventCB((NetEventType)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
             }
             break;
-        case MsgFromNetInfo::DISCONNECTED:
+        case DISCONNECTED:
             {
-                mEventCB(0, (NF_NET_EVENT)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
-                RemoveNetObject(pMsgFromNet->xClientID);
+                mEventCB((NetEventType)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
+                m_pClientObject.release();
             }
             break;
         default:
@@ -79,29 +76,31 @@ void AFCNetClient::ProcessMsgLogicThread()
     }
 }
 
-void AFCNetClient::Initialization(const char* strIP, const unsigned short nPort, const int nServerID)
+void AFCNetClient::Initialization(const std::string& strAddrPort, const int nServerID)
 {
-    mstrIP = strIP;
-    mnPort = nPort;
+#ifdef _MSC_VER
+    WSADATA wsa_data;
+    WSAStartup(MAKEWORD(2, 2), &wsa_data);
+#endif
 
+    mstrIPPort = strAddrPort;
     mnServerID = nServerID;
     m_pThread.reset(new evpp::EventLoopThread);
-    m_pThread->SetName("TCPClientThread");
+    m_pThread->set_name("TCPClientThread");
     m_pThread->Start();
 
-    std::string strPort;
-    NF_ToStr(strPort, nPort);
-    std::string addr = mstrIP + ":" + strPort;
-    m_pClient.reset(new evpp::TCPClient(m_pThread->event_loop(), addr, "TCPPingPongClient"));
+    m_pClient.reset(new evpp::TCPClient(m_pThread->loop(), mstrIPPort, "TCPPingPongClient"));
     m_pClient->SetConnectionCallback(std::bind(&AFCNetClient::OnClientConnection, std::placeholders::_1, (void*) this));
     m_pClient->SetMessageCallback(std::bind(&AFCNetClient::OnMessage, std::placeholders::_1, std::placeholders::_2, (void*)this));
     m_pClient->Connect();
-}
 
+    bWorking = true;
+}
 
 bool AFCNetClient::Final()
 {
     CloseSocketAll();
+    bWorking = false;
     return true;
 }
 
@@ -109,16 +108,7 @@ bool AFCNetClient::CloseSocketAll()
 {
     m_pClient->Disconnect();
     m_pThread->Stop(true);
-    std::map<AFGUID, NetObject*>::iterator it = mmObject.begin();
-    for(it; it != mmObject.end(); ++it)
-    {
-        it->second->GetConnPtr()->Close();
-
-        delete it->second;
-    }
-
-    mmObject.clear();
-
+    bWorking = false;
     return true;
 }
 
@@ -129,26 +119,17 @@ bool AFCNetClient::SendMsg(const char* msg, const uint32_t nLen, const AFGUID& x
         return false;
     }
 
-    NetObject* pNetObject = GetNetObject(xClient);
-    if(NULL == pNetObject)
+    if(m_pClient->conn().get())
     {
-        return false;
+        m_pClient->conn()->Send(msg, nLen);
     }
 
-    pNetObject->GetConnPtr()->Send(msg, nLen);
     return false;
 }
 
 bool AFCNetClient::CloseNetObject(const AFGUID& xClient)
 {
-    NetObject* pObject = GetNetObject(xClient);
-    if(pObject)
-    {
-        pObject->GetConnPtr()->Close();
-        RemoveNetObject(xClient);
-    }
-
-    //m_pClient->Disconnect();
+    m_pClient->Disconnect();
     return true;
 }
 
@@ -163,7 +144,7 @@ bool AFCNetClient::Dismantle(NetObject* pObject)
         {
             if(mRecvCB)
             {
-                mRecvCB(pObject->GetRealFD(), xHead.GetMsgID(), pObject->GetBuff() + AFIMsgHead::NF_Head::NF_HEAD_LENGTH, nMsgBodyLength, pObject->GetClientID());
+                mRecvCB(xHead.GetMsgID(), pObject->GetBuff() + AFIMsgHead::NF_Head::NF_HEAD_LENGTH, nMsgBodyLength, pObject->GetClientID());
             }
 
             pObject->RemoveBuff(0, nMsgBodyLength + AFIMsgHead::NF_Head::NF_HEAD_LENGTH);
@@ -175,30 +156,6 @@ bool AFCNetClient::Dismantle(NetObject* pObject)
     return true;
 }
 
-bool AFCNetClient::AddNetObject(const AFGUID& xClientID, NetObject* pObject)
-{
-    return mmObject.insert(std::make_pair(xClientID, pObject)).second;
-}
-bool AFCNetClient::RemoveNetObject(const AFGUID& xClientID)
-{
-    NetObject* pNetObject = GetNetObject(xClientID);
-    if(pNetObject)
-    {
-        delete pNetObject;
-    }
-    return mmObject.erase(xClientID);
-}
-
-NetObject* AFCNetClient::GetNetObject(const AFGUID& xClientID)
-{
-    std::map<AFGUID, NetObject*>::iterator it = mmObject.find(xClientID);
-    if(it != mmObject.end())
-    {
-        return it->second;
-    }
-
-    return NULL;
-}
 
 void AFCNetClient::log_cb(int severity, const char* msg)
 {
@@ -216,6 +173,20 @@ bool AFCNetClient::Log(int severity, const char* msg)
     return true;
 }
 
+bool AFCNetClient::IsStop()
+{
+    return  !bWorking;
+}
+
+bool AFCNetClient::StopAfter(double dTime)
+{
+    m_pThread->loop()->RunAfter(evpp::Duration(dTime), [&]()
+    {
+        bWorking = false;
+    });
+    return true;
+}
+
 void AFCNetClient::OnClientConnection(const evpp::TCPConnPtr& conn, void* pData)
 {
     AFCNetClient * pClient = (AFCNetClient*)(pData);
@@ -230,16 +201,15 @@ void AFCNetClient::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
     if(conn->IsConnected())
     {
         MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
-        pMsg->xClientID = 0;
-        conn->SetID(pMsg->xClientID.n64Value);
-        pMsg->nType = MsgFromNetInfo::CONNECTED;
+        pMsg->xClientID = conn->id();
+        pMsg->nType = CONNECTED;
         mqMsgFromNet.Push(pMsg);
     }
     else
     {
         MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
-        pMsg->xClientID = conn->GetID();
-        pMsg->nType = MsgFromNetInfo::DISCONNECTED;
+        pMsg->xClientID = conn->id();
+        pMsg->nType = DISCONNECTED;
         mqMsgFromNet.Push(pMsg);
     }
 }
@@ -256,12 +226,11 @@ void AFCNetClient::OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* msg, vo
 void AFCNetClient::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* msg)
 {
     MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
-    pMsg->nType = MsgFromNetInfo::RECIVEDATA;
-    pMsg->xClientID = conn->GetID();
+    pMsg->nType = RECIVEDATA;
+    pMsg->xClientID = conn->id();
     if(msg)
     {
-        int nLen = msg->WritableBytes();
-        pMsg->strMsg = msg->NextString(nLen);
+        pMsg->strMsg = msg->NextAllString();
     }
 
     mqMsgFromNet.Push(pMsg);
