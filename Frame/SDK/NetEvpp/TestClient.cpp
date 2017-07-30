@@ -1,50 +1,53 @@
 
-#include "AFCNet.h"
+#include "AFCNetClient.h"
 #include <thread>
 #include <string>
-#include "SDK/Core/NFTimer.h"
-#include "AFCMulNet.h"
+#include "SDK/Core/AFTime.h"
 #pragma comment(lib,"ws2_32.lib")
 
 #ifdef NF_DEBUG_MODE
-#pragma comment(lib,"NFNet_d.lib")
-#pragma comment(lib,"AFCore_d.lib")
+#pragma comment(lib,"AFNetEvpp_d.lib")
+#pragma comment(lib,"Core_d.lib")
 #else
-#pragma comment(lib,"NFNet.lib")
-#pragma comment(lib,"AFCore.lib")
+#pragma comment(lib,"AFNetEvpp.lib")
+#pragma comment(lib,"Core.lib")
 #endif
 class TestClientClass
 {
 public:
     TestClientClass(const int nID)
     {
-        pNet = new AFCNet(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
-        //pNet = new AFCMulNet(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
-        pNet->Initialization("192.168.1.124", 8088, 1);
-		bConnected = false;
+        //pNet = new AFCNet(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
+        pNet = new AFCNetClient(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
+        pNet->Initialization("192.168.1.143:8088", 1);
+        pNet->StopAfter(60);
+        bConnected = false;
         nSendMsgCount = 0;
         nReciveMsgCount = 0;
         mnID = nID;
-        mnStarTime = NFTime::GetNowTime();
+        mnStarTime = AFTime::GetUTCTime();
         mbTestSendMsg = true;
     }
 
-    void ReciveHandler(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const NFGUID& xClientID)
+    void ReciveHandler(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
         std::string str;
         str.assign(msg, nLen);
         nReciveMsgCount++;
-        int nSpanTime = NFTime::GetNowTime() - mnStarTime;
-        std::cout << " mnID: " << mnID << " nSendMsgCount: " << nSendMsgCount << "nReciveMsgCount" << nReciveMsgCount << " fd: " << nSockIndex << " msg_id: " << nMsgID /*<<  " data: " << str */ << " thread_id: " << std::this_thread::get_id() << "SpanTime:" << nSpanTime << std::endl;
+        int nSpanTime = AFTime::GetUTCTime() - mnStarTime;
+        std::cout << " mnID: " << mnID << " nSendMsgCount: " << nSendMsgCount << "nReciveMsgCount" << nReciveMsgCount  << " msg_id: " << nMsgID /*<<  " data: " << str */ << " thread_id: " << std::this_thread::get_id() << "SpanTime:" << nSpanTime << std::endl;
+        pNet->SendMsgWithOutHead(nMsgID, msg, nLen, xClientID);
     };
 
-    void EventHandler(const int nSockIndex, const NF_NET_EVENT e, const NFGUID& xClientID, const int nServerID)
+    void EventHandler(const NetEventType e, const AFGUID& xClientID, const int nServerID)
     {
-        std::cout << " fd: " << nSockIndex << " event_id: " << e << " thread_id: " << std::this_thread::get_id() << std::endl;
-		if(e == NF_NET_EVENT_CONNECTED)
-		{
-			bConnected = true;
-		}
+        std::cout << " event_id: " << e << " thread_id: " << std::this_thread::get_id() << std::endl;
+        if(e == CONNECTED)
+        {
+            bConnected = true;
+
+            TestSend();
+        }
     }
 
     void Execute()
@@ -54,7 +57,7 @@ public:
 
     bool TestSend()
     {
-        if (!bConnected)
+        if(!bConnected)
         {
             return false;
         }
@@ -66,12 +69,17 @@ public:
         return true;
     }
 
+    bool IsStop()
+    {
+        return pNet->IsStop();
+    }
+
 public:
     bool mbTestSendMsg;
 
-protected:
+public:
     AFINet* pNet;
-	bool bConnected;
+    bool bConnected;
     int nSendMsgCount;
     int nReciveMsgCount;
     int mnID;
@@ -83,41 +91,43 @@ int main(int argc, char** argv)
 {
     std::list<TestClientClass*> list;
 
-    for (int i = 0; i < 10; ++i)
-    {
-        TestClientClass* x = new TestClientClass(i);;
-        list.push_back(x);
-    }
+    /*   for(int i = 0; i < 1; ++i)
+       {
+           TestClientClass* x = new TestClientClass(i);;
+           list.push_back(x);
+       }*/
+    TestClientClass* pNet = new TestClientClass(0);;
 
-    int nTime = NFTime::GetNowTimeMille();
-    int nLastTime = NFTime::GetNowTimeMille();
+    int nTime = AFTime::GetUTCTime();
+    int nLastTime = AFTime::GetUTCTime();
     int nCount = 0;
-    while (1)
+    while(!pNet->IsStop())
     {
-        int nNowTime = NFTime::GetNowTimeMille();
-        std::list<TestClientClass*>::iterator it = list.begin();
-        for (it; it != list.end(); ++it)
-        {
-            //if ((nNowTime - nTime) < 180 * 1000)
-            {
-                if ((*it)->TestSend())
-                {
-                    nCount++;
-                }
-                else
-                {
-                    
-                }
-                std::cout << "Frame Time :" << (nNowTime - nLastTime) << std::endl;
-            }
+        pNet->Execute();
+        ////int nNowTime = AFTime::GetUTCTime();
+        //std::list<TestClientClass*>::iterator it = list.begin();
+        //for(it; it != list.end(); ++it)
+        //{
+        //    //if ((nNowTime - nTime) < 180 * 1000)
+        //    //{
+        //    //    /*     {
+        //    //             nCount++;
+        //    //         }
+        //    //         else
+        //    //         {
 
-            (*it)->Execute();
-        }
+        //    //         }*/
+        //    //    //std::cout << "Frame Time :" << (nNowTime - nLastTime) << std::endl;
+        //    //}
 
-        nLastTime = nNowTime;
-        NFSLEEP(1);
+        //    (*it)->Execute();
+        //}
+
+        //nLastTime = nNowTime;
+        //NFSLEEP(1);
     }
 
+    std::cout << "nSendMsgCount " << pNet->nSendMsgCount << "nReciveMsgCount:" << pNet->nReciveMsgCount << std::endl;
     system("pause");
 
 
