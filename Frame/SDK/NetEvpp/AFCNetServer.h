@@ -16,9 +16,8 @@
 #include "common/readerwriterqueue.h"
 #include "SDK/Core/AFLockFreeQueue.h"
 
-#include <evpp/exp.h>
-#include <evpp/libevent_headers.h>
-#include <evpp/libevent_watcher.h>
+#include <evpp/libevent.h>
+#include <evpp/event_watcher.h>
 #include <evpp/event_loop.h>
 #include <evpp/event_loop_thread.h>
 #include <evpp/tcp_server.h>
@@ -33,23 +32,17 @@ class AFCNetServer : public AFINet
 public:
     AFCNetServer()
     {
-        mstrIP = "";
-        mnPort = 0;
         mnCpuCount = 0;
+        bWorking = false;
     }
 
-
     template<typename BaseType>
-    AFCNetServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID&), void (BaseType::*handleEvent)(const int, const NF_NET_EVENT, const AFGUID&, const int))
+    AFCNetServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const int, const char*, const uint32_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
     {
-        mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-        mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        mstrIP = "";
-        mnPort = 0;
+        mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         mnCpuCount = 0;
-
         mnServerID = 0;
-
     }
 
     virtual ~AFCNetServer()
@@ -60,7 +53,7 @@ public:
 public:
     virtual bool Execute();
 
-    virtual int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nServerID, const int nCpuCount);
+    virtual int Initialization(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nCpuCount);
     virtual bool Final();
     virtual bool IsServer()
     {
@@ -75,6 +68,7 @@ public:
     {
         return true;
     };
+    virtual bool IsStop();
 
 public:
     //From Worker Thread
@@ -109,17 +103,15 @@ private:
     std::map<AFGUID, NetObject*> mmObject;
 
     int mnMaxConnect;
-    std::string mstrIP;
-    int mnPort;
+    std::string mstrIPPort;
     int mnCpuCount;
     int mnServerID;
+    bool bWorking;
 
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
 
     AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromNet;
-    static atomic_uint64_t mObjectIndex;
-
 };
 
 #pragma pack(pop)
