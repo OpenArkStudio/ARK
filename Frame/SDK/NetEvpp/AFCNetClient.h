@@ -34,6 +34,8 @@ public:
     {
         mnServerID = 0;
         bWorking = false;
+        nReceiverSize = 0;
+        nSendSize = 0;
     }
 
     template<typename BaseType>
@@ -42,6 +44,8 @@ public:
         mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         mnServerID = 0;
+        nReceiverSize = 0;
+        nSendSize = 0;
     }
 
     virtual ~AFCNetClient()
@@ -59,7 +63,6 @@ public:
 
     virtual bool IsServer();
     virtual bool Log(int severity, const char* msg);
-    virtual bool IsStop();
     virtual bool StopAfter(double dTime);
 
 public:
@@ -70,6 +73,7 @@ public:
                           evpp::Buffer* msg, void* pData);
     void OnMessageInner(const evpp::TCPConnPtr& conn,
                         evpp::Buffer* msg);
+
 private:
     bool SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient = 0);
 
@@ -87,12 +91,12 @@ private:
     std::unique_ptr<evpp::EventLoopThread> m_pThread;
     std::unique_ptr<evpp::TCPClient> m_pClient;
     std::unique_ptr<NetObject> m_pClientObject;
-    bool bWorking;
     std::string mstrIPPort;
     int mnServerID;
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
     AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromNet;
+    AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromPool;
 };
 
 #pragma pack(pop)

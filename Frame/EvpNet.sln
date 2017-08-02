@@ -9,9 +9,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetTestServer", "SDK\NetEvp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetTestClient", "SDK\NetEvpp\NetTestClient.vcxproj", "{1953DCD4-3E9D-4017-B4A2-1A8675A70280}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "evpp_static", "..\Dep\evpp\vsprojects\libevpp.vcxproj", "{4877AA94-AD55-407F-9ED3-D4503FAB2A7F}"
-EndProject
 Global
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
@@ -37,14 +38,6 @@ Global
 		{1953DCD4-3E9D-4017-B4A2-1A8675A70280}.Release|x64.ActiveCfg = Release|x64
 		{1953DCD4-3E9D-4017-B4A2-1A8675A70280}.Release|x64.Build.0 = Release|x64
 		{1953DCD4-3E9D-4017-B4A2-1A8675A70280}.Release|x86.ActiveCfg = Release|x64
-		{4877AA94-AD55-407F-9ED3-D4503FAB2A7F}.Debug|x64.ActiveCfg = Debug|x64
-		{4877AA94-AD55-407F-9ED3-D4503FAB2A7F}.Debug|x64.Build.0 = Debug|x64
-		{4877AA94-AD55-407F-9ED3-D4503FAB2A7F}.Debug|x86.ActiveCfg = Debug|Win32
-		{4877AA94-AD55-407F-9ED3-D4503FAB2A7F}.Debug|x86.Build.0 = Debug|Win32
-		{4877AA94-AD55-407F-9ED3-D4503FAB2A7F}.Release|x64.ActiveCfg = Release|x64
-		{4877AA94-AD55-407F-9ED3-D4503FAB2A7F}.Release|x64.Build.0 = Release|x64
-		{4877AA94-AD55-407F-9ED3-D4503FAB2A7F}.Release|x86.ActiveCfg = Release|Win32
-		{4877AA94-AD55-407F-9ED3-D4503FAB2A7F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
