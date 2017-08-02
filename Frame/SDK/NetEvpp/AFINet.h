@@ -50,6 +50,7 @@
 #include <unistd.h>
 #endif
 #include "evpp/tcp_callbacks.h"
+#include "evpp/buffer.h"
 
 #pragma pack(push, 1)
 
@@ -261,6 +262,7 @@ public:
         bNeedRemove = false;
         m_pNet = pNet;
         mnClientID = xClientID;
+        bBuffChange = false;
         memset(&sin, 0, sizeof(sin));
     }
 
@@ -270,36 +272,19 @@ public:
 
     int AddBuff(const char* str, uint32_t nLen)
     {
-        mstrBuff.append(str, nLen);
-
+        mstrBuff.Write(str, nLen);
+        bBuffChange = true;
         return (int)mstrBuff.length();
     }
 
-    int CopyBuffTo(char* str, uint32_t nStart, uint32_t nLen)
+    int RemoveBuff(uint32_t nLen)
     {
-        if(nStart + nLen > mstrBuff.length())
+        if(nLen > mstrBuff.length())
         {
             return 0;
         }
 
-        memcpy(str, mstrBuff.data() + nStart, nLen);
-
-        return nLen;
-    }
-
-    int RemoveBuff(uint32_t nStart, uint32_t nLen)
-    {
-        if(nStart < 0)
-        {
-            return 0;
-        }
-
-        if(nStart + nLen > mstrBuff.length())
-        {
-            return 0;
-        }
-
-        mstrBuff.erase(nStart, nLen);
+        mstrBuff.Next(nLen);
 
         return mstrBuff.length();
     }
@@ -345,12 +330,14 @@ public:
     {
         mnClientID = xClientID;
     }
-
-    int GetRealFD()
+    void Reset()
     {
-        return nFD;
+        bBuffChange =  false;
     }
-
+    bool BuffChange()
+    {
+        return bBuffChange;
+    }
     const evpp::TCPConnPtr& GetConnPtr()
     {
         return mConnPtr;
@@ -359,14 +346,13 @@ public:
 private:
     sockaddr_in sin;
     const evpp::TCPConnPtr mConnPtr;
-    std::string mstrBuff;
+    evpp::Buffer mstrBuff;
     std::string mstrUserData;
-
     AFGUID mnClientID;//temporary client id
 
     AFINet* m_pNet;
-    int nFD;
     bool bNeedRemove;
+    bool bBuffChange;
 
 };
 
@@ -380,7 +366,7 @@ struct MsgFromNetInfo
 
     NetEventType nType;
     AFGUID xClientID;
-    const evpp::TCPConnPtr mTCPConPtr;
+    evpp::TCPConnPtr mTCPConPtr;
     std::string strMsg;
 };
 
@@ -418,11 +404,21 @@ public:
     virtual bool IsServer() = 0;
 
     virtual bool Log(int severity, const char* msg) = 0;
-    virtual bool IsStop() = 0;
+    bool IsStop()
+    {
+        return  !bWorking;
+    };
     virtual bool StopAfter(double dTime)
     {
         return false;
     };
+
+protected:
+    bool bWorking;
+
+public:
+    int nReceiverSize;
+    int nSendSize;
 };
 
 #pragma pack(pop)

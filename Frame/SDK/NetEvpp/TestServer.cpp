@@ -30,9 +30,6 @@ public:
 
     void ReciveHandler(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        std::string str;
-        str.assign(msg, nLen);
-
         nReciveMsgCount++;
         nSendMsgCount++;
         pNet->SendMsgWithOutHead(nMsgID, msg, nLen, xClientID);
