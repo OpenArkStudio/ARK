@@ -68,7 +68,6 @@ public:
     {
         return true;
     };
-    virtual bool IsStop();
 
 public:
     //From Worker Thread
@@ -106,7 +105,6 @@ private:
     std::string mstrIPPort;
     int mnCpuCount;
     int mnServerID;
-    bool bWorking;
 
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
