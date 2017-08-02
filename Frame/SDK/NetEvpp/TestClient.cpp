@@ -31,11 +31,7 @@ public:
 
     void ReciveHandler(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        std::string str;
-        str.assign(msg, nLen);
         nReciveMsgCount++;
-        int nSpanTime = AFTime::GetUTCTime() - mnStarTime;
-        std::cout << " mnID: " << mnID << " nSendMsgCount: " << nSendMsgCount << "nReciveMsgCount" << nReciveMsgCount  << " msg_id: " << nMsgID /*<<  " data: " << str */ << " thread_id: " << std::this_thread::get_id() << "SpanTime:" << nSpanTime << std::endl;
         pNet->SendMsgWithOutHead(nMsgID, msg, nLen, xClientID);
     };
 
@@ -63,7 +59,10 @@ public:
         }
 
         std::string strData = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-        pNet->SendMsgWithOutHead(1, strData.data(), strData.size(), 0);
+        char data[4096] = {};
+
+        memset(data, 22, 4096);
+        pNet->SendMsgWithOutHead(1, data, 4096, 0);
         nSendMsgCount++;
 
         return true;
@@ -127,7 +126,7 @@ int main(int argc, char** argv)
         //NFSLEEP(1);
     }
 
-    std::cout << "nSendMsgCount " << pNet->nSendMsgCount << "nReciveMsgCount:" << pNet->nReciveMsgCount << std::endl;
+    std::cout << "nSendMsgCount " << pNet->nSendMsgCount << "nReciveMsgSize:" << pNet->pNet->nReceiverSize << "Count" << pNet->nReciveMsgCount << std::endl;
     system("pause");
 
 
