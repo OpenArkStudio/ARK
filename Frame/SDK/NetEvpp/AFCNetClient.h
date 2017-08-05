@@ -23,6 +23,7 @@
 #include <evpp/tcp_conn.h>
 #include <evpp/tcp_client.h>
 #include <thread>
+#include "SDK/Core/AFRWLock.hpp"
 
 #pragma pack(push, 1)
 
@@ -77,8 +78,9 @@ public:
 private:
     bool SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient = 0);
 
-    bool Dismantle(NetObject* pObject);
+    bool DismantleNet(NetObject* pObject);
     void ProcessMsgLogicThread();
+    void ProcessMsgLogicThread(NetObject* pObject);
     bool CloseSocketAll();
 
     static void log_cb(int severity, const char* msg);
@@ -97,6 +99,7 @@ private:
     NET_EVENT_FUNCTOR mEventCB;
     AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromNet;
     AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromPool;
+    AFCReaderWriterLock mRWLock;
 };
 
 #pragma pack(pop)
