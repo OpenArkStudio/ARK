@@ -370,14 +370,24 @@ bool NF_ToStr(std::string& strValue, DTYPE& nValue)
     return false;
 }
 
-inline bool IsZeroFloat(const float fValue, float epsilon = 1e-6)
+inline bool IsZeroFloat(const float fValue)
 {
-    return std::abs(fValue) <= epsilon;
+    return std::abs(fValue) < std::numeric_limits<float>::epsilon();
 }
 
-inline bool IsZeroDouble(const double dValue, double epsilon = 1e-15)
+inline bool IsZeroDouble(const double dValue)
 {
-    return std::abs(dValue) <= epsilon;
+    return std::abs(dValue) < std::numeric_limits<double>::epsilon();
+}
+
+inline bool float_equal(const float lhs, const float rhs)
+{
+    return std::abs(lhs - rhs) < std::numeric_limits<float>::epsilon();
+}
+
+inline bool double_equal(const double lhs, const double rhs)
+{
+    return std::abs(lhs - rhs) < std::numeric_limits<double>::epsilon();
 }
 
 //Protobuf Using Dlls
