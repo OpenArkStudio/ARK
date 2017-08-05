@@ -15,6 +15,7 @@
     <ClCompile Include="AFCNetServer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Core\AFRWLock.hpp" />
     <ClInclude Include="AFCNetClient.h" />
     <ClInclude Include="AFCNetServer.h" />
     <ClInclude Include="AFINet.h" />
