@@ -92,7 +92,6 @@ private:
     void ProcessMsgLogicThread();
     void ProcessMsgLogicThread(NetObject* pObject);
     bool CloseSocketAll();
-    bool Dismantle(NetObject* pObject);
     bool DismantleNet(NetObject* pObject);
 
 protected:
@@ -112,8 +111,6 @@ private:
 
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
-
-    mutable std::mutex mObjectMapLock;
 };
 
 #pragma pack(pop)
