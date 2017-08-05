@@ -24,6 +24,7 @@
 #include <evpp/buffer.h>
 #include <evpp/tcp_conn.h>
 #include <evpp/tcp_client.h>
+#include "SDK/Core/AFRWLock.hpp"
 
 #pragma pack(push, 1)
 
@@ -89,8 +90,10 @@ private:
 
 private:
     void ProcessMsgLogicThread();
+    void ProcessMsgLogicThread(NetObject* pObject);
     bool CloseSocketAll();
     bool Dismantle(NetObject* pObject);
+    bool DismantleNet(NetObject* pObject);
 
 protected:
     int DeCode(const char* strData, const uint32_t unLen, AFCMsgHead& xHead);
@@ -100,7 +103,8 @@ private:
     std::unique_ptr<evpp::TCPServer> m_pTcpSrv;
     std::unique_ptr<evpp::EventLoopThread> m_pListenThread;
     std::map<AFGUID, NetObject*> mmObject;
-
+    //AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromNet;
+    AFCReaderWriterLock mRWLock;
     int mnMaxConnect;
     std::string mstrIPPort;
     int mnCpuCount;
@@ -109,7 +113,7 @@ private:
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
 
-    AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromNet;
+    mutable std::mutex mObjectMapLock;
 };
 
 #pragma pack(pop)
