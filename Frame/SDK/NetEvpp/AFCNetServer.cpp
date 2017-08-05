@@ -62,18 +62,30 @@ void AFCNetServer::OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* msg, vo
 
 void AFCNetServer::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* msg)
 {
-    MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
-    pMsg->nType = RECIVEDATA;
-    pMsg->xClientID = conn->id();
-    evpp::Slice xMsgBuff;
-    if(msg)
+    NetObject* pObject = evpp::any_cast<NetObject*>(conn->context());
+    if(pObject)
     {
-        xMsgBuff = msg->NextAll();
-        pMsg->strMsg.append(xMsgBuff.data(), xMsgBuff.size());
+        evpp::Slice xMsgBuff;
+        if(msg)
+        {
+            xMsgBuff = msg->NextAll();
+            pObject->AddBuff(xMsgBuff.data(), xMsgBuff.size());
+            DismantleNet(pObject);
+        }
     }
 
-    //conn->Send(xMsgBuff);
-    mqMsgFromNet.Push(pMsg);
+    //MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
+    //pMsg->nType = RECIVEDATA;
+    //pMsg->xClientID = conn->id();
+    //evpp::Slice xMsgBuff;
+    //if(msg)
+    //{
+    //    xMsgBuff = msg->NextAll();
+    //    pMsg->strMsg.append(xMsgBuff.data(), xMsgBuff.size());
+    //}
+
+    ////conn->Send(xMsgBuff);
+    //mqMsgFromNet.Push(pMsg);
 }
 
 void AFCNetServer::OnClientConnection(const evpp::TCPConnPtr& conn, void* pData)
@@ -92,30 +104,59 @@ void AFCNetServer::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
         MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
         pMsg->xClientID = conn->id();
         pMsg->nType = CONNECTED;
-        mqMsgFromNet.Push(pMsg);
+        {
+            AFScopeWrLock xGuard(mRWLock);
 
-        //todo 监听线程来控制object创建
+            NetObject* pObject = new NetObject(this, pMsg->xClientID, conn);
+            AddNetObject(pMsg->xClientID, pObject);
+            conn->set_context(evpp::Any(pObject));
+
+            pObject->mqMsgFromNet.Push(pMsg);
+        }
     }
     else
     {
         MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
         pMsg->xClientID = conn->id();
         pMsg->nType = DISCONNECTED;
-        mqMsgFromNet.Push(pMsg);
 
-        //todo 监听线程来控制object删除
-        //todo  after一点时间再删除
+
+        //主线程不能直接删除。不然这里就野了
+        NetObject* pObject = evpp::any_cast<NetObject*>(conn->context());
+        pObject->mqMsgFromNet.Push(pMsg);
     }
 }
 
 void AFCNetServer::ProcessMsgLogicThread()
 {
+    std::list<AFGUID> xNeedRemoveList;
+    {
+        AFScopeRdLock xGuard(mRWLock);
+        for(std::map<AFGUID, NetObject*>::iterator iter = mmObject.begin(); iter != mmObject.end(); ++iter)
+        {
+            ProcessMsgLogicThread(iter->second);
+            if(iter->second->NeedRemove())
+            {
+                iter->second->GetClientID();
+            }
+        }
+    }
+
+    for(std::list<AFGUID>::iterator iter = xNeedRemoveList.begin(); iter != xNeedRemoveList.end(); ++iter)
+    {
+        AFScopeWrLock xGuard(mRWLock);
+        RemoveNetObject(*iter);
+    }
+}
+
+void AFCNetServer::ProcessMsgLogicThread(NetObject* pObject)
+{
     //Handle Msg;
-    const int nReceiveCount = mqMsgFromNet.Count();
+    const int nReceiveCount = pObject->mqMsgFromNet.Count();
     for(size_t i = 0; (i < nReceiveCount); i++)
     {
         MsgFromNetInfo* pMsgFromNet(NULL);
-        if(!mqMsgFromNet.Pop(pMsgFromNet))
+        if(!pObject->mqMsgFromNet.Pop(pMsgFromNet))
         {
             break;
         }
@@ -129,27 +170,23 @@ void AFCNetServer::ProcessMsgLogicThread()
         {
         case RECIVEDATA:
             {
-                NetObject* pObject = GetNetObject(pMsgFromNet->xClientID);
-                if(NULL != pObject)
+                int nRet = 0;
+                if(mRecvCB)
                 {
-                    pObject->AddBuff(pMsgFromNet->strMsg.data(), pMsgFromNet->strMsg.length());
-                    Dismantle(pObject);
-
-                    //pObject->GetConnPtr()->Send(pMsgFromNet->strMsg.data(), pMsgFromNet->strMsg.length());
+                    mRecvCB(pMsgFromNet->xHead.GetMsgID(), pMsgFromNet->strMsg.c_str(), pMsgFromNet->strMsg.size(), pObject->GetClientID());
                 }
             }
             break;
         case CONNECTED:
             {
-                NetObject* pObject = new NetObject(this, pMsgFromNet->xClientID, pMsgFromNet->mTCPConPtr);
-                AddNetObject(pMsgFromNet->xClientID, pObject);
+                NetObject* pObject = GetNetObject(pMsgFromNet->xClientID);
                 mEventCB((NetEventType)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
             }
             break;
         case DISCONNECTED:
             {
                 mEventCB((NetEventType)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
-                RemoveNetObject(pMsgFromNet->xClientID);
+                pObject->SetNeedRemove(true);
             }
             break;
         default:
@@ -207,7 +244,6 @@ bool AFCNetServer::AddNetObject(const AFGUID& xClientID, NetObject* pObject)
 
 bool AFCNetServer::RemoveNetObject(const AFGUID& xClientID)
 {
-
     NetObject* pNetObject = GetNetObject(xClientID);
     if(pNetObject)
     {
@@ -221,13 +257,10 @@ bool AFCNetServer::CloseNetObject(const AFGUID& xClientID)
     NetObject* pObject = GetNetObject(xClientID);
     if(pObject)
     {
-        pObject->SetNeedRemove(true);
         pObject->GetConnPtr()->Close();
     }
 
-    RemoveNetObject(xClientID);
-
-    return false;
+    return true;
 }
 
 bool AFCNetServer::Dismantle(NetObject* pObject)
@@ -245,6 +278,37 @@ bool AFCNetServer::Dismantle(NetObject* pObject)
                 mRecvCB(xHead.GetMsgID(), pObject->GetBuff() + AFIMsgHead::NF_Head::NF_HEAD_LENGTH, nMsgBodyLength, pObject->GetClientID());
             }
 
+            pObject->RemoveBuff(nMsgBodyLength + AFIMsgHead::NF_Head::NF_HEAD_LENGTH);
+            len = pObject->GetBuffLen();
+        }
+        break;
+    }
+
+    pObject->Reset();
+
+    return true;
+}
+
+
+bool AFCNetServer::DismantleNet(NetObject* pObject)
+{
+    int len = pObject->GetBuffLen();
+    for(; pObject->BuffChange() && len > AFIMsgHead::NF_Head::NF_HEAD_LENGTH;)
+    {
+        AFCMsgHead xHead;
+        int nMsgBodyLength = DeCode(pObject->GetBuff(), len, xHead);
+        if(nMsgBodyLength > 0 && xHead.GetMsgID() > 0)
+        {
+            /*int nRet = 0;
+            if(mRecvCB)
+            {
+                mRecvCB(xHead.GetMsgID(), pObject->GetBuff() + AFIMsgHead::NF_Head::NF_HEAD_LENGTH, nMsgBodyLength, pObject->GetClientID());
+            }*/
+            MsgFromNetInfo* pNetInfo = new  MsgFromNetInfo(pObject->GetConnPtr());
+            pNetInfo->xHead = xHead;
+            pNetInfo->nType = RECIVEDATA;
+            pNetInfo->strMsg.append(pObject->GetBuff() + AFIMsgHead::NF_Head::NF_HEAD_LENGTH, nMsgBodyLength);
+            pObject->mqMsgFromNet.Push(pNetInfo);
             pObject->RemoveBuff(nMsgBodyLength + AFIMsgHead::NF_Head::NF_HEAD_LENGTH);
             len = pObject->GetBuffLen();
         }
