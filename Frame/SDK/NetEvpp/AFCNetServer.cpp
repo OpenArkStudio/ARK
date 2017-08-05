@@ -73,19 +73,6 @@ void AFCNetServer::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* ms
             DismantleNet(pObject);
         }
     }
-
-    //MsgFromNetInfo* pMsg = new MsgFromNetInfo(conn);
-    //pMsg->nType = RECIVEDATA;
-    //pMsg->xClientID = conn->id();
-    //evpp::Slice xMsgBuff;
-    //if(msg)
-    //{
-    //    xMsgBuff = msg->NextAll();
-    //    pMsg->strMsg.append(xMsgBuff.data(), xMsgBuff.size());
-    //}
-
-    ////conn->Send(xMsgBuff);
-    //mqMsgFromNet.Push(pMsg);
 }
 
 void AFCNetServer::OnClientConnection(const evpp::TCPConnPtr& conn, void* pData)
@@ -179,7 +166,6 @@ void AFCNetServer::ProcessMsgLogicThread(NetObject* pObject)
             break;
         case CONNECTED:
             {
-                NetObject* pObject = GetNetObject(pMsgFromNet->xClientID);
                 mEventCB((NetEventType)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
             }
             break;
@@ -226,6 +212,7 @@ bool AFCNetServer::SendMsg(const char* msg, const uint32_t nLen, const AFGUID& x
     {
         return false;
     }
+    AFScopeRdLock xGuard(mRWLock);
 
     NetObject* pNetObject = GetNetObject(xClient);
     if(NULL == pNetObject)
@@ -262,33 +249,6 @@ bool AFCNetServer::CloseNetObject(const AFGUID& xClientID)
 
     return true;
 }
-
-bool AFCNetServer::Dismantle(NetObject* pObject)
-{
-    int len = pObject->GetBuffLen();
-    for(; pObject->BuffChange() && len > AFIMsgHead::NF_Head::NF_HEAD_LENGTH;)
-    {
-        AFCMsgHead xHead;
-        int nMsgBodyLength = DeCode(pObject->GetBuff(), len, xHead);
-        if(nMsgBodyLength > 0 && xHead.GetMsgID() > 0)
-        {
-            int nRet = 0;
-            if(mRecvCB)
-            {
-                mRecvCB(xHead.GetMsgID(), pObject->GetBuff() + AFIMsgHead::NF_Head::NF_HEAD_LENGTH, nMsgBodyLength, pObject->GetClientID());
-            }
-
-            pObject->RemoveBuff(nMsgBodyLength + AFIMsgHead::NF_Head::NF_HEAD_LENGTH);
-            len = pObject->GetBuffLen();
-        }
-        break;
-    }
-
-    pObject->Reset();
-
-    return true;
-}
-
 
 bool AFCNetServer::DismantleNet(NetObject* pObject)
 {
