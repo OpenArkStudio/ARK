@@ -13,6 +13,9 @@
   <ItemGroup>
     <ClCompile Include="TestClient.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="WindowsLock.hcpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1953DCD4-3E9D-4017-B4A2-1A8675A70280}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
