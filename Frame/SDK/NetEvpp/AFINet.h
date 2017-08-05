@@ -51,6 +51,7 @@
 #endif
 #include "evpp/tcp_callbacks.h"
 #include "evpp/buffer.h"
+#include "SDK/Core/AFLockFreeQueue.h"
 
 #pragma pack(push, 1)
 
@@ -253,6 +254,7 @@ typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_LOG_FUNCTOR> NET_EVENT_LOG_FUNCTOR_PTR;
 
+class MsgFromNetInfo;
 
 class NetObject
 {
@@ -342,6 +344,9 @@ public:
     {
         return mConnPtr;
     }
+public:
+    AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromNet;
+    evpp::Buffer mstrNetBuff;
 
 private:
     sockaddr_in sin;
@@ -351,11 +356,10 @@ private:
     AFGUID mnClientID;//temporary client id
 
     AFINet* m_pNet;
-    bool bNeedRemove;
+    mutable bool bNeedRemove;
     bool bBuffChange;
 
 };
-
 
 struct MsgFromNetInfo
 {
@@ -368,6 +372,7 @@ struct MsgFromNetInfo
     AFGUID xClientID;
     evpp::TCPConnPtr mTCPConPtr;
     std::string strMsg;
+    AFCMsgHead xHead;
 };
 
 class AFINet
