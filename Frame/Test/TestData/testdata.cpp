@@ -32,7 +32,7 @@ void gen_rand_str_vetor()
 
 void test_old_datalist()
 {
-    AFXDataList xList;
+    AFCDataList xList;
 
     for (int i = 0; i < 100000; ++i)
     {
@@ -59,7 +59,7 @@ void test_old_datalist()
 
 void test_new_datalist()
 {
-    AFXDataList xList;
+    AFCDataList xList;
 
     for (int i = 0; i < 100000; ++i)
     {

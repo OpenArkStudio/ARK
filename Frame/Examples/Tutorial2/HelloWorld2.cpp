@@ -11,7 +11,7 @@ bool HelloWorld2::Init()
     return true;
 }
 
-int HelloWorld2::OnPropertyCallBackEvent( const AFGUID& self, const std::string& strProperty, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar )
+int HelloWorld2::OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVar, const AFIData& newVar)
 {
     //属性回调事件，只要属性值内容有变化，就会被回调
     std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt() << std::endl;
@@ -21,8 +21,8 @@ int HelloWorld2::OnPropertyCallBackEvent( const AFGUID& self, const std::string&
 
 bool HelloWorld2::AfterInit()
 {
-	AFIDataList xData;
-	xData.AddInt(111);
+    AFIDataList xData;
+    xData.AddInt(111);
 
 
 
@@ -33,29 +33,29 @@ bool HelloWorld2::AfterInit()
     {
         std::cout << "Hello, world2, AfterInit" << std::endl;
 
-		//created a object for this test
+        //created a object for this test
         AFIObject* pObject = new AFCObject(AFGUID(0, 1), pPluginManager);
 
-		//add a property name is "Hello" of this object
-        pObject->GetPropertyManager()->AddProperty(pObject->Self(), "Hello", TDATA_STRING);
-		//add a property name is "World" of this object
-        pObject->GetPropertyManager()->AddProperty(pObject->Self(), "World", TDATA_INT);
+        //add a property name is "Hello" of this object
+        pObject->GetPropertyManager()->AddProperty(pObject->Self(), "Hello", DT_STRING);
+        //add a property name is "World" of this object
+        pObject->GetPropertyManager()->AddProperty(pObject->Self(), "World", DT_INT);
 
-		//set the "world" property value as 1111
+        //set the "world" property value as 1111
         pObject->SetPropertyInt("World", 1111);
-		int n1 = pObject->GetPropertyInt("World");
-		//get the "world" property value and printf it
+        int n1 = pObject->GetPropertyInt("World");
+        //get the "world" property value and printf it
         const int nProperty1 = pObject->GetPropertyInt("World");
         std::cout << "Property World:" << nProperty1 << std::endl;
 
         //add a call back functin for "world" property
         pObject->AddPropertyCallBack("World", this, &HelloWorld2::OnPropertyCallBackEvent);
 
-		////set the "world" property value as 2222[than the function "HelloWorld2::OnPropertyCallBackEvent" will be called]
+        ////set the "world" property value as 2222[than the function "HelloWorld2::OnPropertyCallBackEvent" will be called]
         pObject->SetPropertyInt("World", 2222);
-		int n2 = pObject->GetPropertyInt("World");
+        int n2 = pObject->GetPropertyInt("World");
 
-		//get the "world" property value and printf it
+        //get the "world" property value and printf it
         const int nProperty2 = pObject->GetPropertyInt("World");
         std::cout << "Property World:" << nProperty2 << std::endl;
 

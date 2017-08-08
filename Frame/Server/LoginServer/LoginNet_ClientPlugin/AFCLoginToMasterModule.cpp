@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCLoginToMasterModule.h"
-#include "NFLoginNet_ClientPlugin.h"
+#include "AFLoginNet_ClientPlugin.h"
 #include "SDK/Proto/NFMsgDefine.h"
 
 bool AFCLoginToMasterModule::Init()
@@ -128,44 +128,36 @@ void AFCLoginToMasterModule::Register(const int nServerID)
     }
 }
 
-void AFCLoginToMasterModule::OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginToMasterModule::OnSelectServerResultProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     NFMsg::AckConnectWorldResult xMsg;
-    if(!AFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
 
-    m_pLoginNet_ServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), AFINetModule::PBToNF(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_ip(), xMsg.world_port(), xMsg.world_key());
+    m_pLoginNet_ServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), AFINetServerModule::PBToNF(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_ip(), xMsg.world_port(), xMsg.world_key());
 }
 
-void AFCLoginToMasterModule::OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
+void AFCLoginToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
-    if(eEvent & NF_NET_EVENT_EOF)
+    if(eEvent == DISCONNECTED)
     {
-        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
     }
-    else if(eEvent & NF_NET_EVENT_ERROR)
+    else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_ERROR", "Got an error on the connection", __FUNCTION__, __LINE__);
-    }
-    else if(eEvent & NF_NET_EVENT_TIMEOUT)
-    {
-        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_TIMEOUT", "read timeout", __FUNCTION__, __LINE__);
-    }
-    else  if(eEvent == NF_NET_EVENT_CONNECTED)
-    {
-        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
         Register(nServerID);
     }
 }
 
-void AFCLoginToMasterModule::OnWorldInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginToMasterModule::OnWorldInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID ;
     NFMsg::ServerInfoReportList xMsg;
-    if(!AFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }

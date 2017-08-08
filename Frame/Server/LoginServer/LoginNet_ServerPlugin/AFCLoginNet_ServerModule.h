@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    AFCLoginNet_ServerModule.h
+//    @FileName         :    AFCLoginNet_ServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
 //    @Module           :    AFCLoginNet_ServerModule
@@ -16,16 +16,16 @@
 #include "SDK/Interface/AFILoginNet_ServerModule.h"
 #include "SDK/Interface/AFILoginLogicModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFINetServerModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFILoginToMasterModule.h"
-#include "SDK/Interface/AFIUUIDModule.h"
+#include "SDK/Interface/AFIGUIDModule.h"
 
 #define NET_MSG_PROCESS(xNFMsg, msg) \
     AFGUID nPlayerID; \
     xNFMsg xMsg; \
-    if (!ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID)) \
+    if (!ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID)) \
     { \
         return 0; \
     } \
@@ -60,29 +60,29 @@ public:
     virtual int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strKey);
 
 protected:
-    void OnSocketClientEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID);
+    void OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
 protected:
-    void OnClientDisconnect(const int nAddress, const AFGUID& xClientID);
-    void OnClientConnected(const int nAddress, const AFGUID& xClientID);
+    void OnClientDisconnect(const AFGUID& xClientID);
+    void OnClientConnected(const AFGUID& xClientID);
 
     //登入
-    void OnLoginProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnLoginProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     //选择大世界
-    void OnSelectWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnSelectWorldProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     //申请查看世界列表
-    void OnViewWorldProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnViewWorldProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-	void OnHeartBeat(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-	void OnLogOut(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-	void InvalidMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-
-protected:
+    void OnHeartBeat(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnLogOut(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void InvalidMessage(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 protected:
-    void SynWorldToClient(const int nFD);
+
+protected:
+    void SynWorldToClient(const AFGUID& xClientID);
 
     AFMapEx<AFGUID, SessionData> mmClientSessionData;
 
@@ -94,8 +94,8 @@ private:
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
     AFILoginLogicModule* m_pLoginLogicModule;
-    AFIUUIDModule* m_pUUIDModule;
-	AFINetModule* m_pNetModule;
+    AFIGUIDModule* m_pUUIDModule;
+    AFINetServerModule* m_pNetModule;
 };
 
 #endif
