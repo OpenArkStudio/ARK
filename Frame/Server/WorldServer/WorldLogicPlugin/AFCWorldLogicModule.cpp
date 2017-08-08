@@ -6,7 +6,7 @@
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#include "NFWorldLogicPlugin.h"
+#include "AFWorldLogicPlugin.h"
 #include "AFCWorldLogicModule.h"
 #include "SDK/Interface/AFPlatform.h"
 

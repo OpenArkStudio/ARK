@@ -15,6 +15,7 @@
 #include "SDK/Core/AFDefine.h"
 #include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFIRecord.h"
+#include "SDK/Core/Math/Vector3.hpp"
 #include "SDK/EventDefine/AFEventDefine.h"
 
 template<typename DerivedType, typename BaseType>

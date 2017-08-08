@@ -311,8 +311,8 @@ bool AFCKernelModule::DestroyObject(const AFGUID& self)
 
         pContainerInfo->RemoveObjectFromGroup(nGroupID, self, strClassName == NFrame::Player::ThisName() ? true : false);
 
-        DoEvent(self, strClassName, COE_BEFOREDESTROY, AFXDataList());
-        DoEvent(self, strClassName, COE_DESTROY, AFXDataList());
+        DoEvent(self, strClassName, COE_BEFOREDESTROY, AFCDataList());
+        DoEvent(self, strClassName, COE_DESTROY, AFCDataList());
 
         RemoveElement(self);
 
@@ -1185,7 +1185,7 @@ bool AFCKernelModule::ReleaseGroupScene(const int nSceneID, const int nGroupID)
         return false;
     }
 
-    AFXDataList listObject;
+    AFCDataList listObject;
     if (GetGroupObjectList(nSceneID, nGroupID, listObject))
     {
         for (int i = 0; i < listObject.GetCount(); ++i)
@@ -1281,7 +1281,7 @@ bool AFCKernelModule::LogInfo(const AFGUID& ident)
 
         m_pLogModule->LogInfo(ident, "//----------child object list-------- SceneID = ", nSceneID);
 
-        AFXDataList valObjectList;
+        AFCDataList valObjectList;
         int nCount = GetSceneOnLineList(nSceneID, valObjectList);
         for(int i  = 0; i < nCount; i++)
         {
@@ -1335,7 +1335,7 @@ bool AFCKernelModule::IsContainer(const AFGUID& self)
 
 int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& strPropertyName, const AFIDataList& valueArg, AFIDataList& list)
 {
-    AFXDataList varObjectList;
+    AFCDataList varObjectList;
     GetSceneOnLineList(nSceneID, varObjectList);
     int nWorldCount = varObjectList.GetCount();
     for(int i = 0; i < nWorldCount; i++)

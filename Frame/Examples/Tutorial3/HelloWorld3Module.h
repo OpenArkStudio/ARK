@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    HelloWorld3.h
+//    @FileName         :    HelloWorld3.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2014-05-14 08:51
 //    @Module           :   HelloWorld3
@@ -33,8 +33,8 @@ public:
 protected:
     int OnEvent(const AFGUID& self, const int event, const AFIDataList& arg);
     int OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFIDataList& arg);
-    int OnPropertyCallBackEvent( const AFGUID& self, const std::string& strProperty, const AFIDataList::TData& oldVarList, const AFIDataList::TData& newVarList );
-    int OnPropertyStrCallBackEvent( const AFGUID& self, const std::string& strProperty, const AFIDataList::TData& oldVarList, const AFIDataList::TData& newVarList );
+    int OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
+    int OnPropertyStrCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
 
     int OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount);
 

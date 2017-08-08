@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    AFCLoginNet_ServerModule.h
+//    @FileName         :    AFCLoginNet_ServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
 //    @Module           :    AFCLoginNet_ServerModule
@@ -16,7 +16,7 @@
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
-#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFINetServerModule.h"
 #include "SDK/Interface/AFILoginNet_ServerModule.h"
 #include "SDK/Interface/AFILoginToMasterModule.h"
 
@@ -40,17 +40,17 @@ public:
     virtual void LogReceive(const char* str) {}
     virtual void LogSend(const char* str) {}
 
-	virtual AFINetClientModule* GetClusterModule();
+    virtual AFINetClientModule* GetClusterModule();
     virtual AFMapEx<int, NFMsg::ServerInfoReport>& GetWorldMap();
 
 protected:
-    void OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID);
+    void OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
 protected:
 
     //////////////////////////////////////////////////////////////////////////
-	void OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-	void OnWorldInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnSelectServerResultProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnWorldInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     //////////////////////////////////////////////////////////////////////////
     void Register(const int nServerID);
@@ -64,7 +64,7 @@ private:
     AFIKernelModule* m_pKernelModule;
     AFIClassModule* m_pClassModule;
     AFILogModule* m_pLogModule;
-	AFINetClientModule* m_pNetClientModule;
+    AFINetClientModule* m_pNetClientModule;
 };
 
 #endif
