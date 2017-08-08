@@ -11,8 +11,9 @@
 
 #include <iostream>
 #include "AFIModule.h"
-#include "AFINetModule.h"
 #include "SDK/Core/AFCConsistentHash.hpp"
+#include "SDK/NetEvpp/AFCNetClient.h"
+#include "AFINetModule.h"
 
 enum ConnectDataState
 {
@@ -38,15 +39,17 @@ struct ConnectData
     NF_SERVER_TYPES eServerType;
     std::string strIP;
     int nPort;
+    std::string strIPAndPort;
     std::string strName;
     ConnectDataState eState;
     AFINT64 mnLastActionTime;
 
-    NF_SHARE_PTR<AFINetModule> mxNetModule;
+    NF_SHARE_PTR<AFCNetClient> mxNetModule;
 };
 
-class AFINetClientModule : public AFIModule
+class AFINetClientModule : public AFINetModule
 {
+
 protected:
     AFINetClientModule()
     {
@@ -64,8 +67,6 @@ public:
 
     virtual bool Init()
     {
-        AddEventCallBack(this, &AFINetClientModule::OnSocketEvent);
-
         return true;
     }
 
@@ -92,47 +93,6 @@ public:
         return true;
     }
 
-    template<typename BaseType>
-    bool AddReceiveCallBack(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID& ))
-    {
-        std::map<int, NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxReceiveCallBack.find(nMsgID);
-        if (mxReceiveCallBack.end() == it)
-        {
-            NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-            NET_RECEIVE_FUNCTOR_PTR functorPtr(new NET_RECEIVE_FUNCTOR(functor));
-
-            mxReceiveCallBack.insert(std::map<int, NET_RECEIVE_FUNCTOR_PTR>::value_type(nMsgID, functorPtr));
-
-            return true;
-        }
-
-        assert(nMsgID);
-
-        return false;
-    }
-
-    template<typename BaseType>
-    int AddReceiveCallBack(BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID&))
-    {
-        NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-        NET_RECEIVE_FUNCTOR_PTR functorPtr(new NET_RECEIVE_FUNCTOR(functor));
-
-        mxCallBackList.push_back(functorPtr);
-
-        return false;
-    }
-
-    template<typename BaseType>
-    bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const int, const NF_NET_EVENT, const AFGUID&, const int ))
-    {
-        NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        NET_EVENT_FUNCTOR_PTR functorPtr(new NET_EVENT_FUNCTOR(functor));
-
-        mxEventCallBack.push_back(functorPtr);
-
-        return true;
-    }
-
     void AddServer(const ConnectData& xInfo)
     {
         mxTempNetList.push_back(xInfo);
@@ -149,61 +109,63 @@ public:
     void SendByServerID(const int nServerID, const int nMsgID, const char* msg, const uint32_t nLen)
     {
         NF_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
-        if (pServer)
+        if(pServer)
         {
-            NF_SHARE_PTR<AFINetModule> pNetModule = pServer->mxNetModule;
-            if (pNetModule.get())
+            NF_SHARE_PTR<AFCNetClient> pNetModule = pServer->mxNetModule;
+            if(pNetModule.get())
             {
-                pNetModule->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, 0);
+                pNetModule->SendMsgWithOutHead(nMsgID, msg, nLen, 0);
             }
         }
     }
-
     //裸数据,发时组包
     void SendToAllServer(const int nMsgID, const std::string& strData)
     {
         NF_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
-        while (pServer)
+        while(pServer)
         {
-            NF_SHARE_PTR<AFINetModule> pNetModule = pServer->mxNetModule;
-            if (pNetModule.get())
+            NF_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
+            if(pNetModule.get())
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, strData, 0);
+                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.size(), 0);
             }
 
             pServer = mxServerMap.Next();
         }
     }
-
     void SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData)
     {
+        std::string strData;
+        PackMsgToBasePB(xData, AFGUID(0), strData);
+
         NF_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
-        if (pServer)
+        if(pServer)
         {
-            NF_SHARE_PTR<AFINetModule> pNetModule = pServer->mxNetModule;
-            if (pNetModule.get())
+            NF_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
+            if(pNetModule.get())
             {
-                pNetModule->SendMsgPB(nMsgID, xData, 0, AFGUID(), NULL);
+                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0));
             }
         }
     }
 
     void SendToAllServerByPB(const uint16_t nMsgID, google::protobuf::Message& xData)
     {
+        std::string strData;
+        PackMsgToBasePB(xData, AFGUID(0), strData);
+
         NF_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
-        while (pServer)
+        while(pServer)
         {
-            NF_SHARE_PTR<AFINetModule> pNetModule = pServer->mxNetModule;
-            if (pNetModule.get())
+            NF_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
+            if(pNetModule.get())
             {
-                pNetModule->SendMsgPB(nMsgID, xData, 0);
+                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0));
             }
 
             pServer = mxServerMap.Next();
         }
     }
-
-    ////////////////////////////////////////////////////////////////////////////////
 
     void SendBySuit(const std::string& strHashKey, const int nMsgID, const std::string& strData)
     {
@@ -224,13 +186,13 @@ public:
 
     void SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen)
     {
-        if (mxConsistentHash.Size() <= 0)
+        if(mxConsistentHash.Size() <= 0)
         {
             return;
         }
 
         AFCMachineNode xNode;
-        if (!GetServerMachineData(AF_LEXICAL_CAST<std::string>(nHashKey), xNode))
+        if(!GetServerMachineData(AF_LEXICAL_CAST<std::string>(nHashKey), xNode))
         {
             return;
         }
@@ -246,21 +208,19 @@ public:
 
     void SendSuitByPB(const int& nHashKey, const uint16_t nMsgID, google::protobuf::Message& xData)
     {
-        if (mxConsistentHash.Size() <= 0)
+        if(mxConsistentHash.Size() <= 0)
         {
             return;
         }
 
         AFCMachineNode xNode;
-        if (!GetServerMachineData(AF_LEXICAL_CAST<std::string> (nHashKey), xNode))
+        if(!GetServerMachineData(AF_LEXICAL_CAST<std::string> (nHashKey), xNode))
         {
             return;
         }
 
         SendToServerByPB(xNode.nMachineID, nMsgID, xData);
     }
-
-    ////////////////////////////////////////////////////////////////////////////////
 
     NF_SHARE_PTR<ConnectData> GetServerNetInfo(const int nServerID)
     {
@@ -272,77 +232,87 @@ public:
         return mxServerMap;
     }
 
-
-
-    NF_SHARE_PTR<ConnectData> GetServerNetInfo(const AFINet* pNet)
+protected:
+    bool PackMsgToBasePB(const google::protobuf::Message& xData, const AFGUID nPlayer, std::string& outData)
     {
-        int nServerID = 0;
-        for (NF_SHARE_PTR<ConnectData> pData = mxServerMap.First(nServerID); pData != NULL; pData = mxServerMap.Next(nServerID))
+        std::string xMsgData;
+        if(!xData.SerializeToString(&xMsgData))
         {
-            if (pData->mxNetModule.get() && pNet == pData->mxNetModule->GetNet())
-            {
-                return pData;
-            }
+            return false;
         }
 
-        return NF_SHARE_PTR<ConnectData>(NULL);
+        PackMsgToBasePB(xMsgData, nPlayer, outData);
     }
 
+    bool PackMsgToBasePB(const std::string& strData, const AFGUID nPlayer, std::string& outData)
+    {
+        NFMsg::MsgBase xMsg;
+        xMsg.set_msg_data(strData.data(), strData.length());
 
+        NFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
+        *pPlayerID = NFToPB(nPlayer);
+
+        std::string strMsg;
+        if(!xMsg.SerializeToString(&strMsg))
+        {
+            return false;
+        }
+
+        return true;
+    }
 protected:
     void ProcessExecute()
     {
         ConnectData* pServerData = mxServerMap.FirstNude();
-        while (pServerData)
+        while(pServerData)
         {
-            switch (pServerData->eState)
+            switch(pServerData->eState)
             {
             case ConnectDataState::DISCONNECT:
-            {
-                if (NULL != pServerData->mxNetModule)
                 {
-                    pServerData->mxNetModule = nullptr;
-                    pServerData->eState = ConnectDataState::RECONNECT;
+                    if(NULL != pServerData->mxNetModule)
+                    {
+                        pServerData->mxNetModule = nullptr;
+                        pServerData->eState = ConnectDataState::RECONNECT;
+                    }
                 }
-            }
-            break;
+                break;
             case ConnectDataState::CONNECTING:
-            {
-                if (pServerData->mxNetModule)
                 {
-                    pServerData->mxNetModule->Execute();
+                    if(pServerData->mxNetModule)
+                    {
+                        pServerData->mxNetModule->Execute();
+                    }
                 }
-            }
-            break;
+                break;
             case ConnectDataState::NORMAL:
-            {
-                if (pServerData->mxNetModule)
                 {
-                    pServerData->mxNetModule->Execute();
+                    if(pServerData->mxNetModule)
+                    {
+                        pServerData->mxNetModule->Execute();
 
-                    KeepState(pServerData);
+                        KeepState(pServerData);
+                    }
                 }
-            }
-            break;
+                break;
             case ConnectDataState::RECONNECT:
-            {
-                //计算时间
-                if ((pServerData->mnLastActionTime + 30) >= GetPluginManager()->GetNowTime())
                 {
-                    break;
-                }
+                    //计算时间
+                    if((pServerData->mnLastActionTime + 30) >= GetPluginManager()->GetNowTime())
+                    {
+                        break;
+                    }
 
-                if (nullptr != pServerData->mxNetModule)
-                {
-                    pServerData->mxNetModule = nullptr;
-                }
+                    if(nullptr != pServerData->mxNetModule)
+                    {
+                        pServerData->mxNetModule = nullptr;
+                    }
 
-                pServerData->eState = ConnectDataState::CONNECTING;
-                pServerData->mxNetModule = NF_SHARE_PTR<AFINetModule>(NF_NEW AFINetModule(pPluginManager));
-                pServerData->mxNetModule->Initialization(pServerData->strIP.c_str(), pServerData->nPort, pServerData->nGameID);
-                InitNetCallback(pServerData);
-            }
-            break;
+                    pServerData->eState = ConnectDataState::CONNECTING;
+                    pServerData->mxNetModule = NF_SHARE_PTR<AFCNetClient>(new AFCNetClient(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent));
+                    pServerData->mxNetModule->Initialization(pServerData->strIPAndPort, pServerData->nGameID);
+                }
+                break;
             default:
                 break;
             }
@@ -354,13 +324,14 @@ protected:
     void KeepReport(ConnectData* pServerData) {};
     void LogServerInfo(const std::string& strServerInfo) {};
 
+
 private:
     virtual void LogServerInfo()
     {
         LogServerInfo("This is a client, begin to print Server Info----------------------------------");
 
         ConnectData* pServerData = mxServerMap.FirstNude();
-        while (nullptr != pServerData)
+        while(nullptr != pServerData)
         {
             std::ostringstream stream;
             stream << "Type: " << pServerData->eServerType << " ProxyServer ID: " << pServerData->nGameID << " State: " << pServerData->eState << " IP: " << pServerData->strIP << " Port: " << pServerData->nPort;
@@ -375,7 +346,7 @@ private:
 
     void KeepState(ConnectData* pServerData)
     {
-        if (pServerData->mnLastActionTime + 10 > GetPluginManager()->GetNowTime())
+        if(pServerData->mnLastActionTime + 10 > GetPluginManager()->GetNowTime())
         {
             return;
         }
@@ -386,22 +357,10 @@ private:
         LogServerInfo();
     }
 
-    void OnSocketEvent(const int fd, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
-    {
-        if (eEvent & BEV_EVENT_CONNECTED)
-        {
-            OnConnected(fd, xClientID, nServerID);
-        }
-        else
-        {
-            OnDisConnected(fd, xClientID, nServerID);
-        }
-    }
-
-    int OnConnected(const int fd, const AFGUID& xClientID, const int nServerID)
+    int OnConnected(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
     {
         NF_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
-        if (pServerInfo.get())
+        if(pServerInfo.get())
         {
             AddServerWeightData(pServerInfo);
             pServerInfo->eState = ConnectDataState::NORMAL;
@@ -410,10 +369,10 @@ private:
         return 0;
     }
 
-    int OnDisConnected(const int fd, const AFGUID& xClientID, const int nServerID)
+    int OnDisConnected(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
     {
         NF_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
-        if (nullptr != pServerInfo)
+        if(nullptr != pServerInfo)
         {
             RemoveServerWeightData(pServerInfo);
             pServerInfo->eState = ConnectDataState::DISCONNECT;
@@ -426,11 +385,11 @@ private:
     void ProcessAddNetConnect()
     {
         std::list<ConnectData>::iterator it = mxTempNetList.begin();
-        for (; it != mxTempNetList.end(); ++it)
+        for(; it != mxTempNetList.end(); ++it)
         {
             const ConnectData& xInfo = *it;
             NF_SHARE_PTR<ConnectData> xServerData = mxServerMap.GetElement(xInfo.nGameID);
-            if (nullptr == xServerData)
+            if(nullptr == xServerData)
             {
                 //正常，添加新服务器
                 xServerData = NF_SHARE_PTR<ConnectData>(NF_NEW ConnectData());
@@ -438,43 +397,32 @@ private:
                 xServerData->nGameID = xInfo.nGameID;
                 xServerData->eServerType = xInfo.eServerType;
                 xServerData->strIP = xInfo.strIP;
+
+                if(xInfo.strIPAndPort.empty())
+                {
+                    std::string strPort;
+                    NF_ToStr(strPort, xInfo.nPort);
+                    xServerData->strIPAndPort = xInfo.strIP + ":" + strPort;
+                }
+                else
+                {
+                    xServerData->strIPAndPort = xInfo.strIPAndPort;
+                }
+
                 xServerData->strName = xInfo.strName;
                 xServerData->eState = ConnectDataState::CONNECTING;
                 xServerData->nPort = xInfo.nPort;
                 xServerData->mnLastActionTime = GetPluginManager()->GetNowTime();
 
-                xServerData->mxNetModule = NF_SHARE_PTR<AFINetModule>(NF_NEW AFINetModule(pPluginManager));
-                xServerData->mxNetModule->Initialization(xServerData->strIP.c_str(), xServerData->nPort, xServerData->nGameID);
-                InitNetCallback(xServerData.get());
+                xServerData->mxNetModule = NF_SHARE_PTR<AFCNetClient>(NF_NEW AFCNetClient(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent));
+
+                xServerData->mxNetModule->Initialization(xServerData->strIPAndPort, xServerData->nGameID);
 
                 mxServerMap.AddElement(xInfo.nGameID, xServerData);
             }
         }
 
         mxTempNetList.clear();
-    }
-
-    void InitNetCallback(ConnectData* xServerData)
-    {
-        //add msg callback
-        std::map<int, NET_RECEIVE_FUNCTOR_PTR>::iterator itReciveCB = mxReceiveCallBack.begin();
-        for (; mxReceiveCallBack.end() != itReciveCB; ++itReciveCB)
-        {
-            xServerData->mxNetModule->AddReceiveCallBack(itReciveCB->first, itReciveCB->second);
-        }
-
-        //add event callback
-        std::list<NET_EVENT_FUNCTOR_PTR>::iterator itEventCB = mxEventCallBack.begin();
-        for (; mxEventCallBack.end() != itEventCB; ++itEventCB)
-        {
-            xServerData->mxNetModule->AddEventCallBack(*itEventCB);
-        }
-
-        std::list<NET_RECEIVE_FUNCTOR_PTR>::iterator itCB = mxCallBackList.begin();
-        for (; mxCallBackList.end() != itCB; ++itCB)
-        {
-            xServerData->mxNetModule->AddReceiveCallBack(*itCB);
-        }
     }
 
     bool GetServerMachineData(const std::string& strServerID, AFCMachineNode& xMachineData)
@@ -486,7 +434,7 @@ private:
     void AddServerWeightData(NF_SHARE_PTR<ConnectData> xInfo)
     {
         //根据权重创建节点
-        for (int j = 0; j < EConstDefine_DefaultWeith; ++j)
+        for(int j = 0; j < EConstDefine_DefaultWeith; ++j)
         {
             AFCMachineNode vNode(j);
 
@@ -500,7 +448,7 @@ private:
 
     void RemoveServerWeightData(NF_SHARE_PTR<ConnectData> xInfo)
     {
-        for (int j = 0; j < EConstDefine_DefaultWeith; ++j)
+        for(int j = 0; j < EConstDefine_DefaultWeith; ++j)
         {
             AFCMachineNode vNode(j);
 
@@ -512,15 +460,30 @@ private:
         }
     }
 
+protected:
+    void OnReceiveNetPack(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    {
+        OnReceiveBaseNetPack(nMsgID, msg, nLen, xClientID);
+    }
+
+    void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
+    {
+        if(eEvent == CONNECTED)
+        {
+            OnConnected(eEvent, xClientID, nServerID);
+        }
+        else
+        {
+            OnDisConnected(eEvent, xClientID, nServerID);
+        }
+
+        OnSocketBaseNetEvent(eEvent, xClientID, nServerID);
+    }
 private:
     AFMapEx<int, ConnectData> mxServerMap;
     AFCConsistentHash mxConsistentHash;
 
     std::list<ConnectData> mxTempNetList;
 
-    //call back
-    std::map<int, NET_RECEIVE_FUNCTOR_PTR> mxReceiveCallBack;
-    std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBack;
-    std::list<NET_RECEIVE_FUNCTOR_PTR> mxCallBackList;
 };
 #endif

@@ -9,17 +9,17 @@
 #ifndef _AFC_CREATEROLE_MODULE_H_
 #define _AFC_CREATEROLE_MODULE_H_
 
-#include "AFComm/NFPluginModule/AFIPluginManager.h"
-#include "AFComm/NFPluginModule/AFIKernelModule.h"
-#include "AFComm/NFPluginModule/AFIDataNoSqlModule.h"
-#include "AFComm/NFPluginModule/AFIGameLogicModule.h"
-#include "AFComm/NFPluginModule/AFIEventProcessModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Interface/AFIKernelModule.h"
+//#include "SDK/Interface/AFIDataNoSqlModule.h"
+#include "SDK/Interface/AFIGameLogicModule.h"
+//#include "SDK/Interface/AFIEventProcessModule.h"
 //#include "AFComm/NFPluginModule/AFIShareMemoryModule.h"
-#include "AFComm/NFPluginModule/AFIElementInfoModule.h"
+#include "SDK/Interface/AFIElementModule.h"
 
 
 class AFCCreateRoleModule
-    : public AFILogicModule
+    : public AFIModule
 {
 public:
     AFCCreateRoleModule(AFIPluginManager* p)
@@ -34,33 +34,33 @@ public:
     virtual bool AfterInit();
 
 protected:
-    static int OnLoadRoleBeginEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var);
+    int OnLoadRoleBeginEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    static int OnLoadRoleFinalEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var);
+    int OnLoadRoleFinalEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    static int OnCreateRoleEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var);
+    int OnCreateRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    static int OnDeleteRoleEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var);
+    int OnDeleteRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    static int OnAcountDisConnectEvent(const AFIDENTID& object, const int nEventID, const AFIValueList& var);
+    int OnAcountDisConnectEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
 private:
 
     //新建立的连接对象，等待他们自己发验证KEY，KEY验证后删掉
     //-1
-    static int mnConnectContainer;
+    int mnConnectContainer;
 
     //选人大厅容器
     //-3
-    static int mnRoleHallContainer;
+    int mnRoleHallContainer;
 
-    static AFIGameLogicModule* m_pGameLogicModule;
-    static AFIEventProcessModule* m_pEventProcessModule;
+    AFIGameLogicModule* m_pGameLogicModule;
+    //AFIEventProcessModule* m_pEventProcessModule;
     //static AFIDataBaseModule* m_pDataBaseModule;
-    static AFIDataNoSqlModule* m_pNoSqlModule;
-    static AFIKernelModule* m_pKernelModule;
-    static AFIElementInfoModule* m_pElementInfoModule;
-    static AFCCreateRoleModule* m_pThis;
+    //AFIDataNoSqlModule* m_pNoSqlModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIElementModule* m_pElementInfoModule;
+    AFCCreateRoleModule* m_pThis;
 };
 
 #endif

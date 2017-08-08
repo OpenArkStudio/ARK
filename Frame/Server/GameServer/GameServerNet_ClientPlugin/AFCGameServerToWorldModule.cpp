@@ -39,7 +39,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
 {
     //³É¹¦¾Í×¢²á
     NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (nullptr == xLogicClass)
+    if(nullptr == xLogicClass)
     {
         return;
     }
@@ -76,7 +76,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
                 int nTargetID = pServerData->nGameID;
                 m_pNetClientModule->SendToServerByPB(nTargetID, NFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg);
 
-                m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
+                //m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
             }
         }
     }
@@ -106,7 +106,7 @@ bool AFCGameServerToWorldModule::AfterInit()
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    //m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pGameServerNet_ServerModule = pPluginManager->FindModule<AFIGameServerNet_ServerModule>();
 
     m_pNetClientModule->AddReceiveCallBack(this, &AFCGameServerToWorldModule::TransPBToProxy);
@@ -148,20 +148,11 @@ bool AFCGameServerToWorldModule::AfterInit()
     return true;
 }
 
-void AFCGameServerToWorldModule::OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
+void AFCGameServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
-    if(eEvent & NF_NET_EVENT_EOF)
+    if(eEvent != CONNECTED)
     {
-    }
-    else if(eEvent & NF_NET_EVENT_ERROR)
-    {
-    }
-    else if(eEvent & NF_NET_EVENT_TIMEOUT)
-    {
-    }
-    else  if(eEvent == NF_NET_EVENT_CONNECTED)
-    {
-        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connected success", __FUNCTION__, __LINE__);
+        //m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connected success", __FUNCTION__, __LINE__);
         Register(nServerID);
     }
 }
@@ -188,9 +179,9 @@ void AFCGameServerToWorldModule::SendOnline(const AFGUID& self)
     NFMsg::RoleOnlineNotify xMsg;
 
     const AFGUID& xGuild = m_pKernelModule->GetPropertyObject(self, "GuildID");
-    *xMsg.mutable_guild() = AFINetModule::NFToPB(xGuild);
+    *xMsg.mutable_guild() = AFINetServerModule::NFToPB(xGuild);
 
-    m_pNetClientModule->SendSuitByPB(xGuild.nData64, NFMsg::EGMI_ACK_ONLINE_NOTIFY, xMsg);
+    m_pNetClientModule->SendSuitByPB(xGuild.n64Value, NFMsg::EGMI_ACK_ONLINE_NOTIFY, xMsg);
 
 }
 
@@ -199,17 +190,17 @@ void AFCGameServerToWorldModule::SendOffline(const AFGUID& self)
     NFMsg::RoleOfflineNotify xMsg;
 
     const AFGUID& xGuild = m_pKernelModule->GetPropertyObject(self, "GuildID");
-    *xMsg.mutable_guild() = AFINetModule::NFToPB(xGuild);
+    *xMsg.mutable_guild() = AFINetServerModule::NFToPB(xGuild);
 
-    m_pNetClientModule->SendSuitByPB(xGuild.nData64, NFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg);
+    m_pNetClientModule->SendSuitByPB(xGuild.n64Value, NFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg);
 
 }
 
-void AFCGameServerToWorldModule::TransPBToProxy(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerToWorldModule::TransPBToProxy(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     std::string strData;
-    if(!AFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, strData, nPlayerID))
+    if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, strData, nPlayerID))
     {
         return;
     }

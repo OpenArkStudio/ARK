@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCWorldToMasterModule.h"
-#include "NFWorldNet_ClientPlugin.h"
+#include "AFWorldNet_ClientPlugin.h"
 #include "SDK/Core/AFCDataList.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Interface/AFINetClientModule.hpp"
@@ -130,11 +130,11 @@ void AFCWorldToMasterModule::RefreshWorldInfo()
 
 }
 
-void AFCWorldToMasterModule::OnSelectServerProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldToMasterModule::OnSelectServerProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     NFMsg::ReqConnectWorld xMsg;
-    if(!AFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -153,18 +153,18 @@ void AFCWorldToMasterModule::OnSelectServerProcess(const int nSockIndex, const i
         xData.set_world_port(xServerData->pData->server_port());
         xData.set_world_key(xMsg.account());
 
-        m_pWorldNet_ServerModule->GetNetModule()->SendMsgPB(NFMsg::EGMI_ACK_CONNECT_WORLD, xData, xServerData->nFD);
+        m_pWorldNet_ServerModule->GetNetModule()->SendMsgPB(NFMsg::EGMI_ACK_CONNECT_WORLD, xData, xServerData->xClient, nPlayerID);
 
         m_pNetClientModule->SendSuitByPB(xMsg.account(), NFMsg::EGMI_ACK_CONNECT_WORLD, xData);
     }
 
 }
 
-void AFCWorldToMasterModule::OnKickClientProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldToMasterModule::OnKickClientProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     NFMsg::ReqKickFromWorld xMsg;
-    if(!AFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -175,38 +175,30 @@ void AFCWorldToMasterModule::OnKickClientProcess(const int nSockIndex, const int
     //     m_pEventProcessModule->DoEvent(AFGUID(), NFED_ON_KICK_FROM_SERVER, var);
 }
 
-void AFCWorldToMasterModule::InvalidMessage(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldToMasterModule::InvalidMessage(const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     printf("NFNet || 非法消息:unMsgID=%d\n", nMsgID);
 }
 
-void AFCWorldToMasterModule::OnSocketMSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
+void AFCWorldToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
-    if(eEvent & NF_NET_EVENT_EOF)
+    if(eEvent == DISCONNECTED)
     {
-        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
     }
-    else if(eEvent & NF_NET_EVENT_ERROR)
+    else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_ERROR", "Got an error on the connection", __FUNCTION__, __LINE__);
-    }
-    else if(eEvent & NF_NET_EVENT_TIMEOUT)
-    {
-        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_TIMEOUT", "read timeout", __FUNCTION__, __LINE__);
-    }
-    else  if(eEvent == NF_NET_EVENT_CONNECTED)
-    {
-        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
         Register(nServerID);
     }
 }
 
-void AFCWorldToMasterModule::OnClientDisconnect(const int nAddress)
+void AFCWorldToMasterModule::OnClientDisconnect(const AFGUID& xClientID)
 {
 
 }
 
-void AFCWorldToMasterModule::OnClientConnected(const int nAddress)
+void AFCWorldToMasterModule::OnClientConnected(const AFGUID& xClientID)
 {
 
 }
