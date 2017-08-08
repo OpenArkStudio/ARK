@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFWorldLogicPlugin.cpp
+//    @FileName         :    NFWorldLogicPlugin.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-07-14 08:51
 //    @Module           :    NFWorldLogicPlugin
@@ -8,7 +8,7 @@
 
 
 #include "AFCWorldLogicModule.h"
-#include "NFWorldLogicPlugin.h"
+#include "AFWorldLogicPlugin.h"
 
 //
 //

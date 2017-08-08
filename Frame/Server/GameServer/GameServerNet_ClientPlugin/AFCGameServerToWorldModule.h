@@ -9,13 +9,12 @@
 #pragma once
 
 #include "SDK/Proto/NFMsgDefine.h"
-#include "SDK/Interface/AFINetModule.h"
 #include "SDK/Interface/AFINetClientModule.hpp"
 #include "SDK/Interface/AFIGameServerNet_ClientModule.h"
 #include "SDK/Interface/AFIGameServerNet_ServerModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIGameLogicModule.h"
-#include "SDK/Interface/AFINetModule.h"
+
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFILogModule.h"
@@ -37,12 +36,12 @@ public:
     virtual AFINetClientModule* GetClusterClientModule();
 
 protected:
-    void OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID);
+    void OnSocketWSEvent(const NetEventType e, const AFGUID& xClientID, const int nServerID);
 
 protected:
     void Register(const int nSeverID);
     void RefreshWorldInfo();
-    void TransPBToProxy(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void TransPBToProxy(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
 
@@ -51,7 +50,7 @@ private:
     void SendOffline(const AFGUID& self);
 
 private:
-    AFILogModule* m_pLogModule;
+    //AFILogModule* m_pLogModule;
     AFIKernelModule* m_pKernelModule;
     AFIClassModule* m_pClassModule;
     AFIElementModule* m_pElementModule;

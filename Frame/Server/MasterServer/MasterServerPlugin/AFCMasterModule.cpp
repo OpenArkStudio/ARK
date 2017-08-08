@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    AFCMasterModle.cpp
+//    @FileName         :    AFCMasterModle.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
 //    @Module           :    AFCMasterModle
@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCMasterModule.h"
-#include "NFMasterServerPlugin.h"
+#include "AFMasterServerPlugin.h"
 
 bool AFCMasterModule::Init()
 {

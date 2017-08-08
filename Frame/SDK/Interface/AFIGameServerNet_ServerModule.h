@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "AFIModule.h"
-#include "AFINetModule.h"
+#include "AFINetServerModule.h"
 
 class AFIGameServerNet_ServerModule
     : public AFIModule
@@ -42,22 +42,22 @@ public:
     {
         ServerData xServerData;
         //此网关上所有的对象<角色ID,gate_FD>
-        std::map<AFGUID, int> xRoleInfo;
+        std::map<AFGUID, AFGUID> xRoleInfo;
     };
 
 public:
-    virtual AFINetModule* GetNetModule() = 0;
+    virtual AFINetServerModule* GetNetModule() = 0;
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self) = 0;
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self) = 0;
     virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID) = 0;
     virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID) = 0;
     virtual NF_SHARE_PTR<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID) = 0;
 
-    virtual int OnPropertyEnter(const AFDataList& argVar, const AFGUID& self) = 0;
-    virtual int OnRecordEnter(const AFDataList& argVar, const AFGUID& self) = 0;
+    virtual int OnPropertyEnter(const AFIDataList& argVar, const AFGUID& self) = 0;
+    virtual int OnRecordEnter(const AFIDataList& argVar, const AFGUID& self) = 0;
 
-    virtual int OnObjectListEnter(const AFDataList& self, const AFDataList& argVar) = 0;
-    virtual int OnObjectListLeave(const AFDataList& self, const AFDataList& argVar) = 0;
+    virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar) = 0;
+    virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) = 0;
 };
 
 #endif

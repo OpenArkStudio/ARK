@@ -51,61 +51,61 @@ void AFCPropertyTrailModule::EndTrail(const AFGUID self)
 
 int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
 {
-    NF_SHARE_PTR<AFIObject> xObject = m_pKernelModule->GetObject(self);
-    if(nullptr == xObject)
-    {
-        return -1;
-    }
+    /* NF_SHARE_PTR<AFIObject> xObject = m_pKernelModule->GetObject(self);
+     if(nullptr == xObject)
+     {
+         return -1;
+     }
 
-    NF_SHARE_PTR<AFIPropertyManager> xPropertyManager = xObject->GetPropertyManager();
-    if(nullptr != xPropertyManager)
-    {
-        NF_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
-        while(nullptr != xProperty)
-        {
-            std::ostringstream stream;
+     NF_SHARE_PTR<AFIPropertyMgr> xPropertyManager = xObject->GetPropertyManager();
+     if(nullptr != xPropertyManager)
+     {
+         NF_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
+         while(nullptr != xProperty)
+         {
+             std::ostringstream stream;
 
-            stream << " Start trail ";
-            stream << xProperty->ToString();
+             stream << " Start trail ";
+             stream << xProperty->ToString();
 
-            m_pLogModule->LogInfo(self, xProperty->GetKey(), stream.str(),  __FUNCTION__, __LINE__);
+             m_pLogModule->LogInfo(self, xProperty->GetKey(), stream.str(),  __FUNCTION__, __LINE__);
 
-            xProperty = xPropertyManager->Next();
-        }
-    }
+             xProperty = xPropertyManager->Next();
+         }
+     }
 
-    NF_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
-    if(nullptr != xRecordManager)
-    {
-        NF_SHARE_PTR<AFIRecord> xRecord = xRecordManager->First();
-        while(nullptr != xRecord)
-        {
-            for(int i = 0; i < xRecord->GetRows(); ++i)
-            {
-                AFIDataList xDataList;
-                bool bRet = xRecord->QueryRow(i, xDataList);
-                if(bRet)
-                {
-                    std::ostringstream stream;
-                    stream << " Start trail Row[" << i << "]";
+     NF_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
+     if(nullptr != xRecordManager)
+     {
+         NF_SHARE_PTR<AFIRecord> xRecord = xRecordManager->First();
+         while(nullptr != xRecord)
+         {
+             for(int i = 0; i < xRecord->GetRows(); ++i)
+             {
+                 AFCDataList xDataList;
+                 bool bRet = xRecord->QueryRow(i, xDataList);
+                 if(bRet)
+                 {
+                     std::ostringstream stream;
+                     stream << " Start trail Row[" << i << "]";
 
-                    for(int j = 0; j < xDataList.GetCount(); ++j)
-                    {
-                        stream << " [" << j << "] " << xDataList.ToString(j);
-                    }
+                     for(int j = 0; j < xDataList.GetCount(); ++j)
+                     {
+                         stream << " [" << j << "] " << xDataList.ToString(j);
+                     }
 
-                    m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
-                }
-            }
+                     m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
+                 }
+             }
 
-            xRecord = xRecordManager->Next();
-        }
-    }
+             xRecord = xRecordManager->Next();
+         }
+     }*/
 
     return 0;
 }
 
-int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std::string& strPropertyName, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar)
+int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
     std::ostringstream stream;
 
@@ -120,7 +120,7 @@ int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std:
     return 0;
 }
 
-int AFCPropertyTrailModule::OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar)
+int AFCPropertyTrailModule::OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     std::ostringstream stream;
     NF_SHARE_PTR<AFIRecord> xRecord = m_pKernelModule->FindRecord(self, xEventData.strRecordName);
@@ -133,7 +133,7 @@ int AFCPropertyTrailModule::OnObjectRecordEvent(const AFGUID& self, const RECORD
     {
     case AFIRecord::RecordOptype::Add:
         {
-            AFIDataList xDataList;
+            AFCDataList xDataList;
             bool bRet = xRecord->QueryRow(xEventData.nRow, xDataList);
             if(bRet)
             {
@@ -165,8 +165,8 @@ int AFCPropertyTrailModule::OnObjectRecordEvent(const AFGUID& self, const RECORD
     case AFIRecord::RecordOptype::Update:
         {
             stream << " Trail UpData Row[" << xEventData.nRow << "] Col[" << xEventData.nCol << "]";
-            stream << " [Old] " << oldVar.ToString();
-            stream << " [New] " << newVar.ToString();
+            //stream << " [Old] " << oldVar.ToString();
+            //stream << " [New] " << newVar.ToString();
             m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
         }
         break;
@@ -189,18 +189,18 @@ int AFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
         return -1;
     }
 
-    NF_SHARE_PTR<AFIPropertyManager> xPropertyManager = xObject->GetPropertyManager();
-    if(nullptr != xPropertyManager)
-    {
-        NF_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
-        while(nullptr != xProperty)
-        {
-            m_pKernelModule->AddPropertyCallBack(self, xProperty->GetKey(), this, &AFCPropertyTrailModule::OnObjectPropertyEvent);
+    /* NF_SHARE_PTR<AFIPropertyManager> xPropertyManager = xObject->GetPropertyManager();
+     if(nullptr != xPropertyManager)
+     {
+         NF_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
+         while(nullptr != xProperty)
+         {
+             m_pKernelModule->AddPropertyCallBack(self, xProperty->GetKey(), this, &AFCPropertyTrailModule::OnObjectPropertyEvent);
 
-            xProperty = xPropertyManager->Next();
-        }
-    }
-
+             xProperty = xPropertyManager->Next();
+         }
+     }
+    */
     NF_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
     if(nullptr != xRecordManager)
     {

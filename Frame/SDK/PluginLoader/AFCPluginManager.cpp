@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    AFCPluginManager.cpp
+//    @FileName         :    AFCPluginManager.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
 //    @Module           :    AFCPluginManager
@@ -7,10 +7,10 @@
 // -------------------------------------------------------------------------
 
 #include "AFCPluginManager.h"
-#include "AFComm/RapidXML/rapidxml.hpp"
-#include "AFComm/RapidXML/rapidxml_iterators.hpp"
-#include "AFComm/RapidXML/rapidxml_print.hpp"
-#include "AFComm/RapidXML/rapidxml_utils.hpp"
+#include "RapidXML/rapidxml.hpp"
+#include "RapidXML/rapidxml_iterators.hpp"
+#include "RapidXML/rapidxml_print.hpp"
+#include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFPlatform.h"
 
@@ -42,12 +42,12 @@
 
 AFCPluginManager::AFCPluginManager() : AFIPluginManager()
 {
-   mnAppID = 0;
-   mnInitTime = time(NULL);
-   mnNowTime = mnInitTime;
+    mnAppID = 0;
+    mnInitTime = time(NULL);
+    mnNowTime = mnInitTime;
 
-   mstrConfigPath = "";
-   mstrConfigName = "Plugin.xml";
+    mstrConfigPath = "";
+    mstrConfigName = "Plugin.xml";
 }
 
 AFCPluginManager::~AFCPluginManager()
@@ -57,26 +57,26 @@ AFCPluginManager::~AFCPluginManager()
 
 inline bool AFCPluginManager::Init()
 {
-	LoadPluginConfig();
+    LoadPluginConfig();
 
-	PluginNameMap::iterator it = mPluginNameMap.begin();
-	for (it; it != mPluginNameMap.end(); ++it)
-	{
+    PluginNameMap::iterator it = mPluginNameMap.begin();
+    for(it; it != mPluginNameMap.end(); ++it)
+    {
 #ifdef NF_DYNAMIC_PLUGIN
-		LoadPluginLibrary(it->first);
+        LoadPluginLibrary(it->first);
 #else
-		LoadStaticPlugin(it->first);
+        LoadStaticPlugin(it->first);
 #endif
-	}
+    }
 
 
-	PluginInstanceMap::iterator itInstance = mPluginInstanceMap.begin();
-	for (itInstance; itInstance != mPluginInstanceMap.end(); itInstance++)
-	{
-		itInstance->second->Init();
-	}
+    PluginInstanceMap::iterator itInstance = mPluginInstanceMap.begin();
+    for(itInstance; itInstance != mPluginInstanceMap.end(); itInstance++)
+    {
+        itInstance->second->Init();
+    }
 
-	return true;
+    return true;
 }
 
 bool AFCPluginManager::LoadPluginConfig()
@@ -86,7 +86,7 @@ bool AFCPluginManager::LoadPluginConfig()
     doc.parse<0>(fdoc.data());
 
     rapidxml::xml_node<>* pRoot = doc.first_node();
-    for (rapidxml::xml_node<>* pPluginNode = pRoot->first_node("Plugin"); pPluginNode; pPluginNode = pPluginNode->next_sibling("Plugin"))
+    for(rapidxml::xml_node<>* pPluginNode = pRoot->first_node("Plugin"); pPluginNode; pPluginNode = pPluginNode->next_sibling("Plugin"))
     {
         const char* strPluginName = pPluginNode->first_attribute("Name")->value();
         const char* strMain = pPluginNode->first_attribute("Main")->value();
@@ -96,33 +96,33 @@ bool AFCPluginManager::LoadPluginConfig()
     }
 
     rapidxml::xml_node<>* pPluginAppNode = pRoot->first_node("APPID");
-    if (!pPluginAppNode)
+    if(!pPluginAppNode)
     {
         NFASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
         return false;
     }
 
     const char* strAppID = pPluginAppNode->first_attribute("Name")->value();
-    if (!strAppID)
+    if(!strAppID)
     {
         NFASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
         return false;
     }
 
-    if (!NF_StrTo(strAppID, mnAppID))
+    if(!NF_StrTo(strAppID, mnAppID))
     {
         NFASSERT(0, "App ID Convert Error", __FILE__, __FUNCTION__);
         return false;
     }
 
     rapidxml::xml_node<>* pPluginConfigPathNode = pRoot->first_node("ConfigPath");
-    if (!pPluginConfigPathNode)
+    if(!pPluginConfigPathNode)
     {
         NFASSERT(0, "There are no ConfigPath", __FILE__, __FUNCTION__);
         return false;
     }
 
-    if (NULL == pPluginConfigPathNode->first_attribute("Name"))
+    if(NULL == pPluginConfigPathNode->first_attribute("Name"))
     {
         NFASSERT(0, "There are no ConfigPath.Name", __FILE__, __FUNCTION__);
         return false;
@@ -135,37 +135,37 @@ bool AFCPluginManager::LoadPluginConfig()
 
 bool AFCPluginManager::LoadStaticPlugin(const std::string& strPluginDLLName)
 {
-	//     PluginNameList::iterator it = mPluginNameList.begin();
-	//     for (it; it != mPluginNameList.end(); it++)
-	//     {
-	//         const std::string& strPluginName = *it;
-	//         CREATE_PLUGIN( this, strPluginName );
-	//     }
+    //     PluginNameList::iterator it = mPluginNameList.begin();
+    //     for (it; it != mPluginNameList.end(); it++)
+    //     {
+    //         const std::string& strPluginName = *it;
+    //         CREATE_PLUGIN( this, strPluginName );
+    //     }
 
-	//     CREATE_PLUGIN(this, AFKernelPlugin)
-	//     CREATE_PLUGIN(this, NFEventProcessPlugin)
-	//     CREATE_PLUGIN(this, AFConfigPlugin)
+    //     CREATE_PLUGIN(this, AFKernelPlugin)
+    //     CREATE_PLUGIN(this, NFEventProcessPlugin)
+    //     CREATE_PLUGIN(this, AFConfigPlugin)
 
-	return false;
+    return false;
 }
 
 void AFCPluginManager::Registered(AFIPlugin* plugin)
 {
     std::string strPluginName = plugin->GetPluginName();
-    if (!FindPlugin(strPluginName))
+    if(!FindPlugin(strPluginName))
     {
         bool bFind = false;
         PluginNameMap::iterator it = mPluginNameMap.begin();
-        for (it; it != mPluginNameMap.end(); ++it)
+        for(it; it != mPluginNameMap.end(); ++it)
         {
-            if (strPluginName == it->first)
+            if(strPluginName == it->first)
             {
                 bFind = true;
                 break;
             }
         }
 
-        if (bFind)
+        if(bFind)
         {
             mPluginInstanceMap.insert(PluginInstanceMap::value_type(strPluginName, plugin));
             plugin->Install();
@@ -176,7 +176,7 @@ void AFCPluginManager::Registered(AFIPlugin* plugin)
 void AFCPluginManager::UnRegistered(AFIPlugin* plugin)
 {
     PluginInstanceMap::iterator it = mPluginInstanceMap.find(plugin->GetPluginName());
-    if (it != mPluginInstanceMap.end())
+    if(it != mPluginInstanceMap.end())
     {
         it->second->Uninstall();
         delete it->second;
@@ -188,7 +188,7 @@ void AFCPluginManager::UnRegistered(AFIPlugin* plugin)
 AFIPlugin* AFCPluginManager::FindPlugin(const std::string& strPluginName)
 {
     PluginInstanceMap::iterator it = mPluginInstanceMap.find(strPluginName);
-    if (it != mPluginInstanceMap.end())
+    if(it != mPluginInstanceMap.end())
     {
         return it->second;
     }
@@ -203,7 +203,7 @@ bool AFCPluginManager::Execute()
     bool bRet = true;
 
     PluginInstanceMap::iterator it = mPluginInstanceMap.begin();
-    for (; it != mPluginInstanceMap.end(); ++it)
+    for(; it != mPluginInstanceMap.end(); ++it)
     {
         bool tembRet = it->second->Execute();
         bRet = bRet && tembRet;
@@ -214,42 +214,42 @@ bool AFCPluginManager::Execute()
 
 inline int AFCPluginManager::AppID() const
 {
-	return mnAppID;
+    return mnAppID;
 }
 
 inline AFINT64 AFCPluginManager::GetInitTime() const
 {
-	return mnInitTime;
+    return mnInitTime;
 }
 
 inline AFINT64 AFCPluginManager::GetNowTime() const
 {
-	return mnNowTime;
+    return mnNowTime;
 }
 
 inline const std::string & AFCPluginManager::GetConfigPath() const
 {
-	return mstrConfigPath;
+    return mstrConfigPath;
 }
 
 void AFCPluginManager::SetConfigName(const std::string & strFileName)
 {
-	if (strFileName.empty())
-	{
-		return;
-	}
+    if(strFileName.empty())
+    {
+        return;
+    }
 
-	if (strFileName.find(".xml") == string::npos)
-	{
-		return;
-	}
+    if(strFileName.find(".xml") == string::npos)
+    {
+        return;
+    }
 
-	mstrConfigName = strFileName;
+    mstrConfigName = strFileName;
 }
 
 void AFCPluginManager::AddModule(const std::string& strModuleName, AFIModule* pModule)
 {
-    if (!FindModule(strModuleName))
+    if(!FindModule(strModuleName))
     {
         mModuleInstanceMap.insert(ModuleInstanceMap::value_type(strModuleName, pModule));
     }
@@ -258,7 +258,7 @@ void AFCPluginManager::AddModule(const std::string& strModuleName, AFIModule* pM
 void AFCPluginManager::RemoveModule(const std::string& strModuleName)
 {
     ModuleInstanceMap::iterator it = mModuleInstanceMap.find(strModuleName);
-    if (it != mModuleInstanceMap.end())
+    if(it != mModuleInstanceMap.end())
     {
         mModuleInstanceMap.erase(it);
     }
@@ -267,40 +267,40 @@ void AFCPluginManager::RemoveModule(const std::string& strModuleName)
 
 AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
 {
-	std::string strSubModuleName = strModuleName;
+    std::string strSubModuleName = strModuleName;
 
 #if NF_PLATFORM == NF_PLATFORM_WIN
-	std::size_t position = strSubModuleName.find(" ");
-	if (string::npos != position)
-	{
-		strSubModuleName = strSubModuleName.substr(position + 1, strSubModuleName.length());
-	}
+    std::size_t position = strSubModuleName.find(" ");
+    if(string::npos != position)
+    {
+        strSubModuleName = strSubModuleName.substr(position + 1, strSubModuleName.length());
+    }
 #else
-	for (int i = 0; i < strSubModuleName.length(); i++)
-	{
-		std::string s = strSubModuleName.substr(0, i + 1);
-		int n = atof(s.c_str());
-		if (strSubModuleName.length() == i + 1 + n)
-		{
-			strSubModuleName = strSubModuleName.substr(i + 1, strSubModuleName.length());
-			break;
-		}
-	}
+    for(int i = 0; i < strSubModuleName.length(); i++)
+    {
+        std::string s = strSubModuleName.substr(0, i + 1);
+        int n = atof(s.c_str());
+        if(strSubModuleName.length() == i + 1 + n)
+        {
+            strSubModuleName = strSubModuleName.substr(i + 1, strSubModuleName.length());
+            break;
+        }
+    }
 #endif
 
-	ModuleInstanceMap::iterator it = mModuleInstanceMap.find(strSubModuleName);
-	if (it != mModuleInstanceMap.end())
-	{
-		return it->second;
-	}
-    
+    ModuleInstanceMap::iterator it = mModuleInstanceMap.find(strSubModuleName);
+    if(it != mModuleInstanceMap.end())
+    {
+        return it->second;
+    }
+
     return NULL;
 }
 
 bool AFCPluginManager::AfterInit()
 {
     PluginInstanceMap::iterator itAfterInstance = mPluginInstanceMap.begin();
-    for (itAfterInstance; itAfterInstance != mPluginInstanceMap.end(); itAfterInstance++)
+    for(itAfterInstance; itAfterInstance != mPluginInstanceMap.end(); itAfterInstance++)
     {
         itAfterInstance->second->AfterInit();
     }
@@ -311,7 +311,7 @@ bool AFCPluginManager::AfterInit()
 bool AFCPluginManager::CheckConfig()
 {
     PluginInstanceMap::iterator itCheckInstance = mPluginInstanceMap.begin();
-    for (itCheckInstance; itCheckInstance != mPluginInstanceMap.end(); itCheckInstance++)
+    for(itCheckInstance; itCheckInstance != mPluginInstanceMap.end(); itCheckInstance++)
     {
         itCheckInstance->second->CheckConfig();
     }
@@ -322,7 +322,7 @@ bool AFCPluginManager::CheckConfig()
 bool AFCPluginManager::BeforeShut()
 {
     PluginInstanceMap::iterator itBeforeInstance = mPluginInstanceMap.begin();
-    for (itBeforeInstance; itBeforeInstance != mPluginInstanceMap.end(); itBeforeInstance++)
+    for(itBeforeInstance; itBeforeInstance != mPluginInstanceMap.end(); itBeforeInstance++)
     {
         itBeforeInstance->second->BeforeShut();
     }
@@ -333,7 +333,7 @@ bool AFCPluginManager::BeforeShut()
 bool AFCPluginManager::Shut()
 {
     PluginInstanceMap::iterator itInstance = mPluginInstanceMap.begin();
-    for (itInstance; itInstance != mPluginInstanceMap.end(); ++itInstance)
+    for(itInstance; itInstance != mPluginInstanceMap.end(); ++itInstance)
     {
         itInstance->second->Shut();
     }
@@ -341,12 +341,12 @@ bool AFCPluginManager::Shut()
 
 
     PluginNameMap::iterator it = mPluginNameMap.begin();
-    for (it; it != mPluginNameMap.end(); it++)
+    for(it; it != mPluginNameMap.end(); it++)
     {
 #ifdef NF_DYNAMIC_PLUGIN
         UnLoadPluginLibrary(it->first);
 #else
-		UnLoadStaticPlugin(it->first);
+        UnLoadStaticPlugin(it->first);
 #endif
     }
 
@@ -360,17 +360,17 @@ bool AFCPluginManager::Shut()
 bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 {
     PluginLibMap::iterator it = mPluginLibMap.find(strPluginDLLName);
-    if (it == mPluginLibMap.end())
+    if(it == mPluginLibMap.end())
     {
         AFCDynLib* pLib = new AFCDynLib(strPluginDLLName);
         bool bLoad = pLib->Load();
 
-        if (bLoad)
+        if(bLoad)
         {
             mPluginLibMap.insert(PluginLibMap::value_type(strPluginDLLName, pLib));
 
             DLL_START_PLUGIN_FUNC pFunc = (DLL_START_PLUGIN_FUNC)pLib->GetSymbol("DllStartPlugin");
-            if (!pFunc)
+            if(!pFunc)
             {
                 std::cout << "Find function DllStartPlugin Failed in [" << pLib->GetName() << "]" << std::endl;
                 assert(0);
@@ -385,7 +385,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
         {
 #if NF_PLATFORM == NF_PLATFORM_LINUX
             char* error = dlerror();
-            if (error)
+            if(error)
             {
                 std::cout << stderr << " Load shared lib[" << pLib->GetName() << "] failed, ErrorNo. = [" << error << "]" << std::endl;
                 std::cout << "Load [" << pLib->GetName() << "] failed" << std::endl;
@@ -407,13 +407,13 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 {
     PluginLibMap::iterator it = mPluginLibMap.find(strPluginDLLName);
-    if (it != mPluginLibMap.end())
+    if(it != mPluginLibMap.end())
     {
         AFCDynLib* pLib = it->second;
 
         DLL_STOP_PLUGIN_FUNC pFunc = (DLL_STOP_PLUGIN_FUNC)pLib->GetSymbol("DllStopPlugin");
 
-        if (pFunc)
+        if(pFunc)
         {
             pFunc(this);
         }
@@ -432,10 +432,10 @@ bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 
 bool AFCPluginManager::UnLoadStaticPlugin(const std::string & strPluginDLLName)
 {
-	//     DESTROY_PLUGIN(this, AFConfigPlugin)
-	//     DESTROY_PLUGIN(this, NFEventProcessPlugin)
-	//     DESTROY_PLUGIN(this, AFKernelPlugin)
-	return false;
+    //     DESTROY_PLUGIN(this, AFConfigPlugin)
+    //     DESTROY_PLUGIN(this, NFEventProcessPlugin)
+    //     DESTROY_PLUGIN(this, AFKernelPlugin)
+    return false;
 }
 
 bool AFCPluginManager::StartReLoadState()
@@ -443,7 +443,7 @@ bool AFCPluginManager::StartReLoadState()
     AFIModule::StartReLoadState();
 
     PluginInstanceMap::iterator itBeforeInstance = mPluginInstanceMap.begin();
-    for (itBeforeInstance; itBeforeInstance != mPluginInstanceMap.end(); itBeforeInstance++)
+    for(itBeforeInstance; itBeforeInstance != mPluginInstanceMap.end(); itBeforeInstance++)
     {
         itBeforeInstance->second->StartReLoadState();
     }
@@ -454,7 +454,7 @@ bool AFCPluginManager::StartReLoadState()
 bool AFCPluginManager::EndReLoadState()
 {
     PluginInstanceMap::iterator itBeforeInstance = mPluginInstanceMap.begin();
-    for (itBeforeInstance; itBeforeInstance != mPluginInstanceMap.end(); itBeforeInstance++)
+    for(itBeforeInstance; itBeforeInstance != mPluginInstanceMap.end(); itBeforeInstance++)
     {
         itBeforeInstance->second->EndReLoadState();
     }

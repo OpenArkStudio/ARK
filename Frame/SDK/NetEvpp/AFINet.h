@@ -55,15 +55,6 @@
 
 #pragma pack(push, 1)
 
-enum NF_NET_EVENT
-{
-    NF_NET_EVENT_EOF = 0x10,        //����
-    NF_NET_EVENT_ERROR = 0x20,      //δ֪����
-    NF_NET_EVENT_TIMEOUT = 0x40,    //���ӳ�ʱ
-    NF_NET_EVENT_CONNECTED = 0x80,  //���ӳɹ�(��Ϊ�ͻ���)
-};
-
-
 struct  AFIMsgHead
 {
     enum NF_Head
