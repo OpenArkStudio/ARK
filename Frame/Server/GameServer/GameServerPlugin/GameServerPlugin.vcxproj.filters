@@ -14,7 +14,6 @@
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="AFCCreateRoleModule.cpp" />
-    <ClCompile Include="AFCEventRouteModule.cpp" />
     <ClCompile Include="AFCGameServerModule.cpp" />
     <ClCompile Include="AFGameServerPlugin.cpp" />
     <ClCompile Include="AFCPropertyConfigModule.cpp">
@@ -35,7 +34,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCCreateRoleModule.h" />
-    <ClInclude Include="AFCEventRouteModule.h" />
     <ClInclude Include="AFCGameServerModule.h" />
     <ClInclude Include="AFGameServerPlugin.h" />
     <ClInclude Include="AFCPropertyConfigModule.h">

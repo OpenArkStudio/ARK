@@ -9,10 +9,10 @@
 #ifndef AFC_PROPERTY_COAFIG_MODULE_H
 #define AFC_PROPERTY_COAFIG_MODULE_H
 
-#include "AFComm/RapidXML/rapidxml.hpp"
-#include "AFComm/RapidXML/rapidxml_iterators.hpp"
-#include "AFComm/RapidXML/rapidxml_print.hpp"
-#include "AFComm/RapidXML/rapidxml_utils.hpp"
+#include "RapidXML/rapidxml.hpp"
+#include "RapidXML/rapidxml_iterators.hpp"
+#include "RapidXML/rapidxml_print.hpp"
+#include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIPropertyConfigModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"

@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFGameServerPlugin.cpp
+//    @FileName         :    NFGameServerPlugin.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-07-14 08:51
 //    @Module           :    NFGameServerPlugin
@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 
-#include "NFGameServerPlugin.h"
+#include "AFGameServerPlugin.h"
 #include "AFCGameServerModule.h"
 #include "AFCSceneProcessModule.h"
 #include "AFCPropertyModule.h"

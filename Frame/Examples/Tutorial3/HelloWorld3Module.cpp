@@ -49,7 +49,7 @@ int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::strin
     return 0;
 }
 
-int HelloWorld3Module::OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar)
+int HelloWorld3Module::OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVar, const AFIData& newVar)
 {
     //属性回调事件，只要属性值内容有变化，就会被回调
     std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt() << std::endl;
@@ -57,7 +57,7 @@ int HelloWorld3Module::OnPropertyCallBackEvent(const AFGUID& self, const std::st
     return 0;
 }
 
-int HelloWorld3Module::OnPropertyStrCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar)
+int HelloWorld3Module::OnPropertyStrCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVar, const AFIData& newVar)
 {
     //属性回调事件，只要属性值内容有变化，就会被回调
     std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetString() << " NewValue: " << newVar.GetString() << std::endl;
@@ -85,8 +85,8 @@ bool HelloWorld3Module::AfterInit()
         return false;
     }
 
-    pObject->GetPropertyManager()->AddProperty(pObject->Self(), "Hello", TDATA_STRING);
-    pObject->GetPropertyManager()->AddProperty(pObject->Self(), "World", TDATA_INT);
+    pObject->GetPropertyManager()->AddProperty(pObject->Self(), "Hello", DT_STRING);
+    pObject->GetPropertyManager()->AddProperty(pObject->Self(), "World", DT_INT);
 
     pObject->AddPropertyCallBack("Hello", this, &HelloWorld3Module::OnPropertyStrCallBackEvent);
     pObject->AddPropertyCallBack("World", this, &HelloWorld3Module::OnPropertyCallBackEvent);

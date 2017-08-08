@@ -6,16 +6,16 @@
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#include "NFGameServerPlugin.h"
+#include "AFGameServerPlugin.h"
 #include "AFCGameServerModule.h"
 
 bool AFCGameServerModule::Init()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
-    m_pUUIDModule = pPluginManager->FindModule<AFIUUIDModule>();
+    m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
 
-    m_pUUIDModule->SetIdentID(1);
+    m_pUUIDModule->SetWorkerAndDatacenter(1, 1);
 
     return true;
 }

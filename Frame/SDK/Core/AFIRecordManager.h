@@ -19,7 +19,7 @@ class AFIRecordManager
 public:
     virtual ~AFIRecordManager() {}
 
-    virtual NF_SHARE_PTR<AFIRecord> AddRecord(const AFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFIDataList>& TData, const NF_SHARE_PTR<AFIDataList>& tagData, const int nRows) = 0;
+    virtual NF_SHARE_PTR<AFIRecord> AddRecord(const AFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFIDataList>& AFIData, const NF_SHARE_PTR<AFIDataList>& tagData, const int nRows) = 0;
 
     virtual const AFGUID& Self() = 0;
 

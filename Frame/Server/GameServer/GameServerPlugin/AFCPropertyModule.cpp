@@ -115,7 +115,7 @@ int AFCPropertyModule::SubPropertyValue(const AFGUID& self, const std::string& s
     return 0;
 }
 
-int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar)
+int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
     RefreshBaseProperty(self);
 
@@ -125,7 +125,7 @@ int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string&
     return 0;
 }
 
-int AFCPropertyModule::OnRecordPropertyEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIDataList::TData& oldVar, const AFIDataList::TData& newVar)
+int AFCPropertyModule::OnRecordPropertyEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     //¼ÆËã×ÜÖµ
     const std::string& strRecordName = xEventData.strRecordName;
