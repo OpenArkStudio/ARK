@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    AFCSceneProcessModule.h
+//    @FileName         :    AFCSceneProcessModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-04-14
 //    @Module           :    AFCSceneProcessModule
@@ -14,10 +14,10 @@
 #include <iostream>
 #include "SDK/Core/AFMap.h"
 #include "SDK/Core/AFList.h"
-#include "AFComm/RapidXML/rapidxml.hpp"
-#include "AFComm/RapidXML/rapidxml_iterators.hpp"
-#include "AFComm/RapidXML/rapidxml_print.hpp"
-#include "AFComm/RapidXML/rapidxml_utils.hpp"
+#include "RapidXML/rapidxml.hpp"
+#include "RapidXML/rapidxml_iterators.hpp"
+#include "RapidXML/rapidxml_print.hpp"
+#include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIGameLogicModule.h"
 #include "SDK/Interface/AFIElementModule.h"
@@ -65,7 +65,7 @@ protected:
     int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
 protected:
-    void OnClienSwapSceneProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnClienSwapSceneProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 private:
 

@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFProxyServerNet_ClientPlugin.cpp
+//    @FileName         :    NFProxyServerNet_ClientPlugin.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-05-06
 //    @Module           :    NFProxyServerNet_ClientPlugin
@@ -8,7 +8,7 @@
 
 
 #include "AFCProxyServerToWorldModule.h"
-#include "NFProxyServerNet_ClientPlugin.h"
+#include "AFProxyServerNet_ClientPlugin.h"
 #include "AFCProxyServerToGameModule.h"
 
 //

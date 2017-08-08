@@ -146,12 +146,12 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="NFCDynLib.h" />
-    <ClInclude Include="NFCPluginManager.h" />
+    <ClInclude Include="AFCDynLib.h" />
+    <ClInclude Include="AFCPluginManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="NFCDynLib.cpp" />
-    <ClCompile Include="NFCPluginManager.cpp" />
+    <ClCompile Include="AFCDynLib.cpp" />
+    <ClCompile Include="AFCPluginManager.cpp" />
     <ClCompile Include="NFPluginLoader.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

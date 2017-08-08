@@ -34,7 +34,7 @@ const AFGUID& AFCRecordManager::Self()
 bool AFCRecordManager::SetRecordBool(const std::string& strRecordName, const int nRow, const int nCol, const bool value)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->SetBool(nRow, nCol, value);
     }
@@ -45,7 +45,7 @@ bool AFCRecordManager::SetRecordBool(const std::string& strRecordName, const int
 bool AFCRecordManager::SetRecordBool(const std::string& strRecordName, const int nRow, const std::string& strColTag, const bool value)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->SetBool(nRow, strColTag, value);
     }
@@ -78,7 +78,7 @@ bool AFCRecordManager::SetRecordInt(const std::string& strRecordName, const int 
 bool AFCRecordManager::SetRecordInt64(const std::string& strRecordName, const int nRow, const int nCol, const int64_t value)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->SetInt64(nRow, nCol, value);
     }
@@ -89,7 +89,7 @@ bool AFCRecordManager::SetRecordInt64(const std::string& strRecordName, const in
 bool AFCRecordManager::SetRecordInt64(const std::string& strRecordName, const int nRow, const std::string& strColTag, const int64_t value)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->SetInt64(nRow, strColTag, value);
     }
@@ -100,7 +100,7 @@ bool AFCRecordManager::SetRecordInt64(const std::string& strRecordName, const in
 bool AFCRecordManager::SetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol, const float value)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->SetFloat(nRow, nCol, value);
     }
@@ -111,7 +111,7 @@ bool AFCRecordManager::SetRecordFloat(const std::string& strRecordName, const in
 bool AFCRecordManager::SetRecordFloat(const std::string& strRecordName, const int nRow, const std::string& strColTag, const float value)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->SetFloat(nRow, strColTag, value);
     }
@@ -188,7 +188,7 @@ bool AFCRecordManager::SetRecordObject(const std::string& strRecordName, const i
 bool AFCRecordManager::GetRecordBool(const std::string& strRecordName, const int nRow, const int nCol)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->GetBool(nRow, nCol);
     }
@@ -199,7 +199,7 @@ bool AFCRecordManager::GetRecordBool(const std::string& strRecordName, const int
 bool AFCRecordManager::GetRecordBool(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->GetBool(nRow, strColTag);
     }
@@ -232,7 +232,7 @@ int32_t AFCRecordManager::GetRecordInt(const std::string& strRecordName, const i
 int64_t AFCRecordManager::GetRecordInt64(const std::string& strRecordName, const int nRow, const int nCol)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->GetInt64(nRow, nCol);
     }
@@ -243,7 +243,7 @@ int64_t AFCRecordManager::GetRecordInt64(const std::string& strRecordName, const
 int64_t AFCRecordManager::GetRecordInt64(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->GetInt64(nRow, strColTag);
     }
@@ -254,7 +254,7 @@ int64_t AFCRecordManager::GetRecordInt64(const std::string& strRecordName, const
 float AFCRecordManager::GetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->GetFloat(nRow, nCol);
     }
@@ -265,7 +265,7 @@ float AFCRecordManager::GetRecordFloat(const std::string& strRecordName, const i
 float AFCRecordManager::GetRecordFloat(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
     NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
-    if (nullptr != pRecord)
+    if(nullptr != pRecord)
     {
         return pRecord->GetFloat(nRow, strColTag);
     }

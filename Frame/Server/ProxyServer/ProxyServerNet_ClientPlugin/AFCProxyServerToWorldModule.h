@@ -17,7 +17,7 @@
 #include "SDK/Interface/AFIProxyServerNet_ServerModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIProxyLogicModule.h"
-#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFINetServerModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIClassModule.h"
@@ -47,16 +47,16 @@ public:
 
 protected:
 
-    void OnSocketWSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID);
+    void OnSocketWSEvent(  const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
     void Register(const int nServerID);
 
-    void OnSelectServerResultProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnServerInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnSelectServerResultProcess(  const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnServerInfoProcess(  const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     void LogServerInfo(const std::string& strServerInfo);
 
-	void OnOtherMessage(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+	void OnOtherMessage(  const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 private:
     struct ClientConnectData
     {

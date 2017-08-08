@@ -63,11 +63,11 @@ bool AFCLogModule::Init()
     pConfigurations->set(&debugConfiguration);
 
     //获取每种级别log的输出开关
-    mbLogSwiths[LOG_DEBUG] = pLogger->typedConfigurations()->enabled(el::Level::Debug);
-    mbLogSwiths[LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
-    mbLogSwiths[LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
-    mbLogSwiths[LOG_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
-    mbLogSwiths[LOG_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
+    mbLogSwiths[NFI_LOG_DEBUG] = pLogger->typedConfigurations()->enabled(el::Level::Debug);
+    mbLogSwiths[NFI_LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
+    mbLogSwiths[NFI_LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
+    mbLogSwiths[NFI_LOG_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
+    mbLogSwiths[NFI_LOG_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
 
     el::Loggers::reconfigureAllLoggers(*pConfigurations);
     return true;
@@ -97,7 +97,7 @@ bool AFCLogModule::Execute()
 bool AFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
 {
     //error level
-    if(nll >= LOG_MAX || nll < LOG_DEBUG)
+    if(nll >= NFI_LOG_MAX || nll < NFI_LOG_DEBUG)
     {
         return false;
     }
@@ -117,12 +117,12 @@ bool AFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
 
     switch(nll)
     {
-    case AFILogModule::LOG_DEBUG:
+    case AFILogModule::NFI_LOG_DEBUG:
         {
             LOG(DEBUG) << szBuffer;
         }
         break;
-    case AFILogModule::LOG_INFO:
+    case AFILogModule::NFI_LOG_INFO:
         {
             if(mbSwitchingValue)
             {
@@ -130,7 +130,7 @@ bool AFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
             }
         }
         break;
-    case AFILogModule::LOG_WARNING:
+    case AFILogModule::NFI_LOG_WARNING:
         {
             if(mbSwitchingValue)
             {
@@ -138,10 +138,10 @@ bool AFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
             }
         }
         break;
-    case AFILogModule::LOG_ERROR:
+    case AFILogModule::NFI_LOG_ERROR:
         LOG(ERROR) << szBuffer;
         break;
-    case AFILogModule::LOG_FATAL:
+    case AFILogModule::NFI_LOG_FATAL:
         LOG(FATAL) << szBuffer;
         break;
     default:
@@ -181,11 +181,11 @@ void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_DEBUG, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+        Log(NFI_LOG_DEBUG, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(LOG_DEBUG, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+        Log(NFI_LOG_DEBUG, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
 }
 
@@ -193,11 +193,11 @@ void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const 
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_INFO, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+        Log(NFI_LOG_INFO, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(LOG_INFO, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+        Log(NFI_LOG_INFO, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
 }
 
@@ -205,11 +205,11 @@ void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, con
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_WARNING, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+        Log(NFI_LOG_WARNING, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(LOG_WARNING, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+        Log(NFI_LOG_WARNING, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
 }
 
@@ -217,11 +217,11 @@ void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_ERROR, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+        Log(NFI_LOG_ERROR, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(LOG_ERROR, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+        Log(NFI_LOG_ERROR, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
 }
 
@@ -229,11 +229,11 @@ void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_FATAL, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+        Log(NFI_LOG_FATAL, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(LOG_FATAL, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+        Log(NFI_LOG_FATAL, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
 }
 
@@ -241,11 +241,11 @@ void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_DEBUG, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+        Log(NFI_LOG_DEBUG, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
     }
     else
     {
-        Log(LOG_DEBUG, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+        Log(NFI_LOG_DEBUG, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
     }
 }
 
@@ -253,11 +253,11 @@ void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const 
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_INFO, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+        Log(NFI_LOG_INFO, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
     }
     else
     {
-        Log(LOG_INFO, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+        Log(NFI_LOG_INFO, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
     }
 }
 
@@ -265,11 +265,11 @@ void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, con
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_WARNING, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+        Log(NFI_LOG_WARNING, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
     }
     else
     {
-        Log(LOG_WARNING, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+        Log(NFI_LOG_WARNING, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
     }
 }
 
@@ -277,11 +277,11 @@ void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_ERROR, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+        Log(NFI_LOG_ERROR, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
     }
     else
     {
-        Log(LOG_ERROR, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+        Log(NFI_LOG_ERROR, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
     }
 }
 
@@ -289,11 +289,11 @@ void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_FATAL, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+        Log(NFI_LOG_FATAL, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
     }
     else
     {
-        Log(LOG_FATAL, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+        Log(NFI_LOG_FATAL, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
     }
 }
 
@@ -301,11 +301,11 @@ void AFCLogModule::LogDebug(const AFGUID self, const std::ostringstream& strDesc
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_DEBUG, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+        Log(NFI_LOG_DEBUG, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
     }
     else
     {
-        Log(LOG_DEBUG, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+        Log(NFI_LOG_DEBUG, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
     }
 }
 
@@ -313,11 +313,11 @@ void AFCLogModule::LogInfo(const AFGUID self, const std::ostringstream& strDesc,
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_INFO, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+        Log(NFI_LOG_INFO, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
     }
     else
     {
-        Log(LOG_INFO, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+        Log(NFI_LOG_INFO, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
     }
 }
 
@@ -325,11 +325,11 @@ void AFCLogModule::LogWarning(const AFGUID self, const std::ostringstream& strDe
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_WARNING, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+        Log(NFI_LOG_WARNING, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
     }
     else
     {
-        Log(LOG_WARNING, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+        Log(NFI_LOG_WARNING, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
     }
 }
 
@@ -337,11 +337,11 @@ void AFCLogModule::LogError(const AFGUID self, const std::ostringstream& strDesc
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_ERROR, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+        Log(NFI_LOG_ERROR, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
     }
     else
     {
-        Log(LOG_ERROR, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+        Log(NFI_LOG_ERROR, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
     }
 }
 
@@ -349,11 +349,11 @@ void AFCLogModule::LogFatal(const AFGUID self, const std::ostringstream& strDesc
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(LOG_FATAL, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+        Log(NFI_LOG_FATAL, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
     }
     else
     {
-        Log(LOG_FATAL, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+        Log(NFI_LOG_FATAL, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
     }
 }
 
@@ -397,28 +397,28 @@ bool AFCLogModule::ChangeLogLevel(const std::string& strLevel, const std::string
         {
             el::Configuration errorConfiguration(el::Level::Fatal, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&errorConfiguration);
-            mbLogSwiths[LOG_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
+            mbLogSwiths[NFI_LOG_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
             break;
         }
     case el::Level::Error:
         {
             el::Configuration warnConfiguration(el::Level::Error, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&warnConfiguration);
-            mbLogSwiths[LOG_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
+            mbLogSwiths[NFI_LOG_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
             break;
         }
     case el::Level::Warning:
         {
             el::Configuration infoConfiguration(el::Level::Warning, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&infoConfiguration);
-            mbLogSwiths[LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
+            mbLogSwiths[NFI_LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
             break;
         }
     case el::Level::Info:
         {
             el::Configuration debugConfiguration(el::Level::Info, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&debugConfiguration);
-            mbLogSwiths[LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
+            mbLogSwiths[NFI_LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
             break;
         }
     case el::Level::Debug:

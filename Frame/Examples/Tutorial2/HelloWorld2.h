@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    HelloWorld2.h
+//    @FileName         :    HelloWorld2.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2014-05-14 08:51
 //    @Module           :   HelloWorld2
@@ -30,7 +30,7 @@ public:
     virtual bool Shut();
 
 protected:
-    int OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIDataList::TData& oldVarList, const AFIDataList::TData& newVarList);
+    int OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
 
 
 

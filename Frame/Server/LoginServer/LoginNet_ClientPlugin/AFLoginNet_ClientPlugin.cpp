@@ -1,7 +1,7 @@
 // NFLoginNet_ClientPlugin.cpp : Defines the exported functions for the DLL application.
 //
 
-#include "NFLoginNet_ClientPlugin.h"
+#include "AFLoginNet_ClientPlugin.h"
 #include "AFCLoginToMasterModule.h"
 
 //

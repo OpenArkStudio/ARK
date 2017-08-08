@@ -89,7 +89,7 @@ using HEART_BEAT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, 
 using MODULE_HEART_BEAT_FUNCTOR = std::function<void()>;
 
 /**
- * @typedef std::function<int(const AFGUID&, const std::string&, const AFIDataList::TData&, const AFIDataList::TData&)> PROPERTY_EVENT_FUNCTOR
+ * @typedef std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)> PROPERTY_EVENT_FUNCTOR
  *
  * @brief   Defines an alias representing the property event functor.
  */
@@ -97,7 +97,7 @@ using MODULE_HEART_BEAT_FUNCTOR = std::function<void()>;
 using PROPERTY_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
 
 /**
- * @typedef std::function<int(const AFGUID&, const RECORD_EVENT_DATA&, const AFIDataList::TData&, const AFIDataList::TData&)> RECORD_EVENT_FUNCTOR
+ * @typedef std::function<int(const AFGUID&, const RECORD_EVENT_DATA&, const AFIData&, const AFIData&)> RECORD_EVENT_FUNCTOR
  *
  * @brief   Defines an alias representing the record event functor.
  */
