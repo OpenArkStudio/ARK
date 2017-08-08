@@ -3,5 +3,6 @@
   <ItemGroup>
     <ClInclude Include="AFPlatform.hpp" />
     <ClInclude Include="AFMacros.hpp" />
+    <ClInclude Include="AFSingleton.hpp" />
   </ItemGroup>
 </Project>
