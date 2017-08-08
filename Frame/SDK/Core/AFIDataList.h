@@ -49,6 +49,8 @@ public:
     virtual const void* UserData(size_t index, size_t& size) const = 0;
     virtual void* RawUserData(size_t index) const = 0;
 
+    virtual const std::string ToString(size_t index) = 0;
+
     //get memory usage
     virtual size_t GetMemUsage() const = 0;
 
@@ -94,7 +96,7 @@ public:
         AddInt(value);
         return *this;
     }
-    
+
     inline AFIDataList& operator<<(long value)
     {
 #if NF_PLATFORM == NF_PLATFORM_WIN || defined(WIN32)

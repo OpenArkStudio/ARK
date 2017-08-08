@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    AFCGameServerModule.h
+//    @FileName         :    AFCGameServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
 //    @Module           :    AFCGameServerModule
@@ -13,7 +13,7 @@
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIGameServerModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIUUIDModule.h"
+#include "SDK/Interface/AFIGUIDModule.h"
 
 class AFCGameServerModule
     : public AFIGameServerModule
@@ -37,7 +37,7 @@ protected:
 
 
 protected:
-    AFIUUIDModule* m_pUUIDModule;
+    AFIGUIDModule* m_pUUIDModule;
     AFIClassModule* m_pClassModule;
     AFIKernelModule* m_pKernelModule;
 private:

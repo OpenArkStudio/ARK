@@ -11,20 +11,20 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NFCDynLib.h">
+    <ClInclude Include="AFCDynLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NFCPluginManager.h">
+    <ClInclude Include="AFCPluginManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NFPluginLoader.cpp" />
-    <ClCompile Include="NFCDynLib.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="AFCDynLib.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="NFCPluginManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="AFCPluginManager.cpp">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

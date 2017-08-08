@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFLoginLogicPlugin.cpp
+//    @FileName         :    NFLoginLogicPlugin.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-07-14 08:51
 //    @Module           :    LoginLogicPluginModule
@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 
-#include "NFLoginLogicPlugin.h"
+#include "AFLoginLogicPlugin.h"
 #include "AFCLoginLogicModule.h"
 
 //

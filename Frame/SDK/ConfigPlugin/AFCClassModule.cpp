@@ -172,20 +172,20 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
             bool bSave = AF_LEXICAL_CAST<bool>(pstrSave);
             bool bCache = AF_LEXICAL_CAST<bool>(pstrCache);
 
-            NF_SHARE_PTR<AFIDataList> recordVar(NF_NEW AFXDataList());
-            NF_SHARE_PTR<AFIDataList> recordTag(NF_NEW AFXDataList());
+            NF_SHARE_PTR<AFIDataList> recordVar(NF_NEW AFCDataList());
+            NF_SHARE_PTR<AFIDataList> recordTag(NF_NEW AFCDataList());
 
             for(rapidxml::xml_node<>* recordColNode = pRecordNode->first_node(); recordColNode;  recordColNode = recordColNode->next_sibling())
             {
-                AFXData TData;
+                AFXData AFIData;
                 const char* pstrColType = recordColNode->first_attribute("Type")->value();
-                if(DT_UNKNOWN == ComputerType(pstrColType, TData))
+                if(DT_UNKNOWN == ComputerType(pstrColType, AFIData))
                 {
                     //assert(0);
                     NFASSERT(0, pstrRecordName, __FILE__, __FUNCTION__);
                 }
 
-                recordVar->Append(TData);
+                recordVar->Append(AFIData);
             }
 
             NF_SHARE_PTR<AFIRecord> xRecord = pClass->GetRecordManager()->AddRecord(NULL_GUID, pstrRecordName, recordVar, recordTag, atoi(pstrRow));

@@ -162,12 +162,12 @@ int AFCRecord::AddRow(const int nRow, const AFIDataList& var)
             pVar = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
         }
         //一个个放入数值和类型
-        switch (var.GetType(i))
+        switch(var.GetType(i))
         {
         case DT_BOOLEAN:
             pVar->SetBool(var.Bool(i));
             break;
-            //TODO:
+        //TODO:
         default:
             return -1;
             break;
@@ -188,17 +188,17 @@ int AFCRecord::AddRow(const int nRow, const AFIDataList& var)
 
 bool AFCRecord::SetBool(const int nRow, const int nCol, const bool value)
 {
-    if (!ValidPos(nRow, nCol))
+    if(!ValidPos(nRow, nCol))
     {
         return false;
     }
 
-    if (DT_BOOLEAN != GetColType(nCol))
+    if(DT_BOOLEAN != GetColType(nCol))
     {
         return false;
     }
 
-    if (!IsUsed(nRow))
+    if(!IsUsed(nRow))
     {
         return false;
     }
@@ -207,7 +207,7 @@ bool AFCRecord::SetBool(const int nRow, const int nCol, const bool value)
     var.SetBool(value);
 
     NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-    if (!ValidCheck(DT_BOOLEAN, var, pVar))
+    if(!ValidCheck(DT_BOOLEAN, var, pVar))
     {
         return false;
     }
@@ -284,17 +284,17 @@ bool AFCRecord::SetInt(const int nRow, const std::string& strColTag, const int32
 
 bool AFCRecord::SetInt64(const int nRow, const int nCol, const int64_t value)
 {
-    if (!ValidPos(nRow, nCol))
+    if(!ValidPos(nRow, nCol))
     {
         return false;
     }
 
-    if (DT_INT64 != GetColType(nCol))
+    if(DT_INT64 != GetColType(nCol))
     {
         return false;
     }
 
-    if (!IsUsed(nRow))
+    if(!IsUsed(nRow))
     {
         return false;
     }
@@ -303,7 +303,7 @@ bool AFCRecord::SetInt64(const int nRow, const int nCol, const int64_t value)
     var.SetInt64(value);
 
     NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-    if (!ValidCheck(DT_INT64, var, pVar))
+    if(!ValidCheck(DT_INT64, var, pVar))
     {
         return false;
     }
@@ -332,17 +332,17 @@ bool AFCRecord::SetInt64(const int nRow, const std::string& strColTag, const int
 
 bool AFCRecord::SetFloat(const int nRow, const int nCol, const float value)
 {
-    if (!ValidPos(nRow, nCol))
+    if(!ValidPos(nRow, nCol))
     {
         return false;
     }
 
-    if (DT_FLOAT != GetColType(nCol))
+    if(DT_FLOAT != GetColType(nCol))
     {
         return false;
     }
 
-    if (!IsUsed(nRow))
+    if(!IsUsed(nRow))
     {
         return false;
     }
@@ -351,7 +351,7 @@ bool AFCRecord::SetFloat(const int nRow, const int nCol, const float value)
     var.SetFloat(value);
 
     NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-    if (!ValidCheck(DT_FLOAT, var, pVar))
+    if(!ValidCheck(DT_FLOAT, var, pVar))
     {
         return false;
     }
@@ -636,18 +636,18 @@ bool AFCRecord::QueryRow(const int nRow, AFIDataList& varList)
 
 bool AFCRecord::GetBool(const int nRow, const int nCol) const
 {
-    if (!ValidPos(nRow, nCol))
+    if(!ValidPos(nRow, nCol))
     {
         return NULL_BOOLEAN;
     }
 
-    if (!IsUsed(nRow))
+    if(!IsUsed(nRow))
     {
         return NULL_BOOLEAN;
     }
 
     const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-    if (nullptr == pVar)
+    if(nullptr == pVar)
     {
         return NULL_BOOLEAN;
     }
@@ -690,18 +690,18 @@ int32_t AFCRecord::GetInt(const int nRow, const std::string& strColTag) const
 
 int64_t AFCRecord::GetInt64(const int nRow, const int nCol) const
 {
-    if (!ValidPos(nRow, nCol))
+    if(!ValidPos(nRow, nCol))
     {
         return NULL_INT64;
     }
 
-    if (!IsUsed(nRow))
+    if(!IsUsed(nRow))
     {
         return NULL_INT64;
     }
 
     const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-    if (nullptr == pVar)
+    if(nullptr == pVar)
     {
         return NULL_INT64;
     }
@@ -717,18 +717,18 @@ int64_t AFCRecord::GetInt64(const int nRow, const std::string& strColTag) const
 
 float AFCRecord::GetFloat(const int nRow, const int nCol) const
 {
-    if (!ValidPos(nRow, nCol))
+    if(!ValidPos(nRow, nCol))
     {
         return NULL_FLOAT;
     }
 
-    if (!IsUsed(nRow))
+    if(!IsUsed(nRow))
     {
         return NULL_FLOAT;
     }
 
     const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
-    if (nullptr == pVar)
+    if(nullptr == pVar)
     {
         return NULL_FLOAT;
     }
@@ -874,24 +874,24 @@ int AFCRecord::FindRowByColValue(const std::string& strColTag, const AFIDataList
 
 int AFCRecord::FindBool(const int nCol, const bool value, AFIDataList& varResult)
 {
-    if (!ValidCol(nCol))
+    if(!ValidCol(nCol))
     {
         return 0;
     }
 
-    if (AF_DATA_TYPE::DT_BOOLEAN != mVarRecordType->GetType(nCol))
+    if(AF_DATA_TYPE::DT_BOOLEAN != mVarRecordType->GetType(nCol))
     {
         return 0;
     }
 
-    for (int i = 0; i < mnMaxRow; ++i)
+    for(int i = 0; i < mnMaxRow; ++i)
     {
-        if (!IsUsed(i))
+        if(!IsUsed(i))
         {
             continue;
         }
 
-        if (GetBool(i, nCol) == value)
+        if(GetBool(i, nCol) == value)
         {
             varResult << i;
         }
@@ -902,7 +902,7 @@ int AFCRecord::FindBool(const int nCol, const bool value, AFIDataList& varResult
 
 int AFCRecord::FindBool(const std::string& strColTag, const bool value, AFIDataList& varResult)
 {
-    if (strColTag.empty())
+    if(strColTag.empty())
     {
         return 0;
     }
@@ -923,14 +923,14 @@ int AFCRecord::FindInt(const int nCol, const int32_t value, AFIDataList& varResu
         return 0;
     }
 
-    for (int i = 0; i < mnMaxRow; ++i)
+    for(int i = 0; i < mnMaxRow; ++i)
     {
-        if (!IsUsed(i))
+        if(!IsUsed(i))
         {
             continue;
         }
 
-        if (GetInt(i, nCol) == value)
+        if(GetInt(i, nCol) == value)
         {
             varResult << i;
         }
@@ -952,24 +952,24 @@ int AFCRecord::FindInt(const std::string& strColTag, const int32_t value, AFIDat
 
 int AFCRecord::FindInt64(const int nCol, const int64_t value, AFIDataList& varResult)
 {
-    if (!ValidCol(nCol))
+    if(!ValidCol(nCol))
     {
         return 0;
     }
 
-    if (AF_DATA_TYPE::DT_INT64 != mVarRecordType->GetType(nCol))
+    if(AF_DATA_TYPE::DT_INT64 != mVarRecordType->GetType(nCol))
     {
         return 0;
     }
 
-    for (int i = 0; i < mnMaxRow; ++i)
+    for(int i = 0; i < mnMaxRow; ++i)
     {
-        if (!IsUsed(i))
+        if(!IsUsed(i))
         {
             continue;
         }
 
-        if (GetInt64(i, nCol) == value)
+        if(GetInt64(i, nCol) == value)
         {
             varResult << i;
         }
@@ -980,7 +980,7 @@ int AFCRecord::FindInt64(const int nCol, const int64_t value, AFIDataList& varRe
 
 int AFCRecord::FindInt64(const std::string& strColTag, const int64_t value, AFIDataList& varResult)
 {
-    if (strColTag.empty())
+    if(strColTag.empty())
     {
         return 0;
     }
@@ -991,24 +991,24 @@ int AFCRecord::FindInt64(const std::string& strColTag, const int64_t value, AFID
 
 int AFCRecord::FindFloat(const int nCol, const float value, AFIDataList& varResult)
 {
-    if (!ValidCol(nCol))
+    if(!ValidCol(nCol))
     {
         return 0;
     }
 
-    if (AF_DATA_TYPE::DT_FLOAT != mVarRecordType->GetType(nCol))
+    if(AF_DATA_TYPE::DT_FLOAT != mVarRecordType->GetType(nCol))
     {
         return 0;
     }
 
-    for (int i = 0; i < mnMaxRow; ++i)
+    for(int i = 0; i < mnMaxRow; ++i)
     {
-        if (!IsUsed(i))
+        if(!IsUsed(i))
         {
             continue;
         }
 
-        if (GetFloat(i, nCol) == value)
+        if(GetFloat(i, nCol) == value)
         {
             varResult << i;
         }
@@ -1019,7 +1019,7 @@ int AFCRecord::FindFloat(const int nCol, const float value, AFIDataList& varResu
 
 int AFCRecord::FindFloat(const std::string& strColTag, const float value, AFIDataList& varResult)
 {
-    if (strColTag.empty())
+    if(strColTag.empty())
     {
         return 0;
     }
@@ -1240,7 +1240,7 @@ void AFCRecord::SetName(const std::string& strName)
 
 const NF_SHARE_PTR<AFIDataList> AFCRecord::GetInitData() const
 {
-    NF_SHARE_PTR<AFIDataList> pIniData = NF_SHARE_PTR<AFIDataList>(NF_NEW AFXDataList());
+    NF_SHARE_PTR<AFIDataList> pIniData = NF_SHARE_PTR<AFIDataList>(NF_NEW AFCDataList());
     pIniData->Append(*mVarRecordType, 0, mVarRecordType->GetCount());
 
     return pIniData;
@@ -1303,7 +1303,7 @@ bool AFCRecord::SwapRowInfo(const int nOriginRow, const int nTargetRow)
 
 const NF_SHARE_PTR<AFIDataList> AFCRecord::GetTag() const
 {
-    NF_SHARE_PTR<AFIDataList> pIniData = NF_SHARE_PTR<AFIDataList>(NF_NEW AFXDataList());
+    NF_SHARE_PTR<AFIDataList> pIniData = NF_SHARE_PTR<AFIDataList>(NF_NEW AFCDataList());
     pIniData->Append(*mVarRecordTag, 0, mVarRecordTag->GetCount());
     return pIniData;
 }
