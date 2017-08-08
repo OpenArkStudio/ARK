@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCProxyServerToGameModule.h"
-#include "NFProxyServerNet_ClientPlugin.h"
+#include "AFProxyServerNet_ClientPlugin.h"
 #include "SDK/Core/AFIHeartBeatManager.h"
 #include "SDK/Core/AFCHeartBeatManager.h"
 #include "SDK/Interface/AFIClassModule.h"
@@ -87,20 +87,14 @@ AFINetClientModule* AFCProxyServerToGameModule::GetClusterModule()
     return m_pNetClientModule;
 }
 
-void AFCProxyServerToGameModule::OnSocketGSEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID)
+void AFCProxyServerToGameModule::OnSocketGSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
-    if(eEvent & NF_NET_EVENT_EOF)
+    if(eEvent == DISCONNECTED)
     {
     }
-    else if(eEvent & NF_NET_EVENT_ERROR)
+    else  if(eEvent == CONNECTED)
     {
-    }
-    else if(eEvent & NF_NET_EVENT_TIMEOUT)
-    {
-    }
-    else  if(eEvent == NF_NET_EVENT_CONNECTED)
-    {
-        m_pLogModule->LogInfo(AFGUID(0, nSockIndex), "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
         Register(nServerID);
     }
 }
@@ -149,19 +143,19 @@ void AFCProxyServerToGameModule::Register(const int nServerID)
     }
 }
 
-void AFCProxyServerToGameModule::OnAckEnterGame(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerToGameModule::OnAckEnterGame(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     NFMsg::AckEventResult xData;
-    if(!AFINetModule::ReceivePB(nSockIndex, nMsgID, msg, nLen, xData, nPlayerID))
+    if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
     }
 
     if(xData.event_code() == NFMsg::EGEC_ENTER_GAME_SUCCESS)
     {
-        const AFGUID& xClient = AFINetModule::PBToNF(xData.event_client());
-        const AFGUID& xPlayer = AFINetModule::PBToNF(xData.event_object());
+        const AFGUID& xClient = AFINetServerModule::PBToNF(xData.event_client());
+        const AFGUID& xPlayer = AFINetServerModule::PBToNF(xData.event_object());
 
         m_pProxyServerNet_ServerModule->EnterGameSuccessEvent(xClient, xPlayer);
     }
@@ -172,7 +166,7 @@ void AFCProxyServerToGameModule::LogServerInfo(const std::string& strServerInfo)
     m_pLogModule->LogInfo(AFGUID(), strServerInfo, "");
 }
 
-void AFCProxyServerToGameModule::Transpond(const int nSockIndex, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerToGameModule::Transpond(const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    m_pProxyServerNet_ServerModule->Transpond(nSockIndex, nMsgID, msg, nLen, xClientID);
+    m_pProxyServerNet_ServerModule->Transpond(nMsgID, msg, nLen, xClientID);
 }

@@ -15,15 +15,14 @@ class AFILogModule
 {
 
 public:
-
     enum NF_LOG_LEVEL
     {
-        LOG_DEBUG,        // debug调试信息(Debug和Release版本都会打印)
-        LOG_INFO,         // info级别
-        LOG_WARNING,      // warning级别
-        LOG_ERROR,        // error级别
-        LOG_FATAL,        // fatal级别
-        LOG_MAX,
+        NFI_LOG_DEBUG,        // debug调试信息(Debug和Release版本都会打印)
+        NFI_LOG_INFO,         // info级别
+        NFI_LOG_WARNING,      // warning级别
+        NFI_LOG_ERROR,        // error级别
+        NFI_LOG_FATAL,        // fatal级别
+        NFI_LOG_MAX,
     };
 
     virtual void LogDebug(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0) = 0;

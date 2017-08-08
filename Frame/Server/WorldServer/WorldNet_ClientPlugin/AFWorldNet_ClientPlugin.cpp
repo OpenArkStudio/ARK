@@ -1,7 +1,7 @@
 // NFWorldNet_ClientPlugin.cpp : Defines the exported functions for the DLL application.
 //
 
-#include "NFWorldNet_ClientPlugin.h"
+#include "AFWorldNet_ClientPlugin.h"
 #include "AFCWorldToMasterModule.h"
 
 //

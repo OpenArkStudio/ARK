@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFMasterServerPlugin.cpp
+//    @FileName         :    NFMasterServerPlugin.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-07-14 08:51
 //    @Module           :    CentreLogicModule
@@ -8,7 +8,7 @@
 
 
 #include "AFCMasterModule.h"
-#include "NFMasterServerPlugin.h"
+#include "AFMasterServerPlugin.h"
 
 //
 //
