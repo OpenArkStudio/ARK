@@ -180,7 +180,7 @@ protected:
 
 private:
     //属性的KEY，比如HP=1，会以这个建立KEY，那么可以快速查询所有HP=1的对象而不用遍历
-    //     std::map<std::string,std::map<TData, NFList<AFGUID>>>
+    //     std::map<std::string,std::map<AFIData, NFList<AFGUID>>>
     //     std::map<"Scene", std::map<10, NFList<AFGUID>>>
 
 private:
