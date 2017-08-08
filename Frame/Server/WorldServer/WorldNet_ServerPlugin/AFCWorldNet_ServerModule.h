@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    AFCWorldNet_ServerModule.h
+//    @FileName         :    AFCWorldNet_ServerModule.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2013-01-02
 //    @Module           :    AFCWorldNet_ServerModule
@@ -14,7 +14,7 @@
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Interface/AFIWorldToMasterModule.h"
 #include "SDK/Interface/AFIWorldLogicModule.h"
-#include "SDK/Interface/AFINetModule.h"
+#include "SDK/Interface/AFINetServerModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFILogModule.h"
@@ -52,44 +52,44 @@ public:
     virtual bool OnRecordEnterPack(NF_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase* pObjectRecordBase);
 
     virtual NF_SHARE_PTR<ServerData> GetSuitProxyForEnter();
-	virtual AFINetModule* GetNetModule();
+    virtual AFINetServerModule* GetNetModule();
 
     virtual int GetPlayerGameID(const AFGUID self);
 
 protected:
 
-    void OnSocketEvent(const int nSockIndex, const NF_NET_EVENT eEvent, const AFGUID& xClientID, const int nServerID);
+    void OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
     //连接丢失,删2层(连接对象，帐号对象)
-    void OnClientDisconnect(const int nAddress);
+    void OnClientDisconnect(const AFGUID& xClientID);
     //有连接
-    void OnClientConnected(const int nAddress);
+    void OnClientConnected(const AFGUID& xClientID);
 
 
 
 protected:
 
-    void OnGameServerRegisteredProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnGameServerUnRegisteredProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnRefreshGameServerInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnGameServerRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnGameServerUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnRefreshGameServerInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    void OnProxyServerRegisteredProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnProxyServerUnRegisteredProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnRefreshProxyServerInfoProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnProxyServerRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnProxyServerUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnRefreshProxyServerInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    int OnLeaveGameProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    int OnLeaveGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     //////////////////////////////////////////////////////////////////////////
 
     void SynGameToProxy();
-    void SynGameToProxy(const int nFD);
+    void SynGameToProxy(const AFGUID& xClientID);
 
     //////////////////////////////////////////////////////////////////////////
     void LogGameServer();
 
 protected:
 
-    void OnOnlineProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnOfflineProcess(const int nSockIndex, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnOnlineProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnOfflineProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 
 private:
@@ -105,7 +105,7 @@ private:
     AFIWorldLogicModule* m_pWorldLogicModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
-	AFINetModule* m_pNetModule;
+    AFINetServerModule* m_pNetModule;
 
 };
 

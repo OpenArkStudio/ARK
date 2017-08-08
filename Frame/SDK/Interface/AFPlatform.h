@@ -355,7 +355,7 @@ bool NF_StrTo(const std::string& strValue, DTYPE& nValue)
 }
 
 template<typename DTYPE>
-bool NF_ToStr(std::string& strValue, DTYPE& nValue)
+bool NF_ToStr(std::string& strValue, const DTYPE& nValue)
 {
     try
     {

@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFGameServerNet_ServerPlugin.cpp
+//    @FileName         :    NFGameServerNet_ServerPlugin.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-07-14 08:51
 //    @Module           :    NFGameServerNet_ServerPlugin
@@ -8,7 +8,7 @@
 
 
 #include "AFCProxyServerNet_ServerModule.h"
-#include "NFProxyServerNet_ServerPlugin.h"
+#include "AFProxyServerNet_ServerPlugin.h"
 
 //
 //

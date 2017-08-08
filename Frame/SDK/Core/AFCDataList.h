@@ -19,7 +19,7 @@ public:
 
     void Free(void* ptr, size_t size)
     {
-        delete[] (char*)ptr;
+        delete[](char*)ptr;
     }
 
     void Swap(AFDataListAlloc& src)
@@ -28,10 +28,10 @@ public:
 };
 
 template<size_t DATA_SIZE, size_t BUFFER_SIZE, typename ALLOC = AFDataListAlloc>
-class AFCDataList : public AFIDataList
+class AFBaseDataList : public AFIDataList
 {
 private:
-    using self_t = AFCDataList<DATA_SIZE, BUFFER_SIZE, ALLOC>;
+    using self_t = AFBaseDataList<DATA_SIZE, BUFFER_SIZE, ALLOC>;
 
     struct dynamic_data_t
     {
@@ -56,7 +56,7 @@ private:
     };
 
 public:
-    AFCDataList()
+    AFBaseDataList()
     {
         assert(DATA_SIZE > 0);
         assert(BUFFER_SIZE > 0);
@@ -70,7 +70,7 @@ public:
         mnBufferUsed = 0;
     }
 
-    AFCDataList(const self_t& src)
+    AFBaseDataList(const self_t& src)
     {
         assert(DATA_SIZE > 0);
         assert(BUFFER_SIZE > 0);
@@ -85,7 +85,7 @@ public:
         InnerAppend(src, 0, src.GetCount());
     }
 
-    virtual ~AFCDataList()
+    virtual ~AFBaseDataList()
     {
         Release();
     }
@@ -102,18 +102,18 @@ public:
         mnBufferSize = BUFFER_SIZE;
         mnBufferUsed = 0;
         InnerAppend(src, 0, src.GetCount());
-        
+
         return *this;
     }
 
     void Release()
     {
-        if (mnDataSize > DATA_SIZE)
+        if(mnDataSize > DATA_SIZE)
         {
             mxAlloc.Free(mpData, mnDataSize * sizeof(dynamic_data_t));
         }
 
-        if (mnBufferSize > BUFFER_SIZE)
+        if(mnBufferSize > BUFFER_SIZE)
         {
             mxAlloc.Free(mpBuffer, mnBufferSize * sizeof(char));
         }
@@ -133,13 +133,13 @@ public:
 
     virtual bool Append(const AFIDataList& src, size_t start, size_t count)
     {
-        if (start >= src.GetCount())
+        if(start >= src.GetCount())
         {
             return false;
         }
 
         size_t end = start + count;
-        if (end > src.GetCount())
+        if(end > src.GetCount())
         {
             return false;
         }
@@ -166,7 +166,7 @@ public:
 
     virtual int GetType(size_t index) const
     {
-        if (index >= mnDataUsed)
+        if(index >= mnDataUsed)
         {
             return DT_UNKNOWN;
         }
@@ -269,12 +269,12 @@ public:
     //get data
     virtual bool Bool(size_t index) const
     {
-        if (index > mnDataUsed)
+        if(index > mnDataUsed)
         {
             return NULL_BOOLEAN;
         }
 
-        switch (mpData[index].nType)
+        switch(mpData[index].nType)
         {
         case DT_BOOLEAN:
             return mpData[index].mbValue;
@@ -288,12 +288,12 @@ public:
 
     virtual int Int(size_t index) const
     {
-        if (index > mnDataUsed)
+        if(index > mnDataUsed)
         {
             return NULL_INT;
         }
 
-        switch (mpData[index].nType)
+        switch(mpData[index].nType)
         {
         case DT_INT:
             return mpData[index].mnValue;
@@ -307,12 +307,12 @@ public:
 
     virtual int64_t Int64(size_t index) const
     {
-        if (index > mnDataUsed)
+        if(index > mnDataUsed)
         {
             return NULL_INT64;
         }
 
-        switch (mpData[index].nType)
+        switch(mpData[index].nType)
         {
         case DT_INT64:
             return mpData[index].mn64Value;
@@ -326,12 +326,12 @@ public:
 
     virtual float Float(size_t index) const
     {
-        if (index > mnDataUsed)
+        if(index > mnDataUsed)
         {
             return NULL_FLOAT;
         }
 
-        switch (mpData[index].nType)
+        switch(mpData[index].nType)
         {
         case DT_FLOAT:
             return mpData[index].mfValue;
@@ -345,12 +345,12 @@ public:
 
     virtual double Double(size_t index) const
     {
-        if (index > mnDataUsed)
+        if(index > mnDataUsed)
         {
             return NULL_DOUBLE;
         }
 
-        switch (mpData[index].nType)
+        switch(mpData[index].nType)
         {
         case DT_DOUBLE:
             return mpData[index].mdValue;
@@ -364,12 +364,12 @@ public:
 
     virtual const char* String(size_t index) const
     {
-        if (index > mnDataUsed)
+        if(index > mnDataUsed)
         {
             return NULL_STR.c_str();
         }
 
-        switch (mpData[index].nType)
+        switch(mpData[index].nType)
         {
         case DT_STRING:
             return mpBuffer + mpData[index].mnstrValue;
@@ -383,12 +383,12 @@ public:
 
     virtual AFGUID Object(size_t index) const
     {
-        if (index > mnDataUsed)
+        if(index > mnDataUsed)
         {
             return NULL_GUID;
         }
 
-        switch (mpData[index].nType)
+        switch(mpData[index].nType)
         {
         case DT_OBJECT:
             return AFGUID(mpData[index].mnIdent, mpData[index].mnSerial);
@@ -402,12 +402,12 @@ public:
 
     virtual void* Pointer(size_t index) const
     {
-        if (index > mnDataUsed)
+        if(index > mnDataUsed)
         {
             return NULL;
         }
 
-        switch (mpData[index].nType)
+        switch(mpData[index].nType)
         {
         case DT_STRING:
             return mpData[index].mpVaule;
@@ -421,13 +421,13 @@ public:
 
     virtual const void* UserData(size_t index, size_t& size) const
     {
-        if (index > mnDataUsed)
+        if(index > mnDataUsed)
         {
             size = 0;
             return NULL;
         }
 
-        switch (mpData[index].nType)
+        switch(mpData[index].nType)
         {
         case DT_USERDATA:
             {
@@ -443,15 +443,14 @@ public:
         size = 0;
         return NULL;
     }
-
     virtual void* RawUserData(size_t index) const
     {
-        if (index > mnDataUsed)
+        if(index > mnDataUsed)
         {
             return NULL;
         }
 
-        switch (mpData[index].nType)
+        switch(mpData[index].nType)
         {
         case DT_USERDATA:
             {
@@ -467,12 +466,12 @@ public:
 
     virtual bool SetBool(size_t index, bool value)
     {
-        if (index >= mnDataUsed)
+        if(index >= mnDataUsed)
         {
             return false;
         }
 
-        if (mpData[index].nType != DT_BOOLEAN)
+        if(mpData[index].nType != DT_BOOLEAN)
         {
             return false;
         }
@@ -483,12 +482,12 @@ public:
 
     virtual bool SetInt(size_t index, int value)
     {
-        if (index >= mnDataUsed)
+        if(index >= mnDataUsed)
         {
             return false;
         }
 
-        if (mpData[index].nType != DT_INT)
+        if(mpData[index].nType != DT_INT)
         {
             return false;
         }
@@ -499,12 +498,12 @@ public:
 
     virtual bool SetInt64(size_t index, int value)
     {
-        if (index >= mnDataUsed)
+        if(index >= mnDataUsed)
         {
             return false;
         }
 
-        if (mpData[index].nType != DT_INT64)
+        if(mpData[index].nType != DT_INT64)
         {
             return false;
         }
@@ -515,12 +514,12 @@ public:
 
     virtual bool SetFloat(size_t index, float value)
     {
-        if (index >= mnDataUsed)
+        if(index >= mnDataUsed)
         {
             return false;
         }
 
-        if (mpData[index].nType != DT_FLOAT)
+        if(mpData[index].nType != DT_FLOAT)
         {
             return false;
         }
@@ -531,12 +530,12 @@ public:
 
     virtual bool SetDouble(size_t index, double value)
     {
-        if (index >= mnDataUsed)
+        if(index >= mnDataUsed)
         {
             return false;
         }
 
-        if (mpData[index].nType != DT_DOUBLE)
+        if(mpData[index].nType != DT_DOUBLE)
         {
             return false;
         }
@@ -549,12 +548,12 @@ public:
     {
         assert(NULL != value);
 
-        if (index >= mnDataUsed)
+        if(index >= mnDataUsed)
         {
             return false;
         }
 
-        if (mpData[index].nType != DT_STRING)
+        if(mpData[index].nType != DT_STRING)
         {
             return false;
         }
@@ -562,10 +561,14 @@ public:
         char* p = mpBuffer + mpData[index].mnstrValue;
         const size_t size1 = strlen(value) + 1;
 
-        if (size1 <= (strlen(p) + 1))
+        if(size1 <= (strlen(p) + 1))
         {
             //如果value的长度 <= 以前的长度，放回原地，不做改变
-            strcpy(p, value);
+#if NF_PLATFORM == NF_PLATFORM_WIN
+            strncpy_s(p, (strlen(p) + 1), value, size1);
+#else
+            strncpy(p, value, size1);
+#endif
             return true;
         }
 
@@ -579,12 +582,12 @@ public:
 
     virtual bool SetObject(size_t index, const AFGUID& value)
     {
-        if (index >= mnDataUsed)
+        if(index >= mnDataUsed)
         {
             return false;
         }
 
-        if (mpData[index].nType != DT_OBJECT)
+        if(mpData[index].nType != DT_OBJECT)
         {
             return false;
         }
@@ -596,12 +599,12 @@ public:
 
     virtual bool SetPointer(size_t index, void* value)
     {
-        if (index >= mnDataUsed)
+        if(index >= mnDataUsed)
         {
             return false;
         }
 
-        if (mpData[index].nType != DT_POINTER)
+        if(mpData[index].nType != DT_POINTER)
         {
             return false;
         }
@@ -610,15 +613,60 @@ public:
         return true;
     }
 
+    virtual const std::string ToString(size_t index)
+    {
+        if(index > mnDataUsed)
+        {
+            return "";
+        }
+
+        std::string strdata;
+        //todo
+        //switch(mpData[index].nType)
+        //{
+        //case DT_BOOLEAN:
+        //    NF_ToStr(strdata, mpData[index].mbValue);
+        //    break;
+        //case DT_INT:
+        //    NF_ToStr(strdata, mpData[index].mnValue);
+        //    break;
+        //case DT_INT64:
+        //    NF_ToStr(strdata, mpData[index].mn64Value);
+        //    break;
+        //case DT_FLOAT:
+        //    NF_ToStr(strdata, mpData[index].mfValue);
+        //    break;
+        //case DT_DOUBLE:
+        //    NF_ToStr(strdata, mpData[index].mdValue);
+        //    break;
+        //case DT_STRING:
+        //    NF_ToStr(strdata, String(index));
+        //    break;
+        //case DT_OBJECT:
+        //    NF_ToStr(strdata, Object(index));
+        //    break;
+        //case DT_POINTER:
+        //    break;
+        //case DT_USERDATA:
+        //    break;
+        //default:
+        //    assert(0);
+        //    break;
+        //}
+
+        return strdata;
+    }
+
+
     virtual size_t GetMemUsage() const
     {
         size_t size = sizeof(self_t);
-        if (mnDataSize > DATA_SIZE)
+        if(mnDataSize > DATA_SIZE)
         {
             size += sizeof(dynamic_data_t) * mnDataSize;
         }
 
-        if (mnBufferSize > BUFFER_SIZE)
+        if(mnBufferSize > BUFFER_SIZE)
         {
             size += sizeof(char) * mnBufferSize;
         }
@@ -629,12 +677,12 @@ public:
 protected:
     dynamic_data_t* AddDynamicData()
     {
-        if (mnDataUsed >= mnDataSize)
+        if(mnDataUsed >= mnDataSize)
         {
             size_t new_size = mnDataSize * 2;
             dynamic_data_t* p = (dynamic_data_t*)mxAlloc.Alloc(new_size * sizeof(dynamic_data_t));
             memcpy(p, mpData, mnDataUsed * sizeof(dynamic_data_t));
-            if (mnDataSize > DATA_SIZE)
+            if(mnDataSize > DATA_SIZE)
             {
                 mxAlloc.Free(mpData, mnDataSize * sizeof(dynamic_data_t));
             }
@@ -649,10 +697,10 @@ protected:
     char* AddBuffer(size_t need_size)
     {
         size_t new_used = mnBufferUsed + need_size;
-        if (new_used > mnBufferSize)
+        if(new_used > mnBufferSize)
         {
             size_t new_size = mnBufferSize * 2;
-            if (new_used > new_size)
+            if(new_used > new_size)
             {
                 new_size = new_used * 2;
             }
@@ -660,7 +708,7 @@ protected:
             char* p = (char*)mxAlloc.Alloc(new_size);
             memcpy(p, mpBuffer, mnBufferUsed);
 
-            if (mnBufferSize > BUFFER_SIZE)
+            if(mnBufferSize > BUFFER_SIZE)
             {
                 mxAlloc.Free(mpBuffer, mnBufferSize);
             }
@@ -676,7 +724,7 @@ protected:
 
     void InnerAppend(const AFIData& data)
     {
-        switch (data.GetType())
+        switch(data.GetType())
         {
         case DT_BOOLEAN:
             AddBool(data.GetBool());
@@ -717,9 +765,9 @@ protected:
 
     void InnerAppend(const AFIDataList& src, size_t start, size_t end)
     {
-        for (size_t i = start; i < end; ++i)
+        for(size_t i = start; i < end; ++i)
         {
-            switch (src.GetType(i))
+            switch(src.GetType(i))
             {
             case DT_BOOLEAN:
                 AddBool(src.Bool(i));
@@ -771,6 +819,6 @@ private:
     size_t mnBufferUsed;
 };
 
-using AFXDataList = AFCDataList<8, 128>;
+using AFCDataList = AFBaseDataList<8, 128>;
 
 }

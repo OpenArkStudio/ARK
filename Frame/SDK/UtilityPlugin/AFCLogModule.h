@@ -61,5 +61,5 @@ private:
     static int idx;
     bool mbSwitchingValue;
     char szBuffer[1024 * 10];
-    bool mbLogSwiths[LOG_MAX];
+    bool mbLogSwiths[NFI_LOG_MAX];
 };

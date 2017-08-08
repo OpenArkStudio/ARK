@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "AFIModule.h"
-#include "AFINetModule.h"
+#include "AFINetServerModule.h"
 
 class AFILoginNet_ServerModule
     : public AFIModule
