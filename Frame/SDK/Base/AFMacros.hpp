@@ -103,4 +103,6 @@ inline bool double_equal(const double lhs, const double rhs)
 #define PROTOBUF_USE_DLLS
 #endif
 
+#define ARK_SINGLETON_INIT(TYPE) template<> TYPE* Singleton<TYPE>::instance_ = 0;
+
 #endif // AF_MACROS_H
