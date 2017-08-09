@@ -13,8 +13,8 @@
 #include <WS2tcpip.h>
 #include <winsock2.h>
 #pragma  comment(lib,"Ws2_32.lib")
-#pragma  comment(lib,"libevent.lib")
-#pragma  comment(lib,"libevent_core.lib")
+#pragma  comment(lib,"event.lib")
+#pragma  comment(lib,"event_core.lib")
 #elif NF_PLATFORM == NF_PLATFORM_APPLE
 #include <arpa/inet.h>
 #endif
