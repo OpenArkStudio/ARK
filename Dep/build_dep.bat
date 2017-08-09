@@ -18,4 +18,8 @@ rd glog  /q /s
 rename glog-0.3.5 glog
 
 
+echo extra lib
+"..\\Tool\\7z.exe" x lib.zip -Y 
+
+
 
