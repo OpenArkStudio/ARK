@@ -3,17 +3,19 @@
 echo Building Dep...
 
 echo Compiling libevent
-"..\\Tool\\7z.exe" x libevent-2.0.22-stable.tar.gz -Y
-"..\\Tool\\7z.exe" x libevent-2.0.22-stable.tar -Y
-del libevent-2.0.22-stable.tar
+"..\\Tool\\7z.exe" x libevent-release-2.1.8-stable.zip -Y 
 
-if exist libevent rd /S /Q libevent
-rename libevent-2.0.22-stable libevent
-rd /S /Q libevent-2.0.22-stable
+rd libevent  /q /s
+rename libevent-release-2.1.8-stable libevent
 
-echo extract libevent libs
-"..\\Tool\\7z.exe" x libevent_libs.zip -Y
-copy lib\\Release\\libevent.a lib\\Debug\\ /Y
-copy lib\\Release\\libevent.lib lib\\Debug\\ /Y
-copy lib\\Release\\libevent_core.a lib\\Debug\\ /Y
-copy lib\\Release\\libevent_core.lib lib\\Debug\\ /Y
+echo Compiling evpp
+"..\\Tool\\7z.exe" x evpp.zip -Y -o./evpp
+
+echo Compiling glog
+"..\\Tool\\7z.exe" x glog-0.3.5.zip -Y 
+
+rd glog  /q /s
+rename glog-0.3.5 glog
+
+
+
