@@ -1,17 +1,20 @@
 #include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFTime.h"
 #include <chrono>
+#include <iostream>
 
 using namespace ArkFrame;
 
-std::string gen_random(const int len) {
+std::string gen_random(const int len)
+{
     static const char alphanum[] =
         "0123456789"
         "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         "abcdefghijklmnopqrstuvwxyz";
 
     std::string data;
-    for (int i = 0; i < len; ++i) {
+    for(int i = 0; i < len; ++i)
+    {
         data += alphanum[rand() % (sizeof(alphanum) - 1)];
     }
 
@@ -22,7 +25,7 @@ std::vector<std::string> RandStrVector;
 
 void gen_rand_str_vetor()
 {
-    for (int i = 0; i < 100000; ++i)
+    for(int i = 0; i < 100000; ++i)
     {
         RandStrVector.push_back(gen_random(10));
     }
@@ -34,22 +37,22 @@ void test_old_datalist()
 {
     AFCDataList xList;
 
-    for (int i = 0; i < 100000; ++i)
+    for(int i = 0; i < 100000; ++i)
     {
         xList << i;
     }
 
-    for (int i = 0; i < 100000; ++i)
+    for(int i = 0; i < 100000; ++i)
     {
         xList << (float)i;
     }
 
-    for (int i = 0; i < 100000; ++i)
+    for(int i = 0; i < 100000; ++i)
     {
         xList << (double)i;
     }
 
-    for (int i = 0; i < RandStrVector.size(); ++i)
+    for(int i = 0; i < RandStrVector.size(); ++i)
     {
         xList << RandStrVector[i];
     }
@@ -61,22 +64,22 @@ void test_new_datalist()
 {
     AFCDataList xList;
 
-    for (int i = 0; i < 100000; ++i)
+    for(int i = 0; i < 100000; ++i)
     {
         xList << i;
     }
 
-    for (int i = 0; i < 100000; ++i)
+    for(int i = 0; i < 100000; ++i)
     {
         xList << (float)i;
     }
 
-    for (int i = 0; i < 100000; ++i)
+    for(int i = 0; i < 100000; ++i)
     {
         xList << (double)i;
     }
 
-    for (int i = 0; i < RandStrVector.size(); ++i)
+    for(int i = 0; i < RandStrVector.size(); ++i)
     {
         xList << RandStrVector[i];
     }
