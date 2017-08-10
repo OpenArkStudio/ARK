@@ -45,7 +45,7 @@ AFCClassModule::~AFCClassModule()
 
 int AFCClassModule::ComputerType(const char* pstrTypeName, AFIData& var)
 {
-    if (0 == NFSTRICMP(pstrTypeName, "bool"))
+    if(0 == NFSTRICMP(pstrTypeName, "bool"))
     {
         var.SetBool(NULL_BOOLEAN);
         return var.GetType();
@@ -55,7 +55,7 @@ int AFCClassModule::ComputerType(const char* pstrTypeName, AFIData& var)
         var.SetInt(NULL_INT);
         return var.GetType();
     }
-    if (0 == NFSTRICMP(pstrTypeName, "int64"))
+    if(0 == NFSTRICMP(pstrTypeName, "int64"))
     {
         var.SetInt64(NULL_INT64);
         return var.GetType();
@@ -70,7 +70,7 @@ int AFCClassModule::ComputerType(const char* pstrTypeName, AFIData& var)
         var.SetDouble(NULL_DOUBLE);
         return var.GetType();
     }
-    else if (0 == NFSTRICMP(pstrTypeName, "string"))
+    else if(0 == NFSTRICMP(pstrTypeName, "string"))
     {
         var.SetString(NULL_STR.c_str());
         return var.GetType();
@@ -88,7 +88,7 @@ bool AFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SH
 {
     for(rapidxml::xml_node<>* pPropertyNode = pPropertyRootNode->first_node(); pPropertyNode; pPropertyNode = pPropertyNode->next_sibling())
     {
-        if (NULL == pPropertyNode)
+        if(NULL == pPropertyNode)
         {
             continue;
         }
@@ -106,29 +106,29 @@ bool AFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SH
         bool bSave = AF_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Save")->value());
         bool bRealTime = AF_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("RealTime")->value());
 
-        AFXData varProperty;
+        AFCData varProperty;
         if(DT_UNKNOWN == ComputerType(pstrType, varProperty))
         {
             NFASSERT(0, strPropertyName, __FILE__, __FUNCTION__);
         }
 
         int8_t feature;
-        if (bPublic)
+        if(bPublic)
         {
             BitValue<int8_t>::SetBitValue(feature, AFProperty::PF_PUBLIC);
         }
 
-        if (bPrivate)
+        if(bPrivate)
         {
             BitValue<int8_t>::SetBitValue(feature, AFProperty::PF_PRIVATE);
         }
 
-        if (bRealTime)
+        if(bRealTime)
         {
             BitValue<int8_t>::SetBitValue(feature, AFProperty::PF_REAL_TIME);
         }
 
-        if (bSave)
+        if(bSave)
         {
             BitValue<int8_t>::SetBitValue(feature, AFProperty::PF_SAVE);
         }
@@ -177,7 +177,7 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
 
             for(rapidxml::xml_node<>* recordColNode = pRecordNode->first_node(); recordColNode;  recordColNode = recordColNode->next_sibling())
             {
-                AFXData AFIData;
+                AFCData AFIData;
                 const char* pstrColType = recordColNode->first_attribute("Type")->value();
                 if(DT_UNKNOWN == ComputerType(pstrColType, AFIData))
                 {
