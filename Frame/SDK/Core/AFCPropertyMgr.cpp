@@ -148,7 +148,7 @@ bool AFCPropertyMgr::SetProperty(const char* name, const AFIData& value)
         return false;
     }
 
-    AFXData oldValue = mxPropertys[index]->prop_value;
+    AFCData oldValue = mxPropertys[index]->prop_value;
     mxPropertys[index]->prop_value = value;
 
     //TODO:call cb
@@ -165,7 +165,7 @@ bool AFCPropertyMgr::SetPropertyBool(const char* name, const bool value)
     }
 
     //old value
-    AFXData oldData;
+    AFCData oldData;
     bool oldValue = mxPropertys[index]->prop_value.GetBool();
     oldData.SetBool(oldValue);
 
@@ -189,7 +189,7 @@ bool AFCPropertyMgr::SetPropertyInt(const char* name, const int32_t value)
     }
 
     //old value
-    AFXData oldData;
+    AFCData oldData;
     int32_t oldValue = mxPropertys[index]->prop_value.GetInt();
     oldData.SetInt(oldValue);
 
@@ -213,7 +213,7 @@ bool AFCPropertyMgr::SetPropertyInt64(const char* name, const int64_t value)
     }
 
     //old value
-    AFXData oldData;
+    AFCData oldData;
     int64_t oldValue = mxPropertys[index]->prop_value.GetInt64();
     oldData.SetInt64(oldValue);
 
@@ -237,7 +237,7 @@ bool AFCPropertyMgr::SetPropertyFloat(const char* name, const float value)
     }
 
     //old value
-    AFXData oldData;
+    AFCData oldData;
     float oldValue = mxPropertys[index]->prop_value.GetFloat();
     oldData.SetFloat(oldValue);
 
@@ -261,7 +261,7 @@ bool AFCPropertyMgr::SetPropertyDouble(const char* name, const double value)
     }
 
     //old value
-    AFXData oldData;
+    AFCData oldData;
     double oldValue = mxPropertys[index]->prop_value.GetDouble();
     oldData.SetDouble(oldValue);
 
@@ -285,7 +285,7 @@ bool AFCPropertyMgr::SetPropertyString(const char* name, const std::string& valu
     }
 
     //old value
-    AFXData oldData;
+    AFCData oldData;
     std::string oldValue = mxPropertys[index]->prop_value.GetString();
     oldData.SetString(oldValue.c_str());
 
@@ -309,7 +309,7 @@ bool AFCPropertyMgr::SetPropertyObject(const char* name, const AFGUID& value)
     }
 
     //old value
-    AFXData oldData;
+    AFCData oldData;
     AFGUID oldValue = mxPropertys[index]->prop_value.GetObject();
     oldData.SetObject(oldValue);
 
