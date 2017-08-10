@@ -29,27 +29,27 @@ public:
 };
 
 template<size_t BUFFER_SIZE, typename ALLOC = AFDataAlloc>
-class AFCData : public AFIData
+class AFBaseData : public AFIData
 {
 public:
-    using self_t = AFCData<BUFFER_SIZE, ALLOC>;
+    using self_t = AFBaseData<BUFFER_SIZE, ALLOC>;
 
 public:
-    AFCData()
+    AFBaseData()
     {
         mnType = DT_UNKNOWN;
         mn64Value = 0;
     }
 
-    virtual ~AFCData()
+    virtual ~AFBaseData()
     {
         Release();
     }
 
-    AFCData(const self_t& src)
+    AFBaseData(const self_t& src)
     {
         this->mnType = src.mnType;
-        switch (this->mnType)
+        switch(this->mnType)
         {
         case DT_BOOLEAN:
             mbValue = src.mbValue;
@@ -90,10 +90,10 @@ public:
         }
     }
 
-    explicit AFCData(const AFIData& src)
+    explicit AFBaseData(const AFIData& src)
     {
         this->mnType = src.GetType();
-        switch (this->mnType)
+        switch(this->mnType)
         {
         case DT_BOOLEAN:
             mbValue = src.GetBool();
@@ -134,7 +134,7 @@ public:
         }
     }
 
-    AFCData(int type, bool value)
+    AFBaseData(int type, bool value)
     {
         assert(type == DT_BOOLEAN);
 
@@ -142,7 +142,7 @@ public:
         mbValue = value;
     }
 
-    AFCData(int type, int value)
+    AFBaseData(int type, int value)
     {
         assert(type == DT_INT);
 
@@ -150,7 +150,7 @@ public:
         mnValue = value;
     }
 
-    AFCData(int type, int64_t value)
+    AFBaseData(int type, int64_t value)
     {
         assert(type == DT_INT64);
 
@@ -158,7 +158,7 @@ public:
         mnValue = value;
     }
 
-    AFCData(int type, float value)
+    AFBaseData(int type, float value)
     {
         assert(type == DT_FLOAT);
 
@@ -166,7 +166,7 @@ public:
         mfValue = value;
     }
 
-    AFCData(int type, double value)
+    AFBaseData(int type, double value)
     {
         assert(type == DT_DOUBLE);
 
@@ -174,7 +174,7 @@ public:
         mdValue = value;
     }
 
-    AFCData(int type, const char* value)
+    AFBaseData(int type, const char* value)
     {
         assert(type == DT_STRING);
 
@@ -182,7 +182,7 @@ public:
         InnerSetString(value);
     }
 
-    AFCData(int type, const AFGUID& value)
+    AFBaseData(int type, const AFGUID& value)
     {
         assert(type == DT_OBJECT);
 
@@ -191,7 +191,7 @@ public:
         mnSerial = value.nSerial;
     }
 
-    AFCData(int type, const void* value, size_t size)
+    AFBaseData(int type, const void* value, size_t size)
     {
         assert(type == DT_USERDATA);
 
@@ -220,9 +220,9 @@ public:
         uint32_t tmp_alloc_len = this->mnAllocLen;
         char tmp_buffer[BUFFER_SIZE];
         bool tmp_use_buffer = (tmp_type == DT_STRING) || (this->mstrValue == this->mBuffer);
-        if ((src.mnType == DT_STRING) || (src.mstrValue == src.mBuffer))
+        if((src.mnType == DT_STRING) || (src.mstrValue == src.mBuffer))
         {
-            if (tmp_use_buffer)
+            if(tmp_use_buffer)
             {
                 memcpy(tmp_buffer, this->mBuffer, BUFFER_SIZE);
             }
@@ -238,7 +238,7 @@ public:
 
         this->mnType = src.mnType;
 
-        if (tmp_use_buffer)
+        if(tmp_use_buffer)
         {
             memcpy(src.mBuffer, tmp_buffer, BUFFER_SIZE);
             src.mstrValue = src.mBuffer;
@@ -261,7 +261,7 @@ public:
 
     virtual bool IsNullValue() const
     {
-        switch (GetType())
+        switch(GetType())
         {
         case DT_BOOLEAN:
             return mbValue == NULL_BOOLEAN;
@@ -296,7 +296,7 @@ public:
     {
         assert(mnType == DT_BOOLEAN);
 
-        if (mnType != DT_BOOLEAN)
+        if(mnType != DT_BOOLEAN)
         {
             return NULL_BOOLEAN;
         }
@@ -308,7 +308,7 @@ public:
     {
         assert(mnType == DT_INT);
 
-        if (mnType != DT_INT)
+        if(mnType != DT_INT)
         {
             return NULL_INT;
         }
@@ -320,7 +320,7 @@ public:
     {
         assert(mnType == DT_INT64);
 
-        if (mnType != DT_INT64)
+        if(mnType != DT_INT64)
         {
             return NULL_INT64;
         }
@@ -332,7 +332,7 @@ public:
     {
         assert(mnType == DT_FLOAT);
 
-        if (mnType != DT_FLOAT)
+        if(mnType != DT_FLOAT)
         {
             return NULL_FLOAT;
         }
@@ -344,7 +344,7 @@ public:
     {
         assert(mnType == DT_DOUBLE);
 
-        if (mnType != DT_DOUBLE)
+        if(mnType != DT_DOUBLE)
         {
             return NULL_DOUBLE;
         }
@@ -356,7 +356,7 @@ public:
     {
         assert(mnType == DT_STRING);
 
-        if (mnType != DT_STRING)
+        if(mnType != DT_STRING)
         {
             return NULL_STR.c_str();
         }
@@ -368,7 +368,7 @@ public:
     {
         assert(mnType == DT_OBJECT);
 
-        if (mnType != DT_OBJECT)
+        if(mnType != DT_OBJECT)
         {
             return NULL_GUID;
         }
@@ -380,7 +380,7 @@ public:
     {
         assert(mnType == DT_POINTER);
 
-        if (mnType != DT_POINTER)
+        if(mnType != DT_POINTER)
         {
             return NULL;
         }
@@ -392,7 +392,7 @@ public:
     {
         assert(mnType == DT_POINTER);
 
-        if (mnType != DT_POINTER)
+        if(mnType != DT_POINTER)
         {
             size = 0;
             return NULL;
@@ -406,7 +406,7 @@ public:
     {
         assert(mnType == DT_POINTER);
 
-        if (mnType != DT_POINTER)
+        if(mnType != DT_POINTER)
         {
             return NULL;
         }
@@ -500,24 +500,24 @@ public:
     virtual size_t GetMemUsage() const
     {
         size_t size = sizeof(self_t);
-        switch (mnType)
+        switch(mnType)
         {
         case DT_STRING:
-        {
-            if (NULL != mstrValue)
             {
-                size += strlen(mstrValue) + 1;
+                if(NULL != mstrValue)
+                {
+                    size += strlen(mstrValue) + 1;
+                }
             }
-        }
-        break;
+            break;
         case DT_USERDATA:
-        {
-            if (NULL != mpUserData)
             {
-                size += AFIData::GetUserDataSize(mpUserData);
+                if(NULL != mpUserData)
+                {
+                    size += AFIData::GetUserDataSize(mpUserData);
+                }
             }
-        }
-        break;
+            break;
         default:
             break;
         }
@@ -528,26 +528,26 @@ public:
 protected:
     void Release()
     {
-        switch (mnType)
+        switch(mnType)
         {
         case DT_STRING:
-        {
-            if (mstrValue != mBuffer)
             {
-                mxAlloc.Free(mstrValue, mnAllocLen);
-                mstrValue = NULL;
+                if(mstrValue != mBuffer)
+                {
+                    mxAlloc.Free(mstrValue, mnAllocLen);
+                    mstrValue = NULL;
+                }
             }
-        }
-        break;
+            break;
         case DT_USERDATA:
-        {
-            if (NULL != mpUserData)
             {
-                mxAlloc.Free(mpUserData, mnAllocLen);
-                mpUserData = NULL;
+                if(NULL != mpUserData)
+                {
+                    mxAlloc.Free(mpUserData, mnAllocLen);
+                    mpUserData = NULL;
+                }
             }
-        }
-        break;
+            break;
         default:
             break;
         }
@@ -558,7 +558,7 @@ protected:
         const size_t value_size = strlen(value) + 1;
         char* p = NULL;
 
-        if (value_size > BUFFER_SIZE)
+        if(value_size > BUFFER_SIZE)
         {
             p = (char*)mxAlloc.Alloc(value_size);
             mnAllocLen = (uint32_t)value_size;
@@ -613,6 +613,6 @@ private:
 };
 
 //special
-using AFXData = AFCData<4>;
+using AFCData = AFBaseData<4>;
 
 }

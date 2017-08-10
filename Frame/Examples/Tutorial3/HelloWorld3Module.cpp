@@ -12,7 +12,7 @@ bool HelloWorld3Module::Init()
 int HelloWorld3Module::OnEvent(const AFGUID& self, const int event, const AFIDataList& arg)
 {
     //事件回调函数
-    std::cout << "OnEvent EventID: " << event << " self: " << self.nData64 << " argList: " << arg.Int(0) << " " << " " << arg.String(1) << std::endl;
+    std::cout << "OnEvent EventID: " << event << " self: " << self.n64Value << " argList: " << arg.Int(0) << " " << " " << arg.String(1) << std::endl;
 
     m_pKernelModule->SetPropertyInt(self, "Hello", arg.Int(0));
     m_pKernelModule->SetPropertyString(self, "Hello", arg.String(1));
@@ -35,7 +35,7 @@ int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHea
 int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFIDataList& arg)
 {
     //虚拟类事件，只要有此虚拟类创建或者销毁即会回调
-    std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.nData64 << " Event: " << event << std::endl;
+    std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.n64Value << " Event: " << event << std::endl;
 
     if(event == COE_CREATE_HASDATA)
     {
@@ -79,14 +79,15 @@ bool HelloWorld3Module::AfterInit()
     m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
 
     //创建对象，挂类回调和属性回调,然后事件处理对象
-    NF_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, NFrame::Player::ThisName(), "", AFIDataList());
+    NF_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, NFrame::Player::ThisName(), "", AFCDataList());
     if(nullptr == pObject)
     {
         return false;
     }
 
-    pObject->GetPropertyManager()->AddProperty(pObject->Self(), "Hello", DT_STRING);
-    pObject->GetPropertyManager()->AddProperty(pObject->Self(), "World", DT_INT);
+    AFCData xData;
+    pObject->GetPropertyManager()->AddProperty("Hello", AFCData(DT_STRING, ""), 0);
+    pObject->GetPropertyManager()->AddProperty("World", AFCData(DT_INT, ""), 0);
 
     pObject->AddPropertyCallBack("Hello", this, &HelloWorld3Module::OnPropertyStrCallBackEvent);
     pObject->AddPropertyCallBack("World", this, &HelloWorld3Module::OnPropertyCallBackEvent);
@@ -94,7 +95,7 @@ bool HelloWorld3Module::AfterInit()
     pObject->SetPropertyString("Hello", "hello,World");
     pObject->SetPropertyInt("World", 1111);
 
-    m_pKernelModule->DoEvent(pObject->Self(), 11111111, AFIDataList() << int(100) << "200");
+    m_pKernelModule->DoEvent(pObject->Self(), 11111111, AFCDataList() << int(100) << "200");
 
 
     //for(int i = 0; i < 100000; ++i)
