@@ -21,7 +21,7 @@ int HelloWorld2::OnPropertyCallBackEvent(const AFGUID& self, const std::string& 
 
 bool HelloWorld2::AfterInit()
 {
-    AFIDataList xData;
+    AFCDataList xData;
     xData.AddInt(111);
 
 
@@ -37,9 +37,9 @@ bool HelloWorld2::AfterInit()
         AFIObject* pObject = new AFCObject(AFGUID(0, 1), pPluginManager);
 
         //add a property name is "Hello" of this object
-        pObject->GetPropertyManager()->AddProperty(pObject->Self(), "Hello", DT_STRING);
+        pObject->GetPropertyManager()->AddProperty("Hello", AFCData(DT_INT, 1), 0);
         //add a property name is "World" of this object
-        pObject->GetPropertyManager()->AddProperty(pObject->Self(), "World", DT_INT);
+        pObject->GetPropertyManager()->AddProperty("World", AFCData(DT_INT, 1), 0);
 
         //set the "world" property value as 1111
         pObject->SetPropertyInt("World", 1111);
