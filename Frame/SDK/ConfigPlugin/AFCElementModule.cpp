@@ -158,7 +158,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClas
             continue;
         }
 
-        AFXData var;
+        AFCData var;
         const int eType = pTmpProperty->GetType();
         switch(eType)
         {
@@ -219,7 +219,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClas
         }
     }
 
-    AFXData xData;
+    AFCData xData;
     xData.SetString(pLogicClass->GetClassName().c_str());
     pElementPropertyManager->SetProperty("ClassName", xData);
 
