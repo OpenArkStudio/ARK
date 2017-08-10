@@ -20,7 +20,7 @@ struct AFProperty
     };
 
     PropertyName name;  //属性名，最大16个字符
-    AFXData prop_value; //属性值
+    AFCData prop_value; //属性值
     int8_t feature;     //特性
 
     bool IsPublic() const

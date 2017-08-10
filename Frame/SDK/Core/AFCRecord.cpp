@@ -159,7 +159,7 @@ int AFCRecord::AddRow(const int nRow, const AFIDataList& var)
         NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nFindRow, i));
         if(nullptr == pVar)
         {
-            pVar = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
+            pVar = NF_SHARE_PTR<AFIData>(NF_NEW AFCData());
         }
         //一个个放入数值和类型
         switch(var.GetType(i))
@@ -180,7 +180,7 @@ int AFCRecord::AddRow(const int nRow, const AFIDataList& var)
     xEventData.nCol = 0;
     xEventData.strRecordName = mstrRecordName;
 
-    AFXData tData;
+    AFCData tData;
     OnEventHandler(mSelf, xEventData, tData, tData); //FIXME:RECORD
 
     return nFindRow;
@@ -203,7 +203,7 @@ bool AFCRecord::SetBool(const int nRow, const int nCol, const bool value)
         return false;
     }
 
-    AFXData var;
+    AFCData var;
     var.SetBool(value);
 
     NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
@@ -212,7 +212,7 @@ bool AFCRecord::SetBool(const int nRow, const int nCol, const bool value)
         return false;
     }
 
-    AFXData oldValue;
+    AFCData oldValue;
     oldValue.SetBool(pVar->GetBool());
 
     pVar->SetBool(value);
@@ -251,7 +251,7 @@ bool AFCRecord::SetInt(const int nRow, const int nCol, const int32_t value)
         return false;
     }
 
-    AFXData var;
+    AFCData var;
     var.SetInt(value);
 
     NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
@@ -260,7 +260,7 @@ bool AFCRecord::SetInt(const int nRow, const int nCol, const int32_t value)
         return false;
     }
 
-    AFXData oldValue;
+    AFCData oldValue;
     oldValue.SetInt(pVar->GetInt());
 
     pVar->SetInt(value);
@@ -299,7 +299,7 @@ bool AFCRecord::SetInt64(const int nRow, const int nCol, const int64_t value)
         return false;
     }
 
-    AFXData var;
+    AFCData var;
     var.SetInt64(value);
 
     NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
@@ -308,7 +308,7 @@ bool AFCRecord::SetInt64(const int nRow, const int nCol, const int64_t value)
         return false;
     }
 
-    AFXData oldValue;
+    AFCData oldValue;
     oldValue.SetInt64(pVar->GetInt64());
 
     pVar->SetInt64(value);
@@ -347,7 +347,7 @@ bool AFCRecord::SetFloat(const int nRow, const int nCol, const float value)
         return false;
     }
 
-    AFXData var;
+    AFCData var;
     var.SetFloat(value);
 
     NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
@@ -356,7 +356,7 @@ bool AFCRecord::SetFloat(const int nRow, const int nCol, const float value)
         return false;
     }
 
-    AFXData oldValue;
+    AFCData oldValue;
     oldValue.SetFloat(pVar->GetFloat());
 
     pVar->SetFloat(value);
@@ -395,7 +395,7 @@ bool AFCRecord::SetDouble(const int nRow, const int nCol, const double value)
         return false;
     }
 
-    AFXData var;
+    AFCData var;
     var.SetDouble(value);
 
     NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
@@ -404,7 +404,7 @@ bool AFCRecord::SetDouble(const int nRow, const int nCol, const double value)
         return false;
     }
 
-    AFXData oldValue;
+    AFCData oldValue;
     oldValue.SetDouble(pVar->GetDouble());
 
     pVar->SetDouble(value);
@@ -443,7 +443,7 @@ bool AFCRecord::SetString(const int nRow, const int nCol, const std::string& val
         return false;
     }
 
-    AFXData var;
+    AFCData var;
     var.SetString(value.c_str());
 
     NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
@@ -452,7 +452,7 @@ bool AFCRecord::SetString(const int nRow, const int nCol, const std::string& val
         return false;
     }
 
-    AFXData oldValue;
+    AFCData oldValue;
     oldValue.SetString(pVar->GetString());
 
     pVar->SetString(value.c_str());
@@ -491,7 +491,7 @@ bool AFCRecord::SetObject(const int nRow, const int nCol, const AFGUID& value)
         return false;
     }
 
-    AFXData var;
+    AFCData var;
     var.SetObject(value);
 
     NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
@@ -500,7 +500,7 @@ bool AFCRecord::SetObject(const int nRow, const int nCol, const AFGUID& value)
         return false;
     }
 
-    AFXData oldValue;
+    AFCData oldValue;
     oldValue.SetObject(pVar->GetObject());
 
     pVar->SetObject(value);
@@ -1158,7 +1158,7 @@ bool AFCRecord::Remove(const int nRow)
             xEventData.nCol = 0;
             xEventData.strRecordName = mstrRecordName;
 
-            OnEventHandler(mSelf, xEventData, AFXData(), AFXData());
+            OnEventHandler(mSelf, xEventData, AFCData(), AFCData());
 
             mVecUsedState[nRow] = 0;
             return true;
@@ -1292,7 +1292,7 @@ bool AFCRecord::SwapRowInfo(const int nOriginRow, const int nTargetRow)
         xEventData.nCol = nTargetRow;
         xEventData.strRecordName = mstrRecordName;
 
-        AFXData xData;
+        AFCData xData;
         OnEventHandler(mSelf, xEventData, xData, xData);
 
         return true;
@@ -1364,7 +1364,7 @@ bool AFCRecord::ValidCheck(AF_DATA_TYPE eType, const AFIData& var, NF_SHARE_PTR<
 
     if(nullptr == pVar)
     {
-        pVar = NF_SHARE_PTR<AFIData>(NF_NEW AFXData());
+        pVar = NF_SHARE_PTR<AFIData>(NF_NEW AFCData());
         switch(eType)
         {
         case DT_UNKNOWN:
