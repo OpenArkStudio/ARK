@@ -9,7 +9,7 @@
 #ifndef AFC_WORLDLOGICPLUGIN_MODULE_H
 #define AFC_WORLDLOGICPLUGIN_MODULE_H
 
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFPlatform.hpp"
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 

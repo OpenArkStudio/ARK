@@ -12,7 +12,7 @@
 
 bool AFCLoginToMasterModule::Init()
 {
-    m_pNetClientModule = NF_NEW AFINetClientModule(pPluginManager);
+    m_pNetClientModule = ARK_NEW AFINetClientModule(pPluginManager);
 
     m_pNetClientModule->Init();
 
@@ -38,7 +38,7 @@ bool AFCLoginToMasterModule::AfterInit()
 
     m_pNetClientModule->AddEventCallBack(this, &AFCLoginToMasterModule::OnSocketMSEvent);
 
-    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -86,7 +86,7 @@ bool AFCLoginToMasterModule::Execute()
 
 void AFCLoginToMasterModule::Register(const int nServerID)
 {
-    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -115,7 +115,7 @@ void AFCLoginToMasterModule::Register(const int nServerID)
                 pData->set_server_state(NFMsg::EST_NARMAL);
                 pData->set_server_type(nServerType);
 
-                NF_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
+                ARK_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
                 if(pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
@@ -166,10 +166,10 @@ void AFCLoginToMasterModule::OnWorldInfoProcess(const int nMsgID, const char* ms
     {
         const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
-        NF_SHARE_PTR<NFMsg::ServerInfoReport> pServerData = mWorldMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<NFMsg::ServerInfoReport> pServerData = mWorldMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = NF_SHARE_PTR<NFMsg::ServerInfoReport>(NF_NEW NFMsg::ServerInfoReport());
+            pServerData = ARK_SHARE_PTR<NFMsg::ServerInfoReport>(ARK_NEW NFMsg::ServerInfoReport());
             *pServerData = xData;
 
             mWorldMap.AddElement(xData.server_id(), pServerData);

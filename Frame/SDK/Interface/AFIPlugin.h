@@ -1,19 +1,27 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFIPlugin.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-12-15
-//    @Module           :    AFIPlugin
-//
-// -------------------------------------------------------------------------
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+#pragma once
 
-#ifndef AFI_PLUGIN_H
-#define AFI_PLUGIN_H
-
-#include <iostream>
-#include <assert.h>
-#include "SDK/Core/AFMap.h"
+#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFMap.h"
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Interface/AFPlatform.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
 #define REGISTER_MODULE(pManager, classBaseName, className)  \
@@ -47,56 +55,11 @@ class AFIPluginManager;
 class AFIPlugin : public AFIModule,
     public NFMap<std::string, AFIModule>
 {
-
 public:
-
-    /**
-     * @fn  virtual const int GetPluginVersion() = 0;
-     *
-     * @brief   Gets plugin version.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @return  The plugin version.
-     */
-
     virtual const int GetPluginVersion() = 0;
-
-    /**
-     * @fn  virtual const std::string GetPluginName() = 0;
-     *
-     * @brief   Gets plugin name.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @return  The plugin name.
-     */
-
     virtual const std::string GetPluginName() = 0;
 
-    /**
-     * @fn  virtual void Install() = 0;
-     *
-     * @brief   Installs this plugin.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     */
-
     virtual void Install() = 0;
-
-    /**
-     * @fn  virtual bool Init()
-     *
-     * @brief   init this plugin.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
 
     virtual bool Init()
     {
@@ -114,17 +77,6 @@ public:
         return true;
     }
 
-    /**
-     * @fn  virtual bool AfterInit()
-     *
-     * @brief   Determines if we can after init.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
     virtual bool AfterInit()
     {
         AFIModule* pModule = First();
@@ -141,17 +93,6 @@ public:
         return true;
     }
 
-    /**
-     * @fn  virtual bool CheckConfig()
-     *
-     * @brief   Determines if we can check configuration.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
     virtual bool CheckConfig()
     {
         AFIModule* pModule = First();
@@ -164,17 +105,6 @@ public:
 
         return true;
     }
-
-    /**
-     * @fn  virtual bool Execute()
-     *
-     * @brief   Executes this object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
 
     virtual bool Execute()
     {
@@ -189,17 +119,6 @@ public:
         return true;
     }
 
-    /**
-     * @fn  virtual bool BeforeShut()
-     *
-     * @brief   Determines if we can before shut.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
-
     virtual bool BeforeShut()
     {
         AFIModule* pModule = First();
@@ -211,17 +130,6 @@ public:
         }
         return true;
     }
-
-    /**
-     * @fn  virtual bool Shut()
-     *
-     * @brief   Shuts this object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     *
-     * @return  True if it succeeds, false if it fails.
-     */
 
     virtual bool Shut()
     {
@@ -236,16 +144,5 @@ public:
         return true;
     }
 
-    /**
-     * @fn  virtual void Uninstall() = 0;
-     *
-     * @brief   Uninstalls this object.
-     *
-     * @author  flyicegood
-     * @date    2016/11/22
-     */
-
     virtual void Uninstall() = 0;
 };
-
-#endif

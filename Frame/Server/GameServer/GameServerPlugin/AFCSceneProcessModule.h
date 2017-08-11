@@ -12,8 +12,8 @@
 #include <string>
 #include <map>
 #include <iostream>
-#include "SDK/Core/AFMap.h"
-#include "SDK/Core/AFList.h"
+#include "SDK/Base/AFMap.h"
+#include "SDK/Base/AFList.h"
 #include "RapidXML/rapidxml.hpp"
 #include "RapidXML/rapidxml_iterators.hpp"
 #include "RapidXML/rapidxml_print.hpp"
