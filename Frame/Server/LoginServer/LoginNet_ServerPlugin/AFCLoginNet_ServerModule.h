@@ -10,7 +10,7 @@
 #define AFC_LOGINNET_SERVER_MODULE_H
 
 //  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
-#include "SDK/Core/AFMap.h"
+#include "SDK/Base/AFMap.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILoginNet_ServerModule.h"

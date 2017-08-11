@@ -18,9 +18,9 @@
 
 NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTitle("NFGameServer");
-#endif // NF_PLATFORM
+#endif // ARK_PLATFORM
     CREATE_PLUGIN(pm, NFGameServerPlugin)
 
 };

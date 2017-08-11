@@ -9,8 +9,8 @@
 #ifndef AFI_COMPONENT_H
 #define AFI_COMPONENT_H
 
-#include "SDK/Interface/AFPlatform.h"
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFGUID.h"
 #include "SDK/Interface/AFIModule.h"
 
 /**
@@ -73,7 +73,7 @@ public:
     virtual ~AFIComponent() {}
 
     /**
-     * @fn  template <typename T> NF_SHARE_PTR<T> AFIComponent::CreateNewInstance()
+     * @fn  template <typename T> ARK_SHARE_PTR<T> AFIComponent::CreateNewInstance()
      *
      * @brief   Creates new instance.
      *
@@ -86,14 +86,14 @@ public:
      */
 
     template <typename T>
-    NF_SHARE_PTR<T> CreateNewInstance()
+    ARK_SHARE_PTR<T> CreateNewInstance()
     {
-        NF_SHARE_PTR<AFIComponent> pComponent = CreateNewInstance();
+        ARK_SHARE_PTR<AFIComponent> pComponent = CreateNewInstance();
         if (nullptr != pComponent)
         {
             if (TIsDerived<T, AFIComponent>::Result)
             {
-                NF_SHARE_PTR<T> pT = std::dynamic_pointer_cast<T>(pComponent);
+                ARK_SHARE_PTR<T> pT = std::dynamic_pointer_cast<T>(pComponent);
                 if (nullptr != pT)
                 {
                     return pT;
@@ -101,7 +101,7 @@ public:
             }
         }
 
-        return NF_SHARE_PTR<T>();
+        return ARK_SHARE_PTR<T>();
     }
 
     /**
@@ -228,7 +228,7 @@ public:
 protected:
 
     /**
-     * @fn  virtual NF_SHARE_PTR<AFIComponent> AFIComponent::CreateNewInstance()
+     * @fn  virtual ARK_SHARE_PTR<AFIComponent> AFIComponent::CreateNewInstance()
      *
      * @brief   Creates new instance.
      *
@@ -238,7 +238,7 @@ protected:
      * @return  The new new instance.
      */
 
-    virtual NF_SHARE_PTR<AFIComponent> CreateNewInstance()
+    virtual ARK_SHARE_PTR<AFIComponent> CreateNewInstance()
     {
         return nullptr;
     };

@@ -1,17 +1,28 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFIRecord.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-03-01
-//    @Module           :    AFIRecord
-//
-// -------------------------------------------------------------------------
-
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
 #pragma once
 
-#include "AFDefine.h"
-#include "AFCData.h"
-#include "AFCDataList.h"
-#include <vector>
+#include "SDK/Base/AFDefine.h"
+#include "SDK/Base/AFCData.h"
+#include "SDK/Base/AFCDataList.h"
+#include "SDK/Base/AFMacros.hpp"
 
 using namespace ArkFrame;
 
@@ -30,7 +41,7 @@ public:
         Cover,
     };
 
-    typedef std::vector<NF_SHARE_PTR<AFIData>> TRECORDVEC;
+    typedef std::vector<ARK_SHARE_PTR<AFIData>> TRECORDVEC;
     typedef TRECORDVEC::const_iterator TRECORDVECCONSTITER;
 
     virtual ~AFIRecord() {}
@@ -133,8 +144,8 @@ public:
     virtual const bool GetCache() = 0;
     virtual const std::string& GetName() const = 0;
 
-    virtual const NF_SHARE_PTR<AFIDataList> GetInitData() const = 0;
-    virtual const NF_SHARE_PTR<AFIDataList> GetTag() const = 0;
+    virtual const ARK_SHARE_PTR<AFIDataList> GetInitData() const = 0;
+    virtual const ARK_SHARE_PTR<AFIDataList> GetTag() const = 0;
     
     virtual void SetSave(const bool bSave) = 0;
     virtual void SetCache(const bool bCache) = 0;

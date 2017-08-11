@@ -11,9 +11,9 @@
 
 #include <stdio.h>
 #include <iostream>
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFPlatform.hpp"
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
 #    define DYNLIB_HANDLE hInstance
 #    define DYNLIB_LOAD( a ) LoadLibraryEx( a, NULL, LOAD_WITH_ALTERED_SEARCH_PATH )
 #    define DYNLIB_GETSYM( a, b ) GetProcAddress( a, b )
@@ -22,14 +22,14 @@
 struct HINSTANCE__;
 typedef struct HINSTANCE__* hInstance;
 
-#elif NF_PLATFORM == NF_PLATFORM_LINUX || NF_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
 #include <dlfcn.h>
 #define DYNLIB_HANDLE void*
 #define DYNLIB_LOAD( a ) dlopen( a, RTLD_LAZY | RTLD_GLOBAL)
 #define DYNLIB_GETSYM( a, b ) dlsym( a, b )
 #define DYNLIB_UNLOAD( a ) dlclose( a )
 
-#elif NF_PLATFORM == NF_PLATFORM_APPLE || NF_PLATFORM == NF_PLATFORM_APPLE_IOS
+#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
 #define DYNLIB_HANDLE void*
 #define DYNLIB_LOAD( a ) mac_loadDylib( a )
 #define DYNLIB_GETSYM( a, b ) dlsym( a, b )
@@ -46,15 +46,15 @@ public:
     {
         mbMain = false;
         mstrName = strName;
-#ifdef NF_DEBUG_MODE
+#ifdef ARK_RUN_MODE_DEBUG
         mstrName.append("_d");
 #endif
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
         mstrName.append(".dll");
-#elif NF_PLATFORM == NF_PLATFORM_LINUX || NF_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
         mstrName.append(".so");
-#elif NF_PLATFORM == NF_PLATFORM_APPLE || NF_PLATFORM == NF_PLATFORM_APPLE_IOS
+#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
         mstrName.append(".so");
 #endif
 

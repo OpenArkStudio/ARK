@@ -53,7 +53,7 @@ bool AFRecord::AddRow(const int row, const AFIDataList& data)
     return true;
 }
 
-bool AFRecord::SetInt(const int nRow, const int nCol, const AFINT64 value)
+bool AFRecord::SetInt(const int nRow, const int nCol, const int64_t value)
 {
     return true;
 }
@@ -73,7 +73,7 @@ bool AFRecord::SetObject(const int nRow, const int nCol, const AFGUID& value)
     return true;
 }
 
-AFINT64 AFRecord::GetInt(const int nRow, const int nCol) const
+int64_t AFRecord::GetInt(const int nRow, const int nCol) const
 {
     return NULL_INT;
 }
@@ -93,7 +93,7 @@ const AFGUID& AFRecord::GetObject(const int nRow, const int nCol) const
     return NULL_GUID;
 }
 
-int AFRecord::FindInt(const int nCol, const AFINT64 value, AFIDataList& varResult)
+int AFRecord::FindInt(const int nCol, const int64_t value, AFIDataList& varResult)
 {
     return 0;
 }
