@@ -42,26 +42,26 @@ public:
     virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
 
     virtual bool FullHPMP(const AFGUID& self);
-    virtual bool AddHP(const AFGUID& self, const AFINT64& nValue);
-    virtual bool ConsumeHP(const AFGUID& self, const AFINT64& nValue);
-    virtual bool EnoughHP(const AFGUID& self, const AFINT64& nValue);
+    virtual bool AddHP(const AFGUID& self, const int64_t& nValue);
+    virtual bool ConsumeHP(const AFGUID& self, const int64_t& nValue);
+    virtual bool EnoughHP(const AFGUID& self, const int64_t& nValue);
 
-    virtual bool AddMP(const AFGUID& self, const AFINT64& nValue);
-    virtual bool ConsumeMP(const AFGUID& self, const AFINT64& nValue);
-    virtual bool EnoughMP(const AFGUID& self, const AFINT64& nValue);
+    virtual bool AddMP(const AFGUID& self, const int64_t& nValue);
+    virtual bool ConsumeMP(const AFGUID& self, const int64_t& nValue);
+    virtual bool EnoughMP(const AFGUID& self, const int64_t& nValue);
 
     virtual bool FullSP(const AFGUID& self);
-    virtual bool AddSP(const AFGUID& self, const AFINT64& nValue);
-    virtual bool ConsumeSP(const AFGUID& self, const AFINT64& nValue);
-    virtual bool EnoughSP(const AFGUID& self, const AFINT64& nValue);
+    virtual bool AddSP(const AFGUID& self, const int64_t& nValue);
+    virtual bool ConsumeSP(const AFGUID& self, const int64_t& nValue);
+    virtual bool EnoughSP(const AFGUID& self, const int64_t& nValue);
 
-    virtual bool AddMoney(const AFGUID& self, const AFINT64& nValue);
-    virtual bool ConsumeMoney(const AFGUID& self, const AFINT64& nValue);
-    virtual bool EnoughMoney(const AFGUID& self, const AFINT64& nValue);
+    virtual bool AddMoney(const AFGUID& self, const int64_t& nValue);
+    virtual bool ConsumeMoney(const AFGUID& self, const int64_t& nValue);
+    virtual bool EnoughMoney(const AFGUID& self, const int64_t& nValue);
 
-    virtual bool AddDiamond(const AFGUID& self, const AFINT64& nValue);
-    virtual bool ConsumeDiamond(const AFGUID& self, const AFINT64& nValue);
-    virtual bool EnoughDiamond(const AFGUID& self, const AFINT64& nValue);
+    virtual bool AddDiamond(const AFGUID& self, const int64_t& nValue);
+    virtual bool ConsumeDiamond(const AFGUID& self, const int64_t& nValue);
+    virtual bool EnoughDiamond(const AFGUID& self, const int64_t& nValue);
 
 protected:
     int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);

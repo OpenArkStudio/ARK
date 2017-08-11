@@ -1,17 +1,7 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFCClassModule.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-12-15
-//    @Module           :    AFCClassModule
-//
-// -------------------------------------------------------------------------
-
-#include <time.h>
-#include <algorithm>
 #include "AFCClassModule.h"
 #include "RapidXML/rapidxml.hpp"
 #include "RapidXML/rapidxml_print.hpp"
-#include "SDK/Core/AFIData.h"
+#include "SDK/Base/AFIData.h"
 
 bool AFCClassModule::Init()
 {
@@ -45,37 +35,37 @@ AFCClassModule::~AFCClassModule()
 
 int AFCClassModule::ComputerType(const char* pstrTypeName, AFIData& var)
 {
-    if(0 == NFSTRICMP(pstrTypeName, "bool"))
+    if(0 == ARK_STRICMP(pstrTypeName, "bool"))
     {
         var.SetBool(NULL_BOOLEAN);
         return var.GetType();
     }
-    if(0 == NFSTRICMP(pstrTypeName, "int"))
+    if(0 == ARK_STRICMP(pstrTypeName, "int"))
     {
         var.SetInt(NULL_INT);
         return var.GetType();
     }
-    if(0 == NFSTRICMP(pstrTypeName, "int64"))
+    if(0 == ARK_STRICMP(pstrTypeName, "int64"))
     {
         var.SetInt64(NULL_INT64);
         return var.GetType();
     }
-    else if(0 == NFSTRICMP(pstrTypeName, "float"))
+    else if(0 == ARK_STRICMP(pstrTypeName, "float"))
     {
         var.SetFloat(NULL_FLOAT);
         return var.GetType();
     }
-    else if(0 == NFSTRICMP(pstrTypeName, "double"))
+    else if(0 == ARK_STRICMP(pstrTypeName, "double"))
     {
         var.SetDouble(NULL_DOUBLE);
         return var.GetType();
     }
-    else if(0 == NFSTRICMP(pstrTypeName, "string"))
+    else if(0 == ARK_STRICMP(pstrTypeName, "string"))
     {
         var.SetString(NULL_STR.c_str());
         return var.GetType();
     }
-    else if(0 == NFSTRICMP(pstrTypeName, "object"))
+    else if(0 == ARK_STRICMP(pstrTypeName, "object"))
     {
         var.SetObject(NULL_GUID);
         return var.GetType();
@@ -84,7 +74,7 @@ int AFCClassModule::ComputerType(const char* pstrTypeName, AFIData& var)
     return DT_UNKNOWN;
 }
 
-bool AFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SHARE_PTR<AFIClass> pClass)
+bool AFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, ARK_SHARE_PTR<AFIClass> pClass)
 {
     for(rapidxml::xml_node<>* pPropertyNode = pPropertyRootNode->first_node(); pPropertyNode; pPropertyNode = pPropertyNode->next_sibling())
     {
@@ -96,20 +86,20 @@ bool AFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SH
         const char* strPropertyName = pPropertyNode->first_attribute("Id")->value();
         if(NULL != pClass->GetPropertyManager()->GetProperty(strPropertyName))
         {
-            NFASSERT(0, strPropertyName, __FILE__, __FUNCTION__);
+            ARK_ASSERT(0, strPropertyName, __FILE__, __FUNCTION__);
             continue;
         }
 
         const char* pstrType = pPropertyNode->first_attribute("Type")->value();
-        bool bPublic = AF_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Public")->value());
-        bool bPrivate = AF_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Private")->value());
-        bool bSave = AF_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Save")->value());
-        bool bRealTime = AF_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("RealTime")->value());
+        bool bPublic = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Public")->value());
+        bool bPrivate = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Private")->value());
+        bool bSave = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Save")->value());
+        bool bRealTime = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("RealTime")->value());
 
         AFCData varProperty;
         if(DT_UNKNOWN == ComputerType(pstrType, varProperty))
         {
-            NFASSERT(0, strPropertyName, __FILE__, __FUNCTION__);
+            ARK_ASSERT(0, strPropertyName, __FILE__, __FUNCTION__);
         }
 
         int8_t feature;
@@ -139,7 +129,7 @@ bool AFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, NF_SH
     return true;
 }
 
-bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_PTR<AFIClass> pClass)
+bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, ARK_SHARE_PTR<AFIClass> pClass)
 {
     for(rapidxml::xml_node<>* pRecordNode = pRecordRootNode->first_node(); pRecordNode;  pRecordNode = pRecordNode->next_sibling())
     {
@@ -149,7 +139,7 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
 
             if(pClass->GetRecordManager()->GetElement(pstrRecordName))
             {
-                NFASSERT(0, pstrRecordName, __FILE__, __FUNCTION__);
+                ARK_ASSERT(0, pstrRecordName, __FILE__, __FUNCTION__);
                 continue;
             }
 
@@ -167,13 +157,13 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
                 strView = pRecordNode->first_attribute("View")->value();
             }
 
-            bool bPublic = AF_LEXICAL_CAST<bool>(pstrPublic);
-            bool bPrivate = AF_LEXICAL_CAST<bool>(pstrPrivate);
-            bool bSave = AF_LEXICAL_CAST<bool>(pstrSave);
-            bool bCache = AF_LEXICAL_CAST<bool>(pstrCache);
+            bool bPublic = ARK_LEXICAL_CAST<bool>(pstrPublic);
+            bool bPrivate = ARK_LEXICAL_CAST<bool>(pstrPrivate);
+            bool bSave = ARK_LEXICAL_CAST<bool>(pstrSave);
+            bool bCache = ARK_LEXICAL_CAST<bool>(pstrCache);
 
-            NF_SHARE_PTR<AFIDataList> recordVar(NF_NEW AFCDataList());
-            NF_SHARE_PTR<AFIDataList> recordTag(NF_NEW AFCDataList());
+            ARK_SHARE_PTR<AFIDataList> recordVar(ARK_NEW AFCDataList());
+            ARK_SHARE_PTR<AFIDataList> recordTag(ARK_NEW AFCDataList());
 
             for(rapidxml::xml_node<>* recordColNode = pRecordNode->first_node(); recordColNode;  recordColNode = recordColNode->next_sibling())
             {
@@ -182,13 +172,13 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
                 if(DT_UNKNOWN == ComputerType(pstrColType, AFIData))
                 {
                     //assert(0);
-                    NFASSERT(0, pstrRecordName, __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, pstrRecordName, __FILE__, __FUNCTION__);
                 }
 
                 recordVar->Append(AFIData);
             }
 
-            NF_SHARE_PTR<AFIRecord> xRecord = pClass->GetRecordManager()->AddRecord(NULL_GUID, pstrRecordName, recordVar, recordTag, atoi(pstrRow));
+            ARK_SHARE_PTR<AFIRecord> xRecord = pClass->GetRecordManager()->AddRecord(NULL_GUID, pstrRecordName, recordVar, recordTag, atoi(pstrRow));
 
             xRecord->SetPublic(bPublic);
             xRecord->SetPrivate(bPrivate);
@@ -200,7 +190,7 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, NF_SHARE_
     return true;
 }
 
-bool AFCClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, NF_SHARE_PTR<AFIClass> pClass)
+bool AFCClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK_SHARE_PTR<AFIClass> pClass)
 {
     //for(rapidxml::xml_node<>* pComponentNode = pComponentRootNode->first_node(); pComponentNode; pComponentNode = pComponentNode->next_sibling())
     //{
@@ -209,16 +199,16 @@ bool AFCClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, NF_
     //        const char* strComponentName = pComponentNode->first_attribute("Name")->value();
     //        const char* strLanguage = pComponentNode->first_attribute("Language")->value();
     //        const char* strEnable = pComponentNode->first_attribute("Enable")->value();
-    //        bool bEnable = AF_LEXICAL_CAST<bool>(strEnable);
+    //        bool bEnable = ARK_LEXICAL_CAST<bool>(strEnable);
     //        if(bEnable)
     //        {
     //            if(pClass->GetComponentManager()->GetElement(strComponentName))
     //            {
     //                //error
-    //                NFASSERT(0, strComponentName, __FILE__, __FUNCTION__);
+    //                ARK_ASSERT(0, strComponentName, __FILE__, __FUNCTION__);
     //                continue;
     //            }
-    //            NF_SHARE_PTR<AFIComponent> xComponent(NF_NEW AFIComponent(NULL_GUID, strComponentName));
+    //            ARK_SHARE_PTR<AFIComponent> xComponent(ARK_NEW AFIComponent(NULL_GUID, strComponentName));
     //            pClass->GetComponentManager()->AddComponent(strComponentName, xComponent);
     //        }
     //    }
@@ -227,7 +217,7 @@ bool AFCClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, NF_
     return true;
 }
 
-bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, NF_SHARE_PTR<AFIClass> pClass)
+bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIClass> pClass)
 {
     if(pClass->Find(pstrClassFilePath))
     {
@@ -300,9 +290,9 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, NF_SHARE_PTR
     return true;
 }
 
-bool AFCClassModule::AddClass(const char* pstrClassFilePath, NF_SHARE_PTR<AFIClass> pClass)
+bool AFCClassModule::AddClass(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIClass> pClass)
 {
-    NF_SHARE_PTR<AFIClass> pParent = pClass->GetParent();
+    ARK_SHARE_PTR<AFIClass> pParent = pClass->GetParent();
     while(nullptr != pParent)
     {
         //inherited some properties form class of parent
@@ -341,11 +331,11 @@ bool AFCClassModule::AddClass(const char* pstrClassFilePath, NF_SHARE_PTR<AFICla
 
 bool AFCClassModule::AddClass(const std::string& strClassName, const std::string& strParentName)
 {
-    NF_SHARE_PTR<AFIClass> pParentClass = GetElement(strParentName);
-    NF_SHARE_PTR<AFIClass> pChildClass = GetElement(strClassName);
+    ARK_SHARE_PTR<AFIClass> pParentClass = GetElement(strParentName);
+    ARK_SHARE_PTR<AFIClass> pChildClass = GetElement(strClassName);
     if(nullptr == pChildClass)
     {
-        pChildClass = NF_SHARE_PTR<AFIClass>(NF_NEW AFCClass(strClassName));
+        pChildClass = ARK_SHARE_PTR<AFIClass>(ARK_NEW AFCClass(strClassName));
         AddElement(strClassName, pChildClass);
         //pChildClass = CreateElement( strClassName );
 
@@ -361,7 +351,7 @@ bool AFCClassModule::AddClass(const std::string& strClassName, const std::string
     return true;
 }
 
-bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClass> pParentClass)
+bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pParentClass)
 {
     const char* pstrLogicClassName = attrNode->first_attribute("Id")->value();
     const char* pstrType = attrNode->first_attribute("Type")->value();
@@ -371,7 +361,7 @@ bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClass>
     //printf( "-----------------------------------------------------\n");
     //printf( "%s:\n", pstrLogicClassName );
 
-    NF_SHARE_PTR<AFIClass> pClass(NF_NEW AFCClass(pstrLogicClassName));
+    ARK_SHARE_PTR<AFIClass> pClass(ARK_NEW AFCClass(pstrLogicClassName));
     AddElement(pstrLogicClassName, pClass);
     pClass->SetParent(pParentClass);
     pClass->SetTypeName(pstrType);
@@ -426,9 +416,9 @@ bool AFCClassModule::Save()
     return true;
 }
 
-NF_SHARE_PTR<AFIPropertyMgr> AFCClassModule::GetClassPropertyManager(const std::string& strClassName)
+ARK_SHARE_PTR<AFIPropertyMgr> AFCClassModule::GetClassPropertyManager(const std::string& strClassName)
 {
-    NF_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
     if(nullptr != pClass)
     {
         return pClass->GetPropertyManager();
@@ -437,9 +427,9 @@ NF_SHARE_PTR<AFIPropertyMgr> AFCClassModule::GetClassPropertyManager(const std::
     return NULL;
 }
 
-NF_SHARE_PTR<AFIRecordManager> AFCClassModule::GetClassRecordManager(const std::string& strClassName)
+ARK_SHARE_PTR<AFIRecordManager> AFCClassModule::GetClassRecordManager(const std::string& strClassName)
 {
-    NF_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
     if(nullptr != pClass)
     {
         return pClass->GetRecordManager();
@@ -448,9 +438,9 @@ NF_SHARE_PTR<AFIRecordManager> AFCClassModule::GetClassRecordManager(const std::
     return NULL;
 }
 
-//NF_SHARE_PTR<AFIComponentManager> AFCClassModule::GetClassComponentManager(const std::string& strClassName)
+//ARK_SHARE_PTR<AFIComponentManager> AFCClassModule::GetClassComponentManager(const std::string& strClassName)
 //{
-//    NF_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+//    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
 //    if(nullptr != pClass)
 //    {
 //        return pClass->GetComponentManager();
@@ -466,7 +456,7 @@ bool AFCClassModule::Clear()
 
 bool AFCClassModule::AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb)
 {
-    NF_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
     if(nullptr == pClass)
     {
         return false;
@@ -477,7 +467,7 @@ bool AFCClassModule::AddClassCallBack(const std::string& strClassName, const CLA
 
 bool AFCClassModule::DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList)
 {
-    NF_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
     if(nullptr == pClass)
     {
         return false;

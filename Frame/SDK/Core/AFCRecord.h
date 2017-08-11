@@ -1,24 +1,34 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFCRecord.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-03-01
-//    @Module           :    AFCRecord
-//
-// -------------------------------------------------------------------------
-
-#ifndef _GT_RECORD_H
-#define _GT_RECORD_H
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+#pragma once
 
 #include <vector>
 #include "AFIRecord.h"
-#include "AFCDataList.h"
-#include "AFMapEx.h"
+#include "SDK/Base/AFCDataList.h"
+#include "SDK/Base/AFMapEx.h"
 
 class AFCRecord : public AFIRecord
 {
 public:
     AFCRecord();
-    AFCRecord(const AFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFIDataList>& valueList, const NF_SHARE_PTR<AFIDataList>& tagList, const int nMaxRow);
+    AFCRecord(const AFGUID& self, const std::string& strRecordName, const ARK_SHARE_PTR<AFIDataList>& valueList, const ARK_SHARE_PTR<AFIDataList>& tagList, const int nMaxRow);
     virtual ~AFCRecord();
 
     virtual bool IsUsed(const int nRow) const;
@@ -102,8 +112,8 @@ public:
     virtual void SetPrivate(const bool bPrivate);
     virtual void SetName(const std::string& strName);
 
-    virtual const NF_SHARE_PTR<AFIDataList> GetInitData() const;
-    virtual const NF_SHARE_PTR<AFIDataList> GetTag() const;
+    virtual const ARK_SHARE_PTR<AFIDataList> GetInitData() const;
+    virtual const ARK_SHARE_PTR<AFIDataList> GetTag() const;
 
     virtual const TRECORDVEC& GetRecordVec() const;
 
@@ -114,15 +124,15 @@ protected:
     bool ValidPos(int nRow, int nCol) const;
     bool ValidRow(int nRow) const;
     bool ValidCol(int nCol) const;
-    bool ValidCheck(AF_DATA_TYPE eType, const AFIData& var, NF_SHARE_PTR<AFIData>& pVar);
+    bool ValidCheck(AF_DATA_TYPE eType, const AFIData& var, ARK_SHARE_PTR<AFIData>& pVar);
     void OnEventHandler(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
 protected:
     //记录这个表的Key类型，那样在读取和设置的时候才能保持正确
     /** @brief   初始值类型--应该引用静态的(或者智能指针)，节约大量内存. */
-    NF_SHARE_PTR<AFIDataList> mVarRecordType;
+    ARK_SHARE_PTR<AFIDataList> mVarRecordType;
     /** @brief   col的tag值--应该引用静态的(或者智能指针)，节约大量内存. */
-    NF_SHARE_PTR<AFIDataList> mVarRecordTag;
+    ARK_SHARE_PTR<AFIDataList> mVarRecordTag;
 
     /** @brief   tag->col转换. */
     std::map<std::string, int> mmTag;
@@ -151,5 +161,3 @@ protected:
     typedef std::vector<RECORD_EVENT_FUNCTOR_PTR> TRECORDCALLBACKEX;
     TRECORDCALLBACKEX mtRecordCallback;
 };
-
-#endif

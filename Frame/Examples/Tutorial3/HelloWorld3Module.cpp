@@ -23,7 +23,7 @@ int HelloWorld3Module::OnEvent(const AFGUID& self, const int event, const AFIDat
 int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount)
 {
 
-    unsigned long unNowTime = NF_GetTickCount();
+    unsigned long unNowTime = GetSystemTime();
 
     std::cout << "strHeartBeat: " << fTime << " Count: " << nCount << "  TimeDis: " << unNowTime - mLastTime << std::endl;
 
@@ -43,7 +43,7 @@ int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::strin
 
         m_pKernelModule->AddHeartBeat(self, "OnHeartBeat", this, &HelloWorld3Module::OnHeartBeat, 5.0f, 9999);
 
-        mLastTime = NF_GetTickCount();
+        mLastTime = GetSystemTime();
     }
 
     return 0;
@@ -79,7 +79,7 @@ bool HelloWorld3Module::AfterInit()
     m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
 
     //创建对象，挂类回调和属性回调,然后事件处理对象
-    NF_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, NFrame::Player::ThisName(), "", AFCDataList());
+    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, NFrame::Player::ThisName(), "", AFCDataList());
     if(nullptr == pObject)
     {
         return false;

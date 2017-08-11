@@ -1,19 +1,29 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFIHeartBeatManager.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-12-17
-//    @Module           :    AFIHeartBeatManager
-//
-// -------------------------------------------------------------------------
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+#pragma once
 
-#ifndef AFI_HEARTBEATMANAGER_H
-#define AFI_HEARTBEATMANAGER_H
-
-#include <string>
-#include "AFMap.h"
-#include "AFList.h"
-#include "AFDefine.h"
-#include "AFCDataList.h"
+#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFMap.h"
+#include "SDK/Base/AFList.h"
+#include "SDK/Base/AFDefine.h"
+#include "SDK/Base/AFCDataList.h"
 using namespace ArkFrame;
 /**
  * @class   AFCHeartBeatElement
@@ -53,8 +63,8 @@ public:
     void DoHeartBeatEvent();
 
     AFGUID self;
-    AFINT64 nBeatTime;
-    AFINT64 nNextTriggerTime;//next trigger time, millisecond
+    int64_t nBeatTime;
+    int64_t nNextTriggerTime;//next trigger time, millisecond
     int nCount;
     std::string strBeatName;
     //datalist
@@ -142,7 +152,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const AFINT64 nTime, const int nCount) = 0;
+    virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount) = 0;
 
     /**
      * @fn  virtual bool AFIHeartBeatManager::RemoveHeartBeat(const std::string& strHeartBeatName) = 0;
@@ -179,12 +189,10 @@ public:
      */
 
     template<typename BaseType>
-    bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFINT64, const int), const AFINT64 nTime, const int nCount)
+    bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const int64_t, const int), const int64_t nTime, const int nCount)
     {
         HEART_BEAT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        HEART_BEAT_FUNCTOR_PTR functorPtr(NF_NEW HEART_BEAT_FUNCTOR(functor));
+        HEART_BEAT_FUNCTOR_PTR functorPtr(ARK_NEW HEART_BEAT_FUNCTOR(functor));
         return AddHeartBeat(self, strHeartBeatName, functorPtr, nTime, nCount);
     }
 };
-
-#endif

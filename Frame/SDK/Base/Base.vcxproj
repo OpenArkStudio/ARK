@@ -11,11 +11,38 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AFArrayPod.hpp" />
+    <ClInclude Include="AFBitValue.hpp" />
+    <ClInclude Include="AFCAddConsistentHash.hpp" />
+    <ClInclude Include="AFCConsistentHash.hpp" />
+    <ClInclude Include="AFCData.h" />
+    <ClInclude Include="AFCDataList.h" />
+    <ClInclude Include="AFCoreDef.hpp" />
+    <ClInclude Include="AFDefine.h" />
+    <ClInclude Include="AFGUID.h" />
+    <ClInclude Include="AFHashmap.h" />
+    <ClInclude Include="AFIData.h" />
+    <ClInclude Include="AFIDataList.h" />
+    <ClInclude Include="AFList.h" />
+    <ClInclude Include="AFLockFreeQueue.h" />
     <ClInclude Include="AFMacros.hpp" />
+    <ClInclude Include="AFMap.h" />
+    <ClInclude Include="AFMapEx.h" />
+    <ClInclude Include="AFMemManger.h" />
     <ClInclude Include="AFNoncopyable.hpp" />
     <ClInclude Include="AFPlatform.hpp" />
+    <ClInclude Include="AFQueue.h" />
+    <ClInclude Include="AFRWLock.hpp" />
+    <ClInclude Include="AFSingleton.h" />
     <ClInclude Include="AFSingleton.hpp" />
+    <ClInclude Include="AFString.hpp" />
+    <ClInclude Include="AFStringPod.hpp" />
+    <ClInclude Include="AFTime.hpp" />
     <ClInclude Include="AFTimerManager.h" />
+    <ClInclude Include="AFVector3.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AFTime.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{32540EFA-8D08-4ED0-A01D-B90623FC8715}</ProjectGuid>

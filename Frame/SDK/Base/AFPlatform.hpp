@@ -46,6 +46,10 @@
 #include <functional>
 #include <memory>
 #include <signal.h>
+#include <chrono>
+#include <sstream>
+#include <random>
+#include <thread>
 
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
 // only windows include
@@ -69,7 +73,7 @@
 
 #else
 // only other unix/linux include
-
+#include <sys/socket.h>
 #endif
 
 #define ARK_LITTLE_ENDIAN
