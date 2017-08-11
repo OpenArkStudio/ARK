@@ -8,7 +8,7 @@
 
 #include "AFCPropertyTrailModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Core/AFCDataList.h"
+#include "SDK/Base/AFCDataList.h"
 
 bool AFCPropertyTrailModule::Init()
 {
@@ -51,16 +51,16 @@ void AFCPropertyTrailModule::EndTrail(const AFGUID self)
 
 int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
 {
-    /* NF_SHARE_PTR<AFIObject> xObject = m_pKernelModule->GetObject(self);
+    /* ARK_SHARE_PTR<AFIObject> xObject = m_pKernelModule->GetObject(self);
      if(nullptr == xObject)
      {
          return -1;
      }
 
-     NF_SHARE_PTR<AFIPropertyMgr> xPropertyManager = xObject->GetPropertyManager();
+     ARK_SHARE_PTR<AFIPropertyMgr> xPropertyManager = xObject->GetPropertyManager();
      if(nullptr != xPropertyManager)
      {
-         NF_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
+         ARK_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
          while(nullptr != xProperty)
          {
              std::ostringstream stream;
@@ -74,10 +74,10 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
          }
      }
 
-     NF_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
+     ARK_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
      if(nullptr != xRecordManager)
      {
-         NF_SHARE_PTR<AFIRecord> xRecord = xRecordManager->First();
+         ARK_SHARE_PTR<AFIRecord> xRecord = xRecordManager->First();
          while(nullptr != xRecord)
          {
              for(int i = 0; i < xRecord->GetRows(); ++i)
@@ -123,7 +123,7 @@ int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std:
 int AFCPropertyTrailModule::OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     std::ostringstream stream;
-    NF_SHARE_PTR<AFIRecord> xRecord = m_pKernelModule->FindRecord(self, xEventData.strRecordName);
+    ARK_SHARE_PTR<AFIRecord> xRecord = m_pKernelModule->FindRecord(self, xEventData.strRecordName);
     if(nullptr == xRecord)
     {
         return 0;
@@ -183,16 +183,16 @@ int AFCPropertyTrailModule::OnObjectRecordEvent(const AFGUID& self, const RECORD
 
 int AFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
 {
-    NF_SHARE_PTR<AFIObject> xObject = m_pKernelModule->GetObject(self);
+    ARK_SHARE_PTR<AFIObject> xObject = m_pKernelModule->GetObject(self);
     if(nullptr == xObject)
     {
         return -1;
     }
 
-    /* NF_SHARE_PTR<AFIPropertyManager> xPropertyManager = xObject->GetPropertyManager();
+    /* ARK_SHARE_PTR<AFIPropertyManager> xPropertyManager = xObject->GetPropertyManager();
      if(nullptr != xPropertyManager)
      {
-         NF_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
+         ARK_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
          while(nullptr != xProperty)
          {
              m_pKernelModule->AddPropertyCallBack(self, xProperty->GetKey(), this, &AFCPropertyTrailModule::OnObjectPropertyEvent);
@@ -201,10 +201,10 @@ int AFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
          }
      }
     */
-    NF_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
+    ARK_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
     if(nullptr != xRecordManager)
     {
-        NF_SHARE_PTR<AFIRecord> xRecord = xRecordManager->First();
+        ARK_SHARE_PTR<AFIRecord> xRecord = xRecordManager->First();
         while(nullptr != xRecord)
         {
             m_pKernelModule->AddRecordCallBack(self, xRecord->GetName(), this, &AFCPropertyTrailModule::OnObjectRecordEvent);

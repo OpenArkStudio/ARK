@@ -1,19 +1,27 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFIKernelModule.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-12-15
-//    @Module           :    AFIKernelModule
-//
-// -------------------------------------------------------------------------
-
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
 #pragma once
 
-#include <iostream>
-#include <string>
-#include <functional>
 #include "AFIModule.h"
 #include "SDK/Core/AFIObject.h"
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Base/AFGUID.h"
 
 class AFIKernelModule
     : public AFIModule
@@ -23,7 +31,7 @@ public:
     template<typename BaseType>
     bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const float, const int), const float fTime, const int nCount)
     {
-        NF_SHARE_PTR<AFIObject> pObject = GetObject(self);
+        ARK_SHARE_PTR<AFIObject> pObject = GetObject(self);
         if(pObject.get())
         {
             return pObject->AddHeartBeat(strHeartBeatName, pBase, handler, fTime, nCount);
@@ -39,7 +47,7 @@ public:
     template<typename BaseType>
     bool AddRecordCallBack(const AFGUID& self, const std::string& strRecordName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const RECORD_EVENT_DATA&, const AFIData&, const AFIData&))
     {
-        NF_SHARE_PTR<AFIObject> pObject = GetObject(self);
+        ARK_SHARE_PTR<AFIObject> pObject = GetObject(self);
         if(pObject.get())
         {
             return pObject->AddRecordCallBack(strRecordName, pBase, handler);
@@ -51,7 +59,7 @@ public:
     template<typename BaseType>
     bool AddPropertyCallBack(const AFGUID& self, const std::string& strPropertyName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
-        NF_SHARE_PTR<AFIObject> pObject = GetObject(self);
+        ARK_SHARE_PTR<AFIObject> pObject = GetObject(self);
         if(pObject.get())
         {
             return pObject->AddPropertyCallBack(strPropertyName, pBase, handler);
@@ -113,8 +121,8 @@ public:
     virtual bool IsContainer(const AFGUID& self) = 0;
     virtual bool ExistContainer(const int nContainerIndex) = 0;
 
-    virtual NF_SHARE_PTR<AFIObject> GetObject(const AFGUID& ident) = 0;
-    virtual NF_SHARE_PTR<AFIObject> CreateObject(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg) = 0;
+    virtual ARK_SHARE_PTR<AFIObject> GetObject(const AFGUID& ident) = 0;
+    virtual ARK_SHARE_PTR<AFIObject> CreateObject(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg) = 0;
 
     virtual bool DestroyObject(const AFGUID& self) = 0;
     virtual bool DestroyAll() = 0;
@@ -137,7 +145,7 @@ public:
     virtual const std::string& GetPropertyString(const AFGUID& self, const std::string& strPropertyName) = 0;
     virtual const AFGUID& GetPropertyObject(const AFGUID& self, const std::string& strPropertyName) = 0;
     //////////////////////////////////////////////////////////////////////////
-    virtual NF_SHARE_PTR<AFIRecord> FindRecord(const AFGUID& self, const std::string& strRecordName) = 0;
+    virtual ARK_SHARE_PTR<AFIRecord> FindRecord(const AFGUID& self, const std::string& strRecordName) = 0;
     virtual bool ClearRecord(const AFGUID& self, const std::string& strRecordName) = 0;
 
     virtual bool SetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const bool value) = 0;

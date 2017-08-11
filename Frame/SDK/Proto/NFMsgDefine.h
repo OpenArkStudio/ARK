@@ -9,10 +9,10 @@
 #ifndef NF_MSGDEFINE_H
 #define NF_MSGDEFINE_H
 
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFPlatform.hpp"
 #include "SDK/Core/AFIRecordManager.h"
 #include "SDK/Core/AFIPropertyMgr.h"
-#include "SDK/Core/AFList.h"
+#include "SDK/Base/AFList.h"
 #include "NFLimit.h"
 #include "NFDefine.pb.h"
 #include "NFMsgBase.pb.h"

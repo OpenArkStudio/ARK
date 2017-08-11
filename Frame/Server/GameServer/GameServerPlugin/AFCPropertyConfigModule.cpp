@@ -36,10 +36,10 @@ bool AFCPropertyConfigModule::AfterInit()
 
 int AFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty)
 {
-    NF_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
+    ARK_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
     if(xPropertyMap)
     {
-        NF_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
+        ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
         if(xRefPropertyIDName)
         {
             return m_pElementModule->GetPropertyInt(*xRefPropertyIDName, strProperty);
@@ -51,7 +51,7 @@ int AFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel
 
 void AFCPropertyConfigModule::Load()
 {
-    NF_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->GetElement(NFrame::InitProperty::ThisName());
+    ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->GetElement(NFrame::InitProperty::ThisName());
     if(nullptr != pLogicClass)
     {
         NFList<std::string>& xList = pLogicClass->GetConfigNameList();
@@ -59,23 +59,23 @@ void AFCPropertyConfigModule::Load()
         bool bRet = xList.First(strData);
         while(bRet)
         {
-            NF_SHARE_PTR<AFIPropertyMgr> pPropertyManager = m_pElementModule->GetPropertyManager(strData);
+            ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = m_pElementModule->GetPropertyManager(strData);
             if(nullptr != pPropertyManager)
             {
                 int nJob = m_pElementModule->GetPropertyInt(strData, NFrame::InitProperty::Job());
                 int nLevel = m_pElementModule->GetPropertyInt(strData, NFrame::InitProperty::Level());
                 std::string strEffectData = m_pElementModule->GetPropertyString(strData, NFrame::InitProperty::EffectData());
 
-                NF_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
+                ARK_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
                 if(!xPropertyMap)
                 {
-                    xPropertyMap = NF_SHARE_PTR<AFMapEx<int, std::string>>(NF_NEW AFMapEx<int, std::string>());
+                    xPropertyMap = ARK_SHARE_PTR<AFMapEx<int, std::string>>(ARK_NEW AFMapEx<int, std::string>());
                     mhtCoefficienData.AddElement(nJob, xPropertyMap);
 
-                    NF_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
+                    ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
                     if(!xRefPropertyIDName)
                     {
-                        xRefPropertyIDName = NF_SHARE_PTR<std::string>(NF_NEW std::string(strEffectData));
+                        xRefPropertyIDName = ARK_SHARE_PTR<std::string>(ARK_NEW std::string(strEffectData));
                         xPropertyMap->AddElement(nLevel, xRefPropertyIDName);
                     }
                 }
@@ -88,10 +88,10 @@ void AFCPropertyConfigModule::Load()
 
 bool AFCPropertyConfigModule::LegalLevel(const int nJob, const int nLevel)
 {
-    NF_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
+    ARK_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
     if(xPropertyMap)
     {
-        NF_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
+        ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
         if(xRefPropertyIDName)
         {
             return true;

@@ -52,10 +52,10 @@ public:
 
     virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID);
     virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID);
-    virtual NF_SHARE_PTR<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID);
+    virtual ARK_SHARE_PTR<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID);
 
-    virtual NF_SHARE_PTR<GateServerInfo> GetGateServerInfo(const int nGateID);
-    virtual NF_SHARE_PTR<GateServerInfo> GetGateServerInfoByClientID(const AFGUID& nClientID);
+    virtual ARK_SHARE_PTR<GateServerInfo> GetGateServerInfo(const int nGateID);
+    virtual ARK_SHARE_PTR<GateServerInfo> GetGateServerInfoByClientID(const AFGUID& nClientID);
 
     virtual int OnPropertyEnter(const AFIDataList& argVar, const AFGUID& self);
     virtual int OnRecordEnter(const AFIDataList& argVar, const AFGUID& self);

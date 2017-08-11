@@ -10,8 +10,8 @@
 #define AFC_EVENT_MNG_H
 
 #include "AFIEventManager.h"
-#include "AFDefine.h"
-#include "AFCDataList.h"
+#include "SDK/Base/AFDefine.h"
+#include "SDK/Base/AFCDataList.h"
 
 using namespace ArkFrame;
 
