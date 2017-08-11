@@ -1,22 +1,32 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFIModule.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-12-15
-//    @Module           :    AFIModule
-//
-// -------------------------------------------------------------------------
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+#pragma once
 
-#ifndef AFI_LOGIC_MODULE_H
-#define AFI_LOGIC_MODULE_H
-
-#include <string>
-#include "SDK/Core/AFMap.h"
-#include "SDK/Core/AFList.h"
-#include "SDK/Core/AFDefine.h"
-#include "SDK/Core/AFCDataList.h"
-#include "SDK/Core/AFIRecord.h"
-#include "SDK/Core/Math/Vector3.hpp"
+#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFMap.h"
+#include "SDK/Base/AFList.h"
+#include "SDK/Base/AFDefine.h"
+#include "SDK/Base/AFCDataList.h"
+#include "SDK/Base/AFVector3.hpp"
 #include "SDK/EventDefine/AFEventDefine.h"
+#include "SDK/Core/AFIRecord.h"
 
 template<typename DerivedType, typename BaseType>
 class TIsDerived
@@ -110,4 +120,3 @@ protected:
     AFIPluginManager* pPluginManager;
     bool mbReloading;
 };
-#endif

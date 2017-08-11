@@ -85,23 +85,23 @@ public:
     virtual const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag);
 
     //////////////////////////////////////////////////////////////////////////
-    virtual NF_SHARE_PTR<AFIPropertyMgr> GetPropertyManager();
-    virtual NF_SHARE_PTR<AFIRecordManager> GetRecordManager();
-    virtual NF_SHARE_PTR<AFIHeartBeatManager> GetHeartBeatManager();
-    virtual NF_SHARE_PTR<AFIEventManager> GetEventManager();
+    virtual ARK_SHARE_PTR<AFIPropertyMgr> GetPropertyManager();
+    virtual ARK_SHARE_PTR<AFIRecordManager> GetRecordManager();
+    virtual ARK_SHARE_PTR<AFIHeartBeatManager> GetHeartBeatManager();
+    virtual ARK_SHARE_PTR<AFIEventManager> GetEventManager();
 
 protected:
     virtual bool AddRecordCallBack(const std::string& strRecordName, const RECORD_EVENT_FUNCTOR_PTR& cb);
 
     virtual bool AddPropertyCallBack(const std::string& strCriticalName, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
 
-    virtual bool AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const AFINT64 nTime, const int nCount);
+    virtual bool AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount);
 
 private:
     AFGUID mSelf;
 
-    NF_SHARE_PTR<AFIRecordManager> m_pRecordManager;
-    NF_SHARE_PTR<AFIHeartBeatManager> m_pHeartBeatManager;
-    NF_SHARE_PTR<AFIPropertyMgr> m_pPropertyManager;
-    NF_SHARE_PTR<AFIEventManager> m_pEventManager;
+    ARK_SHARE_PTR<AFIRecordManager> m_pRecordManager;
+    ARK_SHARE_PTR<AFIHeartBeatManager> m_pHeartBeatManager;
+    ARK_SHARE_PTR<AFIPropertyMgr> m_pPropertyManager;
+    ARK_SHARE_PTR<AFIEventManager> m_pEventManager;
 };

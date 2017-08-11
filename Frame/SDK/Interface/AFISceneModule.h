@@ -1,28 +1,30 @@
-// -------------------------------------------------------------------------
-//    @FileName			:    AFISceneModule.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-12-15
-//    @Module           :    AFISceneModule
-//
-// -------------------------------------------------------------------------
-
-#ifndef AFI_CONTAINER_MODULE_H
-#define AFI_CONTAINER_MODULE_H
-
-#include <list>
-#include <iostream>
-#include <algorithm>
-#include "SDK/Core/AFList.h"
-#include "SDK/Core/AFMap.h"
-#include "SDK/Core/AFIObject.h"
-#include "SDK/Core/AFGUID.h"
-
-// all object in this group
 /*
-if a object in the group of '0', them it can be see by all object in this scene.
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
 */
+#pragma once
+
+#include "SDK/Base/AFList.h"
+#include "SDK/Base/AFMap.h"
+#include "SDK/Base/AFGUID.h"
+#include "SDK/Core/AFIObject.h"
+
 class AFCSceneGroupInfo
-    //: public NFList<AFGUID>
 {
 public:
     AFCSceneGroupInfo(int nSceneID, int nGroupID)
@@ -86,16 +88,16 @@ public:
 
     bool AddObjectToGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
-        NF_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
+        ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
         if (pInfo.get())
         {
             if (bPlayer)
             {
-                return pInfo->mxPlayerList.AddElement(ident, NF_SHARE_PTR<int>()); // TODO:Map.second为空，使用的时候千万注意
+                return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.second为空，使用的时候千万注意
             }
             else
             {
-                return pInfo->mxOtherList.AddElement(ident, NF_SHARE_PTR<int>()); // TODO:Map.second为空，使用的时候千万注意
+                return pInfo->mxOtherList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.second为空，使用的时候千万注意
             }
         }
 
@@ -104,8 +106,8 @@ public:
 
     bool RemoveObjectFromGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
-        NF_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
-        if (pInfo.get())
+        ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
+        if (nullptr != pInfo)
         {
             if (bPlayer)
             {
@@ -122,7 +124,7 @@ public:
 
     bool Execute()
     {
-        NF_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = First();
+        ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = First();
         while (pGroupInfo.get())
         {
             pGroupInfo->Execute();
@@ -131,7 +133,6 @@ public:
         }
         return true;
     }
-protected:
 private:
     int mnGroupIndex;
     int mnSceneID;
@@ -147,8 +148,4 @@ public:
     {
         ClearAll();
     }
-
-protected:
-private:
 };
-#endif

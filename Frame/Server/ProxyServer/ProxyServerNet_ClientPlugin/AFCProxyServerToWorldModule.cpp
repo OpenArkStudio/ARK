@@ -14,7 +14,7 @@
 
 bool AFCProxyServerToWorldModule::Init()
 {
-    m_pNetClientModule = NF_NEW AFINetClientModule(pPluginManager);
+    m_pNetClientModule = ARK_NEW AFINetClientModule(pPluginManager);
 
     m_pNetClientModule->Init();
 
@@ -92,7 +92,7 @@ void AFCProxyServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, con
 
 void AFCProxyServerToWorldModule::Register(const int nServerID)
 {
-    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -121,7 +121,7 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
                 pData->set_server_state(NFMsg::EST_NARMAL);
                 pData->set_server_type(nServerType);
 
-                NF_SHARE_PTR<ConnectData> pServerData = GetClusterModule()->GetServerNetInfo(nServerID);
+                ARK_SHARE_PTR<ConnectData> pServerData = GetClusterModule()->GetServerNetInfo(nServerID);
                 if(pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
@@ -150,7 +150,7 @@ bool AFCProxyServerToWorldModule::AfterInit()
 
     m_pNetClientModule->AddEventCallBack(this, &AFCProxyServerToWorldModule::OnSocketWSEvent);
 
-    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -194,14 +194,14 @@ void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const int nMsgID, 
         return;
     }
 
-    NF_SHARE_PTR<ClientConnectData> pConnectData = mWantToConnectMap.GetElement(xMsg.account());
+    ARK_SHARE_PTR<ClientConnectData> pConnectData = mWantToConnectMap.GetElement(xMsg.account());
     if(nullptr != pConnectData)
     {
         pConnectData->strConnectKey = xMsg.world_key();
         return;
     }
 
-    pConnectData = NF_SHARE_PTR<ClientConnectData>(NF_NEW ClientConnectData());
+    pConnectData = ARK_SHARE_PTR<ClientConnectData>(ARK_NEW ClientConnectData());
     pConnectData->strAccount = xMsg.account();
     pConnectData->strConnectKey = xMsg.world_key();
     mWantToConnectMap.AddElement(pConnectData->strAccount, pConnectData);
@@ -214,7 +214,7 @@ AFINetClientModule* AFCProxyServerToWorldModule::GetClusterModule()
 
 bool AFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccount, const std::string& strKey)
 {
-    NF_SHARE_PTR<ClientConnectData> pConnectData = mWantToConnectMap.GetElement(strAccount);
+    ARK_SHARE_PTR<ClientConnectData> pConnectData = mWantToConnectMap.GetElement(strAccount);
     if(pConnectData && strKey == pConnectData->strConnectKey)
     {
         mWantToConnectMap.RemoveElement(strAccount);
