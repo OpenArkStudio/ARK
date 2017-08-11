@@ -12,29 +12,29 @@
 #include "RapidXML/rapidxml_print.hpp"
 #include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIPlugin.h"
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFPlatform.hpp"
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
 #pragma comment( lib, "ws2_32.lib" )
 #endif
 
-#ifdef NF_DEBUG_MODE
+#ifdef ARK_RUN_MODE_DEBUG
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
 
-#elif NF_PLATFORM == NF_PLATFORM_LINUX || NF_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
 #pragma comment( lib, "libtherond.a" )
-#elif NF_PLATFORM == NF_PLATFORM_APPLE || NF_PLATFORM == NF_PLATFORM_APPLE_IOS
+#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
 #pragma comment( lib, "libtherond.a" )
 #endif
 
 #else
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
 
-#elif NF_PLATFORM == NF_PLATFORM_LINUX || NF_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
 #pragma comment( lib, "libtheron.a" )
-#elif NF_PLATFORM == NF_PLATFORM_APPLE || NF_PLATFORM == NF_PLATFORM_APPLE_IOS
+#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
 #pragma comment( lib, "libtheron.a" )
 #endif
 
@@ -98,33 +98,33 @@ bool AFCPluginManager::LoadPluginConfig()
     rapidxml::xml_node<>* pPluginAppNode = pRoot->first_node("APPID");
     if(!pPluginAppNode)
     {
-        NFASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
+        ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
         return false;
     }
 
     const char* strAppID = pPluginAppNode->first_attribute("Name")->value();
     if(!strAppID)
     {
-        NFASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
+        ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
         return false;
     }
 
     if(!NF_StrTo(strAppID, mnAppID))
     {
-        NFASSERT(0, "App ID Convert Error", __FILE__, __FUNCTION__);
+        ARK_ASSERT(0, "App ID Convert Error", __FILE__, __FUNCTION__);
         return false;
     }
 
     rapidxml::xml_node<>* pPluginConfigPathNode = pRoot->first_node("ConfigPath");
     if(!pPluginConfigPathNode)
     {
-        NFASSERT(0, "There are no ConfigPath", __FILE__, __FUNCTION__);
+        ARK_ASSERT(0, "There are no ConfigPath", __FILE__, __FUNCTION__);
         return false;
     }
 
     if(NULL == pPluginConfigPathNode->first_attribute("Name"))
     {
-        NFASSERT(0, "There are no ConfigPath.Name", __FILE__, __FUNCTION__);
+        ARK_ASSERT(0, "There are no ConfigPath.Name", __FILE__, __FUNCTION__);
         return false;
     }
 
@@ -217,12 +217,12 @@ inline int AFCPluginManager::AppID() const
     return mnAppID;
 }
 
-inline AFINT64 AFCPluginManager::GetInitTime() const
+inline int64_t AFCPluginManager::GetInitTime() const
 {
     return mnInitTime;
 }
 
-inline AFINT64 AFCPluginManager::GetNowTime() const
+inline int64_t AFCPluginManager::GetNowTime() const
 {
     return mnNowTime;
 }
@@ -269,7 +269,7 @@ AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
 {
     std::string strSubModuleName = strModuleName;
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
     std::size_t position = strSubModuleName.find(" ");
     if(string::npos != position)
     {
@@ -383,7 +383,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
         }
         else
         {
-#if NF_PLATFORM == NF_PLATFORM_LINUX
+#if ARK_PLATFORM == NF_PLATFORM_LINUX
             char* error = dlerror();
             if(error)
             {
@@ -392,12 +392,12 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
                 assert(0);
                 return false;
             }
-#elif NF_PLATFORM == NF_PLATFORM_WIN
+#elif ARK_PLATFORM == PLATFORM_WIN
             std::cout << stderr << " Load DLL[" << pLib->GetName() << "] failed, ErrorNo. = [" << GetLastError() << "]" << std::endl;
             std::cout << "Load [" << pLib->GetName() << "] failed" << std::endl;
             assert(0);
             return false;
-#endif // NF_PLATFORM
+#endif // ARK_PLATFORM
         }
     }
 

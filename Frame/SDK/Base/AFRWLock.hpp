@@ -1,40 +1,31 @@
-// -------------------------------------------------------------------------
-//    @FileName         ??    AFRWLock.cpp
-//    @Author           ??    Chaunbo.Guo
-//    @Date             ??    2017-07-15
-//    @Module           ??    AFRWLock
-//    @Desc             :     AFRWLock
-// -------------------------------------------------------------------------
-#ifndef AF_RW_LOCK_H
-#define AF_RW_LOCK_H
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+#pragma once
 
-#ifndef NF_PLATFORM
-#if defined( __WIN32__ ) || defined( _WIN32 ) || defined(_WINDOWS) || defined(WIN) || defined(_WIN64) || defined( __WIN64__ )||defined(WIN32) || defined(WIN) ||defined( _MSC_VER )
-#   define NF_USE_WINDOWS 1
-#endif
-#elif NF_PLATFORM == NF_PLATFORM_WIN
-#   define NF_USE_WINDOWS 1
-#endif
+#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFNoncopyable.hpp"
 
-#if NF_USE_WINDOWS == 1
+#if ARK_PLATFORM == PLATFORM_WIN
+
 #include <windows.h>
-#else
-#include <pthread.h>
-#endif
-
-
-class AFNonCopyAble
-{
-protected:
-    AFNonCopyAble() {}
-    ~AFNonCopyAble() {}
-private:
-    AFNonCopyAble(const AFNonCopyAble&);
-    const AFNonCopyAble& operator=(const AFNonCopyAble&);
-};
-
-#if NF_USE_WINDOWS == 1
-class AFCReaderWriterLock : private AFNonCopyAble
+class AFCReaderWriterLock : private AFNoncopyable
 {
 public:
     AFCReaderWriterLock()
@@ -94,8 +85,12 @@ private:
     int m_Readers;
     HANDLE m_ClearReadersEvent;
 };
+
 #else
-class AFCReaderWriterLock : private AFNonCopyAble
+
+#include <pthread.h>
+
+class AFCReaderWriterLock : private AFNoncopyable
 {
 public:
 
@@ -134,7 +129,7 @@ private:
 };
 #endif
 
-class AFScopeRdLock : private AFNonCopyAble
+class AFScopeRdLock : private AFNoncopyable
 {
 public:
     AFScopeRdLock(AFCReaderWriterLock &lock) : rwlock(lock)
@@ -150,7 +145,7 @@ private:
     AFCReaderWriterLock & rwlock;
 };
 
-class AFScopeWrLock : private AFNonCopyAble
+class AFScopeWrLock : private AFNoncopyable
 {
 public:
     AFScopeWrLock(AFCReaderWriterLock &lock) : rwlock(lock)
@@ -165,5 +160,3 @@ public:
 private:
     AFCReaderWriterLock & rwlock;
 };
-
-#endif //AF_RW_LOCK_H

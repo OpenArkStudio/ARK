@@ -57,9 +57,9 @@ public:
 
 	virtual int AppID() const;
 
-	virtual AFINT64 GetInitTime() const;
+	virtual int64_t GetInitTime() const;
 
-	virtual AFINT64 GetNowTime() const;
+	virtual int64_t GetNowTime() const;
 
 	virtual const std::string& GetConfigPath() const;
 
@@ -74,8 +74,8 @@ protected:
 
 private:
     int mnAppID;
-    AFINT64 mnInitTime;
-    AFINT64 mnNowTime;
+    int64_t mnInitTime;
+    int64_t mnNowTime;
     std::string mstrConfigPath;
 	std::string mstrConfigName;
 

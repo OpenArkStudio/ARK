@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "SDK/Interface/AFPlatform.h"
-#include "AFCDataList.h"
+#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFCDataList.h"
 #include "AFIRecord.h"
 #include "AFIRecordManager.h"
 #include "AFIHeartBeatManager.h"
@@ -31,7 +31,7 @@ public:
     bool AddPropertyCallBack(const std::string& strPropertyName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
         PROPERTY_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        PROPERTY_EVENT_FUNCTOR_PTR functorPtr(NF_NEW PROPERTY_EVENT_FUNCTOR(functor));
+        PROPERTY_EVENT_FUNCTOR_PTR functorPtr(ARK_NEW PROPERTY_EVENT_FUNCTOR(functor));
         return AddPropertyCallBack(strPropertyName, functorPtr);
     }
 
@@ -39,7 +39,7 @@ public:
     bool AddRecordCallBack(const std::string& strRecordName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const RECORD_EVENT_DATA&, const AFIData&, const AFIData&))
     {
         RECORD_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        RECORD_EVENT_FUNCTOR_PTR functorPtr(NF_NEW RECORD_EVENT_FUNCTOR(functor));
+        RECORD_EVENT_FUNCTOR_PTR functorPtr(ARK_NEW RECORD_EVENT_FUNCTOR(functor));
         return AddRecordCallBack(strRecordName, functorPtr);
     }
 
@@ -47,7 +47,7 @@ public:
     bool AddHeartBeat(const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const float, const int), const float fTime, const int nCount)
     {
         HEART_BEAT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        HEART_BEAT_FUNCTOR_PTR functorPtr(NF_NEW HEART_BEAT_FUNCTOR(functor));
+        HEART_BEAT_FUNCTOR_PTR functorPtr(ARK_NEW HEART_BEAT_FUNCTOR(functor));
         return AddHeartBeat(strHeartBeatName, functorPtr, fTime, nCount);
     }
 
@@ -106,10 +106,10 @@ public:
     virtual const std::string& GetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
     virtual const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag) = 0;
 
-    virtual NF_SHARE_PTR<AFIRecordManager> GetRecordManager() = 0;
-    virtual NF_SHARE_PTR<AFIHeartBeatManager> GetHeartBeatManager() = 0;
-    virtual NF_SHARE_PTR<AFIPropertyMgr> GetPropertyManager() = 0;
-    virtual NF_SHARE_PTR<AFIEventManager> GetEventManager() = 0;
+    virtual ARK_SHARE_PTR<AFIRecordManager> GetRecordManager() = 0;
+    virtual ARK_SHARE_PTR<AFIHeartBeatManager> GetHeartBeatManager() = 0;
+    virtual ARK_SHARE_PTR<AFIPropertyMgr> GetPropertyManager() = 0;
+    virtual ARK_SHARE_PTR<AFIEventManager> GetEventManager() = 0;
 
 protected:
 

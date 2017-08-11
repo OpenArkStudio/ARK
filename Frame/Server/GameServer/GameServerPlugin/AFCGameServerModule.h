@@ -9,7 +9,7 @@
 #ifndef AFC_GAMESERVER_MODULE_H
 #define AFC_GAMESERVER_MODULE_H
 
-#include "SDK/Core/AFMap.h"
+#include "SDK/Base/AFMap.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIGameServerModule.h"
 #include "SDK/Interface/AFIClassModule.h"

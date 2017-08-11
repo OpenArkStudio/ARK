@@ -1,49 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Math">
-      <UniqueIdentifier>{1a700e81-4ec7-4b0e-8a33-091669612c99}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{b5f80948-3769-4657-b1ce-fd9d9d536f73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utils">
-      <UniqueIdentifier>{52745a1b-433b-4f44-9fca-405aad5e38fd}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Math\Vector3.hpp">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="AFArrayPod.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCoreDef.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFStringPod.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFString.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="AFRecord.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIData.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCData.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFGUID.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIDataList.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCDataList.h">
-      <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="AFCEventManager.h">
       <Filter>Core</Filter>
@@ -58,9 +22,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFCRecordManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFDefine.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFIComponent.h">
@@ -84,50 +45,11 @@
     <ClInclude Include="AFIRecordManager.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFCAddConsistentHash.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCConsistentHash.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCMemManger.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFHashmap.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFList.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFLockFreeQueue.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFMap.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFMapEx.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFQueue.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFSingleton.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="AFTime.h">
-      <Filter>Utils</Filter>
-    </ClInclude>
     <ClInclude Include="AFIPropertyMgr.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFCPropertyMgr.h">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Noncopyable.hpp">
-      <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="BitValue.hpp">
-      <Filter>Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -146,16 +68,10 @@
     <ClCompile Include="AFCRecordManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="AFCEventManager.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="AFCMemManger.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
-    <ClCompile Include="AFTime.cpp">
-      <Filter>Utils</Filter>
-    </ClCompile>
     <ClCompile Include="AFCPropertyMgr.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCEventManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
