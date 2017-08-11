@@ -12,8 +12,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFMacros.hpp" />
+    <ClInclude Include="AFNoncopyable.hpp" />
     <ClInclude Include="AFPlatform.hpp" />
     <ClInclude Include="AFSingleton.hpp" />
+    <ClInclude Include="AFTimerManager.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{32540EFA-8D08-4ED0-A01D-B90623FC8715}</ProjectGuid>
