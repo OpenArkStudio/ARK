@@ -17,13 +17,7 @@
 * limitations under the License.
 *
 */
-
-#ifndef AF_PLATFORM_H
-#define AF_PLATFORM_H
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -176,5 +170,3 @@
 #ifndef ARK_DYNAMIC_PLUGIN
 #define ARK_DYNAMIC_PLUGIN
 #endif
-
-#endif // AF_PLATFORM_H
