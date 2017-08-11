@@ -1,13 +1,7 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFCHeartBeatManager.cpp
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-12-17
-//    @Module           :    AFCHeartBeatManager
-//
-// -------------------------------------------------------------------------
 
+#include "SDK/Base/AFTime.hpp"
 #include "AFCHeartBeatManager.h"
-#include "AFTime.h"
+
 
 AFCHeartBeatManager::~AFCHeartBeatManager()
 {
@@ -29,7 +23,7 @@ void AFCHeartBeatElement::DoHeartBeatEvent()
 bool AFCHeartBeatManager::Execute()
 {
     //millisecond
-    AFINT64 nTime = AFTime::GetNowMillisecond();
+    int64_t nTime = AFTime::GetNowMillisecond();
     AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.FirstNude();
     while(nullptr != pElement)
     {
@@ -72,7 +66,7 @@ bool AFCHeartBeatManager::Execute()
     {
         if(NULL == mHeartBeatElementMapEx.GetElement(iter->strBeatName))
         {
-            NF_SHARE_PTR<AFCHeartBeatElement> pHeartBeatEx(NF_NEW AFCHeartBeatElement());
+            ARK_SHARE_PTR<AFCHeartBeatElement> pHeartBeatEx(ARK_NEW AFCHeartBeatElement());
             *pHeartBeatEx = *iter;
             mHeartBeatElementMapEx.AddElement(pHeartBeatEx->strBeatName, pHeartBeatEx);
         }
@@ -94,7 +88,7 @@ AFGUID AFCHeartBeatManager::Self()
 }
 
 //////////////////////////////////////////////////////////////////////////
-bool AFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const AFINT64 nTime, const int nCount)
+bool AFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount)
 {
     AFCHeartBeatElement xHeartBeat;
     xHeartBeat.nNextTriggerTime = AFTime::GetNowMillisecond() + nTime;

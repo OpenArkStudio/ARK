@@ -45,6 +45,11 @@ inline uint32_t GetSystemTime()
 #define ARK_SPRINTF sprintf_s
 #define ARK_STRICMP _stricmp
 #define ARK_SLEEP(s) Sleep(s)
+#define ARK_ASSERT(exp_, msg_, file_, func_)    \
+    std::string strInfo("Message:");            \
+    strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_; \
+    MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_"#exp_), MB_RETRYCANCEL | MB_ICONERROR); \
+    assert(0);
 
 #else
 
@@ -59,7 +64,11 @@ inline uint32_t GetSystemTime()
 #define ARK_SPRINTF snprintf
 #define ARK_STRICMP strcasecmp
 #define ARK_SLEEP(s) usleep(s)
-
+#define ARK_ASSERT(exp_, msg_, file_, func_)    \
+    std::string strInfo("Message:");            \
+    strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_; \
+    std::cout << strInfo << std::endl;          \
+    assert(0);
 #endif
 
 #if defined(USE_BOOST)
@@ -72,22 +81,22 @@ inline uint32_t GetSystemTime()
 #  define ARK_SHARE_PTR std::shared_ptr
 #endif
 
-inline bool zero_float(const float fValue)
+inline bool IsZeroFloat(const float value)
 {
-    return std::abs(fValue) < std::numeric_limits<float>::epsilon();
+    return std::abs(value) < std::numeric_limits<float>::epsilon();
 }
 
-inline bool zero_double(const double dValue)
+inline bool IsZeroDouble(const double value)
 {
-    return std::abs(dValue) < std::numeric_limits<double>::epsilon();
+    return std::abs(value) < std::numeric_limits<double>::epsilon();
 }
 
-inline bool float_equal(const float lhs, const float rhs)
+inline bool IsFloatEqual(const float lhs, const float rhs)
 {
     return std::abs(lhs - rhs) < std::numeric_limits<float>::epsilon();
 }
 
-inline bool double_equal(const double lhs, const double rhs)
+inline bool IsDoubleEqual(const double lhs, const double rhs)
 {
     return std::abs(lhs - rhs) < std::numeric_limits<double>::epsilon();
 }
@@ -97,3 +106,11 @@ inline bool double_equal(const double lhs, const double rhs)
 #endif
 
 #define ARK_SINGLETON_INIT(TYPE) template<> TYPE* Singleton<TYPE>::instance_ = 0;
+
+#if ARK_PLATFORM == PLATFORM_WIN
+#  if defined(ARK_USE_TCMALLOC)
+#  undef ARK_USE_TCMALLOC
+#  endif
+#else
+#define ARK_USE_TCMALLOC
+#endif

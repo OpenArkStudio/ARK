@@ -8,13 +8,13 @@
 
 #include "AFCWorldToMasterModule.h"
 #include "AFWorldNet_ClientPlugin.h"
-#include "SDK/Core/AFCDataList.h"
+#include "SDK/Base/AFCDataList.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Interface/AFINetClientModule.hpp"
 
 bool AFCWorldToMasterModule::Init()
 {
-    m_pNetClientModule = NF_NEW AFINetClientModule(pPluginManager);
+    m_pNetClientModule = ARK_NEW AFINetClientModule(pPluginManager);
 
     m_pNetClientModule->Init();
 
@@ -40,7 +40,7 @@ bool AFCWorldToMasterModule::AfterInit()
 
     m_pNetClientModule->AddEventCallBack(this, &AFCWorldToMasterModule::OnSocketMSEvent);
 
-    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -83,7 +83,7 @@ bool AFCWorldToMasterModule::Execute()
 
 void AFCWorldToMasterModule::Register(const int nServerID)
 {
-    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -112,7 +112,7 @@ void AFCWorldToMasterModule::Register(const int nServerID)
                 pData->set_server_state(NFMsg::EST_NARMAL);
                 pData->set_server_type(nServerType);
 
-                NF_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
+                ARK_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
                 if(pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
@@ -139,7 +139,7 @@ void AFCWorldToMasterModule::OnSelectServerProcess(const int nMsgID, const char*
         return;
     }
 
-    NF_SHARE_PTR<ServerData> xServerData = m_pWorldNet_ServerModule->GetSuitProxyForEnter();
+    ARK_SHARE_PTR<ServerData> xServerData = m_pWorldNet_ServerModule->GetSuitProxyForEnter();
     if(xServerData)
     {
         NFMsg::AckConnectWorldResult xData;

@@ -97,25 +97,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AFArrayPod.hpp" />
-    <ClInclude Include="AFCAddConsistentHash.hpp" />
-    <ClInclude Include="AFCConsistentHash.hpp" />
-    <ClInclude Include="AFCData.h" />
-    <ClInclude Include="AFCDataList.h" />
     <ClInclude Include="AFCEventManager.h" />
     <ClInclude Include="AFCHeartBeatManager.h" />
-    <ClInclude Include="AFCMemManger.h" />
     <ClInclude Include="AFCObject.h" />
-    <ClInclude Include="AFCoreDef.hpp" />
     <ClInclude Include="AFCPropertyMgr.h" />
     <ClInclude Include="AFCRecord.h" />
     <ClInclude Include="AFCRecordManager.h" />
-    <ClInclude Include="AFDefine.h" />
-    <ClInclude Include="AFGUID.h" />
-    <ClInclude Include="AFHashmap.h" />
     <ClInclude Include="AFIComponent.h" />
-    <ClInclude Include="AFIData.h" />
-    <ClInclude Include="AFIDataList.h" />
     <ClInclude Include="AFIEventManager.h" />
     <ClInclude Include="AFIHeartBeatManager.h" />
     <ClInclude Include="AFIObject.h" />
@@ -123,30 +111,16 @@
     <ClInclude Include="AFIPropertyMgr.h" />
     <ClInclude Include="AFIRecord.h" />
     <ClInclude Include="AFIRecordManager.h" />
-    <ClInclude Include="AFList.h" />
-    <ClInclude Include="AFLockFreeQueue.h" />
-    <ClInclude Include="AFMap.h" />
-    <ClInclude Include="AFMapEx.h" />
-    <ClInclude Include="AFQueue.h" />
     <ClInclude Include="AFRecord.h" />
-    <ClInclude Include="AFSingleton.h" />
-    <ClInclude Include="AFString.hpp" />
-    <ClInclude Include="AFStringPod.hpp" />
-    <ClInclude Include="AFTime.h" />
-    <ClInclude Include="BitValue.hpp" />
-    <ClInclude Include="Math\Vector3.hpp" />
-    <ClInclude Include="Noncopyable.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCEventManager.cpp" />
     <ClCompile Include="AFCHeartBeatManager.cpp" />
-    <ClCompile Include="AFCMemManger.cpp" />
     <ClCompile Include="AFCObject.cpp" />
     <ClCompile Include="AFCPropertyMgr.cpp" />
     <ClCompile Include="AFCRecord.cpp" />
     <ClCompile Include="AFCRecordManager.cpp" />
     <ClCompile Include="AFRecord.cpp" />
-    <ClCompile Include="AFTime.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

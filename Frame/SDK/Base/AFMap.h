@@ -14,7 +14,7 @@
 #include <string>
 #include <iostream>
 #include <typeinfo>
-#include "AFMapEx.h"
+#include "SDK/Base/AFMapEx.h"
 
 /**
  * @class   NFMap

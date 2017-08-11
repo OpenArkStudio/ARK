@@ -107,5 +107,6 @@ private:
     static int mnTimeZone; //Ä¬ÈÏ¸øUTC+8
 };
 
+#include "AFTime.inl"
 
 #endif // NF_TIME_H

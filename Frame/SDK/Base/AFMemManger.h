@@ -19,42 +19,41 @@
 */
 #pragma once
 
-#include "AFPlatform.hpp"
+#include "SDK/Base/AFPlatform.hpp"
+#include "AFSingleton.hpp"
 
-template <typename T>
-class AFSingleton
+#ifdef ARK_USE_TCMALLOC
+
+#if ARK_PLATFORM == PLATFORM_WIN
+
+#ifdef ARK_RUN_MODE_DEBUG
+
+#pragma comment( lib, "libtcmalloc_minimal_d.lib" )
+#pragma comment(linker, "/include:__tcmalloc")
+
+#else
+
+#pragma comment( lib, "libtcmalloc_minimal.lib" )
+#pragma comment(linker, "/include:__tcmalloc")
+
+#endif
+
+#endif // ARK_RUN_MODE_DEBUG
+
+#endif // ARK_USE_TCMALLOC
+
+class AFMemManger: public AFSingleton<AFMemManger>
 {
 public:
-    AFSingleton(void)
+    AFMemManger() {}
+    ~AFMemManger() {}
+
+    virtual void FreeMem()
     {
-        assert(!instance_);
-#if ARK_PLATFORM == PLATFORM_WIN && _MSC_VER < 1200
-        int offset = (int)(T*)1 - (int)(AFSingleton<T>*)(T*)1;
-        instance_ = (T*)((int)this + offset);
-#else
-        instance_ = static_cast<T*>(this);
-#endif
+#ifdef ARK_USE_TCMALLOC
+        // »ØÊÕÄÚ´æ
+        MallocExtension::instance()->ReleaseFreeMemory();
+#endif //ARK_USE_TCMALLOC
     }
 
-    ~AFSingleton()
-    {
-        assert(instance_);
-        instance_ = 0;
-    }
-
-    static T& GetInstance()
-    {
-        assert(instance_);
-        return (*instance_);
-    }
-
-    static T* GetInstancePtr()
-    {
-        assert(instance_);
-        return instance_;
-    }
-protected:
-    static T* instance_;
 };
-
-template <typename T> T* AFSingleton<T>::instance_ = NULL;
