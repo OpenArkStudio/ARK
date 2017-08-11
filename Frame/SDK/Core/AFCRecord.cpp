@@ -1,13 +1,5 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFCRecord.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-03-01
-//    @Module           :    AFCRecord
-//
-// -------------------------------------------------------------------------
-
 #include <exception>
-#include "AFCDataList.h"
+#include "SDK/Base/AFCDataList.h"
 #include "AFCRecord.h"
 
 AFCRecord::AFCRecord()
@@ -24,7 +16,7 @@ AFCRecord::AFCRecord()
 
 }
 
-AFCRecord::AFCRecord(const AFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFIDataList>& valueList, const NF_SHARE_PTR<AFIDataList>& tagList, const int nMaxRow)
+AFCRecord::AFCRecord(const AFGUID& self, const std::string& strRecordName, const ARK_SHARE_PTR<AFIDataList>& valueList, const ARK_SHARE_PTR<AFIDataList>& tagList, const int nMaxRow)
 {
     mVarRecordType = valueList;
     mVarRecordTag = tagList;
@@ -50,7 +42,7 @@ AFCRecord::AFCRecord(const AFGUID& self, const std::string& strRecordName, const
     //init share_pointer for all data
     for(int i = 0; i < GetRows() * GetCols(); i++)
     {
-        mtRecordVec.push_back(NF_SHARE_PTR<AFIData>());
+        mtRecordVec.push_back(ARK_SHARE_PTR<AFIData>());
     }
 
     //optimize would be better, it should be applied memory space only once
@@ -156,10 +148,10 @@ int AFCRecord::AddRow(const int nRow, const AFIDataList& var)
 
     for(int i = 0; i < GetCols(); ++i)
     {
-        NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nFindRow, i));
+        ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nFindRow, i));
         if(nullptr == pVar)
         {
-            pVar = NF_SHARE_PTR<AFIData>(NF_NEW AFCData());
+            pVar = ARK_SHARE_PTR<AFIData>(ARK_NEW AFCData());
         }
         //一个个放入数值和类型
         switch(var.GetType(i))
@@ -206,7 +198,7 @@ bool AFCRecord::SetBool(const int nRow, const int nCol, const bool value)
     AFCData var;
     var.SetBool(value);
 
-    NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(!ValidCheck(DT_BOOLEAN, var, pVar))
     {
         return false;
@@ -254,7 +246,7 @@ bool AFCRecord::SetInt(const int nRow, const int nCol, const int32_t value)
     AFCData var;
     var.SetInt(value);
 
-    NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(!ValidCheck(DT_INT, var, pVar))
     {
         return false;
@@ -302,7 +294,7 @@ bool AFCRecord::SetInt64(const int nRow, const int nCol, const int64_t value)
     AFCData var;
     var.SetInt64(value);
 
-    NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(!ValidCheck(DT_INT64, var, pVar))
     {
         return false;
@@ -350,7 +342,7 @@ bool AFCRecord::SetFloat(const int nRow, const int nCol, const float value)
     AFCData var;
     var.SetFloat(value);
 
-    NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(!ValidCheck(DT_FLOAT, var, pVar))
     {
         return false;
@@ -398,7 +390,7 @@ bool AFCRecord::SetDouble(const int nRow, const int nCol, const double value)
     AFCData var;
     var.SetDouble(value);
 
-    NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(!ValidCheck(DT_DOUBLE, var, pVar))
     {
         return false;
@@ -446,7 +438,7 @@ bool AFCRecord::SetString(const int nRow, const int nCol, const std::string& val
     AFCData var;
     var.SetString(value.c_str());
 
-    NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(!ValidCheck(DT_STRING, var, pVar))
     {
         return false;
@@ -494,7 +486,7 @@ bool AFCRecord::SetObject(const int nRow, const int nCol, const AFGUID& value)
     AFCData var;
     var.SetObject(value);
 
-    NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(!ValidCheck(DT_OBJECT, var, pVar))
     {
         return false;
@@ -542,7 +534,7 @@ bool AFCRecord::SetObject(const int nRow, const std::string& strColTag, const AF
 //    AFIDataList::TData var;
 //    var.SetPoint(value);
 //
-//    NF_SHARE_PTR<AFIDataList::TData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+//    ARK_SHARE_PTR<AFIDataList::TData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
 //    if(!ValidCheck(TDATA_POINT, var, pVar))
 //    {
 //        return false;
@@ -586,7 +578,7 @@ bool AFCRecord::QueryRow(const int nRow, AFIDataList& varList)
     varList.Clear();
     for(int i = 0; i < GetCols(); ++i)
     {
-        NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, i));
+        ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, i));
         if(nullptr != pVar)
         {
             varList.Append(*pVar);
@@ -646,7 +638,7 @@ bool AFCRecord::GetBool(const int nRow, const int nCol) const
         return NULL_BOOLEAN;
     }
 
-    const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    const ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(nullptr == pVar)
     {
         return NULL_BOOLEAN;
@@ -673,7 +665,7 @@ int32_t AFCRecord::GetInt(const int nRow, const int nCol) const
         return NULL_INT;
     }
 
-    const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    const ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(nullptr == pVar)
     {
         return NULL_INT;
@@ -700,7 +692,7 @@ int64_t AFCRecord::GetInt64(const int nRow, const int nCol) const
         return NULL_INT64;
     }
 
-    const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    const ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(nullptr == pVar)
     {
         return NULL_INT64;
@@ -727,7 +719,7 @@ float AFCRecord::GetFloat(const int nRow, const int nCol) const
         return NULL_FLOAT;
     }
 
-    const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    const ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(nullptr == pVar)
     {
         return NULL_FLOAT;
@@ -754,7 +746,7 @@ double AFCRecord::GetDouble(const int nRow, const int nCol) const
         return NULL_DOUBLE;
     }
 
-    const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    const ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(nullptr == pVar)
     {
         return NULL_DOUBLE;
@@ -781,7 +773,7 @@ const std::string& AFCRecord::GetString(const int nRow, const int nCol) const
         return NULL_STR;
     }
 
-    const NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    const ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(nullptr == pVar)
     {
         return NULL_STR;
@@ -808,7 +800,7 @@ const AFGUID& AFCRecord::GetObject(const int nRow, const int nCol) const
         return NULL_GUID;
     }
 
-    const  NF_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
+    const  ARK_SHARE_PTR<AFIData>& pVar = mtRecordVec.at(GetPos(nRow, nCol));
     if(nullptr == pVar)
     {
         return NULL_GUID;
@@ -1238,9 +1230,9 @@ void AFCRecord::SetName(const std::string& strName)
     mstrRecordName = strName;
 }
 
-const NF_SHARE_PTR<AFIDataList> AFCRecord::GetInitData() const
+const ARK_SHARE_PTR<AFIDataList> AFCRecord::GetInitData() const
 {
-    NF_SHARE_PTR<AFIDataList> pIniData = NF_SHARE_PTR<AFIDataList>(NF_NEW AFCDataList());
+    ARK_SHARE_PTR<AFIDataList> pIniData = ARK_SHARE_PTR<AFIDataList>(ARK_NEW AFCDataList());
     pIniData->Append(*mVarRecordType, 0, mVarRecordType->GetCount());
 
     return pIniData;
@@ -1277,7 +1269,7 @@ bool AFCRecord::SwapRowInfo(const int nOriginRow, const int nTargetRow)
     {
         for(int i = 0; i < GetCols(); ++i)
         {
-            NF_SHARE_PTR<AFIData> pOrigin = mtRecordVec.at(GetPos(nOriginRow, i));
+            ARK_SHARE_PTR<AFIData> pOrigin = mtRecordVec.at(GetPos(nOriginRow, i));
             mtRecordVec[GetPos(nOriginRow, i)] = mtRecordVec.at(GetPos(nTargetRow, i));
             mtRecordVec[GetPos(nTargetRow, i)] = pOrigin;
         }
@@ -1301,9 +1293,9 @@ bool AFCRecord::SwapRowInfo(const int nOriginRow, const int nTargetRow)
     return false;
 }
 
-const NF_SHARE_PTR<AFIDataList> AFCRecord::GetTag() const
+const ARK_SHARE_PTR<AFIDataList> AFCRecord::GetTag() const
 {
-    NF_SHARE_PTR<AFIDataList> pIniData = NF_SHARE_PTR<AFIDataList>(NF_NEW AFCDataList());
+    ARK_SHARE_PTR<AFIDataList> pIniData = ARK_SHARE_PTR<AFIDataList>(ARK_NEW AFCDataList());
     pIniData->Append(*mVarRecordTag, 0, mVarRecordTag->GetCount());
     return pIniData;
 }
@@ -1355,7 +1347,7 @@ bool AFCRecord::ValidCol(int nCol) const
     return true;
 }
 
-bool AFCRecord::ValidCheck(AF_DATA_TYPE eType, const AFIData& var, NF_SHARE_PTR<AFIData>& pVar)
+bool AFCRecord::ValidCheck(AF_DATA_TYPE eType, const AFIData& var, ARK_SHARE_PTR<AFIData>& pVar)
 {
     if(var.GetType() != eType)
     {
@@ -1364,7 +1356,7 @@ bool AFCRecord::ValidCheck(AF_DATA_TYPE eType, const AFIData& var, NF_SHARE_PTR<
 
     if(nullptr == pVar)
     {
-        pVar = NF_SHARE_PTR<AFIData>(NF_NEW AFCData());
+        pVar = ARK_SHARE_PTR<AFIData>(ARK_NEW AFCData());
         switch(eType)
         {
         case DT_UNKNOWN:

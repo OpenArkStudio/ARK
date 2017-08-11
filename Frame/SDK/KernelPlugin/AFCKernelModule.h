@@ -1,30 +1,35 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFCKernelModule.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-12-15
-//    @Module           :    AFCKernelModule
-//    @Desc             :
-// -------------------------------------------------------------------------
-
-#ifndef AFC_KERNEL_MODULE_H
-#define AFC_KERNEL_MODULE_H
-
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <random>
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+#pragma once
 #include "SDK/Core/AFIObject.h"
-#include "SDK/Core/AFCDataList.h"
+#include "SDK/Base/AFCDataList.h"
 #include "SDK/Core/AFIRecord.h"
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Base/AFGUID.h"
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFISceneModule.h"
-#include "SDK/Interface/AFPlatform.h"
-#include "SDK/Core/AFMapEx.h"
+#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFMapEx.h"
 
 class AFCKernelModule
     : public AFIKernelModule,
@@ -50,8 +55,8 @@ public:
     virtual bool IsContainer(const AFGUID& self);
     virtual bool ExistContainer(const int nSceneID);
 
-    virtual NF_SHARE_PTR<AFIObject> GetObject(const AFGUID& ident);
-    virtual NF_SHARE_PTR<AFIObject> CreateObject(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg);
+    virtual ARK_SHARE_PTR<AFIObject> GetObject(const AFGUID& ident);
+    virtual ARK_SHARE_PTR<AFIObject> CreateObject(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg);
 
     virtual bool DestroyAll();
     virtual bool DestroySelf(const AFGUID& self);
@@ -76,7 +81,7 @@ public:
     virtual const std::string& GetPropertyString(const AFGUID& self, const std::string& strPropertyName);
     virtual const AFGUID& GetPropertyObject(const AFGUID& self, const std::string& strPropertyName);
     //////////////////////////////////////////////////////////////////////////
-    virtual NF_SHARE_PTR<AFIRecord> FindRecord(const AFGUID& self, const std::string& strRecordName);
+    virtual ARK_SHARE_PTR<AFIRecord> FindRecord(const AFGUID& self, const std::string& strRecordName);
     virtual bool ClearRecord(const AFGUID& self, const std::string& strRecordName);
 
     virtual bool SetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const bool value);
@@ -188,7 +193,7 @@ private:
     int mnRandomPos;
 
     AFGUID mnCurExeObject;
-    AFINT64 nLastTime;
+    int64_t nLastTime;
 
     AFISceneModule* m_pSceneModule;
     AFILogModule* m_pLogModule;
@@ -196,5 +201,3 @@ private:
     AFIElementModule* m_pElementModule;
     AFIGUIDModule* m_pGUIDModule;
 };
-
-#endif

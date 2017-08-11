@@ -40,7 +40,7 @@ bool AFCSceneProcessModule::AfterInit()
     // #ifdef NF_USE_ACTOR
     //  int nSelfActorID = pPluginManager->GetActorID();
     // #endif
-    NF_SHARE_PTR<AFIClass> pLogicClass =  m_pClassModule->GetElement("Scene");
+    ARK_SHARE_PTR<AFIClass> pLogicClass =  m_pClassModule->GetElement("Scene");
     if(nullptr != pLogicClass)
     {
         NFList<std::string>& list = pLogicClass->GetConfigNameList();
@@ -49,7 +49,7 @@ bool AFCSceneProcessModule::AfterInit()
         bool bRet = list.First(strData);
         while(bRet)
         {
-            int nSceneID = AF_LEXICAL_CAST<int>(strData);
+            int nSceneID = ARK_LEXICAL_CAST<int>(strData);
 
             LoadSceneResource(nSceneID);
 
@@ -64,10 +64,10 @@ bool AFCSceneProcessModule::AfterInit()
 
 bool AFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGroupID)
 {
-    NF_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResource = mtSceneResourceConfig.GetElement(nSceneID);
+    ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResource = mtSceneResourceConfig.GetElement(nSceneID);
     if(nullptr != pSceneResource)
     {
-        NF_SHARE_PTR<SceneSeedResource> pResource = pSceneResource->First();
+        ARK_SHARE_PTR<SceneSeedResource> pResource = pSceneResource->First();
         while(nullptr != pResource)
         {
             const std::string& strClassName = m_pElementModule->GetPropertyString(pResource->strConfigID, NFrame::NPC::ClassName());
@@ -132,7 +132,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
     //}
 
     ////每个玩家，一个副本
-    //AFINT64 nNewGroupID = 0;
+    //int64_t nNewGroupID = 0;
     //if(nTargetGroupID <= 0)
     //{
     //    nNewGroupID = CreateCloneScene(nTargetScene);
@@ -150,7 +150,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     ////得到坐标
     //Point3D xRelivePos;
-    //const std::string strSceneID = AF_LEXICAL_CAST<std::string>(nTargetScene);
+    //const std::string strSceneID = ARK_LEXICAL_CAST<std::string>(nTargetScene);
     //const std::string& strRelivePosList = m_pElementModule->GetPropertyString(strSceneID, NFrame::Scene::RelivePos());
 
     //AFCDataList valueRelivePosList(strRelivePosList.c_str(), ";");
@@ -266,10 +266,10 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     const int nCanClone = m_pElementModule->GetPropertyInt(szSceneIDName, NFrame::Scene::CanClone());
 
     //场景对应资源
-    NF_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = mtSceneResourceConfig.GetElement(nSceneID);
+    ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = mtSceneResourceConfig.GetElement(nSceneID);
     if(nullptr == pSceneResourceMap)
     {
-        pSceneResourceMap = NF_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>>(NF_NEW AFMapEx<std::string, SceneSeedResource>());
+        pSceneResourceMap = ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>>(ARK_NEW AFMapEx<std::string, SceneSeedResource>());
         mtSceneResourceConfig.AddElement(nSceneID, pSceneResourceMap);
     }
 
@@ -284,19 +284,19 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
         //种子具体信息
         std::string strSeedID = pSeedFileNode->first_attribute("ID")->value();
         std::string strConfigID = pSeedFileNode->first_attribute("NPCConfigID")->value();
-        float fSeedX = AF_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedX")->value());
-        float fSeedY = AF_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedY")->value());
-        float fSeedZ = AF_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedZ")->value());
+        float fSeedX = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedX")->value());
+        float fSeedY = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedY")->value());
+        float fSeedZ = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedZ")->value());
 
         if(!m_pElementModule->ExistElement(strConfigID))
         {
             assert(0);
         }
 
-        NF_SHARE_PTR<SceneSeedResource> pSeedResource = pSceneResourceMap->GetElement(strSeedID);
+        ARK_SHARE_PTR<SceneSeedResource> pSeedResource = pSceneResourceMap->GetElement(strSeedID);
         if(nullptr == pSeedResource)
         {
-            pSeedResource = NF_SHARE_PTR<SceneSeedResource>(NF_NEW SceneSeedResource());
+            pSeedResource = ARK_SHARE_PTR<SceneSeedResource>(ARK_NEW SceneSeedResource());
             pSceneResourceMap->AddElement(strSeedID, pSeedResource);
         }
 
