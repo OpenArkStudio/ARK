@@ -14,7 +14,7 @@ const std::string PROPERTY_VERIFIED = "Verified";
 
 bool AFCLoginNet_ServerModule::Init()
 {
-    m_pNetModule = NF_NEW AFINetServerModule(pPluginManager);
+    m_pNetModule = ARK_NEW AFINetServerModule(pPluginManager);
     return true;
 }
 
@@ -48,7 +48,7 @@ bool AFCLoginNet_ServerModule::AfterInit()
 
     m_pNetModule->AddEventCallBack(this, &AFCLoginNet_ServerModule::OnSocketClientEvent);
 
-    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -71,7 +71,7 @@ bool AFCLoginNet_ServerModule::AfterInit()
                     std::ostringstream strLog;
                     strLog << "Cannot init server net, Port = " << nPort;
                     m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
-                    NFASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
+                    ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
                     exit(0);
                 }
             }
@@ -83,7 +83,7 @@ bool AFCLoginNet_ServerModule::AfterInit()
 
 int AFCLoginNet_ServerModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strWorldKey)
 {
-    NF_SHARE_PTR<SessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
+    ARK_SHARE_PTR<SessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
     if(pSessionData)
     {
         NFMsg::AckConnectWorldResult xMsg;
@@ -108,7 +108,7 @@ bool AFCLoginNet_ServerModule::Execute()
 
 void AFCLoginNet_ServerModule::OnClientConnected(const AFGUID& xClientID)
 {
-    NF_SHARE_PTR<SessionData> pSessionData(NF_NEW SessionData());
+    ARK_SHARE_PTR<SessionData> pSessionData(ARK_NEW SessionData());
 
     pSessionData->mnClientID = xClientID;
     mmClientSessionData.AddElement(xClientID, pSessionData);
@@ -128,7 +128,7 @@ void AFCLoginNet_ServerModule::OnLoginProcess(const int nMsgID, const char* msg,
         return;
     }
 
-    NF_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
+    ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
     if(pSession)
     {
         //还没有登录过
@@ -170,7 +170,7 @@ void AFCLoginNet_ServerModule::OnSelectWorldProcess(const int nMsgID, const char
         return;
     }
 
-    NF_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
+    ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
     if(!pSession)
     {
         return;
