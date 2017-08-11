@@ -1,10 +1,7 @@
-#include <chrono>
-#include <sstream>
-#include "AFTime.h"
-#include "SDK/Interface/AFPlatform.h"
-#ifndef _MSC_VER
-#include <string.h>
-#endif
+#include "AFPlatform.hpp"
+#include "AFMacros.hpp"
+#include "AFTime.hpp"
+#include "common/lexical_cast.hpp"
 
 int AFTime::mnTimeZone = AFTime::mnDefaultTimeZone;
 
@@ -418,16 +415,16 @@ void AFTime::InitWithYMDHMSM(std::string strTime)
     {
         return;
     }
-    int nYear = AF_LEXICAL_CAST<int>(cellsYMD[0]);
-    int nMonth = AF_LEXICAL_CAST<int>(cellsYMD[1]);
-    int nDay = AF_LEXICAL_CAST<int>(cellsYMD[2]);
-    int nHour = AF_LEXICAL_CAST<int>(cellsHMS[0]);
-    int nMinute = AF_LEXICAL_CAST<int>(cellsHMS[1]);
-    int nSecond = AF_LEXICAL_CAST<int>(cellsHMS[2]);
+    int nYear = ARK_LEXICAL_CAST<int>(cellsYMD[0]);
+    int nMonth = ARK_LEXICAL_CAST<int>(cellsYMD[1]);
+    int nDay = ARK_LEXICAL_CAST<int>(cellsYMD[2]);
+    int nHour = ARK_LEXICAL_CAST<int>(cellsHMS[0]);
+    int nMinute = ARK_LEXICAL_CAST<int>(cellsHMS[1]);
+    int nSecond = ARK_LEXICAL_CAST<int>(cellsHMS[2]);
     int nMilliSecond = 0;
     if(cells.size() == 3)
     {
-        nMilliSecond = AF_LEXICAL_CAST<int>(cells[2]);
+        nMilliSecond = ARK_LEXICAL_CAST<int>(cells[2]);
     }
 
     if(nYear < 1970)

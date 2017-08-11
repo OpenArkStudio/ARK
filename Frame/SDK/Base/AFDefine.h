@@ -1,17 +1,28 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFDefine.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-03-01
-//    @Module           :    NFDefine
-//
-// -------------------------------------------------------------------------
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
 #pragma once
 
-#include <functional>
-#include "AFCData.h"
-#include "AFCDataList.h"
-#include "SDK/Core/AFGUID.h"
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFCData.h"
+#include "SDK/Base/AFCDataList.h"
+#include "SDK/Base/AFGUID.h"
+#include "SDK/Base/AFPlatform.hpp"
 
 namespace ArkFrame
 {
@@ -78,7 +89,7 @@ struct RECORD_EVENT_DATA
  * @brief   functor.
  */
 
-using HEART_BEAT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFINT64, const int)>;
+using HEART_BEAT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const int64_t, const int)>;
 
 /**
  * @typedef std::function<void()> MODULE_HEART_BEAT_FUNCTOR
@@ -137,68 +148,68 @@ using EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR = std::function<int(const AFGUID&, const
 using EVENT_ASYNC_PROCESS_END_FUNCTOR = std::function<int(const AFGUID&, const int, const int, const std::string&)>;
 
 /**
- * @typedef NF_SHARE_PTR<HEART_BEAT_FUNCTOR> HEART_BEAT_FUNCTOR_PTR
+ * @typedef ARK_SHARE_PTR<HEART_BEAT_FUNCTOR> HEART_BEAT_FUNCTOR_PTR
  *
  * @brief   Defines an alias representing the heart beat functor pointer.
  */
 
-using HEART_BEAT_FUNCTOR_PTR = NF_SHARE_PTR<HEART_BEAT_FUNCTOR>;
+using HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<HEART_BEAT_FUNCTOR>;
 
 /**
- * @typedef NF_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR> MODULE_HEART_BEAT_FUNCTOR_PTR
+ * @typedef ARK_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR> MODULE_HEART_BEAT_FUNCTOR_PTR
  *
  * @brief   Defines an alias representing the module heart beat functor pointer.
  */
 
-using MODULE_HEART_BEAT_FUNCTOR_PTR = NF_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR>;
+using MODULE_HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR>;
 
 /**
- * @typedef NF_SHARE_PTR<PROPERTY_EVENT_FUNCTOR> PROPERTY_EVENT_FUNCTOR_PTR
+ * @typedef ARK_SHARE_PTR<PROPERTY_EVENT_FUNCTOR> PROPERTY_EVENT_FUNCTOR_PTR
  *
  * @brief   Defines an alias representing the property event functor pointer.
  */
 
-using PROPERTY_EVENT_FUNCTOR_PTR = NF_SHARE_PTR<PROPERTY_EVENT_FUNCTOR>;
+using PROPERTY_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<PROPERTY_EVENT_FUNCTOR>;
 
 /**
- * @typedef NF_SHARE_PTR<RECORD_EVENT_FUNCTOR> RECORD_EVENT_FUNCTOR_PTR
+ * @typedef ARK_SHARE_PTR<RECORD_EVENT_FUNCTOR> RECORD_EVENT_FUNCTOR_PTR
  *
  * @brief   Defines an alias representing the record event functor pointer.
  */
 
-using RECORD_EVENT_FUNCTOR_PTR = NF_SHARE_PTR<RECORD_EVENT_FUNCTOR>;
+using RECORD_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<RECORD_EVENT_FUNCTOR>;
 
 /**
- * @typedef NF_SHARE_PTR<CLASS_EVENT_FUNCTOR> CLASS_EVENT_FUNCTOR_PTR
+ * @typedef ARK_SHARE_PTR<CLASS_EVENT_FUNCTOR> CLASS_EVENT_FUNCTOR_PTR
  *
  * @brief   Defines an alias representing the class event functor pointer.
  */
 
-using CLASS_EVENT_FUNCTOR_PTR = NF_SHARE_PTR<CLASS_EVENT_FUNCTOR> ;
+using CLASS_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<CLASS_EVENT_FUNCTOR> ;
 
 /**
- * @typedef NF_SHARE_PTR<EVENT_PROCESS_FUNCTOR> EVENT_PROCESS_FUNCTOR_PTR
+ * @typedef ARK_SHARE_PTR<EVENT_PROCESS_FUNCTOR> EVENT_PROCESS_FUNCTOR_PTR
  *
  * @brief   Defines an alias representing the event process functor pointer.
  */
 
-using EVENT_PROCESS_FUNCTOR_PTR = NF_SHARE_PTR<EVENT_PROCESS_FUNCTOR>;
+using EVENT_PROCESS_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_PROCESS_FUNCTOR>;
 
 /**
- * @typedef NF_SHARE_PTR<EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR> EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR_PTR
+ * @typedef ARK_SHARE_PTR<EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR> EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR_PTR
  *
  * @brief   Defines an alias representing the event asynchronous process begin functor
  *          pointer.
  */
 
-using EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR_PTR = NF_SHARE_PTR<EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR>;
+using EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR>;
 
 /**
- * @typedef NF_SHARE_PTR<EVENT_ASYNC_PROCESS_END_FUNCTOR> EVENT_ASYNC_PROCESS_END_FUNCTOR_PTR
+ * @typedef ARK_SHARE_PTR<EVENT_ASYNC_PROCESS_END_FUNCTOR> EVENT_ASYNC_PROCESS_END_FUNCTOR_PTR
  *
  * @brief   Defines an alias representing the event asynchronous process end functor pointer.
  */
 
-using EVENT_ASYNC_PROCESS_END_FUNCTOR_PTR = NF_SHARE_PTR<EVENT_ASYNC_PROCESS_END_FUNCTOR>;
+using EVENT_ASYNC_PROCESS_END_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_ASYNC_PROCESS_END_FUNCTOR>;
 
 }

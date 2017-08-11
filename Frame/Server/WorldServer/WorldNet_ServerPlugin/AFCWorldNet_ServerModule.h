@@ -10,7 +10,7 @@
 #define AFC_WORLDNET_SERVER_MODULE_H
 
 //  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
-#include "SDK/Core/AFMap.h"
+#include "SDK/Base/AFMap.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Interface/AFIWorldToMasterModule.h"
 #include "SDK/Interface/AFIWorldLogicModule.h"
@@ -49,9 +49,9 @@ public:
     virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar);
     virtual int OnPropertyEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
     virtual int OnRecordEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    virtual bool OnRecordEnterPack(NF_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase* pObjectRecordBase);
+    virtual bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase* pObjectRecordBase);
 
-    virtual NF_SHARE_PTR<ServerData> GetSuitProxyForEnter();
+    virtual ARK_SHARE_PTR<ServerData> GetSuitProxyForEnter();
     virtual AFINetServerModule* GetNetModule();
 
     virtual int GetPlayerGameID(const AFGUID self);
@@ -94,7 +94,7 @@ protected:
 
 private:
 
-    AFINT64 mnLastCheckTime;
+    int64_t mnLastCheckTime;
 
     //serverid,data
     AFMapEx<int, ServerData> mGameMap;

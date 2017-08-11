@@ -35,10 +35,10 @@ bool AFCEventManager::Shut()
 
 bool AFCEventManager::AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb)
 {
-    NF_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
+    ARK_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
     if(nullptr == pEventInfo)
     {
-        pEventInfo = NF_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>>(NF_NEW NFList<EVENT_PROCESS_FUNCTOR_PTR>());
+        pEventInfo = ARK_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>>(ARK_NEW NFList<EVENT_PROCESS_FUNCTOR_PTR>());
         mObjectEventInfoMapEx.AddElement(nEventID, pEventInfo);
     }
 
@@ -71,7 +71,7 @@ bool AFCEventManager::RemoveEventCallBack(const int nEventID)
 
 bool AFCEventManager::DoEvent(const int nEventID, const AFIDataList& valueList)
 {
-    NF_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
+    ARK_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
     if(nullptr == pEventInfo)
     {
         return false;
@@ -91,6 +91,6 @@ bool AFCEventManager::DoEvent(const int nEventID, const AFIDataList& valueList)
 
 bool AFCEventManager::HasEventCallBack(const int nEventID)
 {
-    NF_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
+    ARK_SHARE_PTR<NFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
     return nullptr != pEventInfo;
 }

@@ -52,10 +52,10 @@ int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& s
 {
     if(NFPropertyGroup::NPG_ALL != eGroupType)
     {
-        NF_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+        ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
         if(nullptr != pObject)
         {
-            NF_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+            ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
             if(nullptr != pRecord)
             {
                 pRecord->SetUsed(eGroupType, true);
@@ -77,10 +77,10 @@ int AFCPropertyModule::AddPropertyValue(const AFGUID& self, const std::string& s
 {
     if(NFPropertyGroup::NPG_ALL != eGroupType)
     {
-        NF_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+        ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
         if(nullptr != pObject)
         {
-            NF_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+            ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
             if(nullptr != pRecord)
             {
                 pRecord->SetUsed(eGroupType, true);
@@ -98,10 +98,10 @@ int AFCPropertyModule::SubPropertyValue(const AFGUID& self, const std::string& s
 {
     if(NFPropertyGroup::NPG_ALL != eGroupType)
     {
-        NF_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+        ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
         if(nullptr != pObject)
         {
-            NF_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+            ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
             if(nullptr != pRecord)
             {
                 pRecord->SetUsed(eGroupType, true);
@@ -134,7 +134,7 @@ int AFCPropertyModule::OnRecordPropertyEvent(const AFGUID& self, const RECORD_EV
     const int nCol = xEventData.nCol;
 
     int nAllValue = 0;
-    NF_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+    ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
     for(int i = 0; i < (int)(NFPropertyGroup::NPG_ALL); i++)
     {
         if(i < pRecord->GetRows())
@@ -155,7 +155,7 @@ int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string&
     {
         if(CLASS_OBJECT_EVENT::COE_CREATE_NODATA == eClassEvent)
         {
-            NF_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+            ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
             if(nullptr != pRecord)
             {
                 for(int i = 0; i < NPG_ALL; i++)
@@ -191,7 +191,7 @@ int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string&
 
 int AFCPropertyModule::RefreshBaseProperty(const AFGUID& self)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+    ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
     if(nullptr == pRecord)
     {
         return 1;
@@ -213,13 +213,13 @@ int AFCPropertyModule::RefreshBaseProperty(const AFGUID& self)
 
 bool AFCPropertyModule::FullHPMP(const AFGUID& self)
 {
-    AFINT64 nMaxHP = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXHP());
+    int64_t nMaxHP = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXHP());
     if(nMaxHP > 0)
     {
         m_pKernelModule->SetPropertyInt(self, NFrame::Player::HP(), nMaxHP);
     }
 
-    AFINT64 nMaxMP = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXMP());
+    int64_t nMaxMP = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXMP());
     if(nMaxMP > 0)
     {
         m_pKernelModule->SetPropertyInt(self, NFrame::Player::MP(), nMaxMP);
@@ -228,15 +228,15 @@ bool AFCPropertyModule::FullHPMP(const AFGUID& self)
     return true;
 }
 
-bool AFCPropertyModule::AddHP(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::AddHP(const AFGUID& self, const int64_t& nValue)
 {
     if(nValue <= 0)
     {
         return false;
     }
 
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::HP());
-    AFINT64 nMaxValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXHP());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::HP());
+    int64_t nMaxValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXHP());
 
     if(nCurValue > 0)
     {
@@ -252,9 +252,9 @@ bool AFCPropertyModule::AddHP(const AFGUID& self, const AFINT64& nValue)
     return true;
 }
 
-bool AFCPropertyModule::EnoughHP(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::EnoughHP(const AFGUID& self, const int64_t& nValue)
 {
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::HP());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::HP());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -263,9 +263,9 @@ bool AFCPropertyModule::EnoughHP(const AFGUID& self, const AFINT64& nValue)
     return false;
 }
 
-bool AFCPropertyModule::ConsumeHP(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::ConsumeHP(const AFGUID& self, const int64_t& nValue)
 {
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::HP());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::HP());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         nCurValue -= nValue;
@@ -277,15 +277,15 @@ bool AFCPropertyModule::ConsumeHP(const AFGUID& self, const AFINT64& nValue)
     return false;
 }
 
-bool AFCPropertyModule::AddMP(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::AddMP(const AFGUID& self, const int64_t& nValue)
 {
     if(nValue <= 0)
     {
         return false;
     }
 
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MP());
-    AFINT64 nMaxValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXMP());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MP());
+    int64_t nMaxValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXMP());
 
     nCurValue += nValue;
     if(nCurValue > nMaxValue)
@@ -298,9 +298,9 @@ bool AFCPropertyModule::AddMP(const AFGUID& self, const AFINT64& nValue)
     return true;
 }
 
-bool AFCPropertyModule::ConsumeMP(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::ConsumeMP(const AFGUID& self, const int64_t& nValue)
 {
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MP());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MP());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         nCurValue -= nValue;
@@ -312,9 +312,9 @@ bool AFCPropertyModule::ConsumeMP(const AFGUID& self, const AFINT64& nValue)
     return false;
 }
 
-bool AFCPropertyModule::EnoughMP(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::EnoughMP(const AFGUID& self, const int64_t& nValue)
 {
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MP());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MP());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -325,7 +325,7 @@ bool AFCPropertyModule::EnoughMP(const AFGUID& self, const AFINT64& nValue)
 
 bool AFCPropertyModule::FullSP(const AFGUID& self)
 {
-    AFINT64 nMAXCSP = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXSP());
+    int64_t nMAXCSP = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXSP());
     if(nMAXCSP > 0)
     {
         m_pKernelModule->SetPropertyInt(self, NFrame::Player::SP(), nMAXCSP);
@@ -336,15 +336,15 @@ bool AFCPropertyModule::FullSP(const AFGUID& self)
     return false;
 }
 
-bool AFCPropertyModule::AddSP(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::AddSP(const AFGUID& self, const int64_t& nValue)
 {
     if(nValue <= 0)
     {
         return false;
     }
 
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::SP());
-    AFINT64 nMaxValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXSP());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::SP());
+    int64_t nMaxValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::MAXSP());
 
     nCurValue += nValue;
     if(nCurValue > nMaxValue)
@@ -357,9 +357,9 @@ bool AFCPropertyModule::AddSP(const AFGUID& self, const AFINT64& nValue)
     return true;
 }
 
-bool AFCPropertyModule::ConsumeSP(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::ConsumeSP(const AFGUID& self, const int64_t& nValue)
 {
-    AFINT64 nCSP = m_pKernelModule->GetPropertyInt(self, NFrame::Player::SP());
+    int64_t nCSP = m_pKernelModule->GetPropertyInt(self, NFrame::Player::SP());
     if((nCSP > 0) && (nCSP - nValue >= 0))
     {
         nCSP -= nValue;
@@ -371,9 +371,9 @@ bool AFCPropertyModule::ConsumeSP(const AFGUID& self, const AFINT64& nValue)
     return false;
 }
 
-bool AFCPropertyModule::EnoughSP(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::EnoughSP(const AFGUID& self, const int64_t& nValue)
 {
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::SP());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::SP());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -382,28 +382,28 @@ bool AFCPropertyModule::EnoughSP(const AFGUID& self, const AFINT64& nValue)
     return false;
 }
 
-bool AFCPropertyModule::AddMoney(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::AddMoney(const AFGUID& self, const int64_t& nValue)
 {
     if(nValue <= 0)
     {
         return false;
     }
 
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
     nCurValue += nValue;
     m_pKernelModule->SetPropertyInt(self, NFrame::Player::Gold(), nCurValue);
 
     return false;
 }
 
-bool AFCPropertyModule::ConsumeMoney(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::ConsumeMoney(const AFGUID& self, const int64_t& nValue)
 {
     if(nValue <= 0)
     {
         return false;
     }
 
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
     nCurValue -= nValue;
     if(nCurValue >= 0)
     {
@@ -415,9 +415,9 @@ bool AFCPropertyModule::ConsumeMoney(const AFGUID& self, const AFINT64& nValue)
     return false;
 }
 
-bool AFCPropertyModule::EnoughMoney(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::EnoughMoney(const AFGUID& self, const int64_t& nValue)
 {
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Gold());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -426,28 +426,28 @@ bool AFCPropertyModule::EnoughMoney(const AFGUID& self, const AFINT64& nValue)
     return false;
 }
 
-bool AFCPropertyModule::AddDiamond(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::AddDiamond(const AFGUID& self, const int64_t& nValue)
 {
     if(nValue <= 0)
     {
         return false;
     }
 
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Money());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Money());
     nCurValue += nValue;
     m_pKernelModule->SetPropertyInt(self, NFrame::Player::Money(), nCurValue);
 
     return false;
 }
 
-bool AFCPropertyModule::ConsumeDiamond(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::ConsumeDiamond(const AFGUID& self, const int64_t& nValue)
 {
     if(nValue <= 0)
     {
         return false;
     }
 
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Money());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Money());
     nCurValue -= nValue;
     if(nCurValue >= 0)
     {
@@ -459,9 +459,9 @@ bool AFCPropertyModule::ConsumeDiamond(const AFGUID& self, const AFINT64& nValue
     return false;
 }
 
-bool AFCPropertyModule::EnoughDiamond(const AFGUID& self, const AFINT64& nValue)
+bool AFCPropertyModule::EnoughDiamond(const AFGUID& self, const int64_t& nValue)
 {
-    AFINT64 nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Money());
+    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Money());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
