@@ -15,9 +15,9 @@
 #include <functional>
 #include <atomic>
 #include "AFCPluginManager.h"
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFPlatform.hpp"
 
-#if NF_PLATFORM == NF_PLATFORM_LINUX
+#if ARK_PLATFORM == NF_PLATFORM_LINUX
 #include <unistd.h>
 #include <netdb.h>
 #include <arpa/inet.h>
@@ -29,7 +29,7 @@ std::thread gThread;
 std::string strArgvList;
 std::string strPluginName;
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
 
 #pragma comment( lib, "DbgHelp" )
 // 创建Dump文件
@@ -68,7 +68,7 @@ long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 
 void CloseXButton()
 {
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
     HWND hWnd = GetConsoleWindow();
     if(hWnd)
     {
@@ -102,7 +102,7 @@ void CreateBackThread()
 
 void InitDaemon()
 {
-#if NF_PLATFORM == NF_PLATFORM_LINUX
+#if ARK_PLATFORM == NF_PLATFORM_LINUX
     daemon(1, 0);
 
     // ignore signals
@@ -118,7 +118,7 @@ void InitDaemon()
 
 void PrintfLogo()
 {
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 
@@ -136,7 +136,7 @@ void PrintfLogo()
     std::cout << "name.xml File's name to instead of \"Plugin.xml\" when programs be launched, all platform" << std::endl;
     std::cout << "\n" << std::endl;
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 }
@@ -149,13 +149,13 @@ int main(int argc, char* argv[])
         strArgvList += argv[i];
     }
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
     SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
     if(strArgvList.find("-x") != string::npos)
     {
         CloseXButton();
     }
-#elif NF_PLATFORM == NF_PLATFORM_LINUX
+#elif ARK_PLATFORM == NF_PLATFORM_LINUX
     //run it as a daemon process
     if(strArgvList.find("-d") != string::npos)
     {
@@ -199,12 +199,12 @@ int main(int argc, char* argv[])
                 break;
             }
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
             __try
             {
 #endif
                 AFCPluginManager::GetSingletonPtr()->Execute();
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
             }
             __except(ApplicationCrashHandler(GetExceptionInformation()))
             {

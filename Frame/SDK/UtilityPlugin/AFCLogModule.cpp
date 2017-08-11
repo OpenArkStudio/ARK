@@ -42,7 +42,7 @@ bool AFCLogModule::Init()
 {
     el::Loggers::addFlag(el::LoggingFlag::StrictLogFileSizeCheck);
     el::Loggers::addFlag(el::LoggingFlag::DisableApplicationAbortOnFatalLog);
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
     el::Configurations conf("log_win.conf");
 #else
     el::Configurations conf("log.conf");
@@ -155,7 +155,7 @@ bool AFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
 void AFCLogModule::LogStack()
 {
     //To Add
-    //#ifdef NF_DEBUG_MODE
+    //#ifdef ARK_RUN_MODE_DEBUG
     //    time_t t = time(0);
     //    char szDmupName[MAX_PATH];
     //    tm* ptm = localtime(&t);
@@ -237,7 +237,7 @@ void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const
     }
 }
 
-void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -249,7 +249,7 @@ void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const
     }
 }
 
-void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -261,7 +261,7 @@ void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const 
     }
 }
 
-void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -273,7 +273,7 @@ void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, con
     }
 }
 
-void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -285,7 +285,7 @@ void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const
     }
 }
 
-void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const AFINT64 nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
 {
     if(nLine > 0 && pFunc != NULL)
     {
@@ -359,7 +359,7 @@ void AFCLogModule::LogFatal(const AFGUID self, const std::ostringstream& strDesc
 
 bool AFCLogModule::LogDebugFunctionDump(const AFGUID ident, const int nMsg, const std::string& strArg, const char* func /*= ""*/, const int line /*= 0*/)
 {
-    //#ifdef NF_DEBUG_MODE
+    //#ifdef ARK_RUN_MODE_DEBUG
     std::ostringstream strLog;
     strLog << strArg << " MsgID: " << nMsg;
     LogWarning(ident, strLog, func, line);

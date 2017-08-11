@@ -1,5 +1,5 @@
 #pragma once
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFPlatform.hpp"
 #include "tinyxml2.h"
 #include "MiniExcelReader.h"
 #include <algorithm>
@@ -15,7 +15,7 @@
 #include <map>
 
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
 #include <io.h>
 #include <windows.h>
 #include <conio.h>
@@ -87,7 +87,7 @@ private:
 	std::vector<std::string> GetFileListInFolder(std::string folderPath, int depth)
 	{
 		std::vector<std::string> result;
-#if NF_PLATFORM == NF_PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
 		_finddata_t FileInfo;
 		std::string strfind = folderPath + "\\*";
 		long long Handle = _findfirst(strfind.c_str(), &FileInfo);

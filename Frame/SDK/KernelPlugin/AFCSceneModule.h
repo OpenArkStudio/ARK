@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include "SDK/Core/AFIObject.h"
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Base/AFGUID.h"
 #include "SDK/Interface/AFISceneModule.h"
 
 class AFCSceneModule

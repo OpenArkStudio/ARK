@@ -1,12 +1,31 @@
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
 #pragma once
 
-#include "AFDefine.h"
-#include "AFCDataList.h"
-#include "AFString.hpp"
-#include "AFArrayPod.hpp"
-#include "AFStringPod.hpp"
-#include "AFCData.h"
-#include "BitValue.hpp"
+#include "SDK/Base/AFDefine.h"
+#include "SDK/Base/AFCDataList.h"
+#include "SDK/Base/AFString.hpp"
+#include "SDK/Base/AFArrayPod.hpp"
+#include "SDK/Base/AFStringPod.hpp"
+#include "SDK/Base/AFCData.h"
+#include "SDK/Base/AFBitValue.hpp"
 using namespace ArkFrame;
 
 struct AFProperty

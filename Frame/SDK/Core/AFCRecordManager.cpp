@@ -13,13 +13,12 @@ AFCRecordManager::~AFCRecordManager()
     ClearAll();
 }
 
-NF_SHARE_PTR<AFIRecord> AFCRecordManager::AddRecord(const AFGUID& self, const std::string& strRecordName, const NF_SHARE_PTR<AFIDataList>& ValueList, const NF_SHARE_PTR<AFIDataList>& tagList, const int nRows)
+ARK_SHARE_PTR<AFIRecord> AFCRecordManager::AddRecord(const AFGUID& self, const std::string& strRecordName, const ARK_SHARE_PTR<AFIDataList>& ValueList, const ARK_SHARE_PTR<AFIDataList>& tagList, const int nRows)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr == pRecord)
     {
-        //NF_SHARE_PTR<AFIRecord>
-        pRecord = NF_SHARE_PTR<AFIRecord>(NF_NEW AFCRecord(self, strRecordName, ValueList, tagList, nRows));
+        pRecord = ARK_SHARE_PTR<AFIRecord>(ARK_NEW AFCRecord(self, strRecordName, ValueList, tagList, nRows));
         this->AddElement(strRecordName, pRecord);
     }
 
@@ -33,7 +32,7 @@ const AFGUID& AFCRecordManager::Self()
 
 bool AFCRecordManager::SetRecordBool(const std::string& strRecordName, const int nRow, const int nCol, const bool value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetBool(nRow, nCol, value);
@@ -44,7 +43,7 @@ bool AFCRecordManager::SetRecordBool(const std::string& strRecordName, const int
 
 bool AFCRecordManager::SetRecordBool(const std::string& strRecordName, const int nRow, const std::string& strColTag, const bool value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetBool(nRow, strColTag, value);
@@ -55,7 +54,7 @@ bool AFCRecordManager::SetRecordBool(const std::string& strRecordName, const int
 
 bool AFCRecordManager::SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const int32_t value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetInt(nRow, nCol, value);
@@ -66,7 +65,7 @@ bool AFCRecordManager::SetRecordInt(const std::string& strRecordName, const int 
 
 bool AFCRecordManager::SetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag, const int32_t value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetInt(nRow, strColTag, value);
@@ -77,7 +76,7 @@ bool AFCRecordManager::SetRecordInt(const std::string& strRecordName, const int 
 
 bool AFCRecordManager::SetRecordInt64(const std::string& strRecordName, const int nRow, const int nCol, const int64_t value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetInt64(nRow, nCol, value);
@@ -88,7 +87,7 @@ bool AFCRecordManager::SetRecordInt64(const std::string& strRecordName, const in
 
 bool AFCRecordManager::SetRecordInt64(const std::string& strRecordName, const int nRow, const std::string& strColTag, const int64_t value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetInt64(nRow, strColTag, value);
@@ -99,7 +98,7 @@ bool AFCRecordManager::SetRecordInt64(const std::string& strRecordName, const in
 
 bool AFCRecordManager::SetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol, const float value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetFloat(nRow, nCol, value);
@@ -110,7 +109,7 @@ bool AFCRecordManager::SetRecordFloat(const std::string& strRecordName, const in
 
 bool AFCRecordManager::SetRecordFloat(const std::string& strRecordName, const int nRow, const std::string& strColTag, const float value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetFloat(nRow, strColTag, value);
@@ -121,7 +120,7 @@ bool AFCRecordManager::SetRecordFloat(const std::string& strRecordName, const in
 
 bool AFCRecordManager::SetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol, const double dwValue)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetDouble(nRow, nCol, dwValue);
@@ -132,7 +131,7 @@ bool AFCRecordManager::SetRecordDouble(const std::string& strRecordName, const i
 
 bool AFCRecordManager::SetRecordDouble(const std::string& strRecordName, const int nRow, const std::string& strColTag, const double value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetDouble(nRow, strColTag, value);
@@ -143,7 +142,7 @@ bool AFCRecordManager::SetRecordDouble(const std::string& strRecordName, const i
 
 bool AFCRecordManager::SetRecordString(const std::string& strRecordName, const int nRow, const int nCol, const std::string& strValue)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetString(nRow, nCol, strValue);
@@ -154,7 +153,7 @@ bool AFCRecordManager::SetRecordString(const std::string& strRecordName, const i
 
 bool AFCRecordManager::SetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag, const std::string& value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetString(nRow, strColTag, value);
@@ -165,7 +164,7 @@ bool AFCRecordManager::SetRecordString(const std::string& strRecordName, const i
 
 bool AFCRecordManager::SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& obj)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetObject(nRow, nCol, obj);
@@ -176,7 +175,7 @@ bool AFCRecordManager::SetRecordObject(const std::string& strRecordName, const i
 
 bool AFCRecordManager::SetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag, const AFGUID& value)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->SetObject(nRow, strColTag, value);
@@ -187,7 +186,7 @@ bool AFCRecordManager::SetRecordObject(const std::string& strRecordName, const i
 
 bool AFCRecordManager::GetRecordBool(const std::string& strRecordName, const int nRow, const int nCol)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetBool(nRow, nCol);
@@ -198,7 +197,7 @@ bool AFCRecordManager::GetRecordBool(const std::string& strRecordName, const int
 
 bool AFCRecordManager::GetRecordBool(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetBool(nRow, strColTag);
@@ -209,7 +208,7 @@ bool AFCRecordManager::GetRecordBool(const std::string& strRecordName, const int
 
 int32_t AFCRecordManager::GetRecordInt(const std::string& strRecordName, const int nRow, const int nCol)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetInt(nRow, nCol);
@@ -220,7 +219,7 @@ int32_t AFCRecordManager::GetRecordInt(const std::string& strRecordName, const i
 
 int32_t AFCRecordManager::GetRecordInt(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetInt(nRow, strColTag);
@@ -231,7 +230,7 @@ int32_t AFCRecordManager::GetRecordInt(const std::string& strRecordName, const i
 
 int64_t AFCRecordManager::GetRecordInt64(const std::string& strRecordName, const int nRow, const int nCol)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetInt64(nRow, nCol);
@@ -242,7 +241,7 @@ int64_t AFCRecordManager::GetRecordInt64(const std::string& strRecordName, const
 
 int64_t AFCRecordManager::GetRecordInt64(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetInt64(nRow, strColTag);
@@ -253,7 +252,7 @@ int64_t AFCRecordManager::GetRecordInt64(const std::string& strRecordName, const
 
 float AFCRecordManager::GetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetFloat(nRow, nCol);
@@ -264,7 +263,7 @@ float AFCRecordManager::GetRecordFloat(const std::string& strRecordName, const i
 
 float AFCRecordManager::GetRecordFloat(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetFloat(nRow, strColTag);
@@ -275,7 +274,7 @@ float AFCRecordManager::GetRecordFloat(const std::string& strRecordName, const i
 
 double AFCRecordManager::GetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetDouble(nRow, nCol);
@@ -286,7 +285,7 @@ double AFCRecordManager::GetRecordDouble(const std::string& strRecordName, const
 
 double AFCRecordManager::GetRecordDouble(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetDouble(nRow, strColTag);
@@ -297,7 +296,7 @@ double AFCRecordManager::GetRecordDouble(const std::string& strRecordName, const
 
 const std::string& AFCRecordManager::GetRecordString(const std::string& strRecordName, const int nRow, const int nCol)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetString(nRow, nCol);
@@ -308,7 +307,7 @@ const std::string& AFCRecordManager::GetRecordString(const std::string& strRecor
 
 const std::string& AFCRecordManager::GetRecordString(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetString(nRow, strColTag);
@@ -319,7 +318,7 @@ const std::string& AFCRecordManager::GetRecordString(const std::string& strRecor
 
 const AFGUID& AFCRecordManager::GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetObject(nRow, nCol);
@@ -330,7 +329,7 @@ const AFGUID& AFCRecordManager::GetRecordObject(const std::string& strRecordName
 
 const AFGUID& AFCRecordManager::GetRecordObject(const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         return pRecord->GetObject(nRow, strColTag);

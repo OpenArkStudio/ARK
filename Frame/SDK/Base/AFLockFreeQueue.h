@@ -9,9 +9,7 @@
 #ifndef NF_LOCKFREEQUEUE_H
 #define NF_LOCKFREEQUEUE_H
 
-#include <list>
-#include <thread>
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFPlatform.hpp"
 #include "common/readerwriterqueue.h"
 
 
