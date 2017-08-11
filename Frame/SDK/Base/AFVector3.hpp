@@ -241,9 +241,9 @@ struct Point3D
 
         try
         {
-            x = AF_LEXICAL_CAST<float>(strX);
-            y = AF_LEXICAL_CAST<float>(strY);
-            z = AF_LEXICAL_CAST<float>(strZ);
+            x = ARK_LEXICAL_CAST<float>(strX);
+            y = ARK_LEXICAL_CAST<float>(strY);
+            z = ARK_LEXICAL_CAST<float>(strZ);
             return true;
         }
         catch(...)

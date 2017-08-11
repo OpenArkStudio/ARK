@@ -13,7 +13,7 @@
 #include <map>
 #include <list>
 #include <algorithm>
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFPlatform.hpp"
 
 template < typename T >
 class NFList
