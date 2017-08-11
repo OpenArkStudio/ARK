@@ -4,5 +4,7 @@
     <ClInclude Include="AFPlatform.hpp" />
     <ClInclude Include="AFMacros.hpp" />
     <ClInclude Include="AFSingleton.hpp" />
+    <ClInclude Include="AFTimerManager.h" />
+    <ClInclude Include="AFNoncopyable.hpp" />
   </ItemGroup>
 </Project>
