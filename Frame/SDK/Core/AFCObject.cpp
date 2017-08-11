@@ -18,10 +18,10 @@ AFCObject::AFCObject(const AFGUID& self, AFIPluginManager* pLuginManager)
     mSelf = self;
     m_pPluginManager = pLuginManager;
 
-    m_pPropertyManager = NF_SHARE_PTR<AFCPropertyMgr>(NF_NEW AFCPropertyMgr(mSelf));
-    m_pRecordManager = NF_SHARE_PTR<AFCRecordManager>(NF_NEW AFCRecordManager(mSelf));
-    m_pHeartBeatManager = NF_SHARE_PTR<AFCHeartBeatManager>(NF_NEW AFCHeartBeatManager(mSelf));
-    m_pEventManager = NF_SHARE_PTR<AFIEventManager>(NF_NEW AFCEventManager(mSelf));
+    m_pPropertyManager = ARK_SHARE_PTR<AFCPropertyMgr>(ARK_NEW AFCPropertyMgr(mSelf));
+    m_pRecordManager = ARK_SHARE_PTR<AFCRecordManager>(ARK_NEW AFCRecordManager(mSelf));
+    m_pHeartBeatManager = ARK_SHARE_PTR<AFCHeartBeatManager>(ARK_NEW AFCHeartBeatManager(mSelf));
+    m_pEventManager = ARK_SHARE_PTR<AFIEventManager>(ARK_NEW AFCEventManager(mSelf));
 }
 
 AFCObject::~AFCObject()
@@ -47,7 +47,7 @@ bool AFCObject::Execute()
     return true;
 }
 
-bool AFCObject::AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const AFINT64 nTime, const int nCount)
+bool AFCObject::AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount)
 {
     return GetHeartBeatManager()->AddHeartBeat(mSelf , strHeartBeatName, cb, nTime, nCount);
 }
@@ -64,7 +64,7 @@ bool AFCObject::RemoveHeartBeat(const std::string& strHeartBeatName)
 
 bool AFCObject::AddRecordCallBack(const std::string& strRecordName, const RECORD_EVENT_FUNCTOR_PTR& cb)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
     if(nullptr != pRecord)
     {
         pRecord->AddRecordHook(cb);
@@ -157,7 +157,7 @@ const AFGUID& AFCObject::GetPropertyObject(const std::string& strPropertyName)
 
 bool AFCObject::FindRecord(const std::string& strRecordName)
 {
-    NF_SHARE_PTR<AFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
+    ARK_SHARE_PTR<AFIRecord> pRecord = GetRecordManager()->GetElement(strRecordName);
     return (nullptr != pRecord);
 }
 
@@ -301,17 +301,17 @@ const AFGUID& AFCObject::GetRecordObject(const std::string & strRecordName, cons
     return GetRecordManager()->GetRecordObject(strRecordName, nRow, strColTag);
 }
 
-NF_SHARE_PTR<AFIRecordManager> AFCObject::GetRecordManager()
+ARK_SHARE_PTR<AFIRecordManager> AFCObject::GetRecordManager()
 {
     return m_pRecordManager;
 }
 
-NF_SHARE_PTR<AFIHeartBeatManager> AFCObject::GetHeartBeatManager()
+ARK_SHARE_PTR<AFIHeartBeatManager> AFCObject::GetHeartBeatManager()
 {
     return m_pHeartBeatManager;
 }
 
-NF_SHARE_PTR<AFIPropertyMgr> AFCObject::GetPropertyManager()
+ARK_SHARE_PTR<AFIPropertyMgr> AFCObject::GetPropertyManager()
 {
     return m_pPropertyManager;
 }
@@ -321,7 +321,7 @@ const AFGUID& AFCObject::Self()
     return mSelf;
 }
 
-NF_SHARE_PTR<AFIEventManager> AFCObject::GetEventManager()
+ARK_SHARE_PTR<AFIEventManager> AFCObject::GetEventManager()
 {
     return m_pEventManager;
 }

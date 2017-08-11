@@ -1,57 +1,34 @@
-// -------------------------------------------------------------------------
-//    @FileName         ��    AFINet.h
-//    @Author           ��    Ark Game Tech
-//    @Date             ��    2013-12-15
-//    @Module           ��    AFINet
-//    @Desc             :     INet
-// -------------------------------------------------------------------------
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+#pragma once
 
-#ifndef AFI_NET_H
-#define AFI_NET_H
-
-#include <cstring>
-#include <errno.h>
-#include <stdio.h>
-#include <signal.h>
-#include <stdint.h>
-#include <iostream>
-#include <map>
-
-#include "SDK/Core/AFGUID.h"
-
-#ifndef _MSC_VER
-#include <netinet/in.h>
-#ifdef _XOPEN_SOURCE_EXTENDED
-#  include <arpa/inet.h>
-# endif
-#include <sys/socket.h>
-#endif
-
-#include <vector>
-#include <functional>
-#include <memory>
-#include <list>
-#include <vector>
+#include "SDK/Base/AFGUID.h"
 #include <event2/bufferevent.h>
 #include <event2/buffer.h>
 #include <event2/listener.h>
 #include <event2/util.h>
 #include <event2/thread.h>
 #include <event2/event_compat.h>
-#include <assert.h>
-
-#if NF_PLATFORM == NF_PLATFORM_WIN
-//#ifdef _MSC_VER
-#include <windows.h>
-//#elseifdef _APPLE_
-#elif NF_PLATFORM == NF_PLATFORM_APPLE
-#include <libkern/OSByteOrder.h>
-#else
-#include <unistd.h>
-#endif
 #include "evpp/tcp_callbacks.h"
 #include "evpp/buffer.h"
-#include "SDK/Core/AFLockFreeQueue.h"
+#include "SDK/Base/AFLockFreeQueue.h"
 
 #pragma pack(push, 1)
 
@@ -73,11 +50,9 @@ struct  AFIMsgHead
 
     int64_t NF_HTONLL(int64_t nData)
     {
-#if NF_PLATFORM == NF_PLATFORM_WIN
-//#ifdef _MSC_VER
+#if ARK_PLATFORM == PLATFORM_WIN
         return htonll(nData);
-#elif NF_PLATFORM == NF_PLATFORM_APPLE
-//#elseifdef __APPLE_CC__
+#elif ARK_PLATFORM == PLATFORM_APPLE
         return OSSwapHostToBigInt64(nData);
 #else
         return htobe64(nData);
@@ -86,11 +61,9 @@ struct  AFIMsgHead
 
     int64_t NF_NTOHLL(int64_t nData)
     {
-#if NF_PLATFORM == NF_PLATFORM_WIN
-//#ifdef _MSC_VER
+#if ARK_PLATFORM == PLATFORM_WIN
         return ntohll(nData);
-#elif NF_PLATFORM == NF_PLATFORM_APPLE
-//#elseifdef __APPLE__
+#elif ARK_PLATFORM == PLATFORM_APPLE
         return OSSwapBigToHostInt64(nData);
 #else
         return be64toh(nData);
@@ -99,11 +72,9 @@ struct  AFIMsgHead
 
     int32_t NF_HTONL(int32_t nData)
     {
-#if NF_PLATFORM == NF_PLATFORM_WIN
-//#ifdef _MSC_VER
+#if ARK_PLATFORM == PLATFORM_WIN
         return htonl(nData);
-#elif NF_PLATFORM == NF_PLATFORM_APPLE
-//#elseifdef __APPLE__
+#elif ARK_PLATFORM == PLATFORM_APPLE
         return OSSwapHostToBigInt32(nData);
 #else
         return htobe32(nData);
@@ -112,11 +83,9 @@ struct  AFIMsgHead
 
     int32_t NF_NTOHL(int32_t nData)
     {
-#if NF_PLATFORM == NF_PLATFORM_WIN
-//#ifdef _MSC_VER
+#if ARK_PLATFORM == PLATFORM_WIN
         return ntohl(nData);
-#elif NF_PLATFORM == NF_PLATFORM_APPLE
-//#elseifdef __APPLE__
+#elif ARK_PLATFORM == PLATFORM_APPLE
         return OSSwapBigToHostInt32(nData);
 #else
         return be32toh(nData);
@@ -125,11 +94,9 @@ struct  AFIMsgHead
 
     int16_t NF_HTONS(int16_t nData)
     {
-#if NF_PLATFORM == NF_PLATFORM_WIN
-//#ifdef _MSC_VER
+#if ARK_PLATFORM == PLATFORM_WIN
         return htons(nData);
-#elif NF_PLATFORM == NF_PLATFORM_APPLE
-//#elseifdef __APPLE__
+#elif ARK_PLATFORM == PLATFORM_APPLE
         return OSSwapHostToBigInt16(nData);
 #else
         return htobe16(nData);
@@ -138,11 +105,9 @@ struct  AFIMsgHead
 
     int16_t NF_NTOHS(int16_t nData)
     {
-#if NF_PLATFORM == NF_PLATFORM_WIN
-//#ifdef _MSC_VER
+#if ARK_PLATFORM == PLATFORM_WIN
         return ntohs(nData);
-#elif NF_PLATFORM == NF_PLATFORM_APPLE
-//#elseifdef __APPLE__
+#elif ARK_PLATFORM == PLATFORM_APPLE
         return OSSwapBigToHostInt16(nData);
 #else
         return be16toh(nData);
@@ -245,7 +210,7 @@ typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_LOG_FUNCTOR> NET_EVENT_LOG_FUNCTOR_PTR;
 
-class MsgFromNetInfo;
+struct MsgFromNetInfo;
 
 class NetObject
 {
@@ -383,7 +348,7 @@ public:
     //send a message with out msg-head[auto add msg-head in this function]
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID) = 0;
 
-    //send a message to all client[need to add msg-head for this message by youself]
+    //send a message to all client[need to add msg-head for this message by yourself]
     virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen)
     {
         return false;
@@ -418,5 +383,3 @@ public:
 };
 
 #pragma pack(pop)
-
-#endif

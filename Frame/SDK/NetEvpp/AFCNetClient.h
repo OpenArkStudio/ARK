@@ -1,19 +1,29 @@
-// -------------------------------------------------------------------------
-//    @FileName         ��    AFCNetClient.h
-//    @Author           ��    Ark Game Tech
-//    @Date             ��    2013-12-15
-//    @Module           ��    AFIPacket
-//    @Desc             :     CNet
-// -------------------------------------------------------------------------
-
-#ifndef AFC_NET_H
-#define AFC_NET_H
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+#pragma once
 
 #include "AFINet.h"
-#include "SDK/Core/AFQueue.h"
+#include "SDK/Base/AFQueue.h"
 #include "common/readerwriterqueue.h"
-#include "SDK/Core/AFLockFreeQueue.h"
-
+#include "SDK/Base/AFLockFreeQueue.h"
+#include "SDK/Base/AFRWLock.hpp"
 #include <evpp/libevent.h>
 #include <evpp/event_watcher.h>
 #include <evpp/event_loop.h>
@@ -22,11 +32,8 @@
 #include <evpp/buffer.h>
 #include <evpp/tcp_conn.h>
 #include <evpp/tcp_client.h>
-#include <thread>
-#include "SDK/Core/AFRWLock.hpp"
 
 #pragma pack(push, 1)
-
 
 class AFCNetClient : public AFINet
 {
@@ -103,5 +110,3 @@ private:
 };
 
 #pragma pack(pop)
-
-#endif

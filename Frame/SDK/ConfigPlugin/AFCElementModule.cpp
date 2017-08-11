@@ -44,7 +44,7 @@ bool AFCElementModule::Load()
         return false;
     }
 
-    NF_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->First();
+    ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->First();
     while(nullptr != pLogicClass)
     {
         const std::string& strInstancePath = pLogicClass->GetInstancePath();
@@ -87,36 +87,36 @@ bool AFCElementModule::Load()
     return true;
 }
 
-bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClass> pLogicClass)
+bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pLogicClass)
 {
     //attrNode is the node of a object
     std::string strConfigID = attrNode->first_attribute("Id")->value();
     if(strConfigID.empty())
     {
-        NFASSERT(0, strConfigID, __FILE__, __FUNCTION__);
+        ARK_ASSERT(0, strConfigID, __FILE__, __FUNCTION__);
         return false;
     }
 
     if(ExistElement(strConfigID))
     {
-        NFASSERT(0, strConfigID, __FILE__, __FUNCTION__);
+        ARK_ASSERT(0, strConfigID, __FILE__, __FUNCTION__);
         return false;
     }
 
-    NF_SHARE_PTR<ElementConfigInfo> pElementInfo(NF_NEW ElementConfigInfo());
+    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo(ARK_NEW ElementConfigInfo());
     AddElement(strConfigID, pElementInfo);
 
     //can find all config id by class name
     pLogicClass->AddConfigName(strConfigID);
 
     //ElementConfigInfo* pElementInfo = CreateElement( strConfigID, pElementInfo );
-    NF_SHARE_PTR<AFIPropertyMgr> pElementPropertyManager = pElementInfo->GetPropertyManager();
-    NF_SHARE_PTR<AFIRecordManager> pElementRecordManager = pElementInfo->GetRecordManager();
+    ARK_SHARE_PTR<AFIPropertyMgr> pElementPropertyManager = pElementInfo->GetPropertyManager();
+    ARK_SHARE_PTR<AFIRecordManager> pElementRecordManager = pElementInfo->GetRecordManager();
 
     //1.add property
     //2.set the default value  of them
-    NF_SHARE_PTR<AFIPropertyMgr> pClassPropertyManager = pLogicClass->GetPropertyManager();
-    NF_SHARE_PTR<AFIRecordManager> pClassRecordManager = pLogicClass->GetRecordManager();
+    ARK_SHARE_PTR<AFIPropertyMgr> pClassPropertyManager = pLogicClass->GetPropertyManager();
+    ARK_SHARE_PTR<AFIRecordManager> pClassRecordManager = pLogicClass->GetRecordManager();
     if(nullptr != pClassPropertyManager && nullptr != pClassRecordManager)
     {
         size_t nCount = pClassPropertyManager->GetPropertyCount();
@@ -129,10 +129,10 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClas
             }
         }
 
-        NF_SHARE_PTR<AFIRecord> pRecord = pClassRecordManager->First();
+        ARK_SHARE_PTR<AFIRecord> pRecord = pClassRecordManager->First();
         while(nullptr != pRecord)
         {
-            NF_SHARE_PTR<AFIRecord> xRecord = pElementRecordManager->AddRecord(NULL_GUID, pRecord->GetName(), pRecord->GetInitData(), pRecord->GetTag(), pRecord->GetRows());
+            ARK_SHARE_PTR<AFIRecord> xRecord = pElementRecordManager->AddRecord(NULL_GUID, pRecord->GetName(), pRecord->GetInitData(), pRecord->GetTag(), pRecord->GetRows());
 
             xRecord->SetPublic(pRecord->GetPublic());
             xRecord->SetPrivate(pRecord->GetPrivate());
@@ -164,39 +164,39 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClas
         {
         case DT_BOOLEAN:
             {
-                var.SetInt(AF_LEXICAL_CAST<bool>(pstrConfigValue));
+                var.SetInt(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
             }
             break;
         case DT_INT:
             {
                 if(!LegalNumber(pstrConfigValue))
                 {
-                    NFASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                var.SetInt(AF_LEXICAL_CAST<int32_t>(pstrConfigValue));
+                var.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
             }
             break;
         case DT_INT64:
             {
-                var.SetInt(AF_LEXICAL_CAST<int64_t>(pstrConfigValue));
+                var.SetInt(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
             }
             break;
         case DT_FLOAT:
             {
                 if (strlen(pstrConfigValue) <= 0)
                 {
-                    NFASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                var.SetDouble(AF_LEXICAL_CAST<float>(pstrConfigValue));
+                var.SetDouble(ARK_LEXICAL_CAST<float>(pstrConfigValue));
             }
             break;
         case DT_DOUBLE:
             {
                 if(strlen(pstrConfigValue) <= 0)
                 {
-                    NFASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                var.SetDouble(AF_LEXICAL_CAST<double>(pstrConfigValue));
+                var.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
             }
             break;
         case DT_STRING:
@@ -208,13 +208,13 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, NF_SHARE_PTR<AFIClas
             {
                 if(strlen(pstrConfigValue) <= 0)
                 {
-                    NFASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
                 var.SetObject(NULL_GUID);
             }
             break;
         default:
-            NFASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+            ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
             break;
         }
     }
@@ -299,7 +299,7 @@ const std::string& AFCElementModule::GetPropertyString(const std::string& strCon
 
 AFProperty* AFCElementModule::GetProperty(const std::string& strConfigName, const std::string& strPropertyName)
 {
-    NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
     if(nullptr != pElementInfo)
     {
         return pElementInfo->GetPropertyManager()->GetProperty(strPropertyName.c_str());
@@ -308,9 +308,9 @@ AFProperty* AFCElementModule::GetProperty(const std::string& strConfigName, cons
     return NULL;
 }
 
-NF_SHARE_PTR<AFIPropertyMgr> AFCElementModule::GetPropertyManager(const std::string& strConfigName)
+ARK_SHARE_PTR<AFIPropertyMgr> AFCElementModule::GetPropertyManager(const std::string& strConfigName)
 {
-    NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
     if(nullptr != pElementInfo)
     {
         return pElementInfo->GetPropertyManager();
@@ -319,9 +319,9 @@ NF_SHARE_PTR<AFIPropertyMgr> AFCElementModule::GetPropertyManager(const std::str
     return nullptr;
 }
 
-NF_SHARE_PTR<AFIRecordManager> AFCElementModule::GetRecordManager(const std::string& strConfigName)
+ARK_SHARE_PTR<AFIRecordManager> AFCElementModule::GetRecordManager(const std::string& strConfigName)
 {
-    NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
     if(nullptr != pElementInfo)
     {
         return pElementInfo->GetRecordManager();
@@ -331,7 +331,7 @@ NF_SHARE_PTR<AFIRecordManager> AFCElementModule::GetRecordManager(const std::str
 
 bool AFCElementModule::ExistElement(const std::string& strConfigName)
 {
-    NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
     if(nullptr != pElementInfo)
     {
         return true;
@@ -342,7 +342,7 @@ bool AFCElementModule::ExistElement(const std::string& strConfigName)
 
 bool AFCElementModule::ExistElement(const std::string& strClassName, const std::string& strConfigName)
 {
-    NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
     if(!pElementInfo)
     {
         return false;
@@ -408,9 +408,9 @@ bool AFCElementModule::Clear()
     return true;
 }
 
-//NF_SHARE_PTR<AFIComponentManager> AFCElementModule::GetComponentManager(const std::string& strConfigName)
+//ARK_SHARE_PTR<AFIComponentManager> AFCElementModule::GetComponentManager(const std::string& strConfigName)
 //{
-//    NF_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+//    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
 //    if(nullptr != pElementInfo)
 //    {
 //        return pElementInfo->GetComponentManager();
