@@ -19,40 +19,15 @@
 */
 #pragma once
 
-#include "AFPlatform.hpp"
-
-template <typename T>
-class Singleton
+struct AFNoncopyable 
 {
-public:
-    Singleton(void)
-    {
-        assert(!instance_);
-#if ARK_PLATFORM == PLATFORM_WIN && _MSC_VER < 1200
-        int offset = (int)(T*)1 - (int)(Singleton<T>*)(T*)1;
-        instance_ = (T*)((int)this + offset);
-#else
-        instance_ = static_cast<T*>(this);
-#endif
-    }
-
-    ~Singleton()
-    {
-        assert(instance_);
-        instance_ = 0;
-    }
-
-    static T& GetInstance()
-    {
-        assert(instance_);
-        return (*instance_);
-    }
-
-    static GetInstancePtr()
-    {
-        assert(instance_);
-        return instance_;
-    }
 protected:
-    static T* instance_;
+    AFNoncopyable() {}
+    virtual ~AFNoncopyable() {}
+
+private:
+    AFNoncopyable(const AFNoncopyable&) = delete;
+    AFNoncopyable& operator=(const AFNoncopyable&) = delete;
+    AFNoncopyable(AFNoncopyable&&) = delete;
+    AFNoncopyable& operator=(AFNoncopyable&&) = delete;
 };
