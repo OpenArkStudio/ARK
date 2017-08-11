@@ -9,7 +9,7 @@
 #ifndef AFC_PROXYLOGIC_MODULE_H
 #define AFC_PROXYLOGIC_MODULE_H
 
-#include "SDK/Core/AFMap.h"
+#include "SDK/Base/AFMap.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIGameLogicModule.h"
 #include "SDK/Interface/AFIClassModule.h"

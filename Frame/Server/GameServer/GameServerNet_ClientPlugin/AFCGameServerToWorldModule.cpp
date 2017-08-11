@@ -14,7 +14,7 @@
 
 bool AFCGameServerToWorldModule::Init()
 {
-    m_pNetClientModule = NF_NEW AFINetClientModule(pPluginManager);
+    m_pNetClientModule = ARK_NEW AFINetClientModule(pPluginManager);
 
     m_pNetClientModule->Init();
 
@@ -38,7 +38,7 @@ bool AFCGameServerToWorldModule::Execute()
 void AFCGameServerToWorldModule::Register(const int nSeverID)
 {
     //成功就注册
-    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr == xLogicClass)
     {
         return;
@@ -70,7 +70,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
             pData->set_server_state(NFMsg::EST_NARMAL);
             pData->set_server_type(nServerType);
 
-            NF_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nSeverID);
+            ARK_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nSeverID);
             if(pServerData)
             {
                 int nTargetID = pServerData->nGameID;
@@ -115,7 +115,7 @@ bool AFCGameServerToWorldModule::AfterInit()
     m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &AFCGameServerToWorldModule::OnObjectClassEvent);
 
     // 连接world server
-    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
