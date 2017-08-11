@@ -11,7 +11,7 @@
 
 bool AFCMasterNet_ServerModule::Init()
 {
-    m_pNetModule = NF_NEW AFINetServerModule(pPluginManager);
+    m_pNetModule = ARK_NEW AFINetServerModule(pPluginManager);
     return true;
 }
 
@@ -32,10 +32,10 @@ void AFCMasterNet_ServerModule::OnWorldRegisteredProcess(const int nMsgID, const
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        NF_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = NF_SHARE_PTR<ServerData>(NF_NEW ServerData());
+            pServerData = ARK_SHARE_PTR<ServerData>(ARK_NEW ServerData());
             mWorldMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -81,10 +81,10 @@ void AFCMasterNet_ServerModule::OnRefreshWorldInfoProcess(const int nMsgID, cons
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        NF_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = NF_SHARE_PTR<ServerData>(NF_NEW ServerData());
+            pServerData = ARK_SHARE_PTR<ServerData>(ARK_NEW ServerData());
             mWorldMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -110,10 +110,10 @@ void AFCMasterNet_ServerModule::OnLoginRegisteredProcess(const int nMsgID, const
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        NF_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = NF_SHARE_PTR<ServerData>(NF_NEW ServerData());
+            pServerData = ARK_SHARE_PTR<ServerData>(ARK_NEW ServerData());
             mLoginMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -158,10 +158,10 @@ void AFCMasterNet_ServerModule::OnRefreshLoginInfoProcess(const int nMsgID, cons
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        NF_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = NF_SHARE_PTR<ServerData>(NF_NEW ServerData());
+            pServerData = ARK_SHARE_PTR<ServerData>(ARK_NEW ServerData());
             mLoginMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -182,7 +182,7 @@ void AFCMasterNet_ServerModule::OnSelectWorldProcess(const int nMsgID, const cha
         return;
     }
 
-    NF_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xMsg.world_id());
+    ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xMsg.world_id());
     if(nullptr == pServerData)
     {
         return;
@@ -209,7 +209,7 @@ void AFCMasterNet_ServerModule::OnSelectServerResultProcess(const int nMsgID, co
         return;
     }
 
-    NF_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xMsg.login_id());
+    ARK_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xMsg.login_id());
     if(nullptr == pServerData)
     {
         return;
@@ -239,7 +239,7 @@ bool AFCMasterNet_ServerModule::AfterInit()
 
     m_pNetModule->AddEventCallBack(this, &AFCMasterNet_ServerModule::OnSocketEvent);
 
-    NF_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
         NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
@@ -262,7 +262,7 @@ bool AFCMasterNet_ServerModule::AfterInit()
                     std::ostringstream strLog;
                     strLog << "Cannot init server net, Port = " << nPort;
                     m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
-                    NFASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
+                    ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
                     exit(0);
                 }
             }
@@ -291,7 +291,7 @@ void AFCMasterNet_ServerModule::OnSocketEvent(const NetEventType eEvent, const A
 void AFCMasterNet_ServerModule::OnClientDisconnect(const AFGUID& xClientID)
 {
     //不管是login还是world都要找出来,替他反注册
-    NF_SHARE_PTR<ServerData> pServerData =  mWorldMap.First();
+    ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.First();
     while(nullptr != pServerData)
     {
         if(xClientID == pServerData->xClient)
@@ -334,7 +334,7 @@ void AFCMasterNet_ServerModule::SynWorldToLogin()
 {
     NFMsg::ServerInfoReportList xData;
 
-    NF_SHARE_PTR<ServerData> pServerData =  mWorldMap.First();
+    ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.First();
     while(nullptr != pServerData)
     {
         NFMsg::ServerInfoReport* pData = xData.add_server_list();
@@ -366,7 +366,7 @@ void AFCMasterNet_ServerModule::LogGameServer()
 
     m_pLogModule->LogInfo(AFGUID(), "Begin Log WorldServer Info", "");
 
-    NF_SHARE_PTR<ServerData> pGameData = mWorldMap.First();
+    ARK_SHARE_PTR<ServerData> pGameData = mWorldMap.First();
     while(pGameData)
     {
         std::ostringstream stream;

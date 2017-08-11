@@ -1,34 +1,39 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFMapEx.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-03-01
-//    @Module           :    这个是智能指针专用,切记，不能在循环中自己删除自己
-//
-// -------------------------------------------------------------------------
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+#pragma once
 
-#ifndef NF_MAPEX_H
-#define NF_MAPEX_H
-
-#include <map>
-#include <list>
-#include <string>
-#include <iostream>
-#include <typeinfo>
-#include <memory>
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFMacros.hpp"
 
 template <typename T , typename TD>
 class AFMapEx
 {
 public:
-    typedef std::map<T, NF_SHARE_PTR<TD> > NFMapOBJECT;
+    typedef std::map<T, ARK_SHARE_PTR<TD> > NFMapOBJECT;
 
     AFMapEx() {};
     virtual ~AFMapEx()
     {
     };
 
-    virtual bool AddElement(const T& name, const NF_SHARE_PTR<TD> data)
+    virtual bool AddElement(const T& name, const ARK_SHARE_PTR<TD> data)
     {
         typename NFMapOBJECT::iterator itr = mObjectList.find(name);
         if (itr == mObjectList.end())
@@ -40,7 +45,7 @@ public:
         return false;
     }
 
-    virtual bool SetElement(const T& name, const NF_SHARE_PTR<TD> data)
+    virtual bool SetElement(const T& name, const ARK_SHARE_PTR<TD> data)
     {
         mObjectList[name] = data;
 
@@ -49,7 +54,7 @@ public:
 
     virtual bool RemoveElement(const T& name)
     {
-        NF_SHARE_PTR<TD> pData;
+        ARK_SHARE_PTR<TD> pData;
         typename NFMapOBJECT::iterator itr = mObjectList.find(name);
         if (itr != mObjectList.end())
         {
@@ -73,7 +78,7 @@ public:
         return NULL;
     }
 
-    virtual NF_SHARE_PTR<TD> GetElement(const T& name)
+    virtual ARK_SHARE_PTR<TD> GetElement(const T& name)
     {
         typename NFMapOBJECT::iterator itr = mObjectList.find(name);
         if (itr != mObjectList.end())
@@ -149,7 +154,7 @@ public:
         return NULL;
     }
 
-    virtual NF_SHARE_PTR<TD> First()
+    virtual ARK_SHARE_PTR<TD> First()
     {
         if (mObjectList.size() <= 0)
         {
@@ -165,11 +170,11 @@ public:
         return nullptr;
     }
 
-    virtual NF_SHARE_PTR<TD> Next()
+    virtual ARK_SHARE_PTR<TD> Next()
     {
         if (mObjectCurIter == mObjectList.end())
         {
-            return NF_SHARE_PTR<TD>();
+            return ARK_SHARE_PTR<TD>();
         }
 
         ++mObjectCurIter;
@@ -181,11 +186,11 @@ public:
         return nullptr;
     }
 
-    virtual NF_SHARE_PTR<TD> First(T& name)
+    virtual ARK_SHARE_PTR<TD> First(T& name)
     {
         if (mObjectList.size() <= 0)
         {
-            return NF_SHARE_PTR<TD>();
+            return ARK_SHARE_PTR<TD>();
         }
 
         mObjectCurIter = mObjectList.begin();
@@ -198,11 +203,11 @@ public:
         return nullptr;
     }
 
-    virtual NF_SHARE_PTR<TD> Next(T& name)
+    virtual ARK_SHARE_PTR<TD> Next(T& name)
     {
         if (mObjectCurIter == mObjectList.end())
         {
-            return NF_SHARE_PTR<TD>();
+            return ARK_SHARE_PTR<TD>();
         }
 
         mObjectCurIter++;
@@ -230,12 +235,3 @@ private:
     NFMapOBJECT     mObjectList;
     typename NFMapOBJECT::iterator mObjectCurIter;
 };
-
-template <typename T , typename TD>
-class AFConcurrentMap : public AFMapEx<T, TD>
-{
-public:
-protected:
-private:
-};
-#endif

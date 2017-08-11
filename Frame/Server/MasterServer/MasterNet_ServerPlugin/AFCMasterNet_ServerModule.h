@@ -73,7 +73,7 @@ protected:
 
 private:
 
-    AFINT64 mnLastLogTime;
+    int64_t mnLastLogTime;
 
     //serverid,data
     AFMapEx<int, ServerData> mWorldMap;

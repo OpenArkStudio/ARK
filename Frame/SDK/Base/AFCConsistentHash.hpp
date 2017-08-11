@@ -13,7 +13,7 @@
 #include <list>
 #include <functional> 
 #include <algorithm>
-#include "SDK/Interface/AFPlatform.h"
+#include "SDK/Base/AFPlatform.hpp"
 #include "common/crc32.hpp"
 
 /**
@@ -136,9 +136,9 @@ public:
     std::string ToStr() const 
     {
         std::ostringstream strInfo;
-        strInfo << AF_LEXICAL_CAST<std::string>(GetDataID()) << "-" << GetDataStr() << "-" << nVirtualIndex;
+        strInfo << ARK_LEXICAL_CAST<std::string>(GetDataID()) << "-" << GetDataStr() << "-" << nVirtualIndex;
         return strInfo.str();
-        //return boost::str(boost::format("%1%-%2%-%3%") % AF_LEXICAL_CAST<std::string>(GetDataID()) % GetDataStr() % nVirtualIndex);
+        //return boost::str(boost::format("%1%-%2%-%3%") % ARK_LEXICAL_CAST<std::string>(GetDataID()) % GetDataStr() % nVirtualIndex);
     }
 
 private:

@@ -160,9 +160,9 @@ bool AFCGUIDModule::Shut()
 void AFCGUIDModule::SetWorkerAndDatacenter(uint16_t worker_id, uint16_t data_center_id)
 {
 #ifdef AF_THREAD_SAFE
-    m_pIDWoker = NF_NEW GUIDModule::IdWorkerThreadSafe(worker_id, data_center_id);
+    m_pIDWoker = ARK_NEW GUIDModule::IdWorkerThreadSafe(worker_id, data_center_id);
 #else
-    m_pIDWoker = NF_NEW GUIDModule::IdWorkerUnThreadSafe(worker_id, data_center_id);
+    m_pIDWoker = ARK_NEW GUIDModule::IdWorkerUnThreadSafe(worker_id, data_center_id);
 #endif
 }
 
