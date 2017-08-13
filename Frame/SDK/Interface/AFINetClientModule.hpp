@@ -41,9 +41,9 @@ struct ConnectData
     std::string strIPAndPort;
     std::string strName;
     ConnectDataState eState;
-    AFINT64 mnLastActionTime;
+    int64_t mnLastActionTime;
 
-    NF_SHARE_PTR<AFCNetClient> mxNetModule;
+    ARK_SHARE_PTR<AFCNetClient> mxNetModule;
 };
 
 class AFINetClientModule : public AFINetModule
@@ -107,10 +107,10 @@ public:
     //裸数据,发时组包
     void SendByServerID(const int nServerID, const int nMsgID, const char* msg, const uint32_t nLen)
     {
-        NF_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
+        ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
         if(pServer)
         {
-            NF_SHARE_PTR<AFCNetClient> pNetModule = pServer->mxNetModule;
+            ARK_SHARE_PTR<AFCNetClient> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
                 pNetModule->SendMsgWithOutHead(nMsgID, msg, nLen, 0);
@@ -120,10 +120,10 @@ public:
     //裸数据,发时组包
     void SendToAllServer(const int nMsgID, const std::string& strData)
     {
-        NF_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
+        ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
         while(pServer)
         {
-            NF_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
+            ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
                 pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.size(), 0);
@@ -137,10 +137,10 @@ public:
         std::string strData;
         PackMsgToBasePB(xData, AFGUID(0), strData);
 
-        NF_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
+        ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
         if(pServer)
         {
-            NF_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
+            ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
                 pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0));
@@ -153,10 +153,10 @@ public:
         std::string strData;
         PackMsgToBasePB(xData, AFGUID(0), strData);
 
-        NF_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
+        ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
         while(pServer)
         {
-            NF_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
+            ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
                 pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0));
@@ -191,7 +191,7 @@ public:
         }
 
         AFCMachineNode xNode;
-        if(!GetServerMachineData(AF_LEXICAL_CAST<std::string>(nHashKey), xNode))
+        if(!GetServerMachineData(ARK_LEXICAL_CAST<std::string>(nHashKey), xNode))
         {
             return;
         }
@@ -213,7 +213,7 @@ public:
         }
 
         AFCMachineNode xNode;
-        if(!GetServerMachineData(AF_LEXICAL_CAST<std::string> (nHashKey), xNode))
+        if(!GetServerMachineData(ARK_LEXICAL_CAST<std::string> (nHashKey), xNode))
         {
             return;
         }
@@ -221,7 +221,7 @@ public:
         SendToServerByPB(xNode.nMachineID, nMsgID, xData);
     }
 
-    NF_SHARE_PTR<ConnectData> GetServerNetInfo(const int nServerID)
+    ARK_SHARE_PTR<ConnectData> GetServerNetInfo(const int nServerID)
     {
         return mxServerMap.GetElement(nServerID);
     }
@@ -308,7 +308,7 @@ protected:
                     }
 
                     pServerData->eState = ConnectDataState::CONNECTING;
-                    pServerData->mxNetModule = NF_SHARE_PTR<AFCNetClient>(new AFCNetClient(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent));
+                    pServerData->mxNetModule = ARK_SHARE_PTR<AFCNetClient>(new AFCNetClient(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent));
                     pServerData->mxNetModule->Initialization(pServerData->strIPAndPort, pServerData->nGameID);
                 }
                 break;
@@ -413,7 +413,7 @@ private:
                 xServerData->nPort = xInfo.nPort;
                 xServerData->mnLastActionTime = GetPluginManager()->GetNowTime();
 
-                xServerData->mxNetModule = NF_SHARE_PTR<AFCNetClient>(NF_NEW AFCNetClient(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent));
+                xServerData->mxNetModule = ARK_SHARE_PTR<AFCNetClient>(NF_NEW AFCNetClient(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent));
 
                 xServerData->mxNetModule->Initialization(xServerData->strIPAndPort, xServerData->nGameID);
 
@@ -430,7 +430,7 @@ private:
         return mxConsistentHash.GetSuitNode(nCRC32, xMachineData);
     }
 
-    void AddServerWeightData(NF_SHARE_PTR<ConnectData> xInfo)
+    void AddServerWeightData(ARK_SHARE_PTR<ConnectData> xInfo)
     {
         //根据权重创建节点
         for(int j = 0; j < EConstDefine_DefaultWeith; ++j)
@@ -445,7 +445,7 @@ private:
         }
     }
 
-    void RemoveServerWeightData(NF_SHARE_PTR<ConnectData> xInfo)
+    void RemoveServerWeightData(ARK_SHARE_PTR<ConnectData> xInfo)
     {
         for(int j = 0; j < EConstDefine_DefaultWeith; ++j)
         {

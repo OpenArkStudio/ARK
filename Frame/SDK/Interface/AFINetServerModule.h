@@ -16,7 +16,7 @@
 #include "SDK/Base/AFQueue.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Proto/NFDefine.pb.h"
-#include "AFINetModule.h"
+//#include "AFINetModule.h"
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -29,7 +29,7 @@
         return;                                         \
     }                                                   \
     \
-    NF_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(nPlayerID); \
+    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(nPlayerID); \
     if ( NULL == pObject.get() )                        \
     {                                                   \
         m_pLogModule->LogError(nPlayerID, "FromClient Object do not Exist", "", __FUNCTION__, __LINE__); \
@@ -44,6 +44,24 @@
         m_pLogModule->LogError(AFGUID(), "", "Parse msg error", __FUNCTION__, __LINE__); \
         return;                                         \
     }
+
+static AFGUID PBToNF(NFMsg::Ident xID)
+{
+    AFGUID  xIdent;
+    xIdent.n64Value = xID.svrid();
+    //xIdent.nData64 = xID.index();
+
+    return xIdent;
+}
+
+static NFMsg::Ident NFToPB(AFGUID xID)
+{
+    NFMsg::Ident  xIdent;
+    xIdent.set_svrid(xID.n64Value);
+    //xIdent.set_index(xID.nData64);
+
+    return xIdent;
+}
 
 //////////////////////////////////////////////////////////////////////////
 struct ServerData
@@ -77,8 +95,7 @@ struct SessionData
     std::string mstrAccout;
 };
 
-class AFINetServerModule
-    : public AFINetModule
+class AFINetServerModule : public AFIModule
 {
 protected:
     AFINetServerModule()
