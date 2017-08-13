@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    AFCPluginManager.h
+//    @FileName         :    AFCPluginManager.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
 //    @Module           :    AFCPluginManager
@@ -13,18 +13,18 @@
 #include <string>
 #include <time.h>
 #include "AFCDynLib.h"
-#include "SDK/Core/AFSingleton.h"
+#include "SDK/Base/AFSingleton.hpp"
 #include "SDK/Interface/AFIPluginManager.h"
 
 class AFCPluginManager
     : public AFIPluginManager,
-	public NFSingleton<AFCPluginManager>
+      public AFSingleton<AFCPluginManager>
 {
 public:
     AFCPluginManager();
     virtual ~AFCPluginManager();
 
-	virtual bool Init();
+    virtual bool Init();
 
     virtual bool AfterInit();
 
@@ -55,29 +55,29 @@ public:
 
     virtual bool Execute();
 
-	virtual int AppID() const;
+    virtual int AppID() const;
 
-	virtual int64_t GetInitTime() const;
+    virtual int64_t GetInitTime() const;
 
-	virtual int64_t GetNowTime() const;
+    virtual int64_t GetNowTime() const;
 
-	virtual const std::string& GetConfigPath() const;
+    virtual const std::string& GetConfigPath() const;
 
-	virtual void SetConfigName(const std::string& strFileName);
+    virtual void SetConfigName(const std::string& strFileName);
 protected:
-	bool LoadPluginConfig();
+    bool LoadPluginConfig();
 
-	bool LoadStaticPlugin(const std::string& strPluginDLLName);
+    bool LoadStaticPlugin(const std::string& strPluginDLLName);
     bool LoadPluginLibrary(const std::string& strPluginDLLName);
     bool UnLoadPluginLibrary(const std::string& strPluginDLLName);
-	bool UnLoadStaticPlugin(const std::string& strPluginDLLName);
+    bool UnLoadStaticPlugin(const std::string& strPluginDLLName);
 
 private:
     int mnAppID;
     int64_t mnInitTime;
     int64_t mnNowTime;
     std::string mstrConfigPath;
-	std::string mstrConfigName;
+    std::string mstrConfigName;
 
     typedef std::map<std::string, bool> PluginNameMap;
     typedef std::map<std::string, AFCDynLib*> PluginLibMap;
