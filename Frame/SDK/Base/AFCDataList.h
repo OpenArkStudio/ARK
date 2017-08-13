@@ -640,38 +640,37 @@ public:
         }
 
         std::string strdata;
-        //todo
-        //switch(mpData[index].nType)
-        //{
-        //case DT_BOOLEAN:
-        //    NF_ToStr(strdata, mpData[index].mbValue);
-        //    break;
-        //case DT_INT:
-        //    NF_ToStr(strdata, mpData[index].mnValue);
-        //    break;
-        //case DT_INT64:
-        //    NF_ToStr(strdata, mpData[index].mn64Value);
-        //    break;
-        //case DT_FLOAT:
-        //    NF_ToStr(strdata, mpData[index].mfValue);
-        //    break;
-        //case DT_DOUBLE:
-        //    NF_ToStr(strdata, mpData[index].mdValue);
-        //    break;
-        //case DT_STRING:
-        //    NF_ToStr(strdata, String(index));
-        //    break;
-        //case DT_OBJECT:
-        //    NF_ToStr(strdata, Object(index));
-        //    break;
-        //case DT_POINTER:
-        //    break;
-        //case DT_USERDATA:
-        //    break;
-        //default:
-        //    assert(0);
-        //    break;
-        //}
+        switch(mpData[index].nType)
+        {
+        case DT_BOOLEAN:
+            Ark_to_str(strdata, mpData[index].mbValue);
+            break;
+        case DT_INT:
+            Ark_to_str(strdata, mpData[index].mnValue);
+            break;
+        case DT_INT64:
+            Ark_to_str(strdata, mpData[index].mn64Value);
+            break;
+        case DT_FLOAT:
+            Ark_to_str(strdata, mpData[index].mfValue);
+            break;
+        case DT_DOUBLE:
+            Ark_to_str(strdata, mpData[index].mdValue);
+            break;
+        case DT_STRING:
+            Ark_to_str(strdata, String(index));
+            break;
+        case DT_OBJECT:
+            Ark_to_str(strdata, Object(index));
+            break;
+        case DT_POINTER:
+            break;
+        case DT_USERDATA:
+            break;
+        default:
+            assert(0);
+            break;
+        }
 
         return strdata;
     }
