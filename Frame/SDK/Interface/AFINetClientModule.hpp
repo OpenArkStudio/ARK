@@ -12,7 +12,7 @@
 #include "AFIModule.h"
 #include "SDK/Base/AFCConsistentHash.hpp"
 #include "SDK/NetEvpp/AFCNetClient.h"
-#include "SDK/Core/AFINetModule.h"
+#include "SDK/Interface/AFINetModule.h"
 
 enum ConnectDataState
 {
