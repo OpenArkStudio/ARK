@@ -9,14 +9,11 @@
 #ifndef AFI_NET_SERVER_MODULE_H
 #define AFI_NET_SERVER_MODULE_H
 
-#include <iostream>
-#include <iosfwd>
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Base/AFGUID.h"
 #include "AFIModule.h"
 #include "AFIPluginManager.h"
-#include "AFINetModule.h"
 #include "SDK/NetEvpp/AFCNetServer.h"
-#include "SDK/Core/AFQueue.h"
+#include "SDK/Base/AFQueue.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Proto/NFDefine.pb.h"
 #include "AFINetModule.h"
@@ -53,7 +50,7 @@ struct ServerData
 {
     ServerData()
     {
-        pData = NF_SHARE_PTR<NFMsg::ServerInfoReport>(NF_NEW NFMsg::ServerInfoReport());
+        pData = ARK_SHARE_PTR<NFMsg::ServerInfoReport>(ARK_NEW NFMsg::ServerInfoReport());
     }
     ~ServerData()
     {
@@ -61,7 +58,7 @@ struct ServerData
     }
 
     AFGUID xClient;
-    NF_SHARE_PTR<NFMsg::ServerInfoReport> pData;
+    ARK_SHARE_PTR<NFMsg::ServerInfoReport> pData;
 };
 
 struct SessionData
@@ -123,9 +120,9 @@ public:
     {
         std::string strIPAndPort = "0.0.0.0:";
         std::string strPort;
-        NF_ToStr(strPort, nPort);
+        Ark_to_str(strPort, nPort);
         strIPAndPort += strPort;
-        m_pNet = NF_NEW AFCNetServer(this, &AFINetServerModule::OnReceiveNetPack, &AFINetServerModule::OnSocketNetEvent);
+        m_pNet = ARK_NEW AFCNetServer(this, &AFINetServerModule::OnReceiveNetPack, &AFINetServerModule::OnSocketNetEvent);
         return m_pNet->Initialization(nMaxClient, strIPAndPort, nServerID, nCpuCount);
     }
 
@@ -153,7 +150,7 @@ public:
         if(!xData.SerializeToString(xMsg.mutable_msg_data()))
         {
             char szData[MAX_PATH] = { 0 };
-            NFSPRINTF(szData, MAX_PATH, "Send Message to all Failed For Serialize of MsgData, MessageID: %d\n", nMsgID);
+            ARK_SPRINTF(szData, MAX_PATH, "Send Message to all Failed For Serialize of MsgData, MessageID: %d\n", nMsgID);
 
             return false;
         }
@@ -165,7 +162,7 @@ public:
         if(!xMsg.SerializeToString(&strMsg))
         {
             char szData[MAX_PATH] = { 0 };
-            NFSPRINTF(szData, MAX_PATH, "Send Message to all Failed For Serialize of MsgBase, MessageID: %d\n", nMsgID);
+            ARK_SPRINTF(szData, MAX_PATH, "Send Message to all Failed For Serialize of MsgBase, MessageID: %d\n", nMsgID);
 
             return false;
         }
@@ -179,7 +176,7 @@ public:
         if(!xData.SerializeToString(&xMsgData))
         {
             char szData[MAX_PATH] = { 0 };
-            NFSPRINTF(szData, MAX_PATH, "Send Message to %d Failed For Serialize of MsgData, MessageID: %d\n", xClientID.ToString(), nMsgID);
+            ARK_SPRINTF(szData, MAX_PATH, "Send Message to %d Failed For Serialize of MsgData, MessageID: %d\n", xClientID.ToString(), nMsgID);
 
             return false;
         }
@@ -192,7 +189,7 @@ public:
         if(!m_pNet)
         {
             char szData[MAX_PATH] = { 0 };
-            NFSPRINTF(szData, MAX_PATH, "Send Message to %d Failed For NULL Of Net, MessageID: %d\n", xClientID.ToString(), nMsgID);
+            ARK_SPRINTF(szData, MAX_PATH, "Send Message to %d Failed For NULL Of Net, MessageID: %d\n", xClientID.ToString(), nMsgID);
             //LogSend(szData);
 
             return false;
@@ -271,7 +268,7 @@ protected:
 private:
 
     AFINet* m_pNet;
-    AFINT64 nLastTime;
+    int64_t nLastTime;
 };
 
 #endif
