@@ -9,8 +9,7 @@
 #ifndef AFC_PROXYSERVER_SERVER_MODULE_H
 #define AFC_PROXYSERVER_SERVER_MODULE_H
 
-//  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
-#include "SDK/Core/AFCConsistentHash.hpp"
+#include "SDK/Base/AFCConsistentHash.hpp"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Interface/AFIProxyServerNet_ServerModule.h"
 #include "SDK/Interface/AFIProxyServerToWorldModule.h"

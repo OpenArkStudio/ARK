@@ -9,11 +9,10 @@
 #ifndef AFI_CLUSTER_CLIENT_MODULE_H
 #define AFI_CLUSTER_CLIENT_MODULE_H
 
-#include <iostream>
 #include "AFIModule.h"
-#include "SDK/Core/AFCConsistentHash.hpp"
+#include "SDK/Base/AFCConsistentHash.hpp"
 #include "SDK/NetEvpp/AFCNetClient.h"
-#include "AFINetModule.h"
+#include "SDK/Core/AFINetModule.h"
 
 enum ConnectDataState
 {
@@ -359,7 +358,7 @@ private:
 
     int OnConnected(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
     {
-        NF_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
+        ARK_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
         if(pServerInfo.get())
         {
             AddServerWeightData(pServerInfo);
@@ -371,7 +370,7 @@ private:
 
     int OnDisConnected(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
     {
-        NF_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
+        ARK_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
         if(nullptr != pServerInfo)
         {
             RemoveServerWeightData(pServerInfo);
@@ -388,11 +387,11 @@ private:
         for(; it != mxTempNetList.end(); ++it)
         {
             const ConnectData& xInfo = *it;
-            NF_SHARE_PTR<ConnectData> xServerData = mxServerMap.GetElement(xInfo.nGameID);
+            ARK_SHARE_PTR<ConnectData> xServerData = mxServerMap.GetElement(xInfo.nGameID);
             if(nullptr == xServerData)
             {
                 //正常，添加新服务器
-                xServerData = NF_SHARE_PTR<ConnectData>(NF_NEW ConnectData());
+                xServerData = ARK_SHARE_PTR<ConnectData>(ARK_NEW ConnectData());
 
                 xServerData->nGameID = xInfo.nGameID;
                 xServerData->eServerType = xInfo.eServerType;
@@ -401,7 +400,7 @@ private:
                 if(xInfo.strIPAndPort.empty())
                 {
                     std::string strPort;
-                    NF_ToStr(strPort, xInfo.nPort);
+                    Ark_to_str(strPort, xInfo.nPort);
                     xServerData->strIPAndPort = xInfo.strIP + ":" + strPort;
                 }
                 else
