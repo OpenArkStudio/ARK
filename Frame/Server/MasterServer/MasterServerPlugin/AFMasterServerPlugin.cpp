@@ -14,7 +14,7 @@
 //
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
+ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTitle("NFMasterServer");
@@ -25,7 +25,7 @@ NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
     //std::cout << "DllStartPlugin::thread id=" << GetCurrentThreadId() << std::endl;
 };
 
-NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
+ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFMasterServerPlugin)
 };

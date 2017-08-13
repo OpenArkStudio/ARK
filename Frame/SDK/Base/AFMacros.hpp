@@ -51,6 +51,8 @@ inline uint32_t GetSystemTime()
     MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_"#exp_), MB_RETRYCANCEL | MB_ICONERROR); \
     assert(0);
 
+#define ARK_EXPORT extern "C"  __declspec(dllexport)
+
 #else
 
 inline uint32_t GetSystemTime()
@@ -69,6 +71,9 @@ inline uint32_t GetSystemTime()
     strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_; \
     std::cout << strInfo << std::endl;          \
     assert(0);
+
+#define ARK_EXPORT extern "C" __attribute ((visibility("default")))
+
 #endif
 
 #if defined(USE_BOOST)
@@ -114,3 +119,19 @@ inline bool IsDoubleEqual(const double lhs, const double rhs)
 #else
 #define ARK_USE_TCMALLOC
 #endif
+
+template<typename DTYPE>
+bool Ark_to_str(const std::string& strValue, DTYPE& nValue)
+{
+    try
+    {
+        nValue = AF_LEXICAL_CAST<DTYPE>(strValue);
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
+
+    return false;
+}
