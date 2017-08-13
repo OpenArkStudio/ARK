@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCSceneProcessModule.h"
-#include "SDK/Core/AFTime.h"
+#include "SDK/Base/AFTime.hpp"
 #include "SDK/Proto/NFProtocolDefine.hpp"
 
 bool AFCSceneProcessModule::Init()
