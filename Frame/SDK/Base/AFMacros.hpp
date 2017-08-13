@@ -120,12 +120,12 @@ inline bool IsDoubleEqual(const double lhs, const double rhs)
 #define ARK_USE_TCMALLOC
 #endif
 
-template<typename DTYPE>
-bool Ark_to_str(const std::string& strValue, DTYPE& nValue)
+template<typename T>
+bool Ark_to_str(const std::string& strValue, T& nValue)
 {
     try
     {
-        nValue = AF_LEXICAL_CAST<DTYPE>(strValue);
+        nValue = ARK_LEXICAL_CAST<T>(strValue);
         return true;
     }
     catch (...)
