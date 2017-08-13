@@ -17,7 +17,7 @@
 #include "AFCPluginManager.h"
 #include "SDK/Base/AFPlatform.hpp"
 
-#if ARK_PLATFORM == NF_PLATFORM_LINUX
+#if ARK_PLATFORM == PLATFORM_UNIX
 #include <unistd.h>
 #include <netdb.h>
 #include <arpa/inet.h>
@@ -31,6 +31,7 @@ std::string strPluginName;
 
 #if ARK_PLATFORM == PLATFORM_WIN
 
+#include <Dbghelp.h>
 #pragma comment( lib, "DbgHelp" )
 // 创建Dump文件
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
@@ -102,7 +103,7 @@ void CreateBackThread()
 
 void InitDaemon()
 {
-#if ARK_PLATFORM == NF_PLATFORM_LINUX
+#if ARK_PLATFORM == PLATFORM_UNIX
     daemon(1, 0);
 
     // ignore signals
@@ -155,7 +156,7 @@ int main(int argc, char* argv[])
     {
         CloseXButton();
     }
-#elif ARK_PLATFORM == NF_PLATFORM_LINUX
+#elif ARK_PLATFORM == PLATFORM_UNIX
     //run it as a daemon process
     if(strArgvList.find("-d") != string::npos)
     {
@@ -177,13 +178,13 @@ int main(int argc, char* argv[])
             }
         }
 
-        AFCPluginManager::GetSingletonPtr()->SetConfigName(strPluginName);
+        AFCPluginManager::GetInstancePtr()->SetConfigName(strPluginName);
     }
 
 
-    AFCPluginManager::GetSingletonPtr()->Init();
-    AFCPluginManager::GetSingletonPtr()->AfterInit();
-    AFCPluginManager::GetSingletonPtr()->CheckConfig();
+    AFCPluginManager::GetInstancePtr()->Init();
+    AFCPluginManager::GetInstancePtr()->AfterInit();
+    AFCPluginManager::GetInstancePtr()->CheckConfig();
 
     PrintfLogo();
     CreateBackThread();
@@ -203,7 +204,7 @@ int main(int argc, char* argv[])
             __try
             {
 #endif
-                AFCPluginManager::GetSingletonPtr()->Execute();
+                AFCPluginManager::GetInstancePtr()->Execute();
 #if ARK_PLATFORM == PLATFORM_WIN
             }
             __except(ApplicationCrashHandler(GetExceptionInformation()))
@@ -213,10 +214,10 @@ int main(int argc, char* argv[])
         }
     }
 
-    AFCPluginManager::GetSingletonPtr()->BeforeShut();
-    AFCPluginManager::GetSingletonPtr()->Shut();
+    AFCPluginManager::GetInstancePtr()->BeforeShut();
+    AFCPluginManager::GetInstancePtr()->Shut();
 
-    AFCPluginManager::GetSingletonPtr()->ReleaseInstance();
+    AFCPluginManager::GetInstancePtr()->ReleaseInstance();
 
     return 0;
 }
