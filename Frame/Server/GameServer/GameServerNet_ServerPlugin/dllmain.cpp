@@ -11,7 +11,7 @@
 #pragma comment( lib, "event_core.lib" )
 
 
-#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
 
 #pragma comment( lib, "AFNetEvpp_d.a" )
 #pragma comment( lib, "Core_d.a" )
@@ -29,7 +29,7 @@
 #pragma comment( lib, "libprotobuf.lib" )
 #pragma comment( lib, "event_core.lib" )
 
-#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
 #pragma comment( lib, "AFNetEvpp.a" )
 #pragma comment( lib, "Core.a" )
 #pragma comment( lib, "Proto.a" )
