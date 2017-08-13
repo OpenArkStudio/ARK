@@ -1,27 +1,15 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    NFWorldLogicPlugin.cpp
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-07-14 08:51
-//    @Module           :    NFWorldLogicPlugin
-//
-// -------------------------------------------------------------------------
-
-
 #include "AFCWorldLogicModule.h"
 #include "AFWorldLogicPlugin.h"
 
-//
-//
-
-NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
+ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 #if ARK_PLATFORM == PLATFORM_WIN
-    SetConsoleTitle("NFWorldServer");
+    SetConsoleTitle("ArkWorldServer");
 #endif // ARK_PLATFORM
     CREATE_PLUGIN(pm, NFWorldLogicPlugin)
 };
 
-NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
+ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, NFWorldLogicPlugin)
 };
