@@ -658,10 +658,10 @@ public:
             Ark_to_str(strdata, mpData[index].mdValue);
             break;
         case DT_STRING:
-            Ark_to_str(strdata, String(index));
+            strdata = String(index);
             break;
         case DT_OBJECT:
-            Ark_to_str(strdata, Object(index));
+            strdata = Object(index).ToString();
             break;
         case DT_POINTER:
             break;

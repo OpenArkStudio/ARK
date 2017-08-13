@@ -43,7 +43,7 @@ public:
     virtual const NFGUID CreateGuild(const NFGUID& xPlayeID, const std::string& strName, const std::string& strRoleName,
                                      const int nLevel, const int nJob , const int nDonation , const int nVIP, const int nOffLine = 1, const int nPower = NFMsg::GUILD_POWER_TYPE_PRESIDENT) = 0;
     virtual const bool DeleteGuild(const NFGUID& xGuild) = 0;
-    virtual NF_SHARE_PTR<AFIObject> GetGuild(const NFGUID& xGuild) = 0;
+    virtual ARK_SHARE_PTR<AFIObject> GetGuild(const NFGUID& xGuild) = 0;
 
     virtual bool GetPlayerGuild(const NFGUID& self, NFGUID& xGuild) = 0;
     virtual bool SearchGuild(const NFGUID& self, const std::string& strName, std::vector<SearchGuildObject>& xList) = 0;
