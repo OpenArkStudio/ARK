@@ -53,6 +53,13 @@ public:
         assert(instance_);
         return instance_;
     }
+
+    void ReleaseInstance()
+    {
+        //assert(instance_);
+        //return instance_;
+    }
+
 protected:
     static T* instance_;
 };
