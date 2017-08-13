@@ -22,16 +22,16 @@
 #include "SDK/Base/AFPlatform.hpp"
 #include "SDK/Base/AFMacros.hpp"
 
-struct AFGUID 
+struct AFGUID
 {
-    union 
+    union
     {
         struct
         {
             uint64_t n64Value;
         };
 
-        struct 
+        struct
         {
             uint32_t nIdent;
             uint32_t nSerial;
@@ -92,7 +92,7 @@ struct AFGUID
 
     std::string ToString() const
     {
-        return ARK_LEXICAL_CAST<std::string>(nIdent) + "-" + ARK_LEXICAL_CAST<std::string>(nSerial);
+        return ARK_LEXICAL_CAST<std::string>(n64Value);// +"-" + ARK_LEXICAL_CAST<std::string>(nSerial);
     }
 
     bool FromString(const std::string& strID)
