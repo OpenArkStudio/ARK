@@ -7,12 +7,12 @@
 
 #ifdef NF_DYNAMIC_PLUGIN
 
-NF_EXPORT void DllStartPlugin(AFIPluginManager* pm)
+ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
     CREATE_PLUGIN(pm, AFConfigPlugin)
 };
 
-NF_EXPORT void DllStopPlugin(AFIPluginManager* pm)
+ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
     DESTROY_PLUGIN(pm, AFConfigPlugin)
 };
