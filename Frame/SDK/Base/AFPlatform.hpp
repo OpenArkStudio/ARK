@@ -21,15 +21,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h> 
+#include <stdarg.h>
 #include <math.h>
-#include <assert.h> 
+#include <assert.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
-#include <string>  
-#include <cstring>  
+#include <string>
+#include <cstring>
 #include <vector>
 #include <map>
 #include <list>
@@ -63,13 +63,13 @@
 #include <windows.h>
 #define _SCL_SECURE_NO_WARNINGS
 
-#define SIGHUP	1
-#define SIGINT	2
+#define SIGHUP  1
+#define SIGINT  2
 #define SIGQUIT 3
 #define SIGUSR1 10
 #define SIGPIPE 13
 #define SIGCHLD 17
-#define SIGSYS	32
+#define SIGSYS  32
 
 #else
 // only other unix/linux include

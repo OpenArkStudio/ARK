@@ -22,7 +22,7 @@
 struct HINSTANCE__;
 typedef struct HINSTANCE__* hInstance;
 
-#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
 #include <dlfcn.h>
 #define DYNLIB_HANDLE void*
 #define DYNLIB_LOAD( a ) dlopen( a, RTLD_LAZY | RTLD_GLOBAL)
@@ -52,7 +52,7 @@ public:
 
 #if ARK_PLATFORM == PLATFORM_WIN
         mstrName.append(".dll");
-#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
         mstrName.append(".so");
 #elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
         mstrName.append(".so");
