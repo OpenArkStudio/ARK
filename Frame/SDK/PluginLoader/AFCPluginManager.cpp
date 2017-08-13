@@ -22,7 +22,7 @@
 
 #if ARK_PLATFORM == PLATFORM_WIN
 
-#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
 #pragma comment( lib, "libtherond.a" )
 #elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
 #pragma comment( lib, "libtherond.a" )
@@ -32,7 +32,7 @@
 
 #if ARK_PLATFORM == PLATFORM_WIN
 
-#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
 #pragma comment( lib, "libtheron.a" )
 #elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
 #pragma comment( lib, "libtheron.a" )
@@ -383,7 +383,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
         }
         else
         {
-#if ARK_PLATFORM == NF_PLATFORM_LINUX
+#if ARK_PLATFORM == PLATFORM_UNIX
             char* error = dlerror();
             if(error)
             {
