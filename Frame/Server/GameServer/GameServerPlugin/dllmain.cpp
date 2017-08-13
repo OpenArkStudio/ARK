@@ -10,7 +10,7 @@
 //#pragma comment( lib, "libglog_static_d.lib" )
 
 
-#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
 #pragma comment( lib, "Core_d.a" )
 #pragma comment( lib, "Proto_d.a" )
 //#pragma comment( lib, "libglog_d.lib" )
@@ -25,7 +25,7 @@
 #pragma comment( lib, "Proto.lib" )
 #pragma comment( lib, "libprotobuf.lib" )
 
-#elif ARK_PLATFORM == NF_PLATFORM_LINUX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
 #pragma comment( lib, "Core.a" )
 #pragma comment( lib, "Proto.a" )
 #pragma comment( lib, "libprotobuf.a" )
