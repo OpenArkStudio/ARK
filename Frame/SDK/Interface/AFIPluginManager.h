@@ -22,7 +22,7 @@
 #include "AFIModule.h"
 
 #define FIND_MODULE(classBaseName, className)  \
-	assert((TIsDerived<classBaseName, AFIModule>::Result));
+    assert((TIsDerived<classBaseName, AFIModule>::Result));
 
 class AFIPlugin;
 
@@ -34,25 +34,25 @@ public:
 
     }
 
-	template <typename T>
-	T* FindModule()
-	{
-		AFIModule* pLogicModule = FindModule(typeid(T).name());
-		if (pLogicModule)
-		{
-			if (!TIsDerived<T, AFIModule>::Result)
-			{
-				return NULL;
-			}
+    template <typename T>
+    T* FindModule()
+    {
+        AFIModule* pLogicModule = FindModule(typeid(T).name());
+        if (pLogicModule)
+        {
+            if (!TIsDerived<T, AFIModule>::Result)
+            {
+                return NULL;
+            }
 
-			T* pT = dynamic_cast<T*>(pLogicModule);
-			assert(NULL != pT);
+            T* pT = dynamic_cast<T*>(pLogicModule);
+            assert(NULL != pT);
 
-			return pT;
-		}
-		assert(NULL);
-		return NULL;
-	}
+            return pT;
+        }
+        assert(NULL);
+        return NULL;
+    }
 
     virtual void Registered(AFIPlugin* plugin) = 0;
 
@@ -69,6 +69,6 @@ public:
     virtual int AppID() const = 0;
     virtual int64_t GetInitTime() const = 0;
     virtual int64_t GetNowTime() const = 0;
-	virtual const std::string& GetConfigPath() const = 0;
-	virtual void SetConfigName(const std::string& strFileName) = 0;
+    virtual const std::string& GetConfigPath() const = 0;
+    virtual void SetConfigName(const std::string& strFileName) = 0;
 };
