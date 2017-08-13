@@ -185,7 +185,7 @@ int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEv
          return -1;
      }
     */
-    AFINT32 nOldGroupID = var.Int(0);
+    int32_t nOldGroupID = var.Int(0);
     if(nOldGroupID > 0)
     {
         int nSceneID = m_pKernelModule->GetPropertyInt(object, NFrame::Player::SceneID());
