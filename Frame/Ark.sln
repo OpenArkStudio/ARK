@@ -157,7 +157,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConfigPlugin", "SDK\ConfigP
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Base", "SDK\Base\Base.vcxproj", "{32540EFA-8D08-4ED0-A01D-B90623FC8715}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFNetEvpp", "SDK\NetEvpp\NetEvpp.vcxproj", "{403EB74F-6AF5-4250-8DA5-9D3CBFB7E546}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFNet", "SDK\Net\Net.vcxproj", "{403EB74F-6AF5-4250-8DA5-9D3CBFB7E546}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
