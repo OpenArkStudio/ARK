@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFNetEvpp", "SDK\NetEvpp\NetEvpp.vcxproj", "{403EB74F-6AF5-4250-8DA5-9D3CBFB7E546}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFNet", "SDK\Net\Net.vcxproj", "{403EB74F-6AF5-4250-8DA5-9D3CBFB7E546}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetTestServer", "SDK\NetEvpp\NetTestServer.vcxproj", "{9B9C8663-1355-4A22-ABB9-20BB2BF89473}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetTestServer", "SDK\Net\NetTestServer.vcxproj", "{9B9C8663-1355-4A22-ABB9-20BB2BF89473}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetTestClient", "SDK\NetEvpp\NetTestClient.vcxproj", "{1953DCD4-3E9D-4017-B4A2-1A8675A70280}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NetTestClient", "SDK\Net\NetTestClient.vcxproj", "{1953DCD4-3E9D-4017-B4A2-1A8675A70280}"
 EndProject
 Global
 	GlobalSection(Performance) = preSolution
