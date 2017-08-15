@@ -155,7 +155,7 @@ bool AFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
 void AFCLogModule::LogStack()
 {
     //To Add
-    //#ifdef ARK_RUN_MODE_DEBUG
+    //#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
     //    time_t t = time(0);
     //    char szDmupName[MAX_PATH];
     //    tm* ptm = localtime(&t);
@@ -359,7 +359,7 @@ void AFCLogModule::LogFatal(const AFGUID self, const std::ostringstream& strDesc
 
 bool AFCLogModule::LogDebugFunctionDump(const AFGUID ident, const int nMsg, const std::string& strArg, const char* func /*= ""*/, const int line /*= 0*/)
 {
-    //#ifdef ARK_RUN_MODE_DEBUG
+    //#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
     std::ostringstream strLog;
     strLog << strArg << " MsgID: " << nMsg;
     LogWarning(ident, strLog, func, line);
