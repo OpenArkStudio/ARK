@@ -14,7 +14,7 @@
 //#include "SDK/Core/AFGUID.h"
 #include "AFIModule.h"
 #include "AFIPluginManager.h"
-#include "SDK/NetEvpp/AFCNetServer.h"
+#include "SDK/Net/AFCNetServer.h"
 //#include "SDK/Core/AFQueue.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Proto/NFDefine.pb.h"
