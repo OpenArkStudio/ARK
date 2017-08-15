@@ -23,9 +23,9 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{403EB74F-6AF5-4250-8DA5-9D3CBFB7E546}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>AFNetEvpp</RootNamespace>
+    <RootNamespace>AFNet</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>AFNetEvpp</ProjectName>
+    <ProjectName>AFNet</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

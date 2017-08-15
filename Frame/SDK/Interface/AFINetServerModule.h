@@ -12,7 +12,7 @@
 #include "SDK/Base/AFGUID.h"
 #include "AFIModule.h"
 #include "AFIPluginManager.h"
-#include "SDK/NetEvpp/AFCNetServer.h"
+#include "SDK/Net/AFCNetServer.h"
 #include "SDK/Base/AFQueue.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Proto/NFDefine.pb.h"
