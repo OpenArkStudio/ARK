@@ -16,7 +16,7 @@
 #include "SDK/Base/AFQueue.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Proto/NFDefine.pb.h"
-//#include "AFINetModule.h"
+#include "SDK/Interface/AFINetModule.h"
 
 ////////////////////////////////////////////////////////////////////////////
 
@@ -95,7 +95,7 @@ struct SessionData
     std::string mstrAccout;
 };
 
-class AFINetServerModule : public AFIModule
+class AFINetServerModule : public AFINetModule
 {
 protected:
     AFINetServerModule()

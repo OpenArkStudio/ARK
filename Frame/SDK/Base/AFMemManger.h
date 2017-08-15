@@ -26,7 +26,7 @@
 
 #if ARK_PLATFORM == PLATFORM_WIN
 
-#ifdef ARK_RUN_MODE_DEBUG
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 
 #pragma comment( lib, "libtcmalloc_minimal_d.lib" )
 #pragma comment(linker, "/include:__tcmalloc")
