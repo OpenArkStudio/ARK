@@ -121,14 +121,30 @@ inline bool IsDoubleEqual(const double lhs, const double rhs)
 #endif
 
 template<typename T>
-bool Ark_to_str(const std::string& strValue, T& nValue)
+bool Ark_from_str(const std::string& strValue, T& nValue)
 {
     try
     {
         nValue = ARK_LEXICAL_CAST<T>(strValue);
         return true;
     }
-    catch (...)
+    catch(...)
+    {
+        return false;
+    }
+
+    return false;
+}
+
+template<typename T>
+bool Ark_to_str(std::string& strValue, const T& nValue)
+{
+    try
+    {
+        strValue = ARK_LEXICAL_CAST<std::string>(nValue);
+        return true;
+    }
+    catch(...)
     {
         return false;
     }
