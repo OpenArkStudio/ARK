@@ -11,10 +11,11 @@
 #include <map>
 #include <string>
 #include <list>
-#include <functional> 
+#include <functional>
 #include <algorithm>
 #include "SDK/Base/AFPlatform.hpp"
 #include "common/crc32.hpp"
+#include "AFMacros.hpp"
 
 /**
  * @class   AFIVirtualNode
@@ -25,7 +26,7 @@
  * @date    2016/11/22
  */
 
-class AFIVirtualNode 
+class AFIVirtualNode
 {
 public:
 
@@ -41,7 +42,7 @@ public:
      */
 
     AFIVirtualNode(const int nVirID)
-        :nVirtualIndex(nVirID)
+        : nVirtualIndex(nVirID)
     {
 
     }
@@ -55,10 +56,10 @@ public:
      * @date    2016/11/29
      */
 
-	AFIVirtualNode()
-	{
-		nVirtualIndex = 0;
-	}
+    AFIVirtualNode()
+    {
+        nVirtualIndex = 0;
+    }
 
     /**
      * @fn  virtual AFIVirtualNode::~AFIVirtualNode()
@@ -69,10 +70,10 @@ public:
      * @date    2016/11/29
      */
 
-	virtual ~AFIVirtualNode()
-	{
-		nVirtualIndex = 0;
-	}
+    virtual ~AFIVirtualNode()
+    {
+        nVirtualIndex = 0;
+    }
 
     /**
      * @fn  virtual std::string AFIVirtualNode::GetDataStr() const
@@ -85,10 +86,10 @@ public:
      * @return  The data string.
      */
 
-	virtual std::string GetDataStr() const
-	{
-		return "";
-	}
+    virtual std::string GetDataStr() const
+    {
+        return "";
+    }
 
     /**
      * @fn  virtual int AFIVirtualNode::GetDataID() const
@@ -101,10 +102,10 @@ public:
      * @return  The data identifier.
      */
 
-	virtual int GetDataID() const
-	{
-		return 0;
-	}
+    virtual int GetDataID() const
+    {
+        return 0;
+    }
 
     /**
      * @fn  virtual bool AFIVirtualNode::Candidate() const
@@ -117,10 +118,10 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-	virtual bool Candidate() const
-	{
-		return false;
-	};
+    virtual bool Candidate() const
+    {
+        return false;
+    };
 
     /**
      * @fn  std::string AFIVirtualNode::ToStr() const
@@ -133,7 +134,7 @@ public:
      * @return  This object as a std::string.
      */
 
-    std::string ToStr() const 
+    std::string ToStr() const
     {
         std::ostringstream strInfo;
         strInfo << ARK_LEXICAL_CAST<std::string>(GetDataID()) << "-" << GetDataStr() << "-" << nVirtualIndex;
@@ -170,14 +171,14 @@ public:
      * @param   nVirID  Identifier for the vir.
      */
 
-	AFCMachineNode(const int nVirID) : AFIVirtualNode(nVirID)
-	{
-		strIP = "";
-		nPort = 0;
-		nWeight = 0;//总共多少权重即是多少虚拟节点
-		nMachineID = 0;
-		bCandidate = false;
-	}
+    AFCMachineNode(const int nVirID) : AFIVirtualNode(nVirID)
+    {
+        strIP = "";
+        nPort = 0;
+        nWeight = 0;//总共多少权重即是多少虚拟节点
+        nMachineID = 0;
+        bCandidate = false;
+    }
 
     /**
      * @fn  AFCMachineNode::AFCMachineNode()
@@ -188,14 +189,14 @@ public:
      * @date    2016/11/29
      */
 
-	AFCMachineNode()
-	{
-		strIP = "";
-		nPort = 0;
-		nWeight = 0;//总共多少权重即是多少虚拟节点
-		nMachineID = 0;
-		bCandidate = false;
-	}
+    AFCMachineNode()
+    {
+        strIP = "";
+        nPort = 0;
+        nWeight = 0;//总共多少权重即是多少虚拟节点
+        nMachineID = 0;
+        bCandidate = false;
+    }
 
 public:
 
@@ -210,10 +211,10 @@ public:
      * @return  The data string.
      */
 
-	virtual std::string GetDataStr() const 
-	{
-		return strIP;
-	}
+    virtual std::string GetDataStr() const
+    {
+        return strIP;
+    }
 
     /**
      * @fn  virtual int AFCMachineNode::GetDataID() const
@@ -226,10 +227,10 @@ public:
      * @return  The data identifier.
      */
 
-	virtual int GetDataID() const
-	{
-		return nMachineID;
-	}
+    virtual int GetDataID() const
+    {
+        return nMachineID;
+    }
 
     /**
      * @fn  virtual bool AFCMachineNode::Candidate() const
@@ -242,24 +243,24 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-	virtual bool Candidate() const
-	{
-		return bCandidate;
-	}
+    virtual bool Candidate() const
+    {
+        return bCandidate;
+    }
 
-	/** @brief   The IP. */
-	std::string strIP;
-	/** @brief   The port. */
-	int nPort;
-	/** @brief   The weight. */
-	int nWeight;
-	/** @brief   Identifier for the machine. */
-	int nMachineID;
-	/** @brief   True to candidate. */
-	bool bCandidate;
+    /** @brief   The IP. */
+    std::string strIP;
+    /** @brief   The port. */
+    int nPort;
+    /** @brief   The weight. */
+    int nWeight;
+    /** @brief   Identifier for the machine. */
+    int nMachineID;
+    /** @brief   True to candidate. */
+    bool bCandidate;
 
-	/** @brief   如果是候选主机，则在没启用之前，他会指向真实主机. */
-	std::list<AFIVirtualNode> xRealMachine;
+    /** @brief   如果是候选主机，则在没启用之前，他会指向真实主机. */
+    std::list<AFIVirtualNode> xRealMachine;
 };
 
 /**
@@ -322,7 +323,7 @@ public:
         //boost::crc_32_type ret;
         //std::string vnode = vNode.ToStr();
         //ret.process_bytes(vnode.c_str(), vnode.size());
-        
+
         //return ret.checksum();
 
         std::string vnode = vNode.ToStr();
@@ -352,7 +353,7 @@ class AFIConsistentHash
      * @return  A std::size_t.
      */
 
-	virtual std::size_t Size() const = 0;
+    virtual std::size_t Size() const = 0;
 
     /**
      * @fn  virtual bool AFIConsistentHash::Empty() const = 0;
@@ -365,7 +366,7 @@ class AFIConsistentHash
      * @return  True if it succeeds, false if it fails.
      */
 
-	virtual bool Empty() const = 0;
+    virtual bool Empty() const = 0;
 
     /**
      * @fn  virtual void AFIConsistentHash::Insert(const int nID, const std::string& strIP, int nPort) = 0;
@@ -380,7 +381,7 @@ class AFIConsistentHash
      * @param   nPort   The port.
      */
 
-	virtual void Insert(const int nID, const std::string& strIP, int nPort) = 0;
+    virtual void Insert(const int nID, const std::string& strIP, int nPort) = 0;
 
     /**
      * @fn  virtual void AFIConsistentHash::Insert(const AFCMachineNode& xNode) = 0;
@@ -393,7 +394,7 @@ class AFIConsistentHash
      * @param   xNode   The node.
      */
 
-	virtual void Insert(const AFCMachineNode& xNode) = 0;
+    virtual void Insert(const AFCMachineNode& xNode) = 0;
 
     /**
      * @fn  virtual bool AFIConsistentHash::Exist(const AFCMachineNode& xInNode) = 0;
@@ -408,7 +409,7 @@ class AFIConsistentHash
      * @return  True if it succeeds, false if it fails.
      */
 
-	virtual bool Exist(const AFCMachineNode& xInNode) = 0;
+    virtual bool Exist(const AFCMachineNode& xInNode) = 0;
 
     /**
      * @fn  virtual std::size_t AFIConsistentHash::Erase(const AFCMachineNode& xNode) = 0;
@@ -423,7 +424,7 @@ class AFIConsistentHash
      * @return  A std::size_t.
      */
 
-	virtual std::size_t Erase(const AFCMachineNode& xNode)  = 0;
+    virtual std::size_t Erase(const AFCMachineNode& xNode)  = 0;
 
     /**
      * @fn  virtual bool AFIConsistentHash::GetSuitNode(AFCMachineNode& node) = 0;
@@ -438,7 +439,7 @@ class AFIConsistentHash
      * @return  True if it succeeds, false if it fails.
      */
 
-	virtual bool GetSuitNode(AFCMachineNode& node) = 0;
+    virtual bool GetSuitNode(AFCMachineNode& node) = 0;
 
     /**
      * @fn  virtual bool AFIConsistentHash::GetSuitNode(const std::string& str, AFCMachineNode& node) = 0;
@@ -454,7 +455,7 @@ class AFIConsistentHash
      * @return  True if it succeeds, false if it fails.
      */
 
-	virtual bool GetSuitNode(const std::string& str, AFCMachineNode& node) = 0;
+    virtual bool GetSuitNode(const std::string& str, AFCMachineNode& node) = 0;
 
     /**
      * @fn  virtual bool AFIConsistentHash::GetSuitNode(uint32_t hashValue, AFCMachineNode& node) = 0;
@@ -470,7 +471,7 @@ class AFIConsistentHash
      * @return  True if it succeeds, false if it fails.
      */
 
-	virtual bool GetSuitNode(uint32_t hashValue, AFCMachineNode& node) = 0;
+    virtual bool GetSuitNode(uint32_t hashValue, AFCMachineNode& node) = 0;
 
     /**
      * @fn  virtual bool AFIConsistentHash::GetNodeList(std::list<AFCMachineNode>& nodeList) = 0;
@@ -485,7 +486,7 @@ class AFIConsistentHash
      * @return  True if it succeeds, false if it fails.
      */
 
-	virtual bool GetNodeList(std::list<AFCMachineNode>& nodeList) = 0;
+    virtual bool GetNodeList(std::list<AFCMachineNode>& nodeList) = 0;
 };
 
 /**
@@ -561,7 +562,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    bool Empty() const 
+    bool Empty() const
     {
         return mxNodes.empty();
     }
@@ -579,15 +580,15 @@ public:
      * @param   nPort   The port.
      */
 
-	void Insert(const int nID, const std::string& strIP, int nPort) 
-	{
-		AFCMachineNode xNode;
-		xNode.nMachineID = nID;
-		xNode.strIP = strIP;
-		xNode.nPort = nPort;
+    void Insert(const int nID, const std::string& strIP, int nPort)
+    {
+        AFCMachineNode xNode;
+        xNode.nMachineID = nID;
+        xNode.strIP = strIP;
+        xNode.nPort = nPort;
 
-		Insert(xNode);
-	}
+        Insert(xNode);
+    }
 
     /**
      * @fn  void AFCConsistentHash::Insert(const AFCMachineNode& xNode)
@@ -600,11 +601,11 @@ public:
      * @param   xNode   The node.
      */
 
-    void Insert(const AFCMachineNode& xNode) 
+    void Insert(const AFCMachineNode& xNode)
     {
         uint32_t hash = m_pHasher->GetHashValue(xNode);
         auto it = mxNodes.find(hash);
-        if (it == mxNodes.end())
+        if(it == mxNodes.end())
         {
             mxNodes.insert(std::map<uint32_t, AFCMachineNode>::value_type(hash, xNode));
         }
@@ -623,17 +624,17 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-	bool Exist(const AFCMachineNode& xInNode)
-	{
-		uint32_t hash = m_pHasher->GetHashValue(xInNode);
-		std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.find(hash);
-		if (it != mxNodes.end())
-		{
-			return true;
-		}
+    bool Exist(const AFCMachineNode& xInNode)
+    {
+        uint32_t hash = m_pHasher->GetHashValue(xInNode);
+        std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.find(hash);
+        if(it != mxNodes.end())
+        {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
     /**
      * @fn  std::size_t AFCConsistentHash::Erase(const AFCMachineNode& xNode)
@@ -648,7 +649,7 @@ public:
      * @return  A std::size_t.
      */
 
-    std::size_t Erase(const AFCMachineNode& xNode) 
+    std::size_t Erase(const AFCMachineNode& xNode)
     {
         uint32_t hash = m_pHasher->GetHashValue(xNode);
         return mxNodes.erase(hash);
@@ -667,11 +668,11 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-	bool GetSuitNode(AFCMachineNode& node)
-	{
-		int nID = 0;
-		return GetSuitNode(nID, node);
-	}
+    bool GetSuitNode(AFCMachineNode& node)
+    {
+        int nID = 0;
+        return GetSuitNode(nID, node);
+    }
 
     /**
      * @fn  bool AFCConsistentHash::GetSuitNode(const std::string& str, AFCMachineNode& node)
@@ -687,11 +688,11 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-	bool GetSuitNode(const std::string& str, AFCMachineNode& node)
-	{
-		uint32_t nCRC32 = NFrame::CRC32(str);
+    bool GetSuitNode(const std::string& str, AFCMachineNode& node)
+    {
+        uint32_t nCRC32 = NFrame::CRC32(str);
         return GetSuitNode(nCRC32, node);
-	}
+    }
 
     /**
      * @fn  bool AFCConsistentHash::GetSuitNode(uint32_t hashValue, AFCMachineNode& node)
@@ -707,24 +708,24 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-	bool GetSuitNode(uint32_t hashValue, AFCMachineNode& node)
-	{
-		if(mxNodes.empty())
-		{
-			return false;
-		}
+    bool GetSuitNode(uint32_t hashValue, AFCMachineNode& node)
+    {
+        if(mxNodes.empty())
+        {
+            return false;
+        }
 
-		std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.lower_bound(hashValue);
+        std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.lower_bound(hashValue);
 
-		if (it == mxNodes.end())
-		{
-			it = mxNodes.begin();
-		}
+        if(it == mxNodes.end())
+        {
+            it = mxNodes.begin();
+        }
 
-		node = it->second;
+        node = it->second;
 
-		return true;
-	}
+        return true;
+    }
 
     /**
      * @fn  bool AFCConsistentHash::GetNodeList(std::list<AFCMachineNode>& nodeList)
@@ -739,19 +740,19 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-	bool GetNodeList(std::list<AFCMachineNode>& nodeList)
-	{
-		for (std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.begin(); it != mxNodes.end(); ++it)
-		{
-			nodeList.push_back(it->second);
-		}
+    bool GetNodeList(std::list<AFCMachineNode>& nodeList)
+    {
+        for(std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.begin(); it != mxNodes.end(); ++it)
+        {
+            nodeList.push_back(it->second);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 private:
-	/** @brief   The mx nodes. */
-	std::map<uint32_t, AFCMachineNode> mxNodes;
+    /** @brief   The mx nodes. */
+    std::map<uint32_t, AFCMachineNode> mxNodes;
     /** @brief   The hasher. */
     AFIHasher* m_pHasher;
 };
