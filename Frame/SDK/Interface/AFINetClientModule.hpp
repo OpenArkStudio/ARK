@@ -413,7 +413,7 @@ private:
                 xServerData->nPort = xInfo.nPort;
                 xServerData->mnLastActionTime = GetPluginManager()->GetNowTime();
 
-                xServerData->mxNetModule = ARK_SHARE_PTR<AFCNetClient>(NF_NEW AFCNetClient(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent));
+                xServerData->mxNetModule = ARK_SHARE_PTR<AFCNetClient>(ARK_NEW AFCNetClient(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent));
 
                 xServerData->mxNetModule->Initialization(xServerData->strIPAndPort, xServerData->nGameID);
 

@@ -24,9 +24,11 @@
 #if ARK_PLATFORM == PLATFORM_WIN
 #pragma comment( lib, "Dbghelp.lib" )
 
-#ifdef ARK_RUN_MODE_DEBUG
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+#pragma comment(lib, "Core_d.lib")
 #pragma comment(lib, "Core_d.lib")
 #else
+#pragma comment(lib, "Core.lib")
 #pragma comment(lib, "Core.lib")
 #endif
 

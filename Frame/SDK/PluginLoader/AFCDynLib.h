@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    AFCDynLib.h
+//    @FileName         :    AFCDynLib.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-12-15
 //    @Module           :    AFCDynLib
@@ -46,7 +46,7 @@ public:
     {
         mbMain = false;
         mstrName = strName;
-#ifdef ARK_RUN_MODE_DEBUG
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
         mstrName.append("_d");
 #endif
 

@@ -23,7 +23,7 @@ void AFCHeartBeatElement::DoHeartBeatEvent()
 bool AFCHeartBeatManager::Execute()
 {
     //millisecond
-    int64_t nTime = AFTime::GetNowMillisecond();
+    int64_t nTime = AFCTimeBase::GetInstance().GetNowMillisecond();
     AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.FirstNude();
     while(nullptr != pElement)
     {
@@ -91,7 +91,7 @@ AFGUID AFCHeartBeatManager::Self()
 bool AFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount)
 {
     AFCHeartBeatElement xHeartBeat;
-    xHeartBeat.nNextTriggerTime = AFTime::GetNowMillisecond() + nTime;
+    xHeartBeat.nNextTriggerTime = AFCTimeBase::GetInstance().GetNowMillisecond() + nTime;
     xHeartBeat.nBeatTime = nTime;
     xHeartBeat.nCount = nCount;
     xHeartBeat.self = self;
