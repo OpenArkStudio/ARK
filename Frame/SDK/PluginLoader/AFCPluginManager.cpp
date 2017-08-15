@@ -18,7 +18,7 @@
 #pragma comment( lib, "ws2_32.lib" )
 #endif
 
-#ifdef ARK_RUN_MODE_DEBUG
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 
 #if ARK_PLATFORM == PLATFORM_WIN
 
@@ -109,7 +109,7 @@ bool AFCPluginManager::LoadPluginConfig()
         return false;
     }
 
-    if(!NF_StrTo(strAppID, mnAppID))
+    if(!Ark_from_str(strAppID, mnAppID))
     {
         ARK_ASSERT(0, "App ID Convert Error", __FILE__, __FUNCTION__);
         return false;
