@@ -44,20 +44,33 @@ public:
 
     static T& GetInstance()
     {
+        if(nullptr == instance_)
+        {
+            instance_ = new T;
+        }
+
         assert(instance_);
         return (*instance_);
     }
 
     static T* GetInstancePtr()
     {
+        if(nullptr == instance_)
+        {
+            instance_ = new T;
+        }
+
         assert(instance_);
         return instance_;
     }
 
     void ReleaseInstance()
     {
-        //assert(instance_);
-        //return instance_;
+        if(nullptr != instance_)
+        {
+            delete instance_;
+            instance_ = nullptr;
+        }
     }
 
 protected:
