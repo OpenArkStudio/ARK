@@ -41,7 +41,7 @@ public:
     const int MONTH_DAY[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     static const int mnDefaultTimeZone = 8;
 
-private:
+public:
     AFCTimeBase::AFCTimeBase()
     {
         mnTimeZone = mnDefaultTimeZone;
