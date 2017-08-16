@@ -55,6 +55,7 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 - redis-cpp-client 
 - Theron 6.00.01
 - curl 7.37.1
+- evpp 0.7.0
 
 ## Supported Compilers
 
@@ -113,3 +114,4 @@ Our team has always specialized in the agile development and try to help differe
 - 5.增加其他中间件(coroutine, mongoDB)
 - 6.增加通用的proxy-server(参考tconnd, tbus)
 - 7.完整的带业务功能的demo
+- 8.优化数据同步的流量,减小属性同步的体积
