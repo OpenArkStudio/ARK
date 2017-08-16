@@ -151,3 +151,6 @@ bool Ark_to_str(std::string& strValue, const T& nValue)
 
     return false;
 }
+
+// clear player data time
+#define CLEAR_HOUR 5
