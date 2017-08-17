@@ -2,11 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="AFCLoginToMasterModule.cpp" />
-    <ClCompile Include="AFLoginNet_ClientPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFLoginNetClientPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCLoginToMasterModule.h" />
-    <ClInclude Include="AFLoginNet_ClientPlugin.h" />
+    <ClInclude Include="AFLoginNetClientPlugin.h" />
   </ItemGroup>
 </Project>
