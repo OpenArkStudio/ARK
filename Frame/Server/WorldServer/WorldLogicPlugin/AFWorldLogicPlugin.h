@@ -1,8 +1,8 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFWorldLogicPlugin.h
+//    @FileName         :    AFWorldLogicPlugin.h
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-07-14 08:51
-//    @Module           :   NFWorldLogicPluginModule
+//    @Module           :   AFWorldLogicPlugin
 //
 // -------------------------------------------------------------------------
 
@@ -20,10 +20,10 @@
 #endif
 
 //////////////////////////////////////////////////////////////////////////
-class NFWorldLogicPlugin : public AFIPlugin
+class AFWorldLogicPlugin : public AFIPlugin
 {
 public:
-    NFWorldLogicPlugin(AFIPluginManager* p)
+    AFWorldLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

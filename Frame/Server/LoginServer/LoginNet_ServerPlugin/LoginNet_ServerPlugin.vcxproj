@@ -12,19 +12,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCLoginNet_ServerModule.cpp" />
-    <ClCompile Include="AFLoginNet_ServerPlugin.cpp" />
+    <ClCompile Include="AFLoginNetServerPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCLoginNet_ServerModule.h" />
-    <ClInclude Include="AFLoginNet_ServerPlugin.h" />
+    <ClInclude Include="AFLoginNetServerPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9133E9F0-1029-406C-AA3C-86CF746C2B0E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NFLoginNet_ServerPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>LoginNet_ServerPlugin</ProjectName>
+    <ProjectName>AFLoginNetServerPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
