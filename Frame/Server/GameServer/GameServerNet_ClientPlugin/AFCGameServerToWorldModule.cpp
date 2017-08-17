@@ -55,8 +55,8 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
             const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
             const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
             const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
-            const std::string& strName = m_pElementModule->GetPropertyString(strConfigName, "Name");
-            const std::string& strIP = m_pElementModule->GetPropertyString(strConfigName, "IP");
+            const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
+            const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
 
             NFMsg::ServerInfoReportList xMsg;
             NFMsg::ServerInfoReport* pData = xMsg.add_server_list();
@@ -129,8 +129,8 @@ bool AFCGameServerToWorldModule::AfterInit()
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
                 const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
-                const std::string& strName = m_pElementModule->GetPropertyString(strConfigName, "Name");
-                const std::string& strIP = m_pElementModule->GetPropertyString(strConfigName, "IP");
+                const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
+                const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
 
                 ConnectData xServerData;
 

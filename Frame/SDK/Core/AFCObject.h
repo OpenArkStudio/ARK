@@ -47,7 +47,7 @@ public:
     virtual int64_t GetPropertyInt64(const std::string& strPropertyName);
     virtual float GetPropertyFloat(const std::string& strPropertyName);
     virtual double GetPropertyDouble(const std::string& strPropertyName);
-    virtual const std::string& GetPropertyString(const std::string& strPropertyName);
+    virtual const char*  GetPropertyString(const std::string& strPropertyName);
     virtual const AFGUID& GetPropertyObject(const std::string& strPropertyName);
 
     virtual bool FindRecord(const std::string& strRecordName);
