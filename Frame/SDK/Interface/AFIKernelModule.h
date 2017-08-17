@@ -142,7 +142,7 @@ public:
     virtual int64_t GetPropertyInt64(const AFGUID& self, const std::string& strPropertyName) = 0;
     virtual float GetPropertyFloat(const AFGUID& self, const std::string& strPropertyName) = 0;
     virtual double GetPropertyDouble(const AFGUID& self, const std::string& strPropertyName) = 0;
-    virtual const std::string& GetPropertyString(const AFGUID& self, const std::string& strPropertyName) = 0;
+    virtual const char*  GetPropertyString(const AFGUID& self, const std::string& strPropertyName) = 0;
     virtual const AFGUID& GetPropertyObject(const AFGUID& self, const std::string& strPropertyName) = 0;
     //////////////////////////////////////////////////////////////////////////
     virtual ARK_SHARE_PTR<AFIRecord> FindRecord(const AFGUID& self, const std::string& strRecordName) = 0;

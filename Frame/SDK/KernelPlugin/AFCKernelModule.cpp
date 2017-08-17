@@ -160,16 +160,16 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
 
         //默认属性
         size_t staticPropertyCount = pStaticClassPropertyManager->GetPropertyCount();
-        for (size_t i = 0; i < staticPropertyCount; ++i)
+        for(size_t i = 0; i < staticPropertyCount; ++i)
         {
             AFProperty* pStaticConfigProperty = pStaticClassPropertyManager->GetPropertyByIndex(i);
-            if (NULL != pStaticConfigProperty)
+            if(NULL != pStaticConfigProperty)
             {
                 continue;
             }
 
             bool bRet = pPropertyManager->AddProperty(pStaticConfigProperty->GetName().c_str(), pStaticConfigProperty->GetValue(), pStaticConfigProperty->GetFeature());
-            if (!bRet)
+            if(!bRet)
             {
                 ARK_ASSERT(0, "Add property failed, please check it", __FILE__, __FUNCTION__);
                 continue;
@@ -183,10 +183,10 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         while(nullptr != pConfigRecordInfo)
         {
             ARK_SHARE_PTR<AFIRecord> xRecord =  pRecordManager->AddRecord(ident,
-                pConfigRecordInfo->GetName(),
-                pConfigRecordInfo->GetInitData(),
-                pConfigRecordInfo->GetTag(),
-                pConfigRecordInfo->GetRows());
+                                                pConfigRecordInfo->GetName(),
+                                                pConfigRecordInfo->GetInitData(),
+                                                pConfigRecordInfo->GetTag(),
+                                                pConfigRecordInfo->GetRows());
 
             xRecord->SetPublic(pConfigRecordInfo->GetPublic());
             xRecord->SetPrivate(pConfigRecordInfo->GetPrivate());
@@ -207,15 +207,15 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         if(nullptr != pConfigPropertyManager && nullptr != pConfigRecordManager)
         {
             size_t configPropertyCount = pConfigPropertyManager->GetPropertyCount();
-            for (size_t i = 0; i < configPropertyCount; ++i)
+            for(size_t i = 0; i < configPropertyCount; ++i)
             {
                 AFProperty* pConfigProperty = pConfigPropertyManager->GetPropertyByIndex(i);
-                if (NULL != pConfigProperty)
+                if(NULL != pConfigProperty)
                 {
                     continue;
                 }
 
-                if (pConfigProperty->Changed())
+                if(pConfigProperty->Changed())
                 {
                     pPropertyManager->SetProperty(pConfigProperty->GetName().c_str(), pConfigProperty->GetValue());
                 }
@@ -234,12 +234,12 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
                     && NFrame::IObject::GroupID() != strPropertyName)
             {
                 AFProperty* pArgProperty = pStaticClassPropertyManager->GetProperty(strPropertyName.c_str());
-                if (NULL == pArgProperty)
+                if(NULL == pArgProperty)
                 {
                     continue;
                 }
 
-                switch (pArgProperty->GetType())
+                switch(pArgProperty->GetType())
                 {
                 case DT_BOOLEAN:
                     pObject->SetPropertyBool(strPropertyName, arg.Bool(i + 1));
@@ -333,7 +333,7 @@ bool AFCKernelModule::FindProperty(const AFGUID& self, const std::string& strPro
 bool AFCKernelModule::SetPropertyBool(const AFGUID& self, const std::string& strPropertyName, const bool value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->SetPropertyBool(strPropertyName, value);
     }
@@ -359,7 +359,7 @@ bool AFCKernelModule::SetPropertyInt(const AFGUID& self, const std::string& strP
 bool AFCKernelModule::SetPropertyInt64(const AFGUID& self, const std::string& strPropertyName, const int64_t value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->SetPropertyInt64(strPropertyName, value);
     }
@@ -372,7 +372,7 @@ bool AFCKernelModule::SetPropertyInt64(const AFGUID& self, const std::string& st
 bool AFCKernelModule::SetPropertyFloat(const AFGUID& self, const std::string& strPropertyName, const float value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->SetPropertyFloat(strPropertyName, value);
     }
@@ -424,7 +424,7 @@ bool AFCKernelModule::SetPropertyObject(const AFGUID& self, const std::string& s
 bool AFCKernelModule::GetPropertyBool(const AFGUID& self, const std::string& strPropertyName)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->GetPropertyBool(strPropertyName);
     }
@@ -450,7 +450,7 @@ int32_t AFCKernelModule::GetPropertyInt(const AFGUID& self, const std::string& s
 int64_t AFCKernelModule::GetPropertyInt64(const AFGUID& self, const std::string& strPropertyName)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->GetPropertyInt64(strPropertyName);
     }
@@ -463,7 +463,7 @@ int64_t AFCKernelModule::GetPropertyInt64(const AFGUID& self, const std::string&
 float AFCKernelModule::GetPropertyFloat(const AFGUID& self, const std::string& strPropertyName)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->GetPropertyFloat(strPropertyName);
     }
@@ -486,7 +486,7 @@ double AFCKernelModule::GetPropertyDouble(const AFGUID& self, const std::string&
     return NULL_DOUBLE;
 }
 
-const std::string& AFCKernelModule::GetPropertyString(const AFGUID& self, const std::string& strPropertyName)
+const char*  AFCKernelModule::GetPropertyString(const AFGUID& self, const std::string& strPropertyName)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
     if(nullptr != pObject)
@@ -496,7 +496,7 @@ const std::string& AFCKernelModule::GetPropertyString(const AFGUID& self, const 
 
     m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
 
-    return NULL_STR;
+    return nullptr;
 }
 
 const AFGUID& AFCKernelModule::GetPropertyObject(const AFGUID& self, const std::string& strPropertyName)
@@ -540,9 +540,9 @@ bool AFCKernelModule::ClearRecord(const AFGUID& self, const std::string& strReco
 bool AFCKernelModule::SetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const bool value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
-        if (!pObject->SetRecordBool(strRecordName, nRow, nCol, value))
+        if(!pObject->SetRecordBool(strRecordName, nRow, nCol, value))
         {
             m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
             return false;
@@ -558,9 +558,9 @@ bool AFCKernelModule::SetRecordBool(const AFGUID& self, const std::string& strRe
 bool AFCKernelModule::SetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const bool value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
-        if (!pObject->SetRecordBool(strRecordName, nRow, strColTag, value))
+        if(!pObject->SetRecordBool(strRecordName, nRow, strColTag, value))
         {
             m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
             return false;
@@ -612,9 +612,9 @@ bool AFCKernelModule::SetRecordInt(const AFGUID& self, const std::string& strRec
 bool AFCKernelModule::SetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const int64_t value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
-        if (!pObject->SetRecordInt64(strRecordName, nRow, nCol, value))
+        if(!pObject->SetRecordInt64(strRecordName, nRow, nCol, value))
         {
             m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
             return false;
@@ -630,9 +630,9 @@ bool AFCKernelModule::SetRecordInt64(const AFGUID& self, const std::string& strR
 bool AFCKernelModule::SetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const int64_t value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
-        if (!pObject->SetRecordInt64(strRecordName, nRow, strColTag, value))
+        if(!pObject->SetRecordInt64(strRecordName, nRow, strColTag, value))
         {
             m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
             return false;
@@ -648,9 +648,9 @@ bool AFCKernelModule::SetRecordInt64(const AFGUID& self, const std::string& strR
 bool AFCKernelModule::SetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const float value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
-        if (!pObject->SetRecordFloat(strRecordName, nRow, nCol, value))
+        if(!pObject->SetRecordFloat(strRecordName, nRow, nCol, value))
         {
             m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
             return false;
@@ -666,9 +666,9 @@ bool AFCKernelModule::SetRecordFloat(const AFGUID& self, const std::string& strR
 bool AFCKernelModule::SetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const float value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
-        if (!pObject->SetRecordFloat(strRecordName, nRow, strColTag, value))
+        if(!pObject->SetRecordFloat(strRecordName, nRow, strColTag, value))
         {
             m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
             return false;
@@ -792,7 +792,7 @@ bool AFCKernelModule::SetRecordObject(const AFGUID& self, const std::string& str
 bool AFCKernelModule::GetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->GetRecordBool(strRecordName, nRow, nCol);
     }
@@ -804,7 +804,7 @@ bool AFCKernelModule::GetRecordBool(const AFGUID& self, const std::string& strRe
 bool AFCKernelModule::GetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->GetRecordBool(strRecordName, nRow, strColTag);
     }
@@ -840,7 +840,7 @@ int32_t AFCKernelModule::GetRecordInt(const AFGUID& self, const std::string& str
 int64_t AFCKernelModule::GetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->GetRecordInt64(strRecordName, nRow, nCol);
     }
@@ -852,7 +852,7 @@ int64_t AFCKernelModule::GetRecordInt64(const AFGUID& self, const std::string& s
 int64_t AFCKernelModule::GetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->GetRecordInt64(strRecordName, nRow, strColTag);
     }
@@ -864,7 +864,7 @@ int64_t AFCKernelModule::GetRecordInt64(const AFGUID& self, const std::string& s
 float AFCKernelModule::GetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->GetRecordFloat(strRecordName, nRow, nCol);
     }
@@ -876,7 +876,7 @@ float AFCKernelModule::GetRecordFloat(const AFGUID& self, const std::string& str
 float AFCKernelModule::GetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if (nullptr != pObject)
+    if(nullptr != pObject)
     {
         return pObject->GetRecordFloat(strRecordName, nRow, strColTag);
     }
@@ -1023,7 +1023,7 @@ bool AFCKernelModule::CreateScene(const int nSceneID)
 
     //容器nSceneIndex
     pSceneInfo = ARK_SHARE_PTR<AFCSceneInfo>(ARK_NEW AFCSceneInfo(nSceneID));
-    if (nullptr == pSceneInfo)
+    if(nullptr == pSceneInfo)
     {
         return false;
     }
@@ -1032,7 +1032,7 @@ bool AFCKernelModule::CreateScene(const int nSceneID)
 
     //默认分组0
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = ARK_SHARE_PTR<AFCSceneGroupInfo>(ARK_NEW AFCSceneGroupInfo(nSceneID, 0));
-    if (nullptr == pGroupInfo)
+    if(nullptr == pGroupInfo)
     {
         return false;
     }
@@ -1078,13 +1078,13 @@ int AFCKernelModule::GetSceneOnLineCount(const int nSceneID)
     int nCount = 0;
 
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
-    if (nullptr == pSceneInfo)
+    if(nullptr == pSceneInfo)
     {
         return nCount;
     }
 
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First();
-    while (nullptr != pGroupInfo)
+    while(nullptr != pGroupInfo)
     {
         nCount += pGroupInfo->mxPlayerList.Count();
         pGroupInfo = pSceneInfo->Next();
@@ -1098,13 +1098,13 @@ int AFCKernelModule::GetSceneOnLineCount(const int nSceneID, const int nGroupID)
     int nCount = 0;
 
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
-    if (nullptr == pSceneInfo)
+    if(nullptr == pSceneInfo)
     {
         return nCount;
     }
 
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->GetElement(nGroupID);
-    if (nullptr != pGroupInfo)
+    if(nullptr != pGroupInfo)
     {
         nCount = pGroupInfo->mxPlayerList.Count();
     }
@@ -1116,7 +1116,7 @@ int AFCKernelModule::GetSceneOnLineCount(const int nSceneID, const int nGroupID)
 int AFCKernelModule::GetSceneOnLineList(const int nSceneID, AFIDataList& var)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
-    if (nullptr == pSceneInfo)
+    if(nullptr == pSceneInfo)
     {
         return 0;
     }
@@ -1144,18 +1144,18 @@ int AFCKernelModule::GetSceneOnLineList(const int nSceneID, AFIDataList& var)
 int AFCKernelModule::RequestGroupScene(const int nSceneID)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
-    if (nullptr == pSceneInfo)
+    if(nullptr == pSceneInfo)
     {
         return -1;
     }
 
     int nNewGroupID = pSceneInfo->NewGroupID();
-    if (NULL == pSceneInfo->GetElement(nNewGroupID))
+    if(NULL == pSceneInfo->GetElement(nNewGroupID))
     {
         return -1;
     }
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo(ARK_NEW AFCSceneGroupInfo(nSceneID, nNewGroupID, pSceneInfo->GetWidth()));
-    if (NULL == pGroupInfo)
+    if(NULL == pGroupInfo)
     {
         return -1;
     }
@@ -1167,20 +1167,20 @@ int AFCKernelModule::RequestGroupScene(const int nSceneID)
 bool AFCKernelModule::ReleaseGroupScene(const int nSceneID, const int nGroupID)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
-    if (nullptr == pSceneInfo)
+    if(nullptr == pSceneInfo)
     {
         return false;
     }
-     
-    if (nullptr == pSceneInfo->GetElement(nGroupID))
+
+    if(nullptr == pSceneInfo->GetElement(nGroupID))
     {
         return false;
     }
 
     AFCDataList listObject;
-    if (GetGroupObjectList(nSceneID, nGroupID, listObject))
+    if(GetGroupObjectList(nSceneID, nGroupID, listObject))
     {
-        for (int i = 0; i < listObject.GetCount(); ++i)
+        for(int i = 0; i < listObject.GetCount(); ++i)
         {
             AFGUID ident = listObject.Object(i);
             DestroyObject(ident);
@@ -1207,20 +1207,20 @@ bool AFCKernelModule::ExitGroupScene(const int nSceneID, const int nGroupID)
 bool AFCKernelModule::GetGroupObjectList(const int nSceneID, const int nGroupID, AFIDataList& list)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
-    if (nullptr == pSceneInfo)
+    if(nullptr == pSceneInfo)
     {
         return false;
     }
 
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->GetElement(nGroupID);
-    if (nullptr == pGroupInfo)
+    if(nullptr == pGroupInfo)
     {
         return false;
     }
 
     AFGUID ident = NULL_GUID;
     ARK_SHARE_PTR<int> pRet = pGroupInfo->mxPlayerList.First(ident);
-    while (!ident.IsNull())
+    while(!ident.IsNull())
     {
         list.AddObject(ident);
 
@@ -1229,7 +1229,7 @@ bool AFCKernelModule::GetGroupObjectList(const int nSceneID, const int nGroupID,
     }
 
     pRet = pGroupInfo->mxOtherList.First(ident);
-    while (!ident.IsNull())
+    while(!ident.IsNull())
     {
         list.AddObject(ident);
 
@@ -1261,7 +1261,7 @@ bool AFCKernelModule::LogInfo(const AFGUID& ident)
 {
     //看是容器还是普通对象，容器则打印所有对象
     ARK_SHARE_PTR<AFIObject> pObject = GetObject(ident);
-    if (nullptr == pObject)
+    if(nullptr == pObject)
     {
         m_pLogModule->LogError(ident, "Cannot find this object", NULL_STR, __FUNCTION__, __LINE__);
         return false;
@@ -1333,7 +1333,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
     for(int i = 0; i < nWorldCount; i++)
     {
         AFGUID ident = varObjectList.Object(i);
-        if (!FindProperty(ident, strPropertyName))
+        if(!FindProperty(ident, strPropertyName))
         {
             continue;
         }
@@ -1344,7 +1344,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
         case DT_BOOLEAN:
             {
                 bool bValue = GetPropertyBool(ident, strPropertyName.c_str());
-                if (valueArg.Bool(0) == bValue)
+                if(valueArg.Bool(0) == bValue)
                 {
                     list.AddObject(ident);
                 }
@@ -1362,7 +1362,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
         case DT_INT64:
             {
                 int64_t nValue = GetPropertyInt64(ident, strPropertyName.c_str());
-                if (valueArg.Int64(0) == nValue)
+                if(valueArg.Int64(0) == nValue)
                 {
                     list.AddObject(ident);
                 }
@@ -1372,7 +1372,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
             {
                 float fValue = GetPropertyFloat(ident, strPropertyName.c_str());
                 float fCompareValue = valueArg.Float(0);
-                if (fValue == fCompareValue)
+                if(fValue == fCompareValue)
                 {
                     list.AddObject(ident);
                 }
