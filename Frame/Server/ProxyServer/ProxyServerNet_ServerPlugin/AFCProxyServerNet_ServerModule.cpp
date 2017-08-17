@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCProxyServerNet_ServerModule.h"
-#include "AFProxyServerNet_ServerPlugin.h"
+#include "AFProxyNetServerPlugin.h"
 #include "SDK/Interface/AFIKernelModule.h"
 
 bool AFCProxyServerNet_ServerModule::Init()

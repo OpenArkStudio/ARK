@@ -9,10 +9,10 @@
 
 
 //////////////////////////////////////////////////////////////////////////
-class UtilityPlugin : public AFIPlugin
+class AFUtilityPlugin : public AFIPlugin
 {
 public:
-    UtilityPlugin(AFIPluginManager* p)
+    AFUtilityPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

@@ -6,33 +6,33 @@ ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTitle("ArkWorldServer");
 #endif // ARK_PLATFORM
-    CREATE_PLUGIN(pm, NFWorldLogicPlugin)
+    CREATE_PLUGIN(pm, AFWorldLogicPlugin)
 };
 
 ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
-    DESTROY_PLUGIN(pm, NFWorldLogicPlugin)
+    DESTROY_PLUGIN(pm, AFWorldLogicPlugin)
 };
 
 //////////////////////////////////////////////////////////////////////////
 
-const int NFWorldLogicPlugin::GetPluginVersion()
+const int AFWorldLogicPlugin::GetPluginVersion()
 {
     return 0;
 }
 
-const std::string NFWorldLogicPlugin::GetPluginName()
+const std::string AFWorldLogicPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(NFWorldLogicPlugin);
+    return GET_CLASS_NAME(AFWorldLogicPlugin);
 }
 
-void NFWorldLogicPlugin::Install()
+void AFWorldLogicPlugin::Install()
 {
 
     REGISTER_MODULE(pPluginManager, AFIWorldLogicModule, AFCWorldLogicModule)
 }
 
-void NFWorldLogicPlugin::Uninstall()
+void AFWorldLogicPlugin::Uninstall()
 {
     UNREGISTER_MODULE(pPluginManager, AFIWorldLogicModule, AFCWorldLogicModule)
 }

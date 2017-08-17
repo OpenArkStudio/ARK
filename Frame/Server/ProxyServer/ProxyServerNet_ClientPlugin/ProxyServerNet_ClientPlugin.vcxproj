@@ -13,20 +13,20 @@
   <ItemGroup>
     <ClCompile Include="AFCProxyServerToGameModule.cpp" />
     <ClCompile Include="AFCProxyServerToWorldModule.cpp" />
-    <ClCompile Include="AFProxyServerNet_ClientPlugin.cpp" />
+    <ClCompile Include="AFProxyNetClientPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCProxyServerToGameModule.h" />
     <ClInclude Include="AFCProxyServerToWorldModule.h" />
-    <ClInclude Include="AFProxyServerNet_ClientPlugin.h" />
+    <ClInclude Include="AFProxyNetClientPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{68C19326-3080-4389-A302-5DB95416C623}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NFProxyServerNet_ClientPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>ProxyServerNet_ClientPlugin</ProjectName>
+    <ProjectName>AFProxyNetClientPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

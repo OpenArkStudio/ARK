@@ -94,7 +94,7 @@ bool AFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, ARK_S
         bool bPublic = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Public")->value());
         bool bPrivate = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Private")->value());
         bool bSave = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Save")->value());
-        bool bRealTime = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("RealTime")->value());
+        bool bRealTime = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Cache")->value());
 
         AFCData varProperty;
         if(DT_UNKNOWN == ComputerType(pstrType, varProperty))
@@ -102,7 +102,7 @@ bool AFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, ARK_S
             ARK_ASSERT(0, strPropertyName, __FILE__, __FUNCTION__);
         }
 
-        int8_t feature;
+        int8_t feature(0);
         if(bPublic)
         {
             BitValue<int8_t>::SetBitValue(feature, AFProperty::PF_PUBLIC);
