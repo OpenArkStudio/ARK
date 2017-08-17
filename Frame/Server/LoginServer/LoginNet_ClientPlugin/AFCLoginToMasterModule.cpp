@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCLoginToMasterModule.h"
-#include "AFLoginNet_ClientPlugin.h"
+#include "AFLoginNetClientPlugin.h"
 #include "SDK/Proto/NFMsgDefine.h"
 
 bool AFCLoginToMasterModule::Init()
