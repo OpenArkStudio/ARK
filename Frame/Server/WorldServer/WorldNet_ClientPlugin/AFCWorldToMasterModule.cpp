@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCWorldToMasterModule.h"
-#include "AFWorldNet_ClientPlugin.h"
+#include "AFWorldNetClientPlugin.h"
 #include "SDK/Base/AFCDataList.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Interface/AFINetClientModule.hpp"

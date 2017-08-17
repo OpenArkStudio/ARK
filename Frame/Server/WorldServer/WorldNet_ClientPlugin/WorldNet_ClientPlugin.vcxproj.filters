@@ -2,11 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="AFCWorldToMasterModule.cpp" />
-    <ClCompile Include="AFWorldNet_ClientPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFWorldNetClientPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCWorldToMasterModule.h" />
-    <ClInclude Include="AFWorldNet_ClientPlugin.h" />
+    <ClInclude Include="AFWorldNetClientPlugin.h" />
   </ItemGroup>
 </Project>
