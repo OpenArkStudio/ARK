@@ -120,10 +120,10 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
     if(nullptr != pClassPropertyManager && nullptr != pClassRecordManager)
     {
         size_t nCount = pClassPropertyManager->GetPropertyCount();
-        for (size_t i = 0; i < nCount; ++i)
+        for(size_t i = 0; i < nCount; ++i)
         {
             AFProperty* pProperty = pClassPropertyManager->GetPropertyByIndex(i);
-            if (NULL != pProperty)
+            if(NULL != pProperty)
             {
                 pElementPropertyManager->AddProperty(pProperty->name.c_str(), pProperty->prop_value, pProperty->feature);
             }
@@ -183,7 +183,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
             break;
         case DT_FLOAT:
             {
-                if (strlen(pstrConfigValue) <= 0)
+                if(strlen(pstrConfigValue) <= 0)
                 {
                     ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
@@ -234,7 +234,7 @@ bool AFCElementModule::Save()
 bool AFCElementModule::GetPropertyBool(const std::string& strConfigName, const std::string& strPropertyName)
 {
     AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if (NULL != pProperty)
+    if(NULL != pProperty)
     {
         return pProperty->prop_value.GetBool();
     }
@@ -256,7 +256,7 @@ int32_t AFCElementModule::GetPropertyInt(const std::string& strConfigName, const
 int64_t AFCElementModule::GetPropertyInt64(const std::string& strConfigName, const std::string& strPropertyName)
 {
     AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if (NULL != pProperty)
+    if(NULL != pProperty)
     {
         return pProperty->prop_value.GetInt64();
     }
@@ -267,7 +267,7 @@ int64_t AFCElementModule::GetPropertyInt64(const std::string& strConfigName, con
 float AFCElementModule::GetPropertyFloat(const std::string& strConfigName, const std::string& strPropertyName)
 {
     AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if (NULL != pProperty)
+    if(NULL != pProperty)
     {
         return pProperty->prop_value.GetFloat();
     }
@@ -278,7 +278,7 @@ float AFCElementModule::GetPropertyFloat(const std::string& strConfigName, const
 double AFCElementModule::GetPropertyDouble(const std::string& strConfigName, const std::string& strPropertyName)
 {
     AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if (NULL != pProperty)
+    if(NULL != pProperty)
     {
         return pProperty->prop_value.GetFloat();
     }
@@ -286,15 +286,15 @@ double AFCElementModule::GetPropertyDouble(const std::string& strConfigName, con
     return NULL_DOUBLE;
 }
 
-const std::string& AFCElementModule::GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName)
+const char*  AFCElementModule::GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName)
 {
     AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if (NULL != pProperty)
+    if(NULL != pProperty)
     {
         return pProperty->prop_value.GetString();
     }
 
-    return NULL_STR;
+    return nullptr;
 }
 
 AFProperty* AFCElementModule::GetProperty(const std::string& strConfigName, const std::string& strPropertyName)
@@ -348,7 +348,7 @@ bool AFCElementModule::ExistElement(const std::string& strClassName, const std::
         return false;
     }
 
-    const std::string& strClass = pElementInfo->GetPropertyManager()->GetPropertyString("ClassName");
+    const std::string strClass(pElementInfo->GetPropertyManager()->GetPropertyString("ClassName"));
     if(strClass != strClassName)
     {
         return false;
