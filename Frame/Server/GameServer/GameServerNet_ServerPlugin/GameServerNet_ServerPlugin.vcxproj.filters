@@ -3,10 +3,10 @@
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="AFCGameServerNet_ServerModule.cpp" />
-    <ClCompile Include="AFGameServerNet_ServerPlugin.cpp" />
+    <ClCompile Include="AFGameNetServerPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCGameServerNet_ServerModule.h" />
-    <ClInclude Include="AFGameServerNet_ServerPlugin.h" />
+    <ClInclude Include="AFGameNetServerPlugin.h" />
   </ItemGroup>
 </Project>

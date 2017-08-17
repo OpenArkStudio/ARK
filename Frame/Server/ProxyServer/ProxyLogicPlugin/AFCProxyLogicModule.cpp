@@ -6,7 +6,7 @@
 //
 // -------------------------------------------------------------------------
 
-#include "AFCProxyLogicPlugin.h"
+#include "AFProxyLogicPlugin.h"
 #include "AFCProxyLogicModule.h"
 
 bool AFCProxyLogicModule::Init()

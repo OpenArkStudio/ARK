@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCLoginNet_ServerModule.h"
-#include "AFLoginNet_ServerPlugin.h"
+#include "AFLoginNetServerPlugin.h"
 
 const std::string PROPERTY_ACCOUNT = "Account";
 const std::string PROPERTY_VERIFIED = "Verified";

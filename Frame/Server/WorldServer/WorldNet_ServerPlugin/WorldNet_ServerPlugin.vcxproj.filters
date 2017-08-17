@@ -2,11 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="AFCWorldNet_ServerModule.cpp" />
-    <ClCompile Include="AFWorldNet_ServerPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFWorldNetServerPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCWorldNet_ServerModule.h" />
-    <ClInclude Include="AFWorldNet_ServerPlugin.h" />
+    <ClInclude Include="AFWorldNetServerPlugin.h" />
   </ItemGroup>
 </Project>

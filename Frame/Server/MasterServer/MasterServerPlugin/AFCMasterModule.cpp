@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCMasterModule.h"
-#include "AFMasterServerPlugin.h"
+#include "AFMasterPlugin.h"
 
 bool AFCMasterModule::Init()
 {
