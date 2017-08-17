@@ -2,11 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="AFCMasterNet_ServerModule.cpp" />
-    <ClCompile Include="AFMasterNet_ServerPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFMasterNetServerPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCMasterNet_ServerModule.h" />
-    <ClInclude Include="AFMasterNet_ServerPlugin.h" />
+    <ClInclude Include="AFMasterNetServerPlugin.h" />
   </ItemGroup>
 </Project>

@@ -1,9 +1,9 @@
 <XML>
-	<Plugin Name="NFKernelPlugin" Main="1"/>
-	<Plugin Name="NFConfigPlugin" Main="1"/>
-	<Plugin Name="NFMasterServerPlugin" Main="1"/>
-	<Plugin Name="NFMasterNet_ServerPlugin" Main="1"/>
-	<Plugin Name="NFLogPlugin" Main="1"/>
+	<Plugin Name="AFKernelPlugin" Main="1"/>
+	<Plugin Name="AFConfigPlugin" Main="1"/>
+	<Plugin Name="AFMasterPlugin" Main="1"/>
+	<Plugin Name="AFMasterNetServerPlugin" Main="1"/>
+	<Plugin Name="AFUtilityPlugin" Main="1"/>
 	<APPID Name="3" />
     <ConfigPath Name="../../" />
 </XML>
