@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCGameServerToWorldModule.h"
-#include "AFGameServerNet_ClientPlugin.h"
+#include "AFGameNetClientPlugin.h"
 #include "SDK/Proto/NFMsgDefine.h"
 #include "SDK/Interface/AFINetClientModule.hpp"
 #include "SDK/Proto/NFProtocolDefine.hpp"

@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCProxyServerToGameModule.h"
-#include "AFProxyServerNet_ClientPlugin.h"
+#include "AFProxyNetClientPlugin.h"
 #include "SDK/Core/AFIHeartBeatManager.h"
 #include "SDK/Core/AFCHeartBeatManager.h"
 #include "SDK/Interface/AFIClassModule.h"

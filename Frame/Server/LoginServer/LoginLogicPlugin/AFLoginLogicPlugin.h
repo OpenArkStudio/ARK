@@ -1,5 +1,5 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    NFLoginLogicPlugin.cpp
+//    @FileName         :    AFLoginLogicPlugin.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012-07-14 08:51
 //    @Module           :    LoginLogicPluginModule
@@ -19,10 +19,10 @@
 #endif
 
 //////////////////////////////////////////////////////////////////////////
-class NFLoginLogicPlugin : public AFIPlugin
+class AFLoginLogicPlugin : public AFIPlugin
 {
 public:
-    NFLoginLogicPlugin(AFIPluginManager* p)
+    AFLoginLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
