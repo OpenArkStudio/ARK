@@ -64,8 +64,8 @@ bool AFCGameServerNet_ServerModule::AfterInit()
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
                 const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
-                const std::string& strName = m_pElementModule->GetPropertyString(strConfigName, "Name");
-                const std::string& strIP = m_pElementModule->GetPropertyString(strConfigName, "IP");
+                const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
+                const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
 
                 int nRet = m_pNetModule->Initialization(nMaxConnect, nPort, nServerID, nCpus);
                 if(nRet < 0)
@@ -653,7 +653,7 @@ int AFCGameServerNet_ServerModule::OnPropertyCommonEvent(const AFGUID& self, con
             OnContainerEvent(self, strPropertyName, oldVar, newVar);
         }
 
-        if(NFrame::Player::ThisName() == m_pKernelModule->GetPropertyString(self, "ClassName"))
+        if(NFrame::Player::ThisName() == std::string(m_pKernelModule->GetPropertyString(self, "ClassName")))
         {
             if(m_pKernelModule->GetPropertyInt(self, "LoadPropertyFinish") <= 0)
             {
@@ -797,7 +797,7 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
         return 0;
     }
 
-    if(NFrame::Player::ThisName() == m_pKernelModule->GetPropertyString(self, "ClassName"))
+    if(NFrame::Player::ThisName() == std::string(m_pKernelModule->GetPropertyString(self, "ClassName")))
     {
         if(m_pKernelModule->GetPropertyInt(self, "LoadPropertyFinish") <= 0)
         {
@@ -1088,7 +1088,7 @@ int AFCGameServerNet_ServerModule::OnClassCommonEvent(const AFGUID& self, const 
         for(int i = 0; i < valueAllObjectList.GetCount(); i++)
         {
             AFGUID identBC = valueAllObjectList.Object(i);
-            const std::string& strClassName = m_pKernelModule->GetPropertyString(identBC, "ClassName");
+            const std::string strClassName(m_pKernelModule->GetPropertyString(identBC, "ClassName"));
             if(NFrame::Player::ThisName() == strClassName)
             {
                 valueBroadCaseList << identBC;
@@ -1165,7 +1165,7 @@ int AFCGameServerNet_ServerModule::OnGroupEvent(const AFGUID& self, const std::s
                     valueAllOldObjectList.SetObject(i, AFGUID());
                 }
 
-                const std::string& strClassName = m_pKernelModule->GetPropertyString(identBC, "ClassName");
+                const std::string strClassName(m_pKernelModule->GetPropertyString(identBC, "ClassName"));
                 if(NFrame::Player::ThisName() == strClassName)
                 {
                     valueAllOldPlayerList << identBC;
@@ -1195,7 +1195,7 @@ int AFCGameServerNet_ServerModule::OnGroupEvent(const AFGUID& self, const std::s
         for(int i = 0; i < valueAllObjectList.GetCount(); i++)
         {
             AFGUID identBC = valueAllObjectList.Object(i);
-            const std::string& strClassName = m_pKernelModule->GetPropertyString(identBC, "ClassName");
+            const std::string strClassName(m_pKernelModule->GetPropertyString(identBC, "ClassName"));
             if(NFrame::Player::ThisName() == strClassName)
             {
                 valuePlayerList << identBC;
@@ -1217,7 +1217,7 @@ int AFCGameServerNet_ServerModule::OnGroupEvent(const AFGUID& self, const std::s
             OnObjectListEnter(valuePlayerListNoSelf, AFCDataList() << self);
         }
 
-        const std::string& strSelfClassName = m_pKernelModule->GetPropertyString(self, "ClassName");
+        const std::string strSelfClassName(m_pKernelModule->GetPropertyString(self, "ClassName"));
 
         //广播给自己,所有的别人出现
         if(valueAllObjectListNoSelf.GetCount() > 0)
@@ -1284,7 +1284,7 @@ int AFCGameServerNet_ServerModule::OnContainerEvent(const AFGUID& self, const st
     for(int i = 0; i < valueNewAllObjectList.GetCount(); i++)
     {
         AFGUID identBC = valueNewAllObjectList.Object(i);
-        const std::string& strClassName = m_pKernelModule->GetPropertyString(identBC, "ClassName");
+        const std::string strClassName(m_pKernelModule->GetPropertyString(identBC, "ClassName"));
         if(NFrame::Player::ThisName() == strClassName)
         {
             valuePlayerList << identBC;

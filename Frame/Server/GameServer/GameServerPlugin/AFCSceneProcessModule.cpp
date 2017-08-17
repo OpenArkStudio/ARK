@@ -70,7 +70,7 @@ bool AFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGro
         ARK_SHARE_PTR<SceneSeedResource> pResource = pSceneResource->First();
         while(nullptr != pResource)
         {
-            const std::string& strClassName = m_pElementModule->GetPropertyString(pResource->strConfigID, NFrame::NPC::ClassName());
+            const std::string strClassName(m_pElementModule->GetPropertyString(pResource->strConfigID, NFrame::NPC::ClassName()));
 
             AFCDataList arg;
             arg << NFrame::NPC::X() << pResource->fSeedX;
@@ -262,7 +262,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     char szSceneIDName[MAX_PATH] = { 0 };
     sprintf(szSceneIDName, "%d", nSceneID);
 
-    const std::string& strSceneFilePath = m_pElementModule->GetPropertyString(szSceneIDName, NFrame::Scene::FilePath());
+    const std::string strSceneFilePath(m_pElementModule->GetPropertyString(szSceneIDName, NFrame::Scene::FilePath()));
     const int nCanClone = m_pElementModule->GetPropertyInt(szSceneIDName, NFrame::Scene::CanClone());
 
     //场景对应资源
@@ -271,6 +271,11 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     {
         pSceneResourceMap = ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>>(ARK_NEW AFMapEx<std::string, SceneSeedResource>());
         mtSceneResourceConfig.AddElement(nSceneID, pSceneResourceMap);
+    }
+
+    if(strSceneFilePath.empty())
+    {
+        return false;
     }
 
     rapidxml::file<> xFileSource(strSceneFilePath.c_str());
