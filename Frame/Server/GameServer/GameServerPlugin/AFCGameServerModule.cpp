@@ -6,7 +6,7 @@
 //    @Desc             :
 // -------------------------------------------------------------------------
 
-#include "AFGameServerPlugin.h"
+#include "AFGamePlugin.h"
 #include "AFCGameServerModule.h"
 
 bool AFCGameServerModule::Init()

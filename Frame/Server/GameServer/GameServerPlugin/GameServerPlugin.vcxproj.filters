@@ -15,7 +15,6 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="AFCCreateRoleModule.cpp" />
     <ClCompile Include="AFCGameServerModule.cpp" />
-    <ClCompile Include="AFGameServerPlugin.cpp" />
     <ClCompile Include="AFCPropertyConfigModule.cpp">
       <Filter>NFPropertyModule</Filter>
     </ClCompile>
@@ -31,11 +30,11 @@
     <ClCompile Include="AFCLevelModule.cpp">
       <Filter>NFLevelModule</Filter>
     </ClCompile>
+    <ClCompile Include="AFGamePlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCCreateRoleModule.h" />
     <ClInclude Include="AFCGameServerModule.h" />
-    <ClInclude Include="AFGameServerPlugin.h" />
     <ClInclude Include="AFCPropertyConfigModule.h">
       <Filter>NFPropertyModule</Filter>
     </ClInclude>
@@ -51,5 +50,6 @@
     <ClInclude Include="AFCLevelModule.h">
       <Filter>NFLevelModule</Filter>
     </ClInclude>
+    <ClInclude Include="AFGamePlugin.h" />
   </ItemGroup>
 </Project>

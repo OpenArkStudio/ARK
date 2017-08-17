@@ -5,39 +5,39 @@
 #include "AFCGUIDModule.h"
 #include "AFCLogModule.h"
 
-#ifdef NF_DYNAMIC_PLUGIN
+#ifdef ARK_DYNAMIC_PLUGIN
 
 ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
-    CREATE_PLUGIN(pm, UtilityPlugin)
+    CREATE_PLUGIN(pm, AFUtilityPlugin)
 };
 
 ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
-    DESTROY_PLUGIN(pm, UtilityPlugin)
+    DESTROY_PLUGIN(pm, AFUtilityPlugin)
 };
 
 #endif
 
 //////////////////////////////////////////////////////////////////////////
 
-const int UtilityPlugin::GetPluginVersion()
+const int AFUtilityPlugin::GetPluginVersion()
 {
     return 0;
 }
 
-const std::string UtilityPlugin::GetPluginName()
+const std::string AFUtilityPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(UtilityPlugin)
+    return GET_CLASS_NAME(AFUtilityPlugin)
 }
 
-void UtilityPlugin::Install()
+void AFUtilityPlugin::Install()
 {
     REGISTER_MODULE(pPluginManager, AFILogModule, AFCLogModule)
     REGISTER_MODULE(pPluginManager, AFIGUIDModule, AFCGUIDModule)
 }
 
-void UtilityPlugin::Uninstall()
+void AFUtilityPlugin::Uninstall()
 {
     UNREGISTER_MODULE(pPluginManager, AFIGUIDModule, AFCGUIDModule)
     UNREGISTER_MODULE(pPluginManager, AFILogModule, AFCLogModule)

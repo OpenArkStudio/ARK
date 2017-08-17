@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCWorldNet_ServerModule.h"
-#include "AFWorldNet_ServerPlugin.h"
+#include "AFWorldNetServerPlugin.h"
 #include "SDK/Proto/NFMsgDefine.h"
 
 bool AFCWorldNet_ServerModule::Init()
