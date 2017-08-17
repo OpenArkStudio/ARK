@@ -12,19 +12,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCWorldNet_ServerModule.cpp" />
-    <ClCompile Include="AFWorldNet_ServerPlugin.cpp" />
+    <ClCompile Include="AFWorldNetServerPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCWorldNet_ServerModule.h" />
-    <ClInclude Include="AFWorldNet_ServerPlugin.h" />
+    <ClInclude Include="AFWorldNetServerPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4BC56C4A-50BC-446D-8906-2CF8F0845E76}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NFWorldNet_ServerPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>WorldNet_ServerPlugin</ProjectName>
+    <ProjectName>AFWorldNetServerPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

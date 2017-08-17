@@ -1,7 +1,7 @@
 #include "Tutorial3Plugin.h"
 #include "HelloWorld3Module.h"
 
-#ifdef NF_DYNAMIC_PLUGIN
+#ifdef ARK_DYNAMIC_PLUGIN
 
 ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {

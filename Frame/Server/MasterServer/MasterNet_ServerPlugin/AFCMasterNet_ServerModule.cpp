@@ -7,7 +7,7 @@
 // -------------------------------------------------------------------------
 
 #include "AFCMasterNet_ServerModule.h"
-#include "AFMasterNet_ServerPlugin.h"
+#include "AFMasterNetServerPlugin.h"
 
 bool AFCMasterNet_ServerModule::Init()
 {
