@@ -95,7 +95,7 @@ public:
     virtual int64_t GetPropertyInt64(const std::string& strConfigName, const std::string& strPropertyName);
     virtual float GetPropertyFloat(const std::string& strConfigName, const std::string& strPropertyName);
     virtual double GetPropertyDouble(const std::string& strConfigName, const std::string& strPropertyName);
-    virtual const std::string& GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName);
+    virtual const char*  GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName);
 
 protected:
     virtual AFProperty* GetProperty(const std::string& strConfigName, const std::string& strPropertyName);
