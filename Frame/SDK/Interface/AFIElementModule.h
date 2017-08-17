@@ -43,5 +43,5 @@ public:
     virtual int64_t GetPropertyInt64(const std::string& strConfigName, const std::string& strPropertyName) = 0;
     virtual float GetPropertyFloat(const std::string& strConfigName, const std::string& strPropertyName) = 0;
     virtual double GetPropertyDouble(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual const std::string& GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName) = 0;
+    virtual const char*   GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName) = 0;
 };
