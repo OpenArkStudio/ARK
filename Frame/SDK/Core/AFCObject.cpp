@@ -49,7 +49,7 @@ bool AFCObject::Execute()
 
 bool AFCObject::AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount)
 {
-    return GetHeartBeatManager()->AddHeartBeat(mSelf , strHeartBeatName, cb, nTime, nCount);
+    return GetHeartBeatManager()->AddHeartBeat(mSelf, strHeartBeatName, cb, nTime, nCount);
 }
 
 bool AFCObject::FindHeartBeat(const std::string& strHeartBeatName)
@@ -145,7 +145,7 @@ double AFCObject::GetPropertyDouble(const std::string& strPropertyName)
     return GetPropertyManager()->GetPropertyDouble(strPropertyName.c_str());
 }
 
-const std::string& AFCObject::GetPropertyString(const std::string& strPropertyName)
+const char* AFCObject::GetPropertyString(const std::string& strPropertyName)
 {
     return GetPropertyManager()->GetPropertyString(strPropertyName.c_str());
 }
