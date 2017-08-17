@@ -62,7 +62,7 @@ inline bool AFCPluginManager::Init()
     PluginNameMap::iterator it = mPluginNameMap.begin();
     for(it; it != mPluginNameMap.end(); ++it)
     {
-#ifdef NF_DYNAMIC_PLUGIN
+#ifdef ARK_DYNAMIC_PLUGIN
         LoadPluginLibrary(it->first);
 #else
         LoadStaticPlugin(it->first);
@@ -143,7 +143,6 @@ bool AFCPluginManager::LoadStaticPlugin(const std::string& strPluginDLLName)
     //     }
 
     //     CREATE_PLUGIN(this, AFKernelPlugin)
-    //     CREATE_PLUGIN(this, NFEventProcessPlugin)
     //     CREATE_PLUGIN(this, AFConfigPlugin)
 
     return false;
@@ -343,7 +342,7 @@ bool AFCPluginManager::Shut()
     PluginNameMap::iterator it = mPluginNameMap.begin();
     for(it; it != mPluginNameMap.end(); it++)
     {
-#ifdef NF_DYNAMIC_PLUGIN
+#ifdef ARK_DYNAMIC_PLUGIN
         UnLoadPluginLibrary(it->first);
 #else
         UnLoadStaticPlugin(it->first);
@@ -433,7 +432,6 @@ bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 bool AFCPluginManager::UnLoadStaticPlugin(const std::string & strPluginDLLName)
 {
     //     DESTROY_PLUGIN(this, AFConfigPlugin)
-    //     DESTROY_PLUGIN(this, NFEventProcessPlugin)
     //     DESTROY_PLUGIN(this, AFKernelPlugin)
     return false;
 }

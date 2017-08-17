@@ -12,19 +12,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCMasterModule.cpp" />
-    <ClCompile Include="AFMasterServerPlugin.cpp" />
+    <ClCompile Include="AFMasterPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCMasterModule.h" />
-    <ClInclude Include="AFMasterServerPlugin.h" />
+    <ClInclude Include="AFMasterPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CB93108B-ED0C-4AB3-A349-8637E6807ED5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>NFMasterServerPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>MasterServerPlugin</ProjectName>
+    <ProjectName>AFMasterPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
