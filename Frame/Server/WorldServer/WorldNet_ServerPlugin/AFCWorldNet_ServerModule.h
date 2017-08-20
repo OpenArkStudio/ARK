@@ -11,7 +11,7 @@
 
 //  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
 #include "SDK/Base/AFMap.h"
-#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Interface/AFIWorldToMasterModule.h"
 #include "SDK/Interface/AFIWorldLogicModule.h"
 #include "SDK/Interface/AFINetServerModule.h"
@@ -41,15 +41,15 @@ public:
     virtual void LogReceive(const char* str) {}
     virtual void LogSend(const char* str) {}
 
-    virtual bool SendMsgToGame(const int nGameID, const NFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer = AFGUID());
-    virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID,  const NFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData);
-    virtual bool SendMsgToPlayer(const NFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer);
+    virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer = AFGUID());
+    virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID,  const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData);
+    virtual bool SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer);
 
     virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar);
     virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar);
     virtual int OnPropertyEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
     virtual int OnRecordEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    virtual bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase* pObjectRecordBase);
+    virtual bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, AFMsg::ObjectRecordBase* pObjectRecordBase);
 
     virtual ARK_SHARE_PTR<ServerData> GetSuitProxyForEnter();
     virtual AFINetServerModule* GetNetModule();

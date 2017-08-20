@@ -1,19 +1,19 @@
 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./NFDefine.proto 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./NFMsgBase.proto 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./NFMsgPreGame.proto 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./NFMsgShare.proto  
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./NFSLGDefine.proto 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./NFFleetingDefine.proto  
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./NFMsgURl.proto 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./NFMsgMysql.proto
+"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFDefine.proto 
+"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFMsgBase.proto 
+"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFMsgPreGame.proto 
+"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFMsgShare.proto  
+"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFSLGDefine.proto 
+"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFFleetingDefine.proto  
+"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFMsgURl.proto 
+"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFMsgMysql.proto
 
-"proto-gen/protogen.exe" -i:NFDefine.proto -o:NFDefine.cs
-"proto-gen/protogen.exe" -i:NFMsgBase.proto -o:NFMsgBase.cs
-"proto-gen/protogen.exe" -i:NFMsgPreGame.proto -o:NFMsgPreGame.cs
-"proto-gen/protogen.exe" -i:NFMsgShare.proto -o:NFMsgShare.cs
-"proto-gen/protogen.exe" -i:NFSLGDefine.proto -o:NFSLGDefine.cs
-"proto-gen/protogen.exe" -i:NFFleetingDefine.proto -o:NFFleetingDefine.cs
-"proto-gen/protogen.exe" -i:NFMsgURl.proto -o:NFMsgURl.cs
+"proto-gen/protogen.exe" -i:AFDefine.proto -o:AFDefine.cs
+"proto-gen/protogen.exe" -i:AFMsgBase.proto -o:AFMsgBase.cs
+"proto-gen/protogen.exe" -i:AFMsgPreGame.proto -o:AFMsgPreGame.cs
+"proto-gen/protogen.exe" -i:AFMsgShare.proto -o:AFMsgShare.cs
+"proto-gen/protogen.exe" -i:AFSLGDefine.proto -o:AFSLGDefine.cs
+"proto-gen/protogen.exe" -i:AFFleetingDefine.proto -o:AFFleetingDefine.cs
+"proto-gen/protogen.exe" -i:AFMsgURl.proto -o:AFMsgURl.cs
 
 pause

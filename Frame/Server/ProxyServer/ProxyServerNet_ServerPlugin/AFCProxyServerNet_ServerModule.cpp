@@ -26,13 +26,13 @@ bool AFCProxyServerNet_ServerModule::AfterInit()
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
     m_pProxyServerToGameModule = pPluginManager->FindModule<AFIProxyServerToGameModule>();
 
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_CONNECT_KEY, this, &AFCProxyServerNet_ServerModule::OnConnectKeyProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_WORLD_LIST, this, &AFCProxyServerNet_ServerModule::OnReqServerListProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_SELECT_SERVER, this, &AFCProxyServerNet_ServerModule::OnSelectServerProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_ROLE_LIST, this, &AFCProxyServerNet_ServerModule::OnReqRoleListProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCProxyServerNet_ServerModule::OnReqCreateRoleProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCProxyServerNet_ServerModule::OnReqDelRoleProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_ENTER_GAME, this, &AFCProxyServerNet_ServerModule::OnReqEnterGameServer);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_CONNECT_KEY, this, &AFCProxyServerNet_ServerModule::OnConnectKeyProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCProxyServerNet_ServerModule::OnReqServerListProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_SELECT_SERVER, this, &AFCProxyServerNet_ServerModule::OnSelectServerProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCProxyServerNet_ServerModule::OnReqRoleListProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCProxyServerNet_ServerModule::OnReqCreateRoleProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCProxyServerNet_ServerModule::OnReqDelRoleProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCProxyServerNet_ServerModule::OnReqEnterGameServer);
     m_pNetModule->AddReceiveCallBack(this, &AFCProxyServerNet_ServerModule::OnOtherMessage);
 
     m_pNetModule->AddEventCallBack(this, &AFCProxyServerNet_ServerModule::OnSocketClientEvent);
@@ -92,7 +92,7 @@ int AFCProxyServerNet_ServerModule::HB_OnConnectCheckTime(const AFGUID& self, co
 
 void AFCProxyServerNet_ServerModule::OnOtherMessage(const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    NFMsg::MsgBase xMsg;
+    AFMsg::MsgBase xMsg;
     if(!xMsg.ParseFromArray(msg, nLen))
     {
         char szData[MAX_PATH] = { 0 };
@@ -138,7 +138,7 @@ void AFCProxyServerNet_ServerModule::OnOtherMessage(const int nMsgID, const char
 void AFCProxyServerNet_ServerModule::OnConnectKeyProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ReqAccountLogin xMsg;
+    AFMsg::ReqAccountLogin xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -154,11 +154,11 @@ void AFCProxyServerNet_ServerModule::OnConnectKeyProcess(const int nMsgID, const
             pSessionData->mnLogicState = 1;
             pSessionData->mstrAccout  = xMsg.account();
 
-            NFMsg::AckEventResult xSendMsg;
-            xSendMsg.set_event_code(NFMsg::EGEC_VERIFY_KEY_SUCCESS);
+            AFMsg::AckEventResult xSendMsg;
+            xSendMsg.set_event_code(AFMsg::EGEC_VERIFY_KEY_SUCCESS);
             *xSendMsg.mutable_event_client() = AFINetServerModule::NFToPB(pSessionData->mnClientID);//让前端记得自己的fd，后面有一些验证
 
-            m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_CONNECT_KEY, xSendMsg, xClientID, nPlayerID);
+            m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_KEY, xSendMsg, xClientID, nPlayerID);
         }
     }
     else
@@ -191,9 +191,9 @@ void AFCProxyServerNet_ServerModule::OnClientDisconnect(const AFGUID& xClientID)
             if(!pSessionData->mnUserID.IsNull())
             {
                 //掉线
-                NFMsg::ReqLeaveGameServer xData;
+                AFMsg::ReqLeaveGameServer xData;
 
-                NFMsg::MsgBase xMsg;
+                AFMsg::MsgBase xMsg;
                 //playerid主要是网关转发消息的时候做识别使用，其他使用不使用
                 *xMsg.mutable_player_id() = AFINetServerModule::NFToPB(pSessionData->mnUserID);
 
@@ -208,7 +208,7 @@ void AFCProxyServerNet_ServerModule::OnClientDisconnect(const AFGUID& xClientID)
                     return;
                 }
 
-                m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, NFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, strMsg);
+                m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, strMsg);
             }
         }
 
@@ -219,7 +219,7 @@ void AFCProxyServerNet_ServerModule::OnClientDisconnect(const AFGUID& xClientID)
 void AFCProxyServerNet_ServerModule::OnSelectServerProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ReqSelectServer xMsg;
+    AFMsg::ReqSelectServer xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -234,28 +234,28 @@ void AFCProxyServerNet_ServerModule::OnSelectServerProcess(const int nMsgID, con
             //now this client bind a game server, after this time, all message will be sent to this game server who bind with client
             pSessionData->mnGameID = xMsg.world_id();
 
-            NFMsg::AckEventResult xMsg;
-            xMsg.set_event_code(NFMsg::EGameEventCode::EGEC_SELECTSERVER_SUCCESS);
-            m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xMsg, xClientID, nPlayerID);
+            AFMsg::AckEventResult xMsg;
+            xMsg.set_event_code(AFMsg::EGameEventCode::EGEC_SELECTSERVER_SUCCESS);
+            m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xMsg, xClientID, nPlayerID);
             return;
         }
     }
 
-    NFMsg::AckEventResult xSendMsg;
-    xSendMsg.set_event_code(NFMsg::EGameEventCode::EGEC_SELECTSERVER_FAIL);
-    m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xMsg, xClientID, nPlayerID);
+    AFMsg::AckEventResult xSendMsg;
+    xSendMsg.set_event_code(AFMsg::EGameEventCode::EGEC_SELECTSERVER_FAIL);
+    m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xMsg, xClientID, nPlayerID);
 }
 
 void AFCProxyServerNet_ServerModule::OnReqServerListProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ReqServerList xMsg;
+    AFMsg::ReqServerList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
 
-    if(xMsg.type() != NFMsg::RSLT_GAMES_ERVER)
+    if(xMsg.type() != AFMsg::RSLT_GAMES_ERVER)
     {
         return;
     }
@@ -264,8 +264,8 @@ void AFCProxyServerNet_ServerModule::OnReqServerListProcess(const int nMsgID, co
     if(pSessionData && pSessionData->mnLogicState > 0)
     {
         //ack all gameserver data
-        NFMsg::AckServerList xData;
-        xData.set_type(NFMsg::RSLT_GAMES_ERVER);
+        AFMsg::AckServerList xData;
+        xData.set_type(AFMsg::RSLT_GAMES_ERVER);
 
         AFMapEx<int, ConnectData>& xServerList = m_pProxyServerToGameModule->GetClusterModule()->GetServerList();
         ConnectData* pGameData = xServerList.FirstNude();
@@ -273,10 +273,10 @@ void AFCProxyServerNet_ServerModule::OnReqServerListProcess(const int nMsgID, co
         {
             if(ConnectDataState::NORMAL == pGameData->eState)
             {
-                NFMsg::ServerInfo* pServerInfo = xData.add_info();
+                AFMsg::ServerInfo* pServerInfo = xData.add_info();
 
                 pServerInfo->set_name(pGameData->strName);
-                pServerInfo->set_status(NFMsg::EServerState::EST_NARMAL);
+                pServerInfo->set_status(AFMsg::EServerState::EST_NARMAL);
                 pServerInfo->set_server_id(pGameData->nGameID);
                 pServerInfo->set_wait_count(0);
             }
@@ -284,13 +284,13 @@ void AFCProxyServerNet_ServerModule::OnReqServerListProcess(const int nMsgID, co
             pGameData = xServerList.NextNude();
         }
 
-        m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, nPlayerID);
+        m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, nPlayerID);
     }
 }
 
 int AFCProxyServerNet_ServerModule::Transpond(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    NFMsg::MsgBase xMsg;
+    AFMsg::MsgBase xMsg;
     if(!xMsg.ParseFromArray(msg, nLen))
     {
         char szData[MAX_PATH] = { 0 };
@@ -354,7 +354,7 @@ void AFCProxyServerNet_ServerModule::OnReqRoleListProcess(const int nMsgID, cons
 {
     //在没有正式进入游戏之前，nPlayerID都是FD
     AFGUID nPlayerID;
-    NFMsg::ReqRoleList xData;
+    AFMsg::ReqRoleList xData;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
@@ -370,7 +370,7 @@ void AFCProxyServerNet_ServerModule::OnReqRoleListProcess(const int nMsgID, cons
                 && pSessionData->mnGameID == xData.game_id()
                 && pSessionData->mstrAccout == xData.account())
         {
-            NFMsg::MsgBase xMsg;
+            AFMsg::MsgBase xMsg;
             if(!xData.SerializeToString(xMsg.mutable_msg_data()))
             {
                 return;
@@ -385,7 +385,7 @@ void AFCProxyServerNet_ServerModule::OnReqRoleListProcess(const int nMsgID, cons
                 return;
             }
 
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, NFMsg::EGameMsgID::EGMI_REQ_ROLE_LIST, strMsg);
+            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_ROLE_LIST, strMsg);
         }
     }
 }
@@ -396,7 +396,7 @@ void AFCProxyServerNet_ServerModule::OnReqCreateRoleProcess(const int nMsgID, co
 
 
     AFGUID nPlayerID;
-    NFMsg::ReqCreateRole xData;
+    AFMsg::ReqCreateRole xData;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
@@ -412,7 +412,7 @@ void AFCProxyServerNet_ServerModule::OnReqCreateRoleProcess(const int nMsgID, co
                 && pSessionData->mnGameID == xData.game_id()
                 && pSessionData->mstrAccout == xData.account())
         {
-            NFMsg::MsgBase xMsg;
+            AFMsg::MsgBase xMsg;
             if(!xData.SerializeToString(xMsg.mutable_msg_data()))
             {
                 return;
@@ -436,7 +436,7 @@ void AFCProxyServerNet_ServerModule::OnReqDelRoleProcess(const int nMsgID, const
 {
     //在没有正式进入游戏之前，nPlayerID都是FD
     AFGUID nPlayerID;
-    NFMsg::ReqDeleteRole xData;
+    AFMsg::ReqDeleteRole xData;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
@@ -461,7 +461,7 @@ void AFCProxyServerNet_ServerModule::OnReqEnterGameServer(const int nMsgID, cons
 {
     //在没有正式进入游戏之前，nPlayerID都是FD
     AFGUID nPlayerID;
-    NFMsg::ReqEnterGameServer xData;
+    AFMsg::ReqEnterGameServer xData;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
@@ -479,7 +479,7 @@ void AFCProxyServerNet_ServerModule::OnReqEnterGameServer(const int nMsgID, cons
                 && !xData.name().empty()
                 && !xData.account().empty())
         {
-            NFMsg::MsgBase xMsg;
+            AFMsg::MsgBase xMsg;
             if(!xData.SerializeToString(xMsg.mutable_msg_data()))
             {
                 return;
@@ -494,7 +494,7 @@ void AFCProxyServerNet_ServerModule::OnReqEnterGameServer(const int nMsgID, cons
                 return;
             }
 
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, NFMsg::EGameMsgID::EGMI_REQ_ENTER_GAME, strMsg);
+            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_ENTER_GAME, strMsg);
         }
     }
 }
