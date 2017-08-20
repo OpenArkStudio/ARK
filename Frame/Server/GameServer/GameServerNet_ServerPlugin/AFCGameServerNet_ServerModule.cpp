@@ -211,7 +211,7 @@ void AFCGameServerNet_ServerModule::OnClienEnterGameProcess(const int nMsgID, co
     varEntry << int64_t(0);
     varEntry << nSceneID;
     varEntry << -1;
-    m_pKernelModule->DoEvent(pObject->Self(), NFED_ON_CLIENT_ENTER_SCENE, varEntry);
+    m_pKernelModule->DoEvent(pObject->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
 
 void AFCGameServerNet_ServerModule::OnClienLeaveGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
@@ -939,7 +939,7 @@ int AFCGameServerNet_ServerModule::OnGroupEvent(const AFGUID& self, const std::s
             OnObjectListLeave(AFCDataList() << self, valueAllOldObjectList);
         }
 
-        m_pKernelModule->DoEvent(self, NFED_ON_CLIENT_LEAVE_SCENE, AFCDataList() << nOldGroupID);
+        m_pKernelModule->DoEvent(self, AFED_ON_CLIENT_LEAVE_SCENE, AFCDataList() << nOldGroupID);
     }
 
     //再广播给别人自己出现(层升或者跃层)
@@ -1215,7 +1215,7 @@ int AFCGameServerNet_ServerModule::OnObjectClassEvent(const AFGUID& self, const 
     }
     else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
     {
-        m_pKernelModule->AddEventCallBack(self, NFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameServerNet_ServerModule::OnSwapSceneResultEvent);
+        m_pKernelModule->AddEventCallBack(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameServerNet_ServerModule::OnSwapSceneResultEvent);
     }
 
     return 0;
@@ -1314,7 +1314,7 @@ void AFCGameServerNet_ServerModule::OnClienSwapSceneProcess(const int nMsgID, co
     varEntry << 0;
     varEntry << xMsg.scene_id();
     varEntry << -1;
-    m_pKernelModule->DoEvent(pObject->Self(), NFED_ON_CLIENT_ENTER_SCENE, varEntry);
+    m_pKernelModule->DoEvent(pObject->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
 
 void AFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
