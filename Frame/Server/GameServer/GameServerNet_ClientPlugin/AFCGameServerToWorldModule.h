@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Interface/AFINetClientModule.hpp"
 #include "SDK/Interface/AFIGameServerNet_ClientModule.h"
 #include "SDK/Interface/AFIGameServerNet_ServerModule.h"
@@ -50,7 +50,7 @@ private:
     void SendOffline(const AFGUID& self);
 
 private:
-    //AFILogModule* m_pLogModule;
+    AFILogModule* m_pLogModule;
     AFIKernelModule* m_pKernelModule;
     AFIClassModule* m_pClassModule;
     AFIElementModule* m_pElementModule;

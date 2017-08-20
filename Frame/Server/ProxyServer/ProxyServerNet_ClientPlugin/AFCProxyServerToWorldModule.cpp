@@ -38,7 +38,7 @@ bool AFCProxyServerToWorldModule::Execute()
 void AFCProxyServerToWorldModule::OnServerInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -46,7 +46,7 @@ void AFCProxyServerToWorldModule::OnServerInfoProcess(const int nMsgID, const ch
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
         //type
         ConnectData xServerData;
@@ -109,8 +109,8 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
                 const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
 
-                NFMsg::ServerInfoReportList xMsg;
-                NFMsg::ServerInfoReport* pData = xMsg.add_server_list();
+                AFMsg::ServerInfoReportList xMsg;
+                AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
 
                 pData->set_server_id(nSelfServerID);
                 pData->set_server_name(strName);
@@ -118,14 +118,14 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
                 pData->set_server_ip(strIP);
                 pData->set_server_port(nPort);
                 pData->set_server_max_online(nMaxConnect);
-                pData->set_server_state(NFMsg::EST_NARMAL);
+                pData->set_server_state(AFMsg::EST_NARMAL);
                 pData->set_server_type(nServerType);
 
                 ARK_SHARE_PTR<ConnectData> pServerData = GetClusterModule()->GetServerNetInfo(nServerID);
                 if(pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
-                    GetClusterModule()->SendToServerByPB(nTargetID, NFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg);
+                    GetClusterModule()->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg);
 
                     m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
                 }
@@ -144,8 +144,8 @@ bool AFCProxyServerToWorldModule::AfterInit()
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
     m_pProxyServerToGameModule = pPluginManager->FindModule<AFIProxyServerToGameModule>();
 
-    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyServerToWorldModule::OnSelectServerResultProcess);
-    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_STS_NET_INFO, this, &AFCProxyServerToWorldModule::OnServerInfoProcess);
+    m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyServerToWorldModule::OnSelectServerResultProcess);
+    m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_STS_NET_INFO, this, &AFCProxyServerToWorldModule::OnServerInfoProcess);
     m_pNetClientModule->AddReceiveCallBack(this, &AFCProxyServerToWorldModule::OnOtherMessage);
 
     m_pNetClientModule->AddEventCallBack(this, &AFCProxyServerToWorldModule::OnSocketWSEvent);
@@ -188,7 +188,7 @@ void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const int nMsgID, 
 {
     //保持记录,直到下线,或者1分钟不上线即可删除
     AFGUID nPlayerID;
-    NFMsg::AckConnectWorldResult xMsg;
+    AFMsg::AckConnectWorldResult xMsg;
     if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
