@@ -47,7 +47,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{32540EFA-8D08-4ED0-A01D-B90623FC8715}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>NFCore</RootNamespace>
+    <RootNamespace>AFCore</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>AFBase</ProjectName>
   </PropertyGroup>
