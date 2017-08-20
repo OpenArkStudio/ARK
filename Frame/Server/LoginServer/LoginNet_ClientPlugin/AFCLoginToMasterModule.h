@@ -41,7 +41,7 @@ public:
     virtual void LogSend(const char* str) {}
 
     virtual AFINetClientModule* GetClusterModule();
-    virtual AFMapEx<int, NFMsg::ServerInfoReport>& GetWorldMap();
+    virtual AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap();
 
 protected:
     void OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
@@ -56,7 +56,7 @@ protected:
     void Register(const int nServerID);
 
 private:
-    AFMapEx<int, NFMsg::ServerInfoReport> mWorldMap;
+    AFMapEx<int, AFMsg::ServerInfoReport> mWorldMap;
 
     AFILoginLogicModule* m_pLoginLogicModule;
     AFILoginNet_ServerModule* m_pLoginNet_ServerModule;

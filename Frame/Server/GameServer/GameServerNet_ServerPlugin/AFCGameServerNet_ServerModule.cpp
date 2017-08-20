@@ -26,21 +26,21 @@ bool AFCGameServerNet_ServerModule::AfterInit()
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
     m_pGameServerToWorldModule = pPluginManager->FindModule<AFIGameServerToWorldModule>();
 
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameServerNet_ServerModule::OnRefreshProxyServerInfoProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCGameServerNet_ServerModule::OnProxyServerUnRegisteredProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_ENTER_GAME, this, &AFCGameServerNet_ServerModule::OnClienEnterGameProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_LEAVE_GAME, this, &AFCGameServerNet_ServerModule::OnClienLeaveGameProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_ROLE_LIST, this, &AFCGameServerNet_ServerModule::OnReqiureRoleListProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCGameServerNet_ServerModule::OnCreateRoleGameProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCGameServerNet_ServerModule::OnDeleteRoleGameProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_RECOVER_ROLE, this, &AFCGameServerNet_ServerModule::OnClienSwapSceneProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_SWAP_SCENE, this, &AFCGameServerNet_ServerModule::OnClienSwapSceneProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_SEARCH_GUILD, this, &AFCGameServerNet_ServerModule::OnTransWorld);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGEC_REQ_CREATE_CHATGROUP, this, &AFCGameServerNet_ServerModule::OnTransWorld);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGEC_REQ_JOIN_CHATGROUP, this, &AFCGameServerNet_ServerModule::OnTransWorld);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGEC_REQ_LEAVE_CHATGROUP, this, &AFCGameServerNet_ServerModule::OnTransWorld);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGEC_REQ_SUBSCRIPTION_CHATGROUP, this, &AFCGameServerNet_ServerModule::OnTransWorld);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameServerNet_ServerModule::OnRefreshProxyServerInfoProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCGameServerNet_ServerModule::OnProxyServerUnRegisteredProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCGameServerNet_ServerModule::OnClienEnterGameProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_LEAVE_GAME, this, &AFCGameServerNet_ServerModule::OnClienLeaveGameProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCGameServerNet_ServerModule::OnReqiureRoleListProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCGameServerNet_ServerModule::OnCreateRoleGameProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCGameServerNet_ServerModule::OnDeleteRoleGameProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_RECOVER_ROLE, this, &AFCGameServerNet_ServerModule::OnClienSwapSceneProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_SWAP_SCENE, this, &AFCGameServerNet_ServerModule::OnClienSwapSceneProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_SEARCH_GUILD, this, &AFCGameServerNet_ServerModule::OnTransWorld);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGEC_REQ_CREATE_CHATGROUP, this, &AFCGameServerNet_ServerModule::OnTransWorld);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGEC_REQ_JOIN_CHATGROUP, this, &AFCGameServerNet_ServerModule::OnTransWorld);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGEC_REQ_LEAVE_CHATGROUP, this, &AFCGameServerNet_ServerModule::OnTransWorld);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGEC_REQ_SUBSCRIPTION_CHATGROUP, this, &AFCGameServerNet_ServerModule::OnTransWorld);
 
     m_pNetModule->AddEventCallBack(this, &AFCGameServerNet_ServerModule::OnSocketPSEvent);
 
@@ -136,7 +136,7 @@ void AFCGameServerNet_ServerModule::OnClienEnterGameProcess(const int nMsgID, co
 {
     //在进入游戏之前nPlayerID为其在网关的FD
     AFGUID nClientID;
-    NFMsg::ReqEnterGameServer xMsg;
+    AFMsg::ReqEnterGameServer xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nClientID))
     {
         return;
@@ -217,7 +217,7 @@ void AFCGameServerNet_ServerModule::OnClienEnterGameProcess(const int nMsgID, co
 void AFCGameServerNet_ServerModule::OnClienLeaveGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ReqLeaveGameServer xMsg;
+    AFMsg::ReqLeaveGameServer xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -243,8 +243,8 @@ int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, co
     //    return 0;
     //}
 
-    //NFMsg::MultiObjectPropertyList xPublicMsg;
-    //NFMsg::MultiObjectPropertyList xPrivateMsg;
+    //AFMsg::MultiObjectPropertyList xPublicMsg;
+    //AFMsg::MultiObjectPropertyList xPrivateMsg;
 
     ////分为自己和外人
     ////1.public发送给所有人
@@ -252,8 +252,8 @@ int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, co
     //ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
     //if(nullptr != pObject)
     //{
-    //    NFMsg::ObjectPropertyList* pPublicData = xPublicMsg.add_multi_player_property();
-    //    NFMsg::ObjectPropertyList* pPrivateData = xPrivateMsg.add_multi_player_property();
+    //    AFMsg::ObjectPropertyList* pPublicData = xPublicMsg.add_multi_player_property();
+    //    AFMsg::ObjectPropertyList* pPrivateData = xPrivateMsg.add_multi_player_property();
 
     //    *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
     //    *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
@@ -276,14 +276,14 @@ int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, co
     //                {
     //                    if(pPropertyInfo->IsPublic())
     //                    {
-    //                        NFMsg::PropertyInt* pDataInt = pPublicData->add_property_int_list();
+    //                        AFMsg::PropertyInt* pDataInt = pPublicData->add_property_int_list();
     //                        pDataInt->set_property_name(pPropertyInfo->GetName());
     //                        pDataInt->set_data(pPropertyInfo->GetValue());
     //                    }
 
     //                    if(pPropertyInfo->IsPrivate())
     //                    {
-    //                        NFMsg::PropertyInt* pDataInt = pPrivateData->add_property_int_list();
+    //                        AFMsg::PropertyInt* pDataInt = pPrivateData->add_property_int_list();
     //                        pDataInt->set_property_name(pPropertyInfo->GetKey());
     //                        pDataInt->set_data(pPropertyInfo->GetInt());
     //                    }
@@ -293,14 +293,14 @@ int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, co
     //                {
     //                    if(pPropertyInfo->IsPublic())
     //                    {
-    //                        NFMsg::PropertyDouble* pDataDouble = pPublicData->add_property_double_list();
+    //                        AFMsg::PropertyDouble* pDataDouble = pPublicData->add_property_double_list();
     //                        pDataDouble->set_property_name(pPropertyInfo->GetKey());
     //                        pDataDouble->set_data(pPropertyInfo->GetDouble());
     //                    }
 
     //                    if(pPropertyInfo->IsPrivate())
     //                    {
-    //                        NFMsg::PropertyDouble* pDataDouble = pPrivateData->add_property_double_list();
+    //                        AFMsg::PropertyDouble* pDataDouble = pPrivateData->add_property_double_list();
     //                        pDataDouble->set_property_name(pPropertyInfo->GetKey());
     //                        pDataDouble->set_data(pPropertyInfo->GetDouble());
     //                    }
@@ -310,14 +310,14 @@ int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, co
     //                {
     //                    if(pPropertyInfo->IsPublic())
     //                    {
-    //                        NFMsg::PropertyString* pDataString = pPublicData->add_property_string_list();
+    //                        AFMsg::PropertyString* pDataString = pPublicData->add_property_string_list();
     //                        pDataString->set_property_name(pPropertyInfo->GetKey());
     //                        pDataString->set_data(pPropertyInfo->GetString());
     //                    }
 
     //                    if(pPropertyInfo->IsPrivate())
     //                    {
-    //                        NFMsg::PropertyString* pDataString = pPrivateData->add_property_string_list();
+    //                        AFMsg::PropertyString* pDataString = pPrivateData->add_property_string_list();
     //                        pDataString->set_property_name(pPropertyInfo->GetKey());
     //                        pDataString->set_data(pPropertyInfo->GetString());
     //                    }
@@ -327,14 +327,14 @@ int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, co
     //                {
     //                    if(pPropertyInfo->IsPublic())
     //                    {
-    //                        NFMsg::PropertyObject* pDataObject = pPublicData->add_property_object_list();
+    //                        AFMsg::PropertyObject* pDataObject = pPublicData->add_property_object_list();
     //                        pDataObject->set_property_name(pPropertyInfo->GetKey());
     //                        *(pDataObject->mutable_data()) = AFINetServerModule::NFToPB(pPropertyInfo->GetObject());
     //                    }
 
     //                    if(pPropertyInfo->IsPrivate())
     //                    {
-    //                        NFMsg::PropertyObject* pDataObject = pPrivateData->add_property_object_list();
+    //                        AFMsg::PropertyObject* pDataObject = pPrivateData->add_property_object_list();
     //                        pDataObject->set_property_name(pPropertyInfo->GetKey());
     //                        *(pDataObject->mutable_data()) = AFINetServerModule::NFToPB(pPropertyInfo->GetObject());
     //                    }
@@ -344,14 +344,14 @@ int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, co
     //            {
     //            if(pPropertyInfo->GetPublic())
     //            {
-    //            NFMsg::PropertyPoint* pDataPoint = pPublicData->add_property_point_list();
+    //            AFMsg::PropertyPoint* pDataPoint = pPublicData->add_property_point_list();
     //            pDataPoint->set_property_name(pPropertyInfo->GetKey());
     //            *(pDataPoint->mutable_data()) = AFINetServerModule::NFToPB(pPropertyInfo->GetPoint());
     //            }
 
     //            if(pPropertyInfo->GetPrivate())
     //            {
-    //            NFMsg::PropertyPoint* pDataPoint = pPrivateData->add_property_point_list();
+    //            AFMsg::PropertyPoint* pDataPoint = pPrivateData->add_property_point_list();
     //            pDataPoint->set_property_name(pPropertyInfo->GetKey());
     //            *(pDataPoint->mutable_data()) = AFINetServerModule::NFToPB(pPropertyInfo->GetPoint());
     //            }
@@ -369,11 +369,11 @@ int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, co
     //        if(self == identOther)
     //        {
     //            //找到他所在网关的FD
-    //            SendMsgPBToGate(NFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPrivateMsg, identOther);
+    //            SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPrivateMsg, identOther);
     //        }
     //        else
     //        {
-    //            SendMsgPBToGate(NFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPublicMsg, identOther);
+    //            SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPublicMsg, identOther);
     //        }
     //    }
 
@@ -382,7 +382,7 @@ int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, co
     return 0;
 }
 
-bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase* pObjectRecordBase)
+bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, AFMsg::ObjectRecordBase* pObjectRecordBase)
 {
     //if(!pRecord || !pObjectRecordBase)
     //{
@@ -394,7 +394,7 @@ bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase
     //    if(pRecord->IsUsed(i))
     //    {
     //        //不管public还是private都要加上，不然public广播了那不是private就广播不了了
-    //        NFMsg::RecordAddRowStruct* pAddRowStruct = pObjectRecordBase->add_row_struct();
+    //        AFMsg::RecordAddRowStruct* pAddRowStruct = pObjectRecordBase->add_row_struct();
     //        pAddRowStruct->set_row(i);
 
     //        for(int j = 0; j < pRecord->GetCols(); j++)
@@ -409,7 +409,7 @@ bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase
     //                    int nValue = pRecord->GetInt(i, j);
     //                    //if ( 0 != nValue )
     //                    {
-    //                        NFMsg::RecordInt* pAddData = pAddRowStruct->add_record_int_list();
+    //                        AFMsg::RecordInt* pAddData = pAddRowStruct->add_record_int_list();
     //                        pAddData->set_row(i);
     //                        pAddData->set_col(j);
     //                        pAddData->set_data(nValue);
@@ -421,7 +421,7 @@ bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase
     //                    double dwValue = pRecord->GetDouble(i, j);
     //                    //if ( dwValue < -0.01f || dwValue > 0.01f )
     //                    {
-    //                        NFMsg::RecordDouble* pAddData = pAddRowStruct->add_record_double_list();
+    //                        AFMsg::RecordDouble* pAddData = pAddRowStruct->add_record_double_list();
     //                        pAddData->set_row(i);
     //                        pAddData->set_col(j);
     //                        pAddData->set_data(dwValue);
@@ -433,7 +433,7 @@ bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase
     //                    const std::string& strData = pRecord->GetString(i, j);
     //                    //if ( !strData.empty() )
     //                    {
-    //                        NFMsg::RecordString* pAddData = pAddRowStruct->add_record_string_list();
+    //                        AFMsg::RecordString* pAddData = pAddRowStruct->add_record_string_list();
     //                        pAddData->set_row(i);
     //                        pAddData->set_col(j);
     //                        pAddData->set_data(strData);
@@ -445,7 +445,7 @@ bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase
     //                    AFGUID ident = pRecord->GetObject(i, j);
     //                    //if ( !ident.IsNull() )
     //                    {
-    //                        NFMsg::RecordObject* pAddData = pAddRowStruct->add_record_object_list();
+    //                        AFMsg::RecordObject* pAddData = pAddRowStruct->add_record_object_list();
     //                        pAddData->set_row(i);
     //                        pAddData->set_col(j);
     //                        *(pAddData->mutable_data()) = AFINetServerModule::NFToPB(ident);
@@ -457,7 +457,7 @@ bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, NFMsg::ObjectRecordBase
     //            //        const Point3D& xPoint = pRecord->GetPoint(i, j);
     //            //        //if ( !xPoint.IsNull() )
     //            //        {
-    //            //            NFMsg::RecordPoint* pAddData = pAddRowStruct->add_record_point_list();
+    //            //            AFMsg::RecordPoint* pAddData = pAddRowStruct->add_record_point_list();
     //            //            pAddData->set_row(i);
     //            //            pAddData->set_col(j);
     //            //            *(pAddData->mutable_data()) = AFINetServerModule::NFToPB(xPoint);
@@ -481,14 +481,14 @@ int AFCGameServerNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, cons
         return 0;
     }
 
-    NFMsg::MultiObjectRecordList xPublicMsg;
-    NFMsg::MultiObjectRecordList xPrivateMsg;
+    AFMsg::MultiObjectRecordList xPublicMsg;
+    AFMsg::MultiObjectRecordList xPrivateMsg;
 
     ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
     if(nullptr != pObject)
     {
-        NFMsg::ObjectRecordList* pPublicData = NULL;
-        NFMsg::ObjectRecordList* pPrivateData = NULL;
+        AFMsg::ObjectRecordList* pPublicData = NULL;
+        AFMsg::ObjectRecordList* pPrivateData = NULL;
 
         ARK_SHARE_PTR<AFIRecordManager> pRecordManager = pObject->GetRecordManager();
         ARK_SHARE_PTR<AFIRecord> pRecord = pRecordManager->First();
@@ -500,8 +500,8 @@ int AFCGameServerNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, cons
                 continue;
             }
 
-            NFMsg::ObjectRecordBase* pPrivateRecordBase = NULL;
-            NFMsg::ObjectRecordBase* pPublicRecordBase = NULL;
+            AFMsg::ObjectRecordBase* pPrivateRecordBase = NULL;
+            AFMsg::ObjectRecordBase* pPublicRecordBase = NULL;
             if(pRecord->GetPublic())
             {
                 if(!pPublicData)
@@ -539,14 +539,14 @@ int AFCGameServerNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, cons
             {
                 if(xPrivateMsg.multi_player_record_size() > 0)
                 {
-                    SendMsgPBToGate(NFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPrivateMsg, identOther);
+                    SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPrivateMsg, identOther);
                 }
             }
             else
             {
                 if(xPublicMsg.multi_player_record_size() > 0)
                 {
-                    SendMsgPBToGate(NFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPublicMsg, identOther);
+                    SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPublicMsg, identOther);
                 }
             }
         }
@@ -562,7 +562,7 @@ int AFCGameServerNet_ServerModule::OnObjectListEnter(const AFIDataList& self, co
     //    return 0;
     //}
 
-    //NFMsg::AckPlayerEntryList xPlayerEntryInfoList;
+    //AFMsg::AckPlayerEntryList xPlayerEntryInfoList;
     //for(int i = 0; i < argVar.GetCount(); i++)
     //{
     //    AFGUID identOld = argVar.Object(i);
@@ -572,7 +572,7 @@ int AFCGameServerNet_ServerModule::OnObjectListEnter(const AFIDataList& self, co
     //        continue;
     //    }
 
-    //    NFMsg::PlayerEntryInfo* pEntryInfo = xPlayerEntryInfoList.add_object_list();
+    //    AFMsg::PlayerEntryInfo* pEntryInfo = xPlayerEntryInfoList.add_object_list();
     //    *(pEntryInfo->mutable_object_guid()) = AFINetServerModule::NFToPB(identOld);
     //    *pEntryInfo->mutable_pos() = AFINetServerModule::NFToPB(m_pKernelModule->GetPropertyPoint(identOld, "Pos"));
     //    pEntryInfo->set_career_type(m_pKernelModule->GetPropertyInt(identOld, "Job"));
@@ -596,7 +596,7 @@ int AFCGameServerNet_ServerModule::OnObjectListEnter(const AFIDataList& self, co
     //    }
 
     //    //可能在不同的网关呢,得到后者所在的网关FD
-    //    SendMsgPBToGate(NFMsg::EGMI_ACK_OBJECT_ENTRY, xPlayerEntryInfoList, ident);
+    //    SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_ENTRY, xPlayerEntryInfoList, ident);
     //}
 
     return 1;
@@ -609,7 +609,7 @@ int AFCGameServerNet_ServerModule::OnObjectListLeave(const AFIDataList& self, co
         return 0;
     }
 
-    NFMsg::AckPlayerLeaveList xPlayerLeaveInfoList;
+    AFMsg::AckPlayerLeaveList xPlayerLeaveInfoList;
     for(int i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOld = argVar.Object(i);
@@ -619,7 +619,7 @@ int AFCGameServerNet_ServerModule::OnObjectListLeave(const AFIDataList& self, co
             continue;
         }
 
-        NFMsg::Ident* pIdent = xPlayerLeaveInfoList.add_object_list();
+        AFMsg::Ident* pIdent = xPlayerLeaveInfoList.add_object_list();
         *pIdent = AFINetServerModule::NFToPB(argVar.Object(i));
     }
 
@@ -631,11 +631,12 @@ int AFCGameServerNet_ServerModule::OnObjectListLeave(const AFIDataList& self, co
             continue;
         }
         //可能在不同的网关呢,得到后者所在的网关FD
-        SendMsgPBToGate(NFMsg::EGMI_ACK_OBJECT_LEAVE, xPlayerLeaveInfoList, ident);
+        SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_LEAVE, xPlayerLeaveInfoList, ident);
     }
 
     return 1;
 }
+
 
 int AFCGameServerNet_ServerModule::OnPropertyCommonEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
@@ -679,103 +680,17 @@ int AFCGameServerNet_ServerModule::OnPropertyCommonEvent(const AFGUID& self, con
         return 0;
     }
 
-    switch(oldVar.GetType())
+    AFMsg::ObjectPropertyPBData xPropertyData;
+    AFMsg::Ident* pIdent = xPropertyData.mutable_player_id();
+    *pIdent = AFINetServerModule::NFToPB(self);
+    AFMsg::PropertyPBData* pData = xPropertyData.add_property_list();
+    AFINetServerModule::DataToPBProperty(oldVar, strPropertyName.c_str(), *pData);
+
+    for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
     {
-    case DT_INT:
-        {
-            NFMsg::ObjectPropertyInt xPropertyInt;
-            NFMsg::Ident* pIdent = xPropertyInt.mutable_player_id();
-            *pIdent = AFINetServerModule::NFToPB(self);
+        AFGUID identOld = valueBroadCaseList.Object(i);
 
-            NFMsg::PropertyInt* pDataInt = xPropertyInt.add_property_list();
-            pDataInt->set_property_name(strPropertyName);
-            pDataInt->set_data(newVar.GetInt());
-
-            for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
-            {
-                AFGUID identOld = valueBroadCaseList.Object(i);
-
-                SendMsgPBToGate(NFMsg::EGMI_ACK_PROPERTY_INT, xPropertyInt, identOld);
-            }
-        }
-        break;
-
-    case DT_DOUBLE:
-        {
-            NFMsg::ObjectPropertyDouble xPropertyDouble;
-            NFMsg::Ident* pIdent = xPropertyDouble.mutable_player_id();
-            *pIdent = AFINetServerModule::NFToPB(self);
-
-            NFMsg::PropertyDouble* pDataDouble = xPropertyDouble.add_property_list();
-            pDataDouble->set_property_name(strPropertyName);
-            pDataDouble->set_data(newVar.GetDouble());
-
-            for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
-            {
-                AFGUID identOld = valueBroadCaseList.Object(i);
-
-                SendMsgPBToGate(NFMsg::EGMI_ACK_PROPERTY_DOUBLE, xPropertyDouble, identOld);
-            }
-        }
-        break;
-
-    case DT_STRING:
-        {
-            NFMsg::ObjectPropertyString xPropertyString;
-            NFMsg::Ident* pIdent = xPropertyString.mutable_player_id();
-            *pIdent = AFINetServerModule::NFToPB(self);
-
-            NFMsg::PropertyString* pDataString = xPropertyString.add_property_list();
-            pDataString->set_property_name(strPropertyName);
-            pDataString->set_data(newVar.GetString());
-
-            for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
-            {
-                AFGUID identOld = valueBroadCaseList.Object(i);
-
-                SendMsgPBToGate(NFMsg::EGMI_ACK_PROPERTY_STRING, xPropertyString, identOld);
-            }
-        }
-        break;
-
-    case DT_OBJECT:
-        {
-            NFMsg::ObjectPropertyObject xPropertyObject;
-            NFMsg::Ident* pIdent = xPropertyObject.mutable_player_id();
-            *pIdent = AFINetServerModule::NFToPB(self);
-
-            NFMsg::PropertyObject* pDataObject = xPropertyObject.add_property_list();
-            pDataObject->set_property_name(strPropertyName);
-            *pDataObject->mutable_data() = AFINetServerModule::NFToPB(newVar.GetObject());
-
-            for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
-            {
-                AFGUID identOld = valueBroadCaseList.Object(i);
-
-                SendMsgPBToGate(NFMsg::EGMI_ACK_PROPERTY_OBJECT, xPropertyObject, identOld);
-            }
-        }
-        break;
-    /* case TDATA_POINT:
-         {
-             NFMsg::ObjectPropertyPoint xPropertyPoint;
-             NFMsg::Ident* pIdent = xPropertyPoint.mutable_player_id();
-             *pIdent = AFINetServerModule::NFToPB(self);
-
-             NFMsg::PropertyPoint* pDataPoint = xPropertyPoint.add_property_list();
-             pDataPoint->set_property_name(strPropertyName);
-             *pDataPoint->mutable_data() = AFINetServerModule::NFToPB(newVar.GetPoint());
-
-             for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
-             {
-                 AFGUID identOld = valueBroadCaseList.Object(i);
-
-                 SendMsgPBToGate(NFMsg::EGMI_ACK_PROPERTY_OBJECT, xPropertyPoint, identOld);
-             }
-         }
-         break;*/
-    default:
-        break;
+        SendMsgPBToGate(AFMsg::EGMI_ACK_PROPERTY_DATA, xPropertyData, identOld);
     }
 
     return 0;
@@ -812,13 +727,13 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
     {
     case AFIRecord::RecordOptype::Add:
         {
-            NFMsg::ObjectRecordAddRow xAddRecordRow;
-            NFMsg::Ident* pIdent = xAddRecordRow.mutable_player_id();
+            AFMsg::ObjectRecordAddRow xAddRecordRow;
+            AFMsg::Ident* pIdent = xAddRecordRow.mutable_player_id();
             *pIdent = AFINetServerModule::NFToPB(self);
 
             xAddRecordRow.set_record_name(strRecordName);
 
-            NFMsg::RecordAddRowStruct* pAddRowData = xAddRecordRow.add_row_data();
+            AFMsg::RecordAddRowStruct* pAddRowData = xAddRecordRow.add_row_data();
             pAddRowData->set_row(nRow);
 
             //add row 需要完整的row
@@ -830,79 +745,15 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
                 {
                     for(int i = 0; i < xRowDataList.GetCount(); i++)
                     {
-                        switch(xRowDataList.GetType(i))
-                        {
-                        case DT_INT:
-                            {
-                                //添加的时候数据要全s
-                                int nValue = xRowDataList.Int(i);
-                                //if ( 0 != nValue )
-                                {
-                                    NFMsg::RecordInt* pAddData = pAddRowData->add_record_int_list();
-                                    pAddData->set_col(i);
-                                    pAddData->set_row(nRow);
-                                    pAddData->set_data(nValue);
-                                }
-                            }
-                            break;
-                        case DT_DOUBLE:
-                            {
-                                double dValue = xRowDataList.Double(i);
-                                //if ( fValue > 0.001f  || fValue < -0.001f )
-                                {
-                                    NFMsg::RecordDouble* pAddData = pAddRowData->add_record_double_list();
-                                    pAddData->set_col(i);
-                                    pAddData->set_row(nRow);
-                                    pAddData->set_data(dValue);
-                                }
-                            }
-                            break;
-                        case DT_STRING:
-                            {
-                                const std::string& str = xRowDataList.String(i);
-                                //if (!str.empty())
-                                {
-                                    NFMsg::RecordString* pAddData = pAddRowData->add_record_string_list();
-                                    pAddData->set_col(i);
-                                    pAddData->set_row(nRow);
-                                    pAddData->set_data(str);
-                                }
-                            }
-                            break;
-                        case DT_OBJECT:
-                            {
-                                AFGUID identValue = xRowDataList.Object(i);
-                                //if (!identValue.IsNull())
-                                {
-                                    NFMsg::RecordObject* pAddData = pAddRowData->add_record_object_list();
-                                    pAddData->set_col(i);
-                                    pAddData->set_row(nRow);
-                                    *pAddData->mutable_data() = AFINetServerModule::NFToPB(identValue);
-                                }
-                            }
-                            break;
-                        //case AF_DATA_TYPE::TDATA_POINT:
-                        //    {
-                        //        const Point3D& xPoint = xRowDataList.Point(i);
-                        //        //if ( !xPoint.IsNull() )
-                        //        {
-                        //            NFMsg::RecordPoint* pAddData = pAddRowData->add_record_point_list();
-                        //            pAddData->set_row(i);
-                        //            pAddData->set_col(nRow);
-                        //            *(pAddData->mutable_data()) = AFINetServerModule::NFToPB(xPoint);
-                        //        }
-                        //    }
-                        //    break;
-                        default:
-                            break;
-                        }
+                        AFMsg::RecordPBData* pAddData = pAddRowData->add_record_data_list();
+                        AFINetServerModule::RecordToPBRecord(xRowDataList, nRow, nCol, *pAddData);
                     }
 
                     for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
                     {
                         AFGUID identOther = valueBroadCaseList.Object(i);
 
-                        SendMsgPBToGate(NFMsg::EGMI_ACK_ADD_ROW, xAddRecordRow, identOther);
+                        SendMsgPBToGate(AFMsg::EGMI_ACK_ADD_ROW, xAddRecordRow, identOther);
                     }
                 }
             }
@@ -910,9 +761,9 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
         break;
     case AFIRecord::RecordOptype::Del:
         {
-            NFMsg::ObjectRecordRemove xReoveRecordRow;
+            AFMsg::ObjectRecordRemove xReoveRecordRow;
 
-            NFMsg::Ident* pIdent = xReoveRecordRow.mutable_player_id();
+            AFMsg::Ident* pIdent = xReoveRecordRow.mutable_player_id();
             *pIdent = AFINetServerModule::NFToPB(self);
 
             xReoveRecordRow.set_record_name(strRecordName);
@@ -922,14 +773,14 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
             {
                 AFGUID identOther = valueBroadCaseList.Object(i);
 
-                SendMsgPBToGate(NFMsg::EGMI_ACK_REMOVE_ROW, xReoveRecordRow, identOther);
+                SendMsgPBToGate(AFMsg::EGMI_ACK_REMOVE_ROW, xReoveRecordRow, identOther);
             }
         }
         break;
     case AFIRecord::RecordOptype::Swap:
         {
             //其实是2个row交换
-            NFMsg::ObjectRecordSwap xSwapRecord;
+            AFMsg::ObjectRecordSwap xSwapRecord;
             *xSwapRecord.mutable_player_id() = AFINetServerModule::NFToPB(self);
 
             xSwapRecord.set_origin_record_name(strRecordName);
@@ -941,113 +792,23 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
             {
                 AFGUID identOther = valueBroadCaseList.Object(i);
 
-                SendMsgPBToGate(NFMsg::EGMI_ACK_SWAP_ROW, xSwapRecord, identOther);
+                SendMsgPBToGate(AFMsg::EGMI_ACK_SWAP_ROW, xSwapRecord, identOther);
             }
         }
         break;
     case AFIRecord::RecordOptype::Update:
         {
-            switch(oldVar.GetType())
+            AFMsg::ObjectRecordPBData xRecordChanged;
+            *xRecordChanged.mutable_player_id() = AFINetServerModule::NFToPB(self);
+            xRecordChanged.set_record_name(strRecordName);
+            AFMsg::RecordPBData* recordProperty = xRecordChanged.add_record_list();
+            AFINetServerModule::RecordToPBRecord(newVar, nRow, nCol, *recordProperty);
+
+            for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
             {
-            case DT_INT:
-                {
-                    NFMsg::ObjectRecordInt xRecordChanged;
-                    *xRecordChanged.mutable_player_id() = AFINetServerModule::NFToPB(self);
+                AFGUID identOther = valueBroadCaseList.Object(i);
 
-                    xRecordChanged.set_record_name(strRecordName);
-                    NFMsg::RecordInt* recordProperty = xRecordChanged.add_record_list();
-                    recordProperty->set_row(nRow);
-                    recordProperty->set_col(nCol);
-                    int nData = newVar.GetInt();
-                    recordProperty->set_data(nData);
-
-                    for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
-                    {
-                        AFGUID identOther = valueBroadCaseList.Object(i);
-
-                        SendMsgPBToGate(NFMsg::EGMI_ACK_RECORD_INT, xRecordChanged, identOther);
-                    }
-                }
-                break;
-            case DT_DOUBLE:
-                {
-                    NFMsg::ObjectRecordDouble xRecordChanged;
-                    *xRecordChanged.mutable_player_id() = AFINetServerModule::NFToPB(self);
-
-                    xRecordChanged.set_record_name(strRecordName);
-                    NFMsg::RecordDouble* recordProperty = xRecordChanged.add_record_list();
-                    recordProperty->set_row(nRow);
-                    recordProperty->set_col(nCol);
-                    recordProperty->set_data(newVar.GetDouble());
-
-                    for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
-                    {
-                        AFGUID identOther = valueBroadCaseList.Object(i);
-
-                        SendMsgPBToGate(NFMsg::EGMI_ACK_RECORD_DOUBLE, xRecordChanged, identOther);
-                    }
-                }
-                break;
-            case DT_STRING:
-                {
-                    NFMsg::ObjectRecordString xRecordChanged;
-                    *xRecordChanged.mutable_player_id() = AFINetServerModule::NFToPB(self);
-
-                    xRecordChanged.set_record_name(strRecordName);
-                    NFMsg::RecordString* recordProperty = xRecordChanged.add_record_list();
-                    recordProperty->set_row(nRow);
-                    recordProperty->set_col(nCol);
-                    recordProperty->set_data(newVar.GetString());
-
-                    for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
-                    {
-                        AFGUID identOther = valueBroadCaseList.Object(i);
-
-                        SendMsgPBToGate(NFMsg::EGMI_ACK_RECORD_STRING, xRecordChanged, identOther);
-                    }
-                }
-                break;
-            case DT_OBJECT:
-                {
-                    NFMsg::ObjectRecordObject xRecordChanged;
-                    *xRecordChanged.mutable_player_id() = AFINetServerModule::NFToPB(self);
-
-                    xRecordChanged.set_record_name(strRecordName);
-                    NFMsg::RecordObject* recordProperty = xRecordChanged.add_record_list();
-                    recordProperty->set_row(nRow);
-                    recordProperty->set_col(nCol);
-                    *recordProperty->mutable_data() = AFINetServerModule::NFToPB(newVar.GetObject());
-
-                    for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
-                    {
-                        AFGUID identOther = valueBroadCaseList.Object(i);
-
-                        SendMsgPBToGate(NFMsg::EGMI_ACK_RECORD_OBJECT, xRecordChanged, identOther);
-                    }
-                }
-                break;
-            /*  case TDATA_POINT:
-                  {
-                      NFMsg::ObjectRecordPoint xRecordChanged;
-                      *xRecordChanged.mutable_player_id() = AFINetServerModule::NFToPB(self);
-
-                      xRecordChanged.set_record_name(strRecordName);
-                      NFMsg::RecordPoint* recordProperty = xRecordChanged.add_record_list();
-                      recordProperty->set_row(nRow);
-                      recordProperty->set_col(nCol);
-                      *recordProperty->mutable_data() = AFINetServerModule::NFToPB(newVar.GetPoint());
-
-                      for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
-                      {
-                          AFGUID identOther = valueBroadCaseList.Object(i);
-
-                          SendMsgPBToGate(NFMsg::EGMI_ACK_RECORD_OBJECT, xRecordChanged, identOther);
-                      }
-                  }
-                  break;*/
-            default:
-                return 0;
-                break;
+                SendMsgPBToGate(AFMsg::EGMI_ACK_RECORD_DATA, xRecordChanged, identOther);
             }
         }
         break;
@@ -1110,13 +871,13 @@ int AFCGameServerNet_ServerModule::OnClassCommonEvent(const AFGUID& self, const 
         if(nullptr != pDataBase)
         {
             //回复客户端角色进入游戏世界成功了
-            NFMsg::AckEventResult xMsg;
-            xMsg.set_event_code(NFMsg::EGEC_ENTER_GAME_SUCCESS);
+            AFMsg::AckEventResult xMsg;
+            xMsg.set_event_code(AFMsg::EGEC_ENTER_GAME_SUCCESS);
 
             *xMsg.mutable_event_client() = AFINetServerModule::NFToPB(pDataBase->xClientID);
             *xMsg.mutable_event_object() = AFINetServerModule::NFToPB(self);
 
-            SendMsgPBToGate(NFMsg::EGMI_ACK_ENTER_GAME, xMsg, self);
+            SendMsgPBToGate(AFMsg::EGMI_ACK_ENTER_GAME, xMsg, self);
         }
     }
     else if(CLASS_OBJECT_EVENT::COE_CREATE_LOADDATA == eClassEvent)
@@ -1476,15 +1237,15 @@ int AFCGameServerNet_ServerModule::OnSwapSceneResultEvent(const AFGUID& self, co
       int nTargetGroupID = var.Int(3);
       const Point3D& xPos = var.Point(4);
 
-      NFMsg::ReqAckSwapScene xSwapScene;
-      xSwapScene.set_transfer_type(NFMsg::ReqAckSwapScene::EGameSwapType::ReqAckSwapScene_EGameSwapType_EGST_NARMAL);
+      AFMsg::ReqAckSwapScene xSwapScene;
+      xSwapScene.set_transfer_type(AFMsg::ReqAckSwapScene::EGameSwapType::ReqAckSwapScene_EGameSwapType_EGST_NARMAL);
       xSwapScene.set_scene_id(nTargetScene);
       xSwapScene.set_line_id(nTargetGroupID);
       xSwapScene.set_x(xPos.x);
       xSwapScene.set_y(xPos.y);
       xSwapScene.set_z(xPos.z);
 
-      SendMsgPBToGate(NFMsg::EGMI_ACK_SWAP_SCENE, xSwapScene, self);*/
+      SendMsgPBToGate(AFMsg::EGMI_ACK_SWAP_SCENE, xSwapScene, self);*/
 
     return 0;
 }
@@ -1493,27 +1254,27 @@ void AFCGameServerNet_ServerModule::OnReqiureRoleListProcess(const int nMsgID, c
 {
     //fd
     AFGUID nClientID;
-    NFMsg::ReqRoleList xMsg;
+    AFMsg::ReqRoleList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nClientID))
     {
         return;
     }
 
-    NFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
-    m_pNetModule->SendMsgPB(NFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, nClientID, AFGUID(0));
+    AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
+    m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, nClientID, AFGUID(0));
 }
 
 void AFCGameServerNet_ServerModule::OnCreateRoleGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nClientID;
-    NFMsg::ReqCreateRole xMsg;
+    AFMsg::ReqCreateRole xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nClientID))
     {
         return;
     }
 
-    NFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
-    NFMsg::RoleLiteInfo* pData = xAckRoleLiteInfoList.add_char_data();
+    AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
+    AFMsg::RoleLiteInfo* pData = xAckRoleLiteInfoList.add_char_data();
     pData->mutable_id()->CopyFrom(AFINetServerModule::NFToPB(m_pUUIDModule->CreateGUID()));
     pData->set_career(xMsg.career());
     pData->set_sex(xMsg.sex());
@@ -1527,26 +1288,26 @@ void AFCGameServerNet_ServerModule::OnCreateRoleGameProcess(const int nMsgID, co
     pData->set_last_offline_ip(0);
     pData->set_view_record("");
 
-    m_pNetModule->SendMsgPB(NFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList,   nClientID, AFGUID(0));
+    m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList,   nClientID, AFGUID(0));
 }
 
 void AFCGameServerNet_ServerModule::OnDeleteRoleGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ReqDeleteRole xMsg;
+    AFMsg::ReqDeleteRole xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
 
 
-    NFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
-    m_pNetModule->SendMsgPB(NFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID,   nPlayerID);
+    AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
+    m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID,   nPlayerID);
 }
 
 void AFCGameServerNet_ServerModule::OnClienSwapSceneProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    CLIENT_MSG_PROCESS(nMsgID, msg, nLen, NFMsg::ReqAckSwapScene);
+    CLIENT_MSG_PROCESS(nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
 
     AFCDataList varEntry;
     varEntry << pObject->Self();
@@ -1559,7 +1320,7 @@ void AFCGameServerNet_ServerModule::OnClienSwapSceneProcess(const int nMsgID, co
 void AFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -1567,7 +1328,7 @@ void AFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess(const int nMs
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
@@ -1587,7 +1348,7 @@ void AFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess(const int nMs
 void AFCGameServerNet_ServerModule::OnProxyServerUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -1595,7 +1356,7 @@ void AFCGameServerNet_ServerModule::OnProxyServerUnRegisteredProcess(const int n
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         mProxyMap.RemoveElement(xData.server_id());
 
 
@@ -1608,7 +1369,7 @@ void AFCGameServerNet_ServerModule::OnProxyServerUnRegisteredProcess(const int n
 void AFCGameServerNet_ServerModule::OnRefreshProxyServerInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -1616,7 +1377,7 @@ void AFCGameServerNet_ServerModule::OnRefreshProxyServerInfoProcess(const int nM
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {

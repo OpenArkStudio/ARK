@@ -8,7 +8,7 @@
 
 #include "AFCLoginToMasterModule.h"
 #include "AFLoginNetClientPlugin.h"
-#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Proto/AFMsgDefine.h"
 
 bool AFCLoginToMasterModule::Init()
 {
@@ -33,8 +33,8 @@ bool AFCLoginToMasterModule::AfterInit()
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
     m_pLoginNet_ServerModule = pPluginManager->FindModule<AFILoginNet_ServerModule>();
 
-    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCLoginToMasterModule::OnSelectServerResultProcess);
-    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_STS_NET_INFO, this, &AFCLoginToMasterModule::OnWorldInfoProcess);
+    m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCLoginToMasterModule::OnSelectServerResultProcess);
+    m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_STS_NET_INFO, this, &AFCLoginToMasterModule::OnWorldInfoProcess);
 
     m_pNetClientModule->AddEventCallBack(this, &AFCLoginToMasterModule::OnSocketMSEvent);
 
@@ -103,8 +103,8 @@ void AFCLoginToMasterModule::Register(const int nServerID)
                 const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
 
-                NFMsg::ServerInfoReportList xMsg;
-                NFMsg::ServerInfoReport* pData = xMsg.add_server_list();
+                AFMsg::ServerInfoReportList xMsg;
+                AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
 
                 pData->set_server_id(nSelfServerID);
                 pData->set_server_name(strName);
@@ -112,14 +112,14 @@ void AFCLoginToMasterModule::Register(const int nServerID)
                 pData->set_server_ip(strIP);
                 pData->set_server_port(nPort);
                 pData->set_server_max_online(nMaxConnect);
-                pData->set_server_state(NFMsg::EST_NARMAL);
+                pData->set_server_state(AFMsg::EST_NARMAL);
                 pData->set_server_type(nServerType);
 
                 ARK_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
                 if(pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
-                    m_pNetClientModule->SendToServerByPB(nTargetID, NFMsg::EGameMsgID::EGMI_LTM_LOGIN_REGISTERED, xMsg);
+                    m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_LTM_LOGIN_REGISTERED, xMsg);
 
                     m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
                 }
@@ -131,7 +131,7 @@ void AFCLoginToMasterModule::Register(const int nServerID)
 void AFCLoginToMasterModule::OnSelectServerResultProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::AckConnectWorldResult xMsg;
+    AFMsg::AckConnectWorldResult xMsg;
     if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -156,7 +156,7 @@ void AFCLoginToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AF
 void AFCLoginToMasterModule::OnWorldInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID ;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -164,12 +164,12 @@ void AFCLoginToMasterModule::OnWorldInfoProcess(const int nMsgID, const char* ms
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
-        ARK_SHARE_PTR<NFMsg::ServerInfoReport> pServerData = mWorldMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<AFMsg::ServerInfoReport> pServerData = mWorldMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = ARK_SHARE_PTR<NFMsg::ServerInfoReport>(ARK_NEW NFMsg::ServerInfoReport());
+            pServerData = ARK_SHARE_PTR<AFMsg::ServerInfoReport>(ARK_NEW AFMsg::ServerInfoReport());
             *pServerData = xData;
 
             mWorldMap.AddElement(xData.server_id(), pServerData);
@@ -185,7 +185,7 @@ AFINetClientModule* AFCLoginToMasterModule::GetClusterModule()
     return m_pNetClientModule;
 }
 
-AFMapEx<int, NFMsg::ServerInfoReport>& AFCLoginToMasterModule::GetWorldMap()
+AFMapEx<int, AFMsg::ServerInfoReport>& AFCLoginToMasterModule::GetWorldMap()
 {
     return mWorldMap;
 }
