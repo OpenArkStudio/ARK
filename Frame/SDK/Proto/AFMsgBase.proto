@@ -1,0 +1,195 @@
+package AFMsg; 
+
+import "AFDefine.proto";
+
+message Ident//基础结构，不直接发送
+{ 
+    required int32		svrid = 1;
+    required int32      index = 2;
+}
+
+message Point3D//基础结构，不直接发送
+{
+    required float      x = 1;
+    required float      y = 2;
+    required float      z = 3;
+}
+
+////////////////////////BaseCommon/////////////////////////////
+message PropertyPBData//基础结构，不直接发送
+{ 
+    required bytes     	property_name 	= 1;
+    required int32      ndataType 		= 2;
+	optional bool 		mbValue			= 3;
+	optional int32 		mnValue			= 4;
+	optional int64 		mn64Value		= 5;
+	optional float 		mfValue			= 6;
+	optional double 	mdValue			= 7;
+	optional bytes 		mstrValue		= 8;
+	optional int64 		mpVaule			= 9;
+	optional bytes 		mpUserData		= 10;
+	optional Ident 		mGuid			= 11;
+}
+
+message RecordPBData//基础结构，不直接发送
+{
+    required int32      row 			= 1;
+	required int32      col 			= 2;
+    required int32      ndataType 		= 3;
+	optional bool 		mbValue			= 4;
+	optional int32 		mnValue			= 5;
+	optional int64 		mn64Value		= 6;
+	optional float 		mfValue			= 7;
+	optional double 	mdValue			= 8;
+	optional bytes 		mstrValue		= 9;
+	optional int64 		mpVaule			= 10;
+	optional bytes 		mpUserData		= 11;
+	optional Ident 		mGuid			= 12;
+}
+
+message PBData//基础结构，不直接发送
+{
+    required int32      ndataType 		= 1;
+	optional bool 		mbValue			= 2;
+	optional int32 		mnValue			= 3;
+	optional int64 		mn64Value		= 4;
+	optional float 		mfValue			= 5;
+	optional double 	mdValue			= 6;
+	optional bytes 		mstrValue		= 7;
+	optional int64 		mpVaule			= 8;
+	optional bytes 		mpUserData		= 9;
+	optional Ident 		mGuid			= 10;
+}      
+
+message DataListPBData
+{
+	repeated PBData			data_list = 1;
+}                                  
+
+message RecordAddRowStruct//表添加基础行结构，不直接发送
+{
+	required int32 				row = 1;
+	repeated RecordPBData			record_data_list = 2;
+}
+
+message ObjectRecordBase//基础结构，不直接发送
+{ 
+	required bytes  record_name = 1;
+	repeated RecordAddRowStruct row_struct = 2;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+message ObjectPropertyList//个人玩家全部属性列表，可直接发送--统一发,为节约包
+{
+	required Ident  player_id = 1;
+	repeated PropertyPBData property_data_list = 2;
+}
+ 
+ message MultiObjectPropertyList//多人玩家全部属性列表，可直接发送--统一发,为节约包
+ {
+	repeated ObjectPropertyList multi_player_property = 1;
+ }
+
+message ObjectRecordList//个人玩家全部表数据，可直接发送--统一发,为节约包
+{
+	required Ident  player_id = 1;
+	repeated ObjectRecordBase record_list = 2;
+}
+
+ message MultiObjectRecordList//多人玩家全部表数据，可直接发送--统一发,为节约包
+ {
+	repeated ObjectRecordList multi_player_record = 1;
+ }
+
+message ObjectPropertyPBData//个人玩家单类型属性数据，可直接发送---变化时
+{
+	required Ident  player_id = 1;
+    repeated PropertyPBData	property_list = 2;
+} 
+
+message ObjectRecordPBData//个人玩家单类型属性数据，可直接发送---变化时
+{
+	required Ident  player_id = 1;
+	required bytes     	record_name = 2;
+    repeated RecordPBData  	record_list = 3;
+} 
+
+message ObjectRecordSwap//个人玩家单类型属性数据，可直接发送---变化时
+{
+	required Ident  	player_id = 1;
+	required bytes    	origin_record_name = 2;
+	optional bytes		target_record_name = 3;
+	required int32 		row_origin = 4;
+	required int32 		row_target = 5;
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+message ObjectRecordAddRow//个人玩家单类型属性数据，可直接发送---变化时
+{
+	required Ident     			player_id = 1;
+	required bytes     			record_name = 2;
+	repeated RecordAddRowStruct    row_data = 3;
+}
+
+message ObjectRecordRemove//个人玩家单类型属性数据，可直接发送---变化时
+{
+	required Ident     	player_id = 1;
+	required bytes    	record_name = 2;  
+	repeated int32 		remove_row = 3;
+}
+
+///////////////////////////////////////////////////////////////////
+message PlayerPropertyBase
+{
+	repeated PropertyPBData property_data_list = 1;
+}
+
+////////////////////////////////////////////////////////////
+message PlayerRecordBase
+{
+	required string  record_name = 1;
+	repeated RecordPBData  record_data_list = 2;
+
+}
+
+message PlayerRecordList
+{
+	repeated PlayerRecordBase record_list = 1;
+}
+
+///////////////////////////////////////////////////////////////////
+message MsgBase
+{
+	required Ident  player_id = 1;//内网需要，外网视情况0(通常不需要，只有在要求别人的数据时才需要)
+	required bytes  msg_data = 2;
+	repeated Ident  player_Client_list = 3;
+	optional Ident  hash_ident = 4;
+}
+
+message Position
+{
+	required float  x = 1;
+	required float  y = 2;
+	required float  z = 3;
+}
+
+message ReqCommand//GM命令
+{
+	enum EGameCommandType
+	{
+		EGCT_MODIY_PROPERTY		= 0;//修改属性[property_name,value]
+		EGCT_MODIY_ITEM			= 1;//得到物品[item_id,count]
+		EGCT_CREATE_OBJECT		= 2;//创建对象[object_index,count]
+		EGCT_ADD_ROLE_EXP		= 3;//增加经验
+	}
+	required Ident control_id = 1;
+	required EGameCommandType command_id = 2;
+	optional bytes command_str_value = 3;
+	optional int64 command_value_int = 4;
+	optional float command_value_float = 5;
+	optional bytes command_value_str = 6;
+	optional Ident command_value_object = 7;
+	optional int32 row = 8;
+	optional int32 col = 9;
+}

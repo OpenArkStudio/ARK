@@ -16,8 +16,8 @@
 #include "AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"
 //#include "SDK/Core/AFQueue.h"
-#include "SDK/Proto/NFMsgDefine.h"
-#include "SDK/Proto/NFDefine.pb.h"
+#include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Proto/AFDefine.pb.h"
 
 enum NF_SERVER_TYPES
 {
@@ -101,7 +101,7 @@ public:
 
     static bool ReceivePB(const int nMsgID, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
     {
-        NFMsg::MsgBase xMsg;
+        AFMsg::MsgBase xMsg;
         if(!xMsg.ParseFromArray(msg, nLen))
         {
             //char szData[MAX_PATH] = { 0 };
@@ -120,7 +120,7 @@ public:
 
     static bool ReceivePB(const int nMsgID, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, AFGUID& nPlayer)
     {
-        NFMsg::MsgBase xMsg;
+        AFMsg::MsgBase xMsg;
         if(!xMsg.ParseFromArray(msg, nLen))
         {
             //char szData[MAX_PATH] = { 0 };
@@ -144,7 +144,7 @@ public:
         return true;
     }
 
-    static AFGUID PBToNF(NFMsg::Ident xID)
+    static AFGUID PBToNF(AFMsg::Ident xID)
     {
         AFGUID  xIdent;
         xIdent.nSerial = xID.svrid();
@@ -153,16 +153,16 @@ public:
         return xIdent;
     }
 
-    static NFMsg::Ident NFToPB(AFGUID xID)
+    static AFMsg::Ident NFToPB(AFGUID xID)
     {
-        NFMsg::Ident  xIdent;
+        AFMsg::Ident  xIdent;
         xIdent.set_svrid(xID.nSerial);
         xIdent.set_index(xID.nIdent);
 
         return xIdent;
     }
 
-    static Point3D PBToNF(NFMsg::Point3D xPoint)
+    static Point3D PBToNF(AFMsg::Point3D xPoint)
     {
         Point3D xID;
         xID.x = xPoint.x();
@@ -171,13 +171,184 @@ public:
         return xID;
     }
 
-    static NFMsg::Point3D NFToPB(Point3D xID)
+    static AFMsg::Point3D NFToPB(Point3D xID)
     {
-        NFMsg::Point3D xPoint;
+        AFMsg::Point3D xPoint;
         xPoint.set_x(xID.x);
         xPoint.set_y(xID.y);
         xPoint.set_z(xID.z);
         return xPoint;
+    }
+
+    static bool DataToPBProperty(const AFIData& DataVar, const char* name, AFMsg::PropertyPBData& xMsg)
+    {
+        if(nullptr == name)
+        {
+            return false;
+        }
+
+        xMsg.set_property_name(name);
+        xMsg.set_ndatatype(DataVar.GetType());
+        switch(DataVar.GetType())
+        {
+        case DT_BOOLEAN:
+            {
+                xMsg.set_mbvalue(DataVar.GetBool());
+            }
+            break;
+        case DT_INT:
+            {
+                xMsg.set_mnvalue(DataVar.GetInt());
+            }
+            break;
+        case DT_INT64:
+            {
+                xMsg.set_mn64value(DataVar.GetInt64());
+            }
+            break;
+        case DT_FLOAT:
+            {
+
+                xMsg.set_mfvalue(DataVar.GetFloat());
+            }
+            break;
+
+        case DT_DOUBLE:
+            {
+
+                xMsg.set_mdvalue(DataVar.GetDouble());
+            }
+            break;
+
+        case DT_STRING:
+            {
+
+                xMsg.set_mstrvalue(DataVar.GetString());
+            }
+            break;
+
+        case DT_OBJECT:
+            {
+
+                *xMsg.mutable_mguid() = NFToPB(DataVar.GetObject());
+            }
+            break;
+        default:
+            break;
+        }
+
+        return true;
+    }
+
+
+    static bool RecordToPBRecord(const AFIData& DataVar, const int nRow, const int nCol, AFMsg::RecordPBData& xMsg)
+    {
+        xMsg.set_col(nCol);
+        xMsg.set_row(nRow);
+        switch(DataVar.GetType())
+        {
+        case DT_BOOLEAN:
+            {
+                xMsg.set_mbvalue(DataVar.GetBool());
+            }
+            break;
+        case DT_INT:
+            {
+                xMsg.set_mnvalue(DataVar.GetInt());
+            }
+            break;
+        case DT_INT64:
+            {
+                xMsg.set_mn64value(DataVar.GetInt64());
+            }
+            break;
+        case DT_FLOAT:
+            {
+
+                xMsg.set_mfvalue(DataVar.GetFloat());
+            }
+            break;
+
+        case DT_DOUBLE:
+            {
+
+                xMsg.set_mdvalue(DataVar.GetDouble());
+            }
+            break;
+
+        case DT_STRING:
+            {
+
+                xMsg.set_mstrvalue(DataVar.GetString());
+            }
+            break;
+
+        case DT_OBJECT:
+            {
+
+                *xMsg.mutable_mguid() = NFToPB(DataVar.GetObject());
+            }
+            break;
+        default:
+            break;
+        }
+
+        return true;
+    }
+
+    static bool RecordToPBRecord(const AFIDataList& DataList, const int nRow, const int nCol, AFMsg::RecordPBData& xMsg)
+    {
+        xMsg.set_col(nCol);
+        xMsg.set_row(nRow);
+        switch(DataList.GetType(nCol))
+        {
+        case DT_BOOLEAN:
+            {
+                xMsg.set_mbvalue(DataList.Bool(nCol));
+            }
+            break;
+        case DT_INT:
+            {
+                xMsg.set_mnvalue(DataList.Int(nCol));
+            }
+            break;
+        case DT_INT64:
+            {
+                xMsg.set_mn64value(DataList.Int64(nCol));
+            }
+            break;
+        case DT_FLOAT:
+            {
+
+                xMsg.set_mfvalue(DataList.Float(nCol));
+            }
+            break;
+
+        case DT_DOUBLE:
+            {
+
+                xMsg.set_mdvalue(DataList.Double(nCol));
+            }
+            break;
+
+        case DT_STRING:
+            {
+
+                xMsg.set_mstrvalue(DataList.String(nCol));
+            }
+            break;
+
+        case DT_OBJECT:
+            {
+
+                *xMsg.mutable_mguid() = NFToPB(DataList.Object(nCol));
+            }
+            break;
+        default:
+            break;
+        }
+
+        return true;
     }
 
 protected:
