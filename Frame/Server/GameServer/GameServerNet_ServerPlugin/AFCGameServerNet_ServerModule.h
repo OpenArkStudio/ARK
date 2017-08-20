@@ -13,7 +13,7 @@
 //#include "NW_Helper.h"
 //  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
 #include <memory>
-#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Interface/AFINetServerModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIKernelModule.h"

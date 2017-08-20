@@ -23,7 +23,7 @@ bool AFCMasterNet_ServerModule::Shut()
 void AFCMasterNet_ServerModule::OnWorldRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -31,7 +31,7 @@ void AFCMasterNet_ServerModule::OnWorldRegisteredProcess(const int nMsgID, const
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
@@ -51,7 +51,7 @@ void AFCMasterNet_ServerModule::OnWorldRegisteredProcess(const int nMsgID, const
 void AFCMasterNet_ServerModule::OnWorldUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -59,7 +59,7 @@ void AFCMasterNet_ServerModule::OnWorldUnRegisteredProcess(const int nMsgID, con
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         mWorldMap.RemoveElement(xData.server_id());
 
 
@@ -72,7 +72,7 @@ void AFCMasterNet_ServerModule::OnWorldUnRegisteredProcess(const int nMsgID, con
 void AFCMasterNet_ServerModule::OnRefreshWorldInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -80,7 +80,7 @@ void AFCMasterNet_ServerModule::OnRefreshWorldInfoProcess(const int nMsgID, cons
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
@@ -101,7 +101,7 @@ void AFCMasterNet_ServerModule::OnRefreshWorldInfoProcess(const int nMsgID, cons
 void AFCMasterNet_ServerModule::OnLoginRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -109,7 +109,7 @@ void AFCMasterNet_ServerModule::OnLoginRegisteredProcess(const int nMsgID, const
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         ARK_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
@@ -129,7 +129,7 @@ void AFCMasterNet_ServerModule::OnLoginRegisteredProcess(const int nMsgID, const
 void AFCMasterNet_ServerModule::OnLoginUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -137,7 +137,7 @@ void AFCMasterNet_ServerModule::OnLoginUnRegisteredProcess(const int nMsgID, con
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
         mLoginMap.RemoveElement(xData.server_id());
 
@@ -149,7 +149,7 @@ void AFCMasterNet_ServerModule::OnLoginUnRegisteredProcess(const int nMsgID, con
 void AFCMasterNet_ServerModule::OnRefreshLoginInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ServerInfoReportList xMsg;
+    AFMsg::ServerInfoReportList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -157,7 +157,7 @@ void AFCMasterNet_ServerModule::OnRefreshLoginInfoProcess(const int nMsgID, cons
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
-        const NFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         ARK_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
@@ -176,7 +176,7 @@ void AFCMasterNet_ServerModule::OnRefreshLoginInfoProcess(const int nMsgID, cons
 void AFCMasterNet_ServerModule::OnSelectWorldProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ReqConnectWorld xMsg;
+    AFMsg::ReqConnectWorld xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -189,7 +189,7 @@ void AFCMasterNet_ServerModule::OnSelectWorldProcess(const int nMsgID, const cha
     }
 
     //转发送到世界服务器
-    m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
+    m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
 }
 
 bool AFCMasterNet_ServerModule::Execute()
@@ -203,7 +203,7 @@ bool AFCMasterNet_ServerModule::Execute()
 void AFCMasterNet_ServerModule::OnSelectServerResultProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::AckConnectWorldResult xMsg;
+    AFMsg::AckConnectWorldResult xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -216,7 +216,7 @@ void AFCMasterNet_ServerModule::OnSelectServerResultProcess(const int nMsgID, co
     }
 
     //转发送到登录服务器
-    m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
+    m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
 }
 
 bool AFCMasterNet_ServerModule::AfterInit()
@@ -226,15 +226,15 @@ bool AFCMasterNet_ServerModule::AfterInit()
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
 
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_STS_HEART_BEAT, this, &AFCMasterNet_ServerModule::OnHeartBeat);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_MTL_WORLD_REGISTERED, this, &AFCMasterNet_ServerModule::OnWorldRegisteredProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_MTL_WORLD_UNREGISTERED, this, &AFCMasterNet_ServerModule::OnWorldUnRegisteredProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_MTL_WORLD_REFRESH, this, &AFCMasterNet_ServerModule::OnRefreshWorldInfoProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_LTM_LOGIN_REGISTERED, this, &AFCMasterNet_ServerModule::OnLoginRegisteredProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_LTM_LOGIN_UNREGISTERED, this, &AFCMasterNet_ServerModule::OnLoginUnRegisteredProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_LTM_LOGIN_REFRESH, this, &AFCMasterNet_ServerModule::OnRefreshLoginInfoProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCMasterNet_ServerModule::OnSelectWorldProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCMasterNet_ServerModule::OnSelectServerResultProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCMasterNet_ServerModule::OnHeartBeat);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_MTL_WORLD_REGISTERED, this, &AFCMasterNet_ServerModule::OnWorldRegisteredProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_MTL_WORLD_UNREGISTERED, this, &AFCMasterNet_ServerModule::OnWorldUnRegisteredProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_MTL_WORLD_REFRESH, this, &AFCMasterNet_ServerModule::OnRefreshWorldInfoProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_LTM_LOGIN_REGISTERED, this, &AFCMasterNet_ServerModule::OnLoginRegisteredProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_LTM_LOGIN_UNREGISTERED, this, &AFCMasterNet_ServerModule::OnLoginUnRegisteredProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_LTM_LOGIN_REFRESH, this, &AFCMasterNet_ServerModule::OnRefreshLoginInfoProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCMasterNet_ServerModule::OnSelectWorldProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCMasterNet_ServerModule::OnSelectServerResultProcess);
     m_pNetModule->AddReceiveCallBack(this, &AFCMasterNet_ServerModule::InvalidMessage);
 
     m_pNetModule->AddEventCallBack(this, &AFCMasterNet_ServerModule::OnSocketEvent);
@@ -296,7 +296,7 @@ void AFCMasterNet_ServerModule::OnClientDisconnect(const AFGUID& xClientID)
     {
         if(xClientID == pServerData->xClient)
         {
-            pServerData->pData->set_server_state(NFMsg::EST_CRASH);
+            pServerData->pData->set_server_state(AFMsg::EST_CRASH);
             pServerData->xClient = AFGUID(0);
 
             SynWorldToLogin();
@@ -332,12 +332,12 @@ void AFCMasterNet_ServerModule::OnClientConnected(const AFGUID& xClientID)
 
 void AFCMasterNet_ServerModule::SynWorldToLogin()
 {
-    NFMsg::ServerInfoReportList xData;
+    AFMsg::ServerInfoReportList xData;
 
     ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.First();
     while(nullptr != pServerData)
     {
-        NFMsg::ServerInfoReport* pData = xData.add_server_list();
+        AFMsg::ServerInfoReport* pData = xData.add_server_list();
         *pData = *(pServerData->pData);
 
         pServerData = mWorldMap.Next();
@@ -347,7 +347,7 @@ void AFCMasterNet_ServerModule::SynWorldToLogin()
     pServerData =  mLoginMap.First();
     while(nullptr != pServerData)
     {
-        m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_STS_NET_INFO, xData, pServerData->xClient, AFGUID(0));
+        m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_STS_NET_INFO, xData, pServerData->xClient, AFGUID(0));
 
         pServerData = mLoginMap.Next();
     }
@@ -370,7 +370,7 @@ void AFCMasterNet_ServerModule::LogGameServer()
     while(pGameData)
     {
         std::ostringstream stream;
-        stream << "Type: " << pGameData->pData->server_type() << " ID: " << pGameData->pData->server_id() << " State: " <<  NFMsg::EServerState_Name(pGameData->pData->server_state()) << " IP: " << pGameData->pData->server_ip() << " xClient: " << pGameData->xClient.n64Value;
+        stream << "Type: " << pGameData->pData->server_type() << " ID: " << pGameData->pData->server_id() << " State: " <<  AFMsg::EServerState_Name(pGameData->pData->server_state()) << " IP: " << pGameData->pData->server_ip() << " xClient: " << pGameData->xClient.n64Value;
         m_pLogModule->LogInfo(AFGUID(), stream);
 
         pGameData = mWorldMap.Next();
@@ -385,7 +385,7 @@ void AFCMasterNet_ServerModule::LogGameServer()
     while(pGameData)
     {
         std::ostringstream stream;
-        stream << "Type: " << pGameData->pData->server_type() << " ID: " << pGameData->pData->server_id() << " State: " <<  NFMsg::EServerState_Name(pGameData->pData->server_state()) << " IP: " << pGameData->pData->server_ip() << " xClient: " << pGameData->xClient.n64Value;
+        stream << "Type: " << pGameData->pData->server_type() << " ID: " << pGameData->pData->server_id() << " State: " <<  AFMsg::EServerState_Name(pGameData->pData->server_state()) << " IP: " << pGameData->pData->server_ip() << " xClient: " << pGameData->xClient.n64Value;
         m_pLogModule->LogInfo(AFGUID(), stream);
 
         pGameData = mLoginMap.Next();
