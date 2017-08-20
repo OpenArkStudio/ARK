@@ -44,7 +44,7 @@ bool AFCProxyServerToGameModule::AfterInit()
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
 
-    m_pNetClientModule->AddReceiveCallBack(NFMsg::EGMI_ACK_ENTER_GAME, this, &AFCProxyServerToGameModule::OnAckEnterGame);
+    m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_ACK_ENTER_GAME, this, &AFCProxyServerToGameModule::OnAckEnterGame);
     m_pNetClientModule->AddReceiveCallBack(this, &AFCProxyServerToGameModule::Transpond);
 
     m_pNetClientModule->AddEventCallBack(this, &AFCProxyServerToGameModule::OnSocketGSEvent);
@@ -118,8 +118,8 @@ void AFCProxyServerToGameModule::Register(const int nServerID)
                 const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
 
-                NFMsg::ServerInfoReportList xMsg;
-                NFMsg::ServerInfoReport* pData = xMsg.add_server_list();
+                AFMsg::ServerInfoReportList xMsg;
+                AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
 
                 pData->set_server_id(nSelfServerID);
                 pData->set_server_name(strName);
@@ -127,14 +127,14 @@ void AFCProxyServerToGameModule::Register(const int nServerID)
                 pData->set_server_ip(strIP);
                 pData->set_server_port(nPort);
                 pData->set_server_max_online(nMaxConnect);
-                pData->set_server_state(NFMsg::EST_NARMAL);
+                pData->set_server_state(AFMsg::EST_NARMAL);
                 pData->set_server_type(nServerType);
 
                 ARK_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
                 if(pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
-                    m_pNetClientModule->SendToServerByPB(nTargetID, NFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg);
+                    m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg);
 
                     m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
                 }
@@ -146,13 +146,13 @@ void AFCProxyServerToGameModule::Register(const int nServerID)
 void AFCProxyServerToGameModule::OnAckEnterGame(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::AckEventResult xData;
+    AFMsg::AckEventResult xData;
     if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
     }
 
-    if(xData.event_code() == NFMsg::EGEC_ENTER_GAME_SUCCESS)
+    if(xData.event_code() == AFMsg::EGEC_ENTER_GAME_SUCCESS)
     {
         const AFGUID& xClient = AFINetServerModule::PBToNF(xData.event_client());
         const AFGUID& xPlayer = AFINetServerModule::PBToNF(xData.event_object());

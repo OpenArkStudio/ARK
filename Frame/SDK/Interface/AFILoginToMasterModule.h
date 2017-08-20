@@ -12,14 +12,14 @@
 #include <iostream>
 #include "AFIModule.h"
 #include "AFINetClientModule.hpp"
-#include "SDK/Proto/NFMsgPreGame.pb.h"
+#include "SDK/Proto/AFMsgPreGame.pb.h"
 
 class AFILoginToMasterModule
     : public AFIModule
 {
 public:
-	virtual AFINetClientModule* GetClusterModule() = 0;
-    virtual AFMapEx<int, NFMsg::ServerInfoReport>& GetWorldMap() = 0;
+    virtual AFINetClientModule* GetClusterModule() = 0;
+    virtual AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap() = 0;
 };
 
 #endif
