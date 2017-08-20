@@ -162,7 +162,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
     //AFCDataList xSceneResult(var);
     //xSceneResult.Add(xRelivePos);
 
-    //m_pKernelModule->DoEvent(self, NFED_ON_OBJECT_ENTER_SCENE_BEFORE, xSceneResult);
+    //m_pKernelModule->DoEvent(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, xSceneResult);
 
     //if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos.x, xRelivePos.y, xRelivePos.z, 0.0f, var))
     //{
@@ -172,7 +172,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
     //}
 
     //xSceneResult.Add(nNewGroupID);
-    //m_pKernelModule->DoEvent(self, NFED_ON_OBJECT_ENTER_SCENE_RESULT, xSceneResult);
+    //m_pKernelModule->DoEvent(self, AFED_ON_OBJECT_ENTER_SCENE_RESULT, xSceneResult);
 
     return 0;
 }
@@ -220,8 +220,8 @@ int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::str
         }
         else if(CLASS_OBJECT_EVENT::COE_CREATE_HASDATA == eClassEvent)
         {
-            m_pKernelModule->AddEventCallBack(self, NFED_ON_CLIENT_ENTER_SCENE, this, &AFCSceneProcessModule::OnEnterSceneEvent);
-            m_pKernelModule->AddEventCallBack(self, NFED_ON_CLIENT_LEAVE_SCENE, this, &AFCSceneProcessModule::OnLeaveSceneEvent);
+            m_pKernelModule->AddEventCallBack(self, AFED_ON_CLIENT_ENTER_SCENE, this, &AFCSceneProcessModule::OnEnterSceneEvent);
+            m_pKernelModule->AddEventCallBack(self, AFED_ON_CLIENT_LEAVE_SCENE, this, &AFCSceneProcessModule::OnLeaveSceneEvent);
         }
     }
 

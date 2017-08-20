@@ -1,13 +1,13 @@
 // -------------------------------------------------------------------------
-//    @FileName			:    AFList.h
+//    @FileName         :    AFList.h
 //    @Author      :    Ark Game Tech
 //    @Date    :    2011-01-21 21:49
 //    @Module    : 切记，不能在循环中自己删除自己
 //
 // -------------------------------------------------------------------------
 
-#ifndef NF_LIST_H
-#define NF_LIST_H
+#ifndef AF_LIST_H
+#define AF_LIST_H
 
 #include <iostream>
 #include <map>
@@ -54,7 +54,7 @@ bool NFList<T>::Add(const T& id)
 template < typename T >
 bool NFList<T>::Remove(const T& id)
 {
-    if (Find(id))
+    if(Find(id))
     {
         mtObjConfigList.remove(id);
         return true;
@@ -73,13 +73,13 @@ bool NFList<T>::ClearAll()
 template < typename T >
 bool NFList<T>::First(T& id)
 {
-    if (mtObjConfigList.size() <= 0)
+    if(mtObjConfigList.size() <= 0)
     {
         return false;
     }
 
     mCurIter = mtObjConfigList.begin();
-    if (mCurIter != mtObjConfigList.end())
+    if(mCurIter != mtObjConfigList.end())
     {
         id = *mCurIter;
         return true;
@@ -91,13 +91,13 @@ bool NFList<T>::First(T& id)
 template < typename T >
 bool NFList<T>::Next(T& id)
 {
-    if (mCurIter == mtObjConfigList.end())
+    if(mCurIter == mtObjConfigList.end())
     {
         return false;
     }
 
     ++mCurIter;
-    if (mCurIter != mtObjConfigList.end())
+    if(mCurIter != mtObjConfigList.end())
     {
         id = *mCurIter;
         return true;
@@ -110,7 +110,7 @@ template < typename T >
 bool NFList<T>::Find(const T& id)
 {
     typename TLISTOBJCOAFIGLIST::iterator it = std::find(mtObjConfigList.begin(), mtObjConfigList.end(), id);
-    if (it != mtObjConfigList.end())
+    if(it != mtObjConfigList.end())
     {
         return true;
     }
@@ -121,7 +121,7 @@ bool NFList<T>::Find(const T& id)
 template < typename T >
 bool NFList<T>::Get(const int32_t index, T& id)
 {
-    if (index >= mtObjConfigList.size())
+    if(index >= mtObjConfigList.size())
     {
         return false;
     }

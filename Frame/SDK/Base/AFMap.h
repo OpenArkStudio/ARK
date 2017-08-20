@@ -6,8 +6,8 @@
 //
 // -------------------------------------------------------------------------
 
-#ifndef NF_MAP_H
-#define NF_MAP_H
+#ifndef AF_MAP_H
+#define AF_MAP_H
 
 #include <map>
 #include <list>
@@ -28,7 +28,7 @@
  * @tparam  TD  Type of the td.
  */
 
-template <typename T , typename TD>
+template <typename T, typename TD>
 class NFMap
 {
 public:
@@ -85,7 +85,7 @@ public:
     virtual bool AddElement(const T& name, TD* data)
     {
         typename NFMapOBJECT::iterator itr = mObjectList.find(name);
-        if (itr == mObjectList.end())
+        if(itr == mObjectList.end())
         {
             mObjectList.insert(typename NFMapOBJECT::value_type(name, data));
             // mObjectList[name] = data;
@@ -112,7 +112,7 @@ public:
     {
         TD* pData = NULL;
         typename NFMapOBJECT::iterator itr = mObjectList.find(name);
-        if (itr != mObjectList.end())
+        if(itr != mObjectList.end())
         {
             pData = itr->second;
             mObjectList.erase(itr);
@@ -137,7 +137,7 @@ public:
     virtual TD* GetElement(const T& name)
     {
         typename NFMapOBJECT::iterator itr = mObjectList.find(name);
-        if (itr != mObjectList.end())
+        if(itr != mObjectList.end())
         {
             return itr->second;
         }
@@ -160,13 +160,13 @@ public:
 
     virtual TD* First()
     {
-        if (mObjectList.size() <= 0)
+        if(mObjectList.size() <= 0)
         {
             return NULL;
         }
 
         mObjectCurIter = mObjectList.begin();
-        if (mObjectCurIter != mObjectList.end())
+        if(mObjectCurIter != mObjectList.end())
         {
             return mObjectCurIter->second;
         }
@@ -189,13 +189,13 @@ public:
 
     virtual TD* Next()
     {
-        if (mObjectCurIter == mObjectList.end())
+        if(mObjectCurIter == mObjectList.end())
         {
             return NULL;
         }
 
         ++mObjectCurIter;
-        if (mObjectCurIter != mObjectList.end())
+        if(mObjectCurIter != mObjectList.end())
         {
             return mObjectCurIter->second;
         }
@@ -220,13 +220,13 @@ public:
 
     virtual TD* First(T& name)
     {
-        if (mObjectList.size() <= 0)
+        if(mObjectList.size() <= 0)
         {
             return NULL;
         }
 
         mObjectCurIter = mObjectList.begin();
-        if (mObjectCurIter != mObjectList.end())
+        if(mObjectCurIter != mObjectList.end())
         {
             name = mObjectCurIter->first;
             return mObjectCurIter->second;
@@ -252,13 +252,13 @@ public:
 
     virtual TD* Next(T& name)
     {
-        if (mObjectCurIter == mObjectList.end())
+        if(mObjectCurIter == mObjectList.end())
         {
             return NULL;
         }
 
         mObjectCurIter++;
-        if (mObjectCurIter != mObjectList.end())
+        if(mObjectCurIter != mObjectList.end())
         {
             name = mObjectCurIter->first;
             return mObjectCurIter->second;
