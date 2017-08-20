@@ -245,10 +245,10 @@ protected:
 
     bool PackMsgToBasePB(const std::string& strData, const AFGUID nPlayer, std::string& outData)
     {
-        NFMsg::MsgBase xMsg;
+        AFMsg::MsgBase xMsg;
         xMsg.set_msg_data(strData.data(), strData.length());
 
-        NFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
+        AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
         *pPlayerID = NFToPB(nPlayer);
 
         std::string strMsg;

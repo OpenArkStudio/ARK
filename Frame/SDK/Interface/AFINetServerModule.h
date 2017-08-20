@@ -14,8 +14,8 @@
 #include "AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"
 #include "SDK/Base/AFQueue.h"
-#include "SDK/Proto/NFMsgDefine.h"
-#include "SDK/Proto/NFDefine.pb.h"
+#include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Proto/AFDefine.pb.h"
 #include "SDK/Interface/AFINetModule.h"
 
 ////////////////////////////////////////////////////////////////////////////
@@ -45,7 +45,7 @@
         return;                                         \
     }
 
-static AFGUID PBToNF(NFMsg::Ident xID)
+static AFGUID PBToNF(AFMsg::Ident xID)
 {
     AFGUID  xIdent;
     xIdent.n64Value = xID.svrid();
@@ -54,9 +54,9 @@ static AFGUID PBToNF(NFMsg::Ident xID)
     return xIdent;
 }
 
-static NFMsg::Ident NFToPB(AFGUID xID)
+static AFMsg::Ident NFToPB(AFGUID xID)
 {
-    NFMsg::Ident  xIdent;
+    AFMsg::Ident  xIdent;
     xIdent.set_svrid(xID.n64Value);
     //xIdent.set_index(xID.nData64);
 
@@ -68,7 +68,7 @@ struct ServerData
 {
     ServerData()
     {
-        pData = ARK_SHARE_PTR<NFMsg::ServerInfoReport>(ARK_NEW NFMsg::ServerInfoReport());
+        pData = ARK_SHARE_PTR<AFMsg::ServerInfoReport>(ARK_NEW AFMsg::ServerInfoReport());
     }
     ~ServerData()
     {
@@ -76,7 +76,7 @@ struct ServerData
     }
 
     AFGUID xClient;
-    ARK_SHARE_PTR<NFMsg::ServerInfoReport> pData;
+    ARK_SHARE_PTR<AFMsg::ServerInfoReport> pData;
 };
 
 struct SessionData
@@ -163,7 +163,7 @@ public:
 
     bool SendMsgPBToAllClient(const uint16_t nMsgID, const google::protobuf::Message& xData)
     {
-        NFMsg::MsgBase xMsg;
+        AFMsg::MsgBase xMsg;
         if(!xData.SerializeToString(xMsg.mutable_msg_data()))
         {
             char szData[MAX_PATH] = { 0 };
@@ -172,7 +172,7 @@ public:
             return false;
         }
 
-        NFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
+        AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
         *pPlayerID = NFToPB(AFGUID());
 
         std::string strMsg;
@@ -212,11 +212,11 @@ public:
             return false;
         }
 
-        NFMsg::MsgBase xMsg;
+        AFMsg::MsgBase xMsg;
         xMsg.set_msg_data(strData.data(), strData.length());
 
         //playerid主要是网关转发消息的时候做识别使用，其他使用不使用
-        NFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
+        AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
         *pPlayerID = NFToPB(nPlayer);
         if(pClientIDList)
         {
@@ -224,7 +224,7 @@ public:
             {
                 const AFGUID& ClientID = (*pClientIDList)[i];
 
-                NFMsg::Ident* pData = xMsg.add_player_client_list();
+                AFMsg::Ident* pData = xMsg.add_player_client_list();
                 if(pData)
                 {
                     *pData = NFToPB(ClientID);
@@ -276,10 +276,10 @@ protected:
 
         nLastTime = GetPluginManager()->GetNowTime();
 
-        NFMsg::ServerHeartBeat xMsg;
+        AFMsg::ServerHeartBeat xMsg;
         xMsg.set_count(0);
 
-        SendMsgPB(NFMsg::EGameMsgID::EGMI_STS_HEART_BEAT, xMsg, AFGUID(0), AFGUID(0));
+        SendMsgPB(AFMsg::EGameMsgID::EGMI_STS_HEART_BEAT, xMsg, AFGUID(0), AFGUID(0));
     }
 
 private:
