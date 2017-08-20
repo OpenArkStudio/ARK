@@ -10,7 +10,7 @@
 #define AFC_PROXYSERVER_SERVER_MODULE_H
 
 #include "SDK/Base/AFCConsistentHash.hpp"
-#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Interface/AFIProxyServerNet_ServerModule.h"
 #include "SDK/Interface/AFIProxyServerToWorldModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
