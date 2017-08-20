@@ -11,7 +11,7 @@
 #define AFC_PROXYSERVER_TO_GAME_MODULE_H
 
 #include <string>
-#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Core/AFCHeartBeatManager.h"
 #include "SDK/Interface/AFIProxyServerToGameModule.h"
 #include "SDK/Interface/AFIProxyServerNet_ServerModule.h"

@@ -39,11 +39,11 @@ bool AFCLoginNet_ServerModule::AfterInit()
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
 
 
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNet_ServerModule::OnHeartBeat);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNet_ServerModule::OnLoginProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNet_ServerModule::OnLogOut);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNet_ServerModule::OnSelectWorldProcess);
-    m_pNetModule->AddReceiveCallBack(NFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNet_ServerModule::OnViewWorldProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNet_ServerModule::OnHeartBeat);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNet_ServerModule::OnLoginProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNet_ServerModule::OnLogOut);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNet_ServerModule::OnSelectWorldProcess);
+    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNet_ServerModule::OnViewWorldProcess);
     m_pNetModule->AddReceiveCallBack(this, &AFCLoginNet_ServerModule::InvalidMessage);
 
     m_pNetModule->AddEventCallBack(this, &AFCLoginNet_ServerModule::OnSocketClientEvent);
@@ -86,7 +86,7 @@ int AFCLoginNet_ServerModule::OnSelectWorldResultsProcess(const int nWorldID, co
     ARK_SHARE_PTR<SessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
     if(pSessionData)
     {
-        NFMsg::AckConnectWorldResult xMsg;
+        AFMsg::AckConnectWorldResult xMsg;
         xMsg.set_world_id(nWorldID);
         xMsg.mutable_sender()->CopyFrom(AFINetServerModule::NFToPB(xSenderID));
         xMsg.set_login_id(nLoginID);
@@ -95,7 +95,7 @@ int AFCLoginNet_ServerModule::OnSelectWorldResultsProcess(const int nWorldID, co
         xMsg.set_world_port(nWorldPort);
         xMsg.set_world_key(strWorldKey);
 
-        m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pSessionData->mnClientID, xSenderID);
+        m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pSessionData->mnClientID, xSenderID);
     }
 
     return 0;
@@ -122,7 +122,7 @@ void AFCLoginNet_ServerModule::OnClientDisconnect(const AFGUID& xClientID)
 void AFCLoginNet_ServerModule::OnLoginProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ReqAccountLogin xMsg;
+    AFMsg::ReqAccountLogin xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -141,20 +141,20 @@ void AFCLoginNet_ServerModule::OnLoginProcess(const int nMsgID, const char* msg,
                 strLog << "Check password failed, Account = " << xMsg.account() << " Password = " << xMsg.password();
                 m_pLogModule->LogError(xClientID, strLog, __FUNCTION__, __LINE__);
 
-                NFMsg::AckEventResult xMsg;
-                xMsg.set_event_code(NFMsg::EGEC_ACCOUNTPWD_INVALID);
+                AFMsg::AckEventResult xMsg;
+                xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
 
-                m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, xClientID, nPlayerID);
+                m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, xClientID, nPlayerID);
                 return;
             }
 
             pSession->mnLogicState = 1;
             pSession->mstrAccout = xMsg.account();
 
-            NFMsg::AckEventResult xData;
-            xData.set_event_code(NFMsg::EGEC_ACCOUNT_SUCCESS);
+            AFMsg::AckEventResult xData;
+            xData.set_event_code(AFMsg::EGEC_ACCOUNT_SUCCESS);
 
-            m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
+            m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
 
             m_pLogModule->LogInfo(xClientID, "Login successed :", xMsg.account().c_str());
         }
@@ -164,7 +164,7 @@ void AFCLoginNet_ServerModule::OnLoginProcess(const int nMsgID, const char* msg,
 void AFCLoginNet_ServerModule::OnSelectWorldProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ReqConnectWorld xMsg;
+    AFMsg::ReqConnectWorld xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
@@ -182,13 +182,13 @@ void AFCLoginNet_ServerModule::OnSelectWorldProcess(const int nMsgID, const char
         return;
     }
 
-    NFMsg::ReqConnectWorld xData;
+    AFMsg::ReqConnectWorld xData;
     xData.set_world_id(xMsg.world_id());
     xData.set_login_id(pPluginManager->AppID());
     xData.mutable_sender()->CopyFrom(AFINetServerModule::NFToPB(pSession->mnClientID));
     xData.set_account(pSession->mstrAccout);
 
-    m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, NFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData);//here has a problem to be solve
+    m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData);//here has a problem to be solve
 }
 
 void AFCLoginNet_ServerModule::OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
@@ -207,14 +207,14 @@ void AFCLoginNet_ServerModule::OnSocketClientEvent(const NetEventType eEvent, co
 
 void AFCLoginNet_ServerModule::SynWorldToClient(const AFGUID& xClientID)
 {
-    NFMsg::AckServerList xData;
-    xData.set_type(NFMsg::RSLT_WORLD_SERVER);
+    AFMsg::AckServerList xData;
+    xData.set_type(AFMsg::RSLT_WORLD_SERVER);
 
-    AFMapEx<int, NFMsg::ServerInfoReport>& xWorldMap = m_pLoginToMasterModule->GetWorldMap();
-    NFMsg::ServerInfoReport* pWorldData = xWorldMap.FirstNude();
+    AFMapEx<int, AFMsg::ServerInfoReport>& xWorldMap = m_pLoginToMasterModule->GetWorldMap();
+    AFMsg::ServerInfoReport* pWorldData = xWorldMap.FirstNude();
     while(pWorldData)
     {
-        NFMsg::ServerInfo* pServerInfo = xData.add_info();
+        AFMsg::ServerInfo* pServerInfo = xData.add_info();
 
         pServerInfo->set_name(pWorldData->server_name());
         pServerInfo->set_status(pWorldData->server_state());
@@ -225,19 +225,19 @@ void AFCLoginNet_ServerModule::SynWorldToClient(const AFGUID& xClientID)
     }
 
 
-    m_pNetModule->SendMsgPB(NFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, AFGUID(0));
+    m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, AFGUID(0));
 }
 
 void AFCLoginNet_ServerModule::OnViewWorldProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
-    NFMsg::ReqServerList xMsg;
+    AFMsg::ReqServerList xMsg;
     if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
 
-    if(xMsg.type() == NFMsg::RSLT_WORLD_SERVER)
+    if(xMsg.type() == AFMsg::RSLT_WORLD_SERVER)
     {
         SynWorldToClient(xClientID);
     }
