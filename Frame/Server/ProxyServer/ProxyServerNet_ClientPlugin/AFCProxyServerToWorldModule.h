@@ -11,7 +11,7 @@
 #define AFC_PROXYSERVER_NETCLIENT_MODULE_H
 
 #include <string>
-#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Core/AFCHeartBeatManager.h"
 #include "SDK/Interface/AFIProxyServerToWorldModule.h"
 #include "SDK/Interface/AFIProxyServerNet_ServerModule.h"
