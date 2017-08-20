@@ -11,7 +11,7 @@
 
 //  the cause of sock'libariy, thenfore "AFCNet.h" much be included first.
 
-#include "SDK/Proto/NFMsgDefine.h"
+#include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Interface/AFIMasterNet_ServerModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILogModule.h"
