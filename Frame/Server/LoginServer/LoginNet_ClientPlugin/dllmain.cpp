@@ -11,12 +11,12 @@
 #pragma comment( lib, "libprotobuf_d.lib" )
 #pragma comment( lib, "event_core.lib" )
 
-#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == AF_PLATFORM_ANDROID
 //#pragma comment( lib, "RakNet_LibStatic_Debug_x64.a" )
 #pragma comment( lib, "AFNet_d.a" )
 #pragma comment( lib, "AFCore_d.a" )
 #pragma comment( lib, "AFProto_d.a" )
-#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
+#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == AF_PLATFORM_APPLE_IOS
 #endif
 
 #else
@@ -29,11 +29,11 @@
 #pragma comment( lib, "libprotobuf.lib" )
 #pragma comment( lib, "event_core.lib" )
 
-#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == AF_PLATFORM_ANDROID
 #pragma comment( lib, "AFNet.a" )
 #pragma comment( lib, "AFCore.a" )
 #pragma comment( lib, "AFProto.a" )
-#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
+#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == AF_PLATFORM_APPLE_IOS
 #endif
 
 #endif

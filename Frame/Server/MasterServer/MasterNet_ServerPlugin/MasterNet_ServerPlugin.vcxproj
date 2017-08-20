@@ -22,7 +22,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{121AAF56-7707-4279-B80C-54AF9EE2AA07}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>NFMasterNet_ServerPlugin</RootNamespace>
+    <RootNamespace>AFMasterNet_ServerPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
     <ProjectName>AFMasterNetServerPlugin</ProjectName>
   </PropertyGroup>
@@ -79,8 +79,8 @@
       <ImportLibrary>$(OutDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.dll $(SolutionDir)..\Bin\Server\$(Configuration)\NFMasterServer\$(ProjectName)_d.dll
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\NFMasterServer\$(ProjectName)_d.pdb</Command>
+      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.dll $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\$(ProjectName)_d.dll
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\$(ProjectName)_d.pdb</Command>
     </PostBuildEvent>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -104,8 +104,8 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(Soluti
       <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\Comm\$(Configuration)\;$(SolutionDir)..\Dep\lib\$(Configuration)\;$(SolutionDir)..\Dep\boost_1_53_0\stage\lib\x64\vs11_0\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).dll $(SolutionDir)..\Bin\Server\$(Configuration)\NFMasterServer\$(ProjectName).dll
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\NFMasterServer\$(ProjectName).pdb</Command>
+      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).dll $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\$(ProjectName).dll
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\$(ProjectName).pdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

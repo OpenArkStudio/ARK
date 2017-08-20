@@ -22,11 +22,11 @@ bool AFCCreateRoleModule::Init()
     assert(NULL != m_pElementInfoModule);
     assert(NULL != m_pKernelModule);
 
-    //m_pEventProcessModule->AddEventCallBack(0, NFED_ON_DATABASE_SERVER_LOADROE_BEGIN, OnLoadRoleBeginEvent);
-    //m_pEventProcessModule->AddEventCallBack(0, NFED_ON_DATABASE_SERVER_LOADROE_FINAL_RESULTS, OnLoadRoleFinalEvent);
-    //m_pEventProcessModule->AddEventCallBack(0, NFED_ON_CLIENT_CREATEROLE, OnCreateRoleEvent);
-    //m_pEventProcessModule->AddEventCallBack(0, NFED_ON_CLIENT_DELETEROLE, OnDeleteRoleEvent);
-    //m_pEventProcessModule->AddEventCallBack(0, NFED_ON_CLIENT_LEAVE_GAME, OnAcountDisConnectEvent);
+    //m_pEventProcessModule->AddEventCallBack(0, AFED_ON_DATABASE_SERVER_LOADROE_BEGIN, OnLoadRoleBeginEvent);
+    //m_pEventProcessModule->AddEventCallBack(0, AFED_ON_DATABASE_SERVER_LOADROE_FINAL_RESULTS, OnLoadRoleFinalEvent);
+    //m_pEventProcessModule->AddEventCallBack(0, AFED_ON_CLIENT_CREATEROLE, OnCreateRoleEvent);
+    //m_pEventProcessModule->AddEventCallBack(0, AFED_ON_CLIENT_DELETEROLE, OnDeleteRoleEvent);
+    //m_pEventProcessModule->AddEventCallBack(0, AFED_ON_CLIENT_LEAVE_GAME, OnAcountDisConnectEvent);
 
     return true;
 }
@@ -234,7 +234,7 @@ int AFCCreateRoleModule::OnCreateRoleEvent(const AFGUID& object, const int nEven
     //arg << "Z" << atof(valueRelivePos.StringVal(2));
     //m_pKernelModule->CreateObject(0, mnRoleHallContainer, 0, "Player", szConfigName, arg);
     ////nosql 则不需要这样了
-    ////m_pEventProcessModule->DoEvent(0, NFED_ON_DATABASE_SERVER_LOADROE_BEGIN, AFCValueList() << pstrAccountName);
+    ////m_pEventProcessModule->DoEvent(0, AFED_ON_DATABASE_SERVER_LOADROE_BEGIN, AFCValueList() << pstrAccountName);
 
     return 0;
 }
@@ -256,7 +256,7 @@ int AFCCreateRoleModule::OnDeleteRoleEvent(const AFGUID& object, const int nEven
     //    m_pNoSqlModule->DeleteRole(pstrAccountName, pstrRoleName);
     //    //m_pDataBaseModule->DeleteRole(pstrAccountName, pstrRoleName);
     //    m_pKernelModule->DestroyObject(valObjctList.ObjectVal(0));
-    //    //m_pEventProcessModule->DoEvent( 0, NFED_ON_CLIENT_DELETEROLE_RESULTS, AFCValueList() << pstrAccountName << pstrRoleName );
+    //    //m_pEventProcessModule->DoEvent( 0, AFED_ON_CLIENT_DELETEROLE_RESULTS, AFCValueList() << pstrAccountName << pstrRoleName );
     //}
 
     return 0;

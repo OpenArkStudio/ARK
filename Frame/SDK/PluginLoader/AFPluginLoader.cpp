@@ -1,8 +1,8 @@
 // -------------------------------------------------------------------------
-//    @FileName         :    NFPluginLoader.cpp
+//    @FileName         :    AFPluginLoader.cpp
 //    @Author           :    Ark Game Tech
 //    @Date             :    2012/03/15
-//    @Module           :    NFPluginLoader
+//    @Module           :    AFPluginLoader
 //
 // -------------------------------------------------------------------------
 
