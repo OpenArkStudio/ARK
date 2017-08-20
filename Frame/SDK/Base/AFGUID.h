@@ -82,7 +82,7 @@ struct AFGUID
 
     bool operator<(const AFGUID& rhs) const
     {
-        if (this->nIdent == rhs.nIdent)
+        if(this->nIdent == rhs.nIdent)
         {
             return this->nSerial < rhs.nSerial;
         }
@@ -99,14 +99,14 @@ struct AFGUID
     {
         size_t nStrLength = strID.length();
         size_t nPos = strID.find('-');
-        if (nPos == std::string::npos)
+        if(nPos == std::string::npos)
         {
             return false;
         }
 
         std::string strIdent = strID.substr(0, nPos);
         std::string strSerial = "";
-        if (nPos + 1 < nStrLength)
+        if(nPos + 1 < nStrLength)
         {
             strSerial = strID.substr(nPos + 1, nStrLength - nPos);
         }
@@ -118,7 +118,7 @@ struct AFGUID
 
             return true;
         }
-        catch (...)
+        catch(...)
         {
             return false;
         }
