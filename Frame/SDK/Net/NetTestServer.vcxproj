@@ -16,7 +16,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9B9C8663-1355-4A22-ABB9-20BB2BF89473}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>NFNet</RootNamespace>
+    <RootNamespace>AFNet</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
