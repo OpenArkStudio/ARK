@@ -172,7 +172,7 @@ void AFCWorldToMasterModule::OnKickClientProcess(const int nMsgID, const char* m
     //T»À,œ¬œﬂ
     //     AFIDataList var;
     //     var << xMsg.world_id() << xMsg.account();
-    //     m_pEventProcessModule->DoEvent(AFGUID(), NFED_ON_KICK_FROM_SERVER, var);
+    //     m_pEventProcessModule->DoEvent(AFGUID(), AFED_ON_KICK_FROM_SERVER, var);
 }
 
 void AFCWorldToMasterModule::InvalidMessage(const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)

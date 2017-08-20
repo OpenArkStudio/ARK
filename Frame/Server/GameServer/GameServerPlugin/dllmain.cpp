@@ -10,12 +10,12 @@
 //#pragma comment( lib, "libglog_static_d.lib" )
 
 
-#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == AF_PLATFORM_ANDROID
 #pragma comment( lib, "AFCore_d.a" )
 #pragma comment( lib, "AFProto_d.a" )
 //#pragma comment( lib, "libglog_d.lib" )
 
-#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
+#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == AF_PLATFORM_APPLE_IOS
 #endif
 
 #else
@@ -25,11 +25,11 @@
 #pragma comment( lib, "AFProto.lib" )
 #pragma comment( lib, "libprotobuf.lib" )
 
-#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == NF_PLATFORM_ANDROID
+#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == AF_PLATFORM_ANDROID
 #pragma comment( lib, "AFCore.a" )
 #pragma comment( lib, "AFProto.a" )
 #pragma comment( lib, "libprotobuf.a" )
-#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == NF_PLATFORM_APPLE_IOS
+#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == AF_PLATFORM_APPLE_IOS
 #endif
 
 #endif

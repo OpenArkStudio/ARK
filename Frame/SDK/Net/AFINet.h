@@ -34,7 +34,7 @@
 
 struct  AFIMsgHead
 {
-    enum NF_Head
+    enum AF_Head
     {
         NF_HEAD_LENGTH = 6,
     };
