@@ -1,11 +1,29 @@
-// -------------------------------------------------------------------------
-//    @FileName         :    AFList.h
-//    @Author      :    Ark Game Tech
-//    @Date    :    2011-01-21 21:49
-//    @Module    : 切记，不能在循环中自己删除自己
-//
-// -------------------------------------------------------------------------
-
+/*****************************************************************************
+// * This source file is part of ArkGameFrame                                *
+// * For the latest info, see https://github.com/ArkGame                     *
+// *                                                                         *
+// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
+// *                                                                         *
+// * Licensed under the Apache License, Version 2.0 (the "License");         *
+// * you may not use this file except in compliance with the License.        *
+// * You may obtain a copy of the License at                                 *
+// *                                                                         *
+// *     http://www.apache.org/licenses/LICENSE-2.0                          *
+// *                                                                         *
+// * Unless required by applicable law or agreed to in writing, software     *
+// * distributed under the License is distributed on an "AS IS" BASIS,       *
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
+// * See the License for the specific language governing permissions and     *
+// * limitations under the License.                                          *
+// *                                                                         *
+// *                                                                         *
+// * @FileName  AFList.h                                                *
+// * @Author    Ark Game Tech                                                *
+// * @Date      2015-12-15                                                   *
+// * @Module    AFList                                                  *
+// * @email     ArkGameTech@163.com                                          *
+// * @brief     AFList                                                  *
+*****************************************************************************/
 #ifndef AF_LIST_H
 #define AF_LIST_H
 
@@ -141,3 +159,4 @@ int NFList<T>::Count()
 }
 
 #endif
+
