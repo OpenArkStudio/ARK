@@ -1,22 +1,29 @@
-/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
-*
-* Copyright (c) 2013-2017 ArkGame authors.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*
-*/
+/*****************************************************************************
+// * This source file is part of ArkGameFrame                                *
+// * For the latest info, see https://github.com/ArkGame                     *
+// *                                                                         *
+// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
+// *                                                                         *
+// * Licensed under the Apache License, Version 2.0 (the "License");         *
+// * you may not use this file except in compliance with the License.        *
+// * You may obtain a copy of the License at                                 *
+// *                                                                         *
+// *     http://www.apache.org/licenses/LICENSE-2.0                          *
+// *                                                                         *
+// * Unless required by applicable law or agreed to in writing, software     *
+// * distributed under the License is distributed on an "AS IS" BASIS,       *
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
+// * See the License for the specific language governing permissions and     *
+// * limitations under the License.                                          *
+// *                                                                         *
+// *                                                                         *
+// * @FileName  AFCKernelModule.h                                                *
+// * @Author    Ark Game Tech                                                *
+// * @Date      2015-12-15                                                   *
+// * @Module    AFCKernelModule                                                  *
+// * @email     ArkGameTech@163.com                                          *
+// * @brief     AFCKernelModule                                                  *
+*****************************************************************************/
 #pragma once
 #include "SDK/Core/AFIObject.h"
 #include "SDK/Base/AFCDataList.h"
@@ -149,13 +156,13 @@ public:
 
 protected:
 
-    //只能网络[脚本]模块注册，回调用来同步对象类事件,所有的类对象都会回调
+    //只能网络[脚本]模块注册，回调用来同步对象类事件,所有的类对象都会回�?
     virtual bool RegisterCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb);
 
-    //只能网络[脚本]模块注册，回调用来同步对象属性事件,所有的类属性都会回调
+    //只能网络[脚本]模块注册，回调用来同步对象属性事�?所有的类属性都会回�?
     virtual bool RegisterCommonPropertyEvent(const PROPERTY_EVENT_FUNCTOR_PTR& cb);
 
-    //只能网络[脚本]模块注册，回调用来同步对象类表事件,所有的类表都会回调
+    //只能网络[脚本]模块注册，回调用来同步对象类表事�?所有的类表都会回调
     virtual bool RegisterCommonRecordEvent(const RECORD_EVENT_FUNCTOR_PTR& cb);
 
 protected:
@@ -176,15 +183,15 @@ protected:
     std::list<AFGUID> mtDeleteSelfList;
 
     //////////////////////////////////////////////////////////////////////////
-    //通用对象类事件回调,以便同步
+    //通用对象类事件回�?以便同步
     std::list<CLASS_EVENT_FUNCTOR_PTR> mtCommonClassCallBackList;
-    //通用属性变动回调,以便同步
+    //通用属性变动回�?以便同步
     std::list<PROPERTY_EVENT_FUNCTOR_PTR> mtCommonPropertyCallBackList;
-    //通用表变动回调,以便同步
+    //通用表变动回�?以便同步
     std::list<RECORD_EVENT_FUNCTOR_PTR> mtCommonRecordCallBackList;
 
 private:
-    //属性的KEY，比如HP=1，会以这个建立KEY，那么可以快速查询所有HP=1的对象而不用遍历
+    //属性的KEY，比如HP=1，会以这个建立KEY，那么可以快速查询所有HP=1的对象而不用遍�?
     //     std::map<std::string,std::map<AFIData, NFList<AFGUID>>>
     //     std::map<"Scene", std::map<10, NFList<AFGUID>>>
 
@@ -201,3 +208,4 @@ private:
     AFIElementModule* m_pElementModule;
     AFIGUIDModule* m_pGUIDModule;
 };
+
