@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFWorldLogicPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFWorldLogicPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFWorldLogicPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFWorldLogicPlugin                                                  *
 *****************************************************************************/
 #ifndef AFC_WORLDLOGICPLUGIN_MODULE_H
@@ -54,3 +52,4 @@ public:
     virtual void Uninstall();
 };
 #endif
+

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  Tutorial1.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    Tutorial1                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	Tutorial1.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     Tutorial1                                                  *
 *****************************************************************************/
 #ifndef NF_TUTORIAL1_H
@@ -46,3 +44,4 @@ public:
     virtual void Uninstall();
 };
 #endif
+

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIClassModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIClassModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIClassModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIClassModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -81,3 +79,4 @@ public:
     virtual ARK_SHARE_PTR<AFIPropertyMgr> GetClassPropertyManager(const std::string& strClassName) = 0;
     virtual ARK_SHARE_PTR<AFIRecordManager> GetClassRecordManager(const std::string& strClassName) = 0;
 };
+

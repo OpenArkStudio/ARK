@@ -17,14 +17,11 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFWorldNetServerPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFWorldNetServerPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFWorldNetServerPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFWorldNetServerPlugin                                                  *
 *****************************************************************************/
-
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
@@ -50,4 +47,5 @@ public:
 
     virtual void Uninstall();
 };
+
 

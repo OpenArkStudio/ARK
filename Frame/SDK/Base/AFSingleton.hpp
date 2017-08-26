@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFSingleton.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFSingleton                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFSingleton.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFSingleton                                                  *
 *****************************************************************************/
 #pragma once
@@ -85,3 +83,4 @@ protected:
 };
 
 template <typename T> T* AFSingleton<T>::instance_ = NULL;
+

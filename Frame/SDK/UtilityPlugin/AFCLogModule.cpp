@@ -1,3 +1,27 @@
+/*****************************************************************************
+// * This source file is part of ArkGameFrame                                *
+// * For the latest info, see https://github.com/ArkGame                     *
+// *                                                                         *
+// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
+// *                                                                         *
+// * Licensed under the Apache License, Version 2.0 (the "License");         *
+// * you may not use this file except in compliance with the License.        *
+// * You may obtain a copy of the License at                                 *
+// *                                                                         *
+// *     http://www.apache.org/licenses/LICENSE-2.0                          *
+// *                                                                         *
+// * Unless required by applicable law or agreed to in writing, software     *
+// * distributed under the License is distributed on an "AS IS" BASIS,       *
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
+// * See the License for the specific language governing permissions and     *
+// * limitations under the License.                                          *
+// *                                                                         *
+// *                                                                         *
+// * @file  	AFCLogModule.cpp                                              *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
+// * @brief     AFCLogModule                                                  *
+*****************************************************************************/
 #include "AFCLogModule.h"
 #include <stdarg.h>
 #include "easylogging++.h"
@@ -62,7 +86,7 @@ bool AFCLogModule::Init()
     el::Configuration debugConfiguration(el::Level::Debug, el::ConfigurationType::Enabled, "true");
     pConfigurations->set(&debugConfiguration);
 
-    //获取每种级别log的输出开关
+    //获取每种级别log的输出开�?
     mbLogSwiths[NFI_LOG_DEBUG] = pLogger->typedConfigurations()->enabled(el::Level::Debug);
     mbLogSwiths[NFI_LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
     mbLogSwiths[NFI_LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
@@ -389,7 +413,7 @@ bool AFCLogModule::ChangeLogLevel(const std::string& strLevel, const std::string
     }
 
     // log级别为debug, info, warning, error, fatal(级别逐渐提高)
-    // 当传入为info时，则高于(包含)info的级别会输出
+    // 当传入为info时，则高�?包含)info的级别会输出
     // !!!!!! NOTICE:故意没有break，请千万注意 !!!!!!
     switch(logLevel)
     {

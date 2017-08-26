@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIWorldGuildEctypeModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIWorldGuildEctypeModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIWorldGuildEctypeModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIWorldGuildEctypeModule                                                  *
 *****************************************************************************/
 #ifndef AFI_WORLD_GUILD_ECTYP_MODULE_H
@@ -38,3 +36,4 @@ private:
 };
 
 #endif
+

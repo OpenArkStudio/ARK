@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFConfigPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFConfigPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFConfigPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFConfigPlugin                                                  *
 *****************************************************************************/
 #include "SDK/Interface/AFIPlugin.h"
@@ -46,4 +44,5 @@ public:
 
     virtual void Uninstall();
 };
+
 

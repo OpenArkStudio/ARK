@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFBitValue.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFBitValue                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFBitValue.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFBitValue                                                  *
 *****************************************************************************/
 #pragma once
@@ -155,3 +153,4 @@ public:
 private:
     T m_nValue;
 };
+

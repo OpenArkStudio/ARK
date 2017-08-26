@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFTime.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFTime                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFTime.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFTime                                                  *
 *****************************************************************************/
 #pragma once
@@ -816,4 +814,5 @@ private:
     int64_t mnTime;
     int mnTimeZone;  //Ä¬ÈÏ¸øUTC+8
 };
+
 
