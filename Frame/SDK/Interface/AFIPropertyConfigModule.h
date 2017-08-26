@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIPropertyConfigModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIPropertyConfigModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIPropertyConfigModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIPropertyConfigModule                                                  *
 *****************************************************************************/
 #ifndef AFI_PROPERTY_COAFIG_MODULE_H
@@ -41,4 +39,5 @@ public:
 
 
 #endif
+
 

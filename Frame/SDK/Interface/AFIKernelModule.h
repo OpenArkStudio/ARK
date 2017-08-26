@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIKernelModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIKernelModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIKernelModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIKernelModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -222,3 +220,4 @@ protected:
     //只能网络模块注册，回调用来同步对象类表事件,所有的类表都会回调
     virtual bool RegisterCommonRecordEvent(const RECORD_EVENT_FUNCTOR_PTR& cb) = 0;
 };
+

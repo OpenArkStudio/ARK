@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCRecord.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCRecord                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCRecord.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCRecord                                                  *
 *****************************************************************************/
 #pragma once
@@ -168,4 +166,5 @@ protected:
     typedef std::vector<RECORD_EVENT_FUNCTOR_PTR> TRECORDCALLBACKEX;
     TRECORDCALLBACKEX mtRecordCallback;
 };
+
 

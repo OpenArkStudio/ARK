@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCEventManager.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCEventManager                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCEventManager.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCEventManager                                                  *
 *****************************************************************************/
 #ifndef AFC_EVENT_MNG_H
@@ -63,3 +61,4 @@ private:
 
 
 #endif
+

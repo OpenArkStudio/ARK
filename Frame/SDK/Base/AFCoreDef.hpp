@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCoreDef.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCoreDef                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCoreDef.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCoreDef                                                  *
 *****************************************************************************/
 #pragma once
@@ -112,3 +110,4 @@ inline unsigned int GetHashValue(const char* name)
 
     return hash;
 }
+

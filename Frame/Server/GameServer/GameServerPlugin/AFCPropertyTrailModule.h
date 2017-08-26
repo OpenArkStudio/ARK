@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCPropertyTrailModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCPropertyTrailModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCPropertyTrailModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCPropertyTrailModule                                                  *
 *****************************************************************************/
 #ifndef AFC_PROPERTY_TRAIL_MODULE_H
@@ -74,4 +72,5 @@ private:
 
 
 #endif
+
 

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFICommonConfigModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFICommonConfigModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFICommonConfigModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFICommonConfigModule                                                  *
 *****************************************************************************/
 #ifndef AFI_COMMONCOAFIG_MODULE_H
@@ -46,3 +44,4 @@ public:
 };
 
 #endif
+

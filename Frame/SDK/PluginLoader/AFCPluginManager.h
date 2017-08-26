@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCPluginManager.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCPluginManager                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCPluginManager.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCPluginManager                                                  *
 *****************************************************************************/
 #ifndef AFC_PLUGIN_MANAGER_H
@@ -112,4 +110,5 @@ private:
 };
 
 #endif
+
 

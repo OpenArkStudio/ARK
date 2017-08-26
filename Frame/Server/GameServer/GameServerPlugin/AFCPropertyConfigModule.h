@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCPropertyConfigModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCPropertyConfigModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCPropertyConfigModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCPropertyConfigModule                                                  *
 *****************************************************************************/
 #ifndef AFC_PROPERTY_COAFIG_MODULE_H
@@ -68,4 +66,5 @@ private:
 
 
 #endif
+
 

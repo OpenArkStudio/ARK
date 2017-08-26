@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCLevelModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCLevelModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCLevelModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCLevelModule                                                  *
 *****************************************************************************/
 #ifndef AFC_LEVEL_MODULE_H
@@ -61,4 +59,5 @@ private:
 };
 
 #endif
+
 

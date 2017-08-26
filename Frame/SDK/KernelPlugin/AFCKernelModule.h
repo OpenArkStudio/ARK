@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCKernelModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCKernelModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCKernelModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCKernelModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -208,4 +206,5 @@ private:
     AFIElementModule* m_pElementModule;
     AFIGUIDModule* m_pGUIDModule;
 };
+
 
