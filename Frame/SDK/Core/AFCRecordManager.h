@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCRecordManager.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCRecordManager                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCRecordManager.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCRecordManager                                                  *
 *****************************************************************************/
 #pragma once
@@ -82,3 +80,4 @@ public:
 private:
     AFGUID mSelf;
 };
+

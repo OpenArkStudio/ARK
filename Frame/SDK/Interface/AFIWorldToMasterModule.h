@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIWorldToMasterModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIWorldToMasterModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIWorldToMasterModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIWorldToMasterModule                                                  *
 *****************************************************************************/
 #ifndef AFI_WORLDNET_CLIENTMODULE_H
@@ -38,3 +36,4 @@ class AFIWorldToMasterModule
 };
 
 #endif
+

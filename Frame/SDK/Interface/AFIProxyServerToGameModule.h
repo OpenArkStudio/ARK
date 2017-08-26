@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIProxyServerToGameModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIProxyServerToGameModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIProxyServerToGameModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIProxyServerToGameModule                                                  *
 *****************************************************************************/
 #ifndef AFI_PROXYNET_TO_GAME_H
@@ -39,3 +37,4 @@ public:
 };
 
 #endif
+
