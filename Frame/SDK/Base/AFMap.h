@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMap.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMap                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMap.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMap                                                  *
 *****************************************************************************/
 #ifndef AF_MAP_H
@@ -335,4 +333,5 @@ private:
 };
 
 #endif
+
 

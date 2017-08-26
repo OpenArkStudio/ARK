@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIGameServerToWorldModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIGameServerToWorldModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIGameServerToWorldModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIGameServerToWorldModule                                                  *
 *****************************************************************************/
 #ifndef AFI_GAMESERVERTOWORLDMODULE_H
@@ -41,3 +39,4 @@ public:
 };
 
 #endif
+

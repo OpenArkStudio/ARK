@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCProxyLogicModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCProxyLogicModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCProxyLogicModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCProxyLogicModule                                                  *
 *****************************************************************************/
 #ifndef AFC_PROXYLOGIC_MODULE_H
@@ -59,3 +57,4 @@ private:
 };
 
 #endif
+

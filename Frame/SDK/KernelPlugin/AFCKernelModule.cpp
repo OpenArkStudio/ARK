@@ -1,3 +1,27 @@
+/*****************************************************************************
+// * This source file is part of ArkGameFrame                                *
+// * For the latest info, see https://github.com/ArkGame                     *
+// *                                                                         *
+// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
+// *                                                                         *
+// * Licensed under the Apache License, Version 2.0 (the "License");         *
+// * you may not use this file except in compliance with the License.        *
+// * You may obtain a copy of the License at                                 *
+// *                                                                         *
+// *     http://www.apache.org/licenses/LICENSE-2.0                          *
+// *                                                                         *
+// * Unless required by applicable law or agreed to in writing, software     *
+// * distributed under the License is distributed on an "AS IS" BASIS,       *
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
+// * See the License for the specific language governing permissions and     *
+// * limitations under the License.                                          *
+// *                                                                         *
+// *                                                                         *
+// * @file  	AFCKernelModule.cpp                                              *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
+// * @brief     AFCKernelModule                                                  *
+*****************************************************************************/
 #include "SDK/Base/AFDefine.h"
 #include "SDK/Base/AFGUID.h"
 #include "SDK/Base/AFMemManger.h"
@@ -134,7 +158,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
     //      return pObject;
     //  }
 
-    //默认为1分组，0则是所有分组都看得见,-1则是容器
+    //默认�?分组�?则是所有分组都看得�?-1则是容器
     if(ident.IsNull())
     {
         ident = m_pGUIDModule->CreateGUID();
@@ -151,14 +175,14 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
     if(pStaticClassPropertyManager && pStaticClassRecordManager)
     {
         pObject = ARK_SHARE_PTR<AFIObject>(ARK_NEW AFCObject(ident, pPluginManager));
-        //是否是应该晚点等到事件2时才加入容器，这样能保证进入容器的对象都是有完整数据的，否则因为协程的原因，其他对象找到他时他却没数据或者部分数据
+        //是否是应该晚点等到事�?时才加入容器，这样能保证进入容器的对象都是有完整数据的，否则因为协程的原因，其他对象找到他时他却没数据或者部分数�?
         AddElement(ident, pObject);
         pContainerInfo->AddObjectToGroup(nGroupID, ident, strClassName == NFrame::Player::ThisName() ? true : false);
 
         ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = pObject->GetPropertyManager();
         ARK_SHARE_PTR<AFIRecordManager> pRecordManager = pObject->GetRecordManager();
 
-        //默认属性
+        //默认属�?
         size_t staticPropertyCount = pStaticClassPropertyManager->GetPropertyCount();
         for(size_t i = 0; i < staticPropertyCount; ++i)
         {
@@ -200,7 +224,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         }
 
         //////////////////////////////////////////////////////////////////////////
-        //配置属性
+        //配置属�?
         ARK_SHARE_PTR<AFIPropertyMgr> pConfigPropertyManager = m_pElementModule->GetPropertyManager(strConfigIndex);
         ARK_SHARE_PTR<AFIRecordManager> pConfigRecordManager = m_pElementModule->GetRecordManager(strConfigIndex);
 
@@ -224,7 +248,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
 
         DoEvent(ident, strClassName, CLASS_OBJECT_EVENT::COE_CREATE_NODATA, arg);
 
-        //传入的属性赋值
+        //传入的属性赋�?
         for(int i = 0; i < arg.GetCount() - 1; i += 2)
         {
             const std::string& strPropertyName = arg.String(i);
@@ -288,11 +312,11 @@ bool AFCKernelModule::DestroyObject(const AFGUID& self)
     if(self == mnCurExeObject
             && !self.IsNull())
     {
-        //自己的循环过程中，不能删除自己，得等下一帧才行
+        //自己的循环过程中，不能删除自己，得等下一帧才�?
         return DestroySelf(self);
     }
 
-    //需要同时从容器中删掉
+    //需要同时从容器中删�?
     int32_t nGroupID = GetPropertyInt(self, NFrame::IObject::GroupID());
     int32_t nSceneID = GetPropertyInt(self, NFrame::IObject::SceneID());
 
@@ -991,15 +1015,15 @@ bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, 
 
     pOldSceneInfo->RemoveObjectFromGroup(nOldGroupID, self, true);
 
-    //可以在同一场景切换到不同的层
+    //可以在同一场景切换到不同的�?
     if(nTargetSceneID != nOldSceneID)
     {
-        //真的切场景
+        //真的切场�?
         //先退回到0层，才能修改场景ID
         pObject->SetPropertyInt("GroupID", 0);
 
         pObject->SetPropertyInt("SceneID", nTargetSceneID);
-        //进新的场景0层
+        //进新的场�?�?
     }
 
     pObject->SetPropertyInt("GroupID", nTargetGroupID);
@@ -1259,7 +1283,7 @@ bool AFCKernelModule::LogStack()
 
 bool AFCKernelModule::LogInfo(const AFGUID& ident)
 {
-    //看是容器还是普通对象，容器则打印所有对象
+    //看是容器还是普通对象，容器则打印所有对�?
     ARK_SHARE_PTR<AFIObject> pObject = GetObject(ident);
     if(nullptr == pObject)
     {

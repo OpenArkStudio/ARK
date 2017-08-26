@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIWorldGuildBroadcastModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIWorldGuildBroadcastModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIWorldGuildBroadcastModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIWorldGuildBroadcastModule                                                  *
 *****************************************************************************/
 #ifndef AFI_WORLD_GUILD_BROADCAST_MODULE_H
@@ -38,3 +36,4 @@ private:
 };
 
 #endif
+

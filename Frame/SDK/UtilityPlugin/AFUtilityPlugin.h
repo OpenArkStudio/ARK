@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFUtilityPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFUtilityPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFUtilityPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFUtilityPlugin                                                  *
 *****************************************************************************/
 #include "SDK/Interface/AFIPlugin.h"
@@ -51,4 +49,5 @@ public:
 
     virtual void Uninstall();
 };
+
 

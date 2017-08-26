@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFRecordMgr.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFRecordMgr                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFRecordMgr.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFRecordMgr                                                  *
 *****************************************************************************/
 #pragma once
@@ -57,3 +55,4 @@ using namespace ArkFrame;
 //private:
 //
 //};
+
