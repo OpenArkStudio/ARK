@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMsgPreGame.pb.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMsgPreGame.pb                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMsgPreGame.pb.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMsgPreGame.pb                                                  *
 *****************************************************************************/
 #ifndef PROTOBUF_AFMsgPreGame_2eproto__INCLUDED
@@ -5652,4 +5650,5 @@ inline const EnumDescriptor* GetEnumDescriptor< ::AFMsg::ReqServerListType>() {
 // @@protoc_insertion_point(global_scope)
 
 #endif  // PROTOBUF_AFMsgPreGame_2eproto__INCLUDED
+
 

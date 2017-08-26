@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIHeartBeatManager.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIHeartBeatManager                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIHeartBeatManager.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIHeartBeatManager                                                  *
 *****************************************************************************/
 #pragma once
@@ -203,4 +201,5 @@ public:
         return AddHeartBeat(self, strHeartBeatName, functorPtr, nTime, nCount);
     }
 };
+
 

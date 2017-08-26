@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMapEx.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMapEx                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMapEx.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMapEx                                                  *
 *****************************************************************************/
 #pragma once
@@ -242,3 +240,4 @@ private:
     NFMapOBJECT     mObjectList;
     typename NFMapOBJECT::iterator mObjectCurIter;
 };
+

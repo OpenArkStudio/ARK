@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  NFProtocolDefine.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    NFProtocolDefine                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	NFProtocolDefine.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     NFProtocolDefine                                                  *
 *****************************************************************************/
 #ifndef NF_PR_NAME_HPP
@@ -1249,3 +1247,4 @@ public:
 } // !@NFrame
 
 #endif // !NF_PR_NAME_HPP 
+

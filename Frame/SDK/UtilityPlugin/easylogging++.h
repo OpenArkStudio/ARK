@@ -1,18 +1,27 @@
-//
-//  Easylogging++ v9.80
-//  Single-header only, cross-platform logging library for C++ applications
-//
-//  Copyright (c) 2015 muflihun.com
-//
-//  This library is released under the MIT Licence.
-//  http://easylogging.muflihun.com/licence.php
-//
-//  easylogging@muflihun.com
-//
-//  https://github.com/easylogging/easyloggingpp
-//  http://easylogging.muflihun.com
-//  http://muflihun.com
-//
+/*****************************************************************************
+// * This source file is part of ArkGameFrame                                *
+// * For the latest info, see https://github.com/ArkGame                     *
+// *                                                                         *
+// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
+// *                                                                         *
+// * Licensed under the Apache License, Version 2.0 (the "License");         *
+// * you may not use this file except in compliance with the License.        *
+// * You may obtain a copy of the License at                                 *
+// *                                                                         *
+// *     http://www.apache.org/licenses/LICENSE-2.0                          *
+// *                                                                         *
+// * Unless required by applicable law or agreed to in writing, software     *
+// * distributed under the License is distributed on an "AS IS" BASIS,       *
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
+// * See the License for the specific language governing permissions and     *
+// * limitations under the License.                                          *
+// *                                                                         *
+// *                                                                         *
+// * @file  	easylogging++.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
+// * @brief     easylogging++                                                  *
+*****************************************************************************/
 #ifndef EASYLOGGINGPP_H
 #define EASYLOGGINGPP_H
 // Compilers and C++0x/C++11 Evaluation
@@ -6724,3 +6733,4 @@ static T* checkNotNull(T* ptr, const char* name, const char* loggers, ...) {
 #   define START_EASYLOGGINGPP(argc, argv) el::Helpers::setArgs(argc, argv)
 #endif  // defined(ELPP_UNICODE)
 #endif // EASYLOGGINGPP_H
+

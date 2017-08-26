@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  Tutorial3Plugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    Tutorial3Plugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	Tutorial3Plugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     Tutorial3Plugin                                                  *
 *****************************************************************************/
 #ifndef NF_TUTORIAL3_H
@@ -47,3 +45,4 @@ public:
     virtual void Uninstall();
 };
 #endif
+

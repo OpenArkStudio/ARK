@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIPlugin                                                  *
 *****************************************************************************/
 #pragma once
@@ -153,4 +151,5 @@ public:
 
     virtual void Uninstall() = 0;
 };
+
 

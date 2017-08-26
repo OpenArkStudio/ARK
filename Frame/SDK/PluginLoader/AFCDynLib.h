@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCDynLib.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCDynLib                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCDynLib.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCDynLib                                                  *
 *****************************************************************************/
 #ifndef AFC_DYNLIB_H
@@ -110,4 +108,5 @@ protected:
 };
 
 #endif
+
 

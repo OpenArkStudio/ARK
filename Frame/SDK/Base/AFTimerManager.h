@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFTimerManager.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFTimerManager                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFTimerManager.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFTimerManager                                                  *
 *****************************************************************************/
 #pragma once
@@ -111,3 +109,4 @@ class AFTimerManager
 {
     //TODO:
 };
+

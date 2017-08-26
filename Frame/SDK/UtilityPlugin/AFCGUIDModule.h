@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCGUIDModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCGUIDModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCGUIDModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCGUIDModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -62,4 +60,5 @@ private:
 
     
 };
+
 
