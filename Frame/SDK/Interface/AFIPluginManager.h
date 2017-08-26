@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIPluginManager.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIPluginManager                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIPluginManager.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIPluginManager                                                  *
 *****************************************************************************/
 #pragma once
@@ -79,3 +77,4 @@ public:
     virtual const std::string& GetConfigPath() const = 0;
     virtual void SetConfigName(const std::string& strFileName) = 0;
 };
+

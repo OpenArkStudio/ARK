@@ -17,21 +17,11 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFGameNetClientPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFGameNetClientPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFGameNetClientPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFGameNetClientPlugin                                                  *
 *****************************************************************************/
-// -------------------------------------------------------------------------
-//    @FileName         :    NFGameServerNet_ClientPlugin.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2012-07-14 08:51
-//    @Module           :   NFGameServerNet_ClientPlugin
-//
-// -------------------------------------------------------------------------
-
 #ifndef AF_GAMESERVER_NETCLIENTPLUGIN_MODULE_H
 #define AF_GAMESERVER_NETCLIENTPLUGIN_MODULE_H
 ///
@@ -62,4 +52,5 @@ public:
 };
 
 #endif
+
 

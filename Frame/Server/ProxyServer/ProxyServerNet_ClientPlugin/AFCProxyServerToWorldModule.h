@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCProxyServerToWorldModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCProxyServerToWorldModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCProxyServerToWorldModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCProxyServerToWorldModule                                                  *
 *****************************************************************************/
 #ifndef AFC_PROXYSERVER_NETCLIENT_MODULE_H
@@ -104,3 +102,4 @@ private:
 };
 
 #endif
+

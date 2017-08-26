@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFSLGDefine.pb.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFSLGDefine.pb                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFSLGDefine.pb.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFSLGDefine.pb                                                  *
 *****************************************************************************/
 #ifndef PROTOBUF_AFSLGDefine_2eproto__INCLUDED
@@ -1496,4 +1494,5 @@ inline const EnumDescriptor* GetEnumDescriptor< ::AFMsg::ESLGBuildingState>() {
 // @@protoc_insertion_point(global_scope)
 
 #endif  // PROTOBUF_AFSLGDefine_2eproto__INCLUDED
+
 

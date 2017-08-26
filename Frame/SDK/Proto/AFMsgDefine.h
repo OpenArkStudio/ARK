@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMsgDefine.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMsgDefine                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMsgDefine.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMsgDefine                                                  *
 *****************************************************************************/
 #ifndef AF_MSGDEFINE_H
@@ -40,4 +38,5 @@
 #include "AFMsgMysql.pb.h"
 
 #endif
+
 

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCElementModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCElementModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCElementModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCElementModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -114,3 +112,4 @@ protected:
     AFIClassModule* m_pClassModule;
     bool mbLoaded;
 };
+

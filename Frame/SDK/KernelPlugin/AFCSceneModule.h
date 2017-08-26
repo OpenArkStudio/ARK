@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCSceneModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCSceneModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCSceneModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCSceneModule                                                  *
 *****************************************************************************/
 #ifndef AFC_SCENE_MODULE_H
@@ -54,3 +52,4 @@ public:
 };
 
 #endif
+
