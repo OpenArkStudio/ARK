@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFILogModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFILogModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFILogModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFILogModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -65,3 +63,4 @@ public:
     virtual bool ChangeLogLevel(const std::string& strLevel, const std::string& strStatus) = 0;
     virtual bool SetSwitchingValue(const bool bValue) = 0;
 };
+

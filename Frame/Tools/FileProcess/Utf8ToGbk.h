@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  Utf8ToGbk.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    Utf8ToGbk                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	Utf8ToGbk.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     Utf8ToGbk                                                  *
 *****************************************************************************/
 #ifndef NF_FILEPROCESS_UTF8TOGBK_H
@@ -245,3 +243,4 @@ extern "C" {
 }
 #endif
 #endif
+

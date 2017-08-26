@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFString.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFString                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFString.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFString                                                  *
 *****************************************************************************/
 #pragma once
@@ -502,3 +500,4 @@ inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const TYPE* s1, const AFStr
 {
     return AFString<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
 }
+

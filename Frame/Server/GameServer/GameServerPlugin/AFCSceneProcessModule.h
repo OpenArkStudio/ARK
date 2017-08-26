@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCSceneProcessModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCSceneProcessModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCSceneProcessModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCSceneProcessModule                                                  *
 *****************************************************************************/
 #ifndef AFC_SCENEPROCESS_MODULE_H
@@ -109,4 +107,5 @@ private:
 };
 
 #endif
+
 

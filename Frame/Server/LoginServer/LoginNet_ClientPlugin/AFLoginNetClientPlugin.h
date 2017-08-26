@@ -17,14 +17,11 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFLoginNetClientPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFLoginNetClientPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFLoginNetClientPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFLoginNetClientPlugin                                                  *
 *****************************************************************************/
-///
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
@@ -50,3 +47,4 @@ public:
 
     virtual void Uninstall();
 };
+
