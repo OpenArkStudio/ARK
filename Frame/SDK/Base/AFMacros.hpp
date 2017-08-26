@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMacros.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMacros                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMacros.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMacros                                                  *
 *****************************************************************************/
 #pragma once
@@ -161,3 +159,4 @@ bool Ark_to_str(std::string& strValue, const T& nValue)
 
 // clear player data time
 #define CLEAR_HOUR 5
+

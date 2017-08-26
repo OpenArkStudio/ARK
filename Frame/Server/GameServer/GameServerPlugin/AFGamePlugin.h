@@ -17,14 +17,11 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFGamePlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFGamePlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFGamePlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFGamePlugin                                                  *
 *****************************************************************************/
-
 #ifndef AFC_GAMESERVERPLUGIN_H
 #define AFC_GAMESERVERPLUGIN_H
 
@@ -48,4 +45,5 @@ public:
 };
 
 #endif
+
 

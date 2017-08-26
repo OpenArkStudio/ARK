@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMsgShare.pb.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMsgShare.pb                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMsgShare.pb.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMsgShare.pb                                                  *
 *****************************************************************************/
 #ifndef PROTOBUF_AFMsgShare_2eproto__INCLUDED
@@ -20377,4 +20375,5 @@ inline const EnumDescriptor* GetEnumDescriptor< ::AFMsg::ReqPVPApplyMatch_EApply
 // @@protoc_insertion_point(global_scope)
 
 #endif  // PROTOBUF_AFMsgShare_2eproto__INCLUDED
+
 

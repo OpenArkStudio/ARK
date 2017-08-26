@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  FileProcess.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    FileProcess                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	FileProcess.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     FileProcess                                                  *
 *****************************************************************************/
 #pragma once
@@ -186,4 +184,5 @@ private:
 		}
 	}
 };
+
 

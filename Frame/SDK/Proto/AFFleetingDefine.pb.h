@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFFleetingDefine.pb.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFFleetingDefine.pb                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFFleetingDefine.pb.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFFleetingDefine.pb                                                  *
 *****************************************************************************/
 #ifndef PROTOBUF_AFFleetingDefine_2eproto__INCLUDED
@@ -7612,4 +7610,5 @@ inline const EnumDescriptor* GetEnumDescriptor< ::AFFS::AnimatorFlys_EAFType>() 
 // @@protoc_insertion_point(global_scope)
 
 #endif  // PROTOBUF_AFFleetingDefine_2eproto__INCLUDED
+
 

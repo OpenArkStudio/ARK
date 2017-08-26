@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCObject.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCObject                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCObject.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCObject                                                  *
 *****************************************************************************/
 #pragma once
@@ -123,3 +121,4 @@ private:
     ARK_SHARE_PTR<AFIPropertyMgr> m_pPropertyManager;
     ARK_SHARE_PTR<AFIEventManager> m_pEventManager;
 };
+

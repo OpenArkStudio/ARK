@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFStringPod.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFStringPod                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFStringPod.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFStringPod                                                  *
 *****************************************************************************/
 #pragma once
@@ -613,3 +611,4 @@ private:
     size_t mnSize;
     size_t mnCount;
 };
+

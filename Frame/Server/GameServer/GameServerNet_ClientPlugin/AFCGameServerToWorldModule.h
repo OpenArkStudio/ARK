@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCGameServerToWorldModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCGameServerToWorldModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCGameServerToWorldModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCGameServerToWorldModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -75,3 +73,4 @@ private:
     AFINetClientModule* m_pNetClientModule;
     AFIGameServerNet_ServerModule* m_pGameServerNet_ServerModule;
 };
+

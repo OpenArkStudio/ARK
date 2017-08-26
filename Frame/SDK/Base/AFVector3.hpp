@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFVector3.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFVector3                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFVector3.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFVector3                                                  *
 *****************************************************************************/
 #ifndef VECTOR_3_HPP
@@ -302,3 +300,4 @@ struct Point3D
 };
 
 #endif //!VECTOR_3_HPP
+

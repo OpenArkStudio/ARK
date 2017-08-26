@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMsgBase.pb.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMsgBase.pb                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMsgBase.pb.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMsgBase.pb                                                  *
 *****************************************************************************/
 #ifndef PROTOBUF_AFMsgBase_2eproto__INCLUDED
@@ -5865,4 +5863,5 @@ inline const EnumDescriptor* GetEnumDescriptor< ::AFMsg::ReqCommand_EGameCommand
 // @@protoc_insertion_point(global_scope)
 
 #endif  // PROTOBUF_AFMsgBase_2eproto__INCLUDED
+
 

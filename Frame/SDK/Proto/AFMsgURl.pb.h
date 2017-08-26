@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMsgURl.pb.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMsgURl.pb                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMsgURl.pb.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMsgURl.pb                                                  *
 *****************************************************************************/
 #ifndef PROTOBUF_AFMsgURl_2eproto__INCLUDED
@@ -675,4 +673,5 @@ namespace protobuf {
 // @@protoc_insertion_point(global_scope)
 
 #endif  // PROTOBUF_AFMsgURl_2eproto__INCLUDED
+
 
