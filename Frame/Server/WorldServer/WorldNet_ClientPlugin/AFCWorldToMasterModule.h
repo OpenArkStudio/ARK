@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCWorldToMasterModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCWorldToMasterModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCWorldToMasterModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCWorldToMasterModule                                                  *
 *****************************************************************************/
 #ifndef AFC_WORLDNET_CLIENT_MODULE_H
@@ -84,3 +82,4 @@ private:
 };
 
 #endif
+

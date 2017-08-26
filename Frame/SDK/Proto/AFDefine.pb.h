@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFDefine.pb.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFDefine.pb                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFDefine.pb.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFDefine.pb                                                  *
 *****************************************************************************/
 #ifndef PROTOBUF_AFDefine_2eproto__INCLUDED
@@ -807,4 +805,5 @@ inline const EnumDescriptor* GetEnumDescriptor< ::AFMsg::EGameElementType>() {
 // @@protoc_insertion_point(global_scope)
 
 #endif  // PROTOBUF_AFDefine_2eproto__INCLUDED
+
 

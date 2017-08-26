@@ -17,14 +17,11 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFProxyLogicPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFProxyLogicPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFProxyLogicPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFProxyLogicPlugin                                                  *
 *****************************************************************************/
-
 #ifndef AFC_PROXYSERVERPLUGIN_H
 #define AFC_PROXYSERVERPLUGIN_H
 

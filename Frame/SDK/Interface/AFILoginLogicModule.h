@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFILoginLogicModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFILoginLogicModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFILoginLogicModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFILoginLogicModule                                                  *
 *****************************************************************************/
 #ifndef AFI_LOGINLOGIC_MODULE_H
@@ -39,3 +37,4 @@ public:
 };
 
 #endif
+
