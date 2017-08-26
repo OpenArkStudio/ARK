@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIEventManager.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIEventManager                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIEventManager.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIEventManager                                                  *
 *****************************************************************************/
 #pragma once
@@ -159,3 +157,4 @@ protected:
     virtual bool HasEventCallBack(const int nEventID) = 0;
 
 };
+

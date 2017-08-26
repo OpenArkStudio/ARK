@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFGUID.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFGUID                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFGUID.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFGUID                                                  *
 *****************************************************************************/
 #pragma once
@@ -143,3 +141,4 @@ struct AFGUID
 //{
 //    return source.n64Value != other.n64Value;
 //}
+

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFList.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFList                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFList.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFList                                                  *
 *****************************************************************************/
 #ifndef AF_LIST_H
@@ -159,4 +157,5 @@ int NFList<T>::Count()
 }
 
 #endif
+
 

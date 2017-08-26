@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIGameServerScriptModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIGameServerScriptModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIGameServerScriptModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIGameServerScriptModule                                                  *
 *****************************************************************************/
 #ifndef AFI_GAMESERVERSCRIPT_MODULE_H
@@ -39,3 +37,4 @@ public:
 };
 
 #endif
+

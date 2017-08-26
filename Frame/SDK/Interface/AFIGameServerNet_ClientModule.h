@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIGameServerNet_ClientModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIGameServerNet_ClientModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIGameServerNet_ClientModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIGameServerNet_ClientModule                                                  *
 *****************************************************************************/
 #ifndef AFI_GAMESERVERNET_CLIENTMODULE_H
@@ -39,3 +37,4 @@ public:
 };
 
 #endif
+

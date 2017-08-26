@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCHeartBeatManager.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCHeartBeatManager                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCHeartBeatManager.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCHeartBeatManager                                                  *
 *****************************************************************************/
 #pragma once
@@ -175,3 +173,4 @@ protected:
     /** @brief   The heart beat element map ex. */
     AFMapEx<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
 };
+

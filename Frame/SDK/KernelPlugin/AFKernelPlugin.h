@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFKernelPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFKernelPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFKernelPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFKernelPlugin                                                  *
 *****************************************************************************/
 #include "SDK/Interface/AFIPlugin.h"
@@ -51,4 +49,5 @@ public:
 
     virtual void Uninstall();
 };
+
 
