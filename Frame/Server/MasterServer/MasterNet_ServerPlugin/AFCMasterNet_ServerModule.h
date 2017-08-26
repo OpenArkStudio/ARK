@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCMasterNet_ServerModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCMasterNet_ServerModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCMasterNet_ServerModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCMasterNet_ServerModule                                                  *
 *****************************************************************************/
 #ifndef AFC_MASTERNET_SERVER_MODULE_H
@@ -106,3 +104,4 @@ private:
 };
 
 #endif
+

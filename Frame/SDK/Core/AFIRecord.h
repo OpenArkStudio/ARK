@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIRecord.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIRecord                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIRecord.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIRecord                                                  *
 *****************************************************************************/
 #pragma once
@@ -162,3 +160,4 @@ public:
 
     virtual const TRECORDVEC& GetRecordVec() const = 0;
 };
+

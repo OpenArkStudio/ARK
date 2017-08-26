@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFLimit.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFLimit                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFLimit.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFLimit                                                  *
 *****************************************************************************/
 #ifndef NF_LIMIT_H
@@ -57,3 +55,4 @@
 #pragma pack(pop)
 
 #endif
+

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFGameNetServerPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFGameNetServerPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFGameNetServerPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFGameNetServerPlugin                                                  *
 *****************************************************************************/
 #ifndef AF_GAMESERVERNET_SERVERPLUGIN_H
@@ -53,4 +51,5 @@ public:
     virtual void Uninstall();
 };
 #endif
+
 

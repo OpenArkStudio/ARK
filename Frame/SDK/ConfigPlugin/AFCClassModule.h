@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCClassModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCClassModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCClassModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCClassModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -186,3 +184,4 @@ protected:
 
     std::string msConfigFileName;
 };
+

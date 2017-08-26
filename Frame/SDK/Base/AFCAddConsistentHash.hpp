@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCAddConsistentHash.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCAddConsistentHash                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCAddConsistentHash.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCAddConsistentHash                                                  *
 *****************************************************************************/
 #include <map>
@@ -129,4 +127,5 @@ public:
 
 
 #endif
+
 
