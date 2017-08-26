@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIComponent.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIComponent                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIComponent.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIComponent                                                  *
 *****************************************************************************/
 #ifndef AFI_COMPONENT_H
@@ -273,4 +271,5 @@ private:
 };
 
 #endif
+
 

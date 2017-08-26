@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIGameLogicModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIGameLogicModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIGameLogicModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIGameLogicModule                                                  *
 *****************************************************************************/
 #ifndef AFI_GAMELOGICMODULE_H
@@ -38,3 +36,4 @@ public:
 };
 
 #endif
+

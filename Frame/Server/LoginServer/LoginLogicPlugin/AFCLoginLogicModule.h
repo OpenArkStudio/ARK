@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCLoginLogicModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCLoginLogicModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCLoginLogicModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCLoginLogicModule                                                  *
 *****************************************************************************/
 #ifndef AFC_LOGINLOGIC_MODULE_H
@@ -58,3 +56,4 @@ private:
 };
 
 #endif
+

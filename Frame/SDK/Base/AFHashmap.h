@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFHashmap.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFHashmap                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFHashmap.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFHashmap                                                  *
 *****************************************************************************/
 #ifndef NF_HASHMAP_H
@@ -287,4 +285,5 @@ template <typename T , typename TD>
 int NFHashmap<T, TD>::mnNFHashmapCount = 0;
 
 #endif //!NF_HASHMAP_H
+
 

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFRecord.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFRecord                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFRecord.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFRecord                                                  *
 *****************************************************************************/
 #pragma once
@@ -86,3 +84,4 @@ protected:
 
     //std::vector<RECORD_EVENT_FUNCTOR_PTR> mtRecordCallback;
 };
+
