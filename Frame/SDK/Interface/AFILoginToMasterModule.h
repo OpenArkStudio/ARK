@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFILoginToMasterModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFILoginToMasterModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFILoginToMasterModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFILoginToMasterModule                                                  *
 *****************************************************************************/
 #ifndef AFI_LOGINNET_CLIENTMODULE_H
@@ -41,4 +39,5 @@ public:
 };
 
 #endif
+
 

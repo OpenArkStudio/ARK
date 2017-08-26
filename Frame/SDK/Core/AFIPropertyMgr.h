@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIPropertyMgr.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIPropertyMgr                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIPropertyMgr.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIPropertyMgr                                                  *
 *****************************************************************************/
 #pragma once
@@ -127,3 +125,4 @@ public:
     virtual const char* GetPropertyString(const char* name) = 0;
     virtual const AFGUID& GetPropertyObject(const char* name) = 0;
 };
+

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCPropertyMgr.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCPropertyMgr                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCPropertyMgr.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCPropertyMgr                                                  *
 *****************************************************************************/
 #pragma once
@@ -90,3 +88,4 @@ private:
 
     AFGUID mxSelf;
 };
+

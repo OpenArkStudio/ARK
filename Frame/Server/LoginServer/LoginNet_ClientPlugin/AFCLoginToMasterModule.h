@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCLoginToMasterModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCLoginToMasterModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCLoginToMasterModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCLoginToMasterModule                                                  *
 *****************************************************************************/
 #ifndef AFC_LOGINNET_CLIENT_MODULE_H
@@ -86,3 +84,4 @@ private:
 };
 
 #endif
+

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIGUIDModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIGUIDModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIGUIDModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIGUIDModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -36,3 +34,4 @@ public:
     virtual void SetWorkerAndDatacenter(uint16_t worker_id, uint16_t data_center_id) = 0;
     virtual uint64_t CreateGUID() = 0;
 };
+
