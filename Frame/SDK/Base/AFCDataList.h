@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCDataList.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCDataList                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCDataList.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCDataList                                                  *
 *****************************************************************************/
 #pragma once
@@ -847,3 +845,4 @@ private:
 using AFCDataList = AFBaseDataList<8, 128>;
 
 }
+

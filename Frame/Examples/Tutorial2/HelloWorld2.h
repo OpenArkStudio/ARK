@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  HelloWorld2.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    HelloWorld2                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	HelloWorld2.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     HelloWorld2                                                  *
 *****************************************************************************/
 #ifndef AFC_HELLO_WORLD2_H
@@ -55,4 +53,5 @@ protected:
 };
 
 #endif
+
 

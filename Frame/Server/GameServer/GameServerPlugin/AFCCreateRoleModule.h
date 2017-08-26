@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCCreateRoleModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCCreateRoleModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCCreateRoleModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCCreateRoleModule                                                  *
 *****************************************************************************/
 #ifndef _AFC_CREATEROLE_MODULE_H_
@@ -82,4 +80,5 @@ private:
 };
 
 #endif
+
 

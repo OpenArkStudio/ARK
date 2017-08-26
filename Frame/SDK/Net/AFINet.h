@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFINet.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFINet                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFINet.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFINet                                                  *
 *****************************************************************************/
 #pragma once
@@ -390,4 +388,5 @@ public:
 };
 
 #pragma pack(pop)
+
 

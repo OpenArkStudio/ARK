@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFNoncopyable.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFNoncopyable                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFNoncopyable.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFNoncopyable                                                  *
 *****************************************************************************/
 #pragma once
@@ -38,3 +36,4 @@ private:
     AFNoncopyable(AFNoncopyable&&) = delete;
     AFNoncopyable& operator=(AFNoncopyable&&) = delete;
 };
+

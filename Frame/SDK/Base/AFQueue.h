@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFQueue.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFQueue                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFQueue.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFQueue                                                  *
 *****************************************************************************/
 #pragma once
@@ -104,3 +102,4 @@ public:
 private:
     std::list<T> mList;
 };
+

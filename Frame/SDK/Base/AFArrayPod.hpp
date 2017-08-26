@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFArrayPod.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFArrayPod                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFArrayPod.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFArrayPod                                                  *
 *****************************************************************************/
 #pragma once
@@ -332,3 +330,4 @@ private:
     size_t mnCapacity; //ÈÝÁ¿
     size_t mnSize; //ÊýÁ¿
 };
+

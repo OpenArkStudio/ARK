@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMsgMysql.pb.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMsgMysql.pb                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMsgMysql.pb.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMsgMysql.pb                                                  *
 *****************************************************************************/
 #ifndef PROTOBUF_AFMsgMysql_2eproto__INCLUDED
@@ -1119,4 +1117,5 @@ namespace protobuf {
 // @@protoc_insertion_point(global_scope)
 
 #endif  // PROTOBUF_AFMsgMysql_2eproto__INCLUDED
+
 

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFILevelModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFILevelModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFILevelModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFILevelModule                                                  *
 *****************************************************************************/
 #ifndef AFI_LEVEL_MODULE_H
@@ -41,3 +39,4 @@ public:
 };
 
 #endif
+

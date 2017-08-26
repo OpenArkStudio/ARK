@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIWorldGuildModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIWorldGuildModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIWorldGuildModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIWorldGuildModule                                                  *
 *****************************************************************************/
 #ifndef AFI_WORLD_GUILD_MODULE_H
@@ -52,3 +50,4 @@ private:
 };
 
 #endif
+

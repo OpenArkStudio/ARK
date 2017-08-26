@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFINetClientModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFINetClientModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFINetClientModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFINetClientModule                                                  *
 *****************************************************************************/
 #ifndef AFI_CLUSTER_CLIENT_MODULE_H
@@ -504,4 +502,5 @@ private:
 
 };
 #endif
+
 
