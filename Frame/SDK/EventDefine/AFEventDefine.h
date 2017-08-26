@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFEventDefine.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFEventDefine                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFEventDefine.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFEventDefine                                                  *
 *****************************************************************************/
 #ifndef AF_EVENTDEFINE_H
@@ -71,3 +69,4 @@ enum AFEventDefine
 };
 
 #endif
+

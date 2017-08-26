@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCNetServer.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCNetServer                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCNetServer.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCNetServer                                                  *
 *****************************************************************************/
 #pragma once
@@ -129,4 +127,5 @@ private:
 };
 
 #pragma pack(pop)
+
 

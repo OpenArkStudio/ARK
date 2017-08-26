@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCConsistentHash.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCConsistentHash                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCConsistentHash.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCConsistentHash                                                  *
 *****************************************************************************/
 #ifndef AFC_CONSISTENT_HASH_H
@@ -778,4 +776,5 @@ private:
 
 
 #endif
+
 

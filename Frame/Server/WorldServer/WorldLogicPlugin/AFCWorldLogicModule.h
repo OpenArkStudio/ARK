@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCWorldLogicModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCWorldLogicModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCWorldLogicModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCWorldLogicModule                                                  *
 *****************************************************************************/
 #ifndef AFC_WORLDLOGIC_MODULE_H
@@ -54,3 +52,4 @@ private:
 };
 
 #endif
+

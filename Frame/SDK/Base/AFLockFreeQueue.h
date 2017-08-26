@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFLockFreeQueue.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFLockFreeQueue                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFLockFreeQueue.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFLockFreeQueue                                                  *
 *****************************************************************************/
 #ifndef NF_LOCKFREEQUEUE_H
@@ -64,3 +62,4 @@ private:
 };
 
 #endif
+

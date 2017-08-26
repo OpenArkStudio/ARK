@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCAOIModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCAOIModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCAOIModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCAOIModule                                                  *
 *****************************************************************************/
 #ifndef NF_AOI_MODULE_H
@@ -82,3 +80,4 @@ private:
 };
 
 #endif //!NF_AOI_MODULE_H
+

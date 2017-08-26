@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFINetModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFINetModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFINetModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFINetModule                                                  *
 *****************************************************************************/
 #ifndef AFI_NET_MODULE_H
@@ -407,4 +405,5 @@ protected:
 };
 
 #endif
+
 

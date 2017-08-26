@@ -17,14 +17,11 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFProxyNetServerPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFProxyNetServerPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFProxyNetServerPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFProxyNetServerPlugin                                                  *
 *****************************************************************************/
-
 #ifndef NF_PROXYSERVERNET_SERVERPLUGIN_H
 #define NF_PROXYSERVERNET_SERVERPLUGIN_H
 
