@@ -17,14 +17,11 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMasterPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMasterPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMasterPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMasterPlugin                                                  *
 *****************************************************************************/
-
 #ifndef NF_MASTERSERVERPLUGIN_H
 #define NF_MASTERSERVERPLUGIN_H
 ///
@@ -54,3 +51,4 @@ public:
     virtual void Uninstall();
 };
 #endif
+

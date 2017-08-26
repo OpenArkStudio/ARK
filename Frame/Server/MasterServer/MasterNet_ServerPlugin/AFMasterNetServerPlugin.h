@@ -17,16 +17,11 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMasterNetServerPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMasterNetServerPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMasterNetServerPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMasterNetServerPlugin                                                  *
 *****************************************************************************/
-
-
-///
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
@@ -53,5 +48,6 @@ public:
 
     virtual void Uninstall();
 };
+
 
 

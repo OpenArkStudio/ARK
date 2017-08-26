@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFISceneModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFISceneModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFISceneModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFISceneModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -156,3 +154,4 @@ public:
         ClearAll();
     }
 };
+

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFLoginLogicPlugin.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFLoginLogicPlugin                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFLoginLogicPlugin.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFLoginLogicPlugin                                                  *
 *****************************************************************************/
 #ifndef AFC_LOGINLOGICPLUGIN_MODULE_H
@@ -53,3 +51,4 @@ public:
     virtual void Uninstall();
 };
 #endif
+

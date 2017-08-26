@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFPlatform.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFPlatform                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFPlatform.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFPlatform                                                  *
 *****************************************************************************/
 #pragma once
@@ -182,3 +180,4 @@
 #ifndef ARK_DYNAMIC_PLUGIN
 #define ARK_DYNAMIC_PLUGIN
 #endif
+

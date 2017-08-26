@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIObject.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIObject                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIObject.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIObject                                                  *
 *****************************************************************************/
 #pragma once
@@ -138,4 +136,5 @@ protected:
 protected:
     AFIPluginManager* m_pPluginManager;
 };
+
 

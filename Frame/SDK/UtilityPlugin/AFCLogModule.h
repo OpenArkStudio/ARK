@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCLogModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCLogModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCLogModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCLogModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -81,3 +79,4 @@ private:
     char szBuffer[1024 * 10];
     bool mbLogSwiths[NFI_LOG_MAX];
 };
+

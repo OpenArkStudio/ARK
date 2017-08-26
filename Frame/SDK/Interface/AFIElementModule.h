@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIElementModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIElementModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIElementModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIElementModule                                                  *
 *****************************************************************************/
 #pragma once
@@ -52,3 +50,4 @@ public:
     virtual double GetPropertyDouble(const std::string& strConfigName, const std::string& strPropertyName) = 0;
     virtual const char*   GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName) = 0;
 };
+

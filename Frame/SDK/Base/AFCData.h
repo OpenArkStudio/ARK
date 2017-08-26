@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCData.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCData                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCData.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCData                                                  *
 *****************************************************************************/
 #pragma once
@@ -642,3 +640,4 @@ private:
 using AFCData = AFBaseData<4>;
 
 }
+

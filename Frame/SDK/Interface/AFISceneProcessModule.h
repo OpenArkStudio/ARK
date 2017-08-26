@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFISceneProcessModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFISceneProcessModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFISceneProcessModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFISceneProcessModule                                                  *
 *****************************************************************************/
 #ifndef AFI_SCENEPROCESS_MODULE_H
@@ -50,3 +48,4 @@ public:
 };
 
 #endif
+

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFCLoginNet_ServerModule.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFCLoginNet_ServerModule                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFCLoginNet_ServerModule.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFCLoginNet_ServerModule                                                  *
 *****************************************************************************/
 #ifndef AFC_LOGINNET_SERVER_MODULE_H
@@ -117,3 +115,4 @@ private:
 };
 
 #endif
+

@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFMemManger.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFMemManger                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFMemManger.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFMemManger                                                  *
 *****************************************************************************/
 #pragma once
@@ -64,3 +62,4 @@ public:
     }
 
 };
+

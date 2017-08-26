@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  HelloWorld3Module.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    HelloWorld3Module                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	HelloWorld3Module.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     HelloWorld3Module                                                  *
 *****************************************************************************/
 #ifndef AFC_HELLO_WORLD3_H
@@ -64,4 +62,5 @@ protected:
 };
 
 #endif
+
 

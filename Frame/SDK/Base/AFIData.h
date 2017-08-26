@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFIData.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFIData                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFIData.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFIData                                                  *
 *****************************************************************************/
 #pragma once
@@ -121,3 +119,4 @@ public:
 };
 
 }
+

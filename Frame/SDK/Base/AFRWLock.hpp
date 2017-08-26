@@ -17,11 +17,9 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @FileName  AFRWLock.h                                                *
-// * @Author    Ark Game Tech                                                *
-// * @Date      2015-12-15                                                   *
-// * @Module    AFRWLock                                                  *
-// * @email     ArkGameTech@163.com                                          *
+// * @file  	AFRWLock.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
 // * @brief     AFRWLock                                                  *
 *****************************************************************************/
 #pragma once
@@ -167,3 +165,4 @@ public:
 private:
     AFCReaderWriterLock & rwlock;
 };
+
