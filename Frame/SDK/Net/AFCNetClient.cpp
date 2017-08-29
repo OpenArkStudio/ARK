@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCNetClient.cpp                                              *
+// * @file      AFCNetClient.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCNetClient                                                  *
@@ -126,6 +126,7 @@ void AFCNetClient::Initialization(const std::string& strAddrPort, const int nSer
     m_pClient.reset(new evpp::TCPClient(m_pThread->loop(), mstrIPPort, "TCPPingPongClient"));
     m_pClient->SetConnectionCallback(std::bind(&AFCNetClient::OnClientConnection, std::placeholders::_1, (void*) this));
     m_pClient->SetMessageCallback(std::bind(&AFCNetClient::OnMessage, std::placeholders::_1, std::placeholders::_2, (void*)this));
+    m_pClient->set_auto_reconnect(false);
     m_pClient->Connect();
 
     bWorking = true;
@@ -168,30 +169,22 @@ bool AFCNetClient::CloseNetObject(const AFGUID& xClient)
 
 bool AFCNetClient::DismantleNet(NetObject* pObject)
 {
-    int len = pObject->GetBuffLen();
-    for(; pObject->BuffChange() && len > AFIMsgHead::AF_Head::NF_HEAD_LENGTH;)
+    for(; pObject->GetBuffLen() >= AFIMsgHead::AF_Head::NF_HEAD_LENGTH;)
     {
         AFCMsgHead xHead;
-        int nMsgBodyLength = DeCode(pObject->GetBuff(), len, xHead);
-        if(nMsgBodyLength > 0 && xHead.GetMsgID() > 0)
+        int nMsgBodyLength = DeCode(pObject->GetBuff(), pObject->GetBuffLen(), xHead);
+        if(nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
         {
-            /*int nRet = 0;
-            if(mRecvCB)
-            {
             mRecvCB(xHead.GetMsgID(), pObject->GetBuff() + AFIMsgHead::AF_Head::NF_HEAD_LENGTH, nMsgBodyLength, pObject->GetClientID());
-            }*/
             MsgFromNetInfo* pNetInfo = new  MsgFromNetInfo(pObject->GetConnPtr());
             pNetInfo->xHead = xHead;
             pNetInfo->nType = RECIVEDATA;
             pNetInfo->strMsg.append(pObject->GetBuff() + AFIMsgHead::AF_Head::NF_HEAD_LENGTH, nMsgBodyLength);
             pObject->mqMsgFromNet.Push(pNetInfo);
             pObject->RemoveBuff(nMsgBodyLength + AFIMsgHead::AF_Head::NF_HEAD_LENGTH);
-            len = pObject->GetBuffLen();
         }
         break;
     }
-
-    pObject->Reset();
 
     return true;
 }
@@ -256,8 +249,13 @@ void AFCNetClient::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
 
 
         //主线程不能直接删除。不然这里就野了
-        NetObject* pObject = evpp::any_cast<NetObject*>(conn->context());
-        pObject->mqMsgFromNet.Push(pMsg);
+        if(!conn->context().IsEmpty())
+        {
+            NetObject* pObject = evpp::any_cast<NetObject*>(conn->context());
+            pObject->mqMsgFromNet.Push(pMsg);
+            conn->set_context(evpp::Any(nullptr));
+        }
+
     }
 }
 
