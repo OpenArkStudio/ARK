@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFINetServerModule.h                                                *
+// * @file      AFINetServerModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFINetServerModule                                                  *
@@ -64,8 +64,8 @@
 static AFGUID PBToNF(AFMsg::Ident xID)
 {
     AFGUID  xIdent;
-    xIdent.n64Value = xID.svrid();
-    //xIdent.nData64 = xID.index();
+    xIdent.nIdent = xID.svrid();
+    xIdent.nSerial = xID.index();
 
     return xIdent;
 }
@@ -73,8 +73,8 @@ static AFGUID PBToNF(AFMsg::Ident xID)
 static AFMsg::Ident NFToPB(AFGUID xID)
 {
     AFMsg::Ident  xIdent;
-    xIdent.set_svrid(xID.n64Value);
-    //xIdent.set_index(xID.nData64);
+    xIdent.set_svrid(xID.nIdent);
+    xIdent.set_index(xID.nSerial);
 
     return xIdent;
 }
@@ -149,12 +149,12 @@ public:
     }
 
     //as server
-    int Initialization(const unsigned int nMaxClient, const unsigned short nPort, const int nServerID, const int nCpuCount)
+    int Initialization(const unsigned int nMaxClient, const std::string strIP, const unsigned short nPort, const int nServerID, const int nCpuCount)
     {
-        std::string strIPAndPort = "0.0.0.0:";
+        std::string strIPAndPort;
         std::string strPort;
         Ark_to_str(strPort, nPort);
-        strIPAndPort += strPort;
+        strIPAndPort = strIP + ":" + strPort;
         m_pNet = ARK_NEW AFCNetServer(this, &AFINetServerModule::OnReceiveNetPack, &AFINetServerModule::OnSocketNetEvent);
         return m_pNet->Initialization(nMaxClient, strIPAndPort, nServerID, nCpuCount);
     }

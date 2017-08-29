@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCGameServerNet_ServerModule.cpp                                              *
+// * @file      AFCGameServerNet_ServerModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCGameServerNet_ServerModule                                                  *
@@ -83,7 +83,7 @@ bool AFCGameServerNet_ServerModule::AfterInit()
                 const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
 
-                int nRet = m_pNetModule->Initialization(nMaxConnect, nPort, nServerID, nCpus);
+                int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nServerID, nCpus);
                 if(nRet < 0)
                 {
                     std::ostringstream strLog;
