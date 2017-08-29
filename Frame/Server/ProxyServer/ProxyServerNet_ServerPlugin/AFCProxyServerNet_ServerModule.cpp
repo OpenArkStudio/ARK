@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCProxyServerNet_ServerModule.cpp                                              *
+// * @file      AFCProxyServerNet_ServerModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCProxyServerNet_ServerModule                                                  *
@@ -72,7 +72,7 @@ bool AFCProxyServerNet_ServerModule::AfterInit()
 
                 m_pUUIDModule->SetWorkerAndDatacenter(nServerID, nServerID);
 
-                int nRet = m_pNetModule->Initialization(nMaxConnect, nPort, nCpus, nServerID);
+                int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nCpus, nServerID);
                 if(nRet < 0)
                 {
                     std::ostringstream strLog;
@@ -173,6 +173,7 @@ void AFCProxyServerNet_ServerModule::OnConnectKeyProcess(const int nMsgID, const
             AFMsg::AckEventResult xSendMsg;
             xSendMsg.set_event_code(AFMsg::EGEC_VERIFY_KEY_SUCCESS);
             *xSendMsg.mutable_event_client() = AFINetServerModule::NFToPB(pSessionData->mnClientID);//让前端记得自己的fd，后面有一些验证
+            *xSendMsg.mutable_event_object() = AFINetServerModule::NFToPB(nPlayerID);
 
             m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_KEY, xSendMsg, xClientID, nPlayerID);
         }
