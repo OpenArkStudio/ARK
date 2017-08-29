@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	TestServer.cpp                                              *
+// * @file      TestServer.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     TestServer                                                  *
@@ -26,13 +26,14 @@
 #include <thread>
 #include <string>
 #include <processthreadsapi.h>
-#include "SDK/Core/AFTime.h"
-#ifdef NF_DEBUG_MODE
-#pragma comment(lib,"AFNetEvpp_d.lib")
-#pragma comment(lib,"Core_d.lib")
+#include "SDK/Base/AFTime.hpp"
+#include "SDK/Base/AFPlatform.hpp"
+#ifdef ARK_RUN_MODE
+#pragma comment(lib,"AFNet_d.lib")
+#pragma comment(lib,"AFCore_d.lib")
 #else
-#pragma comment(lib,"AFNetEvpp.lib")
-#pragma comment(lib,"Core.lib")
+#pragma comment(lib,"AFNet.lib")
+#pragma comment(lib,"AFCore.lib")
 #endif
 
 class TestServerClass
@@ -45,7 +46,7 @@ public:
         pNet->Initialization(10000, "192.168.1.143:8088", 2, 1);
         nSendMsgCount = 0;
         nReciveMsgCount = 0;
-        nStartTime = AFTime::GetUTCTime();
+        nStartTime = AFCTimeBase::GetInstance().GetUTCTime();
         nLastTime = nStartTime;
         nLastSendCount = 0;
         nLasterReciveCount = 0;
@@ -68,7 +69,7 @@ public:
     {
         pNet->Execute();
 
-        int nNowTime = AFTime::GetUTCTime();
+        int nNowTime = AFCTimeBase::GetInstance().GetUTCTime();
         int nSpanTime = nNowTime - nLastTime;
         int nAllSpanTime = nNowTime - nStartTime;
         if(nSpanTime > 5 && nAllSpanTime > 0)
