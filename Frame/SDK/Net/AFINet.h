@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFINet.h                                                *
+// * @file      AFINet.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFINet                                                  *
@@ -225,7 +225,6 @@ public:
         bNeedRemove = false;
         m_pNet = pNet;
         mnClientID = xClientID;
-        bBuffChange = false;
         memset(&sin, 0, sizeof(sin));
     }
 
@@ -236,7 +235,6 @@ public:
     int AddBuff(const char* str, uint32_t nLen)
     {
         mstrBuff.Write(str, nLen);
-        bBuffChange = true;
         return (int)mstrBuff.length();
     }
 
@@ -293,14 +291,6 @@ public:
     {
         mnClientID = xClientID;
     }
-    void Reset()
-    {
-        bBuffChange =  false;
-    }
-    bool BuffChange()
-    {
-        return bBuffChange;
-    }
     const evpp::TCPConnPtr& GetConnPtr()
     {
         return mConnPtr;
@@ -318,7 +308,6 @@ private:
 
     AFINet* m_pNet;
     mutable bool bNeedRemove;
-    bool bBuffChange;
 
 };
 
