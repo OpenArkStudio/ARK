@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCElementModule.cpp                                              *
+// * @file      AFCElementModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCElementModule                                                  *
@@ -174,13 +174,12 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
             continue;
         }
 
-        AFCData var;
         const int eType = pTmpProperty->GetType();
         switch(eType)
         {
         case DT_BOOLEAN:
             {
-                var.SetInt(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
+                pTmpProperty->prop_value.SetInt(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
             }
             break;
         case DT_INT:
@@ -189,12 +188,12 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 {
                     ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                var.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
+                pTmpProperty->prop_value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
             }
             break;
         case DT_INT64:
             {
-                var.SetInt(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
+                pTmpProperty->prop_value.SetInt(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
             }
             break;
         case DT_FLOAT:
@@ -203,7 +202,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 {
                     ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                var.SetDouble(ARK_LEXICAL_CAST<float>(pstrConfigValue));
+                pTmpProperty->prop_value.SetDouble(ARK_LEXICAL_CAST<float>(pstrConfigValue));
             }
             break;
         case DT_DOUBLE:
@@ -212,12 +211,12 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 {
                     ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                var.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
+                pTmpProperty->prop_value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
             }
             break;
         case DT_STRING:
             {
-                var.SetString(pstrConfigValue);
+                pTmpProperty->prop_value.SetString(pstrConfigValue);
             }
             break;
         case DT_OBJECT:
@@ -226,7 +225,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 {
                     ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                var.SetObject(NULL_GUID);
+                pTmpProperty->prop_value.SetObject(NULL_GUID);
             }
             break;
         default:

@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFINetClientModule.h                                                *
+// * @file      AFINetClientModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFINetClientModule                                                  *
@@ -267,8 +267,7 @@ protected:
         AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
         *pPlayerID = NFToPB(nPlayer);
 
-        std::string strMsg;
-        if(!xMsg.SerializeToString(&strMsg))
+        if(!xMsg.SerializeToString(&outData))
         {
             return false;
         }
