@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCGameServerToWorldModule.cpp                                              *
+// * @file      AFCGameServerToWorldModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCGameServerToWorldModule                                                  *
@@ -166,7 +166,7 @@ bool AFCGameServerToWorldModule::AfterInit()
 
 void AFCGameServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
-    if(eEvent != CONNECTED)
+    if(eEvent == CONNECTED)
     {
         m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connected success", __FUNCTION__, __LINE__);
         Register(nServerID);
