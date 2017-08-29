@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	TestClient.cpp                                              *
+// * @file      TestClient.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     TestClient                                                  *
@@ -25,15 +25,16 @@
 #include "AFCNetClient.h"
 #include <thread>
 #include <string>
-#include "SDK/Core/AFTime.h"
+#include "SDK/Base/AFTime.hpp"
+#include "SDK/Base/AFPlatform.hpp"
 #pragma comment(lib,"ws2_32.lib")
 
-#ifdef NF_DEBUG_MODE
-#pragma comment(lib,"AFNetEvpp_d.lib")
-#pragma comment(lib,"Core_d.lib")
+#ifdef ARK_RUN_MODE
+#pragma comment(lib,"AFNet_d.lib")
+#pragma comment(lib,"AFCore_d.lib")
 #else
-#pragma comment(lib,"AFNetEvpp.lib")
-#pragma comment(lib,"Core.lib")
+#pragma comment(lib,"AFNet.lib")
+#pragma comment(lib,"AFCore.lib")
 #endif
 class TestClientClass
 {
@@ -48,7 +49,7 @@ public:
         nSendMsgCount = 0;
         nReciveMsgCount = 0;
         mnID = nID;
-        mnStarTime = AFTime::GetUTCTime();
+        mnStarTime = AFCTimeBase::GetInstance().GetUTCTime();
         mbTestSendMsg = true;
     }
 
@@ -82,10 +83,10 @@ public:
         }
 
         std::string strData = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-        char data[4096] = {};
+        char data[100] = {};
 
-        memset(data, 22, 4096);
-        pNet->SendMsgWithOutHead(1, data, 4096, 0);
+        memset(data, 22, 100);
+        pNet->SendMsgWithOutHead(1, data, 100, 0);
         nSendMsgCount++;
 
         return true;
@@ -120,13 +121,13 @@ int main(int argc, char** argv)
        }*/
     TestClientClass* pNet = new TestClientClass(0);;
 
-    int nTime = AFTime::GetUTCTime();
-    int nLastTime = AFTime::GetUTCTime();
+    int nTime = AFCTimeBase::GetInstance().GetUTCTime();
+    int nLastTime = AFCTimeBase::GetInstance().GetUTCTime();
     int nCount = 0;
     while(!pNet->IsStop())
     {
         pNet->Execute();
-        ////int nNowTime = AFTime::GetUTCTime();
+        ////int nNowTime = AFCTimeBase::GetInstance().GetUTCTime();
         //std::list<TestClientClass*>::iterator it = list.begin();
         //for(it; it != list.end(); ++it)
         //{
