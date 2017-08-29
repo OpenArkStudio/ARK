@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCLoginNet_ServerModule.cpp                                              *
+// * @file      AFCLoginNet_ServerModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCLoginNet_ServerModule                                                  *
@@ -78,10 +78,11 @@ bool AFCLoginNet_ServerModule::AfterInit()
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
                 const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
+                const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
 
                 m_pUUIDModule->SetWorkerAndDatacenter(nServerID, nServerID);
 
-                int nRet = m_pNetModule->Initialization(nMaxConnect, nPort, nCpus, nServerID);
+                int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nCpus, nServerID);
                 if(nRet < 0)
                 {
                     std::ostringstream strLog;
