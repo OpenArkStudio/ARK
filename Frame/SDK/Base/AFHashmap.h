@@ -1,64 +1,56 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file  	AFHashmap.h                                                *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFHashmap                                                  *
-*****************************************************************************/
-#ifndef NF_HASHMAP_H
-#define NF_HASHMAP_H
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
 
-#include <unordered_map>
-#include <string>
-#include <memory>
-#include "AFPlatform.h"
+#pragma once
+
+#include "AFPlatform.hpp"
 
 template <typename T , typename TD>
 class NFHashmap
 {
 public:
-    typedef std::unordered_map<T, NF_SHARED_PTR<TD> > NFHashmapObject;
+    typedef std::unordered_map<T, ARK_SHARE_PTR<TD> > HashmapObject;
     NFHashmap()
     {
         mnPos = 0;
-        ++mnNFHashmapCount;
+        ++mnHashmapCount;
     };
 
     virtual ~NFHashmap()
     {
-        --mnNFHashmapCount;
+        --mnHashmapCount;
     };
 
-    bool AddElement(const T& name, const NF_SHARED_PTR<TD> data)
+    bool AddElement(const T& name, const ARK_SHARE_PTR<TD> data)
     {
-        typename NFHashmapObject::iterator itr = mxObjectList.find(name);
+        typename HashmapObject::iterator itr = mxObjectList.find(name);
         if (itr == mxObjectList.end())
         {
-            mxObjectList.insert(typename NFHashmapObject::value_type(name, data));
+            mxObjectList.insert(typename HashmapObject::value_type(name, data));
             return true;
         }
 
         return false;
     }
 
-    bool SetElement(const T& name, const NF_SHARED_PTR<TD> data)
+    bool SetElement(const T& name, const ARK_SHARE_PTR<TD> data)
     {
         mxObjectList[name] = data;
         return true;
@@ -66,8 +58,8 @@ public:
 
     bool RemoveElement(const T& name)
     {
-        NF_SHARED_PTR<TD> pData;
-        typename NFHashmapObject::iterator itr = mxObjectList.find(name);
+        ARK_SHARE_PTR<TD> pData;
+        typename HashmapObject::iterator itr = mxObjectList.find(name);
         if (itr != mxObjectList.end())
         {
             pData = itr->second;
@@ -80,7 +72,7 @@ public:
 
     TD* GetElementNude(const T& name)
     {
-        typename NFHashmapObject::iterator itr = mxObjectList.find(name);
+        typename HashmapObject::iterator itr = mxObjectList.find(name);
         if (itr != mxObjectList.end())
         {
             return itr->second.get();
@@ -89,9 +81,9 @@ public:
         return nullptr;
     }
 
-    NF_SHARED_PTR<TD> GetElement(const T& name)
+    ARK_SHARE_PTR<TD> GetElement(const T& name)
     {
-        typename NFHashmapObject::iterator itr = mxObjectList.find(name);
+        typename HashmapObject::iterator itr = mxObjectList.find(name);
         if (itr != mxObjectList.end())
         {
             return itr->second;
@@ -102,11 +94,11 @@ public:
 
     bool ExitElement(const T& name)
     {
-        typename NFHashmapObject::iterator itr = mxObjectList.find(name);
+        typename HashmapObject::iterator itr = mxObjectList.find(name);
         return (itr != mxObjectList.end());
     }
 
-    NF_SHARED_PTR<TD> First()
+    ARK_SHARE_PTR<TD> First()
     {
         if (mxObjectList.size() <= 0)
         {
@@ -122,7 +114,7 @@ public:
         return nullptr;
     }
 
-    NF_SHARED_PTR<TD> Next()
+    ARK_SHARE_PTR<TD> Next()
     {
         if (mxObjectCurIter == mxObjectList.end())
         {
@@ -204,7 +196,7 @@ public:
         return NULL;
     }
 
-    NF_SHARED_PTR<TD> First(T& name)
+    ARK_SHARE_PTR<TD> First(T& name)
     {
         if (mxObjectList.size() <= 0)
         {
@@ -221,7 +213,7 @@ public:
         return nullptr;
     }
 
-    NF_SHARED_PTR<TD> Next(T& name)
+    ARK_SHARE_PTR<TD> Next(T& name)
     {
         if (mxObjectCurIter == mxObjectList.end())
         {
@@ -238,13 +230,13 @@ public:
         return nullptr;
     }
 
-    NF_SHARED_PTR<TD> Suit()
+    ARK_SHARE_PTR<TD> Suit()
     {
         T t;
         return Suit(t);
     }
 
-    NF_SHARED_PTR<TD> Suit(T& name)
+    ARK_SHARE_PTR<TD> Suit(T& name)
     {
         //不能使用迭代器那套，因为会打乱迭代器顺序
         if (Count() <= 0)
@@ -253,7 +245,7 @@ public:
         }
 
         mnPos = (mnPos + 1) % Count();
-        typename NFHashmapObject::iterator it = mxObjectList.begin();
+        typename HashmapObject::iterator it = mxObjectList.begin();
         std::advance(it, mnPos);
 
         name =  it->first;
@@ -273,17 +265,13 @@ public:
 
 public:
     //just for hash-map statistic
-    static int mnNFHashmapCount;
+    static int mnHashmapCount;
 
 private:
     int mnPos;
-    NFHashmapObject mxObjectList;
-    typename NFHashmapObject::iterator mxObjectCurIter;
+    HashmapObject mxObjectList;
+    typename HashmapObject::iterator mxObjectCurIter;
 };
 
 template <typename T , typename TD>
-int NFHashmap<T, TD>::mnNFHashmapCount = 0;
-
-#endif //!NF_HASHMAP_H
-
-
+int NFHashmap<T, TD>::mnHashmapCount = 0;

@@ -33,16 +33,12 @@
     <ClInclude Include="AFPlatform.hpp" />
     <ClInclude Include="AFQueue.h" />
     <ClInclude Include="AFRWLock.hpp" />
-    <ClInclude Include="AFSingleton.h" />
     <ClInclude Include="AFSingleton.hpp" />
     <ClInclude Include="AFString.hpp" />
     <ClInclude Include="AFStringPod.hpp" />
     <ClInclude Include="AFTime.hpp" />
     <ClInclude Include="AFTimerManager.h" />
     <ClInclude Include="AFVector3.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AFTime.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{32540EFA-8D08-4ED0-A01D-B90623FC8715}</ProjectGuid>
