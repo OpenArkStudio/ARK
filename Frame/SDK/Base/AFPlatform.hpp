@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFPlatform.h                                                *
+// * @file      AFPlatform.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFPlatform                                                  *
@@ -114,6 +114,8 @@
 #define COMPILER_BORLAND    2
 #define COMPILER_INTEL      3
 #define COMPILER_CLANG      4
+
+#define GOOGLE_STRIP_LOG    2
 
 #ifdef _MSC_VER
 #  define ARK_COMPILER COMPILER_MICROSOFT
