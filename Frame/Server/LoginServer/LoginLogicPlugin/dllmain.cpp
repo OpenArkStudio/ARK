@@ -24,23 +24,23 @@
 *****************************************************************************/
 #include "SDK/Base/AFPlatform.hpp"
 
+#if ARK_PLATFORM == PLATFORM_WIN
+
+#pragma comment(lib, "Dbghelp.lib")
+#pragma comment(lib, "ws2_32")
+
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 
-#if ARK_PLATFORM == PLATFORM_WIN
-#pragma comment( lib, "ws2_32" )
-#pragma comment( lib, "AFCore_d.lib" )
-#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == AF_PLATFORM_ANDROID
-#pragma comment( lib, "AFCore_d.a" )
-#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == AF_PLATFORM_APPLE_IOS
-#endif
+#pragma comment(lib, "AFCore_d.lib")
+#pragma comment(lib, "AFProto_d.lib")
+#pragma comment(lib, "libprotobuf_d.lib")
 
 #else
 
-#if ARK_PLATFORM == PLATFORM_WIN
-#pragma comment( lib, "AFCore.lib" )
-#elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == AF_PLATFORM_ANDROID
-#pragma comment( lib, "AFCore.a" )
-#elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == AF_PLATFORM_APPLE_IOS
+#pragma comment(lib, "AFCore.lib")
+#pragma comment(lib, "AFProto.lib")
+#pragma comment(lib, "libprotobuf.lib")
+
 #endif
 
 #endif

@@ -67,9 +67,6 @@
     <ClInclude Include="AFRWLock.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="AFSingleton.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="AFSingleton.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -93,10 +90,5 @@
     <Filter Include="Base">
       <UniqueIdentifier>{dd555b95-73ea-4977-9d6a-cfeb81685d58}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="AFTime.inl">
-      <Filter>Base</Filter>
-    </None>
   </ItemGroup>
 </Project>
