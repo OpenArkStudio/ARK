@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFINetModule.h                                                *
+// * @file      AFINetModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFINetModule                                                  *
@@ -261,6 +261,7 @@ public:
     {
         xMsg.set_col(nCol);
         xMsg.set_row(nRow);
+        xMsg.set_ndatatype(DataVar.GetType());
         switch(DataVar.GetType())
         {
         case DT_BOOLEAN:
@@ -316,6 +317,7 @@ public:
     {
         xMsg.set_col(nCol);
         xMsg.set_row(nRow);
+        xMsg.set_ndatatype(DataList.GetType(nCol));
         switch(DataList.GetType(nCol))
         {
         case DT_BOOLEAN:
