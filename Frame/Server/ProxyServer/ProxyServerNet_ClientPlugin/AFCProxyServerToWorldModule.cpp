@@ -248,6 +248,6 @@ void AFCProxyServerToWorldModule::LogServerInfo(const std::string& strServerInfo
 
 void AFCProxyServerToWorldModule::OnOtherMessage(const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    m_pProxyServerNet_ServerModule->Transpond(nMsgID, msg, nLen, xClientID);
+    m_pProxyServerNet_ServerModule->Transpond(nMsgID, msg, nLen);
 }
 

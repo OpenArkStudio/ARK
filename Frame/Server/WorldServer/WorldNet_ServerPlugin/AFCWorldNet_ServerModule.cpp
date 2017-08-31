@@ -640,143 +640,68 @@ int AFCWorldNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, const A
         return 0;
     }
 
-    //if(argVar.GetCount() != argGameID.GetCount())
-    //{
-    //    return 1;
-    //}
+    if(argVar.GetCount() != argGameID.GetCount())
+    {
+        return 1;
+    }
 
-    //AFMsg::MultiObjectPropertyList xPublicMsg;
-    //AFMsg::MultiObjectPropertyList xPrivateMsg;
+    AFMsg::MultiObjectPropertyList xPublicMsg;
+    AFMsg::MultiObjectPropertyList xPrivateMsg;
 
-    ////分为自己和外人
-    ////1.public发送给所有人
-    ////2.如果自己在列表中，再次发送private数据
-    //ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
-    //if(nullptr != pObject)
-    //{
-    //    AFMsg::ObjectPropertyList* pPublicData = xPublicMsg.add_multi_player_property();
-    //    AFMsg::ObjectPropertyList* pPrivateData = xPrivateMsg.add_multi_player_property();
+    //分为自己和外人
+    //1.public发送给所有人
+    //2.如果自己在列表中，再次发送private数据
+    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    if(nullptr != pObject)
+    {
+        AFMsg::ObjectPropertyList* pPublicData = xPublicMsg.add_multi_player_property();
+        AFMsg::ObjectPropertyList* pPrivateData = xPrivateMsg.add_multi_player_property();
 
-    //    *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
-    //    *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
+        *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
+        *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
 
-    //    ARK_SHARE_PTR<AFIPropertyManager> pPropertyManager = pObject->GetPropertyManager();
-    //    ARK_SHARE_PTR<AFIProperty> pPropertyInfo = pPropertyManager->First();
-    //    while(nullptr != pPropertyInfo)
-    //    {
-    //        if(pPropertyInfo->Changed())
-    //        {
-    //            switch(pPropertyInfo->GetType())
-    //            {
-    //            case DT_INT:
-    //                {
-    //                    if(pPropertyInfo->GetPublic())
-    //                    {
-    //                        AFMsg::PropertyInt* pDataInt = pPublicData->add_property_int_list();
-    //                        pDataInt->set_property_name(pPropertyInfo->GetKey());
-    //                        pDataInt->set_data(pPropertyInfo->GetInt());
-    //                    }
+        ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = pObject->GetPropertyManager();
 
-    //                    if(pPropertyInfo->GetPrivate())
-    //                    {
-    //                        AFMsg::PropertyInt* pDataInt = pPrivateData->add_property_int_list();
-    //                        pDataInt->set_property_name(pPropertyInfo->GetKey());
-    //                        pDataInt->set_data(pPropertyInfo->GetInt());
-    //                    }
-    //                }
-    //                break;
-    //            case DT_DOUBLE:
-    //                {
-    //                    if(pPropertyInfo->GetPublic())
-    //                    {
-    //                        AFMsg::PropertyDouble* pDataDouble = pPublicData->add_property_double_list();
-    //                        pDataDouble->set_property_name(pPropertyInfo->GetKey());
-    //                        pDataDouble->set_data(pPropertyInfo->GetDouble());
-    //                    }
+        for(int i = 0; i < pPropertyManager->GetPropertyCount(); i++)
+        {
+            AFProperty* pPropertyInfo = pPropertyManager->GetPropertyByIndex(i);
+            if(nullptr == pPropertyInfo)
+            {
+                continue;
+            }
+            if(pPropertyInfo->Changed())
+            {
+                if(pPropertyInfo->IsPublic())
+                {
+                    AFMsg::PropertyPBData* pDataInt = pPublicData->add_property_data_list();
+                    AFINetServerModule::DataToPBProperty(pPropertyInfo->GetValue(), pPropertyInfo->GetName().c_str(), *pDataInt);
+                }
 
-    //                    if(pPropertyInfo->GetPrivate())
-    //                    {
-    //                        AFMsg::PropertyDouble* pDataDouble = pPrivateData->add_property_double_list();
-    //                        pDataDouble->set_property_name(pPropertyInfo->GetKey());
-    //                        pDataDouble->set_data(pPropertyInfo->GetDouble());
-    //                    }
-    //                }
-    //                break;
-    //            case DT_STRING:
-    //                {
-    //                    if(pPropertyInfo->GetPublic())
-    //                    {
-    //                        AFMsg::PropertyString* pDataString = pPublicData->add_property_string_list();
-    //                        pDataString->set_property_name(pPropertyInfo->GetKey());
-    //                        pDataString->set_data(pPropertyInfo->GetString());
-    //                    }
+                if(pPropertyInfo->IsPrivate())
+                {
+                    AFMsg::PropertyPBData* pDataInt = pPrivateData->add_property_data_list();
+                    AFINetServerModule::DataToPBProperty(pPropertyInfo->GetValue(), pPropertyInfo->GetName().c_str(), *pDataInt);
+                }
+            }
 
-    //                    if(pPropertyInfo->GetPrivate())
-    //                    {
-    //                        AFMsg::PropertyString* pDataString = pPrivateData->add_property_string_list();
-    //                        pDataString->set_property_name(pPropertyInfo->GetKey());
-    //                        pDataString->set_data(pPropertyInfo->GetString());
-    //                    }
-    //                }
-    //                break;
-    //            case DT_OBJECT:
-    //                {
-    //                    if(pPropertyInfo->GetPublic())
-    //                    {
-    //                        AFMsg::PropertyObject* pDataObject = pPublicData->add_property_object_list();
-    //                        pDataObject->set_property_name(pPropertyInfo->GetKey());
-    //                        *(pDataObject->mutable_data()) = AFINetServerModule::NFToPB(pPropertyInfo->GetObject());
-    //                    }
+        }
 
-    //                    if(pPropertyInfo->GetPrivate())
-    //                    {
-    //                        AFMsg::PropertyObject* pDataObject = pPrivateData->add_property_object_list();
-    //                        pDataObject->set_property_name(pPropertyInfo->GetKey());
-    //                        *(pDataObject->mutable_data()) = AFINetServerModule::NFToPB(pPropertyInfo->GetObject());
-    //                    }
-    //                }
-    //                break;
-    //            case TDATA_POINT:
-    //                {
-    //                    if(pPropertyInfo->GetPublic())
-    //                    {
-    //                        AFMsg::PropertyPoint* pDataPoint = pPublicData->add_property_point_list();
-    //                        pDataPoint->set_property_name(pPropertyInfo->GetKey());
-    //                        *(pDataPoint->mutable_data()) = AFINetServerModule::NFToPB(pPropertyInfo->GetPoint());
-    //                    }
+        for(int i = 0; i < argVar.GetCount(); i++)
+        {
+            const AFGUID& identOther = argVar.Object(i);
+            const int64_t nGameID = argGameID.Int(i);
+            if(self == identOther)
+            {
+                //找到他所在网关的FD
+                SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPrivateMsg, identOther);
+            }
+            else
+            {
+                SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPublicMsg, identOther);
+            }
 
-    //                    if(pPropertyInfo->GetPrivate())
-    //                    {
-    //                        AFMsg::PropertyPoint* pDataPoint = pPrivateData->add_property_point_list();
-    //                        pDataPoint->set_property_name(pPropertyInfo->GetKey());
-    //                        *(pDataPoint->mutable_data()) = AFINetServerModule::NFToPB(pPropertyInfo->GetPoint());
-    //                    }
-    //                }
-    //                break;
-    //            default:
-    //                break;
-    //            }
-    //        }
-
-    //        pPropertyInfo = pPropertyManager->Next();
-    //    }
-
-    //    for(int i = 0; i < argVar.GetCount(); i++)
-    //    {
-    //        const AFGUID& identOther = argVar.Object(i);
-    //        const int64_t nGameID = argGameID.Int(i);
-    //        if(self == identOther)
-    //        {
-    //            //找到他所在网关的FD
-    //            SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPrivateMsg, identOther);
-    //        }
-    //        else
-    //        {
-    //            SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPublicMsg, identOther);
-    //        }
-
-    //    }
-    //}
+        }
+    }
 
     return 0;
 }
