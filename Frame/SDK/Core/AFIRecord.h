@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFIRecord.h                                                *
+// * @file      AFIRecord.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFIRecord                                                  *
@@ -70,6 +70,7 @@ public:
     virtual bool SetDouble(const int nRow, const int nCol, const double value) = 0;
     virtual bool SetString(const int nRow, const int nCol, const std::string& value) = 0;
     virtual bool SetObject(const int nRow, const int nCol, const AFGUID& value) = 0;
+    virtual bool SetData(const int nRow, const int nCol, const AFIData& value) = 0;
 
     virtual bool SetBool(const int nRow, const std::string& strColTag, const bool value) = 0;
     virtual bool SetInt(const int nRow, const std::string& strColTag, const int32_t value) = 0;
@@ -86,6 +87,7 @@ public:
     virtual double GetDouble(const int nRow, const int nCol) const = 0;
     virtual const std::string& GetString(const int nRow, const int nCol) const = 0;
     virtual const AFGUID& GetObject(const int nRow, const int nCol) const = 0;
+    virtual const AFIData& GetData(const int nRow, const int nCol) const = 0;
 
     virtual bool GetBool(const int nRow, const std::string& strColTag) const = 0;
     virtual int32_t GetInt(const int nRow, const std::string& strColTag) const = 0;
@@ -151,7 +153,7 @@ public:
 
     virtual const ARK_SHARE_PTR<AFIDataList> GetInitData() const = 0;
     virtual const ARK_SHARE_PTR<AFIDataList> GetTag() const = 0;
-    
+
     virtual void SetSave(const bool bSave) = 0;
     virtual void SetCache(const bool bCache) = 0;
     virtual void SetPublic(const bool bPublic) = 0;

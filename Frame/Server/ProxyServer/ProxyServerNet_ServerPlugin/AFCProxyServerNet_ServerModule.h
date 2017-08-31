@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCProxyServerNet_ServerModule.h                                                *
+// * @file      AFCProxyServerNet_ServerModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCProxyServerNet_ServerModule                                                  *
@@ -52,7 +52,7 @@ public:
 
     virtual bool AfterInit();
 
-    virtual int Transpond(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    virtual int Transpond(const int nMsgID, const char* msg, const uint32_t nLen);
 
     //进入游戏成功
     virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID);
@@ -83,6 +83,7 @@ protected:
 protected:
 
     AFMapEx<AFGUID, SessionData> mmSessionData;
+    AFMapEx<AFGUID, AFGUID> mmPlayerClientID;
     AFCConsistentHash mxConsistentHash;
 protected:
     AFIProxyServerToWorldModule* m_pProxyToWorldModule;
