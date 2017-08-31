@@ -75,6 +75,8 @@ public:
     //get memory usage
     virtual size_t GetMemUsage() const = 0;
 
+    virtual bool TypeEx(const int nType, ...) const = 0;
+
     //operator <<
     inline AFIDataList& operator<<(bool value)
     {

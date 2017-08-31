@@ -635,5 +635,7 @@ private:
 //special
 using AFCData = AFBaseData<4>;
 
+const static AFCData NULL_AFCData = AFCData();
+
 }
 

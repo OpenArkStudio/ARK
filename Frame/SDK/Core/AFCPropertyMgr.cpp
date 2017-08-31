@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCPropertyMgr.cpp                                              *
+// * @file      AFCPropertyMgr.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCPropertyMgr                                                  *
@@ -307,7 +307,7 @@ bool AFCPropertyMgr::SetPropertyString(const char* name, const std::string& valu
 
     mxPropertys[index]->prop_value.SetString(value.c_str());
 
-    if(oldValue == value)
+    if(oldValue != value)
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -331,7 +331,7 @@ bool AFCPropertyMgr::SetPropertyObject(const char* name, const AFGUID& value)
 
     mxPropertys[index]->prop_value.SetObject(value);
 
-    if(oldValue == value)
+    if(oldValue != value)
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
