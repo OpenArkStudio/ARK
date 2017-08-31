@@ -90,7 +90,58 @@ public:
         mnBufferUsed = 0;
     }
 
+    AFBaseDataList(const char*  strSour, int nLengh, char strSplit)
+    {
+        assert(DATA_SIZE > 0);
+        assert(BUFFER_SIZE > 0);
+
+        mpData = mDataStack;
+        mnDataSize = DATA_SIZE;
+        mnDataUsed = 0;
+
+        mpBuffer = mBufferStack;
+        mnBufferSize = BUFFER_SIZE;
+        mnBufferUsed = 0;
+
+        int nBegin = 0;
+        int nEnd = 0;
+        for(int i = 0; i < nLengh; i++)
+        {
+            if(strSour[i] == strSplit)
+            {
+                nEnd = i;
+                AddString(&strSour[nBegin], nEnd - nBegin);
+
+                if(i + 1 < nLengh)
+                {
+                    nBegin = i + 1;
+                }
+            }
+        }
+
+        if(nEnd < nLengh)
+        {
+            nEnd = nLengh;
+            AddString(&strSour[nBegin], nEnd - nBegin);
+        }
+    }
+
     AFBaseDataList(const self_t& src)
+    {
+        assert(DATA_SIZE > 0);
+        assert(BUFFER_SIZE > 0);
+
+        mpData = mDataStack;
+        mnDataSize = DATA_SIZE;
+        mnDataUsed = 0;
+
+        mpBuffer = mBufferStack;
+        mnBufferSize = BUFFER_SIZE;
+        mnBufferUsed = 0;
+        InnerAppend(src, 0, src.GetCount());
+    }
+
+    AFBaseDataList(const AFIDataList& src)
     {
         assert(DATA_SIZE > 0);
         assert(BUFFER_SIZE > 0);
@@ -194,6 +245,38 @@ public:
         return mpData[index].nType;
     }
 
+    virtual bool TypeEx(const int nType, ...) const
+    {
+        bool bRet = true;
+
+        if(DT_UNKNOWN == nType)
+        {
+            bRet = false;
+            return bRet;
+        }
+
+        AF_DATA_TYPE pareType = (AF_DATA_TYPE)nType;
+        va_list arg_ptr;
+        va_start(arg_ptr, nType);
+        int index = 0;
+
+        while(pareType != DT_UNKNOWN)
+        {
+            AF_DATA_TYPE varType = (AF_DATA_TYPE)GetType(index);
+            if(varType != pareType)
+            {
+                bRet = false;
+                break;
+            }
+
+            ++index;
+            pareType = (AF_DATA_TYPE)va_arg(arg_ptr, int);
+        }
+
+        va_end(arg_ptr);
+
+        return bRet;
+    }
     //add data
     virtual bool AddBool(bool value)
     {
@@ -243,6 +326,32 @@ public:
         p->mnstrValue = mnBufferUsed;
 
         const size_t value_size = strlen(value) + 1;
+        char* data = AddBuffer(value_size);
+        memcpy(data, value, value_size);
+
+        return true;
+    }
+
+    virtual bool AddString(const char* value, const int nLenght)
+    {
+        if(nLenght <= 0)
+        {
+            return false;
+        }
+
+        assert(NULL != value);
+        dynamic_data_t* p = AddDynamicData();
+        p->nType = DT_STRING;
+        p->mnstrValue = mnBufferUsed;
+
+        //need only need  sub string
+        size_t value_size = strlen(value);
+        if(value_size > nLenght)
+        {
+            value_size = nLenght;
+        }
+
+        value_size = + 1;
         char* data = AddBuffer(value_size);
         memcpy(data, value, value_size);
 

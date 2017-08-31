@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCSceneProcessModule.cpp                                              *
+// * @file      AFCSceneProcessModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCSceneProcessModule                                                  *
@@ -118,89 +118,91 @@ int AFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
 
 int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEventID, const AFIDataList& var)
 {
-    //if(var.GetCount() != 4
-    //        || !var.TypeEx(AF_DATA_TYPE::DT_OBJECT, AF_DATA_TYPE::DT_INT,
-    //                       AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::TDATA_UNKNOWN))
-    //{
-    //    return 0;
-    //}
+    if(var.GetCount() != 4
+            || !var.TypeEx(AF_DATA_TYPE::DT_OBJECT, AF_DATA_TYPE::DT_INT,
+                           AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_UNKNOWN))
+    {
+        return 0;
+    }
 
-    //const AFGUID ident = var.Object(0);
-    //const int nType = var.Int(1);
-    //const int nTargetScene = var.Int(2);
-    //const int nTargetGroupID = var.Int(3);
-    //const int nNowSceneID = m_pKernelModule->GetPropertyInt(self, NFrame::Player::SceneID());
-    //const int nNowGroupID = m_pKernelModule->GetPropertyInt(self, NFrame::Player::GroupID());
+    const AFGUID ident = var.Object(0);
+    const int nType = var.Int(1);
+    const int nTargetScene = var.Int(2);
+    const int nTargetGroupID = var.Int(3);
+    const int nNowSceneID = m_pKernelModule->GetPropertyInt(self, NFrame::Player::SceneID());
+    const int nNowGroupID = m_pKernelModule->GetPropertyInt(self, NFrame::Player::GroupID());
 
-    //if(self != ident)
-    //{
-    //    m_pLogModule->LogError(ident, "you are not you self, but you want to entry this scene", nTargetScene);
-    //    return 1;
-    //}
+    if(self != ident)
+    {
+        m_pLogModule->LogError(ident, "you are not you self, but you want to entry this scene", nTargetScene);
+        return 1;
+    }
 
-    //if(nNowSceneID == nTargetScene
-    //        && nTargetGroupID == nNowGroupID)
-    //{
-    //    //本来就是这个层这个场景就别切换了
-    //    m_pLogModule->LogInfo(ident, "in same scene and group but it not a clone scene", nTargetScene);
+    if(nNowSceneID == nTargetScene
+            && nTargetGroupID == nNowGroupID)
+    {
+        //本来就是这个层这个场景就别切换了
+        m_pLogModule->LogInfo(ident, "in same scene and group but it not a clone scene", nTargetScene);
 
-    //    return 1;
-    //}
+        return 1;
+    }
 
-    ////每个玩家，一个副本
-    //int64_t nNewGroupID = 0;
-    //if(nTargetGroupID <= 0)
-    //{
-    //    nNewGroupID = CreateCloneScene(nTargetScene);
-    //}
-    //else
-    //{
-    //    nNewGroupID = nTargetGroupID;
-    //}
+    //每个玩家，一个副本
+    int64_t nNewGroupID = 0;
+    if(nTargetGroupID <= 0)
+    {
+        nNewGroupID = CreateCloneScene(nTargetScene);
+    }
+    else
+    {
+        nNewGroupID = nTargetGroupID;
+    }
 
-    //if(nNewGroupID <= 0)
-    //{
-    //    m_pLogModule->LogInfo(ident, "CreateCloneScene failed", nTargetScene);
-    //    return 0;
-    //}
+    if(nNewGroupID <= 0)
+    {
+        m_pLogModule->LogInfo(ident, "CreateCloneScene failed", nTargetScene);
+        return 0;
+    }
 
-    ////得到坐标
-    //Point3D xRelivePos;
-    //const std::string strSceneID = ARK_LEXICAL_CAST<std::string>(nTargetScene);
-    //const std::string& strRelivePosList = m_pElementModule->GetPropertyString(strSceneID, NFrame::Scene::RelivePos());
+    //得到坐标
+    Point3D xRelivePos;
+    const std::string strSceneID = ARK_LEXICAL_CAST<std::string>(nTargetScene);
+    const std::string& strRelivePosList = m_pElementModule->GetPropertyString(strSceneID, NFrame::Scene::RelivePos());
 
-    //AFCDataList valueRelivePosList(strRelivePosList.c_str(), ";");
-    //if(valueRelivePosList.GetCount() >= 1)
-    //{
-    //    xRelivePos.FromString(valueRelivePosList.String(0));
-    //}
+    AFCDataList valueRelivePosList(strRelivePosList.c_str(), strRelivePosList.length(), ';');
+    if(valueRelivePosList.GetCount() >= 1)
+    {
+        xRelivePos.FromString(valueRelivePosList.String(0));
+    }
 
-    //AFCDataList xSceneResult(var);
-    //xSceneResult.Add(xRelivePos);
+    AFCDataList xSceneResult(var);
+    xSceneResult.AddFloat(xRelivePos.x);
+    xSceneResult.AddFloat(xRelivePos.y);
+    xSceneResult.AddFloat(xRelivePos.z);
 
-    //m_pKernelModule->DoEvent(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, xSceneResult);
+    m_pKernelModule->DoEvent(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, xSceneResult);
 
-    //if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos.x, xRelivePos.y, xRelivePos.z, 0.0f, var))
-    //{
-    //    m_pLogModule->LogInfo(ident, "SwitchScene failed", nTargetScene);
+    if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos.x, xRelivePos.y, xRelivePos.z, 0.0f, var))
+    {
+        m_pLogModule->LogInfo(ident, "SwitchScene failed", nTargetScene);
 
-    //    return 0;
-    //}
+        return 0;
+    }
 
-    //xSceneResult.Add(nNewGroupID);
-    //m_pKernelModule->DoEvent(self, AFED_ON_OBJECT_ENTER_SCENE_RESULT, xSceneResult);
+    xSceneResult.AddInt(nNewGroupID);
+    m_pKernelModule->DoEvent(self, AFED_ON_OBJECT_ENTER_SCENE_RESULT, xSceneResult);
 
     return 0;
 }
 
 int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
-    /* if(1 != var.GetCount()
-             || !var.TypeEx(AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::TDATA_UNKNOWN))
-     {
-         return -1;
-     }
-    */
+    if(1 != var.GetCount()
+            || !var.TypeEx(AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_UNKNOWN))
+    {
+        return -1;
+    }
+
     int32_t nOldGroupID = var.Int(0);
     if(nOldGroupID > 0)
     {
