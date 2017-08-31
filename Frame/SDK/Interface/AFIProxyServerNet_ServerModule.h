@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFIProxyServerNet_ServerModule.h                                                *
+// * @file      AFIProxyServerNet_ServerModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFIProxyServerNet_ServerModule                                                  *
@@ -34,7 +34,7 @@ class AFIProxyServerNet_ServerModule
 {
 
 public:
-    virtual int Transpond(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID) = 0;
+    virtual int Transpond(const int nMsgID, const char* msg, const uint32_t nLen) = 0;
     virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID) = 0;
 };
 
