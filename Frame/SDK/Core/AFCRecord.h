@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCRecord.h                                                *
+// * @file      AFCRecord.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCRecord                                                  *
@@ -54,6 +54,7 @@ public:
     virtual bool SetDouble(const int nRow, const int nCol, const double value);
     virtual bool SetString(const int nRow, const int nCol, const std::string& value);
     virtual bool SetObject(const int nRow, const int nCol, const AFGUID& value);
+    virtual bool SetData(const int nRow, const int nCol, const AFIData& value);
 
     virtual bool SetBool(const int nRow, const std::string& strColTag, const bool value);
     virtual bool SetInt(const int nRow, const std::string& strColTag, const int32_t value);
@@ -70,6 +71,7 @@ public:
     virtual double GetDouble(const int nRow, const int nCol) const;
     virtual const std::string& GetString(const int nRow, const int nCol) const;
     virtual const AFGUID& GetObject(const int nRow, const int nCol) const;
+    virtual const AFIData& GetData(const int nRow, const int nCol) const;
 
     virtual bool GetBool(const int nRow, const std::string& strColTag) const;
     virtual int32_t GetInt(const int nRow, const std::string& strColTag) const;

@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCRecord.cpp                                              *
+// * @file      AFCRecord.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCRecord                                                  *
@@ -538,6 +538,11 @@ bool AFCRecord::SetObject(const int nRow, const std::string& strColTag, const AF
     return SetObject(nRow, nCol, value);
 }
 
+bool AFCRecord::SetData(const int nRow, const int nCol, const AFIData& value)
+{
+    return true;
+}
+
 //bool AFCRecord::SetPoint(const int nRow, const int nCol, const Point3D& value)
 //{
 //    if(!ValidPos(nRow, nCol))
@@ -837,6 +842,11 @@ const AFGUID& AFCRecord::GetObject(const int nRow, const std::string& strColTag)
 {
     int nCol = GetCol(strColTag);
     return GetObject(nRow, nCol);
+}
+
+const AFIData& AFCRecord::GetData(const int nRow, const int nCol) const
+{
+    return NULL_AFCData;
 }
 
 int AFCRecord::FindRowByColValue(const int nCol, const AFIDataList& var, AFIDataList& varResult)
