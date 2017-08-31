@@ -305,7 +305,7 @@ void AFCProxyServerNet_ServerModule::OnReqServerListProcess(const int nMsgID, co
     }
 }
 
-int AFCProxyServerNet_ServerModule::Transpond(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+int AFCProxyServerNet_ServerModule::Transpond(const int nMsgID, const char* msg, const uint32_t nLen)
 {
     AFMsg::MsgBase xMsg;
     if(!xMsg.ParseFromArray(msg, nLen))
@@ -322,38 +322,21 @@ int AFCProxyServerNet_ServerModule::Transpond(const int nMsgID, const char* msg,
         ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(AFINetServerModule::PBToNF(xMsg.player_client_list(i)));
         if(pSessionData)
         {
-            if(xMsg.has_hash_ident())
-            {
-                ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-                if(pSessionData)
-                {
-                    pSessionData->mnHashIdentID = AFINetServerModule::PBToNF(xMsg.hash_ident());
-                }
-            }
-
             m_pNetModule->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, pSessionData->mnClientID);
         }
     }
 
-    //send message to one player
-    if(xMsg.player_client_list_size() <= 0)
+    //playerid==ClientID;
+    ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(AFINetServerModule::PBToNF(xMsg.player_id()));
+    if(xMsg.has_hash_ident() && pSessionData)
     {
-        //playerid==ClientID;
+        pSessionData->mnHashIdentID = AFINetServerModule::PBToNF(xMsg.hash_ident());
+    }
 
-        ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(AFINetServerModule::PBToNF(xMsg.player_id()));
-        if(pSessionData)
-        {
-            if(xMsg.has_hash_ident())
-            {
-                ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-                if(pSessionData)
-                {
-                    pSessionData->mnHashIdentID = AFINetServerModule::PBToNF(xMsg.hash_ident());
-                }
-            }
-
-            m_pNetModule->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, pSessionData->mnClientID);
-        }
+    //send message to one player
+    if(xMsg.player_client_list_size() <= 0 && pSessionData)
+    {
+        m_pNetModule->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, pSessionData->mnClientID);
     }
 
     return true;
