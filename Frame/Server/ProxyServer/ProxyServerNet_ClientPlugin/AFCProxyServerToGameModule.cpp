@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCProxyServerToGameModule.cpp                                              *
+// * @file      AFCProxyServerToGameModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCProxyServerToGameModule                                                  *
@@ -184,6 +184,6 @@ void AFCProxyServerToGameModule::LogServerInfo(const std::string& strServerInfo)
 
 void AFCProxyServerToGameModule::Transpond(const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    m_pProxyServerNet_ServerModule->Transpond(nMsgID, msg, nLen, xClientID);
+    m_pProxyServerNet_ServerModule->Transpond(nMsgID, msg, nLen);
 }
 
