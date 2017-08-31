@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCKernelModule.cpp                                              *
+// * @file      AFCKernelModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCKernelModule                                                  *
@@ -187,7 +187,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         for(size_t i = 0; i < staticPropertyCount; ++i)
         {
             AFProperty* pStaticConfigProperty = pStaticClassPropertyManager->GetPropertyByIndex(i);
-            if(NULL != pStaticConfigProperty)
+            if(NULL == pStaticConfigProperty)
             {
                 continue;
             }
@@ -1174,7 +1174,7 @@ int AFCKernelModule::RequestGroupScene(const int nSceneID)
     }
 
     int nNewGroupID = pSceneInfo->NewGroupID();
-    if(NULL == pSceneInfo->GetElement(nNewGroupID))
+    if(NULL != pSceneInfo->GetElement(nNewGroupID))
     {
         return -1;
     }
