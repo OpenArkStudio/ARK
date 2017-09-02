@@ -36,9 +36,6 @@
     <ClInclude Include="AFIObject.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFIProperty.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="AFIRecord.h">
       <Filter>Core</Filter>
     </ClInclude>
