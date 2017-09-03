@@ -106,13 +106,71 @@ int AFRecord::GetColType(int col) const
 
 bool AFRecord::AddRow(size_t row)
 {
-    //TODO
+    size_t col_num = GetColCount();
+    RowData* row_data = new RowData[col_num];
+    if (row >= GetRowCount())
+    {
+        mxRowDatas.push_back(row_data);
+    }
+    else
+    {
+        mxRowDatas.insert(row, row_data);
+    }
+
     return true;
 }
 
 bool AFRecord::AddRow(size_t row, const AFIDataList& data)
 {
-    //TODO
+    size_t col_num = GetColCount();
+    if (data.GetCount() != col_num)
+    {
+        ARK_ASSERT(0, "data size is not equal with col_num, please check your arg.", __FILE__, __FUNCTION__);
+        return false;
+    }
+
+    RowData* row_data = new RowData[col_num];
+    for (int i = 0; i < data.GetCount(); ++i)
+    {
+        int type = GetColType(i);
+        switch (type)
+        {
+        case DT_BOOLEAN:
+            row_data[i].SetBool(data.Bool(i));
+            break;
+        case DT_INT:
+            row_data[i].SetInt(data.Int(i));
+            break;
+        case DT_INT64:
+            row_data[i].SetInt64(data.Int64(i));
+            break;
+        case DT_FLOAT:
+            row_data[i].SetFloat(data.Float(i));
+            break;
+        case DT_DOUBLE:
+            row_data[i].SetDouble(data.Double(i));
+            break;
+        case DT_STRING:
+            row_data[i].SetString(data.String(i));
+            break;
+        case DT_OBJECT:
+            row_data[i].SetObject(data.Object(i));
+            break;
+        default:
+            return false;
+            break;
+        }
+    }
+
+    if (row >= GetRowCount())
+    {
+        mxRowDatas.push_back(row_data);
+    }
+    else
+    {
+        mxRowDatas.insert(row, row_data);
+    }
+
     return true;
 }
 
