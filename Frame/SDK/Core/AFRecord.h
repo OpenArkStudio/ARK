@@ -25,6 +25,7 @@
 #include "SDK/Base/AFCoreDef.hpp"
 #include "SDK/Base/AFString.hpp"
 #include "SDK/Base/AFCData.h"
+#include "SDK/Base/AFBitValue.hpp"
 
 using namespace ArkFrame;
 
@@ -51,7 +52,7 @@ public:
 
     void SetColCount(size_t value);
     int GetColCount() const;
-    
+
     bool SetColType(size_t index, int type);
     int GetColType(int col) const;
 
@@ -61,7 +62,27 @@ public:
     bool DeleteRow(size_t row);
 
     void Clear();
-    
+
+    bool IsPublic() const
+    {
+        return BitValue<int8_t>::HaveBitValue(feature, RF_PUBLIC);
+    }
+
+    bool IsPrivate() const
+    {
+        return BitValue<int8_t>::HaveBitValue(feature, RF_PRIVATE);
+    }
+
+    bool IsRealTime() const
+    {
+        return BitValue<int8_t>::HaveBitValue(feature, RF_REAL_TIME);
+    }
+
+    bool IsSave() const
+    {
+        return BitValue<int8_t>::HaveBitValue(feature, RF_SAVE);
+    }
+
     bool SetValue(size_t row, size_t col, const AFIData& value);
     bool SetBool(size_t row, size_t col, const bool value);
     bool SetInt(size_t row, size_t col, const int value);
@@ -99,12 +120,11 @@ private:
 
 protected:
 
-    RecordName mstrName;                            //record name
-    int8_t feature;                                 //record feature
-    ArraryPod<int, 1, CoreAlloc> mxColTypes;        //record type array
-    ArraryPod<RowData*, 1, CoreAlloc> mxRowDatas;   //record data array
+    RecordName mstrName;                            //Record name
+    int8_t feature;                                 //Record feature
+    ArraryPod<int, 1, CoreAlloc> mxColTypes;        //Record column type array
+    ArraryPod<RowData*, 1, CoreAlloc> mxRowDatas;   //Record data array
 
-    //will be added
-    //record cb
+    //Record callbacks will be added
 };
 
