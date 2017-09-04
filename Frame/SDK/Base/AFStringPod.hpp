@@ -398,7 +398,7 @@ public:
 
     bool exists(const TYPE* name) const
     {
-        return (NULL != FindNode(name))
+        return (NULL != FindNode(name));
     }
 
     iterator find(const TYPE* name)
