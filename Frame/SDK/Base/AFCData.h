@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "SDK/Base/AFCoreDef.hpp"
 #include "SDK/Base/AFIData.h"
 #include "SDK/Base/AFPlatform.hpp"
 
@@ -633,7 +634,7 @@ private:
 };
 
 //special
-using AFCData = AFBaseData<4>;
+using AFCData = AFBaseData<4, CoreAlloc>;
 
 const static AFCData NULL_AFCData = AFCData();
 
