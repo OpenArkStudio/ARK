@@ -103,14 +103,15 @@
     <ClInclude Include="AFCPropertyMgr.h" />
     <ClInclude Include="AFCRecord.h" />
     <ClInclude Include="AFCRecordManager.h" />
+    <ClInclude Include="AFCRecordMgr.h" />
     <ClInclude Include="AFIComponent.h" />
     <ClInclude Include="AFIEventManager.h" />
     <ClInclude Include="AFIHeartBeatManager.h" />
     <ClInclude Include="AFIObject.h" />
-    <ClInclude Include="AFIProperty.h" />
     <ClInclude Include="AFIPropertyMgr.h" />
     <ClInclude Include="AFIRecord.h" />
     <ClInclude Include="AFIRecordManager.h" />
+    <ClInclude Include="AFIRecordMgr.h" />
     <ClInclude Include="AFRecord.h" />
   </ItemGroup>
   <ItemGroup>
@@ -120,6 +121,7 @@
     <ClCompile Include="AFCPropertyMgr.cpp" />
     <ClCompile Include="AFCRecord.cpp" />
     <ClCompile Include="AFCRecordManager.cpp" />
+    <ClCompile Include="AFCRecordMgr.cpp" />
     <ClCompile Include="AFRecord.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
