@@ -48,6 +48,12 @@
     <ClInclude Include="AFCPropertyMgr.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="AFIRecordMgr.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCRecordMgr.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFRecord.cpp">
@@ -69,6 +75,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFCEventManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCRecordMgr.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
