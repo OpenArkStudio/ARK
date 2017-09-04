@@ -278,7 +278,7 @@ public:
 
     void insert(size_t index, const TYPE& data)
     {
-        Assert(index <= mnSize);
+        assert(index <= mnSize);
 
         resize(mnSize + 1);
         TYPE* p = mpData + index;
@@ -288,7 +288,7 @@ public:
 
     void remove(size_t index)
     {
-        Assert(index <= mnSize);
+        assert(index <= mnSize);
 
         TYPE* p = mpData + index;
         memmove(p, p + 1, (mnSize - index - 1) * sizeof(TYPE));
@@ -298,7 +298,7 @@ public:
     //从start开始移除count个元素
     void remove_some(size_t start, size_t count)
     {
-        Assert((start <= mnSize) && ((start + cout) <= mnSize));
+        assert((start <= mnSize) && ((start + cout) <= mnSize));
         TYPE* p = mpData + start;
         memmove(p, p + count, (mnSize - index - count) * sizeof(TYPE));
         mnSize -= count;
@@ -326,4 +326,3 @@ private:
     size_t mnCapacity; //容量
     size_t mnSize; //数量
 };
-
