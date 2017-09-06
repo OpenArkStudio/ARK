@@ -4,8 +4,8 @@
 ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework written in C++，make it easier to create game server. Greatly inspired by OGRE and Bigworld. It is a fork of the NFrame project.
 
 ## contact
-QQ Group:540961187
-mail:arkgametech@163.com
+- QQ Group:540961187
+- mail:arkgametech@163.com
 
 ## Features
 - General abstract data system
