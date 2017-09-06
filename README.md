@@ -5,8 +5,8 @@ ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework writ
 ##### Wanna get the newest features? Please switch to the develop branch.
 
 ## contact
-QQ Group:540961187
-mail:arkgametech@163.com
+- QQ Group:540961187
+- mail:arkgametech@163.com
 
 ## Features
 - General abstract data system
