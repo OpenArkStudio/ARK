@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerWorkingDirectory>E:\NF\ArkGameFrame\Bin\Server\Debug\Tutorial1</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\Server\Debug\Tutorial1</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>PluginLoader_d.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommand>$(SolutionDir)..\Bin\Server\Debug\Tutorial1\PluginLoader_d.exe</LocalDebuggerCommand>
   </PropertyGroup>
 </Project>
