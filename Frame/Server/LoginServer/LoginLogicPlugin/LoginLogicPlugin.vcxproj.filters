@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="AFCLoginLogicModule.cpp" />
+    <ClCompile Include="AFLoginLogicPlugin.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFCLoginLogicModule.h" />
+    <ClInclude Include="AFLoginLogicPlugin.h" />
+  </ItemGroup>
+</Project>

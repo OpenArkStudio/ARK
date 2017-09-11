@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="NFWorldNet_ClientPlugin" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug x64">
+				<Option output="$(SolutionDir)../Bin/Comm/Debug/NFWorldNet_ClientPlugin_d" prefix_auto="0" extension_auto="1" />
+				<Option object_output="$(SolutionDir)../Temp/NFWorldNet_ClientPlugin/Debug/.objs" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-fPIC" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DELPP_NO_DEFAULT_LOG_FILE" />
+					<Add directory="$(SolutionDir)" />
+					<Add directory="$(SolutionDir)../Dep/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/include/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/compat/" />
+					<Add directory="$(SolutionDir)../Dep/protobuf/src/" />
+					<Add directory="$(SolutionDir)../Dep/Theron/Include/" />
+				</Compiler>
+				<Linker>
+					<Add library="libNFMessageDefine_d" />
+					<Add library="$(SolutionDir)../Bin/Comm/Debug/NFNet_d.a" />
+					<Add library="$(SolutionDir)../Dep/lib/Debug/libevent.a" />
+					<Add library="$(SolutionDir)../Dep/lib/Debug/libevent_core.a" />
+					<Add library="libprotobuf" />
+					<Add directory="$(SolutionDir)../Bin/Comm/Debug/" />
+					<Add directory="$(SolutionDir)../Dep/lib/Debug/" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cp -f $(SolutionDir)../Bin/Comm/Debug/NFWorldNet_ClientPlugin_d.so $(SolutionDir)../Bin/Server/Debug/NFWorldServer/" />
+					<Mode after="always" />
+				</ExtraCommands>
+				<Environment>
+					<Variable name="SolutionDir" value="../../" />
+				</Environment>
+			</Target>
+			<Target title="Release x64">
+				<Option output="$(SolutionDir)../Bin/Comm/Release/NFWorldNet_ClientPlugin" prefix_auto="0" extension_auto="1" />
+				<Option object_output="$(SolutionDir)../Temp/NFWorldNet_ClientPlugin/Release/.objs" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-fPIC" />
+					<Add option="-D_USRDLL" />
+					<Add option="-DELPP_NO_DEFAULT_LOG_FILE" />
+					<Add directory="$(SolutionDir)" />
+					<Add directory="$(SolutionDir)../Dep/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/include/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/compat/" />
+					<Add directory="$(SolutionDir)../Dep/protobuf/src/" />
+					<Add directory="$(SolutionDir)../Dep/Theron/Include/" />
+				</Compiler>
+				<Linker>
+					<Add library="libNFMessageDefine" />
+					<Add library="$(SolutionDir)../Bin/Comm/Release/NFNet.a" />
+					<Add library="$(SolutionDir)../Dep/lib/Release/libevent.a" />
+					<Add library="$(SolutionDir)../Dep/lib/Release/libevent_core.a" />
+					<Add library="libprotobuf" />
+					<Add directory="$(SolutionDir)../Bin/Comm/Release/" />
+					<Add directory="$(SolutionDir)../Dep/lib/Release/" />
+				</Linker>
+				<ExtraCommands>
+					<Add after="cp -f $(SolutionDir)../Bin/Comm/Release/NFWorldNet_ClientPlugin.so $(SolutionDir)../Bin/Server/Release/NFWorldServer/" />
+					<Mode after="always" />
+				</ExtraCommands>
+				<Environment>
+					<Variable name="SolutionDir" value="../../" />
+				</Environment>
+			</Target>
+		</Build>
+		<Unit filename="NFCWorldToMasterModule.cpp" />
+		<Unit filename="NFCWorldToMasterModule.h" />
+		<Unit filename="NFWorldNet_ClientPlugin.cpp" />
+		<Unit filename="NFWorldNet_ClientPlugin.h" />
+		<Unit filename="dllmain.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

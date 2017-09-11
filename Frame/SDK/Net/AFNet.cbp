@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="NFNet" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug x64">
+				<Option output="$(SolutionDir)../Bin/Comm/Debug/NFNet_d" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="$(SolutionDir)../Temp/NFNet/Debug/.objs" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+					<Add option="-fPIC" />
+					<Add option="-D_DEBUG" />
+					<Add directory="$(SolutionDir)" />
+					<Add directory="$(SolutionDir)../Dep/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/include/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/compat/" />
+				</Compiler>
+				<Environment>
+					<Variable name="SolutionDir" value="../../" />
+				</Environment>
+			</Target>
+			<Target title="Release x64">
+				<Option output="$(SolutionDir)../Bin/Comm/Release/NFNet" prefix_auto="0" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="$(SolutionDir)../Temp/NFNet/Release/.objs" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-fPIC" />
+					<Add option="-DNDEBUG" />
+					<Add directory="$(SolutionDir)" />
+					<Add directory="$(SolutionDir)../Dep/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/include/" />
+					<Add directory="$(SolutionDir)../Dep/libevent/compat/" />
+				</Compiler>
+				<Environment>
+					<Variable name="SolutionDir" value="../../" />
+				</Environment>
+			</Target>
+		</Build>
+		<Unit filename="NFCNet.cpp" />
+		<Unit filename="NFCNet.h" />
+		<Unit filename="NFINet.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
