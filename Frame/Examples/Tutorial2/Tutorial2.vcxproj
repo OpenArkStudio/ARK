@@ -110,11 +110,11 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="HelloWorld2.cpp" />
-    <ClCompile Include="Tutorial2.cpp" />
+    <ClCompile Include="Tutorial2Plugin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HelloWorld2.h" />
-    <ClInclude Include="Tutorial2.h" />
+    <ClInclude Include="Tutorial2Plugin.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
