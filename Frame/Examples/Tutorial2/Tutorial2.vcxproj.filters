@@ -2,11 +2,11 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="Tutorial2.cpp" />
     <ClCompile Include="HelloWorld2.cpp" />
+    <ClCompile Include="Tutorial2Plugin.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Tutorial2.h" />
     <ClInclude Include="HelloWorld2.h" />
+    <ClInclude Include="Tutorial2Plugin.h" />
   </ItemGroup>
 </Project>
