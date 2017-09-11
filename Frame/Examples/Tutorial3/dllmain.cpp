@@ -1,22 +1,42 @@
-#include "NFComm/NFPluginModule/NFPlatform.h"
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
 
-#ifdef NF_DEBUG_MODE
+#include "SDK/Base/AFPlatform.hpp"
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
-#pragma comment( lib, "NFCore_d.lib" )
+#if ARK_PLATFORM == PLATFORM_WIN
 
-#elif NF_PLATFORM == NF_PLATFORM_LINUX || NF_PLATFORM == NF_PLATFORM_ANDROID
-#pragma comment( lib, "NFCore_d.a" )
-#elif NF_PLATFORM == NF_PLATFORM_APPLE || NF_PLATFORM == NF_PLATFORM_APPLE_IOS
-#endif
+#pragma comment(lib, "Dbghelp.lib")
+#pragma comment(lib, "ws2_32")
+
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+
+#pragma comment(lib, "AFCore_d.lib")
+#pragma comment(lib, "AFProto_d.lib")
+#pragma comment(lib, "libprotobuf_d.lib")
 
 #else
 
-#if NF_PLATFORM == NF_PLATFORM_WIN
-#pragma comment( lib, "NFCore.lib" )
-#elif NF_PLATFORM == NF_PLATFORM_LINUX || NF_PLATFORM == NF_PLATFORM_ANDROID
-#pragma comment( lib, "NFCore.a" )
-#elif NF_PLATFORM == NF_PLATFORM_APPLE || NF_PLATFORM == NF_PLATFORM_APPLE_IOS
+#pragma comment(lib, "AFCore.lib")
+#pragma comment(lib, "AFProto.lib")
+#pragma comment(lib, "libprotobuf.lib")
+
 #endif
 
 #endif
