@@ -1,7 +1,12 @@
 ![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/ArkGameFrame.png)
 
+##### Copyright © [https://github.com/ArkGame](https://github.com/ArkGame "Ark Game")
+
 ## ArkGameFrame
 ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework written in C++，make it easier to create game server. Greatly inspired by OGRE and Bigworld. It is a fork of the NFrame project.
+##### Wanna get the newest features? Please switch to the develop branch.
+
+**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ArkGameFrame/blob/master/CONTRIBUTING.md)</font>**
 
 ## contact
 - QQ Group:540961187
@@ -53,6 +58,7 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 - redis-cpp-client 
 - Theron 6.00.01
 - curl 7.37.1
+- evpp 0.7.0
 
 ## Supported Compilers
 
@@ -80,15 +86,6 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 6. Run ```bash ./GenerateConfigXML.sh``` to generate configuration files
 6. Run the binary file by ```Bin/Server/Debug/rund.sh```
 
-> ## :exclamation: Fixing some problem
-> ### CMake
-> 1. Git pull all source
-> 2. Install cmake[>= 2.8] please choose options for installing: **Add CMake to the system PATH for all users and restart your computer**
-> 3. Install VS2015 or gcc[>= 4.8]
-> 4. Run **install.bat** or **install.sh** to build NF
-> 5. Run the binary file by **_Out/Server/Debug/run.bat** or **_Out/Server/Debug/rund_cmake.sh**
-> 6. (Optional)For Release Version, after above, run **BuildNF.VS2015.Release.X64.bat** or **BuildNF.CMake.Release.sh**, then run the binary file by **_Out/Server/Release/run.bat** or **_Out/Server/Release/run_cmake.sh**
-
 ## Documents
 [User Manual](https://arkgame.github.io/ArkGameFrame/)
 
@@ -96,8 +93,8 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 
 [Mandarin](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md)
 
-## Samples
-Please see ```Frame/Samples```.
+## Examples
+Please see ```Frame/Examples```.
 
 ## License
 The ArkGameFrame project is currently available under the [Apache License](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE).
@@ -109,3 +106,16 @@ Still working on it, maybe use Akka.net or Orleans
 
 ----------
 Our team has always specialized in the agile development and try to help different teams to develop game project quickly and easily. After years of development, we create this frame which is a fast, scalable, distributed game server framework written by C++, include the actor library, network library, can be used as a real-time multiplayer game engine. We are still improving it.
+
+----------
+
+#### Plan
+- [ ] 1.优化数据管理性能
+- [x] 2.优化网络性能
+- [ ] 3.优化heartbeat(Timer)性能，降低精度为秒(现在是毫秒)
+- [x] 4.增加Utility插件(放置一些常用功能)
+- [ ] 5.增加其他中间件(coroutine, mongoDB)
+- [ ] 6.增加通用的proxy-server(参考tconnd, tbus)
+- [ ] 7.完整的带业务功能的demo
+- [ ] 8.优化数据同步的流量,减小属性同步的体积(去掉```PropertyName```和```RecordName```类似的string同步)
+- [ ] 9.拓展record的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，record现有的结构是特定的，不方便做扩展
