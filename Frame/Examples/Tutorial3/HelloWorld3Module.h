@@ -1,23 +1,39 @@
-// -------------------------------------------------------------------------
-//    @FileName			:    HelloWorld3.h
-//    @Author           :    Ark Game Tech
-//    @Date             :    2014-05-14 08:51
-//    @Module           :   HelloWorld3
-//
-// -------------------------------------------------------------------------
+/*****************************************************************************
+// * This source file is part of ArkGameFrame                                *
+// * For the latest info, see https://github.com/ArkGame                     *
+// *                                                                         *
+// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
+// *                                                                         *
+// * Licensed under the Apache License, Version 2.0 (the "License");         *
+// * you may not use this file except in compliance with the License.        *
+// * You may obtain a copy of the License at                                 *
+// *                                                                         *
+// *     http://www.apache.org/licenses/LICENSE-2.0                          *
+// *                                                                         *
+// * Unless required by applicable law or agreed to in writing, software     *
+// * distributed under the License is distributed on an "AS IS" BASIS,       *
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
+// * See the License for the specific language governing permissions and     *
+// * limitations under the License.                                          *
+// *                                                                         *
+// *                                                                         *
+// * @file  	HelloWorld3Module.h                                                *
+// * @author    Ark Game Tech                                                *
+// * @date      2015-12-15                                                   *
+// * @brief     HelloWorld3Module                                                  *
+*****************************************************************************/
+#ifndef AFC_HELLO_WORLD3_H
+#define AFC_HELLO_WORLD3_H
 
-#ifndef NFC_HELLO_WORLD3_H
-#define NFC_HELLO_WORLD3_H
-
-#include "NFComm/NFPluginModule/NFIKernelModule.h"
-#include "NFComm/NFPluginModule/NFIElementModule.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 class HelloWorld3Module
-    : public NFIModule
+    : public AFIModule
 {
 public:
-    HelloWorld3Module(NFIPluginManager* p)
+    HelloWorld3Module(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -31,18 +47,20 @@ public:
     virtual bool Shut();
 
 protected:
-    int OnEvent(const NFGUID& self, const int event, const AFDataList& arg);
-    int OnClassCallBackEvent(const NFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFDataList& arg);
-    int OnPropertyCallBackEvent( const NFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList );
-    int OnPropertyStrCallBackEvent( const NFGUID& self, const std::string& strProperty, const AFDataList::TData& oldVarList, const AFDataList::TData& newVarList );
+    int OnEvent(const AFGUID& self, const int event, const AFIDataList& arg);
+    int OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFIDataList& arg);
+    int OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
+    int OnPropertyStrCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
 
-    int OnHeartBeat(const NFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount);
+    int OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount);
 
 protected:
     unsigned long mLastTime;
 protected:
-    NFIKernelModule* m_pKernelModule;
-    NFIElementModule* m_pElementModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIElementModule* m_pElementModule;
 };
 
 #endif
+
+
