@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{b5f80948-3769-4657-b1ce-fd9d9d536f73}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFRecord.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCEventManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCHeartBeatManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCRecord.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCRecordManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIComponent.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIEventManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIHeartBeatManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIObject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIRecord.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIRecordManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIPropertyMgr.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCPropertyMgr.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIRecordMgr.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCRecordMgr.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AFRecord.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCHeartBeatManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCObject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCRecord.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCRecordManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCPropertyMgr.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCEventManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCRecordMgr.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
