@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFCGUIDModule.cpp">
+      <Filter>AFGUIDModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCLogModule.cpp">
+      <Filter>AFLogModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFUtilityPlugin.cpp">
+      <Filter>Plugin</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFCGUIDModule.h">
+      <Filter>AFGUIDModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCLogModule.h">
+      <Filter>AFLogModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFUtilityPlugin.h">
+      <Filter>Plugin</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="AFGUIDModule">
+      <UniqueIdentifier>{90913ee5-a19d-4abe-9140-c81509172c54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AFLogModule">
+      <UniqueIdentifier>{c58ba43f-0a44-4368-b6ca-2a0f9401c1a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Plugin">
+      <UniqueIdentifier>{dd35784e-5218-4392-b2f9-59ad13b4438f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
