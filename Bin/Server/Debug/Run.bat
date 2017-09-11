@@ -1,56 +1,56 @@
 cd /d %~dp0
 
 @echo off
-copy ..\\..\\..\\_Out\\Comm\\Debug\\NFPluginLoader_d.exe NFLoginServer\\ /Y
-copy ..\\..\\..\\_Out\\Comm\\Debug\\NFPluginLoader_d.exe NFMasterServer\\ /Y
-copy ..\\..\\..\\_Out\\Comm\\Debug\\NFPluginLoader_d.exe NFProxyServer1\\ /Y
-copy ..\\..\\..\\_Out\\Comm\\Debug\\NFPluginLoader_d.exe NFWorldServer\\ /Y
-copy ..\\..\\..\\_Out\\Comm\\Debug\\NFPluginLoader_d.exe NFGameServer1\\ /Y
+copy ..\\..\\..\\_Out\\Comm\\Debug\\NFPluginLoader_d.exe AFLoginServer\\ /Y
+copy ..\\..\\..\\_Out\\Comm\\Debug\\AFPluginLoader_d.exe AFMasterServer\\ /Y
+copy ..\\..\\..\\_Out\\Comm\\Debug\\AFPluginLoader_d.exe AFProxyServer1\\ /Y
+copy ..\\..\\..\\_Out\\Comm\\Debug\\AFPluginLoader_d.exe AFWorldServer\\ /Y
+copy ..\\..\\..\\_Out\\Comm\\Debug\\AFPluginLoader_d.exe AFGameServer1\\ /Y
 
-copy ..\\..\\..\\Dependencies\\lib\\Debug\\libmysql.dll NFGameServer1\\ /Y
-copy ..\\..\\..\\Dependencies\\lib\\Debug\\libmysql.dll NFLoginServer\\ /Y
-copy ..\\..\\..\\Dependencies\\lib\\Debug\\libmysql.dll NFMasterServer\\ /Y
-copy ..\\..\\..\\Dependencies\\lib\\Debug\\libmysql.dll NFProxyServer1\\ /Y
-copy ..\\..\\..\\Dependencies\\lib\\Debug\\libmysql.dll NFWorldServer\\ /Y
+copy ..\\..\\..\\Dependencies\\lib\\Debug\\libmysql.dll AFGameServer1\\ /Y
+copy ..\\..\\..\\Dependencies\\lib\\Debug\\libmysql.dll AFLoginServer\\ /Y
+copy ..\\..\\..\\Dependencies\\lib\\Debug\\libmysql.dll AFMasterServer\\ /Y
+copy ..\\..\\..\\Dependencies\\lib\\Debug\\libmysql.dll AFProxyServer1\\ /Y
+copy ..\\..\\..\\Dependencies\\lib\\Debug\\libmysql.dll AFWorldServer\\ /Y
 
-copy ..\\..\\..\\Dependencies\\lib\\Debug\\mysqlpp_d.dll NFGameServer1\\ /Y
-copy ..\\..\\..\\Dependencies\\lib\\Debug\\mysqlpp_d.dll NFLoginServer\\ /Y
-copy ..\\..\\..\\Dependencies\\lib\\Debug\\mysqlpp_d.dll NFMasterServer\\ /Y
-copy ..\\..\\..\\Dependencies\\lib\\Debug\\mysqlpp_d.dll NFProxyServer1\\ /Y
-copy ..\\..\\..\\Dependencies\\lib\\Debug\\mysqlpp_d.dll NFWorldServer\\ /Y
+copy ..\\..\\..\\Dependencies\\lib\\Debug\\mysqlpp_d.dll AFGameServer1\\ /Y
+copy ..\\..\\..\\Dependencies\\lib\\Debug\\mysqlpp_d.dll AFLoginServer\\ /Y
+copy ..\\..\\..\\Dependencies\\lib\\Debug\\mysqlpp_d.dll AFMasterServer\\ /Y
+copy ..\\..\\..\\Dependencies\\lib\\Debug\\mysqlpp_d.dll AFProxyServer1\\ /Y
+copy ..\\..\\..\\Dependencies\\lib\\Debug\\mysqlpp_d.dll AFWorldServer\\ /Y
 
-cd  NFMasterServer
+cd  AFMasterServer
 
-echo Starting NFMasterServer...
-start "" "NFPluginLoader_d.exe"
+echo Starting AFMasterServer...
+start "" "PluginLoader_d.exe"
 
 choice /t 2 /d y /n >nul
 cd  ..
-cd  NFWorldServer
-echo Starting NFWorldServer...
-start "" "NFPluginLoader_d.exe"
+cd  AFWorldServer
+echo Starting AFWorldServer...
+start "" "PluginLoader_d.exe"
 
 
 choice /t 5 /d y /n >nul
 
 cd  ..
-cd  NFLoginServer
-echo Starting NFLoginServer...
-start "" "NFPluginLoader_d.exe"
+cd  AFLoginServer
+echo Starting AFLoginServer...
+start "" "PluginLoader_d.exe"
 
 choice /t 2 /d y /n >nul
 
 cd  ..
-cd  NFGameServer1
-echo Starting NFGameServer1...
-start "" "NFPluginLoader_d.exe"
+cd  AFGameServer
+echo Starting AFGameServer...
+start "" "PluginLoader_d.exe"
 
 choice /t 4 /d y /n >nul
 
 cd  ..
-cd  NFProxyServer1
-echo Starting NFProxyServer1...
-start "" "NFPluginLoader_d.exe"
+cd  AFProxyServer
+echo Starting AFProxyServer...
+start "" "PluginLoader_d.exe"
 
 
 
