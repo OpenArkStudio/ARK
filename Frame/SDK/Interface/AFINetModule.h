@@ -358,7 +358,6 @@ public:
 
         case DT_OBJECT:
             {
-
                 *xMsg.mutable_mguid() = NFToPB(DataList.Object(nCol));
             }
             break;
