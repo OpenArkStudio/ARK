@@ -26,6 +26,7 @@
 #include "SDK/Base/AFString.hpp"
 #include "SDK/Base/AFCData.h"
 #include "SDK/Base/AFBitValue.hpp"
+#include "SDK/Base/AFDefine.h"
 
 using namespace ArkFrame;
 
@@ -33,12 +34,25 @@ class AFRecord
 {
 private:
     using RowData = AFCData;
+
+public:
     enum RECORD_FEATURE
     {
         RF_PUBLIC       = 0, //send to others
         RF_PRIVATE      = 1, //send to self
         RF_REAL_TIME    = 2, //send real-time when changed
         RF_SAVE         = 3, //if need save to database
+    };
+
+    //TODO：暂时还没用起来，只是为了编译通过
+    enum RecordOptype
+    {
+        Add,
+        Del,
+        Swap,
+        Update,
+        Create,
+        Cleared,
     };
 
 public:
@@ -63,25 +77,20 @@ public:
 
     void Clear();
 
-    bool IsPublic() const
-    {
-        return BitValue<int8_t>::HaveBitValue(feature, RF_PUBLIC);
-    }
+    void SetFeature(int8_t new_feature);
+    int8_t GetFeature() const;
 
-    bool IsPrivate() const
-    {
-        return BitValue<int8_t>::HaveBitValue(feature, RF_PRIVATE);
-    }
+    void SetPublic();
+    bool IsPublic() const;
+    void SetPrivate();
+    bool IsPrivate() const;
+    void SetRealTime();
+    bool IsRealTime() const;
+    void SetSave();
+    bool IsSave() const;
 
-    bool IsRealTime() const
-    {
-        return BitValue<int8_t>::HaveBitValue(feature, RF_REAL_TIME);
-    }
-
-    bool IsSave() const
-    {
-        return BitValue<int8_t>::HaveBitValue(feature, RF_SAVE);
-    }
+    //TODO:
+    bool AddRecordCB(const RECORD_EVENT_FUNCTOR_PTR& cb);
 
     bool SetValue(size_t row, size_t col, const AFIData& value);
     bool SetBool(size_t row, size_t col, const bool value);
@@ -102,6 +111,7 @@ public:
     const AFGUID& GetObject(size_t row, size_t col);
 
     const char* GetStringValue(size_t row, size_t col);
+    bool GetColTypeList(AFIDataList& col_type_list);
 
     int FindRow(size_t col, const AFIData& key, size_t begin_row = 0);
     int FindBool(size_t col, const bool key, size_t begin_row = 0);

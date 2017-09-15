@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file      AFCPropertyMgr.cpp                                              *
+// * @file  	AFCPropertyMgr.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCPropertyMgr                                                  *
