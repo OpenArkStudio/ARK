@@ -1,31 +1,28 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file  	AFCKernelModule.h                                                *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFCKernelModule                                                  *
-*****************************************************************************/
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+
 #pragma once
+
 #include "SDK/Core/AFIObject.h"
 #include "SDK/Base/AFCDataList.h"
-#include "SDK/Core/AFIRecord.h"
+#include "SDK/Core/AFRecord.h"
 #include "SDK/Base/AFGUID.h"
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "SDK/Interface/AFILogModule.h"
@@ -86,7 +83,7 @@ public:
     virtual const char*  GetPropertyString(const AFGUID& self, const std::string& strPropertyName);
     virtual const AFGUID& GetPropertyObject(const AFGUID& self, const std::string& strPropertyName);
     //////////////////////////////////////////////////////////////////////////
-    virtual ARK_SHARE_PTR<AFIRecord> FindRecord(const AFGUID& self, const std::string& strRecordName);
+    virtual AFRecord* FindRecord(const AFGUID& self, const std::string& strRecordName);
     virtual bool ClearRecord(const AFGUID& self, const std::string& strRecordName);
 
     virtual bool SetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const bool value);
@@ -97,29 +94,14 @@ public:
     virtual bool SetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const std::string& value);
     virtual bool SetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value);
 
-    virtual bool SetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const bool value);
-    virtual bool SetRecordInt(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const int32_t value);
-    virtual bool SetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const int64_t value);
-    virtual bool SetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const float value);
-    virtual bool SetRecordDouble(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const double value);
-    virtual bool SetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const std::string& value);
-    virtual bool SetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const AFGUID& value);
-
     virtual bool GetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
     virtual int32_t GetRecordInt(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
     virtual int64_t GetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
     virtual float GetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
     virtual double GetRecordDouble(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
-    virtual const std::string& GetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
+    virtual const char* GetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
     virtual const AFGUID& GetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
 
-    virtual bool GetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag);
-    virtual int32_t GetRecordInt(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag);
-    virtual int64_t GetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag);
-    virtual float GetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag);
-    virtual double GetRecordDouble(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag);
-    virtual const std::string& GetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag);
-    virtual const AFGUID& GetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag);
     //////////////////////////////////////////////////////////////////////////
     virtual bool SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const AFIDataList& arg);
 
@@ -154,13 +136,13 @@ public:
 
 protected:
 
-    //只能网络[脚本]模块注册，回调用来同步对象类事件,所有的类对象都会回�?
+    //ע��ͨ�����¼�
     virtual bool RegisterCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb);
 
-    //只能网络[脚本]模块注册，回调用来同步对象属性事�?所有的类属性都会回�?
+    //ע��ͨ�������¼�
     virtual bool RegisterCommonPropertyEvent(const PROPERTY_EVENT_FUNCTOR_PTR& cb);
 
-    //只能网络[脚本]模块注册，回调用来同步对象类表事�?所有的类表都会回调
+    //ע��ͨ�����¼�
     virtual bool RegisterCommonRecordEvent(const RECORD_EVENT_FUNCTOR_PTR& cb);
 
 protected:
@@ -187,11 +169,6 @@ protected:
     std::list<PROPERTY_EVENT_FUNCTOR_PTR> mtCommonPropertyCallBackList;
     //通用表变动回�?以便同步
     std::list<RECORD_EVENT_FUNCTOR_PTR> mtCommonRecordCallBackList;
-
-private:
-    //属性的KEY，比如HP=1，会以这个建立KEY，那么可以快速查询所有HP=1的对象而不用遍�?
-    //     std::map<std::string,std::map<AFIData, NFList<AFGUID>>>
-    //     std::map<"Scene", std::map<10, NFList<AFGUID>>>
 
 private:
     std::vector<float> mvRandom;
