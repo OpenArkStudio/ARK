@@ -1,4 +1,0 @@
-<map id="NFCWorldLogicModule" name="NFCWorldLogicModule">
-<area shape="rect" id="node2" href="$class_n_f_i_world_logic_module.html" title="{NFIWorldLogicModule\n||}" alt="" coords="18,321,167,399"/>
-<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="18,5,167,273"/>
-</map>

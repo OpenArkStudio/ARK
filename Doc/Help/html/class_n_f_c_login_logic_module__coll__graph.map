@@ -1,6 +1,0 @@
-<map id="NFCLoginLogicModule" name="NFCLoginLogicModule">
-<area shape="rect" id="node2" href="$class_n_f_i_login_logic_module.html" title="{NFILoginLogicModule\n||+ OnLoginProcess()\l}" alt="" coords="5,409,152,487"/>
-<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="175,5,324,259"/>
-<area shape="rect" id="node4" href="$class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="177,321,325,575"/>
-<area shape="rect" id="node5" href="$class_n_f_i_login_net___server_module.html" title="{NFILoginNet_ServerModule\n||+ OnSelectWorldResultsProcess()\l}" alt="" coords="349,409,571,487"/>
-</map>

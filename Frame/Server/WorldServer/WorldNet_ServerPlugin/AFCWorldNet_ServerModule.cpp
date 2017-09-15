@@ -533,70 +533,74 @@ int AFCWorldNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, const AFI
     AFMsg::MultiObjectRecordList xPrivateMsg;
 
     ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
-    if(nullptr != pObject)
+    if (nullptr == pObject)
     {
-        AFMsg::ObjectRecordList* pPublicData = NULL;
-        AFMsg::ObjectRecordList* pPrivateData = NULL;
+        return 1;
+    }
 
-        ARK_SHARE_PTR<AFIRecordManager> pRecordManager = pObject->GetRecordManager();
-        ARK_SHARE_PTR<AFIRecord> pRecord = pRecordManager->First();
-        while(nullptr != pRecord)
+    AFMsg::ObjectRecordList* pPublicData = NULL;
+    AFMsg::ObjectRecordList* pPrivateData = NULL;
+
+    ARK_SHARE_PTR<AFIRecordMgr> pRecordManager = pObject->GetRecordManager();
+    int nRecordCount = pRecordManager->GetCount();
+    for (int i = 0; i < nRecordCount; ++i)
+    {
+        AFRecord* pRecord = pRecordManager->GetRecordByIndex(i);
+        if (NULL == pRecord)
         {
-            if(!pRecord->GetPublic() && !pRecord->GetPrivate())
-            {
-                pRecord = pRecordManager->Next();
-                continue;
-            }
-
-            AFMsg::ObjectRecordBase* pPrivateRecordBase = NULL;
-            AFMsg::ObjectRecordBase* pPublicRecordBase = NULL;
-            if(pRecord->GetPublic())
-            {
-                if(!pPublicData)
-                {
-                    pPublicData = xPublicMsg.add_multi_player_record();
-                    *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
-                }
-                pPublicRecordBase = pPublicData->add_record_list();
-                pPublicRecordBase->set_record_name(pRecord->GetName());
-
-                OnRecordEnterPack(pRecord, pPublicRecordBase);
-            }
-
-            if(pRecord->GetPrivate())
-            {
-                if(!pPrivateData)
-                {
-                    pPrivateData = xPrivateMsg.add_multi_player_record();
-                    *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
-                }
-                pPrivateRecordBase = pPrivateData->add_record_list();
-                pPrivateRecordBase->set_record_name(pRecord->GetName());
-
-                OnRecordEnterPack(pRecord, pPrivateRecordBase);
-            }
-
-            pRecord = pRecordManager->Next();
+            continue;
         }
 
-
-        for(int i = 0; i < argVar.GetCount(); i++)
+        if (!pRecord->IsPublic() && !pRecord->IsPrivate())
         {
-            const AFGUID& identOther = argVar.Object(i);
-            const int64_t nGameID = argGameID.Int(i);
-            if(self == identOther)
+            continue;
+        }
+
+        AFMsg::ObjectRecordBase* pPrivateRecordBase = NULL;
+        AFMsg::ObjectRecordBase* pPublicRecordBase = NULL;
+        if (pRecord->IsPublic())
+        {
+            if (!pPublicData)
             {
-                if(xPrivateMsg.multi_player_record_size() > 0)
-                {
-                    SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPrivateMsg, identOther);
-                }
+                pPublicData = xPublicMsg.add_multi_player_record();
+                *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
             }
-            else
+            pPublicRecordBase = pPublicData->add_record_list();
+            pPublicRecordBase->set_record_name(pRecord->GetName());
+
+            OnRecordEnterPack(pRecord, pPublicRecordBase);
+        }
+
+        if (pRecord->IsPrivate())
+        {
+            if (!pPrivateData)
             {
-                if(xPublicMsg.multi_player_record_size() > 0)
-                {
-                    SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPublicMsg, identOther);
-                }
+                pPrivateData = xPrivateMsg.add_multi_player_record();
+                *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
+            }
+            pPrivateRecordBase = pPrivateData->add_record_list();
+            pPrivateRecordBase->set_record_name(pRecord->GetName());
+
+            OnRecordEnterPack(pRecord, pPrivateRecordBase);
+        }
+    }
+
+    for(int i = 0; i < argVar.GetCount(); i++)
+    {
+        const AFGUID& identOther = argVar.Object(i);
+        const int64_t nGameID = argGameID.Int(i);
+        if(self == identOther)
+        {
+            if(xPrivateMsg.multi_player_record_size() > 0)
+            {
+                SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPrivateMsg, identOther);
+            }
+        }
+        else
+        {
+            if(xPublicMsg.multi_player_record_size() > 0)
+            {
+                SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPublicMsg, identOther);
             }
         }
     }
@@ -604,29 +608,26 @@ int AFCWorldNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, const AFI
     return 0;
 }
 
-bool AFCWorldNet_ServerModule::OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, AFMsg::ObjectRecordBase* pObjectRecordBase)
+bool AFCWorldNet_ServerModule::OnRecordEnterPack(AFRecord* pRecord, AFMsg::ObjectRecordBase* pObjectRecordBase)
 {
     if(!pRecord || !pObjectRecordBase)
     {
         return false;
     }
 
-    for(int i = 0; i < pRecord->GetRows(); i ++)
+    for(int i = 0; i < pRecord->GetRowCount(); i ++)
     {
-        if(pRecord->IsUsed(i))
+        //不管public还是private都要加上，不然public广播了那不是private就广播不了了
+        AFMsg::RecordAddRowStruct* pAddRowStruct = pObjectRecordBase->add_row_struct();
+        pAddRowStruct->set_row(i);
+
+        AFCDataList valueList;
+        pRecord->QueryRow(i, valueList);
+
+        for(int j = 0; j < valueList.GetCount(); j++)
         {
-            //不管public还是private都要加上，不然public广播了那不是private就广播不了了
-            AFMsg::RecordAddRowStruct* pAddRowStruct = pObjectRecordBase->add_row_struct();
-            pAddRowStruct->set_row(i);
-
-            AFCDataList valueList;
-            pRecord->QueryRow(i, valueList);
-
-            for(int j = 0; j < valueList.GetCount(); j++)
-            {
-                AFMsg::RecordPBData* pAddData = pAddRowStruct->add_record_data_list();
-                AFINetServerModule::RecordToPBRecord(valueList, i, j, *pAddData);
-            }
+            AFMsg::RecordPBData* pAddData = pAddRowStruct->add_record_data_list();
+            AFINetServerModule::RecordToPBRecord(valueList, i, j, *pAddData);
         }
     }
 
@@ -645,62 +646,65 @@ int AFCWorldNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, const A
         return 1;
     }
 
-    AFMsg::MultiObjectPropertyList xPublicMsg;
-    AFMsg::MultiObjectPropertyList xPrivateMsg;
+
 
     //分为自己和外人
     //1.public发送给所有人
     //2.如果自己在列表中，再次发送private数据
     ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
-    if(nullptr != pObject)
+    if (nullptr == pObject)
     {
-        AFMsg::ObjectPropertyList* pPublicData = xPublicMsg.add_multi_player_property();
-        AFMsg::ObjectPropertyList* pPrivateData = xPrivateMsg.add_multi_player_property();
+        return 0;
+    }
 
-        *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
-        *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
+    AFMsg::MultiObjectPropertyList xPublicMsg;
+    AFMsg::MultiObjectPropertyList xPrivateMsg;
+    AFMsg::ObjectPropertyList* pPublicData = xPublicMsg.add_multi_player_property();
+    AFMsg::ObjectPropertyList* pPrivateData = xPrivateMsg.add_multi_player_property();
 
-        ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = pObject->GetPropertyManager();
+    *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
+    *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
 
-        for(int i = 0; i < pPropertyManager->GetPropertyCount(); i++)
+    ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = pObject->GetPropertyManager();
+
+    for(int i = 0; i < pPropertyManager->GetPropertyCount(); i++)
+    {
+        AFProperty* pPropertyInfo = pPropertyManager->GetPropertyByIndex(i);
+        if(nullptr == pPropertyInfo)
         {
-            AFProperty* pPropertyInfo = pPropertyManager->GetPropertyByIndex(i);
-            if(nullptr == pPropertyInfo)
+            continue;
+        }
+        if(pPropertyInfo->Changed())
+        {
+            if(pPropertyInfo->IsPublic())
             {
-                continue;
-            }
-            if(pPropertyInfo->Changed())
-            {
-                if(pPropertyInfo->IsPublic())
-                {
-                    AFMsg::PropertyPBData* pDataInt = pPublicData->add_property_data_list();
-                    AFINetServerModule::DataToPBProperty(pPropertyInfo->GetValue(), pPropertyInfo->GetName().c_str(), *pDataInt);
-                }
-
-                if(pPropertyInfo->IsPrivate())
-                {
-                    AFMsg::PropertyPBData* pDataInt = pPrivateData->add_property_data_list();
-                    AFINetServerModule::DataToPBProperty(pPropertyInfo->GetValue(), pPropertyInfo->GetName().c_str(), *pDataInt);
-                }
+                AFMsg::PropertyPBData* pDataInt = pPublicData->add_property_data_list();
+                AFINetServerModule::DataToPBProperty(pPropertyInfo->GetValue(), pPropertyInfo->GetName().c_str(), *pDataInt);
             }
 
+            if(pPropertyInfo->IsPrivate())
+            {
+                AFMsg::PropertyPBData* pDataInt = pPrivateData->add_property_data_list();
+                AFINetServerModule::DataToPBProperty(pPropertyInfo->GetValue(), pPropertyInfo->GetName().c_str(), *pDataInt);
+            }
         }
 
-        for(int i = 0; i < argVar.GetCount(); i++)
-        {
-            const AFGUID& identOther = argVar.Object(i);
-            const int64_t nGameID = argGameID.Int(i);
-            if(self == identOther)
-            {
-                //找到他所在网关的FD
-                SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPrivateMsg, identOther);
-            }
-            else
-            {
-                SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPublicMsg, identOther);
-            }
+    }
 
+    for(int i = 0; i < argVar.GetCount(); i++)
+    {
+        const AFGUID& identOther = argVar.Object(i);
+        const int64_t nGameID = argGameID.Int(i);
+        if(self == identOther)
+        {
+            //找到他所在网关的FD
+            SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPrivateMsg, identOther);
         }
+        else
+        {
+            SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPublicMsg, identOther);
+        }
+
     }
 
     return 0;
@@ -721,4 +725,3 @@ int AFCWorldNet_ServerModule::GetPlayerGameID(const AFGUID self)
     //to do
     return -1;
 }
-

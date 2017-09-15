@@ -1,4 +1,0 @@
-<map id="NFIGameServerNet_ClientModule" name="NFIGameServerNet_ClientModule">
-<area shape="rect" id="node2" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="199,5,349,259"/>
-<area shape="rect" id="node3" href="$class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="244,321,392,575"/>
-</map>

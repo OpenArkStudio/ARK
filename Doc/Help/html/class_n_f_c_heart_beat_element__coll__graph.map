@@ -1,4 +1,0 @@
-<map id="NFCHeartBeatElement" name="NFCHeartBeatElement">
-<area shape="rect" id="node2" href="$class_n_f_list.html" title="{NFList\&lt; HEART_BEAT\l_FUNCTOR_PTR \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="5,42,161,266"/>
-<area shape="rect" id="node3" href="$struct_n_f_g_u_i_d.html" title="{NFGUID\n|+ nData64\l+ nHead64\l|+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ operator=()\l+ GetData()\l+ GetHead()\l+ SetData()\l+ SetHead()\l+ IsNull()\l+ operator==()\l+ operator!=()\l+ operator\&lt;()\l+ ToString()\l+ FromString()\l}" alt="" coords="186,5,293,303"/>
-</map>

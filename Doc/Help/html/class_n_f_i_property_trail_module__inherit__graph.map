@@ -1,4 +1,0 @@
-<map id="NFIPropertyTrailModule" name="NFIPropertyTrailModule">
-<area shape="rect" id="node3" href="$class_n_f_c_property_trail_module.html" title="{NFCPropertyTrailModule\n|&#45; m_pKernelModule\l&#45; m_pElementModule\l&#45; m_pClassModule\l&#45; m_pLogModule\l|+ NFCPropertyTrailModule()\l+ ~NFCPropertyTrailModule()\l+ Init()\l+ Shut()\l+ Execute()\l+ AfterInit()\l+ StartTrail()\l+ EndTrail()\l# LogObjectData()\l# TrailObjectData()\l# OnObjectPropertyEvent()\l# OnObjectRecordEvent()\l}" alt="" coords="5,461,196,744"/>
-<area shape="rect" id="node2" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="26,5,175,273"/>
-</map>

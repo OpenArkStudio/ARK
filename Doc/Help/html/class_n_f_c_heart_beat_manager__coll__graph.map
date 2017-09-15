@@ -1,6 +1,0 @@
-<map id="NFCHeartBeatManager" name="NFCHeartBeatManager">
-<area shape="rect" id="node2" href="$class_n_f_i_heart_beat_manager.html" title="Manager for nfi heart beats. " alt="" coords="5,71,184,237"/>
-<area shape="rect" id="node3" href="$struct_n_f_g_u_i_d.html" title="{NFGUID\n|+ nData64\l+ nHead64\l|+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ operator=()\l+ GetData()\l+ GetHead()\l+ SetData()\l+ SetHead()\l+ IsNull()\l+ operator==()\l+ operator!=()\l+ operator\&lt;()\l+ ToString()\l+ FromString()\l}" alt="" coords="208,5,315,303"/>
-<area shape="rect" id="node4" href="$class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFCHeartBeatElement \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="339,27,509,281"/>
-<area shape="rect" id="node5" href="$class_n_f_list.html" title="{NFList\&lt; std::string \&gt;\n|# mtObjConfigList\l# mCurIter\l|+ ~NFList()\l+ Add()\l+ Find()\l+ Remove()\l+ ClearAll()\l+ First()\l+ Next()\l+ Get()\l+ Count()\l}" alt="" coords="543,49,686,259"/>
-</map>

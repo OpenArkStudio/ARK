@@ -1,8 +1,0 @@
-<map id="NFSingleton.h" name="NFSingleton.h">
-<area shape="rect" id="node2" href="$_n_f_c_mem_manger_8h.html" title="NFCMemManger.h" alt="" coords="186,80,317,107"/>
-<area shape="rect" id="node5" href="$_n_f_c_plugin_manager_8h.html" title="NFCPluginManager.h" alt="" coords="359,80,504,107"/>
-<area shape="rect" id="node3" href="$_n_f_c_mem_manger_8cpp.html" title="NFCMemManger.cpp" alt="" coords="5,155,151,181"/>
-<area shape="rect" id="node4" href="$_n_f_c_kernel_module_8cpp.html" title="NFCKernelModule.cpp" alt="" coords="175,155,327,181"/>
-<area shape="rect" id="node6" href="$_n_f_c_plugin_manager_8cpp.html" title="NFCPluginManager.cpp" alt="" coords="352,155,511,181"/>
-<area shape="rect" id="node7" href="$_n_f_plugin_loader_8cpp.html" title="NFPluginLoader.cpp" alt="" coords="535,155,674,181"/>
-</map>

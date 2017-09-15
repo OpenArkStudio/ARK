@@ -1,5 +1,0 @@
-<map id="NFCPluginManager" name="NFCPluginManager">
-<area shape="rect" id="node4" href="$class_n_f_singleton.html" title="{NFSingleton\&lt; NFCPluginManager \&gt;\n||+ NFSingleton()\l+ ~NFSingleton()\l+ GetSingletonPtr()\l+ GetSingletonRef()\l+ Instance()\l+ InstanceRef()\l+ ReleaseInstance()\l}" alt="" coords="5,799,235,964"/>
-<area shape="rect" id="node2" href="$class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="101,5,249,259"/>
-<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="225,402,375,655"/>
-</map>
