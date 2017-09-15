@@ -1,4 +1,0 @@
-<map id="NFIGameServerModule" name="NFIGameServerModule">
-<area shape="rect" id="node3" href="$class_n_f_c_game_server_module.html" title="{NFCGameServerModule\n|# m_pUUIDModule\l# m_pClassModule\l# m_pKernelModule\l|+ NFCGameServerModule()\l+ ~NFCGameServerModule()\l+ Init()\l+ Shut()\l+ Execute()\l+ AfterInit()\l+ BeforeShut()\l}" alt="" coords="5,447,195,641"/>
-<area shape="rect" id="node2" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="25,5,175,273"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="NFILogModule" name="NFILogModule">
-<area shape="rect" id="node3" href="$class_n_f_c_log_module.html" title="{NFCLogModule\n|&#45; mbSwitchingValue\l&#45; szBuffer\l&#45; mbLogSwiths\l&#45; idx\l|+ NFCLogModule()\l+ ~NFCLogModule()\l+ Init()\l+ Shut()\l+ BeforeShut()\l+ AfterInit()\l+ Execute()\l+ LogStack()\l+ LogDebug()\l+ LogInfo()\land 16 more...\l# Log()\l# CheckLogFileExist()\l# rolloutHandler()\l}" alt="" coords="5,593,156,905"/>
-<area shape="rect" id="node2" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="6,5,155,273"/>
-</map>

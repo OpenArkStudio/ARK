@@ -1,4 +1,0 @@
-<map id="NFIElementModule" name="NFIElementModule">
-<area shape="rect" id="node3" href="$class_n_f_c_element_module.html" title="A nfc element module. " alt="" coords="11,593,178,876"/>
-<area shape="rect" id="node2" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="20,5,169,273"/>
-</map>

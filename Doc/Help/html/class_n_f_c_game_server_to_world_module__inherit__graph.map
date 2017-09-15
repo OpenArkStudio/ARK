@@ -1,4 +1,0 @@
-<map id="NFCGameServerToWorldModule" name="NFCGameServerToWorldModule">
-<area shape="rect" id="node2" href="$class_n_f_i_game_server_to_world_module.html" title="{NFIGameServerToWorldModule\n||+ SendBySuit()\l+ GetClusterClientModule()\l}" alt="" coords="19,321,222,413"/>
-<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="46,5,195,273"/>
-</map>

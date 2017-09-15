@@ -280,6 +280,37 @@ public:
         return mnType;
     }
 
+    virtual void SetDefaultValue(int type)
+    {
+        switch (GetType())
+        {
+        case DT_BOOLEAN:
+            mbValue = NULL_BOOLEAN;
+            break;
+        case DT_INT:
+            mnValue = NULL_INT;
+            break;
+        case DT_INT64:
+            mn64Value = NULL_INT64;
+            break;
+        case DT_FLOAT:
+            mfValue = NULL_FLOAT;
+            break;
+        case DT_DOUBLE:
+            mdValue = NULL_DOUBLE;
+            break;
+        case DT_STRING:
+            mstrValue = "";
+            break;
+        case DT_OBJECT:
+            mnIdent = 0;
+            mnSerial = 0;
+            break;
+        default:
+            break;
+        }
+    }
+
     virtual bool IsNullValue() const
     {
         switch(GetType())
@@ -636,7 +667,4 @@ private:
 //special
 using AFCData = AFBaseData<4, CoreAlloc>;
 
-const static AFCData NULL_AFCData = AFCData();
-
 }
-

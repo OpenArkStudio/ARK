@@ -1,5 +1,0 @@
-<map id="NFIComponentManager" name="NFIComponentManager">
-<area shape="rect" id="node4" href="$class_n_f_c_component_manager.html" title="Manager for nfc components. " alt="" coords="72,505,264,715"/>
-<area shape="rect" id="node2" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="5,5,155,273"/>
-<area shape="rect" id="node3" href="$class_n_f_map_ex.html" title="{NFMapEx\&lt; std::string,\l NFIComponent \&gt;\n|&#45; mObjectList\l&#45; mObjectCurIter\l|+ NFMapEx()\l+ ~NFMapEx()\l+ AddElement()\l+ SetElement()\l+ RemoveElement()\l+ GetElementNude()\l+ GetElement()\l+ FirstNude()\l+ FirstNude()\l+ NextNude()\land 7 more...\l}" alt="" coords="179,13,333,266"/>
-</map>

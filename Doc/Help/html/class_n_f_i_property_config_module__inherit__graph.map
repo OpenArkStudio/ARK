@@ -1,4 +1,0 @@
-<map id="NFIPropertyConfigModule" name="NFIPropertyConfigModule">
-<area shape="rect" id="node3" href="$class_n_f_c_property_config_module.html" title="{NFCPropertyConfigModule\n|&#45; mhtCoefficienData\l&#45; m_pClassModule\l&#45; m_pElementModule\l|+ NFCPropertyConfigModule()\l+ ~NFCPropertyConfigModule()\l+ Init()\l+ Shut()\l+ Execute()\l+ AfterInit()\l+ CalculateBaseValue()\l+ LegalLevel()\l# Load()\l}" alt="" coords="5,461,208,685"/>
-<area shape="rect" id="node2" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="32,5,181,273"/>
-</map>

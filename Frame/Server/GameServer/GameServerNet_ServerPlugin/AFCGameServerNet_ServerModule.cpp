@@ -318,25 +318,29 @@ int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, co
     return 0;
 }
 
-bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, AFMsg::ObjectRecordBase* pObjectRecordBase)
+bool OnRecordEnterPack(AFRecord* pRecord, AFMsg::ObjectRecordBase* pObjectRecordBase)
 {
     if(!pRecord || !pObjectRecordBase)
     {
         return false;
     }
 
-    for(int i = 0; i < pRecord->GetRows(); i++)
+    for(int i = 0; i < pRecord->GetRowCount(); i++)
     {
-        if(pRecord->IsUsed(i))
+        AFMsg::RecordAddRowStruct* pAddRowStruct = pObjectRecordBase->add_row_struct();
+        pAddRowStruct->set_row(i);
+        for(int j = 0; j < pRecord->GetColCount(); j++)
         {
-            AFMsg::RecordAddRowStruct* pAddRowStruct = pObjectRecordBase->add_row_struct();
-            pAddRowStruct->set_row(i);
-            for(int j = 0; j < pRecord->GetCols(); j++)
+            AFMsg::RecordPBData* pAddData = pAddRowStruct->add_record_data_list();
+            
+            AFCData xRowColData;
+            if (!pRecord->GetValue(i, j, xRowColData))
             {
-                AFMsg::RecordPBData* pAddData = pAddRowStruct->add_record_data_list();
-                const AFIData& xRowColdata = pRecord->GetData(i, j);
-                AFINetServerModule::RecordToPBRecord(xRowColdata, i, j, *pAddData);
+                ARK_ASSERT(0, "Get record value failed, please check", __FILE__, __FUNCTION__);
+                continue;
             }
+
+            AFINetServerModule::RecordToPBRecord(xRowColData, i, j, *pAddData);
         }
     }
 
@@ -354,69 +358,74 @@ int AFCGameServerNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, cons
     AFMsg::MultiObjectRecordList xPrivateMsg;
 
     ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
-    if(nullptr != pObject)
+    if (nullptr == pObject)
     {
-        AFMsg::ObjectRecordList* pPublicData = NULL;
-        AFMsg::ObjectRecordList* pPrivateData = NULL;
+        return 0;
+    }
 
-        ARK_SHARE_PTR<AFIRecordManager> pRecordManager = pObject->GetRecordManager();
-        ARK_SHARE_PTR<AFIRecord> pRecord = pRecordManager->First();
-        while(nullptr != pRecord)
+    AFMsg::ObjectRecordList* pPublicData = NULL;
+    AFMsg::ObjectRecordList* pPrivateData = NULL;
+
+    ARK_SHARE_PTR<AFIRecordMgr> pRecordManager = pObject->GetRecordManager();
+
+    size_t nRecordCount = pRecordManager->GetCount();
+    for (int i = 0; i < nRecordCount; ++i)
+    {
+        AFRecord* pRecord = pRecordManager->GetRecordByIndex(i);
+        if (NULL == pRecord)
         {
-            if(!pRecord->GetPublic() && !pRecord->GetPrivate())
-            {
-                pRecord = pRecordManager->Next();
-                continue;
-            }
-
-            AFMsg::ObjectRecordBase* pPrivateRecordBase = NULL;
-            AFMsg::ObjectRecordBase* pPublicRecordBase = NULL;
-            if(pRecord->GetPublic())
-            {
-                if(!pPublicData)
-                {
-                    pPublicData = xPublicMsg.add_multi_player_record();
-                    *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
-                }
-                pPublicRecordBase = pPublicData->add_record_list();
-                pPublicRecordBase->set_record_name(pRecord->GetName());
-
-                OnRecordEnterPack(pRecord, pPublicRecordBase);
-            }
-
-            if(pRecord->GetPrivate())
-            {
-                if(!pPrivateData)
-                {
-                    pPrivateData = xPrivateMsg.add_multi_player_record();
-                    *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
-                }
-                pPrivateRecordBase = pPrivateData->add_record_list();
-                pPrivateRecordBase->set_record_name(pRecord->GetName());
-
-                OnRecordEnterPack(pRecord, pPrivateRecordBase);
-            }
-
-            pRecord = pRecordManager->Next();
+            continue;
         }
 
-
-        for(int i = 0; i < argVar.GetCount(); i++)
+        if (!pRecord->IsPublic() && !pRecord->IsPrivate())
         {
-            AFGUID identOther = argVar.Object(i);
-            if(self == identOther)
+            continue;
+        }
+
+        AFMsg::ObjectRecordBase* pPrivateRecordBase = NULL;
+        AFMsg::ObjectRecordBase* pPublicRecordBase = NULL;
+        if (pRecord->IsPublic())
+        {
+            if (!pPublicData)
             {
-                if(xPrivateMsg.multi_player_record_size() > 0)
-                {
-                    SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPrivateMsg, identOther);
-                }
+                pPublicData = xPublicMsg.add_multi_player_record();
+                *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
             }
-            else
+            pPublicRecordBase = pPublicData->add_record_list();
+            pPublicRecordBase->set_record_name(pRecord->GetName());
+
+            OnRecordEnterPack(pRecord, pPublicRecordBase);
+        }
+
+        if (pRecord->IsPrivate())
+        {
+            if (!pPrivateData)
             {
-                if(xPublicMsg.multi_player_record_size() > 0)
-                {
-                    SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPublicMsg, identOther);
-                }
+                pPrivateData = xPrivateMsg.add_multi_player_record();
+                *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
+            }
+            pPrivateRecordBase = pPrivateData->add_record_list();
+            pPrivateRecordBase->set_record_name(pRecord->GetName());
+
+            OnRecordEnterPack(pRecord, pPrivateRecordBase);
+        }
+    }
+
+    for(int i = 0; i < argVar.GetCount(); i++)
+    {
+        AFGUID identOther = argVar.Object(i);
+        if(self == identOther)
+        {
+            if(xPrivateMsg.multi_player_record_size() > 0)
+            {
+                SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPrivateMsg, identOther);
+            }
+        }
+        else
+        {
+            if(xPublicMsg.multi_player_record_size() > 0)
+            {
+                SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_RECORD_ENTRY, xPublicMsg, identOther);
             }
         }
     }
@@ -599,7 +608,7 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
 
     switch(nOpType)
     {
-    case AFIRecord::RecordOptype::Add:
+    case AFRecord::RecordOptype::Add:
         {
             AFMsg::ObjectRecordAddRow xAddRecordRow;
             AFMsg::Ident* pIdent = xAddRecordRow.mutable_player_id();
@@ -611,7 +620,7 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
             pAddRowData->set_row(nRow);
 
             //add row 需要完整的row
-            ARK_SHARE_PTR<AFIRecord> xRecord = m_pKernelModule->FindRecord(self, strRecordName);
+            AFRecord* xRecord = m_pKernelModule->FindRecord(self, strRecordName);
             if(xRecord)
             {
                 AFCDataList xRowDataList;
@@ -633,7 +642,7 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
             }
         }
         break;
-    case AFIRecord::RecordOptype::Del:
+    case AFRecord::RecordOptype::Del:
         {
             AFMsg::ObjectRecordRemove xReoveRecordRow;
 
@@ -651,7 +660,7 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
             }
         }
         break;
-    case AFIRecord::RecordOptype::Swap:
+    case AFRecord::RecordOptype::Swap:
         {
             //其实是2个row交换
             AFMsg::ObjectRecordSwap xSwapRecord;
@@ -670,7 +679,7 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
             }
         }
         break;
-    case AFIRecord::RecordOptype::Update:
+    case AFRecord::RecordOptype::Update:
         {
             AFMsg::ObjectRecordPBData xRecordChanged;
             *xRecordChanged.mutable_player_id() = AFINetServerModule::NFToPB(self);
@@ -686,9 +695,9 @@ int AFCGameServerNet_ServerModule::OnRecordCommonEvent(const AFGUID& self, const
             }
         }
         break;
-    case AFIRecord::RecordOptype::Create:
+    case AFRecord::RecordOptype::Create:
         break;
-    case AFIRecord::RecordOptype::Cleared:
+    case AFRecord::RecordOptype::Cleared:
         break;
     default:
         break;
@@ -979,10 +988,11 @@ int AFCGameServerNet_ServerModule::GetBroadCastObject(const AFGUID& self, const 
 
     //普通场景容器，判断广播属性
     std::string strClassName = m_pKernelModule->GetPropertyString(self, "ClassName");
-    ARK_SHARE_PTR<AFIRecordManager> pClassRecordManager = m_pClassModule->GetClassRecordManager(strClassName);
+    
     ARK_SHARE_PTR<AFIPropertyMgr> pClassPropertyManager = m_pClassModule->GetClassPropertyManager(strClassName);
+    ARK_SHARE_PTR<AFIRecordMgr> pClassRecordManager = m_pClassModule->GetClassRecordManager(strClassName);
 
-    ARK_SHARE_PTR<AFIRecord> pRecord;
+    AFRecord* pRecord = NULL;
     AFProperty* pProperty(nullptr);
     if(bTable)
     {
@@ -991,7 +1001,7 @@ int AFCGameServerNet_ServerModule::GetBroadCastObject(const AFGUID& self, const 
             return -1;
         }
 
-        pRecord = pClassRecordManager->GetElement(strPropertyName);
+        pRecord = pClassRecordManager->GetRecord(strPropertyName.c_str());
         if(nullptr == pRecord)
         {
             return -1;
@@ -1015,11 +1025,11 @@ int AFCGameServerNet_ServerModule::GetBroadCastObject(const AFGUID& self, const 
     {
         if(bTable)
         {
-            if(pRecord->GetPublic())
+            if(pRecord->IsPublic())
             {
                 GetBroadCastObject(nObjectContainerID, nObjectGroupID, valueObject);
             }
-            else if(pRecord->GetPrivate())
+            else if(pRecord->IsPrivate())
             {
                 valueObject.AddObject(self);
             }
@@ -1042,7 +1052,7 @@ int AFCGameServerNet_ServerModule::GetBroadCastObject(const AFGUID& self, const 
     //不是玩家,NPC和怪物类等
     if(bTable)
     {
-        if(pRecord->GetPublic())
+        if(pRecord->IsPublic())
         {
             //广播给客户端自己和周边人
             GetBroadCastObject(nObjectContainerID, nObjectGroupID, valueObject);

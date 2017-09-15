@@ -1,5 +1,0 @@
-<map id="NFCLogModule" name="NFCLogModule">
-<area shape="rect" id="node2" href="$class_n_f_i_log_module.html" title="{NFILogModule\n||+ LogDebug()\l+ LogInfo()\l+ LogWarning()\l+ LogError()\l+ LogFatal()\l+ LogDebug()\l+ LogInfo()\l+ LogWarning()\l+ LogError()\l+ LogFatal()\land 8 more...\l}" alt="" coords="25,336,136,560"/>
-<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="115,5,265,259"/>
-<area shape="rect" id="node4" href="$class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="160,321,308,575"/>
-</map>

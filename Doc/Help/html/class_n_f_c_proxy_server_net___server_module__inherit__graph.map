@@ -1,4 +1,0 @@
-<map id="NFCProxyServerNet_ServerModule" name="NFCProxyServerNet_ServerModule">
-<area shape="rect" id="node2" href="$class_n_f_i_proxy_server_net___server_module.html" title="{NFIProxyServerNet_Server\lModule\n||+ Transpond()\l+ EnterGameSuccessEvent()\l}" alt="" coords="19,321,210,428"/>
-<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="40,5,189,273"/>
-</map>
