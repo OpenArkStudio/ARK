@@ -22,6 +22,8 @@
 
 #include "SDK/Base/AFPlatform.hpp"
 #include "SDK/Base/AFGUID.h"
+#include "SDK/Base/AFIDataList.h"
+using namespace ArkFrame;
 
 class AFRecord;
 
@@ -30,14 +32,17 @@ class AFIRecordMgr
 public:
     virtual ~AFIRecordMgr() {}
 
+    virtual const AFGUID& Self() = 0;
+
     virtual bool Exist(const char* name) const = 0;
     virtual bool Exist(const char* name, size_t& index) const = 0;
 
-    virtual bool Add(AFRecord* record) = 0;
+    virtual bool AddRecord(const AFGUID& self_id, const char* record_name, const AFIDataList& col_type_list, const int8_t feature) = 0;
+    
     virtual void Clear() = 0;
-    virtual AFRecord* Get(const char* name) = 0;
+    virtual AFRecord* GetRecord(const char* name) = 0;
     virtual size_t GetCount() const = 0;
-    virtual AFRecord* GetRecord(size_t index) const = 0;
+    virtual AFRecord* GetRecordByIndex(size_t index) const = 0;
 
     virtual bool SetRecordBool(const char* name, const int row, const int col, const bool value) = 0;
     virtual bool SetRecordInt(const char* name, const int row, const int col, const int32_t value) = 0;

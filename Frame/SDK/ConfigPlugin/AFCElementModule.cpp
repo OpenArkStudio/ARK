@@ -127,16 +127,16 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
 
     //ElementConfigInfo* pElementInfo = CreateElement( strConfigID, pElementInfo );
     ARK_SHARE_PTR<AFIPropertyMgr> pElementPropertyManager = pElementInfo->GetPropertyManager();
-    ARK_SHARE_PTR<AFIRecordManager> pElementRecordManager = pElementInfo->GetRecordManager();
+    ARK_SHARE_PTR<AFIRecordMgr> pElementRecordManager = pElementInfo->GetRecordManager();
 
     //1.add property
-    //2.set the default value  of them
+    //2.set the default value of them
     ARK_SHARE_PTR<AFIPropertyMgr> pClassPropertyManager = pLogicClass->GetPropertyManager();
-    ARK_SHARE_PTR<AFIRecordManager> pClassRecordManager = pLogicClass->GetRecordManager();
+    ARK_SHARE_PTR<AFIRecordMgr> pClassRecordManager = pLogicClass->GetRecordManager();
     if(nullptr != pClassPropertyManager && nullptr != pClassRecordManager)
     {
-        size_t nCount = pClassPropertyManager->GetPropertyCount();
-        for(size_t i = 0; i < nCount; ++i)
+        size_t property_count = pClassPropertyManager->GetPropertyCount();
+        for(size_t i = 0; i < property_count; ++i)
         {
             AFProperty* pProperty = pClassPropertyManager->GetPropertyByIndex(i);
             if(NULL != pProperty)
@@ -144,29 +144,28 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 pElementPropertyManager->AddProperty(pProperty->name.c_str(), pProperty->prop_value, pProperty->feature);
             }
         }
-
-        ARK_SHARE_PTR<AFIRecord> pRecord = pClassRecordManager->First();
-        while(nullptr != pRecord)
+        //////////////////////////////////////////////////////////////////////////
+        size_t record_count = pClassRecordManager->GetCount();
+        for (size_t i = 0; i < record_count; ++i)
         {
-            ARK_SHARE_PTR<AFIRecord> xRecord = pElementRecordManager->AddRecord(NULL_GUID, pRecord->GetName(), pRecord->GetInitData(), pRecord->GetTag(), pRecord->GetRows());
+            AFRecord* pRecord = pClassRecordManager->GetRecordByIndex(i);
+            if (NULL == pRecord)
+            {
+                continue;
+            }
 
-            xRecord->SetPublic(pRecord->GetPublic());
-            xRecord->SetPrivate(pRecord->GetPrivate());
-            xRecord->SetSave(pRecord->GetSave());
-            xRecord->SetCache(pRecord->GetCache());
-
-            pRecord = pClassRecordManager->Next();
+            AFCDataList col_type_list;
+            pRecord->GetColTypeList(col_type_list);
+            int8_t feature = pRecord->GetFeature();
+            pElementRecordManager->AddRecord(NULL_GUID, pRecord->GetName(), col_type_list, feature);
         }
     }
 
     //3.set the config value to them
-
-    //const char* pstrConfigID = attrNode->first_attribute( "ID" );
     for(rapidxml::xml_attribute<>* pAttribute = attrNode->first_attribute(); pAttribute; pAttribute = pAttribute->next_attribute())
     {
         const char* pstrConfigName = pAttribute->name();
         const char* pstrConfigValue = pAttribute->value();
-        //printf( "%s : %s\n", pstrConfigName, pstrConfigValue );
 
         AFProperty* pTmpProperty = pElementPropertyManager->GetProperty(pstrConfigName);
         if(!pTmpProperty)
@@ -193,7 +192,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
             break;
         case DT_INT64:
             {
-                pTmpProperty->prop_value.SetInt(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
+                pTmpProperty->prop_value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
             }
             break;
         case DT_FLOAT:
@@ -334,13 +333,14 @@ ARK_SHARE_PTR<AFIPropertyMgr> AFCElementModule::GetPropertyManager(const std::st
     return nullptr;
 }
 
-ARK_SHARE_PTR<AFIRecordManager> AFCElementModule::GetRecordManager(const std::string& strConfigName)
+ARK_SHARE_PTR<AFIRecordMgr> AFCElementModule::GetRecordManager(const std::string& strConfigName)
 {
     ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
     if(nullptr != pElementInfo)
     {
         return pElementInfo->GetRecordManager();
     }
+
     return nullptr;
 }
 
@@ -433,4 +433,3 @@ bool AFCElementModule::Clear()
 //
 //    return nullptr;
 //}
-
