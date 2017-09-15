@@ -56,34 +56,40 @@ bool AFCPropertyModule::AfterInit()
 
 int AFCPropertyModule::GetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType)
 {
-    if(NFPropertyGroup::NPG_ALL != eGroupType)
-    {
-        return m_pKernelModule->GetRecordInt(self, NFrame::Player::R_CommPropertyValue(), eGroupType, strPropertyName);
-    }
+    //TODO:要做一个 attr_name->col的映射
 
-    return m_pKernelModule->GetPropertyInt(self, strPropertyName);
+    //if(NFPropertyGroup::NPG_ALL != eGroupType)
+    //{
+    //    return m_pKernelModule->GetRecordInt(self, NFrame::Player::R_CommPropertyValue(), eGroupType, strPropertyName);
+    //}
+
+    //return m_pKernelModule->GetPropertyInt(self, strPropertyName);
+
+    return 0;
 }
 
 int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue)
 {
-    if(NFPropertyGroup::NPG_ALL != eGroupType)
-    {
-        ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
-        if(nullptr != pObject)
-        {
-            ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
-            if(nullptr != pRecord)
-            {
-                pRecord->SetUsed(eGroupType, true);
-                return pRecord->SetInt(eGroupType, strPropertyName, nValue);
-            }
-        }
+    //TODO:要做一个 attr_name->col的映射
 
-        //return m_pKernelModule->SetRecordInt( self, mstrCommPropertyName, eGroupType, *pTableCol, nValue );
-    }
+    //if(NFPropertyGroup::NPG_ALL != eGroupType)
+    //{
+    //    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    //    if(nullptr != pObject)
+    //    {
+    //       AFRecord* pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+    //        if(NULL != pRecord)
+    //        {
+    //            //pRecord->SetUsed(eGroupType, true);
+    //            return pRecord->SetInt(eGroupType, strPropertyName, nValue);
+    //        }
+    //    }
 
-    //动态表中没有，则设置到最终值
-    m_pKernelModule->SetPropertyInt(self, strPropertyName, nValue);
+    //    //return m_pKernelModule->SetRecordInt( self, mstrCommPropertyName, eGroupType, *pTableCol, nValue );
+    //}
+
+    ////动态表中没有，则设置到最终值
+    //m_pKernelModule->SetPropertyInt(self, strPropertyName, nValue);
 
     return 0;
 }
@@ -91,42 +97,42 @@ int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& s
 
 int AFCPropertyModule::AddPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue)
 {
-    if(NFPropertyGroup::NPG_ALL != eGroupType)
-    {
-        ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
-        if(nullptr != pObject)
-        {
-            ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
-            if(nullptr != pRecord)
-            {
-                pRecord->SetUsed(eGroupType, true);
-                int nPropertyValue = pRecord->GetInt(eGroupType, strPropertyName);
+    //if(NFPropertyGroup::NPG_ALL != eGroupType)
+    //{
+    //    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    //    if(nullptr != pObject)
+    //    {
+    //        ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+    //        if(nullptr != pRecord)
+    //        {
+    //            pRecord->SetUsed(eGroupType, true);
+    //            int nPropertyValue = pRecord->GetInt(eGroupType, strPropertyName);
 
-                return pRecord->SetInt(eGroupType, strPropertyName, nPropertyValue + nValue);
-            }
-        }
-    }
+    //            return pRecord->SetInt(eGroupType, strPropertyName, nPropertyValue + nValue);
+    //        }
+    //    }
+    //}
 
     return 0;
 }
 
 int AFCPropertyModule::SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue)
 {
-    if(NFPropertyGroup::NPG_ALL != eGroupType)
-    {
-        ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
-        if(nullptr != pObject)
-        {
-            ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
-            if(nullptr != pRecord)
-            {
-                pRecord->SetUsed(eGroupType, true);
-                int nPropertyValue = pRecord->GetInt(eGroupType, strPropertyName);
+    //if(NFPropertyGroup::NPG_ALL != eGroupType)
+    //{
+    //    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    //    if(nullptr != pObject)
+    //    {
+    //        ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+    //        if(nullptr != pRecord)
+    //        {
+    //            pRecord->SetUsed(eGroupType, true);
+    //            int nPropertyValue = pRecord->GetInt(eGroupType, strPropertyName);
 
-                return pRecord->SetInt(eGroupType, strPropertyName, nPropertyValue - nValue);
-            }
-        }
-    }
+    //            return pRecord->SetInt(eGroupType, strPropertyName, nPropertyValue - nValue);
+    //        }
+    //    }
+    //}
 
     return 0;
 }
@@ -143,86 +149,86 @@ int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string&
 
 int AFCPropertyModule::OnRecordPropertyEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
-    //计算总值
-    const std::string& strRecordName = xEventData.strRecordName;
-    const int nOpType = xEventData.nOpType;
-    const int nRow = xEventData.nRow;
-    const int nCol = xEventData.nCol;
+    ////计算总值
+    //const std::string& strRecordName = xEventData.strRecordName;
+    //const int nOpType = xEventData.nOpType;
+    //const int nRow = xEventData.nRow;
+    //const int nCol = xEventData.nCol;
 
-    int nAllValue = 0;
-    ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
-    for(int i = 0; i < (int)(NFPropertyGroup::NPG_ALL); i++)
-    {
-        if(i < pRecord->GetRows())
-        {
-            int nValue = pRecord->GetInt(i, nCol);
-            nAllValue += nValue;
-        }
-    }
+    //int nAllValue = 0;
+    //ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+    //for(int i = 0; i < (int)(NFPropertyGroup::NPG_ALL); i++)
+    //{
+    //    if(i < pRecord->GetRows())
+    //    {
+    //        int nValue = pRecord->GetInt(i, nCol);
+    //        nAllValue += nValue;
+    //    }
+    //}
 
-    m_pKernelModule->SetPropertyInt(self, pRecord->GetColTag(nCol), nAllValue);
+    //m_pKernelModule->SetPropertyInt(self, pRecord->GetColTag(nCol), nAllValue);
 
     return 0;
 }
 
 int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
 {
-    if(strClassName == NFrame::Player::ThisName())
-    {
-        if(CLASS_OBJECT_EVENT::COE_CREATE_NODATA == eClassEvent)
-        {
-            ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
-            if(nullptr != pRecord)
-            {
-                for(int i = 0; i < NPG_ALL; i++)
-                {
-                    pRecord->AddRow(-1);
-                }
-            }
+    //if(strClassName == NFrame::Player::ThisName())
+    //{
+    //    if(CLASS_OBJECT_EVENT::COE_CREATE_NODATA == eClassEvent)
+    //    {
+    //        ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+    //        if(nullptr != pRecord)
+    //        {
+    //            for(int i = 0; i < NPG_ALL; i++)
+    //            {
+    //                pRecord->AddRow(-1);
+    //            }
+    //        }
 
-            m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::Level(), this, &AFCPropertyModule::OnObjectLevelEvent);
+    //        m_pKernelModule->AddPropertyCallBack(self, NFrame::Player::Level(), this, &AFCPropertyModule::OnObjectLevelEvent);
 
-            // TODO:一级属性回调
-            m_pKernelModule->AddRecordCallBack(self, NFrame::Player::R_CommPropertyValue(), this, &AFCPropertyModule::OnRecordPropertyEvent);
-        }
-        else if(CLASS_OBJECT_EVENT::COE_CREATE_EFFECTDATA == eClassEvent)
-        {
-            int nOnlineCount = m_pKernelModule->GetPropertyInt(self, NFrame::Player::OnlineCount());
-            if(nOnlineCount <= 0 && m_pKernelModule->GetPropertyInt(self, NFrame::Player::SceneID()) > 0)
-            {
-                //第一次出生，设置基础属性
-                m_pKernelModule->SetPropertyInt(self, NFrame::Player::Level(), 1);
-            }
-        }
-        else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
-        {
-            int nOnlineCount = m_pKernelModule->GetPropertyInt(self, NFrame::Player::OnlineCount());
-            m_pKernelModule->SetPropertyInt(self, NFrame::Player::OnlineCount(), (nOnlineCount + 1));
+    //        // TODO:一级属性回调
+    //        m_pKernelModule->AddRecordCallBack(self, NFrame::Player::R_CommPropertyValue(), this, &AFCPropertyModule::OnRecordPropertyEvent);
+    //    }
+    //    else if(CLASS_OBJECT_EVENT::COE_CREATE_EFFECTDATA == eClassEvent)
+    //    {
+    //        int nOnlineCount = m_pKernelModule->GetPropertyInt(self, NFrame::Player::OnlineCount());
+    //        if(nOnlineCount <= 0 && m_pKernelModule->GetPropertyInt(self, NFrame::Player::SceneID()) > 0)
+    //        {
+    //            //第一次出生，设置基础属性
+    //            m_pKernelModule->SetPropertyInt(self, NFrame::Player::Level(), 1);
+    //        }
+    //    }
+    //    else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
+    //    {
+    //        int nOnlineCount = m_pKernelModule->GetPropertyInt(self, NFrame::Player::OnlineCount());
+    //        m_pKernelModule->SetPropertyInt(self, NFrame::Player::OnlineCount(), (nOnlineCount + 1));
 
-        }
-    }
+    //    }
+    //}
 
     return 0;
 }
 
 int AFCPropertyModule::RefreshBaseProperty(const AFGUID& self)
 {
-    ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
-    if(nullptr == pRecord)
-    {
-        return 1;
-    }
+    //ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, NFrame::Player::R_CommPropertyValue());
+    //if(nullptr == pRecord)
+    //{
+    //    return 1;
+    //}
 
-    //初始属性+等级属性(职业决定)
-    int eJobType = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Job());
-    int nLevel = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Level());
+    ////初始属性+等级属性(职业决定)
+    //int eJobType = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Job());
+    //int nLevel = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Level());
 
-    for(int i = 0; i < pRecord->GetCols(); ++i)
-    {
-        const std::string& strColTag = pRecord->GetColTag(i);
-        int nValue = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, strColTag);
-        SetPropertyValue(self, strColTag, NFPropertyGroup::NPG_JOBLEVEL, nValue);
-    }
+    //for(int i = 0; i < pRecord->GetCols(); ++i)
+    //{
+    //    const std::string& strColTag = pRecord->GetColTag(i);
+    //    int nValue = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, strColTag);
+    //    SetPropertyValue(self, strColTag, NFPropertyGroup::NPG_JOBLEVEL, nValue);
+    //}
 
     return 1;
 }
