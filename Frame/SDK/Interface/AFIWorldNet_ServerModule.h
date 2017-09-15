@@ -41,7 +41,7 @@ public:
     virtual int OnPropertyEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self) = 0;
     virtual int OnRecordEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self) = 0;
     virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID,  const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData) = 0;
-    virtual bool OnRecordEnterPack(ARK_SHARE_PTR<AFIRecord> pRecord, AFMsg::ObjectRecordBase* pObjectRecordBase) = 0;
+    virtual bool OnRecordEnterPack(AFRecord* pRecord, AFMsg::ObjectRecordBase* pObjectRecordBase) = 0;
 
     virtual ARK_SHARE_PTR<ServerData> GetSuitProxyForEnter() = 0;
     virtual AFINetServerModule* GetNetModule() = 0;
