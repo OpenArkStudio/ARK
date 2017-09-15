@@ -1,6 +1,0 @@
-<map id="NFCObject" name="NFCObject">
-<area shape="rect" id="node2" href="$class_n_f_i_object.html" title="A nfi object. " alt="" coords="5,336,172,604"/>
-<area shape="rect" id="node3" href="$class_n_f_i_plugin_manager.html" title="{NFIPluginManager\n||+ NFIPluginManager()\l+ FindModule()\l+ Registered()\l+ UnRegistered()\l+ FindPlugin()\l+ AddModule()\l+ RemoveModule()\l+ FindModule()\l+ AppID()\l+ GetInitTime()\l+ GetNowTime()\l+ GetConfigPath()\l+ SetConfigName()\l}" alt="" coords="168,5,316,259"/>
-<area shape="rect" id="node4" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="197,343,346,597"/>
-<area shape="rect" id="node5" href="$struct_n_f_g_u_i_d.html" title="{NFGUID\n|+ nData64\l+ nHead64\l|+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ NFGUID()\l+ operator=()\l+ GetData()\l+ GetHead()\l+ SetData()\l+ SetHead()\l+ IsNull()\l+ operator==()\l+ operator!=()\l+ operator\&lt;()\l+ ToString()\l+ FromString()\l}" alt="" coords="370,321,477,619"/>
-</map>

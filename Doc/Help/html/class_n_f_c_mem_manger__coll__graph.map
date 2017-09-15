@@ -1,3 +1,0 @@
-<map id="NFCMemManger" name="NFCMemManger">
-<area shape="rect" id="node2" href="$class_n_f_singleton.html" title="{NFSingleton\&lt; NFCMemManger \&gt;\n||+ NFSingleton()\l+ ~NFSingleton()\l+ GetSingletonPtr()\l+ GetSingletonRef()\l+ Instance()\l+ InstanceRef()\l+ ReleaseInstance()\l}" alt="" coords="5,175,220,340"/>
-</map>

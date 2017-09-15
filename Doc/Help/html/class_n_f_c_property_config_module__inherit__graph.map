@@ -1,4 +1,0 @@
-<map id="NFCPropertyConfigModule" name="NFCPropertyConfigModule">
-<area shape="rect" id="node2" href="$class_n_f_i_property_config_module.html" title="{NFIPropertyConfigModule\n||+ CalculateBaseValue()\l+ LegalLevel()\l}" alt="" coords="22,321,191,413"/>
-<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="32,5,181,273"/>
-</map>

@@ -121,4 +121,3 @@ public:
     virtual const char* GetPropertyString(const char* name) = 0;
     virtual const AFGUID& GetPropertyObject(const char* name) = 0;
 };
-

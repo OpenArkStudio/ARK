@@ -1,32 +1,28 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file      AFCKernelModule.cpp                                              *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFCKernelModule                                                  *
-*****************************************************************************/
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+
 #include "SDK/Base/AFDefine.h"
 #include "SDK/Base/AFGUID.h"
 #include "SDK/Base/AFMemManger.h"
 #include "SDK/Core/AFCObject.h"
-#include "SDK/Core/AFCRecord.h"
+#include "SDK/Core/AFRecord.h"
 #include "SDK/Proto/NFProtocolDefine.hpp"
 #include "AFCKernelModule.h"
 
@@ -171,7 +167,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
     }
 
     ARK_SHARE_PTR<AFIPropertyMgr> pStaticClassPropertyManager = m_pClassModule->GetClassPropertyManager(strClassName);
-    ARK_SHARE_PTR<AFIRecordManager> pStaticClassRecordManager = m_pClassModule->GetClassRecordManager(strClassName);
+    ARK_SHARE_PTR<AFIRecordMgr> pStaticClassRecordManager = m_pClassModule->GetClassRecordManager(strClassName);
     if(pStaticClassPropertyManager && pStaticClassRecordManager)
     {
         pObject = ARK_SHARE_PTR<AFIObject>(ARK_NEW AFCObject(ident, pPluginManager));
@@ -180,7 +176,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         pContainerInfo->AddObjectToGroup(nGroupID, ident, strClassName == NFrame::Player::ThisName() ? true : false);
 
         ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = pObject->GetPropertyManager();
-        ARK_SHARE_PTR<AFIRecordManager> pRecordManager = pObject->GetRecordManager();
+        ARK_SHARE_PTR<AFIRecordMgr> pRecordManager = pObject->GetRecordManager();
 
         //默认属�?
         size_t staticPropertyCount = pStaticClassPropertyManager->GetPropertyCount();
@@ -203,30 +199,29 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
             pObject->AddPropertyCallBack(pStaticConfigProperty->GetName().c_str(), this, &AFCKernelModule::OnPropertyCommonEvent);
         }
 
-        ARK_SHARE_PTR<AFIRecord> pConfigRecordInfo = pStaticClassRecordManager->First();
-        while(nullptr != pConfigRecordInfo)
+
+        int staticRecordCount = pStaticClassRecordManager->GetCount();
+        for (size_t i = 0; i < staticRecordCount; ++i)
         {
-            ARK_SHARE_PTR<AFIRecord> xRecord =  pRecordManager->AddRecord(ident,
-                                                pConfigRecordInfo->GetName(),
-                                                pConfigRecordInfo->GetInitData(),
-                                                pConfigRecordInfo->GetTag(),
-                                                pConfigRecordInfo->GetRows());
+            AFRecord* pRecord = pStaticClassRecordManager->GetRecordByIndex(i);
+            if (NULL == pRecord)
+            {
+                continue;
+            }
 
-            xRecord->SetPublic(pConfigRecordInfo->GetPublic());
-            xRecord->SetPrivate(pConfigRecordInfo->GetPrivate());
-            xRecord->SetSave(pConfigRecordInfo->GetSave());
-            xRecord->SetCache(pConfigRecordInfo->GetCache());
+            AFCDataList col_type_list;
+            pRecord->GetColTypeList(col_type_list);
+            int8_t feature = pRecord->GetFeature();
+            pRecordManager->AddRecord(NULL_GUID, pRecord->GetName(), col_type_list, feature);
 
-            //通用回调，方便NET同步
-            pObject->AddRecordCallBack(pConfigRecordInfo->GetName(), this, &AFCKernelModule::OnRecordCommonEvent);
-
-            pConfigRecordInfo = pStaticClassRecordManager->Next();
+            //add record callback
+            pObject->AddRecordCallBack(pRecord->GetName(), this, &AFCKernelModule::OnRecordCommonEvent);
         }
 
         //////////////////////////////////////////////////////////////////////////
         //配置属�?
         ARK_SHARE_PTR<AFIPropertyMgr> pConfigPropertyManager = m_pElementModule->GetPropertyManager(strConfigIndex);
-        ARK_SHARE_PTR<AFIRecordManager> pConfigRecordManager = m_pElementModule->GetRecordManager(strConfigIndex);
+        ARK_SHARE_PTR<AFIRecordMgr> pConfigRecordManager = m_pElementModule->GetRecordManager(strConfigIndex);
 
         if(nullptr != pConfigPropertyManager && nullptr != pConfigRecordManager)
         {
@@ -286,6 +281,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
                 case DT_OBJECT:
                     pObject->SetPropertyObject(strPropertyName, arg.Object(i + 1));
                     break;
+                default:
                     break;
                 }
             }
@@ -536,25 +532,26 @@ const AFGUID& AFCKernelModule::GetPropertyObject(const AFGUID& self, const std::
     return NULL_GUID;
 }
 
-ARK_SHARE_PTR<AFIRecord> AFCKernelModule::FindRecord(const AFGUID& self, const std::string& strRecordName)
+AFRecord* AFCKernelModule::FindRecord(const AFGUID& self, const std::string& strRecordName)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetRecordManager()->GetElement(strRecordName);
+        return pObject->GetRecordManager()->GetRecord(strRecordName.c_str());
     }
 
     m_pLogModule->LogError(self, strRecordName, "| There is no object", __FUNCTION__, __LINE__);
 
-    return nullptr;
+    return NULL;
 }
 
 bool AFCKernelModule::ClearRecord(const AFGUID& self, const std::string& strRecordName)
 {
-    ARK_SHARE_PTR<AFIRecord> pRecord =  FindRecord(self, strRecordName);
-    if(nullptr != pRecord)
+    AFRecord* pRecord = FindRecord(self, strRecordName);
+    if(NULL != pRecord)
     {
-        return pRecord->Clear();
+        pRecord->Clear();
+        return true;
     }
 
     m_pLogModule->LogError(self, strRecordName, "| There is no record", __FUNCTION__, __LINE__);
@@ -567,24 +564,6 @@ bool AFCKernelModule::SetRecordBool(const AFGUID& self, const std::string& strRe
     if(nullptr != pObject)
     {
         if(!pObject->SetRecordBool(strRecordName, nRow, nCol, value))
-        {
-            m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
-            return false;
-        }
-
-        return true;
-    }
-
-    m_pLogModule->LogError(self, strRecordName, "| There is no object", __FUNCTION__, __LINE__);
-    return false;
-}
-
-bool AFCKernelModule::SetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const bool value)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        if(!pObject->SetRecordBool(strRecordName, nRow, strColTag, value))
         {
             m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
             return false;
@@ -615,48 +594,12 @@ bool AFCKernelModule::SetRecordInt(const AFGUID& self, const std::string& strRec
     return false;
 }
 
-bool AFCKernelModule::SetRecordInt(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const int32_t value)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        if(!pObject->SetRecordInt(strRecordName, nRow, strColTag, value))
-        {
-            m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
-            return false;
-        }
-
-        return true;
-    }
-
-    m_pLogModule->LogError(self, strRecordName, "| There is no object", __FUNCTION__, __LINE__);
-    return false;
-}
-
 bool AFCKernelModule::SetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const int64_t value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
     if(nullptr != pObject)
     {
         if(!pObject->SetRecordInt64(strRecordName, nRow, nCol, value))
-        {
-            m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
-            return false;
-        }
-
-        return true;
-    }
-
-    m_pLogModule->LogError(self, strRecordName, "| There is no object", __FUNCTION__, __LINE__);
-    return false;
-}
-
-bool AFCKernelModule::SetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const int64_t value)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        if(!pObject->SetRecordInt64(strRecordName, nRow, strColTag, value))
         {
             m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
             return false;
@@ -687,48 +630,12 @@ bool AFCKernelModule::SetRecordFloat(const AFGUID& self, const std::string& strR
     return false;
 }
 
-bool AFCKernelModule::SetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const float value)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        if(!pObject->SetRecordFloat(strRecordName, nRow, strColTag, value))
-        {
-            m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
-            return false;
-        }
-
-        return true;
-    }
-
-    m_pLogModule->LogError(self, strRecordName, "| There is no object", __FUNCTION__, __LINE__);
-    return false;
-}
-
 bool AFCKernelModule::SetRecordDouble(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const double value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
     if(nullptr != pObject)
     {
         if(!pObject->SetRecordDouble(strRecordName, nRow, nCol, value))
-        {
-            m_pLogModule->LogError(self, strRecordName, "error SetRecordFloat for row  or col", __FUNCTION__, __LINE__);
-            return false;
-        }
-
-        return true;
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return false;
-}
-
-bool AFCKernelModule::SetRecordDouble(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const double value)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        if(!pObject->SetRecordDouble(strRecordName, nRow, strColTag, value))
         {
             m_pLogModule->LogError(self, strRecordName, "error SetRecordFloat for row  or col", __FUNCTION__, __LINE__);
             return false;
@@ -759,48 +666,12 @@ bool AFCKernelModule::SetRecordString(const AFGUID& self, const std::string& str
     return false;
 }
 
-bool AFCKernelModule::SetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const std::string& value)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        if(!pObject->SetRecordString(strRecordName, nRow, strColTag, value))
-        {
-            m_pLogModule->LogError(self, strRecordName, "error SetRecordObject for row  or col", __FUNCTION__, __LINE__);
-            return false;
-        }
-
-        return true;
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return false;
-}
-
 bool AFCKernelModule::SetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
     if(nullptr != pObject)
     {
         if(!pObject->SetRecordObject(strRecordName, nRow, nCol, value))
-        {
-            m_pLogModule->LogError(self, strRecordName, "error SetRecordObject for row  or col", __FUNCTION__, __LINE__);
-            return false;
-        }
-
-        return true;
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return false;
-}
-
-bool AFCKernelModule::SetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag, const AFGUID& value)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        if(!pObject->SetRecordObject(strRecordName, nRow, strColTag, value))
         {
             m_pLogModule->LogError(self, strRecordName, "error SetRecordObject for row  or col", __FUNCTION__, __LINE__);
             return false;
@@ -825,36 +696,12 @@ bool AFCKernelModule::GetRecordBool(const AFGUID& self, const std::string& strRe
     return 0;
 }
 
-bool AFCKernelModule::GetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        return pObject->GetRecordBool(strRecordName, nRow, strColTag);
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return 0;
-}
-
 int32_t AFCKernelModule::GetRecordInt(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
     if(nullptr != pObject)
     {
         return pObject->GetRecordInt(strRecordName, nRow, nCol);
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return 0;
-}
-
-int32_t AFCKernelModule::GetRecordInt(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        return pObject->GetRecordInt(strRecordName, nRow, strColTag);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
@@ -873,36 +720,12 @@ int64_t AFCKernelModule::GetRecordInt64(const AFGUID& self, const std::string& s
     return 0;
 }
 
-int64_t AFCKernelModule::GetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        return pObject->GetRecordInt64(strRecordName, nRow, strColTag);
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return 0;
-}
-
 float AFCKernelModule::GetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
     if(nullptr != pObject)
     {
         return pObject->GetRecordFloat(strRecordName, nRow, nCol);
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return 0;
-}
-
-float AFCKernelModule::GetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        return pObject->GetRecordFloat(strRecordName, nRow, strColTag);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
@@ -921,19 +744,7 @@ double AFCKernelModule::GetRecordDouble(const AFGUID& self, const std::string& s
     return 0.0;
 }
 
-double AFCKernelModule::GetRecordDouble(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        return pObject->GetRecordDouble(strRecordName, nRow, strColTag);
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return 0.0;
-}
-
-const std::string& AFCKernelModule::GetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
+const char* AFCKernelModule::GetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
 {
     ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
     if(nullptr != pObject)
@@ -942,19 +753,7 @@ const std::string& AFCKernelModule::GetRecordString(const AFGUID& self, const st
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return NULL_STR;
-}
-
-const std::string& AFCKernelModule::GetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        return pObject->GetRecordString(strRecordName, nRow, strColTag);
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return NULL_STR;
+    return NULL_STR.c_str();
 }
 
 const AFGUID& AFCKernelModule::GetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
@@ -963,18 +762,6 @@ const AFGUID& AFCKernelModule::GetRecordObject(const AFGUID& self, const std::st
     if(nullptr != pObject)
     {
         return pObject->GetRecordObject(strRecordName, nRow, nCol);
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return NULL_GUID;
-}
-
-const AFGUID& AFCKernelModule::GetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const std::string& strColTag)
-{
-    ARK_SHARE_PTR<AFIObject> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        return pObject->GetRecordObject(strRecordName, nRow, strColTag);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);

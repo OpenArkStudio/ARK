@@ -21,7 +21,8 @@
 #include "AFCRecordMgr.h"
 #include "AFRecord.h"
 
-AFCRecordMgr::AFCRecordMgr()
+AFCRecordMgr::AFCRecordMgr(const AFGUID& guid)
+    : self(guid)
 {
 
 }
@@ -29,6 +30,11 @@ AFCRecordMgr::AFCRecordMgr()
 AFCRecordMgr::~AFCRecordMgr()
 {
     ReleaseAll();
+}
+
+const AFGUID& AFCRecordMgr::Self()
+{
+    return self;
 }
 
 void AFCRecordMgr::ReleaseAll()
@@ -52,11 +58,32 @@ bool AFCRecordMgr::Exist(const char* name, size_t& index) const
     return mxIndices.GetData(name, index);
 }
 
-bool AFCRecordMgr::Add(AFRecord* record)
+bool AFCRecordMgr::AddRecordInternal(AFRecord* record)
 {
     assert(record != NULL);
 
-    return mxIndices.Add(record->GetName(), mxRecords.size());
+    mxIndices.Add(record->GetName(), mxRecords.size());
+    mxRecords.push_back(record);
+
+    return true;
+}
+
+bool AFCRecordMgr::AddRecord(const AFGUID& self_id, const char* record_name, const AFIDataList& col_type_list, const int8_t feature)
+{
+    ARK_ASSERT(record_name != NULL && sizeof(record_name) > 0, "record name is invalid", __FILE__, __FUNCTION__);
+
+    self = self_id;
+
+    AFRecord* pRecord = ARK_NEW AFRecord();
+    pRecord->SetName(record_name);
+    for (int i = 0; i < col_type_list.GetCount(); ++i)
+    {
+        pRecord->SetColType(i, col_type_list.GetType(i));
+    }
+    
+    pRecord->SetFeature(feature);
+
+    return AddRecordInternal(pRecord);
 }
 
 void AFCRecordMgr::Clear()
@@ -65,7 +92,7 @@ void AFCRecordMgr::Clear()
     mxIndices.Clear();
 }
 
-AFRecord* AFCRecordMgr::Get(const char* name)
+AFRecord* AFCRecordMgr::GetRecord(const char* name)
 {
     size_t index;
     if (!mxIndices.GetData(name, index))
@@ -81,7 +108,7 @@ size_t AFCRecordMgr::GetCount() const
     return mxRecords.size();
 }
 
-AFRecord* AFCRecordMgr::GetRecord(size_t index) const
+AFRecord* AFCRecordMgr::GetRecordByIndex(size_t index) const
 {
     assert(index < GetCount());
     return mxRecords[index];
@@ -89,7 +116,7 @@ AFRecord* AFCRecordMgr::GetRecord(size_t index) const
 
 bool AFCRecordMgr::SetRecordBool(const char* name, const int row, const int col, const bool value)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return false;
@@ -100,7 +127,7 @@ bool AFCRecordMgr::SetRecordBool(const char* name, const int row, const int col,
 
 bool AFCRecordMgr::SetRecordInt(const char* name, const int row, const int col, const int32_t value)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return false;
@@ -111,7 +138,7 @@ bool AFCRecordMgr::SetRecordInt(const char* name, const int row, const int col, 
 
 bool AFCRecordMgr::SetRecordInt64(const char* name, const int row, const int col, const int64_t value)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return false;
@@ -122,7 +149,7 @@ bool AFCRecordMgr::SetRecordInt64(const char* name, const int row, const int col
 
 bool AFCRecordMgr::SetRecordFloat(const char* name, const int row, const int col, const float value)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return false;
@@ -133,7 +160,7 @@ bool AFCRecordMgr::SetRecordFloat(const char* name, const int row, const int col
 
 bool AFCRecordMgr::SetRecordDouble(const char* name, const int row, const int col, const double value)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return false;
@@ -144,7 +171,7 @@ bool AFCRecordMgr::SetRecordDouble(const char* name, const int row, const int co
 
 bool AFCRecordMgr::SetRecordString(const char* name, const int row, const int col, const char* value)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return false;
@@ -155,7 +182,7 @@ bool AFCRecordMgr::SetRecordString(const char* name, const int row, const int co
 
 bool AFCRecordMgr::SetRecordObject(const char* name, const int row, const int col, const AFGUID& value)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return false;
@@ -166,7 +193,7 @@ bool AFCRecordMgr::SetRecordObject(const char* name, const int row, const int co
 
 bool AFCRecordMgr::GetRecordBool(const char* name, const int row, const int col)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return false;
@@ -177,7 +204,7 @@ bool AFCRecordMgr::GetRecordBool(const char* name, const int row, const int col)
 
 int32_t AFCRecordMgr::GetRecordInt(const char* name, const int row, const int col)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return NULL_INT;
@@ -188,7 +215,7 @@ int32_t AFCRecordMgr::GetRecordInt(const char* name, const int row, const int co
 
 int64_t AFCRecordMgr::GetRecordInt64(const char* name, const int row, const int col)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return NULL_INT64;
@@ -199,7 +226,7 @@ int64_t AFCRecordMgr::GetRecordInt64(const char* name, const int row, const int 
 
 float AFCRecordMgr::GetRecordFloat(const char* name, const int row, const int col)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return NULL_FLOAT;
@@ -210,7 +237,7 @@ float AFCRecordMgr::GetRecordFloat(const char* name, const int row, const int co
 
 double AFCRecordMgr::GetRecordDouble(const char* name, const int row, const int col)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return NULL_DOUBLE;
@@ -221,7 +248,7 @@ double AFCRecordMgr::GetRecordDouble(const char* name, const int row, const int 
 
 const char* AFCRecordMgr::GetRecordString(const char* name, const int row, const int col)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return NULL_STR.c_str();
@@ -232,7 +259,7 @@ const char* AFCRecordMgr::GetRecordString(const char* name, const int row, const
 
 const AFGUID& AFCRecordMgr::GetRecordObject(const char* name, const int row, const int col)
 {
-    AFRecord* record = Get(name);
+    AFRecord* record = GetRecord(name);
     if (NULL == record)
     {
         return NULL_GUID;

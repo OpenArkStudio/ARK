@@ -1,4 +1,0 @@
-<map id="NFCWorldNet_ServerModule" name="NFCWorldNet_ServerModule">
-<area shape="rect" id="node2" href="$class_n_f_i_world_net___server_module.html" title="{NFIWorldNet_ServerModule\n||+ SendMsgToGame()\l+ OnObjectListEnter()\l+ OnObjectListLeave()\l+ OnPropertyEnter()\l+ OnRecordEnter()\l+ SendMsgToGame()\l+ OnRecordEnterPack()\l+ GetSuitProxyForEnter()\l+ GetNetModule()\l}" alt="" coords="35,321,217,516"/>
-<area shape="rect" id="node3" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="51,5,201,273"/>
-</map>

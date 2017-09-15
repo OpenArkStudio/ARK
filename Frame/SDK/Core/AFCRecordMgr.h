@@ -25,20 +25,23 @@
 #include "SDK/Base/AFStringPod.hpp"
 #include "AFIRecordMgr.h"
 
-class AFCRecordMgr
+class AFCRecordMgr : public AFIRecordMgr
 {
 public:
-    AFCRecordMgr();
+    AFCRecordMgr(const AFGUID& guid);
     virtual ~AFCRecordMgr();
+
+    virtual const AFGUID& Self();
 
     virtual bool Exist(const char* name) const;
     virtual bool Exist(const char* name, size_t& index) const;
 
-    virtual bool Add(AFRecord* record);
+    virtual bool AddRecord(const AFGUID& self_id, const char* record_name, const AFIDataList& col_type_list, const int8_t feature);
+    
     virtual void Clear();
-    virtual AFRecord* Get(const char* name);
+    virtual AFRecord* GetRecord(const char* name);
     virtual size_t GetCount() const;
-    virtual AFRecord* GetRecord(size_t index) const;
+    virtual AFRecord* GetRecordByIndex(size_t index) const;
 
     virtual bool SetRecordBool(const char* name, const int row, const int col, const bool value);
     virtual bool SetRecordInt(const char* name, const int row, const int col, const int32_t value);
@@ -57,9 +60,12 @@ public:
     virtual const AFGUID& GetRecordObject(const char* name, const int row, const int col);
 
 protected:
+    bool AddRecordInternal(AFRecord* record);
     void ReleaseAll();
 
 private:
+    AFGUID self;
+
     ArraryPod<AFRecord*, 1, CoreAlloc> mxRecords;
     StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
 };

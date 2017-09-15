@@ -1,4 +1,0 @@
-<map id="NFIMasterModule" name="NFIMasterModule">
-<area shape="rect" id="node3" href="$class_n_f_c_master_module.html" title="{NFCMasterModule\n|&#45; m_pKernelModule\l|+ NFCMasterModule()\l+ Init()\l+ Shut()\l+ Execute()\l}" alt="" coords="5,447,156,568"/>
-<area shape="rect" id="node2" href="$class_n_f_i_module.html" title="{NFIModule\n|+ strName\l# pPluginManager\l# mbReloading\l|+ NFIModule()\l+ ~NFIModule()\l+ Init()\l+ AfterInit()\l+ CheckConfig()\l+ BeforeShut()\l+ Shut()\l+ Execute()\l+ StartReLoadState()\l+ EndReLoadState()\l+ GetPluginManager()\l+ Loading()\l}" alt="" coords="6,5,155,273"/>
-</map>
