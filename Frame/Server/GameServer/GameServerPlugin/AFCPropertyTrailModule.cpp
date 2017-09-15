@@ -138,97 +138,97 @@ int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std:
 
 int AFCPropertyTrailModule::OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
-    std::ostringstream stream;
-    ARK_SHARE_PTR<AFIRecord> xRecord = m_pKernelModule->FindRecord(self, xEventData.strRecordName);
-    if(nullptr == xRecord)
-    {
-        return 0;
-    }
+    //std::ostringstream stream;
+    //ARK_SHARE_PTR<AFIRecord> xRecord = m_pKernelModule->FindRecord(self, xEventData.strRecordName);
+    //if(nullptr == xRecord)
+    //{
+    //    return 0;
+    //}
 
-    switch(xEventData.nOpType)
-    {
-    case AFIRecord::RecordOptype::Add:
-        {
-            AFCDataList xDataList;
-            bool bRet = xRecord->QueryRow(xEventData.nRow, xDataList);
-            if(bRet)
-            {
-                stream << " Trail Add Row[" << xEventData.nRow << "]";
+    //switch(xEventData.nOpType)
+    //{
+    //case AFIRecord::RecordOptype::Add:
+    //    {
+    //        AFCDataList xDataList;
+    //        bool bRet = xRecord->QueryRow(xEventData.nRow, xDataList);
+    //        if(bRet)
+    //        {
+    //            stream << " Trail Add Row[" << xEventData.nRow << "]";
 
-                for(int j = 0; j < xDataList.GetCount(); ++j)
-                {
-                    stream << " [" << j << "] " << xDataList.ToString(j);
-                }
+    //            for(int j = 0; j < xDataList.GetCount(); ++j)
+    //            {
+    //                stream << " [" << j << "] " << xDataList.ToString(j);
+    //            }
 
-                m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
-            }
-        }
-        break;
-    case AFIRecord::RecordOptype::Del:
-        {
-            stream << " Trail Del Row[" << xEventData.nRow << "]";
-            m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
-        }
-        break;
-    case AFIRecord::RecordOptype::Swap:
-        {
-            stream << " Trail Swap Row[" << xEventData.nRow << "] Row[" << xEventData.nCol << "]";
-            m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
-        }
-        break;
-    case AFIRecord::RecordOptype::Create:
-        break;
-    case AFIRecord::RecordOptype::Update:
-        {
-            stream << " Trail UpData Row[" << xEventData.nRow << "] Col[" << xEventData.nCol << "]";
-            //stream << " [Old] " << oldVar.ToString();
-            //stream << " [New] " << newVar.ToString();
-            m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
-        }
-        break;
-    case AFIRecord::RecordOptype::Cleared:
-        break;
-    case AFIRecord::RecordOptype::Sort:
-        break;
-    default:
-        break;
-    }
+    //            m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
+    //        }
+    //    }
+    //    break;
+    //case AFIRecord::RecordOptype::Del:
+    //    {
+    //        stream << " Trail Del Row[" << xEventData.nRow << "]";
+    //        m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
+    //    }
+    //    break;
+    //case AFIRecord::RecordOptype::Swap:
+    //    {
+    //        stream << " Trail Swap Row[" << xEventData.nRow << "] Row[" << xEventData.nCol << "]";
+    //        m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
+    //    }
+    //    break;
+    //case AFIRecord::RecordOptype::Create:
+    //    break;
+    //case AFIRecord::RecordOptype::Update:
+    //    {
+    //        stream << " Trail UpData Row[" << xEventData.nRow << "] Col[" << xEventData.nCol << "]";
+    //        //stream << " [Old] " << oldVar.ToString();
+    //        //stream << " [New] " << newVar.ToString();
+    //        m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
+    //    }
+    //    break;
+    //case AFIRecord::RecordOptype::Cleared:
+    //    break;
+    //case AFIRecord::RecordOptype::Sort:
+    //    break;
+    //default:
+    //    break;
+    //}
 
     return 0;
 }
 
 int AFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
 {
-    ARK_SHARE_PTR<AFIObject> xObject = m_pKernelModule->GetObject(self);
-    if(nullptr == xObject)
-    {
-        return -1;
-    }
+    //ARK_SHARE_PTR<AFIObject> xObject = m_pKernelModule->GetObject(self);
+    //if(nullptr == xObject)
+    //{
+    //    return -1;
+    //}
 
-    /* ARK_SHARE_PTR<AFIPropertyManager> xPropertyManager = xObject->GetPropertyManager();
-     if(nullptr != xPropertyManager)
-     {
-         ARK_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
-         while(nullptr != xProperty)
-         {
-             m_pKernelModule->AddPropertyCallBack(self, xProperty->GetKey(), this, &AFCPropertyTrailModule::OnObjectPropertyEvent);
+    //ARK_SHARE_PTR<AFIPropertyManager> xPropertyManager = xObject->GetPropertyManager();
+    //if(nullptr != xPropertyManager)
+    //{
+    //    ARK_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
+    //    while(nullptr != xProperty)
+    //    {
+    //        m_pKernelModule->AddPropertyCallBack(self, xProperty->GetKey(), this, &AFCPropertyTrailModule::OnObjectPropertyEvent);
 
-             xProperty = xPropertyManager->Next();
-         }
-     }
-    */
-    ARK_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
-    if(nullptr != xRecordManager)
-    {
-        ARK_SHARE_PTR<AFIRecord> xRecord = xRecordManager->First();
-        while(nullptr != xRecord)
-        {
-            m_pKernelModule->AddRecordCallBack(self, xRecord->GetName(), this, &AFCPropertyTrailModule::OnObjectRecordEvent);
+    //        xProperty = xPropertyManager->Next();
+    //    }
+    //}
+    //
+    //ARK_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
+    //if(nullptr != xRecordManager)
+    //{
+    //    ARK_SHARE_PTR<AFIRecord> xRecord = xRecordManager->First();
+    //    while(nullptr != xRecord)
+    //    {
+    //        m_pKernelModule->AddRecordCallBack(self, xRecord->GetName(), this, &AFCPropertyTrailModule::OnObjectRecordEvent);
 
 
-            xRecord = xRecordManager->Next();
-        }
-    }
+    //        xRecord = xRecordManager->Next();
+    //    }
+    //}
 
     return 0;
 }
