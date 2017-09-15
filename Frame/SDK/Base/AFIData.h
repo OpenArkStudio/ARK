@@ -83,6 +83,8 @@ public:
     virtual ~AFIData() {}
 
     virtual int GetType() const = 0;
+
+    virtual void SetDefaultValue(int type) = 0;
     virtual bool IsNullValue() const = 0;
 
     //Get data

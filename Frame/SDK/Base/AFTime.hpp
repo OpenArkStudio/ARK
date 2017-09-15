@@ -550,7 +550,7 @@ public:
     {
         AFTime xTime((int)Get(YEAR), (int)Get(MONTH), 1, 0, 0, 0, 0);
         int nFirstDayOfWeek = xTime.GetDayOfWeek();
-        int nDaySpan = Get(DAY) - 1;
+        int64_t nDaySpan = Get(DAY) - 1;
         return (nFirstDayOfWeek + nDaySpan) / 7;
     }
 

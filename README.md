@@ -64,37 +64,36 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 
 * GCC >= 4.8 (**<font color=red>Recommend</font> Tested in Ubuntu 15.04**)
 * MSVC >= VS2015 (**<font color=red>Recommend</font> Tested in Win7/10**)
-* MSVC >= VS2012+ & GCC >= 4.4+ (By using ```boost```, define macro ```HAVE_BOOST```, then you need to add boost include files and libraries yourself, just to replace ```boost::variant``` and ```boost::lexical_cast```)
+* MSVC >= VS2012+ & GCC >= 4.4+ (By using `boost`, define macro `HAVE_BOOST`, then you need to add boost include files and libraries yourself, just to replace `boost::variant` and `boost::lexical_cast`)
 
 ## Build and Install
 ### MSVC >= 2015
 
 1. Git pull all source
-2. Run ```Dep/build_dep.bat```
-3. Open the solution: ```Frame/Ark.sln```
-4. Build the solution```Ark.sln```
-5. Run ```GenerateConfigXML.bat``` to generate configuration files
-6. Run the binary file by ```Bin/Server/Debug/Run.bat```
+2. Run `Dep/build_dep.bat`
+3. Open the solution: `Frame/Ark.sln`
+4. Build the solution`Ark.sln`
+5. Run `GenerateConfigXML.bat` to generate configuration files
+6. Run the binary file by `Bin/Server/Debug/Run.bat`
 
 ### CodeBlocks >= 13.1(Only in linux)
 
 1. Git pull all source
-2. Run ```Dep/build_dep.sh```
-3. Open the solution with CodeBlocks: ```Frame/Ark.workspace```
-4. Check ```C++11``` option in CodeBlocks compiler setting
-5. Build ```Ark.workspace```
-6. Run ```bash ./GenerateConfigXML.sh``` to generate configuration files
-6. Run the binary file by ```Bin/Server/Debug/rund.sh```
+2. Run `Dep/build_dep.sh`
+3. Open the solution with CodeBlocks: `Frame/Ark.workspace`
+4. Check `C++11` option in CodeBlocks compiler setting
+5. Build `Ark.workspace`
+6. Run `bash ./GenerateConfigXML.sh` to generate configuration files
+6. Run the binary file by `Bin/Server/Debug/rund.sh`
 
 ## Documents
-[User Manual](https://arkgame.github.io/ArkGameFrame/)
 
 [English](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_EN.md)
 
 [Mandarin](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md)
 
 ## Examples
-Please see ```Frame/Examples```.
+Please see `Frame/Examples`.
 
 ## License
 The ArkGameFrame project is currently available under the [Apache License](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE).
@@ -117,5 +116,5 @@ Our team has always specialized in the agile development and try to help differe
 - [ ] 5.增加其他中间件(coroutine, mongoDB)
 - [ ] 6.增加通用的proxy-server(参考tconnd, tbus)
 - [ ] 7.完整的带业务功能的demo
-- [ ] 8.优化数据同步的流量,减小属性同步的体积(去掉```PropertyName```和```RecordName```类似的string同步)
+- [ ] 8.优化数据同步的流量,减小属性同步的体积(去掉`PropertyName`和`RecordName`类似的string同步)
 - [ ] 9.拓展record的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，record现有的结构是特定的，不方便做扩展
