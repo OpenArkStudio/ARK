@@ -118,7 +118,7 @@ bool AFCClassModule::AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, ARK_S
         bool bPublic = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Public")->value());
         bool bPrivate = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Private")->value());
         bool bSave = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Save")->value());
-        bool bRealTime = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Cache")->value());
+        bool bRealTime = ARK_LEXICAL_CAST<bool>(pPropertyNode->first_attribute("Cache")->value()); //TODO:real-time
 
         AFCData varProperty;
         if(DT_UNKNOWN == ComputerType(pstrType, varProperty))
@@ -157,58 +157,62 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, ARK_SHARE
 {
     for(rapidxml::xml_node<>* pRecordNode = pRecordRootNode->first_node(); pRecordNode;  pRecordNode = pRecordNode->next_sibling())
     {
-        if(pRecordNode)
+        if (NULL == pRecordNode)
         {
-            const char* pstrRecordName = pRecordNode->first_attribute("Id")->value();
+            continue;
+        }
+        const char* pstrRecordName = pRecordNode->first_attribute("Id")->value();
 
-            if(pClass->GetRecordManager()->GetElement(pstrRecordName))
+        if(pClass->GetRecordManager()->GetRecord(pstrRecordName))
+        {
+            ARK_ASSERT(0, pstrRecordName, __FILE__, __FUNCTION__);
+            continue;
+        }
+
+        //const char* pstrRow = pRecordNode->first_attribute("Row")->value();
+        //const char* pstrCol = pRecordNode->first_attribute("Col")->value();
+
+        bool bPublic = ARK_LEXICAL_CAST<bool>(pRecordNode->first_attribute("Public")->value());
+        bool bPrivate = ARK_LEXICAL_CAST<bool>(pRecordNode->first_attribute("Private")->value());
+        bool bSave = ARK_LEXICAL_CAST<bool>(pRecordNode->first_attribute("Save")->value());
+        bool bRealtime = ARK_LEXICAL_CAST<bool>(pRecordNode->first_attribute("Cache")->value());//TODO:real-time
+
+        AFCDataList col_type_list;
+        for(rapidxml::xml_node<>* recordColNode = pRecordNode->first_node(); recordColNode;  recordColNode = recordColNode->next_sibling())
+        {
+            AFCData data;
+            const char* pstrColType = recordColNode->first_attribute("Type")->value();
+            if(DT_UNKNOWN == ComputerType(pstrColType, data))
             {
                 ARK_ASSERT(0, pstrRecordName, __FILE__, __FUNCTION__);
-                continue;
             }
 
-            const char* pstrRow = pRecordNode->first_attribute("Row")->value();
-            const char* pstrCol = pRecordNode->first_attribute("Col")->value();
-
-            const char* pstrPublic = pRecordNode->first_attribute("Public")->value();
-            const char* pstrPrivate = pRecordNode->first_attribute("Private")->value();
-            const char* pstrSave = pRecordNode->first_attribute("Save")->value();
-            const char* pstrCache = pRecordNode->first_attribute("Cache")->value();
-
-            std::string strView;
-            if(pRecordNode->first_attribute("View") != NULL)
-            {
-                strView = pRecordNode->first_attribute("View")->value();
-            }
-
-            bool bPublic = ARK_LEXICAL_CAST<bool>(pstrPublic);
-            bool bPrivate = ARK_LEXICAL_CAST<bool>(pstrPrivate);
-            bool bSave = ARK_LEXICAL_CAST<bool>(pstrSave);
-            bool bCache = ARK_LEXICAL_CAST<bool>(pstrCache);
-
-            ARK_SHARE_PTR<AFIDataList> recordVar(ARK_NEW AFCDataList());
-            ARK_SHARE_PTR<AFIDataList> recordTag(ARK_NEW AFCDataList());
-
-            for(rapidxml::xml_node<>* recordColNode = pRecordNode->first_node(); recordColNode;  recordColNode = recordColNode->next_sibling())
-            {
-                AFCData AFIData;
-                const char* pstrColType = recordColNode->first_attribute("Type")->value();
-                if(DT_UNKNOWN == ComputerType(pstrColType, AFIData))
-                {
-                    //assert(0);
-                    ARK_ASSERT(0, pstrRecordName, __FILE__, __FUNCTION__);
-                }
-
-                recordVar->Append(AFIData);
-            }
-
-            ARK_SHARE_PTR<AFIRecord> xRecord = pClass->GetRecordManager()->AddRecord(NULL_GUID, pstrRecordName, recordVar, recordTag, atoi(pstrRow));
-
-            xRecord->SetPublic(bPublic);
-            xRecord->SetPrivate(bPrivate);
-            xRecord->SetSave(bSave);
-            xRecord->SetCache(bCache);
+            col_type_list.Append(data);
         }
+
+        int8_t feature(0);
+        if (bPublic)
+        {
+            BitValue<int8_t>::SetBitValue(feature, AFRecord::RF_PUBLIC);
+        }
+
+        if (bPrivate)
+        {
+            BitValue<int8_t>::SetBitValue(feature, AFRecord::RF_PRIVATE);
+        }
+
+        if (bRealtime)
+        {
+            BitValue<int8_t>::SetBitValue(feature, AFRecord::RF_REAL_TIME);
+        }
+
+        if (bSave)
+        {
+            BitValue<int8_t>::SetBitValue(feature, AFRecord::RF_SAVE);
+        }
+
+        bool result = pClass->GetRecordManager()->AddRecord(NULL_GUID, pstrRecordName, col_type_list, feature);
+        ARK_ASSERT(!result, "add record failed, please check", __FILE__, __FUNCTION__);
     }
 
     return true;
@@ -451,7 +455,7 @@ ARK_SHARE_PTR<AFIPropertyMgr> AFCClassModule::GetClassPropertyManager(const std:
     return NULL;
 }
 
-ARK_SHARE_PTR<AFIRecordManager> AFCClassModule::GetClassRecordManager(const std::string& strClassName)
+ARK_SHARE_PTR<AFIRecordMgr> AFCClassModule::GetClassRecordManager(const std::string& strClassName)
 {
     ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
     if(nullptr != pClass)
@@ -499,4 +503,3 @@ bool AFCClassModule::DoEvent(const AFGUID& objectID, const std::string& strClass
 
     return pClass->DoEvent(objectID, eClassEvent, valueList);
 }
-

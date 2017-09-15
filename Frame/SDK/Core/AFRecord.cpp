@@ -189,6 +189,61 @@ void AFRecord::Clear()
     ReleaseAll();
 }
 
+void AFRecord::SetFeature(int8_t new_feature)
+{
+    this->feature = new_feature;
+}
+
+int8_t AFRecord::GetFeature() const
+{
+    return feature;
+}
+
+void AFRecord::SetPublic()
+{
+    BitValue<int8_t>::SetBitValue(feature, RF_PUBLIC);
+}
+
+bool AFRecord::IsPublic() const
+{
+    return BitValue<int8_t>::HaveBitValue(feature, RF_PUBLIC);
+}
+
+void AFRecord::SetPrivate()
+{
+    BitValue<int8_t>::SetBitValue(feature, RF_PRIVATE);
+}
+
+bool AFRecord::IsPrivate() const
+{
+    return BitValue<int8_t>::HaveBitValue(feature, RF_PRIVATE);
+}
+
+void AFRecord::SetRealTime()
+{
+    BitValue<int8_t>::SetBitValue(feature, RF_REAL_TIME);
+}
+
+bool AFRecord::IsRealTime() const
+{
+    return BitValue<int8_t>::HaveBitValue(feature, RF_REAL_TIME);
+}
+
+void AFRecord::SetSave()
+{
+    BitValue<int8_t>::SetBitValue(feature, RF_SAVE);
+}
+
+bool AFRecord::IsSave() const
+{
+    return BitValue<int8_t>::HaveBitValue(feature, RF_SAVE);
+}
+
+bool AFRecord::AddRecordCB(const RECORD_EVENT_FUNCTOR_PTR& cb)
+{
+    return true;
+}
+
 bool AFRecord::SetValue(size_t row, size_t col, const AFIData& value)
 {
     if ((row >= GetRowCount()) || (col >= GetColCount()))
@@ -395,6 +450,20 @@ const char* AFRecord::GetStringValue(size_t row, size_t col)
 
     //TODO:增加AFIData的ToString接口
     return NULL_STR.c_str();
+}
+
+bool AFRecord::GetColTypeList(AFIDataList& col_type_list)
+{
+    int col_count = GetColCount();
+    for (int i = 0; i < col_count; ++i)
+    {
+        AFCData data;
+        int col_type = GetColType(i);
+        data.SetDefaultValue(col_type);
+        col_type_list.Append(data);
+    }
+
+    return true;
 }
 
 int AFRecord::FindRow(size_t col, const AFIData& key, size_t begin_row /*= 0*/)

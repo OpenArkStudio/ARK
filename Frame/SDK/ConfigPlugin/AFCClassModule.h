@@ -1,27 +1,23 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file  	AFCClassModule.h                                                *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFCClassModule                                                  *
-*****************************************************************************/
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+
 #pragma once
 
 #include "AFCElementModule.h"
@@ -29,10 +25,10 @@
 #include "SDK/Base/AFMap.h"
 #include "SDK/Base/AFList.h"
 #include "SDK/Base/AFCDataList.h"
-#include "SDK/Core/AFCRecord.h"
+#include "SDK/Core/AFRecord.h"
 #include "SDK/Base/AFList.h"
 #include "SDK/Core/AFCPropertyMgr.h"
-#include "SDK/Core/AFCRecordManager.h"
+#include "SDK/Core/AFCRecordMgr.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
@@ -47,7 +43,7 @@ public:
         mstrClassName = strClassName;
 
         m_pPropertyManager = ARK_SHARE_PTR<AFIPropertyMgr>(ARK_NEW AFCPropertyMgr(NULL_GUID));
-        m_pRecordManager = ARK_SHARE_PTR<AFIRecordManager>(ARK_NEW AFCRecordManager(NULL_GUID));
+        m_pRecordManager = ARK_SHARE_PTR<AFIRecordMgr>(ARK_NEW AFCRecordMgr(NULL_GUID));
     }
 
     virtual ~AFCClass()
@@ -60,7 +56,7 @@ public:
         return m_pPropertyManager;
     }
 
-    virtual ARK_SHARE_PTR<AFIRecordManager> GetRecordManager()
+    virtual ARK_SHARE_PTR<AFIRecordMgr> GetRecordManager()
     {
         return m_pRecordManager;
     }
@@ -133,7 +129,7 @@ public:
 
 private:
     ARK_SHARE_PTR<AFIPropertyMgr> m_pPropertyManager;
-    ARK_SHARE_PTR<AFIRecordManager> m_pRecordManager;
+    ARK_SHARE_PTR<AFIRecordMgr> m_pRecordManager;
 
     ARK_SHARE_PTR<AFIClass> m_pParentClass;
     std::string mstrType;
@@ -163,7 +159,7 @@ public:
     virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList);
 
     virtual ARK_SHARE_PTR<AFIPropertyMgr> GetClassPropertyManager(const std::string& strClassName);
-    virtual ARK_SHARE_PTR<AFIRecordManager> GetClassRecordManager(const std::string& strClassName);
+    virtual ARK_SHARE_PTR<AFIRecordMgr> GetClassRecordManager(const std::string& strClassName);
     //virtual ARK_SHARE_PTR<AFIComponentManager> GetClassComponentManager(const std::string& strClassName);
 
     virtual bool AddClass(const std::string& strClassName, const std::string& strParentName);
@@ -184,4 +180,3 @@ protected:
 
     std::string msConfigFileName;
 };
-
