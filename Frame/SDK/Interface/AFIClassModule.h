@@ -1,33 +1,29 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file  	AFIClassModule.h                                                *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFIClassModule                                                  *
-*****************************************************************************/
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+
 #pragma once
 
 #include "SDK/Base/AFMacros.hpp"
 #include "AFIModule.h"
 #include "SDK/Core/AFIPropertyMgr.h"
-#include "SDK/Core/AFIRecordManager.h"
+#include "SDK/Core/AFIRecordMgr.h"
 
 class AFIClass : public NFList<std::string>
 {
@@ -35,7 +31,7 @@ public:
     virtual ~AFIClass() {}
 
     virtual ARK_SHARE_PTR<AFIPropertyMgr> GetPropertyManager() = 0;
-    virtual ARK_SHARE_PTR<AFIRecordManager> GetRecordManager() = 0;
+    virtual ARK_SHARE_PTR<AFIRecordMgr> GetRecordManager() = 0;
 
     virtual void SetParent(ARK_SHARE_PTR<AFIClass> pClass) = 0;
     virtual ARK_SHARE_PTR<AFIClass> GetParent() = 0;
@@ -77,6 +73,5 @@ public:
 
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
     virtual ARK_SHARE_PTR<AFIPropertyMgr> GetClassPropertyManager(const std::string& strClassName) = 0;
-    virtual ARK_SHARE_PTR<AFIRecordManager> GetClassRecordManager(const std::string& strClassName) = 0;
+    virtual ARK_SHARE_PTR<AFIRecordMgr> GetClassRecordManager(const std::string& strClassName) = 0;
 };
-

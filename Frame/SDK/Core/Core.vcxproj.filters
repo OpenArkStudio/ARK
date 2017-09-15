@@ -18,12 +18,6 @@
     <ClInclude Include="AFCObject.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFCRecord.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCRecordManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="AFIComponent.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -37,9 +31,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFIRecord.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIRecordManager.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFIPropertyMgr.h">
@@ -63,12 +54,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFCObject.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AFCRecord.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AFCRecordManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFCPropertyMgr.cpp">
