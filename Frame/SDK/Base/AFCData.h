@@ -282,31 +282,31 @@ public:
 
     virtual void SetDefaultValue(int type)
     {
-        switch (GetType())
+        switch(type)
         {
         case DT_BOOLEAN:
-            mbValue = NULL_BOOLEAN;
+            SetBool(NULL_BOOLEAN);
             break;
         case DT_INT:
-            mnValue = NULL_INT;
+            SetInt(NULL_INT);
             break;
         case DT_INT64:
-            mn64Value = NULL_INT64;
+            SetInt64(NULL_INT64);
             break;
         case DT_FLOAT:
-            mfValue = NULL_FLOAT;
+            SetFloat(NULL_FLOAT);
             break;
         case DT_DOUBLE:
-            mdValue = NULL_DOUBLE;
+            SetDouble(NULL_DOUBLE);
             break;
         case DT_STRING:
-            mstrValue = "";
+            SetString("");
             break;
         case DT_OBJECT:
-            mnIdent = 0;
-            mnSerial = 0;
+            SetObject(AFGUID(0));
             break;
         default:
+            ARK_ASSERT(0, "don't have data type", __FILE__, __FUNCTION__);
             break;
         }
     }
