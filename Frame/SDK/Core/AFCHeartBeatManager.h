@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCHeartBeatManager.h                                                *
+// * @file      AFCHeartBeatManager.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCHeartBeatManager                                                  *
@@ -58,6 +58,7 @@ public:
     AFCHeartBeatManager()
     {
         mSelf = NULL_GUID;
+        mTimerIDIndex = NULL_GUID;
     }
 
     /**
@@ -145,7 +146,7 @@ public:
      * @return  True if it succeeds, false if it fails.
      */
 
-    virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount);
+    virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever = false);
 
     /**
      * @fn  virtual bool AFCHeartBeatManager::RemoveHeartBeat(const std::string& strHeartBeatName);
@@ -172,5 +173,8 @@ protected:
     std::list<AFCHeartBeatElement> mAddListEx;
     /** @brief   The heart beat element map ex. */
     AFMapEx<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
+
+    std::multimap<int64_t, ARK_SHARE_PTR<AFCHeartBeatElement>> mTimeList;
+    AFGUID mTimerIDIndex;
 };
 
