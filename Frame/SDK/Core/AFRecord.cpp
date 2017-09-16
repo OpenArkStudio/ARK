@@ -34,7 +34,7 @@ AFRecord::~AFRecord()
 
 void AFRecord::ReleaseRow(RowData* row_data, size_t col_num)
 {
-    for (size_t i = 0; i < col_num; ++i)
+    for(size_t i = 0; i < col_num; ++i)
     {
         row_data[i].~AFBaseData();
     }
@@ -46,9 +46,9 @@ void AFRecord::ReleaseRow(RowData* row_data, size_t col_num)
 void AFRecord::ReleaseAll()
 {
     size_t col_num = mxColTypes.size();
-    for (size_t i = 0; i < mxRowDatas.size(); ++i)
+    for(size_t i = 0; i < mxRowDatas.size(); ++i)
     {
-        if (NULL != mxRowDatas[i])
+        if(NULL != mxRowDatas[i])
         {
             ReleaseRow(mxRowDatas[i], col_num);
         }
@@ -76,7 +76,7 @@ int AFRecord::GetRowCount() const
 void AFRecord::SetColCount(size_t value)
 {
     assert(value > 0);
-    if (mxColTypes.size() > 0)
+    if(mxColTypes.size() > 0)
     {
         ReleaseAll();
     }
@@ -92,6 +92,7 @@ int AFRecord::GetColCount() const
 bool AFRecord::SetColType(size_t index, int type)
 {
     assert(index < mxColTypes.size());
+    assert(type > DT_UNKNOWN);
 
     mxColTypes[index] = type;
     return true;
@@ -108,7 +109,7 @@ bool AFRecord::AddRow(size_t row)
 {
     size_t col_num = GetColCount();
     RowData* row_data = new RowData[col_num];
-    if (row >= GetRowCount())
+    if(row >= GetRowCount())
     {
         mxRowDatas.push_back(row_data);
     }
@@ -123,17 +124,17 @@ bool AFRecord::AddRow(size_t row)
 bool AFRecord::AddRow(size_t row, const AFIDataList& data)
 {
     size_t col_num = GetColCount();
-    if (data.GetCount() != col_num)
+    if(data.GetCount() != col_num)
     {
         ARK_ASSERT(0, "data size is not equal with col_num, please check your arg.", __FILE__, __FUNCTION__);
         return false;
     }
 
     RowData* row_data = new RowData[col_num];
-    for (int i = 0; i < data.GetCount(); ++i)
+    for(int i = 0; i < data.GetCount(); ++i)
     {
         int type = GetColType(i);
-        switch (type)
+        switch(type)
         {
         case DT_BOOLEAN:
             row_data[i].SetBool(data.Bool(i));
@@ -162,7 +163,7 @@ bool AFRecord::AddRow(size_t row, const AFIDataList& data)
         }
     }
 
-    if (row >= GetRowCount())
+    if(row >= GetRowCount())
     {
         mxRowDatas.push_back(row_data);
     }
@@ -246,7 +247,7 @@ bool AFRecord::AddRecordCB(const RECORD_EVENT_FUNCTOR_PTR& cb)
 
 bool AFRecord::SetValue(size_t row, size_t col, const AFIData& value)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return false;
     }
@@ -259,7 +260,7 @@ bool AFRecord::SetValue(size_t row, size_t col, const AFIData& value)
 
 bool AFRecord::SetBool(size_t row, size_t col, const bool value)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return false;
     }
@@ -272,7 +273,7 @@ bool AFRecord::SetBool(size_t row, size_t col, const bool value)
 
 bool AFRecord::SetInt(size_t row, size_t col, const int value)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return false;
     }
@@ -285,7 +286,7 @@ bool AFRecord::SetInt(size_t row, size_t col, const int value)
 
 bool AFRecord::SetInt64(size_t row, size_t col, const int64_t value)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return false;
     }
@@ -298,7 +299,7 @@ bool AFRecord::SetInt64(size_t row, size_t col, const int64_t value)
 
 bool AFRecord::SetFloat(size_t row, size_t col, const float value)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return false;
     }
@@ -311,7 +312,7 @@ bool AFRecord::SetFloat(size_t row, size_t col, const float value)
 
 bool AFRecord::SetDouble(size_t row, size_t col, const double value)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return false;
     }
@@ -324,7 +325,7 @@ bool AFRecord::SetDouble(size_t row, size_t col, const double value)
 
 bool AFRecord::SetString(size_t row, size_t col, const char* value)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return false;
     }
@@ -337,7 +338,7 @@ bool AFRecord::SetString(size_t row, size_t col, const char* value)
 
 bool AFRecord::SetObject(size_t row, size_t col, const AFGUID& value)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return false;
     }
@@ -350,7 +351,7 @@ bool AFRecord::SetObject(size_t row, size_t col, const AFGUID& value)
 
 bool AFRecord::GetValue(size_t row, size_t col, AFIData& value)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return false;
     }
@@ -363,7 +364,7 @@ bool AFRecord::GetValue(size_t row, size_t col, AFIData& value)
 
 bool AFRecord::GetBool(size_t row, size_t col)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return NULL_BOOLEAN;
     }
@@ -374,7 +375,7 @@ bool AFRecord::GetBool(size_t row, size_t col)
 
 int AFRecord::GetInt(size_t row, size_t col)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return NULL_INT;
     }
@@ -385,7 +386,7 @@ int AFRecord::GetInt(size_t row, size_t col)
 
 int64_t AFRecord::GetInt64(size_t row, size_t col)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return NULL_INT64;
     }
@@ -396,7 +397,7 @@ int64_t AFRecord::GetInt64(size_t row, size_t col)
 
 float AFRecord::GetFloat(size_t row, size_t col)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return NULL_FLOAT;
     }
@@ -407,7 +408,7 @@ float AFRecord::GetFloat(size_t row, size_t col)
 
 double AFRecord::GetDouble(size_t row, size_t col)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return NULL_DOUBLE;
     }
@@ -418,7 +419,7 @@ double AFRecord::GetDouble(size_t row, size_t col)
 
 const char* AFRecord::GetString(size_t row, size_t col)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return NULL_STR.c_str();
     }
@@ -429,7 +430,7 @@ const char* AFRecord::GetString(size_t row, size_t col)
 
 const AFGUID& AFRecord::GetObject(size_t row, size_t col)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return NULL_GUID;
     }
@@ -455,11 +456,11 @@ const char* AFRecord::GetStringValue(size_t row, size_t col)
 bool AFRecord::GetColTypeList(AFIDataList& col_type_list)
 {
     int col_count = GetColCount();
-    for (int i = 0; i < col_count; ++i)
+    for(int i = 0; i < col_count; ++i)
     {
         AFCData data;
         int col_type = GetColType(i);
-        data.SetDefaultValue(col_type);
+        data.SetInt(col_type);
         col_type_list.Append(data);
     }
 
@@ -468,12 +469,12 @@ bool AFRecord::GetColTypeList(AFIDataList& col_type_list)
 
 int AFRecord::FindRow(size_t col, const AFIData& key, size_t begin_row /*= 0*/)
 {
-    if (col >= GetColCount())
+    if(col >= GetColCount())
     {
         return -1;
     }
 
-    switch (key.GetType())
+    switch(key.GetType())
     {
     case DT_BOOLEAN:
         return FindBool(col, key.GetBool(), begin_row);
@@ -505,21 +506,21 @@ int AFRecord::FindRow(size_t col, const AFIData& key, size_t begin_row /*= 0*/)
 
 int AFRecord::FindBool(size_t col, const bool key, size_t begin_row /*= 0*/)
 {
-    if (col >= GetColCount())
+    if(col >= GetColCount())
     {
         return -1;
     }
 
     size_t row_num = GetRowCount();
-    if (begin_row >= row_num)
+    if(begin_row >= row_num)
     {
         return -1;
     }
 
-    for (size_t i = begin_row; i < row_num; ++i)
+    for(size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
-        if (row_data[col].GetBool() == key)
+        if(row_data[col].GetBool() == key)
         {
             return i;
         }
@@ -530,21 +531,21 @@ int AFRecord::FindBool(size_t col, const bool key, size_t begin_row /*= 0*/)
 
 int AFRecord::FindInt(size_t col, const int key, size_t begin_row /*= 0*/)
 {
-    if (col >= GetColCount())
+    if(col >= GetColCount())
     {
         return -1;
     }
 
     size_t row_num = GetRowCount();
-    if (begin_row >= row_num)
+    if(begin_row >= row_num)
     {
         return -1;
     }
 
-    for (size_t i = begin_row; i < row_num; ++i)
+    for(size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
-        if (row_data[col].GetInt() == key)
+        if(row_data[col].GetInt() == key)
         {
             return i;
         }
@@ -555,21 +556,21 @@ int AFRecord::FindInt(size_t col, const int key, size_t begin_row /*= 0*/)
 
 int AFRecord::FindInt64(size_t col, const int64_t key, size_t begin_row /*= 0*/)
 {
-    if (col >= GetColCount())
+    if(col >= GetColCount())
     {
         return -1;
     }
 
     size_t row_num = GetRowCount();
-    if (begin_row >= row_num)
+    if(begin_row >= row_num)
     {
         return -1;
     }
 
-    for (size_t i = begin_row; i < row_num; ++i)
+    for(size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
-        if (row_data[col].GetInt64() == key)
+        if(row_data[col].GetInt64() == key)
         {
             return i;
         }
@@ -580,21 +581,21 @@ int AFRecord::FindInt64(size_t col, const int64_t key, size_t begin_row /*= 0*/)
 
 int AFRecord::FindFloat(size_t col, const float key, size_t begin_row /*= 0*/)
 {
-    if (col >= GetColCount())
+    if(col >= GetColCount())
     {
         return -1;
     }
 
     size_t row_num = GetRowCount();
-    if (begin_row >= row_num)
+    if(begin_row >= row_num)
     {
         return -1;
     }
 
-    for (size_t i = begin_row; i < row_num; ++i)
+    for(size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
-        if (IsFloatEqual(row_data[col].GetFloat(), key))
+        if(IsFloatEqual(row_data[col].GetFloat(), key))
         {
             return i;
         }
@@ -605,21 +606,21 @@ int AFRecord::FindFloat(size_t col, const float key, size_t begin_row /*= 0*/)
 
 int AFRecord::FindDouble(size_t col, const double key, size_t begin_row /*= 0*/)
 {
-    if (col >= GetColCount())
+    if(col >= GetColCount())
     {
         return -1;
     }
 
     size_t row_num = GetRowCount();
-    if (begin_row >= row_num)
+    if(begin_row >= row_num)
     {
         return -1;
     }
 
-    for (size_t i = begin_row; i < row_num; ++i)
+    for(size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
-        if (IsDoubleEqual(row_data[col].GetDouble(), key))
+        if(IsDoubleEqual(row_data[col].GetDouble(), key))
         {
             return i;
         }
@@ -630,21 +631,21 @@ int AFRecord::FindDouble(size_t col, const double key, size_t begin_row /*= 0*/)
 
 int AFRecord::FindString(size_t col, const char* key, size_t begin_row /*= 0*/)
 {
-    if (col >= GetColCount())
+    if(col >= GetColCount())
     {
         return -1;
     }
 
     size_t row_num = GetRowCount();
-    if (begin_row >= row_num)
+    if(begin_row >= row_num)
     {
         return -1;
     }
 
-    for (size_t i = begin_row; i < row_num; ++i)
+    for(size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
-        if (ARK_STRICMP(row_data[col].GetString(), key) == 0)
+        if(ARK_STRICMP(row_data[col].GetString(), key) == 0)
         {
             return i;
         }
@@ -655,21 +656,21 @@ int AFRecord::FindString(size_t col, const char* key, size_t begin_row /*= 0*/)
 
 int AFRecord::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 0*/)
 {
-    if (col >= GetColCount())
+    if(col >= GetColCount())
     {
         return -1;
     }
 
     size_t row_num = GetRowCount();
-    if (begin_row >= row_num)
+    if(begin_row >= row_num)
     {
         return -1;
     }
 
-    for (size_t i = begin_row; i < row_num; ++i)
+    for(size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
-        if (row_data[col].GetObject() == key)
+        if(row_data[col].GetObject() == key)
         {
             return i;
         }
