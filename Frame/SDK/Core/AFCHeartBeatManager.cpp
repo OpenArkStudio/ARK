@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCHeartBeatManager.cpp                                              *
+// * @file      AFCHeartBeatManager.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCHeartBeatManager                                                  *
@@ -31,8 +31,9 @@ AFCHeartBeatManager::~AFCHeartBeatManager()
     mHeartBeatElementMapEx.ClearAll();
 }
 
-void AFCHeartBeatElement::DoHeartBeatEvent()
+void AFCHeartBeatElement::DoHeartBeatEvent(int64_t nNowTime)
 {
+    nCount--;
     HEART_BEAT_FUNCTOR_PTR cb;
     bool bRet = First(cb);
     while(bRet)
@@ -41,43 +42,109 @@ void AFCHeartBeatElement::DoHeartBeatEvent()
 
         bRet = Next(cb);
     }
+
+    if(nCount <= 0 && !bForever)
+    {
+        bStop = true;
+    }
+    else
+    {
+        nNextTriggerTime = nNowTime + nBeatTime;
+    }
 }
+
+bool AFCHeartBeatElement::CheckTime(int64_t nNowTime)
+{
+    if(IsStop())
+    {
+        return false;
+    }
+
+    if(nNowTime < nNextTriggerTime)
+    {
+        return false;
+    }
+
+    if(nCount <= 0 && !bForever)
+    {
+        bStop = true;
+        return false;
+    }
+
+    return true;
+}
+
 //////////////////////////////////////////////////////////////////////////
 bool AFCHeartBeatManager::Execute()
 {
     //millisecond
     int64_t nTime = AFCTimeBase::GetInstance().GetNowMillisecond();
-    AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.FirstNude();
-    while(nullptr != pElement)
+    for(std::multimap<int64_t, ARK_SHARE_PTR<AFCHeartBeatElement>>::iterator iter = mTimeList.begin(); iter != mTimeList.end();)
     {
-        if(nTime > pElement->nNextTriggerTime && pElement->nCount > 0)
+        if(iter->second->IsStop())
         {
-            pElement->nCount--;
-
-            pElement->DoHeartBeatEvent();
-
-            if(pElement->nCount <= 0)
+            ARK_SHARE_PTR<AFCHeartBeatElement>  pElement = mHeartBeatElementMapEx.GetElement(iter->second->strBeatName);
+            if(pElement->id == iter->second->id)
             {
-                //等待删除
-                mRemoveListEx.Add(pElement->strBeatName);
+                mHeartBeatElementMapEx.RemoveElement(iter->second->strBeatName);
+            }
+
+            iter = mTimeList.erase(iter);
+            continue;
+        }
+
+        if(iter->second->CheckTime(nTime))
+        {
+            iter->second->DoHeartBeatEvent(nTime);
+
+            if(iter->second->IsStop())
+            {
+                ARK_SHARE_PTR<AFCHeartBeatElement>  pElement = mHeartBeatElementMapEx.GetElement(iter->second->strBeatName);
+                if(pElement->id == iter->second->id)
+                {
+                    mHeartBeatElementMapEx.RemoveElement(iter->second->strBeatName);
+                }
             }
             else
             {
-                //Do Event
-                pElement->nNextTriggerTime = nTime + pElement->nBeatTime;
+                mTimeList.insert(std::make_pair(iter->second->nNextTriggerTime, iter->second));
             }
+
+            iter = mTimeList.erase(iter);
+            continue;
         }
 
-        pElement = mHeartBeatElementMapEx.NextNude();
+        break;
     }
+
 
     //删除所有过时心跳
     std::string strHeartBeatName;
     bool bRet = mRemoveListEx.First(strHeartBeatName);
     while(bRet)
     {
-        mHeartBeatElementMapEx.RemoveElement(strHeartBeatName);
+        ARK_SHARE_PTR<AFCHeartBeatElement> pHeartBeatEx = mHeartBeatElementMapEx.GetElement(strHeartBeatName);
+        if(NULL == pHeartBeatEx)
+        {
+            continue;
+        }
 
+        typedef std::pair<std::multimap<int64_t, ARK_SHARE_PTR<AFCHeartBeatElement>>::iterator, std::multimap<int64_t, ARK_SHARE_PTR<AFCHeartBeatElement>>::iterator > Range;
+        Range xRange = mTimeList.equal_range(pHeartBeatEx->nNextTriggerTime);
+
+        for(std::multimap<int64_t, ARK_SHARE_PTR<AFCHeartBeatElement>>::iterator iter = xRange.first; iter != xRange.second; ++iter)
+        {
+            if(iter->second->id == pHeartBeatEx->id)
+            {
+                iter = mTimeList.erase(iter);
+            }
+            else
+            {
+                ++iter;
+            }
+        }
+
+        RemoveHeartBeat(strHeartBeatName);
         bRet = mRemoveListEx.Next(strHeartBeatName);
     }
 
@@ -92,6 +159,7 @@ bool AFCHeartBeatManager::Execute()
             ARK_SHARE_PTR<AFCHeartBeatElement> pHeartBeatEx(ARK_NEW AFCHeartBeatElement());
             *pHeartBeatEx = *iter;
             mHeartBeatElementMapEx.AddElement(pHeartBeatEx->strBeatName, pHeartBeatEx);
+            mTimeList.insert(std::make_pair(pHeartBeatEx->nNextTriggerTime, pHeartBeatEx));
         }
     }
 
@@ -111,14 +179,16 @@ AFGUID AFCHeartBeatManager::Self()
 }
 
 //////////////////////////////////////////////////////////////////////////
-bool AFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount)
+bool AFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever /*= false*/)
 {
     AFCHeartBeatElement xHeartBeat;
     xHeartBeat.nNextTriggerTime = AFCTimeBase::GetInstance().GetNowMillisecond() + nTime;
     xHeartBeat.nBeatTime = nTime;
     xHeartBeat.nCount = nCount;
     xHeartBeat.self = self;
+    xHeartBeat.bForever = bForever;
     xHeartBeat.strBeatName = strHeartBeatName;
+    xHeartBeat.id = ++mTimerIDIndex.n64Value;
     xHeartBeat.Add(cb);
     mAddListEx.push_back(xHeartBeat);
 

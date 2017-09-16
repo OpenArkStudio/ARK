@@ -17,13 +17,14 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	HelloWorld3Module.cpp                                              *
+// * @file      HelloWorld3Module.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     HelloWorld3Module                                                  *
 *****************************************************************************/
 #include "HelloWorld3Module.h"
 #include "SDK/Proto/NFProtocolDefine.hpp"
+#include "SDK/Base/AFTime.hpp"
 
 bool HelloWorld3Module::Init()
 {
@@ -36,10 +37,10 @@ bool HelloWorld3Module::Init()
 int HelloWorld3Module::OnEvent(const AFGUID& self, const int event, const AFIDataList& arg)
 {
     //事件回调函数
-    std::cout << "OnEvent EventID: " << event << " self: " << self.n64Value << " argList: " << arg.Int(0) << " " << " " << arg.String(1) << std::endl;
+    std::cout << "OnEvent EventID: " << event << " self: " << self.n64Value << " argList: " << arg.String(0) << " " << " " << arg.Int(1) << std::endl;
 
-    m_pKernelModule->SetPropertyInt(self, "Hello", arg.Int(0));
-    m_pKernelModule->SetPropertyString(self, "Hello", arg.String(1));
+    m_pKernelModule->SetPropertyString(self, "Hello", arg.String(0));
+    m_pKernelModule->SetPropertyInt(self, "World", arg.Int(1));
 
     return 0;
 }
@@ -47,8 +48,7 @@ int HelloWorld3Module::OnEvent(const AFGUID& self, const int event, const AFIDat
 int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount)
 {
 
-    unsigned long unNowTime = GetSystemTime();
-
+    int64_t unNowTime = AFCTimeBase::GetInstance().GetNowMillisecond();
     std::cout << "strHeartBeat: " << fTime << " Count: " << nCount << "  TimeDis: " << unNowTime - mLastTime << std::endl;
 
     mLastTime = unNowTime;
@@ -65,7 +65,7 @@ int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::strin
     {
         m_pKernelModule->AddEventCallBack(self, 11111111, this, &HelloWorld3Module::OnEvent);
 
-        m_pKernelModule->AddHeartBeat(self, "OnHeartBeat", this, &HelloWorld3Module::OnHeartBeat, 5.0f, 9999);
+        m_pKernelModule->AddHeartBeat(self, "OnHeartBeat", this, &HelloWorld3Module::OnHeartBeat, 1000.0f, 1, true);
 
         mLastTime = GetSystemTime();
     }
@@ -111,7 +111,7 @@ bool HelloWorld3Module::AfterInit()
 
     AFCData xData;
     pObject->GetPropertyManager()->AddProperty("Hello", AFCData(DT_STRING, ""), 0);
-    pObject->GetPropertyManager()->AddProperty("World", AFCData(DT_INT, ""), 0);
+    pObject->GetPropertyManager()->AddProperty("World", AFCData(DT_INT, 1), 0);
 
     pObject->AddPropertyCallBack("Hello", this, &HelloWorld3Module::OnPropertyStrCallBackEvent);
     pObject->AddPropertyCallBack("World", this, &HelloWorld3Module::OnPropertyCallBackEvent);
@@ -119,25 +119,7 @@ bool HelloWorld3Module::AfterInit()
     pObject->SetPropertyString("Hello", "hello,World");
     pObject->SetPropertyInt("World", 1111);
 
-    m_pKernelModule->DoEvent(pObject->Self(), 11111111, AFCDataList() << int(100) << "200");
-
-
-    //for(int i = 0; i < 100000; ++i)
-    //{
-    //    AFIDataList testData;
-    //    testData << 1 << 5656.22f << "sdfgsdgsdfsdfds" << AFGUID(33, 55) << Point3D(1, 3, 4);
-
-    //    AFIDataList testData2;
-    //    testData2 << 1 << 5656.22f << "sdfgsdgsdfsdfds" << AFGUID(33, 55) << Point3D(1, 3, 4);
-
-
-    //    testData2.Append(testData);
-
-    //    AFIDataList testData3;
-
-    //    testData3 = testData2;
-
-    //}
+    m_pKernelModule->DoEvent(pObject->Self(), 11111111, AFCDataList() << "hello2" << int(200));
 
     return true;
 }
