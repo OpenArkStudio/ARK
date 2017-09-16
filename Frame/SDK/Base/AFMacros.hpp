@@ -46,11 +46,20 @@ inline uint32_t GetSystemTime()
 #define ARK_SPRINTF sprintf_s
 #define ARK_STRICMP _stricmp
 #define ARK_SLEEP(s) Sleep(s)
-#define ARK_ASSERT(exp_, msg_, file_, func_)    \
-    std::string strInfo("Message:");            \
-    strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_; \
-    MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_"#exp_), MB_RETRYCANCEL | MB_ICONERROR); \
-    assert(0);
+
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+#define ARK_ASSERT(exp_, msg_, file_, func_) \
+if (!(exp_))                                 \
+{                                            \
+std::string strInfo("Message:");             \
+strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_;\
+MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_"#exp_), MB_RETRYCANCEL | MB_ICONERROR); \
+}                                                  \
+assert(exp_);
+
+#else
+ARK_ASSERT(exp_, msg_, file_, func_)
+#endif
 
 #define ARK_EXPORT extern "C"  __declspec(dllexport)
 
