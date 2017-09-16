@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	HelloWorld3Module.h                                                *
+// * @file      HelloWorld3Module.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     HelloWorld3Module                                                  *
@@ -36,6 +36,7 @@ public:
     HelloWorld3Module(AFIPluginManager* p)
     {
         pPluginManager = p;
+        mLastTime = 0;
     }
 
     virtual bool Init();
@@ -55,7 +56,7 @@ protected:
     int OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount);
 
 protected:
-    unsigned long mLastTime;
+    int64_t mLastTime;
 protected:
     AFIKernelModule* m_pKernelModule;
     AFIElementModule* m_pElementModule;
