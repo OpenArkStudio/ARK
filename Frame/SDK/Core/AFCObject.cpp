@@ -59,9 +59,9 @@ bool AFCObject::Execute()
     return true;
 }
 
-bool AFCObject::AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount)
+bool AFCObject::AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever)
 {
-    return GetHeartBeatManager()->AddHeartBeat(mSelf, strHeartBeatName, cb, nTime, nCount);
+    return GetHeartBeatManager()->AddHeartBeat(mSelf, strHeartBeatName, cb, nTime, nCount,  bForever);
 }
 
 bool AFCObject::FindHeartBeat(const std::string& strHeartBeatName)
