@@ -30,12 +30,12 @@ class AFIKernelModule
 public:
 
     template<typename BaseType>
-    bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const float, const int), const float fTime, const int nCount)
+    bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const float, const int), const float fTime, const int nCount, const bool bForever = false)
     {
         ARK_SHARE_PTR<AFIObject> pObject = GetObject(self);
         if(pObject.get())
         {
-            return pObject->AddHeartBeat(strHeartBeatName, pBase, handler, fTime, nCount);
+            return pObject->AddHeartBeat(strHeartBeatName, pBase, handler, fTime, nCount, bForever);
         }
 
         return false;

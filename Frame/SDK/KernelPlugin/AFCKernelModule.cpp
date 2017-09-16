@@ -201,10 +201,10 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
 
 
         int staticRecordCount = pStaticClassRecordManager->GetCount();
-        for (size_t i = 0; i < staticRecordCount; ++i)
+        for(size_t i = 0; i < staticRecordCount; ++i)
         {
             AFRecord* pRecord = pStaticClassRecordManager->GetRecordByIndex(i);
-            if (NULL == pRecord)
+            if(NULL == pRecord)
             {
                 continue;
             }
@@ -244,7 +244,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         DoEvent(ident, strClassName, CLASS_OBJECT_EVENT::COE_CREATE_NODATA, arg);
 
         //传入的属性赋�?
-        for(int i = 0; i < arg.GetCount() - 1; i += 2)
+        for(int i = 0; i < ((int)arg.GetCount() - 1); i += 2)
         {
             const std::string& strPropertyName = arg.String(i);
             if(NFrame::IObject::ConfigID() != strPropertyName
