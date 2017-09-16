@@ -460,7 +460,7 @@ bool AFRecord::GetColTypeList(AFIDataList& col_type_list)
     {
         AFCData data;
         int col_type = GetColType(i);
-        data.SetInt(col_type);
+        data.SetDefaultValue(col_type);
         col_type_list.Append(data);
     }
 
