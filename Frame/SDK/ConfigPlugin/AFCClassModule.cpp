@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCClassModule.cpp                                              *
+// * @file      AFCClassModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCClassModule                                                  *
@@ -157,7 +157,7 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, ARK_SHARE
 {
     for(rapidxml::xml_node<>* pRecordNode = pRecordRootNode->first_node(); pRecordNode;  pRecordNode = pRecordNode->next_sibling())
     {
-        if (NULL == pRecordNode)
+        if(NULL == pRecordNode)
         {
             continue;
         }
@@ -191,28 +191,28 @@ bool AFCClassModule::AddRecords(rapidxml::xml_node<>* pRecordRootNode, ARK_SHARE
         }
 
         int8_t feature(0);
-        if (bPublic)
+        if(bPublic)
         {
             BitValue<int8_t>::SetBitValue(feature, AFRecord::RF_PUBLIC);
         }
 
-        if (bPrivate)
+        if(bPrivate)
         {
             BitValue<int8_t>::SetBitValue(feature, AFRecord::RF_PRIVATE);
         }
 
-        if (bRealtime)
+        if(bRealtime)
         {
             BitValue<int8_t>::SetBitValue(feature, AFRecord::RF_REAL_TIME);
         }
 
-        if (bSave)
+        if(bSave)
         {
             BitValue<int8_t>::SetBitValue(feature, AFRecord::RF_SAVE);
         }
 
         bool result = pClass->GetRecordManager()->AddRecord(NULL_GUID, pstrRecordName, col_type_list, feature);
-        ARK_ASSERT(!result, "add record failed, please check", __FILE__, __FUNCTION__);
+        ARK_ASSERT(result, "add record failed, please check", __FILE__, __FUNCTION__);
     }
 
     return true;
