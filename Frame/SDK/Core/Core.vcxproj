@@ -107,7 +107,6 @@
     <ClInclude Include="AFIHeartBeatManager.h" />
     <ClInclude Include="AFIObject.h" />
     <ClInclude Include="AFIPropertyMgr.h" />
-    <ClInclude Include="AFIRecord.h" />
     <ClInclude Include="AFIRecordMgr.h" />
     <ClInclude Include="AFRecord.h" />
   </ItemGroup>
