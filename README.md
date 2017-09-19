@@ -2,6 +2,9 @@
 
 ##### Copyright © [https://github.com/ArkGame](https://github.com/ArkGame "Ark Game")
 
+Github: https://github.com/ArkGame/ArkGameFrame
+Gitee(码云): https://github.com/ArkGame/ArkGameFrame
+
 ## ArkGameFrame
 ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework written in C++，make it easier to create game server. Greatly inspired by OGRE and Bigworld. It is a fork of the NFrame project.
 ##### Wanna get the newest features? Please switch to the develop branch.
