@@ -20,9 +20,6 @@
 
 #pragma once
 
-#include <map>
-#include <string>
-#include <iostream>
 #include "RapidXML/rapidxml.hpp"
 #include "RapidXML/rapidxml_iterators.hpp"
 #include "RapidXML/rapidxml_print.hpp"
@@ -35,6 +32,7 @@
 #include "SDK/Core/AFCRecordMgr.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Base/AFArrayMap.hpp"
 
 class AFCClass;
 
@@ -67,8 +65,8 @@ protected:
 };
 
 class AFCElementModule
-    : public AFIElementModule,
-      AFMapEx<std::string, ElementConfigInfo>
+    : public AFIElementModule/*,
+      AFMapEx<std::string, ElementConfigInfo>*/
 {
 public:
     AFCElementModule(AFIPluginManager* p);
@@ -107,5 +105,5 @@ protected:
 protected:
     AFIClassModule* m_pClassModule;
     bool mbLoaded;
+    AFArrayMap<std::string, ElementConfigInfo> mxElementConfigMap;
 };
-
