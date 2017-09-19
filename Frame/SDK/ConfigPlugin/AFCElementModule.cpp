@@ -119,8 +119,10 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
         return false;
     }
 
-    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo(ARK_NEW ElementConfigInfo());
-    AddElement(strConfigID, pElementInfo);
+    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo(ARK_NEW ElementConfigInfo());
+    //AddElement(strConfigID, pElementInfo);
+    ElementConfigInfo* pElementInfo = ARK_NEW ElementConfigInfo();
+    mxElementConfigMap.AddElement(strConfigID, pElementInfo);
 
     //can find all config id by class name
     pLogicClass->AddConfigName(strConfigID);
@@ -313,55 +315,82 @@ const char*  AFCElementModule::GetPropertyString(const std::string& strConfigNam
 
 AFProperty* AFCElementModule::GetProperty(const std::string& strConfigName, const std::string& strPropertyName)
 {
-    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    if(nullptr != pElementInfo)
+    ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+    if (NULL != pElementInfo)
     {
         return pElementInfo->GetPropertyManager()->GetProperty(strPropertyName.c_str());
     }
+
+    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+    //if(nullptr != pElementInfo)
+    //{
+    //    return pElementInfo->GetPropertyManager()->GetProperty(strPropertyName.c_str());
+    //}
 
     return NULL;
 }
 
 ARK_SHARE_PTR<AFIPropertyMgr> AFCElementModule::GetPropertyManager(const std::string& strConfigName)
 {
-    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    if(nullptr != pElementInfo)
+    ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+    if (NULL != pElementInfo)
     {
         return pElementInfo->GetPropertyManager();
     }
+
+    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+    //if(nullptr != pElementInfo)
+    //{
+    //    return pElementInfo->GetPropertyManager();
+    //}
 
     return nullptr;
 }
 
 ARK_SHARE_PTR<AFIRecordMgr> AFCElementModule::GetRecordManager(const std::string& strConfigName)
 {
-    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    if(nullptr != pElementInfo)
+    ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+    if (NULL != pElementInfo)
     {
         return pElementInfo->GetRecordManager();
     }
+
+    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+    //if(nullptr != pElementInfo)
+    //{
+    //    return pElementInfo->GetRecordManager();
+    //}
 
     return nullptr;
 }
 
 bool AFCElementModule::ExistElement(const std::string& strConfigName)
 {
-    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    if(nullptr != pElementInfo)
-    {
-        return true;
-    }
+    ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+    return (NULL != pElementInfo);
 
-    return false;
+    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+    //if(nullptr != pElementInfo)
+    //{
+    //    return true;
+    //}
+
+    //return false;
 }
 
 bool AFCElementModule::ExistElement(const std::string& strClassName, const std::string& strConfigName)
 {
-    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    if(!pElementInfo)
+    ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+    if(NULL != pElementInfo)
     {
         return false;
     }
+
+    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
+    //if(!pElementInfo)
+    //{
+    //    return false;
+    //}
 
     const std::string strClass(pElementInfo->GetPropertyManager()->GetPropertyString("ClassName"));
     if(strClass != strClassName)
@@ -417,7 +446,8 @@ bool AFCElementModule::Execute()
 
 bool AFCElementModule::Clear()
 {
-    ClearAll();
+    mxElementConfigMap.Clear();
+    //ClearAll();
 
     mbLoaded = false;
     return true;

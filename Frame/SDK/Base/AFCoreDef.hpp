@@ -107,4 +107,3 @@ inline unsigned int GetHashValue(const char* name)
 
     return hash;
 }
-
