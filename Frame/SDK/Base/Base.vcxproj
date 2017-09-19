@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AFArrayMap.hpp" />
     <ClInclude Include="AFArrayPod.hpp" />
     <ClInclude Include="AFBitValue.hpp" />
     <ClInclude Include="AFCAddConsistentHash.hpp" />
