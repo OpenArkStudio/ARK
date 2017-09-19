@@ -85,6 +85,9 @@
     <ClInclude Include="AFTime.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="AFArrayMap.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">

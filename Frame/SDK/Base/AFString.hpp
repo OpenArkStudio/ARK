@@ -496,4 +496,3 @@ inline AFString<TYPE, SIZE, TRAITS, ALLOC> operator+(const TYPE* s1, const AFStr
 {
     return AFString<TYPE, SIZE, TRAITS, ALLOC>(s1).append(s2);
 }
-
