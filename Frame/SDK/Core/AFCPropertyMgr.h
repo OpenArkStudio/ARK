@@ -1,6 +1,3 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
 /*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
@@ -87,4 +84,3 @@ private:
 
     AFGUID mxSelf;
 };
-
