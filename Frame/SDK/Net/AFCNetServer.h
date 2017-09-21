@@ -74,8 +74,8 @@ public:
         return true;
     }
 
-    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen);
+    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID);
+    virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xPlayerID);
 
     virtual bool CloseNetObject(const AFGUID& xClientID);
     virtual bool Log(int severity, const char* msg)
@@ -109,7 +109,7 @@ private:
 
 protected:
     int DeCode(const char* strData, const uint32_t unLen, AFCMsgHead& xHead);
-    int EnCode(const uint16_t unMsgID, const char* strData, const uint32_t unDataLen, std::string& strOutData);
+    int EnCode(const AFCMsgHead& xHead, const char* strData, const uint32_t unDataLen, std::string& strOutData);
 
 private:
     std::unique_ptr<evpp::TCPServer> m_pTcpSrv;
