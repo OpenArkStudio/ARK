@@ -97,11 +97,11 @@ bool AFCWorldNet_ServerModule::Execute()
     return m_pNetModule->Execute();
 }
 
-void AFCWorldNet_ServerModule::OnGameServerRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldNet_ServerModule::OnGameServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -125,11 +125,11 @@ void AFCWorldNet_ServerModule::OnGameServerRegisteredProcess(const int nMsgID, c
     SynGameToProxy();
 }
 
-void AFCWorldNet_ServerModule::OnGameServerUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldNet_ServerModule::OnGameServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -143,11 +143,11 @@ void AFCWorldNet_ServerModule::OnGameServerUnRegisteredProcess(const int nMsgID,
     }
 }
 
-void AFCWorldNet_ServerModule::OnRefreshGameServerInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldNet_ServerModule::OnRefreshGameServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -172,11 +172,11 @@ void AFCWorldNet_ServerModule::OnRefreshGameServerInfoProcess(const int nMsgID, 
     SynGameToProxy();
 }
 
-void AFCWorldNet_ServerModule::OnProxyServerRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldNet_ServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -201,11 +201,11 @@ void AFCWorldNet_ServerModule::OnProxyServerRegisteredProcess(const int nMsgID, 
     }
 }
 
-void AFCWorldNet_ServerModule::OnProxyServerUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldNet_ServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -220,11 +220,11 @@ void AFCWorldNet_ServerModule::OnProxyServerUnRegisteredProcess(const int nMsgID
     }
 }
 
-void AFCWorldNet_ServerModule::OnRefreshProxyServerInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldNet_ServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -249,7 +249,7 @@ void AFCWorldNet_ServerModule::OnRefreshProxyServerInfoProcess(const int nMsgID,
     }
 }
 
-int AFCWorldNet_ServerModule::OnLeaveGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+int AFCWorldNet_ServerModule::OnLeaveGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
 
     return 0;
@@ -381,13 +381,13 @@ void AFCWorldNet_ServerModule::LogGameServer()
 }
 
 
-void AFCWorldNet_ServerModule::OnOnlineProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldNet_ServerModule::OnOnlineProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     CLIENT_MSG_PROCESS_NO_OBJECT(nMsgID, msg, nLen, AFMsg::RoleOnlineNotify);
 
 }
 
-void AFCWorldNet_ServerModule::OnOfflineProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldNet_ServerModule::OnOfflineProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     CLIENT_MSG_PROCESS_NO_OBJECT(nMsgID, msg, nLen, AFMsg::RoleOfflineNotify);
 }
@@ -533,7 +533,7 @@ int AFCWorldNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, const AFI
     AFMsg::MultiObjectRecordList xPrivateMsg;
 
     ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
-    if (nullptr == pObject)
+    if(nullptr == pObject)
     {
         return 1;
     }
@@ -543,24 +543,24 @@ int AFCWorldNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, const AFI
 
     ARK_SHARE_PTR<AFIRecordMgr> pRecordManager = pObject->GetRecordManager();
     int nRecordCount = pRecordManager->GetCount();
-    for (int i = 0; i < nRecordCount; ++i)
+    for(int i = 0; i < nRecordCount; ++i)
     {
         AFRecord* pRecord = pRecordManager->GetRecordByIndex(i);
-        if (NULL == pRecord)
+        if(NULL == pRecord)
         {
             continue;
         }
 
-        if (!pRecord->IsPublic() && !pRecord->IsPrivate())
+        if(!pRecord->IsPublic() && !pRecord->IsPrivate())
         {
             continue;
         }
 
         AFMsg::ObjectRecordBase* pPrivateRecordBase = NULL;
         AFMsg::ObjectRecordBase* pPublicRecordBase = NULL;
-        if (pRecord->IsPublic())
+        if(pRecord->IsPublic())
         {
-            if (!pPublicData)
+            if(!pPublicData)
             {
                 pPublicData = xPublicMsg.add_multi_player_record();
                 *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
@@ -571,9 +571,9 @@ int AFCWorldNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, const AFI
             OnRecordEnterPack(pRecord, pPublicRecordBase);
         }
 
-        if (pRecord->IsPrivate())
+        if(pRecord->IsPrivate())
         {
-            if (!pPrivateData)
+            if(!pPrivateData)
             {
                 pPrivateData = xPrivateMsg.add_multi_player_record();
                 *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
@@ -652,7 +652,7 @@ int AFCWorldNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, const A
     //1.public发送给所有人
     //2.如果自己在列表中，再次发送private数据
     ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
-    if (nullptr == pObject)
+    if(nullptr == pObject)
     {
         return 0;
     }
