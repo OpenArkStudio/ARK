@@ -34,7 +34,7 @@ class AFIProxyServerNet_ServerModule
 {
 
 public:
-    virtual int Transpond(const int nMsgID, const char* msg, const uint32_t nLen) = 0;
+    virtual int Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen) = 0;
     virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID) = 0;
 };
 
