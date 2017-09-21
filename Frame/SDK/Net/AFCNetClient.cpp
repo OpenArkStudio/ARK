@@ -283,10 +283,15 @@ void AFCNetClient::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* ms
     }
 }
 
-bool AFCNetClient::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
+bool AFCNetClient::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID, const AFGUID& xPlayerID)
 {
     std::string strOutData;
-    int nAllLen = EnCode(nMsgID, msg, nLen, strOutData);
+    AFCMsgHead xHead;
+    xHead.SetMsgID(nMsgID);
+    xHead.SetPlayerID(xPlayerID);
+    xHead.SetBodyLength(nLen);
+
+    int nAllLen = EnCode(xHead, msg, nLen, strOutData);
     if(nAllLen == nLen + AFIMsgHead::AF_Head::NF_HEAD_LENGTH)
     {
         return SendMsg(strOutData.c_str(), strOutData.length(), xClientID);
@@ -295,12 +300,8 @@ bool AFCNetClient::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, con
     return false;
 }
 
-int AFCNetClient::EnCode(const uint16_t unMsgID, const char* strData, const uint32_t unDataLen, std::string & strOutData)
+int AFCNetClient::EnCode(const AFCMsgHead& xHead, const char* strData, const uint32_t unDataLen, std::string& strOutData)
 {
-    AFCMsgHead xHead;
-    xHead.SetMsgID(unMsgID);
-    xHead.SetBodyLength(unDataLen);
-
     char szHead[AFIMsgHead::AF_Head::NF_HEAD_LENGTH] = { 0 };
     xHead.EnCode(szHead);
 
