@@ -41,11 +41,11 @@ struct  AFIMsgHead
 {
     enum AF_Head
     {
-        NF_HEAD_LENGTH = 6,
+        NF_HEAD_LENGTH = 14,
     };
 
-    virtual int EnCode(char* strData) = 0;
-    virtual int DeCode(const char* strData) = 0;
+    virtual int EnCode(char* strData) const = 0;
+    virtual int DeCode(const char* strData)  = 0;
 
     virtual uint16_t GetMsgID() const = 0;
     virtual void SetMsgID(uint16_t nMsgID) = 0;
@@ -53,7 +53,10 @@ struct  AFIMsgHead
     virtual uint32_t GetBodyLength() const = 0;
     virtual void SetBodyLength(uint32_t nLength) = 0;
 
-    int64_t NF_HTONLL(int64_t nData)
+    virtual const AFGUID& GetPlayerID() const = 0;
+    virtual void SetPlayerID(const AFGUID& xPlayerID) = 0;
+
+    int64_t NF_HTONLL(const int64_t nData) const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return htonll(nData);
@@ -64,7 +67,7 @@ struct  AFIMsgHead
 #endif
     }
 
-    int64_t NF_NTOHLL(int64_t nData)
+    int64_t NF_NTOHLL(const int64_t nData)const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return ntohll(nData);
@@ -75,7 +78,7 @@ struct  AFIMsgHead
 #endif
     }
 
-    int32_t NF_HTONL(int32_t nData)
+    int32_t NF_HTONL(const int32_t nData)const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return htonl(nData);
@@ -86,7 +89,7 @@ struct  AFIMsgHead
 #endif
     }
 
-    int32_t NF_NTOHL(int32_t nData)
+    int32_t NF_NTOHL(const int32_t nData)const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return ntohl(nData);
@@ -97,7 +100,7 @@ struct  AFIMsgHead
 #endif
     }
 
-    int16_t NF_HTONS(int16_t nData)
+    int16_t NF_HTONS(const int16_t nData)const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return htons(nData);
@@ -108,7 +111,7 @@ struct  AFIMsgHead
 #endif
     }
 
-    int16_t NF_NTOHS(int16_t nData)
+    int16_t NF_NTOHS(const int16_t nData)const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return ntohs(nData);
@@ -124,16 +127,14 @@ struct  AFIMsgHead
 class AFCMsgHead : public AFIMsgHead
 {
 public:
-    AFCMsgHead()
+    AFCMsgHead(): munSize(0), munMsgID(0), mxPlayerID(0)
     {
-        munSize = 0;
-        munMsgID = 0;
     }
 
     // Message Head[ MsgID(2) | MsgSize(4) ]
-    virtual int EnCode(char* strData)
+    virtual int EnCode(char* strData) const
     {
-        uint32_t nOffset = 0;
+        uint32_t nOffset(0);
 
         uint16_t nMsgID = NF_HTONS(munMsgID);
         memcpy(strData + nOffset, (void*)(&nMsgID), sizeof(munMsgID));
@@ -143,6 +144,10 @@ public:
         uint32_t nSize = NF_HTONL(nPackSize);
         memcpy(strData + nOffset, (void*)(&nSize), sizeof(munSize));
         nOffset += sizeof(munSize);
+
+        uint64_t nPlayerID = NF_HTONLL(mxPlayerID.n64Value);
+        memcpy(strData + nOffset, (void*)(&nPlayerID), sizeof(nPlayerID));
+        nOffset += sizeof(nPlayerID);
 
         if(nOffset != NF_HEAD_LENGTH)
         {
@@ -155,17 +160,22 @@ public:
     // Message Head[ MsgID(2) | MsgSize(4) ]
     virtual int DeCode(const char* strData)
     {
-        uint32_t nOffset = 0;
+        uint32_t nOffset(0);
 
-        uint16_t nMsgID = 0;
+        uint16_t nMsgID(0);
         memcpy(&nMsgID, strData + nOffset, sizeof(munMsgID));
         munMsgID = NF_NTOHS(nMsgID);
         nOffset += sizeof(munMsgID);
 
-        uint32_t nPackSize = 0;
+        uint32_t nPackSize(0);
         memcpy(&nPackSize, strData + nOffset, sizeof(munSize));
         munSize = NF_NTOHL(nPackSize) - NF_HEAD_LENGTH;
         nOffset += sizeof(munSize);
+
+        uint64_t nPlayerID(0);
+        memcpy(&nPlayerID, strData + nOffset, sizeof(nPlayerID));
+        mxPlayerID.n64Value = NF_NTOHLL(nPlayerID);
+        nOffset += sizeof(nPlayerID);
 
         if(nOffset != NF_HEAD_LENGTH)
         {
@@ -192,9 +202,21 @@ public:
     {
         munSize = nLength;
     }
+
+    virtual const AFGUID& GetPlayerID() const
+    {
+        return mxPlayerID;
+    }
+
+    virtual void SetPlayerID(const AFGUID& xPlayerID)
+    {
+        mxPlayerID = xPlayerID;
+    }
+
 protected:
     uint32_t munSize;
     uint16_t munMsgID;
+    AFGUID mxPlayerID;
 };
 enum NetEventType
 {
@@ -340,16 +362,16 @@ public:
     virtual bool Final() = 0;
 
     //send a message with out msg-head[auto add msg-head in this function]
-    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID) = 0;
+    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID) = 0;
 
     //send a message to all client[need to add msg-head for this message by yourself]
-    virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen)
+    virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen, const AFGUID& xPlayerID)
     {
         return false;
     }
 
     //send a message with out msg-head to all client[auto add msg-head in this function]
-    virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen)
+    virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xPlayerID)
     {
         return false;
     }

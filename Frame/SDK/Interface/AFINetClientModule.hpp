@@ -142,7 +142,7 @@ public:
             ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.size(), 0);
+                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.size(), 0, 0);
             }
 
             pServer = mxServerMap.Next();
@@ -151,7 +151,8 @@ public:
     void SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData)
     {
         std::string strData;
-        PackMsgToBasePB(xData, AFGUID(0), strData);
+        AFGUID nPlayerID;
+        PackMsgToBasePB(xData, nPlayerID, strData);
 
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
         if(pServer)
@@ -159,7 +160,7 @@ public:
             ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0));
+                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
             }
         }
     }
@@ -167,7 +168,8 @@ public:
     void SendToAllServerByPB(const uint16_t nMsgID, google::protobuf::Message& xData)
     {
         std::string strData;
-        PackMsgToBasePB(xData, AFGUID(0), strData);
+        AFGUID nPlayerID;
+        PackMsgToBasePB(xData, nPlayerID, strData);
 
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
         while(pServer)
@@ -175,7 +177,7 @@ public:
             ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0));
+                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
             }
 
             pServer = mxServerMap.Next();
