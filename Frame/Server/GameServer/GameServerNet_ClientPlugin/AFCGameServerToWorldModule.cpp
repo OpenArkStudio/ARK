@@ -212,11 +212,11 @@ void AFCGameServerToWorldModule::SendOffline(const AFGUID& self)
 
 }
 
-void AFCGameServerToWorldModule::TransPBToProxy(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerToWorldModule::TransPBToProxy(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     std::string strData;
-    if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, strData, nPlayerID))
+    if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, strData, nPlayerID))
     {
         return;
     }
