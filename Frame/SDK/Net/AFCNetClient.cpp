@@ -219,7 +219,6 @@ void AFCNetClient::OnClientConnection(const evpp::TCPConnPtr& conn, void* pData)
     AFCNetClient * pClient = (AFCNetClient*)(pData);
     if(pClient)
     {
-        conn->SetTCPNoDelay(true);
         pClient->OnClientConnectionInner(conn);
     }
 }
