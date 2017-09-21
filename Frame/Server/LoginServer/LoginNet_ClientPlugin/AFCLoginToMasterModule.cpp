@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCLoginToMasterModule.cpp                                              *
+// * @file      AFCLoginToMasterModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCLoginToMasterModule                                                  *
@@ -144,11 +144,11 @@ void AFCLoginToMasterModule::Register(const int nServerID)
     }
 }
 
-void AFCLoginToMasterModule::OnSelectServerResultProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginToMasterModule::OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::AckConnectWorldResult xMsg;
-    if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -169,11 +169,11 @@ void AFCLoginToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AF
     }
 }
 
-void AFCLoginToMasterModule::OnWorldInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginToMasterModule::OnWorldInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID ;
     AFMsg::ServerInfoReportList xMsg;
-    if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
