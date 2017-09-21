@@ -172,9 +172,9 @@ public:
         return m_pNet->Execute();
     }
 
-    bool SendMsgToAllClientWithOutHead(const int nMsgID, const std::string& msg)
+    bool SendMsgToAllClientWithOutHead(const int nMsgID, const std::string& msg, const AFGUID& nPlayerID)
     {
-        return m_pNet->SendMsgToAllClient(msg.c_str(), msg.length());
+        return m_pNet->SendMsgToAllClient(msg.c_str(), msg.length(), nPlayerID);
     }
 
     bool SendMsgPBToAllClient(const uint16_t nMsgID, const google::protobuf::Message& xData)
@@ -189,8 +189,8 @@ public:
         }
 
         AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
-        *pPlayerID = NFToPB(AFGUID());
-
+        AFGUID nPlayerID  = AFGUID();
+        *pPlayerID = NFToPB(nPlayerID);
         std::string strMsg;
         if(!xMsg.SerializeToString(&strMsg))
         {
@@ -200,7 +200,7 @@ public:
             return false;
         }
 
-        return SendMsgToAllClientWithOutHead(nMsgID, strMsg);
+        return SendMsgToAllClientWithOutHead(nMsgID, strMsg, nPlayerID);
     }
 
     bool SendMsgPB(const uint16_t nMsgID, const google::protobuf::Message& xData, const AFGUID& xClientID, const AFGUID nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
@@ -254,7 +254,7 @@ public:
             return false;
         }
 
-        return m_pNet->SendMsgWithOutHead(nMsgID, strMsg.data(), strMsg.size(), xClientID);
+        return m_pNet->SendMsgWithOutHead(nMsgID, strMsg.data(), strMsg.size(), xClientID, nPlayer);
     }
 
     AFINet* GetNet()
