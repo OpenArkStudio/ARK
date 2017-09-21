@@ -36,11 +36,11 @@ bool AFCMasterNet_ServerModule::Shut()
     return true;
 }
 
-void AFCMasterNet_ServerModule::OnWorldRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNet_ServerModule::OnWorldRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -64,11 +64,11 @@ void AFCMasterNet_ServerModule::OnWorldRegisteredProcess(const int nMsgID, const
     SynWorldToLogin();
 }
 
-void AFCMasterNet_ServerModule::OnWorldUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNet_ServerModule::OnWorldUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -85,11 +85,11 @@ void AFCMasterNet_ServerModule::OnWorldUnRegisteredProcess(const int nMsgID, con
     SynWorldToLogin();
 }
 
-void AFCMasterNet_ServerModule::OnRefreshWorldInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNet_ServerModule::OnRefreshWorldInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -114,11 +114,11 @@ void AFCMasterNet_ServerModule::OnRefreshWorldInfoProcess(const int nMsgID, cons
     SynWorldToLogin();
 }
 
-void AFCMasterNet_ServerModule::OnLoginRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNet_ServerModule::OnLoginRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -142,11 +142,11 @@ void AFCMasterNet_ServerModule::OnLoginRegisteredProcess(const int nMsgID, const
     SynWorldToLogin();
 }
 
-void AFCMasterNet_ServerModule::OnLoginUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNet_ServerModule::OnLoginUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -162,11 +162,11 @@ void AFCMasterNet_ServerModule::OnLoginUnRegisteredProcess(const int nMsgID, con
     }
 }
 
-void AFCMasterNet_ServerModule::OnRefreshLoginInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNet_ServerModule::OnRefreshLoginInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -189,11 +189,11 @@ void AFCMasterNet_ServerModule::OnRefreshLoginInfoProcess(const int nMsgID, cons
     }
 }
 
-void AFCMasterNet_ServerModule::OnSelectWorldProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNet_ServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ReqConnectWorld xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -216,11 +216,11 @@ bool AFCMasterNet_ServerModule::Execute()
     return true;
 }
 
-void AFCMasterNet_ServerModule::OnSelectServerResultProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNet_ServerModule::OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::AckConnectWorldResult xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -411,11 +411,11 @@ void AFCMasterNet_ServerModule::LogGameServer()
 
 }
 
-void AFCMasterNet_ServerModule::OnHeartBeat(const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNet_ServerModule::OnHeartBeat(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
 }
 
-void AFCMasterNet_ServerModule::InvalidMessage(const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNet_ServerModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     printf("NFNet || 非法消息:unMsgID=%d\n", nMsgID);
 }
