@@ -334,7 +334,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     return true;
 }
 
-void AFCSceneProcessModule::OnClienSwapSceneProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCSceneProcessModule::OnClienSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //CLIENT_MSG_PROCESS(nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
     //AFIDataList varEntry;
