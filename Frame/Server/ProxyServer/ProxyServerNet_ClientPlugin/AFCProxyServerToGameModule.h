@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCProxyServerToGameModule.h                                                *
+// * @file      AFCProxyServerToGameModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCProxyServerToGameModule                                                  *
@@ -53,18 +53,18 @@ public:
     virtual bool Execute();
 
     virtual bool AfterInit();
-	virtual AFINetClientModule* GetClusterModule();
+    virtual AFINetClientModule* GetClusterModule();
 
 protected:
 
-    void OnSocketGSEvent(  const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+    void OnSocketGSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
     void Register(const int nServerID);
 
-    void OnAckEnterGame(  const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnAckEnterGame(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void LogServerInfo(const std::string& strServerInfo);
 
-	void Transpond(  const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 private:
 
@@ -74,7 +74,7 @@ private:
     AFIProxyServerNet_ServerModule* m_pProxyServerNet_ServerModule;
     AFIElementModule* m_pElementModule;
     AFIClassModule* m_pClassModule;
-	AFINetClientModule* m_pNetClientModule;
+    AFINetClientModule* m_pNetClientModule;
 };
 
 #endif
