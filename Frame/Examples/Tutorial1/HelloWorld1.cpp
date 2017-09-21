@@ -48,7 +48,7 @@ bool HelloWorld1::Execute()
 
 bool HelloWorld1::BeforeShut()
 {
-    std::cout << "Hello, world1, BeforeShut1111" << std::endl;
+    std::cout << "Hello, world1, BeforeShut-------------" << std::endl;
 
     system("PAUSE");
 
