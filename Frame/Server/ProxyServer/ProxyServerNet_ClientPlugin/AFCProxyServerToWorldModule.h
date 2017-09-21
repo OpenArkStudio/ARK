@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCProxyServerToWorldModule.h                                                *
+// * @file      AFCProxyServerToWorldModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCProxyServerToWorldModule                                                  *
@@ -57,21 +57,21 @@ public:
     virtual void LogReceive(const char* str) {}
     virtual void LogSend(const char* str) {}
 
-	virtual AFINetClientModule* GetClusterModule();
+    virtual AFINetClientModule* GetClusterModule();
     virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey);
 
 protected:
 
-    void OnSocketWSEvent(  const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+    void OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
     void Register(const int nServerID);
 
-    void OnSelectServerResultProcess(  const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnServerInfoProcess(  const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     void LogServerInfo(const std::string& strServerInfo);
 
-	void OnOtherMessage(  const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 private:
     struct ClientConnectData
     {
@@ -97,7 +97,7 @@ private:
     AFIElementModule* m_pElementModule;
     AFIClassModule* m_pClassModule;
     AFIProxyServerToGameModule* m_pProxyServerToGameModule;
-	AFINetClientModule* m_pNetClientModule;
+    AFINetClientModule* m_pNetClientModule;
 
 };
 
