@@ -322,7 +322,7 @@ int AFCProxyServerNet_ServerModule::Transpond(const AFIMsgHead& xHead, const int
         ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(AFINetServerModule::PBToNF(xMsg.player_client_list(i)));
         if(pSessionData)
         {
-            m_pNetModule->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, pSessionData->mnClientID);
+            m_pNetModule->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, pSessionData->mnClientID, xHead.GetPlayerID());
         }
     }
 
@@ -336,7 +336,7 @@ int AFCProxyServerNet_ServerModule::Transpond(const AFIMsgHead& xHead, const int
     //send message to one player
     if(xMsg.player_client_list_size() <= 0 && pSessionData)
     {
-        m_pNetModule->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, pSessionData->mnClientID);
+        m_pNetModule->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, pSessionData->mnClientID, xHead.GetPlayerID());
     }
 
     return true;
