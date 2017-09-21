@@ -39,7 +39,7 @@
 #define CLIENT_MSG_PROCESS( nMsgID, msgData, nLen, msg)                 \
     AFGUID nPlayerID;                                \
     msg xMsg;                                           \
-    if (!AFINetServerModule::ReceivePB(nMsgID, msgData, nLen, xMsg, nPlayerID))   \
+    if (!AFINetServerModule::ReceivePB(xHead,nMsgID, msgData, nLen, xMsg, nPlayerID))   \
     {                                                   \
         m_pLogModule->LogError(AFGUID(), "", "Parse msg error", __FUNCTION__, __LINE__); \
         return;                                         \
@@ -55,7 +55,7 @@
 #define CLIENT_MSG_PROCESS_NO_OBJECT( nMsgID, msgData, nLen, msg)                 \
     AFGUID nPlayerID;                                \
     msg xMsg;                                           \
-    if (!AFINetServerModule::ReceivePB(nMsgID, msgData, nLen, xMsg, nPlayerID))             \
+    if (!AFINetServerModule::ReceivePB(xHead,nMsgID, msgData, nLen, xMsg, nPlayerID))             \
     {                                                   \
         m_pLogModule->LogError(AFGUID(), "", "Parse msg error", __FUNCTION__, __LINE__); \
         return;                                         \
@@ -263,9 +263,9 @@ public:
     }
 
 protected:
-    void OnReceiveNetPack(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void OnReceiveNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        OnReceiveBaseNetPack(nMsgID, msg, nLen, xClientID);
+        OnReceiveBaseNetPack(xHead, nMsgID, msg, nLen, xClientID);
     }
 
     void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)

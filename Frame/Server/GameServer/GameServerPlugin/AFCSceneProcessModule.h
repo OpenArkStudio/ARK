@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCSceneProcessModule.h                                                *
+// * @file      AFCSceneProcessModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCSceneProcessModule                                                  *
@@ -81,7 +81,7 @@ protected:
     int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
 protected:
-    void OnClienSwapSceneProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnClienSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 private:
 
