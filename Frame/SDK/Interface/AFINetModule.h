@@ -1,37 +1,30 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file      AFINetModule.h                                                *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFINetModule                                                  *
-*****************************************************************************/
-#ifndef AFI_NET_MODULE_H
-#define AFI_NET_MODULE_H
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+
+#pragma once
 
 #include <iostream>
 #include <iosfwd>
-//#include "SDK/Core/AFGUID.h"
 #include "AFIModule.h"
 #include "AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"
-//#include "SDK/Core/AFQueue.h"
 #include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Proto/AFDefine.pb.h"
 
@@ -47,7 +40,6 @@ enum NF_SERVER_TYPES
     NF_ST_WORLD = 7,    //
 
 };
-
 
 class AFINetModule
     : public AFIModule
@@ -375,16 +367,14 @@ protected:
         if(mxReceiveCallBack.end() != it)
         {
             NET_RECEIVE_FUNCTOR_PTR& pFunPtr = it->second;
-            NET_RECEIVE_FUNCTOR* pFunc = pFunPtr.get();
-            pFunc->operator()(xHead, nMsgID, msg, nLen, xClientID);
+            (*pFunPtr)(xHead, nMsgID, msg, nLen, xClientID);
         }
         else
         {
             for(std::list<NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxCallBackList.begin(); it != mxCallBackList.end(); ++it)
             {
                 NET_RECEIVE_FUNCTOR_PTR& pFunPtr = *it;
-                NET_RECEIVE_FUNCTOR* pFunc = pFunPtr.get();
-                pFunc->operator()(xHead, nMsgID, msg, nLen, xClientID);
+                (*pFunPtr)(xHead, nMsgID, msg, nLen, xClientID);
             }
         }
     }
@@ -394,8 +384,7 @@ protected:
         for(std::list<NET_EVENT_FUNCTOR_PTR>::iterator it = mxEventCallBackList.begin(); it != mxEventCallBackList.end(); ++it)
         {
             NET_EVENT_FUNCTOR_PTR& pFunPtr = *it;
-            NET_EVENT_FUNCTOR* pFunc = pFunPtr.get();
-            pFunc->operator()(eEvent, xClientID, nServerID);
+            (*pFunPtr)(eEvent, xClientID, nServerID);
         }
     }
 
@@ -404,7 +393,3 @@ protected:
     std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
     std::list<NET_RECEIVE_FUNCTOR_PTR> mxCallBackList;
 };
-
-#endif
-
-
