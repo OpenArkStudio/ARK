@@ -159,11 +159,11 @@ void AFCProxyServerToGameModule::Register(const int nServerID)
     }
 }
 
-void AFCProxyServerToGameModule::OnAckEnterGame(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerToGameModule::OnAckEnterGame(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::AckEventResult xData;
-    if(!AFINetServerModule::ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
+    if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
     }
@@ -182,8 +182,8 @@ void AFCProxyServerToGameModule::LogServerInfo(const std::string& strServerInfo)
     m_pLogModule->LogInfo(AFGUID(), strServerInfo, "");
 }
 
-void AFCProxyServerToGameModule::Transpond(const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerToGameModule::Transpond(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    m_pProxyServerNet_ServerModule->Transpond(nMsgID, msg, nLen);
+    m_pProxyServerNet_ServerModule->Transpond(xHead, nMsgID, msg, nLen);
 }
 
