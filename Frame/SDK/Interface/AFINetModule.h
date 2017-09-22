@@ -63,18 +63,18 @@ public:
     }
 
     template<typename BaseType>
-    bool AddReceiveCallBack(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const char*, const uint32_t, const AFGUID&))
+    bool AddReceiveCallBack(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const uint32_t, const AFGUID&))
     {
-        NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         NET_RECEIVE_FUNCTOR_PTR functorPtr(new NET_RECEIVE_FUNCTOR(functor));
 
         return AddReceiveCallBack(nMsgID, functorPtr);
     }
 
     template<typename BaseType>
-    bool AddReceiveCallBack(BaseType* pBase, void (BaseType::*handleRecieve)(const int, const char*, const uint32_t, const AFGUID&))
+    bool AddReceiveCallBack(BaseType* pBase, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const uint32_t, const AFGUID&))
     {
-        NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        NET_RECEIVE_FUNCTOR functor = std::bind(handleRecieve, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         NET_RECEIVE_FUNCTOR_PTR functorPtr(new NET_RECEIVE_FUNCTOR(functor));
 
         return AddReceiveCallBack(functorPtr);
@@ -115,7 +115,7 @@ public:
         return true;
     }
 
-    static bool ReceivePB(const int nMsgID, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
+    static bool ReceivePB(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
     {
         AFMsg::MsgBase xMsg;
         if(!xMsg.ParseFromArray(msg, nLen))
@@ -134,7 +134,7 @@ public:
         return true;
     }
 
-    static bool ReceivePB(const int nMsgID, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, AFGUID& nPlayer)
+    static bool ReceivePB(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, AFGUID& nPlayer)
     {
         AFMsg::MsgBase xMsg;
         if(!xMsg.ParseFromArray(msg, nLen))
@@ -369,14 +369,14 @@ public:
     }
 
 protected:
-    void OnReceiveBaseNetPack(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void OnReceiveBaseNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
         std::map<int, NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxReceiveCallBack.find(nMsgID);
         if(mxReceiveCallBack.end() != it)
         {
             NET_RECEIVE_FUNCTOR_PTR& pFunPtr = it->second;
             NET_RECEIVE_FUNCTOR* pFunc = pFunPtr.get();
-            pFunc->operator()(nMsgID, msg, nLen, xClientID);
+            pFunc->operator()(xHead, nMsgID, msg, nLen, xClientID);
         }
         else
         {
@@ -384,7 +384,7 @@ protected:
             {
                 NET_RECEIVE_FUNCTOR_PTR& pFunPtr = *it;
                 NET_RECEIVE_FUNCTOR* pFunc = pFunPtr.get();
-                pFunc->operator()(nMsgID, msg, nLen, xClientID);
+                pFunc->operator()(xHead, nMsgID, msg, nLen, xClientID);
             }
         }
     }

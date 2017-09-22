@@ -106,7 +106,7 @@ int AFCProxyServerNet_ServerModule::HB_OnConnectCheckTime(const AFGUID& self, co
     return 0;
 }
 
-void AFCProxyServerNet_ServerModule::OnOtherMessage(const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerNet_ServerModule::OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFMsg::MsgBase xMsg;
     if(!xMsg.ParseFromArray(msg, nLen))
@@ -151,11 +151,11 @@ void AFCProxyServerNet_ServerModule::OnOtherMessage(const int nMsgID, const char
     }
 }
 
-void AFCProxyServerNet_ServerModule::OnConnectKeyProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerNet_ServerModule::OnConnectKeyProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ReqAccountLogin xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -233,11 +233,11 @@ void AFCProxyServerNet_ServerModule::OnClientDisconnect(const AFGUID& xClientID)
     }
 }
 
-void AFCProxyServerNet_ServerModule::OnSelectServerProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerNet_ServerModule::OnSelectServerProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ReqSelectServer xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -263,11 +263,11 @@ void AFCProxyServerNet_ServerModule::OnSelectServerProcess(const int nMsgID, con
     m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xMsg, xClientID, nPlayerID);
 }
 
-void AFCProxyServerNet_ServerModule::OnReqServerListProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerNet_ServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ReqServerList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -305,7 +305,7 @@ void AFCProxyServerNet_ServerModule::OnReqServerListProcess(const int nMsgID, co
     }
 }
 
-int AFCProxyServerNet_ServerModule::Transpond(const int nMsgID, const char* msg, const uint32_t nLen)
+int AFCProxyServerNet_ServerModule::Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen)
 {
     AFMsg::MsgBase xMsg;
     if(!xMsg.ParseFromArray(msg, nLen))
@@ -350,12 +350,12 @@ void AFCProxyServerNet_ServerModule::OnClientConnected(const AFGUID& xClientID)
     mmSessionData.AddElement(xClientID, pSessionData);
 }
 
-void AFCProxyServerNet_ServerModule::OnReqRoleListProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerNet_ServerModule::OnReqRoleListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //在没有正式进入游戏之前，nPlayerID都是FD
     AFGUID nPlayerID;
     AFMsg::ReqRoleList xData;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
     }
@@ -390,14 +390,14 @@ void AFCProxyServerNet_ServerModule::OnReqRoleListProcess(const int nMsgID, cons
     }
 }
 
-void AFCProxyServerNet_ServerModule::OnReqCreateRoleProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerNet_ServerModule::OnReqCreateRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //在没有正式进入游戏之前，nPlayerID都是FD
 
 
     AFGUID nPlayerID;
     AFMsg::ReqCreateRole xData;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
     }
@@ -432,12 +432,12 @@ void AFCProxyServerNet_ServerModule::OnReqCreateRoleProcess(const int nMsgID, co
     }
 }
 
-void AFCProxyServerNet_ServerModule::OnReqDelRoleProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerNet_ServerModule::OnReqDelRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //在没有正式进入游戏之前，nPlayerID都是FD
     AFGUID nPlayerID;
     AFMsg::ReqDeleteRole xData;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
     }
@@ -457,12 +457,12 @@ void AFCProxyServerNet_ServerModule::OnReqDelRoleProcess(const int nMsgID, const
     }
 }
 
-void AFCProxyServerNet_ServerModule::OnReqEnterGameServer(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyServerNet_ServerModule::OnReqEnterGameServer(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //在没有正式进入游戏之前，nPlayerID都是FD
     AFGUID nPlayerID;
     AFMsg::ReqEnterGameServer xData;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xData, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xData, nPlayerID))
     {
         return;
     }
