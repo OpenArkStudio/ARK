@@ -148,12 +148,12 @@ void AFCGameServerNet_ServerModule::OnClientConnected(const AFGUID& xClientID)
 
 }
 
-void AFCGameServerNet_ServerModule::OnClienEnterGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerNet_ServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //在进入游戏之前nPlayerID为其在网关的FD
     AFGUID nGateClientID;
     AFMsg::ReqEnterGameServer xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nGateClientID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nGateClientID))
     {
         return;
     }
@@ -230,11 +230,11 @@ void AFCGameServerNet_ServerModule::OnClienEnterGameProcess(const int nMsgID, co
     m_pKernelModule->DoEvent(pObject->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
 
-void AFCGameServerNet_ServerModule::OnClienLeaveGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerNet_ServerModule::OnClienLeaveGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ReqLeaveGameServer xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -332,9 +332,9 @@ bool OnRecordEnterPack(AFRecord* pRecord, AFMsg::ObjectRecordBase* pObjectRecord
         for(int j = 0; j < pRecord->GetColCount(); j++)
         {
             AFMsg::RecordPBData* pAddData = pAddRowStruct->add_record_data_list();
-            
+
             AFCData xRowColData;
-            if (!pRecord->GetValue(i, j, xRowColData))
+            if(!pRecord->GetValue(i, j, xRowColData))
             {
                 ARK_ASSERT(0, "Get record value failed, please check", __FILE__, __FUNCTION__);
                 continue;
@@ -358,7 +358,7 @@ int AFCGameServerNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, cons
     AFMsg::MultiObjectRecordList xPrivateMsg;
 
     ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
-    if (nullptr == pObject)
+    if(nullptr == pObject)
     {
         return 0;
     }
@@ -369,24 +369,24 @@ int AFCGameServerNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, cons
     ARK_SHARE_PTR<AFIRecordMgr> pRecordManager = pObject->GetRecordManager();
 
     size_t nRecordCount = pRecordManager->GetCount();
-    for (int i = 0; i < nRecordCount; ++i)
+    for(int i = 0; i < nRecordCount; ++i)
     {
         AFRecord* pRecord = pRecordManager->GetRecordByIndex(i);
-        if (NULL == pRecord)
+        if(NULL == pRecord)
         {
             continue;
         }
 
-        if (!pRecord->IsPublic() && !pRecord->IsPrivate())
+        if(!pRecord->IsPublic() && !pRecord->IsPrivate())
         {
             continue;
         }
 
         AFMsg::ObjectRecordBase* pPrivateRecordBase = NULL;
         AFMsg::ObjectRecordBase* pPublicRecordBase = NULL;
-        if (pRecord->IsPublic())
+        if(pRecord->IsPublic())
         {
-            if (!pPublicData)
+            if(!pPublicData)
             {
                 pPublicData = xPublicMsg.add_multi_player_record();
                 *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
@@ -397,9 +397,9 @@ int AFCGameServerNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, cons
             OnRecordEnterPack(pRecord, pPublicRecordBase);
         }
 
-        if (pRecord->IsPrivate())
+        if(pRecord->IsPrivate())
         {
-            if (!pPrivateData)
+            if(!pPrivateData)
             {
                 pPrivateData = xPrivateMsg.add_multi_player_record();
                 *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
@@ -988,7 +988,7 @@ int AFCGameServerNet_ServerModule::GetBroadCastObject(const AFGUID& self, const 
 
     //普通场景容器，判断广播属性
     std::string strClassName = m_pKernelModule->GetPropertyString(self, "ClassName");
-    
+
     ARK_SHARE_PTR<AFIPropertyMgr> pClassPropertyManager = m_pClassModule->GetClassPropertyManager(strClassName);
     ARK_SHARE_PTR<AFIRecordMgr> pClassRecordManager = m_pClassModule->GetClassRecordManager(strClassName);
 
@@ -1137,12 +1137,12 @@ int AFCGameServerNet_ServerModule::OnSwapSceneResultEvent(const AFGUID& self, co
     return 0;
 }
 
-void AFCGameServerNet_ServerModule::OnReqiureRoleListProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerNet_ServerModule::OnReqiureRoleListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //fd
     AFGUID nGateClientID;
     AFMsg::ReqRoleList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nGateClientID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nGateClientID))
     {
         return;
     }
@@ -1151,11 +1151,11 @@ void AFCGameServerNet_ServerModule::OnReqiureRoleListProcess(const int nMsgID, c
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
 }
 
-void AFCGameServerNet_ServerModule::OnCreateRoleGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerNet_ServerModule::OnCreateRoleGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nGateClientID;
     AFMsg::ReqCreateRole xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nGateClientID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nGateClientID))
     {
         return;
     }
@@ -1178,11 +1178,11 @@ void AFCGameServerNet_ServerModule::OnCreateRoleGameProcess(const int nMsgID, co
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
 }
 
-void AFCGameServerNet_ServerModule::OnDeleteRoleGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerNet_ServerModule::OnDeleteRoleGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ReqDeleteRole xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -1192,7 +1192,7 @@ void AFCGameServerNet_ServerModule::OnDeleteRoleGameProcess(const int nMsgID, co
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nPlayerID);
 }
 
-void AFCGameServerNet_ServerModule::OnClienSwapSceneProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerNet_ServerModule::OnClienSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     CLIENT_MSG_PROCESS(nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
 
@@ -1204,11 +1204,11 @@ void AFCGameServerNet_ServerModule::OnClienSwapSceneProcess(const int nMsgID, co
     m_pKernelModule->DoEvent(pObject->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
 
-void AFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -1232,11 +1232,11 @@ void AFCGameServerNet_ServerModule::OnProxyServerRegisteredProcess(const int nMs
     return;
 }
 
-void AFCGameServerNet_ServerModule::OnProxyServerUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerNet_ServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -1253,11 +1253,11 @@ void AFCGameServerNet_ServerModule::OnProxyServerUnRegisteredProcess(const int n
     return;
 }
 
-void AFCGameServerNet_ServerModule::OnRefreshProxyServerInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerNet_ServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     AFGUID nPlayerID;
     AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID))
+    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
     {
         return;
     }
@@ -1406,12 +1406,12 @@ ARK_SHARE_PTR<AFIGameServerNet_ServerModule::GateServerInfo> AFCGameServerNet_Se
     return pServerData;
 }
 
-void AFCGameServerNet_ServerModule::OnTransWorld(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameServerNet_ServerModule::OnTransWorld(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     std::string strMsg;
     AFGUID nPlayer;
     int nHasKey = 0;
-    if(AFINetServerModule::ReceivePB(nMsgID, msg, nLen, strMsg, nPlayer))
+    if(AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, strMsg, nPlayer))
     {
         nHasKey = nPlayer.nIdent;
     }

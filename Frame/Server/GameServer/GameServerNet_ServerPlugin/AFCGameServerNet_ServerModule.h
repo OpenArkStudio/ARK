@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCGameServerNet_ServerModule.h                                                *
+// * @file      AFCGameServerNet_ServerModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCGameServerNet_ServerModule                                                  *
@@ -85,21 +85,21 @@ protected:
     void OnClientConnected(const AFGUID& xClientID);
 
 protected:
-    void OnProxyServerRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnProxyServerUnRegisteredProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnRefreshProxyServerInfoProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnProxyServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnProxyServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnRefreshProxyServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 protected:
-    void OnReqiureRoleListProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnCreateRoleGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnDeleteRoleGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnClienEnterGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnClienLeaveGameProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnClienSwapSceneProcess(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqiureRoleListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnCreateRoleGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnDeleteRoleGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnClienEnterGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnClienLeaveGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnClienSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 
     ///////////WORLD_START///////////////////////////////////////////////////////////////
-    void OnTransWorld(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnTransWorld(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 protected:
     //ÍøÂçÍ¬²½
