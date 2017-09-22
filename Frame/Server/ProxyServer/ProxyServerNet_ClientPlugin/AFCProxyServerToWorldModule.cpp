@@ -141,7 +141,7 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
                 if(pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
-                    GetClusterModule()->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg);
+                    GetClusterModule()->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg, 0);
 
                     m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
                 }
