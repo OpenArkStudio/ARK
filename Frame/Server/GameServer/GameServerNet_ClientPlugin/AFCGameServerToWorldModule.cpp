@@ -90,7 +90,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
             if(pServerData)
             {
                 int nTargetID = pServerData->nGameID;
-                m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg);
+                m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg, 0);
 
                 m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
             }
@@ -197,7 +197,7 @@ void AFCGameServerToWorldModule::SendOnline(const AFGUID& self)
     const AFGUID& xGuild = m_pKernelModule->GetPropertyObject(self, "GuildID");
     *xMsg.mutable_guild() = AFINetServerModule::NFToPB(xGuild);
 
-    m_pNetClientModule->SendSuitByPB(xGuild.n64Value, AFMsg::EGMI_ACK_ONLINE_NOTIFY, xMsg);
+    m_pNetClientModule->SendSuitByPB(xGuild.n64Value, AFMsg::EGMI_ACK_ONLINE_NOTIFY, xMsg, self);
 
 }
 
@@ -208,7 +208,7 @@ void AFCGameServerToWorldModule::SendOffline(const AFGUID& self)
     const AFGUID& xGuild = m_pKernelModule->GetPropertyObject(self, "GuildID");
     *xMsg.mutable_guild() = AFINetServerModule::NFToPB(xGuild);
 
-    m_pNetClientModule->SendSuitByPB(xGuild.n64Value, AFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg);
+    m_pNetClientModule->SendSuitByPB(xGuild.n64Value, AFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg, self);
 
 }
 
