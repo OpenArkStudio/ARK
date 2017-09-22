@@ -185,7 +185,7 @@ void AFCNetServer::ProcessMsgLogicThread(NetObject* pObject)
                 int nRet = 0;
                 if(mRecvCB)
                 {
-                    mRecvCB(pMsgFromNet->xHead.GetMsgID(), pMsgFromNet->strMsg.c_str(), pMsgFromNet->strMsg.size(), pObject->GetClientID());
+                    mRecvCB(pMsgFromNet->xHead, pMsgFromNet->xHead.GetMsgID(), pMsgFromNet->strMsg.c_str(), pMsgFromNet->strMsg.size(), pObject->GetClientID());
                 }
             }
             break;

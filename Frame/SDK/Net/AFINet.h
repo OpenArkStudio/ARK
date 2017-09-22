@@ -206,7 +206,7 @@ enum NetEventType
 
 class AFINet;
 
-typedef std::function<void(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
+typedef std::function<void(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
 typedef std::shared_ptr<NET_RECEIVE_FUNCTOR> NET_RECEIVE_FUNCTOR_PTR;
 
 typedef std::function<void(const NetEventType nEvent, const AFGUID& nClientID, const int nServerID)> NET_EVENT_FUNCTOR;
