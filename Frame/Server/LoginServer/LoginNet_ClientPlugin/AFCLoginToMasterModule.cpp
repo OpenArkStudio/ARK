@@ -135,7 +135,7 @@ void AFCLoginToMasterModule::Register(const int nServerID)
                 if(pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
-                    m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_LTM_LOGIN_REGISTERED, xMsg);
+                    m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_LTM_LOGIN_REGISTERED, xMsg, 0);
 
                     m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
                 }
