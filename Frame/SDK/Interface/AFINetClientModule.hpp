@@ -475,9 +475,9 @@ private:
     }
 
 protected:
-    void OnReceiveNetPack(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void OnReceiveNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        OnReceiveBaseNetPack(nMsgID, msg, nLen, xClientID);
+        OnReceiveBaseNetPack(xHead, nMsgID, msg, nLen, xClientID);
     }
 
     void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
