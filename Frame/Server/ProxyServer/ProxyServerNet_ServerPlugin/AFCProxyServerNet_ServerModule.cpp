@@ -131,7 +131,7 @@ void AFCProxyServerNet_ServerModule::OnOtherMessage(const AFIMsgHead& xHead, con
             AFCMachineNode xNode;
             if(mxConsistentHash.GetSuitNode(pSessionData->mnHashIdentID.ToString(), xNode))
             {
-                m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(xNode.GetDataID(), nMsgID, msg, nLen);
+                m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(xNode.GetDataID(), nMsgID, msg, nLen, xHead.GetPlayerID());
             }
         }
         else
@@ -141,13 +141,13 @@ void AFCProxyServerNet_ServerModule::OnOtherMessage(const AFIMsgHead& xHead, con
             AFCMachineNode xNode;
             if(mxConsistentHash.GetSuitNode(xHashIdent.ToString(), xNode))
             {
-                m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(xNode.GetDataID(), nMsgID, msg, nLen);
+                m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(xNode.GetDataID(), nMsgID, msg, nLen, xHead.GetPlayerID());
             }
         }
     }
     else
     {
-        m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, nMsgID, msg, nLen);
+        m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, nMsgID, msg, nLen, xHead.GetPlayerID());
     }
 }
 
@@ -225,7 +225,7 @@ void AFCProxyServerNet_ServerModule::OnClientDisconnect(const AFGUID& xClientID)
                     return;
                 }
 
-                m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, strMsg);
+                m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, strMsg, pSessionData->mnUserID);
             }
         }
 
@@ -385,7 +385,7 @@ void AFCProxyServerNet_ServerModule::OnReqRoleListProcess(const AFIMsgHead& xHea
                 return;
             }
 
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_ROLE_LIST, strMsg);
+            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_ROLE_LIST, strMsg, nPlayerID);
         }
     }
 }
@@ -427,7 +427,7 @@ void AFCProxyServerNet_ServerModule::OnReqCreateRoleProcess(const AFIMsgHead& xH
                 return;
             }
 
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, nMsgID, strMsg);
+            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, nMsgID, strMsg, pSessionData->mnUserID);
         }
     }
 }
@@ -452,7 +452,7 @@ void AFCProxyServerNet_ServerModule::OnReqDelRoleProcess(const AFIMsgHead& xHead
                 && pSessionData->mnGameID == xData.game_id()
                 && pSessionData->mstrAccout == xData.account())
         {
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, nMsgID, std::string(msg, nLen));
+            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, nMsgID, std::string(msg, nLen), nPlayerID);
         }
     }
 }
@@ -494,7 +494,7 @@ void AFCProxyServerNet_ServerModule::OnReqEnterGameServer(const AFIMsgHead& xHea
                 return;
             }
 
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_ENTER_GAME, strMsg);
+            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_ENTER_GAME, strMsg, nPlayerID);
         }
     }
 }
