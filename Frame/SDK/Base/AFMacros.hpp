@@ -58,7 +58,7 @@ MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_"#exp_), MB_RETRYCANCEL | MB_IC
 assert(exp_);
 
 #else
-ARK_ASSERT(exp_, msg_, file_, func_)
+ARK_ASSERT(exp_, msg_, file_, func_) assert(exp_)
 #endif
 
 #define ARK_EXPORT extern "C"  __declspec(dllexport)
@@ -164,4 +164,3 @@ bool Ark_to_str(std::string& strValue, const T& nValue)
 
 // clear player data time
 #define CLEAR_HOUR 5
-
