@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCGameServerToWorldModule.h                                                *
+// * @file      AFCGameServerToWorldModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCGameServerToWorldModule                                                  *
@@ -57,7 +57,7 @@ protected:
 protected:
     void Register(const int nSeverID);
     void RefreshWorldInfo();
-    void TransPBToProxy(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void TransPBToProxy(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
 

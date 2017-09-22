@@ -88,7 +88,7 @@ void AFCNetClient::ProcessMsgLogicThread(NetObject* pObject)
                 int nRet = 0;
                 if(mRecvCB)
                 {
-                    mRecvCB(pMsgFromNet->xHead.GetMsgID(), pMsgFromNet->strMsg.c_str(), pMsgFromNet->strMsg.size(), pObject->GetClientID());
+                    mRecvCB(pMsgFromNet->xHead, pMsgFromNet->xHead.GetMsgID(), pMsgFromNet->strMsg.c_str(), pMsgFromNet->strMsg.size(), pObject->GetClientID());
                 }
             }
             break;
@@ -175,7 +175,7 @@ bool AFCNetClient::DismantleNet(NetObject* pObject)
         int nMsgBodyLength = DeCode(pObject->GetBuff(), pObject->GetBuffLen(), xHead);
         if(nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
         {
-            mRecvCB(xHead.GetMsgID(), pObject->GetBuff() + AFIMsgHead::AF_Head::NF_HEAD_LENGTH, nMsgBodyLength, pObject->GetClientID());
+            mRecvCB(xHead, xHead.GetMsgID(), pObject->GetBuff() + AFIMsgHead::AF_Head::NF_HEAD_LENGTH, nMsgBodyLength, pObject->GetClientID());
             MsgFromNetInfo* pNetInfo = new  MsgFromNetInfo(pObject->GetConnPtr());
             pNetInfo->xHead = xHead;
             pNetInfo->nType = RECIVEDATA;
