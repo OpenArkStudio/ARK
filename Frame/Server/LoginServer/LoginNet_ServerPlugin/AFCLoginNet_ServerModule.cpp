@@ -205,7 +205,7 @@ void AFCLoginNet_ServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, con
     xData.mutable_sender()->CopyFrom(AFINetServerModule::NFToPB(pSession->mnClientID));
     xData.set_account(pSession->mstrAccout);
 
-    m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData);//here has a problem to be solve
+    m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData, xHead.GetPlayerID());//here has a problem to be solve
 }
 
 void AFCLoginNet_ServerModule::OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
