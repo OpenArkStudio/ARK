@@ -249,30 +249,14 @@ public:
 protected:
     bool PackMsgToBasePB(const google::protobuf::Message& xData, const AFGUID nPlayer, std::string& outData)
     {
-        std::string xMsgData;
-        if(!xData.SerializeToString(&xMsgData))
-        {
-            return false;
-        }
-
-        PackMsgToBasePB(xMsgData, nPlayer, outData);
-    }
-
-    bool PackMsgToBasePB(const std::string& strData, const AFGUID nPlayer, std::string& outData)
-    {
-        AFMsg::MsgBase xMsg;
-        xMsg.set_msg_data(strData.data(), strData.length());
-
-        AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
-        *pPlayerID = NFToPB(nPlayer);
-
-        if(!xMsg.SerializeToString(&outData))
+        if(!xData.SerializeToString(&outData))
         {
             return false;
         }
 
         return true;
     }
+
 protected:
     void ProcessExecute()
     {
