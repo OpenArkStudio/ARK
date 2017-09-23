@@ -132,7 +132,7 @@ void AFCWorldToMasterModule::Register(const int nServerID)
                 if(pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
-                    m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_MTL_WORLD_REGISTERED, xMsg);
+                    m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_MTL_WORLD_REGISTERED, xMsg, 0);
 
                     m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
                 }
@@ -171,7 +171,7 @@ void AFCWorldToMasterModule::OnSelectServerProcess(const AFIMsgHead& xHead, cons
 
         m_pWorldNet_ServerModule->GetNetModule()->SendMsgPB(AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xServerData->xClient, nPlayerID);
 
-        m_pNetClientModule->SendSuitByPB(xMsg.account(), AFMsg::EGMI_ACK_CONNECT_WORLD, xData);
+        m_pNetClientModule->SendSuitByPB(xMsg.account(), AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xHead.GetPlayerID());
     }
 
 }
