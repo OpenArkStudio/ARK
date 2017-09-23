@@ -114,14 +114,13 @@ public:
     }
 
     ////////////////////////////////////////////////////////////////////////////////
-    //裸数据,发时组包
-    void SendByServerID(const int nServerID, const int nMsgID, const std::string& strData)
+    void SendByServerID(const int nServerID, const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
     {
-        SendByServerID(nServerID, nMsgID, strData.c_str(), strData.length());
+        SendByServerID(nServerID, nMsgID, strData.c_str(), strData.length(), nPlayerID);
     }
 
     //裸数据,发时组包
-    void SendByServerID(const int nServerID, const int nMsgID, const char* msg, const uint32_t nLen)
+    void SendByServerID(const int nServerID, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nPlayerID)
     {
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
         if(pServer)
@@ -129,12 +128,12 @@ public:
             ARK_SHARE_PTR<AFCNetClient> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, msg, nLen, 0);
+                pNetModule->SendMsgWithOutHead(nMsgID, msg, nLen, 0, nPlayerID);
             }
         }
     }
     //裸数据,发时组包
-    void SendToAllServer(const int nMsgID, const std::string& strData)
+    void SendToAllServer(const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
     {
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
         while(pServer)
@@ -142,16 +141,16 @@ public:
             ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.size(), 0);
+                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.size(), 0, nPlayerID);
             }
 
             pServer = mxServerMap.Next();
         }
     }
-    void SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData)
+    void SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID&nPlayerID)
     {
         std::string strData;
-        PackMsgToBasePB(xData, AFGUID(0), strData);
+        PackMsgToBasePB(xData, nPlayerID, strData);
 
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
         if(pServer)
@@ -159,15 +158,15 @@ public:
             ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0));
+                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
             }
         }
     }
 
-    void SendToAllServerByPB(const uint16_t nMsgID, google::protobuf::Message& xData)
+    void SendToAllServerByPB(const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
     {
         std::string strData;
-        PackMsgToBasePB(xData, AFGUID(0), strData);
+        PackMsgToBasePB(xData, nPlayerID, strData);
 
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
         while(pServer)
@@ -175,31 +174,31 @@ public:
             ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0));
+                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
             }
 
             pServer = mxServerMap.Next();
         }
     }
 
-    void SendBySuit(const std::string& strHashKey, const int nMsgID, const std::string& strData)
+    void SendBySuit(const std::string& strHashKey, const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
     {
         uint32_t nCRC32 = NFrame::CRC32(strHashKey);
-        SendBySuit(nCRC32, nMsgID, strData);
+        SendBySuit(nCRC32, nMsgID, strData, nPlayerID);
     }
 
-    void SendBySuit(const std::string& strHashKey, const int nMsgID, const char* msg, const uint32_t nLen)
+    void SendBySuit(const std::string& strHashKey, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nPlayerID)
     {
         uint32_t nCRC32 = NFrame::CRC32(strHashKey);
-        SendBySuit(nCRC32, nMsgID, msg, nLen);
+        SendBySuit(nCRC32, nMsgID, msg, nLen, nPlayerID);
     }
 
-    void SendBySuit(const int& nHashKey, const int nMsgID, const std::string& strData)
+    void SendBySuit(const int& nHashKey, const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
     {
-        SendBySuit(nHashKey, nMsgID, strData.c_str(), strData.length());
+        SendBySuit(nHashKey, nMsgID, strData.c_str(), strData.length(), nPlayerID);
     }
 
-    void SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen)
+    void SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nPlayerID)
     {
         if(mxConsistentHash.Size() <= 0)
         {
@@ -212,16 +211,16 @@ public:
             return;
         }
 
-        SendByServerID(xNode.nMachineID, nMsgID, msg, nLen);
+        SendByServerID(xNode.nMachineID, nMsgID, msg, nLen, nPlayerID);
     }
 
-    void SendSuitByPB(const std::string& strHashKey, const uint16_t nMsgID, google::protobuf::Message& xData)
+    void SendSuitByPB(const std::string& strHashKey, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
     {
         uint32_t nCRC32 = NFrame::CRC32(strHashKey);
-        SendSuitByPB(nCRC32, nMsgID, xData);
+        SendSuitByPB(nCRC32, nMsgID, xData, nPlayerID);
     }
 
-    void SendSuitByPB(const int& nHashKey, const uint16_t nMsgID, google::protobuf::Message& xData)
+    void SendSuitByPB(const int& nHashKey, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
     {
         if(mxConsistentHash.Size() <= 0)
         {
@@ -234,7 +233,7 @@ public:
             return;
         }
 
-        SendToServerByPB(xNode.nMachineID, nMsgID, xData);
+        SendToServerByPB(xNode.nMachineID, nMsgID, xData, nPlayerID);
     }
 
     ARK_SHARE_PTR<ConnectData> GetServerNetInfo(const int nServerID)
@@ -250,30 +249,14 @@ public:
 protected:
     bool PackMsgToBasePB(const google::protobuf::Message& xData, const AFGUID nPlayer, std::string& outData)
     {
-        std::string xMsgData;
-        if(!xData.SerializeToString(&xMsgData))
-        {
-            return false;
-        }
-
-        PackMsgToBasePB(xMsgData, nPlayer, outData);
-    }
-
-    bool PackMsgToBasePB(const std::string& strData, const AFGUID nPlayer, std::string& outData)
-    {
-        AFMsg::MsgBase xMsg;
-        xMsg.set_msg_data(strData.data(), strData.length());
-
-        AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
-        *pPlayerID = NFToPB(nPlayer);
-
-        if(!xMsg.SerializeToString(&outData))
+        if(!xData.SerializeToString(&outData))
         {
             return false;
         }
 
         return true;
     }
+
 protected:
     void ProcessExecute()
     {
