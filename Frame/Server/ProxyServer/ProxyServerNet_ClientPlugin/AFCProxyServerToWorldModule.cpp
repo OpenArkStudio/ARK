@@ -162,6 +162,7 @@ bool AFCProxyServerToWorldModule::AfterInit()
 
     m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyServerToWorldModule::OnSelectServerResultProcess);
     m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_STS_NET_INFO, this, &AFCProxyServerToWorldModule::OnServerInfoProcess);
+    m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyServerToWorldModule::OnBrocastmsg);
     m_pNetClientModule->AddReceiveCallBack(this, &AFCProxyServerToWorldModule::OnOtherMessage);
 
     m_pNetClientModule->AddEventCallBack(this, &AFCProxyServerToWorldModule::OnSocketWSEvent);
@@ -251,3 +252,20 @@ void AFCProxyServerToWorldModule::OnOtherMessage(const AFIMsgHead& xHead, const 
     m_pProxyServerNet_ServerModule->Transpond(xHead, nMsgID, msg, nLen);
 }
 
+void AFCProxyServerToWorldModule::OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+{
+    //保持记录,直到下线,或者1分钟不上线即可删除
+    AFGUID nPlayerID;
+    AFMsg::BrocastMsg xMsg;
+    if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
+    {
+        return;
+    }
+
+    for(int i = 0; i < xMsg.player_client_list_size(); i++)
+    {
+        const AFMsg::Ident& xClientID = xMsg.player_client_list(i);
+        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToNF(xClientID), nPlayerID);
+    }
+
+}
