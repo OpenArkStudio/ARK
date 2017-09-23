@@ -80,9 +80,9 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* PlayerRecordList_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   PlayerRecordList_reflection_ = NULL;
-const ::google::protobuf::Descriptor* MsgBase_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* BrocastMsg_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
-  MsgBase_reflection_ = NULL;
+  BrocastMsg_reflection_ = NULL;
 const ::google::protobuf::Descriptor* Position_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Position_reflection_ = NULL;
@@ -449,24 +449,24 @@ void protobuf_AssignDesc_AFMsgBase_2eproto() {
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
       sizeof(PlayerRecordList));
-  MsgBase_descriptor_ = file->message_type(20);
-  static const int MsgBase_offsets_[4] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MsgBase, player_id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MsgBase, msg_data_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MsgBase, player_client_list_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MsgBase, hash_ident_),
+  BrocastMsg_descriptor_ = file->message_type(20);
+  static const int BrocastMsg_offsets_[4] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BrocastMsg, player_id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BrocastMsg, msg_data_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BrocastMsg, nmsgid_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BrocastMsg, player_client_list_),
   };
-  MsgBase_reflection_ =
+  BrocastMsg_reflection_ =
     new ::google::protobuf::internal::GeneratedMessageReflection(
-      MsgBase_descriptor_,
-      MsgBase::default_instance_,
-      MsgBase_offsets_,
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MsgBase, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(MsgBase, _unknown_fields_),
+      BrocastMsg_descriptor_,
+      BrocastMsg::default_instance_,
+      BrocastMsg_offsets_,
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BrocastMsg, _has_bits_[0]),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BrocastMsg, _unknown_fields_),
       -1,
       ::google::protobuf::DescriptorPool::generated_pool(),
       ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(MsgBase));
+      sizeof(BrocastMsg));
   Position_descriptor_ = file->message_type(21);
   static const int Position_offsets_[3] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Position, x_),
@@ -561,7 +561,7 @@ void protobuf_RegisterTypes(const ::std::string&) {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     PlayerRecordList_descriptor_, &PlayerRecordList::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    MsgBase_descriptor_, &MsgBase::default_instance());
+    BrocastMsg_descriptor_, &BrocastMsg::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
     Position_descriptor_, &Position::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
@@ -611,8 +611,8 @@ void protobuf_ShutdownFile_AFMsgBase_2eproto() {
   delete PlayerRecordBase_reflection_;
   delete PlayerRecordList::default_instance_;
   delete PlayerRecordList_reflection_;
-  delete MsgBase::default_instance_;
-  delete MsgBase_reflection_;
+  delete BrocastMsg::default_instance_;
+  delete BrocastMsg_reflection_;
   delete Position::default_instance_;
   delete Position_reflection_;
   delete ReqCommand::default_instance_;
@@ -681,22 +681,22 @@ void protobuf_AddDesc_AFMsgBase_2eproto() {
     "Data\"V\n\020PlayerRecordBase\022\023\n\013record_name\030"
     "\001 \002(\t\022-\n\020record_data_list\030\002 \003(\0132\023.AFMsg."
     "RecordPBData\"@\n\020PlayerRecordList\022,\n\013reco"
-    "rd_list\030\001 \003(\0132\027.AFMsg.PlayerRecordBase\"\210"
-    "\001\n\007MsgBase\022\037\n\tplayer_id\030\001 \002(\0132\014.AFMsg.Id"
-    "ent\022\020\n\010msg_data\030\002 \002(\014\022(\n\022player_Client_l"
-    "ist\030\003 \003(\0132\014.AFMsg.Ident\022 \n\nhash_ident\030\004 "
-    "\001(\0132\014.AFMsg.Ident\"+\n\010Position\022\t\n\001x\030\001 \002(\002"
-    "\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002\"\213\003\n\nReqCommand\022 \n"
-    "\ncontrol_id\030\001 \002(\0132\014.AFMsg.Ident\0226\n\ncomma"
-    "nd_id\030\002 \002(\0162\".AFMsg.ReqCommand.EGameComm"
-    "andType\022\031\n\021command_str_value\030\003 \001(\014\022\031\n\021co"
-    "mmand_value_int\030\004 \001(\003\022\033\n\023command_value_f"
-    "loat\030\005 \001(\002\022\031\n\021command_value_str\030\006 \001(\014\022*\n"
-    "\024command_value_object\030\007 \001(\0132\014.AFMsg.Iden"
-    "t\022\013\n\003row\030\010 \001(\005\022\013\n\003col\030\t \001(\005\"o\n\020EGameComm"
-    "andType\022\027\n\023EGCT_MODIY_PROPERTY\020\000\022\023\n\017EGCT"
-    "_MODIY_ITEM\020\001\022\026\n\022EGCT_CREATE_OBJECT\020\002\022\025\n"
-    "\021EGCT_ADD_ROLE_EXP\020\003", 2780);
+    "rd_list\030\001 \003(\0132\027.AFMsg.PlayerRecordBase\"y"
+    "\n\nBrocastMsg\022\037\n\tplayer_id\030\001 \002(\0132\014.AFMsg."
+    "Ident\022\020\n\010msg_data\030\002 \002(\014\022\016\n\006nMsgID\030\003 \002(\003\022"
+    "(\n\022player_Client_list\030\004 \003(\0132\014.AFMsg.Iden"
+    "t\"+\n\010Position\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z"
+    "\030\003 \002(\002\"\213\003\n\nReqCommand\022 \n\ncontrol_id\030\001 \002("
+    "\0132\014.AFMsg.Ident\0226\n\ncommand_id\030\002 \002(\0162\".AF"
+    "Msg.ReqCommand.EGameCommandType\022\031\n\021comma"
+    "nd_str_value\030\003 \001(\014\022\031\n\021command_value_int\030"
+    "\004 \001(\003\022\033\n\023command_value_float\030\005 \001(\002\022\031\n\021co"
+    "mmand_value_str\030\006 \001(\014\022*\n\024command_value_o"
+    "bject\030\007 \001(\0132\014.AFMsg.Ident\022\013\n\003row\030\010 \001(\005\022\013"
+    "\n\003col\030\t \001(\005\"o\n\020EGameCommandType\022\027\n\023EGCT_"
+    "MODIY_PROPERTY\020\000\022\023\n\017EGCT_MODIY_ITEM\020\001\022\026\n"
+    "\022EGCT_CREATE_OBJECT\020\002\022\025\n\021EGCT_ADD_ROLE_E"
+    "XP\020\003", 2764);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "AFMsgBase.proto", &protobuf_RegisterTypes);
   Ident::default_instance_ = new Ident();
@@ -719,7 +719,7 @@ void protobuf_AddDesc_AFMsgBase_2eproto() {
   PlayerPropertyBase::default_instance_ = new PlayerPropertyBase();
   PlayerRecordBase::default_instance_ = new PlayerRecordBase();
   PlayerRecordList::default_instance_ = new PlayerRecordList();
-  MsgBase::default_instance_ = new MsgBase();
+  BrocastMsg::default_instance_ = new BrocastMsg();
   Position::default_instance_ = new Position();
   ReqCommand::default_instance_ = new ReqCommand();
   Ident::default_instance_->InitAsDefaultInstance();
@@ -742,7 +742,7 @@ void protobuf_AddDesc_AFMsgBase_2eproto() {
   PlayerPropertyBase::default_instance_->InitAsDefaultInstance();
   PlayerRecordBase::default_instance_->InitAsDefaultInstance();
   PlayerRecordList::default_instance_->InitAsDefaultInstance();
-  MsgBase::default_instance_->InitAsDefaultInstance();
+  BrocastMsg::default_instance_->InitAsDefaultInstance();
   Position::default_instance_->InitAsDefaultInstance();
   ReqCommand::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_AFMsgBase_2eproto);
@@ -7110,72 +7110,70 @@ void PlayerRecordList::Swap(PlayerRecordList* other) {
 // ===================================================================
 
 #ifndef _MSC_VER
-const int MsgBase::kPlayerIdFieldNumber;
-const int MsgBase::kMsgDataFieldNumber;
-const int MsgBase::kPlayerClientListFieldNumber;
-const int MsgBase::kHashIdentFieldNumber;
+const int BrocastMsg::kPlayerIdFieldNumber;
+const int BrocastMsg::kMsgDataFieldNumber;
+const int BrocastMsg::kNMsgIDFieldNumber;
+const int BrocastMsg::kPlayerClientListFieldNumber;
 #endif  // !_MSC_VER
 
-MsgBase::MsgBase()
+BrocastMsg::BrocastMsg()
   : ::google::protobuf::Message() {
   SharedCtor();
 }
 
-void MsgBase::InitAsDefaultInstance() {
+void BrocastMsg::InitAsDefaultInstance() {
   player_id_ = const_cast< ::AFMsg::Ident*>(&::AFMsg::Ident::default_instance());
-  hash_ident_ = const_cast< ::AFMsg::Ident*>(&::AFMsg::Ident::default_instance());
 }
 
-MsgBase::MsgBase(const MsgBase& from)
+BrocastMsg::BrocastMsg(const BrocastMsg& from)
   : ::google::protobuf::Message() {
   SharedCtor();
   MergeFrom(from);
 }
 
-void MsgBase::SharedCtor() {
+void BrocastMsg::SharedCtor() {
   _cached_size_ = 0;
   player_id_ = NULL;
   msg_data_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  hash_ident_ = NULL;
+  nmsgid_ = GOOGLE_LONGLONG(0);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
-MsgBase::~MsgBase() {
+BrocastMsg::~BrocastMsg() {
   SharedDtor();
 }
 
-void MsgBase::SharedDtor() {
+void BrocastMsg::SharedDtor() {
   if (msg_data_ != &::google::protobuf::internal::kEmptyString) {
     delete msg_data_;
   }
   if (this != default_instance_) {
     delete player_id_;
-    delete hash_ident_;
   }
 }
 
-void MsgBase::SetCachedSize(int size) const {
+void BrocastMsg::SetCachedSize(int size) const {
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
   _cached_size_ = size;
   GOOGLE_SAFE_CONCURRENT_WRITES_END();
 }
-const ::google::protobuf::Descriptor* MsgBase::descriptor() {
+const ::google::protobuf::Descriptor* BrocastMsg::descriptor() {
   protobuf_AssignDescriptorsOnce();
-  return MsgBase_descriptor_;
+  return BrocastMsg_descriptor_;
 }
 
-const MsgBase& MsgBase::default_instance() {
+const BrocastMsg& BrocastMsg::default_instance() {
   if (default_instance_ == NULL) protobuf_AddDesc_AFMsgBase_2eproto();
   return *default_instance_;
 }
 
-MsgBase* MsgBase::default_instance_ = NULL;
+BrocastMsg* BrocastMsg::default_instance_ = NULL;
 
-MsgBase* MsgBase::New() const {
-  return new MsgBase;
+BrocastMsg* BrocastMsg::New() const {
+  return new BrocastMsg;
 }
 
-void MsgBase::Clear() {
+void BrocastMsg::Clear() {
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (has_player_id()) {
       if (player_id_ != NULL) player_id_->::AFMsg::Ident::Clear();
@@ -7185,16 +7183,14 @@ void MsgBase::Clear() {
         msg_data_->clear();
       }
     }
-    if (has_hash_ident()) {
-      if (hash_ident_ != NULL) hash_ident_->::AFMsg::Ident::Clear();
-    }
+    nmsgid_ = GOOGLE_LONGLONG(0);
   }
   player_client_list_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
   mutable_unknown_fields()->Clear();
 }
 
-bool MsgBase::MergePartialFromCodedStream(
+bool BrocastMsg::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!(EXPRESSION)) return false
   ::google::protobuf::uint32 tag;
@@ -7223,12 +7219,28 @@ bool MsgBase::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(26)) goto parse_player_Client_list;
+        if (input->ExpectTag(24)) goto parse_nMsgID;
         break;
       }
 
-      // repeated .AFMsg.Ident player_Client_list = 3;
+      // required int64 nMsgID = 3;
       case 3: {
+        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+         parse_nMsgID:
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &nmsgid_)));
+          set_has_nmsgid();
+        } else {
+          goto handle_uninterpreted;
+        }
+        if (input->ExpectTag(34)) goto parse_player_Client_list;
+        break;
+      }
+
+      // repeated .AFMsg.Ident player_Client_list = 4;
+      case 4: {
         if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
          parse_player_Client_list:
@@ -7237,21 +7249,7 @@ bool MsgBase::MergePartialFromCodedStream(
         } else {
           goto handle_uninterpreted;
         }
-        if (input->ExpectTag(26)) goto parse_player_Client_list;
-        if (input->ExpectTag(34)) goto parse_hash_ident;
-        break;
-      }
-
-      // optional .AFMsg.Ident hash_ident = 4;
-      case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_hash_ident:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
-               input, mutable_hash_ident()));
-        } else {
-          goto handle_uninterpreted;
-        }
+        if (input->ExpectTag(34)) goto parse_player_Client_list;
         if (input->ExpectAtEnd()) return true;
         break;
       }
@@ -7272,7 +7270,7 @@ bool MsgBase::MergePartialFromCodedStream(
 #undef DO_
 }
 
-void MsgBase::SerializeWithCachedSizes(
+void BrocastMsg::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // required .AFMsg.Ident player_id = 1;
   if (has_player_id()) {
@@ -7286,16 +7284,15 @@ void MsgBase::SerializeWithCachedSizes(
       2, this->msg_data(), output);
   }
 
-  // repeated .AFMsg.Ident player_Client_list = 3;
-  for (int i = 0; i < this->player_client_list_size(); i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->player_client_list(i), output);
+  // required int64 nMsgID = 3;
+  if (has_nmsgid()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(3, this->nmsgid(), output);
   }
 
-  // optional .AFMsg.Ident hash_ident = 4;
-  if (has_hash_ident()) {
+  // repeated .AFMsg.Ident player_Client_list = 4;
+  for (int i = 0; i < this->player_client_list_size(); i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, this->hash_ident(), output);
+      4, this->player_client_list(i), output);
   }
 
   if (!unknown_fields().empty()) {
@@ -7304,7 +7301,7 @@ void MsgBase::SerializeWithCachedSizes(
   }
 }
 
-::google::protobuf::uint8* MsgBase::SerializeWithCachedSizesToArray(
+::google::protobuf::uint8* BrocastMsg::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // required .AFMsg.Ident player_id = 1;
   if (has_player_id()) {
@@ -7320,18 +7317,16 @@ void MsgBase::SerializeWithCachedSizes(
         2, this->msg_data(), target);
   }
 
-  // repeated .AFMsg.Ident player_Client_list = 3;
+  // required int64 nMsgID = 3;
+  if (has_nmsgid()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(3, this->nmsgid(), target);
+  }
+
+  // repeated .AFMsg.Ident player_Client_list = 4;
   for (int i = 0; i < this->player_client_list_size(); i++) {
     target = ::google::protobuf::internal::WireFormatLite::
       WriteMessageNoVirtualToArray(
-        3, this->player_client_list(i), target);
-  }
-
-  // optional .AFMsg.Ident hash_ident = 4;
-  if (has_hash_ident()) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        4, this->hash_ident(), target);
+        4, this->player_client_list(i), target);
   }
 
   if (!unknown_fields().empty()) {
@@ -7341,7 +7336,7 @@ void MsgBase::SerializeWithCachedSizes(
   return target;
 }
 
-int MsgBase::ByteSize() const {
+int BrocastMsg::ByteSize() const {
   int total_size = 0;
 
   if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
@@ -7359,15 +7354,15 @@ int MsgBase::ByteSize() const {
           this->msg_data());
     }
 
-    // optional .AFMsg.Ident hash_ident = 4;
-    if (has_hash_ident()) {
+    // required int64 nMsgID = 3;
+    if (has_nmsgid()) {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->hash_ident());
+        ::google::protobuf::internal::WireFormatLite::Int64Size(
+          this->nmsgid());
     }
 
   }
-  // repeated .AFMsg.Ident player_Client_list = 3;
+  // repeated .AFMsg.Ident player_Client_list = 4;
   total_size += 1 * this->player_client_list_size();
   for (int i = 0; i < this->player_client_list_size(); i++) {
     total_size +=
@@ -7386,10 +7381,10 @@ int MsgBase::ByteSize() const {
   return total_size;
 }
 
-void MsgBase::MergeFrom(const ::google::protobuf::Message& from) {
+void BrocastMsg::MergeFrom(const ::google::protobuf::Message& from) {
   GOOGLE_CHECK_NE(&from, this);
-  const MsgBase* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const MsgBase*>(
+  const BrocastMsg* source =
+    ::google::protobuf::internal::dynamic_cast_if_available<const BrocastMsg*>(
       &from);
   if (source == NULL) {
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
@@ -7398,7 +7393,7 @@ void MsgBase::MergeFrom(const ::google::protobuf::Message& from) {
   }
 }
 
-void MsgBase::MergeFrom(const MsgBase& from) {
+void BrocastMsg::MergeFrom(const BrocastMsg& from) {
   GOOGLE_CHECK_NE(&from, this);
   player_client_list_.MergeFrom(from.player_client_list_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
@@ -7408,27 +7403,27 @@ void MsgBase::MergeFrom(const MsgBase& from) {
     if (from.has_msg_data()) {
       set_msg_data(from.msg_data());
     }
-    if (from.has_hash_ident()) {
-      mutable_hash_ident()->::AFMsg::Ident::MergeFrom(from.hash_ident());
+    if (from.has_nmsgid()) {
+      set_nmsgid(from.nmsgid());
     }
   }
   mutable_unknown_fields()->MergeFrom(from.unknown_fields());
 }
 
-void MsgBase::CopyFrom(const ::google::protobuf::Message& from) {
+void BrocastMsg::CopyFrom(const ::google::protobuf::Message& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-void MsgBase::CopyFrom(const MsgBase& from) {
+void BrocastMsg::CopyFrom(const BrocastMsg& from) {
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool MsgBase::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000003) != 0x00000003) return false;
+bool BrocastMsg::IsInitialized() const {
+  if ((_has_bits_[0] & 0x00000007) != 0x00000007) return false;
 
   if (has_player_id()) {
     if (!this->player_id().IsInitialized()) return false;
@@ -7436,29 +7431,26 @@ bool MsgBase::IsInitialized() const {
   for (int i = 0; i < player_client_list_size(); i++) {
     if (!this->player_client_list(i).IsInitialized()) return false;
   }
-  if (has_hash_ident()) {
-    if (!this->hash_ident().IsInitialized()) return false;
-  }
   return true;
 }
 
-void MsgBase::Swap(MsgBase* other) {
+void BrocastMsg::Swap(BrocastMsg* other) {
   if (other != this) {
     std::swap(player_id_, other->player_id_);
     std::swap(msg_data_, other->msg_data_);
+    std::swap(nmsgid_, other->nmsgid_);
     player_client_list_.Swap(&other->player_client_list_);
-    std::swap(hash_ident_, other->hash_ident_);
     std::swap(_has_bits_[0], other->_has_bits_[0]);
     _unknown_fields_.Swap(&other->_unknown_fields_);
     std::swap(_cached_size_, other->_cached_size_);
   }
 }
 
-::google::protobuf::Metadata MsgBase::GetMetadata() const {
+::google::protobuf::Metadata BrocastMsg::GetMetadata() const {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::Metadata metadata;
-  metadata.descriptor = MsgBase_descriptor_;
-  metadata.reflection = MsgBase_reflection_;
+  metadata.descriptor = BrocastMsg_descriptor_;
+  metadata.reflection = BrocastMsg_reflection_;
   return metadata;
 }
 
