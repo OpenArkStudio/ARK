@@ -70,7 +70,7 @@ public:
     virtual bool Execute();
     virtual void Initialization(const std::string& strAddrPort, const int nServerID);
     virtual bool Final();
-    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID = 0);
+    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID = 0, const AFGUID& xPlayerID = 0);
 
     virtual bool CloseNetObject(const AFGUID& xClient);
 
@@ -99,7 +99,7 @@ private:
 
 protected:
     int DeCode(const char* strData, const uint32_t unLen, AFCMsgHead& xHead);
-    int EnCode(const uint16_t unMsgID, const char* strData, const uint32_t unDataLen, std::string& strOutData);
+    int EnCode(const AFCMsgHead& xHead, const char* strData, const uint32_t unDataLen, std::string& strOutData);
 
 private:
     std::unique_ptr<evpp::EventLoopThread> m_pThread;
