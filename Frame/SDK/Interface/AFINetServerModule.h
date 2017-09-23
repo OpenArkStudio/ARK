@@ -172,15 +172,15 @@ public:
         return m_pNet->Execute();
     }
 
-    bool SendMsgToAllClientWithOutHead(const int nMsgID, const std::string& msg)
+    bool SendMsgToAllClientWithOutHead(const int nMsgID, const std::string& msg, const AFGUID& nPlayerID)
     {
-        return m_pNet->SendMsgToAllClient(msg.c_str(), msg.length());
+        return m_pNet->SendMsgToAllClient(msg.c_str(), msg.length(), nPlayerID);
     }
 
-    bool SendMsgPBToAllClient(const uint16_t nMsgID, const google::protobuf::Message& xData)
+    bool SendMsgPBToAllClient(const uint16_t nMsgID, const google::protobuf::Message& xData, const AFGUID& nPlayerID)
     {
-        AFMsg::MsgBase xMsg;
-        if(!xData.SerializeToString(xMsg.mutable_msg_data()))
+        std::string strMsg;
+        if(!xData.SerializeToString(&strMsg))
         {
             char szData[MAX_PATH] = { 0 };
             ARK_SPRINTF(szData, MAX_PATH, "Send Message to all Failed For Serialize of MsgData, MessageID: %d\n", nMsgID);
@@ -188,19 +188,7 @@ public:
             return false;
         }
 
-        AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
-        *pPlayerID = NFToPB(AFGUID());
-
-        std::string strMsg;
-        if(!xMsg.SerializeToString(&strMsg))
-        {
-            char szData[MAX_PATH] = { 0 };
-            ARK_SPRINTF(szData, MAX_PATH, "Send Message to all Failed For Serialize of MsgBase, MessageID: %d\n", nMsgID);
-
-            return false;
-        }
-
-        return SendMsgToAllClientWithOutHead(nMsgID, strMsg);
+        return SendMsgToAllClientWithOutHead(nMsgID, strMsg, nPlayerID);
     }
 
     bool SendMsgPB(const uint16_t nMsgID, const google::protobuf::Message& xData, const AFGUID& xClientID, const AFGUID nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
@@ -228,14 +216,15 @@ public:
             return false;
         }
 
-        AFMsg::MsgBase xMsg;
-        xMsg.set_msg_data(strData.data(), strData.length());
-
-        //playerid主要是网关转发消息的时候做识别使用，其他使用不使用
-        AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
-        *pPlayerID = NFToPB(nPlayer);
         if(pClientIDList)
         {
+            //playerid主要是网关转发消息的时候做识别使用，其他使用不使用
+            AFMsg::BrocastMsg xMsg;
+            AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
+            *pPlayerID = NFToPB(nPlayer);
+            xMsg.set_msg_data(strData.data(), strData.length());
+            xMsg.set_nmsgid(nMsgID);
+
             for(int i = 0; i < pClientIDList->size(); ++i)
             {
                 const AFGUID& ClientID = (*pClientIDList)[i];
@@ -246,15 +235,19 @@ public:
                     *pData = NFToPB(ClientID);
                 }
             }
-        }
 
-        std::string strMsg;
-        if(!xMsg.SerializeToString(&strMsg))
+            std::string strMsg;
+            if(!xMsg.SerializeToString(&strMsg))
+            {
+                return false;
+            }
+
+            return m_pNet->SendMsgWithOutHead(AFMsg::EGMI_GTG_BROCASTMSG, strMsg.data(), strMsg.size(), xClientID, nPlayer);
+        }
+        else
         {
-            return false;
+            return m_pNet->SendMsgWithOutHead(nMsgID, strData.data(), strData.size(), xClientID, nPlayer);
         }
-
-        return m_pNet->SendMsgWithOutHead(nMsgID, strMsg.data(), strMsg.size(), xClientID);
     }
 
     AFINet* GetNet()
