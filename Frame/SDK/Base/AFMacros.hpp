@@ -37,6 +37,7 @@
 #define ARK_NEW new
 
 #if ARK_PLATFORM == PLATFORM_WIN
+//windows
 
 inline uint32_t GetSystemTime()
 {
@@ -47,23 +48,22 @@ inline uint32_t GetSystemTime()
 #define ARK_STRICMP _stricmp
 #define ARK_SLEEP(s) Sleep(s)
 
-#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-#define ARK_ASSERT(exp_, msg_, file_, func_) \
-if (!(exp_))                                 \
-{                                            \
-std::string strInfo("Message:");             \
-strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_;\
-MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_"#exp_), MB_RETRYCANCEL | MB_ICONERROR); \
-}                                                  \
-assert(exp_);
-
-#else
-ARK_ASSERT(exp_, msg_, file_, func_) assert(exp_)
-#endif
+#define ARK_ASSERT(exp_, msg_, file_, func_)        \
+    do                                              \
+    {                                               \
+        if (!(exp_))                                \
+        {                                           \
+            std::string strInfo("Message:");        \
+            strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_;\
+            MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_"#exp_), MB_RETRYCANCEL | MB_ICONERROR); \
+        }                                           \
+        assert(exp_);                               \
+    } while (0);
 
 #define ARK_EXPORT extern "C"  __declspec(dllexport)
 
 #else
+//linux
 
 inline uint32_t GetSystemTime()
 {
@@ -76,15 +76,33 @@ inline uint32_t GetSystemTime()
 #define ARK_SPRINTF snprintf
 #define ARK_STRICMP strcasecmp
 #define ARK_SLEEP(s) usleep(s)
-#define ARK_ASSERT(exp_, msg_, file_, func_)    \
-    std::string strInfo("Message:");            \
-    strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_; \
-    std::cout << strInfo << std::endl;          \
-    assert(0);
+#define ARK_ASSERT(exp_, msg_, file_, func_)        \
+    do                                              \
+    {                                               \
+        if ((exp_)) break;                          \
+        assert(exp_);                               \
+    } while (0);
 
 #define ARK_EXPORT extern "C" __attribute ((visibility("default")))
 
 #endif
+
+#define ARK_ASSERT_RET_VAL(exp_, val)   \
+    do                                  \
+    {                                   \
+        if ((exp_)) break;              \
+        assert(exp_);                   \
+        return val;                     \
+    } while (0);
+
+#define ARK_ASSERT_RET_NONE(exp_)       \
+    do                                  \
+    {                                   \
+        if ((exp_)) break;              \
+        assert(exp_);                   \
+        return;                         \
+    } while (0);
+
 
 #if defined(USE_BOOST)
 #  include <boost/lexical_cast.hpp>
