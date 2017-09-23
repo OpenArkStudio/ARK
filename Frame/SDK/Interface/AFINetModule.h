@@ -109,36 +109,14 @@ public:
 
     static bool ReceivePB(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
     {
-        AFMsg::MsgBase xMsg;
-        if(!xMsg.ParseFromArray(msg, nLen))
-        {
-            //char szData[MAX_PATH] = { 0 };
-            //NFSPRINTF(szData, MAX_PATH, "Parse Message Failed from Packet to MsgBase, MessageID: %d\n", nMsgID);
-            //LogRecive(szData);
-
-            return false;
-        }
-
-        strMsg.assign(xMsg.msg_data().data(), xMsg.msg_data().length());
-
-        nPlayer = PBToNF(xMsg.player_id());
-
+        strMsg.assign(msg, nLen);
+        nPlayer = xHead.GetPlayerID();
         return true;
     }
 
     static bool ReceivePB(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, AFGUID& nPlayer)
     {
-        AFMsg::MsgBase xMsg;
-        if(!xMsg.ParseFromArray(msg, nLen))
-        {
-            //char szData[MAX_PATH] = { 0 };
-            //NFSPRINTF(szData, MAX_PATH, "Parse Message Failed from Packet to MsgBase, MessageID: %d\n", nMsgID);
-            //LogRecive(szData);
-
-            return false;
-        }
-
-        if(!xData.ParseFromString(xMsg.msg_data()))
+        if(!xData.ParseFromString(std::string(msg, nLen)))
         {
             char szData[MAX_PATH] = { 0 };
             //NFSPRINTF(szData, MAX_PATH, "Parse Message Failed from MsgData to ProtocolData, MessageID: %d\n", nMsgID);
@@ -147,7 +125,7 @@ public:
             return false;
         }
 
-        nPlayer = PBToNF(xMsg.player_id());
+        nPlayer = xHead.GetPlayerID();
 
         return true;
     }
