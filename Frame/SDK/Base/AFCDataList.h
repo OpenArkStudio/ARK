@@ -750,22 +750,23 @@ public:
         }
 
         std::string strdata;
+        bool ret = true;
         switch(mpData[index].nType)
         {
         case DT_BOOLEAN:
-            Ark_to_str(strdata, mpData[index].mbValue);
+            ret = Ark_to_str(strdata, mpData[index].mbValue);
             break;
         case DT_INT:
-            Ark_to_str(strdata, mpData[index].mnValue);
+            ret = Ark_to_str(strdata, mpData[index].mnValue);
             break;
         case DT_INT64:
-            Ark_to_str(strdata, mpData[index].mn64Value);
+            ret = Ark_to_str(strdata, mpData[index].mn64Value);
             break;
         case DT_FLOAT:
-            Ark_to_str(strdata, mpData[index].mfValue);
+            ret = Ark_to_str(strdata, mpData[index].mfValue);
             break;
         case DT_DOUBLE:
-            Ark_to_str(strdata, mpData[index].mdValue);
+            ret = Ark_to_str(strdata, mpData[index].mdValue);
             break;
         case DT_STRING:
             strdata = String(index);
@@ -782,9 +783,10 @@ public:
             break;
         }
 
+        ARK_ASSERT_RET_VAL(ret, NULL_STR);
+
         return strdata;
     }
-
 
     virtual size_t GetMemUsage() const
     {
