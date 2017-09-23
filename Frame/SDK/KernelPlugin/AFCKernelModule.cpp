@@ -229,7 +229,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
             for(size_t i = 0; i < configPropertyCount; ++i)
             {
                 AFProperty* pConfigProperty = pConfigPropertyManager->GetPropertyByIndex(i);
-                if(NULL != pConfigProperty)
+                if(NULL == pConfigProperty)
                 {
                     continue;
                 }
