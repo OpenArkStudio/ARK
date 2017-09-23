@@ -214,6 +214,9 @@ namespace AFMsg
       [global::ProtoBuf.ProtoEnum(Name=@"EGMI_GTW_GAME_REFRESH", Value=42)]
       EGMI_GTW_GAME_REFRESH = 42,
             
+      [global::ProtoBuf.ProtoEnum(Name=@"EGMI_GTG_BROCASTMSG", Value=43)]
+      EGMI_GTG_BROCASTMSG = 43,
+            
       [global::ProtoBuf.ProtoEnum(Name=@"EGMI_STS_NET_INFO", Value=50)]
       EGMI_STS_NET_INFO = 50,
             
