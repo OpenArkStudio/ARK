@@ -159,6 +159,14 @@ message PlayerRecordList
 }
 
 ///////////////////////////////////////////////////////////////////
+message BrocastMsg
+{
+	required Ident  player_id = 1;
+	required bytes  msg_data = 2;
+	required int64  nMsgID = 3;
+	repeated Ident  player_Client_list = 4;
+}
+
 message Position
 {
 	required float  x = 1;
