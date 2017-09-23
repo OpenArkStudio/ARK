@@ -381,7 +381,7 @@ bool AFCElementModule::ExistElement(const std::string& strConfigName)
 bool AFCElementModule::ExistElement(const std::string& strClassName, const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-    if(NULL != pElementInfo)
+    if(NULL == pElementInfo)
     {
         return false;
     }
