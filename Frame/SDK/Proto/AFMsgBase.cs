@@ -722,10 +722,10 @@ namespace AFMsg
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
   }
   
-  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"MsgBase")]
-  public partial class MsgBase : global::ProtoBuf.IExtensible
+  [global::System.Serializable, global::ProtoBuf.ProtoContract(Name=@"BrocastMsg")]
+  public partial class BrocastMsg : global::ProtoBuf.IExtensible
   {
-    public MsgBase() {}
+    public BrocastMsg() {}
     
     private AFMsg.Ident _player_id;
     [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"player_id", DataFormat = global::ProtoBuf.DataFormat.Default)]
@@ -741,21 +741,20 @@ namespace AFMsg
       get { return _msg_data; }
       set { _msg_data = value; }
     }
+    private long _nMsgID;
+    [global::ProtoBuf.ProtoMember(3, IsRequired = true, Name=@"nMsgID", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public long nMsgID
+    {
+      get { return _nMsgID; }
+      set { _nMsgID = value; }
+    }
     private readonly global::System.Collections.Generic.List<AFMsg.Ident> _player_Client_list = new global::System.Collections.Generic.List<AFMsg.Ident>();
-    [global::ProtoBuf.ProtoMember(3, Name=@"player_Client_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
+    [global::ProtoBuf.ProtoMember(4, Name=@"player_Client_list", DataFormat = global::ProtoBuf.DataFormat.Default)]
     public global::System.Collections.Generic.List<AFMsg.Ident> player_Client_list
     {
       get { return _player_Client_list; }
     }
   
-    private AFMsg.Ident _hash_ident = null;
-    [global::ProtoBuf.ProtoMember(4, IsRequired = false, Name=@"hash_ident", DataFormat = global::ProtoBuf.DataFormat.Default)]
-    [global::System.ComponentModel.DefaultValue(null)]
-    public AFMsg.Ident hash_ident
-    {
-      get { return _hash_ident; }
-      set { _hash_ident = value; }
-    }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)
       { return global::ProtoBuf.Extensible.GetExtensionObject(ref extensionObject, createIfMissing); }
