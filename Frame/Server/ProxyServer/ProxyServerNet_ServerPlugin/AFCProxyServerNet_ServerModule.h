@@ -53,6 +53,7 @@ public:
     virtual bool AfterInit();
 
     virtual int Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen);
+    virtual int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer);
 
     //进入游戏成功
     virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID);
@@ -82,8 +83,7 @@ protected:
     void OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 protected:
 
-    AFMapEx<AFGUID, SessionData> mmSessionData;
-    AFMapEx<AFGUID, AFGUID> mmPlayerClientID;
+    AFMapEx<AFGUID, SessionData> mmSessionData; //Player Client <--> SessionData
     AFCConsistentHash mxConsistentHash;
 protected:
     AFIProxyServerToWorldModule* m_pProxyToWorldModule;
