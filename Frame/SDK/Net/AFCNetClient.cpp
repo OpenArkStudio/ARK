@@ -1,27 +1,23 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file      AFCNetClient.cpp                                              *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFCNetClient                                                  *
-*****************************************************************************/
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+
 #include "AFCNetClient.h"
 #include <string.h>
 
@@ -269,18 +265,22 @@ void AFCNetClient::OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* msg, vo
 
 void AFCNetClient::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* msg)
 {
+    if (NULL == msg)
+    {
+        return;
+    }
+
     nReceiverSize += msg->length();
     NetObject* pObject = evpp::any_cast<NetObject*>(conn->context());
-    if(pObject)
+    if (NULL == pObject)
     {
-        evpp::Slice xMsgBuff;
-        if(msg)
-        {
-            xMsgBuff = msg->NextAll();
-            pObject->AddBuff(xMsgBuff.data(), xMsgBuff.size());
-            DismantleNet(pObject);
-        }
+        return;
     }
+
+    evpp::Slice xMsgBuff;
+    xMsgBuff = msg->NextAll();
+    pObject->AddBuff(xMsgBuff.data(), xMsgBuff.size());
+    DismantleNet(pObject);
 }
 
 bool AFCNetClient::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
