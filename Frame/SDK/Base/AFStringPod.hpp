@@ -511,7 +511,7 @@ private:
     void EraseNode(size_t bucket, node_t* p)
     {
         assert(bucket < mnSize);
-        assert(NULL != P);
+        assert(NULL != p);
 
         node_t* node = mpBuckets[bucket];
         if (node == p)
