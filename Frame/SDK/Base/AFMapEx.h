@@ -27,19 +27,17 @@ template <typename T , typename TD>
 class AFMapEx
 {
 public:
-    typedef std::map<T, ARK_SHARE_PTR<TD> > NFMapOBJECT;
+    typedef std::map<T, ARK_SHARE_PTR<TD> > data_object;
 
-    AFMapEx() {};
-    virtual ~AFMapEx()
-    {
-    };
+    AFMapEx() {}
+    virtual ~AFMapEx(){}
 
     virtual bool AddElement(const T& name, const ARK_SHARE_PTR<TD> data)
     {
-        typename NFMapOBJECT::iterator itr = mObjectList.find(name);
+        typename data_object::iterator itr = mObjectList.find(name);
         if (itr == mObjectList.end())
         {
-            mObjectList.insert(typename NFMapOBJECT::value_type(name, data));
+            mObjectList.insert(typename data_object::value_type(name, data));
             return true;
         }
 
@@ -56,7 +54,7 @@ public:
     virtual bool RemoveElement(const T& name)
     {
         ARK_SHARE_PTR<TD> pData;
-        typename NFMapOBJECT::iterator itr = mObjectList.find(name);
+        typename data_object::iterator itr = mObjectList.find(name);
         if (itr != mObjectList.end())
         {
             pData = itr->second;
@@ -70,7 +68,7 @@ public:
 
     virtual TD* GetElementNude(const T& name)
     {
-        typename NFMapOBJECT::iterator itr = mObjectList.find(name);
+        typename data_object::iterator itr = mObjectList.find(name);
         if (itr != mObjectList.end())
         {
             return itr->second.get();
@@ -81,7 +79,7 @@ public:
 
     virtual ARK_SHARE_PTR<TD> GetElement(const T& name)
     {
-        typename NFMapOBJECT::iterator itr = mObjectList.find(name);
+        typename data_object::iterator itr = mObjectList.find(name);
         if (itr != mObjectList.end())
         {
             return itr->second;
@@ -233,7 +231,6 @@ public:
     }
 
 private:
-    NFMapOBJECT     mObjectList;
-    typename NFMapOBJECT::iterator mObjectCurIter;
+    data_object     mObjectList;
+    typename data_object::iterator mObjectCurIter;
 };
-
