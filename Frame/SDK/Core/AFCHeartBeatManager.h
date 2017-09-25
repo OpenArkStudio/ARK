@@ -26,6 +26,7 @@
 #include "SDK/Base/AFIData.h"
 #include "AFIHeartBeatManager.h"
 #include "SDK/Base/AFMapEx.h"
+#include "SDK/Base/AFArrayMap.hpp"
 
 using namespace ArkFrame;
 
@@ -60,9 +61,10 @@ protected:
 
     NFList<std::string> mRemoveListEx;
     std::list<AFCHeartBeatElement> mAddListEx;
-    AFMapEx<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
+    //AFMapEx<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
+    AFArrayMap<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
 
-    std::multimap<int64_t, ARK_SHARE_PTR<AFCHeartBeatElement>> mTimeList;
+    std::multimap<int64_t, AFCHeartBeatElement*> mTimeList;
     AFGUID mTimerIDIndex;
 };
 
