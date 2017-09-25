@@ -22,11 +22,8 @@
 
 #include "AFCElementModule.h"
 #include "RapidXML/rapidxml.hpp"
-#include "SDK/Base/AFMap.h"
 #include "SDK/Base/AFList.h"
 #include "SDK/Base/AFCDataList.h"
-#include "SDK/Core/AFRecord.h"
-#include "SDK/Base/AFList.h"
 #include "SDK/Core/AFCPropertyMgr.h"
 #include "SDK/Core/AFCRecordMgr.h"
 #include "SDK/Interface/AFIClassModule.h"
@@ -36,7 +33,6 @@
 class AFCClass : public AFIClass
 {
 public:
-
     AFCClass(const std::string& strClassName)
     {
         m_pParentClass = NULL;
