@@ -321,12 +321,6 @@ AFProperty* AFCElementModule::GetProperty(const std::string& strConfigName, cons
         return pElementInfo->GetPropertyManager()->GetProperty(strPropertyName.c_str());
     }
 
-    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    //if(nullptr != pElementInfo)
-    //{
-    //    return pElementInfo->GetPropertyManager()->GetProperty(strPropertyName.c_str());
-    //}
-
     return NULL;
 }
 
@@ -337,12 +331,6 @@ ARK_SHARE_PTR<AFIPropertyMgr> AFCElementModule::GetPropertyManager(const std::st
     {
         return pElementInfo->GetPropertyManager();
     }
-
-    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    //if(nullptr != pElementInfo)
-    //{
-    //    return pElementInfo->GetPropertyManager();
-    //}
 
     return nullptr;
 }
@@ -355,12 +343,6 @@ ARK_SHARE_PTR<AFIRecordMgr> AFCElementModule::GetRecordManager(const std::string
         return pElementInfo->GetRecordManager();
     }
 
-    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    //if(nullptr != pElementInfo)
-    //{
-    //    return pElementInfo->GetRecordManager();
-    //}
-
     return nullptr;
 }
 
@@ -368,14 +350,6 @@ bool AFCElementModule::ExistElement(const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
     return (NULL != pElementInfo);
-
-    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    //if(nullptr != pElementInfo)
-    //{
-    //    return true;
-    //}
-
-    //return false;
 }
 
 bool AFCElementModule::ExistElement(const std::string& strClassName, const std::string& strConfigName)
@@ -385,12 +359,6 @@ bool AFCElementModule::ExistElement(const std::string& strClassName, const std::
     {
         return false;
     }
-
-    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-    //if(!pElementInfo)
-    //{
-    //    return false;
-    //}
 
     const std::string strClass(pElementInfo->GetPropertyManager()->GetPropertyString("ClassName"));
     if(strClass != strClassName)

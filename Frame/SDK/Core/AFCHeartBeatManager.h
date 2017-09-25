@@ -20,12 +20,12 @@
 
 #pragma once
 
-#include "SDK/Base/AFMap.h"
 #include "SDK/Base/AFList.h"
 #include "SDK/Base/AFDefine.h"
 #include "SDK/Base/AFCDataList.h"
 #include "SDK/Base/AFIData.h"
 #include "AFIHeartBeatManager.h"
+#include "SDK/Base/AFMapEx.h"
 
 using namespace ArkFrame;
 
