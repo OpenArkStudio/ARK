@@ -95,6 +95,22 @@ inline uint32_t GetSystemTime()
         return val;                     \
     } while (0);
 
+#define ARK_ASSERT_BREAK(exp_)          \
+    if (!(exp_))                        \
+    {                                   \
+        assert(exp_);                   \
+        break;                          \
+    }                                   \
+    else {}
+
+#define ARK_ASSERT_CONTINUE(exp_)       \
+    if (!(exp_))                        \
+    {                                   \
+        assert(exp_);                   \
+        continue;                       \
+    }                                   \
+    else {}
+
 #define ARK_ASSERT_RET_NONE(exp_)       \
     do                                  \
     {                                   \

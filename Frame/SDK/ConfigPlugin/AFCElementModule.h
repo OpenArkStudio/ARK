@@ -24,8 +24,6 @@
 #include "RapidXML/rapidxml_iterators.hpp"
 #include "RapidXML/rapidxml_print.hpp"
 #include "RapidXML/rapidxml_utils.hpp"
-#include "SDK/Base/AFMap.h"
-#include "SDK/Base/AFList.h"
 #include "SDK/Base/AFCDataList.h"
 #include "SDK/Core/AFRecord.h"
 #include "SDK/Core/AFCPropertyMgr.h"
@@ -64,9 +62,7 @@ protected:
     ARK_SHARE_PTR<AFIRecordMgr> m_pRecordManager;
 };
 
-class AFCElementModule
-    : public AFIElementModule/*,
-      AFMapEx<std::string, ElementConfigInfo>*/
+class AFCElementModule : public AFIElementModule
 {
 public:
     AFCElementModule(AFIPluginManager* p);
