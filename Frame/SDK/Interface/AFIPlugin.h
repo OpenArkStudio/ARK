@@ -58,7 +58,7 @@
 class AFIPluginManager;
 
 class AFIPlugin : public AFIModule,
-    public NFMap<std::string, AFIModule>
+    public AFMap<std::string, AFIModule>
 {
 public:
     virtual const int GetPluginVersion() = 0;
@@ -68,44 +68,31 @@ public:
 
     virtual bool Init()
     {
-        AFIModule* pModule = First();
-        while (pModule)
+        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
             bool bRet = pModule->Init();
-            if (!bRet)
-            {
-                assert(0);
-            }
-
-            pModule = Next();
+            ARK_ASSERT_RET_VAL(bRet, false);
         }
+
         return true;
     }
 
     virtual bool AfterInit()
     {
-        AFIModule* pModule = First();
-        while (pModule)
+        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
             bool bRet = pModule->AfterInit();
-            if (!bRet)
-            {
-                assert(0);
-            }
-
-            pModule = Next();
+            ARK_ASSERT_RET_VAL(bRet, false);
         }
+
         return true;
     }
 
     virtual bool CheckConfig()
     {
-        AFIModule* pModule = First();
-        while (pModule)
+        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
             pModule->CheckConfig();
-
-            pModule = Next();
         }
 
         return true;
@@ -113,12 +100,9 @@ public:
 
     virtual bool Execute()
     {
-        AFIModule* pModule = First();
-        while (pModule)
+        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
             pModule->Execute();
-
-            pModule = Next();
         }
 
         return true;
@@ -126,24 +110,19 @@ public:
 
     virtual bool BeforeShut()
     {
-        AFIModule* pModule = First();
-        while (pModule)
+        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
             pModule->BeforeShut();
-
-            pModule = Next();
         }
+
         return true;
     }
 
     virtual bool Shut()
     {
-        AFIModule* pModule = First();
-        while (pModule)
+        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
             pModule->Shut();
-
-            pModule = Next();
         }
 
         return true;
@@ -151,5 +130,3 @@ public:
 
     virtual void Uninstall() = 0;
 };
-
-
