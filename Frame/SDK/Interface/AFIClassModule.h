@@ -22,6 +22,7 @@
 
 #include "SDK/Base/AFMacros.hpp"
 #include "AFIModule.h"
+#include "SDK/Base/AFMapEx.h"
 #include "SDK/Core/AFIPropertyMgr.h"
 #include "SDK/Core/AFIRecordMgr.h"
 
