@@ -1,31 +1,25 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file      AFCProxyServerToWorldModule.h                                                *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFCProxyServerToWorldModule                                                  *
-*****************************************************************************/
-#ifndef AFC_PROXYSERVER_NETCLIENT_MODULE_H
-#define AFC_PROXYSERVER_NETCLIENT_MODULE_H
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
 
-#include <string>
+#pragma once
+
 #include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Core/AFCHeartBeatManager.h"
 #include "SDK/Interface/AFIProxyServerToWorldModule.h"
@@ -38,6 +32,7 @@
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFINetClientModule.hpp"
 #include "SDK/Interface/AFIProxyServerToGameModule.h"
+#include "SDK/Base/AFArrayMap.hpp"
 
 class AFCProxyServerToWorldModule : public AFIProxyServerToWorldModule
 {
@@ -73,6 +68,7 @@ protected:
 
     void OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+
 private:
     struct ClientConnectData
     {
@@ -86,11 +82,10 @@ private:
         std::string strConnectKey;
     };
 
-
-    AFMapEx<std::string, ClientConnectData> mWantToConnectMap;
+    //AFMapEx<std::string, ClientConnectData> mWantToConnectMap;
+    AFArrayMap<std::string, ClientConnectData> mWantToConnectMap;
 
 private:
-
     AFILogModule* m_pLogModule;
     AFIProxyLogicModule* m_pProxyLogicModule;
     AFIKernelModule* m_pKernelModule;
@@ -99,8 +94,4 @@ private:
     AFIClassModule* m_pClassModule;
     AFIProxyServerToGameModule* m_pProxyServerToGameModule;
     AFINetClientModule* m_pNetClientModule;
-
 };
-
-#endif
-
