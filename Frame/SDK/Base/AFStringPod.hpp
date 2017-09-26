@@ -559,8 +559,6 @@ private:
 
     void Expand()
     {
-        ARK_ASSERT_RET_NONE(NULL != mpBuckets);
-
         size_t new_size = mnSize * 2 + 1; //hash bucket要为质数
         node_t** new_buckets = (node_t**)mxAlloc.Alloc(sizeof(node_t*) * new_size);
         memset(new_buckets, 0, sizeof(node_t*) * new_size);
