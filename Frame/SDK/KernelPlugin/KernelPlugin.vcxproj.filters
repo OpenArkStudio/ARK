@@ -11,6 +11,12 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="ClassModule">
+      <UniqueIdentifier>{b4055331-2076-4489-95ec-24014d6aff42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ElementModule">
+      <UniqueIdentifier>{2a38a29f-7156-4c74-a3a7-fe425c8f8361}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCSceneModule.h">
@@ -21,6 +27,12 @@
     </ClInclude>
     <ClInclude Include="AFKernelPlugin.h">
       <Filter>Plguin</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCClassModule.h">
+      <Filter>ClassModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCElementModule.h">
+      <Filter>ElementModule</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -33,6 +45,12 @@
     </ClCompile>
     <ClCompile Include="AFKernelPlugin.cpp">
       <Filter>Plguin</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCClassModule.cpp">
+      <Filter>ClassModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCElementModule.cpp">
+      <Filter>ElementModule</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
