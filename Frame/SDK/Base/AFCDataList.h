@@ -359,7 +359,7 @@ public:
         size_t value_size = strlen(value);
         if(value_size > nLenght)
         {
-            value_size = nLenght;
+            value_size = (size_t)nLenght;
         }
 
         value_size = + 1;
@@ -865,85 +865,97 @@ protected:
 
     void InnerAppend(const AFIData& data)
     {
+        bool bRet(false);
         switch(data.GetType())
         {
         case DT_BOOLEAN:
-            AddBool(data.GetBool());
+            bRet = AddBool(data.GetBool());
             break;
         case DT_INT:
-            AddInt(data.GetInt());
+            bRet = AddInt(data.GetInt());
             break;
         case DT_INT64:
-            AddInt64(data.GetInt64());
+            bRet = AddInt64(data.GetInt64());
             break;
         case DT_FLOAT:
-            AddFloat(data.GetFloat());
+            bRet = AddFloat(data.GetFloat());
             break;
         case DT_DOUBLE:
-            AddDouble(data.GetDouble());
+            bRet = AddDouble(data.GetDouble());
             break;
         case DT_STRING:
-            AddString(data.GetString());
+            bRet = AddString(data.GetString());
             break;
         case DT_OBJECT:
-            AddObject(data.GetObject());
+            bRet = AddObject(data.GetObject());
             break;
         case DT_POINTER:
-            AddPointer(data.GetPointer());
+            bRet = AddPointer(data.GetPointer());
             break;
         case DT_USERDATA:
             {
                 size_t size;
                 const void* pData = data.GetUserData(size);
-                AddUserData(pData, size);
+                bRet = AddUserData(pData, size);
             }
             break;
         default:
             assert(0);
             break;
         }
+
+        if(!bRet)
+        {
+            //
+        }
+
     }
 
     void InnerAppend(const AFIDataList& src, size_t start, size_t end)
     {
         for(size_t i = start; i < end; ++i)
         {
+            bool bRet(false);
             switch(src.GetType(i))
             {
             case DT_BOOLEAN:
-                AddBool(src.Bool(i));
+                bRet = AddBool(src.Bool(i));
                 break;
             case DT_INT:
-                AddInt(src.Int(i));
+                bRet = AddInt(src.Int(i));
                 break;
             case DT_INT64:
-                AddInt64(src.Int64(i));
+                bRet = AddInt64(src.Int64(i));
                 break;
             case DT_FLOAT:
-                AddFloat(src.Float(i));
+                bRet = AddFloat(src.Float(i));
                 break;
             case DT_DOUBLE:
-                AddDouble(src.Double(i));
+                bRet = AddDouble(src.Double(i));
                 break;
             case DT_STRING:
-                AddString(src.String(i));
+                bRet = AddString(src.String(i));
                 break;
             case DT_OBJECT:
-                AddObject(src.Object(i));
+                bRet = AddObject(src.Object(i));
                 break;
             case DT_POINTER:
-                AddPointer(src.Pointer(i));
+                bRet = AddPointer(src.Pointer(i));
                 break;
             case DT_USERDATA:
                 {
                     size_t size;
                     const void* pData = src.UserData(i, size);
-                    AddUserData(pData, size);
+                    bRet = AddUserData(pData, size);
                 }
                 break;
             default:
                 assert(0);
                 break;
+            }
+
+            if(!bRet)
+            {
             }
         }
     }
