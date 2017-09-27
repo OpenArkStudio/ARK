@@ -257,18 +257,17 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
 
     //////////////////////////////////////////////////////////////////////////
     rapidxml::xml_document<> xDoc;
-    char* pData = NULL;
     int nDataSize = 0;
 
     std::string strFile = pPluginManager->GetConfigPath() + pstrClassFilePath;
     rapidxml::file<> fdoc(strFile.c_str());
     nDataSize = fdoc.size();
-    pData = new char[nDataSize + 1];
-    strncpy(pData, fdoc.data(), nDataSize);
+    ARK_SHARE_PTR<char> pData(new char[nDataSize + 1]);
+    strncpy(pData.get(), fdoc.data(), nDataSize);
 
 
-    pData[nDataSize] = 0;
-    xDoc.parse<0>(pData);
+    pData.get()[nDataSize] = 0;
+    xDoc.parse<0>(pData.get());
     //////////////////////////////////////////////////////////////////////////
 
     //support for unlimited layer class inherits
@@ -279,6 +278,7 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
     {
         if(!AddPropertys(pRropertyRootNode, pClass))
         {
+
             ARK_ASSERT(0, "AddPropertys failed", __FILE__, __FUNCTION__);
             return false;
         }
@@ -322,13 +322,6 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
             }
         }
     }
-
-    //////////////////////////////////////////////////////////////////////////
-    if(NULL != pData)
-    {
-        delete []pData;
-    }
-    //////////////////////////////////////////////////////////////////////////
 
     return true;
 }
@@ -431,18 +424,17 @@ bool AFCClassModule::Load()
 {
     //////////////////////////////////////////////////////////////////////////
     rapidxml::xml_document<> xDoc;
-    char* pData = NULL;
     int nDataSize = 0;
 
     std::string strFile = pPluginManager->GetConfigPath() + msConfigFileName;
 
     rapidxml::file<> fdoc(strFile.c_str());
     nDataSize = fdoc.size();
-    pData = new char[nDataSize + 1];
-    strncpy(pData, fdoc.data(), nDataSize);
+    ARK_SHARE_PTR<char> pData(new char[nDataSize + 1]);
+    strncpy(pData.get(), fdoc.data(), nDataSize);
 
-    pData[nDataSize] = 0;
-    xDoc.parse<0>(pData);
+    pData.get()[nDataSize] = 0;
+    xDoc.parse<0>(pData.get());
     //////////////////////////////////////////////////////////////////////////
     //support for unlimited layer class inherits
     rapidxml::xml_node<>* root = xDoc.first_node();
@@ -453,13 +445,6 @@ bool AFCClassModule::Load()
             return false;
         }
     }
-
-    //////////////////////////////////////////////////////////////////////////
-    if(NULL != pData)
-    {
-        delete []pData;
-    }
-    //////////////////////////////////////////////////////////////////////////
     return true;
 }
 
