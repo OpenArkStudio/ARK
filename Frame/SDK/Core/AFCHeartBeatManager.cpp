@@ -80,7 +80,7 @@ bool AFCHeartBeatManager::Execute()
         if(iter->second->IsStop())
         {
             AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.GetElement(iter->second->strBeatName);
-            if (NULL == pElement)
+            if(NULL == pElement)
             {
                 continue;
             }
@@ -101,7 +101,7 @@ bool AFCHeartBeatManager::Execute()
             if(iter->second->IsStop())
             {
                 AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.GetElement(iter->second->strBeatName);
-                if (NULL == pElement)
+                if(NULL == pElement)
                 {
                     continue;
                 }
@@ -149,7 +149,11 @@ bool AFCHeartBeatManager::Execute()
             }
         }
 
-        RemoveHeartBeat(strHeartBeatName);
+        if(!RemoveHeartBeat(strHeartBeatName))
+        {
+            // add log
+        }
+
         bRet = mRemoveListEx.Next(strHeartBeatName);
     }
 
