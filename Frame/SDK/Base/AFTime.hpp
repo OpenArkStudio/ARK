@@ -623,17 +623,17 @@ private:
         int nMinute(0);
         int nSecond(0);
 
-        ARK_ASSERT(Ark_from_str(cellsYMD[0], nYear), (strTime + " time nYear error"), __FILE__, __FUNCTION__);
-        ARK_ASSERT(Ark_from_str(cellsYMD[1], nMonth), (strTime + " time nMonth error"), __FILE__, __FUNCTION__);
-        ARK_ASSERT(Ark_from_str(cellsYMD[2], nDay), (strTime + " time nDay error"), __FILE__, __FUNCTION__);
-        ARK_ASSERT(Ark_from_str(cellsHMS[0], nHour), (strTime + " time nHour error"), __FILE__, __FUNCTION__);
-        ARK_ASSERT(Ark_from_str(cellsHMS[1], nMinute), (strTime + " time nMinute error"), __FILE__, __FUNCTION__);
-        ARK_ASSERT(Ark_from_str(cellsHMS[2], nSecond), (strTime + " time nSecond error"), __FILE__, __FUNCTION__);
+        bool bRet = Ark_from_str(cellsYMD[0], nYear);
+        bRet = Ark_from_str(cellsYMD[1], nMonth);
+        bRet = Ark_from_str(cellsYMD[2], nDay);
+        bRet = Ark_from_str(cellsHMS[0], nHour);
+        bRet = Ark_from_str(cellsHMS[1], nMinute);
+        bRet = Ark_from_str(cellsHMS[2], nSecond);
 
         int nMilliSecond = 0;
         if(cells.size() == 3)
         {
-            nMilliSecond = ARK_LEXICAL_CAST<int>(cells[2]);
+            bRet = Ark_from_str(cells[2], nMilliSecond);
         }
 
         if(nYear < 1970)
