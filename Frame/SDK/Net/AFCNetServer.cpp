@@ -53,7 +53,7 @@ int AFCNetServer::Initialization(const unsigned int nMaxClient, const std::strin
     WSAStartup(MAKEWORD(2, 2), &wsa_data);
 #endif
 
-    mnMaxConnect = nMaxClient;
+    mnMaxConnect = (int)nMaxClient;
     mstrIPPort = strAddrPort;
     m_pListenThread.reset(new evpp::EventLoopThread);
     m_pListenThread->set_name("LisenThread");
@@ -90,8 +90,8 @@ void AFCNetServer::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* ms
         if(msg)
         {
             xMsgBuff = msg->NextAll();
-            pObject->AddBuff(xMsgBuff.data(), xMsgBuff.size());
-            DismantleNet(pObject);
+            int nRet = pObject->AddBuff(xMsgBuff.data(), xMsgBuff.size());
+            bool bRet = DismantleNet(pObject);
         }
     }
 }
@@ -116,7 +116,7 @@ void AFCNetServer::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
             AFScopeWrLock xGuard(mRWLock);
 
             NetObject* pObject = new NetObject(this, pMsg->xClientID, conn);
-            AddNetObject(pMsg->xClientID, pObject);
+            bool bRet = AddNetObject(pMsg->xClientID, pObject);
             conn->set_context(evpp::Any(pObject));
 
             pObject->mqMsgFromNet.Push(pMsg);
@@ -233,10 +233,6 @@ bool AFCNetServer::SendMsgToAllClient(const char* msg, const uint32_t nLen)
 
 bool AFCNetServer::SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient)
 {
-    if(nLen <= 0)
-    {
-        return false;
-    }
     AFScopeRdLock xGuard(mRWLock);
 
     NetObject* pNetObject = GetNetObject(xClient);
@@ -288,9 +284,12 @@ bool AFCNetServer::DismantleNet(NetObject* pObject)
             pNetInfo->nType = RECIVEDATA;
             pNetInfo->strMsg.append(pObject->GetBuff() + AFIMsgHead::AF_Head::NF_HEAD_LENGTH, nMsgBodyLength);
             pObject->mqMsgFromNet.Push(pNetInfo);
-            pObject->RemoveBuff(nMsgBodyLength + AFIMsgHead::AF_Head::NF_HEAD_LENGTH);
+            int nRet = pObject->RemoveBuff(nMsgBodyLength + AFIMsgHead::AF_Head::NF_HEAD_LENGTH);
         }
-        break;
+        else
+        {
+            break;
+        }
     }
 
     return true;
@@ -357,7 +356,7 @@ bool AFCNetServer::SendMsgToAllClientWithOutHead(const int16_t nMsgID, const cha
 int AFCNetServer::EnCode(const AFCMsgHead& xHead, const char* strData, const uint32_t unDataLen, std::string& strOutData)
 {
     char szHead[AFIMsgHead::AF_Head::NF_HEAD_LENGTH] = { 0 };
-    xHead.EnCode(szHead);
+    int nRet = xHead.EnCode(szHead);
 
     strOutData.clear();
     strOutData.append(szHead, AFIMsgHead::AF_Head::NF_HEAD_LENGTH);
