@@ -177,6 +177,10 @@ bool AFCNetClient::DismantleNet(NetObject* pObject)
             pObject->mqMsgFromNet.Push(pNetInfo);
             int nNewSize = pObject->RemoveBuff(nMsgBodyLength + AFIMsgHead::AF_Head::NF_HEAD_LENGTH);
         }
+        else
+        {
+            break;
+        }
     }
 
     return true;
@@ -276,7 +280,7 @@ void AFCNetClient::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* ms
 
     evpp::Slice xMsgBuff;
     xMsgBuff = msg->NextAll();
-    pObject->AddBuff(xMsgBuff.data(), xMsgBuff.size());
+    int nRet = pObject->AddBuff(xMsgBuff.data(), xMsgBuff.size());
     bool bRet = DismantleNet(pObject);
     if(!bRet)
     {
