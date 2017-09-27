@@ -80,52 +80,52 @@ public:
     //operator <<
     inline AFIDataList& operator<<(bool value)
     {
-        ARK_ASSERT(AddBool(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddBool(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(int8_t value)
     {
-        ARK_ASSERT(AddInt(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(uint8_t value)
     {
-        ARK_ASSERT(AddInt(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(int16_t value)
     {
-        ARK_ASSERT(AddInt(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(uint16_t value)
     {
-        ARK_ASSERT(AddInt(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(int32_t value)
     {
-        ARK_ASSERT(AddInt(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(uint32_t value)
     {
-        ARK_ASSERT(AddInt(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(long value)
     {
 #if ARK_PLATFORM == PLATFORM_WIN || defined(WIN32)
-        ARK_ASSERT(AddInt(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt(value);
 #else
-        ARK_ASSERT(AddInt64(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt64(value);
 #endif
         return *this;
     }
@@ -133,62 +133,62 @@ public:
     inline AFIDataList& operator<<(unsigned long value)
     {
 #if ARK_PLATFORM == PLATFORM_WIN || defined(WIN32)
-        ARK_ASSERT(AddInt(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt(value);
 #else
-        ARK_ASSERT(AddInt64(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt64(value);
 #endif
         return *this;
     }
 
     inline AFIDataList& operator<<(int64_t value)
     {
-        ARK_ASSERT(AddInt64(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt64(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(uint64_t value)
     {
-        ARK_ASSERT(AddInt64(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddInt64(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(float value)
     {
-        ARK_ASSERT(AddFloat(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddFloat(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(double value)
     {
-        ARK_ASSERT(AddDouble(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddDouble(value);
         return *this;
     }
     inline AFIDataList& operator<<(const char* value)
     {
-        ARK_ASSERT(AddString(value), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddString(value);
         return *this;
     }
     inline AFIDataList& operator<<(const std::string& value)
     {
-        ARK_ASSERT(AddString(value.c_str()), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddString(value.c_str());
         return *this;
     }
 
     inline AFIDataList& operator<<(const AFString<char, 128>& value)
     {
-        ARK_ASSERT(AddString(value.c_str()), "AddString fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddString(value.c_str());
         return *this;
     }
 
     inline AFIDataList& operator<<(const AFGUID& value)
     {
-        ARK_ASSERT(AddObject(value), "AddObject fail", __FILE__, __FUNCTION__);
+        bool  bRet = AddObject(value);
         return *this;
     }
 
     inline AFIDataList& operator<<(const AFIDataList& value)
     {
-        ARK_ASSERT(Concat(value), "Concat fail", __FILE__, __FUNCTION__);
+        bool  bRet = Concat(value);
         return *this;
     }
 };
