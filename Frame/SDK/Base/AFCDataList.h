@@ -110,7 +110,10 @@ public:
             if(strSour[i] == strSplit)
             {
                 nEnd = i;
-                AddString(&strSour[nBegin], nEnd - nBegin);
+                if(!AddString(&strSour[nBegin], nEnd - nBegin))
+                {
+                    //return false;
+                }
 
                 if(i + 1 < nLengh)
                 {
@@ -122,7 +125,10 @@ public:
         if(nEnd < nLengh)
         {
             nEnd = nLengh;
-            AddString(&strSour[nBegin], nEnd - nBegin);
+            if(!AddString(&strSour[nBegin], nEnd - nBegin))
+            {
+                //return false;
+            }
         }
     }
 
@@ -341,6 +347,11 @@ public:
 
         assert(NULL != value);
         dynamic_data_t* p = AddDynamicData();
+        if(nullptr == p)
+        {
+            return false;
+        }
+
         p->nType = DT_STRING;
         p->mnstrValue = mnBufferUsed;
 
