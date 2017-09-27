@@ -146,7 +146,11 @@ public:
     void SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID&nPlayerID)
     {
         std::string strData;
-        PackMsgToBasePB(xData, nPlayerID, strData);
+        if(!PackMsgToBasePB(xData, nPlayerID, strData))
+        {
+            //add log
+            return;
+        }
 
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
         if(pServer)
@@ -162,7 +166,11 @@ public:
     void SendToAllServerByPB(const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
     {
         std::string strData;
-        PackMsgToBasePB(xData, nPlayerID, strData);
+        if(!PackMsgToBasePB(xData, nPlayerID, strData))
+        {
+            //add log
+            return;
+        }
 
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
         while(pServer)
@@ -411,7 +419,10 @@ private:
 
                 xServerData->mxNetModule->Initialization(xServerData->strIPAndPort, xServerData->nGameID);
 
-                mxServerMap.AddElement(xInfo.nGameID, xServerData);
+                if(!mxServerMap.AddElement(xInfo.nGameID, xServerData))
+                {
+                    //add log
+                }
             }
         }
 
@@ -461,13 +472,14 @@ protected:
 
     void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
     {
+        int nRet(0);
         if(eEvent == CONNECTED)
         {
-            OnConnected(eEvent, xClientID, nServerID);
+            nRet = OnConnected(eEvent, xClientID, nServerID);
         }
         else
         {
-            OnDisConnected(eEvent, xClientID, nServerID);
+            nRet = OnDisConnected(eEvent, xClientID, nServerID);
         }
 
         OnSocketBaseNetEvent(eEvent, xClientID, nServerID);
