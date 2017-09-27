@@ -67,7 +67,10 @@ bool AFCSceneProcessModule::AfterInit()
         {
             int nSceneID = ARK_LEXICAL_CAST<int>(strData);
 
-            LoadSceneResource(nSceneID);
+            if(!LoadSceneResource(nSceneID))
+            {
+                return false;
+            }
 
             m_pKernelModule->CreateScene(nSceneID);
 
@@ -110,7 +113,10 @@ int AFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
 
     if(nTargetGroupID > 0 && eType == SCENE_TYPE_CLONE_SCENE)
     {
-        CreateSceneObject(nSceneID, nTargetGroupID);
+        if(!CreateSceneObject(nSceneID, nTargetGroupID))
+        {
+            return -1;
+        }
     }
 
     return nTargetGroupID;
