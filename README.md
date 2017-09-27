@@ -66,9 +66,8 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 
 ## Supported Compilers
 
-* GCC >= 4.8 (**<font color=red>Recommend</font> Tested in Ubuntu 15.04**)
-* MSVC >= VS2015 (**<font color=red>Recommend</font> Tested in Win7/10**)
-* MSVC >= VS2012+ & GCC >= 4.4+ (By using `boost`, define macro `HAVE_BOOST`, then you need to add boost include files and libraries yourself, just to replace `boost::variant` and `boost::lexical_cast`)
+* GCC >= 4.8 (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
+* MSVC >= VS2015 (**<font color=red>Recommend</font>. Tested in Win7/10**)
 
 ## Build and Install
 ### MSVC >= 2015
@@ -113,9 +112,9 @@ Our team has always specialized in the agile development and try to help differe
 ----------
 
 #### Plan
-- [ ] 1.优化数据管理性能
+- [x] 1.优化数据管理性能
 - [x] 2.优化网络性能
-- [ ] 3.优化heartbeat(Timer)性能，降低精度为秒(现在是毫秒)
+- [x] 3.优化heartbeat(Timer)性能，降低精度为秒(现在是毫秒)
 - [x] 4.增加Utility插件(放置一些常用功能)
 - [ ] 5.增加其他中间件(coroutine, mongoDB)
 - [ ] 6.增加通用的proxy-server(参考tconnd, tbus)
