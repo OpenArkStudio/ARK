@@ -20,11 +20,8 @@
 
 #include "AFRecord.h"
 
-AFRecord::AFRecord()
+AFRecord::AFRecord(): feature(0), mstrName(NULL_STR.c_str())
 {
-    mstrName = NULL_STR.c_str();
-    mxColTypes.clear();
-    mxRowDatas.clear();
 }
 
 AFRecord::~AFRecord()
@@ -158,7 +155,10 @@ bool AFRecord::AddRow(size_t row, const AFIDataList& data)
             row_data[i].SetObject(data.Object(i));
             break;
         default:
-            return false;
+            {
+                delete[] row_data;
+                return false;
+            }
             break;
         }
     }
