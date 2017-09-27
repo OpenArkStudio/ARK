@@ -40,6 +40,11 @@ class AFCMasterNet_ServerModule
 {
 public:
     AFCMasterNet_ServerModule(AFIPluginManager* p)
+        : m_pElementModule(nullptr)
+        , m_pClassModule(nullptr)
+        , m_pKernelModule(nullptr)
+        , m_pLogModule(nullptr)
+        , m_pNetModule(nullptr)
     {
         pPluginManager = p;
         mnLastLogTime = pPluginManager->GetNowTime();

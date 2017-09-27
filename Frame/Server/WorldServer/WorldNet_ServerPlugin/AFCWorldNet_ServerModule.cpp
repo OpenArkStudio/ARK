@@ -568,7 +568,7 @@ int AFCWorldNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, const AFI
             pPublicRecordBase = pPublicData->add_record_list();
             pPublicRecordBase->set_record_name(pRecord->GetName());
 
-            OnRecordEnterPack(pRecord, pPublicRecordBase);
+            bool bRet = OnRecordEnterPack(pRecord, pPublicRecordBase);
         }
 
         if(pRecord->IsPrivate())
@@ -581,7 +581,7 @@ int AFCWorldNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, const AFI
             pPrivateRecordBase = pPrivateData->add_record_list();
             pPrivateRecordBase->set_record_name(pRecord->GetName());
 
-            OnRecordEnterPack(pRecord, pPrivateRecordBase);
+            bool bRet = OnRecordEnterPack(pRecord, pPrivateRecordBase);
         }
     }
 
