@@ -28,9 +28,10 @@
 #include "AFCClassModule.h"
 
 AFCElementModule::AFCElementModule(AFIPluginManager* p)
+    : m_pClassModule(nullptr)
+    , mbLoaded(false)
 {
     pPluginManager = p;
-    mbLoaded = false;
 }
 
 AFCElementModule::~AFCElementModule()
@@ -42,15 +43,12 @@ bool AFCElementModule::Init()
 {
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
 
-    Load();
-
-    return true;
+    return Load();
 }
 
 bool AFCElementModule::Shut()
 {
-    Clear();
-    return true;
+    return Clear();
 }
 
 bool AFCElementModule::Load()
@@ -87,7 +85,10 @@ bool AFCElementModule::Load()
         rapidxml::xml_node<>* root = xDoc.first_node();
         for(rapidxml::xml_node<>* attrNode = root->first_node(); attrNode; attrNode = attrNode->next_sibling())
         {
-            Load(attrNode, pLogicClass);
+            if(!Load(attrNode, pLogicClass))
+            {
+                return false;
+            }
         }
 
         mbLoaded = true;
@@ -148,10 +149,10 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
         }
         //////////////////////////////////////////////////////////////////////////
         size_t record_count = pClassRecordManager->GetCount();
-        for (size_t i = 0; i < record_count; ++i)
+        for(size_t i = 0; i < record_count; ++i)
         {
             AFRecord* pRecord = pClassRecordManager->GetRecordByIndex(i);
-            if (NULL == pRecord)
+            if(NULL == pRecord)
             {
                 continue;
             }
@@ -316,7 +317,7 @@ const char*  AFCElementModule::GetPropertyString(const std::string& strConfigNam
 AFProperty* AFCElementModule::GetProperty(const std::string& strConfigName, const std::string& strPropertyName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-    if (NULL != pElementInfo)
+    if(NULL != pElementInfo)
     {
         return pElementInfo->GetPropertyManager()->GetProperty(strPropertyName.c_str());
     }
@@ -327,7 +328,7 @@ AFProperty* AFCElementModule::GetProperty(const std::string& strConfigName, cons
 ARK_SHARE_PTR<AFIPropertyMgr> AFCElementModule::GetPropertyManager(const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-    if (NULL != pElementInfo)
+    if(NULL != pElementInfo)
     {
         return pElementInfo->GetPropertyManager();
     }
@@ -338,7 +339,7 @@ ARK_SHARE_PTR<AFIPropertyMgr> AFCElementModule::GetPropertyManager(const std::st
 ARK_SHARE_PTR<AFIRecordMgr> AFCElementModule::GetRecordManager(const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-    if (NULL != pElementInfo)
+    if(NULL != pElementInfo)
     {
         return pElementInfo->GetRecordManager();
     }

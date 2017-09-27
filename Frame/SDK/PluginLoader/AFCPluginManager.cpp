@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCPluginManager.cpp                                              *
+// * @file      AFCPluginManager.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCPluginManager                                                  *
@@ -73,15 +73,26 @@ AFCPluginManager::~AFCPluginManager()
 
 inline bool AFCPluginManager::Init()
 {
-    LoadPluginConfig();
+    if(!LoadPluginConfig())
+    {
+        return false;
+    }
 
     PluginNameMap::iterator it = mPluginNameMap.begin();
     for(it; it != mPluginNameMap.end(); ++it)
     {
 #ifdef ARK_DYNAMIC_PLUGIN
-        LoadPluginLibrary(it->first);
+        bool bRet = LoadPluginLibrary(it->first);
+        if(!bRet)
+        {
+            return false;
+        }
 #else
-        LoadStaticPlugin(it->first);
+        bool bRet = LoadStaticPlugin(it->first);
+        if(!bRet)
+        {
+            return false;
+        }
 #endif
     }
 
@@ -359,9 +370,9 @@ bool AFCPluginManager::Shut()
     for(it; it != mPluginNameMap.end(); it++)
     {
 #ifdef ARK_DYNAMIC_PLUGIN
-        UnLoadPluginLibrary(it->first);
+        bool bRet = UnLoadPluginLibrary(it->first);
 #else
-        UnLoadStaticPlugin(it->first);
+        bool bRet = UnLoadStaticPlugin(it->first);
 #endif
     }
 
