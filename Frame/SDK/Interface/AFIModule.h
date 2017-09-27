@@ -54,9 +54,8 @@ class AFIPluginManager;
 class AFIModule
 {
 public:
-    AFIModule()
+    AFIModule(): mbReloading(false)
     {
-        mbReloading = false;
     }
 
     virtual ~AFIModule() {}
