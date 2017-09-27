@@ -54,7 +54,7 @@ class AFIPluginManager;
 class AFIModule
 {
 public:
-    AFIModule(): mbReloading(false)
+    AFIModule(): mbReloading(false), pPluginManager(nullptr)
     {
     }
 
