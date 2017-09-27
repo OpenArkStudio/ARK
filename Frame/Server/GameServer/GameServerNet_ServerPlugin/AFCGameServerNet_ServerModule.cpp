@@ -170,7 +170,10 @@ void AFCGameServerNet_ServerModule::OnClienEnterGameProcess(const AFIMsgHead& xH
     ARK_SHARE_PTR<AFCGameServerNet_ServerModule::GateBaseInfo>  pGateInfo = GetPlayerGateInfo(nRoleID);
     if(nullptr != pGateInfo)
     {
-        RemovePlayerGateInfo(nRoleID);
+        if(RemovePlayerGateInfo(nRoleID))
+        {
+            m_pLogModule->LogError(nRoleID, "RemovePlayerGateInfo fail", "", __FUNCTION__, __LINE__);
+        }
     }
 
     ARK_SHARE_PTR<AFCGameServerNet_ServerModule::GateServerInfo> pGateServereinfo = GetGateServerInfoByClientID(xClientID);
@@ -249,7 +252,10 @@ void AFCGameServerNet_ServerModule::OnClienLeaveGameProcess(const AFIMsgHead& xH
         m_pKernelModule->DestroyObject(nPlayerID);
     }
 
-    RemovePlayerGateInfo(nPlayerID);
+    if(!RemovePlayerGateInfo(nPlayerID))
+    {
+        m_pLogModule->LogError(nPlayerID, "RemovePlayerGateInfo", "", __FUNCTION__, __LINE__);
+    }
 }
 
 int AFCGameServerNet_ServerModule::OnPropertyEnter(const AFIDataList& argVar, const AFGUID& self)
@@ -394,7 +400,11 @@ int AFCGameServerNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, cons
             pPublicRecordBase = pPublicData->add_record_list();
             pPublicRecordBase->set_record_name(pRecord->GetName());
 
-            OnRecordEnterPack(pRecord, pPublicRecordBase);
+            if(!OnRecordEnterPack(pRecord, pPublicRecordBase))
+            {
+                m_pLogModule->LogError(self, "OnRecordEnterPack fail ", "", __FUNCTION__, __LINE__);
+                return -1;
+            }
         }
 
         if(pRecord->IsPrivate())
@@ -407,7 +417,11 @@ int AFCGameServerNet_ServerModule::OnRecordEnter(const AFIDataList& argVar, cons
             pPrivateRecordBase = pPrivateData->add_record_list();
             pPrivateRecordBase->set_record_name(pRecord->GetName());
 
-            OnRecordEnterPack(pRecord, pPrivateRecordBase);
+            if(OnRecordEnterPack(pRecord, pPrivateRecordBase))
+            {
+                m_pLogModule->LogError(self, "OnRecordEnterPack fail ", "", __FUNCTION__, __LINE__);
+                return -1;
+            }
         }
     }
 
@@ -528,13 +542,13 @@ int AFCGameServerNet_ServerModule::OnPropertyCommonEvent(const AFGUID& self, con
         if("GroupID" == strPropertyName)
         {
             //自己还是要知道自己的这个属性变化的,但是别人就不需要知道了
-            OnGroupEvent(self, strPropertyName, oldVar, newVar);
+            int nRet = OnGroupEvent(self, strPropertyName, oldVar, newVar);
         }
 
         if("SceneID" == strPropertyName)
         {
             //自己还是要知道自己的这个属性变化的,但是别人就不需要知道了
-            OnContainerEvent(self, strPropertyName, oldVar, newVar);
+            int nRet =  OnContainerEvent(self, strPropertyName, oldVar, newVar);
         }
 
         if(NFrame::Player::ThisName() == std::string(m_pKernelModule->GetPropertyString(self, "ClassName")))
@@ -1027,7 +1041,11 @@ int AFCGameServerNet_ServerModule::GetBroadCastObject(const AFGUID& self, const 
         {
             if(pRecord->IsPublic())
             {
-                GetBroadCastObject(nObjectContainerID, nObjectGroupID, valueObject);
+                int nCount = GetBroadCastObject(nObjectContainerID, nObjectGroupID, valueObject);
+                if(nCount < 0)
+                {
+                    //log
+                }
             }
             else if(pRecord->IsPrivate())
             {
@@ -1038,7 +1056,7 @@ int AFCGameServerNet_ServerModule::GetBroadCastObject(const AFGUID& self, const 
         {
             if(pProperty->IsPublic())
             {
-                GetBroadCastObject(nObjectContainerID, nObjectGroupID, valueObject);
+                int nCount = GetBroadCastObject(nObjectContainerID, nObjectGroupID, valueObject);
             }
             else if(pProperty->IsPrivate())
             {
@@ -1055,7 +1073,7 @@ int AFCGameServerNet_ServerModule::GetBroadCastObject(const AFGUID& self, const 
         if(pRecord->IsPublic())
         {
             //广播给客户端自己和周边人
-            GetBroadCastObject(nObjectContainerID, nObjectGroupID, valueObject);
+            int nCount = GetBroadCastObject(nObjectContainerID, nObjectGroupID, valueObject);
         }
     }
     else
@@ -1063,7 +1081,7 @@ int AFCGameServerNet_ServerModule::GetBroadCastObject(const AFGUID& self, const 
         if(pProperty->IsPublic())
         {
             //广播给客户端自己和周边人
-            GetBroadCastObject(nObjectContainerID, nObjectGroupID, valueObject);
+            int nCount = GetBroadCastObject(nObjectContainerID, nObjectGroupID, valueObject);
         }
     }
 

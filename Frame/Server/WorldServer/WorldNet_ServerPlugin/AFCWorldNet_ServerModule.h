@@ -36,6 +36,12 @@ class AFCWorldNet_ServerModule
 {
 public:
     AFCWorldNet_ServerModule(AFIPluginManager* p)
+        : m_pElementModule(nullptr)
+        , m_pClassModule(nullptr)
+        , m_pWorldLogicModule(nullptr)
+        , m_pKernelModule(nullptr)
+        , m_pLogModule(nullptr)
+        , m_pNetModule(nullptr)
     {
         pPluginManager = p;
         mnLastCheckTime = pPluginManager->GetNowTime();
