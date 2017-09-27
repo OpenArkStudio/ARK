@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCGUIDModule.h                                                *
+// * @file      AFCGUIDModule.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCGUIDModule                                                  *
@@ -28,9 +28,9 @@
 
 namespace GUIDModule
 {
-    extern uint64_t GetNowInMsec();
-    class IdWorkerUnThreadSafe;
-    class IdWorkerThreadSafe;
+extern uint64_t GetNowInMsec();
+class IdWorkerUnThreadSafe;
+class IdWorkerThreadSafe;
 }
 
 
@@ -58,7 +58,7 @@ private:
     GUIDModule::IdWorkerUnThreadSafe* m_pIDWoker;
 #endif // AF_THREAD_SAFE
 
-    
+
 };
 
 

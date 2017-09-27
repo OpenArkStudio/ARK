@@ -202,7 +202,7 @@ public:
             return false;
         }
 
-        SendMsgPB(nMsgID, xMsgData, xClientID, nPlayer, pClientIDList);
+        return SendMsgPB(nMsgID, xMsgData, xClientID, nPlayer, pClientIDList);
     }
 
     bool SendMsgPB(const uint16_t nMsgID, const std::string& strData, const AFGUID& xClientID, const AFGUID nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
