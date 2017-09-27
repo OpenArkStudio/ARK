@@ -323,13 +323,10 @@ bool AFCKernelModule::DestroyObject(const AFGUID& self)
 
         pContainerInfo->RemoveObjectFromGroup(nGroupID, self, strClassName == NFrame::Player::ThisName() ? true : false);
 
-        DoEvent(self, strClassName, COE_BEFOREDESTROY, AFCDataList());
-        DoEvent(self, strClassName, COE_DESTROY, AFCDataList());
+        bool bHaveAndDoSeccull = DoEvent(self, strClassName, COE_BEFOREDESTROY, AFCDataList());
+        bHaveAndDoSeccull = DoEvent(self, strClassName, COE_DESTROY, AFCDataList());
 
-        RemoveElement(self);
-
-        return true;
-
+        return RemoveElement(self);
     }
 
     m_pLogModule->LogError(self, "There is no scene", nSceneID, __FUNCTION__, __LINE__);
@@ -994,7 +991,10 @@ bool AFCKernelModule::ReleaseGroupScene(const int nSceneID, const int nGroupID)
         for(int i = 0; i < listObject.GetCount(); ++i)
         {
             AFGUID ident = listObject.Object(i);
-            DestroyObject(ident);
+            if(!DestroyObject(ident))
+            {
+                //add log
+            }
         }
     }
 
@@ -1089,7 +1089,10 @@ bool AFCKernelModule::LogInfo(const AFGUID& ident)
         for(int i  = 0; i < nCount; i++)
         {
             AFGUID targetIdent = valObjectList.Object(i);
-            LogInfo(targetIdent);
+            if(LogInfo(targetIdent))
+            {
+                //add log
+            }
         }
     }
     else
@@ -1183,7 +1186,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
             {
                 float fValue = GetPropertyFloat(ident, strPropertyName.c_str());
                 float fCompareValue = valueArg.Float(0);
-                if(fValue == fCompareValue)
+                if(IsZeroFloat(fValue - fCompareValue))
                 {
                     list.AddObject(ident);
                 }
@@ -1193,7 +1196,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
             {
                 double dValue = GetPropertyDouble(ident, strPropertyName.c_str());
                 double dCompareValue = valueArg.Double(0);
-                if(dValue == dCompareValue)
+                if(IsZeroDouble(dValue - dCompareValue))
                 {
                     list.AddObject(ident);
                 }
@@ -1316,7 +1319,10 @@ bool AFCKernelModule::DestroyAll()
     }
 
     // 为了释放object
-    Execute();
+    if(!Execute())
+    {
+        //add log
+    }
 
     m_pSceneModule->ClearAll();
 
@@ -1330,8 +1336,7 @@ bool AFCKernelModule::DestroyAll()
 
 bool AFCKernelModule::BeforeShut()
 {
-    DestroyAll();
-    return true;
+    return DestroyAll();
 }
 
 void AFCKernelModule::Random(int nStart, int nEnd, int nCount, AFIDataList& valueList)

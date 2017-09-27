@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFIPlugin.h                                                *
+// * @file      AFIPlugin.h                                                *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFIPlugin                                                  *
@@ -30,9 +30,9 @@
 #include "SDK/Interface/AFIPluginManager.h"
 
 #define REGISTER_MODULE(pManager, classBaseName, className)  \
-	assert((TIsDerived<classBaseName, AFIModule>::Result));	\
-	assert((TIsDerived<className, classBaseName>::Result));	\
-	AFIModule* pRegisterModule##className= new className(pManager); \
+    assert((TIsDerived<classBaseName, AFIModule>::Result)); \
+    assert((TIsDerived<className, classBaseName>::Result)); \
+    AFIModule* pRegisterModule##className= new className(pManager); \
     pRegisterModule##className->strName = (#className); \
     pManager->AddModule( #classBaseName, pRegisterModule##className );AddElement( #classBaseName, pRegisterModule##className );
 
@@ -68,7 +68,7 @@ public:
 
     virtual bool Init()
     {
-        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
             bool bRet = pModule->Init();
             ARK_ASSERT_RET_VAL(bRet, false);
@@ -79,7 +79,7 @@ public:
 
     virtual bool AfterInit()
     {
-        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
             bool bRet = pModule->AfterInit();
             ARK_ASSERT_RET_VAL(bRet, false);
@@ -90,9 +90,10 @@ public:
 
     virtual bool CheckConfig()
     {
-        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
-            pModule->CheckConfig();
+            bool bRet = pModule->CheckConfig();
+            ARK_ASSERT_RET_VAL(bRet, false);
         }
 
         return true;
@@ -100,9 +101,12 @@ public:
 
     virtual bool Execute()
     {
-        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
-            pModule->Execute();
+            if(!pModule->Execute())
+            {
+                //add log
+            }
         }
 
         return true;
@@ -110,9 +114,12 @@ public:
 
     virtual bool BeforeShut()
     {
-        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
-            pModule->BeforeShut();
+            if(!pModule->BeforeShut())
+            {
+                //add log
+            }
         }
 
         return true;
@@ -120,9 +127,12 @@ public:
 
     virtual bool Shut()
     {
-        for (AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
         {
-            pModule->Shut();
+            if(!pModule->Shut())
+            {
+                //add log
+            }
         }
 
         return true;
