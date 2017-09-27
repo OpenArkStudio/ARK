@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCPropertyTrailModule.cpp                                              *
+// * @file      AFCPropertyTrailModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCPropertyTrailModule                                                  *
@@ -55,7 +55,7 @@ bool AFCPropertyTrailModule::AfterInit()
 
 void AFCPropertyTrailModule::StartTrail(const AFGUID self)
 {
-    LogObjectData(self);
+    int nRet = LogObjectData(self);
 
 
 }
