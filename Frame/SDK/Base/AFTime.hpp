@@ -598,29 +598,38 @@ private:
     {
         //time format is YYYY-MM-DD HH:mm:ss
         std::vector<std::string> cells;
-        Split(strTime, cells, " ");
+        int nCount = Split(strTime, cells, " ");
         if(cells.size() < 2)
         {
             return;
         }
         std::vector<std::string> cellsYMD;
-        Split(cells.at(0), cellsYMD, "-");
+        nCount = Split(cells.at(0), cellsYMD, "-");
         if(cellsYMD.size() != 3)
         {
             return;
         }
         std::vector<std::string> cellsHMS;
-        Split(cells.at(1), cellsHMS, ":");
+        nCount = Split(cells.at(1), cellsHMS, ":");
         if(cellsHMS.size() != 3)
         {
             return;
         }
-        int nYear = ARK_LEXICAL_CAST<int>(cellsYMD[0]);
-        int nMonth = ARK_LEXICAL_CAST<int>(cellsYMD[1]);
-        int nDay = ARK_LEXICAL_CAST<int>(cellsYMD[2]);
-        int nHour = ARK_LEXICAL_CAST<int>(cellsHMS[0]);
-        int nMinute = ARK_LEXICAL_CAST<int>(cellsHMS[1]);
-        int nSecond = ARK_LEXICAL_CAST<int>(cellsHMS[2]);
+
+        int nYear(0);
+        int nMonth(0);
+        int nDay(0);
+        int nHour(0);
+        int nMinute(0);
+        int nSecond(0);
+
+        ARK_ASSERT(Ark_from_str(cellsYMD[0], nYear), (strTime + " time nYear error"), __FILE__, __FUNCTION__);
+        ARK_ASSERT(Ark_from_str(cellsYMD[1], nMonth), (strTime + " time nMonth error"), __FILE__, __FUNCTION__);
+        ARK_ASSERT(Ark_from_str(cellsYMD[2], nDay), (strTime + " time nDay error"), __FILE__, __FUNCTION__);
+        ARK_ASSERT(Ark_from_str(cellsHMS[0], nHour), (strTime + " time nHour error"), __FILE__, __FUNCTION__);
+        ARK_ASSERT(Ark_from_str(cellsHMS[1], nMinute), (strTime + " time nMinute error"), __FILE__, __FUNCTION__);
+        ARK_ASSERT(Ark_from_str(cellsHMS[2], nSecond), (strTime + " time nSecond error"), __FILE__, __FUNCTION__);
+
         int nMilliSecond = 0;
         if(cells.size() == 3)
         {
@@ -803,7 +812,7 @@ private:
             }
         }
 
-        return 0;
+        return ret_.size();
     }
 
 private:
