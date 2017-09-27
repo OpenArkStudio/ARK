@@ -17,7 +17,7 @@
 // * limitations under the License.                                          *
 // *                                                                         *
 // *                                                                         *
-// * @file  	AFCPropertyModule.cpp                                              *
+// * @file      AFCPropertyModule.cpp                                              *
 // * @author    Ark Game Tech                                                *
 // * @date      2015-12-15                                                   *
 // * @brief     AFCPropertyModule                                                  *
@@ -139,10 +139,10 @@ int AFCPropertyModule::SubPropertyValue(const AFGUID& self, const std::string& s
 
 int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
-    RefreshBaseProperty(self);
+    int nRet = RefreshBaseProperty(self);
 
-    FullHPMP(self);
-    FullSP(self);
+    bool bRet = FullHPMP(self);
+    bRet = FullSP(self);
 
     return 0;
 }
