@@ -66,7 +66,7 @@ public:
     }
 
 public:
-   //添加备胎
+    //添加备胎
 
     /**
      * @fn  void AFCAddConsistentHash::AddCandidateMachine(const int nServerID)
@@ -79,29 +79,33 @@ public:
      * @param   nServerID   Identifier for the server.
      */
 
-	void AddCandidateMachine(const int nServerID) 
-	{
-		std::list<AFCMachineNode> xNodeList;
-		GetNodeList(xNodeList);
+    void AddCandidateMachine(const int nServerID)
+    {
+        std::list<AFCMachineNode> xNodeList;
 
-		//把所有的真实主机作为备份
-		AFCMachineNode xNode;
-		xNode.nMachineID = nServerID;
-		xNode.strIP = "";
-		xNode.nPort = 0;
-		xNode.bCandidate = true;
+        if(GetNodeList(xNodeList))
+        {
+            return;
+        }
 
-		for (std::list<AFCMachineNode>::iterator it = xNodeList.begin(); it != xNodeList.end(); ++it)
-		{
-			AFIVirtualNode&  xRealNode = *it;
-			if (!xRealNode.Candidate())
-			{
-				xNode.xRealMachine.push_back(xRealNode);
-			}
-		}
+        //把所有的真实主机作为备份
+        AFCMachineNode xNode;
+        xNode.nMachineID = nServerID;
+        xNode.strIP = "";
+        xNode.nPort = 0;
+        xNode.bCandidate = true;
 
-		Insert(xNode);
-	}
+        for(std::list<AFCMachineNode>::iterator it = xNodeList.begin(); it != xNodeList.end(); ++it)
+        {
+            AFIVirtualNode&  xRealNode = *it;
+            if(!xRealNode.Candidate())
+            {
+                xNode.xRealMachine.push_back(xRealNode);
+            }
+        }
+
+        Insert(xNode);
+    }
 
     /**
      * @fn  void AFCAddConsistentHash::IntanceCandidateMachine()
@@ -112,9 +116,9 @@ public:
      * @date    2016/11/29
      */
 
-	void IntanceCandidateMachine()
-	{
+    void IntanceCandidateMachine()
+    {
 
-	}
+    }
 
 };
