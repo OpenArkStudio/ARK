@@ -137,6 +137,7 @@ public:
     AFTime(int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond)//with default(UTC+8) timezone
     {
         mnTime = 0;
+        mnTimeZone = AFCTimeBase::GetInstance().GetTimeZone();
         InitWithYMDHMSM(nYear, nMonth, nDay, nHour, nMinute, nSecond, 0);
     }
     AFTime(int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond, int nMilliSecond, int nTimeZone = -1) //with particular timezone

@@ -569,15 +569,18 @@ private:
 
         for(size_t i = 0; i < mnSize; ++i)
         {
-            node_t* p = mpBuckets[i];
-            while(p)
+            if(nullptr != mpBuckets)
             {
-                node_t* next = p->next;
-                size_t bucket = size_t(p->hash) % new_size;
+                node_t* p = mpBuckets[i];
+                while(p)
+                {
+                    node_t* next = p->next;
+                    size_t bucket = size_t(p->hash) % new_size;
 
-                p->next = new_buckets[bucket];
-                new_buckets[bucket] = p;
-                p = next;
+                    p->next = new_buckets[bucket];
+                    new_buckets[bucket] = p;
+                    p = next;
+                }
             }
         }
 
