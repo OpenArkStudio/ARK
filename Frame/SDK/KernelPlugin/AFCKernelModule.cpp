@@ -293,11 +293,11 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         pObject->SetPropertyInt(NFrame::IObject::SceneID(), nSceneID);
         pObject->SetPropertyInt(NFrame::IObject::GroupID(), nGroupID);
 
-        DoEvent(ident, strClassName, COE_CREATE_LOADDATA, arg);
-        DoEvent(ident, strClassName, COE_CREATE_BEFORE_EFFECT, arg);
-        DoEvent(ident, strClassName, COE_CREATE_EFFECTDATA, arg);
-        DoEvent(ident, strClassName, COE_CREATE_AFTER_EFFECT, arg);
-        DoEvent(ident, strClassName, COE_CREATE_HASDATA, arg);
+        bool bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_LOADDATA, arg);
+        bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_BEFORE_EFFECT, arg);
+        bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_EFFECTDATA, arg);
+        bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_AFTER_EFFECT, arg);
+        bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_HASDATA, arg);
     }
 
     return pObject;
