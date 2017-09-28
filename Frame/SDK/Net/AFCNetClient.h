@@ -63,7 +63,7 @@ public:
 
     virtual ~AFCNetClient()
     {
-        Final();
+        bool bRet = Final();
     };
 
 public:
