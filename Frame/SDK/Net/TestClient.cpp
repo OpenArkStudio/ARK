@@ -53,10 +53,10 @@ public:
         mbTestSendMsg = true;
     }
 
-    void ReciveHandler(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void ReciveHandler(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
         nReciveMsgCount++;
-        pNet->SendMsgWithOutHead(nMsgID, msg, nLen, xClientID);
+        pNet->SendMsgWithOutHead(nMsgID, msg, nLen, xClientID, 0);
     };
 
     void EventHandler(const NetEventType e, const AFGUID& xClientID, const int nServerID)
@@ -86,7 +86,7 @@ public:
         char data[100] = {};
 
         memset(data, 22, 100);
-        pNet->SendMsgWithOutHead(1, data, 100, 0);
+        pNet->SendMsgWithOutHead(1, data, 100, 0, 0);
         nSendMsgCount++;
 
         return true;
