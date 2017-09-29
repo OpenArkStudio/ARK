@@ -29,7 +29,7 @@
 #include "SDK/Base/AFPlatform.hpp"
 #pragma comment(lib,"ws2_32.lib")
 
-#ifdef ARK_RUN_MODE
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #pragma comment(lib,"AFNet_d.lib")
 #pragma comment(lib,"AFCore_d.lib")
 #else
@@ -83,10 +83,13 @@ public:
         }
 
         std::string strData = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-        char data[100] = {};
 
-        memset(data, 22, 100);
-        pNet->SendMsgWithOutHead(1, data, 100, 0, 0);
+        const int nTestSize = 100 ;
+        const int nBodySize = nTestSize - AFIMsgHead::AF_Head::NF_HEAD_LENGTH;
+        char data[nBodySize] = {};
+
+        memset(data, 22, nBodySize);
+        pNet->SendMsgWithOutHead(1, data, nBodySize, 0, 0);
         nSendMsgCount++;
 
         return true;
