@@ -52,11 +52,11 @@ public:
         nLasterReciveCount = 0;
     }
 
-    void ReciveHandler(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void ReciveHandler(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
         nReciveMsgCount++;
         nSendMsgCount++;
-        pNet->SendMsgWithOutHead(nMsgID, msg, nLen, xClientID);
+        pNet->SendMsgWithOutHead(nMsgID, msg, nLen, xClientID, 0);
         //std::cout << " nSendMsgCount: " << nSendMsgCount << "nReciveMsgCount" << nReciveMsgCount << " fd: " << nSockIndex << " msg_id: " << nMsgID /*<<  " data: " << str*/ << " thread_id: " << GetCurrentThreadId() << std::endl;
     }
 
