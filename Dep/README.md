@@ -5,6 +5,5 @@
 - mysql++ 3.2.2
 - google protobuf 2.5.0
 - pybind11 1.2
-- redis-cpp-client 
-- Theron 6.00.01
 - curl 7.37.1
+- evpp master
