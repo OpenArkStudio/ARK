@@ -1,3 +1,5 @@
+syntax = "proto2
+
 package AFMsg; 
 
 //除 去基础对象身上的属性外，这里全部游戏中的逻辑协议
