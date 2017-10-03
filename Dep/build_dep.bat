@@ -16,6 +16,7 @@ cd build
 cmake -G "Visual Studio 14 Win64" -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF ..
 "%VS140COMNTOOLS%..\IDE\Devenv" protobuf.sln /build "Release|x64"
 copy Release\*.dll ..\..\..\lib /Y
+copy Release\*.lib ..\..\..\lib /Y
 cd ..\..\..\
 REM ######################################################################################################
 echo Building libevent...

@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
@@ -43,6 +44,7 @@ const ::google::protobuf::EnumDescriptor* EGameElementType_descriptor_ = NULL;
 }  // namespace
 
 
+void protobuf_AssignDesc_AFDefine_2eproto() GOOGLE_ATTRIBUTE_COLD;
 void protobuf_AssignDesc_AFDefine_2eproto() {
   protobuf_AddDesc_AFDefine_2eproto();
   const ::google::protobuf::FileDescriptor* file =
@@ -78,6 +80,7 @@ inline void protobuf_AssignDescriptorsOnce() {
                  &protobuf_AssignDesc_AFDefine_2eproto);
 }
 
+void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
 }
@@ -87,6 +90,7 @@ void protobuf_RegisterTypes(const ::std::string&) {
 void protobuf_ShutdownFile_AFDefine_2eproto() {
 }
 
+void protobuf_AddDesc_AFDefine_2eproto() GOOGLE_ATTRIBUTE_COLD;
 void protobuf_AddDesc_AFDefine_2eproto() {
   static bool already_here = false;
   if (already_here) return;
