@@ -7,7 +7,10 @@ Github: https://github.com/ArkGame/ArkGameFrame
 Gitee(码云): https://gitee.com/ArkGame/ArkGameFrame
 
 ## ArkGameFrame
-ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework written in C++，make it easier to create game server. Greatly inspired by OGRE and Bigworld. It is a fork of the NFrame project.
+ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework written in C++，make it easier to create game server. 
+
+
+
 ##### Wanna get the newest features? Please switch to the develop branch.
 
 **<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ArkGameFrame/blob/master/CONTRIBUTING.md)</font>**
@@ -121,3 +124,9 @@ Our team has always specialized in the agile development and try to help differe
 - [ ] 7.完整的带业务功能的demo
 - [ ] 8.优化数据同步的流量,减小属性同步的体积(去掉`PropertyName`和`RecordName`类似的string同步)
 - [ ] 9.拓展record的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，record现有的结构是特定的，不方便做扩展
+
+
+----------
+
+#### The relationship with NF
+This branch comes from NF, we used to be the **CORE DEVELOPER** of NF, we create this project because some different ideas, and the **ArkGameFrame** contains more new contents and modifications.
