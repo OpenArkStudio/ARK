@@ -29,7 +29,7 @@
 #include "SDK/Base/AFPlatform.hpp"
 #pragma comment(lib,"ws2_32.lib")
 
-#ifdef ARK_RUN_MODE
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #pragma comment(lib,"AFNet_d.lib")
 #pragma comment(lib,"AFCore_d.lib")
 #else
@@ -53,10 +53,10 @@ public:
         mbTestSendMsg = true;
     }
 
-    void ReciveHandler(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void ReciveHandler(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
         nReciveMsgCount++;
-        pNet->SendMsgWithOutHead(nMsgID, msg, nLen, xClientID);
+        pNet->SendMsgWithOutHead(nMsgID, msg, nLen, xClientID, 0);
     };
 
     void EventHandler(const NetEventType e, const AFGUID& xClientID, const int nServerID)
@@ -83,10 +83,13 @@ public:
         }
 
         std::string strData = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-        char data[100] = {};
 
-        memset(data, 22, 100);
-        pNet->SendMsgWithOutHead(1, data, 100, 0);
+        const int nTestSize = 100 ;
+        const int nBodySize = nTestSize - AFIMsgHead::AF_Head::NF_HEAD_LENGTH;
+        char data[nBodySize] = {};
+
+        memset(data, 22, nBodySize);
+        pNet->SendMsgWithOutHead(1, data, nBodySize, 0, 0);
         nSendMsgCount++;
 
         return true;

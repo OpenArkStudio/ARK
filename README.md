@@ -124,6 +124,7 @@ Our team has always specialized in the agile development and try to help differe
 - [ ] 7.完整的带业务功能的demo
 - [ ] 8.优化数据同步的流量,减小属性同步的体积(去掉`PropertyName`和`RecordName`类似的string同步)
 - [ ] 9.拓展record的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，record现有的结构是特定的，不方便做扩展
+- [ ] 10.增加网络库的基准测试用例，放到目录benchmark/unittest
 
 
 ----------
