@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include <google/protobuf/stubs/common.h>
+#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/stubs/once.h>
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/wire_format_lite_inl.h>
@@ -101,6 +102,7 @@ const ::google::protobuf::EnumDescriptor* AnimatorFlys_EAFType_descriptor_ = NUL
 }  // namespace
 
 
+void protobuf_AssignDesc_AFFleetingDefine_2eproto() GOOGLE_ATTRIBUTE_COLD;
 void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
   protobuf_AddDesc_AFFleetingDefine_2eproto();
   const ::google::protobuf::FileDescriptor* file =
@@ -114,31 +116,31 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(FSVector3, z_),
   };
   FSVector3_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       FSVector3_descriptor_,
       FSVector3::default_instance_,
       FSVector3_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(FSVector3, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(FSVector3, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(FSVector3));
+      -1,
+      sizeof(FSVector3),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(FSVector3, _internal_metadata_),
+      -1);
   SuwayyahEvents_descriptor_ = file->message_type(1);
   static const int SuwayyahEvents_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SuwayyahEvents, xsuwayyahlist_),
   };
   SuwayyahEvents_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       SuwayyahEvents_descriptor_,
       SuwayyahEvents::default_instance_,
       SuwayyahEvents_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SuwayyahEvents, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SuwayyahEvents, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(SuwayyahEvents));
+      -1,
+      sizeof(SuwayyahEvents),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SuwayyahEvents, _internal_metadata_),
+      -1);
   SuwayyahEvents_Suwayyah_descriptor_ = SuwayyahEvents_descriptor_->nested_type(0);
   static const int SuwayyahEvents_Suwayyah_offsets_[11] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SuwayyahEvents_Suwayyah, eventtype_),
@@ -154,32 +156,32 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SuwayyahEvents_Suwayyah, targetmethodparam_),
   };
   SuwayyahEvents_Suwayyah_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       SuwayyahEvents_Suwayyah_descriptor_,
       SuwayyahEvents_Suwayyah::default_instance_,
       SuwayyahEvents_Suwayyah_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SuwayyahEvents_Suwayyah, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SuwayyahEvents_Suwayyah, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(SuwayyahEvents_Suwayyah));
+      -1,
+      sizeof(SuwayyahEvents_Suwayyah),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(SuwayyahEvents_Suwayyah, _internal_metadata_),
+      -1);
   SuwayyahEvents_ESEType_descriptor_ = SuwayyahEvents_descriptor_->enum_type(0);
   BulletEvents_descriptor_ = file->message_type(2);
   static const int BulletEvents_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents, xbulletlist_),
   };
   BulletEvents_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       BulletEvents_descriptor_,
       BulletEvents::default_instance_,
       BulletEvents_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(BulletEvents));
+      -1,
+      sizeof(BulletEvents),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents, _internal_metadata_),
+      -1);
   BulletEvents_TacheBomp_descriptor_ = BulletEvents_descriptor_->nested_type(0);
   static const int BulletEvents_TacheBomp_offsets_[10] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents_TacheBomp, bomptime_),
@@ -194,16 +196,16 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents_TacheBomp, targetmethodparam_),
   };
   BulletEvents_TacheBomp_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       BulletEvents_TacheBomp_descriptor_,
       BulletEvents_TacheBomp::default_instance_,
       BulletEvents_TacheBomp_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents_TacheBomp, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents_TacheBomp, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(BulletEvents_TacheBomp));
+      -1,
+      sizeof(BulletEvents_TacheBomp),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents_TacheBomp, _internal_metadata_),
+      -1);
   BulletEvents_Bullet_descriptor_ = BulletEvents_descriptor_->nested_type(1);
   static const int BulletEvents_Bullet_offsets_[18] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents_Bullet, eventtime_),
@@ -226,16 +228,16 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents_Bullet, bomp_),
   };
   BulletEvents_Bullet_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       BulletEvents_Bullet_descriptor_,
       BulletEvents_Bullet::default_instance_,
       BulletEvents_Bullet_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents_Bullet, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents_Bullet, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(BulletEvents_Bullet));
+      -1,
+      sizeof(BulletEvents_Bullet),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(BulletEvents_Bullet, _internal_metadata_),
+      -1);
   BulletEvents_EBEType_descriptor_ = BulletEvents_descriptor_->enum_type(0);
   BulletEvents_EBE_BACKType_descriptor_ = BulletEvents_descriptor_->enum_type(1);
   AnimatorMoves_descriptor_ = file->message_type(3);
@@ -243,16 +245,16 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorMoves, xmovelist_),
   };
   AnimatorMoves_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       AnimatorMoves_descriptor_,
       AnimatorMoves::default_instance_,
       AnimatorMoves_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorMoves, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorMoves, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(AnimatorMoves));
+      -1,
+      sizeof(AnimatorMoves),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorMoves, _internal_metadata_),
+      -1);
   AnimatorMoves_Move_descriptor_ = AnimatorMoves_descriptor_->nested_type(0);
   static const int AnimatorMoves_Move_offsets_[6] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorMoves_Move, eventtime_),
@@ -263,32 +265,32 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorMoves_Move, methodparam_),
   };
   AnimatorMoves_Move_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       AnimatorMoves_Move_descriptor_,
       AnimatorMoves_Move::default_instance_,
       AnimatorMoves_Move_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorMoves_Move, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorMoves_Move, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(AnimatorMoves_Move));
+      -1,
+      sizeof(AnimatorMoves_Move),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorMoves_Move, _internal_metadata_),
+      -1);
   AnimatorMoves_EAMType_descriptor_ = AnimatorMoves_descriptor_->enum_type(0);
   CameraControlEvents_descriptor_ = file->message_type(4);
   static const int CameraControlEvents_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CameraControlEvents, xcameralist_),
   };
   CameraControlEvents_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       CameraControlEvents_descriptor_,
       CameraControlEvents::default_instance_,
       CameraControlEvents_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CameraControlEvents, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CameraControlEvents, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(CameraControlEvents));
+      -1,
+      sizeof(CameraControlEvents),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CameraControlEvents, _internal_metadata_),
+      -1);
   CameraControlEvents_Camera_descriptor_ = CameraControlEvents_descriptor_->nested_type(0);
   static const int CameraControlEvents_Camera_offsets_[6] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CameraControlEvents_Camera, eventtime_),
@@ -299,32 +301,32 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CameraControlEvents_Camera, methodparam_),
   };
   CameraControlEvents_Camera_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       CameraControlEvents_Camera_descriptor_,
       CameraControlEvents_Camera::default_instance_,
       CameraControlEvents_Camera_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CameraControlEvents_Camera, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CameraControlEvents_Camera, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(CameraControlEvents_Camera));
+      -1,
+      sizeof(CameraControlEvents_Camera),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CameraControlEvents_Camera, _internal_metadata_),
+      -1);
   CameraControlEvents_ECEType_descriptor_ = CameraControlEvents_descriptor_->enum_type(0);
   ParticleEvents_descriptor_ = file->message_type(5);
   static const int ParticleEvents_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParticleEvents, xparticlelist_),
   };
   ParticleEvents_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       ParticleEvents_descriptor_,
       ParticleEvents::default_instance_,
       ParticleEvents_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParticleEvents, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParticleEvents, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(ParticleEvents));
+      -1,
+      sizeof(ParticleEvents),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParticleEvents, _internal_metadata_),
+      -1);
   ParticleEvents_Particle_descriptor_ = ParticleEvents_descriptor_->nested_type(0);
   static const int ParticleEvents_Particle_offsets_[10] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParticleEvents_Particle, eventtime_),
@@ -339,32 +341,32 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParticleEvents_Particle, methodparam_),
   };
   ParticleEvents_Particle_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       ParticleEvents_Particle_descriptor_,
       ParticleEvents_Particle::default_instance_,
       ParticleEvents_Particle_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParticleEvents_Particle, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParticleEvents_Particle, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(ParticleEvents_Particle));
+      -1,
+      sizeof(ParticleEvents_Particle),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(ParticleEvents_Particle, _internal_metadata_),
+      -1);
   ParticleEvents_EPERTYPE_descriptor_ = ParticleEvents_descriptor_->enum_type(0);
   EnableEvents_descriptor_ = file->message_type(6);
   static const int EnableEvents_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(EnableEvents, xenablelist_),
   };
   EnableEvents_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       EnableEvents_descriptor_,
       EnableEvents::default_instance_,
       EnableEvents_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(EnableEvents, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(EnableEvents, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(EnableEvents));
+      -1,
+      sizeof(EnableEvents),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(EnableEvents, _internal_metadata_),
+      -1);
   EnableEvents_Enable_descriptor_ = EnableEvents_descriptor_->nested_type(0);
   static const int EnableEvents_Enable_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(EnableEvents_Enable, eventtime_),
@@ -374,32 +376,32 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(EnableEvents_Enable, methodparam_),
   };
   EnableEvents_Enable_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       EnableEvents_Enable_descriptor_,
       EnableEvents_Enable::default_instance_,
       EnableEvents_Enable_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(EnableEvents_Enable, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(EnableEvents_Enable, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(EnableEvents_Enable));
+      -1,
+      sizeof(EnableEvents_Enable),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(EnableEvents_Enable, _internal_metadata_),
+      -1);
   EnableEvents_EEETYPE_descriptor_ = EnableEvents_descriptor_->enum_type(0);
   TrailEvents_descriptor_ = file->message_type(7);
   static const int TrailEvents_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TrailEvents, xtraillist_),
   };
   TrailEvents_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       TrailEvents_descriptor_,
       TrailEvents::default_instance_,
       TrailEvents_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TrailEvents, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TrailEvents, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(TrailEvents));
+      -1,
+      sizeof(TrailEvents),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TrailEvents, _internal_metadata_),
+      -1);
   TrailEvents_Trail_descriptor_ = TrailEvents_descriptor_->nested_type(0);
   static const int TrailEvents_Trail_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TrailEvents_Trail, eventtime_),
@@ -409,32 +411,32 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TrailEvents_Trail, methodparam_),
   };
   TrailEvents_Trail_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       TrailEvents_Trail_descriptor_,
       TrailEvents_Trail::default_instance_,
       TrailEvents_Trail_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TrailEvents_Trail, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TrailEvents_Trail, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(TrailEvents_Trail));
+      -1,
+      sizeof(TrailEvents_Trail),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(TrailEvents_Trail, _internal_metadata_),
+      -1);
   TrailEvents_TEETYPE_descriptor_ = TrailEvents_descriptor_->enum_type(0);
   AudioEvents_descriptor_ = file->message_type(8);
   static const int AudioEvents_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AudioEvents, xaudiolist_),
   };
   AudioEvents_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       AudioEvents_descriptor_,
       AudioEvents::default_instance_,
       AudioEvents_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AudioEvents, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AudioEvents, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(AudioEvents));
+      -1,
+      sizeof(AudioEvents),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AudioEvents, _internal_metadata_),
+      -1);
   AudioEvents_Audio_descriptor_ = AudioEvents_descriptor_->nested_type(0);
   static const int AudioEvents_Audio_offsets_[5] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AudioEvents_Audio, eventtime_),
@@ -444,32 +446,32 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AudioEvents_Audio, methodparam_),
   };
   AudioEvents_Audio_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       AudioEvents_Audio_descriptor_,
       AudioEvents_Audio::default_instance_,
       AudioEvents_Audio_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AudioEvents_Audio, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AudioEvents_Audio, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(AudioEvents_Audio));
+      -1,
+      sizeof(AudioEvents_Audio),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AudioEvents_Audio, _internal_metadata_),
+      -1);
   AudioEvents_AEETYPE_descriptor_ = AudioEvents_descriptor_->enum_type(0);
   GlobalSpeeds_descriptor_ = file->message_type(9);
   static const int GlobalSpeeds_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GlobalSpeeds, xspeedlist_),
   };
   GlobalSpeeds_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       GlobalSpeeds_descriptor_,
       GlobalSpeeds::default_instance_,
       GlobalSpeeds_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GlobalSpeeds, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GlobalSpeeds, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(GlobalSpeeds));
+      -1,
+      sizeof(GlobalSpeeds),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GlobalSpeeds, _internal_metadata_),
+      -1);
   GlobalSpeeds_Speed_descriptor_ = GlobalSpeeds_descriptor_->nested_type(0);
   static const int GlobalSpeeds_Speed_offsets_[3] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GlobalSpeeds_Speed, eventtime_),
@@ -477,32 +479,32 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GlobalSpeeds_Speed, speedvalue_),
   };
   GlobalSpeeds_Speed_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       GlobalSpeeds_Speed_descriptor_,
       GlobalSpeeds_Speed::default_instance_,
       GlobalSpeeds_Speed_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GlobalSpeeds_Speed, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GlobalSpeeds_Speed, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(GlobalSpeeds_Speed));
+      -1,
+      sizeof(GlobalSpeeds_Speed),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(GlobalSpeeds_Speed, _internal_metadata_),
+      -1);
   GlobalSpeeds_EGSTYPE_descriptor_ = GlobalSpeeds_descriptor_->enum_type(0);
   AnimatorFlys_descriptor_ = file->message_type(10);
   static const int AnimatorFlys_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorFlys, xflylist_),
   };
   AnimatorFlys_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       AnimatorFlys_descriptor_,
       AnimatorFlys::default_instance_,
       AnimatorFlys_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorFlys, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorFlys, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(AnimatorFlys));
+      -1,
+      sizeof(AnimatorFlys),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorFlys, _internal_metadata_),
+      -1);
   AnimatorFlys_Fly_descriptor_ = AnimatorFlys_descriptor_->nested_type(0);
   static const int AnimatorFlys_Fly_offsets_[7] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorFlys_Fly, eventtime_),
@@ -514,16 +516,16 @@ void protobuf_AssignDesc_AFFleetingDefine_2eproto() {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorFlys_Fly, methodparam_),
   };
   AnimatorFlys_Fly_reflection_ =
-    new ::google::protobuf::internal::GeneratedMessageReflection(
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
       AnimatorFlys_Fly_descriptor_,
       AnimatorFlys_Fly::default_instance_,
       AnimatorFlys_Fly_offsets_,
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorFlys_Fly, _has_bits_[0]),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorFlys_Fly, _unknown_fields_),
       -1,
-      ::google::protobuf::DescriptorPool::generated_pool(),
-      ::google::protobuf::MessageFactory::generated_factory(),
-      sizeof(AnimatorFlys_Fly));
+      -1,
+      sizeof(AnimatorFlys_Fly),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AnimatorFlys_Fly, _internal_metadata_),
+      -1);
   AnimatorFlys_EAFType_descriptor_ = AnimatorFlys_descriptor_->enum_type(0);
 }
 
@@ -535,52 +537,53 @@ inline void protobuf_AssignDescriptorsOnce() {
                  &protobuf_AssignDesc_AFFleetingDefine_2eproto);
 }
 
+void protobuf_RegisterTypes(const ::std::string&) GOOGLE_ATTRIBUTE_COLD;
 void protobuf_RegisterTypes(const ::std::string&) {
   protobuf_AssignDescriptorsOnce();
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    FSVector3_descriptor_, &FSVector3::default_instance());
+      FSVector3_descriptor_, &FSVector3::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    SuwayyahEvents_descriptor_, &SuwayyahEvents::default_instance());
+      SuwayyahEvents_descriptor_, &SuwayyahEvents::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    SuwayyahEvents_Suwayyah_descriptor_, &SuwayyahEvents_Suwayyah::default_instance());
+      SuwayyahEvents_Suwayyah_descriptor_, &SuwayyahEvents_Suwayyah::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    BulletEvents_descriptor_, &BulletEvents::default_instance());
+      BulletEvents_descriptor_, &BulletEvents::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    BulletEvents_TacheBomp_descriptor_, &BulletEvents_TacheBomp::default_instance());
+      BulletEvents_TacheBomp_descriptor_, &BulletEvents_TacheBomp::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    BulletEvents_Bullet_descriptor_, &BulletEvents_Bullet::default_instance());
+      BulletEvents_Bullet_descriptor_, &BulletEvents_Bullet::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    AnimatorMoves_descriptor_, &AnimatorMoves::default_instance());
+      AnimatorMoves_descriptor_, &AnimatorMoves::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    AnimatorMoves_Move_descriptor_, &AnimatorMoves_Move::default_instance());
+      AnimatorMoves_Move_descriptor_, &AnimatorMoves_Move::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    CameraControlEvents_descriptor_, &CameraControlEvents::default_instance());
+      CameraControlEvents_descriptor_, &CameraControlEvents::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    CameraControlEvents_Camera_descriptor_, &CameraControlEvents_Camera::default_instance());
+      CameraControlEvents_Camera_descriptor_, &CameraControlEvents_Camera::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    ParticleEvents_descriptor_, &ParticleEvents::default_instance());
+      ParticleEvents_descriptor_, &ParticleEvents::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    ParticleEvents_Particle_descriptor_, &ParticleEvents_Particle::default_instance());
+      ParticleEvents_Particle_descriptor_, &ParticleEvents_Particle::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    EnableEvents_descriptor_, &EnableEvents::default_instance());
+      EnableEvents_descriptor_, &EnableEvents::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    EnableEvents_Enable_descriptor_, &EnableEvents_Enable::default_instance());
+      EnableEvents_Enable_descriptor_, &EnableEvents_Enable::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    TrailEvents_descriptor_, &TrailEvents::default_instance());
+      TrailEvents_descriptor_, &TrailEvents::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    TrailEvents_Trail_descriptor_, &TrailEvents_Trail::default_instance());
+      TrailEvents_Trail_descriptor_, &TrailEvents_Trail::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    AudioEvents_descriptor_, &AudioEvents::default_instance());
+      AudioEvents_descriptor_, &AudioEvents::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    AudioEvents_Audio_descriptor_, &AudioEvents_Audio::default_instance());
+      AudioEvents_Audio_descriptor_, &AudioEvents_Audio::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    GlobalSpeeds_descriptor_, &GlobalSpeeds::default_instance());
+      GlobalSpeeds_descriptor_, &GlobalSpeeds::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    GlobalSpeeds_Speed_descriptor_, &GlobalSpeeds_Speed::default_instance());
+      GlobalSpeeds_Speed_descriptor_, &GlobalSpeeds_Speed::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    AnimatorFlys_descriptor_, &AnimatorFlys::default_instance());
+      AnimatorFlys_descriptor_, &AnimatorFlys::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-    AnimatorFlys_Fly_descriptor_, &AnimatorFlys_Fly::default_instance());
+      AnimatorFlys_Fly_descriptor_, &AnimatorFlys_Fly::default_instance());
 }
 
 }  // namespace
@@ -632,6 +635,7 @@ void protobuf_ShutdownFile_AFFleetingDefine_2eproto() {
   delete AnimatorFlys_Fly_reflection_;
 }
 
+void protobuf_AddDesc_AFFleetingDefine_2eproto() GOOGLE_ATTRIBUTE_COLD;
 void protobuf_AddDesc_AFFleetingDefine_2eproto() {
   static bool already_here = false;
   if (already_here) return;
@@ -792,24 +796,27 @@ struct StaticDescriptorInitializer_AFFleetingDefine_2eproto {
 
 // ===================================================================
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int FSVector3::kXFieldNumber;
 const int FSVector3::kYFieldNumber;
 const int FSVector3::kZFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 FSVector3::FSVector3()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.FSVector3)
 }
 
 void FSVector3::InitAsDefaultInstance() {
 }
 
 FSVector3::FSVector3(const FSVector3& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.FSVector3)
 }
 
 void FSVector3::SharedCtor() {
@@ -821,6 +828,7 @@ void FSVector3::SharedCtor() {
 }
 
 FSVector3::~FSVector3() {
+  // @@protoc_insertion_point(destructor:AFFS.FSVector3)
   SharedDtor();
 }
 
@@ -846,36 +854,62 @@ const FSVector3& FSVector3::default_instance() {
 
 FSVector3* FSVector3::default_instance_ = NULL;
 
-FSVector3* FSVector3::New() const {
-  return new FSVector3;
+FSVector3* FSVector3::New(::google::protobuf::Arena* arena) const {
+  FSVector3* n = new FSVector3;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void FSVector3::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    x_ = 0;
-    y_ = 0;
-    z_ = 0;
-  }
+// @@protoc_insertion_point(message_clear_start:AFFS.FSVector3)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(FSVector3, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<FSVector3*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  ZR_(x_, z_);
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool FSVector3::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.FSVector3)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float x = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &x_)));
           set_has_x();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(21)) goto parse_y;
         break;
@@ -883,15 +917,14 @@ bool FSVector3::MergePartialFromCodedStream(
 
       // required float y = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 21) {
          parse_y:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &y_)));
           set_has_y();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(29)) goto parse_z;
         break;
@@ -899,25 +932,25 @@ bool FSVector3::MergePartialFromCodedStream(
 
       // required float z = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 29) {
          parse_z:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &z_)));
           set_has_z();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -925,12 +958,18 @@ bool FSVector3::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.FSVector3)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.FSVector3)
+  return false;
 #undef DO_
 }
 
 void FSVector3::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.FSVector3)
   // required float x = 1;
   if (has_x()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->x(), output);
@@ -946,14 +985,16 @@ void FSVector3::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->z(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.FSVector3)
 }
 
-::google::protobuf::uint8* FSVector3::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* FSVector3::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.FSVector3)
   // required float x = 1;
   if (has_x()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->x(), target);
@@ -969,34 +1010,53 @@ void FSVector3::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->z(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.FSVector3)
   return target;
 }
 
-int FSVector3::ByteSize() const {
+int FSVector3::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.FSVector3)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_x()) {
     // required float x = 1;
-    if (has_x()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_y()) {
+    // required float y = 2;
+    total_size += 1 + 4;
+  }
+
+  if (has_z()) {
+    // required float z = 3;
+    total_size += 1 + 4;
+  }
+
+  return total_size;
+}
+int FSVector3::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.FSVector3)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+    // required float x = 1;
+    total_size += 1 + 4;
 
     // required float y = 2;
-    if (has_y()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float z = 3;
-    if (has_z()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -1008,19 +1068,27 @@ int FSVector3::ByteSize() const {
 }
 
 void FSVector3::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const FSVector3* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const FSVector3*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.FSVector3)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const FSVector3* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const FSVector3>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.FSVector3)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.FSVector3)
     MergeFrom(*source);
   }
 }
 
 void FSVector3::MergeFrom(const FSVector3& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.FSVector3)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_x()) {
       set_x(from.x());
@@ -1032,16 +1100,20 @@ void FSVector3::MergeFrom(const FSVector3& from) {
       set_z(from.z());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void FSVector3::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.FSVector3)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void FSVector3::CopyFrom(const FSVector3& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.FSVector3)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1054,14 +1126,16 @@ bool FSVector3::IsInitialized() const {
 }
 
 void FSVector3::Swap(FSVector3* other) {
-  if (other != this) {
-    std::swap(x_, other->x_);
-    std::swap(y_, other->y_);
-    std::swap(z_, other->z_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void FSVector3::InternalSwap(FSVector3* other) {
+  std::swap(x_, other->x_);
+  std::swap(y_, other->y_);
+  std::swap(z_, other->z_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata FSVector3::GetMetadata() const {
@@ -1072,6 +1146,82 @@ void FSVector3::Swap(FSVector3* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// FSVector3
+
+// required float x = 1;
+bool FSVector3::has_x() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void FSVector3::set_has_x() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void FSVector3::clear_has_x() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void FSVector3::clear_x() {
+  x_ = 0;
+  clear_has_x();
+}
+ float FSVector3::x() const {
+  // @@protoc_insertion_point(field_get:AFFS.FSVector3.x)
+  return x_;
+}
+ void FSVector3::set_x(float value) {
+  set_has_x();
+  x_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.FSVector3.x)
+}
+
+// required float y = 2;
+bool FSVector3::has_y() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void FSVector3::set_has_y() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void FSVector3::clear_has_y() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void FSVector3::clear_y() {
+  y_ = 0;
+  clear_has_y();
+}
+ float FSVector3::y() const {
+  // @@protoc_insertion_point(field_get:AFFS.FSVector3.y)
+  return y_;
+}
+ void FSVector3::set_y(float value) {
+  set_has_y();
+  y_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.FSVector3.y)
+}
+
+// required float z = 3;
+bool FSVector3::has_z() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void FSVector3::set_has_z() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void FSVector3::clear_has_z() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void FSVector3::clear_z() {
+  z_ = 0;
+  clear_has_z();
+}
+ float FSVector3::z() const {
+  // @@protoc_insertion_point(field_get:AFFS.FSVector3.z)
+  return z_;
+}
+ void FSVector3::set_z(float value) {
+  set_has_z();
+  z_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.FSVector3.z)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
@@ -1091,7 +1241,7 @@ bool SuwayyahEvents_ESEType_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const SuwayyahEvents_ESEType SuwayyahEvents::ESET_SINGLE;
 const SuwayyahEvents_ESEType SuwayyahEvents::ESET_SINGLE_AREA;
 const SuwayyahEvents_ESEType SuwayyahEvents::ESET_LEFT_AREA;
@@ -1099,8 +1249,8 @@ const SuwayyahEvents_ESEType SuwayyahEvents::ESET_RIGHT_AREA;
 const SuwayyahEvents_ESEType SuwayyahEvents::ESEType_MIN;
 const SuwayyahEvents_ESEType SuwayyahEvents::ESEType_MAX;
 const int SuwayyahEvents::ESEType_ARRAYSIZE;
-#endif  // _MSC_VER
-#ifndef _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int SuwayyahEvents_Suwayyah::kEventTypeFieldNumber;
 const int SuwayyahEvents_Suwayyah::kEventTimeFieldNumber;
 const int SuwayyahEvents_Suwayyah::kEndTimeFieldNumber;
@@ -1112,23 +1262,27 @@ const int SuwayyahEvents_Suwayyah::kMethodCallFieldNumber;
 const int SuwayyahEvents_Suwayyah::kMethodParamFieldNumber;
 const int SuwayyahEvents_Suwayyah::kTargetMethodCallFieldNumber;
 const int SuwayyahEvents_Suwayyah::kTargetMethodParamFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 SuwayyahEvents_Suwayyah::SuwayyahEvents_Suwayyah()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.SuwayyahEvents.Suwayyah)
 }
 
 void SuwayyahEvents_Suwayyah::InitAsDefaultInstance() {
 }
 
 SuwayyahEvents_Suwayyah::SuwayyahEvents_Suwayyah(const SuwayyahEvents_Suwayyah& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.SuwayyahEvents.Suwayyah)
 }
 
 void SuwayyahEvents_Suwayyah::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   eventtype_ = 0;
   eventtime_ = 0;
@@ -1136,34 +1290,25 @@ void SuwayyahEvents_Suwayyah::SharedCtor() {
   damagerang_ = 0;
   backherodis_ = 0;
   backnpcdis_ = 0;
-  beattackparticle_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  targetmethodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  targetmethodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  beattackparticle_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 SuwayyahEvents_Suwayyah::~SuwayyahEvents_Suwayyah() {
+  // @@protoc_insertion_point(destructor:AFFS.SuwayyahEvents.Suwayyah)
   SharedDtor();
 }
 
 void SuwayyahEvents_Suwayyah::SharedDtor() {
-  if (beattackparticle_ != &::google::protobuf::internal::kEmptyString) {
-    delete beattackparticle_;
-  }
-  if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodcall_;
-  }
-  if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodparam_;
-  }
-  if (targetmethodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete targetmethodcall_;
-  }
-  if (targetmethodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete targetmethodparam_;
-  }
+  beattackparticle_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -1185,60 +1330,75 @@ const SuwayyahEvents_Suwayyah& SuwayyahEvents_Suwayyah::default_instance() {
 
 SuwayyahEvents_Suwayyah* SuwayyahEvents_Suwayyah::default_instance_ = NULL;
 
-SuwayyahEvents_Suwayyah* SuwayyahEvents_Suwayyah::New() const {
-  return new SuwayyahEvents_Suwayyah;
+SuwayyahEvents_Suwayyah* SuwayyahEvents_Suwayyah::New(::google::protobuf::Arena* arena) const {
+  SuwayyahEvents_Suwayyah* n = new SuwayyahEvents_Suwayyah;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void SuwayyahEvents_Suwayyah::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    eventtype_ = 0;
-    eventtime_ = 0;
-    endtime_ = 0;
-    damagerang_ = 0;
-    backherodis_ = 0;
-    backnpcdis_ = 0;
+// @@protoc_insertion_point(message_clear_start:AFFS.SuwayyahEvents.Suwayyah)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(SuwayyahEvents_Suwayyah, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<SuwayyahEvents_Suwayyah*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  if (_has_bits_[0 / 32] & 255u) {
+    ZR_(eventtype_, backnpcdis_);
     if (has_beattackparticle()) {
-      if (beattackparticle_ != &::google::protobuf::internal::kEmptyString) {
-        beattackparticle_->clear();
-      }
+      beattackparticle_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodcall()) {
-      if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-        methodcall_->clear();
-      }
+      methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+  if (_has_bits_[8 / 32] & 1792u) {
     if (has_methodparam()) {
-      if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-        methodparam_->clear();
-      }
+      methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_targetmethodcall()) {
-      if (targetmethodcall_ != &::google::protobuf::internal::kEmptyString) {
-        targetmethodcall_->clear();
-      }
+      targetmethodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_targetmethodparam()) {
-      if (targetmethodparam_ != &::google::protobuf::internal::kEmptyString) {
-        targetmethodparam_->clear();
-      }
+      targetmethodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.SuwayyahEvents.Suwayyah)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required .AFFS.SuwayyahEvents.ESEType EventType = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 8) {
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
@@ -1249,7 +1409,7 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(1, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(21)) goto parse_EventTime;
         break;
@@ -1257,15 +1417,14 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
 
       // required float EventTime = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 21) {
          parse_EventTime:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &eventtime_)));
           set_has_eventtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(29)) goto parse_EndTime;
         break;
@@ -1273,15 +1432,14 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
 
       // required float EndTime = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 29) {
          parse_EndTime:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &endtime_)));
           set_has_endtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(37)) goto parse_DamageRang;
         break;
@@ -1289,15 +1447,14 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
 
       // required float DamageRang = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 37) {
          parse_DamageRang:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &damagerang_)));
           set_has_damagerang();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(45)) goto parse_BackHeroDis;
         break;
@@ -1305,15 +1462,14 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
 
       // required float BackHeroDis = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 45) {
          parse_BackHeroDis:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &backherodis_)));
           set_has_backherodis();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(53)) goto parse_BackNpcDis;
         break;
@@ -1321,15 +1477,14 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
 
       // required float BackNpcDis = 6;
       case 6: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 53) {
          parse_BackNpcDis:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &backnpcdis_)));
           set_has_backnpcdis();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(58)) goto parse_BeAttackParticle;
         break;
@@ -1337,16 +1492,16 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
 
       // required string BeAttackParticle = 7;
       case 7: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 58) {
          parse_BeAttackParticle:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_beattackparticle()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->beattackparticle().data(), this->beattackparticle().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.SuwayyahEvents.Suwayyah.BeAttackParticle");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(66)) goto parse_MethodCall;
         break;
@@ -1354,16 +1509,16 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
 
       // required string MethodCall = 8;
       case 8: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 66) {
          parse_MethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodcall().data(), this->methodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.SuwayyahEvents.Suwayyah.MethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(74)) goto parse_MethodParam;
         break;
@@ -1371,16 +1526,16 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
 
       // required string MethodParam = 9;
       case 9: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 74) {
          parse_MethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodparam().data(), this->methodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.SuwayyahEvents.Suwayyah.MethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(82)) goto parse_TargetMethodCall;
         break;
@@ -1388,16 +1543,16 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
 
       // required string TargetMethodCall = 10;
       case 10: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 82) {
          parse_TargetMethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_targetmethodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->targetmethodcall().data(), this->targetmethodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.SuwayyahEvents.Suwayyah.TargetMethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(90)) goto parse_TargetMethodParam;
         break;
@@ -1405,26 +1560,27 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
 
       // required string TargetMethodParam = 11;
       case 11: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 90) {
          parse_TargetMethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_targetmethodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->targetmethodparam().data(), this->targetmethodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.SuwayyahEvents.Suwayyah.TargetMethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -1432,12 +1588,18 @@ bool SuwayyahEvents_Suwayyah::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.SuwayyahEvents.Suwayyah)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.SuwayyahEvents.Suwayyah)
+  return false;
 #undef DO_
 }
 
 void SuwayyahEvents_Suwayyah::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.SuwayyahEvents.Suwayyah)
   // required .AFFS.SuwayyahEvents.ESEType EventType = 1;
   if (has_eventtype()) {
     ::google::protobuf::internal::WireFormatLite::WriteEnum(
@@ -1471,57 +1633,64 @@ void SuwayyahEvents_Suwayyah::SerializeWithCachedSizes(
 
   // required string BeAttackParticle = 7;
   if (has_beattackparticle()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->beattackparticle().data(), this->beattackparticle().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.SuwayyahEvents.Suwayyah.BeAttackParticle");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       7, this->beattackparticle(), output);
   }
 
   // required string MethodCall = 8;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.SuwayyahEvents.Suwayyah.MethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       8, this->methodcall(), output);
   }
 
   // required string MethodParam = 9;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.SuwayyahEvents.Suwayyah.MethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       9, this->methodparam(), output);
   }
 
   // required string TargetMethodCall = 10;
   if (has_targetmethodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodcall().data(), this->targetmethodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.SuwayyahEvents.Suwayyah.TargetMethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       10, this->targetmethodcall(), output);
   }
 
   // required string TargetMethodParam = 11;
   if (has_targetmethodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodparam().data(), this->targetmethodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.SuwayyahEvents.Suwayyah.TargetMethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       11, this->targetmethodparam(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.SuwayyahEvents.Suwayyah)
 }
 
-::google::protobuf::uint8* SuwayyahEvents_Suwayyah::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* SuwayyahEvents_Suwayyah::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.SuwayyahEvents.Suwayyah)
   // required .AFFS.SuwayyahEvents.ESEType EventType = 1;
   if (has_eventtype()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
@@ -1555,9 +1724,10 @@ void SuwayyahEvents_Suwayyah::SerializeWithCachedSizes(
 
   // required string BeAttackParticle = 7;
   if (has_beattackparticle()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->beattackparticle().data(), this->beattackparticle().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.SuwayyahEvents.Suwayyah.BeAttackParticle");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         7, this->beattackparticle(), target);
@@ -1565,9 +1735,10 @@ void SuwayyahEvents_Suwayyah::SerializeWithCachedSizes(
 
   // required string MethodCall = 8;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.SuwayyahEvents.Suwayyah.MethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         8, this->methodcall(), target);
@@ -1575,9 +1746,10 @@ void SuwayyahEvents_Suwayyah::SerializeWithCachedSizes(
 
   // required string MethodParam = 9;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.SuwayyahEvents.Suwayyah.MethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         9, this->methodparam(), target);
@@ -1585,9 +1757,10 @@ void SuwayyahEvents_Suwayyah::SerializeWithCachedSizes(
 
   // required string TargetMethodCall = 10;
   if (has_targetmethodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodcall().data(), this->targetmethodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.SuwayyahEvents.Suwayyah.TargetMethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         10, this->targetmethodcall(), target);
@@ -1595,95 +1768,148 @@ void SuwayyahEvents_Suwayyah::SerializeWithCachedSizes(
 
   // required string TargetMethodParam = 11;
   if (has_targetmethodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodparam().data(), this->targetmethodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.SuwayyahEvents.Suwayyah.TargetMethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         11, this->targetmethodparam(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.SuwayyahEvents.Suwayyah)
   return target;
 }
 
-int SuwayyahEvents_Suwayyah::ByteSize() const {
+int SuwayyahEvents_Suwayyah::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.SuwayyahEvents.Suwayyah)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_eventtype()) {
     // required .AFFS.SuwayyahEvents.ESEType EventType = 1;
-    if (has_eventtype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
+  }
+
+  if (has_eventtime()) {
+    // required float EventTime = 2;
+    total_size += 1 + 4;
+  }
+
+  if (has_endtime()) {
+    // required float EndTime = 3;
+    total_size += 1 + 4;
+  }
+
+  if (has_damagerang()) {
+    // required float DamageRang = 4;
+    total_size += 1 + 4;
+  }
+
+  if (has_backherodis()) {
+    // required float BackHeroDis = 5;
+    total_size += 1 + 4;
+  }
+
+  if (has_backnpcdis()) {
+    // required float BackNpcDis = 6;
+    total_size += 1 + 4;
+  }
+
+  if (has_beattackparticle()) {
+    // required string BeAttackParticle = 7;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->beattackparticle());
+  }
+
+  if (has_methodcall()) {
+    // required string MethodCall = 8;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
+  }
+
+  if (has_methodparam()) {
+    // required string MethodParam = 9;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
+  }
+
+  if (has_targetmethodcall()) {
+    // required string TargetMethodCall = 10;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodcall());
+  }
+
+  if (has_targetmethodparam()) {
+    // required string TargetMethodParam = 11;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodparam());
+  }
+
+  return total_size;
+}
+int SuwayyahEvents_Suwayyah::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.SuwayyahEvents.Suwayyah)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x000007ff) ^ 0x000007ff) == 0) {  // All required fields are present.
+    // required .AFFS.SuwayyahEvents.ESEType EventType = 1;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
 
     // required float EventTime = 2;
-    if (has_eventtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float EndTime = 3;
-    if (has_endtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float DamageRang = 4;
-    if (has_damagerang()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float BackHeroDis = 5;
-    if (has_backherodis()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float BackNpcDis = 6;
-    if (has_backnpcdis()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required string BeAttackParticle = 7;
-    if (has_beattackparticle()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->beattackparticle());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->beattackparticle());
 
     // required string MethodCall = 8;
-    if (has_methodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
 
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     // required string MethodParam = 9;
-    if (has_methodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
 
     // required string TargetMethodCall = 10;
-    if (has_targetmethodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->targetmethodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodcall());
 
     // required string TargetMethodParam = 11;
-    if (has_targetmethodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->targetmethodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodparam());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -1695,19 +1921,27 @@ int SuwayyahEvents_Suwayyah::ByteSize() const {
 }
 
 void SuwayyahEvents_Suwayyah::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const SuwayyahEvents_Suwayyah* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const SuwayyahEvents_Suwayyah*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.SuwayyahEvents.Suwayyah)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const SuwayyahEvents_Suwayyah* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const SuwayyahEvents_Suwayyah>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.SuwayyahEvents.Suwayyah)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.SuwayyahEvents.Suwayyah)
     MergeFrom(*source);
   }
 }
 
 void SuwayyahEvents_Suwayyah::MergeFrom(const SuwayyahEvents_Suwayyah& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.SuwayyahEvents.Suwayyah)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_eventtype()) {
       set_eventtype(from.eventtype());
@@ -1728,33 +1962,42 @@ void SuwayyahEvents_Suwayyah::MergeFrom(const SuwayyahEvents_Suwayyah& from) {
       set_backnpcdis(from.backnpcdis());
     }
     if (from.has_beattackparticle()) {
-      set_beattackparticle(from.beattackparticle());
+      set_has_beattackparticle();
+      beattackparticle_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.beattackparticle_);
     }
     if (from.has_methodcall()) {
-      set_methodcall(from.methodcall());
+      set_has_methodcall();
+      methodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodcall_);
     }
   }
   if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_methodparam()) {
-      set_methodparam(from.methodparam());
+      set_has_methodparam();
+      methodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodparam_);
     }
     if (from.has_targetmethodcall()) {
-      set_targetmethodcall(from.targetmethodcall());
+      set_has_targetmethodcall();
+      targetmethodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetmethodcall_);
     }
     if (from.has_targetmethodparam()) {
-      set_targetmethodparam(from.targetmethodparam());
+      set_has_targetmethodparam();
+      targetmethodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetmethodparam_);
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void SuwayyahEvents_Suwayyah::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.SuwayyahEvents.Suwayyah)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void SuwayyahEvents_Suwayyah::CopyFrom(const SuwayyahEvents_Suwayyah& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.SuwayyahEvents.Suwayyah)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1767,22 +2010,24 @@ bool SuwayyahEvents_Suwayyah::IsInitialized() const {
 }
 
 void SuwayyahEvents_Suwayyah::Swap(SuwayyahEvents_Suwayyah* other) {
-  if (other != this) {
-    std::swap(eventtype_, other->eventtype_);
-    std::swap(eventtime_, other->eventtime_);
-    std::swap(endtime_, other->endtime_);
-    std::swap(damagerang_, other->damagerang_);
-    std::swap(backherodis_, other->backherodis_);
-    std::swap(backnpcdis_, other->backnpcdis_);
-    std::swap(beattackparticle_, other->beattackparticle_);
-    std::swap(methodcall_, other->methodcall_);
-    std::swap(methodparam_, other->methodparam_);
-    std::swap(targetmethodcall_, other->targetmethodcall_);
-    std::swap(targetmethodparam_, other->targetmethodparam_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void SuwayyahEvents_Suwayyah::InternalSwap(SuwayyahEvents_Suwayyah* other) {
+  std::swap(eventtype_, other->eventtype_);
+  std::swap(eventtime_, other->eventtime_);
+  std::swap(endtime_, other->endtime_);
+  std::swap(damagerang_, other->damagerang_);
+  std::swap(backherodis_, other->backherodis_);
+  std::swap(backnpcdis_, other->backnpcdis_);
+  beattackparticle_.Swap(&other->beattackparticle_);
+  methodcall_.Swap(&other->methodcall_);
+  methodparam_.Swap(&other->methodparam_);
+  targetmethodcall_.Swap(&other->targetmethodcall_);
+  targetmethodparam_.Swap(&other->targetmethodparam_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata SuwayyahEvents_Suwayyah::GetMetadata() const {
@@ -1796,22 +2041,25 @@ void SuwayyahEvents_Suwayyah::Swap(SuwayyahEvents_Suwayyah* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int SuwayyahEvents::kXSuwayyahListFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 SuwayyahEvents::SuwayyahEvents()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.SuwayyahEvents)
 }
 
 void SuwayyahEvents::InitAsDefaultInstance() {
 }
 
 SuwayyahEvents::SuwayyahEvents(const SuwayyahEvents& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.SuwayyahEvents)
 }
 
 void SuwayyahEvents::SharedCtor() {
@@ -1820,6 +2068,7 @@ void SuwayyahEvents::SharedCtor() {
 }
 
 SuwayyahEvents::~SuwayyahEvents() {
+  // @@protoc_insertion_point(destructor:AFFS.SuwayyahEvents)
   SharedDtor();
 }
 
@@ -1845,42 +2094,55 @@ const SuwayyahEvents& SuwayyahEvents::default_instance() {
 
 SuwayyahEvents* SuwayyahEvents::default_instance_ = NULL;
 
-SuwayyahEvents* SuwayyahEvents::New() const {
-  return new SuwayyahEvents;
+SuwayyahEvents* SuwayyahEvents::New(::google::protobuf::Arena* arena) const {
+  SuwayyahEvents* n = new SuwayyahEvents;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void SuwayyahEvents::Clear() {
+// @@protoc_insertion_point(message_clear_start:AFFS.SuwayyahEvents)
   xsuwayyahlist_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool SuwayyahEvents::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.SuwayyahEvents)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .AFFS.SuwayyahEvents.Suwayyah xSuwayyahList = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_xSuwayyahList:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+        if (tag == 10) {
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_xSuwayyahList:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_xsuwayyahlist()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_xSuwayyahList;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(10)) goto parse_loop_xSuwayyahList;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -1888,41 +2150,51 @@ bool SuwayyahEvents::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.SuwayyahEvents)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.SuwayyahEvents)
+  return false;
 #undef DO_
 }
 
 void SuwayyahEvents::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.SuwayyahEvents)
   // repeated .AFFS.SuwayyahEvents.Suwayyah xSuwayyahList = 1;
-  for (int i = 0; i < this->xsuwayyahlist_size(); i++) {
+  for (unsigned int i = 0, n = this->xsuwayyahlist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->xsuwayyahlist(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.SuwayyahEvents)
 }
 
-::google::protobuf::uint8* SuwayyahEvents::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* SuwayyahEvents::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.SuwayyahEvents)
   // repeated .AFFS.SuwayyahEvents.Suwayyah xSuwayyahList = 1;
-  for (int i = 0; i < this->xsuwayyahlist_size(); i++) {
+  for (unsigned int i = 0, n = this->xsuwayyahlist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->xsuwayyahlist(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->xsuwayyahlist(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.SuwayyahEvents)
   return target;
 }
 
 int SuwayyahEvents::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.SuwayyahEvents)
   int total_size = 0;
 
   // repeated .AFFS.SuwayyahEvents.Suwayyah xSuwayyahList = 1;
@@ -1933,7 +2205,7 @@ int SuwayyahEvents::ByteSize() const {
         this->xsuwayyahlist(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -1945,30 +2217,42 @@ int SuwayyahEvents::ByteSize() const {
 }
 
 void SuwayyahEvents::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const SuwayyahEvents* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const SuwayyahEvents*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.SuwayyahEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const SuwayyahEvents* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const SuwayyahEvents>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.SuwayyahEvents)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.SuwayyahEvents)
     MergeFrom(*source);
   }
 }
 
 void SuwayyahEvents::MergeFrom(const SuwayyahEvents& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.SuwayyahEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   xsuwayyahlist_.MergeFrom(from.xsuwayyahlist_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void SuwayyahEvents::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.SuwayyahEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void SuwayyahEvents::CopyFrom(const SuwayyahEvents& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.SuwayyahEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1976,19 +2260,19 @@ void SuwayyahEvents::CopyFrom(const SuwayyahEvents& from) {
 
 bool SuwayyahEvents::IsInitialized() const {
 
-  for (int i = 0; i < xsuwayyahlist_size(); i++) {
-    if (!this->xsuwayyahlist(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->xsuwayyahlist())) return false;
   return true;
 }
 
 void SuwayyahEvents::Swap(SuwayyahEvents* other) {
-  if (other != this) {
-    xsuwayyahlist_.Swap(&other->xsuwayyahlist_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void SuwayyahEvents::InternalSwap(SuwayyahEvents* other) {
+  xsuwayyahlist_.UnsafeArenaSwap(&other->xsuwayyahlist_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata SuwayyahEvents::GetMetadata() const {
@@ -1999,6 +2283,459 @@ void SuwayyahEvents::Swap(SuwayyahEvents* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// SuwayyahEvents_Suwayyah
+
+// required .AFFS.SuwayyahEvents.ESEType EventType = 1;
+bool SuwayyahEvents_Suwayyah::has_eventtype() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_eventtype() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_eventtype() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void SuwayyahEvents_Suwayyah::clear_eventtype() {
+  eventtype_ = 0;
+  clear_has_eventtype();
+}
+ ::AFFS::SuwayyahEvents_ESEType SuwayyahEvents_Suwayyah::eventtype() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.EventType)
+  return static_cast< ::AFFS::SuwayyahEvents_ESEType >(eventtype_);
+}
+ void SuwayyahEvents_Suwayyah::set_eventtype(::AFFS::SuwayyahEvents_ESEType value) {
+  assert(::AFFS::SuwayyahEvents_ESEType_IsValid(value));
+  set_has_eventtype();
+  eventtype_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.EventType)
+}
+
+// required float EventTime = 2;
+bool SuwayyahEvents_Suwayyah::has_eventtime() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_eventtime() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_eventtime() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void SuwayyahEvents_Suwayyah::clear_eventtime() {
+  eventtime_ = 0;
+  clear_has_eventtime();
+}
+ float SuwayyahEvents_Suwayyah::eventtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.EventTime)
+  return eventtime_;
+}
+ void SuwayyahEvents_Suwayyah::set_eventtime(float value) {
+  set_has_eventtime();
+  eventtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.EventTime)
+}
+
+// required float EndTime = 3;
+bool SuwayyahEvents_Suwayyah::has_endtime() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_endtime() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_endtime() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void SuwayyahEvents_Suwayyah::clear_endtime() {
+  endtime_ = 0;
+  clear_has_endtime();
+}
+ float SuwayyahEvents_Suwayyah::endtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.EndTime)
+  return endtime_;
+}
+ void SuwayyahEvents_Suwayyah::set_endtime(float value) {
+  set_has_endtime();
+  endtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.EndTime)
+}
+
+// required float DamageRang = 4;
+bool SuwayyahEvents_Suwayyah::has_damagerang() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_damagerang() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_damagerang() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void SuwayyahEvents_Suwayyah::clear_damagerang() {
+  damagerang_ = 0;
+  clear_has_damagerang();
+}
+ float SuwayyahEvents_Suwayyah::damagerang() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.DamageRang)
+  return damagerang_;
+}
+ void SuwayyahEvents_Suwayyah::set_damagerang(float value) {
+  set_has_damagerang();
+  damagerang_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.DamageRang)
+}
+
+// required float BackHeroDis = 5;
+bool SuwayyahEvents_Suwayyah::has_backherodis() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_backherodis() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_backherodis() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void SuwayyahEvents_Suwayyah::clear_backherodis() {
+  backherodis_ = 0;
+  clear_has_backherodis();
+}
+ float SuwayyahEvents_Suwayyah::backherodis() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.BackHeroDis)
+  return backherodis_;
+}
+ void SuwayyahEvents_Suwayyah::set_backherodis(float value) {
+  set_has_backherodis();
+  backherodis_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.BackHeroDis)
+}
+
+// required float BackNpcDis = 6;
+bool SuwayyahEvents_Suwayyah::has_backnpcdis() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_backnpcdis() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_backnpcdis() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void SuwayyahEvents_Suwayyah::clear_backnpcdis() {
+  backnpcdis_ = 0;
+  clear_has_backnpcdis();
+}
+ float SuwayyahEvents_Suwayyah::backnpcdis() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.BackNpcDis)
+  return backnpcdis_;
+}
+ void SuwayyahEvents_Suwayyah::set_backnpcdis(float value) {
+  set_has_backnpcdis();
+  backnpcdis_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.BackNpcDis)
+}
+
+// required string BeAttackParticle = 7;
+bool SuwayyahEvents_Suwayyah::has_beattackparticle() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_beattackparticle() {
+  _has_bits_[0] |= 0x00000040u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_beattackparticle() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+void SuwayyahEvents_Suwayyah::clear_beattackparticle() {
+  beattackparticle_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_beattackparticle();
+}
+ const ::std::string& SuwayyahEvents_Suwayyah::beattackparticle() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.BeAttackParticle)
+  return beattackparticle_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void SuwayyahEvents_Suwayyah::set_beattackparticle(const ::std::string& value) {
+  set_has_beattackparticle();
+  beattackparticle_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.BeAttackParticle)
+}
+ void SuwayyahEvents_Suwayyah::set_beattackparticle(const char* value) {
+  set_has_beattackparticle();
+  beattackparticle_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.SuwayyahEvents.Suwayyah.BeAttackParticle)
+}
+ void SuwayyahEvents_Suwayyah::set_beattackparticle(const char* value, size_t size) {
+  set_has_beattackparticle();
+  beattackparticle_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.SuwayyahEvents.Suwayyah.BeAttackParticle)
+}
+ ::std::string* SuwayyahEvents_Suwayyah::mutable_beattackparticle() {
+  set_has_beattackparticle();
+  // @@protoc_insertion_point(field_mutable:AFFS.SuwayyahEvents.Suwayyah.BeAttackParticle)
+  return beattackparticle_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* SuwayyahEvents_Suwayyah::release_beattackparticle() {
+  // @@protoc_insertion_point(field_release:AFFS.SuwayyahEvents.Suwayyah.BeAttackParticle)
+  clear_has_beattackparticle();
+  return beattackparticle_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void SuwayyahEvents_Suwayyah::set_allocated_beattackparticle(::std::string* beattackparticle) {
+  if (beattackparticle != NULL) {
+    set_has_beattackparticle();
+  } else {
+    clear_has_beattackparticle();
+  }
+  beattackparticle_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), beattackparticle);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.SuwayyahEvents.Suwayyah.BeAttackParticle)
+}
+
+// required string MethodCall = 8;
+bool SuwayyahEvents_Suwayyah::has_methodcall() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_methodcall() {
+  _has_bits_[0] |= 0x00000080u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_methodcall() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+void SuwayyahEvents_Suwayyah::clear_methodcall() {
+  methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodcall();
+}
+ const ::std::string& SuwayyahEvents_Suwayyah::methodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.MethodCall)
+  return methodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void SuwayyahEvents_Suwayyah::set_methodcall(const ::std::string& value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.MethodCall)
+}
+ void SuwayyahEvents_Suwayyah::set_methodcall(const char* value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.SuwayyahEvents.Suwayyah.MethodCall)
+}
+ void SuwayyahEvents_Suwayyah::set_methodcall(const char* value, size_t size) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.SuwayyahEvents.Suwayyah.MethodCall)
+}
+ ::std::string* SuwayyahEvents_Suwayyah::mutable_methodcall() {
+  set_has_methodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.SuwayyahEvents.Suwayyah.MethodCall)
+  return methodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* SuwayyahEvents_Suwayyah::release_methodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.SuwayyahEvents.Suwayyah.MethodCall)
+  clear_has_methodcall();
+  return methodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void SuwayyahEvents_Suwayyah::set_allocated_methodcall(::std::string* methodcall) {
+  if (methodcall != NULL) {
+    set_has_methodcall();
+  } else {
+    clear_has_methodcall();
+  }
+  methodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.SuwayyahEvents.Suwayyah.MethodCall)
+}
+
+// required string MethodParam = 9;
+bool SuwayyahEvents_Suwayyah::has_methodparam() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_methodparam() {
+  _has_bits_[0] |= 0x00000100u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_methodparam() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+void SuwayyahEvents_Suwayyah::clear_methodparam() {
+  methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodparam();
+}
+ const ::std::string& SuwayyahEvents_Suwayyah::methodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.MethodParam)
+  return methodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void SuwayyahEvents_Suwayyah::set_methodparam(const ::std::string& value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.MethodParam)
+}
+ void SuwayyahEvents_Suwayyah::set_methodparam(const char* value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.SuwayyahEvents.Suwayyah.MethodParam)
+}
+ void SuwayyahEvents_Suwayyah::set_methodparam(const char* value, size_t size) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.SuwayyahEvents.Suwayyah.MethodParam)
+}
+ ::std::string* SuwayyahEvents_Suwayyah::mutable_methodparam() {
+  set_has_methodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.SuwayyahEvents.Suwayyah.MethodParam)
+  return methodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* SuwayyahEvents_Suwayyah::release_methodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.SuwayyahEvents.Suwayyah.MethodParam)
+  clear_has_methodparam();
+  return methodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void SuwayyahEvents_Suwayyah::set_allocated_methodparam(::std::string* methodparam) {
+  if (methodparam != NULL) {
+    set_has_methodparam();
+  } else {
+    clear_has_methodparam();
+  }
+  methodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.SuwayyahEvents.Suwayyah.MethodParam)
+}
+
+// required string TargetMethodCall = 10;
+bool SuwayyahEvents_Suwayyah::has_targetmethodcall() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_targetmethodcall() {
+  _has_bits_[0] |= 0x00000200u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_targetmethodcall() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+void SuwayyahEvents_Suwayyah::clear_targetmethodcall() {
+  targetmethodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_targetmethodcall();
+}
+ const ::std::string& SuwayyahEvents_Suwayyah::targetmethodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.TargetMethodCall)
+  return targetmethodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void SuwayyahEvents_Suwayyah::set_targetmethodcall(const ::std::string& value) {
+  set_has_targetmethodcall();
+  targetmethodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.TargetMethodCall)
+}
+ void SuwayyahEvents_Suwayyah::set_targetmethodcall(const char* value) {
+  set_has_targetmethodcall();
+  targetmethodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.SuwayyahEvents.Suwayyah.TargetMethodCall)
+}
+ void SuwayyahEvents_Suwayyah::set_targetmethodcall(const char* value, size_t size) {
+  set_has_targetmethodcall();
+  targetmethodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.SuwayyahEvents.Suwayyah.TargetMethodCall)
+}
+ ::std::string* SuwayyahEvents_Suwayyah::mutable_targetmethodcall() {
+  set_has_targetmethodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.SuwayyahEvents.Suwayyah.TargetMethodCall)
+  return targetmethodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* SuwayyahEvents_Suwayyah::release_targetmethodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.SuwayyahEvents.Suwayyah.TargetMethodCall)
+  clear_has_targetmethodcall();
+  return targetmethodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void SuwayyahEvents_Suwayyah::set_allocated_targetmethodcall(::std::string* targetmethodcall) {
+  if (targetmethodcall != NULL) {
+    set_has_targetmethodcall();
+  } else {
+    clear_has_targetmethodcall();
+  }
+  targetmethodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), targetmethodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.SuwayyahEvents.Suwayyah.TargetMethodCall)
+}
+
+// required string TargetMethodParam = 11;
+bool SuwayyahEvents_Suwayyah::has_targetmethodparam() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+void SuwayyahEvents_Suwayyah::set_has_targetmethodparam() {
+  _has_bits_[0] |= 0x00000400u;
+}
+void SuwayyahEvents_Suwayyah::clear_has_targetmethodparam() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+void SuwayyahEvents_Suwayyah::clear_targetmethodparam() {
+  targetmethodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_targetmethodparam();
+}
+ const ::std::string& SuwayyahEvents_Suwayyah::targetmethodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.Suwayyah.TargetMethodParam)
+  return targetmethodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void SuwayyahEvents_Suwayyah::set_targetmethodparam(const ::std::string& value) {
+  set_has_targetmethodparam();
+  targetmethodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.SuwayyahEvents.Suwayyah.TargetMethodParam)
+}
+ void SuwayyahEvents_Suwayyah::set_targetmethodparam(const char* value) {
+  set_has_targetmethodparam();
+  targetmethodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.SuwayyahEvents.Suwayyah.TargetMethodParam)
+}
+ void SuwayyahEvents_Suwayyah::set_targetmethodparam(const char* value, size_t size) {
+  set_has_targetmethodparam();
+  targetmethodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.SuwayyahEvents.Suwayyah.TargetMethodParam)
+}
+ ::std::string* SuwayyahEvents_Suwayyah::mutable_targetmethodparam() {
+  set_has_targetmethodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.SuwayyahEvents.Suwayyah.TargetMethodParam)
+  return targetmethodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* SuwayyahEvents_Suwayyah::release_targetmethodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.SuwayyahEvents.Suwayyah.TargetMethodParam)
+  clear_has_targetmethodparam();
+  return targetmethodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void SuwayyahEvents_Suwayyah::set_allocated_targetmethodparam(::std::string* targetmethodparam) {
+  if (targetmethodparam != NULL) {
+    set_has_targetmethodparam();
+  } else {
+    clear_has_targetmethodparam();
+  }
+  targetmethodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), targetmethodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.SuwayyahEvents.Suwayyah.TargetMethodParam)
+}
+
+// -------------------------------------------------------------------
+
+// SuwayyahEvents
+
+// repeated .AFFS.SuwayyahEvents.Suwayyah xSuwayyahList = 1;
+int SuwayyahEvents::xsuwayyahlist_size() const {
+  return xsuwayyahlist_.size();
+}
+void SuwayyahEvents::clear_xsuwayyahlist() {
+  xsuwayyahlist_.Clear();
+}
+const ::AFFS::SuwayyahEvents_Suwayyah& SuwayyahEvents::xsuwayyahlist(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.SuwayyahEvents.xSuwayyahList)
+  return xsuwayyahlist_.Get(index);
+}
+::AFFS::SuwayyahEvents_Suwayyah* SuwayyahEvents::mutable_xsuwayyahlist(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.SuwayyahEvents.xSuwayyahList)
+  return xsuwayyahlist_.Mutable(index);
+}
+::AFFS::SuwayyahEvents_Suwayyah* SuwayyahEvents::add_xsuwayyahlist() {
+  // @@protoc_insertion_point(field_add:AFFS.SuwayyahEvents.xSuwayyahList)
+  return xsuwayyahlist_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::SuwayyahEvents_Suwayyah >*
+SuwayyahEvents::mutable_xsuwayyahlist() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.SuwayyahEvents.xSuwayyahList)
+  return &xsuwayyahlist_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::SuwayyahEvents_Suwayyah >&
+SuwayyahEvents::xsuwayyahlist() const {
+  // @@protoc_insertion_point(field_list:AFFS.SuwayyahEvents.xSuwayyahList)
+  return xsuwayyahlist_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
@@ -2016,13 +2753,13 @@ bool BulletEvents_EBEType_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const BulletEvents_EBEType BulletEvents::ESET_TARGET;
 const BulletEvents_EBEType BulletEvents::ESET_POSITION;
 const BulletEvents_EBEType BulletEvents::EBEType_MIN;
 const BulletEvents_EBEType BulletEvents::EBEType_MAX;
 const int BulletEvents::EBEType_ARRAYSIZE;
-#endif  // _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 const ::google::protobuf::EnumDescriptor* BulletEvents_EBE_BACKType_descriptor() {
   protobuf_AssignDescriptorsOnce();
   return BulletEvents_EBE_BACKType_descriptor_;
@@ -2037,14 +2774,14 @@ bool BulletEvents_EBE_BACKType_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const BulletEvents_EBE_BACKType BulletEvents::EBEBT_BACK;
 const BulletEvents_EBE_BACKType BulletEvents::EBEBT_SIDE;
 const BulletEvents_EBE_BACKType BulletEvents::EBE_BACKType_MIN;
 const BulletEvents_EBE_BACKType BulletEvents::EBE_BACKType_MAX;
 const int BulletEvents::EBE_BACKType_ARRAYSIZE;
-#endif  // _MSC_VER
-#ifndef _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int BulletEvents_TacheBomp::kBompTimeFieldNumber;
 const int BulletEvents_TacheBomp::kBompRangFieldNumber;
 const int BulletEvents_TacheBomp::kBompPrefabPathFieldNumber;
@@ -2055,60 +2792,53 @@ const int BulletEvents_TacheBomp::kMethodCallFieldNumber;
 const int BulletEvents_TacheBomp::kMethodParamFieldNumber;
 const int BulletEvents_TacheBomp::kTargetMethodCallFieldNumber;
 const int BulletEvents_TacheBomp::kTargetMethodParamFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 BulletEvents_TacheBomp::BulletEvents_TacheBomp()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.BulletEvents.TacheBomp)
 }
 
 void BulletEvents_TacheBomp::InitAsDefaultInstance() {
 }
 
 BulletEvents_TacheBomp::BulletEvents_TacheBomp(const BulletEvents_TacheBomp& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.BulletEvents.TacheBomp)
 }
 
 void BulletEvents_TacheBomp::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   bomptime_ = 0;
   bomprang_ = 0;
-  bompprefabpath_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  beattackparticle_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  bompprefabpath_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  beattackparticle_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   backnpcdis_ = 0;
   backherodis_ = 0;
-  methodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  targetmethodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  targetmethodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  methodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 BulletEvents_TacheBomp::~BulletEvents_TacheBomp() {
+  // @@protoc_insertion_point(destructor:AFFS.BulletEvents.TacheBomp)
   SharedDtor();
 }
 
 void BulletEvents_TacheBomp::SharedDtor() {
-  if (bompprefabpath_ != &::google::protobuf::internal::kEmptyString) {
-    delete bompprefabpath_;
-  }
-  if (beattackparticle_ != &::google::protobuf::internal::kEmptyString) {
-    delete beattackparticle_;
-  }
-  if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodcall_;
-  }
-  if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodparam_;
-  }
-  if (targetmethodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete targetmethodcall_;
-  }
-  if (targetmethodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete targetmethodparam_;
-  }
+  bompprefabpath_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  beattackparticle_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -2130,69 +2860,85 @@ const BulletEvents_TacheBomp& BulletEvents_TacheBomp::default_instance() {
 
 BulletEvents_TacheBomp* BulletEvents_TacheBomp::default_instance_ = NULL;
 
-BulletEvents_TacheBomp* BulletEvents_TacheBomp::New() const {
-  return new BulletEvents_TacheBomp;
+BulletEvents_TacheBomp* BulletEvents_TacheBomp::New(::google::protobuf::Arena* arena) const {
+  BulletEvents_TacheBomp* n = new BulletEvents_TacheBomp;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void BulletEvents_TacheBomp::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    bomptime_ = 0;
-    bomprang_ = 0;
+// @@protoc_insertion_point(message_clear_start:AFFS.BulletEvents.TacheBomp)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(BulletEvents_TacheBomp, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<BulletEvents_TacheBomp*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  if (_has_bits_[0 / 32] & 255u) {
+    ZR_(bomptime_, bomprang_);
+    ZR_(backnpcdis_, backherodis_);
     if (has_bompprefabpath()) {
-      if (bompprefabpath_ != &::google::protobuf::internal::kEmptyString) {
-        bompprefabpath_->clear();
-      }
+      bompprefabpath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_beattackparticle()) {
-      if (beattackparticle_ != &::google::protobuf::internal::kEmptyString) {
-        beattackparticle_->clear();
-      }
+      beattackparticle_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
-    backnpcdis_ = 0;
-    backherodis_ = 0;
     if (has_methodcall()) {
-      if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-        methodcall_->clear();
-      }
+      methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodparam()) {
-      if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-        methodparam_->clear();
-      }
+      methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+  if (_has_bits_[8 / 32] & 768u) {
     if (has_targetmethodcall()) {
-      if (targetmethodcall_ != &::google::protobuf::internal::kEmptyString) {
-        targetmethodcall_->clear();
-      }
+      targetmethodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_targetmethodparam()) {
-      if (targetmethodparam_ != &::google::protobuf::internal::kEmptyString) {
-        targetmethodparam_->clear();
-      }
+      targetmethodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.BulletEvents.TacheBomp)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float BompTime = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &bomptime_)));
           set_has_bomptime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(21)) goto parse_BompRang;
         break;
@@ -2200,15 +2946,14 @@ bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
 
       // required float BompRang = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 21) {
          parse_BompRang:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &bomprang_)));
           set_has_bomprang();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(26)) goto parse_BompPrefabPath;
         break;
@@ -2216,16 +2961,16 @@ bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
 
       // required string BompPrefabPath = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 26) {
          parse_BompPrefabPath:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_bompprefabpath()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->bompprefabpath().data(), this->bompprefabpath().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.TacheBomp.BompPrefabPath");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(34)) goto parse_BeAttackParticle;
         break;
@@ -2233,16 +2978,16 @@ bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
 
       // required string BeAttackParticle = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 34) {
          parse_BeAttackParticle:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_beattackparticle()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->beattackparticle().data(), this->beattackparticle().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.TacheBomp.BeAttackParticle");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(45)) goto parse_BackNpcDis;
         break;
@@ -2250,15 +2995,14 @@ bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
 
       // required float BackNpcDis = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 45) {
          parse_BackNpcDis:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &backnpcdis_)));
           set_has_backnpcdis();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(53)) goto parse_BackHeroDis;
         break;
@@ -2266,15 +3010,14 @@ bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
 
       // required float BackHeroDis = 6;
       case 6: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 53) {
          parse_BackHeroDis:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &backherodis_)));
           set_has_backherodis();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(58)) goto parse_MethodCall;
         break;
@@ -2282,16 +3025,16 @@ bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
 
       // required string MethodCall = 7;
       case 7: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 58) {
          parse_MethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodcall().data(), this->methodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.TacheBomp.MethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(66)) goto parse_MethodParam;
         break;
@@ -2299,16 +3042,16 @@ bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
 
       // required string MethodParam = 8;
       case 8: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 66) {
          parse_MethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodparam().data(), this->methodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.TacheBomp.MethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(74)) goto parse_TargetMethodCall;
         break;
@@ -2316,16 +3059,16 @@ bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
 
       // required string TargetMethodCall = 9;
       case 9: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 74) {
          parse_TargetMethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_targetmethodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->targetmethodcall().data(), this->targetmethodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.TacheBomp.TargetMethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(82)) goto parse_TargetMethodParam;
         break;
@@ -2333,26 +3076,27 @@ bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
 
       // required string TargetMethodParam = 10;
       case 10: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 82) {
          parse_TargetMethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_targetmethodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->targetmethodparam().data(), this->targetmethodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.TacheBomp.TargetMethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -2360,12 +3104,18 @@ bool BulletEvents_TacheBomp::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.BulletEvents.TacheBomp)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.BulletEvents.TacheBomp)
+  return false;
 #undef DO_
 }
 
 void BulletEvents_TacheBomp::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.BulletEvents.TacheBomp)
   // required float BompTime = 1;
   if (has_bomptime()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->bomptime(), output);
@@ -2378,19 +3128,21 @@ void BulletEvents_TacheBomp::SerializeWithCachedSizes(
 
   // required string BompPrefabPath = 3;
   if (has_bompprefabpath()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->bompprefabpath().data(), this->bompprefabpath().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.BompPrefabPath");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->bompprefabpath(), output);
   }
 
   // required string BeAttackParticle = 4;
   if (has_beattackparticle()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->beattackparticle().data(), this->beattackparticle().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.BeAttackParticle");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->beattackparticle(), output);
   }
 
@@ -2406,48 +3158,54 @@ void BulletEvents_TacheBomp::SerializeWithCachedSizes(
 
   // required string MethodCall = 7;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.MethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       7, this->methodcall(), output);
   }
 
   // required string MethodParam = 8;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.MethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       8, this->methodparam(), output);
   }
 
   // required string TargetMethodCall = 9;
   if (has_targetmethodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodcall().data(), this->targetmethodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.TargetMethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       9, this->targetmethodcall(), output);
   }
 
   // required string TargetMethodParam = 10;
   if (has_targetmethodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodparam().data(), this->targetmethodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.TargetMethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       10, this->targetmethodparam(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.BulletEvents.TacheBomp)
 }
 
-::google::protobuf::uint8* BulletEvents_TacheBomp::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* BulletEvents_TacheBomp::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.BulletEvents.TacheBomp)
   // required float BompTime = 1;
   if (has_bomptime()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->bomptime(), target);
@@ -2460,9 +3218,10 @@ void BulletEvents_TacheBomp::SerializeWithCachedSizes(
 
   // required string BompPrefabPath = 3;
   if (has_bompprefabpath()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->bompprefabpath().data(), this->bompprefabpath().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.BompPrefabPath");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->bompprefabpath(), target);
@@ -2470,9 +3229,10 @@ void BulletEvents_TacheBomp::SerializeWithCachedSizes(
 
   // required string BeAttackParticle = 4;
   if (has_beattackparticle()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->beattackparticle().data(), this->beattackparticle().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.BeAttackParticle");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->beattackparticle(), target);
@@ -2490,9 +3250,10 @@ void BulletEvents_TacheBomp::SerializeWithCachedSizes(
 
   // required string MethodCall = 7;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.MethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         7, this->methodcall(), target);
@@ -2500,9 +3261,10 @@ void BulletEvents_TacheBomp::SerializeWithCachedSizes(
 
   // required string MethodParam = 8;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.MethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         8, this->methodparam(), target);
@@ -2510,9 +3272,10 @@ void BulletEvents_TacheBomp::SerializeWithCachedSizes(
 
   // required string TargetMethodCall = 9;
   if (has_targetmethodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodcall().data(), this->targetmethodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.TargetMethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         9, this->targetmethodcall(), target);
@@ -2520,91 +3283,142 @@ void BulletEvents_TacheBomp::SerializeWithCachedSizes(
 
   // required string TargetMethodParam = 10;
   if (has_targetmethodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodparam().data(), this->targetmethodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.TacheBomp.TargetMethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         10, this->targetmethodparam(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.BulletEvents.TacheBomp)
   return target;
 }
 
-int BulletEvents_TacheBomp::ByteSize() const {
+int BulletEvents_TacheBomp::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.BulletEvents.TacheBomp)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_bomptime()) {
     // required float BompTime = 1;
-    if (has_bomptime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_bomprang()) {
+    // required float BompRang = 2;
+    total_size += 1 + 4;
+  }
+
+  if (has_bompprefabpath()) {
+    // required string BompPrefabPath = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->bompprefabpath());
+  }
+
+  if (has_beattackparticle()) {
+    // required string BeAttackParticle = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->beattackparticle());
+  }
+
+  if (has_backnpcdis()) {
+    // required float BackNpcDis = 5;
+    total_size += 1 + 4;
+  }
+
+  if (has_backherodis()) {
+    // required float BackHeroDis = 6;
+    total_size += 1 + 4;
+  }
+
+  if (has_methodcall()) {
+    // required string MethodCall = 7;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
+  }
+
+  if (has_methodparam()) {
+    // required string MethodParam = 8;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
+  }
+
+  if (has_targetmethodcall()) {
+    // required string TargetMethodCall = 9;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodcall());
+  }
+
+  if (has_targetmethodparam()) {
+    // required string TargetMethodParam = 10;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodparam());
+  }
+
+  return total_size;
+}
+int BulletEvents_TacheBomp::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.BulletEvents.TacheBomp)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x000003ff) ^ 0x000003ff) == 0) {  // All required fields are present.
+    // required float BompTime = 1;
+    total_size += 1 + 4;
 
     // required float BompRang = 2;
-    if (has_bomprang()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required string BompPrefabPath = 3;
-    if (has_bompprefabpath()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->bompprefabpath());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->bompprefabpath());
 
     // required string BeAttackParticle = 4;
-    if (has_beattackparticle()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->beattackparticle());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->beattackparticle());
 
     // required float BackNpcDis = 5;
-    if (has_backnpcdis()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float BackHeroDis = 6;
-    if (has_backherodis()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required string MethodCall = 7;
-    if (has_methodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
 
     // required string MethodParam = 8;
-    if (has_methodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
 
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     // required string TargetMethodCall = 9;
-    if (has_targetmethodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->targetmethodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodcall());
 
     // required string TargetMethodParam = 10;
-    if (has_targetmethodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->targetmethodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodparam());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -2616,19 +3430,27 @@ int BulletEvents_TacheBomp::ByteSize() const {
 }
 
 void BulletEvents_TacheBomp::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const BulletEvents_TacheBomp* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const BulletEvents_TacheBomp*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.BulletEvents.TacheBomp)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const BulletEvents_TacheBomp* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const BulletEvents_TacheBomp>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.BulletEvents.TacheBomp)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.BulletEvents.TacheBomp)
     MergeFrom(*source);
   }
 }
 
 void BulletEvents_TacheBomp::MergeFrom(const BulletEvents_TacheBomp& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.BulletEvents.TacheBomp)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_bomptime()) {
       set_bomptime(from.bomptime());
@@ -2637,10 +3459,12 @@ void BulletEvents_TacheBomp::MergeFrom(const BulletEvents_TacheBomp& from) {
       set_bomprang(from.bomprang());
     }
     if (from.has_bompprefabpath()) {
-      set_bompprefabpath(from.bompprefabpath());
+      set_has_bompprefabpath();
+      bompprefabpath_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.bompprefabpath_);
     }
     if (from.has_beattackparticle()) {
-      set_beattackparticle(from.beattackparticle());
+      set_has_beattackparticle();
+      beattackparticle_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.beattackparticle_);
     }
     if (from.has_backnpcdis()) {
       set_backnpcdis(from.backnpcdis());
@@ -2649,30 +3473,38 @@ void BulletEvents_TacheBomp::MergeFrom(const BulletEvents_TacheBomp& from) {
       set_backherodis(from.backherodis());
     }
     if (from.has_methodcall()) {
-      set_methodcall(from.methodcall());
+      set_has_methodcall();
+      methodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodcall_);
     }
     if (from.has_methodparam()) {
-      set_methodparam(from.methodparam());
+      set_has_methodparam();
+      methodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodparam_);
     }
   }
   if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_targetmethodcall()) {
-      set_targetmethodcall(from.targetmethodcall());
+      set_has_targetmethodcall();
+      targetmethodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetmethodcall_);
     }
     if (from.has_targetmethodparam()) {
-      set_targetmethodparam(from.targetmethodparam());
+      set_has_targetmethodparam();
+      targetmethodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetmethodparam_);
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void BulletEvents_TacheBomp::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.BulletEvents.TacheBomp)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void BulletEvents_TacheBomp::CopyFrom(const BulletEvents_TacheBomp& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.BulletEvents.TacheBomp)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -2685,21 +3517,23 @@ bool BulletEvents_TacheBomp::IsInitialized() const {
 }
 
 void BulletEvents_TacheBomp::Swap(BulletEvents_TacheBomp* other) {
-  if (other != this) {
-    std::swap(bomptime_, other->bomptime_);
-    std::swap(bomprang_, other->bomprang_);
-    std::swap(bompprefabpath_, other->bompprefabpath_);
-    std::swap(beattackparticle_, other->beattackparticle_);
-    std::swap(backnpcdis_, other->backnpcdis_);
-    std::swap(backherodis_, other->backherodis_);
-    std::swap(methodcall_, other->methodcall_);
-    std::swap(methodparam_, other->methodparam_);
-    std::swap(targetmethodcall_, other->targetmethodcall_);
-    std::swap(targetmethodparam_, other->targetmethodparam_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void BulletEvents_TacheBomp::InternalSwap(BulletEvents_TacheBomp* other) {
+  std::swap(bomptime_, other->bomptime_);
+  std::swap(bomprang_, other->bomprang_);
+  bompprefabpath_.Swap(&other->bompprefabpath_);
+  beattackparticle_.Swap(&other->beattackparticle_);
+  std::swap(backnpcdis_, other->backnpcdis_);
+  std::swap(backherodis_, other->backherodis_);
+  methodcall_.Swap(&other->methodcall_);
+  methodparam_.Swap(&other->methodparam_);
+  targetmethodcall_.Swap(&other->targetmethodcall_);
+  targetmethodparam_.Swap(&other->targetmethodparam_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata BulletEvents_TacheBomp::GetMetadata() const {
@@ -2713,7 +3547,7 @@ void BulletEvents_TacheBomp::Swap(BulletEvents_TacheBomp* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int BulletEvents_Bullet::kEventTimeFieldNumber;
 const int BulletEvents_Bullet::kEventTypeFieldNumber;
 const int BulletEvents_Bullet::kSpeedFieldNumber;
@@ -2732,11 +3566,12 @@ const int BulletEvents_Bullet::kMethodParamFieldNumber;
 const int BulletEvents_Bullet::kTargetMethodCallFieldNumber;
 const int BulletEvents_Bullet::kTargetMethodParamFieldNumber;
 const int BulletEvents_Bullet::kBompFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 BulletEvents_Bullet::BulletEvents_Bullet()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.BulletEvents.Bullet)
 }
 
 void BulletEvents_Bullet::InitAsDefaultInstance() {
@@ -2744,12 +3579,15 @@ void BulletEvents_Bullet::InitAsDefaultInstance() {
 }
 
 BulletEvents_Bullet::BulletEvents_Bullet(const BulletEvents_Bullet& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.BulletEvents.Bullet)
 }
 
 void BulletEvents_Bullet::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   eventtime_ = 0;
   eventtype_ = 0;
@@ -2760,43 +3598,30 @@ void BulletEvents_Bullet::SharedCtor() {
   backherodis_ = 0;
   backnpcdis_ = 0;
   tachedetroy_ = 0;
-  beattackparticle_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  firetachename_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  beattackparticle_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  firetachename_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   firetacheoffest_ = NULL;
-  bulletprefabpath_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  targetmethodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  targetmethodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  bulletprefabpath_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 BulletEvents_Bullet::~BulletEvents_Bullet() {
+  // @@protoc_insertion_point(destructor:AFFS.BulletEvents.Bullet)
   SharedDtor();
 }
 
 void BulletEvents_Bullet::SharedDtor() {
-  if (beattackparticle_ != &::google::protobuf::internal::kEmptyString) {
-    delete beattackparticle_;
-  }
-  if (firetachename_ != &::google::protobuf::internal::kEmptyString) {
-    delete firetachename_;
-  }
-  if (bulletprefabpath_ != &::google::protobuf::internal::kEmptyString) {
-    delete bulletprefabpath_;
-  }
-  if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodcall_;
-  }
-  if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodparam_;
-  }
-  if (targetmethodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete targetmethodcall_;
-  }
-  if (targetmethodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete targetmethodparam_;
-  }
+  beattackparticle_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  firetachename_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  bulletprefabpath_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targetmethodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
     delete firetacheoffest_;
   }
@@ -2819,85 +3644,92 @@ const BulletEvents_Bullet& BulletEvents_Bullet::default_instance() {
 
 BulletEvents_Bullet* BulletEvents_Bullet::default_instance_ = NULL;
 
-BulletEvents_Bullet* BulletEvents_Bullet::New() const {
-  return new BulletEvents_Bullet;
+BulletEvents_Bullet* BulletEvents_Bullet::New(::google::protobuf::Arena* arena) const {
+  BulletEvents_Bullet* n = new BulletEvents_Bullet;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void BulletEvents_Bullet::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    eventtime_ = 0;
-    eventtype_ = 0;
-    speed_ = 0;
-    maxdis_ = 0;
-    bulletrang_ = 0;
-    bulletbacktype_ = 0;
-    backherodis_ = 0;
-    backnpcdis_ = 0;
+// @@protoc_insertion_point(message_clear_start:AFFS.BulletEvents.Bullet)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(BulletEvents_Bullet, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<BulletEvents_Bullet*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  if (_has_bits_[0 / 32] & 255u) {
+    ZR_(eventtime_, backnpcdis_);
   }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+  if (_has_bits_[8 / 32] & 65280u) {
     tachedetroy_ = 0;
     if (has_beattackparticle()) {
-      if (beattackparticle_ != &::google::protobuf::internal::kEmptyString) {
-        beattackparticle_->clear();
-      }
+      beattackparticle_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_firetachename()) {
-      if (firetachename_ != &::google::protobuf::internal::kEmptyString) {
-        firetachename_->clear();
-      }
+      firetachename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_firetacheoffest()) {
       if (firetacheoffest_ != NULL) firetacheoffest_->::AFFS::FSVector3::Clear();
     }
     if (has_bulletprefabpath()) {
-      if (bulletprefabpath_ != &::google::protobuf::internal::kEmptyString) {
-        bulletprefabpath_->clear();
-      }
+      bulletprefabpath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodcall()) {
-      if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-        methodcall_->clear();
-      }
+      methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodparam()) {
-      if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-        methodparam_->clear();
-      }
+      methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_targetmethodcall()) {
-      if (targetmethodcall_ != &::google::protobuf::internal::kEmptyString) {
-        targetmethodcall_->clear();
-      }
+      targetmethodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
-  if (_has_bits_[16 / 32] & (0xffu << (16 % 32))) {
-    if (has_targetmethodparam()) {
-      if (targetmethodparam_ != &::google::protobuf::internal::kEmptyString) {
-        targetmethodparam_->clear();
-      }
-    }
+  if (has_targetmethodparam()) {
+    targetmethodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   }
+
+#undef ZR_HELPER_
+#undef ZR_
+
   bomp_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool BulletEvents_Bullet::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.BulletEvents.Bullet)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(16383);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float EventTime = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &eventtime_)));
           set_has_eventtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(16)) goto parse_EventType;
         break;
@@ -2905,8 +3737,7 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required .AFFS.BulletEvents.EBEType EventType = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 16) {
          parse_EventType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -2918,7 +3749,7 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(2, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(29)) goto parse_Speed;
         break;
@@ -2926,15 +3757,14 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required float Speed = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 29) {
          parse_Speed:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &speed_)));
           set_has_speed();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(37)) goto parse_MaxDis;
         break;
@@ -2942,15 +3772,14 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required float MaxDis = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 37) {
          parse_MaxDis:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &maxdis_)));
           set_has_maxdis();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(45)) goto parse_BulletRang;
         break;
@@ -2958,15 +3787,14 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required float BulletRang = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 45) {
          parse_BulletRang:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &bulletrang_)));
           set_has_bulletrang();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(48)) goto parse_BulletBackType;
         break;
@@ -2974,8 +3802,7 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required .AFFS.BulletEvents.EBE_BACKType BulletBackType = 6;
       case 6: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 48) {
          parse_BulletBackType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -2987,7 +3814,7 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(6, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(61)) goto parse_BackHeroDis;
         break;
@@ -2995,15 +3822,14 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required float BackHeroDis = 7;
       case 7: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 61) {
          parse_BackHeroDis:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &backherodis_)));
           set_has_backherodis();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(69)) goto parse_BackNpcDis;
         break;
@@ -3011,15 +3837,14 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required float BackNpcDis = 8;
       case 8: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 69) {
          parse_BackNpcDis:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &backnpcdis_)));
           set_has_backnpcdis();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(72)) goto parse_TacheDetroy;
         break;
@@ -3027,15 +3852,14 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required int32 TacheDetroy = 9;
       case 9: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 72) {
          parse_TacheDetroy:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &tachedetroy_)));
           set_has_tachedetroy();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(82)) goto parse_BeAttackParticle;
         break;
@@ -3043,16 +3867,16 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required string BeAttackParticle = 10;
       case 10: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 82) {
          parse_BeAttackParticle:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_beattackparticle()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->beattackparticle().data(), this->beattackparticle().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.Bullet.BeAttackParticle");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(90)) goto parse_FireTacheName;
         break;
@@ -3060,16 +3884,16 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required string FireTacheName = 11;
       case 11: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 90) {
          parse_FireTacheName:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_firetachename()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->firetachename().data(), this->firetachename().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.Bullet.FireTacheName");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(98)) goto parse_FireTacheOffest;
         break;
@@ -3077,13 +3901,12 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required .AFFS.FSVector3 FireTacheOffest = 12;
       case 12: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 98) {
          parse_FireTacheOffest:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_firetacheoffest()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(106)) goto parse_BulletPrefabPath;
         break;
@@ -3091,16 +3914,16 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required string BulletPrefabPath = 13;
       case 13: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 106) {
          parse_BulletPrefabPath:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_bulletprefabpath()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->bulletprefabpath().data(), this->bulletprefabpath().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.Bullet.BulletPrefabPath");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(114)) goto parse_MethodCall;
         break;
@@ -3108,16 +3931,16 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required string MethodCall = 14;
       case 14: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 114) {
          parse_MethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodcall().data(), this->methodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.Bullet.MethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(122)) goto parse_MethodParam;
         break;
@@ -3125,16 +3948,16 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required string MethodParam = 15;
       case 15: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 122) {
          parse_MethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodparam().data(), this->methodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.Bullet.MethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(130)) goto parse_TargetMethodCall;
         break;
@@ -3142,16 +3965,16 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required string TargetMethodCall = 16;
       case 16: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 130) {
          parse_TargetMethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_targetmethodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->targetmethodcall().data(), this->targetmethodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.Bullet.TargetMethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(138)) goto parse_TargetMethodParam;
         break;
@@ -3159,16 +3982,16 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // required string TargetMethodParam = 17;
       case 17: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 138) {
          parse_TargetMethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_targetmethodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->targetmethodparam().data(), this->targetmethodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.BulletEvents.Bullet.TargetMethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(146)) goto parse_Bomp;
         break;
@@ -3176,24 +3999,27 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
 
       // repeated .AFFS.BulletEvents.TacheBomp Bomp = 18;
       case 18: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 146) {
          parse_Bomp:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_Bomp:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_bomp()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(146)) goto parse_Bomp;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(146)) goto parse_loop_Bomp;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -3201,12 +4027,18 @@ bool BulletEvents_Bullet::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.BulletEvents.Bullet)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.BulletEvents.Bullet)
+  return false;
 #undef DO_
 }
 
 void BulletEvents_Bullet::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.BulletEvents.Bullet)
   // required float EventTime = 1;
   if (has_eventtime()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->eventtime(), output);
@@ -3256,87 +4088,96 @@ void BulletEvents_Bullet::SerializeWithCachedSizes(
 
   // required string BeAttackParticle = 10;
   if (has_beattackparticle()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->beattackparticle().data(), this->beattackparticle().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.BeAttackParticle");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       10, this->beattackparticle(), output);
   }
 
   // required string FireTacheName = 11;
   if (has_firetachename()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->firetachename().data(), this->firetachename().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.FireTacheName");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       11, this->firetachename(), output);
   }
 
   // required .AFFS.FSVector3 FireTacheOffest = 12;
   if (has_firetacheoffest()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      12, this->firetacheoffest(), output);
+      12, *this->firetacheoffest_, output);
   }
 
   // required string BulletPrefabPath = 13;
   if (has_bulletprefabpath()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->bulletprefabpath().data(), this->bulletprefabpath().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.BulletPrefabPath");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       13, this->bulletprefabpath(), output);
   }
 
   // required string MethodCall = 14;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.MethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       14, this->methodcall(), output);
   }
 
   // required string MethodParam = 15;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.MethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       15, this->methodparam(), output);
   }
 
   // required string TargetMethodCall = 16;
   if (has_targetmethodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodcall().data(), this->targetmethodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.TargetMethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       16, this->targetmethodcall(), output);
   }
 
   // required string TargetMethodParam = 17;
   if (has_targetmethodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodparam().data(), this->targetmethodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.TargetMethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       17, this->targetmethodparam(), output);
   }
 
   // repeated .AFFS.BulletEvents.TacheBomp Bomp = 18;
-  for (int i = 0; i < this->bomp_size(); i++) {
+  for (unsigned int i = 0, n = this->bomp_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       18, this->bomp(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.BulletEvents.Bullet)
 }
 
-::google::protobuf::uint8* BulletEvents_Bullet::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* BulletEvents_Bullet::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.BulletEvents.Bullet)
   // required float EventTime = 1;
   if (has_eventtime()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->eventtime(), target);
@@ -3386,9 +4227,10 @@ void BulletEvents_Bullet::SerializeWithCachedSizes(
 
   // required string BeAttackParticle = 10;
   if (has_beattackparticle()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->beattackparticle().data(), this->beattackparticle().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.BeAttackParticle");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         10, this->beattackparticle(), target);
@@ -3396,9 +4238,10 @@ void BulletEvents_Bullet::SerializeWithCachedSizes(
 
   // required string FireTacheName = 11;
   if (has_firetachename()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->firetachename().data(), this->firetachename().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.FireTacheName");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         11, this->firetachename(), target);
@@ -3407,15 +4250,16 @@ void BulletEvents_Bullet::SerializeWithCachedSizes(
   // required .AFFS.FSVector3 FireTacheOffest = 12;
   if (has_firetacheoffest()) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        12, this->firetacheoffest(), target);
+      InternalWriteMessageNoVirtualToArray(
+        12, *this->firetacheoffest_, false, target);
   }
 
   // required string BulletPrefabPath = 13;
   if (has_bulletprefabpath()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->bulletprefabpath().data(), this->bulletprefabpath().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.BulletPrefabPath");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         13, this->bulletprefabpath(), target);
@@ -3423,9 +4267,10 @@ void BulletEvents_Bullet::SerializeWithCachedSizes(
 
   // required string MethodCall = 14;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.MethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         14, this->methodcall(), target);
@@ -3433,9 +4278,10 @@ void BulletEvents_Bullet::SerializeWithCachedSizes(
 
   // required string MethodParam = 15;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.MethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         15, this->methodparam(), target);
@@ -3443,9 +4289,10 @@ void BulletEvents_Bullet::SerializeWithCachedSizes(
 
   // required string TargetMethodCall = 16;
   if (has_targetmethodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodcall().data(), this->targetmethodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.TargetMethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         16, this->targetmethodcall(), target);
@@ -3453,141 +4300,219 @@ void BulletEvents_Bullet::SerializeWithCachedSizes(
 
   // required string TargetMethodParam = 17;
   if (has_targetmethodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetmethodparam().data(), this->targetmethodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.BulletEvents.Bullet.TargetMethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         17, this->targetmethodparam(), target);
   }
 
   // repeated .AFFS.BulletEvents.TacheBomp Bomp = 18;
-  for (int i = 0; i < this->bomp_size(); i++) {
+  for (unsigned int i = 0, n = this->bomp_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        18, this->bomp(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        18, this->bomp(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.BulletEvents.Bullet)
   return target;
 }
 
-int BulletEvents_Bullet::ByteSize() const {
+int BulletEvents_Bullet::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.BulletEvents.Bullet)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_eventtime()) {
     // required float EventTime = 1;
-    if (has_eventtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_eventtype()) {
+    // required .AFFS.BulletEvents.EBEType EventType = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
+  }
+
+  if (has_speed()) {
+    // required float Speed = 3;
+    total_size += 1 + 4;
+  }
+
+  if (has_maxdis()) {
+    // required float MaxDis = 4;
+    total_size += 1 + 4;
+  }
+
+  if (has_bulletrang()) {
+    // required float BulletRang = 5;
+    total_size += 1 + 4;
+  }
+
+  if (has_bulletbacktype()) {
+    // required .AFFS.BulletEvents.EBE_BACKType BulletBackType = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->bulletbacktype());
+  }
+
+  if (has_backherodis()) {
+    // required float BackHeroDis = 7;
+    total_size += 1 + 4;
+  }
+
+  if (has_backnpcdis()) {
+    // required float BackNpcDis = 8;
+    total_size += 1 + 4;
+  }
+
+  if (has_tachedetroy()) {
+    // required int32 TacheDetroy = 9;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->tachedetroy());
+  }
+
+  if (has_beattackparticle()) {
+    // required string BeAttackParticle = 10;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->beattackparticle());
+  }
+
+  if (has_firetachename()) {
+    // required string FireTacheName = 11;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->firetachename());
+  }
+
+  if (has_firetacheoffest()) {
+    // required .AFFS.FSVector3 FireTacheOffest = 12;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->firetacheoffest_);
+  }
+
+  if (has_bulletprefabpath()) {
+    // required string BulletPrefabPath = 13;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->bulletprefabpath());
+  }
+
+  if (has_methodcall()) {
+    // required string MethodCall = 14;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
+  }
+
+  if (has_methodparam()) {
+    // required string MethodParam = 15;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
+  }
+
+  if (has_targetmethodcall()) {
+    // required string TargetMethodCall = 16;
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodcall());
+  }
+
+  if (has_targetmethodparam()) {
+    // required string TargetMethodParam = 17;
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodparam());
+  }
+
+  return total_size;
+}
+int BulletEvents_Bullet::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.BulletEvents.Bullet)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x0001ffff) ^ 0x0001ffff) == 0) {  // All required fields are present.
+    // required float EventTime = 1;
+    total_size += 1 + 4;
 
     // required .AFFS.BulletEvents.EBEType EventType = 2;
-    if (has_eventtype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
 
     // required float Speed = 3;
-    if (has_speed()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float MaxDis = 4;
-    if (has_maxdis()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float BulletRang = 5;
-    if (has_bulletrang()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required .AFFS.BulletEvents.EBE_BACKType BulletBackType = 6;
-    if (has_bulletbacktype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->bulletbacktype());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->bulletbacktype());
 
     // required float BackHeroDis = 7;
-    if (has_backherodis()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float BackNpcDis = 8;
-    if (has_backnpcdis()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     // required int32 TacheDetroy = 9;
-    if (has_tachedetroy()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->tachedetroy());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->tachedetroy());
 
     // required string BeAttackParticle = 10;
-    if (has_beattackparticle()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->beattackparticle());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->beattackparticle());
 
     // required string FireTacheName = 11;
-    if (has_firetachename()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->firetachename());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->firetachename());
 
     // required .AFFS.FSVector3 FireTacheOffest = 12;
-    if (has_firetacheoffest()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->firetacheoffest());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->firetacheoffest_);
 
     // required string BulletPrefabPath = 13;
-    if (has_bulletprefabpath()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->bulletprefabpath());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->bulletprefabpath());
 
     // required string MethodCall = 14;
-    if (has_methodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
 
     // required string MethodParam = 15;
-    if (has_methodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
 
     // required string TargetMethodCall = 16;
-    if (has_targetmethodcall()) {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->targetmethodcall());
-    }
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodcall());
 
-  }
-  if (_has_bits_[16 / 32] & (0xffu << (16 % 32))) {
     // required string TargetMethodParam = 17;
-    if (has_targetmethodparam()) {
-      total_size += 2 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->targetmethodparam());
-    }
+    total_size += 2 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetmethodparam());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
   // repeated .AFFS.BulletEvents.TacheBomp Bomp = 18;
   total_size += 2 * this->bomp_size();
@@ -3597,7 +4522,7 @@ int BulletEvents_Bullet::ByteSize() const {
         this->bomp(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -3609,19 +4534,27 @@ int BulletEvents_Bullet::ByteSize() const {
 }
 
 void BulletEvents_Bullet::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const BulletEvents_Bullet* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const BulletEvents_Bullet*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.BulletEvents.Bullet)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const BulletEvents_Bullet* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const BulletEvents_Bullet>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.BulletEvents.Bullet)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.BulletEvents.Bullet)
     MergeFrom(*source);
   }
 }
 
 void BulletEvents_Bullet::MergeFrom(const BulletEvents_Bullet& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.BulletEvents.Bullet)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   bomp_.MergeFrom(from.bomp_);
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_eventtime()) {
@@ -3654,42 +4587,53 @@ void BulletEvents_Bullet::MergeFrom(const BulletEvents_Bullet& from) {
       set_tachedetroy(from.tachedetroy());
     }
     if (from.has_beattackparticle()) {
-      set_beattackparticle(from.beattackparticle());
+      set_has_beattackparticle();
+      beattackparticle_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.beattackparticle_);
     }
     if (from.has_firetachename()) {
-      set_firetachename(from.firetachename());
+      set_has_firetachename();
+      firetachename_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.firetachename_);
     }
     if (from.has_firetacheoffest()) {
       mutable_firetacheoffest()->::AFFS::FSVector3::MergeFrom(from.firetacheoffest());
     }
     if (from.has_bulletprefabpath()) {
-      set_bulletprefabpath(from.bulletprefabpath());
+      set_has_bulletprefabpath();
+      bulletprefabpath_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.bulletprefabpath_);
     }
     if (from.has_methodcall()) {
-      set_methodcall(from.methodcall());
+      set_has_methodcall();
+      methodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodcall_);
     }
     if (from.has_methodparam()) {
-      set_methodparam(from.methodparam());
+      set_has_methodparam();
+      methodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodparam_);
     }
     if (from.has_targetmethodcall()) {
-      set_targetmethodcall(from.targetmethodcall());
+      set_has_targetmethodcall();
+      targetmethodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetmethodcall_);
     }
   }
   if (from._has_bits_[16 / 32] & (0xffu << (16 % 32))) {
     if (from.has_targetmethodparam()) {
-      set_targetmethodparam(from.targetmethodparam());
+      set_has_targetmethodparam();
+      targetmethodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetmethodparam_);
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void BulletEvents_Bullet::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.BulletEvents.Bullet)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void BulletEvents_Bullet::CopyFrom(const BulletEvents_Bullet& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.BulletEvents.Bullet)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -3699,38 +4643,38 @@ bool BulletEvents_Bullet::IsInitialized() const {
   if ((_has_bits_[0] & 0x0001ffff) != 0x0001ffff) return false;
 
   if (has_firetacheoffest()) {
-    if (!this->firetacheoffest().IsInitialized()) return false;
+    if (!this->firetacheoffest_->IsInitialized()) return false;
   }
-  for (int i = 0; i < bomp_size(); i++) {
-    if (!this->bomp(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->bomp())) return false;
   return true;
 }
 
 void BulletEvents_Bullet::Swap(BulletEvents_Bullet* other) {
-  if (other != this) {
-    std::swap(eventtime_, other->eventtime_);
-    std::swap(eventtype_, other->eventtype_);
-    std::swap(speed_, other->speed_);
-    std::swap(maxdis_, other->maxdis_);
-    std::swap(bulletrang_, other->bulletrang_);
-    std::swap(bulletbacktype_, other->bulletbacktype_);
-    std::swap(backherodis_, other->backherodis_);
-    std::swap(backnpcdis_, other->backnpcdis_);
-    std::swap(tachedetroy_, other->tachedetroy_);
-    std::swap(beattackparticle_, other->beattackparticle_);
-    std::swap(firetachename_, other->firetachename_);
-    std::swap(firetacheoffest_, other->firetacheoffest_);
-    std::swap(bulletprefabpath_, other->bulletprefabpath_);
-    std::swap(methodcall_, other->methodcall_);
-    std::swap(methodparam_, other->methodparam_);
-    std::swap(targetmethodcall_, other->targetmethodcall_);
-    std::swap(targetmethodparam_, other->targetmethodparam_);
-    bomp_.Swap(&other->bomp_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void BulletEvents_Bullet::InternalSwap(BulletEvents_Bullet* other) {
+  std::swap(eventtime_, other->eventtime_);
+  std::swap(eventtype_, other->eventtype_);
+  std::swap(speed_, other->speed_);
+  std::swap(maxdis_, other->maxdis_);
+  std::swap(bulletrang_, other->bulletrang_);
+  std::swap(bulletbacktype_, other->bulletbacktype_);
+  std::swap(backherodis_, other->backherodis_);
+  std::swap(backnpcdis_, other->backnpcdis_);
+  std::swap(tachedetroy_, other->tachedetroy_);
+  beattackparticle_.Swap(&other->beattackparticle_);
+  firetachename_.Swap(&other->firetachename_);
+  std::swap(firetacheoffest_, other->firetacheoffest_);
+  bulletprefabpath_.Swap(&other->bulletprefabpath_);
+  methodcall_.Swap(&other->methodcall_);
+  methodparam_.Swap(&other->methodparam_);
+  targetmethodcall_.Swap(&other->targetmethodcall_);
+  targetmethodparam_.Swap(&other->targetmethodparam_);
+  bomp_.UnsafeArenaSwap(&other->bomp_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata BulletEvents_Bullet::GetMetadata() const {
@@ -3744,22 +4688,25 @@ void BulletEvents_Bullet::Swap(BulletEvents_Bullet* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int BulletEvents::kXBulletListFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 BulletEvents::BulletEvents()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.BulletEvents)
 }
 
 void BulletEvents::InitAsDefaultInstance() {
 }
 
 BulletEvents::BulletEvents(const BulletEvents& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.BulletEvents)
 }
 
 void BulletEvents::SharedCtor() {
@@ -3768,6 +4715,7 @@ void BulletEvents::SharedCtor() {
 }
 
 BulletEvents::~BulletEvents() {
+  // @@protoc_insertion_point(destructor:AFFS.BulletEvents)
   SharedDtor();
 }
 
@@ -3793,42 +4741,55 @@ const BulletEvents& BulletEvents::default_instance() {
 
 BulletEvents* BulletEvents::default_instance_ = NULL;
 
-BulletEvents* BulletEvents::New() const {
-  return new BulletEvents;
+BulletEvents* BulletEvents::New(::google::protobuf::Arena* arena) const {
+  BulletEvents* n = new BulletEvents;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void BulletEvents::Clear() {
+// @@protoc_insertion_point(message_clear_start:AFFS.BulletEvents)
   xbulletlist_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool BulletEvents::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.BulletEvents)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .AFFS.BulletEvents.Bullet xBulletList = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_xBulletList:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+        if (tag == 10) {
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_xBulletList:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_xbulletlist()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_xBulletList;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(10)) goto parse_loop_xBulletList;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -3836,41 +4797,51 @@ bool BulletEvents::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.BulletEvents)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.BulletEvents)
+  return false;
 #undef DO_
 }
 
 void BulletEvents::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.BulletEvents)
   // repeated .AFFS.BulletEvents.Bullet xBulletList = 1;
-  for (int i = 0; i < this->xbulletlist_size(); i++) {
+  for (unsigned int i = 0, n = this->xbulletlist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->xbulletlist(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.BulletEvents)
 }
 
-::google::protobuf::uint8* BulletEvents::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* BulletEvents::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.BulletEvents)
   // repeated .AFFS.BulletEvents.Bullet xBulletList = 1;
-  for (int i = 0; i < this->xbulletlist_size(); i++) {
+  for (unsigned int i = 0, n = this->xbulletlist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->xbulletlist(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->xbulletlist(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.BulletEvents)
   return target;
 }
 
 int BulletEvents::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.BulletEvents)
   int total_size = 0;
 
   // repeated .AFFS.BulletEvents.Bullet xBulletList = 1;
@@ -3881,7 +4852,7 @@ int BulletEvents::ByteSize() const {
         this->xbulletlist(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -3893,30 +4864,42 @@ int BulletEvents::ByteSize() const {
 }
 
 void BulletEvents::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const BulletEvents* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const BulletEvents*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.BulletEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const BulletEvents* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const BulletEvents>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.BulletEvents)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.BulletEvents)
     MergeFrom(*source);
   }
 }
 
 void BulletEvents::MergeFrom(const BulletEvents& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.BulletEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   xbulletlist_.MergeFrom(from.xbulletlist_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void BulletEvents::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.BulletEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void BulletEvents::CopyFrom(const BulletEvents& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.BulletEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -3924,19 +4907,19 @@ void BulletEvents::CopyFrom(const BulletEvents& from) {
 
 bool BulletEvents::IsInitialized() const {
 
-  for (int i = 0; i < xbulletlist_size(); i++) {
-    if (!this->xbulletlist(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->xbulletlist())) return false;
   return true;
 }
 
 void BulletEvents::Swap(BulletEvents* other) {
-  if (other != this) {
-    xbulletlist_.Swap(&other->xbulletlist_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void BulletEvents::InternalSwap(BulletEvents* other) {
+  xbulletlist_.UnsafeArenaSwap(&other->xbulletlist_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata BulletEvents::GetMetadata() const {
@@ -3947,6 +4930,1138 @@ void BulletEvents::Swap(BulletEvents* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// BulletEvents_TacheBomp
+
+// required float BompTime = 1;
+bool BulletEvents_TacheBomp::has_bomptime() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void BulletEvents_TacheBomp::set_has_bomptime() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void BulletEvents_TacheBomp::clear_has_bomptime() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void BulletEvents_TacheBomp::clear_bomptime() {
+  bomptime_ = 0;
+  clear_has_bomptime();
+}
+ float BulletEvents_TacheBomp::bomptime() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.TacheBomp.BompTime)
+  return bomptime_;
+}
+ void BulletEvents_TacheBomp::set_bomptime(float value) {
+  set_has_bomptime();
+  bomptime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.TacheBomp.BompTime)
+}
+
+// required float BompRang = 2;
+bool BulletEvents_TacheBomp::has_bomprang() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void BulletEvents_TacheBomp::set_has_bomprang() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void BulletEvents_TacheBomp::clear_has_bomprang() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void BulletEvents_TacheBomp::clear_bomprang() {
+  bomprang_ = 0;
+  clear_has_bomprang();
+}
+ float BulletEvents_TacheBomp::bomprang() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.TacheBomp.BompRang)
+  return bomprang_;
+}
+ void BulletEvents_TacheBomp::set_bomprang(float value) {
+  set_has_bomprang();
+  bomprang_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.TacheBomp.BompRang)
+}
+
+// required string BompPrefabPath = 3;
+bool BulletEvents_TacheBomp::has_bompprefabpath() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void BulletEvents_TacheBomp::set_has_bompprefabpath() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void BulletEvents_TacheBomp::clear_has_bompprefabpath() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void BulletEvents_TacheBomp::clear_bompprefabpath() {
+  bompprefabpath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_bompprefabpath();
+}
+ const ::std::string& BulletEvents_TacheBomp::bompprefabpath() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.TacheBomp.BompPrefabPath)
+  return bompprefabpath_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_bompprefabpath(const ::std::string& value) {
+  set_has_bompprefabpath();
+  bompprefabpath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.TacheBomp.BompPrefabPath)
+}
+ void BulletEvents_TacheBomp::set_bompprefabpath(const char* value) {
+  set_has_bompprefabpath();
+  bompprefabpath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.TacheBomp.BompPrefabPath)
+}
+ void BulletEvents_TacheBomp::set_bompprefabpath(const char* value, size_t size) {
+  set_has_bompprefabpath();
+  bompprefabpath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.TacheBomp.BompPrefabPath)
+}
+ ::std::string* BulletEvents_TacheBomp::mutable_bompprefabpath() {
+  set_has_bompprefabpath();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.TacheBomp.BompPrefabPath)
+  return bompprefabpath_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_TacheBomp::release_bompprefabpath() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.TacheBomp.BompPrefabPath)
+  clear_has_bompprefabpath();
+  return bompprefabpath_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_allocated_bompprefabpath(::std::string* bompprefabpath) {
+  if (bompprefabpath != NULL) {
+    set_has_bompprefabpath();
+  } else {
+    clear_has_bompprefabpath();
+  }
+  bompprefabpath_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), bompprefabpath);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.TacheBomp.BompPrefabPath)
+}
+
+// required string BeAttackParticle = 4;
+bool BulletEvents_TacheBomp::has_beattackparticle() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void BulletEvents_TacheBomp::set_has_beattackparticle() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void BulletEvents_TacheBomp::clear_has_beattackparticle() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void BulletEvents_TacheBomp::clear_beattackparticle() {
+  beattackparticle_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_beattackparticle();
+}
+ const ::std::string& BulletEvents_TacheBomp::beattackparticle() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.TacheBomp.BeAttackParticle)
+  return beattackparticle_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_beattackparticle(const ::std::string& value) {
+  set_has_beattackparticle();
+  beattackparticle_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.TacheBomp.BeAttackParticle)
+}
+ void BulletEvents_TacheBomp::set_beattackparticle(const char* value) {
+  set_has_beattackparticle();
+  beattackparticle_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.TacheBomp.BeAttackParticle)
+}
+ void BulletEvents_TacheBomp::set_beattackparticle(const char* value, size_t size) {
+  set_has_beattackparticle();
+  beattackparticle_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.TacheBomp.BeAttackParticle)
+}
+ ::std::string* BulletEvents_TacheBomp::mutable_beattackparticle() {
+  set_has_beattackparticle();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.TacheBomp.BeAttackParticle)
+  return beattackparticle_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_TacheBomp::release_beattackparticle() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.TacheBomp.BeAttackParticle)
+  clear_has_beattackparticle();
+  return beattackparticle_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_allocated_beattackparticle(::std::string* beattackparticle) {
+  if (beattackparticle != NULL) {
+    set_has_beattackparticle();
+  } else {
+    clear_has_beattackparticle();
+  }
+  beattackparticle_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), beattackparticle);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.TacheBomp.BeAttackParticle)
+}
+
+// required float BackNpcDis = 5;
+bool BulletEvents_TacheBomp::has_backnpcdis() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void BulletEvents_TacheBomp::set_has_backnpcdis() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void BulletEvents_TacheBomp::clear_has_backnpcdis() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void BulletEvents_TacheBomp::clear_backnpcdis() {
+  backnpcdis_ = 0;
+  clear_has_backnpcdis();
+}
+ float BulletEvents_TacheBomp::backnpcdis() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.TacheBomp.BackNpcDis)
+  return backnpcdis_;
+}
+ void BulletEvents_TacheBomp::set_backnpcdis(float value) {
+  set_has_backnpcdis();
+  backnpcdis_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.TacheBomp.BackNpcDis)
+}
+
+// required float BackHeroDis = 6;
+bool BulletEvents_TacheBomp::has_backherodis() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void BulletEvents_TacheBomp::set_has_backherodis() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void BulletEvents_TacheBomp::clear_has_backherodis() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void BulletEvents_TacheBomp::clear_backherodis() {
+  backherodis_ = 0;
+  clear_has_backherodis();
+}
+ float BulletEvents_TacheBomp::backherodis() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.TacheBomp.BackHeroDis)
+  return backherodis_;
+}
+ void BulletEvents_TacheBomp::set_backherodis(float value) {
+  set_has_backherodis();
+  backherodis_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.TacheBomp.BackHeroDis)
+}
+
+// required string MethodCall = 7;
+bool BulletEvents_TacheBomp::has_methodcall() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+void BulletEvents_TacheBomp::set_has_methodcall() {
+  _has_bits_[0] |= 0x00000040u;
+}
+void BulletEvents_TacheBomp::clear_has_methodcall() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+void BulletEvents_TacheBomp::clear_methodcall() {
+  methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodcall();
+}
+ const ::std::string& BulletEvents_TacheBomp::methodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.TacheBomp.MethodCall)
+  return methodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_methodcall(const ::std::string& value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.TacheBomp.MethodCall)
+}
+ void BulletEvents_TacheBomp::set_methodcall(const char* value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.TacheBomp.MethodCall)
+}
+ void BulletEvents_TacheBomp::set_methodcall(const char* value, size_t size) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.TacheBomp.MethodCall)
+}
+ ::std::string* BulletEvents_TacheBomp::mutable_methodcall() {
+  set_has_methodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.TacheBomp.MethodCall)
+  return methodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_TacheBomp::release_methodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.TacheBomp.MethodCall)
+  clear_has_methodcall();
+  return methodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_allocated_methodcall(::std::string* methodcall) {
+  if (methodcall != NULL) {
+    set_has_methodcall();
+  } else {
+    clear_has_methodcall();
+  }
+  methodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.TacheBomp.MethodCall)
+}
+
+// required string MethodParam = 8;
+bool BulletEvents_TacheBomp::has_methodparam() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+void BulletEvents_TacheBomp::set_has_methodparam() {
+  _has_bits_[0] |= 0x00000080u;
+}
+void BulletEvents_TacheBomp::clear_has_methodparam() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+void BulletEvents_TacheBomp::clear_methodparam() {
+  methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodparam();
+}
+ const ::std::string& BulletEvents_TacheBomp::methodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.TacheBomp.MethodParam)
+  return methodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_methodparam(const ::std::string& value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.TacheBomp.MethodParam)
+}
+ void BulletEvents_TacheBomp::set_methodparam(const char* value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.TacheBomp.MethodParam)
+}
+ void BulletEvents_TacheBomp::set_methodparam(const char* value, size_t size) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.TacheBomp.MethodParam)
+}
+ ::std::string* BulletEvents_TacheBomp::mutable_methodparam() {
+  set_has_methodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.TacheBomp.MethodParam)
+  return methodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_TacheBomp::release_methodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.TacheBomp.MethodParam)
+  clear_has_methodparam();
+  return methodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_allocated_methodparam(::std::string* methodparam) {
+  if (methodparam != NULL) {
+    set_has_methodparam();
+  } else {
+    clear_has_methodparam();
+  }
+  methodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.TacheBomp.MethodParam)
+}
+
+// required string TargetMethodCall = 9;
+bool BulletEvents_TacheBomp::has_targetmethodcall() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+void BulletEvents_TacheBomp::set_has_targetmethodcall() {
+  _has_bits_[0] |= 0x00000100u;
+}
+void BulletEvents_TacheBomp::clear_has_targetmethodcall() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+void BulletEvents_TacheBomp::clear_targetmethodcall() {
+  targetmethodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_targetmethodcall();
+}
+ const ::std::string& BulletEvents_TacheBomp::targetmethodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.TacheBomp.TargetMethodCall)
+  return targetmethodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_targetmethodcall(const ::std::string& value) {
+  set_has_targetmethodcall();
+  targetmethodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.TacheBomp.TargetMethodCall)
+}
+ void BulletEvents_TacheBomp::set_targetmethodcall(const char* value) {
+  set_has_targetmethodcall();
+  targetmethodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.TacheBomp.TargetMethodCall)
+}
+ void BulletEvents_TacheBomp::set_targetmethodcall(const char* value, size_t size) {
+  set_has_targetmethodcall();
+  targetmethodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.TacheBomp.TargetMethodCall)
+}
+ ::std::string* BulletEvents_TacheBomp::mutable_targetmethodcall() {
+  set_has_targetmethodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.TacheBomp.TargetMethodCall)
+  return targetmethodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_TacheBomp::release_targetmethodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.TacheBomp.TargetMethodCall)
+  clear_has_targetmethodcall();
+  return targetmethodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_allocated_targetmethodcall(::std::string* targetmethodcall) {
+  if (targetmethodcall != NULL) {
+    set_has_targetmethodcall();
+  } else {
+    clear_has_targetmethodcall();
+  }
+  targetmethodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), targetmethodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.TacheBomp.TargetMethodCall)
+}
+
+// required string TargetMethodParam = 10;
+bool BulletEvents_TacheBomp::has_targetmethodparam() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+void BulletEvents_TacheBomp::set_has_targetmethodparam() {
+  _has_bits_[0] |= 0x00000200u;
+}
+void BulletEvents_TacheBomp::clear_has_targetmethodparam() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+void BulletEvents_TacheBomp::clear_targetmethodparam() {
+  targetmethodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_targetmethodparam();
+}
+ const ::std::string& BulletEvents_TacheBomp::targetmethodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.TacheBomp.TargetMethodParam)
+  return targetmethodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_targetmethodparam(const ::std::string& value) {
+  set_has_targetmethodparam();
+  targetmethodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.TacheBomp.TargetMethodParam)
+}
+ void BulletEvents_TacheBomp::set_targetmethodparam(const char* value) {
+  set_has_targetmethodparam();
+  targetmethodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.TacheBomp.TargetMethodParam)
+}
+ void BulletEvents_TacheBomp::set_targetmethodparam(const char* value, size_t size) {
+  set_has_targetmethodparam();
+  targetmethodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.TacheBomp.TargetMethodParam)
+}
+ ::std::string* BulletEvents_TacheBomp::mutable_targetmethodparam() {
+  set_has_targetmethodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.TacheBomp.TargetMethodParam)
+  return targetmethodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_TacheBomp::release_targetmethodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.TacheBomp.TargetMethodParam)
+  clear_has_targetmethodparam();
+  return targetmethodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_TacheBomp::set_allocated_targetmethodparam(::std::string* targetmethodparam) {
+  if (targetmethodparam != NULL) {
+    set_has_targetmethodparam();
+  } else {
+    clear_has_targetmethodparam();
+  }
+  targetmethodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), targetmethodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.TacheBomp.TargetMethodParam)
+}
+
+// -------------------------------------------------------------------
+
+// BulletEvents_Bullet
+
+// required float EventTime = 1;
+bool BulletEvents_Bullet::has_eventtime() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void BulletEvents_Bullet::set_has_eventtime() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void BulletEvents_Bullet::clear_has_eventtime() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void BulletEvents_Bullet::clear_eventtime() {
+  eventtime_ = 0;
+  clear_has_eventtime();
+}
+ float BulletEvents_Bullet::eventtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.EventTime)
+  return eventtime_;
+}
+ void BulletEvents_Bullet::set_eventtime(float value) {
+  set_has_eventtime();
+  eventtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.EventTime)
+}
+
+// required .AFFS.BulletEvents.EBEType EventType = 2;
+bool BulletEvents_Bullet::has_eventtype() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void BulletEvents_Bullet::set_has_eventtype() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void BulletEvents_Bullet::clear_has_eventtype() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void BulletEvents_Bullet::clear_eventtype() {
+  eventtype_ = 0;
+  clear_has_eventtype();
+}
+ ::AFFS::BulletEvents_EBEType BulletEvents_Bullet::eventtype() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.EventType)
+  return static_cast< ::AFFS::BulletEvents_EBEType >(eventtype_);
+}
+ void BulletEvents_Bullet::set_eventtype(::AFFS::BulletEvents_EBEType value) {
+  assert(::AFFS::BulletEvents_EBEType_IsValid(value));
+  set_has_eventtype();
+  eventtype_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.EventType)
+}
+
+// required float Speed = 3;
+bool BulletEvents_Bullet::has_speed() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void BulletEvents_Bullet::set_has_speed() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void BulletEvents_Bullet::clear_has_speed() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void BulletEvents_Bullet::clear_speed() {
+  speed_ = 0;
+  clear_has_speed();
+}
+ float BulletEvents_Bullet::speed() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.Speed)
+  return speed_;
+}
+ void BulletEvents_Bullet::set_speed(float value) {
+  set_has_speed();
+  speed_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.Speed)
+}
+
+// required float MaxDis = 4;
+bool BulletEvents_Bullet::has_maxdis() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void BulletEvents_Bullet::set_has_maxdis() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void BulletEvents_Bullet::clear_has_maxdis() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void BulletEvents_Bullet::clear_maxdis() {
+  maxdis_ = 0;
+  clear_has_maxdis();
+}
+ float BulletEvents_Bullet::maxdis() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.MaxDis)
+  return maxdis_;
+}
+ void BulletEvents_Bullet::set_maxdis(float value) {
+  set_has_maxdis();
+  maxdis_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.MaxDis)
+}
+
+// required float BulletRang = 5;
+bool BulletEvents_Bullet::has_bulletrang() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void BulletEvents_Bullet::set_has_bulletrang() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void BulletEvents_Bullet::clear_has_bulletrang() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void BulletEvents_Bullet::clear_bulletrang() {
+  bulletrang_ = 0;
+  clear_has_bulletrang();
+}
+ float BulletEvents_Bullet::bulletrang() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.BulletRang)
+  return bulletrang_;
+}
+ void BulletEvents_Bullet::set_bulletrang(float value) {
+  set_has_bulletrang();
+  bulletrang_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.BulletRang)
+}
+
+// required .AFFS.BulletEvents.EBE_BACKType BulletBackType = 6;
+bool BulletEvents_Bullet::has_bulletbacktype() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void BulletEvents_Bullet::set_has_bulletbacktype() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void BulletEvents_Bullet::clear_has_bulletbacktype() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void BulletEvents_Bullet::clear_bulletbacktype() {
+  bulletbacktype_ = 0;
+  clear_has_bulletbacktype();
+}
+ ::AFFS::BulletEvents_EBE_BACKType BulletEvents_Bullet::bulletbacktype() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.BulletBackType)
+  return static_cast< ::AFFS::BulletEvents_EBE_BACKType >(bulletbacktype_);
+}
+ void BulletEvents_Bullet::set_bulletbacktype(::AFFS::BulletEvents_EBE_BACKType value) {
+  assert(::AFFS::BulletEvents_EBE_BACKType_IsValid(value));
+  set_has_bulletbacktype();
+  bulletbacktype_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.BulletBackType)
+}
+
+// required float BackHeroDis = 7;
+bool BulletEvents_Bullet::has_backherodis() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+void BulletEvents_Bullet::set_has_backherodis() {
+  _has_bits_[0] |= 0x00000040u;
+}
+void BulletEvents_Bullet::clear_has_backherodis() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+void BulletEvents_Bullet::clear_backherodis() {
+  backherodis_ = 0;
+  clear_has_backherodis();
+}
+ float BulletEvents_Bullet::backherodis() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.BackHeroDis)
+  return backherodis_;
+}
+ void BulletEvents_Bullet::set_backherodis(float value) {
+  set_has_backherodis();
+  backherodis_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.BackHeroDis)
+}
+
+// required float BackNpcDis = 8;
+bool BulletEvents_Bullet::has_backnpcdis() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+void BulletEvents_Bullet::set_has_backnpcdis() {
+  _has_bits_[0] |= 0x00000080u;
+}
+void BulletEvents_Bullet::clear_has_backnpcdis() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+void BulletEvents_Bullet::clear_backnpcdis() {
+  backnpcdis_ = 0;
+  clear_has_backnpcdis();
+}
+ float BulletEvents_Bullet::backnpcdis() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.BackNpcDis)
+  return backnpcdis_;
+}
+ void BulletEvents_Bullet::set_backnpcdis(float value) {
+  set_has_backnpcdis();
+  backnpcdis_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.BackNpcDis)
+}
+
+// required int32 TacheDetroy = 9;
+bool BulletEvents_Bullet::has_tachedetroy() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+void BulletEvents_Bullet::set_has_tachedetroy() {
+  _has_bits_[0] |= 0x00000100u;
+}
+void BulletEvents_Bullet::clear_has_tachedetroy() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+void BulletEvents_Bullet::clear_tachedetroy() {
+  tachedetroy_ = 0;
+  clear_has_tachedetroy();
+}
+ ::google::protobuf::int32 BulletEvents_Bullet::tachedetroy() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.TacheDetroy)
+  return tachedetroy_;
+}
+ void BulletEvents_Bullet::set_tachedetroy(::google::protobuf::int32 value) {
+  set_has_tachedetroy();
+  tachedetroy_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.TacheDetroy)
+}
+
+// required string BeAttackParticle = 10;
+bool BulletEvents_Bullet::has_beattackparticle() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+void BulletEvents_Bullet::set_has_beattackparticle() {
+  _has_bits_[0] |= 0x00000200u;
+}
+void BulletEvents_Bullet::clear_has_beattackparticle() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+void BulletEvents_Bullet::clear_beattackparticle() {
+  beattackparticle_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_beattackparticle();
+}
+ const ::std::string& BulletEvents_Bullet::beattackparticle() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.BeAttackParticle)
+  return beattackparticle_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_beattackparticle(const ::std::string& value) {
+  set_has_beattackparticle();
+  beattackparticle_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.BeAttackParticle)
+}
+ void BulletEvents_Bullet::set_beattackparticle(const char* value) {
+  set_has_beattackparticle();
+  beattackparticle_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.Bullet.BeAttackParticle)
+}
+ void BulletEvents_Bullet::set_beattackparticle(const char* value, size_t size) {
+  set_has_beattackparticle();
+  beattackparticle_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.Bullet.BeAttackParticle)
+}
+ ::std::string* BulletEvents_Bullet::mutable_beattackparticle() {
+  set_has_beattackparticle();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.Bullet.BeAttackParticle)
+  return beattackparticle_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_Bullet::release_beattackparticle() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.Bullet.BeAttackParticle)
+  clear_has_beattackparticle();
+  return beattackparticle_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_allocated_beattackparticle(::std::string* beattackparticle) {
+  if (beattackparticle != NULL) {
+    set_has_beattackparticle();
+  } else {
+    clear_has_beattackparticle();
+  }
+  beattackparticle_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), beattackparticle);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.Bullet.BeAttackParticle)
+}
+
+// required string FireTacheName = 11;
+bool BulletEvents_Bullet::has_firetachename() const {
+  return (_has_bits_[0] & 0x00000400u) != 0;
+}
+void BulletEvents_Bullet::set_has_firetachename() {
+  _has_bits_[0] |= 0x00000400u;
+}
+void BulletEvents_Bullet::clear_has_firetachename() {
+  _has_bits_[0] &= ~0x00000400u;
+}
+void BulletEvents_Bullet::clear_firetachename() {
+  firetachename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_firetachename();
+}
+ const ::std::string& BulletEvents_Bullet::firetachename() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.FireTacheName)
+  return firetachename_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_firetachename(const ::std::string& value) {
+  set_has_firetachename();
+  firetachename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.FireTacheName)
+}
+ void BulletEvents_Bullet::set_firetachename(const char* value) {
+  set_has_firetachename();
+  firetachename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.Bullet.FireTacheName)
+}
+ void BulletEvents_Bullet::set_firetachename(const char* value, size_t size) {
+  set_has_firetachename();
+  firetachename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.Bullet.FireTacheName)
+}
+ ::std::string* BulletEvents_Bullet::mutable_firetachename() {
+  set_has_firetachename();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.Bullet.FireTacheName)
+  return firetachename_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_Bullet::release_firetachename() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.Bullet.FireTacheName)
+  clear_has_firetachename();
+  return firetachename_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_allocated_firetachename(::std::string* firetachename) {
+  if (firetachename != NULL) {
+    set_has_firetachename();
+  } else {
+    clear_has_firetachename();
+  }
+  firetachename_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), firetachename);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.Bullet.FireTacheName)
+}
+
+// required .AFFS.FSVector3 FireTacheOffest = 12;
+bool BulletEvents_Bullet::has_firetacheoffest() const {
+  return (_has_bits_[0] & 0x00000800u) != 0;
+}
+void BulletEvents_Bullet::set_has_firetacheoffest() {
+  _has_bits_[0] |= 0x00000800u;
+}
+void BulletEvents_Bullet::clear_has_firetacheoffest() {
+  _has_bits_[0] &= ~0x00000800u;
+}
+void BulletEvents_Bullet::clear_firetacheoffest() {
+  if (firetacheoffest_ != NULL) firetacheoffest_->::AFFS::FSVector3::Clear();
+  clear_has_firetacheoffest();
+}
+const ::AFFS::FSVector3& BulletEvents_Bullet::firetacheoffest() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.FireTacheOffest)
+  return firetacheoffest_ != NULL ? *firetacheoffest_ : *default_instance_->firetacheoffest_;
+}
+::AFFS::FSVector3* BulletEvents_Bullet::mutable_firetacheoffest() {
+  set_has_firetacheoffest();
+  if (firetacheoffest_ == NULL) {
+    firetacheoffest_ = new ::AFFS::FSVector3;
+  }
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.Bullet.FireTacheOffest)
+  return firetacheoffest_;
+}
+::AFFS::FSVector3* BulletEvents_Bullet::release_firetacheoffest() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.Bullet.FireTacheOffest)
+  clear_has_firetacheoffest();
+  ::AFFS::FSVector3* temp = firetacheoffest_;
+  firetacheoffest_ = NULL;
+  return temp;
+}
+void BulletEvents_Bullet::set_allocated_firetacheoffest(::AFFS::FSVector3* firetacheoffest) {
+  delete firetacheoffest_;
+  firetacheoffest_ = firetacheoffest;
+  if (firetacheoffest) {
+    set_has_firetacheoffest();
+  } else {
+    clear_has_firetacheoffest();
+  }
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.Bullet.FireTacheOffest)
+}
+
+// required string BulletPrefabPath = 13;
+bool BulletEvents_Bullet::has_bulletprefabpath() const {
+  return (_has_bits_[0] & 0x00001000u) != 0;
+}
+void BulletEvents_Bullet::set_has_bulletprefabpath() {
+  _has_bits_[0] |= 0x00001000u;
+}
+void BulletEvents_Bullet::clear_has_bulletprefabpath() {
+  _has_bits_[0] &= ~0x00001000u;
+}
+void BulletEvents_Bullet::clear_bulletprefabpath() {
+  bulletprefabpath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_bulletprefabpath();
+}
+ const ::std::string& BulletEvents_Bullet::bulletprefabpath() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.BulletPrefabPath)
+  return bulletprefabpath_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_bulletprefabpath(const ::std::string& value) {
+  set_has_bulletprefabpath();
+  bulletprefabpath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.BulletPrefabPath)
+}
+ void BulletEvents_Bullet::set_bulletprefabpath(const char* value) {
+  set_has_bulletprefabpath();
+  bulletprefabpath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.Bullet.BulletPrefabPath)
+}
+ void BulletEvents_Bullet::set_bulletprefabpath(const char* value, size_t size) {
+  set_has_bulletprefabpath();
+  bulletprefabpath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.Bullet.BulletPrefabPath)
+}
+ ::std::string* BulletEvents_Bullet::mutable_bulletprefabpath() {
+  set_has_bulletprefabpath();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.Bullet.BulletPrefabPath)
+  return bulletprefabpath_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_Bullet::release_bulletprefabpath() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.Bullet.BulletPrefabPath)
+  clear_has_bulletprefabpath();
+  return bulletprefabpath_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_allocated_bulletprefabpath(::std::string* bulletprefabpath) {
+  if (bulletprefabpath != NULL) {
+    set_has_bulletprefabpath();
+  } else {
+    clear_has_bulletprefabpath();
+  }
+  bulletprefabpath_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), bulletprefabpath);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.Bullet.BulletPrefabPath)
+}
+
+// required string MethodCall = 14;
+bool BulletEvents_Bullet::has_methodcall() const {
+  return (_has_bits_[0] & 0x00002000u) != 0;
+}
+void BulletEvents_Bullet::set_has_methodcall() {
+  _has_bits_[0] |= 0x00002000u;
+}
+void BulletEvents_Bullet::clear_has_methodcall() {
+  _has_bits_[0] &= ~0x00002000u;
+}
+void BulletEvents_Bullet::clear_methodcall() {
+  methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodcall();
+}
+ const ::std::string& BulletEvents_Bullet::methodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.MethodCall)
+  return methodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_methodcall(const ::std::string& value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.MethodCall)
+}
+ void BulletEvents_Bullet::set_methodcall(const char* value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.Bullet.MethodCall)
+}
+ void BulletEvents_Bullet::set_methodcall(const char* value, size_t size) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.Bullet.MethodCall)
+}
+ ::std::string* BulletEvents_Bullet::mutable_methodcall() {
+  set_has_methodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.Bullet.MethodCall)
+  return methodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_Bullet::release_methodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.Bullet.MethodCall)
+  clear_has_methodcall();
+  return methodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_allocated_methodcall(::std::string* methodcall) {
+  if (methodcall != NULL) {
+    set_has_methodcall();
+  } else {
+    clear_has_methodcall();
+  }
+  methodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.Bullet.MethodCall)
+}
+
+// required string MethodParam = 15;
+bool BulletEvents_Bullet::has_methodparam() const {
+  return (_has_bits_[0] & 0x00004000u) != 0;
+}
+void BulletEvents_Bullet::set_has_methodparam() {
+  _has_bits_[0] |= 0x00004000u;
+}
+void BulletEvents_Bullet::clear_has_methodparam() {
+  _has_bits_[0] &= ~0x00004000u;
+}
+void BulletEvents_Bullet::clear_methodparam() {
+  methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodparam();
+}
+ const ::std::string& BulletEvents_Bullet::methodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.MethodParam)
+  return methodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_methodparam(const ::std::string& value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.MethodParam)
+}
+ void BulletEvents_Bullet::set_methodparam(const char* value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.Bullet.MethodParam)
+}
+ void BulletEvents_Bullet::set_methodparam(const char* value, size_t size) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.Bullet.MethodParam)
+}
+ ::std::string* BulletEvents_Bullet::mutable_methodparam() {
+  set_has_methodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.Bullet.MethodParam)
+  return methodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_Bullet::release_methodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.Bullet.MethodParam)
+  clear_has_methodparam();
+  return methodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_allocated_methodparam(::std::string* methodparam) {
+  if (methodparam != NULL) {
+    set_has_methodparam();
+  } else {
+    clear_has_methodparam();
+  }
+  methodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.Bullet.MethodParam)
+}
+
+// required string TargetMethodCall = 16;
+bool BulletEvents_Bullet::has_targetmethodcall() const {
+  return (_has_bits_[0] & 0x00008000u) != 0;
+}
+void BulletEvents_Bullet::set_has_targetmethodcall() {
+  _has_bits_[0] |= 0x00008000u;
+}
+void BulletEvents_Bullet::clear_has_targetmethodcall() {
+  _has_bits_[0] &= ~0x00008000u;
+}
+void BulletEvents_Bullet::clear_targetmethodcall() {
+  targetmethodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_targetmethodcall();
+}
+ const ::std::string& BulletEvents_Bullet::targetmethodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.TargetMethodCall)
+  return targetmethodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_targetmethodcall(const ::std::string& value) {
+  set_has_targetmethodcall();
+  targetmethodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.TargetMethodCall)
+}
+ void BulletEvents_Bullet::set_targetmethodcall(const char* value) {
+  set_has_targetmethodcall();
+  targetmethodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.Bullet.TargetMethodCall)
+}
+ void BulletEvents_Bullet::set_targetmethodcall(const char* value, size_t size) {
+  set_has_targetmethodcall();
+  targetmethodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.Bullet.TargetMethodCall)
+}
+ ::std::string* BulletEvents_Bullet::mutable_targetmethodcall() {
+  set_has_targetmethodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.Bullet.TargetMethodCall)
+  return targetmethodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_Bullet::release_targetmethodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.Bullet.TargetMethodCall)
+  clear_has_targetmethodcall();
+  return targetmethodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_allocated_targetmethodcall(::std::string* targetmethodcall) {
+  if (targetmethodcall != NULL) {
+    set_has_targetmethodcall();
+  } else {
+    clear_has_targetmethodcall();
+  }
+  targetmethodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), targetmethodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.Bullet.TargetMethodCall)
+}
+
+// required string TargetMethodParam = 17;
+bool BulletEvents_Bullet::has_targetmethodparam() const {
+  return (_has_bits_[0] & 0x00010000u) != 0;
+}
+void BulletEvents_Bullet::set_has_targetmethodparam() {
+  _has_bits_[0] |= 0x00010000u;
+}
+void BulletEvents_Bullet::clear_has_targetmethodparam() {
+  _has_bits_[0] &= ~0x00010000u;
+}
+void BulletEvents_Bullet::clear_targetmethodparam() {
+  targetmethodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_targetmethodparam();
+}
+ const ::std::string& BulletEvents_Bullet::targetmethodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.TargetMethodParam)
+  return targetmethodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_targetmethodparam(const ::std::string& value) {
+  set_has_targetmethodparam();
+  targetmethodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.BulletEvents.Bullet.TargetMethodParam)
+}
+ void BulletEvents_Bullet::set_targetmethodparam(const char* value) {
+  set_has_targetmethodparam();
+  targetmethodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.BulletEvents.Bullet.TargetMethodParam)
+}
+ void BulletEvents_Bullet::set_targetmethodparam(const char* value, size_t size) {
+  set_has_targetmethodparam();
+  targetmethodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.BulletEvents.Bullet.TargetMethodParam)
+}
+ ::std::string* BulletEvents_Bullet::mutable_targetmethodparam() {
+  set_has_targetmethodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.Bullet.TargetMethodParam)
+  return targetmethodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* BulletEvents_Bullet::release_targetmethodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.BulletEvents.Bullet.TargetMethodParam)
+  clear_has_targetmethodparam();
+  return targetmethodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void BulletEvents_Bullet::set_allocated_targetmethodparam(::std::string* targetmethodparam) {
+  if (targetmethodparam != NULL) {
+    set_has_targetmethodparam();
+  } else {
+    clear_has_targetmethodparam();
+  }
+  targetmethodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), targetmethodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.BulletEvents.Bullet.TargetMethodParam)
+}
+
+// repeated .AFFS.BulletEvents.TacheBomp Bomp = 18;
+int BulletEvents_Bullet::bomp_size() const {
+  return bomp_.size();
+}
+void BulletEvents_Bullet::clear_bomp() {
+  bomp_.Clear();
+}
+const ::AFFS::BulletEvents_TacheBomp& BulletEvents_Bullet::bomp(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.Bullet.Bomp)
+  return bomp_.Get(index);
+}
+::AFFS::BulletEvents_TacheBomp* BulletEvents_Bullet::mutable_bomp(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.Bullet.Bomp)
+  return bomp_.Mutable(index);
+}
+::AFFS::BulletEvents_TacheBomp* BulletEvents_Bullet::add_bomp() {
+  // @@protoc_insertion_point(field_add:AFFS.BulletEvents.Bullet.Bomp)
+  return bomp_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::BulletEvents_TacheBomp >*
+BulletEvents_Bullet::mutable_bomp() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.BulletEvents.Bullet.Bomp)
+  return &bomp_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::BulletEvents_TacheBomp >&
+BulletEvents_Bullet::bomp() const {
+  // @@protoc_insertion_point(field_list:AFFS.BulletEvents.Bullet.Bomp)
+  return bomp_;
+}
+
+// -------------------------------------------------------------------
+
+// BulletEvents
+
+// repeated .AFFS.BulletEvents.Bullet xBulletList = 1;
+int BulletEvents::xbulletlist_size() const {
+  return xbulletlist_.size();
+}
+void BulletEvents::clear_xbulletlist() {
+  xbulletlist_.Clear();
+}
+const ::AFFS::BulletEvents_Bullet& BulletEvents::xbulletlist(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.BulletEvents.xBulletList)
+  return xbulletlist_.Get(index);
+}
+::AFFS::BulletEvents_Bullet* BulletEvents::mutable_xbulletlist(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.BulletEvents.xBulletList)
+  return xbulletlist_.Mutable(index);
+}
+::AFFS::BulletEvents_Bullet* BulletEvents::add_xbulletlist() {
+  // @@protoc_insertion_point(field_add:AFFS.BulletEvents.xBulletList)
+  return xbulletlist_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::BulletEvents_Bullet >*
+BulletEvents::mutable_xbulletlist() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.BulletEvents.xBulletList)
+  return &xbulletlist_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::BulletEvents_Bullet >&
+BulletEvents::xbulletlist() const {
+  // @@protoc_insertion_point(field_list:AFFS.BulletEvents.xBulletList)
+  return xbulletlist_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
@@ -3966,7 +6081,7 @@ bool AnimatorMoves_EAMType_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const AnimatorMoves_EAMType AnimatorMoves::EAMT_FORWARD;
 const AnimatorMoves_EAMType AnimatorMoves::EAMT_BACK;
 const AnimatorMoves_EAMType AnimatorMoves::EAMT_LEFT;
@@ -3974,52 +6089,53 @@ const AnimatorMoves_EAMType AnimatorMoves::EAMT_RIGHT;
 const AnimatorMoves_EAMType AnimatorMoves::EAMType_MIN;
 const AnimatorMoves_EAMType AnimatorMoves::EAMType_MAX;
 const int AnimatorMoves::EAMType_ARRAYSIZE;
-#endif  // _MSC_VER
-#ifndef _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int AnimatorMoves_Move::kEventTimeFieldNumber;
 const int AnimatorMoves_Move::kEventTypeFieldNumber;
 const int AnimatorMoves_Move::kMoveDisFieldNumber;
 const int AnimatorMoves_Move::kMoveTimeFieldNumber;
 const int AnimatorMoves_Move::kMethodCallFieldNumber;
 const int AnimatorMoves_Move::kMethodParamFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 AnimatorMoves_Move::AnimatorMoves_Move()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.AnimatorMoves.Move)
 }
 
 void AnimatorMoves_Move::InitAsDefaultInstance() {
 }
 
 AnimatorMoves_Move::AnimatorMoves_Move(const AnimatorMoves_Move& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.AnimatorMoves.Move)
 }
 
 void AnimatorMoves_Move::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   eventtime_ = 0;
   eventtype_ = 0;
   movedis_ = 0;
   movetime_ = 0;
-  methodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  methodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 AnimatorMoves_Move::~AnimatorMoves_Move() {
+  // @@protoc_insertion_point(destructor:AFFS.AnimatorMoves.Move)
   SharedDtor();
 }
 
 void AnimatorMoves_Move::SharedDtor() {
-  if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodcall_;
-  }
-  if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodparam_;
-  }
+  methodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -4041,47 +6157,70 @@ const AnimatorMoves_Move& AnimatorMoves_Move::default_instance() {
 
 AnimatorMoves_Move* AnimatorMoves_Move::default_instance_ = NULL;
 
-AnimatorMoves_Move* AnimatorMoves_Move::New() const {
-  return new AnimatorMoves_Move;
+AnimatorMoves_Move* AnimatorMoves_Move::New(::google::protobuf::Arena* arena) const {
+  AnimatorMoves_Move* n = new AnimatorMoves_Move;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void AnimatorMoves_Move::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    eventtime_ = 0;
-    eventtype_ = 0;
-    movedis_ = 0;
-    movetime_ = 0;
+// @@protoc_insertion_point(message_clear_start:AFFS.AnimatorMoves.Move)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(AnimatorMoves_Move, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<AnimatorMoves_Move*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  if (_has_bits_[0 / 32] & 63u) {
+    ZR_(eventtime_, movetime_);
     if (has_methodcall()) {
-      if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-        methodcall_->clear();
-      }
+      methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodparam()) {
-      if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-        methodparam_->clear();
-      }
+      methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool AnimatorMoves_Move::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.AnimatorMoves.Move)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float EventTime = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &eventtime_)));
           set_has_eventtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(16)) goto parse_EventType;
         break;
@@ -4089,8 +6228,7 @@ bool AnimatorMoves_Move::MergePartialFromCodedStream(
 
       // required .AFFS.AnimatorMoves.EAMType EventType = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 16) {
          parse_EventType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -4102,7 +6240,7 @@ bool AnimatorMoves_Move::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(2, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(29)) goto parse_MoveDis;
         break;
@@ -4110,15 +6248,14 @@ bool AnimatorMoves_Move::MergePartialFromCodedStream(
 
       // required float MoveDis = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 29) {
          parse_MoveDis:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &movedis_)));
           set_has_movedis();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(37)) goto parse_MoveTime;
         break;
@@ -4126,15 +6263,14 @@ bool AnimatorMoves_Move::MergePartialFromCodedStream(
 
       // required float MoveTime = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 37) {
          parse_MoveTime:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &movetime_)));
           set_has_movetime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(42)) goto parse_MethodCall;
         break;
@@ -4142,16 +6278,16 @@ bool AnimatorMoves_Move::MergePartialFromCodedStream(
 
       // required string MethodCall = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 42) {
          parse_MethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodcall().data(), this->methodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.AnimatorMoves.Move.MethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(50)) goto parse_MethodParam;
         break;
@@ -4159,26 +6295,27 @@ bool AnimatorMoves_Move::MergePartialFromCodedStream(
 
       // required string MethodParam = 6;
       case 6: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 50) {
          parse_MethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodparam().data(), this->methodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.AnimatorMoves.Move.MethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -4186,12 +6323,18 @@ bool AnimatorMoves_Move::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.AnimatorMoves.Move)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.AnimatorMoves.Move)
+  return false;
 #undef DO_
 }
 
 void AnimatorMoves_Move::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.AnimatorMoves.Move)
   // required float EventTime = 1;
   if (has_eventtime()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->eventtime(), output);
@@ -4215,30 +6358,34 @@ void AnimatorMoves_Move::SerializeWithCachedSizes(
 
   // required string MethodCall = 5;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AnimatorMoves.Move.MethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->methodcall(), output);
   }
 
   // required string MethodParam = 6;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AnimatorMoves.Move.MethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->methodparam(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.AnimatorMoves.Move)
 }
 
-::google::protobuf::uint8* AnimatorMoves_Move::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* AnimatorMoves_Move::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.AnimatorMoves.Move)
   // required float EventTime = 1;
   if (has_eventtime()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->eventtime(), target);
@@ -4262,9 +6409,10 @@ void AnimatorMoves_Move::SerializeWithCachedSizes(
 
   // required string MethodCall = 5;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AnimatorMoves.Move.MethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->methodcall(), target);
@@ -4272,62 +6420,96 @@ void AnimatorMoves_Move::SerializeWithCachedSizes(
 
   // required string MethodParam = 6;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AnimatorMoves.Move.MethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         6, this->methodparam(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.AnimatorMoves.Move)
   return target;
 }
 
-int AnimatorMoves_Move::ByteSize() const {
+int AnimatorMoves_Move::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.AnimatorMoves.Move)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_eventtime()) {
     // required float EventTime = 1;
-    if (has_eventtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_eventtype()) {
+    // required .AFFS.AnimatorMoves.EAMType EventType = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
+  }
+
+  if (has_movedis()) {
+    // required float MoveDis = 3;
+    total_size += 1 + 4;
+  }
+
+  if (has_movetime()) {
+    // required float MoveTime = 4;
+    total_size += 1 + 4;
+  }
+
+  if (has_methodcall()) {
+    // required string MethodCall = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
+  }
+
+  if (has_methodparam()) {
+    // required string MethodParam = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
+  }
+
+  return total_size;
+}
+int AnimatorMoves_Move::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.AnimatorMoves.Move)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x0000003f) ^ 0x0000003f) == 0) {  // All required fields are present.
+    // required float EventTime = 1;
+    total_size += 1 + 4;
 
     // required .AFFS.AnimatorMoves.EAMType EventType = 2;
-    if (has_eventtype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
 
     // required float MoveDis = 3;
-    if (has_movedis()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float MoveTime = 4;
-    if (has_movetime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required string MethodCall = 5;
-    if (has_methodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
 
     // required string MethodParam = 6;
-    if (has_methodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -4339,19 +6521,27 @@ int AnimatorMoves_Move::ByteSize() const {
 }
 
 void AnimatorMoves_Move::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const AnimatorMoves_Move* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const AnimatorMoves_Move*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.AnimatorMoves.Move)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const AnimatorMoves_Move* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const AnimatorMoves_Move>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.AnimatorMoves.Move)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.AnimatorMoves.Move)
     MergeFrom(*source);
   }
 }
 
 void AnimatorMoves_Move::MergeFrom(const AnimatorMoves_Move& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.AnimatorMoves.Move)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_eventtime()) {
       set_eventtime(from.eventtime());
@@ -4366,22 +6556,28 @@ void AnimatorMoves_Move::MergeFrom(const AnimatorMoves_Move& from) {
       set_movetime(from.movetime());
     }
     if (from.has_methodcall()) {
-      set_methodcall(from.methodcall());
+      set_has_methodcall();
+      methodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodcall_);
     }
     if (from.has_methodparam()) {
-      set_methodparam(from.methodparam());
+      set_has_methodparam();
+      methodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodparam_);
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void AnimatorMoves_Move::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.AnimatorMoves.Move)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void AnimatorMoves_Move::CopyFrom(const AnimatorMoves_Move& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.AnimatorMoves.Move)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -4394,17 +6590,19 @@ bool AnimatorMoves_Move::IsInitialized() const {
 }
 
 void AnimatorMoves_Move::Swap(AnimatorMoves_Move* other) {
-  if (other != this) {
-    std::swap(eventtime_, other->eventtime_);
-    std::swap(eventtype_, other->eventtype_);
-    std::swap(movedis_, other->movedis_);
-    std::swap(movetime_, other->movetime_);
-    std::swap(methodcall_, other->methodcall_);
-    std::swap(methodparam_, other->methodparam_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void AnimatorMoves_Move::InternalSwap(AnimatorMoves_Move* other) {
+  std::swap(eventtime_, other->eventtime_);
+  std::swap(eventtype_, other->eventtype_);
+  std::swap(movedis_, other->movedis_);
+  std::swap(movetime_, other->movetime_);
+  methodcall_.Swap(&other->methodcall_);
+  methodparam_.Swap(&other->methodparam_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata AnimatorMoves_Move::GetMetadata() const {
@@ -4418,22 +6616,25 @@ void AnimatorMoves_Move::Swap(AnimatorMoves_Move* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int AnimatorMoves::kXMoveListFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 AnimatorMoves::AnimatorMoves()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.AnimatorMoves)
 }
 
 void AnimatorMoves::InitAsDefaultInstance() {
 }
 
 AnimatorMoves::AnimatorMoves(const AnimatorMoves& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.AnimatorMoves)
 }
 
 void AnimatorMoves::SharedCtor() {
@@ -4442,6 +6643,7 @@ void AnimatorMoves::SharedCtor() {
 }
 
 AnimatorMoves::~AnimatorMoves() {
+  // @@protoc_insertion_point(destructor:AFFS.AnimatorMoves)
   SharedDtor();
 }
 
@@ -4467,42 +6669,55 @@ const AnimatorMoves& AnimatorMoves::default_instance() {
 
 AnimatorMoves* AnimatorMoves::default_instance_ = NULL;
 
-AnimatorMoves* AnimatorMoves::New() const {
-  return new AnimatorMoves;
+AnimatorMoves* AnimatorMoves::New(::google::protobuf::Arena* arena) const {
+  AnimatorMoves* n = new AnimatorMoves;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void AnimatorMoves::Clear() {
+// @@protoc_insertion_point(message_clear_start:AFFS.AnimatorMoves)
   xmovelist_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool AnimatorMoves::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.AnimatorMoves)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .AFFS.AnimatorMoves.Move xMoveList = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_xMoveList:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+        if (tag == 10) {
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_xMoveList:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_xmovelist()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_xMoveList;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(10)) goto parse_loop_xMoveList;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -4510,41 +6725,51 @@ bool AnimatorMoves::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.AnimatorMoves)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.AnimatorMoves)
+  return false;
 #undef DO_
 }
 
 void AnimatorMoves::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.AnimatorMoves)
   // repeated .AFFS.AnimatorMoves.Move xMoveList = 1;
-  for (int i = 0; i < this->xmovelist_size(); i++) {
+  for (unsigned int i = 0, n = this->xmovelist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->xmovelist(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.AnimatorMoves)
 }
 
-::google::protobuf::uint8* AnimatorMoves::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* AnimatorMoves::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.AnimatorMoves)
   // repeated .AFFS.AnimatorMoves.Move xMoveList = 1;
-  for (int i = 0; i < this->xmovelist_size(); i++) {
+  for (unsigned int i = 0, n = this->xmovelist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->xmovelist(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->xmovelist(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.AnimatorMoves)
   return target;
 }
 
 int AnimatorMoves::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.AnimatorMoves)
   int total_size = 0;
 
   // repeated .AFFS.AnimatorMoves.Move xMoveList = 1;
@@ -4555,7 +6780,7 @@ int AnimatorMoves::ByteSize() const {
         this->xmovelist(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -4567,30 +6792,42 @@ int AnimatorMoves::ByteSize() const {
 }
 
 void AnimatorMoves::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const AnimatorMoves* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const AnimatorMoves*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.AnimatorMoves)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const AnimatorMoves* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const AnimatorMoves>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.AnimatorMoves)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.AnimatorMoves)
     MergeFrom(*source);
   }
 }
 
 void AnimatorMoves::MergeFrom(const AnimatorMoves& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.AnimatorMoves)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   xmovelist_.MergeFrom(from.xmovelist_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void AnimatorMoves::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.AnimatorMoves)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void AnimatorMoves::CopyFrom(const AnimatorMoves& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.AnimatorMoves)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -4598,19 +6835,19 @@ void AnimatorMoves::CopyFrom(const AnimatorMoves& from) {
 
 bool AnimatorMoves::IsInitialized() const {
 
-  for (int i = 0; i < xmovelist_size(); i++) {
-    if (!this->xmovelist(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->xmovelist())) return false;
   return true;
 }
 
 void AnimatorMoves::Swap(AnimatorMoves* other) {
-  if (other != this) {
-    xmovelist_.Swap(&other->xmovelist_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void AnimatorMoves::InternalSwap(AnimatorMoves* other) {
+  xmovelist_.UnsafeArenaSwap(&other->xmovelist_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata AnimatorMoves::GetMetadata() const {
@@ -4621,6 +6858,249 @@ void AnimatorMoves::Swap(AnimatorMoves* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// AnimatorMoves_Move
+
+// required float EventTime = 1;
+bool AnimatorMoves_Move::has_eventtime() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void AnimatorMoves_Move::set_has_eventtime() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void AnimatorMoves_Move::clear_has_eventtime() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void AnimatorMoves_Move::clear_eventtime() {
+  eventtime_ = 0;
+  clear_has_eventtime();
+}
+ float AnimatorMoves_Move::eventtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorMoves.Move.EventTime)
+  return eventtime_;
+}
+ void AnimatorMoves_Move::set_eventtime(float value) {
+  set_has_eventtime();
+  eventtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorMoves.Move.EventTime)
+}
+
+// required .AFFS.AnimatorMoves.EAMType EventType = 2;
+bool AnimatorMoves_Move::has_eventtype() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void AnimatorMoves_Move::set_has_eventtype() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void AnimatorMoves_Move::clear_has_eventtype() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void AnimatorMoves_Move::clear_eventtype() {
+  eventtype_ = 0;
+  clear_has_eventtype();
+}
+ ::AFFS::AnimatorMoves_EAMType AnimatorMoves_Move::eventtype() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorMoves.Move.EventType)
+  return static_cast< ::AFFS::AnimatorMoves_EAMType >(eventtype_);
+}
+ void AnimatorMoves_Move::set_eventtype(::AFFS::AnimatorMoves_EAMType value) {
+  assert(::AFFS::AnimatorMoves_EAMType_IsValid(value));
+  set_has_eventtype();
+  eventtype_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorMoves.Move.EventType)
+}
+
+// required float MoveDis = 3;
+bool AnimatorMoves_Move::has_movedis() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void AnimatorMoves_Move::set_has_movedis() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void AnimatorMoves_Move::clear_has_movedis() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void AnimatorMoves_Move::clear_movedis() {
+  movedis_ = 0;
+  clear_has_movedis();
+}
+ float AnimatorMoves_Move::movedis() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorMoves.Move.MoveDis)
+  return movedis_;
+}
+ void AnimatorMoves_Move::set_movedis(float value) {
+  set_has_movedis();
+  movedis_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorMoves.Move.MoveDis)
+}
+
+// required float MoveTime = 4;
+bool AnimatorMoves_Move::has_movetime() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void AnimatorMoves_Move::set_has_movetime() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void AnimatorMoves_Move::clear_has_movetime() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void AnimatorMoves_Move::clear_movetime() {
+  movetime_ = 0;
+  clear_has_movetime();
+}
+ float AnimatorMoves_Move::movetime() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorMoves.Move.MoveTime)
+  return movetime_;
+}
+ void AnimatorMoves_Move::set_movetime(float value) {
+  set_has_movetime();
+  movetime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorMoves.Move.MoveTime)
+}
+
+// required string MethodCall = 5;
+bool AnimatorMoves_Move::has_methodcall() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void AnimatorMoves_Move::set_has_methodcall() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void AnimatorMoves_Move::clear_has_methodcall() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void AnimatorMoves_Move::clear_methodcall() {
+  methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodcall();
+}
+ const ::std::string& AnimatorMoves_Move::methodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorMoves.Move.MethodCall)
+  return methodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AnimatorMoves_Move::set_methodcall(const ::std::string& value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorMoves.Move.MethodCall)
+}
+ void AnimatorMoves_Move::set_methodcall(const char* value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.AnimatorMoves.Move.MethodCall)
+}
+ void AnimatorMoves_Move::set_methodcall(const char* value, size_t size) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.AnimatorMoves.Move.MethodCall)
+}
+ ::std::string* AnimatorMoves_Move::mutable_methodcall() {
+  set_has_methodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.AnimatorMoves.Move.MethodCall)
+  return methodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* AnimatorMoves_Move::release_methodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.AnimatorMoves.Move.MethodCall)
+  clear_has_methodcall();
+  return methodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AnimatorMoves_Move::set_allocated_methodcall(::std::string* methodcall) {
+  if (methodcall != NULL) {
+    set_has_methodcall();
+  } else {
+    clear_has_methodcall();
+  }
+  methodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.AnimatorMoves.Move.MethodCall)
+}
+
+// required string MethodParam = 6;
+bool AnimatorMoves_Move::has_methodparam() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void AnimatorMoves_Move::set_has_methodparam() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void AnimatorMoves_Move::clear_has_methodparam() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void AnimatorMoves_Move::clear_methodparam() {
+  methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodparam();
+}
+ const ::std::string& AnimatorMoves_Move::methodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorMoves.Move.MethodParam)
+  return methodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AnimatorMoves_Move::set_methodparam(const ::std::string& value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorMoves.Move.MethodParam)
+}
+ void AnimatorMoves_Move::set_methodparam(const char* value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.AnimatorMoves.Move.MethodParam)
+}
+ void AnimatorMoves_Move::set_methodparam(const char* value, size_t size) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.AnimatorMoves.Move.MethodParam)
+}
+ ::std::string* AnimatorMoves_Move::mutable_methodparam() {
+  set_has_methodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.AnimatorMoves.Move.MethodParam)
+  return methodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* AnimatorMoves_Move::release_methodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.AnimatorMoves.Move.MethodParam)
+  clear_has_methodparam();
+  return methodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AnimatorMoves_Move::set_allocated_methodparam(::std::string* methodparam) {
+  if (methodparam != NULL) {
+    set_has_methodparam();
+  } else {
+    clear_has_methodparam();
+  }
+  methodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.AnimatorMoves.Move.MethodParam)
+}
+
+// -------------------------------------------------------------------
+
+// AnimatorMoves
+
+// repeated .AFFS.AnimatorMoves.Move xMoveList = 1;
+int AnimatorMoves::xmovelist_size() const {
+  return xmovelist_.size();
+}
+void AnimatorMoves::clear_xmovelist() {
+  xmovelist_.Clear();
+}
+const ::AFFS::AnimatorMoves_Move& AnimatorMoves::xmovelist(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorMoves.xMoveList)
+  return xmovelist_.Get(index);
+}
+::AFFS::AnimatorMoves_Move* AnimatorMoves::mutable_xmovelist(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.AnimatorMoves.xMoveList)
+  return xmovelist_.Mutable(index);
+}
+::AFFS::AnimatorMoves_Move* AnimatorMoves::add_xmovelist() {
+  // @@protoc_insertion_point(field_add:AFFS.AnimatorMoves.xMoveList)
+  return xmovelist_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::AnimatorMoves_Move >*
+AnimatorMoves::mutable_xmovelist() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.AnimatorMoves.xMoveList)
+  return &xmovelist_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::AnimatorMoves_Move >&
+AnimatorMoves::xmovelist() const {
+  // @@protoc_insertion_point(field_list:AFFS.AnimatorMoves.xMoveList)
+  return xmovelist_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
@@ -4645,7 +7125,7 @@ bool CameraControlEvents_ECEType_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const CameraControlEvents_ECEType CameraControlEvents::Earthquake;
 const CameraControlEvents_ECEType CameraControlEvents::Explosion;
 const CameraControlEvents_ECEType CameraControlEvents::No;
@@ -4658,19 +7138,20 @@ const CameraControlEvents_ECEType CameraControlEvents::MainRPGMode;
 const CameraControlEvents_ECEType CameraControlEvents::ECEType_MIN;
 const CameraControlEvents_ECEType CameraControlEvents::ECEType_MAX;
 const int CameraControlEvents::ECEType_ARRAYSIZE;
-#endif  // _MSC_VER
-#ifndef _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int CameraControlEvents_Camera::kEventTimeFieldNumber;
 const int CameraControlEvents_Camera::kEventTypeFieldNumber;
 const int CameraControlEvents_Camera::kAmountParamFieldNumber;
 const int CameraControlEvents_Camera::kShakeTimeFieldNumber;
 const int CameraControlEvents_Camera::kMethodCallFieldNumber;
 const int CameraControlEvents_Camera::kMethodParamFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 CameraControlEvents_Camera::CameraControlEvents_Camera()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.CameraControlEvents.Camera)
 }
 
 void CameraControlEvents_Camera::InitAsDefaultInstance() {
@@ -4678,33 +7159,33 @@ void CameraControlEvents_Camera::InitAsDefaultInstance() {
 }
 
 CameraControlEvents_Camera::CameraControlEvents_Camera(const CameraControlEvents_Camera& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.CameraControlEvents.Camera)
 }
 
 void CameraControlEvents_Camera::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   eventtime_ = 0;
   eventtype_ = 0;
   amountparam_ = NULL;
   shaketime_ = 0;
-  methodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  methodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 CameraControlEvents_Camera::~CameraControlEvents_Camera() {
+  // @@protoc_insertion_point(destructor:AFFS.CameraControlEvents.Camera)
   SharedDtor();
 }
 
 void CameraControlEvents_Camera::SharedDtor() {
-  if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodcall_;
-  }
-  if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodparam_;
-  }
+  methodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
     delete amountparam_;
   }
@@ -4727,49 +7208,74 @@ const CameraControlEvents_Camera& CameraControlEvents_Camera::default_instance()
 
 CameraControlEvents_Camera* CameraControlEvents_Camera::default_instance_ = NULL;
 
-CameraControlEvents_Camera* CameraControlEvents_Camera::New() const {
-  return new CameraControlEvents_Camera;
+CameraControlEvents_Camera* CameraControlEvents_Camera::New(::google::protobuf::Arena* arena) const {
+  CameraControlEvents_Camera* n = new CameraControlEvents_Camera;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void CameraControlEvents_Camera::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    eventtime_ = 0;
-    eventtype_ = 0;
+// @@protoc_insertion_point(message_clear_start:AFFS.CameraControlEvents.Camera)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(CameraControlEvents_Camera, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<CameraControlEvents_Camera*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  if (_has_bits_[0 / 32] & 63u) {
+    ZR_(eventtime_, eventtype_);
     if (has_amountparam()) {
       if (amountparam_ != NULL) amountparam_->::AFFS::FSVector3::Clear();
     }
     shaketime_ = 0;
     if (has_methodcall()) {
-      if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-        methodcall_->clear();
-      }
+      methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodparam()) {
-      if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-        methodparam_->clear();
-      }
+      methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool CameraControlEvents_Camera::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.CameraControlEvents.Camera)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float EventTime = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &eventtime_)));
           set_has_eventtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(16)) goto parse_EventType;
         break;
@@ -4777,8 +7283,7 @@ bool CameraControlEvents_Camera::MergePartialFromCodedStream(
 
       // required .AFFS.CameraControlEvents.ECEType EventType = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 16) {
          parse_EventType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -4790,7 +7295,7 @@ bool CameraControlEvents_Camera::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(2, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(26)) goto parse_AmountParam;
         break;
@@ -4798,13 +7303,12 @@ bool CameraControlEvents_Camera::MergePartialFromCodedStream(
 
       // required .AFFS.FSVector3 AmountParam = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 26) {
          parse_AmountParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_amountparam()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(37)) goto parse_ShakeTime;
         break;
@@ -4812,15 +7316,14 @@ bool CameraControlEvents_Camera::MergePartialFromCodedStream(
 
       // required float ShakeTime = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 37) {
          parse_ShakeTime:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &shaketime_)));
           set_has_shaketime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(42)) goto parse_MethodCall;
         break;
@@ -4828,16 +7331,16 @@ bool CameraControlEvents_Camera::MergePartialFromCodedStream(
 
       // required string MethodCall = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 42) {
          parse_MethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodcall().data(), this->methodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.CameraControlEvents.Camera.MethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(50)) goto parse_MethodParam;
         break;
@@ -4845,26 +7348,27 @@ bool CameraControlEvents_Camera::MergePartialFromCodedStream(
 
       // required string MethodParam = 6;
       case 6: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 50) {
          parse_MethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodparam().data(), this->methodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.CameraControlEvents.Camera.MethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -4872,12 +7376,18 @@ bool CameraControlEvents_Camera::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.CameraControlEvents.Camera)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.CameraControlEvents.Camera)
+  return false;
 #undef DO_
 }
 
 void CameraControlEvents_Camera::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.CameraControlEvents.Camera)
   // required float EventTime = 1;
   if (has_eventtime()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->eventtime(), output);
@@ -4892,7 +7402,7 @@ void CameraControlEvents_Camera::SerializeWithCachedSizes(
   // required .AFFS.FSVector3 AmountParam = 3;
   if (has_amountparam()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, this->amountparam(), output);
+      3, *this->amountparam_, output);
   }
 
   // required float ShakeTime = 4;
@@ -4902,30 +7412,34 @@ void CameraControlEvents_Camera::SerializeWithCachedSizes(
 
   // required string MethodCall = 5;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.CameraControlEvents.Camera.MethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->methodcall(), output);
   }
 
   // required string MethodParam = 6;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.CameraControlEvents.Camera.MethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->methodparam(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.CameraControlEvents.Camera)
 }
 
-::google::protobuf::uint8* CameraControlEvents_Camera::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* CameraControlEvents_Camera::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.CameraControlEvents.Camera)
   // required float EventTime = 1;
   if (has_eventtime()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->eventtime(), target);
@@ -4940,8 +7454,8 @@ void CameraControlEvents_Camera::SerializeWithCachedSizes(
   // required .AFFS.FSVector3 AmountParam = 3;
   if (has_amountparam()) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        3, this->amountparam(), target);
+      InternalWriteMessageNoVirtualToArray(
+        3, *this->amountparam_, false, target);
   }
 
   // required float ShakeTime = 4;
@@ -4951,9 +7465,10 @@ void CameraControlEvents_Camera::SerializeWithCachedSizes(
 
   // required string MethodCall = 5;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.CameraControlEvents.Camera.MethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->methodcall(), target);
@@ -4961,64 +7476,100 @@ void CameraControlEvents_Camera::SerializeWithCachedSizes(
 
   // required string MethodParam = 6;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.CameraControlEvents.Camera.MethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         6, this->methodparam(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.CameraControlEvents.Camera)
   return target;
 }
 
-int CameraControlEvents_Camera::ByteSize() const {
+int CameraControlEvents_Camera::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.CameraControlEvents.Camera)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_eventtime()) {
     // required float EventTime = 1;
-    if (has_eventtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_eventtype()) {
+    // required .AFFS.CameraControlEvents.ECEType EventType = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
+  }
+
+  if (has_amountparam()) {
+    // required .AFFS.FSVector3 AmountParam = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->amountparam_);
+  }
+
+  if (has_shaketime()) {
+    // required float ShakeTime = 4;
+    total_size += 1 + 4;
+  }
+
+  if (has_methodcall()) {
+    // required string MethodCall = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
+  }
+
+  if (has_methodparam()) {
+    // required string MethodParam = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
+  }
+
+  return total_size;
+}
+int CameraControlEvents_Camera::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.CameraControlEvents.Camera)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x0000003f) ^ 0x0000003f) == 0) {  // All required fields are present.
+    // required float EventTime = 1;
+    total_size += 1 + 4;
 
     // required .AFFS.CameraControlEvents.ECEType EventType = 2;
-    if (has_eventtype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
 
     // required .AFFS.FSVector3 AmountParam = 3;
-    if (has_amountparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->amountparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->amountparam_);
 
     // required float ShakeTime = 4;
-    if (has_shaketime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required string MethodCall = 5;
-    if (has_methodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
 
     // required string MethodParam = 6;
-    if (has_methodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -5030,19 +7581,27 @@ int CameraControlEvents_Camera::ByteSize() const {
 }
 
 void CameraControlEvents_Camera::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const CameraControlEvents_Camera* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const CameraControlEvents_Camera*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.CameraControlEvents.Camera)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const CameraControlEvents_Camera* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const CameraControlEvents_Camera>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.CameraControlEvents.Camera)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.CameraControlEvents.Camera)
     MergeFrom(*source);
   }
 }
 
 void CameraControlEvents_Camera::MergeFrom(const CameraControlEvents_Camera& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.CameraControlEvents.Camera)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_eventtime()) {
       set_eventtime(from.eventtime());
@@ -5057,22 +7616,28 @@ void CameraControlEvents_Camera::MergeFrom(const CameraControlEvents_Camera& fro
       set_shaketime(from.shaketime());
     }
     if (from.has_methodcall()) {
-      set_methodcall(from.methodcall());
+      set_has_methodcall();
+      methodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodcall_);
     }
     if (from.has_methodparam()) {
-      set_methodparam(from.methodparam());
+      set_has_methodparam();
+      methodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodparam_);
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void CameraControlEvents_Camera::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.CameraControlEvents.Camera)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void CameraControlEvents_Camera::CopyFrom(const CameraControlEvents_Camera& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.CameraControlEvents.Camera)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -5082,23 +7647,25 @@ bool CameraControlEvents_Camera::IsInitialized() const {
   if ((_has_bits_[0] & 0x0000003f) != 0x0000003f) return false;
 
   if (has_amountparam()) {
-    if (!this->amountparam().IsInitialized()) return false;
+    if (!this->amountparam_->IsInitialized()) return false;
   }
   return true;
 }
 
 void CameraControlEvents_Camera::Swap(CameraControlEvents_Camera* other) {
-  if (other != this) {
-    std::swap(eventtime_, other->eventtime_);
-    std::swap(eventtype_, other->eventtype_);
-    std::swap(amountparam_, other->amountparam_);
-    std::swap(shaketime_, other->shaketime_);
-    std::swap(methodcall_, other->methodcall_);
-    std::swap(methodparam_, other->methodparam_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void CameraControlEvents_Camera::InternalSwap(CameraControlEvents_Camera* other) {
+  std::swap(eventtime_, other->eventtime_);
+  std::swap(eventtype_, other->eventtype_);
+  std::swap(amountparam_, other->amountparam_);
+  std::swap(shaketime_, other->shaketime_);
+  methodcall_.Swap(&other->methodcall_);
+  methodparam_.Swap(&other->methodparam_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata CameraControlEvents_Camera::GetMetadata() const {
@@ -5112,22 +7679,25 @@ void CameraControlEvents_Camera::Swap(CameraControlEvents_Camera* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int CameraControlEvents::kXCameraListFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 CameraControlEvents::CameraControlEvents()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.CameraControlEvents)
 }
 
 void CameraControlEvents::InitAsDefaultInstance() {
 }
 
 CameraControlEvents::CameraControlEvents(const CameraControlEvents& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.CameraControlEvents)
 }
 
 void CameraControlEvents::SharedCtor() {
@@ -5136,6 +7706,7 @@ void CameraControlEvents::SharedCtor() {
 }
 
 CameraControlEvents::~CameraControlEvents() {
+  // @@protoc_insertion_point(destructor:AFFS.CameraControlEvents)
   SharedDtor();
 }
 
@@ -5161,42 +7732,55 @@ const CameraControlEvents& CameraControlEvents::default_instance() {
 
 CameraControlEvents* CameraControlEvents::default_instance_ = NULL;
 
-CameraControlEvents* CameraControlEvents::New() const {
-  return new CameraControlEvents;
+CameraControlEvents* CameraControlEvents::New(::google::protobuf::Arena* arena) const {
+  CameraControlEvents* n = new CameraControlEvents;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void CameraControlEvents::Clear() {
+// @@protoc_insertion_point(message_clear_start:AFFS.CameraControlEvents)
   xcameralist_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool CameraControlEvents::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.CameraControlEvents)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .AFFS.CameraControlEvents.Camera xCameraList = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_xCameraList:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+        if (tag == 10) {
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_xCameraList:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_xcameralist()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_xCameraList;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(10)) goto parse_loop_xCameraList;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -5204,41 +7788,51 @@ bool CameraControlEvents::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.CameraControlEvents)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.CameraControlEvents)
+  return false;
 #undef DO_
 }
 
 void CameraControlEvents::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.CameraControlEvents)
   // repeated .AFFS.CameraControlEvents.Camera xCameraList = 1;
-  for (int i = 0; i < this->xcameralist_size(); i++) {
+  for (unsigned int i = 0, n = this->xcameralist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->xcameralist(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.CameraControlEvents)
 }
 
-::google::protobuf::uint8* CameraControlEvents::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* CameraControlEvents::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.CameraControlEvents)
   // repeated .AFFS.CameraControlEvents.Camera xCameraList = 1;
-  for (int i = 0; i < this->xcameralist_size(); i++) {
+  for (unsigned int i = 0, n = this->xcameralist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->xcameralist(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->xcameralist(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.CameraControlEvents)
   return target;
 }
 
 int CameraControlEvents::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.CameraControlEvents)
   int total_size = 0;
 
   // repeated .AFFS.CameraControlEvents.Camera xCameraList = 1;
@@ -5249,7 +7843,7 @@ int CameraControlEvents::ByteSize() const {
         this->xcameralist(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -5261,30 +7855,42 @@ int CameraControlEvents::ByteSize() const {
 }
 
 void CameraControlEvents::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const CameraControlEvents* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const CameraControlEvents*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.CameraControlEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const CameraControlEvents* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const CameraControlEvents>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.CameraControlEvents)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.CameraControlEvents)
     MergeFrom(*source);
   }
 }
 
 void CameraControlEvents::MergeFrom(const CameraControlEvents& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.CameraControlEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   xcameralist_.MergeFrom(from.xcameralist_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void CameraControlEvents::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.CameraControlEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void CameraControlEvents::CopyFrom(const CameraControlEvents& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.CameraControlEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -5292,19 +7898,19 @@ void CameraControlEvents::CopyFrom(const CameraControlEvents& from) {
 
 bool CameraControlEvents::IsInitialized() const {
 
-  for (int i = 0; i < xcameralist_size(); i++) {
-    if (!this->xcameralist(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->xcameralist())) return false;
   return true;
 }
 
 void CameraControlEvents::Swap(CameraControlEvents* other) {
-  if (other != this) {
-    xcameralist_.Swap(&other->xcameralist_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void CameraControlEvents::InternalSwap(CameraControlEvents* other) {
+  xcameralist_.UnsafeArenaSwap(&other->xcameralist_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata CameraControlEvents::GetMetadata() const {
@@ -5315,6 +7921,269 @@ void CameraControlEvents::Swap(CameraControlEvents* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// CameraControlEvents_Camera
+
+// required float EventTime = 1;
+bool CameraControlEvents_Camera::has_eventtime() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void CameraControlEvents_Camera::set_has_eventtime() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void CameraControlEvents_Camera::clear_has_eventtime() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void CameraControlEvents_Camera::clear_eventtime() {
+  eventtime_ = 0;
+  clear_has_eventtime();
+}
+ float CameraControlEvents_Camera::eventtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.CameraControlEvents.Camera.EventTime)
+  return eventtime_;
+}
+ void CameraControlEvents_Camera::set_eventtime(float value) {
+  set_has_eventtime();
+  eventtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.CameraControlEvents.Camera.EventTime)
+}
+
+// required .AFFS.CameraControlEvents.ECEType EventType = 2;
+bool CameraControlEvents_Camera::has_eventtype() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void CameraControlEvents_Camera::set_has_eventtype() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void CameraControlEvents_Camera::clear_has_eventtype() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void CameraControlEvents_Camera::clear_eventtype() {
+  eventtype_ = 0;
+  clear_has_eventtype();
+}
+ ::AFFS::CameraControlEvents_ECEType CameraControlEvents_Camera::eventtype() const {
+  // @@protoc_insertion_point(field_get:AFFS.CameraControlEvents.Camera.EventType)
+  return static_cast< ::AFFS::CameraControlEvents_ECEType >(eventtype_);
+}
+ void CameraControlEvents_Camera::set_eventtype(::AFFS::CameraControlEvents_ECEType value) {
+  assert(::AFFS::CameraControlEvents_ECEType_IsValid(value));
+  set_has_eventtype();
+  eventtype_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.CameraControlEvents.Camera.EventType)
+}
+
+// required .AFFS.FSVector3 AmountParam = 3;
+bool CameraControlEvents_Camera::has_amountparam() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void CameraControlEvents_Camera::set_has_amountparam() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void CameraControlEvents_Camera::clear_has_amountparam() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void CameraControlEvents_Camera::clear_amountparam() {
+  if (amountparam_ != NULL) amountparam_->::AFFS::FSVector3::Clear();
+  clear_has_amountparam();
+}
+const ::AFFS::FSVector3& CameraControlEvents_Camera::amountparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.CameraControlEvents.Camera.AmountParam)
+  return amountparam_ != NULL ? *amountparam_ : *default_instance_->amountparam_;
+}
+::AFFS::FSVector3* CameraControlEvents_Camera::mutable_amountparam() {
+  set_has_amountparam();
+  if (amountparam_ == NULL) {
+    amountparam_ = new ::AFFS::FSVector3;
+  }
+  // @@protoc_insertion_point(field_mutable:AFFS.CameraControlEvents.Camera.AmountParam)
+  return amountparam_;
+}
+::AFFS::FSVector3* CameraControlEvents_Camera::release_amountparam() {
+  // @@protoc_insertion_point(field_release:AFFS.CameraControlEvents.Camera.AmountParam)
+  clear_has_amountparam();
+  ::AFFS::FSVector3* temp = amountparam_;
+  amountparam_ = NULL;
+  return temp;
+}
+void CameraControlEvents_Camera::set_allocated_amountparam(::AFFS::FSVector3* amountparam) {
+  delete amountparam_;
+  amountparam_ = amountparam;
+  if (amountparam) {
+    set_has_amountparam();
+  } else {
+    clear_has_amountparam();
+  }
+  // @@protoc_insertion_point(field_set_allocated:AFFS.CameraControlEvents.Camera.AmountParam)
+}
+
+// required float ShakeTime = 4;
+bool CameraControlEvents_Camera::has_shaketime() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void CameraControlEvents_Camera::set_has_shaketime() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void CameraControlEvents_Camera::clear_has_shaketime() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void CameraControlEvents_Camera::clear_shaketime() {
+  shaketime_ = 0;
+  clear_has_shaketime();
+}
+ float CameraControlEvents_Camera::shaketime() const {
+  // @@protoc_insertion_point(field_get:AFFS.CameraControlEvents.Camera.ShakeTime)
+  return shaketime_;
+}
+ void CameraControlEvents_Camera::set_shaketime(float value) {
+  set_has_shaketime();
+  shaketime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.CameraControlEvents.Camera.ShakeTime)
+}
+
+// required string MethodCall = 5;
+bool CameraControlEvents_Camera::has_methodcall() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void CameraControlEvents_Camera::set_has_methodcall() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void CameraControlEvents_Camera::clear_has_methodcall() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void CameraControlEvents_Camera::clear_methodcall() {
+  methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodcall();
+}
+ const ::std::string& CameraControlEvents_Camera::methodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.CameraControlEvents.Camera.MethodCall)
+  return methodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void CameraControlEvents_Camera::set_methodcall(const ::std::string& value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.CameraControlEvents.Camera.MethodCall)
+}
+ void CameraControlEvents_Camera::set_methodcall(const char* value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.CameraControlEvents.Camera.MethodCall)
+}
+ void CameraControlEvents_Camera::set_methodcall(const char* value, size_t size) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.CameraControlEvents.Camera.MethodCall)
+}
+ ::std::string* CameraControlEvents_Camera::mutable_methodcall() {
+  set_has_methodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.CameraControlEvents.Camera.MethodCall)
+  return methodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* CameraControlEvents_Camera::release_methodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.CameraControlEvents.Camera.MethodCall)
+  clear_has_methodcall();
+  return methodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void CameraControlEvents_Camera::set_allocated_methodcall(::std::string* methodcall) {
+  if (methodcall != NULL) {
+    set_has_methodcall();
+  } else {
+    clear_has_methodcall();
+  }
+  methodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.CameraControlEvents.Camera.MethodCall)
+}
+
+// required string MethodParam = 6;
+bool CameraControlEvents_Camera::has_methodparam() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void CameraControlEvents_Camera::set_has_methodparam() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void CameraControlEvents_Camera::clear_has_methodparam() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void CameraControlEvents_Camera::clear_methodparam() {
+  methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodparam();
+}
+ const ::std::string& CameraControlEvents_Camera::methodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.CameraControlEvents.Camera.MethodParam)
+  return methodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void CameraControlEvents_Camera::set_methodparam(const ::std::string& value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.CameraControlEvents.Camera.MethodParam)
+}
+ void CameraControlEvents_Camera::set_methodparam(const char* value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.CameraControlEvents.Camera.MethodParam)
+}
+ void CameraControlEvents_Camera::set_methodparam(const char* value, size_t size) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.CameraControlEvents.Camera.MethodParam)
+}
+ ::std::string* CameraControlEvents_Camera::mutable_methodparam() {
+  set_has_methodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.CameraControlEvents.Camera.MethodParam)
+  return methodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* CameraControlEvents_Camera::release_methodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.CameraControlEvents.Camera.MethodParam)
+  clear_has_methodparam();
+  return methodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void CameraControlEvents_Camera::set_allocated_methodparam(::std::string* methodparam) {
+  if (methodparam != NULL) {
+    set_has_methodparam();
+  } else {
+    clear_has_methodparam();
+  }
+  methodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.CameraControlEvents.Camera.MethodParam)
+}
+
+// -------------------------------------------------------------------
+
+// CameraControlEvents
+
+// repeated .AFFS.CameraControlEvents.Camera xCameraList = 1;
+int CameraControlEvents::xcameralist_size() const {
+  return xcameralist_.size();
+}
+void CameraControlEvents::clear_xcameralist() {
+  xcameralist_.Clear();
+}
+const ::AFFS::CameraControlEvents_Camera& CameraControlEvents::xcameralist(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.CameraControlEvents.xCameraList)
+  return xcameralist_.Get(index);
+}
+::AFFS::CameraControlEvents_Camera* CameraControlEvents::mutable_xcameralist(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.CameraControlEvents.xCameraList)
+  return xcameralist_.Mutable(index);
+}
+::AFFS::CameraControlEvents_Camera* CameraControlEvents::add_xcameralist() {
+  // @@protoc_insertion_point(field_add:AFFS.CameraControlEvents.xCameraList)
+  return xcameralist_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::CameraControlEvents_Camera >*
+CameraControlEvents::mutable_xcameralist() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.CameraControlEvents.xCameraList)
+  return &xcameralist_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::CameraControlEvents_Camera >&
+CameraControlEvents::xcameralist() const {
+  // @@protoc_insertion_point(field_list:AFFS.CameraControlEvents.xCameraList)
+  return xcameralist_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
@@ -5339,7 +8208,7 @@ bool ParticleEvents_EPERTYPE_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const ParticleEvents_EPERTYPE ParticleEvents::NONE;
 const ParticleEvents_EPERTYPE ParticleEvents::MatchTarget;
 const ParticleEvents_EPERTYPE ParticleEvents::Random_X;
@@ -5352,8 +8221,8 @@ const ParticleEvents_EPERTYPE ParticleEvents::Random_XYZ;
 const ParticleEvents_EPERTYPE ParticleEvents::EPERTYPE_MIN;
 const ParticleEvents_EPERTYPE ParticleEvents::EPERTYPE_MAX;
 const int ParticleEvents::EPERTYPE_ARRAYSIZE;
-#endif  // _MSC_VER
-#ifndef _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int ParticleEvents_Particle::kEventTimeFieldNumber;
 const int ParticleEvents_Particle::kRotationFieldNumber;
 const int ParticleEvents_Particle::kParticlePathFieldNumber;
@@ -5364,11 +8233,12 @@ const int ParticleEvents_Particle::kBindTargetFieldNumber;
 const int ParticleEvents_Particle::kDestroyTimeFieldNumber;
 const int ParticleEvents_Particle::kMethodCallFieldNumber;
 const int ParticleEvents_Particle::kMethodParamFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ParticleEvents_Particle::ParticleEvents_Particle()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.ParticleEvents.Particle)
 }
 
 void ParticleEvents_Particle::InitAsDefaultInstance() {
@@ -5376,43 +8246,39 @@ void ParticleEvents_Particle::InitAsDefaultInstance() {
 }
 
 ParticleEvents_Particle::ParticleEvents_Particle(const ParticleEvents_Particle& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.ParticleEvents.Particle)
 }
 
 void ParticleEvents_Particle::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   eventtime_ = 0;
   rotation_ = 0;
-  particlepath_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  targettachename_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  particlepath_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targettachename_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   targettacheoffest_ = NULL;
   casttosurface_ = 0;
   bindtarget_ = 0;
   destroytime_ = 0;
-  methodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  methodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 ParticleEvents_Particle::~ParticleEvents_Particle() {
+  // @@protoc_insertion_point(destructor:AFFS.ParticleEvents.Particle)
   SharedDtor();
 }
 
 void ParticleEvents_Particle::SharedDtor() {
-  if (particlepath_ != &::google::protobuf::internal::kEmptyString) {
-    delete particlepath_;
-  }
-  if (targettachename_ != &::google::protobuf::internal::kEmptyString) {
-    delete targettachename_;
-  }
-  if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodcall_;
-  }
-  if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodparam_;
-  }
+  particlepath_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  targettachename_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
     delete targettacheoffest_;
   }
@@ -5435,63 +8301,83 @@ const ParticleEvents_Particle& ParticleEvents_Particle::default_instance() {
 
 ParticleEvents_Particle* ParticleEvents_Particle::default_instance_ = NULL;
 
-ParticleEvents_Particle* ParticleEvents_Particle::New() const {
-  return new ParticleEvents_Particle;
+ParticleEvents_Particle* ParticleEvents_Particle::New(::google::protobuf::Arena* arena) const {
+  ParticleEvents_Particle* n = new ParticleEvents_Particle;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void ParticleEvents_Particle::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    eventtime_ = 0;
-    rotation_ = 0;
+// @@protoc_insertion_point(message_clear_start:AFFS.ParticleEvents.Particle)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(ParticleEvents_Particle, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<ParticleEvents_Particle*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  if (_has_bits_[0 / 32] & 255u) {
+    ZR_(eventtime_, rotation_);
+    ZR_(casttosurface_, bindtarget_);
     if (has_particlepath()) {
-      if (particlepath_ != &::google::protobuf::internal::kEmptyString) {
-        particlepath_->clear();
-      }
+      particlepath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_targettachename()) {
-      if (targettachename_ != &::google::protobuf::internal::kEmptyString) {
-        targettachename_->clear();
-      }
+      targettachename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_targettacheoffest()) {
       if (targettacheoffest_ != NULL) targettacheoffest_->::AFFS::FSVector3::Clear();
     }
-    casttosurface_ = 0;
-    bindtarget_ = 0;
     destroytime_ = 0;
   }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
+  if (_has_bits_[8 / 32] & 768u) {
     if (has_methodcall()) {
-      if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-        methodcall_->clear();
-      }
+      methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodparam()) {
-      if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-        methodparam_->clear();
-      }
+      methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool ParticleEvents_Particle::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.ParticleEvents.Particle)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float EventTime = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &eventtime_)));
           set_has_eventtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(24)) goto parse_Rotation;
         break;
@@ -5499,8 +8385,7 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
 
       // required .AFFS.ParticleEvents.EPERTYPE Rotation = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 24) {
          parse_Rotation:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -5512,7 +8397,7 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(3, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(34)) goto parse_ParticlePath;
         break;
@@ -5520,16 +8405,16 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
 
       // required string ParticlePath = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 34) {
          parse_ParticlePath:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_particlepath()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->particlepath().data(), this->particlepath().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.ParticleEvents.Particle.ParticlePath");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(42)) goto parse_TargetTacheName;
         break;
@@ -5537,16 +8422,16 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
 
       // required string TargetTacheName = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 42) {
          parse_TargetTacheName:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_targettachename()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->targettachename().data(), this->targettachename().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.ParticleEvents.Particle.TargetTacheName");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(50)) goto parse_TargetTacheOffest;
         break;
@@ -5554,13 +8439,12 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
 
       // required .AFFS.FSVector3 TargetTacheOffest = 6;
       case 6: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 50) {
          parse_TargetTacheOffest:
           DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
                input, mutable_targettacheoffest()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(56)) goto parse_CastToSurface;
         break;
@@ -5568,15 +8452,14 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
 
       // required int32 CastToSurface = 7;
       case 7: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 56) {
          parse_CastToSurface:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &casttosurface_)));
           set_has_casttosurface();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(64)) goto parse_BindTarget;
         break;
@@ -5584,15 +8467,14 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
 
       // required int32 BindTarget = 8;
       case 8: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 64) {
          parse_BindTarget:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
                  input, &bindtarget_)));
           set_has_bindtarget();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(77)) goto parse_DestroyTime;
         break;
@@ -5600,15 +8482,14 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
 
       // required float DestroyTime = 9;
       case 9: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 77) {
          parse_DestroyTime:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &destroytime_)));
           set_has_destroytime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(82)) goto parse_MethodCall;
         break;
@@ -5616,16 +8497,16 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
 
       // required string MethodCall = 10;
       case 10: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 82) {
          parse_MethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodcall().data(), this->methodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.ParticleEvents.Particle.MethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(90)) goto parse_MethodParam;
         break;
@@ -5633,26 +8514,27 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
 
       // required string MethodParam = 11;
       case 11: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 90) {
          parse_MethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodparam().data(), this->methodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.ParticleEvents.Particle.MethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -5660,12 +8542,18 @@ bool ParticleEvents_Particle::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.ParticleEvents.Particle)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.ParticleEvents.Particle)
+  return false;
 #undef DO_
 }
 
 void ParticleEvents_Particle::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.ParticleEvents.Particle)
   // required float EventTime = 1;
   if (has_eventtime()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->eventtime(), output);
@@ -5679,26 +8567,28 @@ void ParticleEvents_Particle::SerializeWithCachedSizes(
 
   // required string ParticlePath = 4;
   if (has_particlepath()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->particlepath().data(), this->particlepath().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.ParticleEvents.Particle.ParticlePath");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->particlepath(), output);
   }
 
   // required string TargetTacheName = 5;
   if (has_targettachename()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targettachename().data(), this->targettachename().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.ParticleEvents.Particle.TargetTacheName");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->targettachename(), output);
   }
 
   // required .AFFS.FSVector3 TargetTacheOffest = 6;
   if (has_targettacheoffest()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      6, this->targettacheoffest(), output);
+      6, *this->targettacheoffest_, output);
   }
 
   // required int32 CastToSurface = 7;
@@ -5718,30 +8608,34 @@ void ParticleEvents_Particle::SerializeWithCachedSizes(
 
   // required string MethodCall = 10;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.ParticleEvents.Particle.MethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       10, this->methodcall(), output);
   }
 
   // required string MethodParam = 11;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.ParticleEvents.Particle.MethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       11, this->methodparam(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.ParticleEvents.Particle)
 }
 
-::google::protobuf::uint8* ParticleEvents_Particle::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* ParticleEvents_Particle::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.ParticleEvents.Particle)
   // required float EventTime = 1;
   if (has_eventtime()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->eventtime(), target);
@@ -5755,9 +8649,10 @@ void ParticleEvents_Particle::SerializeWithCachedSizes(
 
   // required string ParticlePath = 4;
   if (has_particlepath()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->particlepath().data(), this->particlepath().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.ParticleEvents.Particle.ParticlePath");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->particlepath(), target);
@@ -5765,9 +8660,10 @@ void ParticleEvents_Particle::SerializeWithCachedSizes(
 
   // required string TargetTacheName = 5;
   if (has_targettachename()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targettachename().data(), this->targettachename().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.ParticleEvents.Particle.TargetTacheName");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->targettachename(), target);
@@ -5776,8 +8672,8 @@ void ParticleEvents_Particle::SerializeWithCachedSizes(
   // required .AFFS.FSVector3 TargetTacheOffest = 6;
   if (has_targettacheoffest()) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        6, this->targettacheoffest(), target);
+      InternalWriteMessageNoVirtualToArray(
+        6, *this->targettacheoffest_, false, target);
   }
 
   // required int32 CastToSurface = 7;
@@ -5797,9 +8693,10 @@ void ParticleEvents_Particle::SerializeWithCachedSizes(
 
   // required string MethodCall = 10;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.ParticleEvents.Particle.MethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         10, this->methodcall(), target);
@@ -5807,94 +8704,148 @@ void ParticleEvents_Particle::SerializeWithCachedSizes(
 
   // required string MethodParam = 11;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.ParticleEvents.Particle.MethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         11, this->methodparam(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.ParticleEvents.Particle)
   return target;
 }
 
-int ParticleEvents_Particle::ByteSize() const {
+int ParticleEvents_Particle::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.ParticleEvents.Particle)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_eventtime()) {
     // required float EventTime = 1;
-    if (has_eventtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_rotation()) {
+    // required .AFFS.ParticleEvents.EPERTYPE Rotation = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->rotation());
+  }
+
+  if (has_particlepath()) {
+    // required string ParticlePath = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->particlepath());
+  }
+
+  if (has_targettachename()) {
+    // required string TargetTacheName = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targettachename());
+  }
+
+  if (has_targettacheoffest()) {
+    // required .AFFS.FSVector3 TargetTacheOffest = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->targettacheoffest_);
+  }
+
+  if (has_casttosurface()) {
+    // required int32 CastToSurface = 7;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->casttosurface());
+  }
+
+  if (has_bindtarget()) {
+    // required int32 BindTarget = 8;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->bindtarget());
+  }
+
+  if (has_destroytime()) {
+    // required float DestroyTime = 9;
+    total_size += 1 + 4;
+  }
+
+  if (has_methodcall()) {
+    // required string MethodCall = 10;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
+  }
+
+  if (has_methodparam()) {
+    // required string MethodParam = 11;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
+  }
+
+  return total_size;
+}
+int ParticleEvents_Particle::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.ParticleEvents.Particle)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x000003ff) ^ 0x000003ff) == 0) {  // All required fields are present.
+    // required float EventTime = 1;
+    total_size += 1 + 4;
 
     // required .AFFS.ParticleEvents.EPERTYPE Rotation = 3;
-    if (has_rotation()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->rotation());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->rotation());
 
     // required string ParticlePath = 4;
-    if (has_particlepath()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->particlepath());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->particlepath());
 
     // required string TargetTacheName = 5;
-    if (has_targettachename()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->targettachename());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targettachename());
 
     // required .AFFS.FSVector3 TargetTacheOffest = 6;
-    if (has_targettacheoffest()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-          this->targettacheoffest());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
+        *this->targettacheoffest_);
 
     // required int32 CastToSurface = 7;
-    if (has_casttosurface()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->casttosurface());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->casttosurface());
 
     // required int32 BindTarget = 8;
-    if (has_bindtarget()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::Int32Size(
-          this->bindtarget());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int32Size(
+        this->bindtarget());
 
     // required float DestroyTime = 9;
-    if (has_destroytime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
-  }
-  if (_has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     // required string MethodCall = 10;
-    if (has_methodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
 
     // required string MethodParam = 11;
-    if (has_methodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -5906,19 +8857,27 @@ int ParticleEvents_Particle::ByteSize() const {
 }
 
 void ParticleEvents_Particle::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const ParticleEvents_Particle* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const ParticleEvents_Particle*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.ParticleEvents.Particle)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const ParticleEvents_Particle* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const ParticleEvents_Particle>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.ParticleEvents.Particle)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.ParticleEvents.Particle)
     MergeFrom(*source);
   }
 }
 
 void ParticleEvents_Particle::MergeFrom(const ParticleEvents_Particle& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.ParticleEvents.Particle)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_eventtime()) {
       set_eventtime(from.eventtime());
@@ -5927,10 +8886,12 @@ void ParticleEvents_Particle::MergeFrom(const ParticleEvents_Particle& from) {
       set_rotation(from.rotation());
     }
     if (from.has_particlepath()) {
-      set_particlepath(from.particlepath());
+      set_has_particlepath();
+      particlepath_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.particlepath_);
     }
     if (from.has_targettachename()) {
-      set_targettachename(from.targettachename());
+      set_has_targettachename();
+      targettachename_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targettachename_);
     }
     if (from.has_targettacheoffest()) {
       mutable_targettacheoffest()->::AFFS::FSVector3::MergeFrom(from.targettacheoffest());
@@ -5947,22 +8908,28 @@ void ParticleEvents_Particle::MergeFrom(const ParticleEvents_Particle& from) {
   }
   if (from._has_bits_[8 / 32] & (0xffu << (8 % 32))) {
     if (from.has_methodcall()) {
-      set_methodcall(from.methodcall());
+      set_has_methodcall();
+      methodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodcall_);
     }
     if (from.has_methodparam()) {
-      set_methodparam(from.methodparam());
+      set_has_methodparam();
+      methodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodparam_);
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void ParticleEvents_Particle::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.ParticleEvents.Particle)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void ParticleEvents_Particle::CopyFrom(const ParticleEvents_Particle& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.ParticleEvents.Particle)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -5972,27 +8939,29 @@ bool ParticleEvents_Particle::IsInitialized() const {
   if ((_has_bits_[0] & 0x000003ff) != 0x000003ff) return false;
 
   if (has_targettacheoffest()) {
-    if (!this->targettacheoffest().IsInitialized()) return false;
+    if (!this->targettacheoffest_->IsInitialized()) return false;
   }
   return true;
 }
 
 void ParticleEvents_Particle::Swap(ParticleEvents_Particle* other) {
-  if (other != this) {
-    std::swap(eventtime_, other->eventtime_);
-    std::swap(rotation_, other->rotation_);
-    std::swap(particlepath_, other->particlepath_);
-    std::swap(targettachename_, other->targettachename_);
-    std::swap(targettacheoffest_, other->targettacheoffest_);
-    std::swap(casttosurface_, other->casttosurface_);
-    std::swap(bindtarget_, other->bindtarget_);
-    std::swap(destroytime_, other->destroytime_);
-    std::swap(methodcall_, other->methodcall_);
-    std::swap(methodparam_, other->methodparam_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void ParticleEvents_Particle::InternalSwap(ParticleEvents_Particle* other) {
+  std::swap(eventtime_, other->eventtime_);
+  std::swap(rotation_, other->rotation_);
+  particlepath_.Swap(&other->particlepath_);
+  targettachename_.Swap(&other->targettachename_);
+  std::swap(targettacheoffest_, other->targettacheoffest_);
+  std::swap(casttosurface_, other->casttosurface_);
+  std::swap(bindtarget_, other->bindtarget_);
+  std::swap(destroytime_, other->destroytime_);
+  methodcall_.Swap(&other->methodcall_);
+  methodparam_.Swap(&other->methodparam_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata ParticleEvents_Particle::GetMetadata() const {
@@ -6006,22 +8975,25 @@ void ParticleEvents_Particle::Swap(ParticleEvents_Particle* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int ParticleEvents::kXParticleListFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 ParticleEvents::ParticleEvents()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.ParticleEvents)
 }
 
 void ParticleEvents::InitAsDefaultInstance() {
 }
 
 ParticleEvents::ParticleEvents(const ParticleEvents& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.ParticleEvents)
 }
 
 void ParticleEvents::SharedCtor() {
@@ -6030,6 +9002,7 @@ void ParticleEvents::SharedCtor() {
 }
 
 ParticleEvents::~ParticleEvents() {
+  // @@protoc_insertion_point(destructor:AFFS.ParticleEvents)
   SharedDtor();
 }
 
@@ -6055,42 +9028,55 @@ const ParticleEvents& ParticleEvents::default_instance() {
 
 ParticleEvents* ParticleEvents::default_instance_ = NULL;
 
-ParticleEvents* ParticleEvents::New() const {
-  return new ParticleEvents;
+ParticleEvents* ParticleEvents::New(::google::protobuf::Arena* arena) const {
+  ParticleEvents* n = new ParticleEvents;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void ParticleEvents::Clear() {
+// @@protoc_insertion_point(message_clear_start:AFFS.ParticleEvents)
   xparticlelist_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool ParticleEvents::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.ParticleEvents)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .AFFS.ParticleEvents.Particle xParticleList = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_xParticleList:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+        if (tag == 10) {
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_xParticleList:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_xparticlelist()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_xParticleList;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(10)) goto parse_loop_xParticleList;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -6098,41 +9084,51 @@ bool ParticleEvents::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.ParticleEvents)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.ParticleEvents)
+  return false;
 #undef DO_
 }
 
 void ParticleEvents::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.ParticleEvents)
   // repeated .AFFS.ParticleEvents.Particle xParticleList = 1;
-  for (int i = 0; i < this->xparticlelist_size(); i++) {
+  for (unsigned int i = 0, n = this->xparticlelist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->xparticlelist(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.ParticleEvents)
 }
 
-::google::protobuf::uint8* ParticleEvents::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* ParticleEvents::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.ParticleEvents)
   // repeated .AFFS.ParticleEvents.Particle xParticleList = 1;
-  for (int i = 0; i < this->xparticlelist_size(); i++) {
+  for (unsigned int i = 0, n = this->xparticlelist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->xparticlelist(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->xparticlelist(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.ParticleEvents)
   return target;
 }
 
 int ParticleEvents::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.ParticleEvents)
   int total_size = 0;
 
   // repeated .AFFS.ParticleEvents.Particle xParticleList = 1;
@@ -6143,7 +9139,7 @@ int ParticleEvents::ByteSize() const {
         this->xparticlelist(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -6155,30 +9151,42 @@ int ParticleEvents::ByteSize() const {
 }
 
 void ParticleEvents::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const ParticleEvents* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const ParticleEvents*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.ParticleEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const ParticleEvents* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const ParticleEvents>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.ParticleEvents)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.ParticleEvents)
     MergeFrom(*source);
   }
 }
 
 void ParticleEvents::MergeFrom(const ParticleEvents& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.ParticleEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   xparticlelist_.MergeFrom(from.xparticlelist_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void ParticleEvents::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.ParticleEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void ParticleEvents::CopyFrom(const ParticleEvents& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.ParticleEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -6186,19 +9194,19 @@ void ParticleEvents::CopyFrom(const ParticleEvents& from) {
 
 bool ParticleEvents::IsInitialized() const {
 
-  for (int i = 0; i < xparticlelist_size(); i++) {
-    if (!this->xparticlelist(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->xparticlelist())) return false;
   return true;
 }
 
 void ParticleEvents::Swap(ParticleEvents* other) {
-  if (other != this) {
-    xparticlelist_.Swap(&other->xparticlelist_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void ParticleEvents::InternalSwap(ParticleEvents* other) {
+  xparticlelist_.UnsafeArenaSwap(&other->xparticlelist_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata ParticleEvents::GetMetadata() const {
@@ -6209,6 +9217,425 @@ void ParticleEvents::Swap(ParticleEvents* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// ParticleEvents_Particle
+
+// required float EventTime = 1;
+bool ParticleEvents_Particle::has_eventtime() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void ParticleEvents_Particle::set_has_eventtime() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void ParticleEvents_Particle::clear_has_eventtime() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void ParticleEvents_Particle::clear_eventtime() {
+  eventtime_ = 0;
+  clear_has_eventtime();
+}
+ float ParticleEvents_Particle::eventtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.Particle.EventTime)
+  return eventtime_;
+}
+ void ParticleEvents_Particle::set_eventtime(float value) {
+  set_has_eventtime();
+  eventtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.ParticleEvents.Particle.EventTime)
+}
+
+// required .AFFS.ParticleEvents.EPERTYPE Rotation = 3;
+bool ParticleEvents_Particle::has_rotation() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void ParticleEvents_Particle::set_has_rotation() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void ParticleEvents_Particle::clear_has_rotation() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void ParticleEvents_Particle::clear_rotation() {
+  rotation_ = 0;
+  clear_has_rotation();
+}
+ ::AFFS::ParticleEvents_EPERTYPE ParticleEvents_Particle::rotation() const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.Particle.Rotation)
+  return static_cast< ::AFFS::ParticleEvents_EPERTYPE >(rotation_);
+}
+ void ParticleEvents_Particle::set_rotation(::AFFS::ParticleEvents_EPERTYPE value) {
+  assert(::AFFS::ParticleEvents_EPERTYPE_IsValid(value));
+  set_has_rotation();
+  rotation_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.ParticleEvents.Particle.Rotation)
+}
+
+// required string ParticlePath = 4;
+bool ParticleEvents_Particle::has_particlepath() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void ParticleEvents_Particle::set_has_particlepath() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void ParticleEvents_Particle::clear_has_particlepath() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void ParticleEvents_Particle::clear_particlepath() {
+  particlepath_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_particlepath();
+}
+ const ::std::string& ParticleEvents_Particle::particlepath() const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.Particle.ParticlePath)
+  return particlepath_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void ParticleEvents_Particle::set_particlepath(const ::std::string& value) {
+  set_has_particlepath();
+  particlepath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.ParticleEvents.Particle.ParticlePath)
+}
+ void ParticleEvents_Particle::set_particlepath(const char* value) {
+  set_has_particlepath();
+  particlepath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.ParticleEvents.Particle.ParticlePath)
+}
+ void ParticleEvents_Particle::set_particlepath(const char* value, size_t size) {
+  set_has_particlepath();
+  particlepath_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.ParticleEvents.Particle.ParticlePath)
+}
+ ::std::string* ParticleEvents_Particle::mutable_particlepath() {
+  set_has_particlepath();
+  // @@protoc_insertion_point(field_mutable:AFFS.ParticleEvents.Particle.ParticlePath)
+  return particlepath_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* ParticleEvents_Particle::release_particlepath() {
+  // @@protoc_insertion_point(field_release:AFFS.ParticleEvents.Particle.ParticlePath)
+  clear_has_particlepath();
+  return particlepath_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void ParticleEvents_Particle::set_allocated_particlepath(::std::string* particlepath) {
+  if (particlepath != NULL) {
+    set_has_particlepath();
+  } else {
+    clear_has_particlepath();
+  }
+  particlepath_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), particlepath);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.ParticleEvents.Particle.ParticlePath)
+}
+
+// required string TargetTacheName = 5;
+bool ParticleEvents_Particle::has_targettachename() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void ParticleEvents_Particle::set_has_targettachename() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void ParticleEvents_Particle::clear_has_targettachename() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void ParticleEvents_Particle::clear_targettachename() {
+  targettachename_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_targettachename();
+}
+ const ::std::string& ParticleEvents_Particle::targettachename() const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.Particle.TargetTacheName)
+  return targettachename_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void ParticleEvents_Particle::set_targettachename(const ::std::string& value) {
+  set_has_targettachename();
+  targettachename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.ParticleEvents.Particle.TargetTacheName)
+}
+ void ParticleEvents_Particle::set_targettachename(const char* value) {
+  set_has_targettachename();
+  targettachename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.ParticleEvents.Particle.TargetTacheName)
+}
+ void ParticleEvents_Particle::set_targettachename(const char* value, size_t size) {
+  set_has_targettachename();
+  targettachename_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.ParticleEvents.Particle.TargetTacheName)
+}
+ ::std::string* ParticleEvents_Particle::mutable_targettachename() {
+  set_has_targettachename();
+  // @@protoc_insertion_point(field_mutable:AFFS.ParticleEvents.Particle.TargetTacheName)
+  return targettachename_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* ParticleEvents_Particle::release_targettachename() {
+  // @@protoc_insertion_point(field_release:AFFS.ParticleEvents.Particle.TargetTacheName)
+  clear_has_targettachename();
+  return targettachename_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void ParticleEvents_Particle::set_allocated_targettachename(::std::string* targettachename) {
+  if (targettachename != NULL) {
+    set_has_targettachename();
+  } else {
+    clear_has_targettachename();
+  }
+  targettachename_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), targettachename);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.ParticleEvents.Particle.TargetTacheName)
+}
+
+// required .AFFS.FSVector3 TargetTacheOffest = 6;
+bool ParticleEvents_Particle::has_targettacheoffest() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void ParticleEvents_Particle::set_has_targettacheoffest() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void ParticleEvents_Particle::clear_has_targettacheoffest() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void ParticleEvents_Particle::clear_targettacheoffest() {
+  if (targettacheoffest_ != NULL) targettacheoffest_->::AFFS::FSVector3::Clear();
+  clear_has_targettacheoffest();
+}
+const ::AFFS::FSVector3& ParticleEvents_Particle::targettacheoffest() const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.Particle.TargetTacheOffest)
+  return targettacheoffest_ != NULL ? *targettacheoffest_ : *default_instance_->targettacheoffest_;
+}
+::AFFS::FSVector3* ParticleEvents_Particle::mutable_targettacheoffest() {
+  set_has_targettacheoffest();
+  if (targettacheoffest_ == NULL) {
+    targettacheoffest_ = new ::AFFS::FSVector3;
+  }
+  // @@protoc_insertion_point(field_mutable:AFFS.ParticleEvents.Particle.TargetTacheOffest)
+  return targettacheoffest_;
+}
+::AFFS::FSVector3* ParticleEvents_Particle::release_targettacheoffest() {
+  // @@protoc_insertion_point(field_release:AFFS.ParticleEvents.Particle.TargetTacheOffest)
+  clear_has_targettacheoffest();
+  ::AFFS::FSVector3* temp = targettacheoffest_;
+  targettacheoffest_ = NULL;
+  return temp;
+}
+void ParticleEvents_Particle::set_allocated_targettacheoffest(::AFFS::FSVector3* targettacheoffest) {
+  delete targettacheoffest_;
+  targettacheoffest_ = targettacheoffest;
+  if (targettacheoffest) {
+    set_has_targettacheoffest();
+  } else {
+    clear_has_targettacheoffest();
+  }
+  // @@protoc_insertion_point(field_set_allocated:AFFS.ParticleEvents.Particle.TargetTacheOffest)
+}
+
+// required int32 CastToSurface = 7;
+bool ParticleEvents_Particle::has_casttosurface() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void ParticleEvents_Particle::set_has_casttosurface() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void ParticleEvents_Particle::clear_has_casttosurface() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void ParticleEvents_Particle::clear_casttosurface() {
+  casttosurface_ = 0;
+  clear_has_casttosurface();
+}
+ ::google::protobuf::int32 ParticleEvents_Particle::casttosurface() const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.Particle.CastToSurface)
+  return casttosurface_;
+}
+ void ParticleEvents_Particle::set_casttosurface(::google::protobuf::int32 value) {
+  set_has_casttosurface();
+  casttosurface_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.ParticleEvents.Particle.CastToSurface)
+}
+
+// required int32 BindTarget = 8;
+bool ParticleEvents_Particle::has_bindtarget() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+void ParticleEvents_Particle::set_has_bindtarget() {
+  _has_bits_[0] |= 0x00000040u;
+}
+void ParticleEvents_Particle::clear_has_bindtarget() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+void ParticleEvents_Particle::clear_bindtarget() {
+  bindtarget_ = 0;
+  clear_has_bindtarget();
+}
+ ::google::protobuf::int32 ParticleEvents_Particle::bindtarget() const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.Particle.BindTarget)
+  return bindtarget_;
+}
+ void ParticleEvents_Particle::set_bindtarget(::google::protobuf::int32 value) {
+  set_has_bindtarget();
+  bindtarget_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.ParticleEvents.Particle.BindTarget)
+}
+
+// required float DestroyTime = 9;
+bool ParticleEvents_Particle::has_destroytime() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+void ParticleEvents_Particle::set_has_destroytime() {
+  _has_bits_[0] |= 0x00000080u;
+}
+void ParticleEvents_Particle::clear_has_destroytime() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+void ParticleEvents_Particle::clear_destroytime() {
+  destroytime_ = 0;
+  clear_has_destroytime();
+}
+ float ParticleEvents_Particle::destroytime() const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.Particle.DestroyTime)
+  return destroytime_;
+}
+ void ParticleEvents_Particle::set_destroytime(float value) {
+  set_has_destroytime();
+  destroytime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.ParticleEvents.Particle.DestroyTime)
+}
+
+// required string MethodCall = 10;
+bool ParticleEvents_Particle::has_methodcall() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+void ParticleEvents_Particle::set_has_methodcall() {
+  _has_bits_[0] |= 0x00000100u;
+}
+void ParticleEvents_Particle::clear_has_methodcall() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+void ParticleEvents_Particle::clear_methodcall() {
+  methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodcall();
+}
+ const ::std::string& ParticleEvents_Particle::methodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.Particle.MethodCall)
+  return methodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void ParticleEvents_Particle::set_methodcall(const ::std::string& value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.ParticleEvents.Particle.MethodCall)
+}
+ void ParticleEvents_Particle::set_methodcall(const char* value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.ParticleEvents.Particle.MethodCall)
+}
+ void ParticleEvents_Particle::set_methodcall(const char* value, size_t size) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.ParticleEvents.Particle.MethodCall)
+}
+ ::std::string* ParticleEvents_Particle::mutable_methodcall() {
+  set_has_methodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.ParticleEvents.Particle.MethodCall)
+  return methodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* ParticleEvents_Particle::release_methodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.ParticleEvents.Particle.MethodCall)
+  clear_has_methodcall();
+  return methodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void ParticleEvents_Particle::set_allocated_methodcall(::std::string* methodcall) {
+  if (methodcall != NULL) {
+    set_has_methodcall();
+  } else {
+    clear_has_methodcall();
+  }
+  methodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.ParticleEvents.Particle.MethodCall)
+}
+
+// required string MethodParam = 11;
+bool ParticleEvents_Particle::has_methodparam() const {
+  return (_has_bits_[0] & 0x00000200u) != 0;
+}
+void ParticleEvents_Particle::set_has_methodparam() {
+  _has_bits_[0] |= 0x00000200u;
+}
+void ParticleEvents_Particle::clear_has_methodparam() {
+  _has_bits_[0] &= ~0x00000200u;
+}
+void ParticleEvents_Particle::clear_methodparam() {
+  methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodparam();
+}
+ const ::std::string& ParticleEvents_Particle::methodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.Particle.MethodParam)
+  return methodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void ParticleEvents_Particle::set_methodparam(const ::std::string& value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.ParticleEvents.Particle.MethodParam)
+}
+ void ParticleEvents_Particle::set_methodparam(const char* value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.ParticleEvents.Particle.MethodParam)
+}
+ void ParticleEvents_Particle::set_methodparam(const char* value, size_t size) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.ParticleEvents.Particle.MethodParam)
+}
+ ::std::string* ParticleEvents_Particle::mutable_methodparam() {
+  set_has_methodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.ParticleEvents.Particle.MethodParam)
+  return methodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* ParticleEvents_Particle::release_methodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.ParticleEvents.Particle.MethodParam)
+  clear_has_methodparam();
+  return methodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void ParticleEvents_Particle::set_allocated_methodparam(::std::string* methodparam) {
+  if (methodparam != NULL) {
+    set_has_methodparam();
+  } else {
+    clear_has_methodparam();
+  }
+  methodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.ParticleEvents.Particle.MethodParam)
+}
+
+// -------------------------------------------------------------------
+
+// ParticleEvents
+
+// repeated .AFFS.ParticleEvents.Particle xParticleList = 1;
+int ParticleEvents::xparticlelist_size() const {
+  return xparticlelist_.size();
+}
+void ParticleEvents::clear_xparticlelist() {
+  xparticlelist_.Clear();
+}
+const ::AFFS::ParticleEvents_Particle& ParticleEvents::xparticlelist(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.ParticleEvents.xParticleList)
+  return xparticlelist_.Get(index);
+}
+::AFFS::ParticleEvents_Particle* ParticleEvents::mutable_xparticlelist(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.ParticleEvents.xParticleList)
+  return xparticlelist_.Mutable(index);
+}
+::AFFS::ParticleEvents_Particle* ParticleEvents::add_xparticlelist() {
+  // @@protoc_insertion_point(field_add:AFFS.ParticleEvents.xParticleList)
+  return xparticlelist_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::ParticleEvents_Particle >*
+ParticleEvents::mutable_xparticlelist() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.ParticleEvents.xParticleList)
+  return &xparticlelist_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::ParticleEvents_Particle >&
+ParticleEvents::xparticlelist() const {
+  // @@protoc_insertion_point(field_list:AFFS.ParticleEvents.xParticleList)
+  return xparticlelist_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
@@ -6226,59 +9653,58 @@ bool EnableEvents_EEETYPE_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const EnableEvents_EEETYPE EnableEvents::INIT;
 const EnableEvents_EEETYPE EnableEvents::FINAL;
 const EnableEvents_EEETYPE EnableEvents::EEETYPE_MIN;
 const EnableEvents_EEETYPE EnableEvents::EEETYPE_MAX;
 const int EnableEvents::EEETYPE_ARRAYSIZE;
-#endif  // _MSC_VER
-#ifndef _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int EnableEvents_Enable::kEventTimeFieldNumber;
 const int EnableEvents_Enable::kEventTypeFieldNumber;
 const int EnableEvents_Enable::kTargetNameFieldNumber;
 const int EnableEvents_Enable::kMethodCallFieldNumber;
 const int EnableEvents_Enable::kMethodParamFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 EnableEvents_Enable::EnableEvents_Enable()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.EnableEvents.Enable)
 }
 
 void EnableEvents_Enable::InitAsDefaultInstance() {
 }
 
 EnableEvents_Enable::EnableEvents_Enable(const EnableEvents_Enable& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.EnableEvents.Enable)
 }
 
 void EnableEvents_Enable::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   eventtime_ = 0;
   eventtype_ = 0;
-  targetname_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  targetname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 EnableEvents_Enable::~EnableEvents_Enable() {
+  // @@protoc_insertion_point(destructor:AFFS.EnableEvents.Enable)
   SharedDtor();
 }
 
 void EnableEvents_Enable::SharedDtor() {
-  if (targetname_ != &::google::protobuf::internal::kEmptyString) {
-    delete targetname_;
-  }
-  if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodcall_;
-  }
-  if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodparam_;
-  }
+  targetname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -6300,50 +9726,73 @@ const EnableEvents_Enable& EnableEvents_Enable::default_instance() {
 
 EnableEvents_Enable* EnableEvents_Enable::default_instance_ = NULL;
 
-EnableEvents_Enable* EnableEvents_Enable::New() const {
-  return new EnableEvents_Enable;
+EnableEvents_Enable* EnableEvents_Enable::New(::google::protobuf::Arena* arena) const {
+  EnableEvents_Enable* n = new EnableEvents_Enable;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void EnableEvents_Enable::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    eventtime_ = 0;
-    eventtype_ = 0;
+// @@protoc_insertion_point(message_clear_start:AFFS.EnableEvents.Enable)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(EnableEvents_Enable, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<EnableEvents_Enable*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  if (_has_bits_[0 / 32] & 31u) {
+    ZR_(eventtime_, eventtype_);
     if (has_targetname()) {
-      if (targetname_ != &::google::protobuf::internal::kEmptyString) {
-        targetname_->clear();
-      }
+      targetname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodcall()) {
-      if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-        methodcall_->clear();
-      }
+      methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodparam()) {
-      if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-        methodparam_->clear();
-      }
+      methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool EnableEvents_Enable::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.EnableEvents.Enable)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float EventTime = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &eventtime_)));
           set_has_eventtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(16)) goto parse_EventType;
         break;
@@ -6351,8 +9800,7 @@ bool EnableEvents_Enable::MergePartialFromCodedStream(
 
       // required .AFFS.EnableEvents.EEETYPE EventType = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 16) {
          parse_EventType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -6364,7 +9812,7 @@ bool EnableEvents_Enable::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(2, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(26)) goto parse_TargetName;
         break;
@@ -6372,16 +9820,16 @@ bool EnableEvents_Enable::MergePartialFromCodedStream(
 
       // required string TargetName = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 26) {
          parse_TargetName:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_targetname()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->targetname().data(), this->targetname().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.EnableEvents.Enable.TargetName");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(34)) goto parse_MethodCall;
         break;
@@ -6389,16 +9837,16 @@ bool EnableEvents_Enable::MergePartialFromCodedStream(
 
       // required string MethodCall = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 34) {
          parse_MethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodcall().data(), this->methodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.EnableEvents.Enable.MethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(42)) goto parse_MethodParam;
         break;
@@ -6406,26 +9854,27 @@ bool EnableEvents_Enable::MergePartialFromCodedStream(
 
       // required string MethodParam = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 42) {
          parse_MethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodparam().data(), this->methodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.EnableEvents.Enable.MethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -6433,12 +9882,18 @@ bool EnableEvents_Enable::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.EnableEvents.Enable)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.EnableEvents.Enable)
+  return false;
 #undef DO_
 }
 
 void EnableEvents_Enable::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.EnableEvents.Enable)
   // required float EventTime = 1;
   if (has_eventtime()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->eventtime(), output);
@@ -6452,39 +9907,44 @@ void EnableEvents_Enable::SerializeWithCachedSizes(
 
   // required string TargetName = 3;
   if (has_targetname()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetname().data(), this->targetname().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.EnableEvents.Enable.TargetName");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->targetname(), output);
   }
 
   // required string MethodCall = 4;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.EnableEvents.Enable.MethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->methodcall(), output);
   }
 
   // required string MethodParam = 5;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.EnableEvents.Enable.MethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->methodparam(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.EnableEvents.Enable)
 }
 
-::google::protobuf::uint8* EnableEvents_Enable::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* EnableEvents_Enable::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.EnableEvents.Enable)
   // required float EventTime = 1;
   if (has_eventtime()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->eventtime(), target);
@@ -6498,9 +9958,10 @@ void EnableEvents_Enable::SerializeWithCachedSizes(
 
   // required string TargetName = 3;
   if (has_targetname()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetname().data(), this->targetname().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.EnableEvents.Enable.TargetName");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->targetname(), target);
@@ -6508,9 +9969,10 @@ void EnableEvents_Enable::SerializeWithCachedSizes(
 
   // required string MethodCall = 4;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.EnableEvents.Enable.MethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->methodcall(), target);
@@ -6518,59 +9980,92 @@ void EnableEvents_Enable::SerializeWithCachedSizes(
 
   // required string MethodParam = 5;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.EnableEvents.Enable.MethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->methodparam(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.EnableEvents.Enable)
   return target;
 }
 
-int EnableEvents_Enable::ByteSize() const {
+int EnableEvents_Enable::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.EnableEvents.Enable)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_eventtime()) {
     // required float EventTime = 1;
-    if (has_eventtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_eventtype()) {
+    // required .AFFS.EnableEvents.EEETYPE EventType = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
+  }
+
+  if (has_targetname()) {
+    // required string TargetName = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetname());
+  }
+
+  if (has_methodcall()) {
+    // required string MethodCall = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
+  }
+
+  if (has_methodparam()) {
+    // required string MethodParam = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
+  }
+
+  return total_size;
+}
+int EnableEvents_Enable::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.EnableEvents.Enable)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
+    // required float EventTime = 1;
+    total_size += 1 + 4;
 
     // required .AFFS.EnableEvents.EEETYPE EventType = 2;
-    if (has_eventtype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
 
     // required string TargetName = 3;
-    if (has_targetname()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->targetname());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetname());
 
     // required string MethodCall = 4;
-    if (has_methodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
 
     // required string MethodParam = 5;
-    if (has_methodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -6582,19 +10077,27 @@ int EnableEvents_Enable::ByteSize() const {
 }
 
 void EnableEvents_Enable::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const EnableEvents_Enable* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const EnableEvents_Enable*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.EnableEvents.Enable)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const EnableEvents_Enable* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const EnableEvents_Enable>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.EnableEvents.Enable)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.EnableEvents.Enable)
     MergeFrom(*source);
   }
 }
 
 void EnableEvents_Enable::MergeFrom(const EnableEvents_Enable& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.EnableEvents.Enable)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_eventtime()) {
       set_eventtime(from.eventtime());
@@ -6603,25 +10106,32 @@ void EnableEvents_Enable::MergeFrom(const EnableEvents_Enable& from) {
       set_eventtype(from.eventtype());
     }
     if (from.has_targetname()) {
-      set_targetname(from.targetname());
+      set_has_targetname();
+      targetname_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetname_);
     }
     if (from.has_methodcall()) {
-      set_methodcall(from.methodcall());
+      set_has_methodcall();
+      methodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodcall_);
     }
     if (from.has_methodparam()) {
-      set_methodparam(from.methodparam());
+      set_has_methodparam();
+      methodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodparam_);
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void EnableEvents_Enable::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.EnableEvents.Enable)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void EnableEvents_Enable::CopyFrom(const EnableEvents_Enable& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.EnableEvents.Enable)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -6634,16 +10144,18 @@ bool EnableEvents_Enable::IsInitialized() const {
 }
 
 void EnableEvents_Enable::Swap(EnableEvents_Enable* other) {
-  if (other != this) {
-    std::swap(eventtime_, other->eventtime_);
-    std::swap(eventtype_, other->eventtype_);
-    std::swap(targetname_, other->targetname_);
-    std::swap(methodcall_, other->methodcall_);
-    std::swap(methodparam_, other->methodparam_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void EnableEvents_Enable::InternalSwap(EnableEvents_Enable* other) {
+  std::swap(eventtime_, other->eventtime_);
+  std::swap(eventtype_, other->eventtype_);
+  targetname_.Swap(&other->targetname_);
+  methodcall_.Swap(&other->methodcall_);
+  methodparam_.Swap(&other->methodparam_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata EnableEvents_Enable::GetMetadata() const {
@@ -6657,22 +10169,25 @@ void EnableEvents_Enable::Swap(EnableEvents_Enable* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int EnableEvents::kXEnableListFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 EnableEvents::EnableEvents()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.EnableEvents)
 }
 
 void EnableEvents::InitAsDefaultInstance() {
 }
 
 EnableEvents::EnableEvents(const EnableEvents& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.EnableEvents)
 }
 
 void EnableEvents::SharedCtor() {
@@ -6681,6 +10196,7 @@ void EnableEvents::SharedCtor() {
 }
 
 EnableEvents::~EnableEvents() {
+  // @@protoc_insertion_point(destructor:AFFS.EnableEvents)
   SharedDtor();
 }
 
@@ -6706,42 +10222,55 @@ const EnableEvents& EnableEvents::default_instance() {
 
 EnableEvents* EnableEvents::default_instance_ = NULL;
 
-EnableEvents* EnableEvents::New() const {
-  return new EnableEvents;
+EnableEvents* EnableEvents::New(::google::protobuf::Arena* arena) const {
+  EnableEvents* n = new EnableEvents;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void EnableEvents::Clear() {
+// @@protoc_insertion_point(message_clear_start:AFFS.EnableEvents)
   xenablelist_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool EnableEvents::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.EnableEvents)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .AFFS.EnableEvents.Enable xEnableList = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_xEnableList:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+        if (tag == 10) {
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_xEnableList:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_xenablelist()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_xEnableList;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(10)) goto parse_loop_xEnableList;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -6749,41 +10278,51 @@ bool EnableEvents::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.EnableEvents)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.EnableEvents)
+  return false;
 #undef DO_
 }
 
 void EnableEvents::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.EnableEvents)
   // repeated .AFFS.EnableEvents.Enable xEnableList = 1;
-  for (int i = 0; i < this->xenablelist_size(); i++) {
+  for (unsigned int i = 0, n = this->xenablelist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->xenablelist(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.EnableEvents)
 }
 
-::google::protobuf::uint8* EnableEvents::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* EnableEvents::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.EnableEvents)
   // repeated .AFFS.EnableEvents.Enable xEnableList = 1;
-  for (int i = 0; i < this->xenablelist_size(); i++) {
+  for (unsigned int i = 0, n = this->xenablelist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->xenablelist(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->xenablelist(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.EnableEvents)
   return target;
 }
 
 int EnableEvents::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.EnableEvents)
   int total_size = 0;
 
   // repeated .AFFS.EnableEvents.Enable xEnableList = 1;
@@ -6794,7 +10333,7 @@ int EnableEvents::ByteSize() const {
         this->xenablelist(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -6806,30 +10345,42 @@ int EnableEvents::ByteSize() const {
 }
 
 void EnableEvents::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const EnableEvents* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const EnableEvents*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.EnableEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const EnableEvents* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const EnableEvents>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.EnableEvents)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.EnableEvents)
     MergeFrom(*source);
   }
 }
 
 void EnableEvents::MergeFrom(const EnableEvents& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.EnableEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   xenablelist_.MergeFrom(from.xenablelist_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void EnableEvents::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.EnableEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void EnableEvents::CopyFrom(const EnableEvents& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.EnableEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -6837,19 +10388,19 @@ void EnableEvents::CopyFrom(const EnableEvents& from) {
 
 bool EnableEvents::IsInitialized() const {
 
-  for (int i = 0; i < xenablelist_size(); i++) {
-    if (!this->xenablelist(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->xenablelist())) return false;
   return true;
 }
 
 void EnableEvents::Swap(EnableEvents* other) {
-  if (other != this) {
-    xenablelist_.Swap(&other->xenablelist_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void EnableEvents::InternalSwap(EnableEvents* other) {
+  xenablelist_.UnsafeArenaSwap(&other->xenablelist_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata EnableEvents::GetMetadata() const {
@@ -6860,6 +10411,255 @@ void EnableEvents::Swap(EnableEvents* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// EnableEvents_Enable
+
+// required float EventTime = 1;
+bool EnableEvents_Enable::has_eventtime() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void EnableEvents_Enable::set_has_eventtime() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void EnableEvents_Enable::clear_has_eventtime() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void EnableEvents_Enable::clear_eventtime() {
+  eventtime_ = 0;
+  clear_has_eventtime();
+}
+ float EnableEvents_Enable::eventtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.EnableEvents.Enable.EventTime)
+  return eventtime_;
+}
+ void EnableEvents_Enable::set_eventtime(float value) {
+  set_has_eventtime();
+  eventtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.EnableEvents.Enable.EventTime)
+}
+
+// required .AFFS.EnableEvents.EEETYPE EventType = 2;
+bool EnableEvents_Enable::has_eventtype() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void EnableEvents_Enable::set_has_eventtype() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void EnableEvents_Enable::clear_has_eventtype() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void EnableEvents_Enable::clear_eventtype() {
+  eventtype_ = 0;
+  clear_has_eventtype();
+}
+ ::AFFS::EnableEvents_EEETYPE EnableEvents_Enable::eventtype() const {
+  // @@protoc_insertion_point(field_get:AFFS.EnableEvents.Enable.EventType)
+  return static_cast< ::AFFS::EnableEvents_EEETYPE >(eventtype_);
+}
+ void EnableEvents_Enable::set_eventtype(::AFFS::EnableEvents_EEETYPE value) {
+  assert(::AFFS::EnableEvents_EEETYPE_IsValid(value));
+  set_has_eventtype();
+  eventtype_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.EnableEvents.Enable.EventType)
+}
+
+// required string TargetName = 3;
+bool EnableEvents_Enable::has_targetname() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void EnableEvents_Enable::set_has_targetname() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void EnableEvents_Enable::clear_has_targetname() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void EnableEvents_Enable::clear_targetname() {
+  targetname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_targetname();
+}
+ const ::std::string& EnableEvents_Enable::targetname() const {
+  // @@protoc_insertion_point(field_get:AFFS.EnableEvents.Enable.TargetName)
+  return targetname_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void EnableEvents_Enable::set_targetname(const ::std::string& value) {
+  set_has_targetname();
+  targetname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.EnableEvents.Enable.TargetName)
+}
+ void EnableEvents_Enable::set_targetname(const char* value) {
+  set_has_targetname();
+  targetname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.EnableEvents.Enable.TargetName)
+}
+ void EnableEvents_Enable::set_targetname(const char* value, size_t size) {
+  set_has_targetname();
+  targetname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.EnableEvents.Enable.TargetName)
+}
+ ::std::string* EnableEvents_Enable::mutable_targetname() {
+  set_has_targetname();
+  // @@protoc_insertion_point(field_mutable:AFFS.EnableEvents.Enable.TargetName)
+  return targetname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* EnableEvents_Enable::release_targetname() {
+  // @@protoc_insertion_point(field_release:AFFS.EnableEvents.Enable.TargetName)
+  clear_has_targetname();
+  return targetname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void EnableEvents_Enable::set_allocated_targetname(::std::string* targetname) {
+  if (targetname != NULL) {
+    set_has_targetname();
+  } else {
+    clear_has_targetname();
+  }
+  targetname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), targetname);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.EnableEvents.Enable.TargetName)
+}
+
+// required string MethodCall = 4;
+bool EnableEvents_Enable::has_methodcall() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void EnableEvents_Enable::set_has_methodcall() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void EnableEvents_Enable::clear_has_methodcall() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void EnableEvents_Enable::clear_methodcall() {
+  methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodcall();
+}
+ const ::std::string& EnableEvents_Enable::methodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.EnableEvents.Enable.MethodCall)
+  return methodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void EnableEvents_Enable::set_methodcall(const ::std::string& value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.EnableEvents.Enable.MethodCall)
+}
+ void EnableEvents_Enable::set_methodcall(const char* value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.EnableEvents.Enable.MethodCall)
+}
+ void EnableEvents_Enable::set_methodcall(const char* value, size_t size) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.EnableEvents.Enable.MethodCall)
+}
+ ::std::string* EnableEvents_Enable::mutable_methodcall() {
+  set_has_methodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.EnableEvents.Enable.MethodCall)
+  return methodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* EnableEvents_Enable::release_methodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.EnableEvents.Enable.MethodCall)
+  clear_has_methodcall();
+  return methodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void EnableEvents_Enable::set_allocated_methodcall(::std::string* methodcall) {
+  if (methodcall != NULL) {
+    set_has_methodcall();
+  } else {
+    clear_has_methodcall();
+  }
+  methodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.EnableEvents.Enable.MethodCall)
+}
+
+// required string MethodParam = 5;
+bool EnableEvents_Enable::has_methodparam() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void EnableEvents_Enable::set_has_methodparam() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void EnableEvents_Enable::clear_has_methodparam() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void EnableEvents_Enable::clear_methodparam() {
+  methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodparam();
+}
+ const ::std::string& EnableEvents_Enable::methodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.EnableEvents.Enable.MethodParam)
+  return methodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void EnableEvents_Enable::set_methodparam(const ::std::string& value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.EnableEvents.Enable.MethodParam)
+}
+ void EnableEvents_Enable::set_methodparam(const char* value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.EnableEvents.Enable.MethodParam)
+}
+ void EnableEvents_Enable::set_methodparam(const char* value, size_t size) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.EnableEvents.Enable.MethodParam)
+}
+ ::std::string* EnableEvents_Enable::mutable_methodparam() {
+  set_has_methodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.EnableEvents.Enable.MethodParam)
+  return methodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* EnableEvents_Enable::release_methodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.EnableEvents.Enable.MethodParam)
+  clear_has_methodparam();
+  return methodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void EnableEvents_Enable::set_allocated_methodparam(::std::string* methodparam) {
+  if (methodparam != NULL) {
+    set_has_methodparam();
+  } else {
+    clear_has_methodparam();
+  }
+  methodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.EnableEvents.Enable.MethodParam)
+}
+
+// -------------------------------------------------------------------
+
+// EnableEvents
+
+// repeated .AFFS.EnableEvents.Enable xEnableList = 1;
+int EnableEvents::xenablelist_size() const {
+  return xenablelist_.size();
+}
+void EnableEvents::clear_xenablelist() {
+  xenablelist_.Clear();
+}
+const ::AFFS::EnableEvents_Enable& EnableEvents::xenablelist(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.EnableEvents.xEnableList)
+  return xenablelist_.Get(index);
+}
+::AFFS::EnableEvents_Enable* EnableEvents::mutable_xenablelist(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.EnableEvents.xEnableList)
+  return xenablelist_.Mutable(index);
+}
+::AFFS::EnableEvents_Enable* EnableEvents::add_xenablelist() {
+  // @@protoc_insertion_point(field_add:AFFS.EnableEvents.xEnableList)
+  return xenablelist_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::EnableEvents_Enable >*
+EnableEvents::mutable_xenablelist() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.EnableEvents.xEnableList)
+  return &xenablelist_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::EnableEvents_Enable >&
+EnableEvents::xenablelist() const {
+  // @@protoc_insertion_point(field_list:AFFS.EnableEvents.xEnableList)
+  return xenablelist_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
@@ -6877,59 +10677,58 @@ bool TrailEvents_TEETYPE_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const TrailEvents_TEETYPE TrailEvents::INIT;
 const TrailEvents_TEETYPE TrailEvents::FINAL;
 const TrailEvents_TEETYPE TrailEvents::TEETYPE_MIN;
 const TrailEvents_TEETYPE TrailEvents::TEETYPE_MAX;
 const int TrailEvents::TEETYPE_ARRAYSIZE;
-#endif  // _MSC_VER
-#ifndef _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int TrailEvents_Trail::kEventTimeFieldNumber;
 const int TrailEvents_Trail::kEventTypeFieldNumber;
 const int TrailEvents_Trail::kTargetNameFieldNumber;
 const int TrailEvents_Trail::kMethodCallFieldNumber;
 const int TrailEvents_Trail::kMethodParamFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TrailEvents_Trail::TrailEvents_Trail()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.TrailEvents.Trail)
 }
 
 void TrailEvents_Trail::InitAsDefaultInstance() {
 }
 
 TrailEvents_Trail::TrailEvents_Trail(const TrailEvents_Trail& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.TrailEvents.Trail)
 }
 
 void TrailEvents_Trail::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   eventtime_ = 0;
   eventtype_ = 0;
-  targetname_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  targetname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 TrailEvents_Trail::~TrailEvents_Trail() {
+  // @@protoc_insertion_point(destructor:AFFS.TrailEvents.Trail)
   SharedDtor();
 }
 
 void TrailEvents_Trail::SharedDtor() {
-  if (targetname_ != &::google::protobuf::internal::kEmptyString) {
-    delete targetname_;
-  }
-  if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodcall_;
-  }
-  if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodparam_;
-  }
+  targetname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -6951,50 +10750,73 @@ const TrailEvents_Trail& TrailEvents_Trail::default_instance() {
 
 TrailEvents_Trail* TrailEvents_Trail::default_instance_ = NULL;
 
-TrailEvents_Trail* TrailEvents_Trail::New() const {
-  return new TrailEvents_Trail;
+TrailEvents_Trail* TrailEvents_Trail::New(::google::protobuf::Arena* arena) const {
+  TrailEvents_Trail* n = new TrailEvents_Trail;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void TrailEvents_Trail::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    eventtime_ = 0;
-    eventtype_ = 0;
+// @@protoc_insertion_point(message_clear_start:AFFS.TrailEvents.Trail)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(TrailEvents_Trail, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<TrailEvents_Trail*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  if (_has_bits_[0 / 32] & 31u) {
+    ZR_(eventtime_, eventtype_);
     if (has_targetname()) {
-      if (targetname_ != &::google::protobuf::internal::kEmptyString) {
-        targetname_->clear();
-      }
+      targetname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodcall()) {
-      if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-        methodcall_->clear();
-      }
+      methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodparam()) {
-      if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-        methodparam_->clear();
-      }
+      methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool TrailEvents_Trail::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.TrailEvents.Trail)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float EventTime = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &eventtime_)));
           set_has_eventtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(16)) goto parse_EventType;
         break;
@@ -7002,8 +10824,7 @@ bool TrailEvents_Trail::MergePartialFromCodedStream(
 
       // required .AFFS.TrailEvents.TEETYPE EventType = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 16) {
          parse_EventType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -7015,7 +10836,7 @@ bool TrailEvents_Trail::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(2, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(26)) goto parse_TargetName;
         break;
@@ -7023,16 +10844,16 @@ bool TrailEvents_Trail::MergePartialFromCodedStream(
 
       // required string TargetName = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 26) {
          parse_TargetName:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_targetname()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->targetname().data(), this->targetname().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.TrailEvents.Trail.TargetName");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(34)) goto parse_MethodCall;
         break;
@@ -7040,16 +10861,16 @@ bool TrailEvents_Trail::MergePartialFromCodedStream(
 
       // required string MethodCall = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 34) {
          parse_MethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodcall().data(), this->methodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.TrailEvents.Trail.MethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(42)) goto parse_MethodParam;
         break;
@@ -7057,26 +10878,27 @@ bool TrailEvents_Trail::MergePartialFromCodedStream(
 
       // required string MethodParam = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 42) {
          parse_MethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodparam().data(), this->methodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.TrailEvents.Trail.MethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -7084,12 +10906,18 @@ bool TrailEvents_Trail::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.TrailEvents.Trail)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.TrailEvents.Trail)
+  return false;
 #undef DO_
 }
 
 void TrailEvents_Trail::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.TrailEvents.Trail)
   // required float EventTime = 1;
   if (has_eventtime()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->eventtime(), output);
@@ -7103,39 +10931,44 @@ void TrailEvents_Trail::SerializeWithCachedSizes(
 
   // required string TargetName = 3;
   if (has_targetname()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetname().data(), this->targetname().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.TrailEvents.Trail.TargetName");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->targetname(), output);
   }
 
   // required string MethodCall = 4;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.TrailEvents.Trail.MethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->methodcall(), output);
   }
 
   // required string MethodParam = 5;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.TrailEvents.Trail.MethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->methodparam(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.TrailEvents.Trail)
 }
 
-::google::protobuf::uint8* TrailEvents_Trail::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* TrailEvents_Trail::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.TrailEvents.Trail)
   // required float EventTime = 1;
   if (has_eventtime()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->eventtime(), target);
@@ -7149,9 +10982,10 @@ void TrailEvents_Trail::SerializeWithCachedSizes(
 
   // required string TargetName = 3;
   if (has_targetname()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->targetname().data(), this->targetname().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.TrailEvents.Trail.TargetName");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->targetname(), target);
@@ -7159,9 +10993,10 @@ void TrailEvents_Trail::SerializeWithCachedSizes(
 
   // required string MethodCall = 4;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.TrailEvents.Trail.MethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->methodcall(), target);
@@ -7169,59 +11004,92 @@ void TrailEvents_Trail::SerializeWithCachedSizes(
 
   // required string MethodParam = 5;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.TrailEvents.Trail.MethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->methodparam(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.TrailEvents.Trail)
   return target;
 }
 
-int TrailEvents_Trail::ByteSize() const {
+int TrailEvents_Trail::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.TrailEvents.Trail)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_eventtime()) {
     // required float EventTime = 1;
-    if (has_eventtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_eventtype()) {
+    // required .AFFS.TrailEvents.TEETYPE EventType = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
+  }
+
+  if (has_targetname()) {
+    // required string TargetName = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetname());
+  }
+
+  if (has_methodcall()) {
+    // required string MethodCall = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
+  }
+
+  if (has_methodparam()) {
+    // required string MethodParam = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
+  }
+
+  return total_size;
+}
+int TrailEvents_Trail::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.TrailEvents.Trail)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
+    // required float EventTime = 1;
+    total_size += 1 + 4;
 
     // required .AFFS.TrailEvents.TEETYPE EventType = 2;
-    if (has_eventtype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
 
     // required string TargetName = 3;
-    if (has_targetname()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->targetname());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->targetname());
 
     // required string MethodCall = 4;
-    if (has_methodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
 
     // required string MethodParam = 5;
-    if (has_methodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -7233,19 +11101,27 @@ int TrailEvents_Trail::ByteSize() const {
 }
 
 void TrailEvents_Trail::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const TrailEvents_Trail* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const TrailEvents_Trail*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.TrailEvents.Trail)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const TrailEvents_Trail* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const TrailEvents_Trail>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.TrailEvents.Trail)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.TrailEvents.Trail)
     MergeFrom(*source);
   }
 }
 
 void TrailEvents_Trail::MergeFrom(const TrailEvents_Trail& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.TrailEvents.Trail)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_eventtime()) {
       set_eventtime(from.eventtime());
@@ -7254,25 +11130,32 @@ void TrailEvents_Trail::MergeFrom(const TrailEvents_Trail& from) {
       set_eventtype(from.eventtype());
     }
     if (from.has_targetname()) {
-      set_targetname(from.targetname());
+      set_has_targetname();
+      targetname_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.targetname_);
     }
     if (from.has_methodcall()) {
-      set_methodcall(from.methodcall());
+      set_has_methodcall();
+      methodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodcall_);
     }
     if (from.has_methodparam()) {
-      set_methodparam(from.methodparam());
+      set_has_methodparam();
+      methodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodparam_);
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void TrailEvents_Trail::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.TrailEvents.Trail)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void TrailEvents_Trail::CopyFrom(const TrailEvents_Trail& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.TrailEvents.Trail)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -7285,16 +11168,18 @@ bool TrailEvents_Trail::IsInitialized() const {
 }
 
 void TrailEvents_Trail::Swap(TrailEvents_Trail* other) {
-  if (other != this) {
-    std::swap(eventtime_, other->eventtime_);
-    std::swap(eventtype_, other->eventtype_);
-    std::swap(targetname_, other->targetname_);
-    std::swap(methodcall_, other->methodcall_);
-    std::swap(methodparam_, other->methodparam_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void TrailEvents_Trail::InternalSwap(TrailEvents_Trail* other) {
+  std::swap(eventtime_, other->eventtime_);
+  std::swap(eventtype_, other->eventtype_);
+  targetname_.Swap(&other->targetname_);
+  methodcall_.Swap(&other->methodcall_);
+  methodparam_.Swap(&other->methodparam_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata TrailEvents_Trail::GetMetadata() const {
@@ -7308,22 +11193,25 @@ void TrailEvents_Trail::Swap(TrailEvents_Trail* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int TrailEvents::kXTrailListFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 TrailEvents::TrailEvents()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.TrailEvents)
 }
 
 void TrailEvents::InitAsDefaultInstance() {
 }
 
 TrailEvents::TrailEvents(const TrailEvents& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.TrailEvents)
 }
 
 void TrailEvents::SharedCtor() {
@@ -7332,6 +11220,7 @@ void TrailEvents::SharedCtor() {
 }
 
 TrailEvents::~TrailEvents() {
+  // @@protoc_insertion_point(destructor:AFFS.TrailEvents)
   SharedDtor();
 }
 
@@ -7357,42 +11246,55 @@ const TrailEvents& TrailEvents::default_instance() {
 
 TrailEvents* TrailEvents::default_instance_ = NULL;
 
-TrailEvents* TrailEvents::New() const {
-  return new TrailEvents;
+TrailEvents* TrailEvents::New(::google::protobuf::Arena* arena) const {
+  TrailEvents* n = new TrailEvents;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void TrailEvents::Clear() {
+// @@protoc_insertion_point(message_clear_start:AFFS.TrailEvents)
   xtraillist_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool TrailEvents::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.TrailEvents)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .AFFS.TrailEvents.Trail xTrailList = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_xTrailList:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+        if (tag == 10) {
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_xTrailList:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_xtraillist()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_xTrailList;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(10)) goto parse_loop_xTrailList;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -7400,41 +11302,51 @@ bool TrailEvents::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.TrailEvents)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.TrailEvents)
+  return false;
 #undef DO_
 }
 
 void TrailEvents::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.TrailEvents)
   // repeated .AFFS.TrailEvents.Trail xTrailList = 1;
-  for (int i = 0; i < this->xtraillist_size(); i++) {
+  for (unsigned int i = 0, n = this->xtraillist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->xtraillist(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.TrailEvents)
 }
 
-::google::protobuf::uint8* TrailEvents::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* TrailEvents::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.TrailEvents)
   // repeated .AFFS.TrailEvents.Trail xTrailList = 1;
-  for (int i = 0; i < this->xtraillist_size(); i++) {
+  for (unsigned int i = 0, n = this->xtraillist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->xtraillist(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->xtraillist(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.TrailEvents)
   return target;
 }
 
 int TrailEvents::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.TrailEvents)
   int total_size = 0;
 
   // repeated .AFFS.TrailEvents.Trail xTrailList = 1;
@@ -7445,7 +11357,7 @@ int TrailEvents::ByteSize() const {
         this->xtraillist(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -7457,30 +11369,42 @@ int TrailEvents::ByteSize() const {
 }
 
 void TrailEvents::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const TrailEvents* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const TrailEvents*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.TrailEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const TrailEvents* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const TrailEvents>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.TrailEvents)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.TrailEvents)
     MergeFrom(*source);
   }
 }
 
 void TrailEvents::MergeFrom(const TrailEvents& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.TrailEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   xtraillist_.MergeFrom(from.xtraillist_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void TrailEvents::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.TrailEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void TrailEvents::CopyFrom(const TrailEvents& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.TrailEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -7488,19 +11412,19 @@ void TrailEvents::CopyFrom(const TrailEvents& from) {
 
 bool TrailEvents::IsInitialized() const {
 
-  for (int i = 0; i < xtraillist_size(); i++) {
-    if (!this->xtraillist(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->xtraillist())) return false;
   return true;
 }
 
 void TrailEvents::Swap(TrailEvents* other) {
-  if (other != this) {
-    xtraillist_.Swap(&other->xtraillist_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void TrailEvents::InternalSwap(TrailEvents* other) {
+  xtraillist_.UnsafeArenaSwap(&other->xtraillist_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata TrailEvents::GetMetadata() const {
@@ -7511,6 +11435,255 @@ void TrailEvents::Swap(TrailEvents* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// TrailEvents_Trail
+
+// required float EventTime = 1;
+bool TrailEvents_Trail::has_eventtime() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void TrailEvents_Trail::set_has_eventtime() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void TrailEvents_Trail::clear_has_eventtime() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void TrailEvents_Trail::clear_eventtime() {
+  eventtime_ = 0;
+  clear_has_eventtime();
+}
+ float TrailEvents_Trail::eventtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.TrailEvents.Trail.EventTime)
+  return eventtime_;
+}
+ void TrailEvents_Trail::set_eventtime(float value) {
+  set_has_eventtime();
+  eventtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.TrailEvents.Trail.EventTime)
+}
+
+// required .AFFS.TrailEvents.TEETYPE EventType = 2;
+bool TrailEvents_Trail::has_eventtype() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void TrailEvents_Trail::set_has_eventtype() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void TrailEvents_Trail::clear_has_eventtype() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void TrailEvents_Trail::clear_eventtype() {
+  eventtype_ = 0;
+  clear_has_eventtype();
+}
+ ::AFFS::TrailEvents_TEETYPE TrailEvents_Trail::eventtype() const {
+  // @@protoc_insertion_point(field_get:AFFS.TrailEvents.Trail.EventType)
+  return static_cast< ::AFFS::TrailEvents_TEETYPE >(eventtype_);
+}
+ void TrailEvents_Trail::set_eventtype(::AFFS::TrailEvents_TEETYPE value) {
+  assert(::AFFS::TrailEvents_TEETYPE_IsValid(value));
+  set_has_eventtype();
+  eventtype_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.TrailEvents.Trail.EventType)
+}
+
+// required string TargetName = 3;
+bool TrailEvents_Trail::has_targetname() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void TrailEvents_Trail::set_has_targetname() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void TrailEvents_Trail::clear_has_targetname() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void TrailEvents_Trail::clear_targetname() {
+  targetname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_targetname();
+}
+ const ::std::string& TrailEvents_Trail::targetname() const {
+  // @@protoc_insertion_point(field_get:AFFS.TrailEvents.Trail.TargetName)
+  return targetname_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void TrailEvents_Trail::set_targetname(const ::std::string& value) {
+  set_has_targetname();
+  targetname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.TrailEvents.Trail.TargetName)
+}
+ void TrailEvents_Trail::set_targetname(const char* value) {
+  set_has_targetname();
+  targetname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.TrailEvents.Trail.TargetName)
+}
+ void TrailEvents_Trail::set_targetname(const char* value, size_t size) {
+  set_has_targetname();
+  targetname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.TrailEvents.Trail.TargetName)
+}
+ ::std::string* TrailEvents_Trail::mutable_targetname() {
+  set_has_targetname();
+  // @@protoc_insertion_point(field_mutable:AFFS.TrailEvents.Trail.TargetName)
+  return targetname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* TrailEvents_Trail::release_targetname() {
+  // @@protoc_insertion_point(field_release:AFFS.TrailEvents.Trail.TargetName)
+  clear_has_targetname();
+  return targetname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void TrailEvents_Trail::set_allocated_targetname(::std::string* targetname) {
+  if (targetname != NULL) {
+    set_has_targetname();
+  } else {
+    clear_has_targetname();
+  }
+  targetname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), targetname);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.TrailEvents.Trail.TargetName)
+}
+
+// required string MethodCall = 4;
+bool TrailEvents_Trail::has_methodcall() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void TrailEvents_Trail::set_has_methodcall() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void TrailEvents_Trail::clear_has_methodcall() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void TrailEvents_Trail::clear_methodcall() {
+  methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodcall();
+}
+ const ::std::string& TrailEvents_Trail::methodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.TrailEvents.Trail.MethodCall)
+  return methodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void TrailEvents_Trail::set_methodcall(const ::std::string& value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.TrailEvents.Trail.MethodCall)
+}
+ void TrailEvents_Trail::set_methodcall(const char* value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.TrailEvents.Trail.MethodCall)
+}
+ void TrailEvents_Trail::set_methodcall(const char* value, size_t size) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.TrailEvents.Trail.MethodCall)
+}
+ ::std::string* TrailEvents_Trail::mutable_methodcall() {
+  set_has_methodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.TrailEvents.Trail.MethodCall)
+  return methodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* TrailEvents_Trail::release_methodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.TrailEvents.Trail.MethodCall)
+  clear_has_methodcall();
+  return methodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void TrailEvents_Trail::set_allocated_methodcall(::std::string* methodcall) {
+  if (methodcall != NULL) {
+    set_has_methodcall();
+  } else {
+    clear_has_methodcall();
+  }
+  methodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.TrailEvents.Trail.MethodCall)
+}
+
+// required string MethodParam = 5;
+bool TrailEvents_Trail::has_methodparam() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void TrailEvents_Trail::set_has_methodparam() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void TrailEvents_Trail::clear_has_methodparam() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void TrailEvents_Trail::clear_methodparam() {
+  methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodparam();
+}
+ const ::std::string& TrailEvents_Trail::methodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.TrailEvents.Trail.MethodParam)
+  return methodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void TrailEvents_Trail::set_methodparam(const ::std::string& value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.TrailEvents.Trail.MethodParam)
+}
+ void TrailEvents_Trail::set_methodparam(const char* value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.TrailEvents.Trail.MethodParam)
+}
+ void TrailEvents_Trail::set_methodparam(const char* value, size_t size) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.TrailEvents.Trail.MethodParam)
+}
+ ::std::string* TrailEvents_Trail::mutable_methodparam() {
+  set_has_methodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.TrailEvents.Trail.MethodParam)
+  return methodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* TrailEvents_Trail::release_methodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.TrailEvents.Trail.MethodParam)
+  clear_has_methodparam();
+  return methodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void TrailEvents_Trail::set_allocated_methodparam(::std::string* methodparam) {
+  if (methodparam != NULL) {
+    set_has_methodparam();
+  } else {
+    clear_has_methodparam();
+  }
+  methodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.TrailEvents.Trail.MethodParam)
+}
+
+// -------------------------------------------------------------------
+
+// TrailEvents
+
+// repeated .AFFS.TrailEvents.Trail xTrailList = 1;
+int TrailEvents::xtraillist_size() const {
+  return xtraillist_.size();
+}
+void TrailEvents::clear_xtraillist() {
+  xtraillist_.Clear();
+}
+const ::AFFS::TrailEvents_Trail& TrailEvents::xtraillist(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.TrailEvents.xTrailList)
+  return xtraillist_.Get(index);
+}
+::AFFS::TrailEvents_Trail* TrailEvents::mutable_xtraillist(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.TrailEvents.xTrailList)
+  return xtraillist_.Mutable(index);
+}
+::AFFS::TrailEvents_Trail* TrailEvents::add_xtraillist() {
+  // @@protoc_insertion_point(field_add:AFFS.TrailEvents.xTrailList)
+  return xtraillist_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::TrailEvents_Trail >*
+TrailEvents::mutable_xtraillist() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.TrailEvents.xTrailList)
+  return &xtraillist_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::TrailEvents_Trail >&
+TrailEvents::xtraillist() const {
+  // @@protoc_insertion_point(field_list:AFFS.TrailEvents.xTrailList)
+  return xtraillist_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
@@ -7528,59 +11701,58 @@ bool AudioEvents_AEETYPE_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const AudioEvents_AEETYPE AudioEvents::INIT;
 const AudioEvents_AEETYPE AudioEvents::FINAL;
 const AudioEvents_AEETYPE AudioEvents::AEETYPE_MIN;
 const AudioEvents_AEETYPE AudioEvents::AEETYPE_MAX;
 const int AudioEvents::AEETYPE_ARRAYSIZE;
-#endif  // _MSC_VER
-#ifndef _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int AudioEvents_Audio::kEventTimeFieldNumber;
 const int AudioEvents_Audio::kEventTypeFieldNumber;
 const int AudioEvents_Audio::kAudioNameFieldNumber;
 const int AudioEvents_Audio::kMethodCallFieldNumber;
 const int AudioEvents_Audio::kMethodParamFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 AudioEvents_Audio::AudioEvents_Audio()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.AudioEvents.Audio)
 }
 
 void AudioEvents_Audio::InitAsDefaultInstance() {
 }
 
 AudioEvents_Audio::AudioEvents_Audio(const AudioEvents_Audio& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.AudioEvents.Audio)
 }
 
 void AudioEvents_Audio::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   eventtime_ = 0;
   eventtype_ = 0;
-  audioname_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  audioname_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 AudioEvents_Audio::~AudioEvents_Audio() {
+  // @@protoc_insertion_point(destructor:AFFS.AudioEvents.Audio)
   SharedDtor();
 }
 
 void AudioEvents_Audio::SharedDtor() {
-  if (audioname_ != &::google::protobuf::internal::kEmptyString) {
-    delete audioname_;
-  }
-  if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodcall_;
-  }
-  if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodparam_;
-  }
+  audioname_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -7602,50 +11774,73 @@ const AudioEvents_Audio& AudioEvents_Audio::default_instance() {
 
 AudioEvents_Audio* AudioEvents_Audio::default_instance_ = NULL;
 
-AudioEvents_Audio* AudioEvents_Audio::New() const {
-  return new AudioEvents_Audio;
+AudioEvents_Audio* AudioEvents_Audio::New(::google::protobuf::Arena* arena) const {
+  AudioEvents_Audio* n = new AudioEvents_Audio;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void AudioEvents_Audio::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    eventtime_ = 0;
-    eventtype_ = 0;
+// @@protoc_insertion_point(message_clear_start:AFFS.AudioEvents.Audio)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(AudioEvents_Audio, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<AudioEvents_Audio*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  if (_has_bits_[0 / 32] & 31u) {
+    ZR_(eventtime_, eventtype_);
     if (has_audioname()) {
-      if (audioname_ != &::google::protobuf::internal::kEmptyString) {
-        audioname_->clear();
-      }
+      audioname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodcall()) {
-      if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-        methodcall_->clear();
-      }
+      methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodparam()) {
-      if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-        methodparam_->clear();
-      }
+      methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool AudioEvents_Audio::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.AudioEvents.Audio)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float EventTime = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &eventtime_)));
           set_has_eventtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(16)) goto parse_EventType;
         break;
@@ -7653,8 +11848,7 @@ bool AudioEvents_Audio::MergePartialFromCodedStream(
 
       // required .AFFS.AudioEvents.AEETYPE EventType = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 16) {
          parse_EventType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -7666,7 +11860,7 @@ bool AudioEvents_Audio::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(2, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(26)) goto parse_AudioName;
         break;
@@ -7674,16 +11868,16 @@ bool AudioEvents_Audio::MergePartialFromCodedStream(
 
       // required string AudioName = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 26) {
          parse_AudioName:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_audioname()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->audioname().data(), this->audioname().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.AudioEvents.Audio.AudioName");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(34)) goto parse_MethodCall;
         break;
@@ -7691,16 +11885,16 @@ bool AudioEvents_Audio::MergePartialFromCodedStream(
 
       // required string MethodCall = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 34) {
          parse_MethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodcall().data(), this->methodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.AudioEvents.Audio.MethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(42)) goto parse_MethodParam;
         break;
@@ -7708,26 +11902,27 @@ bool AudioEvents_Audio::MergePartialFromCodedStream(
 
       // required string MethodParam = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 42) {
          parse_MethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodparam().data(), this->methodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.AudioEvents.Audio.MethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -7735,12 +11930,18 @@ bool AudioEvents_Audio::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.AudioEvents.Audio)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.AudioEvents.Audio)
+  return false;
 #undef DO_
 }
 
 void AudioEvents_Audio::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.AudioEvents.Audio)
   // required float EventTime = 1;
   if (has_eventtime()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->eventtime(), output);
@@ -7754,39 +11955,44 @@ void AudioEvents_Audio::SerializeWithCachedSizes(
 
   // required string AudioName = 3;
   if (has_audioname()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->audioname().data(), this->audioname().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AudioEvents.Audio.AudioName");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->audioname(), output);
   }
 
   // required string MethodCall = 4;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AudioEvents.Audio.MethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->methodcall(), output);
   }
 
   // required string MethodParam = 5;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AudioEvents.Audio.MethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->methodparam(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.AudioEvents.Audio)
 }
 
-::google::protobuf::uint8* AudioEvents_Audio::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* AudioEvents_Audio::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.AudioEvents.Audio)
   // required float EventTime = 1;
   if (has_eventtime()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->eventtime(), target);
@@ -7800,9 +12006,10 @@ void AudioEvents_Audio::SerializeWithCachedSizes(
 
   // required string AudioName = 3;
   if (has_audioname()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->audioname().data(), this->audioname().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AudioEvents.Audio.AudioName");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->audioname(), target);
@@ -7810,9 +12017,10 @@ void AudioEvents_Audio::SerializeWithCachedSizes(
 
   // required string MethodCall = 4;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AudioEvents.Audio.MethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->methodcall(), target);
@@ -7820,59 +12028,92 @@ void AudioEvents_Audio::SerializeWithCachedSizes(
 
   // required string MethodParam = 5;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AudioEvents.Audio.MethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->methodparam(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.AudioEvents.Audio)
   return target;
 }
 
-int AudioEvents_Audio::ByteSize() const {
+int AudioEvents_Audio::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.AudioEvents.Audio)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_eventtime()) {
     // required float EventTime = 1;
-    if (has_eventtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_eventtype()) {
+    // required .AFFS.AudioEvents.AEETYPE EventType = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
+  }
+
+  if (has_audioname()) {
+    // required string AudioName = 3;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->audioname());
+  }
+
+  if (has_methodcall()) {
+    // required string MethodCall = 4;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
+  }
+
+  if (has_methodparam()) {
+    // required string MethodParam = 5;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
+  }
+
+  return total_size;
+}
+int AudioEvents_Audio::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.AudioEvents.Audio)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x0000001f) ^ 0x0000001f) == 0) {  // All required fields are present.
+    // required float EventTime = 1;
+    total_size += 1 + 4;
 
     // required .AFFS.AudioEvents.AEETYPE EventType = 2;
-    if (has_eventtype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
 
     // required string AudioName = 3;
-    if (has_audioname()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->audioname());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->audioname());
 
     // required string MethodCall = 4;
-    if (has_methodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
 
     // required string MethodParam = 5;
-    if (has_methodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -7884,19 +12125,27 @@ int AudioEvents_Audio::ByteSize() const {
 }
 
 void AudioEvents_Audio::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const AudioEvents_Audio* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const AudioEvents_Audio*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.AudioEvents.Audio)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const AudioEvents_Audio* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const AudioEvents_Audio>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.AudioEvents.Audio)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.AudioEvents.Audio)
     MergeFrom(*source);
   }
 }
 
 void AudioEvents_Audio::MergeFrom(const AudioEvents_Audio& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.AudioEvents.Audio)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_eventtime()) {
       set_eventtime(from.eventtime());
@@ -7905,25 +12154,32 @@ void AudioEvents_Audio::MergeFrom(const AudioEvents_Audio& from) {
       set_eventtype(from.eventtype());
     }
     if (from.has_audioname()) {
-      set_audioname(from.audioname());
+      set_has_audioname();
+      audioname_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.audioname_);
     }
     if (from.has_methodcall()) {
-      set_methodcall(from.methodcall());
+      set_has_methodcall();
+      methodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodcall_);
     }
     if (from.has_methodparam()) {
-      set_methodparam(from.methodparam());
+      set_has_methodparam();
+      methodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodparam_);
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void AudioEvents_Audio::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.AudioEvents.Audio)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void AudioEvents_Audio::CopyFrom(const AudioEvents_Audio& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.AudioEvents.Audio)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -7936,16 +12192,18 @@ bool AudioEvents_Audio::IsInitialized() const {
 }
 
 void AudioEvents_Audio::Swap(AudioEvents_Audio* other) {
-  if (other != this) {
-    std::swap(eventtime_, other->eventtime_);
-    std::swap(eventtype_, other->eventtype_);
-    std::swap(audioname_, other->audioname_);
-    std::swap(methodcall_, other->methodcall_);
-    std::swap(methodparam_, other->methodparam_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void AudioEvents_Audio::InternalSwap(AudioEvents_Audio* other) {
+  std::swap(eventtime_, other->eventtime_);
+  std::swap(eventtype_, other->eventtype_);
+  audioname_.Swap(&other->audioname_);
+  methodcall_.Swap(&other->methodcall_);
+  methodparam_.Swap(&other->methodparam_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata AudioEvents_Audio::GetMetadata() const {
@@ -7959,22 +12217,25 @@ void AudioEvents_Audio::Swap(AudioEvents_Audio* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int AudioEvents::kXAudioListFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 AudioEvents::AudioEvents()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.AudioEvents)
 }
 
 void AudioEvents::InitAsDefaultInstance() {
 }
 
 AudioEvents::AudioEvents(const AudioEvents& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.AudioEvents)
 }
 
 void AudioEvents::SharedCtor() {
@@ -7983,6 +12244,7 @@ void AudioEvents::SharedCtor() {
 }
 
 AudioEvents::~AudioEvents() {
+  // @@protoc_insertion_point(destructor:AFFS.AudioEvents)
   SharedDtor();
 }
 
@@ -8008,42 +12270,55 @@ const AudioEvents& AudioEvents::default_instance() {
 
 AudioEvents* AudioEvents::default_instance_ = NULL;
 
-AudioEvents* AudioEvents::New() const {
-  return new AudioEvents;
+AudioEvents* AudioEvents::New(::google::protobuf::Arena* arena) const {
+  AudioEvents* n = new AudioEvents;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void AudioEvents::Clear() {
+// @@protoc_insertion_point(message_clear_start:AFFS.AudioEvents)
   xaudiolist_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool AudioEvents::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.AudioEvents)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .AFFS.AudioEvents.Audio xAudioList = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_xAudioList:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+        if (tag == 10) {
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_xAudioList:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_xaudiolist()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_xAudioList;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(10)) goto parse_loop_xAudioList;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -8051,41 +12326,51 @@ bool AudioEvents::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.AudioEvents)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.AudioEvents)
+  return false;
 #undef DO_
 }
 
 void AudioEvents::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.AudioEvents)
   // repeated .AFFS.AudioEvents.Audio xAudioList = 1;
-  for (int i = 0; i < this->xaudiolist_size(); i++) {
+  for (unsigned int i = 0, n = this->xaudiolist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->xaudiolist(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.AudioEvents)
 }
 
-::google::protobuf::uint8* AudioEvents::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* AudioEvents::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.AudioEvents)
   // repeated .AFFS.AudioEvents.Audio xAudioList = 1;
-  for (int i = 0; i < this->xaudiolist_size(); i++) {
+  for (unsigned int i = 0, n = this->xaudiolist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->xaudiolist(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->xaudiolist(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.AudioEvents)
   return target;
 }
 
 int AudioEvents::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.AudioEvents)
   int total_size = 0;
 
   // repeated .AFFS.AudioEvents.Audio xAudioList = 1;
@@ -8096,7 +12381,7 @@ int AudioEvents::ByteSize() const {
         this->xaudiolist(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -8108,30 +12393,42 @@ int AudioEvents::ByteSize() const {
 }
 
 void AudioEvents::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const AudioEvents* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const AudioEvents*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.AudioEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const AudioEvents* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const AudioEvents>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.AudioEvents)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.AudioEvents)
     MergeFrom(*source);
   }
 }
 
 void AudioEvents::MergeFrom(const AudioEvents& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.AudioEvents)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   xaudiolist_.MergeFrom(from.xaudiolist_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void AudioEvents::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.AudioEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void AudioEvents::CopyFrom(const AudioEvents& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.AudioEvents)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -8139,19 +12436,19 @@ void AudioEvents::CopyFrom(const AudioEvents& from) {
 
 bool AudioEvents::IsInitialized() const {
 
-  for (int i = 0; i < xaudiolist_size(); i++) {
-    if (!this->xaudiolist(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->xaudiolist())) return false;
   return true;
 }
 
 void AudioEvents::Swap(AudioEvents* other) {
-  if (other != this) {
-    xaudiolist_.Swap(&other->xaudiolist_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void AudioEvents::InternalSwap(AudioEvents* other) {
+  xaudiolist_.UnsafeArenaSwap(&other->xaudiolist_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata AudioEvents::GetMetadata() const {
@@ -8162,6 +12459,255 @@ void AudioEvents::Swap(AudioEvents* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// AudioEvents_Audio
+
+// required float EventTime = 1;
+bool AudioEvents_Audio::has_eventtime() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void AudioEvents_Audio::set_has_eventtime() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void AudioEvents_Audio::clear_has_eventtime() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void AudioEvents_Audio::clear_eventtime() {
+  eventtime_ = 0;
+  clear_has_eventtime();
+}
+ float AudioEvents_Audio::eventtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.AudioEvents.Audio.EventTime)
+  return eventtime_;
+}
+ void AudioEvents_Audio::set_eventtime(float value) {
+  set_has_eventtime();
+  eventtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AudioEvents.Audio.EventTime)
+}
+
+// required .AFFS.AudioEvents.AEETYPE EventType = 2;
+bool AudioEvents_Audio::has_eventtype() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void AudioEvents_Audio::set_has_eventtype() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void AudioEvents_Audio::clear_has_eventtype() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void AudioEvents_Audio::clear_eventtype() {
+  eventtype_ = 0;
+  clear_has_eventtype();
+}
+ ::AFFS::AudioEvents_AEETYPE AudioEvents_Audio::eventtype() const {
+  // @@protoc_insertion_point(field_get:AFFS.AudioEvents.Audio.EventType)
+  return static_cast< ::AFFS::AudioEvents_AEETYPE >(eventtype_);
+}
+ void AudioEvents_Audio::set_eventtype(::AFFS::AudioEvents_AEETYPE value) {
+  assert(::AFFS::AudioEvents_AEETYPE_IsValid(value));
+  set_has_eventtype();
+  eventtype_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AudioEvents.Audio.EventType)
+}
+
+// required string AudioName = 3;
+bool AudioEvents_Audio::has_audioname() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void AudioEvents_Audio::set_has_audioname() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void AudioEvents_Audio::clear_has_audioname() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void AudioEvents_Audio::clear_audioname() {
+  audioname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_audioname();
+}
+ const ::std::string& AudioEvents_Audio::audioname() const {
+  // @@protoc_insertion_point(field_get:AFFS.AudioEvents.Audio.AudioName)
+  return audioname_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AudioEvents_Audio::set_audioname(const ::std::string& value) {
+  set_has_audioname();
+  audioname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.AudioEvents.Audio.AudioName)
+}
+ void AudioEvents_Audio::set_audioname(const char* value) {
+  set_has_audioname();
+  audioname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.AudioEvents.Audio.AudioName)
+}
+ void AudioEvents_Audio::set_audioname(const char* value, size_t size) {
+  set_has_audioname();
+  audioname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.AudioEvents.Audio.AudioName)
+}
+ ::std::string* AudioEvents_Audio::mutable_audioname() {
+  set_has_audioname();
+  // @@protoc_insertion_point(field_mutable:AFFS.AudioEvents.Audio.AudioName)
+  return audioname_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* AudioEvents_Audio::release_audioname() {
+  // @@protoc_insertion_point(field_release:AFFS.AudioEvents.Audio.AudioName)
+  clear_has_audioname();
+  return audioname_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AudioEvents_Audio::set_allocated_audioname(::std::string* audioname) {
+  if (audioname != NULL) {
+    set_has_audioname();
+  } else {
+    clear_has_audioname();
+  }
+  audioname_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), audioname);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.AudioEvents.Audio.AudioName)
+}
+
+// required string MethodCall = 4;
+bool AudioEvents_Audio::has_methodcall() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void AudioEvents_Audio::set_has_methodcall() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void AudioEvents_Audio::clear_has_methodcall() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void AudioEvents_Audio::clear_methodcall() {
+  methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodcall();
+}
+ const ::std::string& AudioEvents_Audio::methodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.AudioEvents.Audio.MethodCall)
+  return methodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AudioEvents_Audio::set_methodcall(const ::std::string& value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.AudioEvents.Audio.MethodCall)
+}
+ void AudioEvents_Audio::set_methodcall(const char* value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.AudioEvents.Audio.MethodCall)
+}
+ void AudioEvents_Audio::set_methodcall(const char* value, size_t size) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.AudioEvents.Audio.MethodCall)
+}
+ ::std::string* AudioEvents_Audio::mutable_methodcall() {
+  set_has_methodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.AudioEvents.Audio.MethodCall)
+  return methodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* AudioEvents_Audio::release_methodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.AudioEvents.Audio.MethodCall)
+  clear_has_methodcall();
+  return methodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AudioEvents_Audio::set_allocated_methodcall(::std::string* methodcall) {
+  if (methodcall != NULL) {
+    set_has_methodcall();
+  } else {
+    clear_has_methodcall();
+  }
+  methodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.AudioEvents.Audio.MethodCall)
+}
+
+// required string MethodParam = 5;
+bool AudioEvents_Audio::has_methodparam() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void AudioEvents_Audio::set_has_methodparam() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void AudioEvents_Audio::clear_has_methodparam() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void AudioEvents_Audio::clear_methodparam() {
+  methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodparam();
+}
+ const ::std::string& AudioEvents_Audio::methodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.AudioEvents.Audio.MethodParam)
+  return methodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AudioEvents_Audio::set_methodparam(const ::std::string& value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.AudioEvents.Audio.MethodParam)
+}
+ void AudioEvents_Audio::set_methodparam(const char* value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.AudioEvents.Audio.MethodParam)
+}
+ void AudioEvents_Audio::set_methodparam(const char* value, size_t size) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.AudioEvents.Audio.MethodParam)
+}
+ ::std::string* AudioEvents_Audio::mutable_methodparam() {
+  set_has_methodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.AudioEvents.Audio.MethodParam)
+  return methodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* AudioEvents_Audio::release_methodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.AudioEvents.Audio.MethodParam)
+  clear_has_methodparam();
+  return methodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AudioEvents_Audio::set_allocated_methodparam(::std::string* methodparam) {
+  if (methodparam != NULL) {
+    set_has_methodparam();
+  } else {
+    clear_has_methodparam();
+  }
+  methodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.AudioEvents.Audio.MethodParam)
+}
+
+// -------------------------------------------------------------------
+
+// AudioEvents
+
+// repeated .AFFS.AudioEvents.Audio xAudioList = 1;
+int AudioEvents::xaudiolist_size() const {
+  return xaudiolist_.size();
+}
+void AudioEvents::clear_xaudiolist() {
+  xaudiolist_.Clear();
+}
+const ::AFFS::AudioEvents_Audio& AudioEvents::xaudiolist(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.AudioEvents.xAudioList)
+  return xaudiolist_.Get(index);
+}
+::AFFS::AudioEvents_Audio* AudioEvents::mutable_xaudiolist(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.AudioEvents.xAudioList)
+  return xaudiolist_.Mutable(index);
+}
+::AFFS::AudioEvents_Audio* AudioEvents::add_xaudiolist() {
+  // @@protoc_insertion_point(field_add:AFFS.AudioEvents.xAudioList)
+  return xaudiolist_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::AudioEvents_Audio >*
+AudioEvents::mutable_xaudiolist() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.AudioEvents.xAudioList)
+  return &xaudiolist_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::AudioEvents_Audio >&
+AudioEvents::xaudiolist() const {
+  // @@protoc_insertion_point(field_list:AFFS.AudioEvents.xAudioList)
+  return xaudiolist_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
@@ -8179,31 +12725,34 @@ bool GlobalSpeeds_EGSTYPE_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const GlobalSpeeds_EGSTYPE GlobalSpeeds::INIT;
 const GlobalSpeeds_EGSTYPE GlobalSpeeds::FINAL;
 const GlobalSpeeds_EGSTYPE GlobalSpeeds::EGSTYPE_MIN;
 const GlobalSpeeds_EGSTYPE GlobalSpeeds::EGSTYPE_MAX;
 const int GlobalSpeeds::EGSTYPE_ARRAYSIZE;
-#endif  // _MSC_VER
-#ifndef _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int GlobalSpeeds_Speed::kEventTimeFieldNumber;
 const int GlobalSpeeds_Speed::kEventTypeFieldNumber;
 const int GlobalSpeeds_Speed::kSpeedValueFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 GlobalSpeeds_Speed::GlobalSpeeds_Speed()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.GlobalSpeeds.Speed)
 }
 
 void GlobalSpeeds_Speed::InitAsDefaultInstance() {
 }
 
 GlobalSpeeds_Speed::GlobalSpeeds_Speed(const GlobalSpeeds_Speed& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.GlobalSpeeds.Speed)
 }
 
 void GlobalSpeeds_Speed::SharedCtor() {
@@ -8215,6 +12764,7 @@ void GlobalSpeeds_Speed::SharedCtor() {
 }
 
 GlobalSpeeds_Speed::~GlobalSpeeds_Speed() {
+  // @@protoc_insertion_point(destructor:AFFS.GlobalSpeeds.Speed)
   SharedDtor();
 }
 
@@ -8240,36 +12790,62 @@ const GlobalSpeeds_Speed& GlobalSpeeds_Speed::default_instance() {
 
 GlobalSpeeds_Speed* GlobalSpeeds_Speed::default_instance_ = NULL;
 
-GlobalSpeeds_Speed* GlobalSpeeds_Speed::New() const {
-  return new GlobalSpeeds_Speed;
+GlobalSpeeds_Speed* GlobalSpeeds_Speed::New(::google::protobuf::Arena* arena) const {
+  GlobalSpeeds_Speed* n = new GlobalSpeeds_Speed;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void GlobalSpeeds_Speed::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    eventtime_ = 0;
-    eventtype_ = 0;
-    speedvalue_ = 0;
-  }
+// @@protoc_insertion_point(message_clear_start:AFFS.GlobalSpeeds.Speed)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(GlobalSpeeds_Speed, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<GlobalSpeeds_Speed*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  ZR_(eventtime_, speedvalue_);
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool GlobalSpeeds_Speed::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.GlobalSpeeds.Speed)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float EventTime = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &eventtime_)));
           set_has_eventtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(16)) goto parse_EventType;
         break;
@@ -8277,8 +12853,7 @@ bool GlobalSpeeds_Speed::MergePartialFromCodedStream(
 
       // required .AFFS.GlobalSpeeds.EGSTYPE EventType = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 16) {
          parse_EventType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -8290,7 +12865,7 @@ bool GlobalSpeeds_Speed::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(2, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(29)) goto parse_SpeedValue;
         break;
@@ -8298,25 +12873,25 @@ bool GlobalSpeeds_Speed::MergePartialFromCodedStream(
 
       // required float SpeedValue = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 29) {
          parse_SpeedValue:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &speedvalue_)));
           set_has_speedvalue();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -8324,12 +12899,18 @@ bool GlobalSpeeds_Speed::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.GlobalSpeeds.Speed)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.GlobalSpeeds.Speed)
+  return false;
 #undef DO_
 }
 
 void GlobalSpeeds_Speed::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.GlobalSpeeds.Speed)
   // required float EventTime = 1;
   if (has_eventtime()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->eventtime(), output);
@@ -8346,14 +12927,16 @@ void GlobalSpeeds_Speed::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteFloat(3, this->speedvalue(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.GlobalSpeeds.Speed)
 }
 
-::google::protobuf::uint8* GlobalSpeeds_Speed::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* GlobalSpeeds_Speed::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.GlobalSpeeds.Speed)
   // required float EventTime = 1;
   if (has_eventtime()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->eventtime(), target);
@@ -8370,35 +12953,55 @@ void GlobalSpeeds_Speed::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(3, this->speedvalue(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.GlobalSpeeds.Speed)
   return target;
 }
 
-int GlobalSpeeds_Speed::ByteSize() const {
+int GlobalSpeeds_Speed::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.GlobalSpeeds.Speed)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_eventtime()) {
     // required float EventTime = 1;
-    if (has_eventtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_eventtype()) {
+    // required .AFFS.GlobalSpeeds.EGSTYPE EventType = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
+  }
+
+  if (has_speedvalue()) {
+    // required float SpeedValue = 3;
+    total_size += 1 + 4;
+  }
+
+  return total_size;
+}
+int GlobalSpeeds_Speed::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.GlobalSpeeds.Speed)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
+    // required float EventTime = 1;
+    total_size += 1 + 4;
 
     // required .AFFS.GlobalSpeeds.EGSTYPE EventType = 2;
-    if (has_eventtype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
 
     // required float SpeedValue = 3;
-    if (has_speedvalue()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -8410,19 +13013,27 @@ int GlobalSpeeds_Speed::ByteSize() const {
 }
 
 void GlobalSpeeds_Speed::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const GlobalSpeeds_Speed* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const GlobalSpeeds_Speed*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.GlobalSpeeds.Speed)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const GlobalSpeeds_Speed* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const GlobalSpeeds_Speed>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.GlobalSpeeds.Speed)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.GlobalSpeeds.Speed)
     MergeFrom(*source);
   }
 }
 
 void GlobalSpeeds_Speed::MergeFrom(const GlobalSpeeds_Speed& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.GlobalSpeeds.Speed)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_eventtime()) {
       set_eventtime(from.eventtime());
@@ -8434,16 +13045,20 @@ void GlobalSpeeds_Speed::MergeFrom(const GlobalSpeeds_Speed& from) {
       set_speedvalue(from.speedvalue());
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void GlobalSpeeds_Speed::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.GlobalSpeeds.Speed)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void GlobalSpeeds_Speed::CopyFrom(const GlobalSpeeds_Speed& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.GlobalSpeeds.Speed)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -8456,14 +13071,16 @@ bool GlobalSpeeds_Speed::IsInitialized() const {
 }
 
 void GlobalSpeeds_Speed::Swap(GlobalSpeeds_Speed* other) {
-  if (other != this) {
-    std::swap(eventtime_, other->eventtime_);
-    std::swap(eventtype_, other->eventtype_);
-    std::swap(speedvalue_, other->speedvalue_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void GlobalSpeeds_Speed::InternalSwap(GlobalSpeeds_Speed* other) {
+  std::swap(eventtime_, other->eventtime_);
+  std::swap(eventtype_, other->eventtype_);
+  std::swap(speedvalue_, other->speedvalue_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata GlobalSpeeds_Speed::GetMetadata() const {
@@ -8477,22 +13094,25 @@ void GlobalSpeeds_Speed::Swap(GlobalSpeeds_Speed* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int GlobalSpeeds::kXSpeedListFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 GlobalSpeeds::GlobalSpeeds()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.GlobalSpeeds)
 }
 
 void GlobalSpeeds::InitAsDefaultInstance() {
 }
 
 GlobalSpeeds::GlobalSpeeds(const GlobalSpeeds& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.GlobalSpeeds)
 }
 
 void GlobalSpeeds::SharedCtor() {
@@ -8501,6 +13121,7 @@ void GlobalSpeeds::SharedCtor() {
 }
 
 GlobalSpeeds::~GlobalSpeeds() {
+  // @@protoc_insertion_point(destructor:AFFS.GlobalSpeeds)
   SharedDtor();
 }
 
@@ -8526,42 +13147,55 @@ const GlobalSpeeds& GlobalSpeeds::default_instance() {
 
 GlobalSpeeds* GlobalSpeeds::default_instance_ = NULL;
 
-GlobalSpeeds* GlobalSpeeds::New() const {
-  return new GlobalSpeeds;
+GlobalSpeeds* GlobalSpeeds::New(::google::protobuf::Arena* arena) const {
+  GlobalSpeeds* n = new GlobalSpeeds;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void GlobalSpeeds::Clear() {
+// @@protoc_insertion_point(message_clear_start:AFFS.GlobalSpeeds)
   xspeedlist_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool GlobalSpeeds::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.GlobalSpeeds)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .AFFS.GlobalSpeeds.Speed xSpeedList = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_xSpeedList:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+        if (tag == 10) {
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_xSpeedList:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_xspeedlist()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_xSpeedList;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(10)) goto parse_loop_xSpeedList;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -8569,41 +13203,51 @@ bool GlobalSpeeds::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.GlobalSpeeds)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.GlobalSpeeds)
+  return false;
 #undef DO_
 }
 
 void GlobalSpeeds::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.GlobalSpeeds)
   // repeated .AFFS.GlobalSpeeds.Speed xSpeedList = 1;
-  for (int i = 0; i < this->xspeedlist_size(); i++) {
+  for (unsigned int i = 0, n = this->xspeedlist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->xspeedlist(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.GlobalSpeeds)
 }
 
-::google::protobuf::uint8* GlobalSpeeds::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* GlobalSpeeds::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.GlobalSpeeds)
   // repeated .AFFS.GlobalSpeeds.Speed xSpeedList = 1;
-  for (int i = 0; i < this->xspeedlist_size(); i++) {
+  for (unsigned int i = 0, n = this->xspeedlist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->xspeedlist(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->xspeedlist(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.GlobalSpeeds)
   return target;
 }
 
 int GlobalSpeeds::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.GlobalSpeeds)
   int total_size = 0;
 
   // repeated .AFFS.GlobalSpeeds.Speed xSpeedList = 1;
@@ -8614,7 +13258,7 @@ int GlobalSpeeds::ByteSize() const {
         this->xspeedlist(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -8626,30 +13270,42 @@ int GlobalSpeeds::ByteSize() const {
 }
 
 void GlobalSpeeds::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const GlobalSpeeds* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const GlobalSpeeds*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.GlobalSpeeds)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const GlobalSpeeds* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const GlobalSpeeds>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.GlobalSpeeds)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.GlobalSpeeds)
     MergeFrom(*source);
   }
 }
 
 void GlobalSpeeds::MergeFrom(const GlobalSpeeds& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.GlobalSpeeds)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   xspeedlist_.MergeFrom(from.xspeedlist_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void GlobalSpeeds::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.GlobalSpeeds)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void GlobalSpeeds::CopyFrom(const GlobalSpeeds& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.GlobalSpeeds)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -8657,19 +13313,19 @@ void GlobalSpeeds::CopyFrom(const GlobalSpeeds& from) {
 
 bool GlobalSpeeds::IsInitialized() const {
 
-  for (int i = 0; i < xspeedlist_size(); i++) {
-    if (!this->xspeedlist(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->xspeedlist())) return false;
   return true;
 }
 
 void GlobalSpeeds::Swap(GlobalSpeeds* other) {
-  if (other != this) {
-    xspeedlist_.Swap(&other->xspeedlist_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void GlobalSpeeds::InternalSwap(GlobalSpeeds* other) {
+  xspeedlist_.UnsafeArenaSwap(&other->xspeedlist_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata GlobalSpeeds::GetMetadata() const {
@@ -8680,6 +13336,117 @@ void GlobalSpeeds::Swap(GlobalSpeeds* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// GlobalSpeeds_Speed
+
+// required float EventTime = 1;
+bool GlobalSpeeds_Speed::has_eventtime() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void GlobalSpeeds_Speed::set_has_eventtime() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void GlobalSpeeds_Speed::clear_has_eventtime() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void GlobalSpeeds_Speed::clear_eventtime() {
+  eventtime_ = 0;
+  clear_has_eventtime();
+}
+ float GlobalSpeeds_Speed::eventtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.GlobalSpeeds.Speed.EventTime)
+  return eventtime_;
+}
+ void GlobalSpeeds_Speed::set_eventtime(float value) {
+  set_has_eventtime();
+  eventtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.GlobalSpeeds.Speed.EventTime)
+}
+
+// required .AFFS.GlobalSpeeds.EGSTYPE EventType = 2;
+bool GlobalSpeeds_Speed::has_eventtype() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void GlobalSpeeds_Speed::set_has_eventtype() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void GlobalSpeeds_Speed::clear_has_eventtype() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void GlobalSpeeds_Speed::clear_eventtype() {
+  eventtype_ = 0;
+  clear_has_eventtype();
+}
+ ::AFFS::GlobalSpeeds_EGSTYPE GlobalSpeeds_Speed::eventtype() const {
+  // @@protoc_insertion_point(field_get:AFFS.GlobalSpeeds.Speed.EventType)
+  return static_cast< ::AFFS::GlobalSpeeds_EGSTYPE >(eventtype_);
+}
+ void GlobalSpeeds_Speed::set_eventtype(::AFFS::GlobalSpeeds_EGSTYPE value) {
+  assert(::AFFS::GlobalSpeeds_EGSTYPE_IsValid(value));
+  set_has_eventtype();
+  eventtype_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.GlobalSpeeds.Speed.EventType)
+}
+
+// required float SpeedValue = 3;
+bool GlobalSpeeds_Speed::has_speedvalue() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void GlobalSpeeds_Speed::set_has_speedvalue() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void GlobalSpeeds_Speed::clear_has_speedvalue() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void GlobalSpeeds_Speed::clear_speedvalue() {
+  speedvalue_ = 0;
+  clear_has_speedvalue();
+}
+ float GlobalSpeeds_Speed::speedvalue() const {
+  // @@protoc_insertion_point(field_get:AFFS.GlobalSpeeds.Speed.SpeedValue)
+  return speedvalue_;
+}
+ void GlobalSpeeds_Speed::set_speedvalue(float value) {
+  set_has_speedvalue();
+  speedvalue_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.GlobalSpeeds.Speed.SpeedValue)
+}
+
+// -------------------------------------------------------------------
+
+// GlobalSpeeds
+
+// repeated .AFFS.GlobalSpeeds.Speed xSpeedList = 1;
+int GlobalSpeeds::xspeedlist_size() const {
+  return xspeedlist_.size();
+}
+void GlobalSpeeds::clear_xspeedlist() {
+  xspeedlist_.Clear();
+}
+const ::AFFS::GlobalSpeeds_Speed& GlobalSpeeds::xspeedlist(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.GlobalSpeeds.xSpeedList)
+  return xspeedlist_.Get(index);
+}
+::AFFS::GlobalSpeeds_Speed* GlobalSpeeds::mutable_xspeedlist(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.GlobalSpeeds.xSpeedList)
+  return xspeedlist_.Mutable(index);
+}
+::AFFS::GlobalSpeeds_Speed* GlobalSpeeds::add_xspeedlist() {
+  // @@protoc_insertion_point(field_add:AFFS.GlobalSpeeds.xSpeedList)
+  return xspeedlist_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::GlobalSpeeds_Speed >*
+GlobalSpeeds::mutable_xspeedlist() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.GlobalSpeeds.xSpeedList)
+  return &xspeedlist_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::GlobalSpeeds_Speed >&
+GlobalSpeeds::xspeedlist() const {
+  // @@protoc_insertion_point(field_list:AFFS.GlobalSpeeds.xSpeedList)
+  return xspeedlist_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // ===================================================================
 
@@ -8700,7 +13467,7 @@ bool AnimatorFlys_EAFType_IsValid(int value) {
   }
 }
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const AnimatorFlys_EAFType AnimatorFlys::EAFT_FORWARD;
 const AnimatorFlys_EAFType AnimatorFlys::EAFT_BACK;
 const AnimatorFlys_EAFType AnimatorFlys::EAFT_LEFT;
@@ -8709,8 +13476,8 @@ const AnimatorFlys_EAFType AnimatorFlys::EAFT_TOP;
 const AnimatorFlys_EAFType AnimatorFlys::EAFType_MIN;
 const AnimatorFlys_EAFType AnimatorFlys::EAFType_MAX;
 const int AnimatorFlys::EAFType_ARRAYSIZE;
-#endif  // _MSC_VER
-#ifndef _MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int AnimatorFlys_Fly::kEventTimeFieldNumber;
 const int AnimatorFlys_Fly::kEventTypeFieldNumber;
 const int AnimatorFlys_Fly::kMoveDisFieldNumber;
@@ -8718,45 +13485,46 @@ const int AnimatorFlys_Fly::kMoveTimeFieldNumber;
 const int AnimatorFlys_Fly::kMoveTopDisFieldNumber;
 const int AnimatorFlys_Fly::kMethodCallFieldNumber;
 const int AnimatorFlys_Fly::kMethodParamFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 AnimatorFlys_Fly::AnimatorFlys_Fly()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.AnimatorFlys.Fly)
 }
 
 void AnimatorFlys_Fly::InitAsDefaultInstance() {
 }
 
 AnimatorFlys_Fly::AnimatorFlys_Fly(const AnimatorFlys_Fly& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.AnimatorFlys.Fly)
 }
 
 void AnimatorFlys_Fly::SharedCtor() {
+  ::google::protobuf::internal::GetEmptyString();
   _cached_size_ = 0;
   eventtime_ = 0;
   eventtype_ = 0;
   movedis_ = 0;
   movetime_ = 0;
   movetopdis_ = 0;
-  methodcall_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
-  methodparam_ = const_cast< ::std::string*>(&::google::protobuf::internal::kEmptyString);
+  methodcall_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
 AnimatorFlys_Fly::~AnimatorFlys_Fly() {
+  // @@protoc_insertion_point(destructor:AFFS.AnimatorFlys.Fly)
   SharedDtor();
 }
 
 void AnimatorFlys_Fly::SharedDtor() {
-  if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodcall_;
-  }
-  if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-    delete methodparam_;
-  }
+  methodcall_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  methodparam_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   if (this != default_instance_) {
   }
 }
@@ -8778,48 +13546,71 @@ const AnimatorFlys_Fly& AnimatorFlys_Fly::default_instance() {
 
 AnimatorFlys_Fly* AnimatorFlys_Fly::default_instance_ = NULL;
 
-AnimatorFlys_Fly* AnimatorFlys_Fly::New() const {
-  return new AnimatorFlys_Fly;
+AnimatorFlys_Fly* AnimatorFlys_Fly::New(::google::protobuf::Arena* arena) const {
+  AnimatorFlys_Fly* n = new AnimatorFlys_Fly;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void AnimatorFlys_Fly::Clear() {
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    eventtime_ = 0;
-    eventtype_ = 0;
-    movedis_ = 0;
-    movetime_ = 0;
+// @@protoc_insertion_point(message_clear_start:AFFS.AnimatorFlys.Fly)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(AnimatorFlys_Fly, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<AnimatorFlys_Fly*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  if (_has_bits_[0 / 32] & 127u) {
+    ZR_(eventtime_, movetime_);
     movetopdis_ = 0;
     if (has_methodcall()) {
-      if (methodcall_ != &::google::protobuf::internal::kEmptyString) {
-        methodcall_->clear();
-      }
+      methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
     if (has_methodparam()) {
-      if (methodparam_ != &::google::protobuf::internal::kEmptyString) {
-        methodparam_->clear();
-      }
+      methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
     }
   }
+
+#undef ZR_HELPER_
+#undef ZR_
+
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool AnimatorFlys_Fly::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.AnimatorFlys.Fly)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // required float EventTime = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 13) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &eventtime_)));
           set_has_eventtime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(16)) goto parse_EventType;
         break;
@@ -8827,8 +13618,7 @@ bool AnimatorFlys_Fly::MergePartialFromCodedStream(
 
       // required .AFFS.AnimatorFlys.EAFType EventType = 2;
       case 2: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_VARINT) {
+        if (tag == 16) {
          parse_EventType:
           int value;
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
@@ -8840,7 +13630,7 @@ bool AnimatorFlys_Fly::MergePartialFromCodedStream(
             mutable_unknown_fields()->AddVarint(2, value);
           }
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(29)) goto parse_MoveDis;
         break;
@@ -8848,15 +13638,14 @@ bool AnimatorFlys_Fly::MergePartialFromCodedStream(
 
       // required float MoveDis = 3;
       case 3: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 29) {
          parse_MoveDis:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &movedis_)));
           set_has_movedis();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(37)) goto parse_MoveTime;
         break;
@@ -8864,15 +13653,14 @@ bool AnimatorFlys_Fly::MergePartialFromCodedStream(
 
       // required float MoveTime = 4;
       case 4: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 37) {
          parse_MoveTime:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &movetime_)));
           set_has_movetime();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(45)) goto parse_MoveTopDis;
         break;
@@ -8880,15 +13668,14 @@ bool AnimatorFlys_Fly::MergePartialFromCodedStream(
 
       // required float MoveTopDis = 5;
       case 5: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_FIXED32) {
+        if (tag == 45) {
          parse_MoveTopDis:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    float, ::google::protobuf::internal::WireFormatLite::TYPE_FLOAT>(
                  input, &movetopdis_)));
           set_has_movetopdis();
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(50)) goto parse_MethodCall;
         break;
@@ -8896,16 +13683,16 @@ bool AnimatorFlys_Fly::MergePartialFromCodedStream(
 
       // required string MethodCall = 6;
       case 6: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 50) {
          parse_MethodCall:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodcall()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodcall().data(), this->methodcall().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.AnimatorFlys.Fly.MethodCall");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
         if (input->ExpectTag(58)) goto parse_MethodParam;
         break;
@@ -8913,26 +13700,27 @@ bool AnimatorFlys_Fly::MergePartialFromCodedStream(
 
       // required string MethodParam = 7;
       case 7: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
+        if (tag == 58) {
          parse_MethodParam:
           DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_methodparam()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
             this->methodparam().data(), this->methodparam().length(),
-            ::google::protobuf::internal::WireFormat::PARSE);
+            ::google::protobuf::internal::WireFormat::PARSE,
+            "AFFS.AnimatorFlys.Fly.MethodParam");
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -8940,12 +13728,18 @@ bool AnimatorFlys_Fly::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.AnimatorFlys.Fly)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.AnimatorFlys.Fly)
+  return false;
 #undef DO_
 }
 
 void AnimatorFlys_Fly::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.AnimatorFlys.Fly)
   // required float EventTime = 1;
   if (has_eventtime()) {
     ::google::protobuf::internal::WireFormatLite::WriteFloat(1, this->eventtime(), output);
@@ -8974,30 +13768,34 @@ void AnimatorFlys_Fly::SerializeWithCachedSizes(
 
   // required string MethodCall = 6;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AnimatorFlys.Fly.MethodCall");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->methodcall(), output);
   }
 
   // required string MethodParam = 7;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
-    ::google::protobuf::internal::WireFormatLite::WriteString(
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AnimatorFlys.Fly.MethodParam");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       7, this->methodparam(), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.AnimatorFlys.Fly)
 }
 
-::google::protobuf::uint8* AnimatorFlys_Fly::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* AnimatorFlys_Fly::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.AnimatorFlys.Fly)
   // required float EventTime = 1;
   if (has_eventtime()) {
     target = ::google::protobuf::internal::WireFormatLite::WriteFloatToArray(1, this->eventtime(), target);
@@ -9026,9 +13824,10 @@ void AnimatorFlys_Fly::SerializeWithCachedSizes(
 
   // required string MethodCall = 6;
   if (has_methodcall()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodcall().data(), this->methodcall().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AnimatorFlys.Fly.MethodCall");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         6, this->methodcall(), target);
@@ -9036,67 +13835,104 @@ void AnimatorFlys_Fly::SerializeWithCachedSizes(
 
   // required string MethodParam = 7;
   if (has_methodparam()) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8String(
+    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
       this->methodparam().data(), this->methodparam().length(),
-      ::google::protobuf::internal::WireFormat::SERIALIZE);
+      ::google::protobuf::internal::WireFormat::SERIALIZE,
+      "AFFS.AnimatorFlys.Fly.MethodParam");
     target =
       ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         7, this->methodparam(), target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.AnimatorFlys.Fly)
   return target;
 }
 
-int AnimatorFlys_Fly::ByteSize() const {
+int AnimatorFlys_Fly::RequiredFieldsByteSizeFallback() const {
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFFS.AnimatorFlys.Fly)
   int total_size = 0;
 
-  if (_has_bits_[0 / 32] & (0xffu << (0 % 32))) {
+  if (has_eventtime()) {
     // required float EventTime = 1;
-    if (has_eventtime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
+  }
+
+  if (has_eventtype()) {
+    // required .AFFS.AnimatorFlys.EAFType EventType = 2;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
+  }
+
+  if (has_movedis()) {
+    // required float MoveDis = 3;
+    total_size += 1 + 4;
+  }
+
+  if (has_movetime()) {
+    // required float MoveTime = 4;
+    total_size += 1 + 4;
+  }
+
+  if (has_movetopdis()) {
+    // required float MoveTopDis = 5;
+    total_size += 1 + 4;
+  }
+
+  if (has_methodcall()) {
+    // required string MethodCall = 6;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
+  }
+
+  if (has_methodparam()) {
+    // required string MethodParam = 7;
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
+  }
+
+  return total_size;
+}
+int AnimatorFlys_Fly::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.AnimatorFlys.Fly)
+  int total_size = 0;
+
+  if (((_has_bits_[0] & 0x0000007f) ^ 0x0000007f) == 0) {  // All required fields are present.
+    // required float EventTime = 1;
+    total_size += 1 + 4;
 
     // required .AFFS.AnimatorFlys.EAFType EventType = 2;
-    if (has_eventtype()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->eventtype());
 
     // required float MoveDis = 3;
-    if (has_movedis()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float MoveTime = 4;
-    if (has_movetime()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required float MoveTopDis = 5;
-    if (has_movetopdis()) {
-      total_size += 1 + 4;
-    }
+    total_size += 1 + 4;
 
     // required string MethodCall = 6;
-    if (has_methodcall()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodcall());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodcall());
 
     // required string MethodParam = 7;
-    if (has_methodparam()) {
-      total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::StringSize(
-          this->methodparam());
-    }
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->methodparam());
 
+  } else {
+    total_size += RequiredFieldsByteSizeFallback();
   }
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -9108,19 +13944,27 @@ int AnimatorFlys_Fly::ByteSize() const {
 }
 
 void AnimatorFlys_Fly::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const AnimatorFlys_Fly* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const AnimatorFlys_Fly*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.AnimatorFlys.Fly)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const AnimatorFlys_Fly* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const AnimatorFlys_Fly>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.AnimatorFlys.Fly)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.AnimatorFlys.Fly)
     MergeFrom(*source);
   }
 }
 
 void AnimatorFlys_Fly::MergeFrom(const AnimatorFlys_Fly& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.AnimatorFlys.Fly)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
     if (from.has_eventtime()) {
       set_eventtime(from.eventtime());
@@ -9138,22 +13982,28 @@ void AnimatorFlys_Fly::MergeFrom(const AnimatorFlys_Fly& from) {
       set_movetopdis(from.movetopdis());
     }
     if (from.has_methodcall()) {
-      set_methodcall(from.methodcall());
+      set_has_methodcall();
+      methodcall_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodcall_);
     }
     if (from.has_methodparam()) {
-      set_methodparam(from.methodparam());
+      set_has_methodparam();
+      methodparam_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.methodparam_);
     }
   }
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void AnimatorFlys_Fly::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.AnimatorFlys.Fly)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void AnimatorFlys_Fly::CopyFrom(const AnimatorFlys_Fly& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.AnimatorFlys.Fly)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -9166,18 +14016,20 @@ bool AnimatorFlys_Fly::IsInitialized() const {
 }
 
 void AnimatorFlys_Fly::Swap(AnimatorFlys_Fly* other) {
-  if (other != this) {
-    std::swap(eventtime_, other->eventtime_);
-    std::swap(eventtype_, other->eventtype_);
-    std::swap(movedis_, other->movedis_);
-    std::swap(movetime_, other->movetime_);
-    std::swap(movetopdis_, other->movetopdis_);
-    std::swap(methodcall_, other->methodcall_);
-    std::swap(methodparam_, other->methodparam_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void AnimatorFlys_Fly::InternalSwap(AnimatorFlys_Fly* other) {
+  std::swap(eventtime_, other->eventtime_);
+  std::swap(eventtype_, other->eventtype_);
+  std::swap(movedis_, other->movedis_);
+  std::swap(movetime_, other->movetime_);
+  std::swap(movetopdis_, other->movetopdis_);
+  methodcall_.Swap(&other->methodcall_);
+  methodparam_.Swap(&other->methodparam_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata AnimatorFlys_Fly::GetMetadata() const {
@@ -9191,22 +14043,25 @@ void AnimatorFlys_Fly::Swap(AnimatorFlys_Fly* other) {
 
 // -------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int AnimatorFlys::kXFlyListFieldNumber;
-#endif  // !_MSC_VER
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 AnimatorFlys::AnimatorFlys()
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   SharedCtor();
+  // @@protoc_insertion_point(constructor:AFFS.AnimatorFlys)
 }
 
 void AnimatorFlys::InitAsDefaultInstance() {
 }
 
 AnimatorFlys::AnimatorFlys(const AnimatorFlys& from)
-  : ::google::protobuf::Message() {
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
   SharedCtor();
   MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:AFFS.AnimatorFlys)
 }
 
 void AnimatorFlys::SharedCtor() {
@@ -9215,6 +14070,7 @@ void AnimatorFlys::SharedCtor() {
 }
 
 AnimatorFlys::~AnimatorFlys() {
+  // @@protoc_insertion_point(destructor:AFFS.AnimatorFlys)
   SharedDtor();
 }
 
@@ -9240,42 +14096,55 @@ const AnimatorFlys& AnimatorFlys::default_instance() {
 
 AnimatorFlys* AnimatorFlys::default_instance_ = NULL;
 
-AnimatorFlys* AnimatorFlys::New() const {
-  return new AnimatorFlys;
+AnimatorFlys* AnimatorFlys::New(::google::protobuf::Arena* arena) const {
+  AnimatorFlys* n = new AnimatorFlys;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
 }
 
 void AnimatorFlys::Clear() {
+// @@protoc_insertion_point(message_clear_start:AFFS.AnimatorFlys)
   xflylist_.Clear();
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
-  mutable_unknown_fields()->Clear();
+  if (_internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->Clear();
+  }
 }
 
 bool AnimatorFlys::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) return false
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  while ((tag = input->ReadTag()) != 0) {
+  // @@protoc_insertion_point(parse_start:AFFS.AnimatorFlys)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
       // repeated .AFFS.AnimatorFlys.Fly xFlyList = 1;
       case 1: {
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_LENGTH_DELIMITED) {
-         parse_xFlyList:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtual(
+        if (tag == 10) {
+          DO_(input->IncrementRecursionDepth());
+         parse_loop_xFlyList:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
                 input, add_xflylist()));
         } else {
-          goto handle_uninterpreted;
+          goto handle_unusual;
         }
-        if (input->ExpectTag(10)) goto parse_xFlyList;
-        if (input->ExpectAtEnd()) return true;
+        if (input->ExpectTag(10)) goto parse_loop_xFlyList;
+        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectAtEnd()) goto success;
         break;
       }
 
       default: {
-      handle_uninterpreted:
-        if (::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
             ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          return true;
+          goto success;
         }
         DO_(::google::protobuf::internal::WireFormat::SkipField(
               input, tag, mutable_unknown_fields()));
@@ -9283,41 +14152,51 @@ bool AnimatorFlys::MergePartialFromCodedStream(
       }
     }
   }
+success:
+  // @@protoc_insertion_point(parse_success:AFFS.AnimatorFlys)
   return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:AFFS.AnimatorFlys)
+  return false;
 #undef DO_
 }
 
 void AnimatorFlys::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:AFFS.AnimatorFlys)
   // repeated .AFFS.AnimatorFlys.Fly xFlyList = 1;
-  for (int i = 0; i < this->xflylist_size(); i++) {
+  for (unsigned int i = 0, n = this->xflylist_size(); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
       1, this->xflylist(i), output);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
         unknown_fields(), output);
   }
+  // @@protoc_insertion_point(serialize_end:AFFS.AnimatorFlys)
 }
 
-::google::protobuf::uint8* AnimatorFlys::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
+::google::protobuf::uint8* AnimatorFlys::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:AFFS.AnimatorFlys)
   // repeated .AFFS.AnimatorFlys.Fly xFlyList = 1;
-  for (int i = 0; i < this->xflylist_size(); i++) {
+  for (unsigned int i = 0, n = this->xflylist_size(); i < n; i++) {
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        1, this->xflylist(i), target);
+      InternalWriteMessageNoVirtualToArray(
+        1, this->xflylist(i), false, target);
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
         unknown_fields(), target);
   }
+  // @@protoc_insertion_point(serialize_to_array_end:AFFS.AnimatorFlys)
   return target;
 }
 
 int AnimatorFlys::ByteSize() const {
+// @@protoc_insertion_point(message_byte_size_start:AFFS.AnimatorFlys)
   int total_size = 0;
 
   // repeated .AFFS.AnimatorFlys.Fly xFlyList = 1;
@@ -9328,7 +14207,7 @@ int AnimatorFlys::ByteSize() const {
         this->xflylist(i));
   }
 
-  if (!unknown_fields().empty()) {
+  if (_internal_metadata_.have_unknown_fields()) {
     total_size +=
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         unknown_fields());
@@ -9340,30 +14219,42 @@ int AnimatorFlys::ByteSize() const {
 }
 
 void AnimatorFlys::MergeFrom(const ::google::protobuf::Message& from) {
-  GOOGLE_CHECK_NE(&from, this);
-  const AnimatorFlys* source =
-    ::google::protobuf::internal::dynamic_cast_if_available<const AnimatorFlys*>(
-      &from);
+// @@protoc_insertion_point(generalized_merge_from_start:AFFS.AnimatorFlys)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
+  const AnimatorFlys* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const AnimatorFlys>(
+          &from);
   if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AFFS.AnimatorFlys)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:AFFS.AnimatorFlys)
     MergeFrom(*source);
   }
 }
 
 void AnimatorFlys::MergeFrom(const AnimatorFlys& from) {
-  GOOGLE_CHECK_NE(&from, this);
+// @@protoc_insertion_point(class_specific_merge_from_start:AFFS.AnimatorFlys)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) {
+    ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
+  }
   xflylist_.MergeFrom(from.xflylist_);
-  mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  if (from._internal_metadata_.have_unknown_fields()) {
+    mutable_unknown_fields()->MergeFrom(from.unknown_fields());
+  }
 }
 
 void AnimatorFlys::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:AFFS.AnimatorFlys)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void AnimatorFlys::CopyFrom(const AnimatorFlys& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:AFFS.AnimatorFlys)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -9371,19 +14262,19 @@ void AnimatorFlys::CopyFrom(const AnimatorFlys& from) {
 
 bool AnimatorFlys::IsInitialized() const {
 
-  for (int i = 0; i < xflylist_size(); i++) {
-    if (!this->xflylist(i).IsInitialized()) return false;
-  }
+  if (!::google::protobuf::internal::AllAreInitialized(this->xflylist())) return false;
   return true;
 }
 
 void AnimatorFlys::Swap(AnimatorFlys* other) {
-  if (other != this) {
-    xflylist_.Swap(&other->xflylist_);
-    std::swap(_has_bits_[0], other->_has_bits_[0]);
-    _unknown_fields_.Swap(&other->_unknown_fields_);
-    std::swap(_cached_size_, other->_cached_size_);
-  }
+  if (other == this) return;
+  InternalSwap(other);
+}
+void AnimatorFlys::InternalSwap(AnimatorFlys* other) {
+  xflylist_.UnsafeArenaSwap(&other->xflylist_);
+  std::swap(_has_bits_[0], other->_has_bits_[0]);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
 }
 
 ::google::protobuf::Metadata AnimatorFlys::GetMetadata() const {
@@ -9394,6 +14285,273 @@ void AnimatorFlys::Swap(AnimatorFlys* other) {
   return metadata;
 }
 
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// AnimatorFlys_Fly
+
+// required float EventTime = 1;
+bool AnimatorFlys_Fly::has_eventtime() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+void AnimatorFlys_Fly::set_has_eventtime() {
+  _has_bits_[0] |= 0x00000001u;
+}
+void AnimatorFlys_Fly::clear_has_eventtime() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+void AnimatorFlys_Fly::clear_eventtime() {
+  eventtime_ = 0;
+  clear_has_eventtime();
+}
+ float AnimatorFlys_Fly::eventtime() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorFlys.Fly.EventTime)
+  return eventtime_;
+}
+ void AnimatorFlys_Fly::set_eventtime(float value) {
+  set_has_eventtime();
+  eventtime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorFlys.Fly.EventTime)
+}
+
+// required .AFFS.AnimatorFlys.EAFType EventType = 2;
+bool AnimatorFlys_Fly::has_eventtype() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+void AnimatorFlys_Fly::set_has_eventtype() {
+  _has_bits_[0] |= 0x00000002u;
+}
+void AnimatorFlys_Fly::clear_has_eventtype() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+void AnimatorFlys_Fly::clear_eventtype() {
+  eventtype_ = 0;
+  clear_has_eventtype();
+}
+ ::AFFS::AnimatorFlys_EAFType AnimatorFlys_Fly::eventtype() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorFlys.Fly.EventType)
+  return static_cast< ::AFFS::AnimatorFlys_EAFType >(eventtype_);
+}
+ void AnimatorFlys_Fly::set_eventtype(::AFFS::AnimatorFlys_EAFType value) {
+  assert(::AFFS::AnimatorFlys_EAFType_IsValid(value));
+  set_has_eventtype();
+  eventtype_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorFlys.Fly.EventType)
+}
+
+// required float MoveDis = 3;
+bool AnimatorFlys_Fly::has_movedis() const {
+  return (_has_bits_[0] & 0x00000004u) != 0;
+}
+void AnimatorFlys_Fly::set_has_movedis() {
+  _has_bits_[0] |= 0x00000004u;
+}
+void AnimatorFlys_Fly::clear_has_movedis() {
+  _has_bits_[0] &= ~0x00000004u;
+}
+void AnimatorFlys_Fly::clear_movedis() {
+  movedis_ = 0;
+  clear_has_movedis();
+}
+ float AnimatorFlys_Fly::movedis() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorFlys.Fly.MoveDis)
+  return movedis_;
+}
+ void AnimatorFlys_Fly::set_movedis(float value) {
+  set_has_movedis();
+  movedis_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorFlys.Fly.MoveDis)
+}
+
+// required float MoveTime = 4;
+bool AnimatorFlys_Fly::has_movetime() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+void AnimatorFlys_Fly::set_has_movetime() {
+  _has_bits_[0] |= 0x00000008u;
+}
+void AnimatorFlys_Fly::clear_has_movetime() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+void AnimatorFlys_Fly::clear_movetime() {
+  movetime_ = 0;
+  clear_has_movetime();
+}
+ float AnimatorFlys_Fly::movetime() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorFlys.Fly.MoveTime)
+  return movetime_;
+}
+ void AnimatorFlys_Fly::set_movetime(float value) {
+  set_has_movetime();
+  movetime_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorFlys.Fly.MoveTime)
+}
+
+// required float MoveTopDis = 5;
+bool AnimatorFlys_Fly::has_movetopdis() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+void AnimatorFlys_Fly::set_has_movetopdis() {
+  _has_bits_[0] |= 0x00000010u;
+}
+void AnimatorFlys_Fly::clear_has_movetopdis() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+void AnimatorFlys_Fly::clear_movetopdis() {
+  movetopdis_ = 0;
+  clear_has_movetopdis();
+}
+ float AnimatorFlys_Fly::movetopdis() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorFlys.Fly.MoveTopDis)
+  return movetopdis_;
+}
+ void AnimatorFlys_Fly::set_movetopdis(float value) {
+  set_has_movetopdis();
+  movetopdis_ = value;
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorFlys.Fly.MoveTopDis)
+}
+
+// required string MethodCall = 6;
+bool AnimatorFlys_Fly::has_methodcall() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+void AnimatorFlys_Fly::set_has_methodcall() {
+  _has_bits_[0] |= 0x00000020u;
+}
+void AnimatorFlys_Fly::clear_has_methodcall() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+void AnimatorFlys_Fly::clear_methodcall() {
+  methodcall_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodcall();
+}
+ const ::std::string& AnimatorFlys_Fly::methodcall() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorFlys.Fly.MethodCall)
+  return methodcall_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AnimatorFlys_Fly::set_methodcall(const ::std::string& value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorFlys.Fly.MethodCall)
+}
+ void AnimatorFlys_Fly::set_methodcall(const char* value) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.AnimatorFlys.Fly.MethodCall)
+}
+ void AnimatorFlys_Fly::set_methodcall(const char* value, size_t size) {
+  set_has_methodcall();
+  methodcall_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.AnimatorFlys.Fly.MethodCall)
+}
+ ::std::string* AnimatorFlys_Fly::mutable_methodcall() {
+  set_has_methodcall();
+  // @@protoc_insertion_point(field_mutable:AFFS.AnimatorFlys.Fly.MethodCall)
+  return methodcall_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* AnimatorFlys_Fly::release_methodcall() {
+  // @@protoc_insertion_point(field_release:AFFS.AnimatorFlys.Fly.MethodCall)
+  clear_has_methodcall();
+  return methodcall_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AnimatorFlys_Fly::set_allocated_methodcall(::std::string* methodcall) {
+  if (methodcall != NULL) {
+    set_has_methodcall();
+  } else {
+    clear_has_methodcall();
+  }
+  methodcall_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodcall);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.AnimatorFlys.Fly.MethodCall)
+}
+
+// required string MethodParam = 7;
+bool AnimatorFlys_Fly::has_methodparam() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+void AnimatorFlys_Fly::set_has_methodparam() {
+  _has_bits_[0] |= 0x00000040u;
+}
+void AnimatorFlys_Fly::clear_has_methodparam() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+void AnimatorFlys_Fly::clear_methodparam() {
+  methodparam_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_methodparam();
+}
+ const ::std::string& AnimatorFlys_Fly::methodparam() const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorFlys.Fly.MethodParam)
+  return methodparam_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AnimatorFlys_Fly::set_methodparam(const ::std::string& value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFFS.AnimatorFlys.Fly.MethodParam)
+}
+ void AnimatorFlys_Fly::set_methodparam(const char* value) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFFS.AnimatorFlys.Fly.MethodParam)
+}
+ void AnimatorFlys_Fly::set_methodparam(const char* value, size_t size) {
+  set_has_methodparam();
+  methodparam_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFFS.AnimatorFlys.Fly.MethodParam)
+}
+ ::std::string* AnimatorFlys_Fly::mutable_methodparam() {
+  set_has_methodparam();
+  // @@protoc_insertion_point(field_mutable:AFFS.AnimatorFlys.Fly.MethodParam)
+  return methodparam_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* AnimatorFlys_Fly::release_methodparam() {
+  // @@protoc_insertion_point(field_release:AFFS.AnimatorFlys.Fly.MethodParam)
+  clear_has_methodparam();
+  return methodparam_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void AnimatorFlys_Fly::set_allocated_methodparam(::std::string* methodparam) {
+  if (methodparam != NULL) {
+    set_has_methodparam();
+  } else {
+    clear_has_methodparam();
+  }
+  methodparam_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), methodparam);
+  // @@protoc_insertion_point(field_set_allocated:AFFS.AnimatorFlys.Fly.MethodParam)
+}
+
+// -------------------------------------------------------------------
+
+// AnimatorFlys
+
+// repeated .AFFS.AnimatorFlys.Fly xFlyList = 1;
+int AnimatorFlys::xflylist_size() const {
+  return xflylist_.size();
+}
+void AnimatorFlys::clear_xflylist() {
+  xflylist_.Clear();
+}
+const ::AFFS::AnimatorFlys_Fly& AnimatorFlys::xflylist(int index) const {
+  // @@protoc_insertion_point(field_get:AFFS.AnimatorFlys.xFlyList)
+  return xflylist_.Get(index);
+}
+::AFFS::AnimatorFlys_Fly* AnimatorFlys::mutable_xflylist(int index) {
+  // @@protoc_insertion_point(field_mutable:AFFS.AnimatorFlys.xFlyList)
+  return xflylist_.Mutable(index);
+}
+::AFFS::AnimatorFlys_Fly* AnimatorFlys::add_xflylist() {
+  // @@protoc_insertion_point(field_add:AFFS.AnimatorFlys.xFlyList)
+  return xflylist_.Add();
+}
+::google::protobuf::RepeatedPtrField< ::AFFS::AnimatorFlys_Fly >*
+AnimatorFlys::mutable_xflylist() {
+  // @@protoc_insertion_point(field_mutable_list:AFFS.AnimatorFlys.xFlyList)
+  return &xflylist_;
+}
+const ::google::protobuf::RepeatedPtrField< ::AFFS::AnimatorFlys_Fly >&
+AnimatorFlys::xflylist() const {
+  // @@protoc_insertion_point(field_list:AFFS.AnimatorFlys.xFlyList)
+  return xflylist_;
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 
 // @@protoc_insertion_point(namespace_scope)
 
