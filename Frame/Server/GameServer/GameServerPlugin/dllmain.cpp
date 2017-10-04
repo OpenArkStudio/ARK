@@ -24,17 +24,18 @@
 
 #pragma comment(lib, "Dbghelp.lib")
 #pragma comment(lib, "ws2_32")
-#pragma comment(lib, "libprotobuf.lib")
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 
 #pragma comment(lib, "AFCore_d.lib")
 #pragma comment(lib, "AFProto_d.lib")
+#pragma comment(lib, "libprotobufd.lib")
 
 #else
 
 #pragma comment(lib, "AFCore.lib")
 #pragma comment(lib, "AFProto.lib")
+#pragma comment(lib, "libprotobuf.lib")
 
 #endif
 
