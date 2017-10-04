@@ -2,8 +2,12 @@
 
 echo Building dependencies...
 
-if exist lib (rd lib /f /q /s)
+if exist lib (rd lib /q /s)
 md lib
+cd lib
+md Debug
+md Release
+cd ../
 REM ######################################################################################################
 echo Building protobuf...
 
@@ -14,9 +18,12 @@ cd protobuf/cmake
 md build
 cd build
 cmake -G "Visual Studio 14 Win64" -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF ..
+"%VS140COMNTOOLS%..\IDE\Devenv" protobuf.sln /build "Debug|x64"
 "%VS140COMNTOOLS%..\IDE\Devenv" protobuf.sln /build "Release|x64"
-copy Release\*.dll ..\..\..\lib /Y
-copy Release\*.lib ..\..\..\lib /Y
+copy Debug\*.dll ..\..\..\lib\Debug /Y
+copy Debug\*.lib ..\..\..\lib\Debug /Y
+copy Release\*.dll ..\..\..\lib\Release /Y
+copy Release\*.lib ..\..\..\lib\Release /Y
 cd ..\..\..\
 REM ######################################################################################################
 echo Building libevent...
@@ -28,8 +35,10 @@ cd libevent
 md build
 cd build
 cmake -G "Visual Studio 14 Win64" -DEVENT__DISABLE_OPENSSL=ON ..
+"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64"
 "%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64"
-copy lib\Release\*.lib ..\..\lib /Y
+copy lib\Debug\*.lib ..\..\lib\Debug /Y
+copy lib\Release\*.lib ..\..\lib\Release /Y
 cd ..\..\
 REM ######################################################################################################
 echo Building glog...
@@ -40,8 +49,10 @@ cd glog
 md build
 cd build
 cmake -G "Visual Studio 14 Win64" ..
+"%VS140COMNTOOLS%..\IDE\Devenv" google-glog.sln /build "Debug|x64"
 "%VS140COMNTOOLS%..\IDE\Devenv" google-glog.sln /build "Release|x64"
-copy Release\*.lib ..\..\lib /Y
+copy Debug\*.lib ..\..\lib\Debug /Y
+copy Release\*.lib ..\..\lib\Release /Y
 cd ..\..\
 REM ######################################################################################################
 echo Building evpp...
@@ -57,7 +68,8 @@ cd vcpkg
 call bootstrap-vcpkg.bat
 vcpkg install evpp:x64-windows
 
-copy packages\evpp_x64-windows\lib\evpp*.lib ..\..\..\lib /Y
+copy packages\evpp_x64-windows\debug\lib\evpp*.lib ..\..\..\lib\Debug /Y
+copy packages\evpp_x64-windows\lib\evpp*.lib ..\..\..\lib\Release /Y
 cd ..\..\..\
 REM ####################################################################################################
 REM back to root dir
