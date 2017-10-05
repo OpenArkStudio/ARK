@@ -7,17 +7,11 @@ copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe AFProxyServer\\ /Y
 copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe AFWorldServer\\ /Y
 copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe AFGameServer\\ /Y
 
-rem copy ..\\..\\..\\Dep\\lib\\Debug\\libmysql.dll AFGameServer\\ /Y
-rem copy ..\\..\\..\\Dep\\lib\\Debug\\libmysql.dll AFLoginServer\\ /Y
-rem copy ..\\..\\..\\Dep\\lib\\Debug\\libmysql.dll AFMasterServer\\ /Y
-rem copy ..\\..\\..\\Dep\\lib\\Debug\\libmysql.dll AFProxyServer\\ /Y
-rem copy ..\\..\\..\\Dep\\lib\\Debug\\libmysql.dll AFWorldServer\\ /Y
-
-rem copy ..\\..\\..\\Dep\\lib\\Debug\\mysqlpp_d.dll AFGameServer\\ /Y
-rem copy ..\\..\\..\\Dep\\lib\\Debug\\mysqlpp_d.dll AFLoginServer\\ /Y
-rem copy ..\\..\\..\\Dep\\lib\\Debug\\mysqlpp_d.dll AFMasterServer\\ /Y
-rem copy ..\\..\\..\\Dep\\lib\\Debug\\mysqlpp_d.dll AFProxyServer\\ /Y
-rem copy ..\\..\\..\\Dep\\lib\\Debug\\mysqlpp_d.dll AFWorldServer\\ /Y
+copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFLoginServer\\ /Y
+copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFMasterServer\\ /Y
+copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFProxyServer\\ /Y
+copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFWorldServer\\ /Y
+copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFGameServer\\ /Y
 
 cd  AFMasterServer
 
