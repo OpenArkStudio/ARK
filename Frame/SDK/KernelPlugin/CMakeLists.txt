@@ -1,17 +1,9 @@
-file(GLOB AFKernel_H *.h)
-file(GLOB AFKernel_HPP *.hpp)
-file(GLOB AFKernel_CPP *.cpp)
+file(GLOB AFKernel_SRC *.h *.hpp *.cpp *.cc *.c)
 
-file(GLOB Remove_item_cpp AFCAOIModule.cpp)
-file(GLOB Remove_item_h AFCAOIModule.h)
-list(REMOVE_ITEM AFKernel_CPP ${Remove_item_cpp})
-list(REMOVE_ITEM AFKernel_H ${Remove_item_h})
+file(GLOB RemoveItems AFCAOIModule.h AFCAOIModule.cpp)
+list(REMOVE_ITEM AFKernel_SRC ${RemoveItems})
 
-add_library(AFKernelPlugin SHARED 
-    ${AFKernel_H}
-    ${AFKernel_HPP}
-    ${AFKernel_CPP}
-)
+add_library(AFKernelPlugin SHARED ${AFKernel_SRC})
 
 add_dependencies(AFKernelPlugin AFCore)
 
