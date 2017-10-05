@@ -1,19 +1,14 @@
-file(GLOB AFNet_H *.h)
-file(GLOB AFNet_HPP *.hpp)
-file(GLOB AFNet_CPP *.cpp)
+file(GLOB PluginLoader_SRC *.h *.hpp *.cpp *.cc *.c)
 
-add_library(AFNet SHARED 
-    ${AFNet_H}
-    ${AFNet_HPP}
-    ${AFNet_CPP}
-)
+#add_library(PluginLoader SHARED ${PluginLoader_SRC})
+add_executable(PluginLoader ${PluginLoader_SRC})
 
-set_target_properties(AFNet PROPERTIES OUTPUT_NAME_DEBUG "AFNet_d")
-set_target_properties(AFNet PROPERTIES
-    FOLDER "SDK"
+set_target_properties(PluginLoader PROPERTIES OUTPUT_NAME_DEBUG "PluginLoader_d")
+set_target_properties(PluginLoader PROPERTIES
+    FOLDER "PluginLoader"
     ARCHIVE_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR}
     LIBRARY_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR}
 )
 
-target_link_libraries(AFNet)
+target_link_libraries(PluginLoader)
