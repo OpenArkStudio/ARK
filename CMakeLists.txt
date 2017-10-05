@@ -40,7 +40,7 @@ if(UNIX)
     #linux
     include_directories(${ROOT_DIR}/Dep/libevent/include)
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug" or CMAKE_BUILD_TYPE STREQUAL "DEBUG" or CMAKE_BUILD_TYPE STREQUAL "debug")
+    if(CMAKE_BUILD_TYPE MATCHES "Debug")
         set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -fPIC")
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O0 -Wall -g -ggdb -DDEBUG -fPIC")
         set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib/ ${ROOT_DIR}/Dep/lib/Debug/ ${ROOT_DIR}/Bin/Debug)
@@ -57,15 +57,16 @@ else()
     #windows
     include_directories(${ROOT_DIR}/Dep/libevent/WIN32-code/nmake)
     set(CMAKE_CXX_FLAGS "-D_X64 -D_WINDOWS /EHsc")
-    set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib ${ROOT_DIR}/Bin)
+    set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib ${ROOT_DIR}/Bin/Comm)
     set(SDK_OUTPUT_DIR ${ROOT_DIR}/Bin/Comm)
 endif()
+
+link_directories(${DEP_LIB_DIR})
 
 #log
 message("ROOT dir=${ROOT_DIR}")
 message("SDK Output dir=${SDK_OUTPUT_DIR}")
-
-link_directories(${DEP_LIB_DIR})
+message("DEP lib dir=${DEP_LIB_DIR}")
 
 ##################################################################
 message("Start to build all...")
