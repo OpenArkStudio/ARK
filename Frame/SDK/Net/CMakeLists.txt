@@ -1,15 +1,9 @@
-file(GLOB AFNet_H *.h)
-file(GLOB AFNet_HPP *.hpp)
-file(GLOB AFNet_CPP *.cpp)
+file(GLOB AFNet_SRC *.h *.hpp *.cpp *.cc *.c)
 
 file(GLOB RemoveItems Test*.cpp)
-list(REMOVE_ITEM AFNet_CPP ${RemoveItems})
+list(REMOVE_ITEM AFNet_SRC ${RemoveItems})
 
-add_library(AFNet SHARED 
-    ${AFNet_H}
-    ${AFNet_HPP}
-    ${AFNet_CPP}
-)
+add_library(AFNet STATIC ${AFNet_SRC})
 
 if(unix)
     include_directories(${ROOT_DIR}/Dep/glog/src/)    
@@ -26,9 +20,9 @@ set_target_properties(AFNet PROPERTIES
 )
 
 if(unix)
-    target_link_libraries(AFNet libevent.a libevent_core.a libprotobuf.so)
+    target_link_libraries(AFNet proto protobuf event event_core)
     add_definitions(-D_USRDLL)
 else()
-    target_link_libraries(AFNet libprotobuf libevent libevent_core)
+    target_link_libraries(AFNet evpp_static protobuf libevent libevent_core)
     add_definitions(-D_LIB -DWIN32 -DWIN)
 endif()
