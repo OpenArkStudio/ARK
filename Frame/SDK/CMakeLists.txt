@@ -1,5 +1,6 @@
 add_subdirectory(Core)
 add_subdirectory(KernelPlugin)
 add_subdirectory(Net)
+add_subdirectory(PluginLoader)
+add_subdirectory(Proto)
 add_subdirectory(UtilityPlugin)
-#add_subdirectory(PluginLoader)
