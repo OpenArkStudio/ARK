@@ -23,10 +23,10 @@
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-class Tutorial3Plugin : public AFIPlugin
+class AFMasterLogicPlugin : public AFIPlugin
 {
 public:
-    Tutorial3Plugin(AFIPluginManager* p)
+    AFMasterLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
