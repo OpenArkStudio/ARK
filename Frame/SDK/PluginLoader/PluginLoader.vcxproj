@@ -58,7 +58,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_X64;_DEBUG;_CONSOLE;AF_DYNAMIC_PLUGIN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_X64;_DEBUG;_CONSOLE;AF_DYNAMIC_PLUGIN;ELPP_NO_DEFAULT_LOG_FILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\Theron\Include\;$(SolutionDir)..\Dep\Theron\Include\External\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>false</BrowseInformation>
     </ClCompile>
@@ -81,20 +81,20 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(Soluti
 copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\$(ProjectName)_d.pdb
 copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName)_d.exe
 copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial1\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial1\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial2\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial2\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial3\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial3\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial4\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial4\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial5\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial5\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial6\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial6\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial7\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial7\$(ProjectName)_d.pdb</Command>
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial1\$(ProjectName)_d.exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial1\$(ProjectName)_d.pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial2\$(ProjectName)_d.exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial2\$(ProjectName)_d.pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial3\$(ProjectName)_d.exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial3\$(ProjectName)_d.pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial4\$(ProjectName)_d.exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial4\$(ProjectName)_d.pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial5\$(ProjectName)_d.exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial5\$(ProjectName)_d.pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial6\$(ProjectName)_d.exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial6\$(ProjectName)_d.pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial7\$(ProjectName)_d.exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial7\$(ProjectName)_d.pdb</Command>
     </PostBuildEvent>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -129,20 +129,20 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(Solution
 copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\$(ProjectName).pdb
 copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName).exe
 copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial1\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial1\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial2\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial2\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial3\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial3\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial4\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial4\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial5\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial5\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial6\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial6\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial7\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\Tutorial7\$(ProjectName).pdb</Command>
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial1\$(ProjectName).exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial1\$(ProjectName).pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial2\$(ProjectName).exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial2\$(ProjectName).pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial3\$(ProjectName).exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial3\$(ProjectName).pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial4\$(ProjectName).exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial4\$(ProjectName).pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial5\$(ProjectName).exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial5\$(ProjectName).pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial6\$(ProjectName).exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial6\$(ProjectName).pdb
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial7\$(ProjectName).exe
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial7\$(ProjectName).pdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

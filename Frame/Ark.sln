@@ -31,49 +31,49 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFKernelPlugin", "SDK\Kerne
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorldServer", "WorldServer", "{7CE50BDF-4625-4704-8720-BE2205CE1769}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFLoginNetServerPlugin", "Server\LoginServer\LoginNet_ServerPlugin\LoginNet_ServerPlugin.vcxproj", "{9133E9F0-1029-406C-AA3C-86CF746C2B0E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFLoginNetServerPlugin", "Server\LoginServer\LoginNetServerPlugin\LoginNetServerPlugin.vcxproj", "{9133E9F0-1029-406C-AA3C-86CF746C2B0E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFLoginNetClientPlugin", "Server\LoginServer\LoginNet_ClientPlugin\LoginNet_ClientPlugin.vcxproj", "{3EEFC5D0-7E8E-4B6D-8B30-8D15E6C3A8FD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFLoginNetClientPlugin", "Server\LoginServer\LoginNetClientPlugin\LoginNetClientPlugin.vcxproj", "{3EEFC5D0-7E8E-4B6D-8B30-8D15E6C3A8FD}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFWorldNetClientPlugin", "Server\WorldServer\WorldNet_ClientPlugin\WorldNet_ClientPlugin.vcxproj", "{DC5131EA-B34B-4141-ABF4-872843E0B183}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFWorldNetClientPlugin", "Server\WorldServer\WorldNetClientPlugin\WorldNetClientPlugin.vcxproj", "{DC5131EA-B34B-4141-ABF4-872843E0B183}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFGamePlugin", "Server\GameServer\GameServerPlugin\GameServerPlugin.vcxproj", "{EB9FDC0A-7CFD-4E42-8442-9A9D40511162}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFGamePlugin", "Server\GameServer\GameLogicPlugin\GameLogicPlugin.vcxproj", "{EB9FDC0A-7CFD-4E42-8442-9A9D40511162}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFGameNetClientPlugin", "Server\GameServer\GameServerNet_ClientPlugin\GameServerNet_ClientPlugin.vcxproj", "{05E875A5-511C-4BC0-8980-A83F5A4B2174}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFGameNetClientPlugin", "Server\GameServer\GameNetClientPlugin\GameNetClientPlugin.vcxproj", "{05E875A5-511C-4BC0-8980-A83F5A4B2174}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFGameNetServerPlugin", "Server\GameServer\GameServerNet_ServerPlugin\GameServerNet_ServerPlugin.vcxproj", "{0050BBFC-A87A-4458-8D77-753F9D006755}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFGameNetServerPlugin", "Server\GameServer\GameNetServerPlugin\GameNetServerPlugin.vcxproj", "{0050BBFC-A87A-4458-8D77-753F9D006755}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFMasterPlugin", "Server\MasterServer\MasterServerPlugin\MasterServerPlugin.vcxproj", "{CB93108B-ED0C-4AB3-A349-8637E6807ED5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFMasterPlugin", "Server\MasterServer\MasterLogicPlugin\MasterServerPlugin.vcxproj", "{CB93108B-ED0C-4AB3-A349-8637E6807ED5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFMasterNetServerPlugin", "Server\MasterServer\MasterNet_ServerPlugin\MasterNet_ServerPlugin.vcxproj", "{121AAF56-7707-4279-B80C-54AF9EE2AA07}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFMasterNetServerPlugin", "Server\MasterServer\MasterNetServerPlugin\MasterNetServerPlugin.vcxproj", "{121AAF56-7707-4279-B80C-54AF9EE2AA07}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
@@ -85,7 +85,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoginServer", "LoginServer"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MasterServer", "MasterServer", "{266C0DF9-8DF0-4422-8FD7-AECC4E38AD97}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFWorldNetServerPlugin", "Server\WorldServer\WorldNet_ServerPlugin\WorldNet_ServerPlugin.vcxproj", "{4BC56C4A-50BC-446D-8906-2CF8F0845E76}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFWorldNetServerPlugin", "Server\WorldServer\WorldNetServerPlugin\WorldNetServerPlugin.vcxproj", "{4BC56C4A-50BC-446D-8906-2CF8F0845E76}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
@@ -93,13 +93,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFWorldNetServerPlugin", "S
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProxyServer", "ProxyServer", "{43D31A0F-6014-43EE-9F28-4E865AAA588F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFProxyNetServerPlugin", "Server\ProxyServer\ProxyServerNet_ServerPlugin\ProxyServerNet_ServerPlugin.vcxproj", "{1D62662B-35E3-4FCA-9292-24F664BA52EA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFProxyNetServerPlugin", "Server\ProxyServer\ProxyNetServerPlugin\ProxyNetServerPlugin.vcxproj", "{1D62662B-35E3-4FCA-9292-24F664BA52EA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFProxyNetClientPlugin", "Server\ProxyServer\ProxyServerNet_ClientPlugin\ProxyServerNet_ClientPlugin.vcxproj", "{68C19326-3080-4389-A302-5DB95416C623}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFProxyNetClientPlugin", "Server\ProxyServer\ProxyNetClientPlugin\ProxyNetClientPlugin.vcxproj", "{68C19326-3080-4389-A302-5DB95416C623}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE} = {3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}
 		{B9833FE8-8C0B-40D6-BA01-3CDADEB21166} = {B9833FE8-8C0B-40D6-BA01-3CDADEB21166}
