@@ -18,42 +18,44 @@
 *
 */
 
-#include "AFCWorldLogicModule.h"
-#include "AFWorldLogicPlugin.h"
+#include "AFCMasterModule.h"
+#include "AFMasterLogicPlugin.h"
+
+#ifdef ARK_DYNAMIC_PLUGIN
 
 ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 #if ARK_PLATFORM == PLATFORM_WIN
-    SetConsoleTitle("WorldServer -- ArkGame");
-#endif // ARK_PLATFORM
-    CREATE_PLUGIN(pm, AFWorldLogicPlugin)
-};
+    SetConsoleTitle("MasterServer -- ArkGame");
+#endif
+
+    CREATE_PLUGIN(pm, AFMasterLogicPlugin)
+}
 
 ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 {
-    DESTROY_PLUGIN(pm, AFWorldLogicPlugin)
-};
+    DESTROY_PLUGIN(pm, AFMasterLogicPlugin)
+}
 
+#endif
 //////////////////////////////////////////////////////////////////////////
 
-const int AFWorldLogicPlugin::GetPluginVersion()
+const int AFMasterLogicPlugin::GetPluginVersion()
 {
     return 0;
 }
 
-const std::string AFWorldLogicPlugin::GetPluginName()
+const std::string AFMasterLogicPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFWorldLogicPlugin);
+    return GET_CLASS_NAME(AFMasterLogicPlugin)
 }
 
-void AFWorldLogicPlugin::Install()
+void AFMasterLogicPlugin::Install()
 {
-
-    REGISTER_MODULE(pPluginManager, AFIWorldLogicModule, AFCWorldLogicModule)
+    REGISTER_MODULE(pPluginManager, AFIMasterModule, AFCMasterModule)
 }
 
-void AFWorldLogicPlugin::Uninstall()
+void AFMasterLogicPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIWorldLogicModule, AFCWorldLogicModule)
+    UNREGISTER_MODULE(pPluginManager, AFIMasterModule, AFCMasterModule)
 }
-
