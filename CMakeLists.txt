@@ -71,6 +71,6 @@ message("DEP lib dir=${DEP_LIB_DIR}")
 ##################################################################
 message("Start to build all...")
 add_subdirectory(Frame/SDK)
-add_subdirectory(Frame/Server)
-add_subdirectory(Frame/Examples)
+#add_subdirectory(Frame/Server)
+#add_subdirectory(Frame/Examples)
 #add_subdirectory(Frame/Tools)
