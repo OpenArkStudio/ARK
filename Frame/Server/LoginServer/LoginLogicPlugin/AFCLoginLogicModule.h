@@ -22,7 +22,7 @@
 
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILoginLogicModule.h"
-#include "SDK/Interface/AFILoginNet_ServerModule.h"
+#include "SDK/Interface/AFILoginNetServerModule.h"
 
 class AFCLoginLogicModule
     : public AFILoginLogicModule
@@ -41,10 +41,6 @@ public:
 
     virtual int OnLoginProcess(const AFGUID& object, const std::string& strAccount, const std::string& strPwd);
 
-protected:
-
-protected:
-
-    AFILoginNet_ServerModule* m_pLoginNet_ServerModule;
 private:
+    AFILoginNetServerModule* m_pLoginNet_ServerModule;
 };
