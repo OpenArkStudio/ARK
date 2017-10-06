@@ -30,7 +30,7 @@
 ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
 {
 #if ARK_PLATFORM == PLATFORM_WIN
-    SetConsoleTitle("AFGameServer");
+    SetConsoleTitle("GameServer -- ArkGame");
 #endif // ARK_PLATFORM
     CREATE_PLUGIN(pm, AFGameLogicPlugin)
 
