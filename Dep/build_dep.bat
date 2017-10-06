@@ -35,8 +35,12 @@ cd libevent
 md build
 cd build
 cmake -G "Visual Studio 14 Win64" -DEVENT__DISABLE_OPENSSL=ON ..
-"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64"
-"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64"
+"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64" /project event_core_static.vcxproj
+"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64" /project event_core_static.vcxproj
+"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64" /project event_static.vcxproj
+"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64" /project event_static.vcxproj
+"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64" /project event_extra_static.vcxproj
+"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64" /project event_extra_static.vcxproj
 copy lib\Debug\*.lib ..\..\lib\Debug /Y
 copy lib\Release\*.lib ..\..\lib\Release /Y
 cd ..\..\
@@ -57,6 +61,8 @@ cd ..\..\
 REM ######################################################################################################
 echo Building evpp...
 
+REM close vcpkg setup task
+tarkkill /IM /F /T Microsoft.VisualStudio.Setup.Configuration.Console.exe
 if exist evpp (rd evpp /q /s)
 git clone -b master https://github.com/Qihoo360/evpp.git
 
