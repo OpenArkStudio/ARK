@@ -1,27 +1,23 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file  	AFCLogModule.cpp                                              *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFCLogModule                                                  *
-*****************************************************************************/
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+
 #include "AFCLogModule.h"
 #include <stdarg.h>
 #include "easylogging++.h"
@@ -87,11 +83,11 @@ bool AFCLogModule::Init()
     pConfigurations->set(&debugConfiguration);
 
     //获取每种级别log的输出开�?
-    mbLogSwiths[NFI_LOG_DEBUG] = pLogger->typedConfigurations()->enabled(el::Level::Debug);
-    mbLogSwiths[NFI_LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
-    mbLogSwiths[NFI_LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
-    mbLogSwiths[NFI_LOG_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
-    mbLogSwiths[NFI_LOG_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
+    mbLogSwiths[ARK_LOG_DEBUG] = pLogger->typedConfigurations()->enabled(el::Level::Debug);
+    mbLogSwiths[ARK_LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
+    mbLogSwiths[ARK_LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
+    mbLogSwiths[ARK_LOG_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
+    mbLogSwiths[ARK_LOG_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
 
     el::Loggers::reconfigureAllLoggers(*pConfigurations);
     return true;
@@ -118,10 +114,10 @@ bool AFCLogModule::Execute()
     return true;
 }
 
-bool AFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
+bool AFCLogModule::Log(const ARK_LOG_LEVEL nll, const char* format, ...)
 {
     //error level
-    if(nll >= NFI_LOG_MAX || nll < NFI_LOG_DEBUG)
+    if(nll >= ARK_LOG_MAX || nll < ARK_LOG_DEBUG)
     {
         return false;
     }
@@ -141,12 +137,12 @@ bool AFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
 
     switch(nll)
     {
-    case AFILogModule::NFI_LOG_DEBUG:
+    case AFILogModule::ARK_LOG_DEBUG:
         {
             LOG(DEBUG) << szBuffer;
         }
         break;
-    case AFILogModule::NFI_LOG_INFO:
+    case AFILogModule::ARK_LOG_INFO:
         {
             if(mbSwitchingValue)
             {
@@ -154,7 +150,7 @@ bool AFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
             }
         }
         break;
-    case AFILogModule::NFI_LOG_WARNING:
+    case AFILogModule::ARK_LOG_WARNING:
         {
             if(mbSwitchingValue)
             {
@@ -162,10 +158,10 @@ bool AFCLogModule::Log(const NF_LOG_LEVEL nll, const char* format, ...)
             }
         }
         break;
-    case AFILogModule::NFI_LOG_ERROR:
+    case AFILogModule::ARK_LOG_ERROR:
         LOG(ERROR) << szBuffer;
         break;
-    case AFILogModule::NFI_LOG_FATAL:
+    case AFILogModule::ARK_LOG_FATAL:
         LOG(FATAL) << szBuffer;
         break;
     default:
@@ -205,11 +201,11 @@ void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_DEBUG, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+        Log(ARK_LOG_DEBUG, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_DEBUG, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+        Log(ARK_LOG_DEBUG, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
 }
 
@@ -217,11 +213,11 @@ void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const 
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_INFO, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+        Log(ARK_LOG_INFO, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_INFO, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+        Log(ARK_LOG_INFO, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
 }
 
@@ -229,11 +225,11 @@ void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, con
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_WARNING, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+        Log(ARK_LOG_WARNING, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_WARNING, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+        Log(ARK_LOG_WARNING, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
 }
 
@@ -241,11 +237,11 @@ void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_ERROR, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+        Log(ARK_LOG_ERROR, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_ERROR, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+        Log(ARK_LOG_ERROR, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
 }
 
@@ -253,11 +249,11 @@ void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_FATAL, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+        Log(ARK_LOG_FATAL, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_FATAL, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+        Log(ARK_LOG_FATAL, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
     }
 }
 
@@ -265,11 +261,11 @@ void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_DEBUG, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+        Log(ARK_LOG_DEBUG, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_DEBUG, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+        Log(ARK_LOG_DEBUG, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
     }
 }
 
@@ -277,11 +273,11 @@ void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const 
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_INFO, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+        Log(ARK_LOG_INFO, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_INFO, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+        Log(ARK_LOG_INFO, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
     }
 }
 
@@ -289,11 +285,11 @@ void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, con
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_WARNING, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+        Log(ARK_LOG_WARNING, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_WARNING, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+        Log(ARK_LOG_WARNING, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
     }
 }
 
@@ -301,11 +297,11 @@ void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_ERROR, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+        Log(ARK_LOG_ERROR, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_ERROR, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+        Log(ARK_LOG_ERROR, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
     }
 }
 
@@ -313,11 +309,11 @@ void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_FATAL, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+        Log(ARK_LOG_FATAL, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_FATAL, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+        Log(ARK_LOG_FATAL, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
     }
 }
 
@@ -325,11 +321,11 @@ void AFCLogModule::LogDebug(const AFGUID self, const std::ostringstream& strDesc
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_DEBUG, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+        Log(ARK_LOG_DEBUG, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_DEBUG, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+        Log(ARK_LOG_DEBUG, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
     }
 }
 
@@ -337,11 +333,11 @@ void AFCLogModule::LogInfo(const AFGUID self, const std::ostringstream& strDesc,
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_INFO, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+        Log(ARK_LOG_INFO, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_INFO, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+        Log(ARK_LOG_INFO, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
     }
 }
 
@@ -349,11 +345,11 @@ void AFCLogModule::LogWarning(const AFGUID self, const std::ostringstream& strDe
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_WARNING, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+        Log(ARK_LOG_WARNING, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_WARNING, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+        Log(ARK_LOG_WARNING, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
     }
 }
 
@@ -361,11 +357,11 @@ void AFCLogModule::LogError(const AFGUID self, const std::ostringstream& strDesc
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_ERROR, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+        Log(ARK_LOG_ERROR, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_ERROR, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+        Log(ARK_LOG_ERROR, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
     }
 }
 
@@ -373,11 +369,11 @@ void AFCLogModule::LogFatal(const AFGUID self, const std::ostringstream& strDesc
 {
     if(nLine > 0 && pFunc != NULL)
     {
-        Log(NFI_LOG_FATAL, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+        Log(ARK_LOG_FATAL, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
     }
     else
     {
-        Log(NFI_LOG_FATAL, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+        Log(ARK_LOG_FATAL, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
     }
 }
 
@@ -421,28 +417,28 @@ bool AFCLogModule::ChangeLogLevel(const std::string& strLevel, const std::string
         {
             el::Configuration errorConfiguration(el::Level::Fatal, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&errorConfiguration);
-            mbLogSwiths[NFI_LOG_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
+            mbLogSwiths[ARK_LOG_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
             break;
         }
     case el::Level::Error:
         {
             el::Configuration warnConfiguration(el::Level::Error, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&warnConfiguration);
-            mbLogSwiths[NFI_LOG_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
+            mbLogSwiths[ARK_LOG_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
             break;
         }
     case el::Level::Warning:
         {
             el::Configuration infoConfiguration(el::Level::Warning, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&infoConfiguration);
-            mbLogSwiths[NFI_LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
+            mbLogSwiths[ARK_LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
             break;
         }
     case el::Level::Info:
         {
             el::Configuration debugConfiguration(el::Level::Info, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&debugConfiguration);
-            mbLogSwiths[NFI_LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
+            mbLogSwiths[ARK_LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
             break;
         }
     case el::Level::Debug:

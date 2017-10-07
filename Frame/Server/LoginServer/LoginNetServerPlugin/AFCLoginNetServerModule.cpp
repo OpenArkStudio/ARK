@@ -266,7 +266,7 @@ void AFCLoginNetServerModule::OnLogOut(const AFIMsgHead& xHead, const int nMsgID
 
 void AFCLoginNetServerModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    printf("NFNet || 非法消息:unMsgID=%d\n", nMsgID);
+    printf("Net || 非法消息:unMsgID=%d\n", nMsgID);
 }
 
 
