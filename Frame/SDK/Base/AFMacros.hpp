@@ -47,7 +47,7 @@ inline uint32_t GetSystemTime()
 #define ARK_SPRINTF sprintf_s
 #define ARK_STRICMP _stricmp
 #define ARK_SLEEP(s) Sleep(s)
-
+#define ARK_STRNCPY strncpy_s
 #define ARK_ASSERT(exp_, msg_, file_, func_)        \
     do                                              \
     {                                               \
@@ -76,6 +76,7 @@ inline uint32_t GetSystemTime()
 #define ARK_SPRINTF snprintf
 #define ARK_STRICMP strcasecmp
 #define ARK_SLEEP(s) usleep(s)
+#define ARK_STRNCPY strncpy
 #define ARK_ASSERT(exp_, msg_, file_, func_)        \
     do                                              \
     {                                               \
