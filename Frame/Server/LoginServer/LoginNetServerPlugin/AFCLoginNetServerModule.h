@@ -31,23 +31,8 @@
 #include "SDK/Interface/AFILoginToMasterModule.h"
 #include "SDK/Interface/AFIGUIDModule.h"
 
-#define NET_MSG_PROCESS(xNFMsg, msg) \
-    AFGUID nPlayerID; \
-    xNFMsg xMsg; \
-    if (!ReceivePB(nMsgID, msg, nLen, xMsg, nPlayerID)) \
-    { \
-        return 0; \
-    } \
-    \
-    AFIActorMessage xActorMsg; \
-    xActorMsg.eType = AFIActorMessage::EACTOR_NET_MSG; \
-    xActorMsg.nSubMsgID = nMsgID; \
-    xMsg.SerializeToString(&xActorMsg.data); \
-    pPluginManager->GetFramework().Send(xActorMsg, pPluginManager->GetAddress(), pPluginManager->GetAddress());
-
 class AFCLoginNetServerModule
     : public AFILoginNetServerModule
-
 {
 public:
     AFCLoginNetServerModule(AFIPluginManager* p)

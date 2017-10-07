@@ -18,14 +18,6 @@
 *
 */
 
-#include <time.h>
-#include <stdio.h>
-#include <iostream>
-#include <utility>
-#include <thread>
-#include <chrono>
-#include <functional>
-#include <atomic>
 #include "AFCPluginManager.h"
 #include "SDK/Base/AFPlatform.hpp"
 
@@ -136,16 +128,17 @@ void PrintfLogo()
 #endif
 
     std::cout << "\n" << std::endl;
-    std::cout << "¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï" << std::endl;
-    std::cout << "¡ï                                            ¡ï" << std::endl;
-    std::cout << "¡ï                 ArkGame                    ¡ï" << std::endl;
-    std::cout << "¡ï   Copyright (c) 2011-2017  ArkGame Studio  ¡ï" << std::endl;
-    std::cout << "¡ï             All rights reserved.           ¡ï" << std::endl;
-    std::cout << "¡ï                                            ¡ï" << std::endl;
-    std::cout << "¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï¡ï" << std::endl;
+    std::cout << "********************************************" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << "  ArkGame" << std::endl;
+    std::cout << "  Copyright (c) 2011-2017 ArkGame Studio" << std::endl;
+    std::cout << "  All rights reserved." << std::endl;
+    std::cout << "  https://arkgame.net" << std::endl;
+    std::cout << "" << std::endl;
+    std::cout << "********************************************" << std::endl;
     std::cout << "\n" << std::endl;
-    std::cout << "-d Run it as daemon mode, only on linux" << std::endl;
-    std::cout << "-x Closethe 'X' button, only on windows" << std::endl;
+    std::cout << "-d Run it as daemon mode, only on Linux" << std::endl;
+    std::cout << "-x Close the 'X' button, only on windows" << std::endl;
     std::cout << "name.xml File's name to instead of \"Plugin.xml\" when programs be launched, all platform" << std::endl;
     std::cout << "\n" << std::endl;
 
