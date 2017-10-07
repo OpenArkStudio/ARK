@@ -18,8 +18,6 @@
 *
 */
 
-#pragma once
-
 #include "AFCGameNetServerModule.h"
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Proto/NFProtocolDefine.hpp"
