@@ -253,14 +253,13 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
 
     //////////////////////////////////////////////////////////////////////////
     rapidxml::xml_document<> xDoc;
-    int nDataSize = 0;
+    size_t nDataSize = 0;
 
     std::string strFile = pPluginManager->GetConfigPath() + pstrClassFilePath;
     rapidxml::file<> fdoc(strFile.c_str());
     nDataSize = fdoc.size();
     ARK_SHARE_PTR<char> pData(new char[nDataSize + 1]);
     strncpy(pData.get(), fdoc.data(), nDataSize);
-
 
     pData.get()[nDataSize] = 0;
     xDoc.parse<0>(pData.get());
