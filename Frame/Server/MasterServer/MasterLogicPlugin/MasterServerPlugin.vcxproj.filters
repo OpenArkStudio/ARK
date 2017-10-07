@@ -3,10 +3,10 @@
   <ItemGroup>
     <ClCompile Include="AFCMasterModule.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="AFMasterPlugin.cpp" />
+    <ClCompile Include="AFMasterLogicPlugin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCMasterModule.h" />
-    <ClInclude Include="AFMasterPlugin.h" />
+    <ClInclude Include="AFMasterLogicPlugin.h" />
   </ItemGroup>
 </Project>
