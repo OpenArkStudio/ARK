@@ -61,22 +61,14 @@ cd ..\..\
 REM ######################################################################################################
 echo Building evpp...
 
-REM close vcpkg setup task
-tarkkill /IM /F /T Microsoft.VisualStudio.Setup.Configuration.Console.exe
 if exist evpp (rd evpp /q /s)
-git clone -b master https://github.com/Qihoo360/evpp.git
+git clone -b master https://github.com/ArkGame/evpp.git
 
 cd evpp
-md build
-cd build
-git clone https://github.com/Microsoft/vcpkg.git 
-cd vcpkg
-call bootstrap-vcpkg.bat
-vcpkg install evpp:x64-windows
-
-copy packages\evpp_x64-windows\debug\lib\evpp*.lib ..\..\..\lib\Debug /Y
-copy packages\evpp_x64-windows\lib\evpp*.lib ..\..\..\lib\Release /Y
-cd ..\..\..\
+cd vsprojects
+"%VS140COMNTOOLS%..\IDE\Devenv" libevpp.sln /build "Debug|x64" /project evpp_static.vcxproj
+"%VS140COMNTOOLS%..\IDE\Devenv" libevpp.sln /build "Release|x64" /project evpp_static.vcxproj
+cd ..\..\
 REM ####################################################################################################
 REM back to root dir
 cd ../
