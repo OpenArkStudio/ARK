@@ -120,8 +120,8 @@ void AFCNetClient::Initialization(const std::string& strAddrPort, const int nSer
     m_pThread->Start();
 
     m_pClient.reset(new evpp::TCPClient(m_pThread->loop(), mstrIPPort, "TCPPingPongClient"));
-    m_pClient->SetConnectionCallback(std::bind(&AFCNetClient::OnClientConnection, std::placeholders::_1, (void*) this));
-    m_pClient->SetMessageCallback(std::bind(&AFCNetClient::OnMessage, std::placeholders::_1, std::placeholders::_2, (void*)this));
+    m_pClient->SetConnectionCallback(std::bind(&AFCNetClient::OnClientConnectionInner,this, std::placeholders::_1));
+    m_pClient->SetMessageCallback(std::bind(&AFCNetClient::OnMessageInner, this, std::placeholders::_1, std::placeholders::_2));
     m_pClient->set_auto_reconnect(false);
     m_pClient->Connect();
 
