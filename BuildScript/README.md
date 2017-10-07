@@ -1,1 +1,0 @@
-```CMAKE``` and ```makefile``` is still working on it, please wait for a while.
