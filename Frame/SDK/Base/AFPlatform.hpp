@@ -53,6 +53,7 @@
 #include <thread>
 #include <mutex>
 
+#define NOMINMAX
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
 // only windows include
 #include <io.h>
