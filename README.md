@@ -15,7 +15,7 @@ ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework writ
 
 ##### Wanna get the newest features? Please switch to the develop branch.
 
-**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ArkGameFrame/blob/master/CONTRIBUTING.md)</font>**
+**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/CONTRIBUTING.md)</font>**
 
 ## Contact
 - QQ Group: 540961187
