@@ -60,6 +60,8 @@ copy Release\*.lib ..\..\lib\Release /Y
 cd ..\..\
 REM ######################################################################################################
 echo Building evpp...
+if exist evpp (rd evpp /q /s)
+git clone -b master https://github.com/ArkGame/evpp.git
 
 cd evpp
 cd vsprojects
