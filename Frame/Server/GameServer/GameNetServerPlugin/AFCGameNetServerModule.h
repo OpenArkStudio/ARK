@@ -34,6 +34,7 @@
 #include "SDK/Interface/AFIGameServerToWorldModule.h"
 #include "SDK/Interface/AFIGameNetServerModule.h"
 #include "SDK/Interface/AFIGameNetServerModule.h"
+#include "SDK/Interface/AFIAccountModule.h"
 
 class AFCGameNetServerModule
     : public AFIGameNetServerModule
@@ -82,6 +83,7 @@ protected:
     void OnReqiureRoleListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnCreateRoleGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnDeleteRoleGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+
     void OnClienEnterGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnClienLeaveGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnClienSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
@@ -121,4 +123,5 @@ private:
     AFINetServerModule* m_pNetModule;
     //////////////////////////////////////////////////////////////////////////
     AFIGameServerToWorldModule* m_pGameServerToWorldModule;
+    AFIAccountModule* m_AccountModule;
 };
