@@ -24,21 +24,28 @@
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIGameLogicModule.h"
 #include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIAccountModule.h"
+#include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Interface/AFIGUIDModule.h"
 
-class AFCCreateRoleModule
-    : public AFIModule
+class AFCAccountModule
+    : public AFIAccountModule
 {
 public:
-    AFCCreateRoleModule(AFIPluginManager* p)
+    AFCAccountModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
-    virtual ~AFCCreateRoleModule() {};
+    virtual ~AFCAccountModule() {};
 
     virtual bool Init();
     virtual bool Shut();
     virtual bool Execute(const float fLasFrametime, const float fStartedTime);
     virtual bool AfterInit();
+
+    virtual bool GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
+    virtual bool CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList);
+    virtual bool DeleteRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
 
 protected:
     int OnLoadRoleBeginEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
@@ -61,11 +68,10 @@ private:
     //-3
     int mnRoleHallContainer;
 
-    AFIGameLogicModule* m_pGameLogicModule;
     //AFIEventProcessModule* m_pEventProcessModule;
     //static AFIDataBaseModule* m_pDataBaseModule;
     //AFIDataNoSqlModule* m_pNoSqlModule;
     AFIKernelModule* m_pKernelModule;
     AFIElementModule* m_pElementInfoModule;
-    AFCCreateRoleModule* m_pThis;
+    AFIGUIDModule* m_pUUIDModule;
 };
