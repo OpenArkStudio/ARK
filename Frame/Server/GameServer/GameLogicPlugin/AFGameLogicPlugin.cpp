@@ -24,6 +24,7 @@
 #include "AFCPropertyModule.h"
 #include "AFCLevelModule.h"
 #include "AFCPropertyConfigModule.h"
+#include "AFCAccountModule.h"
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
@@ -56,21 +57,20 @@ const std::string AFGameLogicPlugin::GetPluginName()
 
 void AFGameLogicPlugin::Install()
 {
-
     REGISTER_MODULE(pPluginManager, AFIGameServerModule, AFCGameServerModule)
     REGISTER_MODULE(pPluginManager, AFISceneProcessModule, AFCSceneProcessModule)
-
     REGISTER_MODULE(pPluginManager, AFIPropertyModule, AFCPropertyModule)
     REGISTER_MODULE(pPluginManager, AFILevelModule, AFCLevelModule)
     REGISTER_MODULE(pPluginManager, AFIPropertyConfigModule, AFCPropertyConfigModule)
+    REGISTER_MODULE(pPluginManager, AFIAccountModule, AFCAccountModule)
 }
 
 void AFGameLogicPlugin::Uninstall()
 {
+    UNREGISTER_MODULE(pPluginManager, AFIAccountModule, AFCAccountModule)
     UNREGISTER_MODULE(pPluginManager, AFIPropertyConfigModule, AFCPropertyConfigModule)
     UNREGISTER_MODULE(pPluginManager, AFILevelModule, AFCLevelModule)
     UNREGISTER_MODULE(pPluginManager, AFIPropertyModule, AFCPropertyModule)
-
     UNREGISTER_MODULE(pPluginManager, AFISceneProcessModule, AFCSceneProcessModule)
     UNREGISTER_MODULE(pPluginManager, AFIGameServerModule, AFCGameServerModule)
 }

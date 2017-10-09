@@ -37,6 +37,7 @@ bool AFCGameNetServerModule::AfterInit()
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
     m_pGameServerToWorldModule = pPluginManager->FindModule<AFIGameServerToWorldModule>();
+    m_AccountModule = pPluginManager->FindModule<AFIAccountModule>();
 
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameNetServerModule::OnRefreshProxyServerInfoProcess);
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameNetServerModule::OnProxyServerRegisteredProcess);
@@ -1160,8 +1161,12 @@ void AFCGameNetServerModule::OnReqiureRoleListProcess(const AFIMsgHead& xHead, c
     {
         return;
     }
-
     AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
+    if(!m_AccountModule->GetRoleList(xMsg.account(), xAckRoleLiteInfoList))
+    {
+        m_pLogModule->LogError(nGateClientID, "Get Role list failed", "", __FUNCTION__, __LINE__);
+    }
+
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
 }
 
@@ -1175,19 +1180,16 @@ void AFCGameNetServerModule::OnCreateRoleGameProcess(const AFIMsgHead& xHead, co
     }
 
     AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
-    AFMsg::RoleLiteInfo* pData = xAckRoleLiteInfoList.add_char_data();
-    pData->mutable_id()->CopyFrom(AFINetServerModule::NFToPB(m_pUUIDModule->CreateGUID()));
-    pData->set_career(xMsg.career());
-    pData->set_sex(xMsg.sex());
-    pData->set_race(xMsg.race());
-    pData->set_noob_name(xMsg.noob_name());
-    pData->set_game_id(xMsg.game_id());
-    pData->set_role_level(1);
-    pData->set_delete_time(0);
-    pData->set_reg_time(0);
-    pData->set_last_offline_time(0);
-    pData->set_last_offline_ip(0);
-    pData->set_view_record("");
+    AFCDataList varList;
+    varList.AddInt(xMsg.career());
+    varList.AddInt(xMsg.sex());
+    varList.AddInt(xMsg.race());
+    varList.AddString(xMsg.noob_name().c_str());
+    varList.AddInt(xMsg.game_id());
+    if(!m_AccountModule->CreateRole(xMsg.account(), xAckRoleLiteInfoList, varList))
+    {
+        m_pLogModule->LogError(nGateClientID, "create role failed", "", __FUNCTION__, __LINE__);
+    }
 
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
 }
@@ -1201,8 +1203,12 @@ void AFCGameNetServerModule::OnDeleteRoleGameProcess(const AFIMsgHead& xHead, co
         return;
     }
 
-
     AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
+    if(!m_AccountModule->DeleteRole(xMsg.account(), xAckRoleLiteInfoList))
+    {
+        m_pLogModule->LogError(nPlayerID, "delete role failed", "", __FUNCTION__, __LINE__);
+    }
+
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nPlayerID);
 }
 
