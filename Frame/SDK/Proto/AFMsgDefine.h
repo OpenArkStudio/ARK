@@ -20,11 +20,6 @@
 
 #pragma once
 
-#include "SDK/Base/AFPlatform.hpp"
-#include "SDK/Core/AFIRecordMgr.h"
-#include "SDK/Core/AFIPropertyMgr.h"
-#include "SDK/Base/AFList.h"
-#include "AFLimit.h"
 #include "AFDefine.pb.h"
 #include "AFMsgBase.pb.h"
 #include "AFMsgPreGame.pb.h"
