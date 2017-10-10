@@ -67,6 +67,9 @@ cd evpp
 cd vsprojects
 "%VS140COMNTOOLS%..\IDE\Devenv" libevpp.sln /build "Debug|x64" /project libevpp.vcxproj
 "%VS140COMNTOOLS%..\IDE\Devenv" libevpp.sln /build "Release|x64" /project libevpp.vcxproj
+copy x64\Debug\*.lib ..\..\lib\Debug /Y
+copy x64\Release\*.lib ..\..\lib\Release /Y
+
 cd ..\..\
 REM ####################################################################################################
 REM back to root dir
