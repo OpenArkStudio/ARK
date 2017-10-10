@@ -1,4 +1,4 @@
-![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/ArkGameFrame.png)
+![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Docs/asserts/imgs/ArkGameFrame.png)
 
 ##### Copyright © [https://github.com/ArkGame](https://github.com/ArkGame "Ark Game")
 
@@ -15,7 +15,7 @@ ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework writ
 
 ##### Wanna get the newest features? Please switch to the develop branch.
 
-**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/CONTRIBUTING.md)</font>**
+**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ArkGameFrame/blob/master/CONTRIBUTING.md)</font>**
 
 ## Contact
 
@@ -48,11 +48,11 @@ Please create a new issue to ask a question.
 
 ### App Architecture:
 
-![App Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/AppArchitecture.png)
+![App Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Docs/asserts/imgs/AppArchitecture.png)
 
 ### Server Architecture
 
-![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/ServerArchitecture.png)
+![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Docs/asserts/imgs/ServerArchitecture.png)
 
 ## Get the Sources:
 
@@ -126,9 +126,9 @@ We are still working on this platform, please wait for a while.
 
 ## Documents
 
-[English](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_EN.md)
+[English](https://github.com/ArkGame/ArkGameFrame/blob/master/Docs/doc_EN.md)
 
-[Mandarin](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md)
+[Mandarin](https://github.com/ArkGame/ArkGameFrame/blob/master/Docs/doc_ZH.md)
 
 ## Examples
 
