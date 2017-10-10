@@ -13,17 +13,14 @@ set_target_properties(AFProto PROPERTIES
 if(UNIX)
     target_link_libraries(AFProto libprotobuf)
 else()
-    if(CMAKE_BUILD_TYPE MATCHES Debug)
-        target_link_libraries(AFProto libprotobufd)
-    else()
-        target_link_libraries(AFProto libprotobuf)
-    endif()
-
+    target_link_libraries(AFProto
+        debug libprotobufd
+        optimized libprotobuf
+    )
+    
     add_definitions(
         -D_USRDLL
         -D_LIB
         -DLIBPROTOC_EXPORTS
-        -DPROTOBUF_USE_DLLS
-        -D_SCL_SECURE_NO_WARNINGS
-        )
+		-DPROTOBUF_USE_DLLS)
 endif()
