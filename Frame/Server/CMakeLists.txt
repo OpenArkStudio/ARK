@@ -21,10 +21,23 @@ macro(LINK_SDK_MACRO project_name)
 add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFUtilityPlugin AFProto)
 if(UNIX)
     target_link_libraries(${project_name} event event_core AFCore AFNet AFKernelPlugin AFUtilityPlugin AFProto)
-else(UNXI)
+else(UNIX)
     target_link_libraries(${project_name} 
-        debug event event_core AFCore_d.lib AFNet_d.lib AFKernelPlugin_d.lib AFUtilityPlugin_d.lib AFProto_d.lib 
-        optimized event event_core AFCore.lib AFNet.lib AFKernelPlugin.lib AFUtilityPlugin.lib AFProto.lib)
+        debug event
+        debug event_core
+        debug AFCore_d.lib
+        debug AFNet_d.lib
+        debug AFKernelPlugin_d.lib
+        debug AFUtilityPlugin_d.lib
+        debug AFProto_d.lib 
+        
+        optimized event
+        optimized event_core
+        optimized AFCore.lib
+        optimized AFNet.lib
+        optimized AFKernelPlugin.lib
+        optimized AFUtilityPlugin.lib
+        optimized AFProto.lib)
 endif(UNIX)
 endmacro(LINK_SDK_MACRO project_name)
 ########################################################################
