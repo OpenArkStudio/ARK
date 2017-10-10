@@ -18,19 +18,17 @@
 *
 */
 
-#include "AFCCreateRoleModule.h"
+#include "AFCAccountModule.h"
+#include "SDK/Interface/AFINetServerModule.h"
 
-bool AFCCreateRoleModule::Init()
+bool AFCAccountModule::Init()
 {
     mnRoleHallContainer = -3;
     mnConnectContainer = -1;
 
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pElementInfoModule = pPluginManager->FindModule<AFIElementModule>();
-    m_pGameLogicModule = pPluginManager->FindModule<AFIGameLogicModule>();
-
-    assert(NULL != m_pElementInfoModule);
-    assert(NULL != m_pKernelModule);
+    m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
 
     //m_pEventProcessModule->AddEventCallBack(0, AFED_ON_DATABASE_SERVER_LOADROE_BEGIN, OnLoadRoleBeginEvent);
     //m_pEventProcessModule->AddEventCallBack(0, AFED_ON_DATABASE_SERVER_LOADROE_FINAL_RESULTS, OnLoadRoleFinalEvent);
@@ -41,17 +39,17 @@ bool AFCCreateRoleModule::Init()
     return true;
 }
 
-bool AFCCreateRoleModule::Shut()
+bool AFCAccountModule::Shut()
 {
     return true;
 }
 
-bool AFCCreateRoleModule::Execute(const float fLasFrametime, const float fStartedTime)
+bool AFCAccountModule::Execute(const float fLasFrametime, const float fStartedTime)
 {
     return true;
 }
 
-int AFCCreateRoleModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
+int AFCAccountModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     //if(9 != var.GetCount())
     //{
@@ -111,7 +109,7 @@ int AFCCreateRoleModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nE
     return 0;
 }
 
-bool AFCCreateRoleModule::AfterInit()
+bool AFCAccountModule::AfterInit()
 {
     //m_pKernelModule->CreateContainer(mnRoleHallContainer, "");
 
@@ -120,7 +118,44 @@ bool AFCCreateRoleModule::AfterInit()
     return true;
 }
 
-int AFCCreateRoleModule::OnCreateRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
+bool AFCAccountModule::GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList)
+{
+
+    return true;
+}
+
+bool AFCAccountModule::CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList)
+{
+    AFMsg::RoleLiteInfo* pData = xAckRoleLiteInfoList.add_char_data();
+    pData->mutable_id()->CopyFrom(AFINetServerModule::NFToPB(m_pUUIDModule->CreateGUID()));
+
+    int nCareer = varList.Int(0);
+    int sex = varList.Int(1);
+    int race = varList.Int(2);
+    std::string noob_name = varList.String(3);
+    int game_id = varList.Int(4);
+
+    pData->set_career(nCareer);
+    pData->set_sex(sex);
+    pData->set_race(race);
+    pData->set_noob_name(noob_name);
+    pData->set_game_id(game_id);
+    pData->set_role_level(1);
+    pData->set_delete_time(0);
+    pData->set_reg_time(0);
+    pData->set_last_offline_time(0);
+    pData->set_last_offline_ip(0);
+    pData->set_view_record("");
+
+    return true;
+}
+
+bool AFCAccountModule::DeleteRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList)
+{
+    return true;
+}
+
+int AFCAccountModule::OnCreateRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     //if(6 != var.GetCount())
     //{
@@ -249,7 +284,7 @@ int AFCCreateRoleModule::OnCreateRoleEvent(const AFGUID& object, const int nEven
     return 0;
 }
 
-int AFCCreateRoleModule::OnDeleteRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
+int AFCAccountModule::OnDeleteRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     //if(2 != var.GetCount())
     //{
@@ -272,7 +307,7 @@ int AFCCreateRoleModule::OnDeleteRoleEvent(const AFGUID& object, const int nEven
     return 0;
 }
 
-int AFCCreateRoleModule::OnAcountDisConnectEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
+int AFCAccountModule::OnAcountDisConnectEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     /*   if(var.GetCount() == 3)
        {
@@ -313,7 +348,7 @@ int AFCCreateRoleModule::OnAcountDisConnectEvent(const AFGUID& object, const int
     return 0;
 }
 
-int AFCCreateRoleModule::OnLoadRoleBeginEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
+int AFCAccountModule::OnLoadRoleBeginEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     ////直接从NOSQL数据库拉
     //const char* pstrAccount = var.StringVal(0);
