@@ -8,7 +8,11 @@ set_target_properties(PluginLoader PROPERTIES
     FOLDER "PluginLoader"
     ARCHIVE_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR}
-    LIBRARY_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR}
-)
+    LIBRARY_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR})
 
 target_link_libraries(PluginLoader)
+
+add_definitions(
+    -D_CONSOLE
+    -DAF_DYNAMIC_PLUGIN
+    -DELPP_NO_DEFAULT_LOG_FILE)
