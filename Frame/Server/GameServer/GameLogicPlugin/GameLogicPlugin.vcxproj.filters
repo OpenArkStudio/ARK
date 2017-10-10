@@ -13,7 +13,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="AFCCreateRoleModule.cpp" />
     <ClCompile Include="AFCGameServerModule.cpp" />
     <ClCompile Include="AFCPropertyConfigModule.cpp">
       <Filter>PropertyModule</Filter>
@@ -31,9 +30,9 @@
       <Filter>LevelModule</Filter>
     </ClCompile>
     <ClCompile Include="AFGameLogicPlugin.cpp" />
+    <ClCompile Include="AFCAccountModule.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCCreateRoleModule.h" />
     <ClInclude Include="AFCGameServerModule.h" />
     <ClInclude Include="AFCPropertyConfigModule.h">
       <Filter>PropertyModule</Filter>
@@ -51,5 +50,6 @@
       <Filter>LevelModule</Filter>
     </ClInclude>
     <ClInclude Include="AFGameLogicPlugin.h" />
+    <ClInclude Include="AFCAccountModule.h" />
   </ItemGroup>
 </Project>
