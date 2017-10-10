@@ -68,7 +68,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN;_DEBUG;_WINDOWS;_USRDLL;ELPP_NO_DEFAULT_LOG_FILE</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\libevent\;$(SolutionDir)..\Dep\evpp\;$(SolutionDir)../Dep/glog/src/windows;$(SolutionDir)..\Dep\libevent\WIN32-Code\nmake\;$(SolutionDir)..\Dep\libevent\include\;$(SolutionDir)..\Dep\libevent\compat\;$(SolutionDir)..\Dep\protobuf\src\;$(SolutionDir)..\Dep\Theron\Include\;$(SolutionDir)..\Dep\mysql\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\libevent\;$(SolutionDir)..\Dep\evpp\;$(SolutionDir)../Dep/glog/src/windows;$(SolutionDir)..\Dep\libevent\WIN32-Code\nmake\;$(SolutionDir)..\Dep\libevent\include\;$(SolutionDir)..\Dep\libevent\compat\;$(SolutionDir)..\Dep\protobuf\src\;$(SolutionDir)..\Dep\Theron\Include\;$(SolutionDir)..\Dep\mysql\;$(SolutionDir)..\Plugins\</AdditionalIncludeDirectories>
       <BrowseInformation>false</BrowseInformation>
     </ClCompile>
     <Link>
@@ -96,7 +96,7 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(Soluti
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN;_WINDOWS;_USRDLL;ELPP_NO_DEFAULT_LOG_FILE</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\libevent\;$(SolutionDir)..\Dep\evpp\;$(SolutionDir)../Dep/glog/src/windows;$(SolutionDir)..\Dep\libevent\WIN32-Code\nmake\;$(SolutionDir)..\Dep\libevent\include\;$(SolutionDir)..\Dep\libevent\compat\;$(SolutionDir)..\Dep\protobuf\src\;$(SolutionDir)..\Dep\Theron\Include\;$(SolutionDir)..\Dep\mysql\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\libevent\;$(SolutionDir)..\Dep\evpp\;$(SolutionDir)../Dep/glog/src/windows;$(SolutionDir)..\Dep\libevent\WIN32-Code\nmake\;$(SolutionDir)..\Dep\libevent\include\;$(SolutionDir)..\Dep\libevent\compat\;$(SolutionDir)..\Dep\protobuf\src\;$(SolutionDir)..\Dep\Theron\Include\;$(SolutionDir)..\Dep\mysql\;$(SolutionDir)..\Plugins\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
