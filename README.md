@@ -163,6 +163,7 @@ Our team has always specialized in the agile development and try to help differe
 - [x] 11.CMake添加(`当前进度:` Windows测试完成，linux待测试))
 - [ ] 12.增加consul来做服务发现和配置共享(待调研)
 - [ ] 13.增加CI和Deployment web工具
+- [ ] 14.修改配置打包工具(用Excel编辑，生成csv来给工程读取。为解决多人协作冲突, excel可以用名字后缀区分，类如Item.A.xlsx Item.B.xlsx)
 
 ----------
 
