@@ -64,20 +64,19 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 
 ## Dependencies
 
-- libevent 2.0.22
+- libevent master
 - easylogging++ 9.80
 - mysql++ 3.2.2
-- google protobuf 2.5.0
+- google protobuf 2.7.0
 - pybind11 1.2
-- redis-cpp-client 
-- Theron 6.00.01
+- redis-cpp-client
 - curl 7.37.1
 - evpp 0.7.0
 
 ## Supported Compilers
 
 - GCC >= 4.8 (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
-- MSVC >= VS2015 (**<font color=red>Recommend</font>. Tested in Win7/10**)
+- MSVC >= VS2015 update 3 (**<font color=red>Recommend</font>. Tested in Win7/10**)
 
 ## Build and Install
 
@@ -102,11 +101,13 @@ Using Visual Studio
 Using CMake
 1. Pull all source
 2. Run `Dep/build_dep.bat`
-3. Use command line <br>
-`cd path/to/ArkGameFrame`<br>
-`md build`<br>
-`cd build`<br>
-`cmake -G "Visual Studio 14 Win64" ..`<br>
+3. Use command line
+```batch
+cd path/to/ArkGameFrame
+md build
+cd build
+cmake -G "Visual Studio 14 Win64" ..
+```
 4. Start `ARK.sln`
 
 ### linux
@@ -160,6 +161,8 @@ Our team has always specialized in the agile development and try to help differe
 - [ ] 9.拓展record的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，record现有的结构是特定的，不方便做扩展
 - [ ] 10.增加网络库和性能的基准测试用例，放到目录benchmark/unittest
 - [x] 11.CMake添加(`当前进度:` Windows测试完成，linux待测试))
+- [ ] 12.增加consul来做服务发现和配置共享(待调研)
+- [ ] 13.增加CI和Deployment web工具
 
 ----------
 
