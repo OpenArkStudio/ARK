@@ -19,6 +19,7 @@
 */
 
 #include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFMacros.hpp"
 
 #if ARK_PLATFORM == PLATFORM_WIN
 
@@ -28,17 +29,17 @@
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 
+#pragma comment(lib, "libprotobufd.lib")
 #pragma comment(lib, "AFCore_d.lib")
 #pragma comment(lib, "AFProto_d.lib")
 #pragma comment(lib, "AFNet_d.lib")
-#pragma comment(lib, "libprotobufd.lib")
 
 #else
 
+#pragma comment(lib, "libprotobuf.lib")
 #pragma comment(lib, "AFCore.lib")
 #pragma comment(lib, "AFProto.lib")
 #pragma comment(lib, "AFNet.lib")
-#pragma comment(lib, "libprotobuf.lib")
 
 #endif
 
