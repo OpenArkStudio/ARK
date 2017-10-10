@@ -18,10 +18,12 @@ ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework writ
 **<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/CONTRIBUTING.md)</font>**
 
 ## Contact
+
 - QQ Group: 540961187
 - mail: arkgametech@163.com
 
 ## Features
+
 - General abstract data system
 - Interface-oriented programming (IOP)
 - Event-driven and data-driven
@@ -35,17 +37,21 @@ ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework writ
 - With existed Unity3D client for rapid development
 
 ### FAQ
+
 Please create a new issue to ask a question.
 
 ### Unity3D client
+
 [Unity3D Client](https://github.com/ArkGame/ArkClient-Unity3D)
 
 ## Architecture
 
 ### App Architecture:
+
 ![App Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/AppArchitecture.png)
 
 ### Server Architecture
+
 ![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/ServerArchitecture.png)
 
 ## Get the Sources:
@@ -55,7 +61,6 @@ git clone https://github.com/ArkGame/ArkGameFrame.git
 or
 
 svn checkout https://github.com/ArkGame/ArkGameFrame
-
 
 ## Dependencies
 
@@ -71,27 +76,41 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 
 ## Supported Compilers
 
-* GCC >= 4.8 (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
-* MSVC >= VS2015 (**<font color=red>Recommend</font>. Tested in Win7/10**)
+- GCC >= 4.8 (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
+- MSVC >= VS2015 (**<font color=red>Recommend</font>. Tested in Win7/10**)
 
 ## Build and Install
 
 ### Windows
+
 ##### Prerequisites:
+
 - Windows 10, 8.1, or 7
 - Visual Studio 2017 or Visual Studio 2015 Update 3
 - Git
 - CMake 3.9.1+
 
 ##### Step:
-1. Git pull all source
+Using Visual Studio
+1. Pull all source
 2. Run `Dep/build_dep.bat`
 3. Open the solution: `Frame/Ark.sln`
 4. Build the solution`Ark.sln`
 5. Run `GenerateConfigXML.bat` to generate configuration files
 6. Run the binary file by `Bin/Server/Debug/Run.bat`
 
+Using CMake
+1. Pull all source
+2. Run `Dep/build_dep.bat`
+3. Use command line <br>
+`cd path/to/ArkGameFrame`<br>
+`md build`<br>
+`cd build`<br>
+`cmake -G "Visual Studio 14 Win64" ..`<br>
+4. Start `ARK.sln`
+
 ### linux
+
 We are still working on this platform, please wait for a while.
 
 
@@ -111,22 +130,25 @@ We are still working on this platform, please wait for a while.
 [Mandarin](https://github.com/ArkGame/ArkGameFrame/blob/master/Doc/doc_ZH.md)
 
 ## Examples
+
 Please see `Frame/Examples`.
 
 ## License
-The ArkGameFrame project is currently available under the [Apache License](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE).
 
+The ArkGameFrame project is currently available under the [Apache License](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE).
 
 ----------
 ### C# Project
+
 Still working on it, maybe use Akka.net or Orleans
 
 ----------
-Our team has always specialized in the agile development and try to help different teams to develop game project quickly and easily. After years of development, we create this frame which is a fast, scalable, distributed game server framework written by C++, include the actor library, network library, can be used as a real-time multiplayer game engine. We are still improving it.
+Our team has always specialized in the agile development and try to help different teams to develop game project quickly and easily. After years of development, we create this frame which is a fast, scalable, distributed game server framework, can be used as a real-time multiplayer game engine. We are still improving it.
 
 ----------
 
 #### Plan
+
 - [x] 1.优化数据管理性能
 - [x] 2.优化网络性能
 - [x] 3.优化heartbeat(Timer)性能，降低精度为秒(现在是毫秒)
@@ -136,10 +158,11 @@ Our team has always specialized in the agile development and try to help differe
 - [ ] 7.完整的带业务功能的demo
 - [ ] 8.优化数据同步的流量,减小属性同步的体积(去掉`PropertyName`和`RecordName`类似的string同步)
 - [ ] 9.拓展record的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，record现有的结构是特定的，不方便做扩展
-- [ ] 10.增加网络库的基准测试用例，放到目录benchmark/unittest
-- [ ] 11.CMake添加(`当前进度:` SDK部分已经完成(<font color=red>还缺少编译后事件</font>))
+- [ ] 10.增加网络库和性能的基准测试用例，放到目录benchmark/unittest
+- [x] 11.CMake添加(`当前进度:` Windows测试完成，linux待测试))
 
 ----------
 
 #### The relationship with NF
+
 This branch comes from NF, we used to be the **CORE DEVELOPER** of NF, we create this project because some different ideas, and the **ArkGameFrame** contains many new contents and modifications.
