@@ -3,7 +3,9 @@
 关键字：文档，介绍，入门，教程
 
 **ArkGameFrame** 是一个使用C++语言开发的、支持高并发、高性能的跨平台敏捷服务器开发解决方案。
-旨在帮助中小企业降低开发门槛，快速完成项目功能。采用敏捷开发中的分层设计思路，将功能拆分为多个插件模块，让开发人员集中处理单一功能，提高团队效率。特点概述：
+旨在帮助中小企业降低开发门槛，快速完成项目功能。采用敏捷开发中的分层设计思路，将功能拆分为多个插件模块，让开发人员集中处理单一业务功能，提高团队效率。<br>
+
+特点概述：
 
 * 通用的抽象对象系统
 * 数据驱动 (Property & record)
@@ -39,7 +41,7 @@
 </pre>
 
 ## 简述
-ArkGameFrame采用成熟的敏捷开发思想——分层设计，分层的程序设计带来的好处是显而易见的，由于层间松散的耦合关系，使得我们可以专注于本层的设计，而不必关心其他层的设计，也不必担心自己的设计会影响其它层，对提高软件质量大有裨益。而且分层设计使得程序结构清晰，升级和维护都变得十分容易，更改层的具体实现代码，只要层接口保持稳定，其他层可以不必修改。即使层的接口发生变化，也只影响上层和下层，修改工作量小而且错误可以控制，不会带来意外的风险。NFrame同时使用了将应用程序设计成三层架构，最顶层是App，中间层是各种插件，插件下是各种对应的具化的模块功能。这种设计的优点是对应模块只处理自己的事务，降低耦合，通过接口与其他模块交互，将模块的风险降到最低。
+ArkGameFrame采用成熟的敏捷开发思想——分层设计，分层的程序设计带来的好处是显而易见的，由于层间松散的耦合关系，使得我们可以专注于本层的设计，而不必关心其他层的设计，也不必担心自己的设计会影响其它层，对提高软件质量大有裨益。而且分层设计使得程序结构清晰，升级和维护都变得十分容易，更改层的具体实现代码，只要层接口保持稳定，其他层可以不必修改。即使层的接口发生变化，也只影响上层和下层，修改工作量小而且错误可以控制，不会带来意外的风险。Ark将应用程序设计成三层架构，最顶层是App，中间层是各种插件，插件下是各种对应的具化的模块功能。这种设计的优点是对应模块只处理自己的事务，降低耦合，通过接口与其他模块交互，将模块的风险降到最低。
 
 **App设计架构图**
 ![App Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/AppArchitecture.png)
@@ -54,20 +56,20 @@ ArkGameFrame采用成熟的敏捷开发思想——分层设计，分层的程�
 - 通用的设置/获取信息接口
 
 ### 数据驱动
-相对于传统的服务器开发，NFrame使用了一种全新的数据定义和使用的方法，我们称之为**属性(Property)**和**表(Record)**。
+相对于传统的服务器开发，Ark使用了一种全新的数据定义和使用的方法，我们称之为**属性(Property)**和**表(Record)**。
 
 **属性(Property)**主要用来存储用户的基本数据，例如：姓名、性别、年龄、等级 等数据，主要表现为一个名称对应一个数据。
 
 **表(Record)**主要用来存储一些记录，例如：道具列表、任务列表 等数据，主要表现为一个记录里包含多条数据。
 
-NFrame使用了此种模型来定义应用中的所有数据，避免了以往传统服务器中数据结构定义混乱，接口不统一、别人无法接手等问题。
+Ark使用了此种模型来定义应用中的所有数据，避免了以往传统服务器中数据结构定义混乱，接口不统一、别人无法接手等问题。
 
 **一个Property和Record的例子：**
 ![Property Sample](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/PropertySample.png)
-> NF属性配置例子(Excel编辑)
+> Ark属性配置例子(Excel编辑)
 
 ![Record Sample](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/RecordSample.png)
-> NF表配置例子(Excel编辑)
+> Ark表配置例子(Excel编辑)
 
 ### 事件驱动
 事件驱动灵感来源与处理器的处理流程，旨为只提供流水线式的处理逻辑模块，而本身不保存和涉留对象的数据。
@@ -82,18 +84,18 @@ NFrame使用了此种模型来定义应用中的所有数据，避免了以往�
 
 通过**Heartbeat System**，所有只要注册过同名心跳的观测者的Processer Function均会定时处理逻辑，以便延时/定时处理逻辑。
 
-**NFrame事件驱动设计图**
+**Ark事件驱动设计图**
 ![Event Driven](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Doc/asserts/imgs/AppArchitecture.png)
 
-**NFrame事件驱动示例代码**
+**Ark事件驱动示例代码**
 
 Property驱动示例：
 ```cpp
-m_pKernelModule->AddPropertyCallBack(self, "Level", this, &NFCPropertyModule::OnObjectLevelEvent);
+m_pKernelModule->AddPropertyCallBack(self, "Level", this, &AFCPropertyModule::OnObjectLevelEvent);
 
 m_pKernelModule->SetPropertyInt(self, "Level", 100);
 
-int NFCPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string& strPropertyName, const NFIDataList& oldVar, const NFIDataList& newVar, const NFIDataList& argVar)
+int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFIDataList& oldVar, const AFIDataList& newVar, const AFIDataList& argVar)
 {
     // do something
     return 0;
@@ -101,17 +103,17 @@ int NFCPropertyModule::OnObjectLevelEvent(const NFGUID& self, const std::string&
 ```
 Record驱动代码示例：
 ```cpp
-m_pKernelModule->AddRecordCallBack(self, "TaskList", this, &NFCHeroModule::OnTaskRecordEvent);
+m_pKernelModule->AddRecordCallBack(self, "TaskList", this, &AFCHeroModule::OnTaskRecordEvent);
 
-int NFCHeroModule::OnHeroRecordEvent(const NFGUID& self, const std::string& strRecordName, const int nOpType, const int nRow, const int nCol, const NFIDataList& oldVar, const NFIDataList& newVar, const NFIDataList& argVar)
+int AFCHeroModule::OnHeroRecordEvent(const AFGUID& self, const std::string& strRecordName, const int nOpType, const int nRow, const int nCol, const AFIDataList& oldVar, const AFIDataList& newVar, const AFIDataList& argVar)
 {
-    NF_SHARED_PTR<NFIObject> pObject = m_pKernelModule->GetObject(self);
+    AF_SHARED_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
     if (nullptr == pObject)
     {
         return 1;
     }
 
-    NF_SHARED_PTR<NFIRecord> pRecord = m_pKernelModule->FindRecord(self, strRecordName);
+    AF_SHARED_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, strRecordName);
     if (nullptr == pRecord)
     {
         return 1;
@@ -119,13 +121,13 @@ int NFCHeroModule::OnHeroRecordEvent(const NFGUID& self, const std::string& strR
 
     switch (nOpType)
     {
-    case NFIRecord::Add:
+    case AFIRecord::Add:
         // TODO
         break;
-    case NFIRecord::Del:
+    case AFIRecord::Del:
         // TODO
         break;
-    case NFIRecord::UpData:
+    case AFIRecord::UpData:
         // TODO
         break;
     default:
@@ -138,9 +140,9 @@ int NFCHeroModule::OnHeroRecordEvent(const NFGUID& self, const std::string& strR
 
 Event驱动代码示例
 ```cpp
-m_pEventProcessModule->AddEventCallBack(self, NF_EVENT_DO_SOMETHING, this, &NFCFightValueModule::OnDoSomethingEvent);
+m_pEventProcessModule->AddEventCallBack(self, AF_EVENT_DO_SOMETHING, this, &AFCFightValueModule::OnDoSomethingEvent);
 
-int NFCFightValueModule::OnRefreshFightValueEvent(const NFGUID& self, const int nEventID, const NFIDataList& var)
+int AFCFightValueModule::OnRefreshFightValueEvent(const AFGUID& self, const int nEventID, const AFIDataList& var)
 {
     // do something
 	return 0;
@@ -151,7 +153,7 @@ HeartBeat驱动代码示例：
 ```cpp
 m_pKernelModule->AddHeartBeat(self, "OnHeartBeat", this, &HelloWorld3Module::OnHeartBeat, 5.0f, 1000);
 
-int HelloWorld3Module::OnHeartBeat(const NFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount)
+int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount)
 {
     // do something
 	return 0;
@@ -159,13 +161,13 @@ int HelloWorld3Module::OnHeartBeat(const NFGUID& self, const std::string& strHea
 ```
 
 ### 面向接口编程(IOD)
-&#160; &#160; &#160; &#160;较于大多数OO式开发，NFrame支持更灵活的IO(接口)式开发，让你的开发更简单纯粹。
+&#160; &#160; &#160; &#160;较于大多数OO式开发，Ark支持更灵活的IO(接口)式开发，让你的开发更简单纯粹。
 通过模块抽象基类的虚接口让模块的功能互相调用，真正做到了软件开发的低耦合高内聚。
 
-**NFrame面向接口编程示例代码**
+**Ark面向接口编程示例代码**
 ```cpp
-class NFISceneProcessModule
-    : public NFILogicModule
+class AFISceneProcessModule
+    : public AFILogicModule
 {
 
 public:
@@ -175,11 +177,9 @@ public:
 ```
 
 ### 高性能，高并发
-NFrame由于设计上的分层独立从而使得架构上本身就性能较高。同时在网络通信上使用了久经考验的**LibEvent**作为网络底层，使用**google ProtoBuf**作为协议序列化库，LibEvent的高性能加上Protobuf的高压缩率，真实测试过单服承载8000以上用户高频率协议通讯。
+Ark由于在设计上的分层独立从而使得架构上本身就性能较高。同时在网络通信上使用了久经考验的**libevent**作为网络底层，使用**google ProtoBuf**作为协议序列化库，libevent的高性能加上Protobuf的高压缩率，真实测试过单服承载8000以上用户高频率协议通讯。
 
-NFrame在逻辑处理上使用了**Actor模**式，采用了**Theron**作为Actor基础类库，支持并发编程，充分利用CPU性能。 Theron作为知名工业级并发库，应用在许多工业级软件上，例如Matlab使用了Theron后，让其性能直接提高了**4.5x倍**([原文链接](http://www.theron-library.com/index.php?t=story&p=43))。
-
-NFrame使用C++作为基础开发语言，相对于其他编程语言，在性能和效率上更是快人一步，良好的设计模式的应用让逻辑更加简单。
+Ark使用C++作为基础开发语言，相对于其他编程语言，在性能和效率上更是快人一步，良好的设计模式的应用让逻辑更加简单。
 
 ### 组件系统(Component)
 - 提供类似Unity样式的组件组合模式，以丰富服务器后期脚本编辑以及对象行为扩展
@@ -191,7 +191,7 @@ NFrame使用C++作为基础开发语言，相对于其他编程语言，在性�
 - 后期将支持JavaScript，C#，python等脚本语言
 
 ### 分布式服务器架构
-经过我们参考主流架构以及长期的项目经验积累，NFrame被设计为理论上可无限扩展的分布式架构，拥有着真正的无理论上限的系统规模和负载可扩展性。
+经过我们参考主流架构以及长期的项目经验积累，Ark被设计为理论上可无限扩展的分布式架构，拥有着真正的无理论上限的系统规模和负载可扩展性。
 
 **主要特性：**
 1. 无限扩展
@@ -208,14 +208,14 @@ NFrame使用C++作为基础开发语言，相对于其他编程语言，在性�
 ## 使用教程
 ### 教程1:添加一个模块
 ```cpp
-#include "NFComm/NFPluginModule/NFIPlugin.h"
-#include "NFComm/NFPluginModule/NFIPluginManager.h"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 class HelloWorld1
-    : public NFILogicModule
+    : public AFILogicModule
 {
 public:
-    HelloWorld1(NFIPluginManager* p)
+    HelloWorld1(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
