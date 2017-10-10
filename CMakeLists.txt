@@ -16,12 +16,6 @@ if(UNIX)
 endif()
 
 ########################################################################
-macro(SDK_LINK_MACRO project_name)
-    add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFU)
-    target_link_libraries(${project_name} event event_core AFCore AFNet)
-endmacro(SDK_LINK_MACRO project_name)
-
-########################################################################
 
 project(ARK)
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
@@ -59,6 +53,7 @@ else()
     set(CMAKE_CXX_FLAGS "-D_X64 -D_WINDOWS /EHsc")
     set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib ${ROOT_DIR}/Bin/Comm)
     set(SDK_OUTPUT_DIR ${ROOT_DIR}/Bin/Comm)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
 link_directories(${DEP_LIB_DIR})
@@ -71,6 +66,6 @@ message("DEP lib dir=${DEP_LIB_DIR}")
 ##################################################################
 message("Start to build all...")
 add_subdirectory(Frame/SDK)
-#add_subdirectory(Frame/Server)
+add_subdirectory(Frame/Server)
 #add_subdirectory(Frame/Examples)
 #add_subdirectory(Frame/Tools)
