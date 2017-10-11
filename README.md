@@ -38,7 +38,7 @@ ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework writ
 
 ### FAQ
 
-Please create a new issue to ask a question.
+Please [create a new issue](https://github.com/ArkGame/ArkGameFrame/issues) to ask a question.
 
 ### Unity3D client
 
