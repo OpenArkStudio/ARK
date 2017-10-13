@@ -172,4 +172,4 @@ Our team has always specialized in the agile development and try to help differe
 
 #### The relationship with NF
 
-This branch comes from [NF](https://github.com/ketoo/NoahGameFrame), we used to be the **CORE DEVELOPER** of NF, we create this project because some different ideas, and the **ArkGameFrame** contains many new contents and modifications.
+This branch comes from [NF](https://github.com/ketoo/NoahGameFrame), we used to be the **CORE DEVELOPER** of NF, we create this project because some different ideas, and the **ArkGameFrame** contains many new contents and modifications. Now this repository have many different features with NF.
