@@ -2,6 +2,8 @@
 
 ##### Copyright © [https://github.com/ArkGame](https://github.com/ArkGame "Ark Game")
 
+[![Gitter chat](https://badges.gitter.im/gitterhq/node-gitter.png)](https://gitter.im/ArkGame/Lobby)
+
 Website: https://arkgame.net
 <br>
 Github: https://github.com/ArkGame/ArkGameFrame
@@ -164,9 +166,10 @@ Our team has always specialized in the agile development and try to help differe
 - [ ] 12.增加consul来做服务发现和配置共享(待调研)
 - [ ] 13.增加CI和Deployment web工具
 - [ ] 14.修改配置打包工具(用Excel编辑，生成csv来给工程读取。为解决多人协作冲突, excel可以用名字后缀区分，类如Item.A.xlsx Item.B.xlsx)
+- [ ] 15.[FMT](https://github.com/fmtlib/fmt) FMT_HEADER_ONLY
 
 ----------
 
 #### The relationship with NF
 
-This branch comes from NF, we used to be the **CORE DEVELOPER** of NF, we create this project because some different ideas, and the **ArkGameFrame** contains many new contents and modifications.
+This branch comes from [NF](https://github.com/ketoo/NoahGameFrame), we used to be the **CORE DEVELOPER** of NF, we create this project because some different ideas, and the **ArkGameFrame** contains many new contents and modifications.
