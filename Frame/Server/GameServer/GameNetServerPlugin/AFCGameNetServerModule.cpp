@@ -64,31 +64,33 @@ bool AFCGameNetServerModule::AfterInit()
     m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &AFCGameNetServerModule::OnObjectClassEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr != xLogicClass)
+    if (nullptr == xLogicClass)
     {
-        NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
-        std::string strConfigName;
-        for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
-        {
-            const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
-            const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_GAME && pPluginManager->AppID() == nServerID)
-            {
-                const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
-                const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
-                const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
-                const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
-                const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
+        return false;
+    }
 
-                int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nServerID, nCpus);
-                if(nRet < 0)
-                {
-                    std::ostringstream strLog;
-                    strLog << "Cannot init server net, Port = " << nPort;
-                    m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
-                    ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
-                    exit(0);
-                }
+    NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+    std::string strConfigName;
+    for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    {
+        const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
+        const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
+        if(nServerType == ARK_SERVER_TYPES::ARK_ST_GAME && pPluginManager->AppID() == nServerID)
+        {
+            const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
+            const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
+            const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
+            const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
+            const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
+
+            int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nServerID, nCpus);
+            if(nRet < 0)
+            {
+                std::ostringstream strLog;
+                strLog << "Cannot init server net, Port = " << nPort;
+                m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
+                ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
+                exit(0);
             }
         }
     }
@@ -98,7 +100,6 @@ bool AFCGameNetServerModule::AfterInit()
 
 bool AFCGameNetServerModule::Shut()
 {
-
     return true;
 }
 
@@ -155,7 +156,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
         return;
     }
 
-    AFGUID nRoleID = AFINetServerModule::PBToNF(xMsg.id());
+    AFGUID nRoleID = AFINetServerModule::PBToGUID(xMsg.id());
 
     if(m_pKernelModule->GetObject(nRoleID))
     {
@@ -274,8 +275,8 @@ int AFCGameNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AFG
         AFMsg::ObjectPropertyList* pPublicData = xPublicMsg.add_multi_player_property();
         AFMsg::ObjectPropertyList* pPrivateData = xPrivateMsg.add_multi_player_property();
 
-        *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
-        *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
+        *(pPublicData->mutable_player_id()) = AFINetServerModule::GUIDToPB(self);
+        *(pPrivateData->mutable_player_id()) = AFINetServerModule::GUIDToPB(self);
 
         ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = pObject->GetPropertyManager();
 
@@ -392,7 +393,7 @@ int AFCGameNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFGUI
             if(!pPublicData)
             {
                 pPublicData = xPublicMsg.add_multi_player_record();
-                *(pPublicData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
+                *(pPublicData->mutable_player_id()) = AFINetServerModule::GUIDToPB(self);
             }
             pPublicRecordBase = pPublicData->add_record_list();
             pPublicRecordBase->set_record_name(pRecord->GetName());
@@ -409,7 +410,7 @@ int AFCGameNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFGUI
             if(!pPrivateData)
             {
                 pPrivateData = xPrivateMsg.add_multi_player_record();
-                *(pPrivateData->mutable_player_id()) = AFINetServerModule::NFToPB(self);
+                *(pPrivateData->mutable_player_id()) = AFINetServerModule::GUIDToPB(self);
             }
             pPrivateRecordBase = pPrivateData->add_record_list();
             pPrivateRecordBase->set_record_name(pRecord->GetName());
@@ -462,13 +463,13 @@ int AFCGameNetServerModule::OnObjectListEnter(const AFIDataList& self, const AFI
         }
 
         AFMsg::PlayerEntryInfo* pEntryInfo = xPlayerEntryInfoList.add_object_list();
-        *(pEntryInfo->mutable_object_guid()) = AFINetServerModule::NFToPB(identOld);
+        *(pEntryInfo->mutable_object_guid()) = AFINetServerModule::GUIDToPB(identOld);
         Point3D xPoint;
         xPoint.x = m_pKernelModule->GetPropertyFloat(identOld, "x");
         xPoint.y = m_pKernelModule->GetPropertyFloat(identOld, "y");
         xPoint.z = m_pKernelModule->GetPropertyFloat(identOld, "z");
 
-        *pEntryInfo->mutable_pos() = AFINetServerModule::NFToPB(xPoint);
+        *pEntryInfo->mutable_pos() = AFINetServerModule::VecToPB(xPoint);
         pEntryInfo->set_career_type(m_pKernelModule->GetPropertyInt(identOld, "Job"));
         pEntryInfo->set_player_state(m_pKernelModule->GetPropertyInt(identOld, "State"));
         pEntryInfo->set_config_id(m_pKernelModule->GetPropertyString(identOld, "ConfigID"));
@@ -514,7 +515,7 @@ int AFCGameNetServerModule::OnObjectListLeave(const AFIDataList& self, const AFI
         }
 
         AFMsg::Ident* pIdent = xPlayerLeaveInfoList.add_object_list();
-        *pIdent = AFINetServerModule::NFToPB(argVar.Object(i));
+        *pIdent = AFINetServerModule::GUIDToPB(argVar.Object(i));
     }
 
     for(int i = 0; i < self.GetCount(); i++)
@@ -576,7 +577,7 @@ int AFCGameNetServerModule::OnPropertyCommonEvent(const AFGUID& self, const std:
 
     AFMsg::ObjectPropertyPBData xPropertyData;
     AFMsg::Ident* pIdent = xPropertyData.mutable_player_id();
-    *pIdent = AFINetServerModule::NFToPB(self);
+    *pIdent = AFINetServerModule::GUIDToPB(self);
     AFMsg::PropertyPBData* pData = xPropertyData.add_property_list();
     AFINetServerModule::DataToPBProperty(oldVar, strPropertyName.c_str(), *pData);
 
@@ -623,7 +624,7 @@ int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD
         {
             AFMsg::ObjectRecordAddRow xAddRecordRow;
             AFMsg::Ident* pIdent = xAddRecordRow.mutable_player_id();
-            *pIdent = AFINetServerModule::NFToPB(self);
+            *pIdent = AFINetServerModule::GUIDToPB(self);
 
             xAddRecordRow.set_record_name(strRecordName);
 
@@ -658,7 +659,7 @@ int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD
             AFMsg::ObjectRecordRemove xReoveRecordRow;
 
             AFMsg::Ident* pIdent = xReoveRecordRow.mutable_player_id();
-            *pIdent = AFINetServerModule::NFToPB(self);
+            *pIdent = AFINetServerModule::GUIDToPB(self);
 
             xReoveRecordRow.set_record_name(strRecordName);
             xReoveRecordRow.add_remove_row(nRow);
@@ -675,7 +676,7 @@ int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD
         {
             //其实是2个row交换
             AFMsg::ObjectRecordSwap xSwapRecord;
-            *xSwapRecord.mutable_player_id() = AFINetServerModule::NFToPB(self);
+            *xSwapRecord.mutable_player_id() = AFINetServerModule::GUIDToPB(self);
 
             xSwapRecord.set_origin_record_name(strRecordName);
             xSwapRecord.set_target_record_name(strRecordName);   // 暂时没用
@@ -693,7 +694,7 @@ int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD
     case AFRecord::RecordOptype::Update:
         {
             AFMsg::ObjectRecordPBData xRecordChanged;
-            *xRecordChanged.mutable_player_id() = AFINetServerModule::NFToPB(self);
+            *xRecordChanged.mutable_player_id() = AFINetServerModule::GUIDToPB(self);
             xRecordChanged.set_record_name(strRecordName);
             AFMsg::RecordPBData* recordProperty = xRecordChanged.add_record_list();
             AFINetServerModule::RecordToPBRecord(newVar, nRow, nCol, *recordProperty);
@@ -768,8 +769,8 @@ int AFCGameNetServerModule::OnClassCommonEvent(const AFGUID& self, const std::st
             AFMsg::AckEventResult xMsg;
             xMsg.set_event_code(AFMsg::EGEC_ENTER_GAME_SUCCESS);
 
-            *xMsg.mutable_event_client() = AFINetServerModule::NFToPB(pDataBase->xClientID);
-            *xMsg.mutable_event_object() = AFINetServerModule::NFToPB(self);
+            *xMsg.mutable_event_client() = AFINetServerModule::GUIDToPB(pDataBase->xClientID);
+            *xMsg.mutable_event_object() = AFINetServerModule::GUIDToPB(self);
 
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTER_GAME, xMsg, self);
         }
