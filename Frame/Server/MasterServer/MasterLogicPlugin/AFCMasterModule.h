@@ -21,8 +21,8 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIMasterModule.h"
-#include "SDK/Interface/AFIMasterNetServerModule.h"
+#include "Server/Interface/AFIMasterModule.h"
+#include "Server/Interface/AFIMasterNetServerModule.h"
 
 class AFCMasterModule
     : public AFIMasterModule
@@ -37,8 +37,6 @@ public:
     virtual bool Init();
     virtual bool Shut();
     virtual bool Execute();
-protected:
-
 
 private:
 

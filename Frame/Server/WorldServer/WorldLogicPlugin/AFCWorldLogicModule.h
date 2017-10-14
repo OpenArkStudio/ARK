@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIWorldLogicModule.h"
+#include "Server/Interface/AFIWorldLogicModule.h"
 
 class AFCWorldLogicModule
     : public AFIWorldLogicModule
