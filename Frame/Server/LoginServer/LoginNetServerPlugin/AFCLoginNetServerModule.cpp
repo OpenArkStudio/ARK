@@ -61,32 +61,34 @@ bool AFCLoginNetServerModule::AfterInit()
     m_pNetModule->AddEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr != xLogicClass)
+    if (nullptr == xLogicClass)
     {
-        NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
-        std::string strConfigName;
-        for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+        return false;
+    }
+
+    NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+    std::string strConfigName;
+    for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    {
+        const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
+        const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
+        if(nServerType == ARK_SERVER_TYPES::ARK_ST_LOGIN && pPluginManager->AppID() == nServerID)
         {
-            const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
-            const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_LOGIN && pPluginManager->AppID() == nServerID)
+            const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
+            const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
+            const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
+            const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
+
+            m_pUUIDModule->SetWorkerAndDatacenter(nServerID, nServerID);
+
+            int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nCpus, nServerID);
+            if(nRet < 0)
             {
-                const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
-                const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
-                const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
-                const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
-
-                m_pUUIDModule->SetWorkerAndDatacenter(nServerID, nServerID);
-
-                int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nCpus, nServerID);
-                if(nRet < 0)
-                {
-                    std::ostringstream strLog;
-                    strLog << "Cannot init server net, Port = " << nPort;
-                    m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
-                    ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
-                    exit(0);
-                }
+                std::ostringstream strLog;
+                strLog << "Cannot init server net, Port = " << nPort;
+                m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
+                ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
+                exit(0);
             }
         }
     }
@@ -101,7 +103,7 @@ int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, con
     {
         AFMsg::AckConnectWorldResult xMsg;
         xMsg.set_world_id(nWorldID);
-        xMsg.mutable_sender()->CopyFrom(AFINetServerModule::NFToPB(xSenderID));
+        xMsg.mutable_sender()->CopyFrom(AFINetServerModule::GUIDToPB(xSenderID));
         xMsg.set_login_id(nLoginID);
         xMsg.set_account(strAccount);
         xMsg.set_world_ip(strWorldIP);
@@ -198,7 +200,7 @@ void AFCLoginNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, cons
     AFMsg::ReqConnectWorld xData;
     xData.set_world_id(xMsg.world_id());
     xData.set_login_id(pPluginManager->AppID());
-    xData.mutable_sender()->CopyFrom(AFINetServerModule::NFToPB(pSession->mnClientID));
+    xData.mutable_sender()->CopyFrom(AFINetServerModule::GUIDToPB(pSession->mnClientID));
     xData.set_account(pSession->mstrAccout);
 
     m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData, xHead.GetPlayerID());//here has a problem to be solve

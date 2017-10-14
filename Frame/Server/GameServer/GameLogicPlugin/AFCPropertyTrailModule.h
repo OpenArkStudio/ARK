@@ -21,17 +21,16 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIGameLogicModule.h"
-#include "SDK/Interface/AFIPropertyModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIPropertyConfigModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Interface/AFIPropertyTrailModule.h"
 #include "SDK/Interface/AFILogModule.h"
+#include "Server/Interface/AFIGameLogicModule.h"
+#include "Server/Interface/AFIPropertyModule.h"
+#include "Server/Interface/AFIPropertyConfigModule.h"
+#include "Server/Interface/AFIPropertyTrailModule.h"
 
-class AFCPropertyTrailModule
-    : public AFIPropertyTrailModule
+class AFCPropertyTrailModule : public AFIPropertyTrailModule
 {
 public:
     AFCPropertyTrailModule(AFIPluginManager* p)
@@ -58,7 +57,6 @@ protected:
     int OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
 private:
-
     AFIKernelModule* m_pKernelModule;
     AFIElementModule* m_pElementModule;
     AFIClassModule* m_pClassModule;

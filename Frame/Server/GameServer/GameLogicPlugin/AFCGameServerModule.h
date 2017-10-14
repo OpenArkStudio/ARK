@@ -21,12 +21,11 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIGameServerModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIGUIDModule.h"
+#include "Server/Interface/AFIGameServerModule.h"
 
-class AFCGameServerModule
-    : public AFIGameServerModule
+class AFCGameServerModule : public AFIGameServerModule
 {
 public:
     AFCGameServerModule(AFIPluginManager* p)
