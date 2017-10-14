@@ -21,8 +21,8 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFILoginLogicModule.h"
-#include "SDK/Interface/AFILoginNetServerModule.h"
+#include "Server/Interface/AFILoginLogicModule.h"
+#include "Server/Interface/AFILoginNetServerModule.h"
 
 class AFCLoginLogicModule
     : public AFILoginLogicModule

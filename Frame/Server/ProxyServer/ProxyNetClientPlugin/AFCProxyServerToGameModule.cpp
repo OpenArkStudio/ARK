@@ -71,7 +71,7 @@ bool AFCProxyServerToGameModule::AfterInit()
         {
             const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
             const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_GAME)
+            if(nServerType == ARK_SERVER_TYPES::ARK_ST_GAME)
             {
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
@@ -82,7 +82,7 @@ bool AFCProxyServerToGameModule::AfterInit()
                 ConnectData xServerData;
 
                 xServerData.nGameID = nServerID;
-                xServerData.eServerType = (NF_SERVER_TYPES)nServerType;
+                xServerData.eServerType = (ARK_SERVER_TYPES)nServerType;
                 xServerData.strIP = strIP;
                 xServerData.nPort = nPort;
                 xServerData.strName = strName;
@@ -123,7 +123,7 @@ void AFCProxyServerToGameModule::Register(const int nServerID)
         {
             const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
             const int nSelfServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_PROXY && pPluginManager->AppID() == nSelfServerID)
+            if(nServerType == ARK_SERVER_TYPES::ARK_ST_PROXY && pPluginManager->AppID() == nSelfServerID)
             {
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
@@ -167,8 +167,8 @@ void AFCProxyServerToGameModule::OnAckEnterGame(const AFIMsgHead& xHead, const i
 
     if(xData.event_code() == AFMsg::EGEC_ENTER_GAME_SUCCESS)
     {
-        const AFGUID& xClient = AFINetServerModule::PBToNF(xData.event_client());
-        const AFGUID& xPlayer = AFINetServerModule::PBToNF(xData.event_object());
+        const AFGUID& xClient = AFINetServerModule::PBToGUID(xData.event_client());
+        const AFGUID& xPlayer = AFINetServerModule::PBToGUID(xData.event_object());
 
         m_pProxyServerNet_ServerModule->EnterGameSuccessEvent(xClient, xPlayer);
     }
@@ -187,7 +187,7 @@ void AFCProxyServerToGameModule::OnBrocastmsg(const AFIMsgHead& xHead, const int
     for(int i = 0; i < xMsg.player_client_list_size(); i++)
     {
         const AFMsg::Ident& xClientID = xMsg.player_client_list(i);
-        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToNF(xClientID), nPlayerID);
+        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(xClientID), nPlayerID);
     }
 }
 

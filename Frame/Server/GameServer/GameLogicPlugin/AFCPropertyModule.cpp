@@ -49,7 +49,7 @@ bool AFCPropertyModule::AfterInit()
     return true;
 }
 
-int AFCPropertyModule::GetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType)
+int AFCPropertyModule::GetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType)
 {
     //TODO:要做一个 attr_name->col的映射
 
@@ -63,7 +63,7 @@ int AFCPropertyModule::GetPropertyValue(const AFGUID& self, const std::string& s
     return 0;
 }
 
-int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue)
+int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue)
 {
     //TODO:要做一个 attr_name->col的映射
 
@@ -90,7 +90,7 @@ int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& s
 }
 
 
-int AFCPropertyModule::AddPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue)
+int AFCPropertyModule::AddPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue)
 {
     //if(NFPropertyGroup::NPG_ALL != eGroupType)
     //{
@@ -111,7 +111,7 @@ int AFCPropertyModule::AddPropertyValue(const AFGUID& self, const std::string& s
     return 0;
 }
 
-int AFCPropertyModule::SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue)
+int AFCPropertyModule::SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue)
 {
     //if(NFPropertyGroup::NPG_ALL != eGroupType)
     //{
