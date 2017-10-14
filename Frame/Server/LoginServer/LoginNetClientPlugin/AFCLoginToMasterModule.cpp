@@ -59,7 +59,7 @@ bool AFCLoginToMasterModule::AfterInit()
         {
             const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
             const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_MASTER)
+            if(nServerType == ARK_SERVER_TYPES::ARK_ST_MASTER)
             {
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
@@ -70,7 +70,7 @@ bool AFCLoginToMasterModule::AfterInit()
                 ConnectData xServerData;
 
                 xServerData.nGameID = nServerID;
-                xServerData.eServerType = (NF_SERVER_TYPES)nServerType;
+                xServerData.eServerType = (ARK_SERVER_TYPES)nServerType;
                 xServerData.strIP = strIP;
                 xServerData.nPort = nPort;
                 xServerData.strName = strName;
@@ -107,7 +107,7 @@ void AFCLoginToMasterModule::Register(const int nServerID)
         {
             const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
             const int nSelfServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_LOGIN && pPluginManager->AppID() == nSelfServerID)
+            if(nServerType == ARK_SERVER_TYPES::ARK_ST_LOGIN && pPluginManager->AppID() == nSelfServerID)
             {
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
@@ -149,7 +149,7 @@ void AFCLoginToMasterModule::OnSelectServerResultProcess(const AFIMsgHead& xHead
         return;
     }
 
-    m_pLoginNet_ServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), AFINetServerModule::PBToNF(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_ip(), xMsg.world_port(), xMsg.world_key());
+    m_pLoginNet_ServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), AFINetServerModule::PBToGUID(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_ip(), xMsg.world_port(), xMsg.world_key());
 }
 
 void AFCLoginToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)

@@ -252,31 +252,33 @@ bool AFCMasterNetServerModule::AfterInit()
     m_pNetModule->AddEventCallBack(this, &AFCMasterNetServerModule::OnSocketEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr != xLogicClass)
+    if (nullptr == xLogicClass)
     {
-        NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
-        std::string strConfigName;
-        for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
-        {
-            const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
-            const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_MASTER && pPluginManager->AppID() == nServerID)
-            {
-                const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
-                const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
-                const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
-                const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
-                const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
+        return false;
+    }
 
-                int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nCpus, nServerID);
-                if(nRet < 0)
-                {
-                    std::ostringstream strLog;
-                    strLog << "Cannot init server net, Port = " << nPort;
-                    m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
-                    ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
-                    exit(0);
-                }
+    NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+    std::string strConfigName;
+    for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    {
+        const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
+        const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
+        if (nServerType == ARK_SERVER_TYPES::ARK_ST_MASTER && pPluginManager->AppID() == nServerID)
+        {
+            const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
+            const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
+            const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
+            const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
+            const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
+
+            int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nCpus, nServerID);
+            if (nRet < 0)
+            {
+                std::ostringstream strLog;
+                strLog << "Cannot init server net, Port = " << nPort;
+                m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
+                ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
+                exit(0);
             }
         }
     }
@@ -295,7 +297,7 @@ void AFCMasterNetServerModule::OnSocketEvent(const NetEventType eEvent, const AF
     }
     else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connection success", __FUNCTION__, __LINE__);
         OnClientConnected(xClientID);
     }
 }
