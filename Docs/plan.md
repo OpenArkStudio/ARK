@@ -18,3 +18,4 @@ ArkGameFrame计划
 - [ ] 16.使用SWIG
 - [ ] 17.补全Record Callback
 - [ ] 18.统一server和插件的目录结构(SDK部分已经统一)
+- [ ] 19.修改log库使用[spdlog](https://github.com/gabime/spdlog)
