@@ -22,16 +22,16 @@
 
 #include "SDK/Base/AFCConsistentHash.hpp"
 #include "SDK/Proto/AFMsgDefine.h"
-#include "SDK/Interface/AFIProxyNetServerModule.h"
-#include "SDK/Interface/AFIProxyServerToWorldModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFINetServerModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIGUIDModule.h"
-#include "SDK/Interface/AFIProxyServerToGameModule.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
+#include "Server/Interface/AFINetServerModule.h"
+#include "Server/Interface/AFIProxyNetServerModule.h"
+#include "Server/Interface/AFIProxyServerToWorldModule.h"
+#include "Server/Interface/AFIProxyServerToGameModule.h"
+#include "Server/Interface/AFINetClientModule.hpp"
 
 class AFCProxyNetServerModule : public AFIProxyNetServerModule
 {
