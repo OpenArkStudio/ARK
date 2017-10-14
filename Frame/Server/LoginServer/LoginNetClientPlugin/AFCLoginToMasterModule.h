@@ -21,13 +21,13 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFILoginLogicModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
-#include "SDK/Interface/AFINetServerModule.h"
-#include "SDK/Interface/AFILoginNetServerModule.h"
-#include "SDK/Interface/AFILoginToMasterModule.h"
+#include "Server/Interface/AFILoginLogicModule.h"
+#include "Server/Interface/AFINetServerModule.h"
+#include "Server/Interface/AFILoginNetServerModule.h"
+#include "Server/Interface/AFILoginToMasterModule.h"
 
 class AFCLoginToMasterModule
     : public AFILoginToMasterModule
