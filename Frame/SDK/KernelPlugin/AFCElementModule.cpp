@@ -403,7 +403,6 @@ bool AFCElementModule::Execute()
 bool AFCElementModule::Clear()
 {
     mxElementConfigMap.Clear();
-    //ClearAll();
 
     mbLoaded = false;
     return true;
