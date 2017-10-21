@@ -32,12 +32,13 @@ public:
     enum {YES = 1, NO = 0};
 };
 
-
-
 //////////////////////////////////////////////////////////////////////////
 
 template<typename KEY, typename NODE>
 class AFArrayMap {};
+
+//TODO:partial template specialization for KEY=BUILDIN types
+
 
 //partial template specialization for KEY=std::string
 template<typename NODE>
@@ -75,6 +76,13 @@ public:
         {
             return false;
         }
+
+        return mxNodes[index];
+    }
+
+    NODE* operator[](size_t index)
+    {
+        ARK_ASSERT_RET_VAL(index < GetCount(), NULL);
 
         return mxNodes[index];
     }
