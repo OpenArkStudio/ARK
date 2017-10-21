@@ -1,48 +1,54 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file      AFIPlugin.h                                                *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFIPlugin                                                  *
-*****************************************************************************/
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+
 #pragma once
 
 #include "SDK/Base/AFPlatform.hpp"
 #include "SDK/Base/AFMap.h"
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Base/AFArrayMap.hpp"
 
-#define REGISTER_MODULE(pManager, classBaseName, className)  \
-    assert((TIsDerived<classBaseName, AFIModule>::Result)); \
-    assert((TIsDerived<className, classBaseName>::Result)); \
-    AFIModule* pRegisterModule##className= new className(pManager); \
-    pRegisterModule##className->strName = (#className); \
-    pManager->AddModule( #classBaseName, pRegisterModule##className );AddElement( #classBaseName, pRegisterModule##className );
+//mxModules defines in AFIPlugin
+#define REGISTER_MODULE(pManager, classBaseName, className)             \
+    assert((TIsDerived<classBaseName, AFIModule>::Result));             \
+    assert((TIsDerived<className, classBaseName>::Result));             \
+    AFIModule* pRegisterModule##className = new className(pManager);    \
+    pRegisterModule##className->strName = (#className);                 \
+    pManager->AddModule(#classBaseName, pRegisterModule##className);    \
+    mxModules.AddElement(#classBaseName, pRegisterModule##className);
 
-#define UNREGISTER_MODULE(pManager, classBaseName, className) AFIModule* pUnRegisterModule##className =  \
-       dynamic_cast<AFIModule*>( pManager->FindModule( #classBaseName )); pManager->RemoveModule( #classBaseName ); RemoveElement( #classBaseName ); delete pUnRegisterModule##className;
+#define UNREGISTER_MODULE(pManager, classBaseName, className)           \
+    AFIModule* pUnRegisterModule##className =                           \
+    dynamic_cast<AFIModule*>(pManager->FindModule(#classBaseName));     \
+    pManager->RemoveModule(#classBaseName);                             \
+    mxModules.RemoveElement(#classBaseName);                            \
+    delete pUnRegisterModule##className;                                \
+    pUnRegisterModule##className = NULL;                                \
 
 
-#define CREATE_PLUGIN(pManager, className)  AFIPlugin* pCreatePlugin##className = new className(pManager); pManager->Registered( pCreatePlugin##className );
+#define CREATE_PLUGIN(pManager, className)                              \
+    AFIPlugin* pCreatePlugin##className = new className(pManager);      \
+    pManager->Registered(pCreatePlugin##className);
 
-#define DESTROY_PLUGIN(pManager, className) pManager->UnRegistered( pManager->FindPlugin((#className)) );
+#define DESTROY_PLUGIN(pManager, className) pManager->UnRegistered(pManager->FindPlugin((#className)));
 
 #define GET_CLASS_NAME(className) (#className);
 
@@ -57,8 +63,7 @@
 
 class AFIPluginManager;
 
-class AFIPlugin : public AFIModule,
-    public AFMap<std::string, AFIModule>
+class AFIPlugin : public AFIModule
 {
 public:
     virtual const int GetPluginVersion() = 0;
@@ -68,8 +73,10 @@ public:
 
     virtual bool Init()
     {
-        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        size_t nModuleCount = mxModules.GetCount();
+        for (size_t i = 0; i < nModuleCount; ++i)
         {
+            AFIModule* pModule = mxModules[i];
             bool bRet = pModule->Init();
             ARK_ASSERT_RET_VAL(bRet, false);
         }
@@ -79,8 +86,10 @@ public:
 
     virtual bool AfterInit()
     {
-        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        size_t nModuleCount = mxModules.GetCount();
+        for (size_t i = 0; i < nModuleCount; ++i)
         {
+            AFIModule* pModule = mxModules[i];
             bool bRet = pModule->AfterInit();
             ARK_ASSERT_RET_VAL(bRet, false);
         }
@@ -90,8 +99,10 @@ public:
 
     virtual bool CheckConfig()
     {
-        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        size_t nModuleCount = mxModules.GetCount();
+        for (size_t i = 0; i < nModuleCount; ++i)
         {
+            AFIModule* pModule = mxModules[i];
             bool bRet = pModule->CheckConfig();
             ARK_ASSERT_RET_VAL(bRet, false);
         }
@@ -101,12 +112,12 @@ public:
 
     virtual bool Execute()
     {
-        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        size_t nModuleCount = mxModules.GetCount();
+        for (size_t i = 0; i < nModuleCount; ++i)
         {
-            if(!pModule->Execute())
-            {
-                //add log
-            }
+            AFIModule* pModule = mxModules[i];
+            bool bRet = pModule->Execute();
+            ARK_ASSERT_RET_VAL(bRet, false);
         }
 
         return true;
@@ -114,12 +125,12 @@ public:
 
     virtual bool BeforeShut()
     {
-        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        size_t nModuleCount = mxModules.GetCount();
+        for (size_t i = 0; i < nModuleCount; ++i)
         {
-            if(!pModule->BeforeShut())
-            {
-                //add log
-            }
+            AFIModule* pModule = mxModules[i];
+            bool bRet = pModule->BeforeShut();
+            ARK_ASSERT_RET_VAL(bRet, false);
         }
 
         return true;
@@ -127,16 +138,20 @@ public:
 
     virtual bool Shut()
     {
-        for(AFIModule* pModule = First(); NULL != pModule; pModule = Next())
+        size_t nModuleCount = mxModules.GetCount();
+        for (size_t i = 0; i < nModuleCount; ++i)
         {
-            if(!pModule->Shut())
-            {
-                //add log
-            }
+            AFIModule* pModule = mxModules[i];
+            bool bRet = pModule->Shut();
+            ARK_ASSERT_RET_VAL(bRet, false);
         }
 
         return true;
     }
 
     virtual void Uninstall() = 0;
+
+protected:
+    //All registered modules
+    AFArrayMap<std::string, AFIModule> mxModules;
 };

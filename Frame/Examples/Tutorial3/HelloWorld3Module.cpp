@@ -91,6 +91,9 @@ bool HelloWorld3Module::AfterInit()
 
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+
+    m_pLogModule->LogInfo(NULL_GUID, "Init finished...", 0, __FUNCTION__, __LINE__);
 
     //创建容器，所有的对象均需在容器中
     m_pKernelModule->CreateScene(1);
