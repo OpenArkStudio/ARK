@@ -1,5 +1,6 @@
 file(GLOB AFUtilityPlugin_SRC *.h *.hpp *.cpp *.cc *.c)
 
+add_definitions(-DELPP_NO_DEFAULT_LOG_FILE)
 add_library(AFUtilityPlugin SHARED ${AFUtilityPlugin_SRC})
 
 set_target_properties(AFUtilityPlugin PROPERTIES OUTPUT_NAME_DEBUG "AFUtilityPlugin_d")

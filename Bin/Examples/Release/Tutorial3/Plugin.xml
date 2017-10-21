@@ -4,5 +4,5 @@
 	<Plugin Name="Tutorial3Plugin" Main="1"/>
 	
 	<APPID Name="333" />
-    <ConfigPath Name="../../" />
+    <ConfigPath Name="../../../Server/" />
 </XML>
