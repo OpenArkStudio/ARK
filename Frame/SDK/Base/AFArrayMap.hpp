@@ -25,20 +25,60 @@
 #include "AFArrayPod.hpp"
 #include "AFStringPod.hpp"
 
+//////////////////////////////////////////////////////////////////////////
 template<typename T>
 class IsBuildinType
 {
 public:
-    enum {YES = 1, NO = 0};
+    enum {YES = false, NO = true};
 };
+
+#define MAKE_BUILDIN_TYPE(T)                \
+    template<> class IsBuildinType<T>       \
+    {                                       \
+    public:                                 \
+        enum { YES = true, NO = false };    \
+    };
+
+template <typename T>
+bool CheckBuildinType(const T& t)
+{
+    return IsBuildinType<T>::YES ? true : false;
+
+    //if (IsBuildinType<T>::YES)
+    //{
+    //    std::cout << typename(T)  << " is BuildIn type" << std::endl;
+    //}
+    //else
+    //{
+    //    std::cout << typename(T) << " is BuildIn type" << std::endl;
+    //}
+}
+
+MAKE_BUILDIN_TYPE(uint16_t)
+MAKE_BUILDIN_TYPE(uint32_t)
+MAKE_BUILDIN_TYPE(uint64_t)
+MAKE_BUILDIN_TYPE(int16_t)
+MAKE_BUILDIN_TYPE(int32_t)
+MAKE_BUILDIN_TYPE(int64_t)
+MAKE_BUILDIN_TYPE(AFGUID)
 
 //////////////////////////////////////////////////////////////////////////
 
 template<typename KEY, typename NODE>
 class AFArrayMap {};
 
-//TODO:partial template specialization for KEY=BUILDIN types
-
+//partial template specialization for KEY=BUILD-IN types
+//build-in type is defined above
+template<typename T, typename NODE>
+class AFArrayMap<T, NODE>
+{
+public:
+protected:
+private:
+    ArraryPod<NODE*, 1, CoreAlloc> mxNodes;
+    //StringPod<char, size_t, StringTraits<char>> mxIndices;
+};
 
 //partial template specialization for KEY=std::string
 template<typename NODE>
