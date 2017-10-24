@@ -147,10 +147,12 @@ void AFCNetServer::ProcessMsgLogicThread()
         for(std::map<AFGUID, NetObject*>::iterator iter = mmObject.begin(); iter != mmObject.end(); ++iter)
         {
             ProcessMsgLogicThread(iter->second);
-            if(iter->second->NeedRemove())
+            if(!iter->second->NeedRemove())
             {
-                iter->second->GetClientID();
+                continue;
             }
+
+            xNeedRemoveList.push_back(iter->second->GetClientID());
         }
     }
 
