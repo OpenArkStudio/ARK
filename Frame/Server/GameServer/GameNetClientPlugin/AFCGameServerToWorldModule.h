@@ -21,16 +21,15 @@
 #pragma once
 
 #include "SDK/Proto/AFMsgDefine.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
-#include "SDK/Interface/AFIGameNetClientModule.h"
-#include "SDK/Interface/AFIGameNetServerModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIGameLogicModule.h"
-
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIGameServerToWorldModule.h"
+#include "Server/Interface/AFINetClientModule.hpp"
+#include "Server/Interface/AFIGameNetClientModule.h"
+#include "Server/Interface/AFIGameNetServerModule.h"
+#include "Server/Interface/AFIGameLogicModule.h"
+#include "Server/Interface/AFIGameServerToWorldModule.h"
 
 class AFCGameServerToWorldModule : public AFIGameServerToWorldModule
 {

@@ -21,15 +21,14 @@
 #pragma once
 
 #include "SDK/Proto/AFMsgDefine.h"
-#include "SDK/Interface/AFIMasterNetServerModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFINetServerModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
+#include "Server/Interface/AFINetServerModule.h"
+#include "Server/Interface/AFIMasterNetServerModule.h"
 
-class AFCMasterNetServerModule
-    : public AFIMasterNetServerModule
+class AFCMasterNetServerModule : public AFIMasterNetServerModule
 {
 public:
     AFCMasterNetServerModule(AFIPluginManager* p)

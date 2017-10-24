@@ -58,7 +58,7 @@ bool AFCProxyNetServerModule::AfterInit()
         {
             const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
             const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_PROXY && pPluginManager->AppID() == nServerID)
+            if(nServerType == ARK_SERVER_TYPES::ARK_ST_PROXY && pPluginManager->AppID() == nServerID)
             {
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
@@ -142,8 +142,8 @@ void AFCProxyNetServerModule::OnConnectKeyProcess(const AFIMsgHead& xHead, const
 
             AFMsg::AckEventResult xSendMsg;
             xSendMsg.set_event_code(AFMsg::EGEC_VERIFY_KEY_SUCCESS);
-            *xSendMsg.mutable_event_client() = AFINetServerModule::NFToPB(pSessionData->mnClientID);//让前端记得自己的fd，后面有一些验证
-            *xSendMsg.mutable_event_object() = AFINetServerModule::NFToPB(nPlayerID);
+            *xSendMsg.mutable_event_client() = AFINetServerModule::GUIDToPB(pSessionData->mnClientID);//让前端记得自己的fd，后面有一些验证
+            *xSendMsg.mutable_event_object() = AFINetServerModule::GUIDToPB(nPlayerID);
 
             m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_KEY, xSendMsg, xClientID, nPlayerID);
         }

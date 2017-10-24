@@ -21,14 +21,14 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIGameLogicModule.h"
-#include "SDK/Interface/AFIPropertyModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIPropertyConfigModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Proto/NFProtocolDefine.hpp"
-#include "SDK/Interface/AFILevelModule.h"
+#include "Server/Interface/AFIPropertyConfigModule.h"
+#include "Server/Interface/AFIGameLogicModule.h"
+#include "Server/Interface/AFIPropertyModule.h"
+#include "Server/Interface/AFILevelModule.h"
 
 class AFCPropertyModule : public AFIPropertyModule
 {
@@ -46,11 +46,11 @@ public:
 
     virtual int RefreshBaseProperty(const AFGUID& self);
 
-    virtual int GetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType);
-    virtual int SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
+    virtual int GetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType);
+    virtual int SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue);
 
-    virtual int AddPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
-    virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const NFPropertyGroup eGroupType, const int nValue);
+    virtual int AddPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue);
+    virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue);
 
     virtual bool FullHPMP(const AFGUID& self);
     virtual bool AddHP(const AFGUID& self, const int64_t& nValue);

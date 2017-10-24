@@ -3,6 +3,6 @@
 	<Plugin Name="AFUtilityPlugin" Main="1"/>
 	<Plugin Name="Tutorial2Plugin" Main="1"/>
 	
-	<APPID Name="555" />
-	<ConfigPath Name="../../" />
+	<APPID Name="222" />
+	<ConfigPath Name="../../../Server/" />
 </XML>
