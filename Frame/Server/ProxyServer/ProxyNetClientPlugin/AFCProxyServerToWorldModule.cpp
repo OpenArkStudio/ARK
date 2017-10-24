@@ -68,16 +68,16 @@ void AFCProxyServerToWorldModule::OnServerInfoProcess(const AFIMsgHead& xHead, c
         xServerData.nPort = xData.server_port();
         xServerData.strName = xData.server_name();
         //xServerData.eState = pData->server_state();
-        xServerData.eServerType = (NF_SERVER_TYPES)xData.server_type();
+        xServerData.eServerType = (ARK_SERVER_TYPES)xData.server_type();
 
         switch(xServerData.eServerType)
         {
-        case NF_SERVER_TYPES::NF_ST_GAME:
+        case ARK_SERVER_TYPES::ARK_ST_GAME:
             {
                 m_pProxyServerToGameModule->GetClusterModule()->AddServer(xServerData);
             }
             break;
-        case NF_SERVER_TYPES::NF_ST_WORLD:
+        case ARK_SERVER_TYPES::ARK_ST_WORLD:
             {
                 m_pNetClientModule->AddServer(xServerData);
             }
@@ -113,7 +113,7 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
         {
             const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
             const int nSelfServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_PROXY && pPluginManager->AppID() == nSelfServerID)
+            if(nServerType == ARK_SERVER_TYPES::ARK_ST_PROXY && pPluginManager->AppID() == nSelfServerID)
             {
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
@@ -172,7 +172,7 @@ bool AFCProxyServerToWorldModule::AfterInit()
         {
             const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
             const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-            if(nServerType == NF_SERVER_TYPES::NF_ST_WORLD)
+            if(nServerType == ARK_SERVER_TYPES::ARK_ST_WORLD)
             {
                 const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
@@ -183,7 +183,7 @@ bool AFCProxyServerToWorldModule::AfterInit()
                 ConnectData xServerData;
 
                 xServerData.nGameID = nServerID;
-                xServerData.eServerType = (NF_SERVER_TYPES)nServerType;
+                xServerData.eServerType = (ARK_SERVER_TYPES)nServerType;
                 xServerData.strIP = strIP;
                 xServerData.nPort = nPort;
                 xServerData.strName = strName;
@@ -260,6 +260,6 @@ void AFCProxyServerToWorldModule::OnBrocastmsg(const AFIMsgHead& xHead, const in
     for(int i = 0; i < xMsg.player_client_list_size(); i++)
     {
         const AFMsg::Ident& xClientID = xMsg.player_client_list(i);
-        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToNF(xClientID), nPlayerID);
+        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(xClientID), nPlayerID);
     }
 }
