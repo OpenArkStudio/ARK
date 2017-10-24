@@ -23,6 +23,7 @@
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Interface/AFILogModule.h"
 
 class HelloWorld3Module
     : public AFIModule
@@ -54,6 +55,7 @@ protected:
 protected:
     int64_t mLastTime;
 protected:
-    AFIKernelModule * m_pKernelModule;
-    AFIElementModule * m_pElementModule;
+    AFIKernelModule* m_pKernelModule;
+    AFIElementModule* m_pElementModule;
+    AFILogModule* m_pLogModule;
 };

@@ -21,16 +21,15 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIGameLogicModule.h"
-#include "SDK/Interface/AFILevelModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIPropertyConfigModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Proto/NFProtocolDefine.hpp"
 #include "SDK/Interface/AFIElementModule.h"
+#include "Server/Interface/AFIGameLogicModule.h"
+#include "Server/Interface/AFILevelModule.h"
+#include "Server/Interface/AFIPropertyConfigModule.h"
 
-class AFCLevelModule
-    : public AFILevelModule
+class AFCLevelModule : public AFILevelModule
 {
 public:
     AFCLevelModule(AFIPluginManager* p)

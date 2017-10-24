@@ -23,10 +23,9 @@
 #include "AFCDynLib.h"
 #include "SDK/Base/AFSingleton.hpp"
 #include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Base/AFArrayMap.hpp"
 
-class AFCPluginManager
-    : public AFIPluginManager,
-      public AFSingleton<AFCPluginManager>
+class AFCPluginManager : public AFIPluginManager, public AFSingleton<AFCPluginManager>
 {
 public:
     AFCPluginManager();
@@ -87,16 +86,11 @@ private:
     std::string mstrConfigPath;
     std::string mstrConfigName;
 
-    typedef std::map<std::string, bool> PluginNameMap;
-    typedef std::map<std::string, AFCDynLib*> PluginLibMap;
-    typedef std::map<std::string, AFIPlugin*> PluginInstanceMap;
-    typedef std::map<std::string, AFIModule*> ModuleInstanceMap;
-
     typedef void(* DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm);
     typedef void(* DLL_STOP_PLUGIN_FUNC)(AFIPluginManager* pm);
 
-    PluginNameMap mPluginNameMap;
-    PluginLibMap mPluginLibMap;
-    PluginInstanceMap mPluginInstanceMap;
-    ModuleInstanceMap mModuleInstanceMap;
+    std::map<std::string, bool> mPluginNameMap;
+    AFArrayMap<std::string, AFCDynLib> mPluginLibMap;
+    AFArrayMap<std::string, AFIPlugin> mPluginInstanceMap;
+    AFArrayMap<std::string, AFIModule> mModuleInstanceMap;
 };

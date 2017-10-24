@@ -21,14 +21,14 @@
 #pragma once
 
 #include "SDK/Proto/AFMsgDefine.h"
-#include "SDK/Interface/AFIWorldToMasterModule.h"
-#include "SDK/Interface/AFIWorldLogicModule.h"
-#include "SDK/Interface/AFINetServerModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIWorldNetServerModule.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
+#include "Server/Interface/AFIWorldToMasterModule.h"
+#include "Server/Interface/AFIWorldLogicModule.h"
+#include "Server/Interface/AFINetServerModule.h"
+#include "Server/Interface/AFIWorldNetServerModule.h"
+#include "Server/Interface/AFINetClientModule.hpp"
 
 class AFCWorldToMasterModule
     : public AFIWorldToMasterModule
