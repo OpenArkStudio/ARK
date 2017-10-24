@@ -1,6 +1,6 @@
 file(GLOB PluginLoader_SRC *.h *.hpp *.cpp *.cc *.c)
 
-#add_library(PluginLoader SHARED ${PluginLoader_SRC})
+add_definitions(-DELPP_NO_DEFAULT_LOG_FILE)
 add_executable(PluginLoader ${PluginLoader_SRC})
 
 set_target_properties(PluginLoader PROPERTIES OUTPUT_NAME_DEBUG "PluginLoader_d")

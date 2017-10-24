@@ -24,10 +24,10 @@
 #include "RapidXML/rapidxml_iterators.hpp"
 #include "RapidXML/rapidxml_print.hpp"
 #include "RapidXML/rapidxml_utils.hpp"
-#include "SDK/Interface/AFIPropertyConfigModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Proto/NFProtocolDefine.hpp"
+#include "Server/Interface/AFIPropertyConfigModule.h"
 
 class AFCPropertyConfigModule
     : public AFIPropertyConfigModule

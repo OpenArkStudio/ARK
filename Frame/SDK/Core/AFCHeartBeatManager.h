@@ -61,7 +61,6 @@ protected:
 
     NFList<std::string> mRemoveListEx;
     std::list<AFCHeartBeatElement> mAddListEx;
-    //AFMapEx<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
     AFArrayMap<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
 
     std::multimap<int64_t, AFCHeartBeatElement*> mTimeList;

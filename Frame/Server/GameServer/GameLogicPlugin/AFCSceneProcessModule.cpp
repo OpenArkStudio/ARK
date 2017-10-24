@@ -345,5 +345,5 @@ void AFCSceneProcessModule::OnClienSwapSceneProcess(const AFIMsgHead& xHead, con
     //varEntry << xMsg.scene_id();
     //varEntry << -1;
 
-    //const AFGUID self = AFINetServerModule::PBToNF((xMsg.selfid()));
+    //const AFGUID self = AFINetServerModule::PBToGUID((xMsg.selfid()));
 }
