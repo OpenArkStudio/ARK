@@ -23,16 +23,15 @@
 #include <string>
 #include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Core/AFCHeartBeatManager.h"
-#include "SDK/Interface/AFIProxyServerToGameModule.h"
-#include "SDK/Interface/AFIProxyNetServerModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIProxyLogicModule.h"
-#include "SDK/Interface/AFINetServerModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
-
+#include "Server/Interface/AFINetClientModule.hpp"
+#include "Server/Interface/AFIProxyServerToGameModule.h"
+#include "Server/Interface/AFIProxyNetServerModule.h"
+#include "Server/Interface/AFIProxyLogicModule.h"
+#include "Server/Interface/AFINetServerModule.h"
 
 class AFCProxyServerToGameModule : public AFIProxyServerToGameModule
 {

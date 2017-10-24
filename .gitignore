@@ -63,12 +63,12 @@
 /Bin/Comm/Release/*.dll
 
 /Bin/Server/Debug/
-/Bin/Server/NFDataCfg/Ini/
-/Bin/Server/NFDataCfg/Struct/
-/Bin/Server/NFDataCfg/Proto/
+/Bin/Server/DataConfig/Ini/
+/Bin/Server/DataConfig/Struct/
+/Bin/Server/DataConfig/Proto/
 /Bin/Server/Release/
-/Dependencies/libevent
-/Dependencies/curl
+/Dep/libevent
+/Dep/curl
 
 /Src/*.sdf
 /Dep/lib

@@ -22,14 +22,13 @@
 
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIGameLogicModule.h"
 #include "SDK/Interface/AFIElementModule.h"
-#include "SDK/Interface/AFIAccountModule.h"
 #include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Interface/AFIGUIDModule.h"
+#include "Server/Interface/AFIGameLogicModule.h"
+#include "Server/Interface/AFIAccountModule.h"
 
-class AFCAccountModule
-    : public AFIAccountModule
+class AFCAccountModule : public AFIAccountModule
 {
 public:
     AFCAccountModule(AFIPluginManager* p)

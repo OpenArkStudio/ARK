@@ -21,9 +21,9 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIGameLogicModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIProxyLogicModule.h"
+#include "Server/Interface/AFIGameLogicModule.h"
+#include "Server/Interface/AFIProxyLogicModule.h"
 
 class AFCProxyLogicModule
     : public AFIProxyLogicModule

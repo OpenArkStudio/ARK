@@ -26,19 +26,18 @@
 #include "RapidXML/rapidxml_print.hpp"
 #include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIGameLogicModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIGameServerConfigModule.h"
-#include "SDK/Interface/AFISceneProcessModule.h"
-#include "SDK/Interface/AFIPropertyModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Proto/NFProtocolDefine.hpp"
-#include "SDK/Interface/AFIGameNetServerModule.h"
+#include "Server/Interface/AFIGameServerConfigModule.h"
+#include "Server/Interface/AFISceneProcessModule.h"
+#include "Server/Interface/AFIPropertyModule.h"
+#include "Server/Interface/AFIGameLogicModule.h"
+#include "Server/Interface/AFIGameNetServerModule.h"
 
-class AFCSceneProcessModule
-    : public AFISceneProcessModule
+class AFCSceneProcessModule : public AFISceneProcessModule
 {
 public:
     AFCSceneProcessModule(AFIPluginManager* p)
