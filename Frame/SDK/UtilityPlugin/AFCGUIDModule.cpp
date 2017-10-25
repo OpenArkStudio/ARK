@@ -44,6 +44,8 @@ namespace GUIDModule
 # include <time.h>
 #endif
 
+#define ARK_EPOCH 1288834974657L
+
 #ifdef _MSC_VER
 int gettimeofday(struct timeval* tp, void *tzp)
 {
@@ -94,7 +96,7 @@ public:
     {
         uint64_t timestamp = GetNowInMsec();
 
-        // 在当前秒�?
+        //in current microsecond
         if(last_timestamp_ == timestamp)
         {
             sequence_ = (sequence_ + 1) & 0xFFF;
@@ -109,10 +111,11 @@ public:
         }
 
         last_timestamp_ = timestamp;
-        return ((timestamp & 0x1FFFFFF) << 22 |
-                (data_center_id_ & 0x1F) << 17 |
-                (worker_id_ & 0x1F) << 12 |
-                (sequence_ & 0xFFF));
+        return (
+            (timestamp - ARK_EPOCH) << 22
+            | data_center_id_ << 17
+            | worker_id_ << 12
+            | sequence_);
     }
 
 protected:
