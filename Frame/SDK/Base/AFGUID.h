@@ -25,30 +25,13 @@
 
 struct AFGUID
 {
-    union
-    {
-        struct
-        {
-            uint64_t n64Value;
-        };
-
-        struct
-        {
-            uint32_t nIdent;
-            uint32_t nSerial;
-        };
-    };
+	uint64_t n64Value;
 
     AFGUID()
     {
         n64Value = 0;
     }
 
-    AFGUID(uint32_t ident, uint32_t serial)
-    {
-        nIdent = ident;
-        nSerial = serial;
-    }
 
     AFGUID(uint64_t value)
     {
@@ -83,58 +66,24 @@ struct AFGUID
 
     bool operator<(const AFGUID& rhs) const
     {
-        if(this->nIdent == rhs.nIdent)
-        {
-            return this->nSerial < rhs.nSerial;
-        }
-
-        return this->nIdent < rhs.nIdent;
+        return this->n64Value < rhs.n64Value;
     }
 
     std::string ToString() const
     {
-        return ARK_LEXICAL_CAST<std::string>(n64Value);// +"-" + ARK_LEXICAL_CAST<std::string>(nSerial);
+        return ARK_LEXICAL_CAST<std::string>(n64Value);
     }
 
     bool FromString(const std::string& strID)
     {
-        size_t nStrLength = strID.length();
-        size_t nPos = strID.find('-');
-        if(nPos == std::string::npos)
-        {
-            return false;
-        }
-
-        std::string strIdent = strID.substr(0, nPos);
-        std::string strSerial = "";
-        if(nPos + 1 < nStrLength)
-        {
-            strSerial = strID.substr(nPos + 1, nStrLength - nPos);
-        }
-
-        try
-        {
-            nIdent = ARK_LEXICAL_CAST<int32_t>(strIdent);
-            nSerial = ARK_LEXICAL_CAST<int32_t>(strSerial);
-
-            return true;
-        }
-        catch(...)
-        {
-            return false;
-        }
-
-        return true;
+		return Ark_from_str(strID, n64Value);
     }
 };
 
-//inline bool operator==(const AFGUID& source, const AFGUID& other)
-//{
-//    return source.n64Value == other.n64Value;
-//}
-//
-//inline bool operator!=(const AFGUID& source, const AFGUID& other)
-//{
-//    return source.n64Value != other.n64Value;
-//}
+struct AFGUID128
+{
+	uint64_t high;	//area_id * 10000000 + app_id
+	uint64_t low;	//10 bits(reserve) + 41 bits(timestamp) + 12 bits(sequence_id)
 
+	//TODO:
+};
