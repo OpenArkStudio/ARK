@@ -25,65 +25,96 @@
 
 struct AFGUID
 {
-	uint64_t n64Value;
+	uint64_t nHigh;
+    uint64_t nLow;
 
     AFGUID()
     {
-        n64Value = 0;
+        nHigh = 0;
+        nLow = 0;
     }
 
 
     AFGUID(uint64_t value)
     {
-        n64Value = value;
+        nHigh = 0;
+        nLow = value;
     }
 
-    bool IsNull()
+    AFGUID(uint64_t high, uint64_t low)
     {
-        return (0 == n64Value);
+        nHigh = high;
+        nLow = low;
     }
 
-    bool IsNull() const
+    bool IsNULL()
     {
-        return (0 == n64Value);
+        return (0 == nHigh) && (0 == nLow);
     }
 
-    AFGUID& operator=(const uint64_t value)
+    bool IsNULL() const
     {
-        n64Value = value;
+        return (0 == nHigh) && (0 == nLow);
+    }
+
+    AFGUID& operator=(const AFGUID& rhs)
+    {
+        nHigh = rhs.nHigh;
+        nLow = rhs.nLow;
         return *this;
     }
 
     bool operator==(const AFGUID& rhs) const
     {
-        return (this->n64Value == rhs.n64Value);
+        return (this->nHigh == rhs.nHigh) && (this->nLow == rhs.nLow);
     }
 
     bool operator!=(const AFGUID& rhs) const
     {
-        return (this->n64Value != rhs.n64Value);
+        return !(*this == rhs);
     }
 
     bool operator<(const AFGUID& rhs) const
     {
-        return this->n64Value < rhs.n64Value;
+        if (this->nHigh == rhs.nHigh)
+        {
+            return this->nLow < rhs.nLow;
+        }
+
+        return this->nHigh < rhs.nHigh;
     }
 
     std::string ToString() const
     {
-        return ARK_LEXICAL_CAST<std::string>(n64Value);
+        return ARK_LEXICAL_CAST<std::string>(nHigh) + "-" + ARK_LEXICAL_CAST<std::string>(nLow);
     }
 
     bool FromString(const std::string& strID)
     {
-		return Ark_from_str(strID, n64Value);
+        size_t nStrLength = strID.length();
+        size_t nPos = strID.find('-');
+        if (nPos == std::string::npos)
+        {
+            return false;
+        }
+
+        std::string strHigh = strID.substr(0, nPos);
+        std::string strLow = "";
+        if (nPos + 1 < nStrLength)
+        {
+            strLow = strID.substr(nPos + 1, nStrLength - nPos);
+        }
+
+        try
+        {
+            nHigh = ARK_LEXICAL_CAST<uint64_t>(strHigh);
+            nLow = ARK_LEXICAL_CAST<uint64_t>(strLow);
+
+            return true;
+        }
+        catch (...)
+        {
+            return false;
+        }
     }
-};
-
-struct AFGUID128
-{
-	uint64_t high;	//area_id * 10000000 + app_id
-	uint64_t low;	//10 bits(reserve) + 41 bits(timestamp) + 12 bits(sequence_id)
-
-	//TODO:
 };

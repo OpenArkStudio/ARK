@@ -127,9 +127,9 @@ public:
 
     static AFGUID PBToGUID(AFMsg::Ident xID)
     {
-        AFGUID  xIdent;
-        xIdent.nSerial = xID.svrid();
-        xIdent.nIdent = xID.index();
+        AFGUID xIdent;
+        xIdent.nHigh = xID.high();
+        xIdent.nLow = xID.low();
 
         return xIdent;
     }
@@ -137,8 +137,8 @@ public:
     static AFMsg::Ident GUIDToPB(AFGUID xID)
     {
         AFMsg::Ident  xIdent;
-        xIdent.set_svrid(xID.nSerial);
-        xIdent.set_index(xID.nIdent);
+        xIdent.set_high(xID.nHigh);
+        xIdent.set_low(xID.nLow);
 
         return xIdent;
     }
