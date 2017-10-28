@@ -354,7 +354,7 @@ void AFCWorldNetServerModule::LogGameServer()
     while(pGameData)
     {
         std::ostringstream stream;
-        stream << "Type: " << pGameData->pData->server_type() << " ID: " << pGameData->pData->server_id() << " State: " <<  AFMsg::EServerState_Name(pGameData->pData->server_state()) << " IP: " << pGameData->pData->server_ip() << " xClient: " << pGameData->xClient.n64Value;
+        stream << "Type: " << pGameData->pData->server_type() << " ID: " << pGameData->pData->server_id() << " State: " <<  AFMsg::EServerState_Name(pGameData->pData->server_state()) << " IP: " << pGameData->pData->server_ip() << " xClient: " << pGameData->xClient.nLow;
 
         m_pLogModule->LogInfo(AFGUID(), stream);
 
@@ -369,7 +369,7 @@ void AFCWorldNetServerModule::LogGameServer()
     while(pGameData)
     {
         std::ostringstream stream;
-        stream << "Type: " << pGameData->pData->server_type() << " ID: " << pGameData->pData->server_id() << " State: " <<  AFMsg::EServerState_Name(pGameData->pData->server_state()) << " IP: " << pGameData->pData->server_ip() << " xClient: " << pGameData->xClient.n64Value;
+        stream << "Type: " << pGameData->pData->server_type() << " ID: " << pGameData->pData->server_id() << " State: " <<  AFMsg::EServerState_Name(pGameData->pData->server_state()) << " IP: " << pGameData->pData->server_ip() << " xClient: " << pGameData->xClient.ToString();
 
         m_pLogModule->LogInfo(AFGUID(), stream);
 
@@ -443,7 +443,7 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
     {
         AFGUID identOld = argVar.Object(i);
         //排除空对象
-        if(identOld.IsNull())
+        if(identOld.IsNULL())
         {
             continue;
         }
@@ -467,7 +467,7 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
     for(int i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
-        if(ident.IsNull())
+        if(ident.IsNULL())
         {
             continue;
         }
@@ -492,7 +492,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
     {
         AFGUID identOld = argVar.Object(i);
         //排除空对象
-        if(identOld.IsNull())
+        if(identOld.IsNULL())
         {
             continue;
         }
@@ -504,7 +504,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
     for(int i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
-        if(ident.IsNull())
+        if(ident.IsNULL())
         {
             continue;
         }
@@ -518,7 +518,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
 
 int AFCWorldNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self)
 {
-    if(argVar.GetCount() <= 0 || self.IsNull())
+    if(argVar.GetCount() <= 0 || self.IsNULL())
     {
         return 0;
     }
@@ -635,7 +635,7 @@ bool AFCWorldNetServerModule::OnRecordEnterPack(AFRecord* pRecord, AFMsg::Object
 
 int AFCWorldNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self)
 {
-    if(argVar.GetCount() <= 0 || self.IsNull())
+    if(argVar.GetCount() <= 0 || self.IsNULL())
     {
         return 0;
     }
@@ -644,8 +644,6 @@ int AFCWorldNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AF
     {
         return 1;
     }
-
-
 
     //分为自己和外人
     //1.public发送给所有人

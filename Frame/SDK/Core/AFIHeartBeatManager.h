@@ -63,7 +63,7 @@ public:
     }
 
     AFGUID self;
-    AFGUID id;
+    uint64_t id;
     int64_t nBeatTime;
     int64_t nNextTriggerTime;//next trigger time, millisecond
     int nCount;

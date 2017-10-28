@@ -240,7 +240,7 @@ void AFCGameNetServerModule::OnClienLeaveGameProcess(const AFIMsgHead& xHead, co
         return;
     }
 
-    if(nPlayerID.IsNull())
+    if(nPlayerID.IsNULL())
     {
         return;
     }
@@ -258,7 +258,7 @@ void AFCGameNetServerModule::OnClienLeaveGameProcess(const AFIMsgHead& xHead, co
 
 int AFCGameNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AFGUID& self)
 {
-    if(argVar.GetCount() <= 0 || self.IsNull())
+    if(argVar.GetCount() <= 0 || self.IsNULL())
     {
         return 0;
     }
@@ -353,7 +353,7 @@ bool OnRecordEnterPack(AFRecord* pRecord, AFMsg::ObjectRecordBase* pObjectRecord
 
 int AFCGameNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFGUID& self)
 {
-    if(argVar.GetCount() <= 0 || self.IsNull())
+    if(argVar.GetCount() <= 0 || self.IsNULL())
     {
         return 0;
     }
@@ -457,7 +457,7 @@ int AFCGameNetServerModule::OnObjectListEnter(const AFIDataList& self, const AFI
     {
         AFGUID identOld = argVar.Object(i);
         //排除空对象
-        if(identOld.IsNull())
+        if(identOld.IsNULL())
         {
             continue;
         }
@@ -485,7 +485,7 @@ int AFCGameNetServerModule::OnObjectListEnter(const AFIDataList& self, const AFI
     for(int i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
-        if(ident.IsNull())
+        if(ident.IsNULL())
         {
             continue;
         }
@@ -509,7 +509,7 @@ int AFCGameNetServerModule::OnObjectListLeave(const AFIDataList& self, const AFI
     {
         AFGUID identOld = argVar.Object(i);
         //排除空对象
-        if(identOld.IsNull())
+        if(identOld.IsNULL())
         {
             continue;
         }
@@ -521,7 +521,7 @@ int AFCGameNetServerModule::OnObjectListLeave(const AFIDataList& self, const AFI
     for(int i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
-        if(ident.IsNull())
+        if(ident.IsNULL())
         {
             continue;
         }
@@ -1341,7 +1341,7 @@ bool AFCGameNetServerModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGU
         return false;
     }
 
-    if(nClientID.IsNull())
+    if(nClientID.IsNULL())
     {
         return false;
     }
@@ -1434,7 +1434,7 @@ void AFCGameNetServerModule::OnTransWorld(const AFIMsgHead& xHead, const int nMs
     int nHasKey = 0;
     if(AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, strMsg, nPlayer))
     {
-        nHasKey = nPlayer.nIdent;
+        nHasKey = nPlayer.nLow;
     }
 
     m_pGameServerToWorldModule->SendBySuit(nHasKey, nMsgID, msg, nLen);

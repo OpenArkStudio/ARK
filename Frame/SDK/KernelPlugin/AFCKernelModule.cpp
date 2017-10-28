@@ -148,14 +148,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         return pObject;
     }
 
-    //  if (!m_pElementModule->ExistElement(strConfigIndex))
-    //  {
-    //      m_pLogModule->LogError(AFGUID(0, nSceneID), "There is no group", nGroupID, __FUNCTION__, __LINE__);
-    //      return pObject;
-    //  }
-
-    //默认�?分组�?则是所有分组都看得�?-1则是容器
-    if(ident.IsNull())
+    if(ident.IsNULL())
     {
         ident = m_pGUIDModule->CreateGUID();
     }
@@ -305,8 +298,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
 
 bool AFCKernelModule::DestroyObject(const AFGUID& self)
 {
-    if(self == mnCurExeObject
-            && !self.IsNull())
+    if(self == mnCurExeObject && !self.IsNULL())
     {
         //自己的循环过程中，不能删除自己，得等下一帧才�?
         return DestroySelf(self);
@@ -935,7 +927,7 @@ int AFCKernelModule::GetSceneOnLineList(const int nSceneID, AFIDataList& var)
         AFGUID ident;
 
         ARK_SHARE_PTR<int> pRet  = pGroupInfo->mxPlayerList.First(ident);
-        while(!ident.IsNull())
+        while(!ident.IsNULL())
         {
             var.AddObject(ident);
 
@@ -1031,7 +1023,7 @@ bool AFCKernelModule::GetGroupObjectList(const int nSceneID, const int nGroupID,
 
     AFGUID ident = NULL_GUID;
     ARK_SHARE_PTR<int> pRet = pGroupInfo->mxPlayerList.First(ident);
-    while(!ident.IsNull())
+    while(!ident.IsNULL())
     {
         list.AddObject(ident);
 
@@ -1040,7 +1032,7 @@ bool AFCKernelModule::GetGroupObjectList(const int nSceneID, const int nGroupID,
     }
 
     pRet = pGroupInfo->mxOtherList.First(ident);
-    while(!ident.IsNull())
+    while(!ident.IsNULL())
     {
         list.AddObject(ident);
 

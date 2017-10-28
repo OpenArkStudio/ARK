@@ -79,7 +79,7 @@ bool AFCLoginNetServerModule::AfterInit()
             const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
             const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
 
-            m_pUUIDModule->SetWorkerAndDatacenter(nServerID, nServerID);
+            m_pUUIDModule->SetGUIDMask(nServerID);
 
             int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nCpus, nServerID);
             if(nRet < 0)

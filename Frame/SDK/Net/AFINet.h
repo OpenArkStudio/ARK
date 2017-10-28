@@ -52,7 +52,7 @@ struct  AFIMsgHead
     virtual const AFGUID& GetPlayerID() const = 0;
     virtual void SetPlayerID(const AFGUID& xPlayerID) = 0;
 
-    int64_t NF_HTONLL(const int64_t nData) const
+    int64_t ARK_HTONLL(const int64_t nData) const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return htonll(nData);
@@ -63,7 +63,7 @@ struct  AFIMsgHead
 #endif
     }
 
-    int64_t NF_NTOHLL(const int64_t nData)const
+    int64_t ARK_NTOHLL(const int64_t nData)const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return ntohll(nData);
@@ -74,7 +74,7 @@ struct  AFIMsgHead
 #endif
     }
 
-    int32_t NF_HTONL(const int32_t nData)const
+    int32_t ARK_HTONL(const int32_t nData)const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return htonl(nData);
@@ -85,7 +85,7 @@ struct  AFIMsgHead
 #endif
     }
 
-    int32_t NF_NTOHL(const int32_t nData)const
+    int32_t ARK_NTOHL(const int32_t nData)const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return ntohl(nData);
@@ -96,7 +96,7 @@ struct  AFIMsgHead
 #endif
     }
 
-    int16_t NF_HTONS(const int16_t nData)const
+    int16_t ARK_HTONS(const int16_t nData)const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return htons(nData);
@@ -107,7 +107,7 @@ struct  AFIMsgHead
 #endif
     }
 
-    int16_t NF_NTOHS(const int16_t nData)const
+    int16_t ARK_NTOHS(const int16_t nData)const
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return ntohs(nData);
@@ -127,23 +127,27 @@ public:
     {
     }
 
-    // Message Head[ MsgID(2) | MsgSize(4) ]
+    // Message Head[ MsgID(2) | MsgSize(4) | PlayerID(16) ]
     virtual int EnCode(char* strData) const
     {
         uint32_t nOffset(0);
 
-        uint16_t nMsgID = NF_HTONS(munMsgID);
+        uint16_t nMsgID = ARK_HTONS(munMsgID);
         memcpy(strData + nOffset, (void*)(&nMsgID), sizeof(munMsgID));
         nOffset += sizeof(munMsgID);
 
         uint32_t nPackSize = munSize + NF_HEAD_LENGTH;
-        uint32_t nSize = NF_HTONL(nPackSize);
+        uint32_t nSize = ARK_HTONL(nPackSize);
         memcpy(strData + nOffset, (void*)(&nSize), sizeof(munSize));
         nOffset += sizeof(munSize);
 
-        uint64_t nPlayerID = NF_HTONLL(mxPlayerID.n64Value);
-        memcpy(strData + nOffset, (void*)(&nPlayerID), sizeof(nPlayerID));
-        nOffset += sizeof(nPlayerID);
+        uint64_t nHightData = ARK_HTONLL(mxPlayerID.nHigh);
+        memcpy(strData + nOffset, (void*)(&nHightData), sizeof(nHightData));
+        nOffset += sizeof(nHightData);
+
+        uint64_t nLowData = ARK_HTONLL(mxPlayerID.nLow);
+        memcpy(strData + nOffset, (void*)(&nLowData), sizeof(nLowData));
+        nOffset += sizeof(nLowData);
 
         if(nOffset != NF_HEAD_LENGTH)
         {
@@ -153,25 +157,31 @@ public:
         return nOffset;
     }
 
-    // Message Head[ MsgID(2) | MsgSize(4) ]
+    // Message Head[ MsgID(2) | MsgSize(4) | PlayerID(16) ]
     virtual int DeCode(const char* strData)
     {
         uint32_t nOffset(0);
 
         uint16_t nMsgID(0);
         memcpy(&nMsgID, strData + nOffset, sizeof(munMsgID));
-        munMsgID = NF_NTOHS(nMsgID);
+        munMsgID = ARK_NTOHS(nMsgID);
         nOffset += sizeof(munMsgID);
 
         uint32_t nPackSize(0);
         memcpy(&nPackSize, strData + nOffset, sizeof(munSize));
-        munSize = NF_NTOHL(nPackSize) - NF_HEAD_LENGTH;
+        munSize = ARK_NTOHL(nPackSize) - NF_HEAD_LENGTH;
         nOffset += sizeof(munSize);
 
-        uint64_t nPlayerID(0);
-        memcpy(&nPlayerID, strData + nOffset, sizeof(nPlayerID));
-        mxPlayerID.n64Value = NF_NTOHLL(nPlayerID);
-        nOffset += sizeof(nPlayerID);
+
+        uint64_t nHighData(0);
+        memcpy(&nHighData, strData + nOffset, sizeof(nHighData));
+        mxPlayerID.nHigh = ARK_NTOHLL(nHighData);
+        nOffset += sizeof(nHighData);
+
+        uint64_t nLowData(0);
+        memcpy(&nLowData, strData + nOffset, sizeof(nLowData));
+        mxPlayerID.nLow = ARK_NTOHLL(nLowData);
+        nOffset += sizeof(nLowData);
 
         if(nOffset != NF_HEAD_LENGTH)
         {
