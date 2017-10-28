@@ -197,7 +197,7 @@ bool AFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& str
     xHeartBeat.self = self;
     xHeartBeat.bForever = bForever;
     xHeartBeat.strBeatName = strHeartBeatName;
-    xHeartBeat.id = ++mTimerIDIndex.n64Value;
+    xHeartBeat.id = ++mTimerIDIndex;
     xHeartBeat.Add(cb);
     mAddListEx.push_back(xHeartBeat);
 
@@ -213,4 +213,3 @@ bool AFCHeartBeatManager::Exist(const std::string& strHeartBeatName)
 
     return false;
 }
-
