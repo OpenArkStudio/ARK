@@ -37,7 +37,7 @@ public:
     AFCHeartBeatManager()
     {
         mSelf = NULL_GUID;
-        mTimerIDIndex = NULL_GUID;
+        mTimerIDIndex = 0;
     }
 
     AFCHeartBeatManager(const AFGUID& self)
@@ -64,6 +64,6 @@ protected:
     AFArrayMap<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
 
     std::multimap<int64_t, AFCHeartBeatElement*> mTimeList;
-    AFGUID mTimerIDIndex;
+    uint64_t mTimerIDIndex;
 };
 

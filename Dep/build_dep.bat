@@ -24,6 +24,11 @@ copy Debug\*.dll ..\..\..\lib\Debug /Y
 copy Debug\*.lib ..\..\..\lib\Debug /Y
 copy Release\*.dll ..\..\..\lib\Release /Y
 copy Release\*.lib ..\..\..\lib\Release /Y
+
+copy Release\libprotobuf.dll ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
+copy Release\libprotoc.dll ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
+copy Release\protoc.exe ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
+
 cd ..\..\..\
 REM ######################################################################################################
 echo Building libevent...
