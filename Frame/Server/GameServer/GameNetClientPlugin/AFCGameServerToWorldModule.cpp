@@ -192,7 +192,7 @@ void AFCGameServerToWorldModule::SendOnline(const AFGUID& self)
     const AFGUID& xGuild = m_pKernelModule->GetPropertyObject(self, "GuildID");
     *xMsg.mutable_guild() = AFINetServerModule::GUIDToPB(xGuild);
 
-    m_pNetClientModule->SendSuitByPB(xGuild.n64Value, AFMsg::EGMI_ACK_ONLINE_NOTIFY, xMsg, self);
+    m_pNetClientModule->SendSuitByPB(xGuild.nLow, AFMsg::EGMI_ACK_ONLINE_NOTIFY, xMsg, self);
 
 }
 
@@ -203,7 +203,7 @@ void AFCGameServerToWorldModule::SendOffline(const AFGUID& self)
     const AFGUID& xGuild = m_pKernelModule->GetPropertyObject(self, "GuildID");
     *xMsg.mutable_guild() = AFINetServerModule::GUIDToPB(xGuild);
 
-    m_pNetClientModule->SendSuitByPB(xGuild.n64Value, AFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg, self);
+    m_pNetClientModule->SendSuitByPB(xGuild.nLow, AFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg, self);
 
 }
 

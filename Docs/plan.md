@@ -15,7 +15,9 @@ ArkGameFrame计划
 - [ ] 13.增加CI和Deployment web工具
 - [ ] 14.修改配置打包工具(用Excel编辑，生成csv来给工程读取。为解决多人协作冲突, excel可以用名字后缀区分，类如Item.A.xlsx Item.B.xlsx)
 - [ ] 15.[FMT](https://github.com/fmtlib/fmt) FMT_HEADER_ONLY
-- [ ] 16.使用SWIG
+- [ ] 16.脚本模块使用SWIG
 - [ ] 17.补全Record Callback
 - [ ] 18.统一server和插件的目录结构(SDK部分已经统一)
 - [ ] 19.修改log库使用[spdlog](https://github.com/gabime/spdlog)
+- [X] 20.增加GUID128类型
+- [ ] 21.增加监控web页面(vue-admin)

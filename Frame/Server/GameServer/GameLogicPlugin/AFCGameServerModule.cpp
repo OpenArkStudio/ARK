@@ -27,7 +27,7 @@ bool AFCGameServerModule::Init()
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
 
-    m_pUUIDModule->SetWorkerAndDatacenter(1, 1);
+    m_pUUIDModule->SetGUIDMask(1);
 
     return true;
 }

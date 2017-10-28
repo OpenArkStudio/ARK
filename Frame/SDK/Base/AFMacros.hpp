@@ -36,6 +36,9 @@
 
 #define ARK_NEW new
 
+#define ARK_GUID_POWER 100000
+#define ARK_EPOCH 1288834974657L
+
 #if ARK_PLATFORM == PLATFORM_WIN
 //windows
 
@@ -166,7 +169,7 @@ inline bool IsDoubleEqual(const double lhs, const double rhs)
 #endif
 
 template<typename T>
-bool Ark_from_str(const std::string& strValue, T& nValue)
+bool ARK_FROM_STR(const std::string& strValue, T& nValue)
 {
     try
     {
@@ -182,7 +185,7 @@ bool Ark_from_str(const std::string& strValue, T& nValue)
 }
 
 template<typename T>
-bool Ark_to_str(std::string& strValue, const T& nValue)
+bool ARK_TO_STR(std::string& strValue, const T& nValue)
 {
     try
     {

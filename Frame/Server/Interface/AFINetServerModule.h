@@ -56,24 +56,6 @@
         return;                                         \
     }
 
-static AFGUID PBToNF(AFMsg::Ident xID)
-{
-    AFGUID  xIdent;
-    xIdent.nIdent = xID.svrid();
-    xIdent.nSerial = xID.index();
-
-    return xIdent;
-}
-
-static AFMsg::Ident NFToPB(AFGUID xID)
-{
-    AFMsg::Ident  xIdent;
-    xIdent.set_svrid(xID.nIdent);
-    xIdent.set_index(xID.nSerial);
-
-    return xIdent;
-}
-
 //////////////////////////////////////////////////////////////////////////
 struct ServerData
 {
@@ -146,7 +128,7 @@ public:
     {
         std::string strIPAndPort;
         std::string strPort;
-        Ark_to_str(strPort, nPort);
+        ARK_TO_STR(strPort, nPort);
         strIPAndPort = strIP + ":" + strPort;
         m_pNet = ARK_NEW AFCNetServer(this, &AFINetServerModule::OnReceiveNetPack, &AFINetServerModule::OnSocketNetEvent);
         return m_pNet->Initialization(nMaxClient, strIPAndPort, nServerID, nCpuCount);
@@ -214,7 +196,7 @@ public:
             //playerid主要是网关转发消息的时候做识别使用，其他使用不使用
             AFMsg::BrocastMsg xMsg;
             AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
-            *pPlayerID = NFToPB(nPlayer);
+            *pPlayerID = AFINetModule::GUIDToPB(nPlayer);
             xMsg.set_msg_data(strData.data(), strData.length());
             xMsg.set_nmsgid(nMsgID);
 
@@ -225,7 +207,7 @@ public:
                 AFMsg::Ident* pData = xMsg.add_player_client_list();
                 if(pData)
                 {
-                    *pData = NFToPB(ClientID);
+                    *pData = AFINetModule::GUIDToPB(ClientID);
                 }
             }
 
