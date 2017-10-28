@@ -403,7 +403,7 @@ private:
                 if(xInfo.strIPAndPort.empty())
                 {
                     std::string strPort;
-                    Ark_to_str(strPort, xInfo.nPort);
+                    ARK_TO_STR(strPort, xInfo.nPort);
                     xServerData->strIPAndPort = xInfo.strIP + ":" + strPort;
                 }
                 else
