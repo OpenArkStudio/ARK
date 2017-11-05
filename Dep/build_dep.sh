@@ -60,12 +60,16 @@ if [ -d "evpp" ]; then
     rm -rf evpp
 fi
 
-git clone -b master https://github.com/ArkGame/evpp.git
+git clone -b master https://github.com/ArkGame/evpp.gits
 cd evpp
-mkdir -p build && cd build
-cmake ../
-#failed
-#make
+md build
+cd build
+cmake -G "Unix Makefiles" ..
+make
+#copy lib\Debug\*.lib ..\..\lib\Debug /Y
+#copy lib\Release\*.lib ..\..\lib\Release /Y
+
+cd ../../
 
 
 # extract libevent libs
