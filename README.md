@@ -2,6 +2,7 @@
 
 ##### Copyright © [https://github.com/ArkGame](https://github.com/ArkGame "Ark Game")
 
+[![Build Status](https://travis-ci.org/ArkGame/ArkGameFrame.svg?branch=master)](https://travis-ci.org/ArkGame/ArkGameFrame)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Gitter chat](https://badges.gitter.im/gitterhq/node-gitter.png)](https://gitter.im/ArkGame/Lobby)
 
@@ -12,7 +13,7 @@ Github: https://github.com/ArkGame/ArkGameFrame
 Gitee(码云): https://gitee.com/ArkGame/ArkGameFrame
 
 ## ArkGameFrame
-ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework written in C++，make it easier to create game server. 
+ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework written in C++，make it easier to create your own game server. 
 
 
 
