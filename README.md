@@ -2,6 +2,7 @@
 
 ##### Copyright © [https://github.com/ArkGame](https://github.com/ArkGame "Ark Game")
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Gitter chat](https://badges.gitter.im/gitterhq/node-gitter.png)](https://gitter.im/ArkGame/Lobby)
 
 Website: https://arkgame.net
