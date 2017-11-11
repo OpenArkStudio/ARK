@@ -76,15 +76,13 @@ bool AFCObject::RemoveHeartBeat(const std::string& strHeartBeatName)
 
 bool AFCObject::AddRecordCallBack(const std::string& strRecordName, const RECORD_EVENT_FUNCTOR_PTR& cb)
 {
-    AFRecord* pRecord = GetRecordManager()->GetRecord(strRecordName.c_str());
-    if(nullptr != pRecord)
+    ARK_SHARE_PTR<AFIRecordMgr> pRecordMgr = GetRecordManager();
+    if (nullptr == pRecordMgr)
     {
-        pRecord->AddRecordCB(cb);
-
-        return true;
+        return false;
     }
 
-    return false;
+    return pRecordMgr->AddRecordCallback(strRecordName.c_str(), cb);
 }
 
 bool AFCObject::AddPropertyCallBack(const std::string& strCriticalName, const PROPERTY_EVENT_FUNCTOR_PTR& cb)
