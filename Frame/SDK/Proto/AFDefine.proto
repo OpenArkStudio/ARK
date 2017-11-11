@@ -1,6 +1,6 @@
-syntax = "proto2
+syntax = "proto2";
 
-package AFMsg; 
+package AFMsg;
 
 //所有的网络逻辑事件枚举都在这里 
 enum EGameEventCode

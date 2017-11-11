@@ -24,6 +24,7 @@
 #include "AFMacros.hpp"
 #include "AFArrayPod.hpp"
 #include "AFStringPod.hpp"
+#include "AFGUID.h"
 
 //////////////////////////////////////////////////////////////////////////
 template<typename T>
@@ -65,20 +66,20 @@ MAKE_BUILDIN_TYPE(AFGUID)
 
 //////////////////////////////////////////////////////////////////////////
 
-template<typename KEY, typename NODE>
+template<typename T, typename NODE>
 class AFArrayMap {};
 
-//partial template specialization for KEY=BUILD-IN types
+//partial template specialization for T=BUILD-IN types
 //build-in type is defined above
-template<typename T, typename NODE>
-class AFArrayMap<T, NODE>
-{
-public:
-protected:
-private:
-    ArraryPod<NODE*, 1, CoreAlloc> mxNodes;
-    //StringPod<char, size_t, StringTraits<char>> mxIndices;
-};
+//template<typename T, typename NODE>
+//class AFArrayMap<T, NODE>
+//{
+//public:
+//protected:
+//private:
+//    ArraryPod<NODE*, 1, CoreAlloc> mxNodes;
+//    //StringPod<char, size_t, StringTraits<char>> mxIndices;
+//};
 
 //partial template specialization for KEY=std::string
 template<typename NODE>

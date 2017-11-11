@@ -624,17 +624,17 @@ private:
         int nMinute(0);
         int nSecond(0);
 
-        bool bRet = Ark_from_str(cellsYMD[0], nYear);
-        bRet = Ark_from_str(cellsYMD[1], nMonth);
-        bRet = Ark_from_str(cellsYMD[2], nDay);
-        bRet = Ark_from_str(cellsHMS[0], nHour);
-        bRet = Ark_from_str(cellsHMS[1], nMinute);
-        bRet = Ark_from_str(cellsHMS[2], nSecond);
+        bool bRet = ARK_FROM_STR(cellsYMD[0], nYear);
+        bRet = ARK_FROM_STR(cellsYMD[1], nMonth);
+        bRet = ARK_FROM_STR(cellsYMD[2], nDay);
+        bRet = ARK_FROM_STR(cellsHMS[0], nHour);
+        bRet = ARK_FROM_STR(cellsHMS[1], nMinute);
+        bRet = ARK_FROM_STR(cellsHMS[2], nSecond);
 
         int nMilliSecond = 0;
         if(cells.size() == 3)
         {
-            bRet = Ark_from_str(cells[2], nMilliSecond);
+            bRet = ARK_FROM_STR(cells[2], nMilliSecond);
         }
 
         if(nYear < 1970)

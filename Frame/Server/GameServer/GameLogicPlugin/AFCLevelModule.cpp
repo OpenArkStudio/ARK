@@ -49,10 +49,10 @@ bool AFCLevelModule::AfterInit()
 
 int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
 {
-    int eJobType = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Job());
-    int nCurExp = m_pKernelModule->GetPropertyInt(self, NFrame::Player::EXP());
-    int nLevel = m_pKernelModule->GetPropertyInt(self, NFrame::Player::Level());
-    int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, NFrame::Player::MAXEXP());
+    int eJobType = m_pKernelModule->GetPropertyInt(self, ARK::Player::Job());
+    int nCurExp = m_pKernelModule->GetPropertyInt(self, ARK::Player::EXP());
+    int nLevel = m_pKernelModule->GetPropertyInt(self, ARK::Player::Level());
+    int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ARK::Player::MAXEXP());
 
     nCurExp += nExp;
 
@@ -62,11 +62,11 @@ int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
         //Éý¼¶
         nLevel++;
         //·ÀÖ¹Ô½¼¶BUG
-        m_pKernelModule->SetPropertyInt(self, NFrame::Player::Level(), nLevel);
+        m_pKernelModule->SetPropertyInt(self, ARK::Player::Level(), nLevel);
 
         nCurExp = nRemainExp;
 
-        nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, NFrame::Player::MAXEXP());
+        nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ARK::Player::MAXEXP());
         if (nMaxExp <= 0)
         {
             break;
@@ -75,7 +75,7 @@ int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
         nRemainExp -= nMaxExp;
     }
 
-    m_pKernelModule->SetPropertyInt(self, NFrame::Player::EXP(), nCurExp);
+    m_pKernelModule->SetPropertyInt(self, ARK::Player::EXP(), nCurExp);
 
     return 0;
 }

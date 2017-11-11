@@ -23,7 +23,7 @@
 #include "SDK/Base/AFPlatform.hpp"
 #include "SDK/Base/AFGUID.h"
 #include "SDK/Base/AFIDataList.h"
-using namespace ArkFrame;
+#include "SDK/Base/AFDefine.h"
 
 class AFRecord;
 
@@ -38,7 +38,8 @@ public:
     virtual bool Exist(const char* name, size_t& index) const = 0;
 
     virtual bool AddRecord(const AFGUID& self_id, const char* record_name, const AFIDataList& col_type_list, const int8_t feature) = 0;
-    
+    virtual bool AddRecordCallback(const char* record_name, const RECORD_EVENT_FUNCTOR_PTR& cb) = 0;
+
     virtual void Clear() = 0;
     virtual AFRecord* GetRecord(const char* name) = 0;
     virtual size_t GetCount() const = 0;

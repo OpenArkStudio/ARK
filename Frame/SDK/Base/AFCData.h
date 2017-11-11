@@ -24,9 +24,6 @@
 #include "SDK/Base/AFIData.h"
 #include "SDK/Base/AFPlatform.hpp"
 
-namespace ArkFrame
-{
-
 class AFDataAlloc
 {
 public:
@@ -92,8 +89,8 @@ public:
             break;
         case DT_OBJECT:
             {
-                mnIdent = src.mnIdent;
-                mnSerial = src.mnSerial;
+                mnHigh = src.mnHigh;
+                mnLow = src.mnLow;
             }
             break;
         case DT_POINTER:
@@ -136,8 +133,8 @@ public:
             break;
         case DT_OBJECT:
             {
-                mnIdent = src.GetObject().nIdent;
-                mnSerial = src.GetObject().nSerial;
+                mnHigh = src.GetObject().nHigh;
+                mnLow = src.GetObject().nLow;
             }
             break;
         case DT_POINTER:
@@ -425,7 +422,7 @@ public:
             return NULL_GUID;
         }
 
-        return AFGUID(mnIdent, mnSerial);
+        return AFGUID(mnHigh, mnLow);
     }
 
     virtual void* GetPointer() const
@@ -520,8 +517,8 @@ public:
     {
         Release();
         mnType = DT_OBJECT;
-        mnIdent = value.nIdent;
-        mnSerial = value.nSerial;
+        mnHigh = value.nHigh;
+        mnLow = value.nLow;
     }
 
     virtual void SetPointer(void* value)
@@ -637,7 +634,7 @@ private:
     ALLOC mxAlloc;
     int mnType;
 
-    //可变数据联合体 size = 8
+    //可变数据联合体 size = 16
     union
     {
         bool mbValue;
@@ -651,8 +648,8 @@ private:
 
         struct
         {
-            uint32_t mnIdent;
-            uint32_t mnSerial;
+            uint64_t mnHigh;
+            uint64_t mnLow;
         };
     };
 
@@ -666,5 +663,3 @@ private:
 
 //special
 using AFCData = AFBaseData<4, CoreAlloc>;
-
-}
