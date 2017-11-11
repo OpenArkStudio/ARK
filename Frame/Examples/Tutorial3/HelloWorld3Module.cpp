@@ -19,7 +19,7 @@
 */
 
 #include "HelloWorld3Module.h"
-#include "SDK/Proto/NFProtocolDefine.hpp"
+#include "SDK/Proto/ArkProtocolDefine.hpp"
 #include "SDK/Base/AFTime.hpp"
 
 bool HelloWorld3Module::Init()
@@ -33,7 +33,7 @@ bool HelloWorld3Module::Init()
 int HelloWorld3Module::OnEvent(const AFGUID& self, const int event, const AFIDataList& arg)
 {
     //事件回调函数
-    std::cout << "OnEvent EventID: " << event << " self: " << self.n64Value << " argList: " << arg.String(0) << " " << " " << arg.Int(1) << std::endl;
+    std::cout << "OnEvent EventID: " << event << " self: " << self.ToString() << " argList: " << arg.String(0) << " " << " " << arg.Int(1) << std::endl;
 
     m_pKernelModule->SetPropertyString(self, "Hello", arg.String(0));
     m_pKernelModule->SetPropertyInt(self, "World", arg.Int(1));
@@ -54,7 +54,7 @@ int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHea
 int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFIDataList& arg)
 {
     //虚拟类事件，只要有此虚拟类创建或者销毁即会回调
-    std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.n64Value << " Event: " << event << std::endl;
+    std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.ToString() << " Event: " << event << std::endl;
 
     if(event == COE_CREATE_HASDATA)
     {
@@ -98,10 +98,10 @@ bool HelloWorld3Module::AfterInit()
     //创建容器，所有的对象均需在容器中
     m_pKernelModule->CreateScene(1);
 
-    m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
+    m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
 
     //创建对象，挂类回调和属性回调,然后事件处理对象
-    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, NFrame::Player::ThisName(), "", AFCDataList());
+    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
     if(nullptr == pObject)
     {
         return false;

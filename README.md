@@ -1,9 +1,14 @@
 ![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Docs/asserts/imgs/ArkGameFrame.png)
 
-##### Copyright © [https://github.com/ArkGame](https://github.com/ArkGame "Ark Game")
-
-[![Gitter chat](https://badges.gitter.im/gitterhq/node-gitter.png)](https://gitter.im/ArkGame/Lobby)
-
+[![GitHub version](https://badge.fury.io/gh/ArkGame%2FArkGameFrame.svg)](https://badge.fury.io/gh/ArkGame%2FArkGameFrame)
+[![Build Status](https://travis-ci.org/ArkGame/ArkGameFrame.svg?branch=master)](https://travis-ci.org/ArkGame/ArkGameFrame)
+[![codecov](https://codecov.io/gh/ArkGame/ArkGameFrame/branch/master/graph/badge.svg)](https://codecov.io/gh/ArkGame/ArkGameFrame)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ArkGameFrame)
+[![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
+<br><br>
+**Copyright © [ARK Game](https://arkgame.net "ARK Game")**
+<br><br>
 Website: https://arkgame.net
 <br>
 Github: https://github.com/ArkGame/ArkGameFrame
@@ -11,7 +16,7 @@ Github: https://github.com/ArkGame/ArkGameFrame
 Gitee(码云): https://gitee.com/ArkGame/ArkGameFrame
 
 ## ArkGameFrame
-ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework written in C++，make it easier to create game server. 
+ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework written in C++，make it easier to create your own game server. 
 
 
 

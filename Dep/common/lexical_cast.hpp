@@ -67,6 +67,20 @@ struct Converter<long long, From>
 };
 
 template <typename From>
+struct Converter<uint64_t, From>
+{
+    static uint64_t convert(const string& from)
+    {
+        return std::atoll(from.c_str());
+    }
+
+    static uint64_t convert(const char* from)
+    {
+        return std::atoll(from);
+    }
+};
+
+template <typename From>
 struct Converter<double, From>
 {
     static double convert(const string& from)
