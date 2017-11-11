@@ -111,7 +111,7 @@ bool AFCRecordMgr::AddRecord(const AFGUID& self_id, const char* record_name, con
 bool AFCRecordMgr::AddRecordCallback(const char* record_name, const RECORD_EVENT_FUNCTOR_PTR& cb)
 {
     //TODO:根据名字区分
-
+    //record_name
     mxRecordCallbacks.push_back(cb);
     return true;
 }
@@ -192,6 +192,35 @@ bool AFCRecordMgr::SetRecordInt(const char* name, const int row, const int col, 
         return false;
     }
 
+    //callback
+    do
+    {
+        AFCData oldData;
+        if (!GetRecordData(name, row, col, oldData))
+        {
+            ARK_ASSERT_RET_VAL(0, false);
+        }
+
+        if (oldData.GetInt() == value)
+        {
+            return false;
+        }
+
+        if (!mxRecordCallbacks.empty())
+        {
+            AFCData newData;
+            newData.SetInt(value);
+
+            RECORD_EVENT_DATA xRecordEventData;
+            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nRow = row;
+            xRecordEventData.nCol = col;
+            xRecordEventData.strRecordName = name;
+
+            OnEventHandler(self, xRecordEventData, oldData, newData);
+        }
+    } while (0);
+
     return record->SetInt(row, col, value);
 }
 
@@ -202,6 +231,35 @@ bool AFCRecordMgr::SetRecordInt64(const char* name, const int row, const int col
     {
         return false;
     }
+
+    //callback
+    do
+    {
+        AFCData oldData;
+        if (!GetRecordData(name, row, col, oldData))
+        {
+            ARK_ASSERT_RET_VAL(0, false);
+        }
+
+        if (oldData.GetInt64() == value)
+        {
+            return false;
+        }
+
+        if (!mxRecordCallbacks.empty())
+        {
+            AFCData newData;
+            newData.SetInt64(value);
+
+            RECORD_EVENT_DATA xRecordEventData;
+            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nRow = row;
+            xRecordEventData.nCol = col;
+            xRecordEventData.strRecordName = name;
+
+            OnEventHandler(self, xRecordEventData, oldData, newData);
+        }
+    } while (0);
 
     return record->SetInt64(row, col, value);
 }
@@ -214,6 +272,35 @@ bool AFCRecordMgr::SetRecordFloat(const char* name, const int row, const int col
         return false;
     }
 
+    //callback
+    do
+    {
+        AFCData oldData;
+        if (!GetRecordData(name, row, col, oldData))
+        {
+            ARK_ASSERT_RET_VAL(0, false);
+        }
+
+        if (oldData.GetFloat() == value)
+        {
+            return false;
+        }
+
+        if (!mxRecordCallbacks.empty())
+        {
+            AFCData newData;
+            newData.SetFloat(value);
+
+            RECORD_EVENT_DATA xRecordEventData;
+            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nRow = row;
+            xRecordEventData.nCol = col;
+            xRecordEventData.strRecordName = name;
+
+            OnEventHandler(self, xRecordEventData, oldData, newData);
+        }
+    } while (0);
+
     return record->SetFloat(row, col, value);
 }
 
@@ -224,6 +311,35 @@ bool AFCRecordMgr::SetRecordDouble(const char* name, const int row, const int co
     {
         return false;
     }
+
+    //callback
+    do
+    {
+        AFCData oldData;
+        if (!GetRecordData(name, row, col, oldData))
+        {
+            ARK_ASSERT_RET_VAL(0, false);
+        }
+
+        if (oldData.GetDouble() == value)
+        {
+            return false;
+        }
+
+        if (!mxRecordCallbacks.empty())
+        {
+            AFCData newData;
+            newData.SetDouble(value);
+
+            RECORD_EVENT_DATA xRecordEventData;
+            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nRow = row;
+            xRecordEventData.nCol = col;
+            xRecordEventData.strRecordName = name;
+
+            OnEventHandler(self, xRecordEventData, oldData, newData);
+        }
+    } while (0);
 
     return record->SetDouble(row, col, value);
 }
@@ -236,6 +352,35 @@ bool AFCRecordMgr::SetRecordString(const char* name, const int row, const int co
         return false;
     }
 
+    //callback
+    do
+    {
+        AFCData oldData;
+        if (!GetRecordData(name, row, col, oldData))
+        {
+            ARK_ASSERT_RET_VAL(0, false);
+        }
+
+        if (ARK_STRICMP(oldData.GetString(), value) == 0)
+        {
+            return false;
+        }
+
+        if (!mxRecordCallbacks.empty())
+        {
+            AFCData newData;
+            newData.SetString(value);
+
+            RECORD_EVENT_DATA xRecordEventData;
+            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nRow = row;
+            xRecordEventData.nCol = col;
+            xRecordEventData.strRecordName = name;
+
+            OnEventHandler(self, xRecordEventData, oldData, newData);
+        }
+    } while (0);
+
     return record->SetString(row, col, value);
 }
 
@@ -246,6 +391,35 @@ bool AFCRecordMgr::SetRecordObject(const char* name, const int row, const int co
     {
         return false;
     }
+
+    //callback
+    do
+    {
+        AFCData oldData;
+        if (!GetRecordData(name, row, col, oldData))
+        {
+            ARK_ASSERT_RET_VAL(0, false);
+        }
+
+        if (oldData.GetObject() == value)
+        {
+            return false;
+        }
+
+        if (!mxRecordCallbacks.empty())
+        {
+            AFCData newData;
+            newData.SetObject(value);
+
+            RECORD_EVENT_DATA xRecordEventData;
+            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nRow = row;
+            xRecordEventData.nCol = col;
+            xRecordEventData.strRecordName = name;
+
+            OnEventHandler(self, xRecordEventData, oldData, newData);
+        }
+    } while (0);
 
     return record->SetObject(row, col, value);
 }
