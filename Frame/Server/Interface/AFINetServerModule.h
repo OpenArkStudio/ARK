@@ -172,7 +172,7 @@ public:
         if(!xData.SerializeToString(&xMsgData))
         {
             char szData[MAX_PATH] = { 0 };
-            ARK_SPRINTF(szData, MAX_PATH, "Send Message to %s Failed For Serialize of MsgData, MessageID: %d\n", xClientID.ToString(), nMsgID);
+            ARK_SPRINTF(szData, MAX_PATH, "Send Message to %s Failed For Serialize of MsgData, MessageID: %d\n", xClientID.ToString().c_str(), nMsgID);
 
             return false;
         }
@@ -185,7 +185,7 @@ public:
         if(!m_pNet)
         {
             char szData[MAX_PATH] = { 0 };
-            ARK_SPRINTF(szData, MAX_PATH, "Send Message to %s Failed For NULL Of Net, MessageID: %d\n", xClientID.ToString(), nMsgID);
+            ARK_SPRINTF(szData, MAX_PATH, "Send Message to %s Failed For NULL Of Net, MessageID: %d\n", xClientID.ToString().c_str(), nMsgID);
             //LogSend(szData);
 
             return false;
