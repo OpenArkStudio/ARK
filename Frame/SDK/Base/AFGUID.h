@@ -25,116 +25,96 @@
 
 struct AFGUID
 {
-    union
-    {
-        struct
-        {
-            uint64_t n64Value;
-        };
-
-        struct
-        {
-            uint32_t nIdent;
-            uint32_t nSerial;
-        };
-    };
+	uint64_t nHigh;
+    uint64_t nLow;
 
     AFGUID()
     {
-        n64Value = 0;
+        nHigh = 0;
+        nLow = 0;
     }
 
-    AFGUID(uint32_t ident, uint32_t serial)
-    {
-        nIdent = ident;
-        nSerial = serial;
-    }
 
     AFGUID(uint64_t value)
     {
-        n64Value = value;
+        nHigh = 0;
+        nLow = value;
     }
 
-    bool IsNull()
+    AFGUID(uint64_t high, uint64_t low)
     {
-        return (0 == n64Value);
+        nHigh = high;
+        nLow = low;
     }
 
-    bool IsNull() const
+    bool IsNULL()
     {
-        return (0 == n64Value);
+        return (0 == nHigh) && (0 == nLow);
     }
 
-    AFGUID& operator=(const uint64_t value)
+    bool IsNULL() const
     {
-        n64Value = value;
+        return (0 == nHigh) && (0 == nLow);
+    }
+
+    AFGUID& operator=(const AFGUID& rhs)
+    {
+        nHigh = rhs.nHigh;
+        nLow = rhs.nLow;
         return *this;
     }
 
     bool operator==(const AFGUID& rhs) const
     {
-        return (this->n64Value == rhs.n64Value);
+        return (this->nHigh == rhs.nHigh) && (this->nLow == rhs.nLow);
     }
 
     bool operator!=(const AFGUID& rhs) const
     {
-        return (this->n64Value != rhs.n64Value);
+        return !(*this == rhs);
     }
 
     bool operator<(const AFGUID& rhs) const
     {
-        if(this->nIdent == rhs.nIdent)
+        if (this->nHigh == rhs.nHigh)
         {
-            return this->nSerial < rhs.nSerial;
+            return this->nLow < rhs.nLow;
         }
 
-        return this->nIdent < rhs.nIdent;
+        return this->nHigh < rhs.nHigh;
     }
 
     std::string ToString() const
     {
-        return ARK_LEXICAL_CAST<std::string>(n64Value);// +"-" + ARK_LEXICAL_CAST<std::string>(nSerial);
+        return ARK_LEXICAL_CAST<std::string>(nHigh) + "-" + ARK_LEXICAL_CAST<std::string>(nLow);
     }
 
     bool FromString(const std::string& strID)
     {
         size_t nStrLength = strID.length();
         size_t nPos = strID.find('-');
-        if(nPos == std::string::npos)
+        if (nPos == std::string::npos)
         {
             return false;
         }
 
-        std::string strIdent = strID.substr(0, nPos);
-        std::string strSerial = "";
-        if(nPos + 1 < nStrLength)
+        std::string strHigh = strID.substr(0, nPos);
+        std::string strLow = "";
+        if (nPos + 1 < nStrLength)
         {
-            strSerial = strID.substr(nPos + 1, nStrLength - nPos);
+            strLow = strID.substr(nPos + 1, nStrLength - nPos);
         }
 
         try
         {
-            nIdent = ARK_LEXICAL_CAST<int32_t>(strIdent);
-            nSerial = ARK_LEXICAL_CAST<int32_t>(strSerial);
+            nHigh = ARK_LEXICAL_CAST<uint64_t>(strHigh);
+            nLow = ARK_LEXICAL_CAST<uint64_t>(strLow);
 
             return true;
         }
-        catch(...)
+        catch (...)
         {
             return false;
         }
-
-        return true;
     }
 };
-
-//inline bool operator==(const AFGUID& source, const AFGUID& other)
-//{
-//    return source.n64Value == other.n64Value;
-//}
-//
-//inline bool operator!=(const AFGUID& source, const AFGUID& other)
-//{
-//    return source.n64Value != other.n64Value;
-//}
-

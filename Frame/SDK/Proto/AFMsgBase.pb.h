@@ -153,26 +153,26 @@ class LIBPROTOC_EXPORT Ident : public ::google::protobuf::Message /* @@protoc_in
 
   // accessors -------------------------------------------------------
 
-  // required int32 svrid = 1;
-  bool has_svrid() const;
-  void clear_svrid();
-  static const int kSvridFieldNumber = 1;
-  ::google::protobuf::int32 svrid() const;
-  void set_svrid(::google::protobuf::int32 value);
+  // required int64 high = 1;
+  bool has_high() const;
+  void clear_high();
+  static const int kHighFieldNumber = 1;
+  ::google::protobuf::int64 high() const;
+  void set_high(::google::protobuf::int64 value);
 
-  // required int32 index = 2;
-  bool has_index() const;
-  void clear_index();
-  static const int kIndexFieldNumber = 2;
-  ::google::protobuf::int32 index() const;
-  void set_index(::google::protobuf::int32 value);
+  // required int64 low = 2;
+  bool has_low() const;
+  void clear_low();
+  static const int kLowFieldNumber = 2;
+  ::google::protobuf::int64 low() const;
+  void set_low(::google::protobuf::int64 value);
 
   // @@protoc_insertion_point(class_scope:AFMsg.Ident)
  private:
-  inline void set_has_svrid();
-  inline void clear_has_svrid();
-  inline void set_has_index();
-  inline void clear_has_index();
+  inline void set_has_high();
+  inline void clear_has_high();
+  inline void set_has_low();
+  inline void clear_has_low();
 
   // helper for ByteSize()
   int RequiredFieldsByteSizeFallback() const;
@@ -180,8 +180,8 @@ class LIBPROTOC_EXPORT Ident : public ::google::protobuf::Message /* @@protoc_in
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::uint32 _has_bits_[1];
   mutable int _cached_size_;
-  ::google::protobuf::int32 svrid_;
-  ::google::protobuf::int32 index_;
+  ::google::protobuf::int64 high_;
+  ::google::protobuf::int64 low_;
   friend void LIBPROTOC_EXPORT protobuf_AddDesc_AFMsgBase_2eproto();
   friend void protobuf_AssignDesc_AFMsgBase_2eproto();
   friend void protobuf_ShutdownFile_AFMsgBase_2eproto();
@@ -3069,52 +3069,52 @@ class LIBPROTOC_EXPORT ReqCommand : public ::google::protobuf::Message /* @@prot
 #if !PROTOBUF_INLINE_NOT_IN_HEADERS
 // Ident
 
-// required int32 svrid = 1;
-inline bool Ident::has_svrid() const {
+// required int64 high = 1;
+inline bool Ident::has_high() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-inline void Ident::set_has_svrid() {
+inline void Ident::set_has_high() {
   _has_bits_[0] |= 0x00000001u;
 }
-inline void Ident::clear_has_svrid() {
+inline void Ident::clear_has_high() {
   _has_bits_[0] &= ~0x00000001u;
 }
-inline void Ident::clear_svrid() {
-  svrid_ = 0;
-  clear_has_svrid();
+inline void Ident::clear_high() {
+  high_ = GOOGLE_LONGLONG(0);
+  clear_has_high();
 }
-inline ::google::protobuf::int32 Ident::svrid() const {
-  // @@protoc_insertion_point(field_get:AFMsg.Ident.svrid)
-  return svrid_;
+inline ::google::protobuf::int64 Ident::high() const {
+  // @@protoc_insertion_point(field_get:AFMsg.Ident.high)
+  return high_;
 }
-inline void Ident::set_svrid(::google::protobuf::int32 value) {
-  set_has_svrid();
-  svrid_ = value;
-  // @@protoc_insertion_point(field_set:AFMsg.Ident.svrid)
+inline void Ident::set_high(::google::protobuf::int64 value) {
+  set_has_high();
+  high_ = value;
+  // @@protoc_insertion_point(field_set:AFMsg.Ident.high)
 }
 
-// required int32 index = 2;
-inline bool Ident::has_index() const {
+// required int64 low = 2;
+inline bool Ident::has_low() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-inline void Ident::set_has_index() {
+inline void Ident::set_has_low() {
   _has_bits_[0] |= 0x00000002u;
 }
-inline void Ident::clear_has_index() {
+inline void Ident::clear_has_low() {
   _has_bits_[0] &= ~0x00000002u;
 }
-inline void Ident::clear_index() {
-  index_ = 0;
-  clear_has_index();
+inline void Ident::clear_low() {
+  low_ = GOOGLE_LONGLONG(0);
+  clear_has_low();
 }
-inline ::google::protobuf::int32 Ident::index() const {
-  // @@protoc_insertion_point(field_get:AFMsg.Ident.index)
-  return index_;
+inline ::google::protobuf::int64 Ident::low() const {
+  // @@protoc_insertion_point(field_get:AFMsg.Ident.low)
+  return low_;
 }
-inline void Ident::set_index(::google::protobuf::int32 value) {
-  set_has_index();
-  index_ = value;
-  // @@protoc_insertion_point(field_set:AFMsg.Ident.index)
+inline void Ident::set_low(::google::protobuf::int64 value) {
+  set_has_low();
+  low_ = value;
+  // @@protoc_insertion_point(field_set:AFMsg.Ident.low)
 }
 
 // -------------------------------------------------------------------

@@ -24,7 +24,6 @@
 
 namespace GUIDModule
 {
-extern uint64_t GetNowInMsec();
 class IdWorkerUnThreadSafe;
 class IdWorkerThreadSafe;
 }
@@ -34,7 +33,6 @@ class AFCGUIDModule
     : public AFIGUIDModule
 {
 public:
-
     AFCGUIDModule(AFIPluginManager* p);
     virtual ~AFCGUIDModule() {}
 
@@ -44,10 +42,11 @@ public:
     virtual bool BeforeShut();
     virtual bool Shut();
 
-    virtual void SetWorkerAndDatacenter(uint16_t worker_id, uint16_t data_center_id);
-    virtual uint64_t CreateGUID();
+    virtual void SetGUIDMask(uint64_t mask);
+    virtual AFGUID CreateGUID();
 
 private:
+    uint64_t mnMask; //area_id * 100000 + server_id
 #ifdef AF_THREAD_SAFE
     GUIDModule::IdWorkerThreadSafe* m_pIDWoker;
 #else

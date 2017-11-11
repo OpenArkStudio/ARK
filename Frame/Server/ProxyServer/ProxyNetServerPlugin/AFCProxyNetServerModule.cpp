@@ -66,7 +66,7 @@ bool AFCProxyNetServerModule::AfterInit()
                 const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
 
-                m_pUUIDModule->SetWorkerAndDatacenter(nServerID, nServerID);
+                m_pUUIDModule->SetGUIDMask(nServerID);
 
                 int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nCpus, nServerID);
                 if(nRet < 0)
@@ -163,7 +163,7 @@ void AFCProxyNetServerModule::OnSocketClientEvent(const NetEventType eEvent, con
     }
     else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connected success", __FUNCTION__, __LINE__);
         OnClientConnected(xClientID);
     }
 }
@@ -175,7 +175,7 @@ void AFCProxyNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
     {
         if(pSessionData->mnGameID > 0)
         {
-            if(!pSessionData->mnUserID.IsNull())
+            if(!pSessionData->mnUserID.IsNULL())
             {
                 AFMsg::ReqLeaveGameServer xData;
                 std::string strMsg;

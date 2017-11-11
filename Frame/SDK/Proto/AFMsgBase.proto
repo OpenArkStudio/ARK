@@ -1,4 +1,4 @@
-syntax = "proto2
+syntax = "proto2";
 
 package AFMsg; 
 
@@ -6,8 +6,8 @@ import "AFDefine.proto";
 
 message Ident//基础结构，不直接发送
 { 
-    required int32		svrid = 1;
-    required int32      index = 2;
+    required int64		high = 1;
+    required int64      low = 2;
 }
 
 message Point3D//基础结构，不直接发送

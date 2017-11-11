@@ -104,8 +104,8 @@ void protobuf_AssignDesc_AFMsgBase_2eproto() {
   GOOGLE_CHECK(file != NULL);
   Ident_descriptor_ = file->message_type(0);
   static const int Ident_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Ident, svrid_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Ident, index_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Ident, high_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Ident, low_),
   };
   Ident_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -632,75 +632,75 @@ void protobuf_AddDesc_AFMsgBase_2eproto() {
   ::AFMsg::protobuf_AddDesc_AFDefine_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\017AFMsgBase.proto\022\005AFMsg\032\016AFDefine.proto"
-    "\"%\n\005Ident\022\r\n\005svrid\030\001 \002(\005\022\r\n\005index\030\002 \002(\005\""
-    "*\n\007Point3D\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 "
-    "\002(\002\"\346\001\n\016PropertyPBData\022\025\n\rproperty_name\030"
-    "\001 \002(\014\022\021\n\tndataType\030\002 \002(\005\022\017\n\007mbValue\030\003 \001("
-    "\010\022\017\n\007mnValue\030\004 \001(\005\022\021\n\tmn64Value\030\005 \001(\003\022\017\n"
-    "\007mfValue\030\006 \001(\002\022\017\n\007mdValue\030\007 \001(\001\022\021\n\tmstrV"
-    "alue\030\010 \001(\014\022\017\n\007mpVaule\030\t \001(\003\022\022\n\nmpUserDat"
-    "a\030\n \001(\014\022\033\n\005mGuid\030\013 \001(\0132\014.AFMsg.Ident\"\347\001\n"
-    "\014RecordPBData\022\013\n\003row\030\001 \002(\005\022\013\n\003col\030\002 \002(\005\022"
-    "\021\n\tndataType\030\003 \002(\005\022\017\n\007mbValue\030\004 \001(\010\022\017\n\007m"
-    "nValue\030\005 \001(\005\022\021\n\tmn64Value\030\006 \001(\003\022\017\n\007mfVal"
-    "ue\030\007 \001(\002\022\017\n\007mdValue\030\010 \001(\001\022\021\n\tmstrValue\030\t"
-    " \001(\014\022\017\n\007mpVaule\030\n \001(\003\022\022\n\nmpUserData\030\013 \001("
-    "\014\022\033\n\005mGuid\030\014 \001(\0132\014.AFMsg.Ident\"\307\001\n\006PBDat"
-    "a\022\021\n\tndataType\030\001 \002(\005\022\017\n\007mbValue\030\002 \001(\010\022\017\n"
-    "\007mnValue\030\003 \001(\005\022\021\n\tmn64Value\030\004 \001(\003\022\017\n\007mfV"
-    "alue\030\005 \001(\002\022\017\n\007mdValue\030\006 \001(\001\022\021\n\tmstrValue"
-    "\030\007 \001(\014\022\017\n\007mpVaule\030\010 \001(\003\022\022\n\nmpUserData\030\t "
-    "\001(\014\022\033\n\005mGuid\030\n \001(\0132\014.AFMsg.Ident\"2\n\016Data"
-    "ListPBData\022 \n\tdata_list\030\001 \003(\0132\r.AFMsg.PB"
-    "Data\"P\n\022RecordAddRowStruct\022\013\n\003row\030\001 \002(\005\022"
-    "-\n\020record_data_list\030\002 \003(\0132\023.AFMsg.Record"
-    "PBData\"V\n\020ObjectRecordBase\022\023\n\013record_nam"
-    "e\030\001 \002(\014\022-\n\nrow_struct\030\002 \003(\0132\031.AFMsg.Reco"
-    "rdAddRowStruct\"h\n\022ObjectPropertyList\022\037\n\t"
-    "player_id\030\001 \002(\0132\014.AFMsg.Ident\0221\n\022propert"
-    "y_data_list\030\002 \003(\0132\025.AFMsg.PropertyPBData"
-    "\"S\n\027MultiObjectPropertyList\0228\n\025multi_pla"
-    "yer_property\030\001 \003(\0132\031.AFMsg.ObjectPropert"
-    "yList\"a\n\020ObjectRecordList\022\037\n\tplayer_id\030\001"
-    " \002(\0132\014.AFMsg.Ident\022,\n\013record_list\030\002 \003(\0132"
-    "\027.AFMsg.ObjectRecordBase\"M\n\025MultiObjectR"
-    "ecordList\0224\n\023multi_player_record\030\001 \003(\0132\027"
-    ".AFMsg.ObjectRecordList\"e\n\024ObjectPropert"
-    "yPBData\022\037\n\tplayer_id\030\001 \002(\0132\014.AFMsg.Ident"
-    "\022,\n\rproperty_list\030\002 \003(\0132\025.AFMsg.Property"
-    "PBData\"t\n\022ObjectRecordPBData\022\037\n\tplayer_i"
-    "d\030\001 \002(\0132\014.AFMsg.Ident\022\023\n\013record_name\030\002 \002"
-    "(\014\022(\n\013record_list\030\003 \003(\0132\023.AFMsg.RecordPB"
-    "Data\"\223\001\n\020ObjectRecordSwap\022\037\n\tplayer_id\030\001"
-    " \002(\0132\014.AFMsg.Ident\022\032\n\022origin_record_name"
-    "\030\002 \002(\014\022\032\n\022target_record_name\030\003 \001(\014\022\022\n\nro"
-    "w_origin\030\004 \002(\005\022\022\n\nrow_target\030\005 \002(\005\"w\n\022Ob"
-    "jectRecordAddRow\022\037\n\tplayer_id\030\001 \002(\0132\014.AF"
-    "Msg.Ident\022\023\n\013record_name\030\002 \002(\014\022+\n\010row_da"
-    "ta\030\003 \003(\0132\031.AFMsg.RecordAddRowStruct\"^\n\022O"
-    "bjectRecordRemove\022\037\n\tplayer_id\030\001 \002(\0132\014.A"
-    "FMsg.Ident\022\023\n\013record_name\030\002 \002(\014\022\022\n\nremov"
-    "e_row\030\003 \003(\005\"G\n\022PlayerPropertyBase\0221\n\022pro"
-    "perty_data_list\030\001 \003(\0132\025.AFMsg.PropertyPB"
-    "Data\"V\n\020PlayerRecordBase\022\023\n\013record_name\030"
-    "\001 \002(\t\022-\n\020record_data_list\030\002 \003(\0132\023.AFMsg."
-    "RecordPBData\"@\n\020PlayerRecordList\022,\n\013reco"
-    "rd_list\030\001 \003(\0132\027.AFMsg.PlayerRecordBase\"y"
-    "\n\nBrocastMsg\022\037\n\tplayer_id\030\001 \002(\0132\014.AFMsg."
-    "Ident\022\020\n\010msg_data\030\002 \002(\014\022\016\n\006nMsgID\030\003 \002(\003\022"
-    "(\n\022player_Client_list\030\004 \003(\0132\014.AFMsg.Iden"
-    "t\"+\n\010Position\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z"
-    "\030\003 \002(\002\"\213\003\n\nReqCommand\022 \n\ncontrol_id\030\001 \002("
-    "\0132\014.AFMsg.Ident\0226\n\ncommand_id\030\002 \002(\0162\".AF"
-    "Msg.ReqCommand.EGameCommandType\022\031\n\021comma"
-    "nd_str_value\030\003 \001(\014\022\031\n\021command_value_int\030"
-    "\004 \001(\003\022\033\n\023command_value_float\030\005 \001(\002\022\031\n\021co"
-    "mmand_value_str\030\006 \001(\014\022*\n\024command_value_o"
-    "bject\030\007 \001(\0132\014.AFMsg.Ident\022\013\n\003row\030\010 \001(\005\022\013"
-    "\n\003col\030\t \001(\005\"o\n\020EGameCommandType\022\027\n\023EGCT_"
-    "MODIY_PROPERTY\020\000\022\023\n\017EGCT_MODIY_ITEM\020\001\022\026\n"
-    "\022EGCT_CREATE_OBJECT\020\002\022\025\n\021EGCT_ADD_ROLE_E"
-    "XP\020\003", 2764);
+    "\"\"\n\005Ident\022\014\n\004high\030\001 \002(\003\022\013\n\003low\030\002 \002(\003\"*\n\007"
+    "Point3D\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 \002(\002"
+    "\"\346\001\n\016PropertyPBData\022\025\n\rproperty_name\030\001 \002"
+    "(\014\022\021\n\tndataType\030\002 \002(\005\022\017\n\007mbValue\030\003 \001(\010\022\017"
+    "\n\007mnValue\030\004 \001(\005\022\021\n\tmn64Value\030\005 \001(\003\022\017\n\007mf"
+    "Value\030\006 \001(\002\022\017\n\007mdValue\030\007 \001(\001\022\021\n\tmstrValu"
+    "e\030\010 \001(\014\022\017\n\007mpVaule\030\t \001(\003\022\022\n\nmpUserData\030\n"
+    " \001(\014\022\033\n\005mGuid\030\013 \001(\0132\014.AFMsg.Ident\"\347\001\n\014Re"
+    "cordPBData\022\013\n\003row\030\001 \002(\005\022\013\n\003col\030\002 \002(\005\022\021\n\t"
+    "ndataType\030\003 \002(\005\022\017\n\007mbValue\030\004 \001(\010\022\017\n\007mnVa"
+    "lue\030\005 \001(\005\022\021\n\tmn64Value\030\006 \001(\003\022\017\n\007mfValue\030"
+    "\007 \001(\002\022\017\n\007mdValue\030\010 \001(\001\022\021\n\tmstrValue\030\t \001("
+    "\014\022\017\n\007mpVaule\030\n \001(\003\022\022\n\nmpUserData\030\013 \001(\014\022\033"
+    "\n\005mGuid\030\014 \001(\0132\014.AFMsg.Ident\"\307\001\n\006PBData\022\021"
+    "\n\tndataType\030\001 \002(\005\022\017\n\007mbValue\030\002 \001(\010\022\017\n\007mn"
+    "Value\030\003 \001(\005\022\021\n\tmn64Value\030\004 \001(\003\022\017\n\007mfValu"
+    "e\030\005 \001(\002\022\017\n\007mdValue\030\006 \001(\001\022\021\n\tmstrValue\030\007 "
+    "\001(\014\022\017\n\007mpVaule\030\010 \001(\003\022\022\n\nmpUserData\030\t \001(\014"
+    "\022\033\n\005mGuid\030\n \001(\0132\014.AFMsg.Ident\"2\n\016DataLis"
+    "tPBData\022 \n\tdata_list\030\001 \003(\0132\r.AFMsg.PBDat"
+    "a\"P\n\022RecordAddRowStruct\022\013\n\003row\030\001 \002(\005\022-\n\020"
+    "record_data_list\030\002 \003(\0132\023.AFMsg.RecordPBD"
+    "ata\"V\n\020ObjectRecordBase\022\023\n\013record_name\030\001"
+    " \002(\014\022-\n\nrow_struct\030\002 \003(\0132\031.AFMsg.RecordA"
+    "ddRowStruct\"h\n\022ObjectPropertyList\022\037\n\tpla"
+    "yer_id\030\001 \002(\0132\014.AFMsg.Ident\0221\n\022property_d"
+    "ata_list\030\002 \003(\0132\025.AFMsg.PropertyPBData\"S\n"
+    "\027MultiObjectPropertyList\0228\n\025multi_player"
+    "_property\030\001 \003(\0132\031.AFMsg.ObjectPropertyLi"
+    "st\"a\n\020ObjectRecordList\022\037\n\tplayer_id\030\001 \002("
+    "\0132\014.AFMsg.Ident\022,\n\013record_list\030\002 \003(\0132\027.A"
+    "FMsg.ObjectRecordBase\"M\n\025MultiObjectReco"
+    "rdList\0224\n\023multi_player_record\030\001 \003(\0132\027.AF"
+    "Msg.ObjectRecordList\"e\n\024ObjectPropertyPB"
+    "Data\022\037\n\tplayer_id\030\001 \002(\0132\014.AFMsg.Ident\022,\n"
+    "\rproperty_list\030\002 \003(\0132\025.AFMsg.PropertyPBD"
+    "ata\"t\n\022ObjectRecordPBData\022\037\n\tplayer_id\030\001"
+    " \002(\0132\014.AFMsg.Ident\022\023\n\013record_name\030\002 \002(\014\022"
+    "(\n\013record_list\030\003 \003(\0132\023.AFMsg.RecordPBDat"
+    "a\"\223\001\n\020ObjectRecordSwap\022\037\n\tplayer_id\030\001 \002("
+    "\0132\014.AFMsg.Ident\022\032\n\022origin_record_name\030\002 "
+    "\002(\014\022\032\n\022target_record_name\030\003 \001(\014\022\022\n\nrow_o"
+    "rigin\030\004 \002(\005\022\022\n\nrow_target\030\005 \002(\005\"w\n\022Objec"
+    "tRecordAddRow\022\037\n\tplayer_id\030\001 \002(\0132\014.AFMsg"
+    ".Ident\022\023\n\013record_name\030\002 \002(\014\022+\n\010row_data\030"
+    "\003 \003(\0132\031.AFMsg.RecordAddRowStruct\"^\n\022Obje"
+    "ctRecordRemove\022\037\n\tplayer_id\030\001 \002(\0132\014.AFMs"
+    "g.Ident\022\023\n\013record_name\030\002 \002(\014\022\022\n\nremove_r"
+    "ow\030\003 \003(\005\"G\n\022PlayerPropertyBase\0221\n\022proper"
+    "ty_data_list\030\001 \003(\0132\025.AFMsg.PropertyPBDat"
+    "a\"V\n\020PlayerRecordBase\022\023\n\013record_name\030\001 \002"
+    "(\t\022-\n\020record_data_list\030\002 \003(\0132\023.AFMsg.Rec"
+    "ordPBData\"@\n\020PlayerRecordList\022,\n\013record_"
+    "list\030\001 \003(\0132\027.AFMsg.PlayerRecordBase\"y\n\nB"
+    "rocastMsg\022\037\n\tplayer_id\030\001 \002(\0132\014.AFMsg.Ide"
+    "nt\022\020\n\010msg_data\030\002 \002(\014\022\016\n\006nMsgID\030\003 \002(\003\022(\n\022"
+    "player_Client_list\030\004 \003(\0132\014.AFMsg.Ident\"+"
+    "\n\010Position\022\t\n\001x\030\001 \002(\002\022\t\n\001y\030\002 \002(\002\022\t\n\001z\030\003 "
+    "\002(\002\"\213\003\n\nReqCommand\022 \n\ncontrol_id\030\001 \002(\0132\014"
+    ".AFMsg.Ident\0226\n\ncommand_id\030\002 \002(\0162\".AFMsg"
+    ".ReqCommand.EGameCommandType\022\031\n\021command_"
+    "str_value\030\003 \001(\014\022\031\n\021command_value_int\030\004 \001"
+    "(\003\022\033\n\023command_value_float\030\005 \001(\002\022\031\n\021comma"
+    "nd_value_str\030\006 \001(\014\022*\n\024command_value_obje"
+    "ct\030\007 \001(\0132\014.AFMsg.Ident\022\013\n\003row\030\010 \001(\005\022\013\n\003c"
+    "ol\030\t \001(\005\"o\n\020EGameCommandType\022\027\n\023EGCT_MOD"
+    "IY_PROPERTY\020\000\022\023\n\017EGCT_MODIY_ITEM\020\001\022\026\n\022EG"
+    "CT_CREATE_OBJECT\020\002\022\025\n\021EGCT_ADD_ROLE_EXP\020"
+    "\003", 2761);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "AFMsgBase.proto", &protobuf_RegisterTypes);
   Ident::default_instance_ = new Ident();
@@ -762,8 +762,8 @@ struct StaticDescriptorInitializer_AFMsgBase_2eproto {
 // ===================================================================
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int Ident::kSvridFieldNumber;
-const int Ident::kIndexFieldNumber;
+const int Ident::kHighFieldNumber;
+const int Ident::kLowFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 Ident::Ident()
@@ -785,8 +785,8 @@ Ident::Ident(const Ident& from)
 
 void Ident::SharedCtor() {
   _cached_size_ = 0;
-  svrid_ = 0;
-  index_ = 0;
+  high_ = GOOGLE_LONGLONG(0);
+  low_ = GOOGLE_LONGLONG(0);
   ::memset(_has_bits_, 0, sizeof(_has_bits_));
 }
 
@@ -843,7 +843,7 @@ void Ident::Clear() {
            ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
 } while (0)
 
-  ZR_(svrid_, index_);
+  ZR_(high_, low_);
 
 #undef ZR_HELPER_
 #undef ZR_
@@ -864,28 +864,28 @@ bool Ident::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // required int32 svrid = 1;
+      // required int64 high = 1;
       case 1: {
         if (tag == 8) {
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &svrid_)));
-          set_has_svrid();
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &high_)));
+          set_has_high();
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(16)) goto parse_index;
+        if (input->ExpectTag(16)) goto parse_low;
         break;
       }
 
-      // required int32 index = 2;
+      // required int64 low = 2;
       case 2: {
         if (tag == 16) {
-         parse_index:
+         parse_low:
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int32, ::google::protobuf::internal::WireFormatLite::TYPE_INT32>(
-                 input, &index_)));
-          set_has_index();
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &low_)));
+          set_has_low();
         } else {
           goto handle_unusual;
         }
@@ -918,14 +918,14 @@ failure:
 void Ident::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:AFMsg.Ident)
-  // required int32 svrid = 1;
-  if (has_svrid()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->svrid(), output);
+  // required int64 high = 1;
+  if (has_high()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->high(), output);
   }
 
-  // required int32 index = 2;
-  if (has_index()) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->index(), output);
+  // required int64 low = 2;
+  if (has_low()) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(2, this->low(), output);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -938,14 +938,14 @@ void Ident::SerializeWithCachedSizes(
 ::google::protobuf::uint8* Ident::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:AFMsg.Ident)
-  // required int32 svrid = 1;
-  if (has_svrid()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->svrid(), target);
+  // required int64 high = 1;
+  if (has_high()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(1, this->high(), target);
   }
 
-  // required int32 index = 2;
-  if (has_index()) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->index(), target);
+  // required int64 low = 2;
+  if (has_low()) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(2, this->low(), target);
   }
 
   if (_internal_metadata_.have_unknown_fields()) {
@@ -960,18 +960,18 @@ int Ident::RequiredFieldsByteSizeFallback() const {
 // @@protoc_insertion_point(required_fields_byte_size_fallback_start:AFMsg.Ident)
   int total_size = 0;
 
-  if (has_svrid()) {
-    // required int32 svrid = 1;
+  if (has_high()) {
+    // required int64 high = 1;
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->svrid());
+      ::google::protobuf::internal::WireFormatLite::Int64Size(
+        this->high());
   }
 
-  if (has_index()) {
-    // required int32 index = 2;
+  if (has_low()) {
+    // required int64 low = 2;
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->index());
+      ::google::protobuf::internal::WireFormatLite::Int64Size(
+        this->low());
   }
 
   return total_size;
@@ -981,15 +981,15 @@ int Ident::ByteSize() const {
   int total_size = 0;
 
   if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
-    // required int32 svrid = 1;
+    // required int64 high = 1;
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->svrid());
+      ::google::protobuf::internal::WireFormatLite::Int64Size(
+        this->high());
 
-    // required int32 index = 2;
+    // required int64 low = 2;
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int32Size(
-        this->index());
+      ::google::protobuf::internal::WireFormatLite::Int64Size(
+        this->low());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
@@ -1028,11 +1028,11 @@ void Ident::MergeFrom(const Ident& from) {
     ::google::protobuf::internal::MergeFromFail(__FILE__, __LINE__);
   }
   if (from._has_bits_[0 / 32] & (0xffu << (0 % 32))) {
-    if (from.has_svrid()) {
-      set_svrid(from.svrid());
+    if (from.has_high()) {
+      set_high(from.high());
     }
-    if (from.has_index()) {
-      set_index(from.index());
+    if (from.has_low()) {
+      set_low(from.low());
     }
   }
   if (from._internal_metadata_.have_unknown_fields()) {
@@ -1065,8 +1065,8 @@ void Ident::Swap(Ident* other) {
   InternalSwap(other);
 }
 void Ident::InternalSwap(Ident* other) {
-  std::swap(svrid_, other->svrid_);
-  std::swap(index_, other->index_);
+  std::swap(high_, other->high_);
+  std::swap(low_, other->low_);
   std::swap(_has_bits_[0], other->_has_bits_[0]);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
@@ -1083,52 +1083,52 @@ void Ident::InternalSwap(Ident* other) {
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
 // Ident
 
-// required int32 svrid = 1;
-bool Ident::has_svrid() const {
+// required int64 high = 1;
+bool Ident::has_high() const {
   return (_has_bits_[0] & 0x00000001u) != 0;
 }
-void Ident::set_has_svrid() {
+void Ident::set_has_high() {
   _has_bits_[0] |= 0x00000001u;
 }
-void Ident::clear_has_svrid() {
+void Ident::clear_has_high() {
   _has_bits_[0] &= ~0x00000001u;
 }
-void Ident::clear_svrid() {
-  svrid_ = 0;
-  clear_has_svrid();
+void Ident::clear_high() {
+  high_ = GOOGLE_LONGLONG(0);
+  clear_has_high();
 }
- ::google::protobuf::int32 Ident::svrid() const {
-  // @@protoc_insertion_point(field_get:AFMsg.Ident.svrid)
-  return svrid_;
+ ::google::protobuf::int64 Ident::high() const {
+  // @@protoc_insertion_point(field_get:AFMsg.Ident.high)
+  return high_;
 }
- void Ident::set_svrid(::google::protobuf::int32 value) {
-  set_has_svrid();
-  svrid_ = value;
-  // @@protoc_insertion_point(field_set:AFMsg.Ident.svrid)
+ void Ident::set_high(::google::protobuf::int64 value) {
+  set_has_high();
+  high_ = value;
+  // @@protoc_insertion_point(field_set:AFMsg.Ident.high)
 }
 
-// required int32 index = 2;
-bool Ident::has_index() const {
+// required int64 low = 2;
+bool Ident::has_low() const {
   return (_has_bits_[0] & 0x00000002u) != 0;
 }
-void Ident::set_has_index() {
+void Ident::set_has_low() {
   _has_bits_[0] |= 0x00000002u;
 }
-void Ident::clear_has_index() {
+void Ident::clear_has_low() {
   _has_bits_[0] &= ~0x00000002u;
 }
-void Ident::clear_index() {
-  index_ = 0;
-  clear_has_index();
+void Ident::clear_low() {
+  low_ = GOOGLE_LONGLONG(0);
+  clear_has_low();
 }
- ::google::protobuf::int32 Ident::index() const {
-  // @@protoc_insertion_point(field_get:AFMsg.Ident.index)
-  return index_;
+ ::google::protobuf::int64 Ident::low() const {
+  // @@protoc_insertion_point(field_get:AFMsg.Ident.low)
+  return low_;
 }
- void Ident::set_index(::google::protobuf::int32 value) {
-  set_has_index();
-  index_ = value;
-  // @@protoc_insertion_point(field_set:AFMsg.Ident.index)
+ void Ident::set_low(::google::protobuf::int64 value) {
+  set_has_low();
+  low_ = value;
+  // @@protoc_insertion_point(field_set:AFMsg.Ident.low)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

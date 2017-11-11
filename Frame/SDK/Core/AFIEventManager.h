@@ -27,8 +27,6 @@
 #include "SDK/Base/AFIDataList.h"
 #include "SDK/EventDefine/AFEventDefine.h"
 
-using namespace ArkFrame;
-
 class AFIEventManager
 {
 public:

@@ -16,19 +16,19 @@ namespace AFMsg
   {
     public Ident() {}
     
-    private int _svrid;
-    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"svrid", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public int svrid
+    private long _high;
+    [global::ProtoBuf.ProtoMember(1, IsRequired = true, Name=@"high", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public long high
     {
-      get { return _svrid; }
-      set { _svrid = value; }
+      get { return _high; }
+      set { _high = value; }
     }
-    private int _index;
-    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"index", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
-    public int index
+    private long _low;
+    [global::ProtoBuf.ProtoMember(2, IsRequired = true, Name=@"low", DataFormat = global::ProtoBuf.DataFormat.TwosComplement)]
+    public long low
     {
-      get { return _index; }
-      set { _index = value; }
+      get { return _low; }
+      set { _low = value; }
     }
     private global::ProtoBuf.IExtension extensionObject;
     global::ProtoBuf.IExtension global::ProtoBuf.IExtensible.GetExtensionObject(bool createIfMissing)

@@ -27,6 +27,9 @@
 
 class AFCRecordMgr : public AFIRecordMgr
 {
+protected:
+    using RecordCallbacks = std::vector<RECORD_EVENT_FUNCTOR_PTR>;
+
 public:
     AFCRecordMgr(const AFGUID& guid);
     virtual ~AFCRecordMgr();
@@ -37,7 +40,8 @@ public:
     virtual bool Exist(const char* name, size_t& index) const;
 
     virtual bool AddRecord(const AFGUID& self_id, const char* record_name, const AFIDataList& col_type_list, const int8_t feature);
-    
+    virtual bool AddRecordCallback(const char* record_name, const RECORD_EVENT_FUNCTOR_PTR& cb);
+
     virtual void Clear();
     virtual AFRecord* GetRecord(const char* name);
     virtual size_t GetCount() const;
@@ -60,6 +64,10 @@ public:
     virtual const AFGUID& GetRecordObject(const char* name, const int row, const int col);
 
 protected:
+    bool GetRecordData(const char* name, const int row, const int col, AFIData& value);
+
+    void OnEventHandler(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData);
+
     bool AddRecordInternal(AFRecord* record);
     void ReleaseAll();
 
@@ -68,4 +76,8 @@ private:
 
     ArraryPod<AFRecord*, 1, CoreAlloc> mxRecords;
     StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
+
+    //AFArrayMap<std::string, AFRecord> mxRecords;
+
+    RecordCallbacks mxRecordCallbacks;
 };

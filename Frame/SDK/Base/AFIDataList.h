@@ -25,9 +25,6 @@
 #include "SDK/Base/AFString.hpp"
 #include "SDK/Base/AFIData.h"
 
-namespace ArkFrame
-{
-
 class AFIDataList
 {
 public:
@@ -192,5 +189,3 @@ public:
         return *this;
     }
 };
-
-}

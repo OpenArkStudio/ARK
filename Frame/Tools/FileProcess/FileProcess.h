@@ -60,17 +60,17 @@ private:
 	std::string strMySQLFile = "../mysql/NFrame.sql";
 	std::string strMySQLClassFile = "../mysql/AFClass.sql";
 
-	std::string strProtoFile = "../proto/NFRecordDefine.proto";
+	std::string strProtoFile = "../proto/ArkRecordDefine.proto";
 
-	std::string strHPPFile = "../proto/NFProtocolDefine.hpp";
-	std::string strJavaFile = "../proto/NFProtocolDefine.java";
-	std::string strCSFile = "../proto/NFProtocolDefine.cs";
+	std::string strHPPFile = "../proto/ArkProtocolDefine.hpp";
+	std::string strJavaFile = "../proto/ArkProtocolDefine.java";
+	std::string strCSFile = "../proto/ArkProtocolDefine.cs";
 
 	FILE* mysqlWriter = nullptr;
 	FILE* mysqlClassWriter = nullptr;
 	FILE* protoWriter = nullptr;
-	FILE* hppWriter = nullptr;
-	FILE* javaWriter = nullptr;
+    FILE* hppWriter = nullptr;
+    FILE* javaWriter = nullptr;
 	FILE* csWriter = nullptr;
 
 	std::string strHppIObjectInfo;
