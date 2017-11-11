@@ -47,11 +47,11 @@ fi
 
 git clone -b v035 https://github.com/google/glog.git
 cd glog
-mkdir build && cd build
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+chmod -R 755 *
+./configure --enable-shared=no
 make
-cp -R -f *.a ../../lib/Debug/
-cp -R -f *.a ../../lib/Release/
+cp -R -f .libs/*.a ../../lib/Debug/
+cp -R -f .libs/*.a ../../lib/Release/
 cd ../../
 ##################################################################
 echo Building evpp...
@@ -62,7 +62,8 @@ fi
 
 git clone -b master https://github.com/ArkGame/evpp.gits
 cd evpp
-md build
+chmod -R 755 *
+mkdir build
 cd build
 cmake -G "Unix Makefiles" ..
 make

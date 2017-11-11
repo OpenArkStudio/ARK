@@ -33,7 +33,7 @@ public:
     bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const float, const int), const float fTime, const int nCount, const bool bForever = false)
     {
         ARK_SHARE_PTR<AFIObject> pObject = GetObject(self);
-        if(pObject.get())
+        if (nullptr != pObject)
         {
             return pObject->AddHeartBeat(strHeartBeatName, pBase, handler, fTime, nCount, bForever);
         }
@@ -49,7 +49,7 @@ public:
     bool AddRecordCallBack(const AFGUID& self, const std::string& strRecordName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const RECORD_EVENT_DATA&, const AFIData&, const AFIData&))
     {
         ARK_SHARE_PTR<AFIObject> pObject = GetObject(self);
-        if(pObject.get())
+        if(nullptr != pObject)
         {
             return pObject->AddRecordCallBack(strRecordName, pBase, handler);
         }
@@ -61,7 +61,7 @@ public:
     bool AddPropertyCallBack(const AFGUID& self, const std::string& strPropertyName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
         ARK_SHARE_PTR<AFIObject> pObject = GetObject(self);
-        if(pObject.get())
+        if (nullptr != pObject)
         {
             return pObject->AddPropertyCallBack(strPropertyName, pBase, handler);
         }
