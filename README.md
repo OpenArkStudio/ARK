@@ -2,6 +2,7 @@
 
 [![GitHub version](https://badge.fury.io/gh/ArkGame%2FArkGameFrame.svg)](https://badge.fury.io/gh/ArkGame%2FArkGameFrame)
 [![Build Status](https://travis-ci.org/ArkGame/ArkGameFrame.svg?branch=master)](https://travis-ci.org/ArkGame/ArkGameFrame)
+[![codecov](https://codecov.io/gh/ArkGame/ArkGameFrame/branch/master/graph/badge.svg)](https://codecov.io/gh/ArkGame/ArkGameFrame)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ArkGameFrame)
 [![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)

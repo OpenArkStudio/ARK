@@ -33,7 +33,7 @@ bool HelloWorld3Module::Init()
 int HelloWorld3Module::OnEvent(const AFGUID& self, const int event, const AFIDataList& arg)
 {
     //事件回调函数
-    std::cout << "OnEvent EventID: " << event << " self: " << self.n64Value << " argList: " << arg.String(0) << " " << " " << arg.Int(1) << std::endl;
+    std::cout << "OnEvent EventID: " << event << " self: " << self.ToString() << " argList: " << arg.String(0) << " " << " " << arg.Int(1) << std::endl;
 
     m_pKernelModule->SetPropertyString(self, "Hello", arg.String(0));
     m_pKernelModule->SetPropertyInt(self, "World", arg.Int(1));
@@ -54,7 +54,7 @@ int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHea
 int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFIDataList& arg)
 {
     //虚拟类事件，只要有此虚拟类创建或者销毁即会回调
-    std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.n64Value << " Event: " << event << std::endl;
+    std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.ToString() << " Event: " << event << std::endl;
 
     if(event == COE_CREATE_HASDATA)
     {
