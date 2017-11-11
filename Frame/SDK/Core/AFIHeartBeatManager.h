@@ -25,8 +25,6 @@
 #include "SDK/Base/AFDefine.h"
 #include "SDK/Base/AFCDataList.h"
 
-using namespace ArkFrame;
-
 class  AFCHeartBeatElement
     : public NFList<HEART_BEAT_FUNCTOR_PTR>
 {
@@ -63,7 +61,7 @@ public:
     }
 
     AFGUID self;
-    AFGUID id;
+    uint64_t id;
     int64_t nBeatTime;
     int64_t nNextTriggerTime;//next trigger time, millisecond
     int nCount;

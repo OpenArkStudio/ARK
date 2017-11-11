@@ -23,9 +23,6 @@
 #include "AFIData.h"
 #include "AFIDataList.h"
 
-namespace ArkFrame
-{
-
 class AFDataListAlloc
 {
 public:
@@ -69,8 +66,8 @@ private:
 
             struct
             {
-                uint32_t mnIdent;
-                uint32_t mnSerial;
+                uint64_t mnHigh;
+                uint64_t mnLow;
             };
         };
     };
@@ -373,8 +370,8 @@ public:
     {
         dynamic_data_t* p = AddDynamicData();
         p->nType = DT_OBJECT;
-        p->mnIdent = value.nIdent;
-        p->mnSerial = value.nSerial;
+        p->mnHigh = value.nHigh;
+        p->mnLow = value.nLow;
         return true;
     }
 
@@ -531,7 +528,7 @@ public:
         switch(mpData[index].nType)
         {
         case DT_OBJECT:
-            return AFGUID(mpData[index].mnIdent, mpData[index].mnSerial);
+            return AFGUID(mpData[index].mnHigh, mpData[index].mnLow);
             break;
         default:
             break;
@@ -732,8 +729,8 @@ public:
             return false;
         }
 
-        mpData[index].mnIdent = value.nIdent;
-        mpData[index].mnSerial = value.nSerial;
+        mpData[index].mnHigh = value.nHigh;
+        mpData[index].mnLow = value.nLow;
         return true;
     }
 
@@ -765,19 +762,19 @@ public:
         switch(mpData[index].nType)
         {
         case DT_BOOLEAN:
-            ret = Ark_to_str(strdata, mpData[index].mbValue);
+            ret = ARK_TO_STR(strdata, mpData[index].mbValue);
             break;
         case DT_INT:
-            ret = Ark_to_str(strdata, mpData[index].mnValue);
+            ret = ARK_TO_STR(strdata, mpData[index].mnValue);
             break;
         case DT_INT64:
-            ret = Ark_to_str(strdata, mpData[index].mn64Value);
+            ret = ARK_TO_STR(strdata, mpData[index].mn64Value);
             break;
         case DT_FLOAT:
-            ret = Ark_to_str(strdata, mpData[index].mfValue);
+            ret = ARK_TO_STR(strdata, mpData[index].mfValue);
             break;
         case DT_DOUBLE:
-            ret = Ark_to_str(strdata, mpData[index].mdValue);
+            ret = ARK_TO_STR(strdata, mpData[index].mdValue);
             break;
         case DT_STRING:
             strdata = String(index);
@@ -973,6 +970,3 @@ private:
 };
 
 using AFCDataList = AFBaseDataList<8, 128>;
-
-}
-

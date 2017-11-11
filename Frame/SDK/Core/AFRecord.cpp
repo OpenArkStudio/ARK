@@ -240,11 +240,6 @@ bool AFRecord::IsSave() const
     return BitValue<int8_t>::HaveBitValue(feature, RF_SAVE);
 }
 
-bool AFRecord::AddRecordCB(const RECORD_EVENT_FUNCTOR_PTR& cb)
-{
-    return true;
-}
-
 bool AFRecord::SetValue(size_t row, size_t col, const AFIData& value)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))

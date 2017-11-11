@@ -28,8 +28,6 @@
 #include "SDK/Base/AFBitValue.hpp"
 #include "SDK/Base/AFDefine.h"
 
-using namespace ArkFrame;
-
 class AFRecord
 {
 private:
@@ -89,9 +87,6 @@ public:
     void SetSave();
     bool IsSave() const;
 
-    //TODO:
-    bool AddRecordCB(const RECORD_EVENT_FUNCTOR_PTR& cb);
-
     bool SetValue(size_t row, size_t col, const AFIData& value);
     bool SetBool(size_t row, size_t col, const bool value);
     bool SetInt(size_t row, size_t col, const int value);
@@ -124,17 +119,13 @@ public:
 
     bool QueryRow(const int nRow, AFIDataList& varList);
 
-private:
+public:
     void ReleaseRow(RowData* row_data, size_t col_num);
     void ReleaseAll();
 
 protected:
-
     RecordName mstrName;                            //Record name
     int8_t feature;                                 //Record feature
     ArraryPod<int, 1, CoreAlloc> mxColTypes;        //Record column type array
     ArraryPod<RowData*, 1, CoreAlloc> mxRowDatas;   //Record data array
-
-    //Record callbacks will be added
 };
-

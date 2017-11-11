@@ -157,19 +157,15 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
     <ClInclude Include="AFMsgPreGame.pb.h" />
     <ClInclude Include="AFMsgShare.pb.h" />
     <ClInclude Include="AFMsgURl.pb.h" />
-    <ClInclude Include="AFProtocolDefine.hpp" />
-    <ClInclude Include="AFSLGDefine.pb.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFDefine.pb.cc" />
     <ClCompile Include="AFFleetingDefine.pb.cc" />
     <ClCompile Include="AFMsgBase.pb.cc" />
-    <ClCompile Include="AFMsgDefine.cpp" />
     <ClCompile Include="AFMsgMysql.pb.cc" />
     <ClCompile Include="AFMsgPreGame.pb.cc" />
     <ClCompile Include="AFMsgShare.pb.cc" />
     <ClCompile Include="AFMsgURl.pb.cc" />
-    <ClCompile Include="AFSLGDefine.pb.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

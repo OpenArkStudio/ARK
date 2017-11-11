@@ -27,7 +27,6 @@
 #include "SDK/Base/AFStringPod.hpp"
 #include "SDK/Base/AFCData.h"
 #include "SDK/Base/AFBitValue.hpp"
-using namespace ArkFrame;
 
 struct AFProperty
 {
