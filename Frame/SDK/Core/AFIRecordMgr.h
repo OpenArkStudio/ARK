@@ -25,8 +25,6 @@
 #include "SDK/Base/AFIDataList.h"
 #include "SDK/Base/AFDefine.h"
 
-using namespace ArkFrame;
-
 class AFRecord;
 
 class AFIRecordMgr

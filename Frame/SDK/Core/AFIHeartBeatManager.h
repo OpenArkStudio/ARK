@@ -25,8 +25,6 @@
 #include "SDK/Base/AFDefine.h"
 #include "SDK/Base/AFCDataList.h"
 
-using namespace ArkFrame;
-
 class  AFCHeartBeatElement
     : public NFList<HEART_BEAT_FUNCTOR_PTR>
 {

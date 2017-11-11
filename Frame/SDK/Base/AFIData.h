@@ -23,9 +23,6 @@
 #include <SDK/Base/AFPlatform.hpp>
 #include "SDK/Base/AFGUID.h"
 
-namespace ArkFrame
-{
-
 enum AF_DATA_TYPE
 {
     DT_UNKNOWN, //unknown type
@@ -115,6 +112,3 @@ public:
     virtual void Assign(const AFIData& src) = 0;
     virtual size_t GetMemUsage() const = 0;
 };
-
-}
-
