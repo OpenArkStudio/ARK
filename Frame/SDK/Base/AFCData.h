@@ -24,9 +24,6 @@
 #include "SDK/Base/AFIData.h"
 #include "SDK/Base/AFPlatform.hpp"
 
-namespace ArkFrame
-{
-
 class AFDataAlloc
 {
 public:
@@ -666,5 +663,3 @@ private:
 
 //special
 using AFCData = AFBaseData<4, CoreAlloc>;
-
-}

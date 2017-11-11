@@ -23,9 +23,6 @@
 #include "AFIData.h"
 #include "AFIDataList.h"
 
-namespace ArkFrame
-{
-
 class AFDataListAlloc
 {
 public:
@@ -973,6 +970,3 @@ private:
 };
 
 using AFCDataList = AFBaseDataList<8, 128>;
-
-}
-
