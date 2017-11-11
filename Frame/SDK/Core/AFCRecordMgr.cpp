@@ -46,6 +46,7 @@ void AFCRecordMgr::ReleaseAll()
     }
 
     mxRecords.clear();
+    mxRecordCallbacks.clear();
 }
 
 bool AFCRecordMgr::Exist(const char* name) const
@@ -56,6 +57,26 @@ bool AFCRecordMgr::Exist(const char* name) const
 bool AFCRecordMgr::Exist(const char* name, size_t& index) const
 {
     return mxIndices.GetData(name, index);
+}
+
+bool AFCRecordMgr::GetRecordData(const char* name, const int row, const int col, AFIData& value)
+{
+    AFRecord* pRecord = GetRecord(name);
+    if (NULL == pRecord)
+    {
+        return NULL;
+    }
+
+    return pRecord->GetValue(row, col, value);
+}
+
+void AFCRecordMgr::OnEventHandler(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData)
+{
+    for (auto& iter : mxRecordCallbacks)
+    {
+        //TODO:check name from xEventData
+        (*iter)(self, xEventData, oldData, newData);
+    }
 }
 
 bool AFCRecordMgr::AddRecordInternal(AFRecord* record)
@@ -85,6 +106,14 @@ bool AFCRecordMgr::AddRecord(const AFGUID& self_id, const char* record_name, con
     pRecord->SetFeature(feature);
 
     return AddRecordInternal(pRecord);
+}
+
+bool AFCRecordMgr::AddRecordCallback(const char* record_name, const RECORD_EVENT_FUNCTOR_PTR& cb)
+{
+    //TODO:根据名字区分
+
+    mxRecordCallbacks.push_back(cb);
+    return true;
 }
 
 void AFCRecordMgr::Clear()
@@ -122,6 +151,35 @@ bool AFCRecordMgr::SetRecordBool(const char* name, const int row, const int col,
     {
         return false;
     }
+
+    //callback
+    do 
+    {
+        AFCData oldData;
+        if (!GetRecordData(name, row, col, oldData))
+        {
+            ARK_ASSERT_RET_VAL(0, false);
+        }
+
+        if (oldData.GetBool() == value)
+        {
+            return false;
+        }
+
+        if (!mxRecordCallbacks.empty())
+        {
+            AFCData newData;
+            newData.SetBool(value);
+
+            RECORD_EVENT_DATA xRecordEventData;
+            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nRow = row;
+            xRecordEventData.nCol = col;
+            xRecordEventData.strRecordName = name;
+
+            OnEventHandler(self, xRecordEventData, oldData, newData);
+        }
+    } while (0);
 
     return record->SetBool(row, col, value);
 }
