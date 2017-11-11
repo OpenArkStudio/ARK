@@ -188,13 +188,13 @@ public:
 
     void SendBySuit(const std::string& strHashKey, const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
     {
-        uint32_t nCRC32 = NFrame::CRC32(strHashKey);
+        uint32_t nCRC32 = CRC32(strHashKey);
         SendBySuit(nCRC32, nMsgID, strData, nPlayerID);
     }
 
     void SendBySuit(const std::string& strHashKey, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nPlayerID)
     {
-        uint32_t nCRC32 = NFrame::CRC32(strHashKey);
+        uint32_t nCRC32 = CRC32(strHashKey);
         SendBySuit(nCRC32, nMsgID, msg, nLen, nPlayerID);
     }
 
@@ -221,7 +221,7 @@ public:
 
     void SendSuitByPB(const std::string& strHashKey, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
     {
-        uint32_t nCRC32 = NFrame::CRC32(strHashKey);
+        uint32_t nCRC32 = CRC32(strHashKey);
         SendSuitByPB(nCRC32, nMsgID, xData, nPlayerID);
     }
 
@@ -432,7 +432,7 @@ private:
 
     bool GetServerMachineData(const std::string& strServerID, AFCMachineNode& xMachineData)
     {
-        uint32_t nCRC32 = NFrame::CRC32(strServerID);
+        uint32_t nCRC32 = CRC32(strServerID);
         return mxConsistentHash.GetSuitNode(nCRC32, xMachineData);
     }
 

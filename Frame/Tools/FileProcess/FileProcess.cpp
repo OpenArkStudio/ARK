@@ -45,7 +45,7 @@ FileProcess::~FileProcess()
 
 void FileProcess::CreateProtoFile()
 {
-    std::string toWrite = "package NFrame;\n";
+    std::string toWrite = "package ARK_GAME_FRAME;\n";
     if((protoWriter) == NULL)
         return;
     fwrite(toWrite.c_str(), toWrite.length(), 1, protoWriter);
@@ -55,51 +55,98 @@ void FileProcess::CreateNameFile()
 {
     time_t timeval;
     timeval = time(NULL);
-    std::string strHPPHead
-        = "// -------------------------------------------------------------------------\n";
-    strHPPHead = strHPPHead
-                 + "//    @FileName         :    NFProtocolDefine.hpp\n"
-                 + "//    @Author           :    Ark Game\n"
-                 + "//    @Module           :    NFProtocolDefine\n"
-                 + "// -------------------------------------------------------------------------\n\n"
-                 + "#ifndef NF_PR_NAME_HPP\n"
-                 + "#define NF_PR_NAME_HPP\n\n"
-                 + "#include <string>\n"
-                 + "namespace NFrame\n{\n";
+    std::string strHPPHead = "\
+/*\
+\n* This source file is part of ArkGameFrame                                      \
+\n* For the latest info, see https://github.com/ArkGame                           \
+\n*                                                                               \
+\n* Copyright (c) 2013-2017 ArkGame authors.                                      \
+\n*                                                                               \
+\n* Licensed under the Apache License, Version 2.0 (the \"License\");             \
+\n* you may not use this file except in compliance with the License.              \
+\n* You may obtain a copy of the License at                                       \
+\n*                                                                               \
+\n*     http://www.apache.org/licenses/LICENSE-2.0                                \
+\n*                                                                               \
+\n* Unless required by applicable law or agreed to in writing, software           \
+\n* distributed under the License is distributed on an \"AS IS\" BASIS,           \
+\n* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.      \
+\n* See the License for the specific language governing permissions and           \
+\n* limitations under the License.                                                \
+\n*                                                                               \
+\n*/                                                                              \
+\n                                                                                \
+\n                                                                                \
+\n#pragma once                                                                    \
+\n                                                                                \
+\nnamespace ARK                                                                   \
+\n{\
+\n";
 
-    /////////////////////////////////////////////////////
     fwrite(strHPPHead.c_str(), strHPPHead.length(), 1, hppWriter);
     /////////////////////////////////////////////////////
 
-    std::string strJavaHead
-        = "// -------------------------------------------------------------------------\n";
-    strJavaHead = strJavaHead
-                  + "//    @FileName         :    NFProtocolDefine.java\n"
-                  + "//    @Author           :    Ark Game\n"
-                  + "//    @Module           :    NFProtocolDefine\n"
-                  + "// -------------------------------------------------------------------------\n\n"
-                  + "package nframe;\n";
+    std::string strJavaHead = "\
+/*                                                                                \
+\n* This source file is part of ArkGameFrame                                      \
+\n* For the latest info, see https://github.com/ArkGame                           \
+\n*                                                                               \
+\n* Copyright (c) 2013-2017 ArkGame authors.                                      \
+\n*                                                                               \
+\n* Licensed under the Apache License, Version 2.0 (the \"License\");             \
+\n* you may not use this file except in compliance with the License.              \
+\n* You may obtain a copy of the License at                                       \
+\n*                                                                               \
+\n*     http://www.apache.org/licenses/LICENSE-2.0                                \
+\n*                                                                               \
+\n* Unless required by applicable law or agreed to in writing, software           \
+\n* distributed under the License is distributed on an \"AS IS\" BASIS,           \
+\n* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.      \
+\n* See the License for the specific language governing permissions and           \
+\n* limitations under the License.                                                \
+\n*                                                                               \
+\n*/                                                                              \
+\n                                                                                \
+\n                                                                                \
+\npackage ARK;                                                                    \
+\n";
+                  
 
     fwrite(strJavaHead.c_str(), strJavaHead.length(), 1, javaWriter);
     /////////////////////////////////////////////////////
 
-    std::string strCSHead = "// -------------------------------------------------------------------------\n";
-    strCSHead = strCSHead
-                + "//    @FileName         :    NFProtocolDefine.cs\n"
-                + "//    @Author           :    Ark Game\n"
-                + "//    @Module           :    NFProtocolDefine\n"
-                + "// -------------------------------------------------------------------------\n\n"
-                + "using System;\n"
-                //+ "using System.Collections.Concurrent;\n"
-                + "using System.Collections.Generic;\n"
-                + "using System.Linq;\n"
-                + "using System.Text;\n"
-                + "using System.Threading;\n"
-                //+ "using System.Threading.Tasks;\n\n"
-                + "namespace NFrame\n{\n";
+    std::string strCSHead = "\
+/*                                                                                \
+\n* This source file is part of ArkGameFrame                                      \
+\n* For the latest info, see https://github.com/ArkGame                           \
+\n*                                                                               \
+\n* Copyright (c) 2013-2017 ArkGame authors.                                      \
+\n*                                                                               \
+\n* Licensed under the Apache License, Version 2.0 (the \"License\");             \
+\n* you may not use this file except in compliance with the License.              \
+\n* You may obtain a copy of the License at                                       \
+\n*                                                                               \
+\n*     http://www.apache.org/licenses/LICENSE-2.0                                \
+\n*                                                                               \
+\n* Unless required by applicable law or agreed to in writing, software           \
+\n* distributed under the License is distributed on an \"AS IS\" BASIS,           \
+\n* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.      \
+\n* See the License for the specific language governing permissions and           \
+\n* limitations under the License.                                                \
+\n*                                                                               \
+\n*/                                                                              \
+\n                                                                                \
+\n                                                                                \
+\nusing System;                                                                   \
+\nusing System.Collections.Generic;                                               \
+\nusing System.Linq;                                                              \
+\nusing System.Text;                                                              \
+\nusing System.Threading;                                                         \
+\nnamespace Ark                                                                   \
+\n{                                                                               \
+\n";
 
     fwrite(strCSHead.c_str(), strCSHead.length(), 1, csWriter);
-    /////////////////////////////////////////////////////
 }
 
 void FileProcess::OnCreateXMLFile()
@@ -203,10 +250,8 @@ void FileProcess::CreateStructThreadFunc()
 
     //// name文件结束
 
-    fwrite("} // !@NFrame\n\n#endif // !NF_PR_NAME_HPP",
-           sizeof("} // !@NFrame\n\n#endif // !NF_PR_NAME_HPP"), 1, hppWriter);
-    fwrite("}",
-           sizeof("}"), 1, csWriter);
+    fwrite("}", sizeof("}"), 1, hppWriter);
+    fwrite("}", sizeof("}"), 1, csWriter);
     xmlDoc->SetBOM(false);
     auto a = xmlDoc->SaveFile(strLogicClassFile.c_str());//保存文件 参数：路径
 

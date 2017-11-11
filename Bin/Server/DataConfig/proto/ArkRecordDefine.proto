@@ -1,4 +1,4 @@
-package NFrame;
+package ARK_GAME_FRAME;
 enum GroupMemberList
 {
 	GUID		= 0; // GUID -- object
