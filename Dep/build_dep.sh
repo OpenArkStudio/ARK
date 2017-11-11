@@ -47,11 +47,11 @@ fi
 
 git clone -b v035 https://github.com/google/glog.git
 cd glog
-mkdir build && cd build
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+chmod -R 755 *
+./configure --enable-shared=no
 make
-cp -R -f *.a ../../lib/Debug/
-cp -R -f *.a ../../lib/Release/
+cp -R -f .libs/*.a ../../lib/Debug/
+cp -R -f .libs/*.a ../../lib/Release/
 cd ../../
 ##################################################################
 echo Building evpp...
@@ -60,12 +60,17 @@ if [ -d "evpp" ]; then
     rm -rf evpp
 fi
 
-git clone -b master https://github.com/ArkGame/evpp.git
+git clone -b master https://github.com/ArkGame/evpp.gits
 cd evpp
-mkdir -p build && cd build
-cmake ../
-#failed
-#make
+chmod -R 755 *
+mkdir build
+cd build
+cmake -G "Unix Makefiles" ..
+make
+#copy lib\Debug\*.lib ..\..\lib\Debug /Y
+#copy lib\Release\*.lib ..\..\lib\Release /Y
+
+cd ../../
 
 
 # extract libevent libs

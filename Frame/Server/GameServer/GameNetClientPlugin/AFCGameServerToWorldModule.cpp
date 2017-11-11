@@ -21,7 +21,7 @@
 #include "AFCGameServerToWorldModule.h"
 #include "AFGameNetClientPlugin.h"
 #include "SDK/Proto/AFMsgDefine.h"
-#include "SDK/Proto/NFProtocolDefine.hpp"
+#include "SDK/Proto/ArkProtocolDefine.hpp"
 #include "Server/Interface/AFINetClientModule.hpp"
 
 bool AFCGameServerToWorldModule::Init()
@@ -121,7 +121,7 @@ bool AFCGameServerToWorldModule::AfterInit()
     m_pNetClientModule->AddReceiveCallBack(this, &AFCGameServerToWorldModule::TransPBToProxy);
     m_pNetClientModule->AddEventCallBack(this, &AFCGameServerToWorldModule::OnSocketWSEvent);
 
-    m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &AFCGameServerToWorldModule::OnObjectClassEvent);
+    m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCGameServerToWorldModule::OnObjectClassEvent);
 
     // Á¬½Óworld server
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
@@ -170,7 +170,7 @@ void AFCGameServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, cons
 
 int AFCGameServerToWorldModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
 {
-    if(strClassName == NFrame::Player::ThisName())
+    if(strClassName == ARK::Player::ThisName())
     {
         if(CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
         {
@@ -192,7 +192,7 @@ void AFCGameServerToWorldModule::SendOnline(const AFGUID& self)
     const AFGUID& xGuild = m_pKernelModule->GetPropertyObject(self, "GuildID");
     *xMsg.mutable_guild() = AFINetServerModule::GUIDToPB(xGuild);
 
-    m_pNetClientModule->SendSuitByPB(xGuild.n64Value, AFMsg::EGMI_ACK_ONLINE_NOTIFY, xMsg, self);
+    m_pNetClientModule->SendSuitByPB(xGuild.nLow, AFMsg::EGMI_ACK_ONLINE_NOTIFY, xMsg, self);
 
 }
 
@@ -203,7 +203,7 @@ void AFCGameServerToWorldModule::SendOffline(const AFGUID& self)
     const AFGUID& xGuild = m_pKernelModule->GetPropertyObject(self, "GuildID");
     *xMsg.mutable_guild() = AFINetServerModule::GUIDToPB(xGuild);
 
-    m_pNetClientModule->SendSuitByPB(xGuild.n64Value, AFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg, self);
+    m_pNetClientModule->SendSuitByPB(xGuild.nLow, AFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg, self);
 
 }
 
