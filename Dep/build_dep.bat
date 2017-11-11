@@ -24,6 +24,11 @@ copy Debug\*.dll ..\..\..\lib\Debug /Y
 copy Debug\*.lib ..\..\..\lib\Debug /Y
 copy Release\*.dll ..\..\..\lib\Release /Y
 copy Release\*.lib ..\..\..\lib\Release /Y
+
+copy Release\libprotobuf.dll ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
+copy Release\libprotoc.dll ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
+copy Release\protoc.exe ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
+
 cd ..\..\..\
 REM ######################################################################################################
 echo Building libevent...
@@ -64,13 +69,15 @@ if exist evpp (rd evpp /q /s)
 git clone -b master https://github.com/ArkGame/evpp.git
 
 cd evpp
-cd vsprojects
-"%VS140COMNTOOLS%..\IDE\Devenv" libevpp.sln /build "Debug|x64" /project libevpp.vcxproj
-"%VS140COMNTOOLS%..\IDE\Devenv" libevpp.sln /build "Release|x64" /project libevpp.vcxproj
-copy x64\Debug\*.lib ..\..\lib\Debug /Y
-copy x64\Release\*.lib ..\..\lib\Release /Y
+md build
+cd build
+cmake -G "Visual Studio 14 Win64" ..
+"%VS140COMNTOOLS%..\IDE\Devenv" safe-evpp.sln /build "Debug|x64" /project evpp/evpp_static.vcxproj
+"%VS140COMNTOOLS%..\IDE\Devenv" safe-evpp.sln /build "Release|x64" /project evpp/evpp_static.vcxproj
+copy lib\Debug\*.lib ..\..\lib\Debug /Y
+copy lib\Release\*.lib ..\..\lib\Release /Y
 
 cd ..\..\
 REM ####################################################################################################
 REM back to root dir
-cd ../
+cd ..\
