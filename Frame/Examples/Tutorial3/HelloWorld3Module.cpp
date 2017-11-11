@@ -19,7 +19,7 @@
 */
 
 #include "HelloWorld3Module.h"
-#include "SDK/Proto/NFProtocolDefine.hpp"
+#include "SDK/Proto/ArkProtocolDefine.hpp"
 #include "SDK/Base/AFTime.hpp"
 
 bool HelloWorld3Module::Init()
@@ -98,10 +98,10 @@ bool HelloWorld3Module::AfterInit()
     //创建容器，所有的对象均需在容器中
     m_pKernelModule->CreateScene(1);
 
-    m_pKernelModule->AddClassCallBack(NFrame::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
+    m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
 
     //创建对象，挂类回调和属性回调,然后事件处理对象
-    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, NFrame::Player::ThisName(), "", AFCDataList());
+    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
     if(nullptr == pObject)
     {
         return false;

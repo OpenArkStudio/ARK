@@ -23,7 +23,7 @@
 #include "SDK/Base/AFMemManger.h"
 #include "SDK/Core/AFCObject.h"
 #include "SDK/Core/AFRecord.h"
-#include "SDK/Proto/NFProtocolDefine.hpp"
+#include "SDK/Proto/ArkProtocolDefine.hpp"
 #include "AFCKernelModule.h"
 
 AFCKernelModule::AFCKernelModule(AFIPluginManager* p)
@@ -166,7 +166,7 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         pObject = ARK_SHARE_PTR<AFIObject>(ARK_NEW AFCObject(ident, pPluginManager));
         //是否是应该晚点等到事�?时才加入容器，这样能保证进入容器的对象都是有完整数据的，否则因为协程的原因，其他对象找到他时他却没数据或者部分数�?
         AddElement(ident, pObject);
-        pContainerInfo->AddObjectToGroup(nGroupID, ident, strClassName == NFrame::Player::ThisName() ? true : false);
+        pContainerInfo->AddObjectToGroup(nGroupID, ident, strClassName == ARK::Player::ThisName() ? true : false);
 
         ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = pObject->GetPropertyManager();
         ARK_SHARE_PTR<AFIRecordMgr> pRecordManager = pObject->GetRecordManager();
@@ -240,10 +240,10 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         for(int i = 0; i < ((int)arg.GetCount() - 1); i += 2)
         {
             const std::string& strPropertyName = arg.String(i);
-            if(NFrame::IObject::ConfigID() != strPropertyName
-                    && NFrame::IObject::ClassName() != strPropertyName
-                    && NFrame::IObject::SceneID() != strPropertyName
-                    && NFrame::IObject::GroupID() != strPropertyName)
+            if(ARK::IObject::ConfigID() != strPropertyName
+                    && ARK::IObject::ClassName() != strPropertyName
+                    && ARK::IObject::SceneID() != strPropertyName
+                    && ARK::IObject::GroupID() != strPropertyName)
             {
                 AFProperty* pArgProperty = pStaticClassPropertyManager->GetProperty(strPropertyName.c_str());
                 if(NULL == pArgProperty)
@@ -281,10 +281,10 @@ ARK_SHARE_PTR<AFIObject> AFCKernelModule::CreateObject(const AFGUID& self, const
         }
 
         //放进容器//先进入场景，再进入层
-        pObject->SetPropertyString(NFrame::IObject::ConfigID(), strConfigIndex);
-        pObject->SetPropertyString(NFrame::IObject::ClassName(), strClassName);
-        pObject->SetPropertyInt(NFrame::IObject::SceneID(), nSceneID);
-        pObject->SetPropertyInt(NFrame::IObject::GroupID(), nGroupID);
+        pObject->SetPropertyString(ARK::IObject::ConfigID(), strConfigIndex);
+        pObject->SetPropertyString(ARK::IObject::ClassName(), strClassName);
+        pObject->SetPropertyInt(ARK::IObject::SceneID(), nSceneID);
+        pObject->SetPropertyInt(ARK::IObject::GroupID(), nGroupID);
 
         bool bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_LOADDATA, arg);
         bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_BEFORE_EFFECT, arg);
@@ -305,15 +305,15 @@ bool AFCKernelModule::DestroyObject(const AFGUID& self)
     }
 
     //需要同时从容器中删�?
-    int32_t nGroupID = GetPropertyInt(self, NFrame::IObject::GroupID());
-    int32_t nSceneID = GetPropertyInt(self, NFrame::IObject::SceneID());
+    int32_t nGroupID = GetPropertyInt(self, ARK::IObject::GroupID());
+    int32_t nSceneID = GetPropertyInt(self, ARK::IObject::SceneID());
 
     ARK_SHARE_PTR<AFCSceneInfo> pContainerInfo = m_pSceneModule->GetElement(nSceneID);
     if(nullptr != pContainerInfo)
     {
-        const std::string& strClassName = GetPropertyString(self, NFrame::IObject::ClassName());
+        const std::string& strClassName = GetPropertyString(self, ARK::IObject::ClassName());
 
-        pContainerInfo->RemoveObjectFromGroup(nGroupID, self, strClassName == NFrame::Player::ThisName() ? true : false);
+        pContainerInfo->RemoveObjectFromGroup(nGroupID, self, strClassName == ARK::Player::ThisName() ? true : false);
 
         bool bHaveAndDoSeccull = DoEvent(self, strClassName, COE_BEFOREDESTROY, AFCDataList());
         bHaveAndDoSeccull = DoEvent(self, strClassName, COE_DESTROY, AFCDataList());

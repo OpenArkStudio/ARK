@@ -23,61 +23,19 @@
 #include "AFPlatform.hpp"
 #include "AFCConsistentHash.hpp"
 
-#ifndef AFC_ADDCONSISTENT_HASH_H
-#define AFC_ADDCONSISTENT_HASH_H
-
-/**
- * @class   AFCAddConsistentHash
- *
- * @brief   A nfc add consistent hash.
- *
- * @author  flyicegood
- * @date    2016/11/22
- */
-
 class AFCAddConsistentHash : public AFCConsistentHash
 {
 public:
 
-    /**
-     * @fn  AFCAddConsistentHash::AFCAddConsistentHash()
-     *
-     * @brief   Default constructor.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     */
-
     AFCAddConsistentHash()
     {
     }
-
-    /**
-     * @fn  virtual AFCAddConsistentHash::~AFCAddConsistentHash()
-     *
-     * @brief   Destructor.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     */
 
     virtual ~AFCAddConsistentHash()
     {
     }
 
 public:
-    //添加备胎
-
-    /**
-     * @fn  void AFCAddConsistentHash::AddCandidateMachine(const int nServerID)
-     *
-     * @brief   Adds a candidate machine.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     *
-     * @param   nServerID   Identifier for the server.
-     */
 
     void AddCandidateMachine(const int nServerID)
     {
@@ -106,15 +64,6 @@ public:
 
         Insert(xNode);
     }
-
-    /**
-     * @fn  void AFCAddConsistentHash::IntanceCandidateMachine()
-     *
-     * @brief   实例话一个备胎.
-     *
-     * @author  flyicegood
-     * @date    2016/11/29
-     */
 
     void IntanceCandidateMachine()
     {
