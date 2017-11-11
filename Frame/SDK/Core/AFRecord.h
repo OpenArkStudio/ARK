@@ -28,8 +28,6 @@
 #include "SDK/Base/AFBitValue.hpp"
 #include "SDK/Base/AFDefine.h"
 
-using namespace ArkFrame;
-
 class AFRecord
 {
 private:

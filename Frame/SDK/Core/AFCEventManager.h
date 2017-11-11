@@ -24,10 +24,7 @@
 #include "SDK/Base/AFDefine.h"
 #include "SDK/Base/AFCDataList.h"
 
-using namespace ArkFrame;
-
-class AFCEventManager
-    : public AFIEventManager
+class AFCEventManager : public AFIEventManager
 {
 public:
     AFCEventManager(AFGUID self);

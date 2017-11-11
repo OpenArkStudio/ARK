@@ -23,7 +23,7 @@
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Proto/NFProtocolDefine.hpp"
+#include "SDK/Proto/ArkProtocolDefine.hpp"
 #include "SDK/Interface/AFIElementModule.h"
 #include "Server/Interface/AFIGameLogicModule.h"
 #include "Server/Interface/AFILevelModule.h"

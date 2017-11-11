@@ -28,8 +28,6 @@
 #include "SDK/Base/AFMapEx.h"
 #include "SDK/Base/AFArrayMap.hpp"
 
-using namespace ArkFrame;
-
 class AFCHeartBeatManager : public AFIHeartBeatManager
 {
 public:

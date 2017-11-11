@@ -63,7 +63,7 @@ int AFCPropertyConfigModule::CalculateBaseValue(const int nJob, const int nLevel
 
 void AFCPropertyConfigModule::Load()
 {
-    ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->GetElement(NFrame::InitProperty::ThisName());
+    ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->GetElement(ARK::InitProperty::ThisName());
     if(nullptr != pLogicClass)
     {
         NFList<std::string>& xList = pLogicClass->GetConfigNameList();
@@ -74,9 +74,9 @@ void AFCPropertyConfigModule::Load()
             ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = m_pElementModule->GetPropertyManager(strData);
             if(nullptr != pPropertyManager)
             {
-                int nJob = m_pElementModule->GetPropertyInt(strData, NFrame::InitProperty::Job());
-                int nLevel = m_pElementModule->GetPropertyInt(strData, NFrame::InitProperty::Level());
-                std::string strEffectData = m_pElementModule->GetPropertyString(strData, NFrame::InitProperty::EffectData());
+                int nJob = m_pElementModule->GetPropertyInt(strData, ARK::InitProperty::Job());
+                int nLevel = m_pElementModule->GetPropertyInt(strData, ARK::InitProperty::Level());
+                std::string strEffectData = m_pElementModule->GetPropertyString(strData, ARK::InitProperty::EffectData());
 
                 ARK_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
                 if(!xPropertyMap)
