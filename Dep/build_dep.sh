@@ -14,7 +14,7 @@ git clone -b 2.7.0 https://github.com/google/protobuf.git
 cd protobuf/cmake
 mkdir build && cd build
 cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF ..
-make
+make -j
 cp -R -f *.so ../../../lib/Debug
 cp -R -f *.so ../../../lib/Release
 cp -R -f protoc ../../../lib/Debug
@@ -49,7 +49,7 @@ git clone -b v035 https://github.com/google/glog.git
 cd glog
 chmod -R 755 *
 ./configure --enable-shared=no
-make
+make -j
 cp -R -f .libs/*.a ../../lib/Debug/
 cp -R -f .libs/*.a ../../lib/Release/
 cd ../../
@@ -62,11 +62,12 @@ fi
 
 git clone -b master https://github.com/ArkGame/evpp.gits
 cd evpp
+git submodule update --init --recursive
 chmod -R 755 *
 mkdir build
 cd build
 cmake -G "Unix Makefiles" ..
-make
+make -j
 #copy lib\Debug\*.lib ..\..\lib\Debug /Y
 #copy lib\Release\*.lib ..\..\lib\Release /Y
 
