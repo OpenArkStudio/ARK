@@ -20,7 +20,6 @@ cp -R -f *.so ../../../lib/Release
 cp -R -f protoc ../../../lib/Debug
 cp -R -f protoc ../../../lib/Release
 cd ../../../
-
 ####################################################################
 echo "Building libevent..."
 
@@ -45,13 +44,14 @@ if [ -d "glog" ]; then
     rm -rf glog
 fi
 
-git clone -b v035 https://github.com/google/glog.git
+git clone https://github.com/google/glog.git
 cd glog
 chmod -R 755 *
-./configure --enable-shared=no
+./autogen.sh
+./configure
 make -j
-cp -R -f .libs/*.a ../../lib/Debug/
-cp -R -f .libs/*.a ../../lib/Release/
+cp -R -f .libs/*.so* ../lib/Debug/
+cp -R -f .libs/*.so* ../lib/Release/
 cd ../../
 ##################################################################
 echo Building evpp...
@@ -60,7 +60,7 @@ if [ -d "evpp" ]; then
     rm -rf evpp
 fi
 
-git clone -b master https://github.com/ArkGame/evpp.gits
+git clone -b master https://github.com/ArkGame/evpp.git
 cd evpp
 git submodule update --init --recursive
 chmod -R 755 *
