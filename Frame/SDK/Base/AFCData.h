@@ -205,8 +205,8 @@ public:
         assert(type == DT_OBJECT);
 
         mnType = DT_OBJECT;
-        mnIdent = value.nIdent;
-        mnSerial = value.nSerial;
+        mnHigh = value.nHigh;
+        mnLow = value.nLow;
     }
 
     AFBaseData(int type, const void* value, size_t size)
