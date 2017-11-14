@@ -55,12 +55,12 @@ public:
     AFIData& operator=(const AFIData& rhs) = delete; //½ûÖ¹µÈºÅ¸³Öµ
 
 public:
-    inline static const void* GetUserData(void* value)
+    inline static void* GetUserData(void* value)
     {
         return (char*)value + sizeof(size_t);
     }
 
-    inline static const size_t GetUserDataSize(void* value)
+    inline static size_t GetUserDataSize(void* value)
     {
         return *((size_t*)value);
     }

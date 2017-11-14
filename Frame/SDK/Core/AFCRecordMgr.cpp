@@ -70,12 +70,12 @@ bool AFCRecordMgr::GetRecordData(const char* name, const int row, const int col,
     return pRecord->GetValue(row, col, value);
 }
 
-void AFCRecordMgr::OnEventHandler(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData)
+void AFCRecordMgr::OnEventHandler(const AFGUID& object_id, const RECORD_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData)
 {
     for (auto& iter : mxRecordCallbacks)
     {
         //TODO:check name from xEventData
-        (*iter)(self, xEventData, oldData, newData);
+        (*iter)(object_id, xEventData, oldData, newData);
     }
 }
 
@@ -98,7 +98,7 @@ bool AFCRecordMgr::AddRecord(const AFGUID& self_id, const char* record_name, con
     AFRecord* pRecord = ARK_NEW AFRecord();
     pRecord->SetName(record_name);
     pRecord->SetColCount(col_type_list.GetCount());
-    for(int i = 0; i < col_type_list.GetCount(); ++i)
+    for(size_t i = 0; i < col_type_list.GetCount(); ++i)
     {
         pRecord->SetColType(i, col_type_list.GetType(i));
     }
@@ -281,7 +281,7 @@ bool AFCRecordMgr::SetRecordFloat(const char* name, const int row, const int col
             ARK_ASSERT_RET_VAL(0, false);
         }
 
-        if (oldData.GetFloat() == value)
+        if (IsFloatEqual(oldData.GetFloat(), value))
         {
             return false;
         }
@@ -321,7 +321,7 @@ bool AFCRecordMgr::SetRecordDouble(const char* name, const int row, const int co
             ARK_ASSERT_RET_VAL(0, false);
         }
 
-        if (oldData.GetDouble() == value)
+        if (IsDoubleEqual(oldData.GetDouble(), value))
         {
             return false;
         }
