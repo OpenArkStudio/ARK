@@ -424,8 +424,8 @@ private:
     size_t mnSize;
 };
 
-using PropertyName = AFString<char, 16, CharTraits<char>, CoreAlloc>;
-using RecordName = AFString<char, 16, CharTraits<char>, CoreAlloc>;
+typedef AFString<char, 16, CharTraits<char>, CoreAlloc> PropertyName;
+typedef AFString<char, 16, CharTraits<char>, CoreAlloc> RecordName;
 
 template<>
 struct hash<PropertyName>

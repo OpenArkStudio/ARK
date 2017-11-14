@@ -71,8 +71,7 @@ inline uint32_t GetSystemTime()
 inline uint32_t GetSystemTime()
 {
     struct timeval tv;
-    struct timezone tz;
-    gettimeofday(&tv, &tz);
+    gettimeofday(&tv, NULL);
     return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 };
 
@@ -123,6 +122,12 @@ inline uint32_t GetSystemTime()
         return;                         \
     } while (0);
 
+#define assert_noeffect(exp_)       \
+    do                                  \
+    {                                   \
+        if (exp_) break;            \
+        assert(exp_);               \
+    } while(0)
 
 #if defined(USE_BOOST)
 #  include <boost/lexical_cast.hpp>

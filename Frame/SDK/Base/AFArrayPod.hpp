@@ -300,7 +300,7 @@ public:
     {
         assert((start <= mnSize) && ((start + cout) <= mnSize));
         TYPE* p = mpData + start;
-        memmove(p, p + count, (mnSize - index - count) * sizeof(TYPE));
+        memmove(p, p + count, (mnSize - start - count) * sizeof(TYPE));
         mnSize -= count;
     }
 
