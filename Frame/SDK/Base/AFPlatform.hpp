@@ -77,6 +77,7 @@
 #else
 // only other unix/linux include
 #include <sys/socket.h>
+#include <sys/time.h>
 #endif
 
 #define ARK_LITTLE_ENDIAN
