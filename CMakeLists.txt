@@ -51,6 +51,28 @@ if(UNIX)
     set(LDFLAGS "$ENV{LDFLAGS} -stdlib=libc++")
     ADD_DEFINITIONS(-std=c++11)
     set(SDK_OUTPUT_DIR ${ROOT_DIR}/Bin/Comm/${CMAKE_BUILD_TYPE})
+
+    set (CXX_FLAGS
+        -g
+        -Wall
+        -Wno-unused-parameter
+        -Wno-unused-function
+        -Wunused-variable
+        -Wunused-value
+        -Wshadow
+        -Wcast-qual
+        -Wcast-align
+        -Wwrite-strings
+        -Wsign-compare
+        -Winvalid-pch
+        -fms-extensions
+        -Wfloat-equal
+        -Wextra
+    )
+
+    SET(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g -ggdb -D_DEBUG")
+    SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -g -ggdb -DNDEBUG")
+
 else()
     #windows
     include_directories(${ROOT_DIR}/Dep/libevent/WIN32-code/nmake)
