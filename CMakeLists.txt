@@ -82,6 +82,7 @@ else()
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
+string (REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 link_directories(${DEP_LIB_DIR})
 
 #log

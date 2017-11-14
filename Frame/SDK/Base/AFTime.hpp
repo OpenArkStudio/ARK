@@ -43,7 +43,7 @@ public:
     static const int mnDefaultTimeZone = 8;
 
 public:
-    AFCTimeBase::AFCTimeBase()
+    AFCTimeBase()
     {
         mnTimeZone = mnDefaultTimeZone;
     }
