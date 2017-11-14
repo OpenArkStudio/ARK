@@ -115,7 +115,7 @@ public:
         size_t index;
         if (!mxIndices.GetData(name.c_str(), index))
         {
-            return false;
+            return NULL;
         }
 
         return mxNodes[index];
