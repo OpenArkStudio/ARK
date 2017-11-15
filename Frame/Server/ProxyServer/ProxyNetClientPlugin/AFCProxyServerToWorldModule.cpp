@@ -107,7 +107,7 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
-        NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+        AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
         for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
@@ -166,7 +166,7 @@ bool AFCProxyServerToWorldModule::AfterInit()
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
-        NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+        AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
         for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
