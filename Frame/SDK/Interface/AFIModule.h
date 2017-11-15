@@ -54,7 +54,9 @@ class AFIPluginManager;
 class AFIModule
 {
 public:
-    AFIModule(): mbReloading(false), pPluginManager(nullptr)
+    AFIModule()
+        : pPluginManager(NULL)
+        , mbReloading(false)
     {
     }
 
@@ -62,7 +64,6 @@ public:
 
     virtual bool Init()
     {
-
         return true;
     }
 
@@ -112,6 +113,7 @@ public:
     {
         return mbReloading;
     }
+
 public:
     std::string strName;
 

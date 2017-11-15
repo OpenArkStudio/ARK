@@ -38,7 +38,7 @@ ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 #endif
 //////////////////////////////////////////////////////////////////////////
 
-const int AFProxyNetClientPlugin::GetPluginVersion()
+int AFProxyNetClientPlugin::GetPluginVersion()
 {
     return 0;
 }
