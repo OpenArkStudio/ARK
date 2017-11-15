@@ -5,11 +5,11 @@ list(REMOVE_ITEM AFNet_SRC ${RemoveItems})
 
 add_library(AFNet STATIC ${AFNet_SRC})
 
-if(unix)
-    include_directories(${ROOT_DIR}/Dep/glog/src/)    
-else()
-    include_directories(${ROOT_DIR}/Dep/glog/src/windows)
-endif()
+#if(UNIX)
+#    include_directories(${ROOT_DIR}/Dep/glog/src/)    
+#else()
+#    include_directories(${ROOT_DIR}/Dep/glog/src/windows)
+#endif()
 
 set_target_properties(AFNet PROPERTIES PREFIX "")
 set_target_properties(AFNet PROPERTIES OUTPUT_NAME_DEBUG "AFNet_d")
@@ -20,7 +20,7 @@ set_target_properties(AFNet PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR}
 )
 
-if(unix)
+if(UNIX)
     target_link_libraries(AFNet proto protobuf event event_core)
     add_definitions(-D_USRDLL)
 else()

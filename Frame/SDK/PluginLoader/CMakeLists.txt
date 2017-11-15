@@ -10,7 +10,7 @@ set_target_properties(PluginLoader PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR}
     LIBRARY_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR})
 
-target_link_libraries(PluginLoader)
+target_link_libraries(PluginLoader dl pthread)
 
 add_definitions(
     -D_CONSOLE
