@@ -2,7 +2,7 @@ file(GLOB AFCore_SRC *.h *.hpp *.cpp *.cc *.c)
 
 add_library(AFCore STATIC ${AFCore_SRC})
 
-set_target_properties(AFCore PREFIX "")
+set_target_properties(AFCore PROPERTIES PREFIX "")
 set_target_properties(AFCore PROPERTIES OUTPUT_NAME_DEBUG "AFCore_d")
 set_target_properties(AFCore PROPERTIES
     FOLDER "SDK"
