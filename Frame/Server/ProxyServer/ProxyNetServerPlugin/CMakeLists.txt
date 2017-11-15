@@ -2,7 +2,7 @@ file(GLOB ProxyNetServerPlugin_SRC *.h *.hpp *.cpp *.cc *.c)
 
 add_library(AFProxyNetServerPlugin SHARED ${ProxyNetServerPlugin_SRC})
 
-set_target_properties(AFProxyNetServerPlugin PREFIX "")
+set_target_properties(AFProxyNetServerPlugin PROPERTIES PREFIX "")
 set_target_properties(AFProxyNetServerPlugin PROPERTIES OUTPUT_NAME_DEBUG "AFProxyNetServerPlugin_d")
 set_target_properties(AFProxyNetServerPlugin PROPERTIES
     FOLDER "Server/ProxyServer"

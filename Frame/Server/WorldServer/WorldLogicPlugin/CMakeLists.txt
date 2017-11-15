@@ -2,7 +2,7 @@ file(GLOB WorldLogicPlugin_SRC *.h *.hpp *.cpp *.cc *.c)
 
 add_library(AFWorldLogicPlugin SHARED ${WorldLogicPlugin_SRC})
 
-set_target_properties(AFWorldLogicPlugin PREFIX "")
+set_target_properties(AFWorldLogicPlugin PROPERTIES PREFIX "")
 set_target_properties(AFWorldLogicPlugin PROPERTIES OUTPUT_NAME_DEBUG "AFWorldLogicPlugin_d")
 set_target_properties(AFWorldLogicPlugin PROPERTIES
     FOLDER "Server/WorldServer"
