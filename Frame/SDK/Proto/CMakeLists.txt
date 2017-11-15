@@ -2,6 +2,7 @@ file(GLOB AFProto_SRC *.h *.hpp *.cpp *.cc *.c)
 
 add_library(AFProto SHARED ${AFProto_SRC})
 
+set_target_properties(AFProto PREFIX "")
 set_target_properties(AFProto PROPERTIES OUTPUT_NAME_DEBUG "AFProto_d")
 set_target_properties(AFProto PROPERTIES
     FOLDER "SDK"

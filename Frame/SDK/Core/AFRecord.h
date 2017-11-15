@@ -60,10 +60,10 @@ public:
     void SetName(const char* value);
     const char* GetName() const;
 
-    int GetRowCount() const;
+    size_t GetRowCount() const;
 
     void SetColCount(size_t value);
-    int GetColCount() const;
+    size_t GetColCount() const;
 
     bool SetColType(size_t index, int type);
     int GetColType(int col) const;

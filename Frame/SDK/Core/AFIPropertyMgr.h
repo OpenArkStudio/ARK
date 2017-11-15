@@ -82,7 +82,7 @@ struct AFProperty
         return prop_value.GetType();
     }
 
-    const int8_t GetFeature()
+    int8_t GetFeature()
     {
         return feature;
     }
@@ -118,5 +118,5 @@ public:
     virtual float GetPropertyFloat(const char* name) = 0;
     virtual double GetPropertyDouble(const char* name) = 0;
     virtual const char* GetPropertyString(const char* name) = 0;
-    virtual const AFGUID& GetPropertyObject(const char* name) = 0;
+    virtual const AFGUID GetPropertyObject(const char* name) = 0;
 };
