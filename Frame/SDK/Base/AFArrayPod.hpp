@@ -298,7 +298,7 @@ public:
     //从start开始移除count个元素
     void remove_some(size_t start, size_t count)
     {
-        assert((start <= mnSize) && ((start + cout) <= mnSize));
+        assert((start <= mnSize) && ((start + count) <= mnSize));
         TYPE* p = mpData + start;
         memmove(p, p + count, (mnSize - start - count) * sizeof(TYPE));
         mnSize -= count;
