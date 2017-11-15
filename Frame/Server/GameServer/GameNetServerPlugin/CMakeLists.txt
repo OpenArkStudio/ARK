@@ -2,7 +2,7 @@ file(GLOB GameNetServerPlugin_SRC *.h *.hpp *.cpp *.cc *.c)
 
 add_library(AFGameNetServerPlugin SHARED ${GameNetServerPlugin_SRC})
 
-set_target_properties(AFGameNetServerPlugin PREFIX "")
+set_target_properties(AFGameNetServerPlugin PROPERTIES PREFIX "")
 set_target_properties(AFGameNetServerPlugin PROPERTIES OUTPUT_NAME_DEBUG "AFGameNetServerPlugin_d")
 set_target_properties(AFGameNetServerPlugin PROPERTIES
     FOLDER "Server/GameServer"
