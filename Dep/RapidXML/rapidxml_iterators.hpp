@@ -9,6 +9,8 @@
 #include "rapidxml.hpp"
 #ifdef _MSC_VER
 #include <xutility>
+#else
+#include <iterator>
 #endif // _MSC_VER
 namespace rapidxml
 {
