@@ -7,7 +7,7 @@ add_library(AFKernelPlugin SHARED ${AFKernel_SRC})
 
 add_dependencies(AFKernelPlugin AFCore)
 
-set_target_properties(AFKernelPlugin PREFIX "")
+set_target_properties(AFKernelPlugin PROPERTIES PREFIX "")
 set_target_properties(AFKernelPlugin PROPERTIES OUTPUT_NAME_DEBUG "AFKernelPlugin_d")
 set_target_properties(AFKernelPlugin PROPERTIES
     FOLDER "SDK"
