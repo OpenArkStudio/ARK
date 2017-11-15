@@ -11,7 +11,7 @@ else()
     include_directories(${ROOT_DIR}/Dep/glog/src/windows)
 endif()
 
-set_target_properties(AFNet PREFIX "")
+set_target_properties(AFNet PROPERTIES PREFIX "")
 set_target_properties(AFNet PROPERTIES OUTPUT_NAME_DEBUG "AFNet_d")
 set_target_properties(AFNet PROPERTIES
     FOLDER "SDK"
