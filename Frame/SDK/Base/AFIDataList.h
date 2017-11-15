@@ -78,49 +78,49 @@ public:
     inline AFIDataList& operator<<(bool value)
     {
         bool bRet = AddBool(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(int8_t value)
     {
         bool bRet = AddInt(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(uint8_t value)
     {
         bool bRet = AddInt(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(int16_t value)
     {
         bool bRet = AddInt(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(uint16_t value)
     {
         bool  bRet = AddInt(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(int32_t value)
     {
         bool bRet = AddInt(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(uint32_t value)
     {
         bool bRet = AddInt(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
@@ -131,7 +131,7 @@ public:
 //#else
 //        bool bRet = AddInt64(value);
 //#endif
-//        assert_noeffect(bRet);
+//        ARK_ASSERT_NO_EFFECT(bRet);
 //        return *this;
 //    }
 //
@@ -142,68 +142,68 @@ public:
 //#else
 //        bool bRet = AddInt64(value);
 //#endif
-//        assert_noeffect(bRet);
+//        ARK_ASSERT_NO_EFFECT(bRet);
 //        return *this;
 //    }
 
     inline AFIDataList& operator<<(int64_t value)
     {
         bool bRet = AddInt64(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(uint64_t value)
     {
         bool bRet = AddInt64(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(float value)
     {
         bool bRet = AddFloat(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(double value)
     {
         bool bRet = AddDouble(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
     inline AFIDataList& operator<<(const char* value)
     {
         bool bRet = AddString(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
     inline AFIDataList& operator<<(const std::string& value)
     {
         bool bRet = AddString(value.c_str());
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(const AFString<char, 128>& value)
     {
         bool bRet = AddString(value.c_str());
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(const AFGUID& value)
     {
         bool bRet = AddObject(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
     inline AFIDataList& operator<<(const AFIDataList& value)
     {
         bool bRet = Concat(value);
-        assert_noeffect(bRet);
+        ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 };
