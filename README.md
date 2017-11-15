@@ -125,19 +125,22 @@ cmake -G "Visual Studio 14 Win64" ..
 - g++ 4.8+ (need C++ 11)
 - Git
 - CMake 3.0+
+- libtool
+- automake
 
 1. pull all source
-2. Run `Dep/build_dep.sh`
-3. Use bash
+2. Use bash
 ```shell
+cd Dep
+./build_dep.sh
+cd ../
 mkdir build && cd build
 cmake -G "Unix Makefiles" ..
 make -j
 ```
 >> Note. if you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
-
-4. Run `bash ./GenerateConfigXML.sh` to generate configuration files
-5. Run the binary file by `Bin/Server/Debug/rund.sh`
+3. Run `bash ./GenerateConfigXML.sh` to generate configuration files
+4. Run the binary file by `Bin/Server/Debug/rund.sh`
 
 ## Documents
 
