@@ -40,7 +40,7 @@ ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 #endif
 //////////////////////////////////////////////////////////////////////////
 
-const int AFLoginLogicPlugin::GetPluginVersion()
+int AFLoginLogicPlugin::GetPluginVersion()
 {
     return 0;
 }

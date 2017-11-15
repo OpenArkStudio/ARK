@@ -600,22 +600,15 @@ private:
         //time format is YYYY-MM-DD HH:mm:ss
         std::vector<std::string> cells;
         int nCount = Split(strTime, cells, " ");
-        if(cells.size() < 2)
-        {
-            return;
-        }
+        ARK_ASSERT_RET_NONE(cells.size() == 2 && nCount == 2);
+
         std::vector<std::string> cellsYMD;
         nCount = Split(cells.at(0), cellsYMD, "-");
-        if(cellsYMD.size() != 3)
-        {
-            return;
-        }
+        ARK_ASSERT_RET_NONE(cellsYMD.size() == 3 && nCount == 3);
+
         std::vector<std::string> cellsHMS;
         nCount = Split(cells.at(1), cellsHMS, ":");
-        if(cellsHMS.size() != 3)
-        {
-            return;
-        }
+        ARK_ASSERT_RET_NONE(cellsHMS.size() == 3 && nCount == 3);
 
         int nYear(0);
         int nMonth(0);
@@ -635,6 +628,7 @@ private:
         if(cells.size() == 3)
         {
             bRet = ARK_FROM_STR(cells[2], nMilliSecond);
+            ARK_ASSERT_NO_EFFECT(bRet);
         }
 
         if(nYear < 1970)

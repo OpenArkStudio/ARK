@@ -101,11 +101,9 @@ public:
         return mstrClassName;
     }
 
-    const bool AddConfigName(std::string& strConfigName)
+    bool AddConfigName(std::string& strConfigName)
     {
-        mxConfigList.Add(strConfigName);
-
-        return true;
+        return mxConfigList.Add(strConfigName);
     }
 
     NFList<std::string>& GetConfigNameList()
