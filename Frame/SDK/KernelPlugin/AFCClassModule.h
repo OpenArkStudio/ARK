@@ -106,7 +106,7 @@ public:
         return mxConfigList.Add(strConfigName);
     }
 
-    NFList<std::string>& GetConfigNameList()
+    AFList<std::string>& GetConfigNameList()
     {
         return mxConfigList;
     }
@@ -130,9 +130,9 @@ private:
     std::string mstrClassName;
     std::string mstrClassInstancePath;
 
-    NFList<std::string> mxConfigList;
+    AFList<std::string> mxConfigList;
 
-    NFList<CLASS_EVENT_FUNCTOR_PTR> mxClassEventInfo;
+    AFList<CLASS_EVENT_FUNCTOR_PTR> mxClassEventInfo;
 };
 
 class AFCClassModule
