@@ -108,10 +108,12 @@ Using Visual Studio
 
 Using CMake
 1. Pull all source
-2. Run `Dep/build_dep.bat`
-3. Use command line
+2. Use command line
 ```batch
 cd path/to/ArkGameFrame
+cd Dep
+build_dep.bat
+cd ../
 md build
 cd build
 cmake -G "Visual Studio 14 Win64" ..
@@ -138,7 +140,7 @@ mkdir build && cd build
 cmake -G "Unix Makefiles" ..
 make -j
 ```
->> Note. if you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
+> Note. if you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
 3. Run `bash ./GenerateConfigXML.sh` to generate configuration files
 4. Run the binary file by `Bin/Server/Debug/rund.sh`
 
