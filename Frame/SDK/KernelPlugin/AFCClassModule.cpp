@@ -419,7 +419,7 @@ bool AFCClassModule::Load()
 {
     //////////////////////////////////////////////////////////////////////////
     rapidxml::xml_document<> xDoc;
-    int nDataSize = 0;
+    size_t nDataSize = 0;
 
     std::string strFile = pPluginManager->GetConfigPath() + msConfigFileName;
 

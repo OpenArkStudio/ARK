@@ -30,7 +30,7 @@ public:
     {
         pPluginManager = p;
     }
-    virtual const int GetPluginVersion();
+    virtual int GetPluginVersion();
 
     virtual const std::string GetPluginName();
 
