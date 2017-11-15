@@ -95,7 +95,7 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 - Windows 10, 8.1, or 7
 - Visual Studio 2017 or Visual Studio 2015 Update 3
 - Git
-- CMake 3.9.1+
+- CMake 3.0 +
 
 ##### Step:
 Using Visual Studio
@@ -120,17 +120,24 @@ cmake -G "Visual Studio 14 Win64" ..
 
 ### linux
 
-We are still working on this platform, please wait for a while.
+##### Prerequisites:
 
+- g++ 4.8+ (need C++ 11)
+- Git
+- CMake 3.0+
 
->> ### CodeBlocks >= 13.1(Only in linux)
->> 1. Git pull all source
->> 2. Run `Dep/build_dep.sh`
->> 3. Open the solution with CodeBlocks: `Frame/Ark.workspace`
->> 4. Check `C++11` option in CodeBlocks compiler setting
->> 5. Build `Ark.workspace`
->> 6. Run `bash ./GenerateConfigXML.sh` to generate configuration files
->> 7. Run the binary file by `Bin/Server/Debug/rund.sh`
+1. pull all source
+2. Run `Dep/build_dep.sh`
+3. Use bash
+```shell
+mkdir build && cd build
+cmake -G "Unix Makefiles" ..
+make -j
+```
+>> Note. if you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
+
+4. Run `bash ./GenerateConfigXML.sh` to generate configuration files
+5. Run the binary file by `Bin/Server/Debug/rund.sh`
 
 ## Documents
 
