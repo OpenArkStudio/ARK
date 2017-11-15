@@ -1,5 +1,9 @@
 echo "Building dependencies..."
 
+if [ -d "lib" ]; then
+    rm -rf lib
+fi
+
 mkdir -p lib/Debug/
 mkdir -p lib/Release/
 
@@ -13,10 +17,10 @@ fi
 git clone -b 2.7.0 https://github.com/google/protobuf.git
 cd protobuf/cmake
 mkdir build && cd build
-cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=OFF -Dprotobuf_BUILD_TESTS=OFF ..
+cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF ..
 make
-cp -R -f *.a ../../../lib/Debug
-cp -R -f *.a ../../../lib/Release
+cp -R -f *.so* ../../../lib/Debug
+cp -R -f *.so* ../../../lib/Release
 cp -R -f protoc ../../../lib/Debug
 cp -R -f protoc ../../../lib/Release
 cd ../../../
