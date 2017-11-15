@@ -12,7 +12,10 @@ set_target_properties(AFProto PROPERTIES
 )
 
 if(UNIX)
-    target_link_libraries(AFProto libprotobuf)
+    target_link_libraries(AFProto)
+    add_definitions(
+        -DLIBPROTOC_EXPORTS
+	-DPROTOBUF_USE_DLLS)
 else()
     target_link_libraries(AFProto
         debug libprotobufd
@@ -23,5 +26,5 @@ else()
         -D_USRDLL
         -D_LIB
         -DLIBPROTOC_EXPORTS
-		-DPROTOBUF_USE_DLLS)
+	-DPROTOBUF_USE_DLLS)
 endif()

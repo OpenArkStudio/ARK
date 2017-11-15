@@ -164,7 +164,7 @@ inline bool IsDoubleEqual(const double lhs, const double rhs)
 #endif
 
 #define ARK_SINGLETON_INIT(TYPE) template<> TYPE* Singleton<TYPE>::instance_ = 0;
-
+/*
 #if ARK_PLATFORM == PLATFORM_WIN
 #  if defined(ARK_USE_TCMALLOC)
 #  undef ARK_USE_TCMALLOC
@@ -172,7 +172,7 @@ inline bool IsDoubleEqual(const double lhs, const double rhs)
 #else
 #define ARK_USE_TCMALLOC
 #endif
-
+*/
 template<typename T>
 bool ARK_FROM_STR(const std::string& strValue, T& nValue)
 {
