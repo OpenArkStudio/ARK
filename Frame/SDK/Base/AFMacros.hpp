@@ -122,11 +122,11 @@ inline uint32_t GetSystemTime()
         return;                         \
     } while (0);
 
-#define assert_noeffect(exp_)       \
+#define ARK_ASSERT_NO_EFFECT(exp_)      \
     do                                  \
     {                                   \
-        if (exp_) break;            \
-        assert(exp_);               \
+        if (exp_) break;                \
+        assert(exp_);                   \
     } while(0)
 
 #if defined(USE_BOOST)

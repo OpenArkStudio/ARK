@@ -2,6 +2,7 @@ file(GLOB GameLogicPlugin_SRC *.h *.hpp *.cpp *.cc *.c)
 
 add_library(AFGameLogicPlugin SHARED ${GameLogicPlugin_SRC})
 
+set_target_properties(AFGameLogicPlugin PREFIX "")
 set_target_properties(AFGameLogicPlugin PROPERTIES OUTPUT_NAME_DEBUG "AFGameLogicPlugin_d")
 set_target_properties(AFGameLogicPlugin PROPERTIES
     FOLDER "Server/GameServer"

@@ -84,10 +84,7 @@ size_t AFCPropertyMgr::GetPropertyCount()
 
 AFProperty* AFCPropertyMgr::GetPropertyByIndex(size_t index)
 {
-    if(index < 0 || index > mxPropertys.size())
-    {
-        return NULL;
-    }
+    ARK_ASSERT_RET_VAL(index > 0 && index <= mxPropertys.size(), NULL);
 
     return mxPropertys[index];
 }
@@ -97,7 +94,7 @@ AFProperty* AFCPropertyMgr::GetProperty(const char* name)
     size_t index;
     if(!FindIndex(name, index))
     {
-        return false;
+        return NULL;
     }
 
     return mxPropertys[index];
@@ -132,7 +129,7 @@ bool AFCPropertyMgr::OnPropertyCallback(const char* name, const AFIData& oldData
         return false;
     }
 
-    for(int i = 0; i < mxPropertyCBs[indexCallBack]->mxCallBackList.size(); i++)
+    for(size_t i = 0; i < mxPropertyCBs[indexCallBack]->mxCallBackList.size(); ++i)
     {
         (*(mxPropertyCBs[indexCallBack]->mxCallBackList[i]))(mxSelf, name, oldData, newData);
     }
@@ -254,7 +251,7 @@ bool AFCPropertyMgr::SetPropertyFloat(const char* name, const float value)
 
     mxPropertys[index]->prop_value.SetFloat(value);
 
-    if(!IsZeroFloat(oldValue - value))
+    if(!IsFloatEqual(oldValue, value))
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -278,7 +275,7 @@ bool AFCPropertyMgr::SetPropertyDouble(const char* name, const double value)
 
     mxPropertys[index]->prop_value.SetDouble(value);
 
-    if(!IsZeroDouble(oldValue - value))
+    if(!IsDoubleEqual(oldValue, value))
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -302,7 +299,7 @@ bool AFCPropertyMgr::SetPropertyString(const char* name, const std::string& valu
 
     mxPropertys[index]->prop_value.SetString(value.c_str());
 
-    if(oldValue != value)
+    if(ARK_STRICMP(oldValue.c_str(), value.c_str()) == 0)
     {
         //property callbacks
         OnPropertyCallback(name, oldData, mxPropertys[index]->prop_value);
@@ -401,7 +398,7 @@ const char* AFCPropertyMgr::GetPropertyString(const char* name)
     return mxPropertys[index]->prop_value.GetString();
 }
 
-const AFGUID& AFCPropertyMgr::GetPropertyObject(const char* name)
+const AFGUID AFCPropertyMgr::GetPropertyObject(const char* name)
 {
     size_t index;
     if(!FindIndex(name, index))
