@@ -22,6 +22,7 @@ matrix:
   
 before_install:
   # run build_dep.sh
+  - cd Dep
   - chmod -R 755 build_dep.sh
   - ./build_dep.sh
   - cd ..
