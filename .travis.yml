@@ -1,0 +1,41 @@
+sudo: false
+language: cpp
+
+compiler:
+  - gcc
+
+matrix:
+  include:
+    # need gcc 4.9 and cmake
+    - os: linux
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - george-edison55-precise-backports
+          packages:
+            - g++-4.9
+            - cmake-data
+            - cmake
+      env:
+         - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9"
+  
+before_install:
+  # run build_dep.sh
+  - chmod -R 755 build_dep.sh
+  - ./build_dep.sh
+  - cd ..
+
+before_script:
+  # cmake
+  - if [-d "build" ]; then rm -rf build; fi
+  - mkdir build && cd build
+  - cmake -G "Unix Makefiles" ..
+
+script:
+  # make
+  - make -j
+
+env:
+  global:
+    - LANG="en_US.UTF-8"
