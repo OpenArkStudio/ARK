@@ -33,7 +33,7 @@ before_script:
 
 script:
   # make
-  - make -j
+  - make -j 4
 
 env:
   global:
