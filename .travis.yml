@@ -5,7 +5,8 @@ compiler:
   - gcc
 
 # need gcc 4.9 and cmake
-os: linux
+os:
+  - linux
 addons:
   apt:
     sources:
