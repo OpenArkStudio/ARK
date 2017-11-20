@@ -148,6 +148,16 @@ public:
         return true;
     }
 
+    bool ExistElement(const std::string& name) const
+    {
+        return mxIndices.exists(name.c_str());
+    }
+
+    bool ExistElement(const std::string& name, size_t& index) const
+    {
+        return mxIndices.GetData(name.c_str(), index);
+    }
+
     size_t GetCount() const
     {
         return mxNodes.size();

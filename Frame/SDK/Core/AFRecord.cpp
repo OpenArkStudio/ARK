@@ -104,6 +104,15 @@ int AFRecord::GetColType(int col) const
     return mxColTypes[col];
 }
 
+bool AFRecord::AddRow()
+{
+    //default insert row
+    size_t col_num = GetColCount();
+    RowData* row_data = new RowData[col_num];
+    mxRowDatas.push_back(row_data);
+    return true;
+}
+
 bool AFRecord::AddRow(size_t row)
 {
     size_t col_num = GetColCount();
