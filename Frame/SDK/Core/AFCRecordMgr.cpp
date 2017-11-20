@@ -39,24 +39,18 @@ const AFGUID& AFCRecordMgr::Self()
 
 void AFCRecordMgr::ReleaseAll()
 {
-    for(size_t i = 0; i < GetCount(); ++i)
-    {
-        delete mxRecords[i];
-        mxRecords[i] = NULL;
-    }
-
-    mxRecords.clear();
+    mxRecords.Clear();
     mxRecordCallbacks.clear();
 }
 
 bool AFCRecordMgr::Exist(const char* name) const
 {
-    return mxIndices.exists(name);
+    return mxRecords.ExistElement(name);
 }
 
 bool AFCRecordMgr::Exist(const char* name, size_t& index) const
 {
-    return mxIndices.GetData(name, index);
+    return mxRecords.ExistElement(name, index);
 }
 
 bool AFCRecordMgr::GetRecordData(const char* name, const int row, const int col, AFIData& value)
@@ -83,10 +77,7 @@ bool AFCRecordMgr::AddRecordInternal(AFRecord* record)
 {
     assert(record != NULL);
 
-    mxIndices.Add(record->GetName(), mxRecords.size());
-    mxRecords.push_back(record);
-
-    return true;
+    return mxRecords.AddElement(record->GetName(), record);
 }
 
 bool AFCRecordMgr::AddRecord(const AFGUID& self_id, const char* record_name, const AFIDataList& col_type_list, const int8_t feature)
@@ -119,28 +110,21 @@ bool AFCRecordMgr::AddRecordCallback(const char* record_name, const RECORD_EVENT
 void AFCRecordMgr::Clear()
 {
     ReleaseAll();
-    mxIndices.Clear();
 }
 
 AFRecord* AFCRecordMgr::GetRecord(const char* name)
 {
-    size_t index;
-    if(!mxIndices.GetData(name, index))
-    {
-        return NULL;
-    }
-
-    return mxRecords[index];
+    return mxRecords.GetElement(name);
 }
 
 size_t AFCRecordMgr::GetCount() const
 {
-    return mxRecords.size();
+    return mxRecords.GetCount();
 }
 
-AFRecord* AFCRecordMgr::GetRecordByIndex(size_t index) const
+AFRecord* AFCRecordMgr::GetRecordByIndex(size_t index)
 {
-    assert(index < GetCount());
+    ARK_ASSERT_RET_VAL(index < GetCount(), NULL);
     return mxRecords[index];
 }
 
@@ -172,7 +156,7 @@ bool AFCRecordMgr::SetRecordBool(const char* name, const int row, const int col,
             newData.SetBool(value);
 
             RECORD_EVENT_DATA xRecordEventData;
-            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nOpType = AFRecord::ROT_UPDATE;
             xRecordEventData.nRow = row;
             xRecordEventData.nCol = col;
             xRecordEventData.strRecordName = name;
@@ -212,7 +196,7 @@ bool AFCRecordMgr::SetRecordInt(const char* name, const int row, const int col, 
             newData.SetInt(value);
 
             RECORD_EVENT_DATA xRecordEventData;
-            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nOpType = AFRecord::ROT_UPDATE;
             xRecordEventData.nRow = row;
             xRecordEventData.nCol = col;
             xRecordEventData.strRecordName = name;
@@ -252,7 +236,7 @@ bool AFCRecordMgr::SetRecordInt64(const char* name, const int row, const int col
             newData.SetInt64(value);
 
             RECORD_EVENT_DATA xRecordEventData;
-            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nOpType = AFRecord::ROT_UPDATE;
             xRecordEventData.nRow = row;
             xRecordEventData.nCol = col;
             xRecordEventData.strRecordName = name;
@@ -292,7 +276,7 @@ bool AFCRecordMgr::SetRecordFloat(const char* name, const int row, const int col
             newData.SetFloat(value);
 
             RECORD_EVENT_DATA xRecordEventData;
-            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nOpType = AFRecord::ROT_UPDATE;
             xRecordEventData.nRow = row;
             xRecordEventData.nCol = col;
             xRecordEventData.strRecordName = name;
@@ -332,7 +316,7 @@ bool AFCRecordMgr::SetRecordDouble(const char* name, const int row, const int co
             newData.SetDouble(value);
 
             RECORD_EVENT_DATA xRecordEventData;
-            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nOpType = AFRecord::ROT_UPDATE;
             xRecordEventData.nRow = row;
             xRecordEventData.nCol = col;
             xRecordEventData.strRecordName = name;
@@ -372,7 +356,7 @@ bool AFCRecordMgr::SetRecordString(const char* name, const int row, const int co
             newData.SetString(value);
 
             RECORD_EVENT_DATA xRecordEventData;
-            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nOpType = AFRecord::ROT_UPDATE;
             xRecordEventData.nRow = row;
             xRecordEventData.nCol = col;
             xRecordEventData.strRecordName = name;
@@ -412,7 +396,7 @@ bool AFCRecordMgr::SetRecordObject(const char* name, const int row, const int co
             newData.SetObject(value);
 
             RECORD_EVENT_DATA xRecordEventData;
-            xRecordEventData.nOpType = AFRecord::Update;
+            xRecordEventData.nOpType = AFRecord::ROT_UPDATE;
             xRecordEventData.nRow = row;
             xRecordEventData.nCol = col;
             xRecordEventData.strRecordName = name;

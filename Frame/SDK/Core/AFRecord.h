@@ -42,15 +42,13 @@ public:
         RF_SAVE         = 3, //if need save to database
     };
 
-    //TODO：暂时还没用起来，只是为了编译通过
-    enum RecordOptype
+    enum RecordOpType
     {
-        Add,
-        Del,
-        Swap,
-        Update,
-        Create,
-        Cleared,
+        ROT_ADD     = 0 , //add whole row data
+        ROT_DELETE      , //delete whole row data
+        ROT_UPDATE      , //update row & col cell data
+        ROT_COVERAGE    , //coverage whole row data
+        ROT_SWAP        , //swap two whole row data
     };
 
 public:
@@ -68,6 +66,7 @@ public:
     bool SetColType(size_t index, int type);
     int GetColType(int col) const;
 
+    bool AddRow();
     bool AddRow(size_t row);
     bool AddRow(size_t row, const AFIDataList& data);
 

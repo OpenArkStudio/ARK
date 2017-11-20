@@ -97,7 +97,7 @@ bool AFCProxyNetServerModule::Execute()
 
 int AFCProxyNetServerModule::HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFIDataList& var)
 {
-    m_pKernelModule->DestroyObject(self);
+    m_pKernelModule->DestroyEntity(self);
 
     return 0;
 }

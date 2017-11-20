@@ -29,12 +29,12 @@
 #include "AFIEventManager.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-class AFIObject
+class AFIEntity
 {
 public:
-    AFIObject(const AFGUID& self) {}
+    AFIEntity(const AFGUID& self) {}
 
-    virtual ~AFIObject() {}
+    virtual ~AFIEntity() {}
 
     virtual bool Execute() = 0;
     virtual const AFGUID& Self() = 0;
