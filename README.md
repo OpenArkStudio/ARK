@@ -2,8 +2,6 @@
 
 [![GitHub version](https://badge.fury.io/gh/ArkGame%2FArkGameFrame.svg)](https://badge.fury.io/gh/ArkGame%2FArkGameFrame)
 [![Build Status](https://travis-ci.org/ArkGame/ArkGameFrame.svg?branch=master)](https://travis-ci.org/ArkGame/ArkGameFrame)
-[![Coverity Scan Build Status](https://img.shields.io/coverity/scan/14344.svg)](https://scan.coverity.com/projects/arkgame-arkgameframe)
-[![codecov](https://codecov.io/gh/ArkGame/ArkGameFrame/branch/master/graph/badge.svg)](https://codecov.io/gh/ArkGame/ArkGameFrame)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ArkGameFrame)
 [![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
@@ -16,51 +14,45 @@ Github: https://github.com/ArkGame/ArkGameFrame
 <br>
 Gitee(码云): https://gitee.com/ArkGame/ArkGameFrame
 
-## ArkGameFrame
-ArkGameFrame is a lightweight, fast, scalable, distributed plugin framework written in C++，make it easier to create your own game server. 
-
-
-
 ##### Wanna get the newest features? Please switch to the develop branch.
 
-**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ArkGameFrame/blob/master/CONTRIBUTING.md)</font>**
+**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ArkGameFrame/blob/master/CONTRIBUTING.md)</font>**.
 
 ## Contact
 
 - QQ Group: 540961187
 - mail: arkgametech@163.com
 
+## ArkGameFrame
+ArkGameFrame is a lightweight, agility, scalable, distributed plugin framework written by C++，make it easier and faster to create your own game server, can be used to develop MMO RPG, ARPG, Round play, chess games.
+
 ## Features
 
+- Flexible apps, plugins, and modules
+- High availability architectures
 - General abstract data system
-- Interface-oriented programming (IOP)
+- Interface-oriented and data-oriented programming
 - Event-driven and data-driven
-- Extensible apps, plugins, and modules
-- High concurrency and performance by using actor model (Theron)
-- Based on the event-driven and attribute-driven can make business more clear and easy to maintenance
+- High concurrency and performance of network
 - Based on C++ standard, easy to handle and learn
 - Cross platform (Include Windows and Linux)
-- Distributed server architecture
-- Use Excel as configuration files, easier for users
-- With existed Unity3D client for rapid development
+- Less downtime and higher availability
+- Lower training and education costs
+- Use Excel as configuration files, easier for game designer
+- With existed simple Unity3D client for rapid development
+- Plentiful plugins(DB, script, http, websocket, etc.)
+- Customization service for business customer
 
 ### FAQ
 
 Please [create a new issue](https://github.com/ArkGame/ArkGameFrame/issues) to ask a question.
 
-### Unity3D client
-
-[Unity3D Client](https://github.com/ArkGame/ArkClient-Unity3D)
 
 ## Architecture
 
 ### App Architecture:
 
 ![App Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Docs/asserts/imgs/AppArchitecture.png)
-
-### Server Architecture
-
-![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Docs/asserts/imgs/ServerArchitecture.png)
 
 ## Get the Sources:
 
@@ -76,9 +68,6 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 - easylogging++ 9.80
 - mysql++ 3.2.2
 - google protobuf 2.7.0
-- pybind11 1.2
-- redis-cpp-client
-- curl 7.37.1
 - evpp 0.7.0
 
 ## Supported Compilers
@@ -100,7 +89,12 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 ##### Step:
 Using Visual Studio
 1. Pull all source
-2. Run `Dep/build_dep.bat`
+2. Run command line 
+```batch
+cd path/to/ArkGameFrame
+cd Dep
+build_dep.bat
+```
 3. Open the solution: `Frame/Ark.sln`
 4. Build the solution`Ark.sln`
 5. Run `GenerateConfigXML.bat` to generate configuration files
@@ -108,7 +102,7 @@ Using Visual Studio
 
 Using CMake
 1. Pull all source
-2. Use command line
+2. Run command line
 ```batch
 cd path/to/ArkGameFrame
 cd Dep
@@ -130,6 +124,7 @@ cmake -G "Visual Studio 14 Win64" ..
 - libtool
 - automake
 
+Using CMake
 1. pull all source
 2. Use bash
 ```shell
@@ -154,23 +149,29 @@ make -j
 
 Please see `Frame/Examples`.
 
+## Plan
+
+View our [lastest plan](https://github.com/ArkGame/ArkGameFrame/blob/master/Docs/plan.md)
+
+## Unity3D client
+
+[Unity3D Client](https://github.com/ArkGame/ArkClient-Unity3D)
+
 ## License
 
 The ArkGameFrame project is currently available under the [Apache License](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE).
 
 ----------
-### C# Project
 
-Still working on it, maybe use Akka.net or Orleans
-
-----------
-Our team has always specialized in the agile development and try to help different teams to develop game project quickly and easily. After years of development, we create this frame which is a fast, scalable, distributed game server framework, can be used as a real-time multiplayer game engine. We are still improving it.
+Our team has always specialized in the agile development and try to help different teams to develop game project quickly and easily. After years of development, we create this frame. We are still improving it.
 
 ----------
 
-#### Plan
+## Some Awesome project
 
-View our [lastest plan](https://github.com/ArkGame/ArkGameFrame/blob/master/Docs/plan.md)
+[PSS](https://github.com/freeeyes/PSS)
+- Author: freeeyes
+- Description: 基于插件的跨平台网络服务器框架
 
 ----------
 
