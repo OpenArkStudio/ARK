@@ -101,7 +101,7 @@ bool HelloWorld3Module::AfterInit()
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
 
     //创建对象，挂类回调和属性回调,然后事件处理对象
-    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
+    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
     if(nullptr == pObject)
     {
         return false;

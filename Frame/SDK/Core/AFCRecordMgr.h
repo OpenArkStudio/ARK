@@ -21,8 +21,7 @@
 #pragma once
 
 #include "SDK/Base/AFCoreDef.hpp"
-#include "SDK/Base/AFArrayPod.hpp"
-#include "SDK/Base/AFStringPod.hpp"
+#include "SDK/Base/AFArrayMap.hpp"
 #include "AFIRecordMgr.h"
 
 class AFCRecordMgr : public AFIRecordMgr
@@ -45,7 +44,7 @@ public:
     virtual void Clear();
     virtual AFRecord* GetRecord(const char* name);
     virtual size_t GetCount() const;
-    virtual AFRecord* GetRecordByIndex(size_t index) const;
+    virtual AFRecord* GetRecordByIndex(size_t index);
 
     virtual bool SetRecordBool(const char* name, const int row, const int col, const bool value);
     virtual bool SetRecordInt(const char* name, const int row, const int col, const int32_t value);
@@ -74,10 +73,10 @@ protected:
 private:
     AFGUID self;
 
-    ArraryPod<AFRecord*, 1, CoreAlloc> mxRecords;
-    StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
+    //ArraryPod<AFRecord*, 1, CoreAlloc> mxRecords;
+    //StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
 
-    //AFArrayMap<std::string, AFRecord> mxRecords;
+    AFArrayMap<std::string, AFRecord> mxRecords;
 
     RecordCallbacks mxRecordCallbacks;
 };

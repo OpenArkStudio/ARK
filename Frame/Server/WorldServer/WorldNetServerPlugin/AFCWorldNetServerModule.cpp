@@ -531,7 +531,7 @@ int AFCWorldNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFID
     AFMsg::MultiObjectRecordList xPublicMsg;
     AFMsg::MultiObjectRecordList xPrivateMsg;
 
-    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetEntity(self);
     if(nullptr == pObject)
     {
         return 1;
@@ -648,7 +648,7 @@ int AFCWorldNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AF
     //分为自己和外人
     //1.public发送给所有人
     //2.如果自己在列表中，再次发送private数据
-    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetEntity(self);
     if(nullptr == pObject)
     {
         return 0;
