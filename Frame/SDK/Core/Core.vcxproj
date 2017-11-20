@@ -97,23 +97,23 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AFCEntity.h" />
     <ClInclude Include="AFCEventManager.h" />
     <ClInclude Include="AFCHeartBeatManager.h" />
-    <ClInclude Include="AFCObject.h" />
     <ClInclude Include="AFCPropertyMgr.h" />
     <ClInclude Include="AFCRecordMgr.h" />
     <ClInclude Include="AFIComponent.h" />
+    <ClInclude Include="AFIEntity.h" />
     <ClInclude Include="AFIEventManager.h" />
     <ClInclude Include="AFIHeartBeatManager.h" />
-    <ClInclude Include="AFIObject.h" />
     <ClInclude Include="AFIPropertyMgr.h" />
     <ClInclude Include="AFIRecordMgr.h" />
     <ClInclude Include="AFRecord.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AFCEntity.cpp" />
     <ClCompile Include="AFCEventManager.cpp" />
     <ClCompile Include="AFCHeartBeatManager.cpp" />
-    <ClCompile Include="AFCObject.cpp" />
     <ClCompile Include="AFCPropertyMgr.cpp" />
     <ClCompile Include="AFCRecordMgr.cpp" />
     <ClCompile Include="AFRecord.cpp" />

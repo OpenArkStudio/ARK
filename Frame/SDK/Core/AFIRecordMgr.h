@@ -43,7 +43,7 @@ public:
     virtual void Clear() = 0;
     virtual AFRecord* GetRecord(const char* name) = 0;
     virtual size_t GetCount() const = 0;
-    virtual AFRecord* GetRecordByIndex(size_t index) const = 0;
+    virtual AFRecord* GetRecordByIndex(size_t index) = 0;
 
     virtual bool SetRecordBool(const char* name, const int row, const int col, const bool value) = 0;
     virtual bool SetRecordInt(const char* name, const int row, const int col, const int32_t value) = 0;

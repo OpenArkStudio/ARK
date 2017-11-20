@@ -20,20 +20,17 @@
 
 #pragma once
 
-#include <iostream>
-#include <string>
-#include "SDK/Core/AFIObject.h"
+#include "SDK/Core/AFIEntity.h"
 #include "SDK/Core/AFIRecordMgr.h"
 #include "SDK/Core/AFIHeartBeatManager.h"
 #include "SDK/Core/AFIPropertyMgr.h"
 
-class AFCObject
-    : public AFIObject
+class AFCEntity : public AFIEntity
 {
 public:
-    AFCObject() = delete;
-    AFCObject(const AFGUID& self, AFIPluginManager* pLuginManager);
-    virtual ~AFCObject();
+    AFCEntity() = delete;
+    AFCEntity(const AFGUID& self, AFIPluginManager* pLuginManager);
+    virtual ~AFCEntity();
 
     virtual bool Init();
     virtual bool Shut();

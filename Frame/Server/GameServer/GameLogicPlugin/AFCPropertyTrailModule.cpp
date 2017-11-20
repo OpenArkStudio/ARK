@@ -59,7 +59,7 @@ void AFCPropertyTrailModule::EndTrail(const AFGUID self)
 
 int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
 {
-    /* ARK_SHARE_PTR<AFIObject> xObject = m_pKernelModule->GetObject(self);
+    /* ARK_SHARE_PTR<AFIEntity> xObject = m_pKernelModule->GetObject(self);
      if(nullptr == xObject)
      {
          return -1;
@@ -191,7 +191,7 @@ int AFCPropertyTrailModule::OnObjectRecordEvent(const AFGUID& self, const RECORD
 
 int AFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
 {
-    //ARK_SHARE_PTR<AFIObject> xObject = m_pKernelModule->GetObject(self);
+    //ARK_SHARE_PTR<AFIEntity> xObject = m_pKernelModule->GetObject(self);
     //if(nullptr == xObject)
     //{
     //    return -1;
