@@ -95,8 +95,8 @@ cd path/to/ArkGameFrame
 cd Dep
 build_dep.bat
 ```
-3. Open the solution: `Frame/Ark.sln`
-4. Build the solution`Ark.sln`
+3. Open the solution: `Frame/ARK.sln`
+4. Build the solution`ARK.sln`
 5. Run `GenerateConfigXML.bat` to generate configuration files
 6. Run the binary file by `Bin/Server/Debug/Run.bat`
 
@@ -167,7 +167,7 @@ Our team has always specialized in the agile development and try to help differe
 
 ----------
 
-## Some Awesome project
+## Some Awesome projects
 
 [PSS](https://github.com/freeeyes/PSS)
 - Author: freeeyes
