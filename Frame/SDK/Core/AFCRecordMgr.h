@@ -65,7 +65,7 @@ public:
 protected:
     bool GetRecordData(const char* name, const int row, const int col, AFIData& value);
 
-    void OnEventHandler(const AFGUID& object_id, const RECORD_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData);
+    void OnEventHandler(const AFGUID& entity_id, const RECORD_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData);
 
     bool AddRecordInternal(AFRecord* record);
     void ReleaseAll();
