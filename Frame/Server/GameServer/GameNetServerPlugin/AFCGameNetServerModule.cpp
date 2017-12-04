@@ -593,7 +593,7 @@ int AFCGameNetServerModule::OnPropertyCommonEvent(const AFGUID& self, const std:
 
 int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
-    const std::string& strRecordName = xEventData.strRecordName;
+    const std::string& strRecordName = xEventData.strRecordName.c_str();
     const int nOpType = xEventData.nOpType;
     const int nRow = xEventData.nRow;
     const int nCol = xEventData.nCol;
