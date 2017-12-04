@@ -64,12 +64,13 @@ bool AFCRecordMgr::GetRecordData(const char* name, const int row, const int col,
     return pRecord->GetValue(row, col, value);
 }
 
-void AFCRecordMgr::OnEventHandler(const AFGUID& object_id, const RECORD_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData)
+void AFCRecordMgr::OnEventHandler(const AFGUID& entity_id, const RECORD_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData)
 {
     for (auto& iter : mxRecordCallbacks)
     {
         //TODO:check name from xEventData
-        (*iter)(object_id, xEventData, oldData, newData);
+        //xEventData.strRecordName
+        (*iter)(entity_id, xEventData, oldData, newData);
     }
 }
 
