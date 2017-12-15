@@ -343,105 +343,57 @@ public:
     //Get data
     virtual bool GetBool() const
     {
-        assert(mnType == DT_BOOLEAN);
-
-        if(mnType != DT_BOOLEAN)
-        {
-            return NULL_BOOLEAN;
-        }
-
+        ARK_ASSERT_RET_VAL(mnType == DT_BOOLEAN, NULL_BOOLEAN);
         return mbValue;
     }
 
     virtual int GetInt() const
     {
-        assert(mnType == DT_INT);
-
-        if(mnType != DT_INT)
-        {
-            return NULL_INT;
-        }
-
+        ARK_ASSERT_RET_VAL(mnType == DT_INT, NULL_INT);
         return mnValue;
     }
 
     virtual int64_t GetInt64() const
     {
-        assert(mnType == DT_INT64);
-
-        if(mnType != DT_INT64)
-        {
-            return NULL_INT64;
-        }
-
+        ARK_ASSERT_RET_VAL(mnType == DT_INT64, NULL_INT64);
         return mn64Value;
     }
 
     virtual float GetFloat() const
     {
-        assert(mnType == DT_FLOAT);
-
-        if(mnType != DT_FLOAT)
-        {
-            return NULL_FLOAT;
-        }
-
+        ARK_ASSERT_RET_VAL(mnType == DT_FLOAT, NULL_FLOAT);
         return mfValue;
     }
 
     virtual double GetDouble() const
     {
-        assert(mnType == DT_DOUBLE);
-
-        if(mnType != DT_DOUBLE)
-        {
-            return NULL_DOUBLE;
-        }
-
+        ARK_ASSERT_RET_VAL(mnType == DT_DOUBLE, NULL_DOUBLE);
         return mdValue;
     }
 
     virtual const char* GetString() const
     {
-        assert(mnType == DT_STRING);
-
-        if(mnType != DT_STRING)
-        {
-            return NULL_STR.c_str();
-        }
-
+        ARK_ASSERT_RET_VAL(mnType == DT_STRING, NULL_STR.c_str());
         return mstrValue;
     }
 
     virtual AFGUID GetObject() const
     {
-        assert(mnType == DT_OBJECT);
-
-        if(mnType != DT_OBJECT)
-        {
-            return NULL_GUID;
-        }
-
+        ARK_ASSERT_RET_VAL(mnType == DT_OBJECT, NULL_GUID);
         return AFGUID(mnHigh, mnLow);
     }
 
     virtual void* GetPointer() const
     {
-        assert(mnType == DT_POINTER);
-
-        if(mnType != DT_POINTER)
-        {
-            return NULL;
-        }
-
+        ARK_ASSERT_RET_VAL(mnType == DT_POINTER, NULL);
         return mpVaule;
     }
 
     virtual const void* GetUserData(size_t& size) const
     {
-        assert(mnType == DT_POINTER);
+        assert(mnType == DT_USERDATA);
 
-        if(mnType != DT_POINTER)
+        if(mnType != DT_USERDATA)
         {
             size = 0;
             return NULL;
@@ -453,13 +405,7 @@ public:
 
     virtual void* GetRawUserData() const
     {
-        assert(mnType == DT_POINTER);
-
-        if(mnType != DT_POINTER)
-        {
-            return NULL;
-        }
-
+        ARK_ASSERT_RET_VAL(mnType == DT_USERDATA, NULL);
         return mpUserData;
     }
 

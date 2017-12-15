@@ -84,7 +84,7 @@ size_t AFCPropertyMgr::GetPropertyCount()
 
 AFProperty* AFCPropertyMgr::GetPropertyByIndex(size_t index)
 {
-    ARK_ASSERT_RET_VAL(index > 0 && index <= mxPropertys.size(), NULL);
+    ARK_ASSERT_RET_VAL(index >= 0 && index <= mxPropertys.size(), NULL);
 
     return mxPropertys[index];
 }
