@@ -25,18 +25,18 @@
 
 enum AF_DATA_TYPE
 {
-    DT_UNKNOWN, //unknown type
-    DT_BOOLEAN, //bool
-    DT_INT, //int32_t
-    DT_INT64, //int64_t
-    DT_FLOAT, //float
-    DT_DOUBLE, //double
-    DT_STRING, //string(char*)
-    DT_OBJECT, //object(ident + serial)
-    DT_POINTER, //pointer(void*)
-    DT_USERDATA, //user data(char*)
-    DT_TABLE, //table
-    DT_MAX, //max
+    DT_UNKNOWN,     //unknown type
+    DT_BOOLEAN,     //bool
+    DT_INT,         //int32_t
+    DT_INT64,       //int64_t
+    DT_FLOAT,       //float
+    DT_DOUBLE,      //double
+    DT_STRING,      //string(char*)
+    DT_OBJECT,      //object(ident + serial)
+    DT_POINTER,     //pointer(void*)
+    DT_USERDATA,    //user data(char*)
+    DT_TABLE,       //table
+    DT_MAX,         //max
 };
 
 const static bool NULL_BOOLEAN = false;
