@@ -37,7 +37,7 @@ struct  AFIMsgHead
 {
     enum AF_Head
     {
-        NF_HEAD_LENGTH = 14,
+        NF_HEAD_LENGTH = 22,
     };
 
     virtual int EnCode(char* strData) const = 0;
