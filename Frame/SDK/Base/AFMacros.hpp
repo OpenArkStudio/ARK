@@ -22,16 +22,31 @@
 
 #include "AFPlatform.hpp"
 
+//Input param type
+#ifndef IN
+#define IN
+#endif
+
+//Output param type
+#ifndef OUT
+#define OUT
+#endif
+
+//Input and output param type
+#ifndef INOUT
+#define INOUT
+#endif
+
 #define ARRAY_CLEAR(v)              memset((v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR(v)             memset(&(v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR_POINTER(v)     memset((v), 0xx, sizeof(*(v)))
-#define ARRAY_SIZE(v)               (sizeof(v) / sizeof(v[0]))
+#define ARRAY_LENTGH(v)               (sizeof(v) / sizeof(v[0]))
 
 #define MAX_NAME    256
 #define MAX_BUF     256
 
 #ifndef MAX_PATH
-#  define MAX_PATH    256
+#define MAX_PATH    256
 #endif
 
 #define ARK_NEW new
