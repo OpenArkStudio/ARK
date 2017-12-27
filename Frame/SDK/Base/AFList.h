@@ -18,33 +18,28 @@
 *
 */
 
-#ifndef AF_LIST_H
-#define AF_LIST_H
+#pragma once
 
-#include <iostream>
-#include <map>
-#include <list>
-#include <algorithm>
 #include "SDK/Base/AFPlatform.hpp"
 
 template < typename T >
-class NFList
+class AFList
 {
 public:
-    virtual ~NFList() {}
-    bool                    Add(const T& id);
-    bool                    Find(const T& id);
-    bool                    Remove(const T& id);
-    bool                    ClearAll();
+    virtual ~AFList() {}
+    bool Add(const T& id);
+    bool Find(const T& id);
+    bool Remove(const T& id);
+    bool ClearAll();
 
-    bool                    First(T& id);
-    bool                    Next(T& id);
-    bool                    Get(const int32_t index, T& id);
-    int                     Count();
+    bool First(T& id);
+    bool Next(T& id);
+    bool Get(const int32_t index, T& id);
+    int Count();
 
 protected:
     //idType normal;
-    typedef     std::list<T>   TLISTOBJCOAFIGLIST;
+    typedef std::list<T> TLISTOBJCOAFIGLIST;
     TLISTOBJCOAFIGLIST          mtObjConfigList;
     typename std::list<T>::iterator mCurIter;
 
@@ -52,7 +47,7 @@ private:
 };
 
 template < typename T >
-bool NFList<T>::Add(const T& id)
+bool AFList<T>::Add(const T& id)
 {
     //if (!Find(id))
     {
@@ -64,7 +59,7 @@ bool NFList<T>::Add(const T& id)
 }
 
 template < typename T >
-bool NFList<T>::Remove(const T& id)
+bool AFList<T>::Remove(const T& id)
 {
     if(Find(id))
     {
@@ -76,14 +71,14 @@ bool NFList<T>::Remove(const T& id)
 }
 
 template < typename T >
-bool NFList<T>::ClearAll()
+bool AFList<T>::ClearAll()
 {
     mtObjConfigList.clear();
     return true;
 }
 
 template < typename T >
-bool NFList<T>::First(T& id)
+bool AFList<T>::First(T& id)
 {
     if(mtObjConfigList.size() <= 0)
     {
@@ -101,7 +96,7 @@ bool NFList<T>::First(T& id)
 }
 
 template < typename T >
-bool NFList<T>::Next(T& id)
+bool AFList<T>::Next(T& id)
 {
     if(mCurIter == mtObjConfigList.end())
     {
@@ -119,7 +114,7 @@ bool NFList<T>::Next(T& id)
 }
 
 template < typename T >
-bool NFList<T>::Find(const T& id)
+bool AFList<T>::Find(const T& id)
 {
     typename TLISTOBJCOAFIGLIST::iterator it = std::find(mtObjConfigList.begin(), mtObjConfigList.end(), id);
     if(it != mtObjConfigList.end())
@@ -131,7 +126,7 @@ bool NFList<T>::Find(const T& id)
 }
 
 template < typename T >
-bool NFList<T>::Get(const int32_t index, T& id)
+bool AFList<T>::Get(const int32_t index, T& id)
 {
     if(index >= mtObjConfigList.size())
     {
@@ -147,11 +142,7 @@ bool NFList<T>::Get(const int32_t index, T& id)
 }
 
 template < typename T >
-int NFList<T>::Count()
+int AFList<T>::Count()
 {
     return (int)(mtObjConfigList.size());
 }
-
-#endif
-
-

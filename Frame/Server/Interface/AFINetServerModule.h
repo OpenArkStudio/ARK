@@ -40,8 +40,8 @@
         return;                                         \
     }                                                   \
     \
-    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(nPlayerID); \
-    if ( NULL == pObject.get() )                        \
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(nPlayerID); \
+    if (nullptr == pEntity)                        \
     {                                                   \
         m_pLogModule->LogError(nPlayerID, "FromClient Object do not Exist", "", __FUNCTION__, __LINE__); \
         return;                                         \

@@ -2,6 +2,7 @@ file(GLOB MasterNetServerPlugin_SRC *.h *.hpp *.cpp *.cc *.c)
 
 add_library(AFMasterNetServerPlugin SHARED ${MasterNetServerPlugin_SRC})
 
+set_target_properties(AFMasterNetServerPlugin PROPERTIES PREFIX "")
 set_target_properties(AFMasterNetServerPlugin PROPERTIES OUTPUT_NAME_DEBUG "AFMasterNetServerPlugin_d")
 set_target_properties(AFMasterNetServerPlugin PROPERTIES
     FOLDER "Server/MasterServer"

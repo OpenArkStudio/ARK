@@ -115,7 +115,7 @@ public:
         size_t index;
         if (!mxIndices.GetData(name.c_str(), index))
         {
-            return false;
+            return NULL;
         }
 
         return mxNodes[index];
@@ -146,6 +146,16 @@ public:
         mxNodes.remove(index);
         mxIndices.Remove(name.c_str());
         return true;
+    }
+
+    bool ExistElement(const std::string& name) const
+    {
+        return mxIndices.exists(name.c_str());
+    }
+
+    bool ExistElement(const std::string& name, size_t& index) const
+    {
+        return mxIndices.GetData(name.c_str(), index);
     }
 
     size_t GetCount() const

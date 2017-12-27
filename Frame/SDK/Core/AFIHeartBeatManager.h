@@ -25,8 +25,7 @@
 #include "SDK/Base/AFDefine.h"
 #include "SDK/Base/AFCDataList.h"
 
-class  AFCHeartBeatElement
-    : public NFList<HEART_BEAT_FUNCTOR_PTR>
+class  AFCHeartBeatElement : public AFList<HEART_BEAT_FUNCTOR_PTR>
 {
 public:
     bool operator==(const AFCHeartBeatElement& src)

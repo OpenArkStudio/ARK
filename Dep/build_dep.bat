@@ -50,20 +50,6 @@ copy lib\Debug\*.lib ..\..\lib\Debug /Y
 copy lib\Release\*.lib ..\..\lib\Release /Y
 cd ..\..\
 REM ######################################################################################################
-echo Building glog...
-if exist glog (rd glog /q /s)
-git clone -b v035 https://github.com/google/glog.git
-
-cd glog
-md build
-cd build
-cmake -G "Visual Studio 14 Win64" ..
-"%VS140COMNTOOLS%..\IDE\Devenv" google-glog.sln /build "Debug|x64"
-"%VS140COMNTOOLS%..\IDE\Devenv" google-glog.sln /build "Release|x64"
-copy Debug\*.lib ..\..\lib\Debug /Y
-copy Release\*.lib ..\..\lib\Release /Y
-cd ..\..\
-REM ######################################################################################################
 echo Building evpp...
 if exist evpp (rd evpp /q /s)
 git clone -b master https://github.com/ArkGame/evpp.git
@@ -71,9 +57,9 @@ git clone -b master https://github.com/ArkGame/evpp.git
 cd evpp
 md build
 cd build
-cmake -G "Visual Studio 14 Win64" ..
-"%VS140COMNTOOLS%..\IDE\Devenv" safe-evpp.sln /build "Debug|x64" /project evpp/evpp_static.vcxproj
-"%VS140COMNTOOLS%..\IDE\Devenv" safe-evpp.sln /build "Release|x64" /project evpp/evpp_static.vcxproj
+cmake -G "Visual Studio 14 Win64" -DLIBEVENT_DIR=..\libevent -DLIBEVENT_LIB_DIR=..\lib\Release ..
+"%VS140COMNTOOLS%..\IDE\Devenv" evpp.sln /build "Debug|x64" /project evpp/evpp_static.vcxproj
+"%VS140COMNTOOLS%..\IDE\Devenv" evpp.sln /build "Release|x64" /project evpp/evpp_static.vcxproj
 copy lib\Debug\*.lib ..\..\lib\Debug /Y
 copy lib\Release\*.lib ..\..\lib\Release /Y
 
