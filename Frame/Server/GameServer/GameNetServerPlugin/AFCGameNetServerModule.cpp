@@ -69,7 +69,7 @@ bool AFCGameNetServerModule::AfterInit()
         return false;
     }
 
-    NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+    AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
     std::string strConfigName;
     for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
@@ -158,9 +158,9 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
 
     AFGUID nRoleID = AFINetServerModule::PBToGUID(xMsg.id());
 
-    if(m_pKernelModule->GetObject(nRoleID))
+    if(m_pKernelModule->GetEntity(nRoleID))
     {
-        m_pKernelModule->DestroyObject(nRoleID);
+        m_pKernelModule->DestroyEntity(nRoleID);
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -208,7 +208,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
     var.AddString("ClientID");
     var.AddObject(nGateClientID);
 
-    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->CreateObject(nRoleID, nSceneID, 0, ARK::Player::ThisName(), "", var);
+    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->CreateObject(nRoleID, nSceneID, 0, ARK::Player::ThisName(), "", var);
     if(nullptr == pObject)
     {
         //内存泄漏
@@ -245,9 +245,9 @@ void AFCGameNetServerModule::OnClienLeaveGameProcess(const AFIMsgHead& xHead, co
         return;
     }
 
-    if(m_pKernelModule->GetObject(nPlayerID))
+    if(m_pKernelModule->GetEntity(nPlayerID))
     {
-        m_pKernelModule->DestroyObject(nPlayerID);
+        m_pKernelModule->DestroyEntity(nPlayerID);
     }
 
     if(!RemovePlayerGateInfo(nPlayerID))
@@ -269,7 +269,7 @@ int AFCGameNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AFG
     //分为自己和外人
     //1.public发送给所有人
     //2.如果自己在列表中，再次发送private数据
-    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetEntity(self);
     if(nullptr != pObject)
     {
         AFMsg::ObjectPropertyList* pPublicData = xPublicMsg.add_multi_player_property();
@@ -361,7 +361,7 @@ int AFCGameNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFGUI
     AFMsg::MultiObjectRecordList xPublicMsg;
     AFMsg::MultiObjectRecordList xPrivateMsg;
 
-    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetEntity(self);
     if(nullptr == pObject)
     {
         return 0;
@@ -593,7 +593,7 @@ int AFCGameNetServerModule::OnPropertyCommonEvent(const AFGUID& self, const std:
 
 int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
-    const std::string& strRecordName = xEventData.strRecordName;
+    const std::string& strRecordName = xEventData.strRecordName.c_str();
     const int nOpType = xEventData.nOpType;
     const int nRow = xEventData.nRow;
     const int nCol = xEventData.nCol;
@@ -620,7 +620,7 @@ int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD
 
     switch(nOpType)
     {
-    case AFRecord::RecordOptype::Add:
+    case AFRecord::ROT_ADD:
         {
             AFMsg::ObjectRecordAddRow xAddRecordRow;
             AFMsg::Ident* pIdent = xAddRecordRow.mutable_player_id();
@@ -654,7 +654,7 @@ int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD
             }
         }
         break;
-    case AFRecord::RecordOptype::Del:
+    case AFRecord::ROT_DELETE:
         {
             AFMsg::ObjectRecordRemove xReoveRecordRow;
 
@@ -672,7 +672,7 @@ int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD
             }
         }
         break;
-    case AFRecord::RecordOptype::Swap:
+    case AFRecord::ROT_SWAP:
         {
             //其实是2个row交换
             AFMsg::ObjectRecordSwap xSwapRecord;
@@ -691,7 +691,7 @@ int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD
             }
         }
         break;
-    case AFRecord::RecordOptype::Update:
+    case AFRecord::ROT_UPDATE:
         {
             AFMsg::ObjectRecordPBData xRecordChanged;
             *xRecordChanged.mutable_player_id() = AFINetServerModule::GUIDToPB(self);
@@ -707,9 +707,8 @@ int AFCGameNetServerModule::OnRecordCommonEvent(const AFGUID& self, const RECORD
             }
         }
         break;
-    case AFRecord::RecordOptype::Create:
-        break;
-    case AFRecord::RecordOptype::Cleared:
+    case AFRecord::ROT_COVERAGE:
+        //TODO:
         break;
     default:
         break;
@@ -1218,11 +1217,11 @@ void AFCGameNetServerModule::OnClienSwapSceneProcess(const AFIMsgHead& xHead, co
     CLIENT_MSG_PROCESS(nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
 
     AFCDataList varEntry;
-    varEntry << pObject->Self();
+    varEntry << pEntity->Self();
     varEntry << int32_t(0);
     varEntry << xMsg.scene_id();
     varEntry << int32_t(-1) ;
-    m_pKernelModule->DoEvent(pObject->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
+    m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
 
 void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)

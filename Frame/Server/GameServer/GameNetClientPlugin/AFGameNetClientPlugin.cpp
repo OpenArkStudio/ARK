@@ -37,7 +37,7 @@ ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
 
 //////////////////////////////////////////////////////////////////////////
 
-const int AFGameNetClientPlugin::GetPluginVersion()
+int AFGameNetClientPlugin::GetPluginVersion()
 {
     return 0;
 }

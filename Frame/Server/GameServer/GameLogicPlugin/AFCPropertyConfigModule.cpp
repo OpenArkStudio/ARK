@@ -66,7 +66,7 @@ void AFCPropertyConfigModule::Load()
     ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->GetElement(ARK::InitProperty::ThisName());
     if(nullptr != pLogicClass)
     {
-        NFList<std::string>& xList = pLogicClass->GetConfigNameList();
+        AFList<std::string>& xList = pLogicClass->GetConfigNameList();
         std::string strData;
         bool bRet = xList.First(strData);
         while(bRet)

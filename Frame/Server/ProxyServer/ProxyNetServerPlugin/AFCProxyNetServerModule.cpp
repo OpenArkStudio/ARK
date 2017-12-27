@@ -52,7 +52,7 @@ bool AFCProxyNetServerModule::AfterInit()
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr != xLogicClass)
     {
-        NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+        AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
         for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
@@ -97,7 +97,7 @@ bool AFCProxyNetServerModule::Execute()
 
 int AFCProxyNetServerModule::HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFIDataList& var)
 {
-    m_pKernelModule->DestroyObject(self);
+    m_pKernelModule->DestroyEntity(self);
 
     return 0;
 }
