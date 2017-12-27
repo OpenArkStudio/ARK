@@ -18,14 +18,14 @@
 *
 */
 
-#include "AFCObject.h"
+#include "AFCEntity.h"
 #include "AFCRecordMgr.h"
 #include "AFCHeartBeatManager.h"
 #include "AFCPropertyMgr.h"
 #include "AFCEventManager.h"
 
-AFCObject::AFCObject(const AFGUID& self, AFIPluginManager* pLuginManager)
-    : AFIObject(self)
+AFCEntity::AFCEntity(const AFGUID& self, AFIPluginManager* pLuginManager)
+    : AFIEntity(self)
 {
     mSelf = self;
     m_pPluginManager = pLuginManager;
@@ -36,22 +36,22 @@ AFCObject::AFCObject(const AFGUID& self, AFIPluginManager* pLuginManager)
     m_pEventManager = ARK_SHARE_PTR<AFIEventManager>(ARK_NEW AFCEventManager(mSelf));
 }
 
-AFCObject::~AFCObject()
+AFCEntity::~AFCEntity()
 {
 
 }
 
-bool AFCObject::Init()
-{
-    return true;
-}
-
-bool AFCObject::Shut()
+bool AFCEntity::Init()
 {
     return true;
 }
 
-bool AFCObject::Execute()
+bool AFCEntity::Shut()
+{
+    return true;
+}
+
+bool AFCEntity::Execute()
 {
     GetHeartBeatManager()->Execute();
     GetEventManager()->Execute();
@@ -59,22 +59,22 @@ bool AFCObject::Execute()
     return true;
 }
 
-bool AFCObject::AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever)
+bool AFCEntity::AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever)
 {
-    return GetHeartBeatManager()->AddHeartBeat(mSelf, strHeartBeatName, cb, nTime, nCount,  bForever);
+    return GetHeartBeatManager()->AddHeartBeat(mSelf, strHeartBeatName, cb, nTime, nCount, bForever);
 }
 
-bool AFCObject::FindHeartBeat(const std::string& strHeartBeatName)
+bool AFCEntity::FindHeartBeat(const std::string& strHeartBeatName)
 {
     return GetHeartBeatManager()->Exist(strHeartBeatName);
 }
 
-bool AFCObject::RemoveHeartBeat(const std::string& strHeartBeatName)
+bool AFCEntity::RemoveHeartBeat(const std::string& strHeartBeatName)
 {
     return GetHeartBeatManager()->RemoveHeartBeat(strHeartBeatName);
 }
 
-bool AFCObject::AddRecordCallBack(const std::string& strRecordName, const RECORD_EVENT_FUNCTOR_PTR& cb)
+bool AFCEntity::AddRecordCallBack(const std::string& strRecordName, const RECORD_EVENT_FUNCTOR_PTR& cb)
 {
     ARK_SHARE_PTR<AFIRecordMgr> pRecordMgr = GetRecordManager();
     if (nullptr == pRecordMgr)
@@ -85,183 +85,183 @@ bool AFCObject::AddRecordCallBack(const std::string& strRecordName, const RECORD
     return pRecordMgr->AddRecordCallback(strRecordName.c_str(), cb);
 }
 
-bool AFCObject::AddPropertyCallBack(const std::string& strCriticalName, const PROPERTY_EVENT_FUNCTOR_PTR& cb)
+bool AFCEntity::AddPropertyCallBack(const std::string& strCriticalName, const PROPERTY_EVENT_FUNCTOR_PTR& cb)
 {
     return GetPropertyManager()->RegisterCallback(strCriticalName, cb);
 }
 
-bool AFCObject::FindProperty(const std::string& strPropertyName)
+bool AFCEntity::FindProperty(const std::string& strPropertyName)
 {
     return (NULL != GetPropertyManager()->GetProperty(strPropertyName.c_str()));
 }
 
-bool AFCObject::SetPropertyBool(const std::string& strPropertyName, const bool value)
+bool AFCEntity::SetPropertyBool(const std::string& strPropertyName, const bool value)
 {
     return GetPropertyManager()->SetPropertyBool(strPropertyName.c_str(), value);
 }
 
-bool AFCObject::SetPropertyInt(const std::string& strPropertyName, const int32_t value)
+bool AFCEntity::SetPropertyInt(const std::string& strPropertyName, const int32_t value)
 {
     return GetPropertyManager()->SetPropertyInt(strPropertyName.c_str(), value);
 }
 
-bool AFCObject::SetPropertyInt64(const std::string& strPropertyName, const int64_t value)
+bool AFCEntity::SetPropertyInt64(const std::string& strPropertyName, const int64_t value)
 {
     return GetPropertyManager()->SetPropertyInt64(strPropertyName.c_str(), value);
 }
 
-bool AFCObject::SetPropertyFloat(const std::string& strPropertyName, const float value)
+bool AFCEntity::SetPropertyFloat(const std::string& strPropertyName, const float value)
 {
     return GetPropertyManager()->SetPropertyFloat(strPropertyName.c_str(), value);
 }
 
-bool AFCObject::SetPropertyDouble(const std::string& strPropertyName, const double value)
+bool AFCEntity::SetPropertyDouble(const std::string& strPropertyName, const double value)
 {
     return GetPropertyManager()->SetPropertyDouble(strPropertyName.c_str(), value);
 }
 
-bool AFCObject::SetPropertyString(const std::string& strPropertyName, const std::string& value)
+bool AFCEntity::SetPropertyString(const std::string& strPropertyName, const std::string& value)
 {
     return GetPropertyManager()->SetPropertyString(strPropertyName.c_str(), value);
 }
 
-bool AFCObject::SetPropertyObject(const std::string& strPropertyName, const AFGUID& value)
+bool AFCEntity::SetPropertyObject(const std::string& strPropertyName, const AFGUID& value)
 {
     return GetPropertyManager()->SetPropertyObject(strPropertyName.c_str(), value);
 }
 
-bool AFCObject::GetPropertyBool(const std::string& strPropertyName)
+bool AFCEntity::GetPropertyBool(const std::string& strPropertyName)
 {
     return GetPropertyManager()->GetPropertyBool(strPropertyName.c_str());
 }
 
-int32_t AFCObject::GetPropertyInt(const std::string& strPropertyName)
+int32_t AFCEntity::GetPropertyInt(const std::string& strPropertyName)
 {
     return GetPropertyManager()->GetPropertyInt(strPropertyName.c_str());
 }
 
-int64_t AFCObject::GetPropertyInt64(const std::string& strPropertyName)
+int64_t AFCEntity::GetPropertyInt64(const std::string& strPropertyName)
 {
     return GetPropertyManager()->GetPropertyInt64(strPropertyName.c_str());
 }
 
-float AFCObject::GetPropertyFloat(const std::string& strPropertyName)
+float AFCEntity::GetPropertyFloat(const std::string& strPropertyName)
 {
     return GetPropertyManager()->GetPropertyFloat(strPropertyName.c_str());
 }
 
-double AFCObject::GetPropertyDouble(const std::string& strPropertyName)
+double AFCEntity::GetPropertyDouble(const std::string& strPropertyName)
 {
     return GetPropertyManager()->GetPropertyDouble(strPropertyName.c_str());
 }
 
-const char* AFCObject::GetPropertyString(const std::string& strPropertyName)
+const char* AFCEntity::GetPropertyString(const std::string& strPropertyName)
 {
     return GetPropertyManager()->GetPropertyString(strPropertyName.c_str());
 }
 
-const AFGUID& AFCObject::GetPropertyObject(const std::string& strPropertyName)
+const AFGUID& AFCEntity::GetPropertyObject(const std::string& strPropertyName)
 {
     return GetPropertyManager()->GetPropertyObject(strPropertyName.c_str());
 }
 
-bool AFCObject::FindRecord(const std::string& strRecordName)
+bool AFCEntity::FindRecord(const std::string& strRecordName)
 {
     AFRecord* pRecord = GetRecordManager()->GetRecord(strRecordName.c_str());
     return (nullptr != pRecord);
 }
 
-bool AFCObject::SetRecordBool(const std::string& strRecordName, const int nRow, const int nCol, const bool value)
+bool AFCEntity::SetRecordBool(const std::string& strRecordName, const int nRow, const int nCol, const bool value)
 {
     return GetRecordManager()->SetRecordBool(strRecordName.c_str(), nRow, nCol, value);
 }
 
-bool AFCObject::SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const int32_t value)
+bool AFCEntity::SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const int32_t value)
 {
     return GetRecordManager()->SetRecordInt(strRecordName.c_str(), nRow, nCol, value);
 }
 
-bool AFCObject::SetRecordInt64(const std::string& strRecordName, const int nRow, const int nCol, const int64_t value)
+bool AFCEntity::SetRecordInt64(const std::string& strRecordName, const int nRow, const int nCol, const int64_t value)
 {
     return GetRecordManager()->SetRecordInt64(strRecordName.c_str(), nRow, nCol, value);
 }
 
-bool AFCObject::SetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol, const float value)
+bool AFCEntity::SetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol, const float value)
 {
     return GetRecordManager()->SetRecordFloat(strRecordName.c_str(), nRow, nCol, value);
 }
 
-bool AFCObject::SetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol, const double value)
+bool AFCEntity::SetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol, const double value)
 {
     return GetRecordManager()->SetRecordDouble(strRecordName.c_str(), nRow, nCol, value);
 }
 
-bool AFCObject::SetRecordString(const std::string& strRecordName, const int nRow, const int nCol, const std::string& value)
+bool AFCEntity::SetRecordString(const std::string& strRecordName, const int nRow, const int nCol, const std::string& value)
 {
     return GetRecordManager()->SetRecordString(strRecordName.c_str(), nRow, nCol, value.c_str());
 }
 
-bool AFCObject::SetRecordObject(const std::string & strRecordName, const int nRow, const int nCol, const AFGUID & value)
+bool AFCEntity::SetRecordObject(const std::string & strRecordName, const int nRow, const int nCol, const AFGUID & value)
 {
     return GetRecordManager()->SetRecordObject(strRecordName.c_str(), nRow, nCol, value);
 }
 
-bool AFCObject::GetRecordBool(const std::string& strRecordName, const int nRow, const int nCol)
+bool AFCEntity::GetRecordBool(const std::string& strRecordName, const int nRow, const int nCol)
 {
     return GetRecordManager()->GetRecordBool(strRecordName.c_str(), nRow, nCol);
 }
 
-int32_t AFCObject::GetRecordInt(const std::string & strRecordName, const int nRow, const int nCol)
+int32_t AFCEntity::GetRecordInt(const std::string & strRecordName, const int nRow, const int nCol)
 {
     return GetRecordManager()->GetRecordInt(strRecordName.c_str(), nRow, nCol);
 }
 
-int64_t AFCObject::GetRecordInt64(const std::string& strRecordName, const int nRow, const int nCol)
+int64_t AFCEntity::GetRecordInt64(const std::string& strRecordName, const int nRow, const int nCol)
 {
     return GetRecordManager()->GetRecordInt64(strRecordName.c_str(), nRow, nCol);
 }
 
-float AFCObject::GetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol)
+float AFCEntity::GetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol)
 {
     return GetRecordManager()->GetRecordFloat(strRecordName.c_str(), nRow, nCol);
 }
 
-double AFCObject::GetRecordDouble(const std::string & strRecordName, const int nRow, const int nCol)
+double AFCEntity::GetRecordDouble(const std::string & strRecordName, const int nRow, const int nCol)
 {
     return GetRecordManager()->GetRecordDouble(strRecordName.c_str(), nRow, nCol);
 }
 
-const char* AFCObject::GetRecordString(const std::string & strRecordName, const int nRow, const int nCol)
+const char* AFCEntity::GetRecordString(const std::string & strRecordName, const int nRow, const int nCol)
 {
     return GetRecordManager()->GetRecordString(strRecordName.c_str(), nRow, nCol);
 }
 
-const AFGUID& AFCObject::GetRecordObject(const std::string & strRecordName, const int nRow, const int nCol)
+const AFGUID& AFCEntity::GetRecordObject(const std::string & strRecordName, const int nRow, const int nCol)
 {
     return GetRecordManager()->GetRecordObject(strRecordName.c_str(), nRow, nCol);
 }
 
-ARK_SHARE_PTR<AFIRecordMgr> AFCObject::GetRecordManager()
+ARK_SHARE_PTR<AFIRecordMgr> AFCEntity::GetRecordManager()
 {
     return m_pRecordManager;
 }
 
-ARK_SHARE_PTR<AFIHeartBeatManager> AFCObject::GetHeartBeatManager()
+ARK_SHARE_PTR<AFIHeartBeatManager> AFCEntity::GetHeartBeatManager()
 {
     return m_pHeartBeatManager;
 }
 
-ARK_SHARE_PTR<AFIPropertyMgr> AFCObject::GetPropertyManager()
+ARK_SHARE_PTR<AFIPropertyMgr> AFCEntity::GetPropertyManager()
 {
     return m_pPropertyManager;
 }
 
-const AFGUID& AFCObject::Self()
+const AFGUID& AFCEntity::Self()
 {
     return mSelf;
 }
 
-ARK_SHARE_PTR<AFIEventManager> AFCObject::GetEventManager()
+ARK_SHARE_PTR<AFIEventManager> AFCEntity::GetEventManager()
 {
     return m_pEventManager;
 }

@@ -55,7 +55,7 @@ bool AFCSceneProcessModule::AfterInit()
     ARK_SHARE_PTR<AFIClass> pLogicClass =  m_pClassModule->GetElement("Scene");
     if(nullptr != pLogicClass)
     {
-        NFList<std::string>& list = pLogicClass->GetConfigNameList();
+        AFList<std::string>& list = pLogicClass->GetConfigNameList();
 
         std::string strData;
         bool bRet = list.First(strData);

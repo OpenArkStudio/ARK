@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "SDK/Core/AFIObject.h"
+#include "SDK/Core/AFIEntity.h"
 #include "SDK/Base/AFCDataList.h"
 #include "SDK/Core/AFRecord.h"
 #include "SDK/Base/AFGUID.h"
@@ -35,7 +35,7 @@
 
 class AFCKernelModule
     : public AFIKernelModule,
-      public AFMapEx<AFGUID, AFIObject>
+      public AFMapEx<AFGUID, AFIEntity>
 {
 public:
     AFCKernelModule(AFIPluginManager* p);
@@ -57,12 +57,12 @@ public:
     virtual bool IsContainer(const AFGUID& self);
     virtual bool ExistContainer(const int nSceneID);
 
-    virtual ARK_SHARE_PTR<AFIObject> GetObject(const AFGUID& ident);
-    virtual ARK_SHARE_PTR<AFIObject> CreateObject(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg);
+    virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& ident);
+    virtual ARK_SHARE_PTR<AFIEntity> CreateObject(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg);
 
     virtual bool DestroyAll();
     virtual bool DestroySelf(const AFGUID& self);
-    virtual bool DestroyObject(const AFGUID& self);
+    virtual bool DestroyEntity(const AFGUID& self);
 
     //////////////////////////////////////////////////////////////////////////
     virtual bool FindProperty(const AFGUID& self, const std::string& strPropertyName);
@@ -163,11 +163,8 @@ protected:
     std::list<AFGUID> mtDeleteSelfList;
 
     //////////////////////////////////////////////////////////////////////////
-    //通用对象类事件回�?以便同步
     std::list<CLASS_EVENT_FUNCTOR_PTR> mtCommonClassCallBackList;
-    //通用属性变动回�?以便同步
     std::list<PROPERTY_EVENT_FUNCTOR_PTR> mtCommonPropertyCallBackList;
-    //通用表变动回�?以便同步
     std::list<RECORD_EVENT_FUNCTOR_PTR> mtCommonRecordCallBackList;
 
 private:
@@ -183,5 +180,3 @@ private:
     AFIElementModule* m_pElementModule;
     AFIGUIDModule* m_pGUIDModule;
 };
-
-
