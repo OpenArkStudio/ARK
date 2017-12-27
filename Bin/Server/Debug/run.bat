@@ -25,26 +25,26 @@ echo Starting AFWorldServer...
 start "" "PluginLoader_d.exe"
 
 
-REM choice /t 5 /d y /n >nul
+choice /t 5 /d y /n >nul
 
-REM cd  ..
-REM cd  AFLoginServer
-REM echo Starting AFLoginServer...
-REM start "" "PluginLoader_d.exe"
+cd  ..
+cd  AFLoginServer
+echo Starting AFLoginServer...
+start "" "PluginLoader_d.exe"
 
-REM choice /t 2 /d y /n >nul
+choice /t 2 /d y /n >nul
 
-REM cd  ..
-REM cd  AFGameServer
-REM echo Starting AFGameServer...
-REM start "" "PluginLoader_d.exe"
+cd  ..
+cd  AFGameServer
+echo Starting AFGameServer...
+start "" "PluginLoader_d.exe"
 
-REM choice /t 4 /d y /n >nul
+choice /t 4 /d y /n >nul
 
-REM cd  ..
-REM cd  AFProxyServer
-REM echo Starting AFProxyServer...
-REM start "" "PluginLoader_d.exe"
+cd  ..
+cd  AFProxyServer
+echo Starting AFProxyServer...
+start "" "PluginLoader_d.exe"
 
 
 
