@@ -22,16 +22,31 @@
 
 #include "AFPlatform.hpp"
 
+//Input param type
+#ifndef IN
+#define IN
+#endif
+
+//Output param type
+#ifndef OUT
+#define OUT
+#endif
+
+//Input and output param type
+#ifndef INOUT
+#define INOUT
+#endif
+
 #define ARRAY_CLEAR(v)              memset((v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR(v)             memset(&(v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR_POINTER(v)     memset((v), 0xx, sizeof(*(v)))
-#define ARRAY_SIZE(v)               (sizeof(v) / sizeof(v[0]))
+#define ARRAY_LENTGH(v)               (sizeof(v) / sizeof(v[0]))
 
 #define MAX_NAME    256
 #define MAX_BUF     256
 
 #ifndef MAX_PATH
-#  define MAX_PATH    256
+#define MAX_PATH    256
 #endif
 
 #define ARK_NEW new
@@ -71,8 +86,7 @@ inline uint32_t GetSystemTime()
 inline uint32_t GetSystemTime()
 {
     struct timeval tv;
-    struct timezone tz;
-    gettimeofday(&tv, &tz);
+    gettimeofday(&tv, NULL);
     return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 };
 
@@ -123,6 +137,12 @@ inline uint32_t GetSystemTime()
         return;                         \
     } while (0);
 
+#define ARK_ASSERT_NO_EFFECT(exp_)      \
+    do                                  \
+    {                                   \
+        if (exp_) break;                \
+        assert(exp_);                   \
+    } while(0)
 
 #if defined(USE_BOOST)
 #  include <boost/lexical_cast.hpp>
@@ -159,7 +179,7 @@ inline bool IsDoubleEqual(const double lhs, const double rhs)
 #endif
 
 #define ARK_SINGLETON_INIT(TYPE) template<> TYPE* Singleton<TYPE>::instance_ = 0;
-
+/*
 #if ARK_PLATFORM == PLATFORM_WIN
 #  if defined(ARK_USE_TCMALLOC)
 #  undef ARK_USE_TCMALLOC
@@ -167,7 +187,7 @@ inline bool IsDoubleEqual(const double lhs, const double rhs)
 #else
 #define ARK_USE_TCMALLOC
 #endif
-
+*/
 template<typename T>
 bool ARK_FROM_STR(const std::string& strValue, T& nValue)
 {

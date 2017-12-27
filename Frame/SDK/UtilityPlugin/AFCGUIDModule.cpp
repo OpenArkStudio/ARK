@@ -25,7 +25,7 @@ namespace GUIDModule
 //refer:https://github.com/nebula-im/snowflake4cxx
 //修改为时间戳 * 100008 + sequence
 
-#ifdef ARK_PLATFORM == PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
 # include <windows.h>
 # include <winsock2.h>
 # include <time.h>
@@ -33,7 +33,7 @@ namespace GUIDModule
 # include <sys/time.h>
 #endif
 
-#ifdef ARK_PLATFORM == PLATFORM_WIN
+#if ARK_PLATFORM == PLATFORM_WIN
 int gettimeofday(struct timeval* tp, void *tzp)
 {
     time_t clock;

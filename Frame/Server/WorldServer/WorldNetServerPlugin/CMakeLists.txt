@@ -2,6 +2,7 @@ file(GLOB WorldNetServerPlugin_SRC *.h *.hpp *.cpp *.cc *.c)
 
 add_library(AFWorldNetServerPlugin SHARED ${WorldNetServerPlugin_SRC})
 
+set_target_properties(AFWorldNetServerPlugin PROPERTIES PREFIX "")
 set_target_properties(AFWorldNetServerPlugin PROPERTIES OUTPUT_NAME_DEBUG "AFWorldNetServerPlugin_d")
 set_target_properties(AFWorldNetServerPlugin PROPERTIES
     FOLDER "Server/WorldServer"

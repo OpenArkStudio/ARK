@@ -2,6 +2,7 @@ file(GLOB LoginNetServerPlugin_SRC *.h *.hpp *.cpp *.cc *.c)
 
 add_library(AFLoginNetServerPlugin SHARED ${LoginNetServerPlugin_SRC})
 
+set_target_properties(AFLoginNetServerPlugin PROPERTIES PREFIX "")
 set_target_properties(AFLoginNetServerPlugin PROPERTIES OUTPUT_NAME_DEBUG "AFLoginNetServerPlugin_d")
 set_target_properties(AFLoginNetServerPlugin PROPERTIES
     FOLDER "Server/LoginServer"

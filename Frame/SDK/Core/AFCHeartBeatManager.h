@@ -57,7 +57,7 @@ public:
 protected:
     AFGUID mSelf;
 
-    NFList<std::string> mRemoveListEx;
+    AFList<std::string> mRemoveListEx;
     std::list<AFCHeartBeatElement> mAddListEx;
     AFArrayMap<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
 

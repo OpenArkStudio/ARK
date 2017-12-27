@@ -59,7 +59,7 @@ public:
     virtual float GetPropertyFloat(const char* name);
     virtual double GetPropertyDouble(const char* name);
     virtual const char* GetPropertyString(const char* name);
-    virtual const AFGUID& GetPropertyObject(const char* name);
+    virtual const AFGUID GetPropertyObject(const char* name);
 
 protected:
     bool FindIndex(const char* name, size_t& index);
