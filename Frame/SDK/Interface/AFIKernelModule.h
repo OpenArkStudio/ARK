@@ -21,18 +21,17 @@
 #pragma once
 
 #include "AFIModule.h"
-#include "SDK/Core/AFIObject.h"
+#include "SDK/Core/AFIEntity.h"
 #include "SDK/Base/AFGUID.h"
 
-class AFIKernelModule
-    : public AFIModule
+class AFIKernelModule : public AFIModule
 {
 public:
 
     template<typename BaseType>
     bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const float, const int), const float fTime, const int nCount, const bool bForever = false)
     {
-        ARK_SHARE_PTR<AFIObject> pObject = GetObject(self);
+        ARK_SHARE_PTR<AFIEntity> pObject = GetEntity(self);
         if (nullptr != pObject)
         {
             return pObject->AddHeartBeat(strHeartBeatName, pBase, handler, fTime, nCount, bForever);
@@ -48,7 +47,7 @@ public:
     template<typename BaseType>
     bool AddRecordCallBack(const AFGUID& self, const std::string& strRecordName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const RECORD_EVENT_DATA&, const AFIData&, const AFIData&))
     {
-        ARK_SHARE_PTR<AFIObject> pObject = GetObject(self);
+        ARK_SHARE_PTR<AFIEntity> pObject = GetEntity(self);
         if(nullptr != pObject)
         {
             return pObject->AddRecordCallBack(strRecordName, pBase, handler);
@@ -60,7 +59,7 @@ public:
     template<typename BaseType>
     bool AddPropertyCallBack(const AFGUID& self, const std::string& strPropertyName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
-        ARK_SHARE_PTR<AFIObject> pObject = GetObject(self);
+        ARK_SHARE_PTR<AFIEntity> pObject = GetEntity(self);
         if (nullptr != pObject)
         {
             return pObject->AddPropertyCallBack(strPropertyName, pBase, handler);
@@ -122,10 +121,10 @@ public:
     virtual bool IsContainer(const AFGUID& self) = 0;
     virtual bool ExistContainer(const int nContainerIndex) = 0;
 
-    virtual ARK_SHARE_PTR<AFIObject> GetObject(const AFGUID& ident) = 0;
-    virtual ARK_SHARE_PTR<AFIObject> CreateObject(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg) = 0;
+    virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& ident) = 0;
+    virtual ARK_SHARE_PTR<AFIEntity> CreateObject(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg) = 0;
 
-    virtual bool DestroyObject(const AFGUID& self) = 0;
+    virtual bool DestroyEntity(const AFGUID& self) = 0;
     virtual bool DestroyAll() = 0;
     //////////////////////////////////////////////////////////////////////////
     virtual bool FindProperty(const AFGUID& self, const std::string& strPropertyName) = 0;

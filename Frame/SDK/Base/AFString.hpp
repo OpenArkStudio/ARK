@@ -424,18 +424,21 @@ private:
     size_t mnSize;
 };
 
-using PropertyName = AFString<char, 16, CharTraits<char>, CoreAlloc>;
-using RecordName = AFString<char, 16, CharTraits<char>, CoreAlloc>;
+typedef AFString<char, 16, CharTraits<char>, CoreAlloc> PropertyName;
+typedef AFString<char, 16, CharTraits<char>, CoreAlloc> RecordName;
 
-template<>
-struct hash<PropertyName>
+namespace std
 {
-    size_t operator()(PropertyName const& pro) const
+    template<>
+    struct hash<PropertyName>
     {
-        const char* value = pro.c_str();
-        return GetHashValue(value);
-    }
-};
+        size_t operator()(PropertyName const& pro) const
+        {
+            const char* value = pro.c_str();
+            return GetHashValue(value);
+        }
+    };
+}
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>
 inline bool operator==(const AFString<TYPE, SIZE, TRAITS, ALLOC>& s1, const AFString<TYPE, SIZE, TRAITS, ALLOC>& s2)

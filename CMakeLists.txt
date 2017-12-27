@@ -1,23 +1,24 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.0)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+project(ARK)
+
 #check cxx flag in linux system
 if(UNIX)
-    #linux
-    include(CheckCXXCompilerFlag)
-    CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-    if(COMPILER_SUPPORTS_CXX11)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-    else()
-        message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
-    endif()
+	#linux
+	include(CheckCXXCompilerFlag)
+	CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+	if(COMPILER_SUPPORTS_CXX11)
+	    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+	else()
+		message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+	endif()
 endif()
 
 ########################################################################
 
-project(ARK)
 set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 
 include_directories(
@@ -47,6 +48,29 @@ if(UNIX)
     set(LDFLAGS "$ENV{LDFLAGS} -stdlib=libc++")
     ADD_DEFINITIONS(-std=c++11)
     set(SDK_OUTPUT_DIR ${ROOT_DIR}/Bin/Comm/${CMAKE_BUILD_TYPE})
+
+    set (CXX_FLAGS
+        -g
+        -Wall
+        -Wno-unused-parameter
+        -Wno-unused-function
+        -Wunused-variable
+        -Wunused-value
+        -Wshadow
+        -Wcast-qual
+        -Wcast-align
+        -Wwrite-strings
+        -Wsign-compare
+        -Winvalid-pch
+        -fms-extensions
+        -Wfloat-equal
+        -Wextra
+	-fPIC
+    )
+
+    SET(CMAKE_CXX_FLAGS_DEBUG   "-O0 -g -ggdb -D_DEBUG")
+    SET(CMAKE_CXX_FLAGS_RELEASE "-O3 -g -ggdb -DNDEBUG")
+
 else()
     #windows
     include_directories(${ROOT_DIR}/Dep/libevent/WIN32-code/nmake)
@@ -56,6 +80,7 @@ else()
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
+string (REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 link_directories(${DEP_LIB_DIR})
 
 #log
