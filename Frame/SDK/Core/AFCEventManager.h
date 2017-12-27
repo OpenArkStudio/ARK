@@ -47,6 +47,6 @@ protected:
 private:
     AFGUID mSelf;
 
-    NFList<int> mRemoveEventListEx;
-    AFMapEx<int, NFList<EVENT_PROCESS_FUNCTOR_PTR>> mObjectEventInfoMapEx;
+    AFList<int> mRemoveEventListEx;
+    AFMapEx<int, AFList<EVENT_PROCESS_FUNCTOR_PTR>> mObjectEventInfoMapEx;
 };

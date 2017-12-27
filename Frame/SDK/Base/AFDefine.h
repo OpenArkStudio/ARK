@@ -46,14 +46,14 @@ struct RECORD_EVENT_DATA
         : nOpType(COE_NONE)
         , nRow(-1)
         , nCol(-1)
-        , strRecordName(NULL_STR)
+        , strRecordName(NULL_STR.c_str())
     {
     }
 
-    int nOpType;
-    int nRow;
-    int nCol;
-    std::string strRecordName;
+    uint8_t nOpType;
+    int16_t nRow;
+    int16_t nCol;
+    RecordName strRecordName;
 };
 
 using HEART_BEAT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const int64_t, const int)>;

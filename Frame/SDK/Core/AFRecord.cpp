@@ -20,7 +20,9 @@
 
 #include "AFRecord.h"
 
-AFRecord::AFRecord(): feature(0), mstrName(NULL_STR.c_str())
+AFRecord::AFRecord()
+    : mstrName(NULL_STR.c_str())
+    , feature(0)
 {
 }
 
@@ -65,7 +67,7 @@ const char* AFRecord::GetName() const
     return mstrName.c_str();
 }
 
-int AFRecord::GetRowCount() const
+size_t AFRecord::GetRowCount() const
 {
     return mxRowDatas.size();
 }
@@ -81,7 +83,7 @@ void AFRecord::SetColCount(size_t value)
     mxColTypes.resize(value);
 }
 
-int AFRecord::GetColCount() const
+size_t AFRecord::GetColCount() const
 {
     return mxColTypes.size();
 }
@@ -100,6 +102,15 @@ int AFRecord::GetColType(int col) const
     assert(col < mxColTypes.size());
 
     return mxColTypes[col];
+}
+
+bool AFRecord::AddRow()
+{
+    //default insert row
+    size_t col_num = GetColCount();
+    RowData* row_data = new RowData[col_num];
+    mxRowDatas.push_back(row_data);
+    return true;
 }
 
 bool AFRecord::AddRow(size_t row)
@@ -128,7 +139,7 @@ bool AFRecord::AddRow(size_t row, const AFIDataList& data)
     }
 
     RowData* row_data = new RowData[col_num];
-    for(int i = 0; i < data.GetCount(); ++i)
+    for(size_t i = 0; i < data.GetCount(); ++i)
     {
         int type = GetColType(i);
         switch(type)

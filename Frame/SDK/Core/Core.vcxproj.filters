@@ -15,9 +15,6 @@
     <ClInclude Include="AFCHeartBeatManager.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFCObject.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="AFIComponent.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -25,9 +22,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFIHeartBeatManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIObject.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFIPropertyMgr.h">
@@ -42,15 +36,18 @@
     <ClInclude Include="AFCRecordMgr.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="AFCEntity.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIEntity.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFRecord.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFCHeartBeatManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AFCObject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFCPropertyMgr.cpp">
@@ -60,6 +57,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFCRecordMgr.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCEntity.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

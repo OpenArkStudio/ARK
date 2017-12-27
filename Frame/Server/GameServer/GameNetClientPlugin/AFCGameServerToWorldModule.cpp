@@ -53,7 +53,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
         return;
     }
 
-    NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+    AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
     std::string strConfigName;
     for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
@@ -130,7 +130,7 @@ bool AFCGameServerToWorldModule::AfterInit()
         return false;
     }
 
-    NFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+    AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
     std::string strConfigName;
     for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {

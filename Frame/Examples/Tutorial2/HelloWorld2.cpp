@@ -19,7 +19,7 @@
 */
 
 #include "HelloWorld2.h"
-#include "SDK/Core/AFCObject.h"
+#include "SDK/Core/AFCEntity.h"
 #include "SDK/Core/AFIComponent.h"
 
 bool HelloWorld2::Init()
@@ -46,7 +46,7 @@ bool HelloWorld2::AfterInit()
         std::cout << "Hello, world2, AfterInit" << std::endl;
 
         //created a object for this test
-        AFIObject* pObject = new AFCObject(AFGUID(0, 1), pPluginManager);
+        AFIEntity* pObject = new AFCEntity(AFGUID(0, 1), pPluginManager);
 
         //add a property name is "Hello" of this object
         pObject->GetPropertyManager()->AddProperty("Hello", AFCData(DT_INT, 1), 0);

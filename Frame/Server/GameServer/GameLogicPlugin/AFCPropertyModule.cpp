@@ -69,7 +69,7 @@ int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& s
 
     //if(NFPropertyGroup::NPG_ALL != eGroupType)
     //{
-    //    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    //    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetObject(self);
     //    if(nullptr != pObject)
     //    {
     //       AFRecord* pRecord = m_pKernelModule->FindRecord(self, ARK::Player::R_CommPropertyValue());
@@ -94,7 +94,7 @@ int AFCPropertyModule::AddPropertyValue(const AFGUID& self, const std::string& s
 {
     //if(NFPropertyGroup::NPG_ALL != eGroupType)
     //{
-    //    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    //    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetObject(self);
     //    if(nullptr != pObject)
     //    {
     //        ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, ARK::Player::R_CommPropertyValue());
@@ -115,7 +115,7 @@ int AFCPropertyModule::SubPropertyValue(const AFGUID& self, const std::string& s
 {
     //if(NFPropertyGroup::NPG_ALL != eGroupType)
     //{
-    //    ARK_SHARE_PTR<AFIObject> pObject = m_pKernelModule->GetObject(self);
+    //    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetObject(self);
     //    if(nullptr != pObject)
     //    {
     //        ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, ARK::Player::R_CommPropertyValue());

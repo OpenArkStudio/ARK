@@ -335,9 +335,9 @@ public:
         return true;
     }
 
-    virtual bool AddString(const char* value, const int nLenght)
+    virtual bool AddString(const char* value, const int nLength)
     {
-        if(nLenght <= 0)
+        if(nLength <= 0)
         {
             return false;
         }
@@ -354,9 +354,9 @@ public:
 
         //need only need  sub string
         size_t value_size = strlen(value);
-        if(value_size > nLenght)
+        if(value_size > (size_t)nLength)
         {
-            value_size = (size_t)nLenght;
+            value_size = (size_t)nLength;
         }
 
         value_size = + 1;

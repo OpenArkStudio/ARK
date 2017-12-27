@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "SDK/Core/AFIObject.h"
+#include "SDK/Core/AFIEntity.h"
 #include "SDK/Base/AFGUID.h"
 #include "SDK/Interface/AFISceneModule.h"
 
