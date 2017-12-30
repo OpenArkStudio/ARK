@@ -24,7 +24,7 @@ Gitee(码云): https://gitee.com/ArkGame/ArkGameFrame
 - mail: arkgametech@163.com
 
 ## ArkGameFrame
-ArkGameFrame is a lightweight, agility, scalable, distributed plugin framework written by C++，make it easier and faster to create your own game server, can be used to develop MMO RPG, ARPG, Round play, chess games.
+ArkGameFrame is a lightweight, agility, scalable, distributed plugin framework written by C++，make it easier and faster to create your own game server, can be used to develop MMO RPG, ARPG, Round play, chess games. Inspired by UnrealEngine and Ogre.
 
 ## Features
 
