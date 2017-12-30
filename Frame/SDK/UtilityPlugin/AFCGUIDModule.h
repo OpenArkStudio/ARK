@@ -21,7 +21,6 @@
 #pragma once
 
 #include "SDK/Interface/AFIGUIDModule.h"
-
 namespace GUIDModule
 {
 class IdWorkerUnThreadSafe;
