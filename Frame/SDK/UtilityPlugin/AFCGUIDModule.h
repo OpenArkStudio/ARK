@@ -23,7 +23,7 @@
 #include "SDK/Interface/AFIGUIDModule.h"
 namespace GUIDModule
 {
-class IdWorkerUnThreadSafe;
+class IdWorkerThreadUnsafe;
 class IdWorkerThreadSafe;
 }
 
@@ -49,6 +49,6 @@ private:
 #ifdef AF_THREAD_SAFE
     GUIDModule::IdWorkerThreadSafe* m_pIDWoker;
 #else
-    GUIDModule::IdWorkerUnThreadSafe* m_pIDWoker;
+    GUIDModule::IdWorkerThreadUnsafe* m_pIDWoker;
 #endif // AF_THREAD_SAFE
 };
