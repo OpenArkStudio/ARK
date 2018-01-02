@@ -71,10 +71,10 @@ uint64_t WaitUntilNextMillis(uint64_t last_timestamp)
     return timestamp;
 }
 
-class IdWorkerUnThreadSafe
+class IdWorkerThreadUnsafe
 {
 public:
-    IdWorkerUnThreadSafe() {}
+    IdWorkerThreadUnsafe() {}
 
     uint64_t GetNextID()
     {
@@ -116,7 +116,7 @@ public:
     }
 
 protected:
-    IdWorkerUnThreadSafe id_worker_;
+    IdWorkerThreadUnsafe id_worker_;
     mutable std::mutex lock_;
 };
 
@@ -135,7 +135,7 @@ bool AFCGUIDModule::Init()
 #ifdef AF_THREAD_SAFE
     m_pIDWoker = new GUIDModule::IdWorkerThreadSafe();
 #else
-    m_pIDWoker = new GUIDModule::IdWorkerUnThreadSafe();
+    m_pIDWoker = new GUIDModule::IdWorkerThreadUnsafe();
 #endif // AF_THREAD_SAFE
 
     return true;
