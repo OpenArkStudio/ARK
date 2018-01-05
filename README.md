@@ -4,15 +4,11 @@
 [![Build Status](https://travis-ci.org/ArkGame/ArkGameFrame.svg?branch=master)](https://travis-ci.org/ArkGame/ArkGameFrame)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ArkGameFrame)
-[![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
-<br><br>
-**Copyright © [ARK Game](https://arkgame.net "ARK Game")**
-<br><br>
-Website: https://arkgame.net
-<br>
-Github: https://github.com/ArkGame/ArkGameFrame
-<br>
-Gitee(码云): https://gitee.com/ArkGame/ArkGameFrame
+[![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)    
+**Copyright © [ARK Game](https://arkgame.net "ARK Game")**    
+Website: https://arkgame.net  
+Github: https://github.com/ArkGame/ArkGameFrame  
+Gitee(码云): https://gitee.com/ArkGame/ArkGameFrame  
 
 ##### Wanna get the newest features? Please switch to the develop branch.
 
