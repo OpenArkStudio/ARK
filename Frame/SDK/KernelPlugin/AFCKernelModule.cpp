@@ -163,8 +163,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateObject(const AFGUID& self, const
     ARK_SHARE_PTR<AFIRecordMgr> pStaticClassRecordManager = m_pClassModule->GetClassRecordManager(strClassName);
     if(pStaticClassPropertyManager && pStaticClassRecordManager)
     {
-        pObject = ARK_SHARE_PTR<AFIEntity>(ARK_NEW AFCEntity(ident, pPluginManager));
-        //是否是应该晚点等到事�?时才加入容器，这样能保证进入容器的对象都是有完整数据的，否则因为协程的原因，其他对象找到他时他却没数据或者部分数�?
+        pObject = std::make_shared<AFCEntity>(ident, pPluginManager);
         AddElement(ident, pObject);
         pContainerInfo->AddObjectToGroup(nGroupID, ident, strClassName == ARK::Player::ThisName() ? true : false);
 
@@ -822,7 +821,7 @@ bool AFCKernelModule::CreateScene(const int nSceneID)
     }
 
     //容器nSceneIndex
-    pSceneInfo = ARK_SHARE_PTR<AFCSceneInfo>(ARK_NEW AFCSceneInfo(nSceneID));
+    pSceneInfo = std::make_shared<AFCSceneInfo>(nSceneID);
     if(nullptr == pSceneInfo)
     {
         return false;
@@ -831,7 +830,7 @@ bool AFCKernelModule::CreateScene(const int nSceneID)
     m_pSceneModule->AddElement(nSceneID, pSceneInfo);
 
     //默认分组0
-    ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = ARK_SHARE_PTR<AFCSceneGroupInfo>(ARK_NEW AFCSceneGroupInfo(nSceneID, 0));
+    ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = std::make_shared<AFCSceneGroupInfo>(nSceneID, 0);
     if(nullptr == pGroupInfo)
     {
         return false;
@@ -950,12 +949,13 @@ int AFCKernelModule::RequestGroupScene(const int nSceneID)
     }
 
     int nNewGroupID = pSceneInfo->NewGroupID();
-    if(NULL != pSceneInfo->GetElement(nNewGroupID))
+    if(nullptr != pSceneInfo->GetElement(nNewGroupID))
     {
         return -1;
     }
-    ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo(ARK_NEW AFCSceneGroupInfo(nSceneID, nNewGroupID, pSceneInfo->GetWidth()));
-    if(NULL == pGroupInfo)
+
+    ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = std::make_shared<AFCSceneGroupInfo>(nSceneID, nNewGroupID, pSceneInfo->GetWidth());
+    if(nullptr == pGroupInfo)
     {
         return -1;
     }

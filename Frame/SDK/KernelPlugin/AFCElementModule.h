@@ -39,8 +39,8 @@ class ElementConfigInfo
 public:
     ElementConfigInfo()
     {
-        m_pPropertyManager = ARK_SHARE_PTR<AFIPropertyMgr>(ARK_NEW AFCPropertyMgr(NULL_GUID));
-        m_pRecordManager = ARK_SHARE_PTR<AFIRecordMgr>(ARK_NEW AFCRecordMgr(NULL_GUID));
+        m_pPropertyManager = std::make_shared<AFCPropertyMgr>(NULL_GUID);
+        m_pRecordManager = std::make_shared<AFCRecordMgr>(NULL_GUID);
     }
 
     virtual ~ElementConfigInfo()

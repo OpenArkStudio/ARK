@@ -284,7 +284,7 @@ int AFCProxyNetServerModule::SendToPlayerClient(const int nMsgID, const char* ms
 
 void AFCProxyNetServerModule::OnClientConnected(const AFGUID& xClientID)
 {
-    ARK_SHARE_PTR<SessionData> pSessionData(ARK_NEW SessionData());
+    ARK_SHARE_PTR<SessionData> pSessionData = std::make_shared<SessionData>();
 
     pSessionData->mnClientID = xClientID;
     mmSessionData.AddElement(xClientID, pSessionData);

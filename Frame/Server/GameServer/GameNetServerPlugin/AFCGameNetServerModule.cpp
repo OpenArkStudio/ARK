@@ -1239,7 +1239,7 @@ void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& xH
         ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = ARK_SHARE_PTR<GateServerInfo>(ARK_NEW GateServerInfo());
+            pServerData = std::make_shared<GateServerInfo>();
             mProxyMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -1288,7 +1288,7 @@ void AFCGameNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& x
         ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = ARK_SHARE_PTR<GateServerInfo>(ARK_NEW GateServerInfo());
+            pServerData = std::make_shared<GateServerInfo>();
             mProxyMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -1364,7 +1364,7 @@ bool AFCGameNetServerModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGU
         return false;
     }
 
-    if(!mRoleBaseData.AddElement(nRoleID, ARK_SHARE_PTR<GateBaseInfo>(ARK_NEW GateBaseInfo(nGateID, nClientID))))
+    if(!mRoleBaseData.AddElement(nRoleID, std::make_shared<GateBaseInfo>(nGateID, nClientID)))
     {
         pServerData->xRoleInfo.erase(nRoleID);
         return false;

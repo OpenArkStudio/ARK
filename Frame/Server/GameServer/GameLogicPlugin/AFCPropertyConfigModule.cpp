@@ -81,13 +81,13 @@ void AFCPropertyConfigModule::Load()
                 ARK_SHARE_PTR <AFMapEx<int, std::string> > xPropertyMap = mhtCoefficienData.GetElement(nJob);
                 if(!xPropertyMap)
                 {
-                    xPropertyMap = ARK_SHARE_PTR<AFMapEx<int, std::string>>(ARK_NEW AFMapEx<int, std::string>());
+                    xPropertyMap = std::make_shared<AFMapEx<int, std::string>>();
                     mhtCoefficienData.AddElement(nJob, xPropertyMap);
 
                     ARK_SHARE_PTR<std::string> xRefPropertyIDName = xPropertyMap->GetElement(nLevel);
                     if(!xRefPropertyIDName)
                     {
-                        xRefPropertyIDName = ARK_SHARE_PTR<std::string>(ARK_NEW std::string(strEffectData));
+                        xRefPropertyIDName = std::make_shared<std::string>(strEffectData);
                         xPropertyMap->AddElement(nLevel, xRefPropertyIDName);
                     }
                 }
