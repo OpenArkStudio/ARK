@@ -30,10 +30,10 @@ AFCEntity::AFCEntity(const AFGUID& self, AFIPluginManager* pLuginManager)
     mSelf = self;
     m_pPluginManager = pLuginManager;
 
-    m_pPropertyManager = ARK_SHARE_PTR<AFCPropertyMgr>(ARK_NEW AFCPropertyMgr(mSelf));
-    m_pRecordManager = ARK_SHARE_PTR<AFCRecordMgr>(ARK_NEW AFCRecordMgr(mSelf));
-    m_pHeartBeatManager = ARK_SHARE_PTR<AFCHeartBeatManager>(ARK_NEW AFCHeartBeatManager(mSelf));
-    m_pEventManager = ARK_SHARE_PTR<AFIEventManager>(ARK_NEW AFCEventManager(mSelf));
+    m_pPropertyManager = std::make_shared<AFCPropertyMgr>(mSelf);
+    m_pRecordManager = std::make_shared<AFCRecordMgr>(mSelf);
+    m_pHeartBeatManager = std::make_shared<AFCHeartBeatManager>(mSelf);
+    m_pEventManager = std::make_shared<AFCEventManager>(mSelf);
 }
 
 AFCEntity::~AFCEntity()

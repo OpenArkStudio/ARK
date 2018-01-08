@@ -181,7 +181,7 @@ void AFCLoginToMasterModule::OnWorldInfoProcess(const AFIMsgHead& xHead, const i
         ARK_SHARE_PTR<AFMsg::ServerInfoReport> pServerData = mWorldMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = ARK_SHARE_PTR<AFMsg::ServerInfoReport>(ARK_NEW AFMsg::ServerInfoReport());
+            pServerData = std::make_shared<AFMsg::ServerInfoReport>();
             *pServerData = xData;
 
             mWorldMap.AddElement(xData.server_id(), pServerData);
