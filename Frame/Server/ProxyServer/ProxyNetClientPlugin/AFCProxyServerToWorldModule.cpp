@@ -214,7 +214,7 @@ void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const AFIMsgHead& 
         return;
     }
 
-    pConnectData =ARK_NEW ClientConnectData();
+    pConnectData = ARK_NEW ClientConnectData();
     pConnectData->strAccount = xMsg.account();
     pConnectData->strConnectKey = xMsg.world_key();
     mWantToConnectMap.AddElement(pConnectData->strAccount, pConnectData);

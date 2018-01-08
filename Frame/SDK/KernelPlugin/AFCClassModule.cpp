@@ -235,7 +235,7 @@ bool AFCClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK
     //                ARK_ASSERT(0, strComponentName, __FILE__, __FUNCTION__);
     //                continue;
     //            }
-    //            ARK_SHARE_PTR<AFIComponent> xComponent(ARK_NEW AFIComponent(NULL_GUID, strComponentName));
+    //            ARK_SHARE_PTR<AFIComponent> xComponent = std::make_shared<AFCComponent>(NULL_GUID, strComponentName);
     //            pClass->GetComponentManager()->AddComponent(strComponentName, xComponent);
     //        }
     //    }
@@ -366,7 +366,7 @@ bool AFCClassModule::AddClass(const std::string& strClassName, const std::string
     ARK_SHARE_PTR<AFIClass> pChildClass = GetElement(strClassName);
     if(nullptr == pChildClass)
     {
-        pChildClass = ARK_SHARE_PTR<AFIClass>(ARK_NEW AFCClass(strClassName));
+        pChildClass = std::make_shared<AFCClass>(strClassName);
         AddElement(strClassName, pChildClass);
         //pChildClass = CreateElement( strClassName );
 
@@ -392,7 +392,7 @@ bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass
     //printf( "-----------------------------------------------------\n");
     //printf( "%s:\n", pstrLogicClassName );
 
-    ARK_SHARE_PTR<AFIClass> pClass(ARK_NEW AFCClass(pstrLogicClassName));
+    ARK_SHARE_PTR<AFIClass> pClass = std::make_shared<AFCClass>(pstrLogicClassName);
     AddElement(pstrLogicClassName, pClass);
     pClass->SetParent(pParentClass);
     pClass->SetTypeName(pstrType);

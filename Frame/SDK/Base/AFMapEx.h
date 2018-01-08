@@ -23,7 +23,7 @@
 #include "SDK/Base/AFPlatform.hpp"
 #include "SDK/Base/AFMacros.hpp"
 
-template <typename T , typename TD>
+template <typename T, typename TD>
 class AFMapEx
 {
 public:
