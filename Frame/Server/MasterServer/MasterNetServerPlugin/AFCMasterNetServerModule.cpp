@@ -47,7 +47,7 @@ void AFCMasterNetServerModule::OnWorldRegisteredProcess(const AFIMsgHead& xHead,
         ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = ARK_SHARE_PTR<ServerData>(ARK_NEW ServerData());
+            pServerData = std::make_shared<ServerData>();
             mWorldMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -96,7 +96,7 @@ void AFCMasterNetServerModule::OnRefreshWorldInfoProcess(const AFIMsgHead& xHead
         ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = ARK_SHARE_PTR<ServerData>(ARK_NEW ServerData());
+            pServerData = std::make_shared<ServerData>();
             mWorldMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -125,7 +125,7 @@ void AFCMasterNetServerModule::OnLoginRegisteredProcess(const AFIMsgHead& xHead,
         ARK_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = ARK_SHARE_PTR<ServerData>(ARK_NEW ServerData());
+            pServerData = std::make_shared<ServerData>();
             mLoginMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -173,7 +173,7 @@ void AFCMasterNetServerModule::OnRefreshLoginInfoProcess(const AFIMsgHead& xHead
         ARK_SHARE_PTR<ServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
-            pServerData = ARK_SHARE_PTR<ServerData>(ARK_NEW ServerData());
+            pServerData = std::make_shared<ServerData>();
             mLoginMap.AddElement(xData.server_id(), pServerData);
         }
 

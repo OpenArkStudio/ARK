@@ -50,7 +50,7 @@ bool AFCEventManager::AddEventCallBack(const int nEventID, const EVENT_PROCESS_F
     ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
     if(nullptr == pEventInfo)
     {
-        pEventInfo = ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>>(ARK_NEW AFList<EVENT_PROCESS_FUNCTOR_PTR>());
+        pEventInfo = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR_PTR>>();
         mObjectEventInfoMapEx.AddElement(nEventID, pEventInfo);
     }
 

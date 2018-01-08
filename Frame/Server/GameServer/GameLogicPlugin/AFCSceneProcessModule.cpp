@@ -289,7 +289,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = mtSceneResourceConfig.GetElement(nSceneID);
     if(nullptr == pSceneResourceMap)
     {
-        pSceneResourceMap = ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>>(ARK_NEW AFMapEx<std::string, SceneSeedResource>());
+        pSceneResourceMap = std::make_shared<AFMapEx<std::string, SceneSeedResource>>();
         mtSceneResourceConfig.AddElement(nSceneID, pSceneResourceMap);
     }
 
@@ -321,7 +321,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
         ARK_SHARE_PTR<SceneSeedResource> pSeedResource = pSceneResourceMap->GetElement(strSeedID);
         if(nullptr == pSeedResource)
         {
-            pSeedResource = ARK_SHARE_PTR<SceneSeedResource>(ARK_NEW SceneSeedResource());
+            pSeedResource = std::make_shared<SceneSeedResource>();
             pSceneResourceMap->AddElement(strSeedID, pSeedResource);
         }
 
