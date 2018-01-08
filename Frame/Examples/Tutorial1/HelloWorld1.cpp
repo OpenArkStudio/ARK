@@ -21,13 +21,12 @@
 #include "HelloWorld1.h"
 #include "SDK/Base/timer.hpp"
 
-namespace moon
-{
-    using timer_t = moon::timer<std::function<void(moon::timerid_t)> >;
-}
 
-moon::timer_t* t = new moon::timer_t();
-moon::timer_t* t2 = new moon::timer_t();
+using timer_t = timer<std::function<void(timerid_t)> >;
+timer_t* t = new timer_t();
+timer_t* t2 = new timer_t();
+int32_t time_id_1 = 0;
+int32_t time_id_2 = 0;
 
 bool HelloWorld1::Init()
 {
@@ -43,8 +42,8 @@ bool HelloWorld1::AfterInit()
 {
     //³õÊ¼»¯Íê±Ï
     std::cout << "Hello, world1, AfterInit" << std::endl;
-    t->repeat(1000, 10, [](moon::timerid_t id) { std::cout << "T1 ID = " << id << ", interval=1000ms print timer update" << std::endl; });
-    t2->repeat(1500, 10, [](moon::timerid_t id) { std::cout << "T2 ID = " << id << ", interval=1500ms print timer update" << std::endl; });
+    time_id_1 = t->repeat(1000, 10, [](timerid_t id) { std::cout << "T1 ID = " << id << ", interval=1000ms print timer update" << std::endl; });
+    time_id_2 = t2->repeat(1500, 10, [](timerid_t id) { std::cout << "T2 ID = " << id << ", interval=1500ms print timer update" << std::endl; });
 
     return true;
 }
