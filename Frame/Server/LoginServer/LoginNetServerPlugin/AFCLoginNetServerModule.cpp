@@ -123,7 +123,7 @@ bool AFCLoginNetServerModule::Execute()
 
 void AFCLoginNetServerModule::OnClientConnected(const AFGUID& xClientID)
 {
-    ARK_SHARE_PTR<SessionData> pSessionData(ARK_NEW SessionData());
+    ARK_SHARE_PTR<SessionData> pSessionData = std::make_shared<SessionData>();
 
     pSessionData->mnClientID = xClientID;
     mmClientSessionData.AddElement(xClientID, pSessionData);
