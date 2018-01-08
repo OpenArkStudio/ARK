@@ -107,15 +107,12 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
         return false;
     }
 
-    //ARK_SHARE_PTR<ElementConfigInfo> pElementInfo(ARK_NEW ElementConfigInfo());
-    //AddElement(strConfigID, pElementInfo);
     ElementConfigInfo* pElementInfo = ARK_NEW ElementConfigInfo();
     mxElementConfigMap.AddElement(strConfigID, pElementInfo);
 
     //can find all config id by class name
     pLogicClass->AddConfigName(strConfigID);
 
-    //ElementConfigInfo* pElementInfo = CreateElement( strConfigID, pElementInfo );
     ARK_SHARE_PTR<AFIPropertyMgr> pElementPropertyManager = pElementInfo->GetPropertyManager();
     ARK_SHARE_PTR<AFIRecordMgr> pElementRecordManager = pElementInfo->GetRecordManager();
 

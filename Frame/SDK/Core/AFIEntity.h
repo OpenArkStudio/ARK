@@ -43,7 +43,7 @@ public:
     bool AddPropertyCallBack(const std::string& strPropertyName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
         PROPERTY_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        PROPERTY_EVENT_FUNCTOR_PTR functorPtr(ARK_NEW PROPERTY_EVENT_FUNCTOR(functor));
+        PROPERTY_EVENT_FUNCTOR_PTR functorPtr = std::make_shared<PROPERTY_EVENT_FUNCTOR>(functor);
         return AddPropertyCallBack(strPropertyName, functorPtr);
     }
 
@@ -51,7 +51,7 @@ public:
     bool AddRecordCallBack(const std::string& strRecordName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const RECORD_EVENT_DATA&, const AFIData&, const AFIData&))
     {
         RECORD_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        RECORD_EVENT_FUNCTOR_PTR functorPtr(ARK_NEW RECORD_EVENT_FUNCTOR(functor));
+        RECORD_EVENT_FUNCTOR_PTR functorPtr = std::make_shared<RECORD_EVENT_FUNCTOR>(functor);
         return AddRecordCallBack(strRecordName, functorPtr);
     }
 
@@ -59,7 +59,7 @@ public:
     bool AddHeartBeat(const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const float, const int), const float fTime, const int nCount, const bool bForever)
     {
         HEART_BEAT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        HEART_BEAT_FUNCTOR_PTR functorPtr(ARK_NEW HEART_BEAT_FUNCTOR(functor));
+        HEART_BEAT_FUNCTOR_PTR functorPtr = std::make_shared<HEART_BEAT_FUNCTOR>(functor);
         return AddHeartBeat(strHeartBeatName, functorPtr, fTime, nCount,  bForever);
     }
 
