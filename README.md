@@ -83,7 +83,7 @@ svn checkout https://github.com/ArkGame/ArkGameFrame
 - CMake 3.0 +
 
 ##### Step:
-Using Visual Studio
+Using Visual Studio 2015
 1. Pull all source
 2. Run command line 
 ```batch
@@ -110,6 +110,8 @@ cmake -G "Visual Studio 14 Win64" ..
 ```
 4. Start `ARK.sln`
 
+> Note. If you are using VS2017, please change **%VS140COMNTOOLS%** in **Dep/build_dep.bat** to **YOUR-COMPILER-PATH**.
+
 ### linux
 
 ##### Prerequisites:
@@ -131,7 +133,7 @@ mkdir build && cd build
 cmake -G "Unix Makefiles" ..
 make -j
 ```
-> Note. if you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
+> Note. If you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
 3. Run `bash ./GenerateConfigXML.sh` to generate configuration files
 4. Run the binary file by `Bin/Server/Debug/rund.sh`
 
