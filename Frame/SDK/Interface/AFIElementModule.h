@@ -22,8 +22,8 @@
 
 #include "AFIModule.h"
 #include "SDK/Base/AFCDataList.h"
-#include "SDK/Core/AFIPropertyMgr.h"
-#include "SDK/Core/AFIRecordMgr.h"
+#include "SDK/Core/AFIDataNodeManager.h"
+#include "SDK/Core/AFIDataTableManager.h"
 
 class AFIElementModule
     : public AFIModule
@@ -35,14 +35,13 @@ public:
     virtual bool ExistElement(const std::string& strConfigName) = 0;
     virtual bool ExistElement(const std::string& strClassName, const std::string& strConfigName) = 0;
 
-    virtual std::shared_ptr<AFIPropertyMgr> GetPropertyManager(const std::string& strConfigName) = 0;
+    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strConfigName) = 0;
+    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strConfigName) = 0;
 
-    virtual std::shared_ptr<AFIRecordMgr> GetRecordManager(const std::string& strConfigName) = 0;
-
-    virtual bool GetPropertyBool(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual int32_t GetPropertyInt(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual int64_t GetPropertyInt64(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual float GetPropertyFloat(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual double GetPropertyDouble(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual const char* GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName) = 0;
+    virtual bool GetNodeBool(const std::string& strConfigName, const std::string& strPropertyName) = 0;
+    virtual int32_t GetNodeInt(const std::string& strConfigName, const std::string& strPropertyName) = 0;
+    virtual int64_t GetNodeInt64(const std::string& strConfigName, const std::string& strPropertyName) = 0;
+    virtual float GetNodeFloat(const std::string& strConfigName, const std::string& strPropertyName) = 0;
+    virtual double GetNodeDouble(const std::string& strConfigName, const std::string& strPropertyName) = 0;
+    virtual const char* GetNodeString(const std::string& strConfigName, const std::string& strPropertyName) = 0;
 };

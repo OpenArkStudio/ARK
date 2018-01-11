@@ -27,7 +27,7 @@
 #include "SDK/Base/AFCDataList.h"
 #include "SDK/Base/AFVector3.hpp"
 #include "SDK/EventDefine/AFEventDefine.h"
-#include "SDK/Core/AFRecord.h"
+#include "SDK/Core/AFDataTable.h"
 
 template<typename DerivedType, typename BaseType>
 class TIsDerived

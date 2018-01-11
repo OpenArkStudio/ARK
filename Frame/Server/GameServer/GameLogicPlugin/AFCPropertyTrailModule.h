@@ -54,7 +54,7 @@ protected:
 
     int OnObjectPropertyEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
 
-    int OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
+    int OnEntityTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
 private:
     AFIKernelModule* m_pKernelModule;
