@@ -101,23 +101,23 @@ bool HelloWorld3Module::AfterInit()
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
 
     //创建对象，挂类回调和属性回调,然后事件处理对象
-    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->CreateEntity(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
-    if(nullptr == pObject)
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
+    if(nullptr == pEntity)
     {
         return false;
     }
 
     AFCData xData;
-    pObject->GetNodeManager()->AddNode("Hello", AFCData(DT_STRING, ""), 0);
-    pObject->GetNodeManager()->AddNode("World", AFCData(DT_INT, 1), 0);
+    pEntity->GetNodeManager()->AddNode("Hello", AFCData(DT_STRING, ""), 0);
+    pEntity->GetNodeManager()->AddNode("World", AFCData(DT_INT, 1), 0);
 
-    pObject->AddNodeCallBack("Hello", this, &HelloWorld3Module::OnPropertyStrCallBackEvent);
-    pObject->AddNodeCallBack("World", this, &HelloWorld3Module::OnPropertyCallBackEvent);
+    pEntity->AddNodeCallBack("Hello", this, &HelloWorld3Module::OnPropertyStrCallBackEvent);
+    pEntity->AddNodeCallBack("World", this, &HelloWorld3Module::OnPropertyCallBackEvent);
 
-    pObject->SetNodeString("Hello", "hello,World");
-    pObject->SetNodeInt("World", 1111);
+    pEntity->SetNodeString("Hello", "hello,World");
+    pEntity->SetNodeInt("World", 1111);
 
-    m_pKernelModule->DoEvent(pObject->Self(), 11111111, AFCDataList() << "hello2" << int(200));
+    m_pKernelModule->DoEvent(pEntity->Self(), 11111111, AFCDataList() << "hello2" << int(200));
 
     return true;
 }

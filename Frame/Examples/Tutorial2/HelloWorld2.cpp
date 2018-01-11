@@ -46,29 +46,29 @@ bool HelloWorld2::AfterInit()
         std::cout << "Hello, world2, AfterInit" << std::endl;
 
         //created a object for this test
-        AFIEntity* pObject = new AFCEntity(AFGUID(0, 1), pPluginManager);
+        AFIEntity* pEntity = new AFCEntity(AFGUID(0, 1), pPluginManager);
 
         //add a property name is "Hello" of this object
-        pObject->GetNodeManager()->AddNode("Hello", AFCData(DT_INT, 1), 0);
+        pEntity->GetNodeManager()->AddNode("Hello", AFCData(DT_INT, 1), 0);
         //add a property name is "World" of this object
-        pObject->GetNodeManager()->AddNode("World", AFCData(DT_INT, 1), 0);
+        pEntity->GetNodeManager()->AddNode("World", AFCData(DT_INT, 1), 0);
 
         //set the "world" property value as 1111
-        pObject->SetNodeInt("World", 1111);
-        int n1 = pObject->GetNodeInt("World");
+        pEntity->SetNodeInt("World", 1111);
+        int n1 = pEntity->GetNodeInt("World");
         //get the "world" property value and printf it
-        const int nDataNode1 = pObject->GetNodeInt("World");
+        const int nDataNode1 = pEntity->GetNodeInt("World");
         std::cout << "DataNode - World:" << nDataNode1 << std::endl;
 
         //add a call back functin for "world" property
-        pObject->AddNodeCallBack("World", this, &HelloWorld2::OnPropertyCallBackEvent);
+        pEntity->AddNodeCallBack("World", this, &HelloWorld2::OnPropertyCallBackEvent);
 
         ////set the "world" property value as 2222[than the function "HelloWorld2::OnPropertyCallBackEvent" will be called]
-        pObject->SetNodeInt("World", 2222);
-        int n2 = pObject->GetNodeInt("World");
+        pEntity->SetNodeInt("World", 2222);
+        int n2 = pEntity->GetNodeInt("World");
 
         //get the "world" property value and printf it
-        const int nProperty2 = pObject->GetNodeInt("World");
+        const int nProperty2 = pEntity->GetNodeInt("World");
         std::cout << "Property World:" << nProperty2 << std::endl;
 
     }
