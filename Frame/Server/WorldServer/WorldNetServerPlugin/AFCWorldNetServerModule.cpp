@@ -532,8 +532,8 @@ int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const A
     AFMsg::MultiObjectRecordList xPublicMsg;
     AFMsg::MultiObjectRecordList xPrivateMsg;
 
-    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetEntity(self);
-    if(nullptr == pObject)
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    if(nullptr == pEntity)
     {
         return 1;
     }
@@ -541,7 +541,7 @@ int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const A
     AFMsg::ObjectRecordList* pPublicData = NULL;
     AFMsg::ObjectRecordList* pPrivateData = NULL;
 
-    ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pObject->GetTableManager();
+    ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
     int nRecordCount = pTableManager->GetCount();
     for(int i = 0; i < nRecordCount; ++i)
     {

@@ -209,8 +209,8 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
     var.AddString("ClientID");
     var.AddObject(nGateClientID);
 
-    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->CreateEntity(nRoleID, nSceneID, 0, ARK::Player::ThisName(), "", var);
-    if(nullptr == pObject)
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(nRoleID, nSceneID, 0, ARK::Player::ThisName(), "", var);
+    if(nullptr == pEntity)
     {
         //内存泄漏
         //mRoleBaseData
@@ -218,18 +218,18 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
         return;
     }
 
-    pObject->SetNodeInt("LoadPropertyFinish", 1);
-    pObject->SetNodeInt("GateID", nGateID);
-    pObject->SetNodeInt("GameID", pPluginManager->AppID());
+    pEntity->SetNodeInt("LoadPropertyFinish", 1);
+    pEntity->SetNodeInt("GateID", nGateID);
+    pEntity->SetNodeInt("GameID", pPluginManager->AppID());
 
-    m_pKernelModule->DoEvent(pObject->Self(), ARK::Player::ThisName(), CLASS_OBJECT_EVENT::COE_CREATE_FINISH, AFCDataList());
+    m_pKernelModule->DoEvent(pEntity->Self(), ARK::Player::ThisName(), CLASS_OBJECT_EVENT::COE_CREATE_FINISH, AFCDataList());
 
     AFCDataList varEntry;
-    varEntry << pObject->Self();
+    varEntry << pEntity->Self();
     varEntry << int32_t(0);
     varEntry << (int32_t)nSceneID;
     varEntry << int32_t (-1);
-    m_pKernelModule->DoEvent(pObject->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
+    m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
 }
 
 void AFCGameNetServerModule::OnClienLeaveGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
@@ -270,8 +270,8 @@ int AFCGameNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AFG
     //分为自己和外人
     //1.public发送给所有人
     //2.如果自己在列表中，再次发送private数据
-    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetEntity(self);
-    if(nullptr != pObject)
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    if(nullptr != pEntity)
     {
         AFMsg::ObjectPropertyList* pPublicData = xPublicMsg.add_multi_player_property();
         AFMsg::ObjectPropertyList* pPrivateData = xPrivateMsg.add_multi_player_property();
@@ -279,7 +279,7 @@ int AFCGameNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AFG
         *(pPublicData->mutable_player_id()) = AFINetServerModule::GUIDToPB(self);
         *(pPrivateData->mutable_player_id()) = AFINetServerModule::GUIDToPB(self);
 
-        ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pObject->GetNodeManager();
+        ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
 
         for(int i = 0; i < pNodeManager->GetNodeCount(); i++)
         {
@@ -362,8 +362,8 @@ int AFCGameNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFGUI
     AFMsg::MultiObjectRecordList xPublicMsg;
     AFMsg::MultiObjectRecordList xPrivateMsg;
 
-    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetEntity(self);
-    if(nullptr == pObject)
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    if(nullptr == pEntity)
     {
         return 0;
     }
@@ -371,7 +371,7 @@ int AFCGameNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFGUI
     AFMsg::ObjectRecordList* pPublicData = NULL;
     AFMsg::ObjectRecordList* pPrivateData = NULL;
 
-    ARK_SHARE_PTR<AFIDataTableManager> pNodeManager = pObject->GetTableManager();
+    ARK_SHARE_PTR<AFIDataTableManager> pNodeManager = pEntity->GetTableManager();
 
     size_t nRecordCount = pNodeManager->GetCount();
     for(int i = 0; i < nRecordCount; ++i)
