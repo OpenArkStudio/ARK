@@ -55,19 +55,19 @@ void AFCNetClient::ProcessMsgLogicThread()
 
 }
 
-void AFCNetClient::ProcessMsgLogicThread(NetObject* pObject)
+void AFCNetClient::ProcessMsgLogicThread(NetObject* pEntity)
 {
-    if(NULL ==  pObject)
+    if(NULL ==  pEntity)
     {
         return;
     }
 
     //Handle Msg;
-    const int nReceiveCount = pObject->mqMsgFromNet.Count();
+    const int nReceiveCount = pEntity->mqMsgFromNet.Count();
     for(size_t i = 0; (i < nReceiveCount); i++)
     {
         MsgFromNetInfo* pMsgFromNet(NULL);
-        if(!pObject->mqMsgFromNet.Pop(pMsgFromNet))
+        if(!pEntity->mqMsgFromNet.Pop(pMsgFromNet))
         {
             break;
         }
@@ -84,7 +84,7 @@ void AFCNetClient::ProcessMsgLogicThread(NetObject* pObject)
                 int nRet = 0;
                 if(mRecvCB)
                 {
-                    mRecvCB(pMsgFromNet->xHead, pMsgFromNet->xHead.GetMsgID(), pMsgFromNet->strMsg.c_str(), pMsgFromNet->strMsg.size(), pObject->GetClientID());
+                    mRecvCB(pMsgFromNet->xHead, pMsgFromNet->xHead.GetMsgID(), pMsgFromNet->strMsg.c_str(), pMsgFromNet->strMsg.size(), pEntity->GetClientID());
                 }
             }
             break;
@@ -96,7 +96,7 @@ void AFCNetClient::ProcessMsgLogicThread(NetObject* pObject)
         case DISCONNECTED:
             {
                 mEventCB((NetEventType)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
-                pObject->SetNeedRemove(true);
+                pEntity->SetNeedRemove(true);
             }
             break;
         default:
@@ -162,20 +162,20 @@ bool AFCNetClient::CloseNetObject(const AFGUID& xClient)
     return true;
 }
 
-bool AFCNetClient::DismantleNet(NetObject* pObject)
+bool AFCNetClient::DismantleNet(NetObject* pEntity)
 {
-    for(; pObject->GetBuffLen() >= AFIMsgHead::AF_Head::NF_HEAD_LENGTH;)
+    for(; pEntity->GetBuffLen() >= AFIMsgHead::AF_Head::NF_HEAD_LENGTH;)
     {
         AFCMsgHead xHead;
-        int nMsgBodyLength = DeCode(pObject->GetBuff(), pObject->GetBuffLen(), xHead);
+        int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
         if(nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
         {
-            MsgFromNetInfo* pNetInfo = new MsgFromNetInfo(pObject->GetConnPtr());
+            MsgFromNetInfo* pNetInfo = new MsgFromNetInfo(pEntity->GetConnPtr());
             pNetInfo->xHead = xHead;
             pNetInfo->nType = RECIVEDATA;
-            pNetInfo->strMsg.append(pObject->GetBuff() + AFIMsgHead::AF_Head::NF_HEAD_LENGTH, nMsgBodyLength);
-            pObject->mqMsgFromNet.Push(pNetInfo);
-            int nNewSize = pObject->RemoveBuff(nMsgBodyLength + AFIMsgHead::AF_Head::NF_HEAD_LENGTH);
+            pNetInfo->strMsg.append(pEntity->GetBuff() + AFIMsgHead::AF_Head::NF_HEAD_LENGTH, nMsgBodyLength);
+            pEntity->mqMsgFromNet.Push(pNetInfo);
+            int nNewSize = pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::AF_Head::NF_HEAD_LENGTH);
         }
         else
         {
@@ -231,10 +231,10 @@ void AFCNetClient::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
         {
             AFScopeWrLock xGuard(mRWLock);
 
-            NetObject* pObject = new NetObject(this, pMsg->xClientID, conn);
-            conn->set_context(evpp::Any(pObject));
-            m_pClientObject.reset(pObject);
-            pObject->mqMsgFromNet.Push(pMsg);
+            NetObject* pEntity = new NetObject(this, pMsg->xClientID, conn);
+            conn->set_context(evpp::Any(pEntity));
+            m_pClientObject.reset(pEntity);
+            pEntity->mqMsgFromNet.Push(pMsg);
         }
     }
     else
@@ -247,8 +247,8 @@ void AFCNetClient::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
         //主线程不能直接删除。不然这里就野了
         if(!conn->context().IsEmpty())
         {
-            NetObject* pObject = evpp::any_cast<NetObject*>(conn->context());
-            pObject->mqMsgFromNet.Push(pMsg);
+            NetObject* pEntity = evpp::any_cast<NetObject*>(conn->context());
+            pEntity->mqMsgFromNet.Push(pMsg);
             conn->set_context(evpp::Any(nullptr));
         }
 
@@ -272,16 +272,16 @@ void AFCNetClient::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* ms
     }
 
     nReceiverSize += msg->length();
-    NetObject* pObject = evpp::any_cast<NetObject*>(conn->context());
-    if(NULL == pObject)
+    NetObject* pEntity = evpp::any_cast<NetObject*>(conn->context());
+    if(NULL == pEntity)
     {
         return;
     }
 
     evpp::Slice xMsgBuff;
     xMsgBuff = msg->NextAll();
-    int nRet = pObject->AddBuff(xMsgBuff.data(), xMsgBuff.size());
-    bool bRet = DismantleNet(pObject);
+    int nRet = pEntity->AddBuff(xMsgBuff.data(), xMsgBuff.size());
+    bool bRet = DismantleNet(pEntity);
     if(!bRet)
     {
         //add log
