@@ -13,6 +13,7 @@ ArkGameFrame计划 2018
 - [ ] 11.增加Deployment web工具
 - [ ] 12.统一名称为Entity, DataNode, DataTable, Map, Layer
 - [ ] 13.文档逐步补齐，概念介绍、设计理念、服务器架构、使用例子
+- [ ] 14.更新pb为3.0+
 
 ArkGameFrame Bug修改
 

@@ -128,7 +128,7 @@ int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std:
     return 0;
 }
 
-int AFCPropertyTrailModule::OnObjectRecordEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
+int AFCPropertyTrailModule::OnEntityTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     //std::ostringstream stream;
     //ARK_SHARE_PTR<AFIRecord> xRecord = m_pKernelModule->FindRecord(self, xEventData.strRecordName);

@@ -22,7 +22,8 @@
 #include "SDK/Base/AFGUID.h"
 #include "SDK/Base/AFMemManger.h"
 #include "SDK/Core/AFCEntity.h"
-#include "SDK/Core/AFRecord.h"
+#include "SDK/Core/AFDataNode.h"
+#include "SDK/Core/AFDataTable.h"
 #include "SDK/Proto/ArkProtocolDefine.hpp"
 #include "AFCKernelModule.h"
 
@@ -78,7 +79,7 @@ bool AFCKernelModule::Execute()
 {
     ProcessMemFree();
 
-    mnCurExeObject = NULL_GUID;
+    mnCurExeEntity = NULL_GUID;
 
     if(mtDeleteSelfList.size() > 0)
     {
@@ -92,37 +93,37 @@ bool AFCKernelModule::Execute()
 
     m_pSceneModule->Execute();
 
-    ARK_SHARE_PTR<AFIEntity> pObject = First();
-    while(pObject)
+    ARK_SHARE_PTR<AFIEntity> pEntity = First();
+    while(pEntity)
     {
-        mnCurExeObject = pObject->Self();
-        pObject->Execute();
-        mnCurExeObject = NULL_GUID;
+        mnCurExeEntity = pEntity->Self();
+        pEntity->Execute();
+        mnCurExeEntity = NULL_GUID;
 
-        pObject = Next();
+        pEntity = Next();
     }
 
     return true;
 }
 
-bool AFCKernelModule::FindHeartBeat(const AFGUID& self, const std::string& strHeartBeatName)
+bool AFCKernelModule::FindHeartBeat(const AFGUID& self, const std::string& name)
 {
-    ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
-    if(pObject)
+    ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+    if(pEntity != nullptr)
     {
-        return pObject->FindHeartBeat(strHeartBeatName);
+        return pEntity->CheckHeartBeatExist(name);
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, "There is no entity", NULL_STR, __FUNCTION__, __LINE__);
     return false;
 }
 
-bool AFCKernelModule::RemoveHeartBeat(const AFGUID& self, const std::string& strHeartBeatName)
+bool AFCKernelModule::RemoveHeartBeat(const AFGUID& self, const std::string& name)
 {
-    ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
-    if(pObject)
+    ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+    if (pEntity != nullptr)
     {
-        return pObject->RemoveHeartBeat(strHeartBeatName);
+        return pEntity->RemoveHeartBeat(name);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
@@ -130,7 +131,7 @@ bool AFCKernelModule::RemoveHeartBeat(const AFGUID& self, const std::string& str
     return false;
 }
 
-ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateObject(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg)
+ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg)
 {
     ARK_SHARE_PTR<AFIEntity> pObject;
     AFGUID ident = self;
@@ -159,119 +160,114 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateObject(const AFGUID& self, const
         return pObject;
     }
 
-    ARK_SHARE_PTR<AFIPropertyMgr> pStaticClassPropertyManager = m_pClassModule->GetClassPropertyManager(strClassName);
-    ARK_SHARE_PTR<AFIRecordMgr> pStaticClassRecordManager = m_pClassModule->GetClassRecordManager(strClassName);
-    if(pStaticClassPropertyManager && pStaticClassRecordManager)
+    ARK_SHARE_PTR<AFIDataNodeManager> pStaticClassNodeManager = m_pClassModule->GetNodeManager(strClassName);
+    ARK_SHARE_PTR<AFIDataTableManager> pStaticClassTableManager = m_pClassModule->GetTableManager(strClassName);
+    if(pStaticClassNodeManager != nullptr && pStaticClassTableManager != nullptr)
     {
         pObject = std::make_shared<AFCEntity>(ident, pPluginManager);
         AddElement(ident, pObject);
         pContainerInfo->AddObjectToGroup(nGroupID, ident, strClassName == ARK::Player::ThisName() ? true : false);
 
-        ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = pObject->GetPropertyManager();
-        ARK_SHARE_PTR<AFIRecordMgr> pRecordManager = pObject->GetRecordManager();
+        ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pObject->GetNodeManager();
+        ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pObject->GetTableManager();
 
-        //默认属�?
-        size_t staticPropertyCount = pStaticClassPropertyManager->GetPropertyCount();
-        for(size_t i = 0; i < staticPropertyCount; ++i)
+        size_t staticNodeCount = pStaticClassNodeManager->GetNodeCount();
+        for(size_t i = 0; i < staticNodeCount; ++i)
         {
-            AFProperty* pStaticConfigProperty = pStaticClassPropertyManager->GetPropertyByIndex(i);
-            if(NULL == pStaticConfigProperty)
+            AFDataNode* pStaticConfigNode = pStaticClassNodeManager->GetNodeByIndex(i);
+            if(pStaticConfigNode == nullptr)
             {
                 continue;
             }
 
-            bool bRet = pPropertyManager->AddProperty(pStaticConfigProperty->GetName().c_str(), pStaticConfigProperty->GetValue(), pStaticConfigProperty->GetFeature());
+            bool bRet = pNodeManager->AddNode(pStaticConfigNode->GetName().c_str(), pStaticConfigNode->GetValue(), pStaticConfigNode->GetFeature());
             if(!bRet)
             {
-                ARK_ASSERT(0, "Add property failed, please check it", __FILE__, __FUNCTION__);
+                ARK_ASSERT(0, "AddNode failed, please check it", __FILE__, __FUNCTION__);
                 continue;
             }
 
-            //通用回调，方便NET同步
-            pObject->AddPropertyCallBack(pStaticConfigProperty->GetName().c_str(), this, &AFCKernelModule::OnPropertyCommonEvent);
+            pObject->AddNodeCallBack(pStaticConfigNode->GetName().c_str(), this, &AFCKernelModule::OnCommonNodeEvent);
         }
 
-
-        int staticRecordCount = pStaticClassRecordManager->GetCount();
-        for(size_t i = 0; i < staticRecordCount; ++i)
+        int staticTableCount = pStaticClassTableManager->GetCount();
+        for(size_t i = 0; i < staticTableCount; ++i)
         {
-            AFRecord* pRecord = pStaticClassRecordManager->GetRecordByIndex(i);
-            if(NULL == pRecord)
+            AFDataTable* pStaticTable = pStaticClassTableManager->GetTableByIndex(i);
+            if(NULL == pStaticTable)
             {
                 continue;
             }
 
             AFCDataList col_type_list;
-            pRecord->GetColTypeList(col_type_list);
-            int8_t feature = pRecord->GetFeature();
-            pRecordManager->AddRecord(NULL_GUID, pRecord->GetName(), col_type_list, feature);
+            pStaticTable->GetColTypeList(col_type_list);
+            int8_t feature = pStaticTable->GetFeature();
+            pTableManager->AddTable(NULL_GUID, pStaticTable->GetName(), col_type_list, feature);
 
-            //add record callback
-            pObject->AddRecordCallBack(pRecord->GetName(), this, &AFCKernelModule::OnRecordCommonEvent);
+            //Add table callback
+            pObject->AddTableCallBack(pStaticTable->GetName(), this, &AFCKernelModule::OnCommonTableEvent);
         }
 
         //////////////////////////////////////////////////////////////////////////
-        //配置属�?
-        ARK_SHARE_PTR<AFIPropertyMgr> pConfigPropertyManager = m_pElementModule->GetPropertyManager(strConfigIndex);
-        ARK_SHARE_PTR<AFIRecordMgr> pConfigRecordManager = m_pElementModule->GetRecordManager(strConfigIndex);
+        ARK_SHARE_PTR<AFIDataNodeManager> pConfigNodeManager = m_pElementModule->GetNodeManager(strConfigIndex);
+        ARK_SHARE_PTR<AFIDataTableManager> pConfigTableManager = m_pElementModule->GetTableManager(strConfigIndex);
 
-        if(nullptr != pConfigPropertyManager && nullptr != pConfigRecordManager)
+        if(pConfigNodeManager != nullptr&& pConfigTableManager != nullptr)
         {
-            size_t configPropertyCount = pConfigPropertyManager->GetPropertyCount();
-            for(size_t i = 0; i < configPropertyCount; ++i)
+            size_t configNodeCount = pConfigNodeManager->GetNodeCount();
+            for(size_t i = 0; i < configNodeCount; ++i)
             {
-                AFProperty* pConfigProperty = pConfigPropertyManager->GetPropertyByIndex(i);
-                if(NULL == pConfigProperty)
+                AFDataNode* pConfigNode = pConfigNodeManager->GetNodeByIndex(i);
+                if(pConfigNode == nullptr)
                 {
                     continue;
                 }
 
-                if(pConfigProperty->Changed())
+                if(pConfigNode->Changed())
                 {
-                    pPropertyManager->SetProperty(pConfigProperty->GetName().c_str(), pConfigProperty->GetValue());
+                    pNodeManager->SetNode(pConfigNode->GetName().c_str(), pConfigNode->GetValue());
                 }
             }
         }
 
         DoEvent(ident, strClassName, CLASS_OBJECT_EVENT::COE_CREATE_NODATA, arg);
 
-        //传入的属性赋�?
         for(int i = 0; i < ((int)arg.GetCount() - 1); i += 2)
         {
-            const std::string& strPropertyName = arg.String(i);
-            if(ARK::IObject::ConfigID() != strPropertyName
-                    && ARK::IObject::ClassName() != strPropertyName
-                    && ARK::IObject::SceneID() != strPropertyName
-                    && ARK::IObject::GroupID() != strPropertyName)
+            const std::string& strDataNodeName = arg.String(i);
+            if(ARK::IObject::ConfigID() != strDataNodeName
+                    && ARK::IObject::ClassName() != strDataNodeName
+                    && ARK::IObject::SceneID() != strDataNodeName
+                    && ARK::IObject::GroupID() != strDataNodeName)
             {
-                AFProperty* pArgProperty = pStaticClassPropertyManager->GetProperty(strPropertyName.c_str());
-                if(NULL == pArgProperty)
+                AFDataNode* pArgNode = pStaticClassNodeManager->GetNode(strDataNodeName.c_str());
+                if(pArgNode != NULL)
                 {
                     continue;
                 }
 
-                switch(pArgProperty->GetType())
+                switch(pArgNode->GetType())
                 {
                 case DT_BOOLEAN:
-                    pObject->SetPropertyBool(strPropertyName, arg.Bool(i + 1));
+                    pObject->SetNodeBool(strDataNodeName, arg.Bool(i + 1));
                     break;
                 case DT_INT:
-                    pObject->SetPropertyInt(strPropertyName, arg.Int(i + 1));
+                    pObject->SetNodeInt(strDataNodeName, arg.Int(i + 1));
                     break;
                 case DT_INT64:
-                    pObject->SetPropertyInt64(strPropertyName, arg.Int64(i + 1));
+                    pObject->SetNodeInt64(strDataNodeName, arg.Int64(i + 1));
                     break;
                 case DT_FLOAT:
-                    pObject->SetPropertyFloat(strPropertyName, arg.Float(i + 1));
+                    pObject->SetNodeFloat(strDataNodeName, arg.Float(i + 1));
                     break;
                 case DT_DOUBLE:
-                    pObject->SetPropertyDouble(strPropertyName, arg.Double(i + 1));
+                    pObject->SetNodeDouble(strDataNodeName, arg.Double(i + 1));
                     break;
                 case DT_STRING:
-                    pObject->SetPropertyString(strPropertyName, arg.String(i + 1));
+                    pObject->SetNodeString(strDataNodeName, arg.String(i + 1));
                     break;
                 case DT_OBJECT:
-                    pObject->SetPropertyObject(strPropertyName, arg.Object(i + 1));
+                    pObject->SetNodeObject(strDataNodeName, arg.Object(i + 1));
                     break;
                 default:
                     break;
@@ -279,17 +275,16 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateObject(const AFGUID& self, const
             }
         }
 
-        //放进容器//先进入场景，再进入层
-        pObject->SetPropertyString(ARK::IObject::ConfigID(), strConfigIndex);
-        pObject->SetPropertyString(ARK::IObject::ClassName(), strClassName);
-        pObject->SetPropertyInt(ARK::IObject::SceneID(), nSceneID);
-        pObject->SetPropertyInt(ARK::IObject::GroupID(), nGroupID);
+        pObject->SetNodeString(ARK::IObject::ConfigID(), strConfigIndex);
+        pObject->SetNodeString(ARK::IObject::ClassName(), strClassName);
+        pObject->SetNodeInt(ARK::IObject::SceneID(), nSceneID);
+        pObject->SetNodeInt(ARK::IObject::GroupID(), nGroupID);
 
-        bool bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_LOADDATA, arg);
-        bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_BEFORE_EFFECT, arg);
-        bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_EFFECTDATA, arg);
-        bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_AFTER_EFFECT, arg);
-        bHaveAndDoSeccull = DoEvent(ident, strClassName, COE_CREATE_HASDATA, arg);
+        DoEvent(ident, strClassName, COE_CREATE_LOADDATA, arg);
+        DoEvent(ident, strClassName, COE_CREATE_BEFORE_EFFECT, arg);
+        DoEvent(ident, strClassName, COE_CREATE_EFFECTDATA, arg);
+        DoEvent(ident, strClassName, COE_CREATE_AFTER_EFFECT, arg);
+        DoEvent(ident, strClassName, COE_CREATE_HASDATA, arg);
     }
 
     return pObject;
@@ -297,20 +292,20 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateObject(const AFGUID& self, const
 
 bool AFCKernelModule::DestroyEntity(const AFGUID& self)
 {
-    if(self == mnCurExeObject && !self.IsNULL())
+    if(self == mnCurExeEntity && !self.IsNULL())
     {
         //自己的循环过程中，不能删除自己，得等下一帧才�?
         return DestroySelf(self);
     }
 
     //需要同时从容器中删�?
-    int32_t nGroupID = GetPropertyInt(self, ARK::IObject::GroupID());
-    int32_t nSceneID = GetPropertyInt(self, ARK::IObject::SceneID());
+    int32_t nGroupID = GetNodeInt(self, ARK::IObject::GroupID());
+    int32_t nSceneID = GetNodeInt(self, ARK::IObject::SceneID());
 
     ARK_SHARE_PTR<AFCSceneInfo> pContainerInfo = m_pSceneModule->GetElement(nSceneID);
     if(nullptr != pContainerInfo)
     {
-        const std::string& strClassName = GetPropertyString(self, ARK::IObject::ClassName());
+        const std::string& strClassName = GetNodeString(self, ARK::IObject::ClassName());
 
         pContainerInfo->RemoveObjectFromGroup(nGroupID, self, strClassName == ARK::Player::ThisName() ? true : false);
 
@@ -325,325 +320,307 @@ bool AFCKernelModule::DestroyEntity(const AFGUID& self)
     return false;
 }
 
-bool AFCKernelModule::FindProperty(const AFGUID& self, const std::string& strPropertyName)
+bool AFCKernelModule::FindNode(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->FindProperty(strPropertyName);
+        return pObject->CheckNodeExist(name);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return false;
 }
 
-bool AFCKernelModule::SetPropertyBool(const AFGUID& self, const std::string& strPropertyName, const bool value)
+bool AFCKernelModule::SetNodeBool(const AFGUID& self, const std::string& name, const bool value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->SetPropertyBool(strPropertyName, value);
+        return pObject->SetNodeBool(name, value);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return false;
 }
 
-bool AFCKernelModule::SetPropertyInt(const AFGUID& self, const std::string& strPropertyName, const int32_t value)
+bool AFCKernelModule::SetNodeInt(const AFGUID& self, const std::string& name, const int32_t value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->SetPropertyInt(strPropertyName, value);
+        return pObject->SetNodeInt(name, value);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return false;
 }
 
-bool AFCKernelModule::SetPropertyInt64(const AFGUID& self, const std::string& strPropertyName, const int64_t value)
+bool AFCKernelModule::SetNodeInt64(const AFGUID& self, const std::string& name, const int64_t value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->SetPropertyInt64(strPropertyName, value);
+        return pObject->SetNodeInt64(name, value);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return false;
 }
 
-bool AFCKernelModule::SetPropertyFloat(const AFGUID& self, const std::string& strPropertyName, const float value)
+bool AFCKernelModule::SetNodeFloat(const AFGUID& self, const std::string& name, const float value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->SetPropertyFloat(strPropertyName, value);
+        return pObject->SetNodeFloat(name, value);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return false;
 }
 
-bool AFCKernelModule::SetPropertyDouble(const AFGUID& self, const std::string& strPropertyName, const double value)
+bool AFCKernelModule::SetNodeDouble(const AFGUID& self, const std::string& name, const double value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->SetPropertyDouble(strPropertyName, value);
+        return pObject->SetNodeDouble(name, value);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return false;
 }
 
-bool AFCKernelModule::SetPropertyString(const AFGUID& self, const std::string& strPropertyName, const std::string& value)
+bool AFCKernelModule::SetNodeString(const AFGUID& self, const std::string& name, const std::string& value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->SetPropertyString(strPropertyName, value);
+        return pObject->SetNodeString(name, value);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return false;
 }
 
-bool AFCKernelModule::SetPropertyObject(const AFGUID& self, const std::string& strPropertyName, const AFGUID& value)
+bool AFCKernelModule::SetNodeObject(const AFGUID& self, const std::string& name, const AFGUID& value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->SetPropertyObject(strPropertyName, value);
+        return pObject->SetNodeObject(name, value);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return false;
 }
 
-bool AFCKernelModule::GetPropertyBool(const AFGUID& self, const std::string& strPropertyName)
+bool AFCKernelModule::GetNodeBool(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetPropertyBool(strPropertyName);
+        return pObject->GetNodeBool(name);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return NULL_BOOLEAN;
 }
 
-int32_t AFCKernelModule::GetPropertyInt(const AFGUID& self, const std::string& strPropertyName)
+int32_t AFCKernelModule::GetNodeInt(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetPropertyInt(strPropertyName);
+        return pObject->GetNodeInt(name);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return NULL_INT;
 }
 
-int64_t AFCKernelModule::GetPropertyInt64(const AFGUID& self, const std::string& strPropertyName)
+int64_t AFCKernelModule::GetNodeInt64(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetPropertyInt64(strPropertyName);
+        return pObject->GetNodeInt64(name);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return NULL_INT64;
 }
 
-float AFCKernelModule::GetPropertyFloat(const AFGUID& self, const std::string& strPropertyName)
+float AFCKernelModule::GetNodeFloat(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetPropertyFloat(strPropertyName);
+        return pObject->GetNodeFloat(name);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return NULL_FLOAT;
 }
 
-double AFCKernelModule::GetPropertyDouble(const AFGUID& self, const std::string& strPropertyName)
+double AFCKernelModule::GetNodeDouble(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetPropertyDouble(strPropertyName);
+        return pObject->GetNodeDouble(name);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return NULL_DOUBLE;
 }
 
-const char*  AFCKernelModule::GetPropertyString(const AFGUID& self, const std::string& strPropertyName)
+const char*  AFCKernelModule::GetNodeString(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetPropertyString(strPropertyName);
+        return pObject->GetNodeString(name);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return nullptr;
 }
 
-const AFGUID& AFCKernelModule::GetPropertyObject(const AFGUID& self, const std::string& strPropertyName)
+const AFGUID& AFCKernelModule::GetNodeObject(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetPropertyObject(strPropertyName);
+        return pObject->GetNodeObject(name);
     }
 
-    m_pLogModule->LogError(self, strPropertyName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return NULL_GUID;
 }
 
-AFRecord* AFCKernelModule::FindRecord(const AFGUID& self, const std::string& strRecordName)
+AFDataTable* AFCKernelModule::FindTable(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetRecordManager()->GetRecord(strRecordName.c_str());
+        return pObject->GetTableManager()->GetTable(name.c_str());
     }
 
-    m_pLogModule->LogError(self, strRecordName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
 
     return NULL;
 }
 
-bool AFCKernelModule::ClearRecord(const AFGUID& self, const std::string& strRecordName)
+bool AFCKernelModule::ClearTable(const AFGUID& self, const std::string& name)
 {
-    AFRecord* pRecord = FindRecord(self, strRecordName);
-    if(NULL != pRecord)
+    AFDataTable* pTable = FindTable(self, name);
+    if(NULL != pTable)
     {
-        pRecord->Clear();
+        pTable->Clear();
         return true;
     }
 
-    m_pLogModule->LogError(self, strRecordName, "| There is no record", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no table", __FUNCTION__, __LINE__);
     return false;
 }
 
-bool AFCKernelModule::SetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const bool value)
+bool AFCKernelModule::SetTableBool(const AFGUID& self, const std::string& name, const int row, const int col, const bool value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        if(!pObject->SetRecordBool(strRecordName, nRow, nCol, value))
+        if(!pObject->SetTableBool(name, row, col, value))
         {
-            m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
+            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, strRecordName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
     return false;
 }
 
-bool AFCKernelModule::SetRecordInt(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const int32_t value)
+bool AFCKernelModule::SetTableInt(const AFGUID& self, const std::string& name, const int row, const int col, const int32_t value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        if(!pObject->SetRecordInt(strRecordName, nRow, nCol, value))
+        if(!pObject->SetTableInt(name, row, col, value))
         {
-            m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
+            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, strRecordName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
     return false;
 }
 
-bool AFCKernelModule::SetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const int64_t value)
+bool AFCKernelModule::SetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col, const int64_t value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        if(!pObject->SetRecordInt64(strRecordName, nRow, nCol, value))
+        if(!pObject->SetTableInt64(name, row, col, value))
         {
-            m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
+            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, strRecordName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
     return false;
 }
 
-bool AFCKernelModule::SetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const float value)
+bool AFCKernelModule::SetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col, const float value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        if(!pObject->SetRecordFloat(strRecordName, nRow, nCol, value))
+        if(!pObject->SetTableFloat(name, row, col, value))
         {
-            m_pLogModule->LogError(self, strRecordName, "error for row or col", __FUNCTION__, __LINE__);
+            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, strRecordName, "| There is no object", __FUNCTION__, __LINE__);
+    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
     return false;
 }
 
-bool AFCKernelModule::SetRecordDouble(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const double value)
+bool AFCKernelModule::SetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col, const double value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        if(!pObject->SetRecordDouble(strRecordName, nRow, nCol, value))
+        if(!pObject->SetTableDouble(name, row, col, value))
         {
-            m_pLogModule->LogError(self, strRecordName, "error SetRecordFloat for row  or col", __FUNCTION__, __LINE__);
-            return false;
-        }
-
-        return true;
-    }
-
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return false;
-}
-
-bool AFCKernelModule::SetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const std::string& value)
-{
-    ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
-    if(nullptr != pObject)
-    {
-        if(!pObject->SetRecordString(strRecordName, nRow, nCol, value))
-        {
-            m_pLogModule->LogError(self, strRecordName, "error SetRecordString for row  or col", __FUNCTION__, __LINE__);
+            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
             return false;
         }
 
@@ -654,14 +631,14 @@ bool AFCKernelModule::SetRecordString(const AFGUID& self, const std::string& str
     return false;
 }
 
-bool AFCKernelModule::SetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value)
+bool AFCKernelModule::SetTableString(const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        if(!pObject->SetRecordObject(strRecordName, nRow, nCol, value))
+        if(!pObject->SetTableString(name, row, col, value))
         {
-            m_pLogModule->LogError(self, strRecordName, "error SetRecordObject for row  or col", __FUNCTION__, __LINE__);
+            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
             return false;
         }
 
@@ -672,84 +649,102 @@ bool AFCKernelModule::SetRecordObject(const AFGUID& self, const std::string& str
     return false;
 }
 
-bool AFCKernelModule::GetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
+bool AFCKernelModule::SetTableObject(const AFGUID& self, const std::string& name, const int row, const int col, const AFGUID& value)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetRecordBool(strRecordName, nRow, nCol);
+        if(!pObject->SetTableObject(name, row, col, value))
+        {
+            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
+            return false;
+        }
+
+        return true;
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
-    return 0;
+    return false;
 }
 
-int32_t AFCKernelModule::GetRecordInt(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
+bool AFCKernelModule::GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetRecordInt(strRecordName, nRow, nCol);
+        return pObject->GetTableBool(name, row, col);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
     return 0;
 }
 
-int64_t AFCKernelModule::GetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
+int32_t AFCKernelModule::GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetRecordInt64(strRecordName, nRow, nCol);
+        return pObject->GetTableInt(name, row, col);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
     return 0;
 }
 
-float AFCKernelModule::GetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
+int64_t AFCKernelModule::GetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetRecordFloat(strRecordName, nRow, nCol);
+        return pObject->GetTableInt64(name, row, col);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
     return 0;
 }
 
-double AFCKernelModule::GetRecordDouble(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
+float AFCKernelModule::GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetRecordDouble(strRecordName, nRow, nCol);
+        return pObject->GetTableFloat(name, row, col);
+    }
+
+    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    return 0;
+}
+
+double AFCKernelModule::GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col)
+{
+    ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
+    if(nullptr != pObject)
+    {
+        return pObject->GetTableDouble(name, row, col);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
     return 0.0;
 }
 
-const char* AFCKernelModule::GetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
+const char* AFCKernelModule::GetTableString(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetRecordString(strRecordName, nRow, nCol);
+        return pObject->GetTableString(name, row, col);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
     return NULL_STR.c_str();
 }
 
-const AFGUID& AFCKernelModule::GetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol)
+const AFGUID& AFCKernelModule::GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pObject = GetElement(self);
     if(nullptr != pObject)
     {
-        return pObject->GetRecordObject(strRecordName, nRow, nCol);
+        return pObject->GetTableObject(name, row, col);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
@@ -765,8 +760,8 @@ bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, 
         return false;
     }
 
-    int32_t nOldSceneID = pObject->GetPropertyInt("SceneID");
-    int32_t nOldGroupID = pObject->GetPropertyInt("GroupID");
+    int32_t nOldSceneID = pObject->GetNodeInt("SceneID");
+    int32_t nOldGroupID = pObject->GetNodeInt("GroupID");
 
     ARK_SHARE_PTR<AFCSceneInfo> pOldSceneInfo = m_pSceneModule->GetElement(nOldSceneID);
     ARK_SHARE_PTR<AFCSceneInfo> pNewSceneInfo = m_pSceneModule->GetElement(nTargetSceneID);
@@ -790,22 +785,18 @@ bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, 
 
     pOldSceneInfo->RemoveObjectFromGroup(nOldGroupID, self, true);
 
-    //可以在同一场景切换到不同的�?
     if(nTargetSceneID != nOldSceneID)
     {
-        //真的切场�?
-        //先退回到0层，才能修改场景ID
-        pObject->SetPropertyInt("GroupID", 0);
+        pObject->SetNodeInt("GroupID", 0);
 
-        pObject->SetPropertyInt("SceneID", nTargetSceneID);
-        //进新的场�?�?
+        pObject->SetNodeInt("SceneID", nTargetSceneID);
     }
 
-    pObject->SetPropertyInt("GroupID", nTargetGroupID);
+    pObject->SetNodeInt("GroupID", nTargetGroupID);
 
-    pObject->SetPropertyDouble("X", fX);
-    pObject->SetPropertyDouble("Y", fY);
-    pObject->SetPropertyDouble("Z", fZ);
+    pObject->SetNodeDouble("X", fX);
+    pObject->SetNodeDouble("Y", fY);
+    pObject->SetNodeDouble("Z", fZ);
 
     pNewSceneInfo->AddObjectToGroup(nTargetGroupID, self, true);
 
@@ -1071,7 +1062,7 @@ bool AFCKernelModule::LogInfo(const AFGUID& ident)
 
     if(IsContainer(ident))
     {
-        int nSceneID = GetPropertyInt(ident, "SceneID");
+        int nSceneID = GetNodeInt(ident, "SceneID");
 
         m_pLogModule->LogInfo(ident, "//----------child object list-------- SceneID = ", nSceneID);
 
@@ -1097,17 +1088,17 @@ bool AFCKernelModule::LogInfo(const AFGUID& ident)
     return true;
 }
 
-int AFCKernelModule::OnPropertyCommonEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
+int AFCKernelModule::OnCommonNodeEvent(const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar)
 {
     if(IsContainer(self))
     {
         return 0;
     }
 
-    std::list<PROPERTY_EVENT_FUNCTOR_PTR>::iterator it = mtCommonPropertyCallBackList.begin();
-    for(it; it != mtCommonPropertyCallBackList.end(); it++)
+    std::list<DATA_NODE_EVENT_FUNCTOR_PTR>::iterator it = mxCommonNodeCBList.begin();
+    for(it; it != mxCommonNodeCBList.end(); it++)
     {
-        (**it)(self, strPropertyName, oldVar, newVar);
+        (**it)(self, name, oldVar, newVar);
     }
 
     return 0;
@@ -1123,14 +1114,14 @@ bool AFCKernelModule::IsContainer(const AFGUID& self)
     ARK_SHARE_PTR<AFIEntity> pObject = GetEntity(self);
     if(nullptr != pObject)
     {
-        return (pObject->GetPropertyInt("GroupID") < 0);
+        return (pObject->GetNodeInt("GroupID") < 0);
     }
 
     m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
     return false;
 }
 
-int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& strPropertyName, const AFIDataList& valueArg, AFIDataList& list)
+int AFCKernelModule::GetEntityByDataNode(const int nSceneID, const std::string& name, const AFIDataList& valueArg, AFIDataList& list)
 {
     AFCDataList varObjectList;
     GetSceneOnLineList(nSceneID, varObjectList);
@@ -1138,7 +1129,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
     for(int i = 0; i < nWorldCount; i++)
     {
         AFGUID ident = varObjectList.Object(i);
-        if(!FindProperty(ident, strPropertyName))
+        if(!FindNode(ident, name))
         {
             continue;
         }
@@ -1148,7 +1139,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
         {
         case DT_BOOLEAN:
             {
-                bool bValue = GetPropertyBool(ident, strPropertyName.c_str());
+                bool bValue = GetNodeBool(ident, name.c_str());
                 if(valueArg.Bool(0) == bValue)
                 {
                     list.AddObject(ident);
@@ -1157,7 +1148,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
             break;
         case DT_INT:
             {
-                int nValue = GetPropertyInt(ident, strPropertyName.c_str());
+                int nValue = GetNodeInt(ident, name.c_str());
                 if(valueArg.Int(0) == nValue)
                 {
                     list.AddObject(ident);
@@ -1166,7 +1157,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
             break;
         case DT_INT64:
             {
-                int64_t nValue = GetPropertyInt64(ident, strPropertyName.c_str());
+                int64_t nValue = GetNodeInt64(ident, name.c_str());
                 if(valueArg.Int64(0) == nValue)
                 {
                     list.AddObject(ident);
@@ -1175,7 +1166,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
             break;
         case DT_FLOAT:
             {
-                float fValue = GetPropertyFloat(ident, strPropertyName.c_str());
+                float fValue = GetNodeFloat(ident, name.c_str());
                 float fCompareValue = valueArg.Float(0);
                 if(IsZeroFloat(fValue - fCompareValue))
                 {
@@ -1185,7 +1176,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
             break;
         case DT_DOUBLE:
             {
-                double dValue = GetPropertyDouble(ident, strPropertyName.c_str());
+                double dValue = GetNodeDouble(ident, name.c_str());
                 double dCompareValue = valueArg.Double(0);
                 if(IsZeroDouble(dValue - dCompareValue))
                 {
@@ -1195,7 +1186,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
             break;
         case DT_STRING:
             {
-                std::string strValue = GetPropertyString(ident, strPropertyName.c_str());
+                std::string strValue = GetNodeString(ident, name.c_str());
                 std::string strCompareValue = valueArg.String(0);
                 if(strValue == strCompareValue)
                 {
@@ -1205,7 +1196,7 @@ int AFCKernelModule::GetObjectByProperty(const int nSceneID, const std::string& 
             break;
         case DT_OBJECT:
             {
-                AFGUID identObject = GetPropertyObject(ident, strPropertyName.c_str());
+                AFGUID identObject = GetNodeObject(ident, name.c_str());
                 if(valueArg.Object(0) == identObject)
                 {
                     list.AddObject(ident);
@@ -1232,15 +1223,15 @@ bool AFCKernelModule::DestroySelf(const AFGUID& self)
     return true;
 }
 
-int AFCKernelModule::OnRecordCommonEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
+int AFCKernelModule::OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     if(IsContainer(self))
     {
         return 0;
     }
 
-    std::list<RECORD_EVENT_FUNCTOR_PTR>::iterator it = mtCommonRecordCallBackList.begin();
-    for(it; it != mtCommonRecordCallBackList.end(); it++)
+    std::list<DATA_TABLE_EVENT_FUNCTOR_PTR>::iterator it = mxCommonTableCBList.begin();
+    for(it; it != mxCommonTableCBList.end(); it++)
     {
         (**it)(self, xEventData, oldVar, newVar);
     }
@@ -1248,15 +1239,15 @@ int AFCKernelModule::OnRecordCommonEvent(const AFGUID& self, const RECORD_EVENT_
     return 0;
 }
 
-int AFCKernelModule::OnClassCommonEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCKernelModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
 {
     if(IsContainer(self))
     {
         return 0;
     }
 
-    std::list<CLASS_EVENT_FUNCTOR_PTR>::iterator it = mtCommonClassCallBackList.begin();
-    for(it; it != mtCommonClassCallBackList.end(); it++)
+    std::list<CLASS_EVENT_FUNCTOR_PTR>::iterator it = mxCommonClassCBList.begin();
+    for(it; it != mxCommonClassCBList.end(); it++)
     {
         (**it)(self, strClassName, eClassEvent, var);
     }
@@ -1266,19 +1257,19 @@ int AFCKernelModule::OnClassCommonEvent(const AFGUID& self, const std::string& s
 
 bool AFCKernelModule::RegisterCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb)
 {
-    mtCommonClassCallBackList.push_back(cb);
+    mxCommonClassCBList.push_back(cb);
     return true;
 }
 
-bool AFCKernelModule::RegisterCommonPropertyEvent(const PROPERTY_EVENT_FUNCTOR_PTR& cb)
+bool AFCKernelModule::RegisterCommonNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
 {
-    mtCommonPropertyCallBackList.push_back(cb);
+    mxCommonNodeCBList.push_back(cb);
     return true;
 }
 
-bool AFCKernelModule::RegisterCommonRecordEvent(const RECORD_EVENT_FUNCTOR_PTR& cb)
+bool AFCKernelModule::RegisterCommonTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
 {
-    mtCommonRecordCallBackList.push_back(cb);
+    mxCommonTableCBList.push_back(cb);
     return true;
 }
 
@@ -1292,7 +1283,7 @@ bool AFCKernelModule::AfterInit()
     ARK_SHARE_PTR<AFIClass> pClass = m_pClassModule->First();
     while(nullptr != pClass)
     {
-        AFIKernelModule::AddClassCallBack(pClass->GetClassName(), this, &AFCKernelModule::OnClassCommonEvent);
+        AFIKernelModule::AddClassCallBack(pClass->GetClassName(), this, &AFCKernelModule::OnCommonClassEvent);
         pClass = m_pClassModule->Next();
     }
 
@@ -1318,9 +1309,9 @@ bool AFCKernelModule::DestroyAll()
     m_pSceneModule->ClearAll();
 
     mvRandom.clear();
-    mtCommonClassCallBackList.clear();
-    mtCommonPropertyCallBackList.clear();
-    mtCommonRecordCallBackList.clear();
+    mxCommonClassCBList.clear();
+    mxCommonNodeCBList.clear();
+    mxCommonTableCBList.clear();
 
     return true;
 }

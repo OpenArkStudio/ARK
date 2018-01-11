@@ -18,20 +18,20 @@
 *
 */
 
-#include "AFRecord.h"
+#include "AFDataTable.h"
 
-AFRecord::AFRecord()
+AFDataTable::AFDataTable()
     : mstrName(NULL_STR.c_str())
     , feature(0)
 {
 }
 
-AFRecord::~AFRecord()
+AFDataTable::~AFDataTable()
 {
     ReleaseAll();
 }
 
-void AFRecord::ReleaseRow(RowData* row_data, size_t col_num)
+void AFDataTable::ReleaseRow(RowData* row_data, size_t col_num)
 {
     for(size_t i = 0; i < col_num; ++i)
     {
@@ -42,7 +42,7 @@ void AFRecord::ReleaseRow(RowData* row_data, size_t col_num)
     row_data = NULL;
 }
 
-void AFRecord::ReleaseAll()
+void AFDataTable::ReleaseAll()
 {
     size_t col_num = mxColTypes.size();
     for(size_t i = 0; i < mxRowDatas.size(); ++i)
@@ -56,23 +56,23 @@ void AFRecord::ReleaseAll()
     mxRowDatas.clear();
 }
 
-void AFRecord::SetName(const char* value)
+void AFDataTable::SetName(const char* value)
 {
     assert(NULL != value);
     mstrName = value;
 }
 
-const char* AFRecord::GetName() const
+const char* AFDataTable::GetName() const
 {
     return mstrName.c_str();
 }
 
-size_t AFRecord::GetRowCount() const
+size_t AFDataTable::GetRowCount() const
 {
     return mxRowDatas.size();
 }
 
-void AFRecord::SetColCount(size_t value)
+void AFDataTable::SetColCount(size_t value)
 {
     assert(value > 0);
     if(mxColTypes.size() > 0)
@@ -83,12 +83,12 @@ void AFRecord::SetColCount(size_t value)
     mxColTypes.resize(value);
 }
 
-size_t AFRecord::GetColCount() const
+size_t AFDataTable::GetColCount() const
 {
     return mxColTypes.size();
 }
 
-bool AFRecord::SetColType(size_t index, int type)
+bool AFDataTable::SetColType(size_t index, int type)
 {
     assert(index < mxColTypes.size());
     assert(type > DT_UNKNOWN);
@@ -97,14 +97,14 @@ bool AFRecord::SetColType(size_t index, int type)
     return true;
 }
 
-int AFRecord::GetColType(int col) const
+int AFDataTable::GetColType(int col) const
 {
     assert(col < mxColTypes.size());
 
     return mxColTypes[col];
 }
 
-bool AFRecord::AddRow()
+bool AFDataTable::AddRow()
 {
     //default insert row
     size_t col_num = GetColCount();
@@ -113,7 +113,7 @@ bool AFRecord::AddRow()
     return true;
 }
 
-bool AFRecord::AddRow(size_t row)
+bool AFDataTable::AddRow(size_t row)
 {
     size_t col_num = GetColCount();
     RowData* row_data = new RowData[col_num];
@@ -129,7 +129,7 @@ bool AFRecord::AddRow(size_t row)
     return true;
 }
 
-bool AFRecord::AddRow(size_t row, const AFIDataList& data)
+bool AFDataTable::AddRow(size_t row, const AFIDataList& data)
 {
     size_t col_num = GetColCount();
     if(data.GetCount() != col_num)
@@ -186,7 +186,7 @@ bool AFRecord::AddRow(size_t row, const AFIDataList& data)
     return true;
 }
 
-bool AFRecord::DeleteRow(size_t row)
+bool AFDataTable::DeleteRow(size_t row)
 {
     assert(row < mxRowDatas.size());
 
@@ -196,62 +196,62 @@ bool AFRecord::DeleteRow(size_t row)
     return true;
 }
 
-void AFRecord::Clear()
+void AFDataTable::Clear()
 {
     ReleaseAll();
 }
 
-void AFRecord::SetFeature(int8_t new_feature)
+void AFDataTable::SetFeature(int8_t new_feature)
 {
     this->feature = new_feature;
 }
 
-int8_t AFRecord::GetFeature() const
+int8_t AFDataTable::GetFeature() const
 {
     return feature;
 }
 
-void AFRecord::SetPublic()
+void AFDataTable::SetPublic()
 {
-    BitValue<int8_t>::SetBitValue(feature, RF_PUBLIC);
+    BitValue<int8_t>::SetBitValue(feature, TABLE_PUBLIC);
 }
 
-bool AFRecord::IsPublic() const
+bool AFDataTable::IsPublic() const
 {
-    return BitValue<int8_t>::HaveBitValue(feature, RF_PUBLIC);
+    return BitValue<int8_t>::HaveBitValue(feature, TABLE_PUBLIC);
 }
 
-void AFRecord::SetPrivate()
+void AFDataTable::SetPrivate()
 {
-    BitValue<int8_t>::SetBitValue(feature, RF_PRIVATE);
+    BitValue<int8_t>::SetBitValue(feature, TABLE_PRIVATE);
 }
 
-bool AFRecord::IsPrivate() const
+bool AFDataTable::IsPrivate() const
 {
-    return BitValue<int8_t>::HaveBitValue(feature, RF_PRIVATE);
+    return BitValue<int8_t>::HaveBitValue(feature, TABLE_PRIVATE);
 }
 
-void AFRecord::SetRealTime()
+void AFDataTable::SetRealTime()
 {
-    BitValue<int8_t>::SetBitValue(feature, RF_REAL_TIME);
+    BitValue<int8_t>::SetBitValue(feature, TABLE_REAL_TIME);
 }
 
-bool AFRecord::IsRealTime() const
+bool AFDataTable::IsRealTime() const
 {
-    return BitValue<int8_t>::HaveBitValue(feature, RF_REAL_TIME);
+    return BitValue<int8_t>::HaveBitValue(feature, TABLE_REAL_TIME);
 }
 
-void AFRecord::SetSave()
+void AFDataTable::SetSave()
 {
-    BitValue<int8_t>::SetBitValue(feature, RF_SAVE);
+    BitValue<int8_t>::SetBitValue(feature, TABLE_SAVE);
 }
 
-bool AFRecord::IsSave() const
+bool AFDataTable::IsSave() const
 {
-    return BitValue<int8_t>::HaveBitValue(feature, RF_SAVE);
+    return BitValue<int8_t>::HaveBitValue(feature, TABLE_SAVE);
 }
 
-bool AFRecord::SetValue(size_t row, size_t col, const AFIData& value)
+bool AFDataTable::SetValue(size_t row, size_t col, const AFIData& value)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -264,7 +264,7 @@ bool AFRecord::SetValue(size_t row, size_t col, const AFIData& value)
     return true;
 }
 
-bool AFRecord::SetBool(size_t row, size_t col, const bool value)
+bool AFDataTable::SetBool(size_t row, size_t col, const bool value)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -277,7 +277,7 @@ bool AFRecord::SetBool(size_t row, size_t col, const bool value)
     return true;
 }
 
-bool AFRecord::SetInt(size_t row, size_t col, const int value)
+bool AFDataTable::SetInt(size_t row, size_t col, const int value)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -290,7 +290,7 @@ bool AFRecord::SetInt(size_t row, size_t col, const int value)
     return true;
 }
 
-bool AFRecord::SetInt64(size_t row, size_t col, const int64_t value)
+bool AFDataTable::SetInt64(size_t row, size_t col, const int64_t value)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -303,7 +303,7 @@ bool AFRecord::SetInt64(size_t row, size_t col, const int64_t value)
     return true;
 }
 
-bool AFRecord::SetFloat(size_t row, size_t col, const float value)
+bool AFDataTable::SetFloat(size_t row, size_t col, const float value)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -316,7 +316,7 @@ bool AFRecord::SetFloat(size_t row, size_t col, const float value)
     return true;
 }
 
-bool AFRecord::SetDouble(size_t row, size_t col, const double value)
+bool AFDataTable::SetDouble(size_t row, size_t col, const double value)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -329,7 +329,7 @@ bool AFRecord::SetDouble(size_t row, size_t col, const double value)
     return true;
 }
 
-bool AFRecord::SetString(size_t row, size_t col, const char* value)
+bool AFDataTable::SetString(size_t row, size_t col, const char* value)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -342,7 +342,7 @@ bool AFRecord::SetString(size_t row, size_t col, const char* value)
     return true;
 }
 
-bool AFRecord::SetObject(size_t row, size_t col, const AFGUID& value)
+bool AFDataTable::SetObject(size_t row, size_t col, const AFGUID& value)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -355,7 +355,7 @@ bool AFRecord::SetObject(size_t row, size_t col, const AFGUID& value)
     return true;
 }
 
-bool AFRecord::GetValue(size_t row, size_t col, AFIData& value)
+bool AFDataTable::GetValue(size_t row, size_t col, AFIData& value)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -368,7 +368,7 @@ bool AFRecord::GetValue(size_t row, size_t col, AFIData& value)
     return true;
 }
 
-bool AFRecord::GetBool(size_t row, size_t col)
+bool AFDataTable::GetBool(size_t row, size_t col)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -379,7 +379,7 @@ bool AFRecord::GetBool(size_t row, size_t col)
     return row_data[col].GetBool();
 }
 
-int AFRecord::GetInt(size_t row, size_t col)
+int AFDataTable::GetInt(size_t row, size_t col)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -390,7 +390,7 @@ int AFRecord::GetInt(size_t row, size_t col)
     return row_data[col].GetInt();
 }
 
-int64_t AFRecord::GetInt64(size_t row, size_t col)
+int64_t AFDataTable::GetInt64(size_t row, size_t col)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -401,7 +401,7 @@ int64_t AFRecord::GetInt64(size_t row, size_t col)
     return row_data[col].GetInt64();
 }
 
-float AFRecord::GetFloat(size_t row, size_t col)
+float AFDataTable::GetFloat(size_t row, size_t col)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -412,7 +412,7 @@ float AFRecord::GetFloat(size_t row, size_t col)
     return row_data[col].GetFloat();
 }
 
-double AFRecord::GetDouble(size_t row, size_t col)
+double AFDataTable::GetDouble(size_t row, size_t col)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -423,7 +423,7 @@ double AFRecord::GetDouble(size_t row, size_t col)
     return row_data[col].GetDouble();
 }
 
-const char* AFRecord::GetString(size_t row, size_t col)
+const char* AFDataTable::GetString(size_t row, size_t col)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -434,7 +434,7 @@ const char* AFRecord::GetString(size_t row, size_t col)
     return row_data[col].GetString();
 }
 
-const AFGUID& AFRecord::GetObject(size_t row, size_t col)
+const AFGUID& AFDataTable::GetObject(size_t row, size_t col)
 {
     if((row >= GetRowCount()) || (col >= GetColCount()))
     {
@@ -445,7 +445,7 @@ const AFGUID& AFRecord::GetObject(size_t row, size_t col)
     return row_data[col].GetObject();
 }
 
-const char* AFRecord::GetStringValue(size_t row, size_t col)
+const char* AFDataTable::GetStringValue(size_t row, size_t col)
 {
     //AFCData data;
     //if (!GetValue(row, col, data))
@@ -459,7 +459,7 @@ const char* AFRecord::GetStringValue(size_t row, size_t col)
     return NULL_STR.c_str();
 }
 
-bool AFRecord::GetColTypeList(AFIDataList& col_type_list)
+bool AFDataTable::GetColTypeList(AFIDataList& col_type_list)
 {
     int col_count = GetColCount();
     for(int i = 0; i < col_count; ++i)
@@ -473,7 +473,7 @@ bool AFRecord::GetColTypeList(AFIDataList& col_type_list)
     return true;
 }
 
-int AFRecord::FindRow(size_t col, const AFIData& key, size_t begin_row /*= 0*/)
+int AFDataTable::FindRow(size_t col, const AFIData& key, size_t begin_row /*= 0*/)
 {
     if(col >= GetColCount())
     {
@@ -510,7 +510,7 @@ int AFRecord::FindRow(size_t col, const AFIData& key, size_t begin_row /*= 0*/)
     return -1;
 }
 
-int AFRecord::FindBool(size_t col, const bool key, size_t begin_row /*= 0*/)
+int AFDataTable::FindBool(size_t col, const bool key, size_t begin_row /*= 0*/)
 {
     if(col >= GetColCount())
     {
@@ -535,7 +535,7 @@ int AFRecord::FindBool(size_t col, const bool key, size_t begin_row /*= 0*/)
     return -1;
 }
 
-int AFRecord::FindInt(size_t col, const int key, size_t begin_row /*= 0*/)
+int AFDataTable::FindInt(size_t col, const int key, size_t begin_row /*= 0*/)
 {
     if(col >= GetColCount())
     {
@@ -560,7 +560,7 @@ int AFRecord::FindInt(size_t col, const int key, size_t begin_row /*= 0*/)
     return -1;
 }
 
-int AFRecord::FindInt64(size_t col, const int64_t key, size_t begin_row /*= 0*/)
+int AFDataTable::FindInt64(size_t col, const int64_t key, size_t begin_row /*= 0*/)
 {
     if(col >= GetColCount())
     {
@@ -585,7 +585,7 @@ int AFRecord::FindInt64(size_t col, const int64_t key, size_t begin_row /*= 0*/)
     return -1;
 }
 
-int AFRecord::FindFloat(size_t col, const float key, size_t begin_row /*= 0*/)
+int AFDataTable::FindFloat(size_t col, const float key, size_t begin_row /*= 0*/)
 {
     if(col >= GetColCount())
     {
@@ -610,7 +610,7 @@ int AFRecord::FindFloat(size_t col, const float key, size_t begin_row /*= 0*/)
     return -1;
 }
 
-int AFRecord::FindDouble(size_t col, const double key, size_t begin_row /*= 0*/)
+int AFDataTable::FindDouble(size_t col, const double key, size_t begin_row /*= 0*/)
 {
     if(col >= GetColCount())
     {
@@ -635,7 +635,7 @@ int AFRecord::FindDouble(size_t col, const double key, size_t begin_row /*= 0*/)
     return -1;
 }
 
-int AFRecord::FindString(size_t col, const char* key, size_t begin_row /*= 0*/)
+int AFDataTable::FindString(size_t col, const char* key, size_t begin_row /*= 0*/)
 {
     if(col >= GetColCount())
     {
@@ -660,7 +660,7 @@ int AFRecord::FindString(size_t col, const char* key, size_t begin_row /*= 0*/)
     return -1;
 }
 
-int AFRecord::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 0*/)
+int AFDataTable::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 0*/)
 {
     if(col >= GetColCount())
     {
@@ -685,7 +685,7 @@ int AFRecord::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 0*/
     return -1;
 }
 
-bool AFRecord::QueryRow(const int nRow, AFIDataList& varList)
+bool AFDataTable::QueryRow(const int nRow, AFIDataList& varList)
 {
     //TODO
     return false;

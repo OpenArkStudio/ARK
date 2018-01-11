@@ -6,9 +6,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFRecord.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="AFCEventManager.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -24,42 +21,48 @@
     <ClInclude Include="AFIHeartBeatManager.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFIPropertyMgr.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCPropertyMgr.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIRecordMgr.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCRecordMgr.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="AFCEntity.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFIEntity.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="AFDataTable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIDataTableManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIDataNodeManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCDataNodeManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCDataTableManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFDataNode.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFRecord.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
     <ClCompile Include="AFCHeartBeatManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AFCPropertyMgr.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFCEventManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="AFCRecordMgr.cpp">
+    <ClCompile Include="AFCEntity.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="AFCEntity.cpp">
+    <ClCompile Include="AFDataTable.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCDataNodeManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCDataTableManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

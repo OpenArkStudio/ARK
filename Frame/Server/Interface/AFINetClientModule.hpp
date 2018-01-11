@@ -48,7 +48,7 @@ struct ConnectData
     }
 
     int nGameID;
-    ARK_SERVER_TYPES eServerType;
+    ARK_SERVER_TYPE eServerType;
     std::string strIP;
     int nPort;
     std::string strIPAndPort;
