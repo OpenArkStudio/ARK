@@ -20,6 +20,7 @@
 
 #include "AFCElementModule.h"
 #include "AFCClassModule.h"
+#include "SDK/Core/AFDataNode.h"
 
 AFCElementModule::AFCElementModule(AFIPluginManager* p)
     : m_pClassModule(nullptr)
@@ -113,38 +114,38 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
     //can find all config id by class name
     pLogicClass->AddConfigName(strConfigID);
 
-    ARK_SHARE_PTR<AFIPropertyMgr> pElementPropertyManager = pElementInfo->GetPropertyManager();
-    ARK_SHARE_PTR<AFIRecordMgr> pElementRecordManager = pElementInfo->GetRecordManager();
+    ARK_SHARE_PTR<AFIDataNodeManager> pElementNodeManager = pElementInfo->GetNodeManager();
+    ARK_SHARE_PTR<AFIDataTableManager> pElementTableManager = pElementInfo->GetTableManager();
 
-    //1.add property
+    //1.add DataNode
     //2.set the default value of them
-    ARK_SHARE_PTR<AFIPropertyMgr> pClassPropertyManager = pLogicClass->GetPropertyManager();
-    ARK_SHARE_PTR<AFIRecordMgr> pClassRecordManager = pLogicClass->GetRecordManager();
-    if(nullptr != pClassPropertyManager && nullptr != pClassRecordManager)
+    ARK_SHARE_PTR<AFIDataNodeManager> pClassNodeManager = pLogicClass->GetNodeManager();
+    ARK_SHARE_PTR<AFIDataTableManager> pClassTableManager = pLogicClass->GetTableManager();
+    if(pClassNodeManager != nullptr&& pClassTableManager != nullptr)
     {
-        size_t property_count = pClassPropertyManager->GetPropertyCount();
-        for(size_t i = 0; i < property_count; ++i)
+        size_t nodeCount = pClassNodeManager->GetNodeCount();
+        for(size_t i = 0; i < nodeCount; ++i)
         {
-            AFProperty* pProperty = pClassPropertyManager->GetPropertyByIndex(i);
-            if(NULL != pProperty)
+            AFDataNode* pNode = pClassNodeManager->GetNodeByIndex(i);
+            if(pNode != nullptr)
             {
-                pElementPropertyManager->AddProperty(pProperty->name.c_str(), pProperty->prop_value, pProperty->feature);
+                pElementNodeManager->AddNode(pNode->name.c_str(), pNode->value, pNode->feature);
             }
         }
         //////////////////////////////////////////////////////////////////////////
-        size_t record_count = pClassRecordManager->GetCount();
-        for(size_t i = 0; i < record_count; ++i)
+        size_t tableCount = pClassTableManager->GetCount();
+        for(size_t i = 0; i < tableCount; ++i)
         {
-            AFRecord* pRecord = pClassRecordManager->GetRecordByIndex(i);
-            if(NULL == pRecord)
+            AFDataTable* pTable = pClassTableManager->GetTableByIndex(i);
+            if(pTable != nullptr)
             {
                 continue;
             }
 
             AFCDataList col_type_list;
-            pRecord->GetColTypeList(col_type_list);
-            int8_t feature = pRecord->GetFeature();
-            pElementRecordManager->AddRecord(NULL_GUID, pRecord->GetName(), col_type_list, feature);
+            pTable->GetColTypeList(col_type_list);
+            int8_t feature = pTable->GetFeature();
+            pElementTableManager->AddTable(NULL_GUID, pTable->GetName(), col_type_list, feature);
         }
     }
 
@@ -154,75 +155,73 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
         const char* pstrConfigName = pAttribute->name();
         const char* pstrConfigValue = pAttribute->value();
 
-        AFProperty* pTmpProperty = pElementPropertyManager->GetProperty(pstrConfigName);
-        if(!pTmpProperty)
+        AFDataNode* pTmpNode = pElementNodeManager->GetNode(pstrConfigName);
+        if(pTmpNode == nullptr)
         {
             continue;
         }
 
-        const int eType = pTmpProperty->GetType();
+        const int eType = pTmpNode->GetType();
         switch(eType)
         {
         case DT_BOOLEAN:
             {
-                pTmpProperty->prop_value.SetInt(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
+                pTmpNode->value.SetInt(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
             }
             break;
         case DT_INT:
             {
                 if(!LegalNumber(pstrConfigValue))
                 {
-                    ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                pTmpProperty->prop_value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
+                pTmpNode->value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
             }
             break;
         case DT_INT64:
             {
-                pTmpProperty->prop_value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
+                pTmpNode->value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
             }
             break;
         case DT_FLOAT:
             {
                 if(strlen(pstrConfigValue) <= 0)
                 {
-                    ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                pTmpProperty->prop_value.SetDouble(ARK_LEXICAL_CAST<float>(pstrConfigValue));
+                pTmpNode->value.SetDouble(ARK_LEXICAL_CAST<float>(pstrConfigValue));
             }
             break;
         case DT_DOUBLE:
             {
                 if(strlen(pstrConfigValue) <= 0)
                 {
-                    ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                pTmpProperty->prop_value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
+                pTmpNode->value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
             }
             break;
         case DT_STRING:
             {
-                pTmpProperty->prop_value.SetString(pstrConfigValue);
+                pTmpNode->value.SetString(pstrConfigValue);
             }
             break;
         case DT_OBJECT:
             {
                 if(strlen(pstrConfigValue) <= 0)
                 {
-                    ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                pTmpProperty->prop_value.SetObject(NULL_GUID);
+                pTmpNode->value.SetObject(NULL_GUID);
             }
             break;
         default:
-            ARK_ASSERT(0, pTmpProperty->name.c_str(), __FILE__, __FUNCTION__);
+            ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
             break;
         }
     }
 
-    AFCData xData;
-    xData.SetString(pLogicClass->GetClassName().c_str());
-    pElementPropertyManager->SetProperty("ClassName", xData);
+    pElementNodeManager->SetNodeString("ClassName", pLogicClass->GetClassName().c_str());
 
     return true;
 }
@@ -232,100 +231,100 @@ bool AFCElementModule::Save()
     return true;
 }
 
-bool AFCElementModule::GetPropertyBool(const std::string& strConfigName, const std::string& strPropertyName)
+bool AFCElementModule::GetNodeBool(const std::string& strConfigName, const std::string& strDataNodeName)
 {
-    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if(NULL != pProperty)
+    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+    if(pNode != nullptr)
     {
-        return pProperty->prop_value.GetBool();
+        return pNode->value.GetBool();
     }
 
     return NULL_BOOLEAN;
 }
 
-int32_t AFCElementModule::GetPropertyInt(const std::string& strConfigName, const std::string& strPropertyName)
+int32_t AFCElementModule::GetNodeInt(const std::string& strConfigName, const std::string& strDataNodeName)
 {
-    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if(NULL != pProperty)
+    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+    if (pNode != nullptr)
     {
-        return pProperty->prop_value.GetInt();
+        return pNode->value.GetInt();
     }
 
     return NULL_INT;
 }
 
-int64_t AFCElementModule::GetPropertyInt64(const std::string& strConfigName, const std::string& strPropertyName)
+int64_t AFCElementModule::GetNodeInt64(const std::string& strConfigName, const std::string& strDataNodeName)
 {
-    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if(NULL != pProperty)
+    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+    if (pNode != nullptr)
     {
-        return pProperty->prop_value.GetInt64();
+        return pNode->value.GetInt64();
     }
 
     return NULL_INT64;
 }
 
-float AFCElementModule::GetPropertyFloat(const std::string& strConfigName, const std::string& strPropertyName)
+float AFCElementModule::GetNodeFloat(const std::string& strConfigName, const std::string& strDataNodeName)
 {
-    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if(NULL != pProperty)
+    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+    if (pNode != nullptr)
     {
-        return pProperty->prop_value.GetFloat();
+        return pNode->value.GetFloat();
     }
 
     return NULL_FLOAT;
 }
 
-double AFCElementModule::GetPropertyDouble(const std::string& strConfigName, const std::string& strPropertyName)
+double AFCElementModule::GetNodeDouble(const std::string& strConfigName, const std::string& strDataNodeName)
 {
-    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if(NULL != pProperty)
+    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+    if (pNode != nullptr)
     {
-        return pProperty->prop_value.GetFloat();
+        return pNode->value.GetFloat();
     }
 
     return NULL_DOUBLE;
 }
 
-const char*  AFCElementModule::GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName)
+const char* AFCElementModule::GetNodeString(const std::string& strConfigName, const std::string& strDataNodeName)
 {
-    AFProperty* pProperty = GetProperty(strConfigName, strPropertyName);
-    if(NULL != pProperty)
+    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+    if (pNode != nullptr)
     {
-        return pProperty->prop_value.GetString();
+        return pNode->value.GetString();
     }
 
     return nullptr;
 }
 
-AFProperty* AFCElementModule::GetProperty(const std::string& strConfigName, const std::string& strPropertyName)
+AFDataNode* AFCElementModule::GetNode(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
     if(NULL != pElementInfo)
     {
-        return pElementInfo->GetPropertyManager()->GetProperty(strPropertyName.c_str());
+        return pElementInfo->GetNodeManager()->GetNode(strDataNodeName.c_str());
     }
 
     return NULL;
 }
 
-ARK_SHARE_PTR<AFIPropertyMgr> AFCElementModule::GetPropertyManager(const std::string& strConfigName)
+ARK_SHARE_PTR<AFIDataNodeManager> AFCElementModule::GetNodeManager(const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
     if(NULL != pElementInfo)
     {
-        return pElementInfo->GetPropertyManager();
+        return pElementInfo->GetNodeManager();
     }
 
     return nullptr;
 }
 
-ARK_SHARE_PTR<AFIRecordMgr> AFCElementModule::GetRecordManager(const std::string& strConfigName)
+ARK_SHARE_PTR<AFIDataTableManager> AFCElementModule::GetTableManager(const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
     if(NULL != pElementInfo)
     {
-        return pElementInfo->GetRecordManager();
+        return pElementInfo->GetTableManager();
     }
 
     return nullptr;
@@ -345,7 +344,7 @@ bool AFCElementModule::ExistElement(const std::string& strClassName, const std::
         return false;
     }
 
-    const std::string strClass(pElementInfo->GetPropertyManager()->GetPropertyString("ClassName"));
+    const std::string strClass(pElementInfo->GetNodeManager()->GetNodeString("ClassName"));
     if(strClass != strClassName)
     {
         return false;

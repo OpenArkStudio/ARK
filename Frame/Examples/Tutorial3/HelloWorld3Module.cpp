@@ -35,16 +35,16 @@ int HelloWorld3Module::OnEvent(const AFGUID& self, const int event, const AFIDat
     //事件回调函数
     std::cout << "OnEvent EventID: " << event << " self: " << self.ToString() << " argList: " << arg.String(0) << " " << " " << arg.Int(1) << std::endl;
 
-    m_pKernelModule->SetPropertyString(self, "Hello", arg.String(0));
-    m_pKernelModule->SetPropertyInt(self, "World", arg.Int(1));
+    m_pKernelModule->SetNodeString(self, "Hello", arg.String(0));
+    m_pKernelModule->SetNodeInt(self, "World", arg.Int(1));
 
     return 0;
 }
 
-int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount)
+int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const int64_t nTime, const int nCount)
 {
     int64_t unNowTime = AFCTimeBase::GetInstance().GetNowMillisecond();
-    std::cout << "strHeartBeat: " << fTime << " Count: " << nCount << "  TimeDis: " << unNowTime - mLastTime << std::endl;
+    std::cout << "strHeartBeat: " << nTime << " Count: " << nCount << "  TimeDis: " << unNowTime - mLastTime << std::endl;
 
     mLastTime = unNowTime;
 
@@ -60,7 +60,7 @@ int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::strin
     {
         m_pKernelModule->AddEventCallBack(self, 11111111, this, &HelloWorld3Module::OnEvent);
 
-        m_pKernelModule->AddHeartBeat(self, "OnHeartBeat", this, &HelloWorld3Module::OnHeartBeat, 1000.0f, 1, true);
+        m_pKernelModule->AddHeartBeat(self, "OnHeartBeat", this, &HelloWorld3Module::OnHeartBeat, 1000, 1, true);
 
         mLastTime = GetSystemTime();
     }
@@ -101,21 +101,21 @@ bool HelloWorld3Module::AfterInit()
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
 
     //创建对象，挂类回调和属性回调,然后事件处理对象
-    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->CreateObject(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
+    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->CreateEntity(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
     if(nullptr == pObject)
     {
         return false;
     }
 
     AFCData xData;
-    pObject->GetPropertyManager()->AddProperty("Hello", AFCData(DT_STRING, ""), 0);
-    pObject->GetPropertyManager()->AddProperty("World", AFCData(DT_INT, 1), 0);
+    pObject->GetNodeManager()->AddNode("Hello", AFCData(DT_STRING, ""), 0);
+    pObject->GetNodeManager()->AddNode("World", AFCData(DT_INT, 1), 0);
 
-    pObject->AddPropertyCallBack("Hello", this, &HelloWorld3Module::OnPropertyStrCallBackEvent);
-    pObject->AddPropertyCallBack("World", this, &HelloWorld3Module::OnPropertyCallBackEvent);
+    pObject->AddNodeCallBack("Hello", this, &HelloWorld3Module::OnPropertyStrCallBackEvent);
+    pObject->AddNodeCallBack("World", this, &HelloWorld3Module::OnPropertyCallBackEvent);
 
-    pObject->SetPropertyString("Hello", "hello,World");
-    pObject->SetPropertyInt("World", 1111);
+    pObject->SetNodeString("Hello", "hello,World");
+    pObject->SetNodeInt("World", 1111);
 
     m_pKernelModule->DoEvent(pObject->Self(), 11111111, AFCDataList() << "hello2" << int(200));
 

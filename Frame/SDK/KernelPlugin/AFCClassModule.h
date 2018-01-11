@@ -24,8 +24,8 @@
 #include "RapidXML/rapidxml.hpp"
 #include "SDK/Base/AFList.h"
 #include "SDK/Base/AFCDataList.h"
-#include "SDK/Core/AFCPropertyMgr.h"
-#include "SDK/Core/AFCRecordMgr.h"
+#include "SDK/Core/AFCDataNodeManager.h"
+#include "SDK/Core/AFCDataTableManager.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
@@ -38,8 +38,8 @@ public:
         m_pParentClass = NULL;
         mstrClassName = strClassName;
 
-        m_pPropertyManager = std::make_shared<AFCPropertyMgr>(NULL_GUID);
-        m_pRecordManager = std::make_shared<AFCRecordMgr>(NULL_GUID);
+        m_pNodeManager = std::make_shared<AFCDataNodeManager>(NULL_GUID);
+        m_pTableManager = std::make_shared<AFCDataTableManager>(NULL_GUID);
     }
 
     virtual ~AFCClass()
@@ -47,14 +47,14 @@ public:
         ClearAll();
     }
 
-    virtual ARK_SHARE_PTR<AFIPropertyMgr> GetPropertyManager()
+    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager()
     {
-        return m_pPropertyManager;
+        return m_pNodeManager;
     }
 
-    virtual ARK_SHARE_PTR<AFIRecordMgr> GetRecordManager()
+    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager()
     {
-        return m_pRecordManager;
+        return m_pTableManager;
     }
 
     virtual bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR& cb)
@@ -122,8 +122,8 @@ public:
     }
 
 private:
-    ARK_SHARE_PTR<AFIPropertyMgr> m_pPropertyManager;
-    ARK_SHARE_PTR<AFIRecordMgr> m_pRecordManager;
+    ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
+    ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
 
     ARK_SHARE_PTR<AFIClass> m_pParentClass;
     std::string mstrType;
@@ -152,17 +152,17 @@ public:
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
     virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList);
 
-    virtual ARK_SHARE_PTR<AFIPropertyMgr> GetClassPropertyManager(const std::string& strClassName);
-    virtual ARK_SHARE_PTR<AFIRecordMgr> GetClassRecordManager(const std::string& strClassName);
+    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strClassName);
+    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strClassName);
     //virtual ARK_SHARE_PTR<AFIComponentManager> GetClassComponentManager(const std::string& strClassName);
 
     virtual bool AddClass(const std::string& strClassName, const std::string& strParentName);
 
 protected:
     virtual int ComputerType(const char* pstrTypeName, AFIData& var);
-    virtual bool AddPropertys(rapidxml::xml_node<>* pPropertyRootNode, ARK_SHARE_PTR<AFIClass> pClass);
-    virtual bool AddRecords(rapidxml::xml_node<>* pRecordRootNode, ARK_SHARE_PTR<AFIClass> pClass);
-    virtual bool AddComponents(rapidxml::xml_node<>* pRecordRootNode, ARK_SHARE_PTR<AFIClass> pClass);
+    virtual bool AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR<AFIClass> pClass);
+    virtual bool AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_PTR<AFIClass> pClass);
+    virtual bool AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK_SHARE_PTR<AFIClass> pClass);
     virtual bool AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIClass> pClass);
     virtual bool AddClass(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIClass> pClass);
 
@@ -171,6 +171,5 @@ protected:
 
 protected:
     AFIElementModule* m_pElementModule;
-
     std::string msConfigFileName;
 };

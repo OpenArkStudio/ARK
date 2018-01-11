@@ -62,9 +62,9 @@ public:
 
     virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar);
     virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar);
-    virtual int OnPropertyEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    virtual int OnRecordEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    virtual bool OnRecordEnterPack(AFRecord* pRecord, AFMsg::ObjectRecordBase* pObjectRecordBase);
+    virtual int OnDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
+    virtual int OnDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
+    virtual bool OnDataTableEnterPack(AFDataTable* pTable, AFMsg::ObjectRecordBase* pObjectRecordBase);
 
     virtual ARK_SHARE_PTR<ServerData> GetSuitProxyForEnter();
     virtual AFINetServerModule* GetNetModule();

@@ -28,32 +28,32 @@
 #include "SDK/Base/AFBitValue.hpp"
 #include "SDK/Base/AFDefine.h"
 
-class AFRecord
+class AFDataTable
 {
 private:
     using RowData = AFCData;
 
 public:
-    enum RECORD_FEATURE
+    enum DATA_TABLE_FEATURE
     {
-        RF_PUBLIC       = 0, //send to others
-        RF_PRIVATE      = 1, //send to self
-        RF_REAL_TIME    = 2, //send real-time when changed
-        RF_SAVE         = 3, //if need save to database
+        TABLE_PUBLIC       = 0, //send to others
+        TABLE_PRIVATE      = 1, //send to self
+        TABLE_REAL_TIME    = 2, //send real-time when changed
+        TABLE_SAVE         = 3, //if need save to database
     };
 
-    enum RecordOpType
+    enum DATA_TABLE_OP_TYPE
     {
-        ROT_ADD     = 0 , //add whole row data
-        ROT_DELETE      , //delete whole row data
-        ROT_UPDATE      , //update row & col cell data
-        ROT_COVERAGE    , //coverage whole row data
-        ROT_SWAP        , //swap two whole row data
+        TABLE_ADD     = 0 , //add whole row data
+        TABLE_DELETE      , //delete whole row data
+        TABLE_UPDATE      , //update row & col cell data
+        TABLE_COVERAGE    , //coverage whole row data
+        TABLE_SWAP        , //swap two whole row data
     };
 
 public:
-    AFRecord();
-    virtual ~AFRecord();
+    AFDataTable();
+    virtual ~AFDataTable();
 
     void SetName(const char* value);
     const char* GetName() const;
@@ -123,8 +123,8 @@ public:
     void ReleaseAll();
 
 protected:
-    RecordName mstrName;                            //Record name
-    int8_t feature;                                 //Record feature
-    ArraryPod<int, 1, CoreAlloc> mxColTypes;        //Record column type array
-    ArraryPod<RowData*, 1, CoreAlloc> mxRowDatas;   //Record data array
+    DataTableName mstrName;                         //DataTable name
+    int8_t feature;                                 //DataTable feature
+    ArraryPod<int, 1, CoreAlloc> mxColTypes;        //DataTable column type array
+    ArraryPod<RowData*, 1, CoreAlloc> mxRowDatas;   //DataTable data array
 };
