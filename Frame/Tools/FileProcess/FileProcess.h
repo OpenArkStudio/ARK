@@ -57,14 +57,14 @@ private:
 	std::string strXMLIniPath = "Ini/NPC/";
 
 	std::string strLogicClassFile = "";
-	std::string strMySQLFile = "../mysql/NFrame.sql";
-	std::string strMySQLClassFile = "../mysql/AFClass.sql";
+	std::string strMySQLFile = "../mysql/ARK.sql";
+	std::string strMySQLClassFile = "../mysql/ARKClass.sql";
 
-	std::string strProtoFile = "../proto/ArkRecordDefine.proto";
+	std::string strProtoFile = "../proto/ARKDataTable.proto";
 
-	std::string strHPPFile = "../proto/ArkProtocolDefine.hpp";
-	std::string strJavaFile = "../proto/ArkProtocolDefine.java";
-	std::string strCSFile = "../proto/ArkProtocolDefine.cs";
+	std::string strHPPFile = "../proto/ARKDataDefine.hpp";
+	std::string strJavaFile = "../proto/ARKDataDefine.java";
+	std::string strCSFile = "../proto/ARKDataDefine.cs";
 
 	FILE* mysqlWriter = nullptr;
 	FILE* mysqlClassWriter = nullptr;

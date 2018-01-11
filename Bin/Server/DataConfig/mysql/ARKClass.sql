@@ -1,13 +1,3 @@
-CREATE TABLE `BB_Build` (
-	`ID` varchar(128) NOT NULL,
-	PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-CREATE TABLE `Block` (
-	`ID` varchar(128) NOT NULL,
-	PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `Buff` (
 	`ID` varchar(128) NOT NULL,
 	PRIMARY KEY (`ID`)

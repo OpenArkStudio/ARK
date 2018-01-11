@@ -349,11 +349,11 @@ bool FileProcess::CreateStructXML(std::string strFile, std::string strFileName)
     structDoc->LinkEndChild(root);
 
     // 写入Propertys标签
-    tinyxml2::XMLElement* propertyNodes = structDoc->NewElement("Propertys");
+    tinyxml2::XMLElement* propertyNodes = structDoc->NewElement("DataNodes");
     root->LinkEndChild(propertyNodes);
 
     // 写入Records标签
-    tinyxml2::XMLElement* recordNodes = structDoc->NewElement("Records");
+    tinyxml2::XMLElement* recordNodes = structDoc->NewElement("DataTables");
     root->LinkEndChild(recordNodes);
 
     // 写入components的处理
@@ -368,9 +368,14 @@ bool FileProcess::CreateStructXML(std::string strFile, std::string strFileName)
 
         const MiniExcelReader::Range& dim = sh.getDimension();
 
-        std::string strUpperSheetName = strSheetName.substr(0, 8);
-        transform(strUpperSheetName.begin(), strUpperSheetName.end(), strUpperSheetName.begin(), ::tolower);
-        if(strUpperSheetName == "property")
+        size_t dash_pos = strSheetName.find_first_of("_");
+        std::string strLowerSheetName = strSheetName;
+        if (dash_pos != std::string::npos)
+        {
+            strLowerSheetName = strSheetName.substr(0, dash_pos);
+        }
+        transform(strLowerSheetName.begin(), strLowerSheetName.end(), strLowerSheetName.begin(), ::tolower);
+        if(strLowerSheetName == "datanode")
         {
             std::vector<std::string> colNames;
             for(int r = dim.firstRow; r <= dim.firstRow + 7; r++)
@@ -395,7 +400,7 @@ bool FileProcess::CreateStructXML(std::string strFile, std::string strFileName)
                     continue;
                 }
 
-                auto propertyNode = structDoc->NewElement("Property");
+                auto propertyNode = structDoc->NewElement("DataNode");
                 propertyNodes->LinkEndChild(propertyNode);
                 std::string strType = "";
                 for(int r = dim.firstRow; r <= dim.firstRow + 7; r++)
@@ -437,7 +442,7 @@ bool FileProcess::CreateStructXML(std::string strFile, std::string strFileName)
                 }
             }
         }
-        else if(strUpperSheetName == "componen")
+        else if(strLowerSheetName == "component")
         {
             std::vector<std::string> colNames;
             for(int c = dim.firstCol; c <= dim.lastCol; c++)
@@ -499,7 +504,7 @@ bool FileProcess::CreateStructXML(std::string strFile, std::string strFileName)
             if(nRowsCount != nRecordCount * 10)
             {
                 printf("This Excel[%s]'s Record is something wrong, Sheet[%s] Total Rows is %d lines, Not 10*N\n", strFile.c_str(), strSheetName.c_str(), nRowsCount);
-                printf("Generate faild!\n");
+                printf("Generate failed!\n");
                 printf("Press [Enter] key to exit!\n");
                 std::cin.ignore();
                 exit(1);
@@ -596,7 +601,7 @@ bool FileProcess::CreateStructXML(std::string strFile, std::string strFileName)
                 const int nExcelCols = atoi(strCol.c_str());
                 int nRealCols = 0;
 
-                auto recordNode = structDoc->NewElement("Record");
+                auto recordNode = structDoc->NewElement("DataTable");
                 recordNodes->LinkEndChild(recordNode);
 
                 recordNode->SetAttribute("Id", strRecordName.c_str());
@@ -665,7 +670,7 @@ bool FileProcess::CreateStructXML(std::string strFile, std::string strFileName)
 
                 if(nExcelCols != nRealCols)
                 {
-                    printf("This Excel[%s]'s format is something wrong, Record[%s] field \"col\"==%d not equal the real cols==%d!\n", strFile.c_str(), strRecordName.c_str(), nExcelCols, nRealCols);
+                    printf("This Excel[%s]'s format is something wrong, DataTable[%s] field \"col\"==%d not equal the real cols==%d!\n", strFile.c_str(), strRecordName.c_str(), nExcelCols, nRealCols);
                     printf("Press [Enter] key to exit!");
                     std::cin.ignore();
                     exit(1);
@@ -755,10 +760,16 @@ bool FileProcess::CreateIniXML(std::string strFile)
     {
         std::string strSheetName = sh.getName();
 
-        std::string strUpperSheetName = strSheetName.substr(0, 8);
-        transform(strUpperSheetName.begin(), strUpperSheetName.end(), strUpperSheetName.begin(), ::tolower);
+        size_t dash_pos = strSheetName.find_first_of("_");
+        std::string strLowerSheetName = strSheetName;
+        if (dash_pos != std::string::npos)
+        {
+            strLowerSheetName = strSheetName.substr(0, dash_pos);
+        }
 
-        if(strUpperSheetName != "property")
+        transform(strLowerSheetName.begin(), strLowerSheetName.end(), strLowerSheetName.begin(), ::tolower);
+
+        if(strLowerSheetName != "datanode")
         {
             continue;
         }
@@ -860,7 +871,7 @@ bool FileProcess::CreateIniXML(std::string strFile)
     }
     for(auto strID : vDataIDs)
     {
-        auto objectNode = iniDoc->NewElement("Object");
+        auto objectNode = iniDoc->NewElement("Entry");
         root->LinkEndChild(objectNode);
         for(auto strColName : vColNames)
         {
@@ -887,16 +898,7 @@ bool FileProcess::CreateIniXML(std::string strFile)
     std::string strFileName = strFile.substr(nLastSlash, nLastPoint - nLastSlash - 1);
     std::string strFileExt = strFile.substr(nLastPoint, strFile.length() - nLastPoint);
 
-    std::string strXMLFile = strToolBasePath + strXMLIniPath + strFileName;
-    if(nCipher > 0)
-    {
-        strXMLFile += ".NF";
-    }
-    else
-    {
-        strXMLFile += ".xml";
-    }
-
+    std::string strXMLFile = strToolBasePath + strXMLIniPath + strFileName + ".xml";
     iniDoc->SetBOM(false);
     iniDoc->SaveFile(strXMLFile.c_str());
     delete iniDoc;
@@ -973,10 +975,10 @@ bool FileProcess::LoadClass(std::string strFile, std::string strTable)
     doc->LoadFile(strFile.c_str());
     auto ff = doc->Value();
     tinyxml2::XMLElement* root = doc->RootElement();
-    auto classElement = root->FirstChildElement("Propertys");
+    auto classElement = root->FirstChildElement("DataNodes");
     if(classElement)
     {
-        auto nodeElement = classElement->FirstChildElement("Property");
+        auto nodeElement = classElement->FirstChildElement("DataNode");
         if(nodeElement)
         {
             while(true)
@@ -1043,10 +1045,10 @@ bool FileProcess::LoadClass(std::string strFile, std::string strTable)
     }
 
 
-    auto xRecordsNode = root->FirstChildElement("Records");
+    auto xRecordsNode = root->FirstChildElement("DataTables");
     if(xRecordsNode)
     {
-        auto nodeElement = xRecordsNode->FirstChildElement("Record");
+        auto nodeElement = xRecordsNode->FirstChildElement("DataTable");
         if(nodeElement)
         {
             while(true)

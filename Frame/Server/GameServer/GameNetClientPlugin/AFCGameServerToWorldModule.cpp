@@ -21,7 +21,7 @@
 #include "AFCGameServerToWorldModule.h"
 #include "AFGameNetClientPlugin.h"
 #include "SDK/Proto/AFMsgDefine.h"
-#include "SDK/Proto/ArkProtocolDefine.hpp"
+#include "SDK/Proto/ARKDataDefine.hpp"
 #include "Server/Interface/AFINetClientModule.hpp"
 
 bool AFCGameServerToWorldModule::Init()
