@@ -424,15 +424,15 @@ private:
     size_t mnSize;
 };
 
-typedef AFString<char, 16, CharTraits<char>, CoreAlloc> PropertyName;
-typedef AFString<char, 16, CharTraits<char>, CoreAlloc> RecordName;
+typedef AFString<char, 16, CharTraits<char>, CoreAlloc> DataNodeName;
+typedef AFString<char, 16, CharTraits<char>, CoreAlloc> DataTableName;
 
 namespace std
 {
     template<>
-    struct hash<PropertyName>
+    struct hash<DataNodeName>
     {
-        size_t operator()(PropertyName const& pro) const
+        size_t operator()(DataNodeName const& pro) const
         {
             const char* value = pro.c_str();
             return GetHashValue(value);

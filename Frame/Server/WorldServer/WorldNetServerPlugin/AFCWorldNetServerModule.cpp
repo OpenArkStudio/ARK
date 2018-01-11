@@ -23,6 +23,7 @@
 #include "AFCWorldNetServerModule.h"
 #include "AFWorldNetServerPlugin.h"
 #include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Core/AFDataNode.h"
 
 bool AFCWorldNetServerModule::Init()
 {
@@ -59,15 +60,15 @@ bool AFCWorldNetServerModule::AfterInit()
     std::string strConfigName;
     for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
-        const int nServerType = m_pElementModule->GetPropertyInt(strConfigName, "Type");
-        const int nServerID = m_pElementModule->GetPropertyInt(strConfigName, "ServerID");
-        if(nServerType == ARK_SERVER_TYPES::ARK_ST_WORLD && pPluginManager->AppID() == nServerID)
+        const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
+        const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+        if(nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD && pPluginManager->AppID() == nServerID)
         {
-            const int nPort = m_pElementModule->GetPropertyInt(strConfigName, "Port");
-            const int nMaxConnect = m_pElementModule->GetPropertyInt(strConfigName, "MaxOnline");
-            const int nCpus = m_pElementModule->GetPropertyInt(strConfigName, "CpuCount");
-            const std::string strName(m_pElementModule->GetPropertyString(strConfigName, "Name"));
-            const std::string strIP(m_pElementModule->GetPropertyString(strConfigName, "IP"));
+            const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
+            const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
+            const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
+            const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+            const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
             int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nCpus, nServerID);
             if(nRet < 0)
@@ -451,11 +452,11 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
         AFMsg::PlayerEntryInfo* pEntryInfo = xPlayerEntryInfoList.add_object_list();
         *(pEntryInfo->mutable_object_guid()) = AFINetServerModule::GUIDToPB(identOld);
         //*pEntryInfo->mutable_pos() = AFINetServerModule::GUIDToPB(m_pKernelModule->GetObject(identOld, "Pos")); todo
-        pEntryInfo->set_career_type(m_pKernelModule->GetPropertyInt(identOld, "Job"));
-        pEntryInfo->set_player_state(m_pKernelModule->GetPropertyInt(identOld, "State"));
-        pEntryInfo->set_config_id(m_pKernelModule->GetPropertyString(identOld, "ConfigID"));
-        pEntryInfo->set_scene_id(m_pKernelModule->GetPropertyInt(identOld, "SceneID"));
-        pEntryInfo->set_class_id(m_pKernelModule->GetPropertyString(identOld, "ClassName"));
+        pEntryInfo->set_career_type(m_pKernelModule->GetNodeInt(identOld, "Job"));
+        pEntryInfo->set_player_state(m_pKernelModule->GetNodeInt(identOld, "State"));
+        pEntryInfo->set_config_id(m_pKernelModule->GetNodeString(identOld, "ConfigID"));
+        pEntryInfo->set_scene_id(m_pKernelModule->GetNodeInt(identOld, "SceneID"));
+        pEntryInfo->set_class_id(m_pKernelModule->GetNodeString(identOld, "ClassName"));
 
     }
 
@@ -516,7 +517,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
 }
 
 
-int AFCWorldNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self)
+int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self)
 {
     if(argVar.GetCount() <= 0 || self.IsNULL())
     {
@@ -540,24 +541,24 @@ int AFCWorldNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFID
     AFMsg::ObjectRecordList* pPublicData = NULL;
     AFMsg::ObjectRecordList* pPrivateData = NULL;
 
-    ARK_SHARE_PTR<AFIRecordMgr> pRecordManager = pObject->GetRecordManager();
-    int nRecordCount = pRecordManager->GetCount();
+    ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pObject->GetTableManager();
+    int nRecordCount = pTableManager->GetCount();
     for(int i = 0; i < nRecordCount; ++i)
     {
-        AFRecord* pRecord = pRecordManager->GetRecordByIndex(i);
-        if(NULL == pRecord)
+        AFDataTable* pTable = pTableManager->GetTableByIndex(i);
+        if(NULL == pTable)
         {
             continue;
         }
 
-        if(!pRecord->IsPublic() && !pRecord->IsPrivate())
+        if(!pTable->IsPublic() && !pTable->IsPrivate())
         {
             continue;
         }
 
         AFMsg::ObjectRecordBase* pPrivateRecordBase = NULL;
         AFMsg::ObjectRecordBase* pPublicRecordBase = NULL;
-        if(pRecord->IsPublic())
+        if(pTable->IsPublic())
         {
             if(!pPublicData)
             {
@@ -565,12 +566,12 @@ int AFCWorldNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFID
                 *(pPublicData->mutable_player_id()) = AFINetServerModule::GUIDToPB(self);
             }
             pPublicRecordBase = pPublicData->add_record_list();
-            pPublicRecordBase->set_record_name(pRecord->GetName());
+            pPublicRecordBase->set_record_name(pTable->GetName());
 
-            bool bRet = OnRecordEnterPack(pRecord, pPublicRecordBase);
+            bool bRet = OnDataTableEnterPack(pTable, pPublicRecordBase);
         }
 
-        if(pRecord->IsPrivate())
+        if(pTable->IsPrivate())
         {
             if(!pPrivateData)
             {
@@ -578,9 +579,9 @@ int AFCWorldNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFID
                 *(pPrivateData->mutable_player_id()) = AFINetServerModule::GUIDToPB(self);
             }
             pPrivateRecordBase = pPrivateData->add_record_list();
-            pPrivateRecordBase->set_record_name(pRecord->GetName());
+            pPrivateRecordBase->set_record_name(pTable->GetName());
 
-            bool bRet = OnRecordEnterPack(pRecord, pPrivateRecordBase);
+            bool bRet = OnDataTableEnterPack(pTable, pPrivateRecordBase);
         }
     }
 
@@ -607,21 +608,21 @@ int AFCWorldNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFID
     return 0;
 }
 
-bool AFCWorldNetServerModule::OnRecordEnterPack(AFRecord* pRecord, AFMsg::ObjectRecordBase* pObjectRecordBase)
+bool AFCWorldNetServerModule::OnDataTableEnterPack(AFDataTable* pTable, AFMsg::ObjectRecordBase* pObjectRecordBase)
 {
-    if(!pRecord || !pObjectRecordBase)
+    if(!pTable || !pObjectRecordBase)
     {
         return false;
     }
 
-    for(int i = 0; i < pRecord->GetRowCount(); i ++)
+    for(int i = 0; i < pTable->GetRowCount(); i ++)
     {
         //不管public还是private都要加上，不然public广播了那不是private就广播不了了
         AFMsg::RecordAddRowStruct* pAddRowStruct = pObjectRecordBase->add_row_struct();
         pAddRowStruct->set_row(i);
 
         AFCDataList valueList;
-        pRecord->QueryRow(i, valueList);
+        pTable->QueryRow(i, valueList);
 
         for(int j = 0; j < valueList.GetCount(); j++)
         {
@@ -633,7 +634,7 @@ bool AFCWorldNetServerModule::OnRecordEnterPack(AFRecord* pRecord, AFMsg::Object
     return true;
 }
 
-int AFCWorldNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self)
+int AFCWorldNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self)
 {
     if(argVar.GetCount() <= 0 || self.IsNULL())
     {
@@ -648,8 +649,8 @@ int AFCWorldNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AF
     //分为自己和外人
     //1.public发送给所有人
     //2.如果自己在列表中，再次发送private数据
-    ARK_SHARE_PTR<AFIEntity> pObject = m_pKernelModule->GetEntity(self);
-    if(nullptr == pObject)
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+    if(nullptr == pEntity)
     {
         return 0;
     }
@@ -662,27 +663,27 @@ int AFCWorldNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AF
     *(pPublicData->mutable_player_id()) = AFINetServerModule::GUIDToPB(self);
     *(pPrivateData->mutable_player_id()) = AFINetServerModule::GUIDToPB(self);
 
-    ARK_SHARE_PTR<AFIPropertyMgr> pPropertyManager = pObject->GetPropertyManager();
+    ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
 
-    for(int i = 0; i < pPropertyManager->GetPropertyCount(); i++)
+    for(int i = 0; i < pNodeManager->GetNodeCount(); i++)
     {
-        AFProperty* pPropertyInfo = pPropertyManager->GetPropertyByIndex(i);
-        if(nullptr == pPropertyInfo)
+        AFDataNode* pNode = pNodeManager->GetNodeByIndex(i);
+        if(nullptr == pNode)
         {
             continue;
         }
-        if(pPropertyInfo->Changed())
+        if(pNode->Changed())
         {
-            if(pPropertyInfo->IsPublic())
+            if(pNode->IsPublic())
             {
                 AFMsg::PropertyPBData* pDataInt = pPublicData->add_property_data_list();
-                AFINetServerModule::DataToPBProperty(pPropertyInfo->GetValue(), pPropertyInfo->GetName().c_str(), *pDataInt);
+                AFINetServerModule::DataToPBProperty(pNode->GetValue(), pNode->GetName().c_str(), *pDataInt);
             }
 
-            if(pPropertyInfo->IsPrivate())
+            if(pNode->IsPrivate())
             {
                 AFMsg::PropertyPBData* pDataInt = pPrivateData->add_property_data_list();
-                AFINetServerModule::DataToPBProperty(pPropertyInfo->GetValue(), pPropertyInfo->GetName().c_str(), *pDataInt);
+                AFINetServerModule::DataToPBProperty(pNode->GetValue(), pNode->GetName().c_str(), *pDataInt);
             }
         }
 

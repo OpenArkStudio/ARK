@@ -58,7 +58,7 @@ int AFCPropertyModule::GetPropertyValue(const AFGUID& self, const std::string& s
     //    return m_pKernelModule->GetRecordInt(self, ARK::Player::R_CommPropertyValue(), eGroupType, strPropertyName);
     //}
 
-    //return m_pKernelModule->GetPropertyInt(self, strPropertyName);
+    //return m_pKernelModule->GetNodeInt(self, strPropertyName);
 
     return 0;
 }
@@ -84,7 +84,7 @@ int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& s
     //}
 
     ////动态表中没有，则设置到最终值
-    //m_pKernelModule->SetPropertyInt(self, strPropertyName, nValue);
+    //m_pKernelModule->SetNodeInt(self, strPropertyName, nValue);
 
     return 0;
 }
@@ -142,7 +142,7 @@ int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string&
     return 0;
 }
 
-int AFCPropertyModule::OnRecordPropertyEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
+int AFCPropertyModule::OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     ////计算总值
     //const std::string& strRecordName = xEventData.strRecordName;
@@ -161,7 +161,7 @@ int AFCPropertyModule::OnRecordPropertyEvent(const AFGUID& self, const RECORD_EV
     //    }
     //}
 
-    //m_pKernelModule->SetPropertyInt(self, pRecord->GetColTag(nCol), nAllValue);
+    //m_pKernelModule->SetNodeInt(self, pRecord->GetColTag(nCol), nAllValue);
 
     return 0;
 }
@@ -188,17 +188,17 @@ int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string&
     //    }
     //    else if(CLASS_OBJECT_EVENT::COE_CREATE_EFFECTDATA == eClassEvent)
     //    {
-    //        int nOnlineCount = m_pKernelModule->GetPropertyInt(self, ARK::Player::OnlineCount());
-    //        if(nOnlineCount <= 0 && m_pKernelModule->GetPropertyInt(self, ARK::Player::SceneID()) > 0)
+    //        int nOnlineCount = m_pKernelModule->GetNodeInt(self, ARK::Player::OnlineCount());
+    //        if(nOnlineCount <= 0 && m_pKernelModule->GetNodeInt(self, ARK::Player::SceneID()) > 0)
     //        {
     //            //第一次出生，设置基础属性
-    //            m_pKernelModule->SetPropertyInt(self, ARK::Player::Level(), 1);
+    //            m_pKernelModule->SetNodeInt(self, ARK::Player::Level(), 1);
     //        }
     //    }
     //    else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
     //    {
-    //        int nOnlineCount = m_pKernelModule->GetPropertyInt(self, ARK::Player::OnlineCount());
-    //        m_pKernelModule->SetPropertyInt(self, ARK::Player::OnlineCount(), (nOnlineCount + 1));
+    //        int nOnlineCount = m_pKernelModule->GetNodeInt(self, ARK::Player::OnlineCount());
+    //        m_pKernelModule->SetNodeInt(self, ARK::Player::OnlineCount(), (nOnlineCount + 1));
 
     //    }
     //}
@@ -215,8 +215,8 @@ int AFCPropertyModule::RefreshBaseProperty(const AFGUID& self)
     //}
 
     ////初始属性+等级属性(职业决定)
-    //int eJobType = m_pKernelModule->GetPropertyInt(self, ARK::Player::Job());
-    //int nLevel = m_pKernelModule->GetPropertyInt(self, ARK::Player::Level());
+    //int eJobType = m_pKernelModule->GetNodeInt(self, ARK::Player::Job());
+    //int nLevel = m_pKernelModule->GetNodeInt(self, ARK::Player::Level());
 
     //for(int i = 0; i < pRecord->GetCols(); ++i)
     //{
@@ -230,16 +230,16 @@ int AFCPropertyModule::RefreshBaseProperty(const AFGUID& self)
 
 bool AFCPropertyModule::FullHPMP(const AFGUID& self)
 {
-    int64_t nMaxHP = m_pKernelModule->GetPropertyInt(self, ARK::Player::MAXHP());
+    int64_t nMaxHP = m_pKernelModule->GetNodeInt(self, ARK::Player::MAXHP());
     if(nMaxHP > 0)
     {
-        m_pKernelModule->SetPropertyInt(self, ARK::Player::HP(), nMaxHP);
+        m_pKernelModule->SetNodeInt(self, ARK::Player::HP(), nMaxHP);
     }
 
-    int64_t nMaxMP = m_pKernelModule->GetPropertyInt(self, ARK::Player::MAXMP());
+    int64_t nMaxMP = m_pKernelModule->GetNodeInt(self, ARK::Player::MAXMP());
     if(nMaxMP > 0)
     {
-        m_pKernelModule->SetPropertyInt(self, ARK::Player::MP(), nMaxMP);
+        m_pKernelModule->SetNodeInt(self, ARK::Player::MP(), nMaxMP);
     }
 
     return true;
@@ -252,8 +252,8 @@ bool AFCPropertyModule::AddHP(const AFGUID& self, const int64_t& nValue)
         return false;
     }
 
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::HP());
-    int64_t nMaxValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::MAXHP());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::HP());
+    int64_t nMaxValue = m_pKernelModule->GetNodeInt(self, ARK::Player::MAXHP());
 
     if(nCurValue > 0)
     {
@@ -263,7 +263,7 @@ bool AFCPropertyModule::AddHP(const AFGUID& self, const int64_t& nValue)
             nCurValue = nMaxValue;
         }
 
-        m_pKernelModule->SetPropertyInt(self, ARK::Player::HP(), nCurValue);
+        m_pKernelModule->SetNodeInt(self, ARK::Player::HP(), nCurValue);
     }
 
     return true;
@@ -271,7 +271,7 @@ bool AFCPropertyModule::AddHP(const AFGUID& self, const int64_t& nValue)
 
 bool AFCPropertyModule::EnoughHP(const AFGUID& self, const int64_t& nValue)
 {
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::HP());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::HP());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -282,11 +282,11 @@ bool AFCPropertyModule::EnoughHP(const AFGUID& self, const int64_t& nValue)
 
 bool AFCPropertyModule::ConsumeHP(const AFGUID& self, const int64_t& nValue)
 {
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::HP());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::HP());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         nCurValue -= nValue;
-        m_pKernelModule->SetPropertyInt(self, ARK::Player::HP(), nCurValue);
+        m_pKernelModule->SetNodeInt(self, ARK::Player::HP(), nCurValue);
 
         return true;
     }
@@ -301,8 +301,8 @@ bool AFCPropertyModule::AddMP(const AFGUID& self, const int64_t& nValue)
         return false;
     }
 
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::MP());
-    int64_t nMaxValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::MAXMP());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::MP());
+    int64_t nMaxValue = m_pKernelModule->GetNodeInt(self, ARK::Player::MAXMP());
 
     nCurValue += nValue;
     if(nCurValue > nMaxValue)
@@ -310,18 +310,18 @@ bool AFCPropertyModule::AddMP(const AFGUID& self, const int64_t& nValue)
         nCurValue = nMaxValue;
     }
 
-    m_pKernelModule->SetPropertyInt(self, ARK::Player::MP(), nCurValue);
+    m_pKernelModule->SetNodeInt(self, ARK::Player::MP(), nCurValue);
 
     return true;
 }
 
 bool AFCPropertyModule::ConsumeMP(const AFGUID& self, const int64_t& nValue)
 {
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::MP());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::MP());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         nCurValue -= nValue;
-        m_pKernelModule->SetPropertyInt(self, ARK::Player::MP(), nCurValue);
+        m_pKernelModule->SetNodeInt(self, ARK::Player::MP(), nCurValue);
 
         return true;
     }
@@ -331,7 +331,7 @@ bool AFCPropertyModule::ConsumeMP(const AFGUID& self, const int64_t& nValue)
 
 bool AFCPropertyModule::EnoughMP(const AFGUID& self, const int64_t& nValue)
 {
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::MP());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::MP());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -342,10 +342,10 @@ bool AFCPropertyModule::EnoughMP(const AFGUID& self, const int64_t& nValue)
 
 bool AFCPropertyModule::FullSP(const AFGUID& self)
 {
-    int64_t nMAXCSP = m_pKernelModule->GetPropertyInt(self, ARK::Player::MAXSP());
+    int64_t nMAXCSP = m_pKernelModule->GetNodeInt(self, ARK::Player::MAXSP());
     if(nMAXCSP > 0)
     {
-        m_pKernelModule->SetPropertyInt(self, ARK::Player::SP(), nMAXCSP);
+        m_pKernelModule->SetNodeInt(self, ARK::Player::SP(), nMAXCSP);
 
         return true;
     }
@@ -360,8 +360,8 @@ bool AFCPropertyModule::AddSP(const AFGUID& self, const int64_t& nValue)
         return false;
     }
 
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::SP());
-    int64_t nMaxValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::MAXSP());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::SP());
+    int64_t nMaxValue = m_pKernelModule->GetNodeInt(self, ARK::Player::MAXSP());
 
     nCurValue += nValue;
     if(nCurValue > nMaxValue)
@@ -369,18 +369,18 @@ bool AFCPropertyModule::AddSP(const AFGUID& self, const int64_t& nValue)
         nCurValue = nMaxValue;
     }
 
-    m_pKernelModule->SetPropertyInt(self, ARK::Player::SP(), nCurValue);
+    m_pKernelModule->SetNodeInt(self, ARK::Player::SP(), nCurValue);
 
     return true;
 }
 
 bool AFCPropertyModule::ConsumeSP(const AFGUID& self, const int64_t& nValue)
 {
-    int64_t nCSP = m_pKernelModule->GetPropertyInt(self, ARK::Player::SP());
+    int64_t nCSP = m_pKernelModule->GetNodeInt(self, ARK::Player::SP());
     if((nCSP > 0) && (nCSP - nValue >= 0))
     {
         nCSP -= nValue;
-        m_pKernelModule->SetPropertyInt(self, ARK::Player::SP(), nCSP);
+        m_pKernelModule->SetNodeInt(self, ARK::Player::SP(), nCSP);
 
         return true;
     }
@@ -390,7 +390,7 @@ bool AFCPropertyModule::ConsumeSP(const AFGUID& self, const int64_t& nValue)
 
 bool AFCPropertyModule::EnoughSP(const AFGUID& self, const int64_t& nValue)
 {
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::SP());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::SP());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -406,9 +406,9 @@ bool AFCPropertyModule::AddMoney(const AFGUID& self, const int64_t& nValue)
         return false;
     }
 
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::Gold());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::Gold());
     nCurValue += nValue;
-    m_pKernelModule->SetPropertyInt(self, ARK::Player::Gold(), nCurValue);
+    m_pKernelModule->SetNodeInt(self, ARK::Player::Gold(), nCurValue);
 
     return false;
 }
@@ -420,11 +420,11 @@ bool AFCPropertyModule::ConsumeMoney(const AFGUID& self, const int64_t& nValue)
         return false;
     }
 
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::Gold());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::Gold());
     nCurValue -= nValue;
     if(nCurValue >= 0)
     {
-        m_pKernelModule->SetPropertyInt(self, ARK::Player::Gold(), nCurValue);
+        m_pKernelModule->SetNodeInt(self, ARK::Player::Gold(), nCurValue);
 
         return true;
     }
@@ -434,7 +434,7 @@ bool AFCPropertyModule::ConsumeMoney(const AFGUID& self, const int64_t& nValue)
 
 bool AFCPropertyModule::EnoughMoney(const AFGUID& self, const int64_t& nValue)
 {
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::Gold());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::Gold());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;
@@ -450,9 +450,9 @@ bool AFCPropertyModule::AddDiamond(const AFGUID& self, const int64_t& nValue)
         return false;
     }
 
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::Money());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::Money());
     nCurValue += nValue;
-    m_pKernelModule->SetPropertyInt(self, ARK::Player::Money(), nCurValue);
+    m_pKernelModule->SetNodeInt(self, ARK::Player::Money(), nCurValue);
 
     return false;
 }
@@ -464,11 +464,11 @@ bool AFCPropertyModule::ConsumeDiamond(const AFGUID& self, const int64_t& nValue
         return false;
     }
 
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::Money());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::Money());
     nCurValue -= nValue;
     if(nCurValue >= 0)
     {
-        m_pKernelModule->SetPropertyInt(self, ARK::Player::Money(), nCurValue);
+        m_pKernelModule->SetNodeInt(self, ARK::Player::Money(), nCurValue);
 
         return true;
     }
@@ -478,7 +478,7 @@ bool AFCPropertyModule::ConsumeDiamond(const AFGUID& self, const int64_t& nValue
 
 bool AFCPropertyModule::EnoughDiamond(const AFGUID& self, const int64_t& nValue)
 {
-    int64_t nCurValue = m_pKernelModule->GetPropertyInt(self, ARK::Player::Money());
+    int64_t nCurValue = m_pKernelModule->GetNodeInt(self, ARK::Player::Money());
     if((nCurValue > 0) && (nCurValue - nValue >= 0))
     {
         return true;

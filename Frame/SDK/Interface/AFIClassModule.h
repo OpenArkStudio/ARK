@@ -23,16 +23,16 @@
 #include "SDK/Base/AFMacros.hpp"
 #include "AFIModule.h"
 #include "SDK/Base/AFMapEx.h"
-#include "SDK/Core/AFIPropertyMgr.h"
-#include "SDK/Core/AFIRecordMgr.h"
+#include "SDK/Core/AFIDataNodeManager.h"
+#include "SDK/Core/AFIDataTableManager.h"
 
 class AFIClass : public AFList<std::string>
 {
 public:
     virtual ~AFIClass() {}
 
-    virtual ARK_SHARE_PTR<AFIPropertyMgr> GetPropertyManager() = 0;
-    virtual ARK_SHARE_PTR<AFIRecordMgr> GetRecordManager() = 0;
+    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager() = 0;
+    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager() = 0;
 
     virtual void SetParent(ARK_SHARE_PTR<AFIClass> pClass) = 0;
     virtual ARK_SHARE_PTR<AFIClass> GetParent() = 0;
@@ -73,6 +73,6 @@ public:
     virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList) = 0;
 
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
-    virtual ARK_SHARE_PTR<AFIPropertyMgr> GetClassPropertyManager(const std::string& strClassName) = 0;
-    virtual ARK_SHARE_PTR<AFIRecordMgr> GetClassRecordManager(const std::string& strClassName) = 0;
+    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strClassName) = 0;
+    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strClassName) = 0;
 };

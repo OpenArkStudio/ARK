@@ -21,9 +21,9 @@
 #pragma once
 
 #include "SDK/Core/AFIEntity.h"
-#include "SDK/Core/AFIRecordMgr.h"
+#include "SDK/Core/AFIDataTableManager.h"
 #include "SDK/Core/AFIHeartBeatManager.h"
-#include "SDK/Core/AFIPropertyMgr.h"
+#include "SDK/Core/AFIDataNodeManager.h"
 
 class AFCEntity : public AFIEntity
 {
@@ -38,63 +38,61 @@ public:
     ///////////////////////////////////////////////////////////////////////
     virtual const AFGUID& Self();
 
-    virtual bool FindHeartBeat(const std::string& strHeartBeatName);
-    virtual bool RemoveHeartBeat(const std::string& strHeartBeatName);
+    virtual bool CheckHeartBeatExist(const std::string& name);
+    virtual bool RemoveHeartBeat(const std::string& name);
     /////////////////////////////////////////////////////////////////
-    virtual bool FindProperty(const std::string& strPropertyName);
+    virtual bool CheckNodeExist(const std::string& name);
 
-    virtual bool SetPropertyBool(const std::string& strPropertyName, const bool value);
-    virtual bool SetPropertyInt(const std::string& strPropertyName, const int32_t value);
-    virtual bool SetPropertyInt64(const std::string& strPropertyName, const int64_t value);
-    virtual bool SetPropertyFloat(const std::string& strPropertyName, const float value);
-    virtual bool SetPropertyDouble(const std::string& strPropertyName, const double value);
-    virtual bool SetPropertyString(const std::string& strPropertyName, const std::string& value);
-    virtual bool SetPropertyObject(const std::string& strPropertyName, const AFGUID& value);
+    virtual bool SetNodeBool(const std::string& name, const bool value);
+    virtual bool SetNodeInt(const std::string& name, const int32_t value);
+    virtual bool SetNodeInt64(const std::string& name, const int64_t value);
+    virtual bool SetNodeFloat(const std::string& name, const float value);
+    virtual bool SetNodeDouble(const std::string& name, const double value);
+    virtual bool SetNodeString(const std::string& name, const std::string& value);
+    virtual bool SetNodeObject(const std::string& name, const AFGUID& value);
 
-    virtual bool GetPropertyBool(const std::string& strPropertyName);
-    virtual int32_t GetPropertyInt(const std::string& strPropertyName);
-    virtual int64_t GetPropertyInt64(const std::string& strPropertyName);
-    virtual float GetPropertyFloat(const std::string& strPropertyName);
-    virtual double GetPropertyDouble(const std::string& strPropertyName);
-    virtual const char*  GetPropertyString(const std::string& strPropertyName);
-    virtual const AFGUID& GetPropertyObject(const std::string& strPropertyName);
+    virtual bool GetNodeBool(const std::string& name);
+    virtual int32_t GetNodeInt(const std::string& name);
+    virtual int64_t GetNodeInt64(const std::string& name);
+    virtual float GetNodeFloat(const std::string& name);
+    virtual double GetNodeDouble(const std::string& name);
+    virtual const char*  GetNodeString(const std::string& name);
+    virtual const AFGUID& GetNodeObject(const std::string& name);
 
-    virtual bool FindRecord(const std::string& strRecordName);
+    virtual bool CheckTableExist(const std::string& name);
 
-    virtual bool SetRecordBool(const std::string& strRecordName, const int nRow, const int nCol, const bool value);
-    virtual bool SetRecordInt(const std::string& strRecordName, const int nRow, const int nCol, const int32_t value);
-    virtual bool SetRecordInt64(const std::string& strRecordName, const int nRow, const int nCol, const int64_t value);
-    virtual bool SetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol, const float value);
-    virtual bool SetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol, const double value);
-    virtual bool SetRecordString(const std::string& strRecordName, const int nRow, const int nCol, const std::string& value);
-    virtual bool SetRecordObject(const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value);
+    virtual bool SetTableBool(const std::string& name, const int row, const int col, const bool value);
+    virtual bool SetTableInt(const std::string& name, const int row, const int col, const int32_t value);
+    virtual bool SetTableInt64(const std::string& name, const int row, const int col, const int64_t value);
+    virtual bool SetTableFloat(const std::string& name, const int row, const int col, const float value);
+    virtual bool SetTableDouble(const std::string& name, const int row, const int col, const double value);
+    virtual bool SetTableString(const std::string& name, const int row, const int col, const std::string& value);
+    virtual bool SetTableObject(const std::string& name, const int row, const int col, const AFGUID& value);
 
-    virtual bool GetRecordBool(const std::string& strRecordName, const int nRow, const int nCol);
-    virtual int32_t GetRecordInt(const std::string& strRecordName, const int nRow, const int nCol);
-    virtual int64_t GetRecordInt64(const std::string& strRecordName, const int nRow, const int nCol);
-    virtual float GetRecordFloat(const std::string& strRecordName, const int nRow, const int nCol);
-    virtual double GetRecordDouble(const std::string& strRecordName, const int nRow, const int nCol);
-    virtual const char* GetRecordString(const std::string& strRecordName, const int nRow, const int nCol);
-    virtual const AFGUID& GetRecordObject(const std::string& strRecordName, const int nRow, const int nCol);
+    virtual bool GetTableBool(const std::string& name, const int row, const int col);
+    virtual int32_t GetTableInt(const std::string& name, const int row, const int col);
+    virtual int64_t GetTableInt64(const std::string& name, const int row, const int col);
+    virtual float GetTableFloat(const std::string& name, const int row, const int col);
+    virtual double GetTableDouble(const std::string& name, const int row, const int col);
+    virtual const char* GetTableString(const std::string& name, const int row, const int col);
+    virtual const AFGUID& GetTableObject(const std::string& name, const int row, const int col);
 
     //////////////////////////////////////////////////////////////////////////
-    virtual ARK_SHARE_PTR<AFIPropertyMgr> GetPropertyManager();
-    virtual ARK_SHARE_PTR<AFIRecordMgr> GetRecordManager();
+    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager();
+    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager();
     virtual ARK_SHARE_PTR<AFIHeartBeatManager> GetHeartBeatManager();
     virtual ARK_SHARE_PTR<AFIEventManager> GetEventManager();
 
 protected:
-    virtual bool AddRecordCallBack(const std::string& strRecordName, const RECORD_EVENT_FUNCTOR_PTR& cb);
-
-    virtual bool AddPropertyCallBack(const std::string& strCriticalName, const PROPERTY_EVENT_FUNCTOR_PTR& cb);
-
-    virtual bool AddHeartBeat(const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever);
+    virtual bool AddNodeCallBack(const std::string& col, const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
+    virtual bool AddTableCallBack(const std::string& col, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
+    virtual bool AddHeartBeat(const std::string& col, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever);
 
 private:
     AFGUID mSelf;
 
-    ARK_SHARE_PTR<AFIRecordMgr> m_pRecordManager;
+    ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
     ARK_SHARE_PTR<AFIHeartBeatManager> m_pHeartBeatManager;
-    ARK_SHARE_PTR<AFIPropertyMgr> m_pPropertyManager;
+    ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
     ARK_SHARE_PTR<AFIEventManager> m_pEventManager;
 };
