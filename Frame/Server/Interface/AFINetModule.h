@@ -26,7 +26,7 @@
 #include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Proto/AFDefine.pb.h"
 
-enum ARK_SERVER_TYPES
+enum ARK_SERVER_TYPE
 {
     ARK_ST_NONE = 0,    // NONE
     ARK_ST_REDIS = 1,    //

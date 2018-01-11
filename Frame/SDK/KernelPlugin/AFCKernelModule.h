@@ -22,7 +22,7 @@
 
 #include "SDK/Core/AFIEntity.h"
 #include "SDK/Base/AFCDataList.h"
-#include "SDK/Core/AFRecord.h"
+#include "SDK/Core/AFDataTable.h"
 #include "SDK/Base/AFGUID.h"
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "SDK/Interface/AFILogModule.h"
@@ -35,7 +35,7 @@
 
 class AFCKernelModule
     : public AFIKernelModule,
-      public AFMapEx<AFGUID, AFIEntity>
+      public AFMapEx<AFGUID, AFIEntity> //TODO:put data as a seperate data
 {
 public:
     AFCKernelModule(AFIPluginManager* p);
@@ -51,56 +51,56 @@ public:
 
     ///////////////////////////////////////////////////////////////////////
 
-    virtual bool FindHeartBeat(const AFGUID& self, const std::string& strHeartBeatName);
-    virtual bool RemoveHeartBeat(const AFGUID& self, const std::string& strHeartBeatName);
+    virtual bool FindHeartBeat(const AFGUID& self, const std::string& name);
+    virtual bool RemoveHeartBeat(const AFGUID& self, const std::string& name);
 
     virtual bool IsContainer(const AFGUID& self);
     virtual bool ExistContainer(const int nSceneID);
 
     virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& ident);
-    virtual ARK_SHARE_PTR<AFIEntity> CreateObject(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg);
+    virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg);
 
     virtual bool DestroyAll();
     virtual bool DestroySelf(const AFGUID& self);
     virtual bool DestroyEntity(const AFGUID& self);
 
     //////////////////////////////////////////////////////////////////////////
-    virtual bool FindProperty(const AFGUID& self, const std::string& strPropertyName);
+    virtual bool FindNode(const AFGUID& self, const std::string& name);
 
-    virtual bool SetPropertyBool(const AFGUID& self, const std::string& strPropertyName, const bool value);
-    virtual bool SetPropertyInt(const AFGUID& self, const std::string& strPropertyName, const int32_t value);
-    virtual bool SetPropertyInt64(const AFGUID& self, const std::string& strPropertyName, const int64_t value);
-    virtual bool SetPropertyFloat(const AFGUID& self, const std::string& strPropertyName, const float value);
-    virtual bool SetPropertyDouble(const AFGUID& self, const std::string& strPropertyName, const double value);
-    virtual bool SetPropertyString(const AFGUID& self, const std::string& strPropertyName, const std::string& value);
-    virtual bool SetPropertyObject(const AFGUID& self, const std::string& strPropertyName, const AFGUID& value);
+    virtual bool SetNodeBool(const AFGUID& self, const std::string& name, const bool value);
+    virtual bool SetNodeInt(const AFGUID& self, const std::string& name, const int32_t value);
+    virtual bool SetNodeInt64(const AFGUID& self, const std::string& name, const int64_t value);
+    virtual bool SetNodeFloat(const AFGUID& self, const std::string& name, const float value);
+    virtual bool SetNodeDouble(const AFGUID& self, const std::string& name, const double value);
+    virtual bool SetNodeString(const AFGUID& self, const std::string& name, const std::string& value);
+    virtual bool SetNodeObject(const AFGUID& self, const std::string& name, const AFGUID& value);
 
-    virtual bool GetPropertyBool(const AFGUID& self, const std::string& strPropertyName);
-    virtual int32_t GetPropertyInt(const AFGUID& self, const std::string& strPropertyName);
-    virtual int64_t GetPropertyInt64(const AFGUID& self, const std::string& strPropertyName);
-    virtual float GetPropertyFloat(const AFGUID& self, const std::string& strPropertyName);
-    virtual double GetPropertyDouble(const AFGUID& self, const std::string& strPropertyName);
-    virtual const char*  GetPropertyString(const AFGUID& self, const std::string& strPropertyName);
-    virtual const AFGUID& GetPropertyObject(const AFGUID& self, const std::string& strPropertyName);
+    virtual bool GetNodeBool(const AFGUID& self, const std::string& name);
+    virtual int32_t GetNodeInt(const AFGUID& self, const std::string& name);
+    virtual int64_t GetNodeInt64(const AFGUID& self, const std::string& name);
+    virtual float GetNodeFloat(const AFGUID& self, const std::string& name);
+    virtual double GetNodeDouble(const AFGUID& self, const std::string& name);
+    virtual const char* GetNodeString(const AFGUID& self, const std::string& name);
+    virtual const AFGUID& GetNodeObject(const AFGUID& self, const std::string& name);
     //////////////////////////////////////////////////////////////////////////
-    virtual AFRecord* FindRecord(const AFGUID& self, const std::string& strRecordName);
-    virtual bool ClearRecord(const AFGUID& self, const std::string& strRecordName);
+    virtual AFDataTable* FindTable(const AFGUID& self, const std::string& name);
+    virtual bool ClearTable(const AFGUID& self, const std::string& name);
 
-    virtual bool SetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const bool value);
-    virtual bool SetRecordInt(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const int32_t value);
-    virtual bool SetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const int64_t value);
-    virtual bool SetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const float value);
-    virtual bool SetRecordDouble(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const double value);
-    virtual bool SetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const std::string& value);
-    virtual bool SetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol, const AFGUID& value);
+    virtual bool SetTableBool(const AFGUID& self, const std::string& name, const int row, const int col, const bool value);
+    virtual bool SetTableInt(const AFGUID& self, const std::string& name, const int row, const int col, const int32_t value);
+    virtual bool SetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col, const int64_t value);
+    virtual bool SetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col, const float value);
+    virtual bool SetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col, const double value);
+    virtual bool SetTableString(const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value);
+    virtual bool SetTableObject(const AFGUID& self, const std::string& name, const int row, const int col, const AFGUID& value);
 
-    virtual bool GetRecordBool(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
-    virtual int32_t GetRecordInt(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
-    virtual int64_t GetRecordInt64(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
-    virtual float GetRecordFloat(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
-    virtual double GetRecordDouble(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
-    virtual const char* GetRecordString(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
-    virtual const AFGUID& GetRecordObject(const AFGUID& self, const std::string& strRecordName, const int nRow, const int nCol);
+    virtual bool GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col);
+    virtual int32_t GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col);
+    virtual int64_t GetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col);
+    virtual float GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col);
+    virtual double GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col);
+    virtual const char* GetTableString(const AFGUID& self, const std::string& name, const int row, const int col);
+    virtual const AFGUID& GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col);
 
     //////////////////////////////////////////////////////////////////////////
     virtual bool SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const AFIDataList& arg);
@@ -120,7 +120,7 @@ public:
     virtual bool ExitGroupScene(const int nSceneID, const int nGroupID);
 
     virtual bool GetGroupObjectList(const int nSceneID, const int nGroupID, AFIDataList& list);
-    virtual int GetObjectByProperty(const int nSceneID, const std::string& strPropertyName, const AFIDataList& valueArgArg, AFIDataList& list);
+    virtual int GetEntityByDataNode(const int nSceneID, const std::string& strNodeName, const AFIDataList& valueArgArg, AFIDataList& list);
 
     virtual void Random(int nStart, int nEnd, int nCount, AFIDataList& valueList);
 
@@ -140,10 +140,10 @@ protected:
     virtual bool RegisterCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb);
 
     //注册通用属性事件
-    virtual bool RegisterCommonPropertyEvent(const PROPERTY_EVENT_FUNCTOR_PTR& cb);
+    virtual bool RegisterCommonNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
 
     //注册通用类事件
-    virtual bool RegisterCommonRecordEvent(const RECORD_EVENT_FUNCTOR_PTR& cb);
+    virtual bool RegisterCommonTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
 
 protected:
 
@@ -152,9 +152,9 @@ protected:
 
     void InitRandom();
 
-    int OnClassCommonEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
-    int OnPropertyCommonEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
-    int OnRecordCommonEvent(const AFGUID& self, const RECORD_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
+    int OnCommonClassEvent(const AFGUID& self, const std::string& name, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
+    int OnCommonNodeEvent(const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar);
+    int OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
     void ProcessMemFree();
 
@@ -163,15 +163,15 @@ protected:
     std::list<AFGUID> mtDeleteSelfList;
 
     //////////////////////////////////////////////////////////////////////////
-    std::list<CLASS_EVENT_FUNCTOR_PTR> mtCommonClassCallBackList;
-    std::list<PROPERTY_EVENT_FUNCTOR_PTR> mtCommonPropertyCallBackList;
-    std::list<RECORD_EVENT_FUNCTOR_PTR> mtCommonRecordCallBackList;
+    std::list<CLASS_EVENT_FUNCTOR_PTR> mxCommonClassCBList;
+    std::list<DATA_NODE_EVENT_FUNCTOR_PTR> mxCommonNodeCBList;
+    std::list<DATA_TABLE_EVENT_FUNCTOR_PTR> mxCommonTableCBList;
 
 private:
     std::vector<float> mvRandom;
     int mnRandomPos;
 
-    AFGUID mnCurExeObject;
+    AFGUID mnCurExeEntity;
     int64_t nLastTime;
 
     AFISceneModule* m_pSceneModule;
