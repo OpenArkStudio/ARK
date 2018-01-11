@@ -30,7 +30,7 @@
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Proto/ArkProtocolDefine.hpp"
+#include "SDK/Proto/ARKDataDefine.hpp"
 #include "Server/Interface/AFIGameServerConfigModule.h"
 #include "Server/Interface/AFISceneProcessModule.h"
 #include "Server/Interface/AFIPropertyModule.h"

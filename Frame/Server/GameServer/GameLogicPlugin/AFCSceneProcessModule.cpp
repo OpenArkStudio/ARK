@@ -20,7 +20,7 @@
 
 #include "AFCSceneProcessModule.h"
 #include "SDK/Base/AFTime.hpp"
-#include "SDK/Proto/ArkProtocolDefine.hpp"
+#include "SDK/Proto/ARKDataDefine.hpp"
 
 bool AFCSceneProcessModule::Init()
 {

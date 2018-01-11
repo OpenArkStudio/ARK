@@ -24,7 +24,7 @@
 #include "SDK/Core/AFCEntity.h"
 #include "SDK/Core/AFDataNode.h"
 #include "SDK/Core/AFDataTable.h"
-#include "SDK/Proto/ArkProtocolDefine.hpp"
+#include "SDK/Proto/ARKDataDefine.hpp"
 #include "AFCKernelModule.h"
 
 AFCKernelModule::AFCKernelModule(AFIPluginManager* p)
