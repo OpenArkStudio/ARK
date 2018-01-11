@@ -41,64 +41,6 @@ public class IObject
 
 }
 
-public class BB_Build
-{
-	//Class name
-	public static readonly string ThisName = "BB_Build";
-	// IObject
-	public static readonly String ID = "ID"; // string
-	public static readonly String ClassName = "ClassName"; // string
-	public static readonly String SceneID = "SceneID"; // int
-	public static readonly String GroupID = "GroupID"; // int
-	public static readonly String ConfigID = "ConfigID"; // string
-	// Property
-	public static readonly String Type = "Type"; // int
-	public static readonly String SubType = "SubType"; // int
-	public static readonly String Prefab = "Prefab"; // string
-	public static readonly String NormalStateFunc = "NormalStateFunc"; // string
-	public static readonly String UpStateFunc = "UpStateFunc"; // string
-	public static readonly String Icon = "Icon"; // string
-	public static readonly String ShowName = "ShowName"; // string
-	public static readonly String Desc = "Desc"; // string
-	// Record
-
-}
-
-public class Block
-{
-	//Class name
-	public static readonly string ThisName = "Block";
-	// IObject
-	public static readonly String ID = "ID"; // string
-	public static readonly String ClassName = "ClassName"; // string
-	public static readonly String SceneID = "SceneID"; // int
-	public static readonly String GroupID = "GroupID"; // int
-	public static readonly String ConfigID = "ConfigID"; // string
-	// Property
-	public static readonly String Tag = "Tag"; // int
-	public static readonly String SpriteList = "SpriteList"; // string
-	public static readonly String SpritePath = "SpritePath"; // string
-	public static readonly String LeftSide = "LeftSide"; // string
-	public static readonly String RightSide = "RightSide"; // string
-	public static readonly String TopSide = "TopSide"; // string
-	public static readonly String DownSide = "DownSide"; // string
-	public static readonly String LeftTopSide = "LeftTopSide"; // string
-	public static readonly String LeftDownSide = "LeftDownSide"; // string
-	public static readonly String RightTopSide = "RightTopSide"; // string
-	public static readonly String RightDownSide = "RightDownSide"; // string
-	public static readonly String LeftTopOutSide = "LeftTopOutSide"; // string
-	public static readonly String LeftDownOutSide = "LeftDownOutSide"; // string
-	public static readonly String RightTopOutSide = "RightTopOutSide"; // string
-	public static readonly String RightDownOutSide = "RightDownOutSide"; // string
-	public static readonly String GrassList = "GrassList"; // string
-	public static readonly String JoinList = "JoinList"; // string
-	public static readonly String CrackList = "CrackList"; // string
-	public static readonly String TreasureList = "TreasureList"; // string
-	public static readonly String TreeRootList = "TreeRootList"; // string
-	// Record
-
-}
-
 public class Buff
 {
 	//Class name
@@ -767,8 +709,6 @@ public class Player
 	public static readonly String R_CommPropertyValue = "CommPropertyValue";
 	public static readonly String R_TaskMonsterList = "TaskMonsterList";
 	public static readonly String R_TaskList = "TaskList";
-	public static readonly String R_BuildingList = "BuildingList";
-	public static readonly String R_BuildingListProduce = "BuildingListProduce";
 
 	public enum PlayerHero
 	{
@@ -924,32 +864,6 @@ public class Player
 		TaskID		= 0, // TaskID -- string
 		TaskStatus		= 1, // TaskStatus -- int
 		Process		= 2, // Process -- int
-
-	};
-
-	public enum BuildingList
-	{
-		BuildingID		= 0, // BuildingID -- string
-		BuildingGUID		= 1, // BuildingGUID -- object
-		State		= 2, // State -- int
-		PosX		= 3, // PosX -- int
-		PosY		= 4, // PosY -- int
-		PosZ		= 5, // PosZ -- int
-		StateStartTime		= 6, // StateStartTime -- int
-		StateEndTime		= 7, // StateEndTime -- int
-
-	};
-
-	public enum BuildingListProduce
-	{
-		BuildingID		= 0, // BuildingID -- string
-		BuildingGUID		= 1, // BuildingGUID -- object
-		State		= 2, // State -- int
-		PosX		= 3, // PosX -- int
-		PosY		= 4, // PosY -- int
-		PosZ		= 5, // PosZ -- int
-		StateStartTime		= 6, // StateStartTime -- int
-		StateEndTime		= 7, // StateEndTime -- int
 
 	};
 
