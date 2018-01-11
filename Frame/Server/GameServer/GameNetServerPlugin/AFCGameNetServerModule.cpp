@@ -20,7 +20,7 @@
 
 #include "AFCGameNetServerModule.h"
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Proto/ArkProtocolDefine.hpp"
+#include "SDK/Proto/ARKDataDefine.hpp"
 #include "SDK/Core/AFDataNode.h"
 
 bool AFCGameNetServerModule::Init()
