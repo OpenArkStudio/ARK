@@ -97,15 +97,15 @@ public:
 private:
     bool SendMsgToAllClient(const char* msg, const uint32_t nLen);
     bool SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient);
-    bool AddNetObject(const AFGUID& xClientID, NetObject* pObject);
+    bool AddNetObject(const AFGUID& xClientID, NetObject* pEntity);
     bool RemoveNetObject(const AFGUID& xClientID);
     NetObject* GetNetObject(const AFGUID& xClientID);
 
 private:
     void ProcessMsgLogicThread();
-    void ProcessMsgLogicThread(NetObject* pObject);
+    void ProcessMsgLogicThread(NetObject* pEntity);
     bool CloseSocketAll();
-    bool DismantleNet(NetObject* pObject);
+    bool DismantleNet(NetObject* pEntity);
 
 protected:
     int DeCode(const char* strData, const uint32_t unLen, AFCMsgHead& xHead);

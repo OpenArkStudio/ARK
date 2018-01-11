@@ -86,9 +86,9 @@ public:
 private:
     bool SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient = 0);
 
-    bool DismantleNet(NetObject* pObject);
+    bool DismantleNet(NetObject* pEntity);
     void ProcessMsgLogicThread();
-    void ProcessMsgLogicThread(NetObject* pObject);
+    void ProcessMsgLogicThread(NetObject* pEntity);
     bool CloseSocketAll();
 
     static void log_cb(int severity, const char* msg);
