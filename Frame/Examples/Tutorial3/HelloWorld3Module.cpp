@@ -19,7 +19,7 @@
 */
 
 #include "HelloWorld3Module.h"
-#include "SDK/Proto/ArkProtocolDefine.hpp"
+#include "SDK/Proto/ARKDataDefine.hpp"
 #include "SDK/Base/AFTime.hpp"
 
 bool HelloWorld3Module::Init()

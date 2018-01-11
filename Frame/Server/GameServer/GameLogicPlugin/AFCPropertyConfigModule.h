@@ -26,7 +26,7 @@
 #include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
-#include "SDK/Proto/ArkProtocolDefine.hpp"
+#include "SDK/Proto/ARKDataDefine.hpp"
 #include "Server/Interface/AFIPropertyConfigModule.h"
 
 class AFCPropertyConfigModule
