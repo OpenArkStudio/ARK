@@ -25,9 +25,9 @@
 #include "RapidXML/rapidxml_print.hpp"
 #include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Base/AFCDataList.h"
-#include "SDK/Core/AFRecord.h"
-#include "SDK/Core/AFCPropertyMgr.h"
-#include "SDK/Core/AFCRecordMgr.h"
+#include "SDK/Core/AFDataTable.h"
+#include "SDK/Core/AFCDataNodeManager.h"
+#include "SDK/Core/AFCDataTableManager.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Base/AFArrayMap.hpp"
@@ -39,27 +39,27 @@ class ElementConfigInfo
 public:
     ElementConfigInfo()
     {
-        m_pPropertyManager = std::make_shared<AFCPropertyMgr>(NULL_GUID);
-        m_pRecordManager = std::make_shared<AFCRecordMgr>(NULL_GUID);
+        m_pNodeManager = std::make_shared<AFCDataNodeManager>(NULL_GUID);
+        m_pTableManager = std::make_shared<AFCDataTableManager>(NULL_GUID);
     }
 
     virtual ~ElementConfigInfo()
     {
     }
 
-    ARK_SHARE_PTR<AFIPropertyMgr> GetPropertyManager()
+    ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager()
     {
-        return m_pPropertyManager;
+        return m_pNodeManager;
     }
 
-    ARK_SHARE_PTR<AFIRecordMgr> GetRecordManager()
+    ARK_SHARE_PTR<AFIDataTableManager> GetTableManager()
     {
-        return m_pRecordManager;
+        return m_pTableManager;
     }
 
 protected:
-    ARK_SHARE_PTR<AFIPropertyMgr> m_pPropertyManager;
-    ARK_SHARE_PTR<AFIRecordMgr> m_pRecordManager;
+    ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
+    ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
 };
 
 class AFCElementModule : public AFIElementModule
@@ -82,18 +82,18 @@ public:
     virtual bool ExistElement(const std::string& strConfigName);
     virtual bool ExistElement(const std::string& strClassName, const std::string& strConfigName);
 
-    virtual ARK_SHARE_PTR<AFIPropertyMgr> GetPropertyManager(const std::string& strConfigName);
-    virtual ARK_SHARE_PTR<AFIRecordMgr> GetRecordManager(const std::string& strConfigName);
+    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strConfigName);
+    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strConfigName);
 
-    virtual bool GetPropertyBool(const std::string& strConfigName, const std::string& strPropertyName);
-    virtual int32_t GetPropertyInt(const std::string& strConfigName, const std::string& strPropertyName);
-    virtual int64_t GetPropertyInt64(const std::string& strConfigName, const std::string& strPropertyName);
-    virtual float GetPropertyFloat(const std::string& strConfigName, const std::string& strPropertyName);
-    virtual double GetPropertyDouble(const std::string& strConfigName, const std::string& strPropertyName);
-    virtual const char*  GetPropertyString(const std::string& strConfigName, const std::string& strPropertyName);
+    virtual bool GetNodeBool(const std::string& strConfigName, const std::string& strDataNodeName);
+    virtual int32_t GetNodeInt(const std::string& strConfigName, const std::string& strDataNodeName);
+    virtual int64_t GetNodeInt64(const std::string& strConfigName, const std::string& strDataNodeName);
+    virtual float GetNodeFloat(const std::string& strConfigName, const std::string& strDataNodeName);
+    virtual double GetNodeDouble(const std::string& strConfigName, const std::string& strDataNodeName);
+    virtual const char* GetNodeString(const std::string& strConfigName, const std::string& strDataNodeName);
 
 protected:
-    virtual AFProperty* GetProperty(const std::string& strConfigName, const std::string& strPropertyName);
+    virtual AFDataNode* GetNode(const std::string& strConfigName, const std::string& strDataNodeName);
 
     virtual bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pLogicClass);
 

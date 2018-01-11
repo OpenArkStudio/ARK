@@ -40,26 +40,26 @@ enum CLASS_OBJECT_EVENT
     COE_CREATE_FINISH               ,  //角色创建完成后再挂回调
 };
 
-struct RECORD_EVENT_DATA
+struct DATA_TABLE_EVENT_DATA
 {
-    RECORD_EVENT_DATA()
+    DATA_TABLE_EVENT_DATA()
         : nOpType(COE_NONE)
         , nRow(-1)
         , nCol(-1)
-        , strRecordName(NULL_STR.c_str())
+        , strName(NULL_STR.c_str())
     {
     }
 
     uint8_t nOpType;
     int16_t nRow;
     int16_t nCol;
-    RecordName strRecordName;
+    DataTableName strName;
 };
 
 using HEART_BEAT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const int64_t, const int)>;
 using MODULE_HEART_BEAT_FUNCTOR = std::function<void()>;
-using PROPERTY_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
-using RECORD_EVENT_FUNCTOR = std::function<int(const AFGUID&, const RECORD_EVENT_DATA&, const AFIData&, const AFIData&)>;
+using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
+using DATA_TABLE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
 using CLASS_EVENT_FUNCTOR = std::function<bool(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFIDataList&)>;
 using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const AFIDataList&)>;
 //using EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR = std::function<int(const AFGUID&, const int, std::string&)>;
@@ -67,8 +67,8 @@ using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const 
 
 using HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<HEART_BEAT_FUNCTOR>;
 using MODULE_HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR>;
-using PROPERTY_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<PROPERTY_EVENT_FUNCTOR>;
-using RECORD_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<RECORD_EVENT_FUNCTOR>;
+using DATA_NODE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<DATA_NODE_EVENT_FUNCTOR>;
+using DATA_TABLE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<DATA_TABLE_EVENT_FUNCTOR>;
 using CLASS_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<CLASS_EVENT_FUNCTOR>;
 using EVENT_PROCESS_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_PROCESS_FUNCTOR>;
 

@@ -50,7 +50,7 @@ protected:
     int OnPropertyCallBackEvent(const AFGUID & self, const std::string & strProperty, const AFIData & oldVarList, const AFIData & newVarList);
     int OnPropertyStrCallBackEvent(const AFGUID & self, const std::string & strProperty, const AFIData & oldVarList, const AFIData & newVarList);
 
-    int OnHeartBeat(const AFGUID & self, const std::string & strHeartBeat, const float fTime, const int nCount);
+    int OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const int64_t nTime, const int nCount);
 
 protected:
     int64_t mLastTime;
