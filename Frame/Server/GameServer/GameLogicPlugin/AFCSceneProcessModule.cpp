@@ -340,7 +340,7 @@ void AFCSceneProcessModule::OnClienSwapSceneProcess(const AFIMsgHead& xHead, con
 {
     //CLIENT_MSG_PROCESS(nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
     //AFIDataList varEntry;
-    //varEntry << pObject->Self();
+    //varEntry << pEntity->Self();
     //varEntry << 0;
     //varEntry << xMsg.scene_id();
     //varEntry << -1;
