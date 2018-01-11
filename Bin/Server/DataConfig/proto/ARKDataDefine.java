@@ -34,62 +34,6 @@ public class IObject {
 
 }
 
-public class BB_Build {
-	//Class name
-	public static final String ThisName = "BB_Build";
-	// IObject
-	public static final String ID = "ID"; // string
-	public static final String ClassName = "ClassName"; // string
-	public static final String SceneID = "SceneID"; // int
-	public static final String GroupID = "GroupID"; // int
-	public static final String ConfigID = "ConfigID"; // string
-	// Property
-	public static final String Type = "Type"; // int
-	public static final String SubType = "SubType"; // int
-	public static final String Prefab = "Prefab"; // string
-	public static final String NormalStateFunc = "NormalStateFunc"; // string
-	public static final String UpStateFunc = "UpStateFunc"; // string
-	public static final String Icon = "Icon"; // string
-	public static final String ShowName = "ShowName"; // string
-	public static final String Desc = "Desc"; // string
-	// Record
-
-}
-
-public class Block {
-	//Class name
-	public static final String ThisName = "Block";
-	// IObject
-	public static final String ID = "ID"; // string
-	public static final String ClassName = "ClassName"; // string
-	public static final String SceneID = "SceneID"; // int
-	public static final String GroupID = "GroupID"; // int
-	public static final String ConfigID = "ConfigID"; // string
-	// Property
-	public static final String Tag = "Tag"; // int
-	public static final String SpriteList = "SpriteList"; // string
-	public static final String SpritePath = "SpritePath"; // string
-	public static final String LeftSide = "LeftSide"; // string
-	public static final String RightSide = "RightSide"; // string
-	public static final String TopSide = "TopSide"; // string
-	public static final String DownSide = "DownSide"; // string
-	public static final String LeftTopSide = "LeftTopSide"; // string
-	public static final String LeftDownSide = "LeftDownSide"; // string
-	public static final String RightTopSide = "RightTopSide"; // string
-	public static final String RightDownSide = "RightDownSide"; // string
-	public static final String LeftTopOutSide = "LeftTopOutSide"; // string
-	public static final String LeftDownOutSide = "LeftDownOutSide"; // string
-	public static final String RightTopOutSide = "RightTopOutSide"; // string
-	public static final String RightDownOutSide = "RightDownOutSide"; // string
-	public static final String GrassList = "GrassList"; // string
-	public static final String JoinList = "JoinList"; // string
-	public static final String CrackList = "CrackList"; // string
-	public static final String TreasureList = "TreasureList"; // string
-	public static final String TreeRootList = "TreeRootList"; // string
-	// Record
-
-}
-
 public class Buff {
 	//Class name
 	public static final String ThisName = "Buff";
@@ -741,8 +685,6 @@ public class Player {
 	public static final String R_CommPropertyValue = "CommPropertyValue";
 	public static final String R_TaskMonsterList = "TaskMonsterList";
 	public static final String R_TaskList = "TaskList";
-	public static final String R_BuildingList = "BuildingList";
-	public static final String R_BuildingListProduce = "BuildingListProduce";
 
 	public enum PlayerHero
 	{
@@ -898,32 +840,6 @@ public class Player {
 		TaskID		= 0, // TaskID -- string
 		TaskStatus		= 1, // TaskStatus -- int
 		Process		= 2, // Process -- int
-
-	};
-
-	public enum BuildingList
-	{
-		BuildingID		= 0, // BuildingID -- string
-		BuildingGUID		= 1, // BuildingGUID -- object
-		State		= 2, // State -- int
-		PosX		= 3, // PosX -- int
-		PosY		= 4, // PosY -- int
-		PosZ		= 5, // PosZ -- int
-		StateStartTime		= 6, // StateStartTime -- int
-		StateEndTime		= 7, // StateEndTime -- int
-
-	};
-
-	public enum BuildingListProduce
-	{
-		BuildingID		= 0, // BuildingID -- string
-		BuildingGUID		= 1, // BuildingGUID -- object
-		State		= 2, // State -- int
-		PosX		= 3, // PosX -- int
-		PosY		= 4, // PosY -- int
-		PosZ		= 5, // PosZ -- int
-		StateStartTime		= 6, // StateStartTime -- int
-		StateEndTime		= 7, // StateEndTime -- int
 
 	};
 

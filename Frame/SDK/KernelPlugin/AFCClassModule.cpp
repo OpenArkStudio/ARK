@@ -269,7 +269,7 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
     //support for unlimited layer class inherits
     rapidxml::xml_node<>* root = xDoc.first_node();
 
-    rapidxml::xml_node<>* pRootNodeDataNode = root->first_node("Propertys");
+    rapidxml::xml_node<>* pRootNodeDataNode = root->first_node("DataNodes");
     if(pRootNodeDataNode != nullptr)
     {
         if(!AddNodes(pRootNodeDataNode, pClass))
@@ -281,7 +281,7 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
 
     //////////////////////////////////////////////////////////////////////////
     //Add table
-    rapidxml::xml_node<>* pRootNodeDataTable = root->first_node("Records");
+    rapidxml::xml_node<>* pRootNodeDataTable = root->first_node("DataTables");
     if(pRootNodeDataTable != nullptr)
     {
         if(!AddTables(pRootNodeDataTable, pClass))

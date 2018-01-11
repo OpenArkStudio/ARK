@@ -39,66 +39,6 @@ public:
 
 };
 
-class BB_Build
-{
-public:
-	//Class name
-	static const std::string& ThisName(){ static std::string xBB_Build = "BB_Build"; return xBB_Build; }
-	// IObject
-	static const std::string& ID(){ static std::string xID = "ID"; return xID; } // string
-	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } // string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } // int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } // int
-	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } // string
-	// Property
-	static const std::string& Type(){ static std::string xType = "Type"; return xType; } // int
-	static const std::string& SubType(){ static std::string xSubType = "SubType"; return xSubType; } // int
-	static const std::string& Prefab(){ static std::string xPrefab = "Prefab"; return xPrefab; } // string
-	static const std::string& NormalStateFunc(){ static std::string xNormalStateFunc = "NormalStateFunc"; return xNormalStateFunc; } // string
-	static const std::string& UpStateFunc(){ static std::string xUpStateFunc = "UpStateFunc"; return xUpStateFunc; } // string
-	static const std::string& Icon(){ static std::string xIcon = "Icon"; return xIcon; } // string
-	static const std::string& ShowName(){ static std::string xShowName = "ShowName"; return xShowName; } // string
-	static const std::string& Desc(){ static std::string xDesc = "Desc"; return xDesc; } // string
-	// Record
-
-};
-
-class Block
-{
-public:
-	//Class name
-	static const std::string& ThisName(){ static std::string xBlock = "Block"; return xBlock; }
-	// IObject
-	static const std::string& ID(){ static std::string xID = "ID"; return xID; } // string
-	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } // string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } // int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } // int
-	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } // string
-	// Property
-	static const std::string& Tag(){ static std::string xTag = "Tag"; return xTag; } // int
-	static const std::string& SpriteList(){ static std::string xSpriteList = "SpriteList"; return xSpriteList; } // string
-	static const std::string& SpritePath(){ static std::string xSpritePath = "SpritePath"; return xSpritePath; } // string
-	static const std::string& LeftSide(){ static std::string xLeftSide = "LeftSide"; return xLeftSide; } // string
-	static const std::string& RightSide(){ static std::string xRightSide = "RightSide"; return xRightSide; } // string
-	static const std::string& TopSide(){ static std::string xTopSide = "TopSide"; return xTopSide; } // string
-	static const std::string& DownSide(){ static std::string xDownSide = "DownSide"; return xDownSide; } // string
-	static const std::string& LeftTopSide(){ static std::string xLeftTopSide = "LeftTopSide"; return xLeftTopSide; } // string
-	static const std::string& LeftDownSide(){ static std::string xLeftDownSide = "LeftDownSide"; return xLeftDownSide; } // string
-	static const std::string& RightTopSide(){ static std::string xRightTopSide = "RightTopSide"; return xRightTopSide; } // string
-	static const std::string& RightDownSide(){ static std::string xRightDownSide = "RightDownSide"; return xRightDownSide; } // string
-	static const std::string& LeftTopOutSide(){ static std::string xLeftTopOutSide = "LeftTopOutSide"; return xLeftTopOutSide; } // string
-	static const std::string& LeftDownOutSide(){ static std::string xLeftDownOutSide = "LeftDownOutSide"; return xLeftDownOutSide; } // string
-	static const std::string& RightTopOutSide(){ static std::string xRightTopOutSide = "RightTopOutSide"; return xRightTopOutSide; } // string
-	static const std::string& RightDownOutSide(){ static std::string xRightDownOutSide = "RightDownOutSide"; return xRightDownOutSide; } // string
-	static const std::string& GrassList(){ static std::string xGrassList = "GrassList"; return xGrassList; } // string
-	static const std::string& JoinList(){ static std::string xJoinList = "JoinList"; return xJoinList; } // string
-	static const std::string& CrackList(){ static std::string xCrackList = "CrackList"; return xCrackList; } // string
-	static const std::string& TreasureList(){ static std::string xTreasureList = "TreasureList"; return xTreasureList; } // string
-	static const std::string& TreeRootList(){ static std::string xTreeRootList = "TreeRootList"; return xTreeRootList; } // string
-	// Record
-
-};
-
 class Buff
 {
 public:
@@ -784,8 +724,6 @@ public:
 	static const std::string& R_CommPropertyValue(){ static std::string xCommPropertyValue = "CommPropertyValue"; return xCommPropertyValue;}
 	static const std::string& R_TaskMonsterList(){ static std::string xTaskMonsterList = "TaskMonsterList"; return xTaskMonsterList;}
 	static const std::string& R_TaskList(){ static std::string xTaskList = "TaskList"; return xTaskList;}
-	static const std::string& R_BuildingList(){ static std::string xBuildingList = "BuildingList"; return xBuildingList;}
-	static const std::string& R_BuildingListProduce(){ static std::string xBuildingListProduce = "BuildingListProduce"; return xBuildingListProduce;}
 
 	enum PlayerHero
 	{
@@ -941,32 +879,6 @@ public:
 		TaskList_TaskID		= 0, // TaskID -- string
 		TaskList_TaskStatus		= 1, // TaskStatus -- int
 		TaskList_Process		= 2, // Process -- int
-
-	};
-
-	enum BuildingList
-	{
-		BuildingList_BuildingID		= 0, // BuildingID -- string
-		BuildingList_BuildingGUID		= 1, // BuildingGUID -- object
-		BuildingList_State		= 2, // State -- int
-		BuildingList_PosX		= 3, // PosX -- int
-		BuildingList_PosY		= 4, // PosY -- int
-		BuildingList_PosZ		= 5, // PosZ -- int
-		BuildingList_StateStartTime		= 6, // StateStartTime -- int
-		BuildingList_StateEndTime		= 7, // StateEndTime -- int
-
-	};
-
-	enum BuildingListProduce
-	{
-		BuildingListProduce_BuildingID		= 0, // BuildingID -- string
-		BuildingListProduce_BuildingGUID		= 1, // BuildingGUID -- object
-		BuildingListProduce_State		= 2, // State -- int
-		BuildingListProduce_PosX		= 3, // PosX -- int
-		BuildingListProduce_PosY		= 4, // PosY -- int
-		BuildingListProduce_PosZ		= 5, // PosZ -- int
-		BuildingListProduce_StateStartTime		= 6, // StateStartTime -- int
-		BuildingListProduce_StateEndTime		= 7, // StateEndTime -- int
 
 	};
 

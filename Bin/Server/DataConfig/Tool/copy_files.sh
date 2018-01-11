@@ -1,2 +1,2 @@
 ./NFFileProcess
-cp -a ../proto/ArkProtocolDefine.hpp ../../../../Frame/SDK/Proto
+cp -a ../proto/ARKDataDefine.hpp ../../../../Frame/SDK/Proto
