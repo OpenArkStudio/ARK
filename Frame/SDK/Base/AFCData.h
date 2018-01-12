@@ -499,7 +499,7 @@ public:
         {
         case DT_STRING:
             {
-                if(NULL != mstrValue)
+                if(mstrValue != nullptr)
                 {
                     size += strlen(mstrValue) + 1;
                 }
@@ -507,7 +507,7 @@ public:
             break;
         case DT_USERDATA:
             {
-                if(NULL != mpUserData)
+                if(mpUserData != nullptr)
                 {
                     size += AFIData::GetUserDataSize(mpUserData);
                 }
@@ -530,16 +530,16 @@ protected:
                 if(mstrValue != mBuffer)
                 {
                     mxAlloc.Free(mstrValue, mnAllocLen);
-                    mstrValue = NULL;
+                    mstrValue = nullptr;
                 }
             }
             break;
         case DT_USERDATA:
             {
-                if(NULL != mpUserData)
+                if(mpUserData != nullptr)
                 {
                     mxAlloc.Free(mpUserData, mnAllocLen);
-                    mpUserData = NULL;
+                    mpUserData = nullptr;
                 }
             }
             break;

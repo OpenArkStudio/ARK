@@ -102,13 +102,13 @@ bool AFCClassModule::AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR
 {
     for(rapidxml::xml_node<>* pNode = pNodeRootNode->first_node(); pNode != nullptr; pNode = pNode->next_sibling())
     {
-        if(NULL == pNode)
+        if(pNode == nullptr)
         {
             continue;
         }
 
         const char* strNodeName = pNode->first_attribute("Id")->value();
-        if(NULL != pClass->GetNodeManager()->GetNode(strNodeName))
+        if(pClass->GetNodeManager()->GetNode(strNodeName) != nullptr)
         {
             ARK_ASSERT(0, strNodeName, __FILE__, __FUNCTION__);
             continue;
@@ -155,13 +155,8 @@ bool AFCClassModule::AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR
 
 bool AFCClassModule::AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_PTR<AFIClass> pClass)
 {
-    for(rapidxml::xml_node<>* pTableNode = pTableRootNode->first_node(); pTableNode;  pTableNode = pTableNode->next_sibling())
+    for(rapidxml::xml_node<>* pTableNode = pTableRootNode->first_node(); pTableNode != nullptr;  pTableNode = pTableNode->next_sibling())
     {
-        if(NULL == pTableNode)
-        {
-            continue;
-        }
-
         const char* pTableName = pTableNode->first_attribute("Id")->value();
         if(pClass->GetTableManager()->GetTable(pTableName) != nullptr)
         {
