@@ -9,14 +9,15 @@ ArkGameFrame计划 2018
 - [ ] 7.增加网络库和性能的基准测试用例，放到目录benchmark/unittest
 - [ ] 8.[FMT](https://github.com/fmtlib/fmt) FMT_HEADER_ONLY
 - [ ] 9.修改log库使用[spdlog](https://github.com/gabime/spdlog)
-- [ ] 10.脚本模块使用SWIG  
-
+- [ ] 10.脚本模块使用SWIG
+- [ ] 11.考虑使用ECS，全部对象Entity化，通过GUID来确定属于哪个分组的哪个位置，能快速定位和查找(通过守望先锋和[ECS-unity](https://github.com/sschmid/Entitas-CSharp)并没有看出来是如何处理这种大量查找的，这个方法是和freeeyes讨论的结果)
+  
 - [ ] 100.完整的带业务功能的demo  
-
+  
 - [ ] 200.增加监控web页面(vue-admin)
 - [ ] 201.增加Deployment web工具
 - [ ] 202.增加consul来做服务发现和配置共享(待调研)  
-
+  
 
 ArkGameFrame Bug修改
 
