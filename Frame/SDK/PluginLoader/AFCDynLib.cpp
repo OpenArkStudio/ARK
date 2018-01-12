@@ -26,7 +26,7 @@ bool AFCDynLib::Load()
     strLibPath += mstrName;
     mInst = (DYNLIB_HANDLE)DYNLIB_LOAD(strLibPath.c_str());
 
-    return mInst != NULL;
+    return mInst != nullptr;
 }
 
 bool AFCDynLib::UnLoad()

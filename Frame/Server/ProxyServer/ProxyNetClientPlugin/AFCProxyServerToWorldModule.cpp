@@ -208,7 +208,7 @@ void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const AFIMsgHead& 
     }
 
     ClientConnectData* pConnectData = mWantToConnectMap.GetElement(xMsg.account());
-    if(NULL != pConnectData)
+    if(pConnectData != nullptr)
     {
         pConnectData->strConnectKey = xMsg.world_key();
         return;
@@ -228,7 +228,7 @@ AFINetClientModule* AFCProxyServerToWorldModule::GetClusterModule()
 bool AFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccount, const std::string& strKey)
 {
     ClientConnectData* pConnectData = mWantToConnectMap.GetElement(strAccount);
-    if(NULL != pConnectData && strKey == pConnectData->strConnectKey)
+    if(pConnectData != nullptr && strKey == pConnectData->strConnectKey)
     {
         mWantToConnectMap.RemoveElement(strAccount);
         return true;
