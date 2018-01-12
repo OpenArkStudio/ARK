@@ -153,7 +153,7 @@ bool AFCGUIDModule::Execute()
 
 bool AFCGUIDModule::BeforeShut()
 {
-    if(NULL != m_pIDWoker)
+    if(m_pIDWoker != nullptr)
     {
         delete m_pIDWoker;
         m_pIDWoker = NULL;
@@ -174,7 +174,7 @@ void AFCGUIDModule::SetGUIDMask(uint64_t mask)
 
 AFGUID AFCGUIDModule::CreateGUID()
 {
-    assert(NULL != m_pIDWoker);
+    ARK_ASSERT_RET_VAL(m_pIDWoker != nullptr, NULL_GUID);
 
     uint64_t nLow = m_pIDWoker->GetNextID();
     AFGUID newGUID(mnMask, nLow);

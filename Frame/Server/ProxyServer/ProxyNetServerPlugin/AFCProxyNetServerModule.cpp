@@ -245,7 +245,7 @@ void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, co
 
         AFMapEx<int, ConnectData>& xServerList = m_pProxyServerToGameModule->GetClusterModule()->GetServerList();
         ConnectData* pGameData = xServerList.FirstNude();
-        while(NULL != pGameData)
+        while(pGameData != nullptr)
         {
             if(ConnectDataState::NORMAL == pGameData->eState)
             {

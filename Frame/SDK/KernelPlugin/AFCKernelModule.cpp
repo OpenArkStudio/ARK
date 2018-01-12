@@ -194,7 +194,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
         for(size_t i = 0; i < staticTableCount; ++i)
         {
             AFDataTable* pStaticTable = pStaticClassTableManager->GetTableByIndex(i);
-            if(NULL == pStaticTable)
+            if(pStaticTable == nullptr)
             {
                 continue;
             }
@@ -241,7 +241,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
                     && ARK::IObject::GroupID() != strDataNodeName)
             {
                 AFDataNode* pArgNode = pStaticClassNodeManager->GetNode(strDataNodeName.c_str());
-                if(pArgNode != NULL)
+                if(pArgNode != nullptr)
                 {
                     continue;
                 }
@@ -531,7 +531,7 @@ AFDataTable* AFCKernelModule::FindTable(const AFGUID& self, const std::string& n
 bool AFCKernelModule::ClearTable(const AFGUID& self, const std::string& name)
 {
     AFDataTable* pTable = FindTable(self, name);
-    if(NULL != pTable)
+    if(pTable != nullptr)
     {
         pTable->Clear();
         return true;

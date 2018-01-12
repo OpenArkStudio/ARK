@@ -80,7 +80,7 @@ bool AFCHeartBeatManager::Execute()
         if(iter->second->IsStop())
         {
             AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.GetElement(iter->second->strBeatName);
-            if(NULL == pElement)
+            if(pElement == nullptr)
             {
                 continue;
             }
@@ -101,7 +101,7 @@ bool AFCHeartBeatManager::Execute()
             if(iter->second->IsStop())
             {
                 AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.GetElement(iter->second->strBeatName);
-                if(NULL == pElement)
+                if(pElement == nullptr)
                 {
                     continue;
                 }
@@ -129,7 +129,7 @@ bool AFCHeartBeatManager::Execute()
     while(bRet)
     {
         AFCHeartBeatElement* pHeartBeatEx = mHeartBeatElementMapEx.GetElement(strHeartBeatName);
-        if(NULL == pHeartBeatEx)
+        if(pHeartBeatEx == nullptr)
         {
             continue;
         }
@@ -163,7 +163,7 @@ bool AFCHeartBeatManager::Execute()
     //添加新心跳也是延时添加的
     for(std::list<AFCHeartBeatElement>::iterator iter = mAddListEx.begin(); iter != mAddListEx.end(); ++iter)
     {
-        if(NULL == mHeartBeatElementMapEx.GetElement(iter->strBeatName))
+        if(mHeartBeatElementMapEx.GetElement(iter->strBeatName) == nullptr)
         {
             AFCHeartBeatElement* pHeartBeatEx = ARK_NEW AFCHeartBeatElement();
             *pHeartBeatEx = *iter;

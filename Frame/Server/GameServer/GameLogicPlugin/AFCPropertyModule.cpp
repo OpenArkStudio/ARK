@@ -70,10 +70,10 @@ int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& s
     //if(NFPropertyGroup::NPG_ALL != eGroupType)
     //{
     //    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetObject(self);
-    //    if(nullptr != pEntity)
+    //    if(pEntity != nullptrS)
     //    {
     //       AFRecord* pRecord = m_pKernelModule->FindRecord(self, ARK::Player::R_CommPropertyValue());
-    //        if(NULL != pRecord)
+    //        if(pRecord != nullptr)
     //        {
     //            //pRecord->SetUsed(eGroupType, true);
     //            return pRecord->SetInt(eGroupType, strPropertyName, nValue);
