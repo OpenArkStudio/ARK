@@ -73,7 +73,7 @@ inline bool AFCPluginManager::Init()
     for (int i = 0; i < nPluginInstanceCount; ++i)
     {
         AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(NULL != pPlugin);
+        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
 
         pPlugin->Init();
     }
@@ -123,7 +123,7 @@ bool AFCPluginManager::LoadPluginConfig()
         return false;
     }
 
-    if(NULL == pPluginConfigPathNode->first_attribute("Name"))
+    if(pPluginConfigPathNode->first_attribute("Name") == nullptr)
     {
         ARK_ASSERT(0, "There are no ConfigPath.Name", __FILE__, __FUNCTION__);
         return false;
@@ -152,7 +152,7 @@ bool AFCPluginManager::LoadStaticPlugin(const std::string& strPluginDLLName)
 void AFCPluginManager::Registered(AFIPlugin* plugin)
 {
     std::string strPluginName = plugin->GetPluginName();
-    ARK_ASSERT_RET_NONE(NULL == FindPlugin(strPluginName));
+    ARK_ASSERT_RET_NONE(FindPlugin(strPluginName) == nullptr);
 
     bool bFind = false;
     for (auto it = mPluginNameMap.begin(); it != mPluginNameMap.end(); ++it)
@@ -174,7 +174,7 @@ void AFCPluginManager::Registered(AFIPlugin* plugin)
 void AFCPluginManager::UnRegistered(AFIPlugin* plugin)
 {
     AFIPlugin* pPlugin = mPluginInstanceMap.GetElement(plugin->GetPluginName());
-    if(NULL != pPlugin)
+    if(pPlugin != nullptr)
     {
         mPluginInstanceMap.RemoveElement(pPlugin->GetPluginName());
 
@@ -198,7 +198,7 @@ bool AFCPluginManager::Execute()
     for (size_t i = 0; i < nPluginInstanceCount; ++i)
     {
         AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(NULL != pPlugin);
+        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
         
         bRet &= pPlugin->Execute();
     }
@@ -243,7 +243,7 @@ void AFCPluginManager::SetConfigName(const std::string & strFileName)
 
 void AFCPluginManager::AddModule(const std::string& strModuleName, AFIModule* pModule)
 {
-    ARK_ASSERT_RET_NONE(NULL == FindModule(strModuleName));
+    ARK_ASSERT_RET_NONE(FindModule(strModuleName) == nullptr);
 
     mModuleInstanceMap.AddElement(strModuleName, pModule);
 }
@@ -285,7 +285,7 @@ bool AFCPluginManager::AfterInit()
     for(size_t i = 0; i < nPluginInstanceCount; ++i)
     {
         AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(NULL != pPlugin);
+        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
 
         pPlugin->AfterInit();
     }
@@ -299,7 +299,7 @@ bool AFCPluginManager::CheckConfig()
     for (size_t i = 0; i < nPluginInstanceCount; ++i)
     {
         AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(NULL != pPlugin);
+        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
 
         pPlugin->CheckConfig();
     }
@@ -313,7 +313,7 @@ bool AFCPluginManager::BeforeShut()
     for (size_t i = 0; i < nPluginInstanceCount; ++i)
     {
         AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(NULL != pPlugin);
+        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
 
         pPlugin->BeforeShut();
     }
@@ -327,7 +327,7 @@ bool AFCPluginManager::Shut()
     for (size_t i = 0; i < nPluginInstanceCount; ++i)
     {
         AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(NULL != pPlugin);
+        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
 
         pPlugin->Shut();
     }
@@ -349,7 +349,7 @@ bool AFCPluginManager::Shut()
 bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 {
     AFCDynLib* pDynLib = mPluginLibMap.GetElement(strPluginDLLName);
-    if (NULL != pDynLib)
+    if (pDynLib != nullptr)
     {
         return false;
     }
@@ -396,7 +396,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 {
     AFCDynLib* pDynLib = mPluginLibMap.GetElement(strPluginDLLName);
-    if (NULL == pDynLib)
+    if (pDynLib == nullptr)
     {
         return false;
     }
@@ -431,7 +431,7 @@ bool AFCPluginManager::StartReLoadState()
     for (size_t i = 0; i < nPluginInstanceCount; ++i)
     {
         AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(NULL != pPlugin);
+        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
 
         pPlugin->StartReLoadState();
     }
@@ -445,7 +445,7 @@ bool AFCPluginManager::EndReLoadState()
     for (size_t i = 0; i < nPluginInstanceCount; ++i)
     {
         AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(NULL != pPlugin);
+        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
 
         pPlugin->EndReLoadState();
     }

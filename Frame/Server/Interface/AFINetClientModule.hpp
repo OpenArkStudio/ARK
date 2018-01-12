@@ -266,13 +266,13 @@ protected:
     void ProcessExecute()
     {
         ConnectData* pServerData = mxServerMap.FirstNude();
-        while(pServerData)
+        while(pServerData != nullptr)
         {
             switch(pServerData->eState)
             {
             case ConnectDataState::DISCONNECT:
                 {
-                    if(NULL != pServerData->mxNetModule)
+                    if(pServerData->mxNetModule != nullptr)
                     {
                         pServerData->mxNetModule = nullptr;
                         pServerData->eState = ConnectDataState::RECONNECT;
