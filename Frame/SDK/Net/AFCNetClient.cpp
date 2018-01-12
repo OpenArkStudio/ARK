@@ -57,7 +57,7 @@ void AFCNetClient::ProcessMsgLogicThread()
 
 void AFCNetClient::ProcessMsgLogicThread(NetObject* pEntity)
 {
-    if(NULL ==  pEntity)
+    if(pEntity == nullptr)
     {
         return;
     }
@@ -266,14 +266,14 @@ void AFCNetClient::OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* msg, vo
 
 void AFCNetClient::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* msg)
 {
-    if(NULL == msg)
+    if(msg == nullptr)
     {
         return;
     }
 
     nReceiverSize += msg->length();
     NetObject* pEntity = evpp::any_cast<NetObject*>(conn->context());
-    if(NULL == pEntity)
+    if(pEntity == nullptr)
     {
         return;
     }

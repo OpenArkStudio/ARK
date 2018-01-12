@@ -134,7 +134,7 @@ public:
     StringPodIter& operator++()
     {
         node_t* next = mpNode->next;
-        if(NULL != next)
+        if(next != nullptr)
         {
             mpNode = next;
         }
@@ -289,7 +289,7 @@ public:
     bool Set(const TYPE* name, const DATA& data)
     {
         node_t* node = FindNode(name);
-        if(NULL == node)
+        if(node == nullptr)
         {
             return Add(name, data);
         }
@@ -300,7 +300,7 @@ public:
 
     bool Add(const TYPE* name, const DATA& data)
     {
-        assert(NULL != name);
+        assert(name != nullptr);
 
         if(mnCount == mnSize)
         {
@@ -322,7 +322,7 @@ public:
 
     bool Add(const TYPE* name, const DATA& data, TYPE*& pName)
     {
-        assert(NULL != name);
+        assert(name != nullptr);
 
         if(mnCount == mnSize)
         {
@@ -346,7 +346,7 @@ public:
 
     bool Remove(const TYPE* name)
     {
-        assert(NULL != name);
+        assert(name != nullptr);
 
         if(mnSize == 0)
         {
@@ -374,7 +374,7 @@ public:
 
     bool RemoveData(const TYPE* name, const DATA& data)
     {
-        assert(NULL != name);
+        assert(name != nullptr);
 
         if(mnSize == 0)
         {
@@ -402,7 +402,7 @@ public:
 
     bool exists(const TYPE* name) const
     {
-        return (NULL != FindNode(name));
+        return (FindNode(name) != nullptr);
     }
 
     iterator find(const TYPE* name)
@@ -418,7 +418,7 @@ public:
     bool GetData(const TYPE* name, DATA& data) const
     {
         node_t* p = FindNode(name);
-        if(NULL == p)
+        if(p == nullptr)
         {
             return false;
         }
@@ -515,7 +515,7 @@ private:
     void EraseNode(size_t bucket, node_t* p)
     {
         assert(bucket < mnSize);
-        assert(NULL != p);
+        assert(p != nullptr);
 
         node_t* node = mpBuckets[bucket];
         if(node == p)
@@ -538,11 +538,11 @@ private:
 
     node_t* FindNode(const TYPE* name) const
     {
-        assert(NULL != name);
+        assert(name != nullptr);
 
         if(0 == mnSize)
         {
-            return NULL;
+            return nullptr;
         }
 
         size_t hash = TRAITS::Hash(name);
@@ -595,7 +595,7 @@ private:
 
     node_t* ToNext(node_t* node) const
     {
-        assert(NULL != node);
+        assert(node != nullptr);
 
         for(size_t i = GetBucket(node->hash) + 1; i < mnSize; ++i)
         {
@@ -605,7 +605,7 @@ private:
             }
         }
 
-        return NULL;
+        return nullptr;
     }
 private:
     friend class StringPodIter<TYPE, DATA, TRAITS, ALLOC>;

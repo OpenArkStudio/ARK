@@ -300,18 +300,18 @@ const char* AFCElementModule::GetNodeString(const std::string& strConfigName, co
 AFDataNode* AFCElementModule::GetNode(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-    if(NULL != pElementInfo)
+    if(pElementInfo != nullptr)
     {
         return pElementInfo->GetNodeManager()->GetNode(strDataNodeName.c_str());
     }
 
-    return NULL;
+    return nullptr;
 }
 
 ARK_SHARE_PTR<AFIDataNodeManager> AFCElementModule::GetNodeManager(const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-    if(NULL != pElementInfo)
+    if(pElementInfo != nullptr)
     {
         return pElementInfo->GetNodeManager();
     }
@@ -322,7 +322,7 @@ ARK_SHARE_PTR<AFIDataNodeManager> AFCElementModule::GetNodeManager(const std::st
 ARK_SHARE_PTR<AFIDataTableManager> AFCElementModule::GetTableManager(const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-    if(NULL != pElementInfo)
+    if(pElementInfo != nullptr)
     {
         return pElementInfo->GetTableManager();
     }
@@ -333,13 +333,13 @@ ARK_SHARE_PTR<AFIDataTableManager> AFCElementModule::GetTableManager(const std::
 bool AFCElementModule::ExistElement(const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-    return (NULL != pElementInfo);
+    return (pElementInfo != nullptr);
 }
 
 bool AFCElementModule::ExistElement(const std::string& strClassName, const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-    if(NULL == pElementInfo)
+    if(pElementInfo == nullptr)
     {
         return false;
     }

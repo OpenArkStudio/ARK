@@ -56,7 +56,7 @@ bool AFCDataTableManager::Exist(const char* name, size_t& index) const
 bool AFCDataTableManager::GetTableData(const char* name, const int row, const int col, AFIData& value)
 {
     AFDataTable* pTable = GetTable(name);
-    if (NULL == pTable)
+    if (pTable == nullptr)
     {
         return NULL;
     }
@@ -76,14 +76,14 @@ void AFCDataTableManager::OnEventHandler(const AFGUID& entity_id, const DATA_TAB
 
 bool AFCDataTableManager::AddTableInternal(AFDataTable* pTable)
 {
-    assert(pTable != NULL);
+    assert(pTable != nullptr);
 
     return mxTables.AddElement(pTable->GetName(), pTable);
 }
 
 bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const int8_t feature)
 {
-    ARK_ASSERT(table_name != NULL && sizeof(table_name) > 0, "Table name is invalid", __FILE__, __FUNCTION__);
+    ARK_ASSERT(table_name != nullptr && sizeof(table_name) > 0, "Table name is invalid", __FILE__, __FUNCTION__);
 
     self = self_id;
 

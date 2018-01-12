@@ -546,7 +546,7 @@ int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const A
     for(int i = 0; i < nRecordCount; ++i)
     {
         AFDataTable* pTable = pTableManager->GetTableByIndex(i);
-        if(NULL == pTable)
+        if(pTable == nullptr)
         {
             continue;
         }
