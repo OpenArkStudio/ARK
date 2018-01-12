@@ -61,7 +61,7 @@ public:
     static size_t Find(const char* dst, const char* find, size_t begin = 0)
     {
         const char* pos = strstr(&dst[begin], find);
-        if(NULL == pos)
+        if(pos == nullptr)
         {
             return -1;
         }

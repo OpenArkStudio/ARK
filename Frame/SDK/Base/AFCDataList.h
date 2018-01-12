@@ -323,7 +323,7 @@ public:
 
     virtual bool AddString(const char* value)
     {
-        assert(NULL != value);
+        assert(value != nullptr);
         dynamic_data_t* p = AddDynamicData();
         p->nType = DT_STRING;
         p->mnstrValue = mnBufferUsed;
@@ -342,7 +342,7 @@ public:
             return false;
         }
 
-        assert(NULL != value);
+        assert(value != nullptr);
         dynamic_data_t* p = AddDynamicData();
         if(nullptr == p)
         {
@@ -385,7 +385,7 @@ public:
 
     virtual bool AddUserData(const void* pData, size_t size)
     {
-        assert(NULL != pData);
+        assert(pData != nullptr);
 
         dynamic_data_t* p = AddDynamicData();
         p->nType = DT_USERDATA;
@@ -683,7 +683,7 @@ public:
 
     virtual bool SetString(size_t index, const char* value)
     {
-        assert(NULL != value);
+        assert(value != nullptr);
 
         if(index >= mnDataUsed)
         {

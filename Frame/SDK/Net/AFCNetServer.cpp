@@ -238,13 +238,13 @@ bool AFCNetServer::SendMsg(const char* msg, const uint32_t nLen, const AFGUID& x
     AFScopeRdLock xGuard(mRWLock);
 
     NetObject* pNetObject = GetNetObject(xClient);
-    if(NULL == pNetObject)
+    if(pNetObject == nullptr)
     {
         return false;
     }
 
     pNetObject->GetConnPtr()->Send(msg, nLen);
-    return false;
+    return true;
 }
 
 bool AFCNetServer::AddNetObject(const AFGUID& xClientID, NetObject* pEntity)

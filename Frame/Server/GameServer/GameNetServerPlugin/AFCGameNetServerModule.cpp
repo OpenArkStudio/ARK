@@ -284,7 +284,7 @@ int AFCGameNetServerModule::OnPropertyEnter(const AFIDataList& argVar, const AFG
         for(int i = 0; i < pNodeManager->GetNodeCount(); i++)
         {
             AFDataNode* pNode = pNodeManager->GetNodeByIndex(i);
-            if(NULL == pNode)
+            if(pNode == nullptr)
             {
                 continue;
             }
@@ -368,8 +368,8 @@ int AFCGameNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFGUI
         return 0;
     }
 
-    AFMsg::ObjectRecordList* pPublicData = NULL;
-    AFMsg::ObjectRecordList* pPrivateData = NULL;
+    AFMsg::ObjectRecordList* pPublicData = nullptr;
+    AFMsg::ObjectRecordList* pPrivateData = nullptr;
 
     ARK_SHARE_PTR<AFIDataTableManager> pNodeManager = pEntity->GetTableManager();
 
@@ -377,7 +377,7 @@ int AFCGameNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFGUI
     for(int i = 0; i < nRecordCount; ++i)
     {
         AFDataTable* pTable = pNodeManager->GetTableByIndex(i);
-        if(NULL == pTable)
+        if(pTable == nullptr)
         {
             continue;
         }
@@ -387,8 +387,8 @@ int AFCGameNetServerModule::OnRecordEnter(const AFIDataList& argVar, const AFGUI
             continue;
         }
 
-        AFMsg::ObjectRecordBase* pPrivateRecordBase = NULL;
-        AFMsg::ObjectRecordBase* pPublicRecordBase = NULL;
+        AFMsg::ObjectRecordBase* pPrivateRecordBase = nullptr;
+        AFMsg::ObjectRecordBase* pPublicRecordBase = nullptr;
         if(pTable->IsPublic())
         {
             if(!pPublicData)

@@ -115,7 +115,7 @@ public:
         size_t index;
         if (!mxIndices.GetData(name.c_str(), index))
         {
-            return NULL;
+            return nullptr;
         }
 
         return mxNodes[index];
@@ -123,7 +123,7 @@ public:
 
     NODE* operator[](size_t index)
     {
-        ARK_ASSERT_RET_VAL(index < GetCount(), NULL);
+        ARK_ASSERT_RET_VAL(index < GetCount(), nullptr);
 
         return mxNodes[index];
     }
@@ -137,10 +137,10 @@ public:
         }
         
         //ÊÍ·ÅÄÚ´æ
-        if (NULL != mxNodes[index])
+        if (mxNodes[index] != nullptr)
         {
             delete mxNodes[index];
-            mxNodes[index] = NULL;
+            mxNodes[index] = nullptr;
         }
 
         mxNodes.remove(index);

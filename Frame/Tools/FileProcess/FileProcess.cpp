@@ -167,14 +167,14 @@ void FileProcess::CreateStructThreadFunc()
 
     //xml文档
     tinyxml2::XMLDocument* xmlDoc = new tinyxml2::XMLDocument();
-    if(NULL == xmlDoc)
+    if(xmlDoc == nullptr)
     {
         return;
     }
 
     //xml声明
     tinyxml2::XMLDeclaration *pDel = xmlDoc->NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"");
-    if(NULL == pDel)
+    if(pDel == nullptr)
     {
         return;
     }
@@ -331,13 +331,13 @@ bool FileProcess::CreateStructXML(std::string strFile, std::string strFileName)
 
     // 开始创建xml
     tinyxml2::XMLDocument* structDoc = new tinyxml2::XMLDocument();
-    if(NULL == structDoc)
+    if(structDoc == nullptr)
     {
         return false;
     }
     //xml声明
     tinyxml2::XMLDeclaration *pDel = structDoc->NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"");
-    if(NULL == pDel)
+    if(pDel == nullptr)
     {
         return false;
     }
@@ -732,13 +732,13 @@ bool FileProcess::CreateIniXML(std::string strFile)
     ////////////////////////////////////////////////////////////////////////////
     // 开始创建xml
     tinyxml2::XMLDocument* iniDoc = new tinyxml2::XMLDocument();
-    if(NULL == iniDoc)
+    if(iniDoc == nullptr)
     {
         return false;
     }
     //xml声明
     tinyxml2::XMLDeclaration *pDel = iniDoc->NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"");
-    if(NULL == pDel)
+    if(pDel == nullptr)
     {
         return false;
     }
@@ -918,7 +918,7 @@ bool FileProcess::LoadLogicClass(std::string strFile)
 {
     ////////////////////////////////////////////////////
     tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
-    if(NULL == doc)
+    if(doc == nullptr)
     {
         return false;
     }
@@ -968,7 +968,7 @@ bool FileProcess::LoadLogicClass(std::string strFile)
 bool FileProcess::LoadClass(std::string strFile, std::string strTable)
 {
     tinyxml2::XMLDocument* doc = new tinyxml2::XMLDocument();
-    if(NULL == doc)
+    if(doc == nullptr)
     {
         return false;
     }

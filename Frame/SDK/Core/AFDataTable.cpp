@@ -47,7 +47,7 @@ void AFDataTable::ReleaseAll()
     size_t col_num = mxColTypes.size();
     for(size_t i = 0; i < mxRowDatas.size(); ++i)
     {
-        if(NULL != mxRowDatas[i])
+        if(mxRowDatas[i] != nullptr)
         {
             ReleaseRow(mxRowDatas[i], col_num);
         }
@@ -58,7 +58,7 @@ void AFDataTable::ReleaseAll()
 
 void AFDataTable::SetName(const char* value)
 {
-    assert(NULL != value);
+    ARK_ASSERT_RET_NONE(value != nullptr);
     mstrName = value;
 }
 

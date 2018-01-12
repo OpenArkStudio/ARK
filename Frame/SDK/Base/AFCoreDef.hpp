@@ -83,7 +83,7 @@ inline static unsigned int GetHashValueNoCase(const char* name)
         0xF8, 0xF9, 0xFA, 0xFB, 0xFC, 0xFD, 0xFE, 0xFF,
     };
 
-    assert(name != NULL);
+    assert(name != nullptr);
 
     unsigned int hash = 0;
     for (; *name; name++)
@@ -97,7 +97,7 @@ inline static unsigned int GetHashValueNoCase(const char* name)
 // È¡¹þÏ£Öµ
 inline unsigned int GetHashValue(const char* name)
 {
-    assert(name != NULL);
+    assert(name != nullptr);
 
     unsigned int hash = 0;
     for (; *name; name++)
