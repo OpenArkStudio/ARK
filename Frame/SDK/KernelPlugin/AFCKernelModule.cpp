@@ -969,7 +969,7 @@ bool AFCKernelModule::ReleaseGroupScene(const int nSceneID, const int nGroupID)
     }
 
     AFCDataList listObject;
-    if(GetGroupObjectList(nSceneID, nGroupID, listObject))
+    if(GetGroupEntityList(nSceneID, nGroupID, listObject))
     {
         for(int i = 0; i < listObject.GetCount(); ++i)
         {
@@ -998,7 +998,7 @@ bool AFCKernelModule::ExitGroupScene(const int nSceneID, const int nGroupID)
     return false;
 }
 
-bool AFCKernelModule::GetGroupObjectList(const int nSceneID, const int nGroupID, AFIDataList& list)
+bool AFCKernelModule::GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
     if(nullptr == pSceneInfo)
@@ -1255,19 +1255,19 @@ int AFCKernelModule::OnCommonClassEvent(const AFGUID& self, const std::string& s
     return 0;
 }
 
-bool AFCKernelModule::RegisterCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb)
+bool AFCKernelModule::RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb)
 {
     mxCommonClassCBList.push_back(cb);
     return true;
 }
 
-bool AFCKernelModule::RegisterCommonNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
+bool AFCKernelModule::RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
 {
     mxCommonNodeCBList.push_back(cb);
     return true;
 }
 
-bool AFCKernelModule::RegisterCommonTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+bool AFCKernelModule::RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
 {
     mxCommonTableCBList.push_back(cb);
     return true;
