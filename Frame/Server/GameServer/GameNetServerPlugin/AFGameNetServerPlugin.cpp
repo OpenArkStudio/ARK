@@ -51,7 +51,6 @@ const std::string AFGameNetServerPlugin::GetPluginName()
 void AFGameNetServerPlugin::Install()
 {
     REGISTER_MODULE(pPluginManager, AFIGameNetServerModule, AFCGameNetServerModule)
-
 }
 
 void AFGameNetServerPlugin::Uninstall()

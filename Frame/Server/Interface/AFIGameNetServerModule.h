@@ -62,9 +62,9 @@ public:
     virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID) = 0;
     virtual ARK_SHARE_PTR<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID) = 0;
 
-    virtual int OnPropertyEnter(const AFIDataList& argVar, const AFGUID& self) = 0;
-    virtual int OnRecordEnter(const AFIDataList& argVar, const AFGUID& self) = 0;
+    virtual int OnDataNodeEnter(const AFIDataList& argVar, const AFGUID& self) = 0;
+    virtual int OnDataTableEnter(const AFIDataList& argVar, const AFGUID& self) = 0;
 
-    virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar) = 0;
-    virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) = 0;
+    virtual int OnEntityListEnter(const AFIDataList& self, const AFIDataList& argVar) = 0;
+    virtual int OnEntityListLeave(const AFIDataList& self, const AFIDataList& argVar) = 0;
 };
