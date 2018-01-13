@@ -119,7 +119,7 @@ public:
     virtual bool ReleaseGroupScene(const int nSceneID, const int nGroupID);
     virtual bool ExitGroupScene(const int nSceneID, const int nGroupID);
 
-    virtual bool GetGroupObjectList(const int nSceneID, const int nGroupID, AFIDataList& list);
+    virtual bool GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list);
     virtual int GetEntityByDataNode(const int nSceneID, const std::string& strNodeName, const AFIDataList& valueArgArg, AFIDataList& list);
 
     virtual void Random(int nStart, int nEnd, int nCount, AFIDataList& valueList);
@@ -136,14 +136,14 @@ public:
 
 protected:
 
-    //注册通用类事件
-    virtual bool RegisterCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb);
+    //注册通用Class事件
+    virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb);
 
-    //注册通用属性事件
-    virtual bool RegisterCommonNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
+    //注册通用DataNode事件
+    virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
 
-    //注册通用类事件
-    virtual bool RegisterCommonTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
+    //注册通用DataTable事件
+    virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
 
 protected:
 

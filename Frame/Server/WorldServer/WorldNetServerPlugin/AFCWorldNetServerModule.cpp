@@ -542,8 +542,8 @@ int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const A
     AFMsg::ObjectRecordList* pPrivateData = NULL;
 
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
-    int nRecordCount = pTableManager->GetCount();
-    for(int i = 0; i < nRecordCount; ++i)
+    int nTableCount = pTableManager->GetCount();
+    for(int i = 0; i < nTableCount; ++i)
     {
         AFDataTable* pTable = pTableManager->GetTableByIndex(i);
         if(pTable == nullptr)
