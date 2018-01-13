@@ -89,26 +89,26 @@ public:
     //////////////////////////////////////////////////////////////////////////
     //只能网络模块注册，回调用来同步对象类事件,所有的类对象都会回调
     template<typename BaseType>
-    bool RegisterCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFIDataList&))
+    bool RegCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFIDataList&))
     {
         CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return RegisterCommonClassEvent(std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
+        return RegCommonClassEvent(std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
     }
 
     //只能网络模块注册，回调用来同步对象属性事件,所有的类属性都会回调
     template<typename BaseType>
-    bool RegisterCommonNodeEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
+    bool RegCommonDataNodeEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
         DATA_NODE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return RegisterCommonNodeEvent(std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
+        return RegCommonDataNodeEvent(std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
     }
 
     //只能网络模块注册，回调用来同步对象类表事件,所有的类表都会回调
     template<typename BaseType>
-    bool RegisterCommonTableEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
+    bool RegCommonDataTableEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
     {
         DATA_TABLE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return RegisterCommonTableEvent(std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
+        return RegCommonDataTableEvent(std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
     }
 
     /////////////////////////////////////////////////////////////////
@@ -174,7 +174,7 @@ public:
     virtual bool ReleaseGroupScene(const int nSceneID, const int nGroupID) = 0;
     virtual bool ExitGroupScene(const int nSceneID, const int nGroupID) = 0;
 
-    virtual bool GetGroupObjectList(const int nSceneID, const int nGroupID, AFIDataList& list) = 0;
+    virtual bool GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list) = 0;
     virtual int GetEntityByDataNode(const int nSceneID, const std::string& strPropertyName, const AFIDataList& valueArg, AFIDataList& list) = 0;
 
     virtual void Random(int nStart, int nEnd, int nCount, AFIDataList& valueList) = 0;
@@ -186,12 +186,12 @@ protected:
 
 protected:
     //只能网络模块注册，回调用来同步对象类事件,所有的类对象都会回调
-    virtual bool RegisterCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
+    virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
 
     //只能网络模块注册，回调用来同步对象属性事件,所有的类属性都会回调
-    virtual bool RegisterCommonNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
+    virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
 
     //只能网络模块注册，回调用来同步对象类表事件,所有的类表都会回调
-    virtual bool RegisterCommonTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
+    virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
 };
 
