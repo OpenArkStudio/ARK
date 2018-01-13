@@ -62,11 +62,11 @@ public:
     virtual ARK_SHARE_PTR<GateServerInfo> GetGateServerInfo(const int nGateID);
     virtual ARK_SHARE_PTR<GateServerInfo> GetGateServerInfoByClientID(const AFGUID& nClientID);
 
-    virtual int OnPropertyEnter(const AFIDataList& argVar, const AFGUID& self);
-    virtual int OnRecordEnter(const AFIDataList& argVar, const AFGUID& self);
+    virtual int OnDataNodeEnter(const AFIDataList& argVar, const AFGUID& self);
+    virtual int OnDataTableEnter(const AFIDataList& argVar, const AFGUID& self);
 
-    virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar);
-    virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar);
+    virtual int OnEntityListEnter(const AFIDataList& self, const AFIDataList& argVar);
+    virtual int OnEntityListLeave(const AFIDataList& self, const AFIDataList& argVar);
 
 protected:
     void OnSocketPSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
@@ -93,8 +93,8 @@ protected:
 
 protected:
     //网络同步
-    int OnCommonNodeEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
-    int OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
+    int OnCommonDataNodeEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
+    int OnCommonDataTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
     int OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
 
     int OnGroupEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
@@ -103,8 +103,8 @@ protected:
     int OnEntityEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
     int OnSwapSceneResultEvent(const AFGUID& self, const int nEventID, const AFIDataList& var);
 
-    int GetBroadCastObject(const AFGUID& self, const std::string& strPropertyName, const bool bTable, AFIDataList& valueObject);
-    int GetBroadCastObject(const int nObjectContainerID, const int nGroupID, AFIDataList& valueObject);
+    int GetBroadcastEntityList(const AFGUID& self, const std::string& strPropertyName, const bool bTable, AFIDataList& valueObject);
+    int GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, AFIDataList& valueObject);
 
 private:
     //<角色id,角色网关基础信息>//其实可以在object系统中被代替
