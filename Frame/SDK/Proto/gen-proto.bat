@@ -1,17 +1,6 @@
+echo "generate protobuff files"
 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFDefine.proto 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFMsgBase.proto 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFMsgPreGame.proto 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFMsgShare.proto  
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFFleetingDefine.proto  
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFMsgURl.proto 
-"proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:./ ./AFMsgMysql.proto
-
-"proto-gen/protogen.exe" -i:AFDefine.proto -o:cs/AFDefine.cs
-"proto-gen/protogen.exe" -i:AFMsgBase.proto -o:cs/AFMsgBase.cs
-"proto-gen/protogen.exe" -i:AFMsgPreGame.proto -o:cs/AFMsgPreGame.cs
-"proto-gen/protogen.exe" -i:AFMsgShare.proto -o:cs/AFMsgShare.cs
-"proto-gen/protogen.exe" -i:AFFleetingDefine.proto -o:cs/AFFleetingDefine.cs
-"proto-gen/protogen.exe" -i:AFMsgURl.proto -o:cs/AFMsgURl.cs
+for /f "delims=" %%i in ('dir /b/a-d/oN *.proto') do "proto-gen/protoc.exe" -I=./ --cpp_out=dllexport_decl=LIBPROTOC_EXPORT:../ %%~ni.proto
+for /f "delims=" %%i in ('dir /b/a-d/oN *.proto') do "proto-gen/protogen.exe" -i:%%i -o:cs/%%~ni.cs
 
 pause
