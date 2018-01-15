@@ -685,8 +685,41 @@ int AFDataTable::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 
     return -1;
 }
 
-bool AFDataTable::QueryRow(const int nRow, AFIDataList& varList)
+bool AFDataTable::QueryRow(const int row, AFIDataList& varList)
 {
-    //TODO
+    ARK_ASSERT_RET_VAL(row < mxRowDatas.size(), false);
+
+    RowData* rowData = mxRowDatas[row];
+    for (int i = 0; i < mxColTypes.size(); ++i)
+    {
+        RowData& subData = rowData[i];
+        switch (subData.GetType())
+        {
+        case DT_BOOLEAN:
+            varList.AddBool(subData.GetBool());
+            break;
+        case DT_INT:
+            varList.AddInt(subData.GetInt());
+            break;
+        case DT_INT64:
+            varList.AddInt64(subData.GetInt64());
+            break;
+        case DT_FLOAT:
+            varList.AddFloat(subData.GetFloat());
+            break;
+        case DT_DOUBLE:
+            varList.AddDouble(subData.GetDouble());
+            break;
+        case DT_STRING:
+            varList.AddString(subData.GetString());
+            break;
+        case DT_OBJECT:
+            varList.AddObject(subData.GetObject());
+            break;
+        default:
+            break;
+        }
+    }
+
     return false;
 }
