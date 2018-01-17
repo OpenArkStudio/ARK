@@ -67,7 +67,7 @@ public:
 public:
     virtual bool Execute();
 
-    virtual int Initialization(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nCpuCount);
+    virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount);
     virtual bool Final();
     virtual bool IsServer()
     {

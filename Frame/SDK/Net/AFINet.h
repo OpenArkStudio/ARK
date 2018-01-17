@@ -359,8 +359,8 @@ public:
     //need to call this function every frame to drive network library
     virtual bool Execute() = 0;
 
-    virtual void Initialization(const std::string& strAddrPort, const int nServerID) {};
-    virtual int Initialization(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nCpuCount)
+    virtual void Start(const std::string& strAddrPort, const int nServerID) {}
+    virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)
     {
         return -1;
     };
@@ -405,5 +405,3 @@ public:
 };
 
 #pragma pack(pop)
-
-
