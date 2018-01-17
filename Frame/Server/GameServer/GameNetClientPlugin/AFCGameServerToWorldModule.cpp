@@ -39,9 +39,9 @@ bool AFCGameServerToWorldModule::Shut()
 }
 
 
-bool AFCGameServerToWorldModule::Execute()
+void AFCGameServerToWorldModule::Update()
 {
-    return m_pNetClientModule->Execute();
+    m_pNetClientModule->Update();
 }
 
 void AFCGameServerToWorldModule::Register(const int nSeverID)

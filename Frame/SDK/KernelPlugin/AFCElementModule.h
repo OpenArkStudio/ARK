@@ -73,7 +73,7 @@ public:
 
     virtual bool AfterInit();
     virtual bool BeforeShut();
-    virtual bool Execute();
+    virtual void Update();
 
     virtual bool Load();
     virtual bool Save();

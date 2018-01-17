@@ -76,26 +76,19 @@ bool HelloWorld2::AfterInit()
     return true;
 }
 
-bool HelloWorld2::Execute()
+void HelloWorld2::Update()
 {
-    //每帧执行
-    //std::cout << "Hello, world2, Execute" << std::endl;
 
-    return true;
 }
 
 bool HelloWorld2::BeforeShut()
 {
-    //反初始化之前
     std::cout << "Hello, world2, BeforeShut" << std::endl;
-
     return true;
 }
 
 bool HelloWorld2::Shut()
 {
-    //反初始化
     std::cout << "Hello, world2, Shut" << std::endl;
-
     return true;
 }

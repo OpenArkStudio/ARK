@@ -86,11 +86,9 @@ bool AFCWorldToMasterModule::AfterInit()
 }
 
 
-bool AFCWorldToMasterModule::Execute()
+void AFCWorldToMasterModule::Update()
 {
-    m_pNetClientModule->Execute();
-
-    return true;
+    m_pNetClientModule->Update();
 }
 
 void AFCWorldToMasterModule::Register(const int nServerID)

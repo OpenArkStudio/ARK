@@ -51,12 +51,10 @@ bool AFCEntity::Shut()
     return true;
 }
 
-bool AFCEntity::Execute()
+void AFCEntity::Update()
 {
-    GetHeartBeatManager()->Execute();
-    GetEventManager()->Execute();
-
-    return true;
+    GetHeartBeatManager()->Update();
+    GetEventManager()->Update();
 }
 
 bool AFCEntity::AddHeartBeat(const std::string& name, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever)

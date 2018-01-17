@@ -40,11 +40,9 @@ bool AFCProxyServerToGameModule::Shut()
     return true;
 }
 
-bool AFCProxyServerToGameModule::Execute()
+void AFCProxyServerToGameModule::Update()
 {
-    m_pNetClientModule->Execute();
-
-    return true;
+    m_pNetClientModule->Update();
 }
 
 bool AFCProxyServerToGameModule::AfterInit()

@@ -32,9 +32,9 @@ bool AFCWorldLogicModule::Shut()
     return true;
 }
 
-bool AFCWorldLogicModule::Execute()
+void AFCWorldLogicModule::Update()
 {
-    return true;
+
 }
 
 bool AFCWorldLogicModule::AfterInit()

@@ -63,7 +63,7 @@ public:
     };
 
 public:
-    virtual bool Execute();
+    virtual void Update();
     virtual void Initialization(const std::string& strAddrPort, const int nServerID);
     virtual bool Final();
     virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID = 0, const AFGUID& xPlayerID = 0);

@@ -74,7 +74,7 @@ class AFIHeartBeatManager
 public:
     virtual ~AFIHeartBeatManager() {}
     virtual AFGUID Self() = 0;
-    virtual bool Execute() = 0;
+    virtual void Update() = 0;
     virtual bool Exist(const std::string& strHeartBeatName) = 0;
 
     virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever = false) = 0;

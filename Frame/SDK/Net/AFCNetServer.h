@@ -65,7 +65,7 @@ public:
     };
 
 public:
-    virtual bool Execute();
+    virtual void Update();
 
     virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount);
     virtual bool Final();

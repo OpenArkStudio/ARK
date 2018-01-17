@@ -104,9 +104,9 @@ bool AFCGameNetServerModule::Shut()
     return true;
 }
 
-bool AFCGameNetServerModule::Execute()
+void AFCGameNetServerModule::Update()
 {
-    return m_pNetModule->Execute();
+    m_pNetModule->Update();
 }
 
 void AFCGameNetServerModule::OnSocketPSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)

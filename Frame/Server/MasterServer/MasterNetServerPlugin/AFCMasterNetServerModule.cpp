@@ -204,12 +204,10 @@ void AFCMasterNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, con
     m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
 }
 
-bool AFCMasterNetServerModule::Execute()
+void AFCMasterNetServerModule::Update()
 {
     LogGameServer();
-
-    m_pNetModule->Execute();
-    return true;
+    m_pNetModule->Update();
 }
 
 void AFCMasterNetServerModule::OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
