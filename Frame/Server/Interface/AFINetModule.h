@@ -189,28 +189,23 @@ public:
             break;
         case DT_FLOAT:
             {
-
                 xMsg.set_mfvalue(DataVar.GetFloat());
             }
             break;
-
         case DT_DOUBLE:
             {
-
                 xMsg.set_mdvalue(DataVar.GetDouble());
             }
             break;
 
         case DT_STRING:
             {
-
                 xMsg.set_mstrvalue(DataVar.GetString());
             }
             break;
 
         case DT_OBJECT:
             {
-
                 *xMsg.mutable_mguid() = GUIDToPB(DataVar.GetObject());
             }
             break;
@@ -246,28 +241,24 @@ public:
             break;
         case DT_FLOAT:
             {
-
                 xMsg.set_mfvalue(DataVar.GetFloat());
             }
             break;
 
         case DT_DOUBLE:
             {
-
                 xMsg.set_mdvalue(DataVar.GetDouble());
             }
             break;
 
         case DT_STRING:
             {
-
                 xMsg.set_mstrvalue(DataVar.GetString());
             }
             break;
 
         case DT_OBJECT:
             {
-
                 *xMsg.mutable_mguid() = GUIDToPB(DataVar.GetObject());
             }
             break;
@@ -302,21 +293,18 @@ public:
             break;
         case DT_FLOAT:
             {
-
                 xMsg.set_mfvalue(DataList.Float(nCol));
             }
             break;
 
         case DT_DOUBLE:
             {
-
                 xMsg.set_mdvalue(DataList.Double(nCol));
             }
             break;
 
         case DT_STRING:
             {
-
                 xMsg.set_mstrvalue(DataList.String(nCol));
             }
             break;
