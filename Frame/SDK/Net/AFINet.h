@@ -37,7 +37,7 @@ struct  AFIMsgHead
 {
     enum AF_Head
     {
-        NF_HEAD_LENGTH = 22,
+        ARK_MSG_HEAD_LENGTH = 22,
     };
 
     virtual int EnCode(char* strData) const = 0;
@@ -136,7 +136,7 @@ public:
         memcpy(strData + nOffset, (void*)(&nMsgID), sizeof(munMsgID));
         nOffset += sizeof(munMsgID);
 
-        uint32_t nPackSize = munSize + NF_HEAD_LENGTH;
+        uint32_t nPackSize = munSize + ARK_MSG_HEAD_LENGTH;
         uint32_t nSize = ARK_HTONL(nPackSize);
         memcpy(strData + nOffset, (void*)(&nSize), sizeof(munSize));
         nOffset += sizeof(munSize);
@@ -149,7 +149,7 @@ public:
         memcpy(strData + nOffset, (void*)(&nLowData), sizeof(nLowData));
         nOffset += sizeof(nLowData);
 
-        if(nOffset != NF_HEAD_LENGTH)
+        if(nOffset != ARK_MSG_HEAD_LENGTH)
         {
             assert(0);
         }
@@ -169,7 +169,7 @@ public:
 
         uint32_t nPackSize(0);
         memcpy(&nPackSize, strData + nOffset, sizeof(munSize));
-        munSize = ARK_NTOHL(nPackSize) - NF_HEAD_LENGTH;
+        munSize = ARK_NTOHL(nPackSize) - ARK_MSG_HEAD_LENGTH;
         nOffset += sizeof(munSize);
 
 
@@ -183,7 +183,7 @@ public:
         mxPlayerID.nLow = ARK_NTOHLL(nLowData);
         nOffset += sizeof(nLowData);
 
-        if(nOffset != NF_HEAD_LENGTH)
+        if(nOffset != ARK_MSG_HEAD_LENGTH)
         {
             assert(0);
         }
