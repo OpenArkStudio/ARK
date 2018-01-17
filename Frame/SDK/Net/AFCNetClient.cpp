@@ -116,11 +116,20 @@ void AFCNetClient::Initialization(const std::string& strAddrPort, const int nSer
 
     mstrIPPort = strAddrPort;
     mnServerID = nServerID;
+#if __cplusplus < 201402L
+    m_pThread.reset(new evpp::EventLoopThread);
+#else
     m_pThread = std::make_unique<evpp::EventLoopThread>();
+#endif
     m_pThread->set_name("TCPClientThread");
     m_pThread->Start();
 
+#if __cplusplus < 201402L
+    m_pClient.reset(new evpp::TCPClient(m_pThread->loop(), mstrIPPort, "TCPPingPongClient"));
+#else
     m_pClient = std::make_unique<evpp::TCPClient>(m_pThread->loop(), mstrIPPort, "TCPPingPongClient");
+#endif
+    
     m_pClient->SetConnectionCallback(std::bind(&AFCNetClient::OnClientConnectionInner,this, std::placeholders::_1));
     m_pClient->SetMessageCallback(std::bind(&AFCNetClient::OnMessageInner, this, std::placeholders::_1, std::placeholders::_2));
     m_pClient->set_auto_reconnect(false);
