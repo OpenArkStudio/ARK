@@ -224,10 +224,15 @@ bool ARK_TO_STR(std::string& strValue, const T& nValue)
 #define CLEAR_HOUR 5
 
 #if __cplusplus < 201402L
-// note: this implementation does not disable this overload for array types
-template<typename T, typename... Args>
-std::unique_ptr<T> make_unique(Args&&... args)
+
+namespace std
 {
-    return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+    // note: this implementation does not disable this overload for array types
+    template<typename T, typename... Args>
+    unique_ptr<T> make_unique(Args&&... args)
+    {
+        return unique_ptr<T>(new T(std::forward<Args>(args)...));
+    }
 }
+
 #endif
