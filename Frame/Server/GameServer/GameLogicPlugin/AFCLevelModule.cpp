@@ -31,10 +31,9 @@ bool AFCLevelModule::Shut()
     return true;
 }
 
-bool AFCLevelModule::Execute()
+void AFCLevelModule::Update()
 {
-    //Œª÷√ƒÿ
-    return true;
+
 }
 
 bool AFCLevelModule::AfterInit()

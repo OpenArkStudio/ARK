@@ -41,5 +41,5 @@ public:
     virtual bool AfterInit();
     virtual bool BeforeShut();
     virtual bool Shut();
-    virtual bool Execute();
+    virtual void Update();
 };

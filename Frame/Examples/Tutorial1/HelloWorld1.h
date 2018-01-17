@@ -35,7 +35,7 @@ public:
     virtual bool Init();
     virtual bool AfterInit();
 
-    virtual bool Execute();
+    virtual void Update();
 
     virtual bool BeforeShut();
     virtual bool Shut();

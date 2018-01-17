@@ -90,11 +90,11 @@ bool AFCWorldNetServerModule::Shut()
     return true;
 }
 
-bool AFCWorldNetServerModule::Execute()
+void AFCWorldNetServerModule::Update()
 {
     LogGameServer();
 
-    return m_pNetModule->Execute();
+    m_pNetModule->Update();
 }
 
 void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)

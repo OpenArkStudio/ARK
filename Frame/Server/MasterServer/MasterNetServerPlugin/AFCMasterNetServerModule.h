@@ -46,7 +46,7 @@ public:
     virtual bool Shut();
 
     virtual bool AfterInit();
-    virtual bool Execute();
+    virtual void Update();
 
     virtual void LogReceive(const char* str) {}
     virtual void LogSend(const char* str) {}

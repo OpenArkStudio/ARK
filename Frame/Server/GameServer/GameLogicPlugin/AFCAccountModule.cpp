@@ -44,9 +44,9 @@ bool AFCAccountModule::Shut()
     return true;
 }
 
-bool AFCAccountModule::Execute(const float fLasFrametime, const float fStartedTime)
+void AFCAccountModule::Update(const float fLasFrametime, const float fStartedTime)
 {
-    return true;
+
 }
 
 int AFCAccountModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
