@@ -115,11 +115,11 @@ void AFCNetClient::Initialization(const std::string& strAddrPort, const int nSer
 
     mstrIPPort = strAddrPort;
     mnServerID = nServerID;
-    m_pThread.reset(new evpp::EventLoopThread);
+    m_pThread = std::make_unique<evpp::EventLoopThread>();
     m_pThread->set_name("TCPClientThread");
     m_pThread->Start();
 
-    m_pClient.reset(new evpp::TCPClient(m_pThread->loop(), mstrIPPort, "TCPPingPongClient"));
+    m_pClient = std::make_unique<evpp::TCPClient>(m_pThread->loop(), mstrIPPort, "TCPPingPongClient");
     m_pClient->SetConnectionCallback(std::bind(&AFCNetClient::OnClientConnectionInner,this, std::placeholders::_1));
     m_pClient->SetMessageCallback(std::bind(&AFCNetClient::OnMessageInner, this, std::placeholders::_1, std::placeholders::_2));
     m_pClient->set_auto_reconnect(false);
@@ -251,7 +251,6 @@ void AFCNetClient::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
             pEntity->mqMsgFromNet.Push(pMsg);
             conn->set_context(evpp::Any(nullptr));
         }
-
     }
 }
 
@@ -335,4 +334,3 @@ int AFCNetClient::DeCode(const char* strData, const uint32_t unAllLen, AFCMsgHea
     }
     return xHead.GetBodyLength();
 }
-
