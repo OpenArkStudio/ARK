@@ -32,9 +32,9 @@ bool AFCSceneProcessModule::Shut()
     return true;
 }
 
-bool AFCSceneProcessModule::Execute()
+void AFCSceneProcessModule::Update()
 {
-    return true;
+
 }
 
 bool AFCSceneProcessModule::AfterInit()

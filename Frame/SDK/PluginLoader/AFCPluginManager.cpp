@@ -189,7 +189,7 @@ AFIPlugin* AFCPluginManager::FindPlugin(const std::string& strPluginName)
     return mPluginInstanceMap.GetElement(strPluginName);
 }
 
-bool AFCPluginManager::Execute()
+void AFCPluginManager::Update()
 {
     mnNowTime = time(NULL);
 
@@ -200,10 +200,8 @@ bool AFCPluginManager::Execute()
         AFIPlugin* pPlugin = mPluginInstanceMap[i];
         ARK_ASSERT_CONTINUE(pPlugin != nullptr);
         
-        bRet &= pPlugin->Execute();
+        pPlugin->Update();
     }
-
-    return bRet;
 }
 
 inline int AFCPluginManager::AppID() const

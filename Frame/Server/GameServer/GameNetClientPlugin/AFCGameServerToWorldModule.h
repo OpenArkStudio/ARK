@@ -40,7 +40,7 @@ public:
     }
     virtual bool Init();
     virtual bool Shut();
-    virtual bool Execute();
+    virtual void Update();
     virtual bool AfterInit();
 
     virtual void SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen);
