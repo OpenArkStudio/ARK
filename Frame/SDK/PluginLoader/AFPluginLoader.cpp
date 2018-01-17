@@ -209,7 +209,7 @@ int main(int argc, char* argv[])
             __try
             {
 #endif
-                AFCPluginManager::GetInstancePtr()->Execute();
+                AFCPluginManager::GetInstancePtr()->Update();
 #if ARK_PLATFORM == PLATFORM_WIN
             }
             __except(ApplicationCrashHandler(GetExceptionInformation()))
