@@ -18,8 +18,9 @@
 *
 */
 
-#include "AFCNetClient.h"
 #include <string.h>
+#include <memory>
+#include "AFCNetClient.h"
 
 #if ARK_PLATFORM == PLATFORM_WIN
 #include <WS2tcpip.h>
@@ -33,6 +34,7 @@
 
 #include "event2/bufferevent_struct.h"
 #include "event2/event.h"
+
 
 bool AFCNetClient::Execute()
 {
