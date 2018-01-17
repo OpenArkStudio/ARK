@@ -24,9 +24,7 @@
 
 bool HelloWorld3Module::Init()
 {
-    //初始化
     std::cout << "Hello, world3, Init" << std::endl;
-
     return true;
 }
 
@@ -122,19 +120,14 @@ bool HelloWorld3Module::AfterInit()
     return true;
 }
 
-bool HelloWorld3Module::Execute()
+void HelloWorld3Module::Update()
 {
-    //每帧执行
-    //std::cout << "Hello, world3, Execute" << std::endl;
 
-    return true;
 }
 
 bool HelloWorld3Module::BeforeShut()
 {
-    //反初始化之前
     std::cout << "Hello, world3, BeforeShut" << std::endl;
-
     m_pKernelModule->DestroyAll();
 
     return true;
@@ -142,8 +135,6 @@ bool HelloWorld3Module::BeforeShut()
 
 bool HelloWorld3Module::Shut()
 {
-    //反初始化
     std::cout << "Hello, world3, Shut" << std::endl;
-
     return true;
 }

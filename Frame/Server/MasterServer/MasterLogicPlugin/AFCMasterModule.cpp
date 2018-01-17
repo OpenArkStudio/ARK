@@ -32,7 +32,7 @@ bool AFCMasterModule::Shut()
     return true;
 }
 
-bool AFCMasterModule::Execute()
+void AFCMasterModule::Update()
 {
-    return true;
+
 }

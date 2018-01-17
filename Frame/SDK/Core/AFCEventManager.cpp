@@ -59,7 +59,7 @@ bool AFCEventManager::AddEventCallBack(const int nEventID, const EVENT_PROCESS_F
     return true;
 }
 
-bool AFCEventManager::Execute()
+void AFCEventManager::Update()
 {
     int nEvent = 0;
     bool bRet = mRemoveEventListEx.First(nEvent);
@@ -71,8 +71,6 @@ bool AFCEventManager::Execute()
     }
 
     mRemoveEventListEx.ClearAll();
-
-    return true;
 }
 
 bool AFCEventManager::RemoveEventCallBack(const int nEventID)

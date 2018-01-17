@@ -31,7 +31,7 @@ class AFIEventManager
 {
 public:
     virtual ~AFIEventManager() {}
-    virtual bool Execute() = 0;
+    virtual void Update() = 0;
 
     template<typename BaseType>
     bool AddEventCallBack(const int nEventID, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const int, const AFIDataList&))

@@ -36,10 +36,9 @@
 #include "event2/event.h"
 
 
-bool AFCNetClient::Execute()
+void AFCNetClient::Update()
 {
     ProcessMsgLogicThread();
-    return true;
 }
 
 void AFCNetClient::ProcessMsgLogicThread()

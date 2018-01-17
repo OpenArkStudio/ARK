@@ -146,9 +146,9 @@ bool AFCGUIDModule::AfterInit()
     return true;
 }
 
-bool AFCGUIDModule::Execute()
+void AFCGUIDModule::Update()
 {
-    return true;
+
 }
 
 bool AFCGUIDModule::BeforeShut()

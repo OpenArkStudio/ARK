@@ -36,7 +36,7 @@ public:
 
     virtual bool Init();
     virtual bool Shut();
-    virtual bool Execute();
+    virtual void Update();
 
 private:
 
