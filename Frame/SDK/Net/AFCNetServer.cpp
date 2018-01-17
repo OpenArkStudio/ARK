@@ -272,7 +272,7 @@ bool AFCNetServer::CloseNetObject(const AFGUID& xClientID)
 
 bool AFCNetServer::DismantleNet(NetObject* pEntity)
 {
-    for(; pEntity->GetBuffLen() >= AFIMsgHead::AF_Head::NF_HEAD_LENGTH;)
+    for(; pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH;)
     {
         AFCMsgHead xHead;
         int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
@@ -281,9 +281,9 @@ bool AFCNetServer::DismantleNet(NetObject* pEntity)
             MsgFromNetInfo* pNetInfo = new  MsgFromNetInfo(pEntity->GetConnPtr());
             pNetInfo->xHead = xHead;
             pNetInfo->nType = RECIVEDATA;
-            pNetInfo->strMsg.append(pEntity->GetBuff() + AFIMsgHead::AF_Head::NF_HEAD_LENGTH, nMsgBodyLength);
+            pNetInfo->strMsg.append(pEntity->GetBuff() + AFIMsgHead::ARK_MSG_HEAD_LENGTH, nMsgBodyLength);
             pEntity->mqMsgFromNet.Push(pNetInfo);
-            int nRet = pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::AF_Head::NF_HEAD_LENGTH);
+            int nRet = pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::ARK_MSG_HEAD_LENGTH);
         }
         else
         {
@@ -328,7 +328,7 @@ bool AFCNetServer::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, con
     xHead.SetBodyLength(nLen);
 
     int nAllLen = EnCode(xHead, msg, nLen, strOutData);
-    if(nAllLen == nLen + AFIMsgHead::AF_Head::NF_HEAD_LENGTH)
+    if(nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return SendMsg(strOutData.c_str(), strOutData.length(), xClientID);
     }
@@ -344,7 +344,7 @@ bool AFCNetServer::SendMsgToAllClientWithOutHead(const int16_t nMsgID, const cha
     xHead.SetPlayerID(xPlayerID);
 
     int nAllLen = EnCode(xHead, msg, nLen, strOutData);
-    if(nAllLen == nLen + AFIMsgHead::AF_Head::NF_HEAD_LENGTH)
+    if(nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return SendMsgToAllClient(strOutData.c_str(), strOutData.length());
     }
@@ -354,29 +354,29 @@ bool AFCNetServer::SendMsgToAllClientWithOutHead(const int16_t nMsgID, const cha
 
 int AFCNetServer::EnCode(const AFCMsgHead& xHead, const char* strData, const uint32_t unDataLen, std::string& strOutData)
 {
-    char szHead[AFIMsgHead::AF_Head::NF_HEAD_LENGTH] = { 0 };
+    char szHead[AFIMsgHead::ARK_MSG_HEAD_LENGTH] = { 0 };
     int nRet = xHead.EnCode(szHead);
 
     strOutData.clear();
-    strOutData.append(szHead, AFIMsgHead::AF_Head::NF_HEAD_LENGTH);
+    strOutData.append(szHead, AFIMsgHead::ARK_MSG_HEAD_LENGTH);
     strOutData.append(strData, unDataLen);
 
-    return xHead.GetBodyLength() + AFIMsgHead::AF_Head::NF_HEAD_LENGTH;
+    return xHead.GetBodyLength() + AFIMsgHead::ARK_MSG_HEAD_LENGTH;
 }
 
 int AFCNetServer::DeCode(const char* strData, const uint32_t unAllLen, AFCMsgHead& xHead)
 {
-    if(unAllLen < AFIMsgHead::AF_Head::NF_HEAD_LENGTH)
+    if(unAllLen < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return -1;
     }
 
-    if(AFIMsgHead::AF_Head::NF_HEAD_LENGTH != xHead.DeCode(strData))
+    if(AFIMsgHead::ARK_MSG_HEAD_LENGTH != xHead.DeCode(strData))
     {
         return -2;
     }
 
-    if(xHead.GetBodyLength() > (unAllLen - AFIMsgHead::AF_Head::NF_HEAD_LENGTH))
+    if(xHead.GetBodyLength() > (unAllLen - AFIMsgHead::ARK_MSG_HEAD_LENGTH))
     {
         return -3;
     }
