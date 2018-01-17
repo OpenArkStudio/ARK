@@ -109,9 +109,9 @@ bool AFCLogModule::AfterInit()
     return true;
 }
 
-bool AFCLogModule::Execute()
+void AFCLogModule::Update()
 {
-    return true;
+
 }
 
 bool AFCLogModule::Log(const ARK_LOG_LEVEL nll, const char* format, ...)

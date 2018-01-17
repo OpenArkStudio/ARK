@@ -31,11 +31,10 @@ bool AFCProxyLogicModule::Shut()
     return true;
 }
 
-bool AFCProxyLogicModule::Execute()
+void AFCProxyLogicModule::Update()
 {
-    return true;
-}
 
+}
 
 bool AFCProxyLogicModule::AfterInit()
 {

@@ -71,7 +71,7 @@ bool AFCHeartBeatElement::CheckTime(int64_t nNowTime)
 }
 
 //////////////////////////////////////////////////////////////////////////
-bool AFCHeartBeatManager::Execute()
+void AFCHeartBeatManager::Update()
 {
     //millisecond
     int64_t nTime = AFCTimeBase::GetInstance().GetNowMillisecond();
@@ -173,8 +173,6 @@ bool AFCHeartBeatManager::Execute()
     }
 
     mAddListEx.clear();
-
-    return true;
 }
 
 bool AFCHeartBeatManager::RemoveHeartBeat(const std::string& strHeartBeatName)

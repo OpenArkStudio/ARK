@@ -116,9 +116,9 @@ int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, con
     return 0;
 }
 
-bool AFCLoginNetServerModule::Execute()
+void AFCLoginNetServerModule::Update()
 {
-    return m_pNetModule->Execute();
+    return m_pNetModule->Update();
 }
 
 void AFCLoginNetServerModule::OnClientConnected(const AFGUID& xClientID)

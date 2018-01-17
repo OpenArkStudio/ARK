@@ -36,9 +36,9 @@ int AFCLoginLogicModule::OnLoginProcess(const AFGUID& object, const std::string&
     return 0;
 }
 
-bool AFCLoginLogicModule::Execute()
+void AFCLoginLogicModule::Update()
 {
-    return true;
+
 }
 
 bool AFCLoginLogicModule::AfterInit()

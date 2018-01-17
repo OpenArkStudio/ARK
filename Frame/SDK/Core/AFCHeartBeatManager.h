@@ -47,7 +47,7 @@ public:
 
     virtual AFGUID Self();
 
-    virtual bool Execute();
+    virtual void Update();
 
     virtual bool Exist(const std::string& strHeartBeatName);
 

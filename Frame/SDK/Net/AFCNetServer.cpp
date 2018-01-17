@@ -36,11 +36,9 @@
 #include <atomic>
 #include <memory>
 
-bool AFCNetServer::Execute()
+void AFCNetServer::Update()
 {
     ProcessMsgLogicThread();
-
-    return true;
 }
 
 int AFCNetServer::Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)

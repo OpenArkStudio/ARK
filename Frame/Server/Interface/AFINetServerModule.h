@@ -134,17 +134,17 @@ public:
         return m_pNet->Start(nMaxClient, strIPAndPort, nServerID, nCpuCount);
     }
 
-    virtual bool Execute()
+    virtual void Update()
     {
-        if(!m_pNet)
+        if(m_pNet == nullptr)
         {
-            return false;
+            return;
         }
 
         //把上次的数据处理了
         KeepAlive();
 
-        return m_pNet->Execute();
+        m_pNet->Update();
     }
 
     bool SendMsgToAllClientWithOutHead(const int nMsgID, const std::string& msg, const AFGUID& nPlayerID)

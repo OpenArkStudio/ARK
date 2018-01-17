@@ -40,11 +40,9 @@ bool AFCProxyServerToWorldModule::Shut()
     return true;
 }
 
-bool AFCProxyServerToWorldModule::Execute()
+void AFCProxyServerToWorldModule::Update()
 {
-    m_pNetClientModule->Execute();
-
-    return true;
+    m_pNetClientModule->Update();
 }
 
 void AFCProxyServerToWorldModule::OnServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)

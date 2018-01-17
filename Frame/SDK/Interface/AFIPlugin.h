@@ -110,17 +110,14 @@ public:
         return true;
     }
 
-    virtual bool Execute()
+    virtual void Update()
     {
         size_t nModuleCount = mxModules.GetCount();
         for (size_t i = 0; i < nModuleCount; ++i)
         {
             AFIModule* pModule = mxModules[i];
-            bool bRet = pModule->Execute();
-            ARK_ASSERT_RET_VAL(bRet, false);
+            pModule->Update();
         }
-
-        return true;
     }
 
     virtual bool BeforeShut()
