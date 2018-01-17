@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFMacros.hpp"
 #include "SDK/Base/AFGUID.h"
 #include <event2/bufferevent.h>
 #include <event2/buffer.h>
@@ -357,7 +359,7 @@ class AFINet
 {
 public:
     //need to call this function every frame to drive network library
-    virtual bool Execute() = 0;
+    virtual void Update() = 0;
 
     virtual void Start(const std::string& strAddrPort, const int nServerID) {}
     virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)

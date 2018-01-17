@@ -75,7 +75,7 @@ bool AFCKernelModule::Shut()
     return true;
 }
 
-bool AFCKernelModule::Execute()
+void AFCKernelModule::Update()
 {
     ProcessMemFree();
 
@@ -91,19 +91,17 @@ bool AFCKernelModule::Execute()
         mtDeleteSelfList.clear();
     }
 
-    m_pSceneModule->Execute();
+    m_pSceneModule->Update();
 
     ARK_SHARE_PTR<AFIEntity> pEntity = First();
     while(pEntity)
     {
         mnCurExeEntity = pEntity->Self();
-        pEntity->Execute();
+        pEntity->Update();
         mnCurExeEntity = NULL_GUID;
 
         pEntity = Next();
     }
-
-    return true;
 }
 
 bool AFCKernelModule::FindHeartBeat(const AFGUID& self, const std::string& name)
@@ -1300,11 +1298,8 @@ bool AFCKernelModule::DestroyAll()
         pEntity = Next();
     }
 
-    // 为了释放object
-    if(!Execute())
-    {
-        //add log
-    }
+    //run another frame
+    Update();
 
     m_pSceneModule->ClearAll();
 

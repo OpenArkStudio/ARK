@@ -36,7 +36,7 @@ public:
 
     virtual ~AFIEntity() {}
 
-    virtual bool Execute() = 0;
+    virtual void Update() = 0;
     virtual const AFGUID& Self() = 0;
 
     template<typename BaseType>

@@ -31,8 +31,6 @@ int32_t time_id_2 = 0;
 bool HelloWorld1::Init()
 {
 	std::cout << typeid(HelloWorld1).name() << std::endl;
-
-    //初始化
     std::cout << "Hello, world1, Init" << std::endl;
 
     return true;
@@ -40,7 +38,6 @@ bool HelloWorld1::Init()
 
 bool HelloWorld1::AfterInit()
 {
-    //初始化完毕
     std::cout << "Hello, world1, AfterInit" << std::endl;
     time_id_1 = t->repeat(1000, 10, [](timerid_t id) { std::cout << "T1 ID = " << id << ", interval=1000ms print timer update" << std::endl; });
     time_id_2 = t2->repeat(1500, 10, [](timerid_t id) { std::cout << "T2 ID = " << id << ", interval=1500ms print timer update" << std::endl; });
@@ -48,33 +45,20 @@ bool HelloWorld1::AfterInit()
     return true;
 }
 
-bool HelloWorld1::Execute()
+void HelloWorld1::Update()
 {
-    //每帧执行
-    //std::cout << "Hello, world1, Execute" << std::endl;
     t->update();
     t2->update();
-
-    return true;
 }
 
 bool HelloWorld1::BeforeShut()
 {
     std::cout << "Hello, world1, BeforeShut-------------" << std::endl;
-
-    system("PAUSE");
-
-    //反初始化之前
-    std::cout << "Hello, world1, BeforeShut" << std::endl;
-
     return true;
 }
 
 bool HelloWorld1::Shut()
 {
-    //反初始化
     std::cout << "Hello, world1, Shut" << std::endl;
-
     return true;
 }
-

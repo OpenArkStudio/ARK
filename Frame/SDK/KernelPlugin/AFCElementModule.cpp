@@ -390,9 +390,8 @@ bool AFCElementModule::BeforeShut()
 
 }
 
-bool AFCElementModule::Execute()
+void AFCElementModule::Update()
 {
-    return true;
 
 }
 

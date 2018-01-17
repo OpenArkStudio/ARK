@@ -283,7 +283,7 @@ protected:
                 {
                     if(pServerData->mxNetModule)
                     {
-                        pServerData->mxNetModule->Execute();
+                        pServerData->mxNetModule->Update();
                     }
                 }
                 break;
@@ -291,7 +291,7 @@ protected:
                 {
                     if(pServerData->mxNetModule)
                     {
-                        pServerData->mxNetModule->Execute();
+                        pServerData->mxNetModule->Update();
 
                         KeepState(pServerData);
                     }

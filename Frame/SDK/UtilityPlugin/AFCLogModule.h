@@ -36,7 +36,7 @@ public:
     virtual bool BeforeShut();
     virtual bool AfterInit();
 
-    virtual bool Execute();
+    virtual void Update();
 
     ///////////////////////////////////////////////////////////////////////
     virtual void LogStack();
