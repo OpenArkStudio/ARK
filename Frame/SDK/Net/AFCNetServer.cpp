@@ -1,27 +1,23 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file      AFCNetServer.cpp                                              *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFCNetServer                                                  *
-*****************************************************************************/
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2017 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+
 #include "AFCNetServer.h"
 #include <string.h>
 
@@ -38,6 +34,7 @@
 #include "event2/bufferevent_struct.h"
 #include "event2/event.h"
 #include <atomic>
+#include <memory>
 
 bool AFCNetServer::Execute()
 {
@@ -46,7 +43,7 @@ bool AFCNetServer::Execute()
     return true;
 }
 
-int AFCNetServer::Initialization(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nCpuCount)
+int AFCNetServer::Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)
 {
 #ifdef _MSC_VER
     WSADATA wsa_data;
@@ -55,10 +52,10 @@ int AFCNetServer::Initialization(const unsigned int nMaxClient, const std::strin
 
     mnMaxConnect = (int)nMaxClient;
     mstrIPPort = strAddrPort;
-    m_pListenThread.reset(new evpp::EventLoopThread);
+    m_pListenThread = std::make_unique<evpp::EventLoopThread>();
     m_pListenThread->set_name("LisenThread");
     m_pListenThread->Start(true);
-    m_pTcpSrv.reset(new evpp::TCPServer(m_pListenThread->loop(), strAddrPort, "tcp_server", nCpuCount));
+    m_pTcpSrv = std::make_unique<evpp::TCPServer>(m_pListenThread->loop(), strAddrPort, "tcp_server", nThreadCount);
     m_pTcpSrv->SetMessageCallback(std::bind(&AFCNetServer::OnMessageInner, this, std::placeholders::_1, std::placeholders::_2));
     m_pTcpSrv->SetConnectionCallback(std::bind(&AFCNetServer::OnClientConnectionInner,this, std::placeholders::_1));
     m_pTcpSrv->Init();

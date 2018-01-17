@@ -271,7 +271,7 @@ bool AFCMasterNetServerModule::AfterInit()
             const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
             const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
-            int nRet = m_pNetModule->Initialization(nMaxConnect, strIP, nPort, nCpus, nServerID);
+            int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
             if (nRet < 0)
             {
                 std::ostringstream strLog;
