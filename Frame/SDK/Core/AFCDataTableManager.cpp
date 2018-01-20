@@ -39,6 +39,11 @@ const AFGUID& AFCDataTableManager::Self()
 
 void AFCDataTableManager::ReleaseAll()
 {
+    for (size_t i = 0; i < mxTables.GetCount(); ++i)
+    {
+        delete mxTables[i];
+    }
+
     mxTables.Clear();
     mxTableCallbacks.clear();
 }

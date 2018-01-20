@@ -23,3 +23,4 @@ ArkGameFrame Bug修改
 
 - [ ] 1.NetModule没有释放问题
 - [ ] 2.服务器先断开，NetClient会有assert的问题
+- [ ] 3.Record ReleaseAll的时候delete row_data会dump
