@@ -35,10 +35,10 @@ void AFDataTable::ReleaseRow(RowData* row_data, size_t col_num)
 {
     for(size_t i = 0; i < col_num; ++i)
     {
-        row_data[i].~AFBaseData();
+        row_data[i].~RowData();
     }
 
-    delete row_data;
+    delete[]row_data;
     row_data = NULL;
 }
 
