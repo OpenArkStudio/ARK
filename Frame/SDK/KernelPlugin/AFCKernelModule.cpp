@@ -239,7 +239,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
                     && ARK::IObject::GroupID() != strDataNodeName)
             {
                 AFDataNode* pArgNode = pStaticClassNodeManager->GetNode(strDataNodeName.c_str());
-                if(pArgNode != nullptr)
+                if(pArgNode == nullptr)
                 {
                     continue;
                 }
