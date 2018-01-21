@@ -168,7 +168,7 @@ protected:
     {
         for (size_t i = 0; i < GetCount(); ++i)
         {
-            delete mxNodes[i];
+            //delete mxNodes[i];
             mxNodes[i] = nullptr;
         }
 
