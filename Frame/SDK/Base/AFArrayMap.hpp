@@ -176,6 +176,6 @@ protected:
     }
 
 private:
-    ArraryPod<NODE*, 1, CoreAlloc> mxNodes;
+    ArraryPod<NODE*, 1, ArrayPodAlloc> mxNodes;
     StringPod<char, size_t, StringTraits<char>> mxIndices;
 };
