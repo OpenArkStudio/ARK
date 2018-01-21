@@ -38,8 +38,9 @@ void AFDataTable::ReleaseRow(RowData* row_data, size_t col_num)
         row_data[i].~RowData();
     }
 
-    delete[]row_data;
-    row_data = NULL;
+	//TODO:
+    //delete[]row_data;
+    //row_data = NULL;
 }
 
 void AFDataTable::ReleaseAll()
