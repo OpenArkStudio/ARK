@@ -81,7 +81,7 @@ public:
     virtual float GetNodeFloat(const AFGUID& self, const std::string& name);
     virtual double GetNodeDouble(const AFGUID& self, const std::string& name);
     virtual const char* GetNodeString(const AFGUID& self, const std::string& name);
-    virtual const AFGUID& GetNodeObject(const AFGUID& self, const std::string& name);
+    virtual const AFGUID GetNodeObject(const AFGUID& self, const std::string& name);
     //////////////////////////////////////////////////////////////////////////
     virtual AFDataTable* FindTable(const AFGUID& self, const std::string& name);
     virtual bool ClearTable(const AFGUID& self, const std::string& name);
@@ -100,7 +100,7 @@ public:
     virtual float GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col);
     virtual double GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col);
     virtual const char* GetTableString(const AFGUID& self, const std::string& name, const int row, const int col);
-    virtual const AFGUID& GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col);
+    virtual const AFGUID GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col);
 
     //////////////////////////////////////////////////////////////////////////
     virtual bool SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const AFIDataList& arg);
