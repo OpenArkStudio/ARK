@@ -59,5 +59,5 @@ public:
     virtual float GetTableFloat(const char* name, const int row, const int col) = 0;
     virtual double GetTableDouble(const char* name, const int row, const int col) = 0;
     virtual const char* GetTableString(const char* name, const int row, const int col) = 0;
-    virtual const AFGUID& GetTableObject(const char* name, const int row, const int col) = 0;
+    virtual const AFGUID GetTableObject(const char* name, const int row, const int col) = 0;
 };

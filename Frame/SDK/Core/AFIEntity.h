@@ -79,7 +79,7 @@ public:
     virtual float GetNodeFloat(const std::string& name) = 0;
     virtual double GetNodeDouble(const std::string& name) = 0;
     virtual const char* GetNodeString(const std::string& name) = 0;
-    virtual const AFGUID& GetNodeObject(const std::string& name) = 0;
+    virtual const AFGUID GetNodeObject(const std::string& name) = 0;
 
     virtual bool CheckTableExist(const std::string& name) = 0;
 
@@ -97,7 +97,7 @@ public:
     virtual float GetTableFloat(const std::string& name, const int row, const int col) = 0;
     virtual double GetTableDouble(const std::string& name, const int row, const int col) = 0;
     virtual const char* GetTableString(const std::string& name, const int row, const int col) = 0;
-    virtual const AFGUID& GetTableObject(const std::string& name, const int row, const int col) = 0;
+    virtual const AFGUID GetTableObject(const std::string& name, const int row, const int col) = 0;
 
     virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager() = 0;
     virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager() = 0;

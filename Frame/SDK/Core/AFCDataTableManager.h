@@ -60,7 +60,7 @@ public:
     virtual float GetTableFloat(const char* name, const int row, const int col);
     virtual double GetTableDouble(const char* name, const int row, const int col);
     virtual const char* GetTableString(const char* name, const int row, const int col);
-    virtual const AFGUID& GetTableObject(const char* name, const int row, const int col);
+    virtual const AFGUID GetTableObject(const char* name, const int row, const int col);
 
 protected:
     bool GetTableData(const char* name, const int row, const int col, AFIData& value);
