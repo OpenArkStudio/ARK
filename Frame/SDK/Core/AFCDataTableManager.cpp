@@ -480,7 +480,7 @@ const char* AFCDataTableManager::GetTableString(const char* name, const int row,
     return pTable->GetString(row, col);
 }
 
-const AFGUID& AFCDataTableManager::GetTableObject(const char* name, const int row, const int col)
+const AFGUID AFCDataTableManager::GetTableObject(const char* name, const int row, const int col)
 {
     AFDataTable* pTable = GetTable(name);
     if (pTable == nullptr)
