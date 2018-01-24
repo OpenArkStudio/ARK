@@ -158,7 +158,7 @@ const char* AFCEntity::GetNodeString(const std::string& name)
     return GetNodeManager()->GetNodeString(name.c_str());
 }
 
-const AFGUID& AFCEntity::GetNodeObject(const std::string& name)
+const AFGUID AFCEntity::GetNodeObject(const std::string& name)
 {
     return GetNodeManager()->GetNodeObject(name.c_str());
 }
@@ -234,7 +234,7 @@ const char* AFCEntity::GetTableString(const std::string& name, const int row, co
     return GetTableManager()->GetTableString(name.c_str(), row, col);
 }
 
-const AFGUID& AFCEntity::GetTableObject(const std::string& name, const int row, const int col)
+const AFGUID AFCEntity::GetTableObject(const std::string& name, const int row, const int col)
 {
     return GetTableManager()->GetTableObject(name.c_str(), row, col);
 }
