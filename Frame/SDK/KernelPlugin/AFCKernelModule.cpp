@@ -500,7 +500,7 @@ const char*  AFCKernelModule::GetNodeString(const AFGUID& self, const std::strin
     return nullptr;
 }
 
-const AFGUID& AFCKernelModule::GetNodeObject(const AFGUID& self, const std::string& name)
+const AFGUID AFCKernelModule::GetNodeObject(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
     if(nullptr != pEntity)
@@ -737,7 +737,7 @@ const char* AFCKernelModule::GetTableString(const AFGUID& self, const std::strin
     return NULL_STR.c_str();
 }
 
-const AFGUID& AFCKernelModule::GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col)
+const AFGUID AFCKernelModule::GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
     if(nullptr != pEntity)
