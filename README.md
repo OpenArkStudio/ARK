@@ -32,7 +32,7 @@ ArkGameFrame is a lightweight, agility, scalable, distributed plugin framework w
 - Flexible apps, plugins, and modules
 - High availability architectures
 - General abstract data system
-- Interface-oriented and data-oriented programming
+- Interface-oriented and data-oriented programming(IOP & DOP)
 - Event-driven and data-driven
 - High concurrency and performance of network
 - Based on C++ standard, easy to handle and learn

@@ -10,7 +10,7 @@ ArkGameFrame计划 2018
 - [ ] 8.[FMT](https://github.com/fmtlib/fmt) FMT_HEADER_ONLY
 - [ ] 9.修改log库使用[spdlog](https://github.com/gabime/spdlog)
 - [ ] 10.脚本模块使用SWIG
-- [ ] 11.考虑使用ECS，全部对象Entity化，通过GUID来确定属于哪个分组的哪个位置，能快速定位和查找(通过守望先锋和[ECS-unity](https://github.com/sschmid/Entitas-CSharp)并没有看出来是如何处理这种大量查找的，这个方法是和freeeyes讨论的结果)
+- [ ] 11.考虑使用ECS，全部对象Entity化，通过GUID来确定属于哪个分组的哪个位置，能快速定位和查找(通过守望先锋和[ECS-unity](https://github.com/sschmid/Entitas-CSharp)，具体还要再讨论)
   
 - [ ] 100.完整的带业务功能的demo  
   
@@ -24,3 +24,9 @@ ArkGameFrame Bug修改
 - [ ] 1.NetModule没有释放问题
 - [ ] 2.服务器先断开，NetClient会有assert的问题
 - [ ] 3.Record ReleaseAll的时候delete row_data会dump
+
+-------------
+
+Some note,
+
+1. https://www.zhihu.com/question/61169850
