@@ -50,6 +50,7 @@ protected:
     int OnPropertyCallBackEvent(const AFGUID & self, const std::string & strProperty, const AFIData & oldVarList, const AFIData & newVarList);
     int OnPropertyStrCallBackEvent(const AFGUID & self, const std::string & strProperty, const AFIData & oldVarList, const AFIData & newVarList);
 
+    int OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_EVENT_DATA& table_data, const AFIData& old_data, const AFIData& new_data);
     int OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const int64_t nTime, const int nCount);
 
 protected:
