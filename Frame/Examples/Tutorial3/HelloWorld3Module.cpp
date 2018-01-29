@@ -82,6 +82,16 @@ int HelloWorld3Module::OnPropertyStrCallBackEvent(const AFGUID& self, const std:
     return 0;
 }
 
+int HelloWorld3Module::OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_EVENT_DATA& table_data, const AFIData& old_data, const AFIData& new_data)
+{
+    if (table_data.nCol == ARK::Player::PlayerFightHero::PlayerFightHero_FightPos)
+    {
+        std::cout << "OnFightHeroTableCB, table_name = " << table_data.strName.c_str() << " old_data = " << old_data.GetInt() << " new_data = " << new_data.GetInt();
+    }
+    
+    return 0;
+}
+
 bool HelloWorld3Module::AfterInit()
 {
     //³õÊ¼»¯Íê±Ï
@@ -114,6 +124,18 @@ bool HelloWorld3Module::AfterInit()
 
     pEntity->SetNodeString("Hello", "hello,World");
     pEntity->SetNodeInt("World", 1111);
+
+    pEntity->AddTableCallBack(ARK::Player::R_PlayerFightHero(), this, &HelloWorld3Module::OnFightHeroTableCB);
+
+    AFDataTable* pTable = m_pKernelModule->FindTable(pEntity->Self(), ARK::Player::R_PlayerFightHero());
+    int pos = 0;
+    if (pTable != nullptr)
+    {
+        pTable->AddRow(-1, AFCDataList() << AFGUID(0, 1000) << 1);
+
+        m_pKernelModule->SetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), 0, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos, 2);
+        pos = m_pKernelModule->GetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), 0, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos);
+    }
 
     m_pKernelModule->DoEvent(pEntity->Self(), 11111111, AFCDataList() << "hello2" << int(200));
 
