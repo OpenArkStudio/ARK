@@ -280,7 +280,7 @@ double AFCElementModule::GetNodeDouble(const std::string& strConfigName, const s
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
     if (pNode != nullptr)
     {
-        return pNode->value.GetFloat();
+        return pNode->value.GetDouble();
     }
 
     return NULL_DOUBLE;
