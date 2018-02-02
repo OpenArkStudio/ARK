@@ -1,4 +1,4 @@
-syntax = "proto2";
+syntax = "proto3";
 
 package AFMsg;
 
@@ -345,7 +345,7 @@ enum EGameGemSubType
 {
 	EGGSTYPE_GEM_ATK           	= 0;    // 攻击宝石
 	EGGSTYPE_GEM_DEF           	= 1;    // 防御宝石
-	
+	EGGSTYPE_GEM_THUNDER        = 2;    // 电宝石
 	EGGSTYPE_GEM_FIRE			= 3;    // 火宝石
 	EGGSTYPE_GEM_LIGHT			= 4;    // 雷宝石
 	EGGSTYPE_GEM_WIND           = 5;    // 风宝石
@@ -369,6 +369,7 @@ enum EGameItemSubType
 
 enum EGameCardSubType
 {
+    EGCST_NONE                  = 0;
 	EGCST_STRENGTH 				= 1;//力量	
 	EGCST_AGILITY				= 2;//敏捷
 	EGCST_INTELLIGENCE			= 3;//智力
@@ -442,23 +443,11 @@ enum EBattleType
 	BATTLE_PVE_TEAM      = 1; // 多人打副本
 }
 
-enum EShopType
-{
-	EST_BUILDING 	= 1;//建筑	
-	EST_GOLD		= 2;//金币
-	EST_DIAMOND		= 3;//钻石
-	EST_SP			= 4;//体力
-	EST_EQUIP		= 5;//装备
-	EST_GEM			= 6;//宝石
-	EST_Hero		= 7;//HeroCard
-	EST_Other		= 8;//杂货店
-}
-
-
 ///////////////排行榜相关////////////////////////////////////////////////////////////////////////////////////
 
 enum ERankType
 {
+    ERT_PLAYER_NONE 			= 0;
 	ERT_PLAYER_LEVEL 			= 1;
 	ERT_FIGHT_VALUE				= 2;
 	ERT_PLAYER_MONEY			= 3;
@@ -480,6 +469,7 @@ enum ENPCType
 //PropertyType 属性的类型
 enum EPropertyType
 {
+    EPT_NONE 			    = 0;//无
 	EPT_STRENGTH 			= 1;//力量	
 	EPT_AGILITY				= 2;//敏捷
 	EPT_INTELLIGENCE		= 3;//智力
