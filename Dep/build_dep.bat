@@ -12,7 +12,7 @@ REM ############################################################################
 echo Building protobuf...
 
 if exist protobuf (rd protobuf /q /s)
-git clone -b 2.7.0 https://github.com/google/protobuf.git
+git clone https://github.com/google/protobuf.git
 
 cd protobuf/cmake
 md build

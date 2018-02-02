@@ -170,43 +170,44 @@ public:
 
         xMsg.set_property_name(name);
         xMsg.set_ndatatype(DataVar.GetType());
+        AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
         switch(DataVar.GetType())
         {
         case DT_BOOLEAN:
             {
-                xMsg.set_mbvalue(DataVar.GetBool());
+                variantData->set_bool_value(DataVar.GetBool());
             }
             break;
         case DT_INT:
             {
-                xMsg.set_mnvalue(DataVar.GetInt());
+                variantData->set_int_value(DataVar.GetInt());
             }
             break;
         case DT_INT64:
             {
-                xMsg.set_mn64value(DataVar.GetInt64());
+                variantData->set_int64_value(DataVar.GetInt64());
             }
             break;
         case DT_FLOAT:
             {
-                xMsg.set_mfvalue(DataVar.GetFloat());
+                variantData->set_float_value(DataVar.GetFloat());
             }
             break;
         case DT_DOUBLE:
             {
-                xMsg.set_mdvalue(DataVar.GetDouble());
+                variantData->set_double_value(DataVar.GetDouble());
             }
             break;
 
         case DT_STRING:
             {
-                xMsg.set_mstrvalue(DataVar.GetString());
+                variantData->set_str_value(DataVar.GetString());
             }
             break;
 
         case DT_OBJECT:
             {
-                *xMsg.mutable_mguid() = GUIDToPB(DataVar.GetObject());
+                *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
             }
             break;
         default:
@@ -222,44 +223,45 @@ public:
         xMsg.set_col(nCol);
         xMsg.set_row(nRow);
         xMsg.set_ndatatype(DataVar.GetType());
+        AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
         switch(DataVar.GetType())
         {
         case DT_BOOLEAN:
             {
-                xMsg.set_mbvalue(DataVar.GetBool());
+                variantData->set_bool_value(DataVar.GetBool());
             }
             break;
         case DT_INT:
             {
-                xMsg.set_mnvalue(DataVar.GetInt());
+                variantData->set_int_value(DataVar.GetInt());
             }
             break;
         case DT_INT64:
             {
-                xMsg.set_mn64value(DataVar.GetInt64());
+                variantData->set_int64_value(DataVar.GetInt64());
             }
             break;
         case DT_FLOAT:
             {
-                xMsg.set_mfvalue(DataVar.GetFloat());
+                variantData->set_float_value(DataVar.GetFloat());
             }
             break;
 
         case DT_DOUBLE:
             {
-                xMsg.set_mdvalue(DataVar.GetDouble());
+                variantData->set_double_value(DataVar.GetDouble());
             }
             break;
 
         case DT_STRING:
             {
-                xMsg.set_mstrvalue(DataVar.GetString());
+                variantData->set_str_value(DataVar.GetString());
             }
             break;
 
         case DT_OBJECT:
             {
-                *xMsg.mutable_mguid() = GUIDToPB(DataVar.GetObject());
+                *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
             }
             break;
         default:
@@ -274,44 +276,45 @@ public:
         xMsg.set_col(nCol);
         xMsg.set_row(nRow);
         xMsg.set_ndatatype(DataList.GetType(nCol));
+        AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
         switch(DataList.GetType(nCol))
         {
         case DT_BOOLEAN:
             {
-                xMsg.set_mbvalue(DataList.Bool(nCol));
+                variantData->set_bool_value(DataList.Bool(nCol));
             }
             break;
         case DT_INT:
             {
-                xMsg.set_mnvalue(DataList.Int(nCol));
+                variantData->set_int_value(DataList.Int(nCol));
             }
             break;
         case DT_INT64:
             {
-                xMsg.set_mn64value(DataList.Int64(nCol));
+                variantData->set_int64_value(DataList.Int64(nCol));
             }
             break;
         case DT_FLOAT:
             {
-                xMsg.set_mfvalue(DataList.Float(nCol));
+                variantData->set_float_value(DataList.Float(nCol));
             }
             break;
 
         case DT_DOUBLE:
             {
-                xMsg.set_mdvalue(DataList.Double(nCol));
+                variantData->set_double_value(DataList.Double(nCol));
             }
             break;
 
         case DT_STRING:
             {
-                xMsg.set_mstrvalue(DataList.String(nCol));
+                variantData->set_str_value(DataList.String(nCol));
             }
             break;
 
         case DT_OBJECT:
             {
-                *xMsg.mutable_mguid() = GUIDToPB(DataList.Object(nCol));
+                *variantData->mutable_guid_value() = GUIDToPB(DataList.Object(nCol));
             }
             break;
         default:

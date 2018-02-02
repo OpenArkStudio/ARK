@@ -14,7 +14,7 @@ if [ -d "protobuf" ]; then
     rm -rf protobuf
 fi
 
-git clone -b 2.7.0 https://github.com/google/protobuf.git
+git clone https://github.com/google/protobuf.git
 cd protobuf/cmake
 mkdir build && cd build
 cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF ..
@@ -23,6 +23,10 @@ cp -R -f *.so* ../../../lib/Debug
 cp -R -f *.so* ../../../lib/Release
 cp -R -f protoc ../../../lib/Debug
 cp -R -f protoc ../../../lib/Release
+
+cp -R -f *.so ../../../../Frame/SDK/Proto/proto-gen
+cp -R -f protoc ../../../../Frame/SDK/Proto/proto-gen
+
 cd ../../../
 ####################################################################
 echo "Building libevent..."
