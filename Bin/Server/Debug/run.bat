@@ -15,11 +15,11 @@ copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFProxyServer\\ /Y
 copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFWorldServer\\ /Y
 copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFGameServer\\ /Y
 
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFproto*d.dll AFLoginServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFproto*d.dll AFMasterServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFproto*d.dll AFProxyServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFproto*d.dll AFWorldServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFproto*d.dll AFGameServer\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll AFLoginServer\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll AFMasterServer\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll AFProxyServer\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll AFWorldServer\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll AFGameServer\\ /Y
 
 copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll AFLoginServer\\ /Y
 copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll AFMasterServer\\ /Y
