@@ -149,7 +149,6 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AFDefine.pb.h" />
-    <ClInclude Include="AFFleetingDefine.pb.h" />
     <ClInclude Include="AFLimit.h" />
     <ClInclude Include="AFMsgBase.pb.h" />
     <ClInclude Include="AFMsgDefine.h" />
@@ -160,7 +159,6 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFDefine.pb.cc" />
-    <ClCompile Include="AFFleetingDefine.pb.cc" />
     <ClCompile Include="AFMsgBase.pb.cc" />
     <ClCompile Include="AFMsgMysql.pb.cc" />
     <ClCompile Include="AFMsgPreGame.pb.cc" />
