@@ -136,15 +136,16 @@ public:
             return false;
         }
         
+        //remove from name container
+        mxIndices.Remove(name.c_str());
+
         //ÊÍ·ÅÄÚ´æ
         if (mxNodes[index] != nullptr)
         {
             delete mxNodes[index];
             mxNodes[index] = nullptr;
         }
-
         mxNodes.remove(index);
-        mxIndices.Remove(name.c_str());
         return true;
     }
 
