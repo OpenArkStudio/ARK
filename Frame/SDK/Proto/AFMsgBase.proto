@@ -25,7 +25,7 @@ message VariantData
         int64 		int64_value		= 3;
         float 		float_value     = 4;
         double 	    double_value    = 5;
-        bytes 		str_value		= 6;
+        string 		str_value		= 6;
         Ident 		guid_value      = 7;
     }
 }
@@ -33,7 +33,7 @@ message VariantData
 ////////////////////////BaseCommon/////////////////////////////
 message PropertyPBData//基础结构，不直接发送
 { 
-    bytes     	property_name 	= 1;
+    string     	property_name 	= 1;
     int32       ndataType 		= 2;
     VariantData variant_data    = 3;
 }
@@ -65,7 +65,7 @@ message RecordAddRowStruct//表添加基础行结构，不直接发送
 
 message ObjectRecordBase//基础结构，不直接发送
 { 
-	bytes  record_name = 1;
+	string  record_name = 1;
 	repeated RecordAddRowStruct row_struct = 2;
 }
 
@@ -101,15 +101,15 @@ message ObjectPropertyPBData//个人玩家单类型属性数据，可直接发送---变化时
 message ObjectRecordPBData//个人玩家单类型属性数据，可直接发送---变化时
 {
 	Ident       player_id = 1;
-	bytes     	record_name = 2;
+	string     	record_name = 2;
     repeated RecordPBData  	record_list = 3;
 } 
 
 message ObjectRecordSwap//个人玩家单类型属性数据，可直接发送---变化时
 {
 	Ident  	    player_id = 1;
-	bytes    	origin_record_name = 2;
-	bytes		target_record_name = 3;
+	string    	origin_record_name = 2;
+	string		target_record_name = 3;
 	int32 		row_origin = 4;
 	int32 		row_target = 5;
 }
@@ -119,14 +119,14 @@ message ObjectRecordSwap//个人玩家单类型属性数据，可直接发送---变化时
 message ObjectRecordAddRow//个人玩家单类型属性数据，可直接发送---变化时
 {
 	Ident     			player_id = 1;
-	bytes     			record_name = 2;
+	string     			record_name = 2;
 	repeated RecordAddRowStruct    row_data = 3;
 }
 
 message ObjectRecordRemove//个人玩家单类型属性数据，可直接发送---变化时
 {
 	Ident     	player_id = 1;
-	bytes    	record_name = 2;  
+	string    	record_name = 2;  
 	repeated int32 		remove_row = 3;
 }
 
@@ -153,7 +153,7 @@ message PlayerRecordList
 message BrocastMsg
 {
 	Ident  player_id = 1;
-	bytes  msg_data = 2;
+	string  msg_data = 2;
 	int64  nMsgID = 3;
 	repeated Ident  player_Client_list = 4;
 }

@@ -148,7 +148,7 @@ class LIBPROTOC_EXPORT PackSURLParam : public ::google::protobuf::Message /* @@p
 
   // accessors -------------------------------------------------------
 
-  // bytes strUrl = 1;
+  // string strUrl = 1;
   void clear_strurl();
   static const int kStrUrlFieldNumber = 1;
   const ::std::string& strurl() const;
@@ -157,12 +157,12 @@ class LIBPROTOC_EXPORT PackSURLParam : public ::google::protobuf::Message /* @@p
   void set_strurl(::std::string&& value);
   #endif
   void set_strurl(const char* value);
-  void set_strurl(const void* value, size_t size);
+  void set_strurl(const char* value, size_t size);
   ::std::string* mutable_strurl();
   ::std::string* release_strurl();
   void set_allocated_strurl(::std::string* strurl);
 
-  // bytes strGetParams = 2;
+  // string strGetParams = 2;
   void clear_strgetparams();
   static const int kStrGetParamsFieldNumber = 2;
   const ::std::string& strgetparams() const;
@@ -171,12 +171,12 @@ class LIBPROTOC_EXPORT PackSURLParam : public ::google::protobuf::Message /* @@p
   void set_strgetparams(::std::string&& value);
   #endif
   void set_strgetparams(const char* value);
-  void set_strgetparams(const void* value, size_t size);
+  void set_strgetparams(const char* value, size_t size);
   ::std::string* mutable_strgetparams();
   ::std::string* release_strgetparams();
   void set_allocated_strgetparams(::std::string* strgetparams);
 
-  // bytes strBodyData = 3;
+  // string strBodyData = 3;
   void clear_strbodydata();
   static const int kStrBodyDataFieldNumber = 3;
   const ::std::string& strbodydata() const;
@@ -185,12 +185,12 @@ class LIBPROTOC_EXPORT PackSURLParam : public ::google::protobuf::Message /* @@p
   void set_strbodydata(::std::string&& value);
   #endif
   void set_strbodydata(const char* value);
-  void set_strbodydata(const void* value, size_t size);
+  void set_strbodydata(const char* value, size_t size);
   ::std::string* mutable_strbodydata();
   ::std::string* release_strbodydata();
   void set_allocated_strbodydata(::std::string* strbodydata);
 
-  // bytes strCookies = 4;
+  // string strCookies = 4;
   void clear_strcookies();
   static const int kStrCookiesFieldNumber = 4;
   const ::std::string& strcookies() const;
@@ -199,12 +199,12 @@ class LIBPROTOC_EXPORT PackSURLParam : public ::google::protobuf::Message /* @@p
   void set_strcookies(::std::string&& value);
   #endif
   void set_strcookies(const char* value);
-  void set_strcookies(const void* value, size_t size);
+  void set_strcookies(const char* value, size_t size);
   ::std::string* mutable_strcookies();
   ::std::string* release_strcookies();
   void set_allocated_strcookies(::std::string* strcookies);
 
-  // bytes strRsp = 6;
+  // string strRsp = 6;
   void clear_strrsp();
   static const int kStrRspFieldNumber = 6;
   const ::std::string& strrsp() const;
@@ -213,7 +213,7 @@ class LIBPROTOC_EXPORT PackSURLParam : public ::google::protobuf::Message /* @@p
   void set_strrsp(::std::string&& value);
   #endif
   void set_strrsp(const char* value);
-  void set_strrsp(const void* value, size_t size);
+  void set_strrsp(const char* value, size_t size);
   ::std::string* mutable_strrsp();
   ::std::string* release_strrsp();
   void set_allocated_strrsp(::std::string* strrsp);
@@ -263,7 +263,7 @@ class LIBPROTOC_EXPORT PackSURLParam : public ::google::protobuf::Message /* @@p
 #endif  // __GNUC__
 // PackSURLParam
 
-// bytes strUrl = 1;
+// string strUrl = 1;
 inline void PackSURLParam::clear_strurl() {
   strurl_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -290,7 +290,7 @@ inline void PackSURLParam::set_strurl(const char* value) {
   strurl_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackSURLParam.strUrl)
 }
-inline void PackSURLParam::set_strurl(const void* value, size_t size) {
+inline void PackSURLParam::set_strurl(const char* value, size_t size) {
   
   strurl_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -316,7 +316,7 @@ inline void PackSURLParam::set_allocated_strurl(::std::string* strurl) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.PackSURLParam.strUrl)
 }
 
-// bytes strGetParams = 2;
+// string strGetParams = 2;
 inline void PackSURLParam::clear_strgetparams() {
   strgetparams_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -343,7 +343,7 @@ inline void PackSURLParam::set_strgetparams(const char* value) {
   strgetparams_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackSURLParam.strGetParams)
 }
-inline void PackSURLParam::set_strgetparams(const void* value, size_t size) {
+inline void PackSURLParam::set_strgetparams(const char* value, size_t size) {
   
   strgetparams_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -369,7 +369,7 @@ inline void PackSURLParam::set_allocated_strgetparams(::std::string* strgetparam
   // @@protoc_insertion_point(field_set_allocated:AFMsg.PackSURLParam.strGetParams)
 }
 
-// bytes strBodyData = 3;
+// string strBodyData = 3;
 inline void PackSURLParam::clear_strbodydata() {
   strbodydata_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -396,7 +396,7 @@ inline void PackSURLParam::set_strbodydata(const char* value) {
   strbodydata_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackSURLParam.strBodyData)
 }
-inline void PackSURLParam::set_strbodydata(const void* value, size_t size) {
+inline void PackSURLParam::set_strbodydata(const char* value, size_t size) {
   
   strbodydata_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -422,7 +422,7 @@ inline void PackSURLParam::set_allocated_strbodydata(::std::string* strbodydata)
   // @@protoc_insertion_point(field_set_allocated:AFMsg.PackSURLParam.strBodyData)
 }
 
-// bytes strCookies = 4;
+// string strCookies = 4;
 inline void PackSURLParam::clear_strcookies() {
   strcookies_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -449,7 +449,7 @@ inline void PackSURLParam::set_strcookies(const char* value) {
   strcookies_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackSURLParam.strCookies)
 }
-inline void PackSURLParam::set_strcookies(const void* value, size_t size) {
+inline void PackSURLParam::set_strcookies(const char* value, size_t size) {
   
   strcookies_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -489,7 +489,7 @@ inline void PackSURLParam::set_ftimeoutsec(double value) {
   // @@protoc_insertion_point(field_set:AFMsg.PackSURLParam.fTimeOutSec)
 }
 
-// bytes strRsp = 6;
+// string strRsp = 6;
 inline void PackSURLParam::clear_strrsp() {
   strrsp_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -516,7 +516,7 @@ inline void PackSURLParam::set_strrsp(const char* value) {
   strrsp_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackSURLParam.strRsp)
 }
-inline void PackSURLParam::set_strrsp(const void* value, size_t size) {
+inline void PackSURLParam::set_strrsp(const char* value, size_t size) {
   
   strrsp_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
