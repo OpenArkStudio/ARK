@@ -155,7 +155,7 @@ class LIBPROTOC_EXPORT PackMysqlParam : public ::google::protobuf::Message /* @@
 
   // accessors -------------------------------------------------------
 
-  // bytes strRecordName = 1;
+  // string strRecordName = 1;
   void clear_strrecordname();
   static const int kStrRecordNameFieldNumber = 1;
   const ::std::string& strrecordname() const;
@@ -164,12 +164,12 @@ class LIBPROTOC_EXPORT PackMysqlParam : public ::google::protobuf::Message /* @@
   void set_strrecordname(::std::string&& value);
   #endif
   void set_strrecordname(const char* value);
-  void set_strrecordname(const void* value, size_t size);
+  void set_strrecordname(const char* value, size_t size);
   ::std::string* mutable_strrecordname();
   ::std::string* release_strrecordname();
   void set_allocated_strrecordname(::std::string* strrecordname);
 
-  // bytes strKey = 2;
+  // string strKey = 2;
   void clear_strkey();
   static const int kStrKeyFieldNumber = 2;
   const ::std::string& strkey() const;
@@ -178,12 +178,12 @@ class LIBPROTOC_EXPORT PackMysqlParam : public ::google::protobuf::Message /* @@
   void set_strkey(::std::string&& value);
   #endif
   void set_strkey(const char* value);
-  void set_strkey(const void* value, size_t size);
+  void set_strkey(const char* value, size_t size);
   ::std::string* mutable_strkey();
   ::std::string* release_strkey();
   void set_allocated_strkey(::std::string* strkey);
 
-  // bytes fieldVecList = 3;
+  // string fieldVecList = 3;
   void clear_fieldveclist();
   static const int kFieldVecListFieldNumber = 3;
   const ::std::string& fieldveclist() const;
@@ -192,12 +192,12 @@ class LIBPROTOC_EXPORT PackMysqlParam : public ::google::protobuf::Message /* @@
   void set_fieldveclist(::std::string&& value);
   #endif
   void set_fieldveclist(const char* value);
-  void set_fieldveclist(const void* value, size_t size);
+  void set_fieldveclist(const char* value, size_t size);
   ::std::string* mutable_fieldveclist();
   ::std::string* release_fieldveclist();
   void set_allocated_fieldveclist(::std::string* fieldveclist);
 
-  // bytes valueVecList = 4;
+  // string valueVecList = 4;
   void clear_valueveclist();
   static const int kValueVecListFieldNumber = 4;
   const ::std::string& valueveclist() const;
@@ -206,7 +206,7 @@ class LIBPROTOC_EXPORT PackMysqlParam : public ::google::protobuf::Message /* @@
   void set_valueveclist(::std::string&& value);
   #endif
   void set_valueveclist(const char* value);
-  void set_valueveclist(const void* value, size_t size);
+  void set_valueveclist(const char* value, size_t size);
   ::std::string* mutable_valueveclist();
   ::std::string* release_valueveclist();
   void set_allocated_valueveclist(::std::string* valueveclist);
@@ -339,7 +339,7 @@ class LIBPROTOC_EXPORT PackMysqlServerInfo : public ::google::protobuf::Message 
 
   // accessors -------------------------------------------------------
 
-  // bytes strDBName = 4;
+  // string strDBName = 4;
   void clear_strdbname();
   static const int kStrDBNameFieldNumber = 4;
   const ::std::string& strdbname() const;
@@ -348,12 +348,12 @@ class LIBPROTOC_EXPORT PackMysqlServerInfo : public ::google::protobuf::Message 
   void set_strdbname(::std::string&& value);
   #endif
   void set_strdbname(const char* value);
-  void set_strdbname(const void* value, size_t size);
+  void set_strdbname(const char* value, size_t size);
   ::std::string* mutable_strdbname();
   ::std::string* release_strdbname();
   void set_allocated_strdbname(::std::string* strdbname);
 
-  // bytes strDnsIp = 5;
+  // string strDnsIp = 5;
   void clear_strdnsip();
   static const int kStrDnsIpFieldNumber = 5;
   const ::std::string& strdnsip() const;
@@ -362,12 +362,12 @@ class LIBPROTOC_EXPORT PackMysqlServerInfo : public ::google::protobuf::Message 
   void set_strdnsip(::std::string&& value);
   #endif
   void set_strdnsip(const char* value);
-  void set_strdnsip(const void* value, size_t size);
+  void set_strdnsip(const char* value, size_t size);
   ::std::string* mutable_strdnsip();
   ::std::string* release_strdnsip();
   void set_allocated_strdnsip(::std::string* strdnsip);
 
-  // bytes strDBUser = 6;
+  // string strDBUser = 6;
   void clear_strdbuser();
   static const int kStrDBUserFieldNumber = 6;
   const ::std::string& strdbuser() const;
@@ -376,12 +376,12 @@ class LIBPROTOC_EXPORT PackMysqlServerInfo : public ::google::protobuf::Message 
   void set_strdbuser(::std::string&& value);
   #endif
   void set_strdbuser(const char* value);
-  void set_strdbuser(const void* value, size_t size);
+  void set_strdbuser(const char* value, size_t size);
   ::std::string* mutable_strdbuser();
   ::std::string* release_strdbuser();
   void set_allocated_strdbuser(::std::string* strdbuser);
 
-  // bytes strDBPwd = 7;
+  // string strDBPwd = 7;
   void clear_strdbpwd();
   static const int kStrDBPwdFieldNumber = 7;
   const ::std::string& strdbpwd() const;
@@ -390,7 +390,7 @@ class LIBPROTOC_EXPORT PackMysqlServerInfo : public ::google::protobuf::Message 
   void set_strdbpwd(::std::string&& value);
   #endif
   void set_strdbpwd(const char* value);
-  void set_strdbpwd(const void* value, size_t size);
+  void set_strdbpwd(const char* value, size_t size);
   ::std::string* mutable_strdbpwd();
   ::std::string* release_strdbpwd();
   void set_allocated_strdbpwd(::std::string* strdbpwd);
@@ -446,7 +446,7 @@ class LIBPROTOC_EXPORT PackMysqlServerInfo : public ::google::protobuf::Message 
 #endif  // __GNUC__
 // PackMysqlParam
 
-// bytes strRecordName = 1;
+// string strRecordName = 1;
 inline void PackMysqlParam::clear_strrecordname() {
   strrecordname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -473,7 +473,7 @@ inline void PackMysqlParam::set_strrecordname(const char* value) {
   strrecordname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackMysqlParam.strRecordName)
 }
-inline void PackMysqlParam::set_strrecordname(const void* value, size_t size) {
+inline void PackMysqlParam::set_strrecordname(const char* value, size_t size) {
   
   strrecordname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -499,7 +499,7 @@ inline void PackMysqlParam::set_allocated_strrecordname(::std::string* strrecord
   // @@protoc_insertion_point(field_set_allocated:AFMsg.PackMysqlParam.strRecordName)
 }
 
-// bytes strKey = 2;
+// string strKey = 2;
 inline void PackMysqlParam::clear_strkey() {
   strkey_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -526,7 +526,7 @@ inline void PackMysqlParam::set_strkey(const char* value) {
   strkey_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackMysqlParam.strKey)
 }
-inline void PackMysqlParam::set_strkey(const void* value, size_t size) {
+inline void PackMysqlParam::set_strkey(const char* value, size_t size) {
   
   strkey_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -552,7 +552,7 @@ inline void PackMysqlParam::set_allocated_strkey(::std::string* strkey) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.PackMysqlParam.strKey)
 }
 
-// bytes fieldVecList = 3;
+// string fieldVecList = 3;
 inline void PackMysqlParam::clear_fieldveclist() {
   fieldveclist_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -579,7 +579,7 @@ inline void PackMysqlParam::set_fieldveclist(const char* value) {
   fieldveclist_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackMysqlParam.fieldVecList)
 }
-inline void PackMysqlParam::set_fieldveclist(const void* value, size_t size) {
+inline void PackMysqlParam::set_fieldveclist(const char* value, size_t size) {
   
   fieldveclist_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -605,7 +605,7 @@ inline void PackMysqlParam::set_allocated_fieldveclist(::std::string* fieldvecli
   // @@protoc_insertion_point(field_set_allocated:AFMsg.PackMysqlParam.fieldVecList)
 }
 
-// bytes valueVecList = 4;
+// string valueVecList = 4;
 inline void PackMysqlParam::clear_valueveclist() {
   valueveclist_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -632,7 +632,7 @@ inline void PackMysqlParam::set_valueveclist(const char* value) {
   valueveclist_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackMysqlParam.valueVecList)
 }
-inline void PackMysqlParam::set_valueveclist(const void* value, size_t size) {
+inline void PackMysqlParam::set_valueveclist(const char* value, size_t size) {
   
   valueveclist_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -760,7 +760,7 @@ inline void PackMysqlServerInfo::set_nport(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:AFMsg.PackMysqlServerInfo.nPort)
 }
 
-// bytes strDBName = 4;
+// string strDBName = 4;
 inline void PackMysqlServerInfo::clear_strdbname() {
   strdbname_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -787,7 +787,7 @@ inline void PackMysqlServerInfo::set_strdbname(const char* value) {
   strdbname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackMysqlServerInfo.strDBName)
 }
-inline void PackMysqlServerInfo::set_strdbname(const void* value, size_t size) {
+inline void PackMysqlServerInfo::set_strdbname(const char* value, size_t size) {
   
   strdbname_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -813,7 +813,7 @@ inline void PackMysqlServerInfo::set_allocated_strdbname(::std::string* strdbnam
   // @@protoc_insertion_point(field_set_allocated:AFMsg.PackMysqlServerInfo.strDBName)
 }
 
-// bytes strDnsIp = 5;
+// string strDnsIp = 5;
 inline void PackMysqlServerInfo::clear_strdnsip() {
   strdnsip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -840,7 +840,7 @@ inline void PackMysqlServerInfo::set_strdnsip(const char* value) {
   strdnsip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackMysqlServerInfo.strDnsIp)
 }
-inline void PackMysqlServerInfo::set_strdnsip(const void* value, size_t size) {
+inline void PackMysqlServerInfo::set_strdnsip(const char* value, size_t size) {
   
   strdnsip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -866,7 +866,7 @@ inline void PackMysqlServerInfo::set_allocated_strdnsip(::std::string* strdnsip)
   // @@protoc_insertion_point(field_set_allocated:AFMsg.PackMysqlServerInfo.strDnsIp)
 }
 
-// bytes strDBUser = 6;
+// string strDBUser = 6;
 inline void PackMysqlServerInfo::clear_strdbuser() {
   strdbuser_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -893,7 +893,7 @@ inline void PackMysqlServerInfo::set_strdbuser(const char* value) {
   strdbuser_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackMysqlServerInfo.strDBUser)
 }
-inline void PackMysqlServerInfo::set_strdbuser(const void* value, size_t size) {
+inline void PackMysqlServerInfo::set_strdbuser(const char* value, size_t size) {
   
   strdbuser_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -919,7 +919,7 @@ inline void PackMysqlServerInfo::set_allocated_strdbuser(::std::string* strdbuse
   // @@protoc_insertion_point(field_set_allocated:AFMsg.PackMysqlServerInfo.strDBUser)
 }
 
-// bytes strDBPwd = 7;
+// string strDBPwd = 7;
 inline void PackMysqlServerInfo::clear_strdbpwd() {
   strdbpwd_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -946,7 +946,7 @@ inline void PackMysqlServerInfo::set_strdbpwd(const char* value) {
   strdbpwd_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PackMysqlServerInfo.strDBPwd)
 }
-inline void PackMysqlServerInfo::set_strdbpwd(const void* value, size_t size) {
+inline void PackMysqlServerInfo::set_strdbpwd(const char* value, size_t size) {
   
   strdbpwd_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));

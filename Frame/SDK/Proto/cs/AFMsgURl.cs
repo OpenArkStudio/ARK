@@ -25,9 +25,9 @@ namespace AFMsg {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cg5BRk1zZ1VSbC5wcm90bxIFQUZNc2cioQEKDVBhY2tTVVJMUGFyYW0SDgoG",
-            "c3RyVXJsGAEgASgMEhQKDHN0ckdldFBhcmFtcxgCIAEoDBITCgtzdHJCb2R5",
-            "RGF0YRgDIAEoDBISCgpzdHJDb29raWVzGAQgASgMEhMKC2ZUaW1lT3V0U2Vj",
-            "GAUgASgBEg4KBnN0clJzcBgGIAEoDBIMCgRuUmV0GAcgASgDEg4KBm5SZXFJ",
+            "c3RyVXJsGAEgASgJEhQKDHN0ckdldFBhcmFtcxgCIAEoCRITCgtzdHJCb2R5",
+            "RGF0YRgDIAEoCRISCgpzdHJDb29raWVzGAQgASgJEhMKC2ZUaW1lT3V0U2Vj",
+            "GAUgASgBEg4KBnN0clJzcBgGIAEoCRIMCgRuUmV0GAcgASgDEg4KBm5SZXFJ",
             "RBgIIAEoA2IGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
@@ -82,9 +82,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "strUrl" field.</summary>
     public const int StrUrlFieldNumber = 1;
-    private pb::ByteString strUrl_ = pb::ByteString.Empty;
+    private string strUrl_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString StrUrl {
+    public string StrUrl {
       get { return strUrl_; }
       set {
         strUrl_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -93,9 +93,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "strGetParams" field.</summary>
     public const int StrGetParamsFieldNumber = 2;
-    private pb::ByteString strGetParams_ = pb::ByteString.Empty;
+    private string strGetParams_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString StrGetParams {
+    public string StrGetParams {
       get { return strGetParams_; }
       set {
         strGetParams_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -104,9 +104,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "strBodyData" field.</summary>
     public const int StrBodyDataFieldNumber = 3;
-    private pb::ByteString strBodyData_ = pb::ByteString.Empty;
+    private string strBodyData_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString StrBodyData {
+    public string StrBodyData {
       get { return strBodyData_; }
       set {
         strBodyData_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -115,9 +115,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "strCookies" field.</summary>
     public const int StrCookiesFieldNumber = 4;
-    private pb::ByteString strCookies_ = pb::ByteString.Empty;
+    private string strCookies_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString StrCookies {
+    public string StrCookies {
       get { return strCookies_; }
       set {
         strCookies_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -137,9 +137,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "strRsp" field.</summary>
     public const int StrRspFieldNumber = 6;
-    private pb::ByteString strRsp_ = pb::ByteString.Empty;
+    private string strRsp_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString StrRsp {
+    public string StrRsp {
       get { return strRsp_; }
       set {
         strRsp_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -218,19 +218,19 @@ namespace AFMsg {
     public void WriteTo(pb::CodedOutputStream output) {
       if (StrUrl.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteBytes(StrUrl);
+        output.WriteString(StrUrl);
       }
       if (StrGetParams.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(StrGetParams);
+        output.WriteString(StrGetParams);
       }
       if (StrBodyData.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteBytes(StrBodyData);
+        output.WriteString(StrBodyData);
       }
       if (StrCookies.Length != 0) {
         output.WriteRawTag(34);
-        output.WriteBytes(StrCookies);
+        output.WriteString(StrCookies);
       }
       if (FTimeOutSec != 0D) {
         output.WriteRawTag(41);
@@ -238,7 +238,7 @@ namespace AFMsg {
       }
       if (StrRsp.Length != 0) {
         output.WriteRawTag(50);
-        output.WriteBytes(StrRsp);
+        output.WriteString(StrRsp);
       }
       if (NRet != 0L) {
         output.WriteRawTag(56);
@@ -257,22 +257,22 @@ namespace AFMsg {
     public int CalculateSize() {
       int size = 0;
       if (StrUrl.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(StrUrl);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(StrUrl);
       }
       if (StrGetParams.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(StrGetParams);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(StrGetParams);
       }
       if (StrBodyData.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(StrBodyData);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(StrBodyData);
       }
       if (StrCookies.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(StrCookies);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(StrCookies);
       }
       if (FTimeOutSec != 0D) {
         size += 1 + 8;
       }
       if (StrRsp.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(StrRsp);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(StrRsp);
       }
       if (NRet != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(NRet);
@@ -327,19 +327,19 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            StrUrl = input.ReadBytes();
+            StrUrl = input.ReadString();
             break;
           }
           case 18: {
-            StrGetParams = input.ReadBytes();
+            StrGetParams = input.ReadString();
             break;
           }
           case 26: {
-            StrBodyData = input.ReadBytes();
+            StrBodyData = input.ReadString();
             break;
           }
           case 34: {
-            StrCookies = input.ReadBytes();
+            StrCookies = input.ReadString();
             break;
           }
           case 41: {
@@ -347,7 +347,7 @@ namespace AFMsg {
             break;
           }
           case 50: {
-            StrRsp = input.ReadBytes();
+            StrRsp = input.ReadString();
             break;
           }
           case 56: {
