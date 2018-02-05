@@ -4,10 +4,10 @@ package AFMsg;
 
 message PackMysqlParam
 {
-	bytes 		strRecordName 			= 1;
-	bytes 		strKey 					= 2;
-    bytes 		fieldVecList 			= 3;
-	bytes 		valueVecList 			= 4;
+	string 		strRecordName 			= 1;
+	string 		strKey 					= 2;
+    string 		fieldVecList 			= 3;
+	string 		valueVecList 			= 4;
 	int64		bExit 	= 5;
 	int64		nreqid 	= 6;
 	int64 		nRet 			= 7;
@@ -19,9 +19,9 @@ message PackMysqlServerInfo
 	int64 		nRconnectTime	= 1;
 	int64 		nRconneCount	= 2;
     int64 		nPort 			= 3;
-	bytes 		strDBName		= 4;
-	bytes		strDnsIp 		= 5;
-	bytes		strDBUser 		= 6;
-	bytes 		strDBPwd		= 7;
+	string 		strDBName		= 4;
+	string		strDnsIp 		= 5;
+	string		strDBUser 		= 6;
+	string 		strDBPwd		= 7;
 	int64 		nServerID		= 8;
 }

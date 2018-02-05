@@ -20,8 +20,8 @@ enum EServerState
 message ServerInfoReport//服务器之间报告服务器状态
 {
 	int32   server_id = 1;
-	bytes  server_name = 2;
-	bytes  server_ip = 3;
+	string  server_name = 2;
+	string  server_ip = 3;
 	int32   server_port = 4;
 	int32   server_max_online = 5;
 	int32   server_cur_count = 6;
@@ -44,29 +44,29 @@ message AckEventResult//返回事件结果(对或错等详细)
 ////////////////////////////////////////////////////
 message ReqAccountLogin//向网关(登录服务器)申请登录
 { 
-	bytes 			account = 2;
-	bytes 			password = 3;
-	bytes 			security_code = 4;
-    bytes 			signBuff = 5;
+	string 			account = 2;
+	string 			password = 3;
+	string 			security_code = 4;
+    string 			signBuff = 5;
     int32 			clientVersion = 6;
     int32 			loginMode = 7;
     int32 			clientIP = 8;
     int64 			clientMAC = 9;
-	bytes 			device_info = 10;
-	bytes 			extra_info = 11;
+	string 			device_info = 10;
+	string 			extra_info = 11;
 	int32 			platform_type = 12;
 }
 
 message ReqAccountLogout//向网关(登录服务器)申请登出
 { 
-	bytes 		account = 2;
-	bytes 		extra_info = 3;
+	string 		account = 2;
+	string 		extra_info = 3;
 }
 
 message ServerInfo//服务器信息---这个是面向玩家的
 {
     int32  		server_id = 1;
-    bytes 			name = 2;
+    string 			name = 2;
 	int32			wait_count = 3;
 	EServerState	status = 4;
 }
@@ -92,7 +92,7 @@ message AckServerList//服务器信息列表
 message ReqConnectWorld//玩家想连到世界服务器,进游戏世界--登录通过后选世界
 {
 	int32   world_id = 1;//想去的世界ID
-	bytes  account = 2;//玩家帐号--客户度发送时可以不填--转发需填
+	string  account = 2;//玩家帐号--客户度发送时可以不填--转发需填
 	Ident  sender = 3;//玩家临时ID--客户度发送时可以不填--转发需填
 	int32   login_id = 4;//登录服务器ID--客户度发送时可以不填--转发需填
 }
@@ -102,10 +102,10 @@ message AckConnectWorldResult//返回申请到世界服务器的结果
 	int32   world_id = 1;//申请者想去的世界ID
 	Ident  sender = 2;//申请者临时ID
 	int32   login_id = 3;//申请者所在的登录服务器ID
-	bytes  account = 4;//申请者的帐号
-	bytes  world_ip = 5;//得到的世界服务器分配的网关IP
+	string  account = 4;//申请者的帐号
+	string  world_ip = 5;//得到的世界服务器分配的网关IP
 	int32  world_port = 6;//得到的世界服务器分配的端口
-	bytes  world_key = 7;//得到的握手KEY
+	string  world_key = 7;//得到的握手KEY
 }
 
 message ReqSelectServer//玩家想选择单服务器
@@ -116,7 +116,7 @@ message ReqSelectServer//玩家想选择单服务器
 message ReqKickFromWorld//玩家想退出游戏世界
 {
 	int32   world_id = 1;
-	bytes   account = 2;//帐号
+	string   account = 2;//帐号
 }
 
 //继续登录进大世界网关
@@ -125,7 +125,7 @@ message ReqKickFromWorld//玩家想退出游戏世界
 message ReqRoleList//请求得到角色列表
 {
 	int32   game_id = 1;
-	bytes   account = 2;	
+	string   account = 2;	
 }
 
 message RoleLiteInfo//角色基础信息
@@ -134,14 +134,14 @@ message RoleLiteInfo//角色基础信息
 	int32 		career = 2;
     int32 		sex = 3;
     int32 		race = 4;
-    bytes 		noob_name = 5;
+    string 		noob_name = 5;
     int32 		game_id = 6;
 	int32 		role_level = 7;
 	int32		delete_time = 8;
 	int32		reg_time = 9;
 	int32		last_offline_time = 10;
 	int32		last_offline_ip = 11;
-	bytes		view_record = 12;
+	string		view_record = 12;
 }
 
 message AckRoleLiteInfoList//角色基础信息列表
@@ -151,25 +151,25 @@ message AckRoleLiteInfoList//角色基础信息列表
 
 message ReqCreateRole//创建角色
 {
-	bytes 		account = 1;
+	string 		account = 1;
 	int32 		career = 2;
     int32 		sex = 3;
     int32 		race = 4;
-    bytes 		noob_name = 5;
+    string 		noob_name = 5;
     int32 		game_id = 6;
 }
 
 message ReqDeleteRole//删除角色
 {
-	bytes 	account = 1;
-    bytes	name = 2;
+	string 	account = 1;
+    string	name = 2;
 	int32 	game_id = 3;
 }
 
 message ReqRecoverRole//恢复角色
 {
-	bytes 	account = 1;
-    bytes	name = 2;
+	string 	account = 1;
+    string	name = 2;
 	int32 	game_id = 3;
 }
 

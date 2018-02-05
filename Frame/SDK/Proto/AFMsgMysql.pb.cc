@@ -137,14 +137,14 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\020AFMsgMysql.proto\022\005AFMsg\"\237\001\n\016PackMysqlP"
-      "aram\022\025\n\rstrRecordName\030\001 \001(\014\022\016\n\006strKey\030\002 "
-      "\001(\014\022\024\n\014fieldVecList\030\003 \001(\014\022\024\n\014valueVecLis"
-      "t\030\004 \001(\014\022\r\n\005bExit\030\005 \001(\003\022\016\n\006nreqid\030\006 \001(\003\022\014"
+      "aram\022\025\n\rstrRecordName\030\001 \001(\t\022\016\n\006strKey\030\002 "
+      "\001(\t\022\024\n\014fieldVecList\030\003 \001(\t\022\024\n\014valueVecLis"
+      "t\030\004 \001(\t\022\r\n\005bExit\030\005 \001(\003\022\016\n\006nreqid\030\006 \001(\003\022\014"
       "\n\004nRet\030\007 \001(\003\022\r\n\005eType\030\010 \001(\003\"\256\001\n\023PackMysq"
       "lServerInfo\022\025\n\rnRconnectTime\030\001 \001(\003\022\024\n\014nR"
       "conneCount\030\002 \001(\003\022\r\n\005nPort\030\003 \001(\003\022\021\n\tstrDB"
-      "Name\030\004 \001(\014\022\020\n\010strDnsIp\030\005 \001(\014\022\021\n\tstrDBUse"
-      "r\030\006 \001(\014\022\020\n\010strDBPwd\030\007 \001(\014\022\021\n\tnServerID\030\010"
+      "Name\030\004 \001(\t\022\020\n\010strDnsIp\030\005 \001(\t\022\021\n\tstrDBUse"
+      "r\030\006 \001(\t\022\020\n\010strDBPwd\030\007 \001(\t\022\021\n\tnServerID\030\010"
       " \001(\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
@@ -281,48 +281,64 @@ bool PackMysqlParam::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes strRecordName = 1;
+      // string strRecordName = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strrecordname()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strrecordname().data(), static_cast<int>(this->strrecordname().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackMysqlParam.strRecordName"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes strKey = 2;
+      // string strKey = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strkey()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strkey().data(), static_cast<int>(this->strkey().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackMysqlParam.strKey"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes fieldVecList = 3;
+      // string fieldVecList = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_fieldveclist()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->fieldveclist().data(), static_cast<int>(this->fieldveclist().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackMysqlParam.fieldVecList"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes valueVecList = 4;
+      // string valueVecList = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_valueveclist()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->valueveclist().data(), static_cast<int>(this->valueveclist().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackMysqlParam.valueVecList"));
         } else {
           goto handle_unusual;
         }
@@ -411,27 +427,43 @@ void PackMysqlParam::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes strRecordName = 1;
+  // string strRecordName = 1;
   if (this->strrecordname().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strrecordname().data(), static_cast<int>(this->strrecordname().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlParam.strRecordName");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->strrecordname(), output);
   }
 
-  // bytes strKey = 2;
+  // string strKey = 2;
   if (this->strkey().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strkey().data(), static_cast<int>(this->strkey().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlParam.strKey");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->strkey(), output);
   }
 
-  // bytes fieldVecList = 3;
+  // string fieldVecList = 3;
   if (this->fieldveclist().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->fieldveclist().data(), static_cast<int>(this->fieldveclist().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlParam.fieldVecList");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->fieldveclist(), output);
   }
 
-  // bytes valueVecList = 4;
+  // string valueVecList = 4;
   if (this->valueveclist().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->valueveclist().data(), static_cast<int>(this->valueveclist().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlParam.valueVecList");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->valueveclist(), output);
   }
 
@@ -469,31 +501,47 @@ void PackMysqlParam::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes strRecordName = 1;
+  // string strRecordName = 1;
   if (this->strrecordname().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strrecordname().data(), static_cast<int>(this->strrecordname().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlParam.strRecordName");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->strrecordname(), target);
   }
 
-  // bytes strKey = 2;
+  // string strKey = 2;
   if (this->strkey().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strkey().data(), static_cast<int>(this->strkey().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlParam.strKey");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->strkey(), target);
   }
 
-  // bytes fieldVecList = 3;
+  // string fieldVecList = 3;
   if (this->fieldveclist().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->fieldveclist().data(), static_cast<int>(this->fieldveclist().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlParam.fieldVecList");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->fieldveclist(), target);
   }
 
-  // bytes valueVecList = 4;
+  // string valueVecList = 4;
   if (this->valueveclist().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->valueveclist().data(), static_cast<int>(this->valueveclist().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlParam.valueVecList");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->valueveclist(), target);
   }
 
@@ -534,31 +582,31 @@ size_t PackMysqlParam::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes strRecordName = 1;
+  // string strRecordName = 1;
   if (this->strrecordname().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strrecordname());
   }
 
-  // bytes strKey = 2;
+  // string strKey = 2;
   if (this->strkey().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strkey());
   }
 
-  // bytes fieldVecList = 3;
+  // string fieldVecList = 3;
   if (this->fieldveclist().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->fieldveclist());
   }
 
-  // bytes valueVecList = 4;
+  // string valueVecList = 4;
   if (this->valueveclist().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->valueveclist());
   }
 
@@ -848,48 +896,64 @@ bool PackMysqlServerInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes strDBName = 4;
+      // string strDBName = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strdbname()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strdbname().data(), static_cast<int>(this->strdbname().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackMysqlServerInfo.strDBName"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes strDnsIp = 5;
+      // string strDnsIp = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strdnsip()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strdnsip().data(), static_cast<int>(this->strdnsip().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackMysqlServerInfo.strDnsIp"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes strDBUser = 6;
+      // string strDBUser = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strdbuser()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strdbuser().data(), static_cast<int>(this->strdbuser().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackMysqlServerInfo.strDBUser"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes strDBPwd = 7;
+      // string strDBPwd = 7;
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strdbpwd()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strdbpwd().data(), static_cast<int>(this->strdbpwd().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackMysqlServerInfo.strDBPwd"));
         } else {
           goto handle_unusual;
         }
@@ -951,27 +1015,43 @@ void PackMysqlServerInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt64(3, this->nport(), output);
   }
 
-  // bytes strDBName = 4;
+  // string strDBName = 4;
   if (this->strdbname().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strdbname().data(), static_cast<int>(this->strdbname().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlServerInfo.strDBName");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->strdbname(), output);
   }
 
-  // bytes strDnsIp = 5;
+  // string strDnsIp = 5;
   if (this->strdnsip().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strdnsip().data(), static_cast<int>(this->strdnsip().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlServerInfo.strDnsIp");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->strdnsip(), output);
   }
 
-  // bytes strDBUser = 6;
+  // string strDBUser = 6;
   if (this->strdbuser().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strdbuser().data(), static_cast<int>(this->strdbuser().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlServerInfo.strDBUser");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->strdbuser(), output);
   }
 
-  // bytes strDBPwd = 7;
+  // string strDBPwd = 7;
   if (this->strdbpwd().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strdbpwd().data(), static_cast<int>(this->strdbpwd().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlServerInfo.strDBPwd");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       7, this->strdbpwd(), output);
   }
 
@@ -1009,31 +1089,47 @@ void PackMysqlServerInfo::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(3, this->nport(), target);
   }
 
-  // bytes strDBName = 4;
+  // string strDBName = 4;
   if (this->strdbname().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strdbname().data(), static_cast<int>(this->strdbname().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlServerInfo.strDBName");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->strdbname(), target);
   }
 
-  // bytes strDnsIp = 5;
+  // string strDnsIp = 5;
   if (this->strdnsip().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strdnsip().data(), static_cast<int>(this->strdnsip().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlServerInfo.strDnsIp");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->strdnsip(), target);
   }
 
-  // bytes strDBUser = 6;
+  // string strDBUser = 6;
   if (this->strdbuser().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strdbuser().data(), static_cast<int>(this->strdbuser().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlServerInfo.strDBUser");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         6, this->strdbuser(), target);
   }
 
-  // bytes strDBPwd = 7;
+  // string strDBPwd = 7;
   if (this->strdbpwd().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strdbpwd().data(), static_cast<int>(this->strdbpwd().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackMysqlServerInfo.strDBPwd");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         7, this->strdbpwd(), target);
   }
 
@@ -1059,31 +1155,31 @@ size_t PackMysqlServerInfo::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes strDBName = 4;
+  // string strDBName = 4;
   if (this->strdbname().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strdbname());
   }
 
-  // bytes strDnsIp = 5;
+  // string strDnsIp = 5;
   if (this->strdnsip().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strdnsip());
   }
 
-  // bytes strDBUser = 6;
+  // string strDBUser = 6;
   if (this->strdbuser().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strdbuser());
   }
 
-  // bytes strDBPwd = 7;
+  // string strDBPwd = 7;
   if (this->strdbpwd().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strdbpwd());
   }
 
