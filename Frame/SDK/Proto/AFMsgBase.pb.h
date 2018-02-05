@@ -617,7 +617,7 @@ class LIBPROTOC_EXPORT VariantData : public ::google::protobuf::Message /* @@pro
   double double_value() const;
   void set_double_value(double value);
 
-  // bytes str_value = 6;
+  // string str_value = 6;
   private:
   bool has_str_value() const;
   public:
@@ -629,7 +629,7 @@ class LIBPROTOC_EXPORT VariantData : public ::google::protobuf::Message /* @@pro
   void set_str_value(::std::string&& value);
   #endif
   void set_str_value(const char* value);
-  void set_str_value(const void* value, size_t size);
+  void set_str_value(const char* value, size_t size);
   ::std::string* mutable_str_value();
   ::std::string* release_str_value();
   void set_allocated_str_value(::std::string* str_value);
@@ -763,7 +763,7 @@ class LIBPROTOC_EXPORT PropertyPBData : public ::google::protobuf::Message /* @@
 
   // accessors -------------------------------------------------------
 
-  // bytes property_name = 1;
+  // string property_name = 1;
   void clear_property_name();
   static const int kPropertyNameFieldNumber = 1;
   const ::std::string& property_name() const;
@@ -772,7 +772,7 @@ class LIBPROTOC_EXPORT PropertyPBData : public ::google::protobuf::Message /* @@
   void set_property_name(::std::string&& value);
   #endif
   void set_property_name(const char* value);
-  void set_property_name(const void* value, size_t size);
+  void set_property_name(const char* value, size_t size);
   ::std::string* mutable_property_name();
   ::std::string* release_property_name();
   void set_allocated_property_name(::std::string* property_name);
@@ -1368,7 +1368,7 @@ class LIBPROTOC_EXPORT ObjectRecordBase : public ::google::protobuf::Message /* 
   const ::google::protobuf::RepeatedPtrField< ::AFMsg::RecordAddRowStruct >&
       row_struct() const;
 
-  // bytes record_name = 1;
+  // string record_name = 1;
   void clear_record_name();
   static const int kRecordNameFieldNumber = 1;
   const ::std::string& record_name() const;
@@ -1377,7 +1377,7 @@ class LIBPROTOC_EXPORT ObjectRecordBase : public ::google::protobuf::Message /* 
   void set_record_name(::std::string&& value);
   #endif
   void set_record_name(const char* value);
-  void set_record_name(const void* value, size_t size);
+  void set_record_name(const char* value, size_t size);
   ::std::string* mutable_record_name();
   ::std::string* release_record_name();
   void set_allocated_record_name(::std::string* record_name);
@@ -2067,7 +2067,7 @@ class LIBPROTOC_EXPORT ObjectRecordPBData : public ::google::protobuf::Message /
   const ::google::protobuf::RepeatedPtrField< ::AFMsg::RecordPBData >&
       record_list() const;
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   void clear_record_name();
   static const int kRecordNameFieldNumber = 2;
   const ::std::string& record_name() const;
@@ -2076,7 +2076,7 @@ class LIBPROTOC_EXPORT ObjectRecordPBData : public ::google::protobuf::Message /
   void set_record_name(::std::string&& value);
   #endif
   void set_record_name(const char* value);
-  void set_record_name(const void* value, size_t size);
+  void set_record_name(const char* value, size_t size);
   ::std::string* mutable_record_name();
   ::std::string* release_record_name();
   void set_allocated_record_name(::std::string* record_name);
@@ -2189,7 +2189,7 @@ class LIBPROTOC_EXPORT ObjectRecordSwap : public ::google::protobuf::Message /* 
 
   // accessors -------------------------------------------------------
 
-  // bytes origin_record_name = 2;
+  // string origin_record_name = 2;
   void clear_origin_record_name();
   static const int kOriginRecordNameFieldNumber = 2;
   const ::std::string& origin_record_name() const;
@@ -2198,12 +2198,12 @@ class LIBPROTOC_EXPORT ObjectRecordSwap : public ::google::protobuf::Message /* 
   void set_origin_record_name(::std::string&& value);
   #endif
   void set_origin_record_name(const char* value);
-  void set_origin_record_name(const void* value, size_t size);
+  void set_origin_record_name(const char* value, size_t size);
   ::std::string* mutable_origin_record_name();
   ::std::string* release_origin_record_name();
   void set_allocated_origin_record_name(::std::string* origin_record_name);
 
-  // bytes target_record_name = 3;
+  // string target_record_name = 3;
   void clear_target_record_name();
   static const int kTargetRecordNameFieldNumber = 3;
   const ::std::string& target_record_name() const;
@@ -2212,7 +2212,7 @@ class LIBPROTOC_EXPORT ObjectRecordSwap : public ::google::protobuf::Message /* 
   void set_target_record_name(::std::string&& value);
   #endif
   void set_target_record_name(const char* value);
-  void set_target_record_name(const void* value, size_t size);
+  void set_target_record_name(const char* value, size_t size);
   ::std::string* mutable_target_record_name();
   ::std::string* release_target_record_name();
   void set_allocated_target_record_name(::std::string* target_record_name);
@@ -2351,7 +2351,7 @@ class LIBPROTOC_EXPORT ObjectRecordAddRow : public ::google::protobuf::Message /
   const ::google::protobuf::RepeatedPtrField< ::AFMsg::RecordAddRowStruct >&
       row_data() const;
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   void clear_record_name();
   static const int kRecordNameFieldNumber = 2;
   const ::std::string& record_name() const;
@@ -2360,7 +2360,7 @@ class LIBPROTOC_EXPORT ObjectRecordAddRow : public ::google::protobuf::Message /
   void set_record_name(::std::string&& value);
   #endif
   void set_record_name(const char* value);
-  void set_record_name(const void* value, size_t size);
+  void set_record_name(const char* value, size_t size);
   ::std::string* mutable_record_name();
   ::std::string* release_record_name();
   void set_allocated_record_name(::std::string* record_name);
@@ -2485,7 +2485,7 @@ class LIBPROTOC_EXPORT ObjectRecordRemove : public ::google::protobuf::Message /
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_remove_row();
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   void clear_record_name();
   static const int kRecordNameFieldNumber = 2;
   const ::std::string& record_name() const;
@@ -2494,7 +2494,7 @@ class LIBPROTOC_EXPORT ObjectRecordRemove : public ::google::protobuf::Message /
   void set_record_name(::std::string&& value);
   #endif
   void set_record_name(const char* value);
-  void set_record_name(const void* value, size_t size);
+  void set_record_name(const char* value, size_t size);
   ::std::string* mutable_record_name();
   ::std::string* release_record_name();
   void set_allocated_record_name(::std::string* record_name);
@@ -2962,7 +2962,7 @@ class LIBPROTOC_EXPORT BrocastMsg : public ::google::protobuf::Message /* @@prot
   const ::google::protobuf::RepeatedPtrField< ::AFMsg::Ident >&
       player_client_list() const;
 
-  // bytes msg_data = 2;
+  // string msg_data = 2;
   void clear_msg_data();
   static const int kMsgDataFieldNumber = 2;
   const ::std::string& msg_data() const;
@@ -2971,7 +2971,7 @@ class LIBPROTOC_EXPORT BrocastMsg : public ::google::protobuf::Message /* @@prot
   void set_msg_data(::std::string&& value);
   #endif
   void set_msg_data(const char* value);
-  void set_msg_data(const void* value, size_t size);
+  void set_msg_data(const char* value, size_t size);
   ::std::string* mutable_msg_data();
   ::std::string* release_msg_data();
   void set_allocated_msg_data(::std::string* msg_data);
@@ -3497,7 +3497,7 @@ inline void VariantData::set_double_value(double value) {
   // @@protoc_insertion_point(field_set:AFMsg.VariantData.double_value)
 }
 
-// bytes str_value = 6;
+// string str_value = 6;
 inline bool VariantData::has_str_value() const {
   return AFData_case() == kStrValue;
 }
@@ -3550,7 +3550,7 @@ inline void VariantData::set_str_value(const char* value) {
       ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.VariantData.str_value)
 }
-inline void VariantData::set_str_value(const void* value, size_t size) {
+inline void VariantData::set_str_value(const char* value, size_t size) {
   if (!has_str_value()) {
     clear_AFData();
     set_has_str_value();
@@ -3644,7 +3644,7 @@ inline VariantData::AFDataCase VariantData::AFData_case() const {
 
 // PropertyPBData
 
-// bytes property_name = 1;
+// string property_name = 1;
 inline void PropertyPBData::clear_property_name() {
   property_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3671,7 +3671,7 @@ inline void PropertyPBData::set_property_name(const char* value) {
   property_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PropertyPBData.property_name)
 }
-inline void PropertyPBData::set_property_name(const void* value, size_t size) {
+inline void PropertyPBData::set_property_name(const char* value, size_t size) {
   
   property_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4014,7 +4014,7 @@ RecordAddRowStruct::record_data_list() const {
 
 // ObjectRecordBase
 
-// bytes record_name = 1;
+// string record_name = 1;
 inline void ObjectRecordBase::clear_record_name() {
   record_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4041,7 +4041,7 @@ inline void ObjectRecordBase::set_record_name(const char* value) {
   record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ObjectRecordBase.record_name)
 }
-inline void ObjectRecordBase::set_record_name(const void* value, size_t size) {
+inline void ObjectRecordBase::set_record_name(const char* value, size_t size) {
   
   record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4475,7 +4475,7 @@ inline void ObjectRecordPBData::set_allocated_player_id(::AFMsg::Ident* player_i
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ObjectRecordPBData.player_id)
 }
 
-// bytes record_name = 2;
+// string record_name = 2;
 inline void ObjectRecordPBData::clear_record_name() {
   record_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4502,7 +4502,7 @@ inline void ObjectRecordPBData::set_record_name(const char* value) {
   record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ObjectRecordPBData.record_name)
 }
-inline void ObjectRecordPBData::set_record_name(const void* value, size_t size) {
+inline void ObjectRecordPBData::set_record_name(const char* value, size_t size) {
   
   record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4613,7 +4613,7 @@ inline void ObjectRecordSwap::set_allocated_player_id(::AFMsg::Ident* player_id)
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ObjectRecordSwap.player_id)
 }
 
-// bytes origin_record_name = 2;
+// string origin_record_name = 2;
 inline void ObjectRecordSwap::clear_origin_record_name() {
   origin_record_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4640,7 +4640,7 @@ inline void ObjectRecordSwap::set_origin_record_name(const char* value) {
   origin_record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ObjectRecordSwap.origin_record_name)
 }
-inline void ObjectRecordSwap::set_origin_record_name(const void* value, size_t size) {
+inline void ObjectRecordSwap::set_origin_record_name(const char* value, size_t size) {
   
   origin_record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4666,7 +4666,7 @@ inline void ObjectRecordSwap::set_allocated_origin_record_name(::std::string* or
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ObjectRecordSwap.origin_record_name)
 }
 
-// bytes target_record_name = 3;
+// string target_record_name = 3;
 inline void ObjectRecordSwap::clear_target_record_name() {
   target_record_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4693,7 +4693,7 @@ inline void ObjectRecordSwap::set_target_record_name(const char* value) {
   target_record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ObjectRecordSwap.target_record_name)
 }
-inline void ObjectRecordSwap::set_target_record_name(const void* value, size_t size) {
+inline void ObjectRecordSwap::set_target_record_name(const char* value, size_t size) {
   
   target_record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4802,7 +4802,7 @@ inline void ObjectRecordAddRow::set_allocated_player_id(::AFMsg::Ident* player_i
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ObjectRecordAddRow.player_id)
 }
 
-// bytes record_name = 2;
+// string record_name = 2;
 inline void ObjectRecordAddRow::clear_record_name() {
   record_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4829,7 +4829,7 @@ inline void ObjectRecordAddRow::set_record_name(const char* value) {
   record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ObjectRecordAddRow.record_name)
 }
-inline void ObjectRecordAddRow::set_record_name(const void* value, size_t size) {
+inline void ObjectRecordAddRow::set_record_name(const char* value, size_t size) {
   
   record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4940,7 +4940,7 @@ inline void ObjectRecordRemove::set_allocated_player_id(::AFMsg::Ident* player_i
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ObjectRecordRemove.player_id)
 }
 
-// bytes record_name = 2;
+// string record_name = 2;
 inline void ObjectRecordRemove::clear_record_name() {
   record_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4967,7 +4967,7 @@ inline void ObjectRecordRemove::set_record_name(const char* value) {
   record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ObjectRecordRemove.record_name)
 }
-inline void ObjectRecordRemove::set_record_name(const void* value, size_t size) {
+inline void ObjectRecordRemove::set_record_name(const char* value, size_t size) {
   
   record_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -5233,7 +5233,7 @@ inline void BrocastMsg::set_allocated_player_id(::AFMsg::Ident* player_id) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.BrocastMsg.player_id)
 }
 
-// bytes msg_data = 2;
+// string msg_data = 2;
 inline void BrocastMsg::clear_msg_data() {
   msg_data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -5260,7 +5260,7 @@ inline void BrocastMsg::set_msg_data(const char* value) {
   msg_data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.BrocastMsg.msg_data)
 }
-inline void BrocastMsg::set_msg_data(const void* value, size_t size) {
+inline void BrocastMsg::set_msg_data(const char* value, size_t size) {
   
   msg_data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));

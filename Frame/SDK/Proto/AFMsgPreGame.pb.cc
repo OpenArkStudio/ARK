@@ -836,7 +836,7 @@ void AddDescriptorsImpl() {
       "\n\022AFMsgPreGame.proto\022\005AFMsg\032\016AFDefine.pr"
       "oto\032\017AFMsgBase.proto\"\327\001\n\020ServerInfoRepor"
       "t\022\021\n\tserver_id\030\001 \001(\005\022\023\n\013server_name\030\002 \001("
-      "\014\022\021\n\tserver_ip\030\003 \001(\014\022\023\n\013server_port\030\004 \001("
+      "\t\022\021\n\tserver_ip\030\003 \001(\t\022\023\n\013server_port\030\004 \001("
       "\005\022\031\n\021server_max_online\030\005 \001(\005\022\030\n\020server_c"
       "ur_count\030\006 \001(\005\022)\n\014server_state\030\007 \001(\0162\023.A"
       "FMsg.EServerState\022\023\n\013server_type\030\010 \001(\005\"D"
@@ -845,44 +845,44 @@ void AddDescriptorsImpl() {
       "tResult\022)\n\nevent_code\030\001 \001(\0162\025.AFMsg.EGam"
       "eEventCode\022\"\n\014event_object\030\002 \001(\0132\014.AFMsg"
       ".Ident\022\"\n\014event_client\030\003 \001(\0132\014.AFMsg.Ide"
-      "nt\"\354\001\n\017ReqAccountLogin\022\017\n\007account\030\002 \001(\014\022"
-      "\020\n\010password\030\003 \001(\014\022\025\n\rsecurity_code\030\004 \001(\014"
-      "\022\020\n\010signBuff\030\005 \001(\014\022\025\n\rclientVersion\030\006 \001("
+      "nt\"\354\001\n\017ReqAccountLogin\022\017\n\007account\030\002 \001(\t\022"
+      "\020\n\010password\030\003 \001(\t\022\025\n\rsecurity_code\030\004 \001(\t"
+      "\022\020\n\010signBuff\030\005 \001(\t\022\025\n\rclientVersion\030\006 \001("
       "\005\022\021\n\tloginMode\030\007 \001(\005\022\020\n\010clientIP\030\010 \001(\005\022\021"
-      "\n\tclientMAC\030\t \001(\003\022\023\n\013device_info\030\n \001(\014\022\022"
-      "\n\nextra_info\030\013 \001(\014\022\025\n\rplatform_type\030\014 \001("
-      "\005\"7\n\020ReqAccountLogout\022\017\n\007account\030\002 \001(\014\022\022"
-      "\n\nextra_info\030\003 \001(\014\"f\n\nServerInfo\022\021\n\tserv"
-      "er_id\030\001 \001(\005\022\014\n\004name\030\002 \001(\014\022\022\n\nwait_count\030"
+      "\n\tclientMAC\030\t \001(\003\022\023\n\013device_info\030\n \001(\t\022\022"
+      "\n\nextra_info\030\013 \001(\t\022\025\n\rplatform_type\030\014 \001("
+      "\005\"7\n\020ReqAccountLogout\022\017\n\007account\030\002 \001(\t\022\022"
+      "\n\nextra_info\030\003 \001(\t\"f\n\nServerInfo\022\021\n\tserv"
+      "er_id\030\001 \001(\005\022\014\n\004name\030\002 \001(\t\022\022\n\nwait_count\030"
       "\003 \001(\005\022#\n\006status\030\004 \001(\0162\023.AFMsg.EServerSta"
       "te\"7\n\rReqServerList\022&\n\004type\030\001 \001(\0162\030.AFMs"
       "g.ReqServerListType\"X\n\rAckServerList\022&\n\004"
       "type\030\001 \001(\0162\030.AFMsg.ReqServerListType\022\037\n\004"
       "info\030\002 \003(\0132\021.AFMsg.ServerInfo\"d\n\017ReqConn"
       "ectWorld\022\020\n\010world_id\030\001 \001(\005\022\017\n\007account\030\002 "
-      "\001(\014\022\034\n\006sender\030\003 \001(\0132\014.AFMsg.Ident\022\020\n\010log"
+      "\001(\t\022\034\n\006sender\030\003 \001(\0132\014.AFMsg.Ident\022\020\n\010log"
       "in_id\030\004 \001(\005\"\243\001\n\025AckConnectWorldResult\022\020\n"
       "\010world_id\030\001 \001(\005\022\034\n\006sender\030\002 \001(\0132\014.AFMsg."
-      "Ident\022\020\n\010login_id\030\003 \001(\005\022\017\n\007account\030\004 \001(\014"
-      "\022\020\n\010world_ip\030\005 \001(\014\022\022\n\nworld_port\030\006 \001(\005\022\021"
-      "\n\tworld_key\030\007 \001(\014\"#\n\017ReqSelectServer\022\020\n\010"
+      "Ident\022\020\n\010login_id\030\003 \001(\005\022\017\n\007account\030\004 \001(\t"
+      "\022\020\n\010world_ip\030\005 \001(\t\022\022\n\nworld_port\030\006 \001(\005\022\021"
+      "\n\tworld_key\030\007 \001(\t\"#\n\017ReqSelectServer\022\020\n\010"
       "world_id\030\001 \001(\005\"5\n\020ReqKickFromWorld\022\020\n\010wo"
-      "rld_id\030\001 \001(\005\022\017\n\007account\030\002 \001(\014\"/\n\013ReqRole"
-      "List\022\017\n\007game_id\030\001 \001(\005\022\017\n\007account\030\002 \001(\014\"\373"
+      "rld_id\030\001 \001(\005\022\017\n\007account\030\002 \001(\t\"/\n\013ReqRole"
+      "List\022\017\n\007game_id\030\001 \001(\005\022\017\n\007account\030\002 \001(\t\"\373"
       "\001\n\014RoleLiteInfo\022\030\n\002id\030\001 \001(\0132\014.AFMsg.Iden"
       "t\022\016\n\006career\030\002 \001(\005\022\013\n\003sex\030\003 \001(\005\022\014\n\004race\030\004"
-      " \001(\005\022\021\n\tnoob_name\030\005 \001(\014\022\017\n\007game_id\030\006 \001(\005"
+      " \001(\005\022\021\n\tnoob_name\030\005 \001(\t\022\017\n\007game_id\030\006 \001(\005"
       "\022\022\n\nrole_level\030\007 \001(\005\022\023\n\013delete_time\030\010 \001("
       "\005\022\020\n\010reg_time\030\t \001(\005\022\031\n\021last_offline_time"
       "\030\n \001(\005\022\027\n\017last_offline_ip\030\013 \001(\005\022\023\n\013view_"
-      "record\030\014 \001(\014\"=\n\023AckRoleLiteInfoList\022&\n\tc"
+      "record\030\014 \001(\t\"=\n\023AckRoleLiteInfoList\022&\n\tc"
       "har_data\030\001 \003(\0132\023.AFMsg.RoleLiteInfo\"o\n\rR"
-      "eqCreateRole\022\017\n\007account\030\001 \001(\014\022\016\n\006career\030"
+      "eqCreateRole\022\017\n\007account\030\001 \001(\t\022\016\n\006career\030"
       "\002 \001(\005\022\013\n\003sex\030\003 \001(\005\022\014\n\004race\030\004 \001(\005\022\021\n\tnoob"
-      "_name\030\005 \001(\014\022\017\n\007game_id\030\006 \001(\005\"\?\n\rReqDelet"
-      "eRole\022\017\n\007account\030\001 \001(\014\022\014\n\004name\030\002 \001(\014\022\017\n\007"
+      "_name\030\005 \001(\t\022\017\n\007game_id\030\006 \001(\005\"\?\n\rReqDelet"
+      "eRole\022\017\n\007account\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\017\n\007"
       "game_id\030\003 \001(\005\"@\n\016ReqRecoverRole\022\017\n\007accou"
-      "nt\030\001 \001(\014\022\014\n\004name\030\002 \001(\014\022\017\n\007game_id\030\003 \001(\005\""
+      "nt\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\017\n\007game_id\030\003 \001(\005\""
       " \n\017ServerHeartBeat\022\r\n\005count\030\001 \001(\005\"/\n\020Rol"
       "eOnlineNotify\022\033\n\005guild\030\001 \001(\0132\014.AFMsg.Ide"
       "nt\"0\n\021RoleOfflineNotify\022\033\n\005guild\030\001 \001(\0132\014"
@@ -1059,24 +1059,32 @@ bool ServerInfoReport::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes server_name = 2;
+      // string server_name = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_server_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->server_name().data(), static_cast<int>(this->server_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ServerInfoReport.server_name"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes server_ip = 3;
+      // string server_ip = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_server_ip()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->server_ip().data(), static_cast<int>(this->server_ip().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ServerInfoReport.server_ip"));
         } else {
           goto handle_unusual;
         }
@@ -1185,15 +1193,23 @@ void ServerInfoReport::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->server_id(), output);
   }
 
-  // bytes server_name = 2;
+  // string server_name = 2;
   if (this->server_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->server_name().data(), static_cast<int>(this->server_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ServerInfoReport.server_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->server_name(), output);
   }
 
-  // bytes server_ip = 3;
+  // string server_ip = 3;
   if (this->server_ip().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->server_ip().data(), static_cast<int>(this->server_ip().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ServerInfoReport.server_ip");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->server_ip(), output);
   }
 
@@ -1242,17 +1258,25 @@ void ServerInfoReport::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->server_id(), target);
   }
 
-  // bytes server_name = 2;
+  // string server_name = 2;
   if (this->server_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->server_name().data(), static_cast<int>(this->server_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ServerInfoReport.server_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->server_name(), target);
   }
 
-  // bytes server_ip = 3;
+  // string server_ip = 3;
   if (this->server_ip().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->server_ip().data(), static_cast<int>(this->server_ip().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ServerInfoReport.server_ip");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->server_ip(), target);
   }
 
@@ -1299,17 +1323,17 @@ size_t ServerInfoReport::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes server_name = 2;
+  // string server_name = 2;
   if (this->server_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->server_name());
   }
 
-  // bytes server_ip = 3;
+  // string server_ip = 3;
   if (this->server_ip().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->server_ip());
   }
 
@@ -2167,48 +2191,64 @@ bool ReqAccountLogin::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes account = 2;
+      // string account = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_account()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->account().data(), static_cast<int>(this->account().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAccountLogin.account"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes password = 3;
+      // string password = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_password()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->password().data(), static_cast<int>(this->password().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAccountLogin.password"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes security_code = 4;
+      // string security_code = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_security_code()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->security_code().data(), static_cast<int>(this->security_code().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAccountLogin.security_code"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes signBuff = 5;
+      // string signBuff = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_signbuff()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->signbuff().data(), static_cast<int>(this->signbuff().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAccountLogin.signBuff"));
         } else {
           goto handle_unusual;
         }
@@ -2271,24 +2311,32 @@ bool ReqAccountLogin::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes device_info = 10;
+      // string device_info = 10;
       case 10: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(82u /* 82 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_device_info()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->device_info().data(), static_cast<int>(this->device_info().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAccountLogin.device_info"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes extra_info = 11;
+      // string extra_info = 11;
       case 11: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(90u /* 90 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_extra_info()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->extra_info().data(), static_cast<int>(this->extra_info().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAccountLogin.extra_info"));
         } else {
           goto handle_unusual;
         }
@@ -2335,27 +2383,43 @@ void ReqAccountLogin::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.account");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->account(), output);
   }
 
-  // bytes password = 3;
+  // string password = 3;
   if (this->password().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->password().data(), static_cast<int>(this->password().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.password");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->password(), output);
   }
 
-  // bytes security_code = 4;
+  // string security_code = 4;
   if (this->security_code().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->security_code().data(), static_cast<int>(this->security_code().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.security_code");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->security_code(), output);
   }
 
-  // bytes signBuff = 5;
+  // string signBuff = 5;
   if (this->signbuff().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->signbuff().data(), static_cast<int>(this->signbuff().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.signBuff");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->signbuff(), output);
   }
 
@@ -2379,15 +2443,23 @@ void ReqAccountLogin::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt64(9, this->clientmac(), output);
   }
 
-  // bytes device_info = 10;
+  // string device_info = 10;
   if (this->device_info().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->device_info().data(), static_cast<int>(this->device_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.device_info");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       10, this->device_info(), output);
   }
 
-  // bytes extra_info = 11;
+  // string extra_info = 11;
   if (this->extra_info().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->extra_info().data(), static_cast<int>(this->extra_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.extra_info");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       11, this->extra_info(), output);
   }
 
@@ -2410,31 +2482,47 @@ void ReqAccountLogin::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.account");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->account(), target);
   }
 
-  // bytes password = 3;
+  // string password = 3;
   if (this->password().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->password().data(), static_cast<int>(this->password().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.password");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->password(), target);
   }
 
-  // bytes security_code = 4;
+  // string security_code = 4;
   if (this->security_code().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->security_code().data(), static_cast<int>(this->security_code().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.security_code");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->security_code(), target);
   }
 
-  // bytes signBuff = 5;
+  // string signBuff = 5;
   if (this->signbuff().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->signbuff().data(), static_cast<int>(this->signbuff().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.signBuff");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->signbuff(), target);
   }
 
@@ -2458,17 +2546,25 @@ void ReqAccountLogin::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(9, this->clientmac(), target);
   }
 
-  // bytes device_info = 10;
+  // string device_info = 10;
   if (this->device_info().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->device_info().data(), static_cast<int>(this->device_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.device_info");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         10, this->device_info(), target);
   }
 
-  // bytes extra_info = 11;
+  // string extra_info = 11;
   if (this->extra_info().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->extra_info().data(), static_cast<int>(this->extra_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogin.extra_info");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         11, this->extra_info(), target);
   }
 
@@ -2494,45 +2590,45 @@ size_t ReqAccountLogin::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->account());
   }
 
-  // bytes password = 3;
+  // string password = 3;
   if (this->password().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->password());
   }
 
-  // bytes security_code = 4;
+  // string security_code = 4;
   if (this->security_code().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->security_code());
   }
 
-  // bytes signBuff = 5;
+  // string signBuff = 5;
   if (this->signbuff().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->signbuff());
   }
 
-  // bytes device_info = 10;
+  // string device_info = 10;
   if (this->device_info().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->device_info());
   }
 
-  // bytes extra_info = 11;
+  // string extra_info = 11;
   if (this->extra_info().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->extra_info());
   }
 
@@ -2772,24 +2868,32 @@ bool ReqAccountLogout::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes account = 2;
+      // string account = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_account()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->account().data(), static_cast<int>(this->account().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAccountLogout.account"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes extra_info = 3;
+      // string extra_info = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_extra_info()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->extra_info().data(), static_cast<int>(this->extra_info().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAccountLogout.extra_info"));
         } else {
           goto handle_unusual;
         }
@@ -2822,15 +2926,23 @@ void ReqAccountLogout::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogout.account");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->account(), output);
   }
 
-  // bytes extra_info = 3;
+  // string extra_info = 3;
   if (this->extra_info().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->extra_info().data(), static_cast<int>(this->extra_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogout.extra_info");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->extra_info(), output);
   }
 
@@ -2848,17 +2960,25 @@ void ReqAccountLogout::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogout.account");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->account(), target);
   }
 
-  // bytes extra_info = 3;
+  // string extra_info = 3;
   if (this->extra_info().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->extra_info().data(), static_cast<int>(this->extra_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAccountLogout.extra_info");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->extra_info(), target);
   }
 
@@ -2879,17 +2999,17 @@ size_t ReqAccountLogout::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->account());
   }
 
-  // bytes extra_info = 3;
+  // string extra_info = 3;
   if (this->extra_info().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->extra_info());
   }
 
@@ -3072,12 +3192,16 @@ bool ServerInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes name = 2;
+      // string name = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->name().data(), static_cast<int>(this->name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ServerInfo.name"));
         } else {
           goto handle_unusual;
         }
@@ -3144,9 +3268,13 @@ void ServerInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->server_id(), output);
   }
 
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ServerInfo.name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->name(), output);
   }
 
@@ -3180,10 +3308,14 @@ void ServerInfo::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->server_id(), target);
   }
 
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ServerInfo.name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->name(), target);
   }
 
@@ -3215,10 +3347,10 @@ size_t ServerInfo::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->name());
   }
 
@@ -3957,12 +4089,16 @@ bool ReqConnectWorld::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes account = 2;
+      // string account = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_account()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->account().data(), static_cast<int>(this->account().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqConnectWorld.account"));
         } else {
           goto handle_unusual;
         }
@@ -4026,9 +4162,13 @@ void ReqConnectWorld::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->world_id(), output);
   }
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqConnectWorld.account");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->account(), output);
   }
 
@@ -4062,10 +4202,14 @@ void ReqConnectWorld::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->world_id(), target);
   }
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqConnectWorld.account");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->account(), target);
   }
 
@@ -4098,10 +4242,10 @@ size_t ReqConnectWorld::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->account());
   }
 
@@ -4373,24 +4517,32 @@ bool AckConnectWorldResult::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes account = 4;
+      // string account = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_account()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->account().data(), static_cast<int>(this->account().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.AckConnectWorldResult.account"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes world_ip = 5;
+      // string world_ip = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_world_ip()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->world_ip().data(), static_cast<int>(this->world_ip().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.AckConnectWorldResult.world_ip"));
         } else {
           goto handle_unusual;
         }
@@ -4411,12 +4563,16 @@ bool AckConnectWorldResult::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes world_key = 7;
+      // string world_key = 7;
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_world_key()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->world_key().data(), static_cast<int>(this->world_key().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.AckConnectWorldResult.world_key"));
         } else {
           goto handle_unusual;
         }
@@ -4465,15 +4621,23 @@ void AckConnectWorldResult::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->login_id(), output);
   }
 
-  // bytes account = 4;
+  // string account = 4;
   if (this->account().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.AckConnectWorldResult.account");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->account(), output);
   }
 
-  // bytes world_ip = 5;
+  // string world_ip = 5;
   if (this->world_ip().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->world_ip().data(), static_cast<int>(this->world_ip().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.AckConnectWorldResult.world_ip");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->world_ip(), output);
   }
 
@@ -4482,9 +4646,13 @@ void AckConnectWorldResult::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->world_port(), output);
   }
 
-  // bytes world_key = 7;
+  // string world_key = 7;
   if (this->world_key().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->world_key().data(), static_cast<int>(this->world_key().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.AckConnectWorldResult.world_key");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       7, this->world_key(), output);
   }
 
@@ -4519,17 +4687,25 @@ void AckConnectWorldResult::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->login_id(), target);
   }
 
-  // bytes account = 4;
+  // string account = 4;
   if (this->account().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.AckConnectWorldResult.account");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->account(), target);
   }
 
-  // bytes world_ip = 5;
+  // string world_ip = 5;
   if (this->world_ip().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->world_ip().data(), static_cast<int>(this->world_ip().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.AckConnectWorldResult.world_ip");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->world_ip(), target);
   }
 
@@ -4538,10 +4714,14 @@ void AckConnectWorldResult::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->world_port(), target);
   }
 
-  // bytes world_key = 7;
+  // string world_key = 7;
   if (this->world_key().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->world_key().data(), static_cast<int>(this->world_key().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.AckConnectWorldResult.world_key");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         7, this->world_key(), target);
   }
 
@@ -4562,24 +4742,24 @@ size_t AckConnectWorldResult::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes account = 4;
+  // string account = 4;
   if (this->account().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->account());
   }
 
-  // bytes world_ip = 5;
+  // string world_ip = 5;
   if (this->world_ip().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->world_ip());
   }
 
-  // bytes world_key = 7;
+  // string world_key = 7;
   if (this->world_key().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->world_key());
   }
 
@@ -5034,12 +5214,16 @@ bool ReqKickFromWorld::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes account = 2;
+      // string account = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_account()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->account().data(), static_cast<int>(this->account().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqKickFromWorld.account"));
         } else {
           goto handle_unusual;
         }
@@ -5077,9 +5261,13 @@ void ReqKickFromWorld::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->world_id(), output);
   }
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqKickFromWorld.account");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->account(), output);
   }
 
@@ -5102,10 +5290,14 @@ void ReqKickFromWorld::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->world_id(), target);
   }
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqKickFromWorld.account");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->account(), target);
   }
 
@@ -5126,10 +5318,10 @@ size_t ReqKickFromWorld::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->account());
   }
 
@@ -5310,12 +5502,16 @@ bool ReqRoleList::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes account = 2;
+      // string account = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_account()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->account().data(), static_cast<int>(this->account().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqRoleList.account"));
         } else {
           goto handle_unusual;
         }
@@ -5353,9 +5549,13 @@ void ReqRoleList::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(1, this->game_id(), output);
   }
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqRoleList.account");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->account(), output);
   }
 
@@ -5378,10 +5578,14 @@ void ReqRoleList::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(1, this->game_id(), target);
   }
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqRoleList.account");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->account(), target);
   }
 
@@ -5402,10 +5606,10 @@ size_t ReqRoleList::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->account());
   }
 
@@ -5667,12 +5871,16 @@ bool RoleLiteInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes noob_name = 5;
+      // string noob_name = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_noob_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->noob_name().data(), static_cast<int>(this->noob_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.RoleLiteInfo.noob_name"));
         } else {
           goto handle_unusual;
         }
@@ -5763,12 +5971,16 @@ bool RoleLiteInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes view_record = 12;
+      // string view_record = 12;
       case 12: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(98u /* 98 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_view_record()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->view_record().data(), static_cast<int>(this->view_record().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.RoleLiteInfo.view_record"));
         } else {
           goto handle_unusual;
         }
@@ -5822,9 +6034,13 @@ void RoleLiteInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->race(), output);
   }
 
-  // bytes noob_name = 5;
+  // string noob_name = 5;
   if (this->noob_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->noob_name().data(), static_cast<int>(this->noob_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.RoleLiteInfo.noob_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->noob_name(), output);
   }
 
@@ -5858,9 +6074,13 @@ void RoleLiteInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(11, this->last_offline_ip(), output);
   }
 
-  // bytes view_record = 12;
+  // string view_record = 12;
   if (this->view_record().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->view_record().data(), static_cast<int>(this->view_record().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.RoleLiteInfo.view_record");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       12, this->view_record(), output);
   }
 
@@ -5900,10 +6120,14 @@ void RoleLiteInfo::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->race(), target);
   }
 
-  // bytes noob_name = 5;
+  // string noob_name = 5;
   if (this->noob_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->noob_name().data(), static_cast<int>(this->noob_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.RoleLiteInfo.noob_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->noob_name(), target);
   }
 
@@ -5937,10 +6161,14 @@ void RoleLiteInfo::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(11, this->last_offline_ip(), target);
   }
 
-  // bytes view_record = 12;
+  // string view_record = 12;
   if (this->view_record().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->view_record().data(), static_cast<int>(this->view_record().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.RoleLiteInfo.view_record");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         12, this->view_record(), target);
   }
 
@@ -5961,17 +6189,17 @@ size_t RoleLiteInfo::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes noob_name = 5;
+  // string noob_name = 5;
   if (this->noob_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->noob_name());
   }
 
-  // bytes view_record = 12;
+  // string view_record = 12;
   if (this->view_record().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->view_record());
   }
 
@@ -6496,12 +6724,16 @@ bool ReqCreateRole::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes account = 1;
+      // string account = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_account()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->account().data(), static_cast<int>(this->account().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqCreateRole.account"));
         } else {
           goto handle_unusual;
         }
@@ -6550,12 +6782,16 @@ bool ReqCreateRole::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes noob_name = 5;
+      // string noob_name = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_noob_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->noob_name().data(), static_cast<int>(this->noob_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqCreateRole.noob_name"));
         } else {
           goto handle_unusual;
         }
@@ -6602,9 +6838,13 @@ void ReqCreateRole::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes account = 1;
+  // string account = 1;
   if (this->account().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqCreateRole.account");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->account(), output);
   }
 
@@ -6623,9 +6863,13 @@ void ReqCreateRole::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->race(), output);
   }
 
-  // bytes noob_name = 5;
+  // string noob_name = 5;
   if (this->noob_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->noob_name().data(), static_cast<int>(this->noob_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqCreateRole.noob_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->noob_name(), output);
   }
 
@@ -6648,10 +6892,14 @@ void ReqCreateRole::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes account = 1;
+  // string account = 1;
   if (this->account().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqCreateRole.account");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->account(), target);
   }
 
@@ -6670,10 +6918,14 @@ void ReqCreateRole::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->race(), target);
   }
 
-  // bytes noob_name = 5;
+  // string noob_name = 5;
   if (this->noob_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->noob_name().data(), static_cast<int>(this->noob_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqCreateRole.noob_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->noob_name(), target);
   }
 
@@ -6699,17 +6951,17 @@ size_t ReqCreateRole::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes account = 1;
+  // string account = 1;
   if (this->account().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->account());
   }
 
-  // bytes noob_name = 5;
+  // string noob_name = 5;
   if (this->noob_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->noob_name());
   }
 
@@ -6922,24 +7174,32 @@ bool ReqDeleteRole::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes account = 1;
+      // string account = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_account()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->account().data(), static_cast<int>(this->account().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqDeleteRole.account"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes name = 2;
+      // string name = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->name().data(), static_cast<int>(this->name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqDeleteRole.name"));
         } else {
           goto handle_unusual;
         }
@@ -6986,15 +7246,23 @@ void ReqDeleteRole::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes account = 1;
+  // string account = 1;
   if (this->account().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqDeleteRole.account");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->account(), output);
   }
 
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqDeleteRole.name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->name(), output);
   }
 
@@ -7017,17 +7285,25 @@ void ReqDeleteRole::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes account = 1;
+  // string account = 1;
   if (this->account().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqDeleteRole.account");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->account(), target);
   }
 
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqDeleteRole.name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->name(), target);
   }
 
@@ -7053,17 +7329,17 @@ size_t ReqDeleteRole::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes account = 1;
+  // string account = 1;
   if (this->account().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->account());
   }
 
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->name());
   }
 
@@ -7243,24 +7519,32 @@ bool ReqRecoverRole::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes account = 1;
+      // string account = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_account()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->account().data(), static_cast<int>(this->account().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqRecoverRole.account"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes name = 2;
+      // string name = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->name().data(), static_cast<int>(this->name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqRecoverRole.name"));
         } else {
           goto handle_unusual;
         }
@@ -7307,15 +7591,23 @@ void ReqRecoverRole::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes account = 1;
+  // string account = 1;
   if (this->account().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqRecoverRole.account");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->account(), output);
   }
 
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqRecoverRole.name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->name(), output);
   }
 
@@ -7338,17 +7630,25 @@ void ReqRecoverRole::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes account = 1;
+  // string account = 1;
   if (this->account().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqRecoverRole.account");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->account(), target);
   }
 
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqRecoverRole.name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->name(), target);
   }
 
@@ -7374,17 +7674,17 @@ size_t ReqRecoverRole::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes account = 1;
+  // string account = 1;
   if (this->account().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->account());
   }
 
-  // bytes name = 2;
+  // string name = 2;
   if (this->name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->name());
   }
 

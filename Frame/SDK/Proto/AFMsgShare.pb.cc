@@ -3421,18 +3421,18 @@ void AddDescriptorsImpl() {
       "\n\020AFMsgShare.proto\022\005AFMsg\032\016AFDefine.prot"
       "o\032\017AFMsgBase.proto\"^\n\022ReqEnterGameServer"
       "\022\030\n\002id\030\001 \001(\0132\014.AFMsg.Ident\022\017\n\007account\030\002 "
-      "\001(\014\022\017\n\007game_id\030\003 \001(\005\022\014\n\004name\030\004 \001(\014\"\016\n\014Re"
+      "\001(\t\022\017\n\007game_id\030\003 \001(\005\022\014\n\004name\030\004 \001(\t\"\016\n\014Re"
       "qHeartBeat\"\024\n\022ReqLeaveGameServer\"\263\001\n\017Pla"
       "yerEntryInfo\022!\n\013object_guid\030\001 \001(\0132\014.AFMs"
       "g.Ident\022\033\n\003pos\030\002 \001(\0132\016.AFMsg.Point3D\022\023\n\013"
       "career_type\030\003 \001(\005\022\024\n\014player_state\030\004 \001(\005\022"
-      "\021\n\tconfig_id\030\005 \001(\014\022\020\n\010scene_id\030\006 \001(\005\022\020\n\010"
-      "class_id\030\007 \001(\014\"A\n\022AckPlayerEntryList\022+\n\013"
+      "\021\n\tconfig_id\030\005 \001(\t\022\020\n\010scene_id\030\006 \001(\005\022\020\n\010"
+      "class_id\030\007 \001(\t\"A\n\022AckPlayerEntryList\022+\n\013"
       "object_list\030\001 \003(\0132\026.AFMsg.PlayerEntryInf"
       "o\"7\n\022AckPlayerLeaveList\022!\n\013object_list\030\001"
       " \003(\0132\014.AFMsg.Ident\"\206\002\n\rReqAckSynData\022\033\n\005"
       "syser\030\001 \001(\0132\014.AFMsg.Ident\022!\n\013object_list"
-      "\030\002 \003(\0132\014.AFMsg.Ident\022\014\n\004data\030\003 \001(\014\022.\n\010sy"
+      "\030\002 \003(\0132\014.AFMsg.Ident\022\014\n\004data\030\003 \001(\t\022.\n\010sy"
       "n_type\030\004 \001(\0162\034.AFMsg.ReqAckSynData.SynTy"
       "pe\022!\n\006msg_id\030\005 \001(\0162\021.AFMsg.EGameMsgID\"T\n"
       "\007SynType\022\014\n\010EST_NONE\020\000\022\r\n\tEST_SCENE\020\001\022\r\n"
@@ -3442,11 +3442,11 @@ void AddDescriptorsImpl() {
       "t_pos\030\003 \003(\0132\017.AFMsg.Position\022#\n\nsource_p"
       "os\030\004 \003(\0132\017.AFMsg.Position\"h\n\rChatContain"
       "er\022\025\n\rConTainerType\030\002 \001(\005\022\021\n\tdata_info\030\003"
-      " \001(\014\"-\n\rContainerType\022\r\n\tEGCT_NONE\020\000\022\r\n\t"
+      " \001(\t\"-\n\rContainerType\022\r\n\tEGCT_NONE\020\000\022\r\n\t"
       "EGCT_ITEM\020\001\"\262\002\n\020ReqAckPlayerChat\022\035\n\007chat"
       "_id\030\001 \001(\0132\014.AFMsg.Ident\0228\n\tchat_type\030\002 \001"
       "(\0162%.AFMsg.ReqAckPlayerChat.EGameChatTyp"
-      "e\022\021\n\tchat_info\030\003 \001(\014\022\021\n\tchat_name\030\004 \001(\014\022"
+      "e\022\021\n\tchat_info\030\003 \001(\t\022\021\n\tchat_name\030\004 \001(\t\022"
       "\037\n\ttarget_id\030\005 \001(\0132\014.AFMsg.Ident\022,\n\016Cont"
       "ainer_data\030\006 \003(\0132\024.AFMsg.ChatContainer\"P"
       "\n\rEGameChatType\022\016\n\nEGCT_GUILD\020\000\022\020\n\014EGCT_"
@@ -3457,7 +3457,7 @@ void AddDescriptorsImpl() {
       "Type\"<\n\013EResultType\022\017\n\013EET_SUCCESS\020\000\022\014\n\010"
       "EET_FAIL\020\001\022\016\n\nEET_REFUSE\020\002\"\275\001\n\016ReqAckUse"
       "Skill\022\032\n\004user\030\001 \001(\0132\014.AFMsg.Ident\022\020\n\010ski"
-      "ll_id\030\002 \001(\014\022 \n\007now_pos\030\003 \001(\0132\017.AFMsg.Pos"
+      "ll_id\030\002 \001(\t\022 \n\007now_pos\030\003 \001(\0132\017.AFMsg.Pos"
       "ition\022 \n\007tar_pos\030\004 \001(\0132\017.AFMsg.Position\022"
       "\021\n\tuse_index\030\005 \001(\005\022&\n\013effect_data\030\006 \003(\0132"
       "\021.AFMsg.EffectData\"\265\001\n\rReqAckUseItem\022\032\n\004"
@@ -3478,8 +3478,8 @@ void AddDescriptorsImpl() {
       "\007diamond\030\003 \001(\005\022$\n\titem_list\030\004 \003(\0132\021.AFMs"
       "g.ItemStruct\"2\n\017ReqPickDropItem\022\037\n\titem_"
       "guid\030\002 \001(\0132\014.AFMsg.Ident\" \n\rReqAcceptTas"
-      "k\022\017\n\007task_id\030\001 \001(\014\"#\n\020ReqCompeleteTask\022\017"
-      "\n\007task_id\030\001 \001(\014\"\357\001\n\022ReqAckJoinActivity\022B"
+      "k\022\017\n\007task_id\030\001 \001(\t\"#\n\020ReqCompeleteTask\022\017"
+      "\n\007task_id\030\001 \001(\t\"\357\001\n\022ReqAckJoinActivity\022B"
       "\n\ractivity_type\030\001 \001(\0162+.AFMsg.ReqAckJoin"
       "Activity.EGameActivityType\022I\n\021sub_activi"
       "ty_type\030\002 \001(\0162..AFMsg.ReqAckJoinActivity"
@@ -3534,15 +3534,15 @@ void AddDescriptorsImpl() {
       "sg.GuildEctypeInfo\"3\n\023ReqEnterGuildEctyp"
       "e\022\034\n\006selfid\030\001 \001(\0132\014.AFMsg.Ident\"\325\002\n\010Chat"
       "Info\022,\n\tchat_type\030\001 \001(\0162\031.AFMsg.ChatInfo"
-      ".EChatType\022\021\n\tchat_info\030\002 \001(\014\022\021\n\tchat_ti"
-      "me\030\003 \001(\003\022\026\n\016addtional_info\030\004 \001(\014\022\035\n\007send"
+      ".EChatType\022\021\n\tchat_info\030\002 \001(\t\022\021\n\tchat_ti"
+      "me\030\003 \001(\003\022\026\n\016addtional_info\030\004 \001(\t\022\035\n\007send"
       "_id\030\005 \001(\0132\014.AFMsg.Ident\022\021\n\tsend_name\030\006 \001"
-      "(\014\022\022\n\nsend_level\030\007 \001(\005\022 \n\nrecvier_id\030\010 \003"
-      "(\0132\014.AFMsg.Ident\022\021\n\tguid_name\030\t \001(\014\"b\n\tE"
+      "(\t\022\022\n\nsend_level\030\007 \001(\005\022 \n\nrecvier_id\030\010 \003"
+      "(\0132\014.AFMsg.Ident\022\021\n\tguid_name\030\t \001(\t\"b\n\tE"
       "ChatType\022\024\n\020ECHATTYPE_NORMAL\020\000\022\025\n\021ECHATT"
       "YPE_PRIVATE\020\001\022\023\n\017ECHATTYPE_GUILD\020\002\022\023\n\017EC"
       "HATTYPE_WORLD\020\003\"y\n\025ReqAckCreateChatGroup"
-      "\022\014\n\004name\030\001 \001(\014\022\034\n\006selfid\030\002 \001(\0132\014.AFMsg.I"
+      "\022\014\n\004name\030\001 \001(\t\022\034\n\006selfid\030\002 \001(\0132\014.AFMsg.I"
       "dent\022\"\n\014xChatGroupid\030\003 \001(\0132\014.AFMsg.Ident"
       "\022\020\n\010chatType\030\004 \001(\005\"y\n\023ReqAckjoinChatGrou"
       "p\022\034\n\006selfid\030\001 \001(\0132\014.AFMsg.Ident\022\"\n\014xChat"
@@ -3566,7 +3566,7 @@ void AddDescriptorsImpl() {
       "t\022\035\n\007equipid\030\002 \001(\0132\014.AFMsg.Ident\022\016\n\006resu"
       "lt\030\003 \001(\005\"x\n\024ReqInlaystoneToEquip\022\034\n\006self"
       "id\030\001 \001(\0132\014.AFMsg.Ident\022\035\n\007equipid\030\002 \001(\0132"
-      "\014.AFMsg.Ident\022\017\n\007stoneid\030\003 \001(\014\022\022\n\nhole_i"
+      "\014.AFMsg.Ident\022\017\n\007stoneid\030\003 \001(\t\022\022\n\nhole_i"
       "ndex\030\004 \001(\005\"c\n\024AckInlaystoneToEquip\022\034\n\006se"
       "lfid\030\001 \001(\0132\014.AFMsg.Ident\022\035\n\007equipid\030\002 \001("
       "\0132\014.AFMsg.Ident\022\016\n\006result\030\003 \001(\005\"\204\001\n\026ReqE"
@@ -3631,15 +3631,15 @@ void AddDescriptorsImpl() {
       "\003 \001(\005\022\020\n\010nGroupID\030\004 \001(\005\022\017\n\007nResult\030\005 \001(\005"
       "\"k\n\021GridGuildBaseInfo\022\030\n\002id\030\001 \001(\0132\014.AFMs"
       "g.Ident\022\r\n\005level\030\002 \001(\005\022\r\n\005count\030\003 \001(\005\022\020\n"
-      "\010resource\030\004 \001(\005\022\014\n\004icon\030\005 \001(\014\")\n\021ReqBigM"
-      "apGridInfo\022\024\n\014map_title_id\030\001 \003(\014\"\272\001\n\022Big"
-      "MapGridBaseInfo\022\n\n\002id\030\001 \001(\014\022,\n\nguild_inf"
+      "\010resource\030\004 \001(\005\022\014\n\004icon\030\005 \001(\t\")\n\021ReqBigM"
+      "apGridInfo\022\024\n\014map_title_id\030\001 \003(\t\"\272\001\n\022Big"
+      "MapGridBaseInfo\022\n\n\002id\030\001 \001(\t\022,\n\nguild_inf"
       "o\030\002 \001(\0132\030.AFMsg.GridGuildBaseInfo\022\024\n\014kin"
       "gwar_time\030\n \001(\005\022 \n\nkingwarrer\030\013 \001(\0132\014.AF"
       "Msg.Ident\022\024\n\014hurting_time\030\024 \001(\005\022\034\n\006hurte"
       "r\030\025 \001(\0132\014.AFMsg.Ident\"z\n\016BigMapLeaveMsg\022"
       "\033\n\005owner\030\001 \001(\0132\014.AFMsg.Ident\022\022\n\nowner_na"
-      "me\030\002 \001(\014\022\020\n\010msg_data\030\003 \001(\014\022\020\n\010msg_time\030\004"
+      "me\030\002 \001(\t\022\020\n\010msg_data\030\003 \001(\t\022\020\n\010msg_time\030\004"
       " \001(\005\022\023\n\013owner_level\030\005 \001(\005\"\236\001\n\020BigMapWarH"
       "istory\022*\n\010red_info\030\001 \001(\0132\030.AFMsg.GridGui"
       "ldBaseInfo\022+\n\tblue_info\030\002 \001(\0132\030.AFMsg.Gr"
@@ -3654,15 +3654,15 @@ void AddDescriptorsImpl() {
       "\033.AFMsg.BigMapGridDetailInfo\"\017\n\rReqBigMa"
       "pInfo\"B\n\rAckBigMapInfo\0221\n\016grid_base_info"
       "\030\001 \003(\0132\031.AFMsg.BigMapGridBaseInfo\"F\n\016Req"
-      "HoldMapGrid\022\024\n\014map_title_id\030\001 \001(\014\022\036\n\010gui"
+      "HoldMapGrid\022\024\n\014map_title_id\030\001 \001(\t\022\036\n\010gui"
       "ld_id\030\002 \001(\0132\014.AFMsg.Ident\"\020\n\016AckHoldMapG"
       "rid\"P\n\016ReqLeaveMapMsg\022\024\n\014map_title_id\030\001 "
-      "\001(\014\022(\n\tleave_msg\030\002 \001(\0132\025.AFMsg.BigMapLea"
+      "\001(\t\022(\n\tleave_msg\030\002 \001(\0132\025.AFMsg.BigMapLea"
       "veMsg\"\020\n\016AckLeaveMapMsg\"&\n\016ReqGetMapAwar"
-      "d\022\024\n\014map_title_id\030\001 \001(\014\"\020\n\016AckGetMapAwar"
-      "d\"%\n\rReqMapHunting\022\024\n\014map_title_id\030\001 \001(\014"
+      "d\022\024\n\014map_title_id\030\001 \001(\t\"\020\n\016AckGetMapAwar"
+      "d\"%\n\rReqMapHunting\022\024\n\014map_title_id\030\001 \001(\t"
       "\"\017\n\rAckMapHunting\"%\n\rReqMapKingWar\022\024\n\014ma"
-      "p_title_id\030\001 \001(\014\"\017\n\rAckMapKingWar\"\361\001\n\013PV"
+      "p_title_id\030\001 \001(\t\"\017\n\rAckMapKingWar\"\361\001\n\013PV"
       "PRoomInfo\022\023\n\013nCellStatus\030\001 \001(\005\022\034\n\006RoomID"
       "\030\002 \001(\0132\014.AFMsg.Ident\022\020\n\010nPVPMode\030\003 \001(\005\022\021"
       "\n\tnPVPGrade\030\004 \001(\005\022\021\n\tMaxPalyer\030\005 \001(\005\022 \n\n"
@@ -4134,12 +4134,16 @@ bool ReqEnterGameServer::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes account = 2;
+      // string account = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_account()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->account().data(), static_cast<int>(this->account().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqEnterGameServer.account"));
         } else {
           goto handle_unusual;
         }
@@ -4160,12 +4164,16 @@ bool ReqEnterGameServer::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes name = 4;
+      // string name = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->name().data(), static_cast<int>(this->name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqEnterGameServer.name"));
         } else {
           goto handle_unusual;
         }
@@ -4204,9 +4212,13 @@ void ReqEnterGameServer::SerializeWithCachedSizes(
       1, *id_, output);
   }
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqEnterGameServer.account");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->account(), output);
   }
 
@@ -4215,9 +4227,13 @@ void ReqEnterGameServer::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(3, this->game_id(), output);
   }
 
-  // bytes name = 4;
+  // string name = 4;
   if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqEnterGameServer.name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->name(), output);
   }
 
@@ -4242,10 +4258,14 @@ void ReqEnterGameServer::SerializeWithCachedSizes(
         1, *id_, deterministic, target);
   }
 
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->account().data(), static_cast<int>(this->account().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqEnterGameServer.account");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->account(), target);
   }
 
@@ -4254,10 +4274,14 @@ void ReqEnterGameServer::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(3, this->game_id(), target);
   }
 
-  // bytes name = 4;
+  // string name = 4;
   if (this->name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqEnterGameServer.name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->name(), target);
   }
 
@@ -4278,17 +4302,17 @@ size_t ReqEnterGameServer::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes account = 2;
+  // string account = 2;
   if (this->account().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->account());
   }
 
-  // bytes name = 4;
+  // string name = 4;
   if (this->name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->name());
   }
 
@@ -4951,12 +4975,16 @@ bool PlayerEntryInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes config_id = 5;
+      // string config_id = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_config_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->config_id().data(), static_cast<int>(this->config_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PlayerEntryInfo.config_id"));
         } else {
           goto handle_unusual;
         }
@@ -4977,12 +5005,16 @@ bool PlayerEntryInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes class_id = 7;
+      // string class_id = 7;
       case 7: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(58u /* 58 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_class_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->class_id().data(), static_cast<int>(this->class_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PlayerEntryInfo.class_id"));
         } else {
           goto handle_unusual;
         }
@@ -5037,9 +5069,13 @@ void PlayerEntryInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->player_state(), output);
   }
 
-  // bytes config_id = 5;
+  // string config_id = 5;
   if (this->config_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->config_id().data(), static_cast<int>(this->config_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PlayerEntryInfo.config_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->config_id(), output);
   }
 
@@ -5048,9 +5084,13 @@ void PlayerEntryInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(6, this->scene_id(), output);
   }
 
-  // bytes class_id = 7;
+  // string class_id = 7;
   if (this->class_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->class_id().data(), static_cast<int>(this->class_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PlayerEntryInfo.class_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       7, this->class_id(), output);
   }
 
@@ -5092,10 +5132,14 @@ void PlayerEntryInfo::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->player_state(), target);
   }
 
-  // bytes config_id = 5;
+  // string config_id = 5;
   if (this->config_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->config_id().data(), static_cast<int>(this->config_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PlayerEntryInfo.config_id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->config_id(), target);
   }
 
@@ -5104,10 +5148,14 @@ void PlayerEntryInfo::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(6, this->scene_id(), target);
   }
 
-  // bytes class_id = 7;
+  // string class_id = 7;
   if (this->class_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->class_id().data(), static_cast<int>(this->class_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PlayerEntryInfo.class_id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         7, this->class_id(), target);
   }
 
@@ -5128,17 +5176,17 @@ size_t PlayerEntryInfo::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes config_id = 5;
+  // string config_id = 5;
   if (this->config_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->config_id());
   }
 
-  // bytes class_id = 7;
+  // string class_id = 7;
   if (this->class_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->class_id());
   }
 
@@ -5887,12 +5935,16 @@ bool ReqAckSynData::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes data = 3;
+      // string data = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_data()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->data().data(), static_cast<int>(this->data().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAckSynData.data"));
         } else {
           goto handle_unusual;
         }
@@ -5970,9 +6022,13 @@ void ReqAckSynData::SerializeWithCachedSizes(
       output);
   }
 
-  // bytes data = 3;
+  // string data = 3;
   if (this->data().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->data().data(), static_cast<int>(this->data().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAckSynData.data");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->data(), output);
   }
 
@@ -6017,10 +6073,14 @@ void ReqAckSynData::SerializeWithCachedSizes(
         2, this->object_list(static_cast<int>(i)), deterministic, target);
   }
 
-  // bytes data = 3;
+  // string data = 3;
   if (this->data().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->data().data(), static_cast<int>(this->data().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAckSynData.data");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->data(), target);
   }
 
@@ -6064,10 +6124,10 @@ size_t ReqAckSynData::ByteSizeLong() const {
     }
   }
 
-  // bytes data = 3;
+  // string data = 3;
   if (this->data().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->data());
   }
 
@@ -6654,12 +6714,16 @@ bool ChatContainer::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes data_info = 3;
+      // string data_info = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_data_info()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->data_info().data(), static_cast<int>(this->data_info().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ChatContainer.data_info"));
         } else {
           goto handle_unusual;
         }
@@ -6697,9 +6761,13 @@ void ChatContainer::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(2, this->containertype(), output);
   }
 
-  // bytes data_info = 3;
+  // string data_info = 3;
   if (this->data_info().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->data_info().data(), static_cast<int>(this->data_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ChatContainer.data_info");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->data_info(), output);
   }
 
@@ -6722,10 +6790,14 @@ void ChatContainer::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(2, this->containertype(), target);
   }
 
-  // bytes data_info = 3;
+  // string data_info = 3;
   if (this->data_info().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->data_info().data(), static_cast<int>(this->data_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ChatContainer.data_info");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->data_info(), target);
   }
 
@@ -6746,10 +6818,10 @@ size_t ChatContainer::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes data_info = 3;
+  // string data_info = 3;
   if (this->data_info().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->data_info());
   }
 
@@ -6994,24 +7066,32 @@ bool ReqAckPlayerChat::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes chat_info = 3;
+      // string chat_info = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_chat_info()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->chat_info().data(), static_cast<int>(this->chat_info().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAckPlayerChat.chat_info"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes chat_name = 4;
+      // string chat_name = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_chat_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->chat_name().data(), static_cast<int>(this->chat_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAckPlayerChat.chat_name"));
         } else {
           goto handle_unusual;
         }
@@ -7080,15 +7160,23 @@ void ReqAckPlayerChat::SerializeWithCachedSizes(
       2, this->chat_type(), output);
   }
 
-  // bytes chat_info = 3;
+  // string chat_info = 3;
   if (this->chat_info().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->chat_info().data(), static_cast<int>(this->chat_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAckPlayerChat.chat_info");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->chat_info(), output);
   }
 
-  // bytes chat_name = 4;
+  // string chat_name = 4;
   if (this->chat_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->chat_name().data(), static_cast<int>(this->chat_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAckPlayerChat.chat_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->chat_name(), output);
   }
 
@@ -7134,17 +7222,25 @@ void ReqAckPlayerChat::SerializeWithCachedSizes(
       2, this->chat_type(), target);
   }
 
-  // bytes chat_info = 3;
+  // string chat_info = 3;
   if (this->chat_info().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->chat_info().data(), static_cast<int>(this->chat_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAckPlayerChat.chat_info");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->chat_info(), target);
   }
 
-  // bytes chat_name = 4;
+  // string chat_name = 4;
   if (this->chat_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->chat_name().data(), static_cast<int>(this->chat_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAckPlayerChat.chat_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->chat_name(), target);
   }
 
@@ -7191,17 +7287,17 @@ size_t ReqAckPlayerChat::ByteSizeLong() const {
     }
   }
 
-  // bytes chat_info = 3;
+  // string chat_info = 3;
   if (this->chat_info().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->chat_info());
   }
 
-  // bytes chat_name = 4;
+  // string chat_name = 4;
   if (this->chat_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->chat_name());
   }
 
@@ -7800,12 +7896,16 @@ bool ReqAckUseSkill::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes skill_id = 2;
+      // string skill_id = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_skill_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->skill_id().data(), static_cast<int>(this->skill_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAckUseSkill.skill_id"));
         } else {
           goto handle_unusual;
         }
@@ -7894,9 +7994,13 @@ void ReqAckUseSkill::SerializeWithCachedSizes(
       1, *user_, output);
   }
 
-  // bytes skill_id = 2;
+  // string skill_id = 2;
   if (this->skill_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->skill_id().data(), static_cast<int>(this->skill_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAckUseSkill.skill_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->skill_id(), output);
   }
 
@@ -7947,10 +8051,14 @@ void ReqAckUseSkill::SerializeWithCachedSizes(
         1, *user_, deterministic, target);
   }
 
-  // bytes skill_id = 2;
+  // string skill_id = 2;
   if (this->skill_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->skill_id().data(), static_cast<int>(this->skill_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAckUseSkill.skill_id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->skill_id(), target);
   }
 
@@ -8009,10 +8117,10 @@ size_t ReqAckUseSkill::ByteSizeLong() const {
     }
   }
 
-  // bytes skill_id = 2;
+  // string skill_id = 2;
   if (this->skill_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->skill_id());
   }
 
@@ -10240,12 +10348,16 @@ bool ReqAcceptTask::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes task_id = 1;
+      // string task_id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_task_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->task_id().data(), static_cast<int>(this->task_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAcceptTask.task_id"));
         } else {
           goto handle_unusual;
         }
@@ -10278,9 +10390,13 @@ void ReqAcceptTask::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes task_id = 1;
+  // string task_id = 1;
   if (this->task_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->task_id().data(), static_cast<int>(this->task_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAcceptTask.task_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->task_id(), output);
   }
 
@@ -10298,10 +10414,14 @@ void ReqAcceptTask::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes task_id = 1;
+  // string task_id = 1;
   if (this->task_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->task_id().data(), static_cast<int>(this->task_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAcceptTask.task_id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->task_id(), target);
   }
 
@@ -10322,10 +10442,10 @@ size_t ReqAcceptTask::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes task_id = 1;
+  // string task_id = 1;
   if (this->task_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->task_id());
   }
 
@@ -10477,12 +10597,16 @@ bool ReqCompeleteTask::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes task_id = 1;
+      // string task_id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_task_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->task_id().data(), static_cast<int>(this->task_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqCompeleteTask.task_id"));
         } else {
           goto handle_unusual;
         }
@@ -10515,9 +10639,13 @@ void ReqCompeleteTask::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes task_id = 1;
+  // string task_id = 1;
   if (this->task_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->task_id().data(), static_cast<int>(this->task_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqCompeleteTask.task_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->task_id(), output);
   }
 
@@ -10535,10 +10663,14 @@ void ReqCompeleteTask::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes task_id = 1;
+  // string task_id = 1;
   if (this->task_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->task_id().data(), static_cast<int>(this->task_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqCompeleteTask.task_id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->task_id(), target);
   }
 
@@ -10559,10 +10691,10 @@ size_t ReqCompeleteTask::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes task_id = 1;
+  // string task_id = 1;
   if (this->task_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->task_id());
   }
 
@@ -16117,12 +16249,16 @@ bool ChatInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes chat_info = 2;
+      // string chat_info = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_chat_info()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->chat_info().data(), static_cast<int>(this->chat_info().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ChatInfo.chat_info"));
         } else {
           goto handle_unusual;
         }
@@ -16143,12 +16279,16 @@ bool ChatInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes addtional_info = 4;
+      // string addtional_info = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_addtional_info()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->addtional_info().data(), static_cast<int>(this->addtional_info().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ChatInfo.addtional_info"));
         } else {
           goto handle_unusual;
         }
@@ -16167,12 +16307,16 @@ bool ChatInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes send_name = 6;
+      // string send_name = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_send_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->send_name().data(), static_cast<int>(this->send_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ChatInfo.send_name"));
         } else {
           goto handle_unusual;
         }
@@ -16205,12 +16349,16 @@ bool ChatInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes guid_name = 9;
+      // string guid_name = 9;
       case 9: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(74u /* 74 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_guid_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->guid_name().data(), static_cast<int>(this->guid_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ChatInfo.guid_name"));
         } else {
           goto handle_unusual;
         }
@@ -16249,9 +16397,13 @@ void ChatInfo::SerializeWithCachedSizes(
       1, this->chat_type(), output);
   }
 
-  // bytes chat_info = 2;
+  // string chat_info = 2;
   if (this->chat_info().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->chat_info().data(), static_cast<int>(this->chat_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ChatInfo.chat_info");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->chat_info(), output);
   }
 
@@ -16260,9 +16412,13 @@ void ChatInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt64(3, this->chat_time(), output);
   }
 
-  // bytes addtional_info = 4;
+  // string addtional_info = 4;
   if (this->addtional_info().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->addtional_info().data(), static_cast<int>(this->addtional_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ChatInfo.addtional_info");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->addtional_info(), output);
   }
 
@@ -16272,9 +16428,13 @@ void ChatInfo::SerializeWithCachedSizes(
       5, *send_id_, output);
   }
 
-  // bytes send_name = 6;
+  // string send_name = 6;
   if (this->send_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->send_name().data(), static_cast<int>(this->send_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ChatInfo.send_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->send_name(), output);
   }
 
@@ -16292,9 +16452,13 @@ void ChatInfo::SerializeWithCachedSizes(
       output);
   }
 
-  // bytes guid_name = 9;
+  // string guid_name = 9;
   if (this->guid_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->guid_name().data(), static_cast<int>(this->guid_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ChatInfo.guid_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       9, this->guid_name(), output);
   }
 
@@ -16318,10 +16482,14 @@ void ChatInfo::SerializeWithCachedSizes(
       1, this->chat_type(), target);
   }
 
-  // bytes chat_info = 2;
+  // string chat_info = 2;
   if (this->chat_info().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->chat_info().data(), static_cast<int>(this->chat_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ChatInfo.chat_info");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->chat_info(), target);
   }
 
@@ -16330,10 +16498,14 @@ void ChatInfo::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(3, this->chat_time(), target);
   }
 
-  // bytes addtional_info = 4;
+  // string addtional_info = 4;
   if (this->addtional_info().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->addtional_info().data(), static_cast<int>(this->addtional_info().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ChatInfo.addtional_info");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->addtional_info(), target);
   }
 
@@ -16344,10 +16516,14 @@ void ChatInfo::SerializeWithCachedSizes(
         5, *send_id_, deterministic, target);
   }
 
-  // bytes send_name = 6;
+  // string send_name = 6;
   if (this->send_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->send_name().data(), static_cast<int>(this->send_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ChatInfo.send_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         6, this->send_name(), target);
   }
 
@@ -16364,10 +16540,14 @@ void ChatInfo::SerializeWithCachedSizes(
         8, this->recvier_id(static_cast<int>(i)), deterministic, target);
   }
 
-  // bytes guid_name = 9;
+  // string guid_name = 9;
   if (this->guid_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->guid_name().data(), static_cast<int>(this->guid_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ChatInfo.guid_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         9, this->guid_name(), target);
   }
 
@@ -16399,31 +16579,31 @@ size_t ChatInfo::ByteSizeLong() const {
     }
   }
 
-  // bytes chat_info = 2;
+  // string chat_info = 2;
   if (this->chat_info().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->chat_info());
   }
 
-  // bytes addtional_info = 4;
+  // string addtional_info = 4;
   if (this->addtional_info().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->addtional_info());
   }
 
-  // bytes send_name = 6;
+  // string send_name = 6;
   if (this->send_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->send_name());
   }
 
-  // bytes guid_name = 9;
+  // string guid_name = 9;
   if (this->guid_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->guid_name());
   }
 
@@ -16679,12 +16859,16 @@ bool ReqAckCreateChatGroup::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes name = 1;
+      // string name = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->name().data(), static_cast<int>(this->name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqAckCreateChatGroup.name"));
         } else {
           goto handle_unusual;
         }
@@ -16755,9 +16939,13 @@ void ReqAckCreateChatGroup::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes name = 1;
+  // string name = 1;
   if (this->name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAckCreateChatGroup.name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->name(), output);
   }
 
@@ -16792,10 +16980,14 @@ void ReqAckCreateChatGroup::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes name = 1;
+  // string name = 1;
   if (this->name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->name().data(), static_cast<int>(this->name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqAckCreateChatGroup.name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->name(), target);
   }
 
@@ -16835,10 +17027,10 @@ size_t ReqAckCreateChatGroup::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes name = 1;
+  // string name = 1;
   if (this->name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->name());
   }
 
@@ -19705,12 +19897,16 @@ bool ReqInlaystoneToEquip::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes stoneid = 3;
+      // string stoneid = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_stoneid()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->stoneid().data(), static_cast<int>(this->stoneid().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqInlaystoneToEquip.stoneid"));
         } else {
           goto handle_unusual;
         }
@@ -19769,9 +19965,13 @@ void ReqInlaystoneToEquip::SerializeWithCachedSizes(
       2, *equipid_, output);
   }
 
-  // bytes stoneid = 3;
+  // string stoneid = 3;
   if (this->stoneid().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->stoneid().data(), static_cast<int>(this->stoneid().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqInlaystoneToEquip.stoneid");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->stoneid(), output);
   }
 
@@ -19808,10 +20008,14 @@ void ReqInlaystoneToEquip::SerializeWithCachedSizes(
         2, *equipid_, deterministic, target);
   }
 
-  // bytes stoneid = 3;
+  // string stoneid = 3;
   if (this->stoneid().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->stoneid().data(), static_cast<int>(this->stoneid().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqInlaystoneToEquip.stoneid");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->stoneid(), target);
   }
 
@@ -19837,10 +20041,10 @@ size_t ReqInlaystoneToEquip::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes stoneid = 3;
+  // string stoneid = 3;
   if (this->stoneid().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->stoneid());
   }
 
@@ -27099,12 +27303,16 @@ bool GridGuildBaseInfo::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes icon = 5;
+      // string icon = 5;
       case 5: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(42u /* 42 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_icon()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->icon().data(), static_cast<int>(this->icon().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.GridGuildBaseInfo.icon"));
         } else {
           goto handle_unusual;
         }
@@ -27158,9 +27366,13 @@ void GridGuildBaseInfo::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt32(4, this->resource(), output);
   }
 
-  // bytes icon = 5;
+  // string icon = 5;
   if (this->icon().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->icon().data(), static_cast<int>(this->icon().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.GridGuildBaseInfo.icon");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       5, this->icon(), output);
   }
 
@@ -27200,10 +27412,14 @@ void GridGuildBaseInfo::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt32ToArray(4, this->resource(), target);
   }
 
-  // bytes icon = 5;
+  // string icon = 5;
   if (this->icon().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->icon().data(), static_cast<int>(this->icon().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.GridGuildBaseInfo.icon");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         5, this->icon(), target);
   }
 
@@ -27224,10 +27440,10 @@ size_t GridGuildBaseInfo::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes icon = 5;
+  // string icon = 5;
   if (this->icon().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->icon());
   }
 
@@ -27418,12 +27634,17 @@ bool ReqBigMapGridInfo::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated bytes map_title_id = 1;
+      // repeated string map_title_id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->add_map_title_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->map_title_id(this->map_title_id_size() - 1).data(),
+            static_cast<int>(this->map_title_id(this->map_title_id_size() - 1).length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqBigMapGridInfo.map_title_id"));
         } else {
           goto handle_unusual;
         }
@@ -27456,9 +27677,13 @@ void ReqBigMapGridInfo::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated bytes map_title_id = 1;
+  // repeated string map_title_id = 1;
   for (int i = 0, n = this->map_title_id_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytes(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id(i).data(), static_cast<int>(this->map_title_id(i).length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqBigMapGridInfo.map_title_id");
+    ::google::protobuf::internal::WireFormatLite::WriteString(
       1, this->map_title_id(i), output);
   }
 
@@ -27476,10 +27701,14 @@ void ReqBigMapGridInfo::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // repeated bytes map_title_id = 1;
+  // repeated string map_title_id = 1;
   for (int i = 0, n = this->map_title_id_size(); i < n; i++) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id(i).data(), static_cast<int>(this->map_title_id(i).length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqBigMapGridInfo.map_title_id");
     target = ::google::protobuf::internal::WireFormatLite::
-      WriteBytesToArray(1, this->map_title_id(i), target);
+      WriteStringToArray(1, this->map_title_id(i), target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -27499,11 +27728,11 @@ size_t ReqBigMapGridInfo::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // repeated bytes map_title_id = 1;
+  // repeated string map_title_id = 1;
   total_size += 1 *
       ::google::protobuf::internal::FromIntSize(this->map_title_id_size());
   for (int i = 0, n = this->map_title_id_size(); i < n; i++) {
-    total_size += ::google::protobuf::internal::WireFormatLite::BytesSize(
+    total_size += ::google::protobuf::internal::WireFormatLite::StringSize(
       this->map_title_id(i));
   }
 
@@ -27714,12 +27943,16 @@ bool BigMapGridBaseInfo::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes id = 1;
+      // string id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->id().data(), static_cast<int>(this->id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.BigMapGridBaseInfo.id"));
         } else {
           goto handle_unusual;
         }
@@ -27816,9 +28049,13 @@ void BigMapGridBaseInfo::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes id = 1;
+  // string id = 1;
   if (this->id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->id().data(), static_cast<int>(this->id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.BigMapGridBaseInfo.id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->id(), output);
   }
 
@@ -27864,10 +28101,14 @@ void BigMapGridBaseInfo::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes id = 1;
+  // string id = 1;
   if (this->id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->id().data(), static_cast<int>(this->id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.BigMapGridBaseInfo.id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->id(), target);
   }
 
@@ -27919,10 +28160,10 @@ size_t BigMapGridBaseInfo::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes id = 1;
+  // string id = 1;
   if (this->id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->id());
   }
 
@@ -28179,24 +28420,32 @@ bool BigMapLeaveMsg::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes owner_name = 2;
+      // string owner_name = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_owner_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->owner_name().data(), static_cast<int>(this->owner_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.BigMapLeaveMsg.owner_name"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes msg_data = 3;
+      // string msg_data = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_msg_data()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->msg_data().data(), static_cast<int>(this->msg_data().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.BigMapLeaveMsg.msg_data"));
         } else {
           goto handle_unusual;
         }
@@ -28263,15 +28512,23 @@ void BigMapLeaveMsg::SerializeWithCachedSizes(
       1, *owner_, output);
   }
 
-  // bytes owner_name = 2;
+  // string owner_name = 2;
   if (this->owner_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->owner_name().data(), static_cast<int>(this->owner_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.BigMapLeaveMsg.owner_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->owner_name(), output);
   }
 
-  // bytes msg_data = 3;
+  // string msg_data = 3;
   if (this->msg_data().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->msg_data().data(), static_cast<int>(this->msg_data().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.BigMapLeaveMsg.msg_data");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->msg_data(), output);
   }
 
@@ -28306,17 +28563,25 @@ void BigMapLeaveMsg::SerializeWithCachedSizes(
         1, *owner_, deterministic, target);
   }
 
-  // bytes owner_name = 2;
+  // string owner_name = 2;
   if (this->owner_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->owner_name().data(), static_cast<int>(this->owner_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.BigMapLeaveMsg.owner_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->owner_name(), target);
   }
 
-  // bytes msg_data = 3;
+  // string msg_data = 3;
   if (this->msg_data().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->msg_data().data(), static_cast<int>(this->msg_data().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.BigMapLeaveMsg.msg_data");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->msg_data(), target);
   }
 
@@ -28347,17 +28612,17 @@ size_t BigMapLeaveMsg::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes owner_name = 2;
+  // string owner_name = 2;
   if (this->owner_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->owner_name());
   }
 
-  // bytes msg_data = 3;
+  // string msg_data = 3;
   if (this->msg_data().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->msg_data());
   }
 
@@ -29991,12 +30256,16 @@ bool ReqHoldMapGrid::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes map_title_id = 1;
+      // string map_title_id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_map_title_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqHoldMapGrid.map_title_id"));
         } else {
           goto handle_unusual;
         }
@@ -30041,9 +30310,13 @@ void ReqHoldMapGrid::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqHoldMapGrid.map_title_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->map_title_id(), output);
   }
 
@@ -30067,10 +30340,14 @@ void ReqHoldMapGrid::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqHoldMapGrid.map_title_id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->map_title_id(), target);
   }
 
@@ -30098,10 +30375,10 @@ size_t ReqHoldMapGrid::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->map_title_id());
   }
 
@@ -30465,12 +30742,16 @@ bool ReqLeaveMapMsg::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes map_title_id = 1;
+      // string map_title_id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_map_title_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqLeaveMapMsg.map_title_id"));
         } else {
           goto handle_unusual;
         }
@@ -30515,9 +30796,13 @@ void ReqLeaveMapMsg::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqLeaveMapMsg.map_title_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->map_title_id(), output);
   }
 
@@ -30541,10 +30826,14 @@ void ReqLeaveMapMsg::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqLeaveMapMsg.map_title_id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->map_title_id(), target);
   }
 
@@ -30572,10 +30861,10 @@ size_t ReqLeaveMapMsg::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->map_title_id());
   }
 
@@ -30925,12 +31214,16 @@ bool ReqGetMapAward::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes map_title_id = 1;
+      // string map_title_id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_map_title_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqGetMapAward.map_title_id"));
         } else {
           goto handle_unusual;
         }
@@ -30963,9 +31256,13 @@ void ReqGetMapAward::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqGetMapAward.map_title_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->map_title_id(), output);
   }
 
@@ -30983,10 +31280,14 @@ void ReqGetMapAward::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqGetMapAward.map_title_id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->map_title_id(), target);
   }
 
@@ -31007,10 +31308,10 @@ size_t ReqGetMapAward::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->map_title_id());
   }
 
@@ -31349,12 +31650,16 @@ bool ReqMapHunting::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes map_title_id = 1;
+      // string map_title_id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_map_title_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqMapHunting.map_title_id"));
         } else {
           goto handle_unusual;
         }
@@ -31387,9 +31692,13 @@ void ReqMapHunting::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqMapHunting.map_title_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->map_title_id(), output);
   }
 
@@ -31407,10 +31716,14 @@ void ReqMapHunting::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqMapHunting.map_title_id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->map_title_id(), target);
   }
 
@@ -31431,10 +31744,10 @@ size_t ReqMapHunting::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->map_title_id());
   }
 
@@ -31773,12 +32086,16 @@ bool ReqMapKingWar::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes map_title_id = 1;
+      // string map_title_id = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_map_title_id()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ReqMapKingWar.map_title_id"));
         } else {
           goto handle_unusual;
         }
@@ -31811,9 +32128,13 @@ void ReqMapKingWar::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqMapKingWar.map_title_id");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->map_title_id(), output);
   }
 
@@ -31831,10 +32152,14 @@ void ReqMapKingWar::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->map_title_id().data(), static_cast<int>(this->map_title_id().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ReqMapKingWar.map_title_id");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->map_title_id(), target);
   }
 
@@ -31855,10 +32180,10 @@ size_t ReqMapKingWar::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   if (this->map_title_id().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->map_title_id());
   }
 

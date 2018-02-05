@@ -336,7 +336,7 @@ class LIBPROTOC_EXPORT ServerInfoReport : public ::google::protobuf::Message /* 
 
   // accessors -------------------------------------------------------
 
-  // bytes server_name = 2;
+  // string server_name = 2;
   void clear_server_name();
   static const int kServerNameFieldNumber = 2;
   const ::std::string& server_name() const;
@@ -345,12 +345,12 @@ class LIBPROTOC_EXPORT ServerInfoReport : public ::google::protobuf::Message /* 
   void set_server_name(::std::string&& value);
   #endif
   void set_server_name(const char* value);
-  void set_server_name(const void* value, size_t size);
+  void set_server_name(const char* value, size_t size);
   ::std::string* mutable_server_name();
   ::std::string* release_server_name();
   void set_allocated_server_name(::std::string* server_name);
 
-  // bytes server_ip = 3;
+  // string server_ip = 3;
   void clear_server_ip();
   static const int kServerIpFieldNumber = 3;
   const ::std::string& server_ip() const;
@@ -359,7 +359,7 @@ class LIBPROTOC_EXPORT ServerInfoReport : public ::google::protobuf::Message /* 
   void set_server_ip(::std::string&& value);
   #endif
   void set_server_ip(const char* value);
-  void set_server_ip(const void* value, size_t size);
+  void set_server_ip(const char* value, size_t size);
   ::std::string* mutable_server_ip();
   ::std::string* release_server_ip();
   void set_allocated_server_ip(::std::string* server_ip);
@@ -736,7 +736,7 @@ class LIBPROTOC_EXPORT ReqAccountLogin : public ::google::protobuf::Message /* @
 
   // accessors -------------------------------------------------------
 
-  // bytes account = 2;
+  // string account = 2;
   void clear_account();
   static const int kAccountFieldNumber = 2;
   const ::std::string& account() const;
@@ -745,12 +745,12 @@ class LIBPROTOC_EXPORT ReqAccountLogin : public ::google::protobuf::Message /* @
   void set_account(::std::string&& value);
   #endif
   void set_account(const char* value);
-  void set_account(const void* value, size_t size);
+  void set_account(const char* value, size_t size);
   ::std::string* mutable_account();
   ::std::string* release_account();
   void set_allocated_account(::std::string* account);
 
-  // bytes password = 3;
+  // string password = 3;
   void clear_password();
   static const int kPasswordFieldNumber = 3;
   const ::std::string& password() const;
@@ -759,12 +759,12 @@ class LIBPROTOC_EXPORT ReqAccountLogin : public ::google::protobuf::Message /* @
   void set_password(::std::string&& value);
   #endif
   void set_password(const char* value);
-  void set_password(const void* value, size_t size);
+  void set_password(const char* value, size_t size);
   ::std::string* mutable_password();
   ::std::string* release_password();
   void set_allocated_password(::std::string* password);
 
-  // bytes security_code = 4;
+  // string security_code = 4;
   void clear_security_code();
   static const int kSecurityCodeFieldNumber = 4;
   const ::std::string& security_code() const;
@@ -773,12 +773,12 @@ class LIBPROTOC_EXPORT ReqAccountLogin : public ::google::protobuf::Message /* @
   void set_security_code(::std::string&& value);
   #endif
   void set_security_code(const char* value);
-  void set_security_code(const void* value, size_t size);
+  void set_security_code(const char* value, size_t size);
   ::std::string* mutable_security_code();
   ::std::string* release_security_code();
   void set_allocated_security_code(::std::string* security_code);
 
-  // bytes signBuff = 5;
+  // string signBuff = 5;
   void clear_signbuff();
   static const int kSignBuffFieldNumber = 5;
   const ::std::string& signbuff() const;
@@ -787,12 +787,12 @@ class LIBPROTOC_EXPORT ReqAccountLogin : public ::google::protobuf::Message /* @
   void set_signbuff(::std::string&& value);
   #endif
   void set_signbuff(const char* value);
-  void set_signbuff(const void* value, size_t size);
+  void set_signbuff(const char* value, size_t size);
   ::std::string* mutable_signbuff();
   ::std::string* release_signbuff();
   void set_allocated_signbuff(::std::string* signbuff);
 
-  // bytes device_info = 10;
+  // string device_info = 10;
   void clear_device_info();
   static const int kDeviceInfoFieldNumber = 10;
   const ::std::string& device_info() const;
@@ -801,12 +801,12 @@ class LIBPROTOC_EXPORT ReqAccountLogin : public ::google::protobuf::Message /* @
   void set_device_info(::std::string&& value);
   #endif
   void set_device_info(const char* value);
-  void set_device_info(const void* value, size_t size);
+  void set_device_info(const char* value, size_t size);
   ::std::string* mutable_device_info();
   ::std::string* release_device_info();
   void set_allocated_device_info(::std::string* device_info);
 
-  // bytes extra_info = 11;
+  // string extra_info = 11;
   void clear_extra_info();
   static const int kExtraInfoFieldNumber = 11;
   const ::std::string& extra_info() const;
@@ -815,7 +815,7 @@ class LIBPROTOC_EXPORT ReqAccountLogin : public ::google::protobuf::Message /* @
   void set_extra_info(::std::string&& value);
   #endif
   void set_extra_info(const char* value);
-  void set_extra_info(const void* value, size_t size);
+  void set_extra_info(const char* value, size_t size);
   ::std::string* mutable_extra_info();
   ::std::string* release_extra_info();
   void set_allocated_extra_info(::std::string* extra_info);
@@ -957,7 +957,7 @@ class LIBPROTOC_EXPORT ReqAccountLogout : public ::google::protobuf::Message /* 
 
   // accessors -------------------------------------------------------
 
-  // bytes account = 2;
+  // string account = 2;
   void clear_account();
   static const int kAccountFieldNumber = 2;
   const ::std::string& account() const;
@@ -966,12 +966,12 @@ class LIBPROTOC_EXPORT ReqAccountLogout : public ::google::protobuf::Message /* 
   void set_account(::std::string&& value);
   #endif
   void set_account(const char* value);
-  void set_account(const void* value, size_t size);
+  void set_account(const char* value, size_t size);
   ::std::string* mutable_account();
   ::std::string* release_account();
   void set_allocated_account(::std::string* account);
 
-  // bytes extra_info = 3;
+  // string extra_info = 3;
   void clear_extra_info();
   static const int kExtraInfoFieldNumber = 3;
   const ::std::string& extra_info() const;
@@ -980,7 +980,7 @@ class LIBPROTOC_EXPORT ReqAccountLogout : public ::google::protobuf::Message /* 
   void set_extra_info(::std::string&& value);
   #endif
   void set_extra_info(const char* value);
-  void set_extra_info(const void* value, size_t size);
+  void set_extra_info(const char* value, size_t size);
   ::std::string* mutable_extra_info();
   ::std::string* release_extra_info();
   void set_allocated_extra_info(::std::string* extra_info);
@@ -1083,7 +1083,7 @@ class LIBPROTOC_EXPORT ServerInfo : public ::google::protobuf::Message /* @@prot
 
   // accessors -------------------------------------------------------
 
-  // bytes name = 2;
+  // string name = 2;
   void clear_name();
   static const int kNameFieldNumber = 2;
   const ::std::string& name() const;
@@ -1092,7 +1092,7 @@ class LIBPROTOC_EXPORT ServerInfo : public ::google::protobuf::Message /* @@prot
   void set_name(::std::string&& value);
   #endif
   void set_name(const char* value);
-  void set_name(const void* value, size_t size);
+  void set_name(const char* value, size_t size);
   ::std::string* mutable_name();
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
@@ -1434,7 +1434,7 @@ class LIBPROTOC_EXPORT ReqConnectWorld : public ::google::protobuf::Message /* @
 
   // accessors -------------------------------------------------------
 
-  // bytes account = 2;
+  // string account = 2;
   void clear_account();
   static const int kAccountFieldNumber = 2;
   const ::std::string& account() const;
@@ -1443,7 +1443,7 @@ class LIBPROTOC_EXPORT ReqConnectWorld : public ::google::protobuf::Message /* @
   void set_account(::std::string&& value);
   #endif
   void set_account(const char* value);
-  void set_account(const void* value, size_t size);
+  void set_account(const char* value, size_t size);
   ::std::string* mutable_account();
   ::std::string* release_account();
   void set_allocated_account(::std::string* account);
@@ -1569,7 +1569,7 @@ class LIBPROTOC_EXPORT AckConnectWorldResult : public ::google::protobuf::Messag
 
   // accessors -------------------------------------------------------
 
-  // bytes account = 4;
+  // string account = 4;
   void clear_account();
   static const int kAccountFieldNumber = 4;
   const ::std::string& account() const;
@@ -1578,12 +1578,12 @@ class LIBPROTOC_EXPORT AckConnectWorldResult : public ::google::protobuf::Messag
   void set_account(::std::string&& value);
   #endif
   void set_account(const char* value);
-  void set_account(const void* value, size_t size);
+  void set_account(const char* value, size_t size);
   ::std::string* mutable_account();
   ::std::string* release_account();
   void set_allocated_account(::std::string* account);
 
-  // bytes world_ip = 5;
+  // string world_ip = 5;
   void clear_world_ip();
   static const int kWorldIpFieldNumber = 5;
   const ::std::string& world_ip() const;
@@ -1592,12 +1592,12 @@ class LIBPROTOC_EXPORT AckConnectWorldResult : public ::google::protobuf::Messag
   void set_world_ip(::std::string&& value);
   #endif
   void set_world_ip(const char* value);
-  void set_world_ip(const void* value, size_t size);
+  void set_world_ip(const char* value, size_t size);
   ::std::string* mutable_world_ip();
   ::std::string* release_world_ip();
   void set_allocated_world_ip(::std::string* world_ip);
 
-  // bytes world_key = 7;
+  // string world_key = 7;
   void clear_world_key();
   static const int kWorldKeyFieldNumber = 7;
   const ::std::string& world_key() const;
@@ -1606,7 +1606,7 @@ class LIBPROTOC_EXPORT AckConnectWorldResult : public ::google::protobuf::Messag
   void set_world_key(::std::string&& value);
   #endif
   void set_world_key(const char* value);
-  void set_world_key(const void* value, size_t size);
+  void set_world_key(const char* value, size_t size);
   ::std::string* mutable_world_key();
   ::std::string* release_world_key();
   void set_allocated_world_key(::std::string* world_key);
@@ -1844,7 +1844,7 @@ class LIBPROTOC_EXPORT ReqKickFromWorld : public ::google::protobuf::Message /* 
 
   // accessors -------------------------------------------------------
 
-  // bytes account = 2;
+  // string account = 2;
   void clear_account();
   static const int kAccountFieldNumber = 2;
   const ::std::string& account() const;
@@ -1853,7 +1853,7 @@ class LIBPROTOC_EXPORT ReqKickFromWorld : public ::google::protobuf::Message /* 
   void set_account(::std::string&& value);
   #endif
   void set_account(const char* value);
-  void set_account(const void* value, size_t size);
+  void set_account(const char* value, size_t size);
   ::std::string* mutable_account();
   ::std::string* release_account();
   void set_allocated_account(::std::string* account);
@@ -1962,7 +1962,7 @@ class LIBPROTOC_EXPORT ReqRoleList : public ::google::protobuf::Message /* @@pro
 
   // accessors -------------------------------------------------------
 
-  // bytes account = 2;
+  // string account = 2;
   void clear_account();
   static const int kAccountFieldNumber = 2;
   const ::std::string& account() const;
@@ -1971,7 +1971,7 @@ class LIBPROTOC_EXPORT ReqRoleList : public ::google::protobuf::Message /* @@pro
   void set_account(::std::string&& value);
   #endif
   void set_account(const char* value);
-  void set_account(const void* value, size_t size);
+  void set_account(const char* value, size_t size);
   ::std::string* mutable_account();
   ::std::string* release_account();
   void set_allocated_account(::std::string* account);
@@ -2080,7 +2080,7 @@ class LIBPROTOC_EXPORT RoleLiteInfo : public ::google::protobuf::Message /* @@pr
 
   // accessors -------------------------------------------------------
 
-  // bytes noob_name = 5;
+  // string noob_name = 5;
   void clear_noob_name();
   static const int kNoobNameFieldNumber = 5;
   const ::std::string& noob_name() const;
@@ -2089,12 +2089,12 @@ class LIBPROTOC_EXPORT RoleLiteInfo : public ::google::protobuf::Message /* @@pr
   void set_noob_name(::std::string&& value);
   #endif
   void set_noob_name(const char* value);
-  void set_noob_name(const void* value, size_t size);
+  void set_noob_name(const char* value, size_t size);
   ::std::string* mutable_noob_name();
   ::std::string* release_noob_name();
   void set_allocated_noob_name(::std::string* noob_name);
 
-  // bytes view_record = 12;
+  // string view_record = 12;
   void clear_view_record();
   static const int kViewRecordFieldNumber = 12;
   const ::std::string& view_record() const;
@@ -2103,7 +2103,7 @@ class LIBPROTOC_EXPORT RoleLiteInfo : public ::google::protobuf::Message /* @@pr
   void set_view_record(::std::string&& value);
   #endif
   void set_view_record(const char* value);
-  void set_view_record(const void* value, size_t size);
+  void set_view_record(const char* value, size_t size);
   ::std::string* mutable_view_record();
   ::std::string* release_view_record();
   void set_allocated_view_record(::std::string* view_record);
@@ -2388,7 +2388,7 @@ class LIBPROTOC_EXPORT ReqCreateRole : public ::google::protobuf::Message /* @@p
 
   // accessors -------------------------------------------------------
 
-  // bytes account = 1;
+  // string account = 1;
   void clear_account();
   static const int kAccountFieldNumber = 1;
   const ::std::string& account() const;
@@ -2397,12 +2397,12 @@ class LIBPROTOC_EXPORT ReqCreateRole : public ::google::protobuf::Message /* @@p
   void set_account(::std::string&& value);
   #endif
   void set_account(const char* value);
-  void set_account(const void* value, size_t size);
+  void set_account(const char* value, size_t size);
   ::std::string* mutable_account();
   ::std::string* release_account();
   void set_allocated_account(::std::string* account);
 
-  // bytes noob_name = 5;
+  // string noob_name = 5;
   void clear_noob_name();
   static const int kNoobNameFieldNumber = 5;
   const ::std::string& noob_name() const;
@@ -2411,7 +2411,7 @@ class LIBPROTOC_EXPORT ReqCreateRole : public ::google::protobuf::Message /* @@p
   void set_noob_name(::std::string&& value);
   #endif
   void set_noob_name(const char* value);
-  void set_noob_name(const void* value, size_t size);
+  void set_noob_name(const char* value, size_t size);
   ::std::string* mutable_noob_name();
   ::std::string* release_noob_name();
   void set_allocated_noob_name(::std::string* noob_name);
@@ -2542,7 +2542,7 @@ class LIBPROTOC_EXPORT ReqDeleteRole : public ::google::protobuf::Message /* @@p
 
   // accessors -------------------------------------------------------
 
-  // bytes account = 1;
+  // string account = 1;
   void clear_account();
   static const int kAccountFieldNumber = 1;
   const ::std::string& account() const;
@@ -2551,12 +2551,12 @@ class LIBPROTOC_EXPORT ReqDeleteRole : public ::google::protobuf::Message /* @@p
   void set_account(::std::string&& value);
   #endif
   void set_account(const char* value);
-  void set_account(const void* value, size_t size);
+  void set_account(const char* value, size_t size);
   ::std::string* mutable_account();
   ::std::string* release_account();
   void set_allocated_account(::std::string* account);
 
-  // bytes name = 2;
+  // string name = 2;
   void clear_name();
   static const int kNameFieldNumber = 2;
   const ::std::string& name() const;
@@ -2565,7 +2565,7 @@ class LIBPROTOC_EXPORT ReqDeleteRole : public ::google::protobuf::Message /* @@p
   void set_name(::std::string&& value);
   #endif
   void set_name(const char* value);
-  void set_name(const void* value, size_t size);
+  void set_name(const char* value, size_t size);
   ::std::string* mutable_name();
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
@@ -2675,7 +2675,7 @@ class LIBPROTOC_EXPORT ReqRecoverRole : public ::google::protobuf::Message /* @@
 
   // accessors -------------------------------------------------------
 
-  // bytes account = 1;
+  // string account = 1;
   void clear_account();
   static const int kAccountFieldNumber = 1;
   const ::std::string& account() const;
@@ -2684,12 +2684,12 @@ class LIBPROTOC_EXPORT ReqRecoverRole : public ::google::protobuf::Message /* @@
   void set_account(::std::string&& value);
   #endif
   void set_account(const char* value);
-  void set_account(const void* value, size_t size);
+  void set_account(const char* value, size_t size);
   ::std::string* mutable_account();
   ::std::string* release_account();
   void set_allocated_account(::std::string* account);
 
-  // bytes name = 2;
+  // string name = 2;
   void clear_name();
   static const int kNameFieldNumber = 2;
   const ::std::string& name() const;
@@ -2698,7 +2698,7 @@ class LIBPROTOC_EXPORT ReqRecoverRole : public ::google::protobuf::Message /* @@
   void set_name(::std::string&& value);
   #endif
   void set_name(const char* value);
-  void set_name(const void* value, size_t size);
+  void set_name(const char* value, size_t size);
   ::std::string* mutable_name();
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
@@ -3060,7 +3060,7 @@ inline void ServerInfoReport::set_server_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.ServerInfoReport.server_id)
 }
 
-// bytes server_name = 2;
+// string server_name = 2;
 inline void ServerInfoReport::clear_server_name() {
   server_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3087,7 +3087,7 @@ inline void ServerInfoReport::set_server_name(const char* value) {
   server_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ServerInfoReport.server_name)
 }
-inline void ServerInfoReport::set_server_name(const void* value, size_t size) {
+inline void ServerInfoReport::set_server_name(const char* value, size_t size) {
   
   server_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -3113,7 +3113,7 @@ inline void ServerInfoReport::set_allocated_server_name(::std::string* server_na
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ServerInfoReport.server_name)
 }
 
-// bytes server_ip = 3;
+// string server_ip = 3;
 inline void ServerInfoReport::clear_server_ip() {
   server_ip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3140,7 +3140,7 @@ inline void ServerInfoReport::set_server_ip(const char* value) {
   server_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ServerInfoReport.server_ip)
 }
-inline void ServerInfoReport::set_server_ip(const void* value, size_t size) {
+inline void ServerInfoReport::set_server_ip(const char* value, size_t size) {
   
   server_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -3382,7 +3382,7 @@ inline void AckEventResult::set_allocated_event_client(::AFMsg::Ident* event_cli
 
 // ReqAccountLogin
 
-// bytes account = 2;
+// string account = 2;
 inline void ReqAccountLogin::clear_account() {
   account_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3409,7 +3409,7 @@ inline void ReqAccountLogin::set_account(const char* value) {
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAccountLogin.account)
 }
-inline void ReqAccountLogin::set_account(const void* value, size_t size) {
+inline void ReqAccountLogin::set_account(const char* value, size_t size) {
   
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -3435,7 +3435,7 @@ inline void ReqAccountLogin::set_allocated_account(::std::string* account) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqAccountLogin.account)
 }
 
-// bytes password = 3;
+// string password = 3;
 inline void ReqAccountLogin::clear_password() {
   password_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3462,7 +3462,7 @@ inline void ReqAccountLogin::set_password(const char* value) {
   password_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAccountLogin.password)
 }
-inline void ReqAccountLogin::set_password(const void* value, size_t size) {
+inline void ReqAccountLogin::set_password(const char* value, size_t size) {
   
   password_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -3488,7 +3488,7 @@ inline void ReqAccountLogin::set_allocated_password(::std::string* password) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqAccountLogin.password)
 }
 
-// bytes security_code = 4;
+// string security_code = 4;
 inline void ReqAccountLogin::clear_security_code() {
   security_code_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3515,7 +3515,7 @@ inline void ReqAccountLogin::set_security_code(const char* value) {
   security_code_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAccountLogin.security_code)
 }
-inline void ReqAccountLogin::set_security_code(const void* value, size_t size) {
+inline void ReqAccountLogin::set_security_code(const char* value, size_t size) {
   
   security_code_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -3541,7 +3541,7 @@ inline void ReqAccountLogin::set_allocated_security_code(::std::string* security
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqAccountLogin.security_code)
 }
 
-// bytes signBuff = 5;
+// string signBuff = 5;
 inline void ReqAccountLogin::clear_signbuff() {
   signbuff_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3568,7 +3568,7 @@ inline void ReqAccountLogin::set_signbuff(const char* value) {
   signbuff_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAccountLogin.signBuff)
 }
-inline void ReqAccountLogin::set_signbuff(const void* value, size_t size) {
+inline void ReqAccountLogin::set_signbuff(const char* value, size_t size) {
   
   signbuff_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -3650,7 +3650,7 @@ inline void ReqAccountLogin::set_clientmac(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:AFMsg.ReqAccountLogin.clientMAC)
 }
 
-// bytes device_info = 10;
+// string device_info = 10;
 inline void ReqAccountLogin::clear_device_info() {
   device_info_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3677,7 +3677,7 @@ inline void ReqAccountLogin::set_device_info(const char* value) {
   device_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAccountLogin.device_info)
 }
-inline void ReqAccountLogin::set_device_info(const void* value, size_t size) {
+inline void ReqAccountLogin::set_device_info(const char* value, size_t size) {
   
   device_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -3703,7 +3703,7 @@ inline void ReqAccountLogin::set_allocated_device_info(::std::string* device_inf
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqAccountLogin.device_info)
 }
 
-// bytes extra_info = 11;
+// string extra_info = 11;
 inline void ReqAccountLogin::clear_extra_info() {
   extra_info_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3730,7 +3730,7 @@ inline void ReqAccountLogin::set_extra_info(const char* value) {
   extra_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAccountLogin.extra_info)
 }
-inline void ReqAccountLogin::set_extra_info(const void* value, size_t size) {
+inline void ReqAccountLogin::set_extra_info(const char* value, size_t size) {
   
   extra_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -3774,7 +3774,7 @@ inline void ReqAccountLogin::set_platform_type(::google::protobuf::int32 value) 
 
 // ReqAccountLogout
 
-// bytes account = 2;
+// string account = 2;
 inline void ReqAccountLogout::clear_account() {
   account_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3801,7 +3801,7 @@ inline void ReqAccountLogout::set_account(const char* value) {
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAccountLogout.account)
 }
-inline void ReqAccountLogout::set_account(const void* value, size_t size) {
+inline void ReqAccountLogout::set_account(const char* value, size_t size) {
   
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -3827,7 +3827,7 @@ inline void ReqAccountLogout::set_allocated_account(::std::string* account) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqAccountLogout.account)
 }
 
-// bytes extra_info = 3;
+// string extra_info = 3;
 inline void ReqAccountLogout::clear_extra_info() {
   extra_info_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3854,7 +3854,7 @@ inline void ReqAccountLogout::set_extra_info(const char* value) {
   extra_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAccountLogout.extra_info)
 }
-inline void ReqAccountLogout::set_extra_info(const void* value, size_t size) {
+inline void ReqAccountLogout::set_extra_info(const char* value, size_t size) {
   
   extra_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -3898,7 +3898,7 @@ inline void ServerInfo::set_server_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.ServerInfo.server_id)
 }
 
-// bytes name = 2;
+// string name = 2;
 inline void ServerInfo::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -3925,7 +3925,7 @@ inline void ServerInfo::set_name(const char* value) {
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ServerInfo.name)
 }
-inline void ServerInfo::set_name(const void* value, size_t size) {
+inline void ServerInfo::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4063,7 +4063,7 @@ inline void ReqConnectWorld::set_world_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.ReqConnectWorld.world_id)
 }
 
-// bytes account = 2;
+// string account = 2;
 inline void ReqConnectWorld::clear_account() {
   account_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4090,7 +4090,7 @@ inline void ReqConnectWorld::set_account(const char* value) {
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqConnectWorld.account)
 }
-inline void ReqConnectWorld::set_account(const void* value, size_t size) {
+inline void ReqConnectWorld::set_account(const char* value, size_t size) {
   
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4252,7 +4252,7 @@ inline void AckConnectWorldResult::set_login_id(::google::protobuf::int32 value)
   // @@protoc_insertion_point(field_set:AFMsg.AckConnectWorldResult.login_id)
 }
 
-// bytes account = 4;
+// string account = 4;
 inline void AckConnectWorldResult::clear_account() {
   account_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4279,7 +4279,7 @@ inline void AckConnectWorldResult::set_account(const char* value) {
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.AckConnectWorldResult.account)
 }
-inline void AckConnectWorldResult::set_account(const void* value, size_t size) {
+inline void AckConnectWorldResult::set_account(const char* value, size_t size) {
   
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4305,7 +4305,7 @@ inline void AckConnectWorldResult::set_allocated_account(::std::string* account)
   // @@protoc_insertion_point(field_set_allocated:AFMsg.AckConnectWorldResult.account)
 }
 
-// bytes world_ip = 5;
+// string world_ip = 5;
 inline void AckConnectWorldResult::clear_world_ip() {
   world_ip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4332,7 +4332,7 @@ inline void AckConnectWorldResult::set_world_ip(const char* value) {
   world_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.AckConnectWorldResult.world_ip)
 }
-inline void AckConnectWorldResult::set_world_ip(const void* value, size_t size) {
+inline void AckConnectWorldResult::set_world_ip(const char* value, size_t size) {
   
   world_ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4372,7 +4372,7 @@ inline void AckConnectWorldResult::set_world_port(::google::protobuf::int32 valu
   // @@protoc_insertion_point(field_set:AFMsg.AckConnectWorldResult.world_port)
 }
 
-// bytes world_key = 7;
+// string world_key = 7;
 inline void AckConnectWorldResult::clear_world_key() {
   world_key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4399,7 +4399,7 @@ inline void AckConnectWorldResult::set_world_key(const char* value) {
   world_key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.AckConnectWorldResult.world_key)
 }
-inline void AckConnectWorldResult::set_world_key(const void* value, size_t size) {
+inline void AckConnectWorldResult::set_world_key(const char* value, size_t size) {
   
   world_key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4461,7 +4461,7 @@ inline void ReqKickFromWorld::set_world_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.ReqKickFromWorld.world_id)
 }
 
-// bytes account = 2;
+// string account = 2;
 inline void ReqKickFromWorld::clear_account() {
   account_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4488,7 +4488,7 @@ inline void ReqKickFromWorld::set_account(const char* value) {
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqKickFromWorld.account)
 }
-inline void ReqKickFromWorld::set_account(const void* value, size_t size) {
+inline void ReqKickFromWorld::set_account(const char* value, size_t size) {
   
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4532,7 +4532,7 @@ inline void ReqRoleList::set_game_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.ReqRoleList.game_id)
 }
 
-// bytes account = 2;
+// string account = 2;
 inline void ReqRoleList::clear_account() {
   account_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4559,7 +4559,7 @@ inline void ReqRoleList::set_account(const char* value) {
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqRoleList.account)
 }
-inline void ReqRoleList::set_account(const void* value, size_t size) {
+inline void ReqRoleList::set_account(const char* value, size_t size) {
   
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4676,7 +4676,7 @@ inline void RoleLiteInfo::set_race(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.RoleLiteInfo.race)
 }
 
-// bytes noob_name = 5;
+// string noob_name = 5;
 inline void RoleLiteInfo::clear_noob_name() {
   noob_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4703,7 +4703,7 @@ inline void RoleLiteInfo::set_noob_name(const char* value) {
   noob_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.RoleLiteInfo.noob_name)
 }
-inline void RoleLiteInfo::set_noob_name(const void* value, size_t size) {
+inline void RoleLiteInfo::set_noob_name(const char* value, size_t size) {
   
   noob_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4813,7 +4813,7 @@ inline void RoleLiteInfo::set_last_offline_ip(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.RoleLiteInfo.last_offline_ip)
 }
 
-// bytes view_record = 12;
+// string view_record = 12;
 inline void RoleLiteInfo::clear_view_record() {
   view_record_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4840,7 +4840,7 @@ inline void RoleLiteInfo::set_view_record(const char* value) {
   view_record_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.RoleLiteInfo.view_record)
 }
-inline void RoleLiteInfo::set_view_record(const void* value, size_t size) {
+inline void RoleLiteInfo::set_view_record(const char* value, size_t size) {
   
   view_record_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4904,7 +4904,7 @@ AckRoleLiteInfoList::char_data() const {
 
 // ReqCreateRole
 
-// bytes account = 1;
+// string account = 1;
 inline void ReqCreateRole::clear_account() {
   account_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -4931,7 +4931,7 @@ inline void ReqCreateRole::set_account(const char* value) {
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqCreateRole.account)
 }
-inline void ReqCreateRole::set_account(const void* value, size_t size) {
+inline void ReqCreateRole::set_account(const char* value, size_t size) {
   
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -4999,7 +4999,7 @@ inline void ReqCreateRole::set_race(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.ReqCreateRole.race)
 }
 
-// bytes noob_name = 5;
+// string noob_name = 5;
 inline void ReqCreateRole::clear_noob_name() {
   noob_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -5026,7 +5026,7 @@ inline void ReqCreateRole::set_noob_name(const char* value) {
   noob_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqCreateRole.noob_name)
 }
-inline void ReqCreateRole::set_noob_name(const void* value, size_t size) {
+inline void ReqCreateRole::set_noob_name(const char* value, size_t size) {
   
   noob_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -5070,7 +5070,7 @@ inline void ReqCreateRole::set_game_id(::google::protobuf::int32 value) {
 
 // ReqDeleteRole
 
-// bytes account = 1;
+// string account = 1;
 inline void ReqDeleteRole::clear_account() {
   account_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -5097,7 +5097,7 @@ inline void ReqDeleteRole::set_account(const char* value) {
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqDeleteRole.account)
 }
-inline void ReqDeleteRole::set_account(const void* value, size_t size) {
+inline void ReqDeleteRole::set_account(const char* value, size_t size) {
   
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -5123,7 +5123,7 @@ inline void ReqDeleteRole::set_allocated_account(::std::string* account) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqDeleteRole.account)
 }
 
-// bytes name = 2;
+// string name = 2;
 inline void ReqDeleteRole::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -5150,7 +5150,7 @@ inline void ReqDeleteRole::set_name(const char* value) {
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqDeleteRole.name)
 }
-inline void ReqDeleteRole::set_name(const void* value, size_t size) {
+inline void ReqDeleteRole::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -5194,7 +5194,7 @@ inline void ReqDeleteRole::set_game_id(::google::protobuf::int32 value) {
 
 // ReqRecoverRole
 
-// bytes account = 1;
+// string account = 1;
 inline void ReqRecoverRole::clear_account() {
   account_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -5221,7 +5221,7 @@ inline void ReqRecoverRole::set_account(const char* value) {
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqRecoverRole.account)
 }
-inline void ReqRecoverRole::set_account(const void* value, size_t size) {
+inline void ReqRecoverRole::set_account(const char* value, size_t size) {
   
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -5247,7 +5247,7 @@ inline void ReqRecoverRole::set_allocated_account(::std::string* account) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqRecoverRole.account)
 }
 
-// bytes name = 2;
+// string name = 2;
 inline void ReqRecoverRole::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -5274,7 +5274,7 @@ inline void ReqRecoverRole::set_name(const char* value) {
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqRecoverRole.name)
 }
-inline void ReqRecoverRole::set_name(const void* value, size_t size) {
+inline void ReqRecoverRole::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));

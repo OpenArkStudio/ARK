@@ -29,9 +29,9 @@ namespace AFMsg {
             "AXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCIsEBCgtWYXJpYW50RGF0",
             "YRIUCgpib29sX3ZhbHVlGAEgASgISAASEwoJaW50X3ZhbHVlGAIgASgFSAAS",
             "FQoLaW50NjRfdmFsdWUYAyABKANIABIVCgtmbG9hdF92YWx1ZRgEIAEoAkgA",
-            "EhYKDGRvdWJsZV92YWx1ZRgFIAEoAUgAEhMKCXN0cl92YWx1ZRgGIAEoDEgA",
+            "EhYKDGRvdWJsZV92YWx1ZRgFIAEoAUgAEhMKCXN0cl92YWx1ZRgGIAEoCUgA",
             "EiIKCmd1aWRfdmFsdWUYByABKAsyDC5BRk1zZy5JZGVudEgAQggKBkFGRGF0",
-            "YSJkCg5Qcm9wZXJ0eVBCRGF0YRIVCg1wcm9wZXJ0eV9uYW1lGAEgASgMEhEK",
+            "YSJkCg5Qcm9wZXJ0eVBCRGF0YRIVCg1wcm9wZXJ0eV9uYW1lGAEgASgJEhEK",
             "CW5kYXRhVHlwZRgCIAEoBRIoCgx2YXJpYW50X2RhdGEYAyABKAsyEi5BRk1z",
             "Zy5WYXJpYW50RGF0YSJlCgxSZWNvcmRQQkRhdGESCwoDcm93GAEgASgFEgsK",
             "A2NvbBgCIAEoBRIRCgluZGF0YVR5cGUYAyABKAUSKAoMdmFyaWFudF9kYXRh",
@@ -41,7 +41,7 @@ namespace AFMsg {
             "DS5BRk1zZy5QQkRhdGEiUAoSUmVjb3JkQWRkUm93U3RydWN0EgsKA3JvdxgB",
             "IAEoBRItChByZWNvcmRfZGF0YV9saXN0GAIgAygLMhMuQUZNc2cuUmVjb3Jk",
             "UEJEYXRhIlYKEE9iamVjdFJlY29yZEJhc2USEwoLcmVjb3JkX25hbWUYASAB",
-            "KAwSLQoKcm93X3N0cnVjdBgCIAMoCzIZLkFGTXNnLlJlY29yZEFkZFJvd1N0",
+            "KAkSLQoKcm93X3N0cnVjdBgCIAMoCzIZLkFGTXNnLlJlY29yZEFkZFJvd1N0",
             "cnVjdCJoChJPYmplY3RQcm9wZXJ0eUxpc3QSHwoJcGxheWVyX2lkGAEgASgL",
             "MgwuQUZNc2cuSWRlbnQSMQoScHJvcGVydHlfZGF0YV9saXN0GAIgAygLMhUu",
             "QUZNc2cuUHJvcGVydHlQQkRhdGEiUwoXTXVsdGlPYmplY3RQcm9wZXJ0eUxp",
@@ -54,22 +54,22 @@ namespace AFMsg {
             "ZXJfaWQYASABKAsyDC5BRk1zZy5JZGVudBIsCg1wcm9wZXJ0eV9saXN0GAIg",
             "AygLMhUuQUZNc2cuUHJvcGVydHlQQkRhdGEidAoST2JqZWN0UmVjb3JkUEJE",
             "YXRhEh8KCXBsYXllcl9pZBgBIAEoCzIMLkFGTXNnLklkZW50EhMKC3JlY29y",
-            "ZF9uYW1lGAIgASgMEigKC3JlY29yZF9saXN0GAMgAygLMhMuQUZNc2cuUmVj",
+            "ZF9uYW1lGAIgASgJEigKC3JlY29yZF9saXN0GAMgAygLMhMuQUZNc2cuUmVj",
             "b3JkUEJEYXRhIpMBChBPYmplY3RSZWNvcmRTd2FwEh8KCXBsYXllcl9pZBgB",
             "IAEoCzIMLkFGTXNnLklkZW50EhoKEm9yaWdpbl9yZWNvcmRfbmFtZRgCIAEo",
-            "DBIaChJ0YXJnZXRfcmVjb3JkX25hbWUYAyABKAwSEgoKcm93X29yaWdpbhgE",
+            "CRIaChJ0YXJnZXRfcmVjb3JkX25hbWUYAyABKAkSEgoKcm93X29yaWdpbhgE",
             "IAEoBRISCgpyb3dfdGFyZ2V0GAUgASgFIncKEk9iamVjdFJlY29yZEFkZFJv",
             "dxIfCglwbGF5ZXJfaWQYASABKAsyDC5BRk1zZy5JZGVudBITCgtyZWNvcmRf",
-            "bmFtZRgCIAEoDBIrCghyb3dfZGF0YRgDIAMoCzIZLkFGTXNnLlJlY29yZEFk",
+            "bmFtZRgCIAEoCRIrCghyb3dfZGF0YRgDIAMoCzIZLkFGTXNnLlJlY29yZEFk",
             "ZFJvd1N0cnVjdCJeChJPYmplY3RSZWNvcmRSZW1vdmUSHwoJcGxheWVyX2lk",
-            "GAEgASgLMgwuQUZNc2cuSWRlbnQSEwoLcmVjb3JkX25hbWUYAiABKAwSEgoK",
+            "GAEgASgLMgwuQUZNc2cuSWRlbnQSEwoLcmVjb3JkX25hbWUYAiABKAkSEgoK",
             "cmVtb3ZlX3JvdxgDIAMoBSJHChJQbGF5ZXJQcm9wZXJ0eUJhc2USMQoScHJv",
             "cGVydHlfZGF0YV9saXN0GAEgAygLMhUuQUZNc2cuUHJvcGVydHlQQkRhdGEi",
             "VgoQUGxheWVyUmVjb3JkQmFzZRITCgtyZWNvcmRfbmFtZRgBIAEoCRItChBy",
             "ZWNvcmRfZGF0YV9saXN0GAIgAygLMhMuQUZNc2cuUmVjb3JkUEJEYXRhIkAK",
             "EFBsYXllclJlY29yZExpc3QSLAoLcmVjb3JkX2xpc3QYASADKAsyFy5BRk1z",
             "Zy5QbGF5ZXJSZWNvcmRCYXNlInkKCkJyb2Nhc3RNc2cSHwoJcGxheWVyX2lk",
-            "GAEgASgLMgwuQUZNc2cuSWRlbnQSEAoIbXNnX2RhdGEYAiABKAwSDgoGbk1z",
+            "GAEgASgLMgwuQUZNc2cuSWRlbnQSEAoIbXNnX2RhdGEYAiABKAkSDgoGbk1z",
             "Z0lEGAMgASgDEigKEnBsYXllcl9DbGllbnRfbGlzdBgEIAMoCzIMLkFGTXNn",
             "LklkZW50IisKCFBvc2l0aW9uEgkKAXgYASABKAISCQoBeRgCIAEoAhIJCgF6",
             "GAMgASgCItcBCgpSZXFDb21tYW5kEiAKCmNvbnRyb2xfaWQYASABKAsyDC5B",
@@ -568,8 +568,8 @@ namespace AFMsg {
     /// <summary>Field number for the "str_value" field.</summary>
     public const int StrValueFieldNumber = 6;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString StrValue {
-      get { return aFDataCase_ == AFDataOneofCase.StrValue ? (pb::ByteString) aFData_ : pb::ByteString.Empty; }
+    public string StrValue {
+      get { return aFDataCase_ == AFDataOneofCase.StrValue ? (string) aFData_ : ""; }
       set {
         aFData_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
         aFDataCase_ = AFDataOneofCase.StrValue;
@@ -681,7 +681,7 @@ namespace AFMsg {
       }
       if (aFDataCase_ == AFDataOneofCase.StrValue) {
         output.WriteRawTag(50);
-        output.WriteBytes(StrValue);
+        output.WriteString(StrValue);
       }
       if (aFDataCase_ == AFDataOneofCase.GuidValue) {
         output.WriteRawTag(58);
@@ -711,7 +711,7 @@ namespace AFMsg {
         size += 1 + 8;
       }
       if (aFDataCase_ == AFDataOneofCase.StrValue) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(StrValue);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(StrValue);
       }
       if (aFDataCase_ == AFDataOneofCase.GuidValue) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(GuidValue);
@@ -786,7 +786,7 @@ namespace AFMsg {
             break;
           }
           case 50: {
-            StrValue = input.ReadBytes();
+            StrValue = input.ReadString();
             break;
           }
           case 58: {
@@ -845,9 +845,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "property_name" field.</summary>
     public const int PropertyNameFieldNumber = 1;
-    private pb::ByteString propertyName_ = pb::ByteString.Empty;
+    private string propertyName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString PropertyName {
+    public string PropertyName {
       get { return propertyName_; }
       set {
         propertyName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -916,7 +916,7 @@ namespace AFMsg {
     public void WriteTo(pb::CodedOutputStream output) {
       if (PropertyName.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteBytes(PropertyName);
+        output.WriteString(PropertyName);
       }
       if (NdataType != 0) {
         output.WriteRawTag(16);
@@ -935,7 +935,7 @@ namespace AFMsg {
     public int CalculateSize() {
       int size = 0;
       if (PropertyName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(PropertyName);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(PropertyName);
       }
       if (NdataType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(NdataType);
@@ -978,7 +978,7 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            PropertyName = input.ReadBytes();
+            PropertyName = input.ReadString();
             break;
           }
           case 16: {
@@ -1687,9 +1687,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "record_name" field.</summary>
     public const int RecordNameFieldNumber = 1;
-    private pb::ByteString recordName_ = pb::ByteString.Empty;
+    private string recordName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString RecordName {
+    public string RecordName {
       get { return recordName_; }
       set {
         recordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -1744,7 +1744,7 @@ namespace AFMsg {
     public void WriteTo(pb::CodedOutputStream output) {
       if (RecordName.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteBytes(RecordName);
+        output.WriteString(RecordName);
       }
       rowStruct_.WriteTo(output, _repeated_rowStruct_codec);
       if (_unknownFields != null) {
@@ -1756,7 +1756,7 @@ namespace AFMsg {
     public int CalculateSize() {
       int size = 0;
       if (RecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(RecordName);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RecordName);
       }
       size += rowStruct_.CalculateSize(_repeated_rowStruct_codec);
       if (_unknownFields != null) {
@@ -1786,7 +1786,7 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            RecordName = input.ReadBytes();
+            RecordName = input.ReadString();
             break;
           }
           case 18: {
@@ -2558,9 +2558,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "record_name" field.</summary>
     public const int RecordNameFieldNumber = 2;
-    private pb::ByteString recordName_ = pb::ByteString.Empty;
+    private string recordName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString RecordName {
+    public string RecordName {
       get { return recordName_; }
       set {
         recordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -2621,7 +2621,7 @@ namespace AFMsg {
       }
       if (RecordName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(RecordName);
+        output.WriteString(RecordName);
       }
       recordList_.WriteTo(output, _repeated_recordList_codec);
       if (_unknownFields != null) {
@@ -2636,7 +2636,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
       }
       if (RecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(RecordName);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RecordName);
       }
       size += recordList_.CalculateSize(_repeated_recordList_codec);
       if (_unknownFields != null) {
@@ -2679,7 +2679,7 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            RecordName = input.ReadBytes();
+            RecordName = input.ReadString();
             break;
           }
           case 26: {
@@ -2743,9 +2743,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "origin_record_name" field.</summary>
     public const int OriginRecordNameFieldNumber = 2;
-    private pb::ByteString originRecordName_ = pb::ByteString.Empty;
+    private string originRecordName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString OriginRecordName {
+    public string OriginRecordName {
       get { return originRecordName_; }
       set {
         originRecordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -2754,9 +2754,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "target_record_name" field.</summary>
     public const int TargetRecordNameFieldNumber = 3;
-    private pb::ByteString targetRecordName_ = pb::ByteString.Empty;
+    private string targetRecordName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString TargetRecordName {
+    public string TargetRecordName {
       get { return targetRecordName_; }
       set {
         targetRecordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -2833,11 +2833,11 @@ namespace AFMsg {
       }
       if (OriginRecordName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(OriginRecordName);
+        output.WriteString(OriginRecordName);
       }
       if (TargetRecordName.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteBytes(TargetRecordName);
+        output.WriteString(TargetRecordName);
       }
       if (RowOrigin != 0) {
         output.WriteRawTag(32);
@@ -2859,10 +2859,10 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
       }
       if (OriginRecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(OriginRecordName);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(OriginRecordName);
       }
       if (TargetRecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(TargetRecordName);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TargetRecordName);
       }
       if (RowOrigin != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(RowOrigin);
@@ -2918,11 +2918,11 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            OriginRecordName = input.ReadBytes();
+            OriginRecordName = input.ReadString();
             break;
           }
           case 26: {
-            TargetRecordName = input.ReadBytes();
+            TargetRecordName = input.ReadString();
             break;
           }
           case 32: {
@@ -2988,9 +2988,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "record_name" field.</summary>
     public const int RecordNameFieldNumber = 2;
-    private pb::ByteString recordName_ = pb::ByteString.Empty;
+    private string recordName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString RecordName {
+    public string RecordName {
       get { return recordName_; }
       set {
         recordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3051,7 +3051,7 @@ namespace AFMsg {
       }
       if (RecordName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(RecordName);
+        output.WriteString(RecordName);
       }
       rowData_.WriteTo(output, _repeated_rowData_codec);
       if (_unknownFields != null) {
@@ -3066,7 +3066,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
       }
       if (RecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(RecordName);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RecordName);
       }
       size += rowData_.CalculateSize(_repeated_rowData_codec);
       if (_unknownFields != null) {
@@ -3109,7 +3109,7 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            RecordName = input.ReadBytes();
+            RecordName = input.ReadString();
             break;
           }
           case 26: {
@@ -3171,9 +3171,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "record_name" field.</summary>
     public const int RecordNameFieldNumber = 2;
-    private pb::ByteString recordName_ = pb::ByteString.Empty;
+    private string recordName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString RecordName {
+    public string RecordName {
       get { return recordName_; }
       set {
         recordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3234,7 +3234,7 @@ namespace AFMsg {
       }
       if (RecordName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(RecordName);
+        output.WriteString(RecordName);
       }
       removeRow_.WriteTo(output, _repeated_removeRow_codec);
       if (_unknownFields != null) {
@@ -3249,7 +3249,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
       }
       if (RecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(RecordName);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(RecordName);
       }
       size += removeRow_.CalculateSize(_repeated_removeRow_codec);
       if (_unknownFields != null) {
@@ -3292,7 +3292,7 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            RecordName = input.ReadBytes();
+            RecordName = input.ReadString();
             break;
           }
           case 26:
@@ -3756,9 +3756,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "msg_data" field.</summary>
     public const int MsgDataFieldNumber = 2;
-    private pb::ByteString msgData_ = pb::ByteString.Empty;
+    private string msgData_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString MsgData {
+    public string MsgData {
       get { return msgData_; }
       set {
         msgData_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3832,7 +3832,7 @@ namespace AFMsg {
       }
       if (MsgData.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(MsgData);
+        output.WriteString(MsgData);
       }
       if (NMsgID != 0L) {
         output.WriteRawTag(24);
@@ -3851,7 +3851,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
       }
       if (MsgData.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(MsgData);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(MsgData);
       }
       if (NMsgID != 0L) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(NMsgID);
@@ -3900,7 +3900,7 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            MsgData = input.ReadBytes();
+            MsgData = input.ReadString();
             break;
           }
           case 24: {

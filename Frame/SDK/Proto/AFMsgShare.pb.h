@@ -1060,7 +1060,7 @@ class LIBPROTOC_EXPORT ReqEnterGameServer : public ::google::protobuf::Message /
 
   // accessors -------------------------------------------------------
 
-  // bytes account = 2;
+  // string account = 2;
   void clear_account();
   static const int kAccountFieldNumber = 2;
   const ::std::string& account() const;
@@ -1069,12 +1069,12 @@ class LIBPROTOC_EXPORT ReqEnterGameServer : public ::google::protobuf::Message /
   void set_account(::std::string&& value);
   #endif
   void set_account(const char* value);
-  void set_account(const void* value, size_t size);
+  void set_account(const char* value, size_t size);
   ::std::string* mutable_account();
   ::std::string* release_account();
   void set_allocated_account(::std::string* account);
 
-  // bytes name = 4;
+  // string name = 4;
   void clear_name();
   static const int kNameFieldNumber = 4;
   const ::std::string& name() const;
@@ -1083,7 +1083,7 @@ class LIBPROTOC_EXPORT ReqEnterGameServer : public ::google::protobuf::Message /
   void set_name(::std::string&& value);
   #endif
   void set_name(const char* value);
-  void set_name(const void* value, size_t size);
+  void set_name(const char* value, size_t size);
   ::std::string* mutable_name();
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
@@ -1395,7 +1395,7 @@ class LIBPROTOC_EXPORT PlayerEntryInfo : public ::google::protobuf::Message /* @
 
   // accessors -------------------------------------------------------
 
-  // bytes config_id = 5;
+  // string config_id = 5;
   void clear_config_id();
   static const int kConfigIdFieldNumber = 5;
   const ::std::string& config_id() const;
@@ -1404,12 +1404,12 @@ class LIBPROTOC_EXPORT PlayerEntryInfo : public ::google::protobuf::Message /* @
   void set_config_id(::std::string&& value);
   #endif
   void set_config_id(const char* value);
-  void set_config_id(const void* value, size_t size);
+  void set_config_id(const char* value, size_t size);
   ::std::string* mutable_config_id();
   ::std::string* release_config_id();
   void set_allocated_config_id(::std::string* config_id);
 
-  // bytes class_id = 7;
+  // string class_id = 7;
   void clear_class_id();
   static const int kClassIdFieldNumber = 7;
   const ::std::string& class_id() const;
@@ -1418,7 +1418,7 @@ class LIBPROTOC_EXPORT PlayerEntryInfo : public ::google::protobuf::Message /* @
   void set_class_id(::std::string&& value);
   #endif
   void set_class_id(const char* value);
-  void set_class_id(const void* value, size_t size);
+  void set_class_id(const char* value, size_t size);
   ::std::string* mutable_class_id();
   ::std::string* release_class_id();
   void set_allocated_class_id(::std::string* class_id);
@@ -1824,7 +1824,7 @@ class LIBPROTOC_EXPORT ReqAckSynData : public ::google::protobuf::Message /* @@p
   const ::google::protobuf::RepeatedPtrField< ::AFMsg::Ident >&
       object_list() const;
 
-  // bytes data = 3;
+  // string data = 3;
   void clear_data();
   static const int kDataFieldNumber = 3;
   const ::std::string& data() const;
@@ -1833,7 +1833,7 @@ class LIBPROTOC_EXPORT ReqAckSynData : public ::google::protobuf::Message /* @@p
   void set_data(::std::string&& value);
   #endif
   void set_data(const char* value);
-  void set_data(const void* value, size_t size);
+  void set_data(const char* value, size_t size);
   ::std::string* mutable_data();
   ::std::string* release_data();
   void set_allocated_data(::std::string* data);
@@ -2125,7 +2125,7 @@ class LIBPROTOC_EXPORT ChatContainer : public ::google::protobuf::Message /* @@p
 
   // accessors -------------------------------------------------------
 
-  // bytes data_info = 3;
+  // string data_info = 3;
   void clear_data_info();
   static const int kDataInfoFieldNumber = 3;
   const ::std::string& data_info() const;
@@ -2134,7 +2134,7 @@ class LIBPROTOC_EXPORT ChatContainer : public ::google::protobuf::Message /* @@p
   void set_data_info(::std::string&& value);
   #endif
   void set_data_info(const char* value);
-  void set_data_info(const void* value, size_t size);
+  void set_data_info(const char* value, size_t size);
   ::std::string* mutable_data_info();
   ::std::string* release_data_info();
   void set_allocated_data_info(::std::string* data_info);
@@ -2285,7 +2285,7 @@ class LIBPROTOC_EXPORT ReqAckPlayerChat : public ::google::protobuf::Message /* 
   const ::google::protobuf::RepeatedPtrField< ::AFMsg::ChatContainer >&
       container_data() const;
 
-  // bytes chat_info = 3;
+  // string chat_info = 3;
   void clear_chat_info();
   static const int kChatInfoFieldNumber = 3;
   const ::std::string& chat_info() const;
@@ -2294,12 +2294,12 @@ class LIBPROTOC_EXPORT ReqAckPlayerChat : public ::google::protobuf::Message /* 
   void set_chat_info(::std::string&& value);
   #endif
   void set_chat_info(const char* value);
-  void set_chat_info(const void* value, size_t size);
+  void set_chat_info(const char* value, size_t size);
   ::std::string* mutable_chat_info();
   ::std::string* release_chat_info();
   void set_allocated_chat_info(::std::string* chat_info);
 
-  // bytes chat_name = 4;
+  // string chat_name = 4;
   void clear_chat_name();
   static const int kChatNameFieldNumber = 4;
   const ::std::string& chat_name() const;
@@ -2308,7 +2308,7 @@ class LIBPROTOC_EXPORT ReqAckPlayerChat : public ::google::protobuf::Message /* 
   void set_chat_name(::std::string&& value);
   #endif
   void set_chat_name(const char* value);
-  void set_chat_name(const void* value, size_t size);
+  void set_chat_name(const char* value, size_t size);
   ::std::string* mutable_chat_name();
   ::std::string* release_chat_name();
   void set_allocated_chat_name(::std::string* chat_name);
@@ -2599,7 +2599,7 @@ class LIBPROTOC_EXPORT ReqAckUseSkill : public ::google::protobuf::Message /* @@
   const ::google::protobuf::RepeatedPtrField< ::AFMsg::EffectData >&
       effect_data() const;
 
-  // bytes skill_id = 2;
+  // string skill_id = 2;
   void clear_skill_id();
   static const int kSkillIdFieldNumber = 2;
   const ::std::string& skill_id() const;
@@ -2608,7 +2608,7 @@ class LIBPROTOC_EXPORT ReqAckUseSkill : public ::google::protobuf::Message /* @@
   void set_skill_id(::std::string&& value);
   #endif
   void set_skill_id(const char* value);
-  void set_skill_id(const void* value, size_t size);
+  void set_skill_id(const char* value, size_t size);
   ::std::string* mutable_skill_id();
   ::std::string* release_skill_id();
   void set_allocated_skill_id(::std::string* skill_id);
@@ -3529,7 +3529,7 @@ class LIBPROTOC_EXPORT ReqAcceptTask : public ::google::protobuf::Message /* @@p
 
   // accessors -------------------------------------------------------
 
-  // bytes task_id = 1;
+  // string task_id = 1;
   void clear_task_id();
   static const int kTaskIdFieldNumber = 1;
   const ::std::string& task_id() const;
@@ -3538,7 +3538,7 @@ class LIBPROTOC_EXPORT ReqAcceptTask : public ::google::protobuf::Message /* @@p
   void set_task_id(::std::string&& value);
   #endif
   void set_task_id(const char* value);
-  void set_task_id(const void* value, size_t size);
+  void set_task_id(const char* value, size_t size);
   ::std::string* mutable_task_id();
   ::std::string* release_task_id();
   void set_allocated_task_id(::std::string* task_id);
@@ -3640,7 +3640,7 @@ class LIBPROTOC_EXPORT ReqCompeleteTask : public ::google::protobuf::Message /* 
 
   // accessors -------------------------------------------------------
 
-  // bytes task_id = 1;
+  // string task_id = 1;
   void clear_task_id();
   static const int kTaskIdFieldNumber = 1;
   const ::std::string& task_id() const;
@@ -3649,7 +3649,7 @@ class LIBPROTOC_EXPORT ReqCompeleteTask : public ::google::protobuf::Message /* 
   void set_task_id(::std::string&& value);
   #endif
   void set_task_id(const char* value);
-  void set_task_id(const void* value, size_t size);
+  void set_task_id(const char* value, size_t size);
   ::std::string* mutable_task_id();
   ::std::string* release_task_id();
   void set_allocated_task_id(::std::string* task_id);
@@ -5968,7 +5968,7 @@ class LIBPROTOC_EXPORT ChatInfo : public ::google::protobuf::Message /* @@protoc
   const ::google::protobuf::RepeatedPtrField< ::AFMsg::Ident >&
       recvier_id() const;
 
-  // bytes chat_info = 2;
+  // string chat_info = 2;
   void clear_chat_info();
   static const int kChatInfoFieldNumber = 2;
   const ::std::string& chat_info() const;
@@ -5977,12 +5977,12 @@ class LIBPROTOC_EXPORT ChatInfo : public ::google::protobuf::Message /* @@protoc
   void set_chat_info(::std::string&& value);
   #endif
   void set_chat_info(const char* value);
-  void set_chat_info(const void* value, size_t size);
+  void set_chat_info(const char* value, size_t size);
   ::std::string* mutable_chat_info();
   ::std::string* release_chat_info();
   void set_allocated_chat_info(::std::string* chat_info);
 
-  // bytes addtional_info = 4;
+  // string addtional_info = 4;
   void clear_addtional_info();
   static const int kAddtionalInfoFieldNumber = 4;
   const ::std::string& addtional_info() const;
@@ -5991,12 +5991,12 @@ class LIBPROTOC_EXPORT ChatInfo : public ::google::protobuf::Message /* @@protoc
   void set_addtional_info(::std::string&& value);
   #endif
   void set_addtional_info(const char* value);
-  void set_addtional_info(const void* value, size_t size);
+  void set_addtional_info(const char* value, size_t size);
   ::std::string* mutable_addtional_info();
   ::std::string* release_addtional_info();
   void set_allocated_addtional_info(::std::string* addtional_info);
 
-  // bytes send_name = 6;
+  // string send_name = 6;
   void clear_send_name();
   static const int kSendNameFieldNumber = 6;
   const ::std::string& send_name() const;
@@ -6005,12 +6005,12 @@ class LIBPROTOC_EXPORT ChatInfo : public ::google::protobuf::Message /* @@protoc
   void set_send_name(::std::string&& value);
   #endif
   void set_send_name(const char* value);
-  void set_send_name(const void* value, size_t size);
+  void set_send_name(const char* value, size_t size);
   ::std::string* mutable_send_name();
   ::std::string* release_send_name();
   void set_allocated_send_name(::std::string* send_name);
 
-  // bytes guid_name = 9;
+  // string guid_name = 9;
   void clear_guid_name();
   static const int kGuidNameFieldNumber = 9;
   const ::std::string& guid_name() const;
@@ -6019,7 +6019,7 @@ class LIBPROTOC_EXPORT ChatInfo : public ::google::protobuf::Message /* @@protoc
   void set_guid_name(::std::string&& value);
   #endif
   void set_guid_name(const char* value);
-  void set_guid_name(const void* value, size_t size);
+  void set_guid_name(const char* value, size_t size);
   ::std::string* mutable_guid_name();
   ::std::string* release_guid_name();
   void set_allocated_guid_name(::std::string* guid_name);
@@ -6156,7 +6156,7 @@ class LIBPROTOC_EXPORT ReqAckCreateChatGroup : public ::google::protobuf::Messag
 
   // accessors -------------------------------------------------------
 
-  // bytes name = 1;
+  // string name = 1;
   void clear_name();
   static const int kNameFieldNumber = 1;
   const ::std::string& name() const;
@@ -6165,7 +6165,7 @@ class LIBPROTOC_EXPORT ReqAckCreateChatGroup : public ::google::protobuf::Messag
   void set_name(::std::string&& value);
   #endif
   void set_name(const char* value);
-  void set_name(const void* value, size_t size);
+  void set_name(const char* value, size_t size);
   ::std::string* mutable_name();
   ::std::string* release_name();
   void set_allocated_name(::std::string* name);
@@ -7263,7 +7263,7 @@ class LIBPROTOC_EXPORT ReqInlaystoneToEquip : public ::google::protobuf::Message
 
   // accessors -------------------------------------------------------
 
-  // bytes stoneid = 3;
+  // string stoneid = 3;
   void clear_stoneid();
   static const int kStoneidFieldNumber = 3;
   const ::std::string& stoneid() const;
@@ -7272,7 +7272,7 @@ class LIBPROTOC_EXPORT ReqInlaystoneToEquip : public ::google::protobuf::Message
   void set_stoneid(::std::string&& value);
   #endif
   void set_stoneid(const char* value);
-  void set_stoneid(const void* value, size_t size);
+  void set_stoneid(const char* value, size_t size);
   ::std::string* mutable_stoneid();
   ::std::string* release_stoneid();
   void set_allocated_stoneid(::std::string* stoneid);
@@ -9892,7 +9892,7 @@ class LIBPROTOC_EXPORT GridGuildBaseInfo : public ::google::protobuf::Message /*
 
   // accessors -------------------------------------------------------
 
-  // bytes icon = 5;
+  // string icon = 5;
   void clear_icon();
   static const int kIconFieldNumber = 5;
   const ::std::string& icon() const;
@@ -9901,7 +9901,7 @@ class LIBPROTOC_EXPORT GridGuildBaseInfo : public ::google::protobuf::Message /*
   void set_icon(::std::string&& value);
   #endif
   void set_icon(const char* value);
-  void set_icon(const void* value, size_t size);
+  void set_icon(const char* value, size_t size);
   ::std::string* mutable_icon();
   ::std::string* release_icon();
   void set_allocated_icon(::std::string* icon);
@@ -10034,7 +10034,7 @@ class LIBPROTOC_EXPORT ReqBigMapGridInfo : public ::google::protobuf::Message /*
 
   // accessors -------------------------------------------------------
 
-  // repeated bytes map_title_id = 1;
+  // repeated string map_title_id = 1;
   int map_title_id_size() const;
   void clear_map_title_id();
   static const int kMapTitleIdFieldNumber = 1;
@@ -10045,14 +10045,14 @@ class LIBPROTOC_EXPORT ReqBigMapGridInfo : public ::google::protobuf::Message /*
   void set_map_title_id(int index, ::std::string&& value);
   #endif
   void set_map_title_id(int index, const char* value);
-  void set_map_title_id(int index, const void* value, size_t size);
+  void set_map_title_id(int index, const char* value, size_t size);
   ::std::string* add_map_title_id();
   void add_map_title_id(const ::std::string& value);
   #if LANG_CXX11
   void add_map_title_id(::std::string&& value);
   #endif
   void add_map_title_id(const char* value);
-  void add_map_title_id(const void* value, size_t size);
+  void add_map_title_id(const char* value, size_t size);
   const ::google::protobuf::RepeatedPtrField< ::std::string>& map_title_id() const;
   ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_map_title_id();
 
@@ -10153,7 +10153,7 @@ class LIBPROTOC_EXPORT BigMapGridBaseInfo : public ::google::protobuf::Message /
 
   // accessors -------------------------------------------------------
 
-  // bytes id = 1;
+  // string id = 1;
   void clear_id();
   static const int kIdFieldNumber = 1;
   const ::std::string& id() const;
@@ -10162,7 +10162,7 @@ class LIBPROTOC_EXPORT BigMapGridBaseInfo : public ::google::protobuf::Message /
   void set_id(::std::string&& value);
   #endif
   void set_id(const char* value);
-  void set_id(const void* value, size_t size);
+  void set_id(const char* value, size_t size);
   ::std::string* mutable_id();
   ::std::string* release_id();
   void set_allocated_id(::std::string* id);
@@ -10308,7 +10308,7 @@ class LIBPROTOC_EXPORT BigMapLeaveMsg : public ::google::protobuf::Message /* @@
 
   // accessors -------------------------------------------------------
 
-  // bytes owner_name = 2;
+  // string owner_name = 2;
   void clear_owner_name();
   static const int kOwnerNameFieldNumber = 2;
   const ::std::string& owner_name() const;
@@ -10317,12 +10317,12 @@ class LIBPROTOC_EXPORT BigMapLeaveMsg : public ::google::protobuf::Message /* @@
   void set_owner_name(::std::string&& value);
   #endif
   void set_owner_name(const char* value);
-  void set_owner_name(const void* value, size_t size);
+  void set_owner_name(const char* value, size_t size);
   ::std::string* mutable_owner_name();
   ::std::string* release_owner_name();
   void set_allocated_owner_name(::std::string* owner_name);
 
-  // bytes msg_data = 3;
+  // string msg_data = 3;
   void clear_msg_data();
   static const int kMsgDataFieldNumber = 3;
   const ::std::string& msg_data() const;
@@ -10331,7 +10331,7 @@ class LIBPROTOC_EXPORT BigMapLeaveMsg : public ::google::protobuf::Message /* @@
   void set_msg_data(::std::string&& value);
   #endif
   void set_msg_data(const char* value);
-  void set_msg_data(const void* value, size_t size);
+  void set_msg_data(const char* value, size_t size);
   ::std::string* mutable_msg_data();
   ::std::string* release_msg_data();
   void set_allocated_msg_data(::std::string* msg_data);
@@ -11050,7 +11050,7 @@ class LIBPROTOC_EXPORT ReqHoldMapGrid : public ::google::protobuf::Message /* @@
 
   // accessors -------------------------------------------------------
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   void clear_map_title_id();
   static const int kMapTitleIdFieldNumber = 1;
   const ::std::string& map_title_id() const;
@@ -11059,7 +11059,7 @@ class LIBPROTOC_EXPORT ReqHoldMapGrid : public ::google::protobuf::Message /* @@
   void set_map_title_id(::std::string&& value);
   #endif
   void set_map_title_id(const char* value);
-  void set_map_title_id(const void* value, size_t size);
+  void set_map_title_id(const char* value, size_t size);
   ::std::string* mutable_map_title_id();
   ::std::string* release_map_title_id();
   void set_allocated_map_title_id(::std::string* map_title_id);
@@ -11267,7 +11267,7 @@ class LIBPROTOC_EXPORT ReqLeaveMapMsg : public ::google::protobuf::Message /* @@
 
   // accessors -------------------------------------------------------
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   void clear_map_title_id();
   static const int kMapTitleIdFieldNumber = 1;
   const ::std::string& map_title_id() const;
@@ -11276,7 +11276,7 @@ class LIBPROTOC_EXPORT ReqLeaveMapMsg : public ::google::protobuf::Message /* @@
   void set_map_title_id(::std::string&& value);
   #endif
   void set_map_title_id(const char* value);
-  void set_map_title_id(const void* value, size_t size);
+  void set_map_title_id(const char* value, size_t size);
   ::std::string* mutable_map_title_id();
   ::std::string* release_map_title_id();
   void set_allocated_map_title_id(::std::string* map_title_id);
@@ -11484,7 +11484,7 @@ class LIBPROTOC_EXPORT ReqGetMapAward : public ::google::protobuf::Message /* @@
 
   // accessors -------------------------------------------------------
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   void clear_map_title_id();
   static const int kMapTitleIdFieldNumber = 1;
   const ::std::string& map_title_id() const;
@@ -11493,7 +11493,7 @@ class LIBPROTOC_EXPORT ReqGetMapAward : public ::google::protobuf::Message /* @@
   void set_map_title_id(::std::string&& value);
   #endif
   void set_map_title_id(const char* value);
-  void set_map_title_id(const void* value, size_t size);
+  void set_map_title_id(const char* value, size_t size);
   ::std::string* mutable_map_title_id();
   ::std::string* release_map_title_id();
   void set_allocated_map_title_id(::std::string* map_title_id);
@@ -11691,7 +11691,7 @@ class LIBPROTOC_EXPORT ReqMapHunting : public ::google::protobuf::Message /* @@p
 
   // accessors -------------------------------------------------------
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   void clear_map_title_id();
   static const int kMapTitleIdFieldNumber = 1;
   const ::std::string& map_title_id() const;
@@ -11700,7 +11700,7 @@ class LIBPROTOC_EXPORT ReqMapHunting : public ::google::protobuf::Message /* @@p
   void set_map_title_id(::std::string&& value);
   #endif
   void set_map_title_id(const char* value);
-  void set_map_title_id(const void* value, size_t size);
+  void set_map_title_id(const char* value, size_t size);
   ::std::string* mutable_map_title_id();
   ::std::string* release_map_title_id();
   void set_allocated_map_title_id(::std::string* map_title_id);
@@ -11898,7 +11898,7 @@ class LIBPROTOC_EXPORT ReqMapKingWar : public ::google::protobuf::Message /* @@p
 
   // accessors -------------------------------------------------------
 
-  // bytes map_title_id = 1;
+  // string map_title_id = 1;
   void clear_map_title_id();
   static const int kMapTitleIdFieldNumber = 1;
   const ::std::string& map_title_id() const;
@@ -11907,7 +11907,7 @@ class LIBPROTOC_EXPORT ReqMapKingWar : public ::google::protobuf::Message /* @@p
   void set_map_title_id(::std::string&& value);
   #endif
   void set_map_title_id(const char* value);
-  void set_map_title_id(const void* value, size_t size);
+  void set_map_title_id(const char* value, size_t size);
   ::std::string* mutable_map_title_id();
   ::std::string* release_map_title_id();
   void set_allocated_map_title_id(::std::string* map_title_id);
@@ -12786,7 +12786,7 @@ inline void ReqEnterGameServer::set_allocated_id(::AFMsg::Ident* id) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqEnterGameServer.id)
 }
 
-// bytes account = 2;
+// string account = 2;
 inline void ReqEnterGameServer::clear_account() {
   account_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -12813,7 +12813,7 @@ inline void ReqEnterGameServer::set_account(const char* value) {
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqEnterGameServer.account)
 }
-inline void ReqEnterGameServer::set_account(const void* value, size_t size) {
+inline void ReqEnterGameServer::set_account(const char* value, size_t size) {
   
   account_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -12853,7 +12853,7 @@ inline void ReqEnterGameServer::set_game_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.ReqEnterGameServer.game_id)
 }
 
-// bytes name = 4;
+// string name = 4;
 inline void ReqEnterGameServer::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -12880,7 +12880,7 @@ inline void ReqEnterGameServer::set_name(const char* value) {
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqEnterGameServer.name)
 }
-inline void ReqEnterGameServer::set_name(const void* value, size_t size) {
+inline void ReqEnterGameServer::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -13036,7 +13036,7 @@ inline void PlayerEntryInfo::set_player_state(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.PlayerEntryInfo.player_state)
 }
 
-// bytes config_id = 5;
+// string config_id = 5;
 inline void PlayerEntryInfo::clear_config_id() {
   config_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -13063,7 +13063,7 @@ inline void PlayerEntryInfo::set_config_id(const char* value) {
   config_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PlayerEntryInfo.config_id)
 }
-inline void PlayerEntryInfo::set_config_id(const void* value, size_t size) {
+inline void PlayerEntryInfo::set_config_id(const char* value, size_t size) {
   
   config_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -13103,7 +13103,7 @@ inline void PlayerEntryInfo::set_scene_id(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.PlayerEntryInfo.scene_id)
 }
 
-// bytes class_id = 7;
+// string class_id = 7;
 inline void PlayerEntryInfo::clear_class_id() {
   class_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -13130,7 +13130,7 @@ inline void PlayerEntryInfo::set_class_id(const char* value) {
   class_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.PlayerEntryInfo.class_id)
 }
-inline void PlayerEntryInfo::set_class_id(const void* value, size_t size) {
+inline void PlayerEntryInfo::set_class_id(const char* value, size_t size) {
   
   class_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -13297,7 +13297,7 @@ ReqAckSynData::object_list() const {
   return object_list_;
 }
 
-// bytes data = 3;
+// string data = 3;
 inline void ReqAckSynData::clear_data() {
   data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -13324,7 +13324,7 @@ inline void ReqAckSynData::set_data(const char* value) {
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAckSynData.data)
 }
-inline void ReqAckSynData::set_data(const void* value, size_t size) {
+inline void ReqAckSynData::set_data(const char* value, size_t size) {
   
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -13513,7 +13513,7 @@ inline void ChatContainer::set_containertype(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.ChatContainer.ConTainerType)
 }
 
-// bytes data_info = 3;
+// string data_info = 3;
 inline void ChatContainer::clear_data_info() {
   data_info_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -13540,7 +13540,7 @@ inline void ChatContainer::set_data_info(const char* value) {
   data_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ChatContainer.data_info)
 }
-inline void ChatContainer::set_data_info(const void* value, size_t size) {
+inline void ChatContainer::set_data_info(const char* value, size_t size) {
   
   data_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -13629,7 +13629,7 @@ inline void ReqAckPlayerChat::set_chat_type(::AFMsg::ReqAckPlayerChat_EGameChatT
   // @@protoc_insertion_point(field_set:AFMsg.ReqAckPlayerChat.chat_type)
 }
 
-// bytes chat_info = 3;
+// string chat_info = 3;
 inline void ReqAckPlayerChat::clear_chat_info() {
   chat_info_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -13656,7 +13656,7 @@ inline void ReqAckPlayerChat::set_chat_info(const char* value) {
   chat_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAckPlayerChat.chat_info)
 }
-inline void ReqAckPlayerChat::set_chat_info(const void* value, size_t size) {
+inline void ReqAckPlayerChat::set_chat_info(const char* value, size_t size) {
   
   chat_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -13682,7 +13682,7 @@ inline void ReqAckPlayerChat::set_allocated_chat_info(::std::string* chat_info) 
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqAckPlayerChat.chat_info)
 }
 
-// bytes chat_name = 4;
+// string chat_name = 4;
 inline void ReqAckPlayerChat::clear_chat_name() {
   chat_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -13709,7 +13709,7 @@ inline void ReqAckPlayerChat::set_chat_name(const char* value) {
   chat_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAckPlayerChat.chat_name)
 }
-inline void ReqAckPlayerChat::set_chat_name(const void* value, size_t size) {
+inline void ReqAckPlayerChat::set_chat_name(const char* value, size_t size) {
   
   chat_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -13936,7 +13936,7 @@ inline void ReqAckUseSkill::set_allocated_user(::AFMsg::Ident* user) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqAckUseSkill.user)
 }
 
-// bytes skill_id = 2;
+// string skill_id = 2;
 inline void ReqAckUseSkill::clear_skill_id() {
   skill_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -13963,7 +13963,7 @@ inline void ReqAckUseSkill::set_skill_id(const char* value) {
   skill_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAckUseSkill.skill_id)
 }
-inline void ReqAckUseSkill::set_skill_id(const void* value, size_t size) {
+inline void ReqAckUseSkill::set_skill_id(const char* value, size_t size) {
   
   skill_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -14663,7 +14663,7 @@ inline void ReqPickDropItem::set_allocated_item_guid(::AFMsg::Ident* item_guid) 
 
 // ReqAcceptTask
 
-// bytes task_id = 1;
+// string task_id = 1;
 inline void ReqAcceptTask::clear_task_id() {
   task_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -14690,7 +14690,7 @@ inline void ReqAcceptTask::set_task_id(const char* value) {
   task_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAcceptTask.task_id)
 }
-inline void ReqAcceptTask::set_task_id(const void* value, size_t size) {
+inline void ReqAcceptTask::set_task_id(const char* value, size_t size) {
   
   task_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -14720,7 +14720,7 @@ inline void ReqAcceptTask::set_allocated_task_id(::std::string* task_id) {
 
 // ReqCompeleteTask
 
-// bytes task_id = 1;
+// string task_id = 1;
 inline void ReqCompeleteTask::clear_task_id() {
   task_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -14747,7 +14747,7 @@ inline void ReqCompeleteTask::set_task_id(const char* value) {
   task_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqCompeleteTask.task_id)
 }
-inline void ReqCompeleteTask::set_task_id(const void* value, size_t size) {
+inline void ReqCompeleteTask::set_task_id(const char* value, size_t size) {
   
   task_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -16347,7 +16347,7 @@ inline void ChatInfo::set_chat_type(::AFMsg::ChatInfo_EChatType value) {
   // @@protoc_insertion_point(field_set:AFMsg.ChatInfo.chat_type)
 }
 
-// bytes chat_info = 2;
+// string chat_info = 2;
 inline void ChatInfo::clear_chat_info() {
   chat_info_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -16374,7 +16374,7 @@ inline void ChatInfo::set_chat_info(const char* value) {
   chat_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ChatInfo.chat_info)
 }
-inline void ChatInfo::set_chat_info(const void* value, size_t size) {
+inline void ChatInfo::set_chat_info(const char* value, size_t size) {
   
   chat_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -16414,7 +16414,7 @@ inline void ChatInfo::set_chat_time(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:AFMsg.ChatInfo.chat_time)
 }
 
-// bytes addtional_info = 4;
+// string addtional_info = 4;
 inline void ChatInfo::clear_addtional_info() {
   addtional_info_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -16441,7 +16441,7 @@ inline void ChatInfo::set_addtional_info(const char* value) {
   addtional_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ChatInfo.addtional_info)
 }
-inline void ChatInfo::set_addtional_info(const void* value, size_t size) {
+inline void ChatInfo::set_addtional_info(const char* value, size_t size) {
   
   addtional_info_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -16512,7 +16512,7 @@ inline void ChatInfo::set_allocated_send_id(::AFMsg::Ident* send_id) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ChatInfo.send_id)
 }
 
-// bytes send_name = 6;
+// string send_name = 6;
 inline void ChatInfo::clear_send_name() {
   send_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -16539,7 +16539,7 @@ inline void ChatInfo::set_send_name(const char* value) {
   send_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ChatInfo.send_name)
 }
-inline void ChatInfo::set_send_name(const void* value, size_t size) {
+inline void ChatInfo::set_send_name(const char* value, size_t size) {
   
   send_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -16606,7 +16606,7 @@ ChatInfo::recvier_id() const {
   return recvier_id_;
 }
 
-// bytes guid_name = 9;
+// string guid_name = 9;
 inline void ChatInfo::clear_guid_name() {
   guid_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -16633,7 +16633,7 @@ inline void ChatInfo::set_guid_name(const char* value) {
   guid_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ChatInfo.guid_name)
 }
-inline void ChatInfo::set_guid_name(const void* value, size_t size) {
+inline void ChatInfo::set_guid_name(const char* value, size_t size) {
   
   guid_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -16663,7 +16663,7 @@ inline void ChatInfo::set_allocated_guid_name(::std::string* guid_name) {
 
 // ReqAckCreateChatGroup
 
-// bytes name = 1;
+// string name = 1;
 inline void ReqAckCreateChatGroup::clear_name() {
   name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -16690,7 +16690,7 @@ inline void ReqAckCreateChatGroup::set_name(const char* value) {
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqAckCreateChatGroup.name)
 }
-inline void ReqAckCreateChatGroup::set_name(const void* value, size_t size) {
+inline void ReqAckCreateChatGroup::set_name(const char* value, size_t size) {
   
   name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -17700,7 +17700,7 @@ inline void ReqInlaystoneToEquip::set_allocated_equipid(::AFMsg::Ident* equipid)
   // @@protoc_insertion_point(field_set_allocated:AFMsg.ReqInlaystoneToEquip.equipid)
 }
 
-// bytes stoneid = 3;
+// string stoneid = 3;
 inline void ReqInlaystoneToEquip::clear_stoneid() {
   stoneid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -17727,7 +17727,7 @@ inline void ReqInlaystoneToEquip::set_stoneid(const char* value) {
   stoneid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqInlaystoneToEquip.stoneid)
 }
-inline void ReqInlaystoneToEquip::set_stoneid(const void* value, size_t size) {
+inline void ReqInlaystoneToEquip::set_stoneid(const char* value, size_t size) {
   
   stoneid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -20245,7 +20245,7 @@ inline void GridGuildBaseInfo::set_resource(::google::protobuf::int32 value) {
   // @@protoc_insertion_point(field_set:AFMsg.GridGuildBaseInfo.resource)
 }
 
-// bytes icon = 5;
+// string icon = 5;
 inline void GridGuildBaseInfo::clear_icon() {
   icon_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -20272,7 +20272,7 @@ inline void GridGuildBaseInfo::set_icon(const char* value) {
   icon_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.GridGuildBaseInfo.icon)
 }
-inline void GridGuildBaseInfo::set_icon(const void* value, size_t size) {
+inline void GridGuildBaseInfo::set_icon(const char* value, size_t size) {
   
   icon_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -20302,7 +20302,7 @@ inline void GridGuildBaseInfo::set_allocated_icon(::std::string* icon) {
 
 // ReqBigMapGridInfo
 
-// repeated bytes map_title_id = 1;
+// repeated string map_title_id = 1;
 inline int ReqBigMapGridInfo::map_title_id_size() const {
   return map_title_id_.size();
 }
@@ -20332,7 +20332,7 @@ inline void ReqBigMapGridInfo::set_map_title_id(int index, const char* value) {
   map_title_id_.Mutable(index)->assign(value);
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqBigMapGridInfo.map_title_id)
 }
-inline void ReqBigMapGridInfo::set_map_title_id(int index, const void* value, size_t size) {
+inline void ReqBigMapGridInfo::set_map_title_id(int index, const char* value, size_t size) {
   map_title_id_.Mutable(index)->assign(
     reinterpret_cast<const char*>(value), size);
   // @@protoc_insertion_point(field_set_pointer:AFMsg.ReqBigMapGridInfo.map_title_id)
@@ -20356,7 +20356,7 @@ inline void ReqBigMapGridInfo::add_map_title_id(const char* value) {
   map_title_id_.Add()->assign(value);
   // @@protoc_insertion_point(field_add_char:AFMsg.ReqBigMapGridInfo.map_title_id)
 }
-inline void ReqBigMapGridInfo::add_map_title_id(const void* value, size_t size) {
+inline void ReqBigMapGridInfo::add_map_title_id(const char* value, size_t size) {
   map_title_id_.Add()->assign(reinterpret_cast<const char*>(value), size);
   // @@protoc_insertion_point(field_add_pointer:AFMsg.ReqBigMapGridInfo.map_title_id)
 }
@@ -20375,7 +20375,7 @@ ReqBigMapGridInfo::mutable_map_title_id() {
 
 // BigMapGridBaseInfo
 
-// bytes id = 1;
+// string id = 1;
 inline void BigMapGridBaseInfo::clear_id() {
   id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -20402,7 +20402,7 @@ inline void BigMapGridBaseInfo::set_id(const char* value) {
   id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.BigMapGridBaseInfo.id)
 }
-inline void BigMapGridBaseInfo::set_id(const void* value, size_t size) {
+inline void BigMapGridBaseInfo::set_id(const char* value, size_t size) {
   
   id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -20646,7 +20646,7 @@ inline void BigMapLeaveMsg::set_allocated_owner(::AFMsg::Ident* owner) {
   // @@protoc_insertion_point(field_set_allocated:AFMsg.BigMapLeaveMsg.owner)
 }
 
-// bytes owner_name = 2;
+// string owner_name = 2;
 inline void BigMapLeaveMsg::clear_owner_name() {
   owner_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -20673,7 +20673,7 @@ inline void BigMapLeaveMsg::set_owner_name(const char* value) {
   owner_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.BigMapLeaveMsg.owner_name)
 }
-inline void BigMapLeaveMsg::set_owner_name(const void* value, size_t size) {
+inline void BigMapLeaveMsg::set_owner_name(const char* value, size_t size) {
   
   owner_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -20699,7 +20699,7 @@ inline void BigMapLeaveMsg::set_allocated_owner_name(::std::string* owner_name) 
   // @@protoc_insertion_point(field_set_allocated:AFMsg.BigMapLeaveMsg.owner_name)
 }
 
-// bytes msg_data = 3;
+// string msg_data = 3;
 inline void BigMapLeaveMsg::clear_msg_data() {
   msg_data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -20726,7 +20726,7 @@ inline void BigMapLeaveMsg::set_msg_data(const char* value) {
   msg_data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.BigMapLeaveMsg.msg_data)
 }
-inline void BigMapLeaveMsg::set_msg_data(const void* value, size_t size) {
+inline void BigMapLeaveMsg::set_msg_data(const char* value, size_t size) {
   
   msg_data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -21166,7 +21166,7 @@ AckBigMapInfo::grid_base_info() const {
 
 // ReqHoldMapGrid
 
-// bytes map_title_id = 1;
+// string map_title_id = 1;
 inline void ReqHoldMapGrid::clear_map_title_id() {
   map_title_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -21193,7 +21193,7 @@ inline void ReqHoldMapGrid::set_map_title_id(const char* value) {
   map_title_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqHoldMapGrid.map_title_id)
 }
-inline void ReqHoldMapGrid::set_map_title_id(const void* value, size_t size) {
+inline void ReqHoldMapGrid::set_map_title_id(const char* value, size_t size) {
   
   map_title_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -21272,7 +21272,7 @@ inline void ReqHoldMapGrid::set_allocated_guild_id(::AFMsg::Ident* guild_id) {
 
 // ReqLeaveMapMsg
 
-// bytes map_title_id = 1;
+// string map_title_id = 1;
 inline void ReqLeaveMapMsg::clear_map_title_id() {
   map_title_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -21299,7 +21299,7 @@ inline void ReqLeaveMapMsg::set_map_title_id(const char* value) {
   map_title_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqLeaveMapMsg.map_title_id)
 }
-inline void ReqLeaveMapMsg::set_map_title_id(const void* value, size_t size) {
+inline void ReqLeaveMapMsg::set_map_title_id(const char* value, size_t size) {
   
   map_title_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -21384,7 +21384,7 @@ inline void ReqLeaveMapMsg::set_allocated_leave_msg(::AFMsg::BigMapLeaveMsg* lea
 
 // ReqGetMapAward
 
-// bytes map_title_id = 1;
+// string map_title_id = 1;
 inline void ReqGetMapAward::clear_map_title_id() {
   map_title_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -21411,7 +21411,7 @@ inline void ReqGetMapAward::set_map_title_id(const char* value) {
   map_title_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqGetMapAward.map_title_id)
 }
-inline void ReqGetMapAward::set_map_title_id(const void* value, size_t size) {
+inline void ReqGetMapAward::set_map_title_id(const char* value, size_t size) {
   
   map_title_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -21445,7 +21445,7 @@ inline void ReqGetMapAward::set_allocated_map_title_id(::std::string* map_title_
 
 // ReqMapHunting
 
-// bytes map_title_id = 1;
+// string map_title_id = 1;
 inline void ReqMapHunting::clear_map_title_id() {
   map_title_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -21472,7 +21472,7 @@ inline void ReqMapHunting::set_map_title_id(const char* value) {
   map_title_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqMapHunting.map_title_id)
 }
-inline void ReqMapHunting::set_map_title_id(const void* value, size_t size) {
+inline void ReqMapHunting::set_map_title_id(const char* value, size_t size) {
   
   map_title_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
@@ -21506,7 +21506,7 @@ inline void ReqMapHunting::set_allocated_map_title_id(::std::string* map_title_i
 
 // ReqMapKingWar
 
-// bytes map_title_id = 1;
+// string map_title_id = 1;
 inline void ReqMapKingWar::clear_map_title_id() {
   map_title_id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -21533,7 +21533,7 @@ inline void ReqMapKingWar::set_map_title_id(const char* value) {
   map_title_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
   // @@protoc_insertion_point(field_set_char:AFMsg.ReqMapKingWar.map_title_id)
 }
-inline void ReqMapKingWar::set_map_title_id(const void* value, size_t size) {
+inline void ReqMapKingWar::set_map_title_id(const char* value, size_t size) {
   
   map_title_id_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));

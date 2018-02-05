@@ -26,8 +26,8 @@ namespace AFMsg {
           string.Concat(
             "ChJBRk1zZ1ByZUdhbWUucHJvdG8SBUFGTXNnGg5BRkRlZmluZS5wcm90bxoP",
             "QUZNc2dCYXNlLnByb3RvItcBChBTZXJ2ZXJJbmZvUmVwb3J0EhEKCXNlcnZl",
-            "cl9pZBgBIAEoBRITCgtzZXJ2ZXJfbmFtZRgCIAEoDBIRCglzZXJ2ZXJfaXAY",
-            "AyABKAwSEwoLc2VydmVyX3BvcnQYBCABKAUSGQoRc2VydmVyX21heF9vbmxp",
+            "cl9pZBgBIAEoBRITCgtzZXJ2ZXJfbmFtZRgCIAEoCRIRCglzZXJ2ZXJfaXAY",
+            "AyABKAkSEwoLc2VydmVyX3BvcnQYBCABKAUSGQoRc2VydmVyX21heF9vbmxp",
             "bmUYBSABKAUSGAoQc2VydmVyX2N1cl9jb3VudBgGIAEoBRIpCgxzZXJ2ZXJf",
             "c3RhdGUYByABKA4yEy5BRk1zZy5FU2VydmVyU3RhdGUSEwoLc2VydmVyX3R5",
             "cGUYCCABKAUiRAoUU2VydmVySW5mb1JlcG9ydExpc3QSLAoLc2VydmVyX2xp",
@@ -35,40 +35,40 @@ namespace AFMsg {
             "dFJlc3VsdBIpCgpldmVudF9jb2RlGAEgASgOMhUuQUZNc2cuRUdhbWVFdmVu",
             "dENvZGUSIgoMZXZlbnRfb2JqZWN0GAIgASgLMgwuQUZNc2cuSWRlbnQSIgoM",
             "ZXZlbnRfY2xpZW50GAMgASgLMgwuQUZNc2cuSWRlbnQi7AEKD1JlcUFjY291",
-            "bnRMb2dpbhIPCgdhY2NvdW50GAIgASgMEhAKCHBhc3N3b3JkGAMgASgMEhUK",
-            "DXNlY3VyaXR5X2NvZGUYBCABKAwSEAoIc2lnbkJ1ZmYYBSABKAwSFQoNY2xp",
+            "bnRMb2dpbhIPCgdhY2NvdW50GAIgASgJEhAKCHBhc3N3b3JkGAMgASgJEhUK",
+            "DXNlY3VyaXR5X2NvZGUYBCABKAkSEAoIc2lnbkJ1ZmYYBSABKAkSFQoNY2xp",
             "ZW50VmVyc2lvbhgGIAEoBRIRCglsb2dpbk1vZGUYByABKAUSEAoIY2xpZW50",
             "SVAYCCABKAUSEQoJY2xpZW50TUFDGAkgASgDEhMKC2RldmljZV9pbmZvGAog",
-            "ASgMEhIKCmV4dHJhX2luZm8YCyABKAwSFQoNcGxhdGZvcm1fdHlwZRgMIAEo",
-            "BSI3ChBSZXFBY2NvdW50TG9nb3V0Eg8KB2FjY291bnQYAiABKAwSEgoKZXh0",
-            "cmFfaW5mbxgDIAEoDCJmCgpTZXJ2ZXJJbmZvEhEKCXNlcnZlcl9pZBgBIAEo",
-            "BRIMCgRuYW1lGAIgASgMEhIKCndhaXRfY291bnQYAyABKAUSIwoGc3RhdHVz",
+            "ASgJEhIKCmV4dHJhX2luZm8YCyABKAkSFQoNcGxhdGZvcm1fdHlwZRgMIAEo",
+            "BSI3ChBSZXFBY2NvdW50TG9nb3V0Eg8KB2FjY291bnQYAiABKAkSEgoKZXh0",
+            "cmFfaW5mbxgDIAEoCSJmCgpTZXJ2ZXJJbmZvEhEKCXNlcnZlcl9pZBgBIAEo",
+            "BRIMCgRuYW1lGAIgASgJEhIKCndhaXRfY291bnQYAyABKAUSIwoGc3RhdHVz",
             "GAQgASgOMhMuQUZNc2cuRVNlcnZlclN0YXRlIjcKDVJlcVNlcnZlckxpc3QS",
             "JgoEdHlwZRgBIAEoDjIYLkFGTXNnLlJlcVNlcnZlckxpc3RUeXBlIlgKDUFj",
             "a1NlcnZlckxpc3QSJgoEdHlwZRgBIAEoDjIYLkFGTXNnLlJlcVNlcnZlckxp",
             "c3RUeXBlEh8KBGluZm8YAiADKAsyES5BRk1zZy5TZXJ2ZXJJbmZvImQKD1Jl",
             "cUNvbm5lY3RXb3JsZBIQCgh3b3JsZF9pZBgBIAEoBRIPCgdhY2NvdW50GAIg",
-            "ASgMEhwKBnNlbmRlchgDIAEoCzIMLkFGTXNnLklkZW50EhAKCGxvZ2luX2lk",
+            "ASgJEhwKBnNlbmRlchgDIAEoCzIMLkFGTXNnLklkZW50EhAKCGxvZ2luX2lk",
             "GAQgASgFIqMBChVBY2tDb25uZWN0V29ybGRSZXN1bHQSEAoId29ybGRfaWQY",
             "ASABKAUSHAoGc2VuZGVyGAIgASgLMgwuQUZNc2cuSWRlbnQSEAoIbG9naW5f",
-            "aWQYAyABKAUSDwoHYWNjb3VudBgEIAEoDBIQCgh3b3JsZF9pcBgFIAEoDBIS",
-            "Cgp3b3JsZF9wb3J0GAYgASgFEhEKCXdvcmxkX2tleRgHIAEoDCIjCg9SZXFT",
+            "aWQYAyABKAUSDwoHYWNjb3VudBgEIAEoCRIQCgh3b3JsZF9pcBgFIAEoCRIS",
+            "Cgp3b3JsZF9wb3J0GAYgASgFEhEKCXdvcmxkX2tleRgHIAEoCSIjCg9SZXFT",
             "ZWxlY3RTZXJ2ZXISEAoId29ybGRfaWQYASABKAUiNQoQUmVxS2lja0Zyb21X",
-            "b3JsZBIQCgh3b3JsZF9pZBgBIAEoBRIPCgdhY2NvdW50GAIgASgMIi8KC1Jl",
-            "cVJvbGVMaXN0Eg8KB2dhbWVfaWQYASABKAUSDwoHYWNjb3VudBgCIAEoDCL7",
+            "b3JsZBIQCgh3b3JsZF9pZBgBIAEoBRIPCgdhY2NvdW50GAIgASgJIi8KC1Jl",
+            "cVJvbGVMaXN0Eg8KB2dhbWVfaWQYASABKAUSDwoHYWNjb3VudBgCIAEoCSL7",
             "AQoMUm9sZUxpdGVJbmZvEhgKAmlkGAEgASgLMgwuQUZNc2cuSWRlbnQSDgoG",
             "Y2FyZWVyGAIgASgFEgsKA3NleBgDIAEoBRIMCgRyYWNlGAQgASgFEhEKCW5v",
-            "b2JfbmFtZRgFIAEoDBIPCgdnYW1lX2lkGAYgASgFEhIKCnJvbGVfbGV2ZWwY",
+            "b2JfbmFtZRgFIAEoCRIPCgdnYW1lX2lkGAYgASgFEhIKCnJvbGVfbGV2ZWwY",
             "ByABKAUSEwoLZGVsZXRlX3RpbWUYCCABKAUSEAoIcmVnX3RpbWUYCSABKAUS",
             "GQoRbGFzdF9vZmZsaW5lX3RpbWUYCiABKAUSFwoPbGFzdF9vZmZsaW5lX2lw",
-            "GAsgASgFEhMKC3ZpZXdfcmVjb3JkGAwgASgMIj0KE0Fja1JvbGVMaXRlSW5m",
+            "GAsgASgFEhMKC3ZpZXdfcmVjb3JkGAwgASgJIj0KE0Fja1JvbGVMaXRlSW5m",
             "b0xpc3QSJgoJY2hhcl9kYXRhGAEgAygLMhMuQUZNc2cuUm9sZUxpdGVJbmZv",
-            "Im8KDVJlcUNyZWF0ZVJvbGUSDwoHYWNjb3VudBgBIAEoDBIOCgZjYXJlZXIY",
+            "Im8KDVJlcUNyZWF0ZVJvbGUSDwoHYWNjb3VudBgBIAEoCRIOCgZjYXJlZXIY",
             "AiABKAUSCwoDc2V4GAMgASgFEgwKBHJhY2UYBCABKAUSEQoJbm9vYl9uYW1l",
-            "GAUgASgMEg8KB2dhbWVfaWQYBiABKAUiPwoNUmVxRGVsZXRlUm9sZRIPCgdh",
-            "Y2NvdW50GAEgASgMEgwKBG5hbWUYAiABKAwSDwoHZ2FtZV9pZBgDIAEoBSJA",
-            "Cg5SZXFSZWNvdmVyUm9sZRIPCgdhY2NvdW50GAEgASgMEgwKBG5hbWUYAiAB",
-            "KAwSDwoHZ2FtZV9pZBgDIAEoBSIgCg9TZXJ2ZXJIZWFydEJlYXQSDQoFY291",
+            "GAUgASgJEg8KB2dhbWVfaWQYBiABKAUiPwoNUmVxRGVsZXRlUm9sZRIPCgdh",
+            "Y2NvdW50GAEgASgJEgwKBG5hbWUYAiABKAkSDwoHZ2FtZV9pZBgDIAEoBSJA",
+            "Cg5SZXFSZWNvdmVyUm9sZRIPCgdhY2NvdW50GAEgASgJEgwKBG5hbWUYAiAB",
+            "KAkSDwoHZ2FtZV9pZBgDIAEoBSIgCg9TZXJ2ZXJIZWFydEJlYXQSDQoFY291",
             "bnQYASABKAUiLwoQUm9sZU9ubGluZU5vdGlmeRIbCgVndWlsZBgBIAEoCzIM",
             "LkFGTXNnLklkZW50IjAKEVJvbGVPZmZsaW5lTm90aWZ5EhsKBWd1aWxkGAEg",
             "ASgLMgwuQUZNc2cuSWRlbnQqWgoMRVNlcnZlclN0YXRlEg0KCUVTVF9DUkFT",
@@ -179,9 +179,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "server_name" field.</summary>
     public const int ServerNameFieldNumber = 2;
-    private pb::ByteString serverName_ = pb::ByteString.Empty;
+    private string serverName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString ServerName {
+    public string ServerName {
       get { return serverName_; }
       set {
         serverName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -190,9 +190,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "server_ip" field.</summary>
     public const int ServerIpFieldNumber = 3;
-    private pb::ByteString serverIp_ = pb::ByteString.Empty;
+    private string serverIp_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString ServerIp {
+    public string ServerIp {
       get { return serverIp_; }
       set {
         serverIp_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -308,11 +308,11 @@ namespace AFMsg {
       }
       if (ServerName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(ServerName);
+        output.WriteString(ServerName);
       }
       if (ServerIp.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteBytes(ServerIp);
+        output.WriteString(ServerIp);
       }
       if (ServerPort != 0) {
         output.WriteRawTag(32);
@@ -346,10 +346,10 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ServerId);
       }
       if (ServerName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ServerName);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ServerName);
       }
       if (ServerIp.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ServerIp);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ServerIp);
       }
       if (ServerPort != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ServerPort);
@@ -417,11 +417,11 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            ServerName = input.ReadBytes();
+            ServerName = input.ReadString();
             break;
           }
           case 26: {
-            ServerIp = input.ReadBytes();
+            ServerIp = input.ReadString();
             break;
           }
           case 32: {
@@ -823,9 +823,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 2;
-    private pb::ByteString account_ = pb::ByteString.Empty;
+    private string account_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Account {
+    public string Account {
       get { return account_; }
       set {
         account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -834,9 +834,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "password" field.</summary>
     public const int PasswordFieldNumber = 3;
-    private pb::ByteString password_ = pb::ByteString.Empty;
+    private string password_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Password {
+    public string Password {
       get { return password_; }
       set {
         password_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -845,9 +845,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "security_code" field.</summary>
     public const int SecurityCodeFieldNumber = 4;
-    private pb::ByteString securityCode_ = pb::ByteString.Empty;
+    private string securityCode_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString SecurityCode {
+    public string SecurityCode {
       get { return securityCode_; }
       set {
         securityCode_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -856,9 +856,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "signBuff" field.</summary>
     public const int SignBuffFieldNumber = 5;
-    private pb::ByteString signBuff_ = pb::ByteString.Empty;
+    private string signBuff_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString SignBuff {
+    public string SignBuff {
       get { return signBuff_; }
       set {
         signBuff_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -911,9 +911,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "device_info" field.</summary>
     public const int DeviceInfoFieldNumber = 10;
-    private pb::ByteString deviceInfo_ = pb::ByteString.Empty;
+    private string deviceInfo_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString DeviceInfo {
+    public string DeviceInfo {
       get { return deviceInfo_; }
       set {
         deviceInfo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -922,9 +922,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "extra_info" field.</summary>
     public const int ExtraInfoFieldNumber = 11;
-    private pb::ByteString extraInfo_ = pb::ByteString.Empty;
+    private string extraInfo_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString ExtraInfo {
+    public string ExtraInfo {
       get { return extraInfo_; }
       set {
         extraInfo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -998,19 +998,19 @@ namespace AFMsg {
     public void WriteTo(pb::CodedOutputStream output) {
       if (Account.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(Account);
+        output.WriteString(Account);
       }
       if (Password.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteBytes(Password);
+        output.WriteString(Password);
       }
       if (SecurityCode.Length != 0) {
         output.WriteRawTag(34);
-        output.WriteBytes(SecurityCode);
+        output.WriteString(SecurityCode);
       }
       if (SignBuff.Length != 0) {
         output.WriteRawTag(42);
-        output.WriteBytes(SignBuff);
+        output.WriteString(SignBuff);
       }
       if (ClientVersion != 0) {
         output.WriteRawTag(48);
@@ -1030,11 +1030,11 @@ namespace AFMsg {
       }
       if (DeviceInfo.Length != 0) {
         output.WriteRawTag(82);
-        output.WriteBytes(DeviceInfo);
+        output.WriteString(DeviceInfo);
       }
       if (ExtraInfo.Length != 0) {
         output.WriteRawTag(90);
-        output.WriteBytes(ExtraInfo);
+        output.WriteString(ExtraInfo);
       }
       if (PlatformType != 0) {
         output.WriteRawTag(96);
@@ -1049,16 +1049,16 @@ namespace AFMsg {
     public int CalculateSize() {
       int size = 0;
       if (Account.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Account);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
       }
       if (Password.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Password);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Password);
       }
       if (SecurityCode.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(SecurityCode);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(SecurityCode);
       }
       if (SignBuff.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(SignBuff);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(SignBuff);
       }
       if (ClientVersion != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ClientVersion);
@@ -1073,10 +1073,10 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(ClientMAC);
       }
       if (DeviceInfo.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(DeviceInfo);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(DeviceInfo);
       }
       if (ExtraInfo.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ExtraInfo);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ExtraInfo);
       }
       if (PlatformType != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(PlatformType);
@@ -1137,19 +1137,19 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 18: {
-            Account = input.ReadBytes();
+            Account = input.ReadString();
             break;
           }
           case 26: {
-            Password = input.ReadBytes();
+            Password = input.ReadString();
             break;
           }
           case 34: {
-            SecurityCode = input.ReadBytes();
+            SecurityCode = input.ReadString();
             break;
           }
           case 42: {
-            SignBuff = input.ReadBytes();
+            SignBuff = input.ReadString();
             break;
           }
           case 48: {
@@ -1169,11 +1169,11 @@ namespace AFMsg {
             break;
           }
           case 82: {
-            DeviceInfo = input.ReadBytes();
+            DeviceInfo = input.ReadString();
             break;
           }
           case 90: {
-            ExtraInfo = input.ReadBytes();
+            ExtraInfo = input.ReadString();
             break;
           }
           case 96: {
@@ -1223,9 +1223,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 2;
-    private pb::ByteString account_ = pb::ByteString.Empty;
+    private string account_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Account {
+    public string Account {
       get { return account_; }
       set {
         account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -1234,9 +1234,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "extra_info" field.</summary>
     public const int ExtraInfoFieldNumber = 3;
-    private pb::ByteString extraInfo_ = pb::ByteString.Empty;
+    private string extraInfo_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString ExtraInfo {
+    public string ExtraInfo {
       get { return extraInfo_; }
       set {
         extraInfo_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -1281,11 +1281,11 @@ namespace AFMsg {
     public void WriteTo(pb::CodedOutputStream output) {
       if (Account.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(Account);
+        output.WriteString(Account);
       }
       if (ExtraInfo.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteBytes(ExtraInfo);
+        output.WriteString(ExtraInfo);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -1296,10 +1296,10 @@ namespace AFMsg {
     public int CalculateSize() {
       int size = 0;
       if (Account.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Account);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
       }
       if (ExtraInfo.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ExtraInfo);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ExtraInfo);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -1330,11 +1330,11 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 18: {
-            Account = input.ReadBytes();
+            Account = input.ReadString();
             break;
           }
           case 26: {
-            ExtraInfo = input.ReadBytes();
+            ExtraInfo = input.ReadString();
             break;
           }
         }
@@ -1393,9 +1393,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 2;
-    private pb::ByteString name_ = pb::ByteString.Empty;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Name {
+    public string Name {
       get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -1470,7 +1470,7 @@ namespace AFMsg {
       }
       if (Name.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(Name);
+        output.WriteString(Name);
       }
       if (WaitCount != 0) {
         output.WriteRawTag(24);
@@ -1492,7 +1492,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(ServerId);
       }
       if (Name.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Name);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
       if (WaitCount != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(WaitCount);
@@ -1539,7 +1539,7 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            Name = input.ReadBytes();
+            Name = input.ReadString();
             break;
           }
           case 24: {
@@ -1887,12 +1887,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 2;
-    private pb::ByteString account_ = pb::ByteString.Empty;
+    private string account_ = "";
     /// <summary>
     ///玩家帐号--客户度发送时可以不填--转发需填
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Account {
+    public string Account {
       get { return account_; }
       set {
         account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -1973,7 +1973,7 @@ namespace AFMsg {
       }
       if (Account.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(Account);
+        output.WriteString(Account);
       }
       if (sender_ != null) {
         output.WriteRawTag(26);
@@ -1995,7 +1995,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(WorldId);
       }
       if (Account.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Account);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
       }
       if (sender_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Sender);
@@ -2045,7 +2045,7 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            Account = input.ReadBytes();
+            Account = input.ReadString();
             break;
           }
           case 26: {
@@ -2149,12 +2149,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 4;
-    private pb::ByteString account_ = pb::ByteString.Empty;
+    private string account_ = "";
     /// <summary>
     ///申请者的帐号
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Account {
+    public string Account {
       get { return account_; }
       set {
         account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -2163,12 +2163,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "world_ip" field.</summary>
     public const int WorldIpFieldNumber = 5;
-    private pb::ByteString worldIp_ = pb::ByteString.Empty;
+    private string worldIp_ = "";
     /// <summary>
     ///得到的世界服务器分配的网关IP
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString WorldIp {
+    public string WorldIp {
       get { return worldIp_; }
       set {
         worldIp_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -2191,12 +2191,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "world_key" field.</summary>
     public const int WorldKeyFieldNumber = 7;
-    private pb::ByteString worldKey_ = pb::ByteString.Empty;
+    private string worldKey_ = "";
     /// <summary>
     ///得到的握手KEY
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString WorldKey {
+    public string WorldKey {
       get { return worldKey_; }
       set {
         worldKey_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -2263,11 +2263,11 @@ namespace AFMsg {
       }
       if (Account.Length != 0) {
         output.WriteRawTag(34);
-        output.WriteBytes(Account);
+        output.WriteString(Account);
       }
       if (WorldIp.Length != 0) {
         output.WriteRawTag(42);
-        output.WriteBytes(WorldIp);
+        output.WriteString(WorldIp);
       }
       if (WorldPort != 0) {
         output.WriteRawTag(48);
@@ -2275,7 +2275,7 @@ namespace AFMsg {
       }
       if (WorldKey.Length != 0) {
         output.WriteRawTag(58);
-        output.WriteBytes(WorldKey);
+        output.WriteString(WorldKey);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -2295,16 +2295,16 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(LoginId);
       }
       if (Account.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Account);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
       }
       if (WorldIp.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(WorldIp);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(WorldIp);
       }
       if (WorldPort != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(WorldPort);
       }
       if (WorldKey.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(WorldKey);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(WorldKey);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2368,11 +2368,11 @@ namespace AFMsg {
             break;
           }
           case 34: {
-            Account = input.ReadBytes();
+            Account = input.ReadString();
             break;
           }
           case 42: {
-            WorldIp = input.ReadBytes();
+            WorldIp = input.ReadString();
             break;
           }
           case 48: {
@@ -2380,7 +2380,7 @@ namespace AFMsg {
             break;
           }
           case 58: {
-            WorldKey = input.ReadBytes();
+            WorldKey = input.ReadString();
             break;
           }
         }
@@ -2569,12 +2569,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 2;
-    private pb::ByteString account_ = pb::ByteString.Empty;
+    private string account_ = "";
     /// <summary>
     ///帐号
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Account {
+    public string Account {
       get { return account_; }
       set {
         account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -2623,7 +2623,7 @@ namespace AFMsg {
       }
       if (Account.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(Account);
+        output.WriteString(Account);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -2637,7 +2637,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(WorldId);
       }
       if (Account.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Account);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2672,7 +2672,7 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            Account = input.ReadBytes();
+            Account = input.ReadString();
             break;
           }
         }
@@ -2732,9 +2732,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 2;
-    private pb::ByteString account_ = pb::ByteString.Empty;
+    private string account_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Account {
+    public string Account {
       get { return account_; }
       set {
         account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -2783,7 +2783,7 @@ namespace AFMsg {
       }
       if (Account.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(Account);
+        output.WriteString(Account);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -2797,7 +2797,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(GameId);
       }
       if (Account.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Account);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -2832,7 +2832,7 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            Account = input.ReadBytes();
+            Account = input.ReadString();
             break;
           }
         }
@@ -2932,9 +2932,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "noob_name" field.</summary>
     public const int NoobNameFieldNumber = 5;
-    private pb::ByteString noobName_ = pb::ByteString.Empty;
+    private string noobName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString NoobName {
+    public string NoobName {
       get { return noobName_; }
       set {
         noobName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3009,9 +3009,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "view_record" field.</summary>
     public const int ViewRecordFieldNumber = 12;
-    private pb::ByteString viewRecord_ = pb::ByteString.Empty;
+    private string viewRecord_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString ViewRecord {
+    public string ViewRecord {
       get { return viewRecord_; }
       set {
         viewRecord_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3092,7 +3092,7 @@ namespace AFMsg {
       }
       if (NoobName.Length != 0) {
         output.WriteRawTag(42);
-        output.WriteBytes(NoobName);
+        output.WriteString(NoobName);
       }
       if (GameId != 0) {
         output.WriteRawTag(48);
@@ -3120,7 +3120,7 @@ namespace AFMsg {
       }
       if (ViewRecord.Length != 0) {
         output.WriteRawTag(98);
-        output.WriteBytes(ViewRecord);
+        output.WriteString(ViewRecord);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -3143,7 +3143,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Race);
       }
       if (NoobName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(NoobName);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(NoobName);
       }
       if (GameId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(GameId);
@@ -3164,7 +3164,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(LastOfflineIp);
       }
       if (ViewRecord.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(ViewRecord);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(ViewRecord);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -3247,7 +3247,7 @@ namespace AFMsg {
             break;
           }
           case 42: {
-            NoobName = input.ReadBytes();
+            NoobName = input.ReadString();
             break;
           }
           case 48: {
@@ -3275,7 +3275,7 @@ namespace AFMsg {
             break;
           }
           case 98: {
-            ViewRecord = input.ReadBytes();
+            ViewRecord = input.ReadString();
             break;
           }
         }
@@ -3446,9 +3446,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 1;
-    private pb::ByteString account_ = pb::ByteString.Empty;
+    private string account_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Account {
+    public string Account {
       get { return account_; }
       set {
         account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3490,9 +3490,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "noob_name" field.</summary>
     public const int NoobNameFieldNumber = 5;
-    private pb::ByteString noobName_ = pb::ByteString.Empty;
+    private string noobName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString NoobName {
+    public string NoobName {
       get { return noobName_; }
       set {
         noobName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3556,7 +3556,7 @@ namespace AFMsg {
     public void WriteTo(pb::CodedOutputStream output) {
       if (Account.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteBytes(Account);
+        output.WriteString(Account);
       }
       if (Career != 0) {
         output.WriteRawTag(16);
@@ -3572,7 +3572,7 @@ namespace AFMsg {
       }
       if (NoobName.Length != 0) {
         output.WriteRawTag(42);
-        output.WriteBytes(NoobName);
+        output.WriteString(NoobName);
       }
       if (GameId != 0) {
         output.WriteRawTag(48);
@@ -3587,7 +3587,7 @@ namespace AFMsg {
     public int CalculateSize() {
       int size = 0;
       if (Account.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Account);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
       }
       if (Career != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Career);
@@ -3599,7 +3599,7 @@ namespace AFMsg {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Race);
       }
       if (NoobName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(NoobName);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(NoobName);
       }
       if (GameId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(GameId);
@@ -3645,7 +3645,7 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            Account = input.ReadBytes();
+            Account = input.ReadString();
             break;
           }
           case 16: {
@@ -3661,7 +3661,7 @@ namespace AFMsg {
             break;
           }
           case 42: {
-            NoobName = input.ReadBytes();
+            NoobName = input.ReadString();
             break;
           }
           case 48: {
@@ -3712,9 +3712,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 1;
-    private pb::ByteString account_ = pb::ByteString.Empty;
+    private string account_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Account {
+    public string Account {
       get { return account_; }
       set {
         account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3723,9 +3723,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 2;
-    private pb::ByteString name_ = pb::ByteString.Empty;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Name {
+    public string Name {
       get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3783,11 +3783,11 @@ namespace AFMsg {
     public void WriteTo(pb::CodedOutputStream output) {
       if (Account.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteBytes(Account);
+        output.WriteString(Account);
       }
       if (Name.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(Name);
+        output.WriteString(Name);
       }
       if (GameId != 0) {
         output.WriteRawTag(24);
@@ -3802,10 +3802,10 @@ namespace AFMsg {
     public int CalculateSize() {
       int size = 0;
       if (Account.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Account);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
       }
       if (Name.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Name);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
       if (GameId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(GameId);
@@ -3842,11 +3842,11 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            Account = input.ReadBytes();
+            Account = input.ReadString();
             break;
           }
           case 18: {
-            Name = input.ReadBytes();
+            Name = input.ReadString();
             break;
           }
           case 24: {
@@ -3897,9 +3897,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "account" field.</summary>
     public const int AccountFieldNumber = 1;
-    private pb::ByteString account_ = pb::ByteString.Empty;
+    private string account_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Account {
+    public string Account {
       get { return account_; }
       set {
         account_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3908,9 +3908,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "name" field.</summary>
     public const int NameFieldNumber = 2;
-    private pb::ByteString name_ = pb::ByteString.Empty;
+    private string name_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pb::ByteString Name {
+    public string Name {
       get { return name_; }
       set {
         name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -3968,11 +3968,11 @@ namespace AFMsg {
     public void WriteTo(pb::CodedOutputStream output) {
       if (Account.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteBytes(Account);
+        output.WriteString(Account);
       }
       if (Name.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteBytes(Name);
+        output.WriteString(Name);
       }
       if (GameId != 0) {
         output.WriteRawTag(24);
@@ -3987,10 +3987,10 @@ namespace AFMsg {
     public int CalculateSize() {
       int size = 0;
       if (Account.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Account);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Account);
       }
       if (Name.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeBytesSize(Name);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
       }
       if (GameId != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(GameId);
@@ -4027,11 +4027,11 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            Account = input.ReadBytes();
+            Account = input.ReadString();
             break;
           }
           case 18: {
-            Name = input.ReadBytes();
+            Name = input.ReadString();
             break;
           }
           case 24: {

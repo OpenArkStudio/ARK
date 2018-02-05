@@ -948,9 +948,9 @@ void AddDescriptorsImpl() {
       "\"\301\001\n\013VariantData\022\024\n\nbool_value\030\001 \001(\010H\000\022\023"
       "\n\tint_value\030\002 \001(\005H\000\022\025\n\013int64_value\030\003 \001(\003"
       "H\000\022\025\n\013float_value\030\004 \001(\002H\000\022\026\n\014double_valu"
-      "e\030\005 \001(\001H\000\022\023\n\tstr_value\030\006 \001(\014H\000\022\"\n\nguid_v"
+      "e\030\005 \001(\001H\000\022\023\n\tstr_value\030\006 \001(\tH\000\022\"\n\nguid_v"
       "alue\030\007 \001(\0132\014.AFMsg.IdentH\000B\010\n\006AFData\"d\n\016"
-      "PropertyPBData\022\025\n\rproperty_name\030\001 \001(\014\022\021\n"
+      "PropertyPBData\022\025\n\rproperty_name\030\001 \001(\t\022\021\n"
       "\tndataType\030\002 \001(\005\022(\n\014variant_data\030\003 \001(\0132\022"
       ".AFMsg.VariantData\"e\n\014RecordPBData\022\013\n\003ro"
       "w\030\001 \001(\005\022\013\n\003col\030\002 \001(\005\022\021\n\tndataType\030\003 \001(\005\022"
@@ -961,7 +961,7 @@ void AddDescriptorsImpl() {
       "Data\"P\n\022RecordAddRowStruct\022\013\n\003row\030\001 \001(\005\022"
       "-\n\020record_data_list\030\002 \003(\0132\023.AFMsg.Record"
       "PBData\"V\n\020ObjectRecordBase\022\023\n\013record_nam"
-      "e\030\001 \001(\014\022-\n\nrow_struct\030\002 \003(\0132\031.AFMsg.Reco"
+      "e\030\001 \001(\t\022-\n\nrow_struct\030\002 \003(\0132\031.AFMsg.Reco"
       "rdAddRowStruct\"h\n\022ObjectPropertyList\022\037\n\t"
       "player_id\030\001 \001(\0132\014.AFMsg.Ident\0221\n\022propert"
       "y_data_list\030\002 \003(\0132\025.AFMsg.PropertyPBData"
@@ -976,16 +976,16 @@ void AddDescriptorsImpl() {
       "\022,\n\rproperty_list\030\002 \003(\0132\025.AFMsg.Property"
       "PBData\"t\n\022ObjectRecordPBData\022\037\n\tplayer_i"
       "d\030\001 \001(\0132\014.AFMsg.Ident\022\023\n\013record_name\030\002 \001"
-      "(\014\022(\n\013record_list\030\003 \003(\0132\023.AFMsg.RecordPB"
+      "(\t\022(\n\013record_list\030\003 \003(\0132\023.AFMsg.RecordPB"
       "Data\"\223\001\n\020ObjectRecordSwap\022\037\n\tplayer_id\030\001"
       " \001(\0132\014.AFMsg.Ident\022\032\n\022origin_record_name"
-      "\030\002 \001(\014\022\032\n\022target_record_name\030\003 \001(\014\022\022\n\nro"
+      "\030\002 \001(\t\022\032\n\022target_record_name\030\003 \001(\t\022\022\n\nro"
       "w_origin\030\004 \001(\005\022\022\n\nrow_target\030\005 \001(\005\"w\n\022Ob"
       "jectRecordAddRow\022\037\n\tplayer_id\030\001 \001(\0132\014.AF"
-      "Msg.Ident\022\023\n\013record_name\030\002 \001(\014\022+\n\010row_da"
+      "Msg.Ident\022\023\n\013record_name\030\002 \001(\t\022+\n\010row_da"
       "ta\030\003 \003(\0132\031.AFMsg.RecordAddRowStruct\"^\n\022O"
       "bjectRecordRemove\022\037\n\tplayer_id\030\001 \001(\0132\014.A"
-      "FMsg.Ident\022\023\n\013record_name\030\002 \001(\014\022\022\n\nremov"
+      "FMsg.Ident\022\023\n\013record_name\030\002 \001(\t\022\022\n\nremov"
       "e_row\030\003 \003(\005\"G\n\022PlayerPropertyBase\0221\n\022pro"
       "perty_data_list\030\001 \003(\0132\025.AFMsg.PropertyPB"
       "Data\"V\n\020PlayerRecordBase\022\023\n\013record_name\030"
@@ -993,7 +993,7 @@ void AddDescriptorsImpl() {
       "RecordPBData\"@\n\020PlayerRecordList\022,\n\013reco"
       "rd_list\030\001 \003(\0132\027.AFMsg.PlayerRecordBase\"y"
       "\n\nBrocastMsg\022\037\n\tplayer_id\030\001 \001(\0132\014.AFMsg."
-      "Ident\022\020\n\010msg_data\030\002 \001(\014\022\016\n\006nMsgID\030\003 \001(\003\022"
+      "Ident\022\020\n\010msg_data\030\002 \001(\t\022\016\n\006nMsgID\030\003 \001(\003\022"
       "(\n\022player_Client_list\030\004 \003(\0132\014.AFMsg.Iden"
       "t\"+\n\010Position\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\t\n\001z"
       "\030\003 \001(\002\"\327\001\n\nReqCommand\022 \n\ncontrol_id\030\001 \001("
@@ -1877,12 +1877,16 @@ bool VariantData::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes str_value = 6;
+      // string str_value = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_str_value()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->str_value().data(), static_cast<int>(this->str_value().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.VariantData.str_value"));
         } else {
           goto handle_unusual;
         }
@@ -1952,9 +1956,13 @@ void VariantData::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteDouble(5, this->double_value(), output);
   }
 
-  // bytes str_value = 6;
+  // string str_value = 6;
   if (has_str_value()) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->str_value().data(), static_cast<int>(this->str_value().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.VariantData.str_value");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->str_value(), output);
   }
 
@@ -2003,10 +2011,14 @@ void VariantData::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(5, this->double_value(), target);
   }
 
-  // bytes str_value = 6;
+  // string str_value = 6;
   if (has_str_value()) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->str_value().data(), static_cast<int>(this->str_value().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.VariantData.str_value");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         6, this->str_value(), target);
   }
 
@@ -2064,10 +2076,10 @@ size_t VariantData::ByteSizeLong() const {
       total_size += 1 + 8;
       break;
     }
-    // bytes str_value = 6;
+    // string str_value = 6;
     case kStrValue: {
       total_size += 1 +
-        ::google::protobuf::internal::WireFormatLite::BytesSize(
+        ::google::protobuf::internal::WireFormatLite::StringSize(
           this->str_value());
       break;
     }
@@ -2279,12 +2291,16 @@ bool PropertyPBData::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes property_name = 1;
+      // string property_name = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_property_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->property_name().data(), static_cast<int>(this->property_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PropertyPBData.property_name"));
         } else {
           goto handle_unusual;
         }
@@ -2343,9 +2359,13 @@ void PropertyPBData::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes property_name = 1;
+  // string property_name = 1;
   if (this->property_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->property_name().data(), static_cast<int>(this->property_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PropertyPBData.property_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->property_name(), output);
   }
 
@@ -2374,10 +2394,14 @@ void PropertyPBData::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes property_name = 1;
+  // string property_name = 1;
   if (this->property_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->property_name().data(), static_cast<int>(this->property_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PropertyPBData.property_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->property_name(), target);
   }
 
@@ -2410,10 +2434,10 @@ size_t PropertyPBData::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes property_name = 1;
+  // string property_name = 1;
   if (this->property_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->property_name());
   }
 
@@ -3743,12 +3767,16 @@ bool ObjectRecordBase::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes record_name = 1;
+      // string record_name = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_record_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->record_name().data(), static_cast<int>(this->record_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ObjectRecordBase.record_name"));
         } else {
           goto handle_unusual;
         }
@@ -3793,9 +3821,13 @@ void ObjectRecordBase::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes record_name = 1;
+  // string record_name = 1;
   if (this->record_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->record_name().data(), static_cast<int>(this->record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordBase.record_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->record_name(), output);
   }
 
@@ -3822,10 +3854,14 @@ void ObjectRecordBase::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes record_name = 1;
+  // string record_name = 1;
   if (this->record_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->record_name().data(), static_cast<int>(this->record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordBase.record_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->record_name(), target);
   }
 
@@ -3865,10 +3901,10 @@ size_t ObjectRecordBase::ByteSizeLong() const {
     }
   }
 
-  // bytes record_name = 1;
+  // string record_name = 1;
   if (this->record_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->record_name());
   }
 
@@ -5386,12 +5422,16 @@ bool ObjectRecordPBData::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes record_name = 2;
+      // string record_name = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_record_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->record_name().data(), static_cast<int>(this->record_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ObjectRecordPBData.record_name"));
         } else {
           goto handle_unusual;
         }
@@ -5442,9 +5482,13 @@ void ObjectRecordPBData::SerializeWithCachedSizes(
       1, *player_id_, output);
   }
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   if (this->record_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->record_name().data(), static_cast<int>(this->record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordPBData.record_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->record_name(), output);
   }
 
@@ -5478,10 +5522,14 @@ void ObjectRecordPBData::SerializeWithCachedSizes(
         1, *player_id_, deterministic, target);
   }
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   if (this->record_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->record_name().data(), static_cast<int>(this->record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordPBData.record_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->record_name(), target);
   }
 
@@ -5521,10 +5569,10 @@ size_t ObjectRecordPBData::ByteSizeLong() const {
     }
   }
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   if (this->record_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->record_name());
   }
 
@@ -5733,24 +5781,32 @@ bool ObjectRecordSwap::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes origin_record_name = 2;
+      // string origin_record_name = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_origin_record_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->origin_record_name().data(), static_cast<int>(this->origin_record_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ObjectRecordSwap.origin_record_name"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes target_record_name = 3;
+      // string target_record_name = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_target_record_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->target_record_name().data(), static_cast<int>(this->target_record_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ObjectRecordSwap.target_record_name"));
         } else {
           goto handle_unusual;
         }
@@ -5817,15 +5873,23 @@ void ObjectRecordSwap::SerializeWithCachedSizes(
       1, *player_id_, output);
   }
 
-  // bytes origin_record_name = 2;
+  // string origin_record_name = 2;
   if (this->origin_record_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->origin_record_name().data(), static_cast<int>(this->origin_record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordSwap.origin_record_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->origin_record_name(), output);
   }
 
-  // bytes target_record_name = 3;
+  // string target_record_name = 3;
   if (this->target_record_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->target_record_name().data(), static_cast<int>(this->target_record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordSwap.target_record_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->target_record_name(), output);
   }
 
@@ -5860,17 +5924,25 @@ void ObjectRecordSwap::SerializeWithCachedSizes(
         1, *player_id_, deterministic, target);
   }
 
-  // bytes origin_record_name = 2;
+  // string origin_record_name = 2;
   if (this->origin_record_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->origin_record_name().data(), static_cast<int>(this->origin_record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordSwap.origin_record_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->origin_record_name(), target);
   }
 
-  // bytes target_record_name = 3;
+  // string target_record_name = 3;
   if (this->target_record_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->target_record_name().data(), static_cast<int>(this->target_record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordSwap.target_record_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->target_record_name(), target);
   }
 
@@ -5901,17 +5973,17 @@ size_t ObjectRecordSwap::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes origin_record_name = 2;
+  // string origin_record_name = 2;
   if (this->origin_record_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->origin_record_name());
   }
 
-  // bytes target_record_name = 3;
+  // string target_record_name = 3;
   if (this->target_record_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->target_record_name());
   }
 
@@ -6130,12 +6202,16 @@ bool ObjectRecordAddRow::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes record_name = 2;
+      // string record_name = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_record_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->record_name().data(), static_cast<int>(this->record_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ObjectRecordAddRow.record_name"));
         } else {
           goto handle_unusual;
         }
@@ -6186,9 +6262,13 @@ void ObjectRecordAddRow::SerializeWithCachedSizes(
       1, *player_id_, output);
   }
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   if (this->record_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->record_name().data(), static_cast<int>(this->record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordAddRow.record_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->record_name(), output);
   }
 
@@ -6222,10 +6302,14 @@ void ObjectRecordAddRow::SerializeWithCachedSizes(
         1, *player_id_, deterministic, target);
   }
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   if (this->record_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->record_name().data(), static_cast<int>(this->record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordAddRow.record_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->record_name(), target);
   }
 
@@ -6265,10 +6349,10 @@ size_t ObjectRecordAddRow::ByteSizeLong() const {
     }
   }
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   if (this->record_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->record_name());
   }
 
@@ -6462,12 +6546,16 @@ bool ObjectRecordRemove::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes record_name = 2;
+      // string record_name = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_record_name()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->record_name().data(), static_cast<int>(this->record_name().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.ObjectRecordRemove.record_name"));
         } else {
           goto handle_unusual;
         }
@@ -6525,9 +6613,13 @@ void ObjectRecordRemove::SerializeWithCachedSizes(
       1, *player_id_, output);
   }
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   if (this->record_name().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->record_name().data(), static_cast<int>(this->record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordRemove.record_name");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->record_name(), output);
   }
 
@@ -6563,10 +6655,14 @@ void ObjectRecordRemove::SerializeWithCachedSizes(
         1, *player_id_, deterministic, target);
   }
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   if (this->record_name().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->record_name().data(), static_cast<int>(this->record_name().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.ObjectRecordRemove.record_name");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->record_name(), target);
   }
 
@@ -6616,10 +6712,10 @@ size_t ObjectRecordRemove::ByteSizeLong() const {
     total_size += data_size;
   }
 
-  // bytes record_name = 2;
+  // string record_name = 2;
   if (this->record_name().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->record_name());
   }
 
@@ -7586,12 +7682,16 @@ bool BrocastMsg::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes msg_data = 2;
+      // string msg_data = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_msg_data()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->msg_data().data(), static_cast<int>(this->msg_data().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.BrocastMsg.msg_data"));
         } else {
           goto handle_unusual;
         }
@@ -7656,9 +7756,13 @@ void BrocastMsg::SerializeWithCachedSizes(
       1, *player_id_, output);
   }
 
-  // bytes msg_data = 2;
+  // string msg_data = 2;
   if (this->msg_data().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->msg_data().data(), static_cast<int>(this->msg_data().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.BrocastMsg.msg_data");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->msg_data(), output);
   }
 
@@ -7697,10 +7801,14 @@ void BrocastMsg::SerializeWithCachedSizes(
         1, *player_id_, deterministic, target);
   }
 
-  // bytes msg_data = 2;
+  // string msg_data = 2;
   if (this->msg_data().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->msg_data().data(), static_cast<int>(this->msg_data().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.BrocastMsg.msg_data");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->msg_data(), target);
   }
 
@@ -7745,10 +7853,10 @@ size_t BrocastMsg::ByteSizeLong() const {
     }
   }
 
-  // bytes msg_data = 2;
+  // string msg_data = 2;
   if (this->msg_data().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->msg_data());
   }
 
