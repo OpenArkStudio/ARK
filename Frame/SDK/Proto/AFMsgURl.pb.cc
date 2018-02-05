@@ -96,9 +96,9 @@ void AddDescriptorsImpl() {
   InitDefaults();
   static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
       "\n\016AFMsgURl.proto\022\005AFMsg\"\241\001\n\rPackSURLPara"
-      "m\022\016\n\006strUrl\030\001 \001(\014\022\024\n\014strGetParams\030\002 \001(\014\022"
-      "\023\n\013strBodyData\030\003 \001(\014\022\022\n\nstrCookies\030\004 \001(\014"
-      "\022\023\n\013fTimeOutSec\030\005 \001(\001\022\016\n\006strRsp\030\006 \001(\014\022\014\n"
+      "m\022\016\n\006strUrl\030\001 \001(\t\022\024\n\014strGetParams\030\002 \001(\t\022"
+      "\023\n\013strBodyData\030\003 \001(\t\022\022\n\nstrCookies\030\004 \001(\t"
+      "\022\023\n\013fTimeOutSec\030\005 \001(\001\022\016\n\006strRsp\030\006 \001(\t\022\014\n"
       "\004nRet\030\007 \001(\003\022\016\n\006nReqID\030\010 \001(\003b\006proto3"
   };
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
@@ -242,48 +242,64 @@ bool PackSURLParam::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // bytes strUrl = 1;
+      // string strUrl = 1;
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strurl()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strurl().data(), static_cast<int>(this->strurl().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackSURLParam.strUrl"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes strGetParams = 2;
+      // string strGetParams = 2;
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strgetparams()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strgetparams().data(), static_cast<int>(this->strgetparams().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackSURLParam.strGetParams"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes strBodyData = 3;
+      // string strBodyData = 3;
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strbodydata()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strbodydata().data(), static_cast<int>(this->strbodydata().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackSURLParam.strBodyData"));
         } else {
           goto handle_unusual;
         }
         break;
       }
 
-      // bytes strCookies = 4;
+      // string strCookies = 4;
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strcookies()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strcookies().data(), static_cast<int>(this->strcookies().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackSURLParam.strCookies"));
         } else {
           goto handle_unusual;
         }
@@ -304,12 +320,16 @@ bool PackSURLParam::MergePartialFromCodedStream(
         break;
       }
 
-      // bytes strRsp = 6;
+      // string strRsp = 6;
       case 6: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(50u /* 50 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
                 input, this->mutable_strrsp()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->strrsp().data(), static_cast<int>(this->strrsp().length()),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "AFMsg.PackSURLParam.strRsp"));
         } else {
           goto handle_unusual;
         }
@@ -370,27 +390,43 @@ void PackSURLParam::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes strUrl = 1;
+  // string strUrl = 1;
   if (this->strurl().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strurl().data(), static_cast<int>(this->strurl().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackSURLParam.strUrl");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       1, this->strurl(), output);
   }
 
-  // bytes strGetParams = 2;
+  // string strGetParams = 2;
   if (this->strgetparams().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strgetparams().data(), static_cast<int>(this->strgetparams().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackSURLParam.strGetParams");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       2, this->strgetparams(), output);
   }
 
-  // bytes strBodyData = 3;
+  // string strBodyData = 3;
   if (this->strbodydata().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strbodydata().data(), static_cast<int>(this->strbodydata().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackSURLParam.strBodyData");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       3, this->strbodydata(), output);
   }
 
-  // bytes strCookies = 4;
+  // string strCookies = 4;
   if (this->strcookies().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strcookies().data(), static_cast<int>(this->strcookies().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackSURLParam.strCookies");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       4, this->strcookies(), output);
   }
 
@@ -399,9 +435,13 @@ void PackSURLParam::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteDouble(5, this->ftimeoutsec(), output);
   }
 
-  // bytes strRsp = 6;
+  // string strRsp = 6;
   if (this->strrsp().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strrsp().data(), static_cast<int>(this->strrsp().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackSURLParam.strRsp");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
       6, this->strrsp(), output);
   }
 
@@ -429,31 +469,47 @@ void PackSURLParam::SerializeWithCachedSizes(
   ::google::protobuf::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bytes strUrl = 1;
+  // string strUrl = 1;
   if (this->strurl().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strurl().data(), static_cast<int>(this->strurl().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackSURLParam.strUrl");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         1, this->strurl(), target);
   }
 
-  // bytes strGetParams = 2;
+  // string strGetParams = 2;
   if (this->strgetparams().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strgetparams().data(), static_cast<int>(this->strgetparams().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackSURLParam.strGetParams");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         2, this->strgetparams(), target);
   }
 
-  // bytes strBodyData = 3;
+  // string strBodyData = 3;
   if (this->strbodydata().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strbodydata().data(), static_cast<int>(this->strbodydata().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackSURLParam.strBodyData");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         3, this->strbodydata(), target);
   }
 
-  // bytes strCookies = 4;
+  // string strCookies = 4;
   if (this->strcookies().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strcookies().data(), static_cast<int>(this->strcookies().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackSURLParam.strCookies");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         4, this->strcookies(), target);
   }
 
@@ -462,10 +518,14 @@ void PackSURLParam::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteDoubleToArray(5, this->ftimeoutsec(), target);
   }
 
-  // bytes strRsp = 6;
+  // string strRsp = 6;
   if (this->strrsp().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->strrsp().data(), static_cast<int>(this->strrsp().length()),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "AFMsg.PackSURLParam.strRsp");
     target =
-      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
         6, this->strrsp(), target);
   }
 
@@ -496,38 +556,38 @@ size_t PackSURLParam::ByteSizeLong() const {
       ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
         (::google::protobuf::internal::GetProto3PreserveUnknownsDefault()   ? _internal_metadata_.unknown_fields()   : _internal_metadata_.default_instance()));
   }
-  // bytes strUrl = 1;
+  // string strUrl = 1;
   if (this->strurl().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strurl());
   }
 
-  // bytes strGetParams = 2;
+  // string strGetParams = 2;
   if (this->strgetparams().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strgetparams());
   }
 
-  // bytes strBodyData = 3;
+  // string strBodyData = 3;
   if (this->strbodydata().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strbodydata());
   }
 
-  // bytes strCookies = 4;
+  // string strCookies = 4;
   if (this->strcookies().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strcookies());
   }
 
-  // bytes strRsp = 6;
+  // string strRsp = 6;
   if (this->strrsp().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::BytesSize(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->strrsp());
   }
 

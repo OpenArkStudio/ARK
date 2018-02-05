@@ -6,12 +6,12 @@ package AFMsg;
 
 message PackSURLParam
 {
-	bytes 		strUrl 			= 1;
-	bytes 		strGetParams 	= 2;
-    bytes 		strBodyData 	= 3;
-	bytes 		strCookies 		= 4;
+	string 		strUrl 			= 1;
+	string 		strGetParams 	= 2;
+    string 		strBodyData 	= 3;
+	string 		strCookies 		= 4;
 	double		fTimeOutSec 	= 5;
-	bytes 		strRsp 			= 6;
+	string 		strRsp 			= 6;
 	int64 		nRet 			= 7;
 	int64 		nReqID 			= 8;	
 }

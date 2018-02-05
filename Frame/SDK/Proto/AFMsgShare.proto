@@ -11,9 +11,9 @@ import "AFMsgBase.proto";
 message ReqEnterGameServer
 {
 	Ident 		id = 1;
-	bytes 		account = 2;
+	string 		account = 2;
     int32 		game_id = 3;
-	bytes 		name = 4;
+	string 		name = 4;
 }
 
 message ReqHeartBeat
@@ -30,9 +30,9 @@ message PlayerEntryInfo//对象出现基本信息
 	Point3D pos = 2;
 	int32	career_type = 3;
 	int32	player_state = 4;
-	bytes  config_id = 5;
+	string  config_id = 5;
 	int32  scene_id = 6;
-	bytes  class_id = 7;
+	string  class_id = 7;
 }
 
 message AckPlayerEntryList//对象出现列表
@@ -59,7 +59,7 @@ message ReqAckSynData//对象离去列表
 	}
 	Ident 		syser = 1;
 	repeated Ident 		object_list = 2;
-	bytes  	data = 3;
+	string  	data = 3;
 	SynType  	syn_type = 4;
 	EGameMsgID msg_id = 5;//有消息ID限制
 }
@@ -83,7 +83,7 @@ message ChatContainer
 	}
 	
 	int32 ConTainerType = 2;
-	bytes data_info = 3;
+	string data_info = 3;
 }
 
 message ReqAckPlayerChat
@@ -98,8 +98,8 @@ message ReqAckPlayerChat
 
 	Ident	chat_id = 1;
 	EGameChatType  chat_type = 2;
-	bytes chat_info = 3;
-	bytes chat_name = 4;
+	string chat_info = 3;
+	string chat_name = 4;
 	Ident	target_id = 5;
 	repeated ChatContainer Container_data = 6;
 }
@@ -120,7 +120,7 @@ message EffectData
 message ReqAckUseSkill
 {
 	Ident 	user = 1;
-	bytes skill_id = 2;
+	string skill_id = 2;
 	Position now_pos = 3;
 	Position tar_pos = 4;
 	int32  use_index = 5;//因为客户端要先展示
@@ -184,12 +184,12 @@ message ReqPickDropItem//拾取物品
 
 message ReqAcceptTask//接受任务
 {
-	bytes task_id = 1;
+	string task_id = 1;
 }
 
 message ReqCompeleteTask//完成任务后申请领奖
 {
-	bytes task_id = 1;
+	string task_id = 1;
 }
 
 ///////////////战斗/////////////////////////////////////////////////////////////////////////////////////
@@ -361,21 +361,21 @@ message ChatInfo
 	}
 	
 	EChatType  chat_type 			= 1;//01普通2世界
-	bytes 		chat_info 			= 2;
+	string 		chat_info 			= 2;
 	int64 		chat_time 			= 3;//
-	bytes 		addtional_info 		= 4;//附件
+	string 		addtional_info 		= 4;//附件
 	
 	Ident		send_id				= 5;//发送者的ID
-	bytes 		send_name 			= 6;//发送者的名字
+	string 		send_name 			= 6;//发送者的名字
 	int32 		send_level 			= 7;//发送者的等级
 
 	repeated Ident   	recvier_id  		= 8;//接收者列表
-	bytes		guid_name   		= 9;//公会名
+	string		guid_name   		= 9;//公会名
 }
 
 message ReqAckCreateChatGroup
 {	
-	bytes      name				= 1;//名字
+	string      name				= 1;//名字
 	Ident		selfid				= 2;//角色ID
 	Ident		xChatGroupid		= 3;//聊天组的ID
 	int32		chatType			= 4;//聊天组的聊天类型
@@ -443,7 +443,7 @@ message ReqInlaystoneToEquip
 {	
 	Ident		selfid          = 1;//角色ID
 	Ident		equipid			= 2;//装备ID
-	bytes		stoneid			= 3;//石头ID
+	string		stoneid			= 3;//石头ID
 	int32		hole_index      = 4;//空位
 }
 
@@ -641,18 +641,18 @@ message GridGuildBaseInfo
 	int32						level = 2;			//Level
 	int32						count = 3;			//人数
 	int32						resource = 4;		//资源
-	bytes						icon = 5;			//Icon
+	string						icon = 5;			//Icon
 }
 	
 //	EGMI_REQ_MAP_GRID_INFO
 message ReqBigMapGridInfo
 {	
-	repeated bytes						map_title_id = 1;
+	repeated string						map_title_id = 1;
 }
 
 message BigMapGridBaseInfo
 {
-	bytes						id = 1;				//GridID
+	string						id = 1;				//GridID
 	GridGuildBaseInfo			guild_info = 2;			//所属占领公会
 	
 	//war state
@@ -669,8 +669,8 @@ message BigMapGridBaseInfo
 message BigMapLeaveMsg
 {
 	Ident						owner = 1;//留言者
-	bytes						owner_name = 2;//留言者
-	bytes						msg_data = 3;//留言内容
+	string						owner_name = 2;//留言者
+	string						msg_data = 3;//留言内容
 	int32						msg_time = 4;//留言时间
 	int32						owner_level = 5;//留言时level
 }
@@ -713,7 +713,7 @@ message AckBigMapInfo
 //	EGMI_REQ_HOLD_MAP_GRID
 message ReqHoldMapGrid
 {
-	bytes						map_title_id = 1;
+	string						map_title_id = 1;
 	Ident						guild_id = 2;
 }
 //	EGMI_ACK_HOLD_MAP_GRID
@@ -724,7 +724,7 @@ message AckHoldMapGrid
 //	EGMI_REQ_LEAVE_MSG_MAP_GRID
 message ReqLeaveMapMsg
 {
-	bytes						map_title_id = 1;
+	string						map_title_id = 1;
 	BigMapLeaveMsg				leave_msg = 2;
 }
 //	EGMI_ACK_LEAVE_MSG_MAP_GRID
@@ -735,7 +735,7 @@ message AckLeaveMapMsg
 //	EGMI_REQ_GET_MAP_GRID_AWARD
 message ReqGetMapAward
 {
-	bytes						map_title_id = 1;
+	string						map_title_id = 1;
 }
 //	EGMI_ACK_GET_MAP_GRID_AWARD
 message AckGetMapAward
@@ -745,7 +745,7 @@ message AckGetMapAward
 //	EGMI_REQ_MAP_GRID_HUNTING
 message ReqMapHunting
 {
-	bytes						map_title_id = 1;
+	string						map_title_id = 1;
 }
 //	EGMI_ACK_MAP_GRID_HUNTING
 message AckMapHunting
@@ -755,7 +755,7 @@ message AckMapHunting
 //	EGMI_REQ_MAP_GRID_KING_WAR
 message ReqMapKingWar
 {
-	bytes						map_title_id = 1;
+	string						map_title_id = 1;
 }
 //	EGMI_ACK_MAP_GRID_KING_WAR
 message AckMapKingWar
