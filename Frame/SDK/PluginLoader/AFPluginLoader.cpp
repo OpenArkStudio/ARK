@@ -20,6 +20,7 @@
 
 #include "AFCPluginManager.h"
 #include "SDK/Base/AFPlatform.hpp"
+#include <future>
 
 #if ARK_PLATFORM == PLATFORM_UNIX
 #include <unistd.h>
@@ -87,21 +88,21 @@ void ThreadFunc()
 {
     while(!bExitApp)
     {
-        //std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
-        //         std::string s;
-        //         std::cin >> s;
-        //         if ( 0 == stricmp( s.c_str(), "exit" ) )
-        //         {
-        //             bExitApp = true;
-        //         }
+        std::string s;
+        std::cin >> s;
+        if (0 == stricmp(s.c_str(), "exit"))
+        {
+            bExitApp = true;
+        }
     }
 }
 
 void CreateBackThread()
 {
     //gThread = std::thread(std::bind(&ThreadFunc));
-    //auto f = std::async (std::launch::async, std::bind(ThreadFunc));
+    auto f = std::async(std::launch::async, ThreadFunc);
     //std::cout << "CreateBackThread, thread ID = " << gThread.get_id() << std::endl;
 }
 
