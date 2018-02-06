@@ -176,11 +176,8 @@ void AFCPluginManager::UnRegistered(AFIPlugin* plugin)
     AFIPlugin* pPlugin = mPluginInstanceMap.GetElement(plugin->GetPluginName());
     if(pPlugin != nullptr)
     {
-        mPluginInstanceMap.RemoveElement(pPlugin->GetPluginName());
-
         pPlugin->Uninstall();
-        delete pPlugin;
-        pPlugin = NULL;
+        mPluginInstanceMap.RemoveElement(pPlugin->GetPluginName());
     }
 }
 
