@@ -92,7 +92,7 @@ void ThreadFunc()
 
         std::string s;
         std::cin >> s;
-        if (0 == stricmp(s.c_str(), "exit"))
+        if (0 == strcmp(s.c_str(), "exit"))
         {
             bExitApp = true;
         }
@@ -101,8 +101,8 @@ void ThreadFunc()
 
 void CreateBackThread()
 {
-    //gThread = std::thread(std::bind(&ThreadFunc));
     auto f = std::async(std::launch::async, ThreadFunc);
+    //gThread = std::thread(std::bind(&ThreadFunc));
     //std::cout << "CreateBackThread, thread ID = " << gThread.get_id() << std::endl;
 }
 
