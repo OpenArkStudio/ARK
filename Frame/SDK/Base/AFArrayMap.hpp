@@ -142,7 +142,7 @@ public:
         //ÊÍ·ÅÄÚ´æ
         if (mxNodes[index] != nullptr)
         {
-            delete mxNodes[index];
+            //delete mxNodes[index];
             mxNodes[index] = nullptr;
         }
         mxNodes.remove(index);
