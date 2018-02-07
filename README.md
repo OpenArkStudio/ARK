@@ -1,31 +1,31 @@
-![Server Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Docs/asserts/imgs/ArkGameFrame.png)
+![Server Architecture](https://raw.githubusercontent.com/ArkGame/ARK/master/Docs/asserts/imgs/ArkGameFrame.png)
 
-[![GitHub version](https://badge.fury.io/gh/ArkGame%2FArkGameFrame.svg)](https://badge.fury.io/gh/ArkGame%2FArkGameFrame)
+[![GitHub version](https://badge.fury.io/gh/ArkGame%2FARK.svg)](https://badge.fury.io/gh/ArkGame%2FARK)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ArkGameFrame)
+[![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ARK)
 [![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
 
 | Branch | Build Status |
 | - | - | 
-| master | [![Build Status](https://travis-ci.org/ArkGame/ArkGameFrame.svg?branch=master)](https://travis-ci.org/ArkGame/ArkGameFrame) |
-| develop | [![Build Status](https://travis-ci.org/ArkGame/ArkGameFrame.svg?branch=develop)](https://travis-ci.org/ArkGame/ArkGameFrame) |
+| master | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=master)](https://travis-ci.org/ArkGame/ARK) |
+| develop | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=develop)](https://travis-ci.org/ArkGame/ARK) |
 
 **Copyright © [ARK Game](https://arkgame.net "ARK Game")**    
 Website: https://arkgame.net  
-Github: https://github.com/ArkGame/ArkGameFrame  
-Gitee(码云): https://gitee.com/ArkGame/ArkGameFrame  
+Github: https://github.com/ArkGame/ARK  
+Gitee(码云): https://gitee.com/ArkGame/ARK  
 
 ##### Wanna get the newest features? Please switch to the develop branch.
 
-**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ArkGameFrame/blob/master/CONTRIBUTING.md)</font>**.
+**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ARK/blob/master/CONTRIBUTING.md)</font>**.
 
 ## Contact
 
 - QQ Group: 540961187
 - mail: arkgametech@163.com
 
-## ArkGameFrame
-ArkGameFrame is a lightweight, agility, scalable, distributed plugin framework written by C++，make it easier and faster to create your own game server, can be used to develop MMO RPG, ARPG, Round play, chess games. Inspired by UnrealEngine and Ogre.
+## ARK
+ARK is a lightweight, agility, scalable, distributed plugin framework written by C++，make it easier and faster to create your own game server, can be used to develop MMO RPG, ARPG, Round play, chess games. Inspired by UnrealEngine and Ogre.
 
 ## Features
 
@@ -46,22 +46,22 @@ ArkGameFrame is a lightweight, agility, scalable, distributed plugin framework w
 
 ### FAQ
 
-Please [create a new issue](https://github.com/ArkGame/ArkGameFrame/issues) to ask a question.
+Please [create a new issue](https://github.com/ArkGame/ARK/issues) to ask a question.
 
 
 ## Architecture
 
 ### App Architecture:
 
-![App Architecture](https://raw.githubusercontent.com/ArkGame/ArkGameFrame/master/Docs/asserts/imgs/AppArchitecture.png)
+![App Architecture](https://raw.githubusercontent.com/ArkGame/ARK/master/Docs/asserts/imgs/AppArchitecture.png)
 
 ## Get the Sources:
 
-git clone https://github.com/ArkGame/ArkGameFrame.git
+git clone https://github.com/ArkGame/ARK.git
 
 or
 
-svn checkout https://github.com/ArkGame/ArkGameFrame
+svn checkout https://github.com/ArkGame/ARK
 
 ## Dependencies
 
@@ -92,7 +92,7 @@ Using Visual Studio 2015
 1. Pull all source
 2. Run command line 
 ```batch
-cd path/to/ArkGameFrame
+cd path/to/ARK
 cd Dep
 build_dep.bat
 ```
@@ -105,7 +105,7 @@ Using CMake
 1. Pull all source
 2. Run command line
 ```batch
-cd path/to/ArkGameFrame
+cd path/to/ARK
 cd Dep
 build_dep.bat
 cd ../
@@ -144,9 +144,9 @@ make -j
 
 ## Documents
 
-[English](https://github.com/ArkGame/ArkGameFrame/blob/master/Docs/doc_EN.md)
+[English](https://github.com/ArkGame/ARK/blob/master/Docs/doc_EN.md)
 
-[Mandarin](https://github.com/ArkGame/ArkGameFrame/blob/master/Docs/doc_ZH.md)
+[Mandarin](https://github.com/ArkGame/ARK/blob/master/Docs/doc_ZH.md)
 
 ## Examples
 
@@ -154,7 +154,7 @@ Please see `Frame/Examples`.
 
 ## Plan
 
-View our [lastest plan](https://github.com/ArkGame/ArkGameFrame/blob/master/Docs/plan.md)
+View our [lastest plan](https://github.com/ArkGame/ARK/blob/master/Docs/plan.md)
 
 ## Unity3D client
 
@@ -162,7 +162,7 @@ View our [lastest plan](https://github.com/ArkGame/ArkGameFrame/blob/master/Docs
 
 ## License
 
-The ArkGameFrame project is currently available under the [Apache License](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE).
+The ARK project is currently available under the [Apache License](https://github.com/ArkGame/ARK/blob/master/LICENSE).
 
 ----------
 
@@ -180,4 +180,4 @@ Our team has always specialized in the agile development and try to help differe
 
 #### The relationship with NF
 
-This branch come from [NF](https://github.com/ketoo/NoahGameFrame), we used to be the **CORE DEVELOPERS** of NF. We create **ArkGameFrame** because some different design philosophies, through our new ideas and modifications, now this project is a fresh project which has many different features.
+This branch come from [NF](https://github.com/ketoo/NoahGameFrame), we used to be the **CORE DEVELOPERS** of NF. We create **ARK** because some different design philosophies, through our new ideas and modifications, now this project is a fresh project which has many different features.
