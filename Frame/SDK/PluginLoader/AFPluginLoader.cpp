@@ -128,20 +128,14 @@ void PrintfLogo()
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 
-    std::cout << "\n" << std::endl;
     std::cout << "********************************************" << std::endl;
-    std::cout << "" << std::endl;
-    std::cout << "  ArkGame" << std::endl;
-    std::cout << "  Copyright (c) 2011-2017 ArkGame Studio" << std::endl;
-    std::cout << "  All rights reserved." << std::endl;
-    std::cout << "  https://arkgame.net" << std::endl;
-    std::cout << "" << std::endl;
+    std::cout << std::endl;
+    std::cout << "  \t ARK" << std::endl;
+    std::cout << "  COPYRIGHT (C) 2013-2018 ARK-GAME" << std::endl;
+    std::cout << "  All RIGHTS RESERVED." << std::endl;
+    std::cout << "  HTTPS://ARKGAME.NET" << std::endl;
+    std::cout << std::endl;
     std::cout << "********************************************" << std::endl;
-    std::cout << "\n" << std::endl;
-    std::cout << "-d Run it as daemon mode, only on Linux" << std::endl;
-    std::cout << "-x Close the 'X' button, only on windows" << std::endl;
-    std::cout << "name.xml File's name to instead of \"Plugin.xml\" when programs be launched, all platform" << std::endl;
-    std::cout << "\n" << std::endl;
 
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -150,6 +144,8 @@ void PrintfLogo()
 
 int main(int argc, char* argv[])
 {
+    PrintfLogo();
+
     for(int i = 0; i < argc; i++)
     {
         strArgvList += " ";
@@ -187,12 +183,11 @@ int main(int argc, char* argv[])
         AFCPluginManager::GetInstancePtr()->SetConfigName(strPluginName);
     }
 
-
     AFCPluginManager::GetInstancePtr()->Init();
     AFCPluginManager::GetInstancePtr()->AfterInit();
     AFCPluginManager::GetInstancePtr()->CheckConfig();
 
-    PrintfLogo();
+    //back thread, for some cmd
     CreateBackThread();
 
     while(!bExitApp)     //DEBUG∞Ê±æ±¿¿££¨RELEASE≤ª±¿
