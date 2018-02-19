@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NPOI.HSSF.UserModel;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,8 +15,8 @@ namespace FileProcessor
     {
         static string strBasePath = "DataConfig/";
         static string strExcelPath = "Excel/";
-        static string strStructPath = "Struct/";
-        static string strResPath = "Resource/";
+        static string strStructPath = "Struct/Class/";
+        static string strResPath = "Res/";
         static string strLogiClassFile = "../Struct/LogicClass.xml";
 
         static string strToolBasePath = "../";
@@ -22,6 +25,9 @@ namespace FileProcessor
 
         static StreamWriter cppWriter;
         static StreamWriter csWriter;
+
+        static string strCPPIObjectInfo;
+        static string strCSIObjectInfo;
 
         static void CreateProtoFile()
         {
@@ -59,9 +65,11 @@ namespace FileProcessor
 
 #pragma once
 
+#include <string>
+
 namespace ARK
 {";
-            cppWriter.Write(strCPPHead);
+            cppWriter.WriteLine(strCPPHead);
 
             csWriter = new StreamWriter(strCSFile);
             string strCSHead = @"/*
@@ -92,11 +100,7 @@ using System.Threading;
 
 namespace ARK
 {";
-            csWriter.Write(strCSHead);
-
-            //TODO:
-            cppWriter.Close();
-            csWriter.Close();
+            csWriter.WriteLine(strCSHead);
         }
 
         static void CreateStructFile()
@@ -119,10 +123,13 @@ namespace ARK
             root.AppendChild(classElement);
             classElement.SetAttribute("Id", "IObject");
             classElement.SetAttribute("Type", "TYPE_IOBJECT");
-            classElement.SetAttribute("Path", "../../DataConfig/Struct/Class/IObject.xml");
-            classElement.SetAttribute("InstancePath", "../../DataConfig/Resource/IObject.xml");
+            classElement.SetAttribute("Path", "../DataConfig/Struct/Class/IObject.xml");
+            classElement.SetAttribute("InstancePath", "../DataConfig/Res/IObject.csv");
             classElement.SetAttribute("Public", "0");
             classElement.SetAttribute("Desc", "IObject");
+
+            //// 提前把IObject跑一边
+            CreateStructXML("../Excel/IObject.xlsx", "IObject");
 
             String[] xStructXLSXList = Directory.GetFiles(strToolBasePath + strExcelPath, "*", SearchOption.AllDirectories);
             foreach (string file in xStructXLSXList)
@@ -146,17 +153,17 @@ namespace ARK
                     continue;
                 }
 
-                // 单个excel文件转为xml
-                if (!CreateStructXML(file))
-                {
-                    Console.WriteLine("Create " + file + " failed, please check it!!!");
-                    return;
-                }
-
                 // 是IObject.xlsx跳过
                 if (strFileName == "IObject")
                 {
                     continue;
+                }
+
+                // 单个excel文件转为xml
+                if (!CreateStructXML(file, strFileName))
+                {
+                    Console.WriteLine("Create " + file + " failed, please check it!!!");
+                    return;
                 }
 
                 // LogicClass.xml中的索引配置
@@ -165,26 +172,454 @@ namespace ARK
 
                 subClassElement.SetAttribute("Id", strFileName);
                 subClassElement.SetAttribute("Type", "TYPE_" + strFileName.ToUpper());
-                subClassElement.SetAttribute("Path", strBasePath + strXMLStructPath + strFileName + ".xml");
-                subClassElement.SetAttribute("InstancePath", strBasePath + strXMLIniPath + strFileName + ".xml");
+                subClassElement.SetAttribute("Path", strBasePath + strStructPath + strFileName + ".xml");
+                subClassElement.SetAttribute("InstancePath", strBasePath + strResPath + strFileName + ".csv");
                 subClassElement.SetAttribute("Public", "0");
                 subClassElement.SetAttribute("Desc", strFileName);
-
-                //TODO:
             }
+
+            cppWriter.WriteLine("}");
+            cppWriter.Close();
+
+            csWriter.WriteLine("}");
+            csWriter.Close();
+
+            xmlDoc.Save(strLogiClassFile);
+        }
+
+        static bool CreateStructXML(string file, string strFileName)
+        {
+            Console.WriteLine("Processing [" + file + "]");
+
+            string curDir = Directory.GetCurrentDirectory();
+            XSSFWorkbook workBook;
+            using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read))
+            {
+                workBook = new XSSFWorkbook(fs);
+            }
+
+            if (workBook == null)
+            {
+                return false;
+            }
+
+            // 开始创建xml
+            XmlDocument structDoc = new XmlDocument();
+            XmlDeclaration xmlDecl;
+            xmlDecl = structDoc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
+            structDoc.AppendChild(xmlDecl);
+
+            // 写入XML root标签
+            XmlElement root = structDoc.CreateElement("", "XML", "");
+            structDoc.AppendChild(root);
+
+            // 写入Propertys标签
+            XmlElement dataNodes = structDoc.CreateElement("", "DataNodes", "");
+            root.AppendChild(dataNodes);
+
+            // 写入Records标签
+            XmlElement dataTables = structDoc.CreateElement("", "DataTables", "");
+            root.AppendChild(dataTables);
+
+            //cpp
+            string strCPPInfo = "";
+            string strCPPTableInfo = "";
+            string strCPPEnumInfo = "";
+            strCPPInfo = strCPPInfo + "class " + strFileName + "\n{\npublic:\n";
+            strCPPInfo = strCPPInfo + "\t//Class name\n\tstatic const std::string& ThisName(){ static std::string x" + strFileName + " = \"" + strFileName + "\";" + " return x" + strFileName + "; }\n" + "\t//IObject\n" + strCPPIObjectInfo + "\t//DataNodes\n";
+
+            //C#
+            string strCSInfo = "";
+            string strCSTableInfo = "";
+            string strCSEnumInfo = "";
+
+            strCSInfo = strCSInfo + "public class " + strFileName + "\n{\n";
+            strCSInfo = strCSInfo + "\t//Class name\n\tpublic static readonly string ThisName = \"" + strFileName + "\";\n\t//IObject\n" + strCSIObjectInfo + "\t//DataNodes\n";
+
+            for (int i = 0; i < workBook.NumberOfSheets; ++i)
+            {
+                ISheet sheet = workBook.GetSheetAt(i);
+                string sheetSubName = sheet.SheetName;
+                int dash_pos = sheet.SheetName.IndexOf('_');
+                if (dash_pos != -1)
+                {
+                    sheetSubName = sheet.SheetName.Substring(0, dash_pos);
+                }
+
+                sheetSubName = sheetSubName.ToLower();
+                switch (sheetSubName)
+                {
+                    case "datanode":
+                        //Data nodes
+                        {
+                            IRow headerRow = sheet.GetRow(sheet.FirstRowNum);
+
+                            List<string> colNames = new List<string>();
+                            for (int row = sheet.FirstRowNum; row <= sheet.FirstRowNum + 7; ++row)
+                            {
+                                ICell cellData = sheet.GetRow(row).GetCell(headerRow.FirstCellNum);
+                                colNames.Add(cellData.StringCellValue);
+                            }
+
+                            for (int col = headerRow.FirstCellNum + 1; col < headerRow.LastCellNum; ++col)
+                            {
+                                var dataNode = structDoc.CreateElement("", "DataNode", "");
+                                dataNodes.AppendChild(dataNode);
+
+                                string strDataNodeName = headerRow.GetCell(col).StringCellValue;
+                                if (strDataNodeName == "")
+                                {
+                                    continue;
+                                }
+
+                                string strNodeType = "";
+                                for (int row = sheet.FirstRowNum; row < sheet.FirstRowNum + 7; ++row)
+                                {
+                                    var name = colNames.ElementAt(row);
+
+                                    IRow rowData = sheet.GetRow(row);
+                                    ICell cellData = rowData.GetCell(col);
+                                    if (cellData == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    string strValue = "";
+                                    switch (cellData.CellType)
+                                    {
+                                        case CellType.Boolean:
+                                            {
+                                                strValue = cellData.BooleanCellValue.ToString();
+                                                if (strValue == "TRUE" || strValue == "true" || strValue == "True")
+                                                {
+                                                    strValue = "1";
+                                                }
+                                                else
+                                                {
+                                                    strValue = "0";
+                                                }
+                                            }
+                                            break;
+                                        case CellType.Numeric:
+                                            strValue = cellData.NumericCellValue.ToString();
+                                            break;
+                                        case CellType.String:
+                                            {
+                                                strValue = cellData.StringCellValue;
+                                                if (name == "Type")
+                                                {
+                                                    strNodeType = strValue;
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                    dataNode.SetAttribute(name, strValue);
+                                }
+
+                                //hpp & cs
+                                strCPPInfo += "\t" + "static const std::string& " + strDataNodeName + "() { static std::string x" + strDataNodeName + " = \"" + strDataNodeName + "\"; return x" + strDataNodeName + "; } //" + strNodeType + "\n";
+                                strCSInfo += "\t" + "public static readonly String " + strDataNodeName + " = \"" + strDataNodeName + "\"; //" + strNodeType + "\n";
+
+                                if (strFileName == "IObject")
+                                {
+                                    strCPPIObjectInfo += "\t" + "static const std::string& " + strDataNodeName + "(){ static std::string x" + strDataNodeName + " = \"" + strDataNodeName + "\";" + " return x" + strDataNodeName + "; } //" + strNodeType + "\n";
+                                    strCSIObjectInfo += "\t" + "public static readonly String " + strDataNodeName + " = \"" + strDataNodeName + "\"; //" + strNodeType + "\n";
+                                }
+                            }
+                        }
+                        break;
+                    case "component":
+                        //Do nothing
+                        break;
+                    default:
+                        //Data tables
+                        {
+                            int nRowsCount = sheet.LastRowNum - sheet.FirstRowNum + 1;
+                            int nTableCount = nRowsCount / 10;
+
+                            if (nRowsCount != nTableCount * 10)
+                            {
+                                Console.WriteLine("This Excel[{0}]'s DataTable is something wrong, Sheet[{1}] Total Rows is {2}, Not 10*N", file, sheet.SheetName, nRowsCount);
+                                return false;
+                            }
+
+                            int infoCell = 1;
+                            for (int nTable = 0; nTable < nTableCount; ++nTable)
+                            {
+                                string strTableName = sheet.GetRow(nTable * 9 + nTable).GetCell(infoCell).StringCellValue;
+                                string strRow = sheet.GetRow(nTable * 9 + 1 + nTable).GetCell(infoCell).NumericCellValue.ToString();
+                                string strCol = sheet.GetRow(nTable * 9 + 2 + nTable).GetCell(infoCell).NumericCellValue.ToString();
+                                string strPublic = sheet.GetRow(nTable * 9 + 3 + nTable).GetCell(infoCell).BooleanCellValue.ToString();
+                                if (strPublic == "TRUE" || strPublic == "True" || strPublic == "true")
+                                {
+                                    strPublic = "1";
+                                }
+                                else
+                                {
+                                    strPublic = "0";
+                                }
+
+                                string strPrivate = sheet.GetRow(nTable * 9 + 4 + nTable).GetCell(infoCell).BooleanCellValue.ToString();
+                                if (strPrivate == "TRUE" || strPrivate == "True" || strPrivate == "true")
+                                {
+                                    strPrivate = "1";
+                                }
+                                else
+                                {
+                                    strPrivate = "0";
+                                }
+
+                                string strSave = sheet.GetRow(nTable * 9 + 5 + nTable).GetCell(infoCell).BooleanCellValue.ToString();
+                                if (strSave == "TRUE" || strSave == "True" || strSave == "true")
+                                {
+                                    strSave = "1";
+                                }
+                                else
+                                {
+                                    strSave = "0";
+                                }
+
+                                string strCache = sheet.GetRow(nTable * 9 + 6 + nTable).GetCell(infoCell).BooleanCellValue.ToString();
+                                if (strCache == "TRUE" || strCache == "True" || strCache == "true")
+                                {
+                                    strCache = "1";
+                                }
+                                else
+                                {
+                                    strCache = "0";
+                                }
+
+                                string strDesc = "";
+                                ICell descCell = sheet.GetRow(nTable * 9 + 9 + nTable).GetCell(infoCell);
+                                if (descCell != null)
+                                {
+                                    strDesc = descCell.StringCellValue;
+                                }
+
+                                int nExcelCols = Int32.Parse(strCol);
+                                int nRealCols = 0;
+
+                                XmlElement tableNode = structDoc.CreateElement("DataTable");
+                                dataTables.AppendChild(tableNode);
+
+                                tableNode.SetAttribute("Id", strTableName);
+                                tableNode.SetAttribute("Row", strRow);
+                                tableNode.SetAttribute("Col", strCol);
+                                tableNode.SetAttribute("Public", strPublic);
+                                tableNode.SetAttribute("Private", strPublic);
+                                tableNode.SetAttribute("Save", strSave);
+                                tableNode.SetAttribute("Cache", strCache);
+                                tableNode.SetAttribute("Desc", strDesc);
+
+                                strCPPTableInfo = strCPPTableInfo + "\tstatic const std::string& R_" + strTableName + "(){ static std::string x" + strTableName + " = \"" + strTableName + "\";" + " return x" + strTableName + ";}\n";
+                                strCPPEnumInfo = strCPPEnumInfo + "\n\tenum " + strTableName + "\n\t{\n";
+
+                                strCSTableInfo = strCSTableInfo + "\tpublic static readonly String R_" + strTableName + " = \"" + strTableName + "\";\n";
+                                strCSEnumInfo = strCSEnumInfo + "\n\tpublic enum " + strTableName + "\n\t{\n";
+
+                                var tableFieldRow = sheet.GetRow(nTable * 9 + 7 + nTable);
+                                var tableFieldTypeRow = sheet.GetRow(nTable * 9 + 8 + nTable);
+                                for (int nTableCol = tableFieldRow.FirstCellNum; nTableCol < tableFieldRow.LastCellNum; nTableCol++)
+                                {
+                                    string strField = tableFieldRow.GetCell(nTableCol).StringCellValue;
+                                    string strType = tableFieldTypeRow.GetCell(nTableCol).StringCellValue;
+
+                                    XmlElement colNode = structDoc.CreateElement("Col");
+                                    tableNode.AppendChild(colNode);
+
+                                    colNode.SetAttribute("Name", strField);
+                                    colNode.SetAttribute("Type", strType);
+
+                                    strCPPEnumInfo += "\t\t" + strTableName + "_" + strField + "\t\t= " + string.Format("{0}", nTableCol) + ", //" + strField + " -> " + strType + "\n";
+                                    strCSEnumInfo += "\t\t" + strField + "\t\t= " + string.Format("{0}", nTableCol) + ", //" + strField + " -> " + strType + "\n";
+
+                                    nRealCols++;
+                                }
+
+                                if (nExcelCols != nRealCols)
+                                {
+                                    Console.WriteLine("This Excel[{0}]'s format is something wrong, DataTable[{1}] field \"col\"== {2} DO NOT equal the real cols == {3}!", file, strTableName, nExcelCols, nRealCols);
+                                    return false;
+                                }
+
+                                strCPPEnumInfo += "\n\t};\n";
+                                strCSEnumInfo += "\n\t};\n";
+                            }
+                            break;
+                        }
+                }
+            }
+
+            // cpp
+            strCPPInfo += "\t//DataTables\n" + strCPPTableInfo + strCPPEnumInfo + "\n};\n";
+            cppWriter.WriteLine(strCPPInfo);
+
+            // C#
+            strCSInfo += "\t//DataTables\n" + strCSTableInfo + strCSEnumInfo + "\n}\n";
+            csWriter.WriteLine(strCSInfo);
+
+            string strXMLFile = strToolBasePath + strStructPath + strFileName + ".xml";
+            structDoc.Save(strXMLFile);
+
+            return true;
         }
 
         static void CreateResFile()
         {
+            Console.WriteLine("Start to generate resource files");
+            
+            String[] xIniXLSXList = Directory.GetFiles(strToolBasePath + strExcelPath, "*", SearchOption.AllDirectories);
+            foreach (string file in xIniXLSXList)
+            {
+                int nLastPoint = file.LastIndexOf(".") + 1;
+                int nLastSlash = file.LastIndexOf("/") + 1;
+                string strFileName = file.Substring(nLastSlash, nLastPoint - nLastSlash - 1);
+                string strFileExt = file.Substring(nLastPoint, file.Length - nLastPoint);
 
+                int nTempExcelPos = file.IndexOf("$");
+                if (nTempExcelPos >= 0)
+                {
+                    // 打开excel之后生成的临时文件，略过
+                    continue;
+                }
+
+                // 不是excel文件，默认跳过
+                if (strFileExt != "xls" && strFileExt != "xlsx")
+                {
+                    continue;
+                }
+
+                if (!CreateResXML(file))
+                {
+                    Console.WriteLine("Create " + file + " failed, please check it!!!");
+                    return;
+                }
+            }
         }
+
+        static bool CreateResXML(string file)
+        {
+            Console.WriteLine("Processing [" + file + "]");
+
+            string curDir = Directory.GetCurrentDirectory();
+            XSSFWorkbook workBook;
+            using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read))
+            {
+                workBook = new XSSFWorkbook(fs);
+            }
+
+            if (workBook == null)
+            {
+                return false;
+            }
+
+            XmlDocument resDoc = new XmlDocument();
+            XmlDeclaration xmlDecl;
+            xmlDecl = resDoc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
+            resDoc.AppendChild(xmlDecl);
+
+            XmlElement root = resDoc.CreateElement("", "XML", "");
+            resDoc.AppendChild(root);
+
+            for (int i = 0; i < workBook.NumberOfSheets; ++i)
+            {
+                ISheet sheet = workBook.GetSheetAt(i);
+                string sheetSubName = sheet.SheetName;
+                int dash_pos = sheet.SheetName.IndexOf('_');
+                if (dash_pos != -1)
+                {
+                    sheetSubName = sheet.SheetName.Substring(0, dash_pos);
+                }
+
+                sheetSubName = sheetSubName.ToLower();
+                if (sheetSubName != "datanode")
+                {
+                    continue;
+                }
+
+                IRow headerRow = sheet.GetRow(sheet.FirstRowNum);
+
+                List<string> colNames = new List<string>();
+                for (int col = headerRow.FirstCellNum; col < headerRow.LastCellNum; ++col)
+                {
+                    ICell cellData = headerRow.GetCell(col);
+                    colNames.Add(cellData.StringCellValue);
+                }
+
+                for (int row = sheet.FirstRowNum + 8; row <= sheet.LastRowNum; ++row)
+                {
+                    XmlElement entry = resDoc.CreateElement("Entry");
+                    root.AppendChild(entry);
+                    IRow rowData = sheet.GetRow(row);
+
+                    for (int col = headerRow.FirstCellNum; col < headerRow.LastCellNum; ++col)
+                    {
+                        string name = colNames.ElementAt(col);
+
+                        ICell cellData = rowData.GetCell(col);
+                        if (cellData == null)
+                        {
+                            continue;
+                        }
+
+                        string strValue = "";
+                        switch (cellData.CellType)
+                        {
+                            case CellType.Boolean:
+                                {
+                                    strValue = cellData.BooleanCellValue.ToString();
+                                    if (strValue == "TRUE" || strValue == "true" || strValue == "True")
+                                    {
+                                        strValue = "1";
+                                    }
+                                    else
+                                    {
+                                        strValue = "0";
+                                    }
+                                }
+                                break;
+                            case CellType.Numeric:
+                                strValue = cellData.NumericCellValue.ToString();
+                                break;
+                            case CellType.String:
+                                {
+                                    strValue = cellData.StringCellValue;
+                                    //if (name == "Type")
+                                    //{
+                                    //    strNodeType = "string";
+                                    //}
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+
+                        entry.SetAttribute(name, strValue);
+                    }
+                }
+            }
+
+            int nLastPoint = file.LastIndexOf(".") + 1;
+            int nLastSlash = file.LastIndexOf("/") + 1;
+            string strFileName = file.Substring(nLastSlash, nLastPoint - nLastSlash - 1);
+            string strFileExt = file.Substring(nLastPoint, file.Length - nLastPoint);
+            resDoc.Save(strToolBasePath + strResPath + strFileName + ".xml");
+
+            return true;
+        }
+
 
         static void Main(string[] args)
         {
+            var now = DateTime.Now;
             CreateStructFile();
             CreateResFile();
 
-            Console.WriteLine("Generate all files successful.");
+            var dis = DateTime.Now - now;
+            Console.WriteLine("Generate all files successful, use time = {0:3} s", string.Format("{0:N3}", dis.TotalSeconds));
             Console.Write("Press any key to quit...");
             Console.ReadKey();
         }
