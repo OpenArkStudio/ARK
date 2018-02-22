@@ -17,9 +17,11 @@ namespace FileProcessor
         static string strExcelPath = "Excel/";
         static string strStructPath = "Struct/Class/";
         static string strResPath = "Res/";
+        static string strClientResPath = "Client";
+        static string strToolBasePath = "../";
+
         static string strLogiClassFile = "../Struct/LogicClass.xml";
 
-        static string strToolBasePath = "../";
         static string strCPPFile = "../proto/ARKDataDefine.hpp";
         static string strCSFile = "../proto/ARKDataDefine.cs";
 
@@ -128,7 +130,7 @@ namespace ARK
             classElement.SetAttribute("Public", "0");
             classElement.SetAttribute("Desc", "IObject");
 
-            //// 提前把IObject跑一边
+            // 提前把IObject跑一边
             CreateStructXML("../Excel/IObject.xlsx", "IObject");
 
             String[] xStructXLSXList = Directory.GetFiles(strToolBasePath + strExcelPath, "*", SearchOption.AllDirectories);
@@ -587,10 +589,6 @@ namespace ARK
                             case CellType.String:
                                 {
                                     strValue = cellData.StringCellValue;
-                                    //if (name == "Type")
-                                    //{
-                                    //    strNodeType = "string";
-                                    //}
                                 }
                                 break;
                             default:
@@ -610,8 +608,7 @@ namespace ARK
 
             return true;
         }
-
-
+        
         static void Main(string[] args)
         {
             var now = DateTime.Now;
