@@ -17,7 +17,7 @@ namespace FileProcessor
         static string strExcelPath = "Excel/";
         static string strStructPath = "Struct/Class/";
         static string strResPath = "Res/";
-        static string strClientResPath = "Client";
+        static string strClientResPath = "Client/";
         static string strToolBasePath = "../";
 
         static string strLogiClassFile = "../Struct/LogicClass.xml";
@@ -125,13 +125,13 @@ namespace ARK
             root.AppendChild(classElement);
             classElement.SetAttribute("Id", "IObject");
             classElement.SetAttribute("Type", "TYPE_IOBJECT");
-            classElement.SetAttribute("Path", "../DataConfig/Struct/Class/IObject.xml");
-            classElement.SetAttribute("InstancePath", "../DataConfig/Res/IObject.csv");
+            classElement.SetAttribute("Path", strBasePath + strStructPath + "IObject.xml");
+            classElement.SetAttribute("ResPath", strBasePath + strResPath + "IObject.xml");
             classElement.SetAttribute("Public", "0");
             classElement.SetAttribute("Desc", "IObject");
 
             // 提前把IObject跑一边
-            CreateStructXML("../Excel/IObject.xlsx", "IObject");
+            CreateStructXML(strToolBasePath + strExcelPath + "IObject.xlsx", "IObject");
 
             String[] xStructXLSXList = Directory.GetFiles(strToolBasePath + strExcelPath, "*", SearchOption.AllDirectories);
             foreach (string file in xStructXLSXList)
@@ -175,7 +175,7 @@ namespace ARK
                 subClassElement.SetAttribute("Id", strFileName);
                 subClassElement.SetAttribute("Type", "TYPE_" + strFileName.ToUpper());
                 subClassElement.SetAttribute("Path", strBasePath + strStructPath + strFileName + ".xml");
-                subClassElement.SetAttribute("InstancePath", strBasePath + strResPath + strFileName + ".csv");
+                subClassElement.SetAttribute("ResPath", strBasePath + strResPath + strFileName + ".xml");
                 subClassElement.SetAttribute("Public", "0");
                 subClassElement.SetAttribute("Desc", strFileName);
             }
@@ -506,6 +506,11 @@ namespace ARK
         {
             Console.WriteLine("Processing [" + file + "]");
 
+            int nLastPoint = file.LastIndexOf(".") + 1;
+            int nLastSlash = file.LastIndexOf("/") + 1;
+            string strFileName = file.Substring(nLastSlash, nLastPoint - nLastSlash - 1);
+            string strFileExt = file.Substring(nLastPoint, file.Length - nLastPoint);
+
             string curDir = Directory.GetCurrentDirectory();
             XSSFWorkbook workBook;
             using (FileStream fs = new FileStream(file, FileMode.Open, FileAccess.Read))
@@ -526,6 +531,10 @@ namespace ARK
             XmlElement root = resDoc.CreateElement("", "XML", "");
             resDoc.AppendChild(root);
 
+            StreamWriter csvWriter = new StreamWriter(strToolBasePath + strClientResPath + strFileName + ".csv");
+            string csvHeader = "";
+            string csvContent = "";
+
             for (int i = 0; i < workBook.NumberOfSheets; ++i)
             {
                 ISheet sheet = workBook.GetSheetAt(i);
@@ -543,19 +552,30 @@ namespace ARK
                 }
 
                 IRow headerRow = sheet.GetRow(sheet.FirstRowNum);
-
                 List<string> colNames = new List<string>();
                 for (int col = headerRow.FirstCellNum; col < headerRow.LastCellNum; ++col)
                 {
                     ICell cellData = headerRow.GetCell(col);
                     colNames.Add(cellData.StringCellValue);
+                    csvHeader += cellData.StringCellValue + ",";
                 }
 
                 for (int row = sheet.FirstRowNum + 8; row <= sheet.LastRowNum; ++row)
                 {
+                    IRow rowData = sheet.GetRow(row);
+                    ICell firstCell = rowData.GetCell(headerRow.FirstCellNum);
+                    if (firstCell == null)
+                    {
+                        continue;
+                    }
+
+                    if (string.IsNullOrEmpty(firstCell.StringCellValue))
+                    {
+                        continue;
+                    }
+
                     XmlElement entry = resDoc.CreateElement("Entry");
                     root.AppendChild(entry);
-                    IRow rowData = sheet.GetRow(row);
 
                     for (int col = headerRow.FirstCellNum; col < headerRow.LastCellNum; ++col)
                     {
@@ -596,15 +616,25 @@ namespace ARK
                         }
 
                         entry.SetAttribute(name, strValue);
+
+                        if (cellData.CellType == CellType.String)
+                        {
+                            strValue = "\"" + strValue + "\"";
+                        }
+
+                        csvContent += strValue + ",";
                     }
+
+                    csvContent = csvContent.TrimEnd(',');
+                    csvContent += "\n";
                 }
             }
 
-            int nLastPoint = file.LastIndexOf(".") + 1;
-            int nLastSlash = file.LastIndexOf("/") + 1;
-            string strFileName = file.Substring(nLastSlash, nLastPoint - nLastSlash - 1);
-            string strFileExt = file.Substring(nLastPoint, file.Length - nLastPoint);
+            csvContent = csvContent.TrimEnd('\n');
             resDoc.Save(strToolBasePath + strResPath + strFileName + ".xml");
+            csvWriter.WriteLine(csvHeader.TrimEnd(','));
+            csvWriter.Write(csvContent);
+            csvWriter.Close();
 
             return true;
         }
