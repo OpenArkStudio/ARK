@@ -379,7 +379,7 @@ bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass
     const char* pstrLogicClassName = attrNode->first_attribute("Id")->value();
     const char* pstrType = attrNode->first_attribute("Type")->value();
     const char* pstrPath = attrNode->first_attribute("Path")->value();
-    const char* pstrInstancePath = attrNode->first_attribute("InstancePath")->value();
+    const char* pstrInstancePath = attrNode->first_attribute("ResPath")->value();
 
     //printf( "-----------------------------------------------------\n");
     //printf( "%s:\n", pstrLogicClassName );
