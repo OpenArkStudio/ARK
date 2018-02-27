@@ -839,9 +839,5 @@ bool EGameElementType_IsValid(int value) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace AFMsg
-namespace google {
-namespace protobuf {
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)

@@ -1106,6 +1106,13 @@ const Ident& Ident::default_instance() {
   return *internal_default_instance();
 }
 
+Ident* Ident::New(::google::protobuf::Arena* arena) const {
+  Ident* n = new Ident;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void Ident::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.Ident)
@@ -1380,6 +1387,13 @@ const Point3D& Point3D::default_instance() {
   return *internal_default_instance();
 }
 
+Point3D* Point3D::New(::google::protobuf::Arena* arena) const {
+  Point3D* n = new Point3D;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void Point3D::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.Point3D)
@@ -1742,6 +1756,13 @@ const VariantData& VariantData::default_instance() {
   return *internal_default_instance();
 }
 
+VariantData* VariantData::New(::google::protobuf::Arena* arena) const {
+  VariantData* n = new VariantData;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void VariantData::clear_AFData() {
 // @@protoc_insertion_point(one_of_clear_start:AFMsg.VariantData)
@@ -2265,6 +2286,13 @@ const PropertyPBData& PropertyPBData::default_instance() {
   return *internal_default_instance();
 }
 
+PropertyPBData* PropertyPBData::New(::google::protobuf::Arena* arena) const {
+  PropertyPBData* n = new PropertyPBData;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void PropertyPBData::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.PropertyPBData)
@@ -2377,7 +2405,7 @@ void PropertyPBData::SerializeWithCachedSizes(
   // .AFMsg.VariantData variant_data = 3;
   if (this->has_variant_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, *variant_data_, output);
+      3, *this->variant_data_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2414,7 +2442,7 @@ void PropertyPBData::SerializeWithCachedSizes(
   if (this->has_variant_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        3, *variant_data_, deterministic, target);
+        3, *this->variant_data_, deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2445,7 +2473,7 @@ size_t PropertyPBData::ByteSizeLong() const {
   if (this->has_variant_data()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *variant_data_);
+        *this->variant_data_);
   }
 
   // int32 ndataType = 2;
@@ -2601,6 +2629,13 @@ const RecordPBData& RecordPBData::default_instance() {
   return *internal_default_instance();
 }
 
+RecordPBData* RecordPBData::New(::google::protobuf::Arena* arena) const {
+  RecordPBData* n = new RecordPBData;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void RecordPBData::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.RecordPBData)
@@ -2726,7 +2761,7 @@ void RecordPBData::SerializeWithCachedSizes(
   // .AFMsg.VariantData variant_data = 4;
   if (this->has_variant_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4, *variant_data_, output);
+      4, *this->variant_data_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2762,7 +2797,7 @@ void RecordPBData::SerializeWithCachedSizes(
   if (this->has_variant_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        4, *variant_data_, deterministic, target);
+        4, *this->variant_data_, deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -2786,7 +2821,7 @@ size_t RecordPBData::ByteSizeLong() const {
   if (this->has_variant_data()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *variant_data_);
+        *this->variant_data_);
   }
 
   // int32 row = 1;
@@ -2955,6 +2990,13 @@ const PBData& PBData::default_instance() {
   return *internal_default_instance();
 }
 
+PBData* PBData::New(::google::protobuf::Arena* arena) const {
+  PBData* n = new PBData;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void PBData::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.PBData)
@@ -3040,7 +3082,7 @@ void PBData::SerializeWithCachedSizes(
   // .AFMsg.VariantData variant_data = 2;
   if (this->has_variant_data()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, *variant_data_, output);
+      2, *this->variant_data_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3066,7 +3108,7 @@ void PBData::SerializeWithCachedSizes(
   if (this->has_variant_data()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        2, *variant_data_, deterministic, target);
+        2, *this->variant_data_, deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3090,7 +3132,7 @@ size_t PBData::ByteSizeLong() const {
   if (this->has_variant_data()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *variant_data_);
+        *this->variant_data_);
   }
 
   // int32 ndataType = 1;
@@ -3225,6 +3267,13 @@ const DataListPBData& DataListPBData::default_instance() {
   return *internal_default_instance();
 }
 
+DataListPBData* DataListPBData::New(::google::protobuf::Arena* arena) const {
+  DataListPBData* n = new DataListPBData;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void DataListPBData::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.DataListPBData)
@@ -3250,8 +3299,7 @@ bool DataListPBData::MergePartialFromCodedStream(
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_data_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_data_list()));
         } else {
           goto handle_unusual;
         }
@@ -3288,9 +3336,7 @@ void DataListPBData::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->data_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->data_list(static_cast<int>(i)),
-      output);
+      1, this->data_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3399,7 +3445,7 @@ void DataListPBData::Swap(DataListPBData* other) {
 }
 void DataListPBData::InternalSwap(DataListPBData* other) {
   using std::swap;
-  CastToBase(&data_list_)->InternalSwap(CastToBase(&other->data_list_));
+  data_list_.InternalSwap(&other->data_list_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -3465,6 +3511,13 @@ const RecordAddRowStruct& RecordAddRowStruct::default_instance() {
   return *internal_default_instance();
 }
 
+RecordAddRowStruct* RecordAddRowStruct::New(::google::protobuf::Arena* arena) const {
+  RecordAddRowStruct* n = new RecordAddRowStruct;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void RecordAddRowStruct::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.RecordAddRowStruct)
@@ -3505,8 +3558,7 @@ bool RecordAddRowStruct::MergePartialFromCodedStream(
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_record_data_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_record_data_list()));
         } else {
           goto handle_unusual;
         }
@@ -3548,9 +3600,7 @@ void RecordAddRowStruct::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->record_data_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->record_data_list(static_cast<int>(i)),
-      output);
+      2, this->record_data_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3674,7 +3724,7 @@ void RecordAddRowStruct::Swap(RecordAddRowStruct* other) {
 }
 void RecordAddRowStruct::InternalSwap(RecordAddRowStruct* other) {
   using std::swap;
-  CastToBase(&record_data_list_)->InternalSwap(CastToBase(&other->record_data_list_));
+  record_data_list_.InternalSwap(&other->record_data_list_);
   swap(row_, other->row_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -3745,6 +3795,13 @@ const ObjectRecordBase& ObjectRecordBase::default_instance() {
   return *internal_default_instance();
 }
 
+ObjectRecordBase* ObjectRecordBase::New(::google::protobuf::Arena* arena) const {
+  ObjectRecordBase* n = new ObjectRecordBase;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ObjectRecordBase::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ObjectRecordBase)
@@ -3787,8 +3844,7 @@ bool ObjectRecordBase::MergePartialFromCodedStream(
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_row_struct()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_row_struct()));
         } else {
           goto handle_unusual;
         }
@@ -3835,9 +3891,7 @@ void ObjectRecordBase::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->row_struct_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->row_struct(static_cast<int>(i)),
-      output);
+      2, this->row_struct(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3968,7 +4022,7 @@ void ObjectRecordBase::Swap(ObjectRecordBase* other) {
 }
 void ObjectRecordBase::InternalSwap(ObjectRecordBase* other) {
   using std::swap;
-  CastToBase(&row_struct_)->InternalSwap(CastToBase(&other->row_struct_));
+  row_struct_.InternalSwap(&other->row_struct_);
   record_name_.Swap(&other->record_name_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -4042,6 +4096,13 @@ const ObjectPropertyList& ObjectPropertyList::default_instance() {
   return *internal_default_instance();
 }
 
+ObjectPropertyList* ObjectPropertyList::New(::google::protobuf::Arena* arena) const {
+  ObjectPropertyList* n = new ObjectPropertyList;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ObjectPropertyList::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ObjectPropertyList)
@@ -4083,8 +4144,7 @@ bool ObjectPropertyList::MergePartialFromCodedStream(
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_property_data_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_property_data_list()));
         } else {
           goto handle_unusual;
         }
@@ -4120,16 +4180,14 @@ void ObjectPropertyList::SerializeWithCachedSizes(
   // .AFMsg.Ident player_id = 1;
   if (this->has_player_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *player_id_, output);
+      1, *this->player_id_, output);
   }
 
   // repeated .AFMsg.PropertyPBData property_data_list = 2;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->property_data_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->property_data_list(static_cast<int>(i)),
-      output);
+      2, this->property_data_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4150,7 +4208,7 @@ void ObjectPropertyList::SerializeWithCachedSizes(
   if (this->has_player_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *player_id_, deterministic, target);
+        1, *this->player_id_, deterministic, target);
   }
 
   // repeated .AFMsg.PropertyPBData property_data_list = 2;
@@ -4193,7 +4251,7 @@ size_t ObjectPropertyList::ByteSizeLong() const {
   if (this->has_player_id()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *player_id_);
+        *this->player_id_);
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -4255,7 +4313,7 @@ void ObjectPropertyList::Swap(ObjectPropertyList* other) {
 }
 void ObjectPropertyList::InternalSwap(ObjectPropertyList* other) {
   using std::swap;
-  CastToBase(&property_data_list_)->InternalSwap(CastToBase(&other->property_data_list_));
+  property_data_list_.InternalSwap(&other->property_data_list_);
   swap(player_id_, other->player_id_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -4319,6 +4377,13 @@ const MultiObjectPropertyList& MultiObjectPropertyList::default_instance() {
   return *internal_default_instance();
 }
 
+MultiObjectPropertyList* MultiObjectPropertyList::New(::google::protobuf::Arena* arena) const {
+  MultiObjectPropertyList* n = new MultiObjectPropertyList;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void MultiObjectPropertyList::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.MultiObjectPropertyList)
@@ -4344,8 +4409,7 @@ bool MultiObjectPropertyList::MergePartialFromCodedStream(
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_multi_player_property()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_multi_player_property()));
         } else {
           goto handle_unusual;
         }
@@ -4382,9 +4446,7 @@ void MultiObjectPropertyList::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->multi_player_property_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->multi_player_property(static_cast<int>(i)),
-      output);
+      1, this->multi_player_property(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4493,7 +4555,7 @@ void MultiObjectPropertyList::Swap(MultiObjectPropertyList* other) {
 }
 void MultiObjectPropertyList::InternalSwap(MultiObjectPropertyList* other) {
   using std::swap;
-  CastToBase(&multi_player_property_)->InternalSwap(CastToBase(&other->multi_player_property_));
+  multi_player_property_.InternalSwap(&other->multi_player_property_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -4566,6 +4628,13 @@ const ObjectRecordList& ObjectRecordList::default_instance() {
   return *internal_default_instance();
 }
 
+ObjectRecordList* ObjectRecordList::New(::google::protobuf::Arena* arena) const {
+  ObjectRecordList* n = new ObjectRecordList;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ObjectRecordList::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ObjectRecordList)
@@ -4607,8 +4676,7 @@ bool ObjectRecordList::MergePartialFromCodedStream(
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_record_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_record_list()));
         } else {
           goto handle_unusual;
         }
@@ -4644,16 +4712,14 @@ void ObjectRecordList::SerializeWithCachedSizes(
   // .AFMsg.Ident player_id = 1;
   if (this->has_player_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *player_id_, output);
+      1, *this->player_id_, output);
   }
 
   // repeated .AFMsg.ObjectRecordBase record_list = 2;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->record_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->record_list(static_cast<int>(i)),
-      output);
+      2, this->record_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -4674,7 +4740,7 @@ void ObjectRecordList::SerializeWithCachedSizes(
   if (this->has_player_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *player_id_, deterministic, target);
+        1, *this->player_id_, deterministic, target);
   }
 
   // repeated .AFMsg.ObjectRecordBase record_list = 2;
@@ -4717,7 +4783,7 @@ size_t ObjectRecordList::ByteSizeLong() const {
   if (this->has_player_id()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *player_id_);
+        *this->player_id_);
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -4779,7 +4845,7 @@ void ObjectRecordList::Swap(ObjectRecordList* other) {
 }
 void ObjectRecordList::InternalSwap(ObjectRecordList* other) {
   using std::swap;
-  CastToBase(&record_list_)->InternalSwap(CastToBase(&other->record_list_));
+  record_list_.InternalSwap(&other->record_list_);
   swap(player_id_, other->player_id_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -4843,6 +4909,13 @@ const MultiObjectRecordList& MultiObjectRecordList::default_instance() {
   return *internal_default_instance();
 }
 
+MultiObjectRecordList* MultiObjectRecordList::New(::google::protobuf::Arena* arena) const {
+  MultiObjectRecordList* n = new MultiObjectRecordList;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void MultiObjectRecordList::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.MultiObjectRecordList)
@@ -4868,8 +4941,7 @@ bool MultiObjectRecordList::MergePartialFromCodedStream(
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_multi_player_record()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_multi_player_record()));
         } else {
           goto handle_unusual;
         }
@@ -4906,9 +4978,7 @@ void MultiObjectRecordList::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->multi_player_record_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->multi_player_record(static_cast<int>(i)),
-      output);
+      1, this->multi_player_record(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5017,7 +5087,7 @@ void MultiObjectRecordList::Swap(MultiObjectRecordList* other) {
 }
 void MultiObjectRecordList::InternalSwap(MultiObjectRecordList* other) {
   using std::swap;
-  CastToBase(&multi_player_record_)->InternalSwap(CastToBase(&other->multi_player_record_));
+  multi_player_record_.InternalSwap(&other->multi_player_record_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -5090,6 +5160,13 @@ const ObjectPropertyPBData& ObjectPropertyPBData::default_instance() {
   return *internal_default_instance();
 }
 
+ObjectPropertyPBData* ObjectPropertyPBData::New(::google::protobuf::Arena* arena) const {
+  ObjectPropertyPBData* n = new ObjectPropertyPBData;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ObjectPropertyPBData::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ObjectPropertyPBData)
@@ -5131,8 +5208,7 @@ bool ObjectPropertyPBData::MergePartialFromCodedStream(
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_property_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_property_list()));
         } else {
           goto handle_unusual;
         }
@@ -5168,16 +5244,14 @@ void ObjectPropertyPBData::SerializeWithCachedSizes(
   // .AFMsg.Ident player_id = 1;
   if (this->has_player_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *player_id_, output);
+      1, *this->player_id_, output);
   }
 
   // repeated .AFMsg.PropertyPBData property_list = 2;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->property_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->property_list(static_cast<int>(i)),
-      output);
+      2, this->property_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5198,7 +5272,7 @@ void ObjectPropertyPBData::SerializeWithCachedSizes(
   if (this->has_player_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *player_id_, deterministic, target);
+        1, *this->player_id_, deterministic, target);
   }
 
   // repeated .AFMsg.PropertyPBData property_list = 2;
@@ -5241,7 +5315,7 @@ size_t ObjectPropertyPBData::ByteSizeLong() const {
   if (this->has_player_id()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *player_id_);
+        *this->player_id_);
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -5303,7 +5377,7 @@ void ObjectPropertyPBData::Swap(ObjectPropertyPBData* other) {
 }
 void ObjectPropertyPBData::InternalSwap(ObjectPropertyPBData* other) {
   using std::swap;
-  CastToBase(&property_list_)->InternalSwap(CastToBase(&other->property_list_));
+  property_list_.InternalSwap(&other->property_list_);
   swap(player_id_, other->player_id_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -5384,6 +5458,13 @@ const ObjectRecordPBData& ObjectRecordPBData::default_instance() {
   return *internal_default_instance();
 }
 
+ObjectRecordPBData* ObjectRecordPBData::New(::google::protobuf::Arena* arena) const {
+  ObjectRecordPBData* n = new ObjectRecordPBData;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ObjectRecordPBData::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ObjectRecordPBData)
@@ -5442,8 +5523,7 @@ bool ObjectRecordPBData::MergePartialFromCodedStream(
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_record_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_record_list()));
         } else {
           goto handle_unusual;
         }
@@ -5479,7 +5559,7 @@ void ObjectRecordPBData::SerializeWithCachedSizes(
   // .AFMsg.Ident player_id = 1;
   if (this->has_player_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *player_id_, output);
+      1, *this->player_id_, output);
   }
 
   // string record_name = 2;
@@ -5496,9 +5576,7 @@ void ObjectRecordPBData::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->record_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3,
-      this->record_list(static_cast<int>(i)),
-      output);
+      3, this->record_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -5519,7 +5597,7 @@ void ObjectRecordPBData::SerializeWithCachedSizes(
   if (this->has_player_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *player_id_, deterministic, target);
+        1, *this->player_id_, deterministic, target);
   }
 
   // string record_name = 2;
@@ -5580,7 +5658,7 @@ size_t ObjectRecordPBData::ByteSizeLong() const {
   if (this->has_player_id()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *player_id_);
+        *this->player_id_);
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -5646,7 +5724,7 @@ void ObjectRecordPBData::Swap(ObjectRecordPBData* other) {
 }
 void ObjectRecordPBData::InternalSwap(ObjectRecordPBData* other) {
   using std::swap;
-  CastToBase(&record_list_)->InternalSwap(CastToBase(&other->record_list_));
+  record_list_.InternalSwap(&other->record_list_);
   record_name_.Swap(&other->record_name_);
   swap(player_id_, other->player_id_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -5740,6 +5818,13 @@ const ObjectRecordSwap& ObjectRecordSwap::default_instance() {
   return *internal_default_instance();
 }
 
+ObjectRecordSwap* ObjectRecordSwap::New(::google::protobuf::Arena* arena) const {
+  ObjectRecordSwap* n = new ObjectRecordSwap;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ObjectRecordSwap::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ObjectRecordSwap)
@@ -5870,7 +5955,7 @@ void ObjectRecordSwap::SerializeWithCachedSizes(
   // .AFMsg.Ident player_id = 1;
   if (this->has_player_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *player_id_, output);
+      1, *this->player_id_, output);
   }
 
   // string origin_record_name = 2;
@@ -5921,7 +6006,7 @@ void ObjectRecordSwap::SerializeWithCachedSizes(
   if (this->has_player_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *player_id_, deterministic, target);
+        1, *this->player_id_, deterministic, target);
   }
 
   // string origin_record_name = 2;
@@ -5991,7 +6076,7 @@ size_t ObjectRecordSwap::ByteSizeLong() const {
   if (this->has_player_id()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *player_id_);
+        *this->player_id_);
   }
 
   // int32 row_origin = 4;
@@ -6164,6 +6249,13 @@ const ObjectRecordAddRow& ObjectRecordAddRow::default_instance() {
   return *internal_default_instance();
 }
 
+ObjectRecordAddRow* ObjectRecordAddRow::New(::google::protobuf::Arena* arena) const {
+  ObjectRecordAddRow* n = new ObjectRecordAddRow;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ObjectRecordAddRow::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ObjectRecordAddRow)
@@ -6222,8 +6314,7 @@ bool ObjectRecordAddRow::MergePartialFromCodedStream(
       case 3: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_row_data()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_row_data()));
         } else {
           goto handle_unusual;
         }
@@ -6259,7 +6350,7 @@ void ObjectRecordAddRow::SerializeWithCachedSizes(
   // .AFMsg.Ident player_id = 1;
   if (this->has_player_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *player_id_, output);
+      1, *this->player_id_, output);
   }
 
   // string record_name = 2;
@@ -6276,9 +6367,7 @@ void ObjectRecordAddRow::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->row_data_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3,
-      this->row_data(static_cast<int>(i)),
-      output);
+      3, this->row_data(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -6299,7 +6388,7 @@ void ObjectRecordAddRow::SerializeWithCachedSizes(
   if (this->has_player_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *player_id_, deterministic, target);
+        1, *this->player_id_, deterministic, target);
   }
 
   // string record_name = 2;
@@ -6360,7 +6449,7 @@ size_t ObjectRecordAddRow::ByteSizeLong() const {
   if (this->has_player_id()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *player_id_);
+        *this->player_id_);
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -6426,7 +6515,7 @@ void ObjectRecordAddRow::Swap(ObjectRecordAddRow* other) {
 }
 void ObjectRecordAddRow::InternalSwap(ObjectRecordAddRow* other) {
   using std::swap;
-  CastToBase(&row_data_)->InternalSwap(CastToBase(&other->row_data_));
+  row_data_.InternalSwap(&other->row_data_);
   record_name_.Swap(&other->record_name_);
   swap(player_id_, other->player_id_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
@@ -6508,6 +6597,13 @@ const ObjectRecordRemove& ObjectRecordRemove::default_instance() {
   return *internal_default_instance();
 }
 
+ObjectRecordRemove* ObjectRecordRemove::New(::google::protobuf::Arena* arena) const {
+  ObjectRecordRemove* n = new ObjectRecordRemove;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ObjectRecordRemove::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ObjectRecordRemove)
@@ -6610,7 +6706,7 @@ void ObjectRecordRemove::SerializeWithCachedSizes(
   // .AFMsg.Ident player_id = 1;
   if (this->has_player_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *player_id_, output);
+      1, *this->player_id_, output);
   }
 
   // string record_name = 2;
@@ -6652,7 +6748,7 @@ void ObjectRecordRemove::SerializeWithCachedSizes(
   if (this->has_player_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *player_id_, deterministic, target);
+        1, *this->player_id_, deterministic, target);
   }
 
   // string record_name = 2;
@@ -6723,7 +6819,7 @@ size_t ObjectRecordRemove::ByteSizeLong() const {
   if (this->has_player_id()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *player_id_);
+        *this->player_id_);
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -6854,6 +6950,13 @@ const PlayerPropertyBase& PlayerPropertyBase::default_instance() {
   return *internal_default_instance();
 }
 
+PlayerPropertyBase* PlayerPropertyBase::New(::google::protobuf::Arena* arena) const {
+  PlayerPropertyBase* n = new PlayerPropertyBase;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void PlayerPropertyBase::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.PlayerPropertyBase)
@@ -6879,8 +6982,7 @@ bool PlayerPropertyBase::MergePartialFromCodedStream(
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_property_data_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_property_data_list()));
         } else {
           goto handle_unusual;
         }
@@ -6917,9 +7019,7 @@ void PlayerPropertyBase::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->property_data_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->property_data_list(static_cast<int>(i)),
-      output);
+      1, this->property_data_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7028,7 +7128,7 @@ void PlayerPropertyBase::Swap(PlayerPropertyBase* other) {
 }
 void PlayerPropertyBase::InternalSwap(PlayerPropertyBase* other) {
   using std::swap;
-  CastToBase(&property_data_list_)->InternalSwap(CastToBase(&other->property_data_list_));
+  property_data_list_.InternalSwap(&other->property_data_list_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -7098,6 +7198,13 @@ const PlayerRecordBase& PlayerRecordBase::default_instance() {
   return *internal_default_instance();
 }
 
+PlayerRecordBase* PlayerRecordBase::New(::google::protobuf::Arena* arena) const {
+  PlayerRecordBase* n = new PlayerRecordBase;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void PlayerRecordBase::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.PlayerRecordBase)
@@ -7140,8 +7247,7 @@ bool PlayerRecordBase::MergePartialFromCodedStream(
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_record_data_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_record_data_list()));
         } else {
           goto handle_unusual;
         }
@@ -7188,9 +7294,7 @@ void PlayerRecordBase::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->record_data_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->record_data_list(static_cast<int>(i)),
-      output);
+      2, this->record_data_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7321,7 +7425,7 @@ void PlayerRecordBase::Swap(PlayerRecordBase* other) {
 }
 void PlayerRecordBase::InternalSwap(PlayerRecordBase* other) {
   using std::swap;
-  CastToBase(&record_data_list_)->InternalSwap(CastToBase(&other->record_data_list_));
+  record_data_list_.InternalSwap(&other->record_data_list_);
   record_name_.Swap(&other->record_name_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -7385,6 +7489,13 @@ const PlayerRecordList& PlayerRecordList::default_instance() {
   return *internal_default_instance();
 }
 
+PlayerRecordList* PlayerRecordList::New(::google::protobuf::Arena* arena) const {
+  PlayerRecordList* n = new PlayerRecordList;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void PlayerRecordList::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.PlayerRecordList)
@@ -7410,8 +7521,7 @@ bool PlayerRecordList::MergePartialFromCodedStream(
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_record_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_record_list()));
         } else {
           goto handle_unusual;
         }
@@ -7448,9 +7558,7 @@ void PlayerRecordList::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->record_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->record_list(static_cast<int>(i)),
-      output);
+      1, this->record_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7559,7 +7667,7 @@ void PlayerRecordList::Swap(PlayerRecordList* other) {
 }
 void PlayerRecordList::InternalSwap(PlayerRecordList* other) {
   using std::swap;
-  CastToBase(&record_list_)->InternalSwap(CastToBase(&other->record_list_));
+  record_list_.InternalSwap(&other->record_list_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -7643,6 +7751,13 @@ const BrocastMsg& BrocastMsg::default_instance() {
   return *internal_default_instance();
 }
 
+BrocastMsg* BrocastMsg::New(::google::protobuf::Arena* arena) const {
+  BrocastMsg* n = new BrocastMsg;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void BrocastMsg::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.BrocastMsg)
@@ -7716,8 +7831,7 @@ bool BrocastMsg::MergePartialFromCodedStream(
       case 4: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(34u /* 34 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_player_client_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_player_client_list()));
         } else {
           goto handle_unusual;
         }
@@ -7753,7 +7867,7 @@ void BrocastMsg::SerializeWithCachedSizes(
   // .AFMsg.Ident player_id = 1;
   if (this->has_player_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *player_id_, output);
+      1, *this->player_id_, output);
   }
 
   // string msg_data = 2;
@@ -7775,9 +7889,7 @@ void BrocastMsg::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->player_client_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      4,
-      this->player_client_list(static_cast<int>(i)),
-      output);
+      4, this->player_client_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -7798,7 +7910,7 @@ void BrocastMsg::SerializeWithCachedSizes(
   if (this->has_player_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *player_id_, deterministic, target);
+        1, *this->player_id_, deterministic, target);
   }
 
   // string msg_data = 2;
@@ -7864,7 +7976,7 @@ size_t BrocastMsg::ByteSizeLong() const {
   if (this->has_player_id()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *player_id_);
+        *this->player_id_);
   }
 
   // int64 nMsgID = 3;
@@ -7940,7 +8052,7 @@ void BrocastMsg::Swap(BrocastMsg* other) {
 }
 void BrocastMsg::InternalSwap(BrocastMsg* other) {
   using std::swap;
-  CastToBase(&player_client_list_)->InternalSwap(CastToBase(&other->player_client_list_));
+  player_client_list_.InternalSwap(&other->player_client_list_);
   msg_data_.Swap(&other->msg_data_);
   swap(player_id_, other->player_id_);
   swap(nmsgid_, other->nmsgid_);
@@ -8013,6 +8125,13 @@ const Position& Position::default_instance() {
   return *internal_default_instance();
 }
 
+Position* Position::New(::google::protobuf::Arena* arena) const {
+  Position* n = new Position;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void Position::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.Position)
@@ -8321,6 +8440,13 @@ const ReqCommand& ReqCommand::default_instance() {
   return *internal_default_instance();
 }
 
+ReqCommand* ReqCommand::New(::google::protobuf::Arena* arena) const {
+  ReqCommand* n = new ReqCommand;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqCommand::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqCommand)
@@ -8402,7 +8528,7 @@ void ReqCommand::SerializeWithCachedSizes(
   // .AFMsg.Ident control_id = 1;
   if (this->has_control_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *control_id_, output);
+      1, *this->control_id_, output);
   }
 
   // .AFMsg.ReqCommand.EGameCommandType command_id = 2;
@@ -8429,7 +8555,7 @@ void ReqCommand::SerializeWithCachedSizes(
   if (this->has_control_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *control_id_, deterministic, target);
+        1, *this->control_id_, deterministic, target);
   }
 
   // .AFMsg.ReqCommand.EGameCommandType command_id = 2;
@@ -8459,7 +8585,7 @@ size_t ReqCommand::ByteSizeLong() const {
   if (this->has_control_id()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *control_id_);
+        *this->control_id_);
   }
 
   // .AFMsg.ReqCommand.EGameCommandType command_id = 2;
@@ -8543,81 +8669,5 @@ void ReqCommand::InternalSwap(ReqCommand* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace AFMsg
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::Ident* Arena::Create< ::AFMsg::Ident >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::Ident >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::Point3D* Arena::Create< ::AFMsg::Point3D >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::Point3D >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::VariantData* Arena::Create< ::AFMsg::VariantData >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::VariantData >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::PropertyPBData* Arena::Create< ::AFMsg::PropertyPBData >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::PropertyPBData >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::RecordPBData* Arena::Create< ::AFMsg::RecordPBData >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::RecordPBData >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::PBData* Arena::Create< ::AFMsg::PBData >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::PBData >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::DataListPBData* Arena::Create< ::AFMsg::DataListPBData >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::DataListPBData >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::RecordAddRowStruct* Arena::Create< ::AFMsg::RecordAddRowStruct >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::RecordAddRowStruct >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ObjectRecordBase* Arena::Create< ::AFMsg::ObjectRecordBase >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ObjectRecordBase >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ObjectPropertyList* Arena::Create< ::AFMsg::ObjectPropertyList >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ObjectPropertyList >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::MultiObjectPropertyList* Arena::Create< ::AFMsg::MultiObjectPropertyList >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::MultiObjectPropertyList >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ObjectRecordList* Arena::Create< ::AFMsg::ObjectRecordList >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ObjectRecordList >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::MultiObjectRecordList* Arena::Create< ::AFMsg::MultiObjectRecordList >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::MultiObjectRecordList >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ObjectPropertyPBData* Arena::Create< ::AFMsg::ObjectPropertyPBData >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ObjectPropertyPBData >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ObjectRecordPBData* Arena::Create< ::AFMsg::ObjectRecordPBData >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ObjectRecordPBData >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ObjectRecordSwap* Arena::Create< ::AFMsg::ObjectRecordSwap >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ObjectRecordSwap >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ObjectRecordAddRow* Arena::Create< ::AFMsg::ObjectRecordAddRow >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ObjectRecordAddRow >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ObjectRecordRemove* Arena::Create< ::AFMsg::ObjectRecordRemove >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ObjectRecordRemove >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::PlayerPropertyBase* Arena::Create< ::AFMsg::PlayerPropertyBase >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::PlayerPropertyBase >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::PlayerRecordBase* Arena::Create< ::AFMsg::PlayerRecordBase >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::PlayerRecordBase >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::PlayerRecordList* Arena::Create< ::AFMsg::PlayerRecordList >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::PlayerRecordList >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::BrocastMsg* Arena::Create< ::AFMsg::BrocastMsg >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::BrocastMsg >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::Position* Arena::Create< ::AFMsg::Position >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::Position >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqCommand* Arena::Create< ::AFMsg::ReqCommand >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqCommand >(arena);
-}
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)

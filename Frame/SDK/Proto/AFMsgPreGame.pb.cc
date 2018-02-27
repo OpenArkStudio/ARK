@@ -1020,6 +1020,13 @@ const ServerInfoReport& ServerInfoReport::default_instance() {
   return *internal_default_instance();
 }
 
+ServerInfoReport* ServerInfoReport::New(::google::protobuf::Arena* arena) const {
+  ServerInfoReport* n = new ServerInfoReport;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ServerInfoReport::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ServerInfoReport)
@@ -1529,6 +1536,13 @@ const ServerInfoReportList& ServerInfoReportList::default_instance() {
   return *internal_default_instance();
 }
 
+ServerInfoReportList* ServerInfoReportList::New(::google::protobuf::Arena* arena) const {
+  ServerInfoReportList* n = new ServerInfoReportList;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ServerInfoReportList::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ServerInfoReportList)
@@ -1554,8 +1568,7 @@ bool ServerInfoReportList::MergePartialFromCodedStream(
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_server_list()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_server_list()));
         } else {
           goto handle_unusual;
         }
@@ -1592,9 +1605,7 @@ void ServerInfoReportList::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->server_list_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->server_list(static_cast<int>(i)),
-      output);
+      1, this->server_list(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1703,7 +1714,7 @@ void ServerInfoReportList::Swap(ServerInfoReportList* other) {
 }
 void ServerInfoReportList::InternalSwap(ServerInfoReportList* other) {
   using std::swap;
-  CastToBase(&server_list_)->InternalSwap(CastToBase(&other->server_list_));
+  server_list_.InternalSwap(&other->server_list_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -1799,6 +1810,13 @@ const AckEventResult& AckEventResult::default_instance() {
   return *internal_default_instance();
 }
 
+AckEventResult* AckEventResult::New(::google::protobuf::Arena* arena) const {
+  AckEventResult* n = new AckEventResult;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void AckEventResult::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.AckEventResult)
@@ -1902,13 +1920,13 @@ void AckEventResult::SerializeWithCachedSizes(
   // .AFMsg.Ident event_object = 2;
   if (this->has_event_object()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, *event_object_, output);
+      2, *this->event_object_, output);
   }
 
   // .AFMsg.Ident event_client = 3;
   if (this->has_event_client()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, *event_client_, output);
+      3, *this->event_client_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1935,14 +1953,14 @@ void AckEventResult::SerializeWithCachedSizes(
   if (this->has_event_object()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        2, *event_object_, deterministic, target);
+        2, *this->event_object_, deterministic, target);
   }
 
   // .AFMsg.Ident event_client = 3;
   if (this->has_event_client()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        3, *event_client_, deterministic, target);
+        3, *this->event_client_, deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -1966,14 +1984,14 @@ size_t AckEventResult::ByteSizeLong() const {
   if (this->has_event_object()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *event_object_);
+        *this->event_object_);
   }
 
   // .AFMsg.Ident event_client = 3;
   if (this->has_event_client()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *event_client_);
+        *this->event_client_);
   }
 
   // .AFMsg.EGameEventCode event_code = 1;
@@ -2162,6 +2180,13 @@ const ReqAccountLogin& ReqAccountLogin::default_instance() {
   return *internal_default_instance();
 }
 
+ReqAccountLogin* ReqAccountLogin::New(::google::protobuf::Arena* arena) const {
+  ReqAccountLogin* n = new ReqAccountLogin;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqAccountLogin::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqAccountLogin)
@@ -2846,6 +2871,13 @@ const ReqAccountLogout& ReqAccountLogout::default_instance() {
   return *internal_default_instance();
 }
 
+ReqAccountLogout* ReqAccountLogout::New(::google::protobuf::Arena* arena) const {
+  ReqAccountLogout* n = new ReqAccountLogout;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqAccountLogout::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqAccountLogout)
@@ -3154,6 +3186,13 @@ const ServerInfo& ServerInfo::default_instance() {
   return *internal_default_instance();
 }
 
+ServerInfo* ServerInfo::New(::google::protobuf::Arena* arena) const {
+  ServerInfo* n = new ServerInfo;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ServerInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ServerInfo)
@@ -3509,6 +3548,13 @@ const ReqServerList& ReqServerList::default_instance() {
   return *internal_default_instance();
 }
 
+ReqServerList* ReqServerList::New(::google::protobuf::Arena* arena) const {
+  ReqServerList* n = new ReqServerList;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqServerList::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqServerList)
@@ -3744,6 +3790,13 @@ const AckServerList& AckServerList::default_instance() {
   return *internal_default_instance();
 }
 
+AckServerList* AckServerList::New(::google::protobuf::Arena* arena) const {
+  AckServerList* n = new AckServerList;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void AckServerList::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.AckServerList)
@@ -3785,8 +3838,7 @@ bool AckServerList::MergePartialFromCodedStream(
       case 2: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_info()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_info()));
         } else {
           goto handle_unusual;
         }
@@ -3829,9 +3881,7 @@ void AckServerList::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->info_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->info(static_cast<int>(i)),
-      output);
+      2, this->info(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -3955,7 +4005,7 @@ void AckServerList::Swap(AckServerList* other) {
 }
 void AckServerList::InternalSwap(AckServerList* other) {
   using std::swap;
-  CastToBase(&info_)->InternalSwap(CastToBase(&other->info_));
+  info_.InternalSwap(&other->info_);
   swap(type_, other->type_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
@@ -4047,6 +4097,13 @@ const ReqConnectWorld& ReqConnectWorld::default_instance() {
   return *internal_default_instance();
 }
 
+ReqConnectWorld* ReqConnectWorld::New(::google::protobuf::Arena* arena) const {
+  ReqConnectWorld* n = new ReqConnectWorld;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqConnectWorld::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqConnectWorld)
@@ -4175,7 +4232,7 @@ void ReqConnectWorld::SerializeWithCachedSizes(
   // .AFMsg.Ident sender = 3;
   if (this->has_sender()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      3, *sender_, output);
+      3, *this->sender_, output);
   }
 
   // int32 login_id = 4;
@@ -4217,7 +4274,7 @@ void ReqConnectWorld::SerializeWithCachedSizes(
   if (this->has_sender()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        3, *sender_, deterministic, target);
+        3, *this->sender_, deterministic, target);
   }
 
   // int32 login_id = 4;
@@ -4253,7 +4310,7 @@ size_t ReqConnectWorld::ByteSizeLong() const {
   if (this->has_sender()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *sender_);
+        *this->sender_);
   }
 
   // int32 world_id = 1;
@@ -4447,6 +4504,13 @@ const AckConnectWorldResult& AckConnectWorldResult::default_instance() {
   return *internal_default_instance();
 }
 
+AckConnectWorldResult* AckConnectWorldResult::New(::google::protobuf::Arena* arena) const {
+  AckConnectWorldResult* n = new AckConnectWorldResult;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void AckConnectWorldResult::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.AckConnectWorldResult)
@@ -4613,7 +4677,7 @@ void AckConnectWorldResult::SerializeWithCachedSizes(
   // .AFMsg.Ident sender = 2;
   if (this->has_sender()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, *sender_, output);
+      2, *this->sender_, output);
   }
 
   // int32 login_id = 3;
@@ -4679,7 +4743,7 @@ void AckConnectWorldResult::SerializeWithCachedSizes(
   if (this->has_sender()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        2, *sender_, deterministic, target);
+        2, *this->sender_, deterministic, target);
   }
 
   // int32 login_id = 3;
@@ -4767,7 +4831,7 @@ size_t AckConnectWorldResult::ByteSizeLong() const {
   if (this->has_sender()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *sender_);
+        *this->sender_);
   }
 
   // int32 world_id = 1;
@@ -4940,6 +5004,13 @@ const ReqSelectServer& ReqSelectServer::default_instance() {
   return *internal_default_instance();
 }
 
+ReqSelectServer* ReqSelectServer::New(::google::protobuf::Arena* arena) const {
+  ReqSelectServer* n = new ReqSelectServer;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqSelectServer::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqSelectServer)
@@ -5178,6 +5249,13 @@ const ReqKickFromWorld& ReqKickFromWorld::default_instance() {
   return *internal_default_instance();
 }
 
+ReqKickFromWorld* ReqKickFromWorld::New(::google::protobuf::Arena* arena) const {
+  ReqKickFromWorld* n = new ReqKickFromWorld;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqKickFromWorld::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqKickFromWorld)
@@ -5466,6 +5544,13 @@ const ReqRoleList& ReqRoleList::default_instance() {
   return *internal_default_instance();
 }
 
+ReqRoleList* ReqRoleList::New(::google::protobuf::Arena* arena) const {
+  ReqRoleList* n = new ReqRoleList;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqRoleList::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqRoleList)
@@ -5788,6 +5873,13 @@ const RoleLiteInfo& RoleLiteInfo::default_instance() {
   return *internal_default_instance();
 }
 
+RoleLiteInfo* RoleLiteInfo::New(::google::protobuf::Arena* arena) const {
+  RoleLiteInfo* n = new RoleLiteInfo;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void RoleLiteInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.RoleLiteInfo)
@@ -6016,7 +6108,7 @@ void RoleLiteInfo::SerializeWithCachedSizes(
   // .AFMsg.Ident id = 1;
   if (this->has_id()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *id_, output);
+      1, *this->id_, output);
   }
 
   // int32 career = 2;
@@ -6102,7 +6194,7 @@ void RoleLiteInfo::SerializeWithCachedSizes(
   if (this->has_id()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *id_, deterministic, target);
+        1, *this->id_, deterministic, target);
   }
 
   // int32 career = 2;
@@ -6207,7 +6299,7 @@ size_t RoleLiteInfo::ByteSizeLong() const {
   if (this->has_id()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *id_);
+        *this->id_);
   }
 
   // int32 career = 2;
@@ -6440,6 +6532,13 @@ const AckRoleLiteInfoList& AckRoleLiteInfoList::default_instance() {
   return *internal_default_instance();
 }
 
+AckRoleLiteInfoList* AckRoleLiteInfoList::New(::google::protobuf::Arena* arena) const {
+  AckRoleLiteInfoList* n = new AckRoleLiteInfoList;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void AckRoleLiteInfoList::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.AckRoleLiteInfoList)
@@ -6465,8 +6564,7 @@ bool AckRoleLiteInfoList::MergePartialFromCodedStream(
       case 1: {
         if (static_cast< ::google::protobuf::uint8>(tag) ==
             static_cast< ::google::protobuf::uint8>(10u /* 10 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_char_data()));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(input, add_char_data()));
         } else {
           goto handle_unusual;
         }
@@ -6503,9 +6601,7 @@ void AckRoleLiteInfoList::SerializeWithCachedSizes(
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->char_data_size()); i < n; i++) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1,
-      this->char_data(static_cast<int>(i)),
-      output);
+      1, this->char_data(static_cast<int>(i)), output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -6614,7 +6710,7 @@ void AckRoleLiteInfoList::Swap(AckRoleLiteInfoList* other) {
 }
 void AckRoleLiteInfoList::InternalSwap(AckRoleLiteInfoList* other) {
   using std::swap;
-  CastToBase(&char_data_)->InternalSwap(CastToBase(&other->char_data_));
+  char_data_.InternalSwap(&other->char_data_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   swap(_cached_size_, other->_cached_size_);
 }
@@ -6699,6 +6795,13 @@ const ReqCreateRole& ReqCreateRole::default_instance() {
   return *internal_default_instance();
 }
 
+ReqCreateRole* ReqCreateRole::New(::google::protobuf::Arena* arena) const {
+  ReqCreateRole* n = new ReqCreateRole;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqCreateRole::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqCreateRole)
@@ -7151,6 +7254,13 @@ const ReqDeleteRole& ReqDeleteRole::default_instance() {
   return *internal_default_instance();
 }
 
+ReqDeleteRole* ReqDeleteRole::New(::google::protobuf::Arena* arena) const {
+  ReqDeleteRole* n = new ReqDeleteRole;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqDeleteRole::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqDeleteRole)
@@ -7496,6 +7606,13 @@ const ReqRecoverRole& ReqRecoverRole::default_instance() {
   return *internal_default_instance();
 }
 
+ReqRecoverRole* ReqRecoverRole::New(::google::protobuf::Arena* arena) const {
+  ReqRecoverRole* n = new ReqRecoverRole;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ReqRecoverRole::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ReqRecoverRole)
@@ -7827,6 +7944,13 @@ const ServerHeartBeat& ServerHeartBeat::default_instance() {
   return *internal_default_instance();
 }
 
+ServerHeartBeat* ServerHeartBeat::New(::google::protobuf::Arena* arena) const {
+  ServerHeartBeat* n = new ServerHeartBeat;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void ServerHeartBeat::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.ServerHeartBeat)
@@ -8071,6 +8195,13 @@ const RoleOnlineNotify& RoleOnlineNotify::default_instance() {
   return *internal_default_instance();
 }
 
+RoleOnlineNotify* RoleOnlineNotify::New(::google::protobuf::Arena* arena) const {
+  RoleOnlineNotify* n = new RoleOnlineNotify;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void RoleOnlineNotify::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.RoleOnlineNotify)
@@ -8136,7 +8267,7 @@ void RoleOnlineNotify::SerializeWithCachedSizes(
   // .AFMsg.Ident guild = 1;
   if (this->has_guild()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *guild_, output);
+      1, *this->guild_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -8157,7 +8288,7 @@ void RoleOnlineNotify::SerializeWithCachedSizes(
   if (this->has_guild()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *guild_, deterministic, target);
+        1, *this->guild_, deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -8181,7 +8312,7 @@ size_t RoleOnlineNotify::ByteSizeLong() const {
   if (this->has_guild()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *guild_);
+        *this->guild_);
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -8319,6 +8450,13 @@ const RoleOfflineNotify& RoleOfflineNotify::default_instance() {
   return *internal_default_instance();
 }
 
+RoleOfflineNotify* RoleOfflineNotify::New(::google::protobuf::Arena* arena) const {
+  RoleOfflineNotify* n = new RoleOfflineNotify;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void RoleOfflineNotify::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.RoleOfflineNotify)
@@ -8384,7 +8522,7 @@ void RoleOfflineNotify::SerializeWithCachedSizes(
   // .AFMsg.Ident guild = 1;
   if (this->has_guild()) {
     ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      1, *guild_, output);
+      1, *this->guild_, output);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -8405,7 +8543,7 @@ void RoleOfflineNotify::SerializeWithCachedSizes(
   if (this->has_guild()) {
     target = ::google::protobuf::internal::WireFormatLite::
       InternalWriteMessageToArray(
-        1, *guild_, deterministic, target);
+        1, *this->guild_, deterministic, target);
   }
 
   if ((_internal_metadata_.have_unknown_fields() &&  ::google::protobuf::internal::GetProto3PreserveUnknownsDefault())) {
@@ -8429,7 +8567,7 @@ size_t RoleOfflineNotify::ByteSizeLong() const {
   if (this->has_guild()) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::MessageSize(
-        *guild_);
+        *this->guild_);
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -8503,72 +8641,5 @@ void RoleOfflineNotify::InternalSwap(RoleOfflineNotify* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace AFMsg
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ServerInfoReport* Arena::Create< ::AFMsg::ServerInfoReport >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ServerInfoReport >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ServerInfoReportList* Arena::Create< ::AFMsg::ServerInfoReportList >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ServerInfoReportList >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::AckEventResult* Arena::Create< ::AFMsg::AckEventResult >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::AckEventResult >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqAccountLogin* Arena::Create< ::AFMsg::ReqAccountLogin >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqAccountLogin >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqAccountLogout* Arena::Create< ::AFMsg::ReqAccountLogout >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqAccountLogout >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ServerInfo* Arena::Create< ::AFMsg::ServerInfo >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ServerInfo >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqServerList* Arena::Create< ::AFMsg::ReqServerList >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqServerList >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::AckServerList* Arena::Create< ::AFMsg::AckServerList >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::AckServerList >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqConnectWorld* Arena::Create< ::AFMsg::ReqConnectWorld >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqConnectWorld >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::AckConnectWorldResult* Arena::Create< ::AFMsg::AckConnectWorldResult >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::AckConnectWorldResult >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqSelectServer* Arena::Create< ::AFMsg::ReqSelectServer >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqSelectServer >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqKickFromWorld* Arena::Create< ::AFMsg::ReqKickFromWorld >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqKickFromWorld >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqRoleList* Arena::Create< ::AFMsg::ReqRoleList >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqRoleList >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::RoleLiteInfo* Arena::Create< ::AFMsg::RoleLiteInfo >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::RoleLiteInfo >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::AckRoleLiteInfoList* Arena::Create< ::AFMsg::AckRoleLiteInfoList >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::AckRoleLiteInfoList >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqCreateRole* Arena::Create< ::AFMsg::ReqCreateRole >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqCreateRole >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqDeleteRole* Arena::Create< ::AFMsg::ReqDeleteRole >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqDeleteRole >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ReqRecoverRole* Arena::Create< ::AFMsg::ReqRecoverRole >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ReqRecoverRole >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::ServerHeartBeat* Arena::Create< ::AFMsg::ServerHeartBeat >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::ServerHeartBeat >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::RoleOnlineNotify* Arena::Create< ::AFMsg::RoleOnlineNotify >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::RoleOnlineNotify >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::RoleOfflineNotify* Arena::Create< ::AFMsg::RoleOfflineNotify >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::RoleOfflineNotify >(arena);
-}
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
