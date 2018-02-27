@@ -214,6 +214,13 @@ const PackSURLParam& PackSURLParam::default_instance() {
   return *internal_default_instance();
 }
 
+PackSURLParam* PackSURLParam::New(::google::protobuf::Arena* arena) const {
+  PackSURLParam* n = new PackSURLParam;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void PackSURLParam::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.PackSURLParam)
@@ -714,12 +721,5 @@ void PackSURLParam::InternalSwap(PackSURLParam* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace AFMsg
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::PackSURLParam* Arena::Create< ::AFMsg::PackSURLParam >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::PackSURLParam >(arena);
-}
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
