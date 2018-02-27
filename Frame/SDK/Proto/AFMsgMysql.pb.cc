@@ -254,6 +254,13 @@ const PackMysqlParam& PackMysqlParam::default_instance() {
   return *internal_default_instance();
 }
 
+PackMysqlParam* PackMysqlParam::New(::google::protobuf::Arena* arena) const {
+  PackMysqlParam* n = new PackMysqlParam;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void PackMysqlParam::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.PackMysqlParam)
@@ -827,6 +834,13 @@ const PackMysqlServerInfo& PackMysqlServerInfo::default_instance() {
   return *internal_default_instance();
 }
 
+PackMysqlServerInfo* PackMysqlServerInfo::New(::google::protobuf::Arena* arena) const {
+  PackMysqlServerInfo* n = new PackMysqlServerInfo;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
 
 void PackMysqlServerInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:AFMsg.PackMysqlServerInfo)
@@ -1314,15 +1328,5 @@ void PackMysqlServerInfo::InternalSwap(PackMysqlServerInfo* other) {
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace AFMsg
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::PackMysqlParam* Arena::Create< ::AFMsg::PackMysqlParam >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::PackMysqlParam >(arena);
-}
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::AFMsg::PackMysqlServerInfo* Arena::Create< ::AFMsg::PackMysqlServerInfo >(Arena* arena) {
-  return Arena::CreateInternal< ::AFMsg::PackMysqlServerInfo >(arena);
-}
-}  // namespace protobuf
-}  // namespace google
 
 // @@protoc_insertion_point(global_scope)
