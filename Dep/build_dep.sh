@@ -14,7 +14,7 @@ if [ -d "protobuf" ]; then
     rm -rf protobuf
 fi
 
-git clone https://github.com/google/protobuf.git
+git clone -b 3.5.x https://github.com/google/protobuf.git
 cd protobuf/cmake
 mkdir build && cd build
 cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF ..
