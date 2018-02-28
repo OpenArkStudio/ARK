@@ -128,26 +128,27 @@ public:
         return mxNodes[index];
     }
 
-    bool RemoveElement(const std::string& name)
-    {
-        size_t index;
-        if (!mxIndices.GetData(name.c_str(), index))
-        {
-            return false;
-        }
-        
-        //remove from name container
-        mxIndices.Remove(name.c_str());
+    //不能删除，删除后会导致index错位
+    //bool RemoveElement(const std::string& name)
+    //{
+    //    size_t index;
+    //    if (!mxIndices.GetData(name.c_str(), index))
+    //    {
+    //        return false;
+    //    }
+    //    
+    //    //remove from name container
+    //    mxIndices.Remove(name.c_str());
 
-        //释放内存
-        if (mxNodes[index] != nullptr)
-        {
-            //delete mxNodes[index];
-            mxNodes[index] = nullptr;
-        }
-        mxNodes.remove(index);
-        return true;
-    }
+    //    //释放内存
+    //    if (mxNodes[index] != nullptr)
+    //    {
+    //        //delete mxNodes[index];
+    //        mxNodes[index] = nullptr;
+    //    }
+    //    mxNodes.remove(index);
+    //    return true;
+    //}
 
     bool ExistElement(const std::string& name) const
     {
@@ -169,11 +170,14 @@ protected:
     {
         for (size_t i = 0; i < GetCount(); ++i)
         {
+            //change use MemPool
+
             //delete mxNodes[i];
             mxNodes[i] = nullptr;
         }
 
         mxNodes.clear();
+        mxIndices.Clear();
     }
 
 private:

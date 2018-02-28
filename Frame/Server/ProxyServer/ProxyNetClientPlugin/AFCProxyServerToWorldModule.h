@@ -82,7 +82,7 @@ private:
         std::string strConnectKey;
     };
 
-    AFArrayMap<std::string, ClientConnectData> mWantToConnectMap;
+    AFMapEx<std::string, ClientConnectData> mxWantToConnectMap;
 
 private:
     AFILogModule* m_pLogModule;

@@ -23,17 +23,17 @@
 #include "AFPlatform.hpp"
 
 template <typename T , typename TD>
-class NFHashmap
+class AFHashmap
 {
 public:
     typedef std::unordered_map<T, ARK_SHARE_PTR<TD> > HashmapObject;
-    NFHashmap()
+    AFHashmap()
     {
         mnPos = 0;
         ++mnHashmapCount;
     };
 
-    virtual ~NFHashmap()
+    virtual ~AFHashmap()
     {
         --mnHashmapCount;
     };
@@ -274,4 +274,4 @@ private:
 };
 
 template <typename T , typename TD>
-int NFHashmap<T, TD>::mnHashmapCount = 0;
+int AFHashmap<T, TD>::mnHashmapCount = 0;
