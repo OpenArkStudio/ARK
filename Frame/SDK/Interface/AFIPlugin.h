@@ -73,12 +73,10 @@ public:
 
     virtual bool Init()
     {
-        size_t nModuleCount = mxModules.GetCount();
-        for (size_t i = 0; i < nModuleCount; ++i)
+        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
-            AFIModule* pModule = mxModules[i];
             bool bRet = pModule->Init();
-            ARK_ASSERT_RET_VAL(bRet, false);
+            ARK_ASSERT_CONTINUE(bRet);
         }
 
         return true;
@@ -86,12 +84,10 @@ public:
 
     virtual bool AfterInit()
     {
-        size_t nModuleCount = mxModules.GetCount();
-        for (size_t i = 0; i < nModuleCount; ++i)
+        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
-            AFIModule* pModule = mxModules[i];
             bool bRet = pModule->AfterInit();
-            ARK_ASSERT_RET_VAL(bRet, false);
+            ARK_ASSERT_CONTINUE(bRet);
         }
 
         return true;
@@ -99,12 +95,10 @@ public:
 
     virtual bool CheckConfig()
     {
-        size_t nModuleCount = mxModules.GetCount();
-        for (size_t i = 0; i < nModuleCount; ++i)
+        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
-            AFIModule* pModule = mxModules[i];
             bool bRet = pModule->CheckConfig();
-            ARK_ASSERT_RET_VAL(bRet, false);
+            ARK_ASSERT_CONTINUE(bRet);
         }
 
         return true;
@@ -112,22 +106,18 @@ public:
 
     virtual void Update()
     {
-        size_t nModuleCount = mxModules.GetCount();
-        for (size_t i = 0; i < nModuleCount; ++i)
+        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
-            AFIModule* pModule = mxModules[i];
             pModule->Update();
         }
     }
 
     virtual bool BeforeShut()
     {
-        size_t nModuleCount = mxModules.GetCount();
-        for (size_t i = 0; i < nModuleCount; ++i)
+        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
-            AFIModule* pModule = mxModules[i];
             bool bRet = pModule->BeforeShut();
-            ARK_ASSERT_RET_VAL(bRet, false);
+            ARK_ASSERT_CONTINUE(bRet);
         }
 
         return true;
@@ -135,12 +125,10 @@ public:
 
     virtual bool Shut()
     {
-        size_t nModuleCount = mxModules.GetCount();
-        for (size_t i = 0; i < nModuleCount; ++i)
+        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
-            AFIModule* pModule = mxModules[i];
             bool bRet = pModule->Shut();
-            ARK_ASSERT_RET_VAL(bRet, false);
+            ARK_ASSERT_CONTINUE(bRet);
         }
 
         return true;
@@ -150,5 +138,5 @@ public:
 
 protected:
     //All registered modules
-    AFArrayMap<std::string, AFIModule> mxModules;
+    AFMap<std::string, AFIModule> mxModules;
 };

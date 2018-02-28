@@ -205,17 +205,17 @@ void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const AFIMsgHead& 
         return;
     }
 
-    ClientConnectData* pConnectData = mWantToConnectMap.GetElement(xMsg.account());
+    ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.GetElement(xMsg.account());
     if(pConnectData != nullptr)
     {
         pConnectData->strConnectKey = xMsg.world_key();
         return;
     }
 
-    pConnectData = ARK_NEW ClientConnectData();
+    pConnectData = std::make_shared<ClientConnectData>();
     pConnectData->strAccount = xMsg.account();
     pConnectData->strConnectKey = xMsg.world_key();
-    mWantToConnectMap.AddElement(pConnectData->strAccount, pConnectData);
+    mxWantToConnectMap.AddElement(pConnectData->strAccount, pConnectData);
 }
 
 AFINetClientModule* AFCProxyServerToWorldModule::GetClusterModule()
@@ -225,10 +225,10 @@ AFINetClientModule* AFCProxyServerToWorldModule::GetClusterModule()
 
 bool AFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccount, const std::string& strKey)
 {
-    ClientConnectData* pConnectData = mWantToConnectMap.GetElement(strAccount);
+    ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.GetElement(strAccount);
     if(pConnectData != nullptr && strKey == pConnectData->strConnectKey)
     {
-        mWantToConnectMap.RemoveElement(strAccount);
+        mxWantToConnectMap.RemoveElement(strAccount);
         return true;
     }
 
