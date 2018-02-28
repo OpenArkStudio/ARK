@@ -52,7 +52,7 @@ inline bool AFCPluginManager::Init()
         return false;
     }
 
-    for(auto it = mPluginNameMap.begin(); it != mPluginNameMap.end(); ++it)
+    for(auto it = mxPluginNameMap.begin(); it != mxPluginNameMap.end(); ++it)
     {
 #ifdef ARK_DYNAMIC_PLUGIN
         bool bRet = LoadPluginLibrary(it->first);
@@ -69,12 +69,8 @@ inline bool AFCPluginManager::Init()
 #endif
     }
 
-    size_t nPluginInstanceCount = mPluginInstanceMap.GetCount();
-    for (int i = 0; i < nPluginInstanceCount; ++i)
+    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
-        AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
-
         pPlugin->Init();
     }
 
@@ -93,7 +89,7 @@ bool AFCPluginManager::LoadPluginConfig()
         const char* strPluginName = pPluginNode->first_attribute("Name")->value();
         const char* strMain = pPluginNode->first_attribute("Main")->value();
 
-        mPluginNameMap.insert(std::make_pair(strPluginName, true));
+        mxPluginNameMap.insert(std::make_pair(strPluginName, true));
     }
 
     rapidxml::xml_node<>* pPluginAppNode = pRoot->first_node("APPID");
@@ -152,51 +148,39 @@ bool AFCPluginManager::LoadStaticPlugin(const std::string& strPluginDLLName)
 void AFCPluginManager::Registered(AFIPlugin* plugin)
 {
     std::string strPluginName = plugin->GetPluginName();
-    ARK_ASSERT_RET_NONE(FindPlugin(strPluginName) == nullptr);
-
-    bool bFind = false;
-    for (auto it = mPluginNameMap.begin(); it != mPluginNameMap.end(); ++it)
+    if (!FindPlugin(strPluginName))
     {
-        if (strPluginName == it->first)
-        {
-            bFind = true;
-            break;
-        }
-    }
-
-    if (bFind)
-    {
-        mPluginInstanceMap.AddElement(strPluginName, plugin);
+        mxPluginInstanceMap.AddElement(strPluginName, plugin);
         plugin->Install();
+    }
+    else
+    {
+        ARK_ASSERT_NO_EFFECT(0);
     }
 }
 
 void AFCPluginManager::UnRegistered(AFIPlugin* plugin)
 {
-    AFIPlugin* pPlugin = mPluginInstanceMap.GetElement(plugin->GetPluginName());
+    AFIPlugin* pPlugin = mxPluginInstanceMap.GetElement(plugin->GetPluginName());
     if(pPlugin != nullptr)
     {
         pPlugin->Uninstall();
-        mPluginInstanceMap.RemoveElement(pPlugin->GetPluginName());
+        mxPluginInstanceMap.RemoveElement(pPlugin->GetPluginName());
+        delete pPlugin;
+        plugin = NULL;
     }
 }
 
 AFIPlugin* AFCPluginManager::FindPlugin(const std::string& strPluginName)
 {
-    return mPluginInstanceMap.GetElement(strPluginName);
+    return mxPluginInstanceMap.GetElement(strPluginName);
 }
 
 void AFCPluginManager::Update()
 {
     mnNowTime = time(NULL);
-
-    bool bRet = true;
-    size_t nPluginInstanceCount = mPluginInstanceMap.GetCount();
-    for (size_t i = 0; i < nPluginInstanceCount; ++i)
+    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
-        AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
-        
         pPlugin->Update();
     }
 }
@@ -240,12 +224,12 @@ void AFCPluginManager::AddModule(const std::string& strModuleName, AFIModule* pM
 {
     ARK_ASSERT_RET_NONE(FindModule(strModuleName) == nullptr);
 
-    mModuleInstanceMap.AddElement(strModuleName, pModule);
+    mxModuleInstanceMap.AddElement(strModuleName, pModule);
 }
 
 void AFCPluginManager::RemoveModule(const std::string& strModuleName)
 {
-    mModuleInstanceMap.RemoveElement(strModuleName);
+    mxModuleInstanceMap.RemoveElement(strModuleName);
 }
 
 AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
@@ -271,17 +255,13 @@ AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
     }
 #endif
 
-    return mModuleInstanceMap.GetElement(strSubModuleName);
+    return mxModuleInstanceMap.GetElement(strSubModuleName);
 }
 
 bool AFCPluginManager::AfterInit()
 {
-    size_t nPluginInstanceCount = mPluginInstanceMap.GetCount();
-    for(size_t i = 0; i < nPluginInstanceCount; ++i)
+    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
-        AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
-
         pPlugin->AfterInit();
     }
 
@@ -290,12 +270,8 @@ bool AFCPluginManager::AfterInit()
 
 bool AFCPluginManager::CheckConfig()
 {
-    size_t nPluginInstanceCount = mPluginInstanceMap.GetCount();
-    for (size_t i = 0; i < nPluginInstanceCount; ++i)
+    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
-        AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
-
         pPlugin->CheckConfig();
     }
 
@@ -304,12 +280,8 @@ bool AFCPluginManager::CheckConfig()
 
 bool AFCPluginManager::BeforeShut()
 {
-    size_t nPluginInstanceCount = mPluginInstanceMap.GetCount();
-    for (size_t i = 0; i < nPluginInstanceCount; ++i)
+    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
-        AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
-
         pPlugin->BeforeShut();
     }
 
@@ -318,16 +290,12 @@ bool AFCPluginManager::BeforeShut()
 
 bool AFCPluginManager::Shut()
 {
-    size_t nPluginInstanceCount = mPluginInstanceMap.GetCount();
-    for (size_t i = 0; i < nPluginInstanceCount; ++i)
+    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
-        AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
-
         pPlugin->Shut();
     }
 
-    for(auto it = mPluginNameMap.begin(); it != mPluginNameMap.end(); it++)
+    for(auto it = mxPluginNameMap.begin(); it != mxPluginNameMap.end(); it++)
     {
 #ifdef ARK_DYNAMIC_PLUGIN
         bool bRet = UnLoadPluginLibrary(it->first);
@@ -336,14 +304,14 @@ bool AFCPluginManager::Shut()
 #endif
     }
 
-    mPluginInstanceMap.Clear();
-    mPluginNameMap.clear();
+    mxPluginInstanceMap.Clear();
+    mxPluginNameMap.clear();
     return true;
 }
 
 bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 {
-    AFCDynLib* pDynLib = mPluginLibMap.GetElement(strPluginDLLName);
+    AFCDynLib* pDynLib = mxPluginLibMap.GetElement(strPluginDLLName);
     if (pDynLib != nullptr)
     {
         return false;
@@ -354,7 +322,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 
     if(bLoad)
     {
-        mPluginLibMap.AddElement(strPluginDLLName, pLib);
+        mxPluginLibMap.AddElement(strPluginDLLName, pLib);
 
         DLL_START_PLUGIN_FUNC pFunc = (DLL_START_PLUGIN_FUNC)pLib->GetSymbol("DllStartPlugin");
         if(!pFunc)
@@ -390,7 +358,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 
 bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 {
-    AFCDynLib* pDynLib = mPluginLibMap.GetElement(strPluginDLLName);
+    AFCDynLib* pDynLib = mxPluginLibMap.GetElement(strPluginDLLName);
     if (pDynLib == nullptr)
     {
         return false;
@@ -407,7 +375,7 @@ bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 
     delete pDynLib;
     pDynLib = NULL;
-    mPluginLibMap.RemoveElement(strPluginDLLName);
+    mxPluginLibMap.RemoveElement(strPluginDLLName);
     return true;
 }
 
@@ -421,13 +389,8 @@ bool AFCPluginManager::UnLoadStaticPlugin(const std::string & strPluginDLLName)
 bool AFCPluginManager::StartReLoadState()
 {
     AFIModule::StartReLoadState();
-
-    size_t nPluginInstanceCount = mPluginInstanceMap.GetCount();
-    for (size_t i = 0; i < nPluginInstanceCount; ++i)
+    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
     {
-        AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
-
         pPlugin->StartReLoadState();
     }
 
@@ -436,12 +399,8 @@ bool AFCPluginManager::StartReLoadState()
 
 bool AFCPluginManager::EndReLoadState()
 {
-    size_t nPluginInstanceCount = mPluginInstanceMap.GetCount();
-    for (size_t i = 0; i < nPluginInstanceCount; ++i)
+    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
     {
-        AFIPlugin* pPlugin = mPluginInstanceMap[i];
-        ARK_ASSERT_CONTINUE(pPlugin != nullptr);
-
         pPlugin->EndReLoadState();
     }
 
