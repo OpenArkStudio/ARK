@@ -89,8 +89,8 @@ private:
     typedef void(* DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm);
     typedef void(* DLL_STOP_PLUGIN_FUNC)(AFIPluginManager* pm);
 
-    std::map<std::string, bool> mPluginNameMap;
-    AFArrayMap<std::string, AFCDynLib> mPluginLibMap;
-    AFArrayMap<std::string, AFIPlugin> mPluginInstanceMap;
-    AFArrayMap<std::string, AFIModule> mModuleInstanceMap;
+    std::map<std::string, bool> mxPluginNameMap;
+    AFMap<std::string, AFCDynLib> mxPluginLibMap;
+    AFMap<std::string, AFIPlugin> mxPluginInstanceMap;
+    AFMap<std::string, AFIModule> mxModuleInstanceMap;
 };
