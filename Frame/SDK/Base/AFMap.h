@@ -27,17 +27,17 @@ template <typename T, typename TD>
 class AFMap
 {
 public:
-    typedef std::map<T, TD*> map_data;
+    typedef std::map<T, TD*> MAP_DATA;
 
     AFMap() {}
     virtual ~AFMap() {}
 
     virtual bool AddElement(const T& name, TD* data)
     {
-        typename map_data::iterator itr = mObjectList.find(name);
-        if(itr == mObjectList.end())
+        typename MAP_DATA::iterator iter = mxObjectList.find(name);
+        if(iter == mxObjectList.end())
         {
-            mObjectList.insert(typename map_data::value_type(name, data));
+            mxObjectList.insert(typename MAP_DATA::value_type(name, data));
             return true;
         }
 
@@ -47,11 +47,11 @@ public:
     virtual TD* RemoveElement(const T& name)
     {
         TD* pData = NULL;
-        typename map_data::iterator itr = mObjectList.find(name);
-        if(itr != mObjectList.end())
+        typename MAP_DATA::iterator iter = mxObjectList.find(name);
+        if(iter != mxObjectList.end())
         {
-            pData = itr->second;
-            mObjectList.erase(itr);
+            pData = iter->second;
+            mxObjectList.erase(iter);
         }
 
         return pData;
@@ -59,10 +59,10 @@ public:
 
     virtual TD* GetElement(const T& name)
     {
-        typename map_data::iterator itr = mObjectList.find(name);
-        if(itr != mObjectList.end())
+        typename MAP_DATA::iterator iter = mxObjectList.find(name);
+        if(iter != mxObjectList.end())
         {
-            return itr->second;
+            return iter->second;
         }
         else
         {
@@ -72,15 +72,15 @@ public:
 
     virtual TD* First()
     {
-        if(mObjectList.size() <= 0)
+        if(mxObjectList.size() <= 0)
         {
             return NULL;
         }
 
-        mObjectCurIter = mObjectList.begin();
-        if(mObjectCurIter != mObjectList.end())
+        mxObjectCurIter = mxObjectList.begin();
+        if(mxObjectCurIter != mxObjectList.end())
         {
-            return mObjectCurIter->second;
+            return mxObjectCurIter->second;
         }
         else
         {
@@ -90,15 +90,15 @@ public:
 
     virtual TD* Next()
     {
-        if(mObjectCurIter == mObjectList.end())
+        if(mxObjectCurIter == mxObjectList.end())
         {
             return NULL;
         }
 
-        ++mObjectCurIter;
-        if(mObjectCurIter != mObjectList.end())
+        ++mxObjectCurIter;
+        if(mxObjectCurIter != mxObjectList.end())
         {
-            return mObjectCurIter->second;
+            return mxObjectCurIter->second;
         }
         else
         {
@@ -108,16 +108,16 @@ public:
 
     virtual TD* First(T& name)
     {
-        if(mObjectList.size() <= 0)
+        if(mxObjectList.size() <= 0)
         {
             return NULL;
         }
 
-        mObjectCurIter = mObjectList.begin();
-        if(mObjectCurIter != mObjectList.end())
+        mxObjectCurIter = mxObjectList.begin();
+        if(mxObjectCurIter != mxObjectList.end())
         {
-            name = mObjectCurIter->first;
-            return mObjectCurIter->second;
+            name = mxObjectCurIter->first;
+            return mxObjectCurIter->second;
         }
         else
         {
@@ -127,32 +127,32 @@ public:
 
     virtual TD* Next(T& name)
     {
-        if(mObjectCurIter == mObjectList.end())
+        if(mxObjectCurIter == mxObjectList.end())
         {
             return NULL;
         }
 
-        mObjectCurIter++;
-        if(mObjectCurIter != mObjectList.end())
+        mxObjectCurIter++;
+        if(mxObjectCurIter != mxObjectList.end())
         {
-            name = mObjectCurIter->first;
-            return mObjectCurIter->second;
+            name = mxObjectCurIter->first;
+            return mxObjectCurIter->second;
         }
 
         return NULL;
     }
 
-    int Count()
+    int GetCount()
     {
-        return mObjectList.size();
+        return mxObjectList.size();
     }
 
-    bool ClearAll()
+    bool Clear()
     {
-        mObjectList.clear();
+        mxObjectList.clear();
         return true;
     }
 private:
-    map_data mObjectList;
-    typename map_data::iterator mObjectCurIter;
+    MAP_DATA mxObjectList;
+    typename MAP_DATA::iterator mxObjectCurIter;
 };

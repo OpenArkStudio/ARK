@@ -838,17 +838,12 @@ bool AFCKernelModule::DestroyScene(const int nSceneID)
 int AFCKernelModule::GetOnLineCount()
 {
     int nCount = 0;
-    ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->First();
-    while(nullptr != pSceneInfo)
+    for (ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->First(); pSceneInfo != nullptr; pSceneInfo = m_pSceneModule->Next())
     {
-        ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First();
-        while(nullptr != pGroupInfo)
+        for (ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
         {
-            nCount += pGroupInfo->mxPlayerList.Count();
-            pGroupInfo = pSceneInfo->Next();
+            nCount += pGroupInfo->mxPlayerList.GetCount();
         }
-
-        pSceneInfo = m_pSceneModule->Next();
     }
 
     return nCount;
@@ -871,11 +866,9 @@ int AFCKernelModule::GetSceneOnLineCount(const int nSceneID)
         return nCount;
     }
 
-    ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First();
-    while(nullptr != pGroupInfo)
+    for (ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
     {
-        nCount += pGroupInfo->mxPlayerList.Count();
-        pGroupInfo = pSceneInfo->Next();
+        nCount += pGroupInfo->mxPlayerList.GetCount();
     }
 
     return nCount;
@@ -894,13 +887,12 @@ int AFCKernelModule::GetSceneOnLineCount(const int nSceneID, const int nGroupID)
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->GetElement(nGroupID);
     if(nullptr != pGroupInfo)
     {
-        nCount = pGroupInfo->mxPlayerList.Count();
+        nCount = pGroupInfo->mxPlayerList.GetCount();
     }
 
     return nCount;
 }
 
-//int AFCKernelModule::GetSceneOnLineList( const int nSceneID, type, AFIDataList& var )
 int AFCKernelModule::GetSceneOnLineList(const int nSceneID, AFIDataList& var)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
@@ -909,21 +901,14 @@ int AFCKernelModule::GetSceneOnLineList(const int nSceneID, AFIDataList& var)
         return 0;
     }
 
-    ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First();
-    while(nullptr != pGroupInfo)
+    for (ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
     {
         AFGUID ident;
-
-        ARK_SHARE_PTR<int> pRet  = pGroupInfo->mxPlayerList.First(ident);
-        while(!ident.IsNULL())
+        for (ARK_SHARE_PTR<int> pRet = pGroupInfo->mxPlayerList.First(ident); !ident.IsNULL(); pRet = pGroupInfo->mxPlayerList.Next(ident))
         {
             var.AddObject(ident);
-
             ident = NULL_GUID;
-            pRet = pGroupInfo->mxPlayerList.Next(ident);
         }
-
-        pGroupInfo = pSceneInfo->Next();
     }
 
     return var.GetCount();

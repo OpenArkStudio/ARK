@@ -26,7 +26,7 @@
 #include "SDK/Base/AFIData.h"
 #include "AFIHeartBeatManager.h"
 #include "SDK/Base/AFMapEx.h"
-#include "SDK/Base/AFArrayMap.hpp"
+#include "SDK/Base/AFMap.h"
 
 class AFCHeartBeatManager : public AFIHeartBeatManager
 {
@@ -59,7 +59,7 @@ protected:
 
     AFList<std::string> mRemoveListEx;
     std::list<AFCHeartBeatElement> mAddListEx;
-    AFArrayMap<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
+    AFMap<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
 
     std::multimap<int64_t, AFCHeartBeatElement*> mTimeList;
     uint64_t mTimerIDIndex;
