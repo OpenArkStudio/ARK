@@ -98,7 +98,7 @@ build_dep.bat
 ```
 3. Open the solution: `Frame/ARK.sln`
 4. Build the solution`ARK.sln`
-5. Run `GenerateConfigXML.bat` to generate configuration files
+5. Run `ARK\Bin\Server\DataConfig\Tool\gen-config.bat` to generate configuration files
 6. Run the binary file by `Bin/Server/Debug/Run.bat`
 
 Using CMake
@@ -114,6 +114,8 @@ cd build
 cmake -G "Visual Studio 14 Win64" ..
 ```
 4. Start `ARK.sln`
+5. Run `ARK\Bin\Server\DataConfig\Tool\gen-config.bat` to generate configuration files
+6. Run the binary file by `Bin/Server/Debug/Run.bat`
 
 > Note. If you are using VS2017, please change **%VS140COMNTOOLS%** in **Dep/build_dep.bat** to **YOUR-COMPILER-PATH**.
 
@@ -139,7 +141,7 @@ cmake -G "Unix Makefiles" ..
 make -j
 ```
 > Note. If you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
-3. Run `bash ./GenerateConfigXML.sh` to generate configuration files
+3. Run `ARK\Bin\Server\DataConfig\Tool\gen-config.sh` to generate configuration files
 4. Run the binary file by `Bin/Server/Debug/rund.sh`
 
 ## Documents
