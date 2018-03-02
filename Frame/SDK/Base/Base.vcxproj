@@ -30,6 +30,7 @@
     <ClInclude Include="AFMap.h" />
     <ClInclude Include="AFMapEx.h" />
     <ClInclude Include="AFMemManger.h" />
+    <ClInclude Include="AFMemPool.hpp" />
     <ClInclude Include="AFNoncopyable.hpp" />
     <ClInclude Include="AFPlatform.hpp" />
     <ClInclude Include="AFQueue.h" />
@@ -38,7 +39,6 @@
     <ClInclude Include="AFString.hpp" />
     <ClInclude Include="AFStringPod.hpp" />
     <ClInclude Include="AFTime.hpp" />
-    <ClInclude Include="AFTimer.hpp" />
     <ClInclude Include="AFTimerManager.h" />
     <ClInclude Include="AFVector3.hpp" />
   </ItemGroup>
