@@ -88,7 +88,9 @@
     <ClInclude Include="AFArrayMap.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="AFTimer.hpp" />
+    <ClInclude Include="AFMemPool.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
