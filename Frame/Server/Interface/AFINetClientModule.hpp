@@ -401,7 +401,7 @@ private:
                 if(xInfo.strIPAndPort.empty())
                 {
                     std::string strPort;
-                    ARK_TO_STR(strPort, xInfo.nPort);
+                    AFMisc::ARK_TO_STR(strPort, xInfo.nPort);
                     xServerData->strIPAndPort = xInfo.strIP + ":" + strPort;
                 }
                 else

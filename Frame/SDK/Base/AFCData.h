@@ -322,10 +322,10 @@ public:
             return mn64Value == NULL_INT64;
             break;
         case DT_FLOAT:
-            return IsZeroFloat(mfValue);
+            return AFMisc::IsZeroFloat(mfValue);
             break;
         case DT_DOUBLE:
-            return IsZeroDouble(mdValue);
+            return AFMisc::IsZeroDouble(mdValue);
             break;
         case DT_STRING:
             return mstrValue == NULL_STR.c_str();

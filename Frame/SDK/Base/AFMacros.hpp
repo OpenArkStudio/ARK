@@ -37,6 +37,9 @@
 #define INOUT
 #endif
 
+#define ARK_NEW                     new
+#define ARK_DELETE                  delete
+
 #define ARRAY_CLEAR(v)              memset((v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR(v)             memset(&(v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR_POINTER(v)     memset((v), 0xx, sizeof(*(v)))
@@ -49,19 +52,12 @@
 #define MAX_PATH    256
 #endif
 
-#define ARK_NEW new
-
 #define ARK_GUID_POWER 100000
 #define ARK_EPOCH 1288834974657L
 
 #if ARK_PLATFORM == PLATFORM_WIN
+
 //windows
-
-inline uint32_t GetSystemTime()
-{
-    return ::GetTickCount();
-}
-
 #define ARK_SPRINTF sprintf_s
 #define ARK_STRICMP _stricmp
 #define ARK_SLEEP(s) Sleep(s)
@@ -81,15 +77,8 @@ inline uint32_t GetSystemTime()
 #define ARK_EXPORT extern "C"  __declspec(dllexport)
 
 #else
+
 //linux
-
-inline uint32_t GetSystemTime()
-{
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-};
-
 #define ARK_SPRINTF snprintf
 #define ARK_STRICMP strcasecmp
 #define ARK_SLEEP(s) usleep(s)
@@ -154,28 +143,11 @@ inline uint32_t GetSystemTime()
 #  define ARK_SHARE_PTR std::shared_ptr
 #endif
 
-inline bool IsZeroFloat(const float value)
-{
-    return std::abs(value) < std::numeric_limits<float>::epsilon();
-}
-
-inline bool IsZeroDouble(const double value)
-{
-    return std::abs(value) < std::numeric_limits<double>::epsilon();
-}
-
-inline bool IsFloatEqual(const float lhs, const float rhs)
-{
-    return std::abs(lhs - rhs) < std::numeric_limits<float>::epsilon();
-}
-
-inline bool IsDoubleEqual(const double lhs, const double rhs)
-{
-    return std::abs(lhs - rhs) < std::numeric_limits<double>::epsilon();
-}
 
 #if ARK_PLATFORM == PLATFORM_WIN
+#if !defined(PROTOBUF_USE_DLLS)
 #define PROTOBUF_USE_DLLS
+#endif
 #endif
 
 #define ARK_SINGLETON_INIT(TYPE) template<> TYPE* Singleton<TYPE>::instance_ = 0;
@@ -188,51 +160,6 @@ inline bool IsDoubleEqual(const double lhs, const double rhs)
 #define ARK_USE_TCMALLOC
 #endif
 */
-template<typename T>
-bool ARK_FROM_STR(const std::string& strValue, T& nValue)
-{
-    try
-    {
-        nValue = ARK_LEXICAL_CAST<T>(strValue);
-        return true;
-    }
-    catch(...)
-    {
-        return false;
-    }
-
-    return false;
-}
-
-template<typename T>
-bool ARK_TO_STR(std::string& strValue, const T& nValue)
-{
-    try
-    {
-        strValue = ARK_LEXICAL_CAST<std::string>(nValue);
-        return true;
-    }
-    catch(...)
-    {
-        return false;
-    }
-
-    return false;
-}
 
 // clear player data time
 #define CLEAR_HOUR 5
-
-#if __cplusplus < 201402L
-
-namespace std
-{
-    // note: this implementation does not disable this overload for array types
-    template<typename T, typename... Args>
-    unique_ptr<T> make_unique(Args&&... args)
-    {
-        return unique_ptr<T>(new T(std::forward<Args>(args)...));
-    }
-}
-
-#endif
