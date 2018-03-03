@@ -20,6 +20,7 @@
 
 #include "AFCDataTableManager.h"
 #include "AFDataTable.h"
+#include "SDK/Base/AFMisc.hpp"
 
 AFCDataTableManager::AFCDataTableManager(const AFGUID& guid)
     : self(guid)
@@ -271,7 +272,7 @@ bool AFCDataTableManager::SetTableFloat(const char* name, const int row, const i
             ARK_ASSERT_RET_VAL(0, false);
         }
 
-        if (IsFloatEqual(oldData.GetFloat(), value))
+        if (AFMisc::IsFloatEqual(oldData.GetFloat(), value))
         {
             return false;
         }
@@ -311,7 +312,7 @@ bool AFCDataTableManager::SetTableDouble(const char* name, const int row, const 
             ARK_ASSERT_RET_VAL(0, false);
         }
 
-        if (IsDoubleEqual(oldData.GetDouble(), value))
+        if (AFMisc::IsDoubleEqual(oldData.GetDouble(), value))
         {
             return false;
         }

@@ -29,8 +29,10 @@
     <ClInclude Include="AFMacros.hpp" />
     <ClInclude Include="AFMap.h" />
     <ClInclude Include="AFMapEx.h" />
+    <ClInclude Include="AFMemAlloc.hpp" />
     <ClInclude Include="AFMemManger.h" />
     <ClInclude Include="AFMemPool.hpp" />
+    <ClInclude Include="AFMisc.hpp" />
     <ClInclude Include="AFNoncopyable.hpp" />
     <ClInclude Include="AFPlatform.hpp" />
     <ClInclude Include="AFQueue.h" />

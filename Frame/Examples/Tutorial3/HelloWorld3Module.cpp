@@ -60,7 +60,7 @@ int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::strin
 
         m_pKernelModule->AddHeartBeat(self, "OnHeartBeat", this, &HelloWorld3Module::OnHeartBeat, 1000, 1, true);
 
-        mLastTime = GetSystemTime();
+        mLastTime = AFMisc::GetSystemTime();
     }
 
     return 0;
