@@ -91,6 +91,12 @@
     <ClInclude Include="AFMemPool.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="AFMemAlloc.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="AFMisc.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">

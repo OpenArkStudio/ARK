@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include "AFMisc.hpp"
+
 struct Point3D
 {
     float x;
@@ -64,7 +66,7 @@ struct Point3D
 
     inline bool operator==(const Point3D& rht) const
     {
-        return IsZeroFloat(Distance(*this, rht));
+        return AFMisc::IsZeroFloat(Distance(*this, rht));
     }
 
     inline bool operator!=(const Point3D& rht) const
@@ -79,7 +81,7 @@ struct Point3D
 
     bool IsZero() const
     {
-        return (IsZeroFloat(x) && IsZeroFloat(y) && IsZeroFloat(z));
+        return (AFMisc::IsZeroFloat(x) && AFMisc::IsZeroFloat(y) && AFMisc::IsZeroFloat(z));
     }
 
     std::string ToString() const

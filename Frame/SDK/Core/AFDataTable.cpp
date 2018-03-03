@@ -19,6 +19,7 @@
 */
 
 #include "AFDataTable.h"
+#include "SDK/Base/AFMisc.hpp"
 
 AFDataTable::AFDataTable()
     : mstrName(NULL_STR.c_str())
@@ -602,7 +603,7 @@ int AFDataTable::FindFloat(size_t col, const float key, size_t begin_row /*= 0*/
     for(size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
-        if(IsFloatEqual(row_data[col].GetFloat(), key))
+        if(AFMisc::IsFloatEqual(row_data[col].GetFloat(), key))
         {
             return i;
         }
@@ -627,7 +628,7 @@ int AFDataTable::FindDouble(size_t col, const double key, size_t begin_row /*= 0
     for(size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
-        if(IsDoubleEqual(row_data[col].GetDouble(), key))
+        if(AFMisc::IsDoubleEqual(row_data[col].GetDouble(), key))
         {
             return i;
         }
