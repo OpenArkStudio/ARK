@@ -762,19 +762,19 @@ public:
         switch(mpData[index].nType)
         {
         case DT_BOOLEAN:
-            ret = ARK_TO_STR(strdata, mpData[index].mbValue);
+            ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mbValue);
             break;
         case DT_INT:
-            ret = ARK_TO_STR(strdata, mpData[index].mnValue);
+            ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mnValue);
             break;
         case DT_INT64:
-            ret = ARK_TO_STR(strdata, mpData[index].mn64Value);
+            ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mn64Value);
             break;
         case DT_FLOAT:
-            ret = ARK_TO_STR(strdata, mpData[index].mfValue);
+            ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mfValue);
             break;
         case DT_DOUBLE:
-            ret = ARK_TO_STR(strdata, mpData[index].mdValue);
+            ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mdValue);
             break;
         case DT_STRING:
             strdata = String(index);

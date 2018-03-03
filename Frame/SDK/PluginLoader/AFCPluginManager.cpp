@@ -106,7 +106,7 @@ bool AFCPluginManager::LoadPluginConfig()
         return false;
     }
 
-    if(!ARK_FROM_STR(strAppID, mnAppID))
+    if(!AFMisc::ARK_FROM_STR(strAppID, mnAppID))
     {
         ARK_ASSERT(0, "App ID Convert Error", __FILE__, __FUNCTION__);
         return false;

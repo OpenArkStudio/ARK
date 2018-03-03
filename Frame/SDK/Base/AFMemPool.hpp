@@ -73,10 +73,18 @@ public:
             return ::malloc(size);
         }
 
+        //Now FreeList is not empty
         struct MemUnit* pCurrentUnit = m_pFreeMemBlock;
 
         m_pFreeMemBlock = pCurrentUnit->pNext;
         if (m_pFreeMemBlock != nullptr)
+        {
+            m_pFreeMemBlock->pPrev = nullptr;
+        }
+
+        pCurrentUnit->pNext = m_pAllocatedMemBlock;
+
+        if (m_pAllocatedMemBlock != nullptr)
         {
             m_pAllocatedMemBlock->pPrev = pCurrentUnit;
         }

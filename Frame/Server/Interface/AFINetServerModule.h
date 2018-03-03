@@ -128,7 +128,7 @@ public:
     {
         std::string strIPAndPort;
         std::string strPort;
-        ARK_TO_STR(strPort, nPort);
+        AFMisc::ARK_TO_STR(strPort, nPort);
         strIPAndPort = strIP + ":" + strPort;
         m_pNet = ARK_NEW AFCNetServer(this, &AFINetServerModule::OnReceiveNetPack, &AFINetServerModule::OnSocketNetEvent);
         return m_pNet->Start(nMaxClient, strIPAndPort, nServerID, nCpuCount);

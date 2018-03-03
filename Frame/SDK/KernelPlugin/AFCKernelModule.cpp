@@ -1151,7 +1151,7 @@ int AFCKernelModule::GetEntityByDataNode(const int nSceneID, const std::string& 
             {
                 float fValue = GetNodeFloat(ident, name.c_str());
                 float fCompareValue = valueArg.Float(0);
-                if(IsZeroFloat(fValue - fCompareValue))
+                if(AFMisc::IsZeroFloat(fValue - fCompareValue))
                 {
                     list.AddObject(ident);
                 }
@@ -1161,7 +1161,7 @@ int AFCKernelModule::GetEntityByDataNode(const int nSceneID, const std::string& 
             {
                 double dValue = GetNodeDouble(ident, name.c_str());
                 double dCompareValue = valueArg.Double(0);
-                if(IsZeroDouble(dValue - dCompareValue))
+                if(AFMisc::IsZeroDouble(dValue - dCompareValue))
                 {
                     list.AddObject(ident);
                 }
