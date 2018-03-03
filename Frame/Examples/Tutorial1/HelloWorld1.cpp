@@ -20,7 +20,7 @@
 
 #include "HelloWorld1.h"
 #include "SDK/Base/timer.hpp"
-
+#include "SDK/Base/AFMemAlloc.hpp"
 
 using timer_t = timer<std::function<void(timerid_t)> >;
 timer_t* t = new timer_t();
@@ -33,14 +33,31 @@ bool HelloWorld1::Init()
 	std::cout << typeid(HelloWorld1).name() << std::endl;
     std::cout << "Hello, world1, Init" << std::endl;
 
+    AFMemAlloc::InitPool();
+    AFMemAlloc::Start();
+
     return true;
 }
 
 bool HelloWorld1::AfterInit()
 {
     std::cout << "Hello, world1, AfterInit" << std::endl;
+
+    // test timer
     time_id_1 = t->repeat(1000, 10, [](timerid_t id) { std::cout << "T1 ID = " << id << ", interval=1000ms print timer update" << std::endl; });
     time_id_2 = t2->repeat(1500, 10, [](timerid_t id) { std::cout << "T2 ID = " << id << ", interval=1500ms print timer update" << std::endl; });
+
+    //////////////////////////////////////////////////////////////////////////
+    //test memory alloc
+    void* ptr = ARK_ALLOC(100);
+    memset(ptr, 0, 100);
+
+    AFMemAlloc::CheckLeak();
+
+    ARK_FREE(ptr);
+
+    AFMemAlloc::CheckLeak();
+    //////////////////////////////////////////////////////////////////////////
 
     return true;
 }
