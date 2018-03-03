@@ -20,6 +20,7 @@
 
 #include "AFCDataNodeManager.h"
 #include "AFDataNode.h"
+#include "SDK/Base/AFMisc.hpp"
 
 AFCDataNodeManager::AFCDataNodeManager(const AFGUID& self)
 {
@@ -240,7 +241,7 @@ bool AFCDataNodeManager::SetNodeFloat(const char* name, const float value)
 
     mxNodes[index]->value.SetFloat(value);
 
-    if(!IsFloatEqual(oldValue, value))
+    if(!AFMisc::IsFloatEqual(oldValue, value))
     {
         //DataNode callbacks
         OnNodeCallback(name, oldData, mxNodes[index]->value);
@@ -264,7 +265,7 @@ bool AFCDataNodeManager::SetNodeDouble(const char* name, const double value)
 
     mxNodes[index]->value.SetDouble(value);
 
-    if(!IsDoubleEqual(oldValue, value))
+    if(!AFMisc::IsDoubleEqual(oldValue, value))
     {
         //DataNode callbacks
         OnNodeCallback(name, oldData, mxNodes[index]->value);

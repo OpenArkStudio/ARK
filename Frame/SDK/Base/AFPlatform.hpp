@@ -52,6 +52,7 @@
 #include <random>
 #include <thread>
 #include <mutex>
+#include <atomic>
 
 #define NOMINMAX
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)

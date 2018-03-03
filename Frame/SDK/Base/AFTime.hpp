@@ -22,6 +22,7 @@
 
 #include "AFMacros.hpp"
 #include "AFSingleton.hpp"
+#include "AFMisc.hpp"
 
 class AFCTimeBase :
     public AFSingleton<AFCTimeBase>
@@ -617,17 +618,17 @@ private:
         int nMinute(0);
         int nSecond(0);
 
-        bool bRet = ARK_FROM_STR(cellsYMD[0], nYear);
-        bRet = ARK_FROM_STR(cellsYMD[1], nMonth);
-        bRet = ARK_FROM_STR(cellsYMD[2], nDay);
-        bRet = ARK_FROM_STR(cellsHMS[0], nHour);
-        bRet = ARK_FROM_STR(cellsHMS[1], nMinute);
-        bRet = ARK_FROM_STR(cellsHMS[2], nSecond);
+        bool bRet = AFMisc::ARK_FROM_STR(cellsYMD[0], nYear);
+        bRet = AFMisc::ARK_FROM_STR(cellsYMD[1], nMonth);
+        bRet = AFMisc::ARK_FROM_STR(cellsYMD[2], nDay);
+        bRet = AFMisc::ARK_FROM_STR(cellsHMS[0], nHour);
+        bRet = AFMisc::ARK_FROM_STR(cellsHMS[1], nMinute);
+        bRet = AFMisc::ARK_FROM_STR(cellsHMS[2], nSecond);
 
         int nMilliSecond = 0;
         if(cells.size() == 3)
         {
-            bRet = ARK_FROM_STR(cells[2], nMilliSecond);
+            bRet = AFMisc::ARK_FROM_STR(cells[2], nMilliSecond);
             ARK_ASSERT_NO_EFFECT(bRet);
         }
 
@@ -814,5 +815,3 @@ private:
     int64_t mnTime;
     int mnTimeZone;  //Ä¬ÈÏ¸øUTC+8
 };
-
-
