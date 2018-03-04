@@ -22,6 +22,7 @@
 
 #include "AFIData.h"
 #include "AFIDataList.h"
+#include "AFMisc.hpp"
 
 class AFDataListAlloc
 {

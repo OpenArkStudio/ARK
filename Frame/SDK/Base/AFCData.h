@@ -23,6 +23,7 @@
 #include "SDK/Base/AFCoreDef.hpp"
 #include "SDK/Base/AFIData.h"
 #include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Base/AFMisc.hpp"
 
 class AFDataAlloc
 {
