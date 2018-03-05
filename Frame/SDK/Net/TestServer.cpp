@@ -26,8 +26,8 @@
 #include <thread>
 #include <string>
 #include <processthreadsapi.h>
-#include "SDK/Base/AFTime.hpp"
-#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFTime.hpp"
+#include "SDK/Core/Base/AFPlatform.hpp"
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #pragma comment(lib,"AFNet_d.lib")
 #pragma comment(lib,"AFCore_d.lib")

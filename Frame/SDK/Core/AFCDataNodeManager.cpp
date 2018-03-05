@@ -20,7 +20,7 @@
 
 #include "AFCDataNodeManager.h"
 #include "AFDataNode.h"
-#include "SDK/Base/AFMisc.hpp"
+#include "SDK/Core/Base/AFMisc.hpp"
 
 AFCDataNodeManager::AFCDataNodeManager(const AFGUID& self)
 {

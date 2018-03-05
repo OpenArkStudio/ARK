@@ -20,13 +20,12 @@
 
 #pragma once
 
-#include "SDK/Base/AFPlatform.hpp"
-#include "SDK/Base/AFMap.h"
-#include "SDK/Base/AFList.h"
-#include "SDK/Base/AFDefine.h"
-#include "SDK/Base/AFCDataList.h"
-#include "SDK/Base/AFVector3.hpp"
-#include "SDK/EventDefine/AFEventDefine.h"
+#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFMap.h"
+#include "SDK/Core/Base/AFList.h"
+#include "SDK/Core/Base/AFDefine.h"
+#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFVector3.hpp"
 #include "SDK/Core/AFDataTable.h"
 
 template<typename DerivedType, typename BaseType>

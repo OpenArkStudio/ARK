@@ -20,12 +20,12 @@
 
 #pragma once
 
-#include "SDK/Base/AFDefine.h"
-#include "SDK/Base/AFCDataList.h"
-#include "SDK/Base/AFString.hpp"
-#include "SDK/Base/AFArrayPod.hpp"
-#include "SDK/Base/AFStringPod.hpp"
-#include "SDK/Base/AFCData.h"
+#include "SDK/Core/Base/AFDefine.h"
+#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFString.hpp"
+#include "SDK/Core/Base/AFArrayPod.hpp"
+#include "SDK/Core/Base/AFStringPod.hpp"
+#include "SDK/Core/Base/AFCData.h"
 
 class AFDataNode;
 
