@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Core/AFIEntity.h"
-#include "SDK/Base/AFGUID.h"
+#include "SDK/Core/Base/AFGUID.h"
 #include "SDK/Interface/AFISceneModule.h"
 
 class AFCSceneModule

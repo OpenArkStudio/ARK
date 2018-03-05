@@ -4,6 +4,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{b5f80948-3769-4657-b1ce-fd9d9d536f73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{222a0684-4f42-4dd3-ae99-a9ab9500bfaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCEventManager.h">
@@ -45,6 +48,99 @@
     <ClInclude Include="AFDataNode.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Base\AFArrayMap.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFArrayPod.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFBitValue.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFCAddConsistentHash.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFCConsistentHash.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFCData.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFCDataList.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFCoreDef.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFDefine.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFGUID.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFHashmap.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFIData.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFIDataList.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFList.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFLockFreeQueue.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFMacros.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFMap.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFMapEx.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFMemManger.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFMemPool.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFMisc.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFNoncopyable.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFPlatform.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFQueue.h">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFRWLock.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFSingleton.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFString.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFStringPod.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFTime.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFVector3.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFMemAlloc.h">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCHeartBeatManager.cpp">
@@ -64,6 +160,9 @@
     </ClCompile>
     <ClCompile Include="AFCDataTableManager.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFMemAlloc.cpp">
+      <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

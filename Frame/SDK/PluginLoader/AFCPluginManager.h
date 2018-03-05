@@ -21,9 +21,9 @@
 #pragma once
 
 #include "AFCDynLib.h"
-#include "SDK/Base/AFSingleton.hpp"
+#include "SDK/Core/Base/AFSingleton.hpp"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Base/AFArrayMap.hpp"
+#include "SDK/Core/Base/AFArrayMap.hpp"
 
 class AFCPluginManager : public AFIPluginManager, public AFSingleton<AFCPluginManager>
 {

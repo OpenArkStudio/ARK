@@ -22,6 +22,7 @@
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Proto/ARKDataDefine.hpp"
 #include "SDK/Core/AFDataNode.h"
+#include "Server/Interface/AFEventDefine.h"
 
 bool AFCGameNetServerModule::Init()
 {

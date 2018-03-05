@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "SDK/Base/AFPlatform.hpp"
-#include "SDK/Base/AFGUID.h"
-#include "SDK/Base/AFString.hpp"
-#include "SDK/Base/AFIData.h"
+#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/Base/AFString.hpp"
+#include "SDK/Core/Base/AFIData.h"
 
 class AFIDataList
 {

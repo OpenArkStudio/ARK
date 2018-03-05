@@ -25,8 +25,8 @@
 #include "AFCNetClient.h"
 #include <thread>
 #include <string>
-#include "SDK/Base/AFTime.hpp"
-#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFTime.hpp"
+#include "SDK/Core/Base/AFPlatform.hpp"
 #pragma comment(lib,"ws2_32.lib")
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG

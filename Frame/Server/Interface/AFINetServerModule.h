@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "SDK/Base/AFGUID.h"
+#include "SDK/Core/Base/AFGUID.h"
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"
-#include "SDK/Base/AFQueue.h"
+#include "SDK/Core/Base/AFQueue.h"
 #include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Proto/AFDefine.pb.h"
 #include "Server/Interface/AFINetModule.h"

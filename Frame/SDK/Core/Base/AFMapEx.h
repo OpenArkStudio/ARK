@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "SDK/Base/AFPlatform.hpp"
-#include "SDK/Base/AFMacros.hpp"
+#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFMacros.hpp"
 
 template <typename T, typename TD>
 class AFMapEx

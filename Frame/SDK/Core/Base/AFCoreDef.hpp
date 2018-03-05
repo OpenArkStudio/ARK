@@ -21,8 +21,9 @@
 #pragma once
 
 #include "AFPlatform.hpp"
+#include "AFMemAlloc.h"
 
-//will use memery pool
+//will use memory pool
 class CoreAlloc
 {
 public:
@@ -31,12 +32,12 @@ public:
 
     void* Alloc(size_t size)
     {
-        return new char[size];
+        return ARK_ALLOC(size);
     }
 
     void Free(void* ptr, size_t size)
     {
-        delete[] (char*)ptr;
+        return ARK_FREE(ptr);
     }
 
     void Swap(CoreAlloc& src)

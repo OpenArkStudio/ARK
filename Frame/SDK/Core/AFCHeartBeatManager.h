@@ -20,13 +20,13 @@
 
 #pragma once
 
-#include "SDK/Base/AFList.h"
-#include "SDK/Base/AFDefine.h"
-#include "SDK/Base/AFCDataList.h"
-#include "SDK/Base/AFIData.h"
+#include "SDK/Core/Base/AFList.h"
+#include "SDK/Core/Base/AFDefine.h"
+#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFIData.h"
 #include "AFIHeartBeatManager.h"
-#include "SDK/Base/AFMapEx.h"
-#include "SDK/Base/AFMap.h"
+#include "SDK/Core/Base/AFMapEx.h"
+#include "SDK/Core/Base/AFMap.h"
 
 class AFCHeartBeatManager : public AFIHeartBeatManager
 {

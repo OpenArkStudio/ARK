@@ -20,7 +20,8 @@
 
 #pragma once
 
-#include <stdint.h>
+#include "AFPlatform.hpp"
+#include "AFMemAlloc.h"
 
 class ArrayPodAlloc
 {
@@ -30,12 +31,12 @@ public:
 
     void* Alloc(size_t size)
     {
-        return new char[size];
+        return ARK_ALLOC(size);
     }
 
     void Free(void* ptr, size_t size)
     {
-        delete[] (char*)ptr;
+        return ARK_FREE(ptr);
     }
 
     void Swap(ArrayPodAlloc& src)

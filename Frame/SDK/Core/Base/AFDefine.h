@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "SDK/Base/AFCData.h"
-#include "SDK/Base/AFCDataList.h"
-#include "SDK/Base/AFGUID.h"
-#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFCData.h"
+#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/Base/AFPlatform.hpp"
 
 
 enum CLASS_OBJECT_EVENT
