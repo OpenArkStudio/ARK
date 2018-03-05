@@ -20,7 +20,7 @@
 
 #include "AFCDataTableManager.h"
 #include "AFDataTable.h"
-#include "SDK/Base/AFMisc.hpp"
+#include "SDK/Core/Base/AFMisc.hpp"
 
 AFCDataTableManager::AFCDataTableManager(const AFGUID& guid)
     : self(guid)

@@ -24,13 +24,13 @@
 #include "RapidXML/rapidxml_iterators.hpp"
 #include "RapidXML/rapidxml_print.hpp"
 #include "RapidXML/rapidxml_utils.hpp"
-#include "SDK/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFCDataList.h"
 #include "SDK/Core/AFDataTable.h"
 #include "SDK/Core/AFCDataNodeManager.h"
 #include "SDK/Core/AFCDataTableManager.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Base/AFArrayMap.hpp"
+#include "SDK/Core/Base/AFArrayMap.hpp"
 
 class AFCClass;
 

@@ -110,6 +110,37 @@
     <ClInclude Include="AFIDataNodeManager.h" />
     <ClInclude Include="AFIDataTableManager.h" />
     <ClInclude Include="AFDataTable.h" />
+    <ClInclude Include="Base\AFArrayMap.hpp" />
+    <ClInclude Include="Base\AFArrayPod.hpp" />
+    <ClInclude Include="Base\AFBitValue.hpp" />
+    <ClInclude Include="Base\AFCAddConsistentHash.hpp" />
+    <ClInclude Include="Base\AFCConsistentHash.hpp" />
+    <ClInclude Include="Base\AFCData.h" />
+    <ClInclude Include="Base\AFCDataList.h" />
+    <ClInclude Include="Base\AFCoreDef.hpp" />
+    <ClInclude Include="Base\AFDefine.h" />
+    <ClInclude Include="Base\AFGUID.h" />
+    <ClInclude Include="Base\AFHashmap.h" />
+    <ClInclude Include="Base\AFIData.h" />
+    <ClInclude Include="Base\AFIDataList.h" />
+    <ClInclude Include="Base\AFList.h" />
+    <ClInclude Include="Base\AFLockFreeQueue.h" />
+    <ClInclude Include="Base\AFMacros.hpp" />
+    <ClInclude Include="Base\AFMap.h" />
+    <ClInclude Include="Base\AFMapEx.h" />
+    <ClInclude Include="Base\AFMemAlloc.h" />
+    <ClInclude Include="Base\AFMemManger.h" />
+    <ClInclude Include="Base\AFMemPool.hpp" />
+    <ClInclude Include="Base\AFMisc.hpp" />
+    <ClInclude Include="Base\AFNoncopyable.hpp" />
+    <ClInclude Include="Base\AFPlatform.hpp" />
+    <ClInclude Include="Base\AFQueue.h" />
+    <ClInclude Include="Base\AFRWLock.hpp" />
+    <ClInclude Include="Base\AFSingleton.hpp" />
+    <ClInclude Include="Base\AFString.hpp" />
+    <ClInclude Include="Base\AFStringPod.hpp" />
+    <ClInclude Include="Base\AFTime.hpp" />
+    <ClInclude Include="Base\AFVector3.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCEntity.cpp" />
@@ -118,6 +149,7 @@
     <ClCompile Include="AFCDataNodeManager.cpp" />
     <ClCompile Include="AFCDataTableManager.cpp" />
     <ClCompile Include="AFDataTable.cpp" />
+    <ClCompile Include="AFMemAlloc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

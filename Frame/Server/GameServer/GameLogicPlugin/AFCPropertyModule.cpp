@@ -19,7 +19,7 @@
 */
 
 #include "AFCPropertyModule.h"
-#include "SDK/Base/AFTime.hpp"
+#include "SDK/Core/Base/AFTime.hpp"
 
 bool AFCPropertyModule::Init()
 {

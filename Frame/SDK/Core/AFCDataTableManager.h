@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "SDK/Base/AFCoreDef.hpp"
-#include "SDK/Base/AFArrayMap.hpp"
+#include "SDK/Core/Base/AFCoreDef.hpp"
+#include "SDK/Core/Base/AFArrayMap.hpp"
 #include "AFIDataTableManager.h"
 
 class AFCDataTableManager : public AFIDataTableManager

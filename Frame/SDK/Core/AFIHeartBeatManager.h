@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "SDK/Base/AFPlatform.hpp"
-#include "SDK/Base/AFList.h"
-#include "SDK/Base/AFDefine.h"
-#include "SDK/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFList.h"
+#include "SDK/Core/Base/AFDefine.h"
+#include "SDK/Core/Base/AFCDataList.h"
 
 class  AFCHeartBeatElement : public AFList<HEART_BEAT_FUNCTOR_PTR>
 {

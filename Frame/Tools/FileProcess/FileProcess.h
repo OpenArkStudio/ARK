@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFPlatform.hpp"
 #include "tinyxml2.h"
 #include "MiniExcelReader.h"
 
