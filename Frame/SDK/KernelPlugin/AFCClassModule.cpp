@@ -21,7 +21,7 @@
 #include "AFCClassModule.h"
 #include "RapidXML/rapidxml.hpp"
 #include "RapidXML/rapidxml_print.hpp"
-#include "SDK/Base/AFIData.h"
+#include "SDK/Core/Base/AFIData.h"
 #include "SDK/Core/AFDataNode.h"
 
 AFCClassModule::AFCClassModule(AFIPluginManager* p) : m_pElementModule(nullptr)
@@ -246,19 +246,12 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
     {
         return false;
     }
-
     //////////////////////////////////////////////////////////////////////////
-    rapidxml::xml_document<> xDoc;
-    size_t nDataSize = 0;
-
     std::string strFile = pPluginManager->GetConfigPath() + pstrClassFilePath;
     rapidxml::file<> fdoc(strFile.c_str());
-    nDataSize = fdoc.size();
-    ARK_SHARE_PTR<char> pData(new char[nDataSize + 1]);
-    strncpy(pData.get(), fdoc.data(), nDataSize);
 
-    pData.get()[nDataSize] = 0;
-    xDoc.parse<0>(pData.get());
+    rapidxml::xml_document<> xDoc;
+    xDoc.parse<0>(fdoc.data());
     //////////////////////////////////////////////////////////////////////////
 
     //support for unlimited layer class inherits
@@ -409,19 +402,11 @@ bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass
 
 bool AFCClassModule::Load()
 {
-    //////////////////////////////////////////////////////////////////////////
-    rapidxml::xml_document<> xDoc;
-    size_t nDataSize = 0;
-
     std::string strFile = pPluginManager->GetConfigPath() + msConfigFileName;
-
     rapidxml::file<> fdoc(strFile.c_str());
-    nDataSize = fdoc.size();
-    ARK_SHARE_PTR<char> pData(new char[nDataSize + 1]);
-    strncpy(pData.get(), fdoc.data(), nDataSize);
 
-    pData.get()[nDataSize] = 0;
-    xDoc.parse<0>(pData.get());
+    rapidxml::xml_document<> xDoc;
+    xDoc.parse<0>(fdoc.data());
     //////////////////////////////////////////////////////////////////////////
     //support for unlimited layer class inherits
     rapidxml::xml_node<>* root = xDoc.first_node();

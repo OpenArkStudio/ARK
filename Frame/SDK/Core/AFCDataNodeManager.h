@@ -21,7 +21,7 @@
 #pragma once
 
 #include "AFIDataNodeManager.h"
-#include "SDK/Base/AFNoncopyable.hpp"
+#include "SDK/Core/Base/AFNoncopyable.hpp"
 
 class AFCDataNodeManager : public AFIDataNodeManager, AFNoncopyable
 {

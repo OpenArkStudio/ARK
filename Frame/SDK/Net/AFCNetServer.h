@@ -23,9 +23,9 @@
 #include <thread>
 #include <atomic>
 #include "AFINet.h"
-#include "SDK/Base/AFQueue.h"
-#include "SDK/Base/AFLockFreeQueue.h"
-#include "SDK/Base/AFRWLock.hpp"
+#include "SDK/Core/Base/AFQueue.h"
+#include "SDK/Core/Base/AFLockFreeQueue.h"
+#include "SDK/Core/Base/AFRWLock.hpp"
 #include <evpp/libevent.h>
 #include <evpp/event_watcher.h>
 #include <evpp/event_loop.h>

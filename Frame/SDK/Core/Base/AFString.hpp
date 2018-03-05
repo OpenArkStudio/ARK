@@ -21,7 +21,7 @@
 #pragma once
 
 #include <string>
-#include "SDK/Base/AFCoreDef.hpp"
+#include "SDK/Core/Base/AFCoreDef.hpp"
 
 template<typename TYPE>
 class CharTraits

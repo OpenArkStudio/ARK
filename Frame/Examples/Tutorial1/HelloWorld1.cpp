@@ -19,8 +19,8 @@
 */
 
 #include "HelloWorld1.h"
-#include "SDK/Base/timer.hpp"
-#include "SDK/Base/AFMemAlloc.hpp"
+#include "SDK/Core/Base/timer.hpp"
+#include "SDK/Core/Base/AFMemAlloc.h"
 
 using timer_t = timer<std::function<void(timerid_t)> >;
 timer_t* t = new timer_t();
@@ -49,13 +49,18 @@ bool HelloWorld1::AfterInit()
 
     //////////////////////////////////////////////////////////////////////////
     //test memory alloc
-    void* ptr = ARK_ALLOC(100);
-    memset(ptr, 0, 100);
+    void* ptr1 = ARK_ALLOC(100);
+    memset(ptr1, 0, 100);
+
+    void* ptr2 = ARK_ALLOC(10);
 
     AFMemAlloc::CheckLeak();
 
-    ARK_FREE(ptr);
+    ARK_FREE(ptr2);
 
+    AFMemAlloc::CheckLeak();
+
+    ARK_FREE(ptr1);
     AFMemAlloc::CheckLeak();
     //////////////////////////////////////////////////////////////////////////
 

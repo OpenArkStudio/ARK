@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "SDK/Base/AFPlatform.hpp"
-#include "SDK/Base/AFMacros.hpp"
-#include "SDK/Base/AFGUID.h"
+#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFMacros.hpp"
+#include "SDK/Core/Base/AFGUID.h"
 #include <event2/bufferevent.h>
 #include <event2/buffer.h>
 #include <event2/listener.h>
@@ -31,7 +31,7 @@
 #include <event2/event_compat.h>
 #include "evpp/tcp_callbacks.h"
 #include "evpp/buffer.h"
-#include "SDK/Base/AFLockFreeQueue.h"
+#include "SDK/Core/Base/AFLockFreeQueue.h"
 
 #pragma pack(push, 1)
 

@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "SDK/Base/AFCoreDef.hpp"
-#include "SDK/Base/AFIData.h"
-#include "SDK/Base/AFPlatform.hpp"
-#include "SDK/Base/AFMisc.hpp"
+#include "SDK/Core/Base/AFCoreDef.hpp"
+#include "SDK/Core/Base/AFIData.h"
+#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFMisc.hpp"
 
 class AFDataAlloc
 {

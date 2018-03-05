@@ -21,9 +21,9 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Base/AFCConsistentHash.hpp"
+#include "SDK/Core/Base/AFCConsistentHash.hpp"
 #include "SDK/Net/AFCNetClient.h"
-#include "SDK/Base/AFMapEx.h"
+#include "SDK/Core/Base/AFMapEx.h"
 #include "Server/Interface/AFINetModule.h"
 
 enum ConnectDataState

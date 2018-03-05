@@ -20,13 +20,13 @@
 
 #pragma once
 
-#include "SDK/Base/AFCDataList.h"
-#include "SDK/Base/AFArrayPod.hpp"
-#include "SDK/Base/AFCoreDef.hpp"
-#include "SDK/Base/AFString.hpp"
-#include "SDK/Base/AFCData.h"
-#include "SDK/Base/AFBitValue.hpp"
-#include "SDK/Base/AFDefine.h"
+#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFArrayPod.hpp"
+#include "SDK/Core/Base/AFCoreDef.hpp"
+#include "SDK/Core/Base/AFString.hpp"
+#include "SDK/Core/Base/AFCData.h"
+#include "SDK/Core/Base/AFBitValue.hpp"
+#include "SDK/Core/Base/AFDefine.h"
 
 class AFDataTable
 {

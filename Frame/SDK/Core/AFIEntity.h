@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "SDK/Base/AFPlatform.hpp"
-#include "SDK/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFCDataList.h"
 #include "AFDataTable.h"
 #include "AFIDataTableManager.h"
 #include "AFIHeartBeatManager.h"
