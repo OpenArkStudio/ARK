@@ -24,7 +24,7 @@
 #include "RapidXML/rapidxml_print.hpp"
 #include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIPlugin.h"
-#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFPlatform.hpp"
 
 #if ARK_PLATFORM == PLATFORM_WIN
 #pragma comment( lib, "ws2_32.lib" )

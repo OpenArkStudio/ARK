@@ -19,7 +19,7 @@
 */
 
 #include "AFDataTable.h"
-#include "SDK/Base/AFMisc.hpp"
+#include "SDK/Core/Base/AFMisc.hpp"
 
 AFDataTable::AFDataTable()
     : mstrName(NULL_STR.c_str())

@@ -20,7 +20,7 @@
 
 #include "AFCPropertyTrailModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFCDataList.h"
 
 bool AFCPropertyTrailModule::Init()
 {

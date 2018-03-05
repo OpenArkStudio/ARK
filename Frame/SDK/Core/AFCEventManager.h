@@ -21,8 +21,8 @@
 #pragma once
 
 #include "AFIEventManager.h"
-#include "SDK/Base/AFDefine.h"
-#include "SDK/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFDefine.h"
+#include "SDK/Core/Base/AFCDataList.h"
 
 class AFCEventManager : public AFIEventManager
 {

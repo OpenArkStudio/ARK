@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "SDK/Base/AFMacros.hpp"
+#include "SDK/Core/Base/AFMacros.hpp"
 #include "AFIModule.h"
-#include "SDK/Base/AFMapEx.h"
+#include "SDK/Core/Base/AFMapEx.h"
 #include "SDK/Core/AFIDataNodeManager.h"
 #include "SDK/Core/AFIDataTableManager.h"
 

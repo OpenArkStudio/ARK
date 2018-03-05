@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "SDK/Base/AFPlatform.hpp"
-#include "SDK/Base/AFGUID.h"
-#include "SDK/Base/AFIDataList.h"
-#include "SDK/Base/AFDefine.h"
+#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/Base/AFIDataList.h"
+#include "SDK/Core/Base/AFDefine.h"
 
 class AFDataTable;
 
