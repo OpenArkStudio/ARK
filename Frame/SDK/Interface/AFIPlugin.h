@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "SDK/Base/AFPlatform.hpp"
-#include "SDK/Base/AFMap.h"
+#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFMap.h"
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Base/AFArrayMap.hpp"
+#include "SDK/Core/Base/AFArrayMap.hpp"
 
 //mxModules defines in AFIPlugin
 #define REGISTER_MODULE(pManager, classBaseName, className)             \

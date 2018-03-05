@@ -20,7 +20,7 @@
 
 #include "AFWorldLogicPlugin.h"
 #include "AFCWorldLogicModule.h"
-#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFPlatform.hpp"
 
 bool AFCWorldLogicModule::Init()
 {

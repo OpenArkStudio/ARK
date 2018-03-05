@@ -19,7 +19,7 @@
 */
 
 #include "AFCPluginManager.h"
-#include "SDK/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFPlatform.hpp"
 #include <future>
 
 #if ARK_PLATFORM == PLATFORM_UNIX

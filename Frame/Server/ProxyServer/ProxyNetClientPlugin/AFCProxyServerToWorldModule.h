@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "SDK/Base/AFArrayMap.hpp"
+#include "SDK/Core/Base/AFArrayMap.hpp"
 #include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Core/AFCHeartBeatManager.h"
 #include "SDK/Interface/AFIKernelModule.h"

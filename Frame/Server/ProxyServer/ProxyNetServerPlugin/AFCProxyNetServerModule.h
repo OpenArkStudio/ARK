@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "SDK/Base/AFCConsistentHash.hpp"
+#include "SDK/Core/Base/AFCConsistentHash.hpp"
 #include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"

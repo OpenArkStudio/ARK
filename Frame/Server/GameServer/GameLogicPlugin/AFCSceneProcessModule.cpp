@@ -19,8 +19,9 @@
 */
 
 #include "AFCSceneProcessModule.h"
-#include "SDK/Base/AFTime.hpp"
+#include "SDK/Core/Base/AFTime.hpp"
 #include "SDK/Proto/ARKDataDefine.hpp"
+#include "Server/Interface/AFEventDefine.h"
 
 bool AFCSceneProcessModule::Init()
 {

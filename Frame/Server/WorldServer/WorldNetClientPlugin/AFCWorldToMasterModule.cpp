@@ -20,7 +20,7 @@
 
 #include "AFCWorldToMasterModule.h"
 #include "AFWorldNetClientPlugin.h"
-#include "SDK/Base/AFCDataList.h"
+#include "SDK/Core/Base/AFCDataList.h"
 #include "SDK/Proto/AFMsgDefine.h"
 #include "Server/Interface/AFINetClientModule.hpp"
 

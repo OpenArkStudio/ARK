@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "SDK/Base/AFGUID.h"
-#include "SDK/Base/AFIDataList.h"
-#include "SDK/Base/AFIData.h"
+#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/Base/AFIDataList.h"
+#include "SDK/Core/Base/AFIData.h"
 
 using namespace ArkFrame;
 

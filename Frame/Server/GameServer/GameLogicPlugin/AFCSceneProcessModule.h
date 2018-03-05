@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "SDK/Base/AFList.h"
+#include "SDK/Core/Base/AFList.h"
 #include "RapidXML/rapidxml.hpp"
 #include "RapidXML/rapidxml_iterators.hpp"
 #include "RapidXML/rapidxml_print.hpp"
