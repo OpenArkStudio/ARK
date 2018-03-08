@@ -161,7 +161,7 @@
     <ClCompile Include="AFCDataTableManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="AFMemAlloc.cpp">
+    <ClCompile Include="Base\AFMemAlloc.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
