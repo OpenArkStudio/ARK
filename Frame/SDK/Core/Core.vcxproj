@@ -149,7 +149,7 @@
     <ClCompile Include="AFCDataNodeManager.cpp" />
     <ClCompile Include="AFCDataTableManager.cpp" />
     <ClCompile Include="AFDataTable.cpp" />
-    <ClCompile Include="AFMemAlloc.cpp" />
+    <ClCompile Include="Base\AFMemAlloc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
