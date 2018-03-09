@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -38,25 +38,25 @@ std::string strPluginName;
 
 #include <Dbghelp.h>
 #pragma comment( lib, "DbgHelp" )
-// ´´½¨DumpÎÄ¼ş
+// åˆ›å»ºDumpæ–‡ä»¶
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
 {
-    // ´´½¨DumpÎÄ¼ş
+    // åˆ›å»ºDumpæ–‡ä»¶
     HANDLE hDumpFile = CreateFile(strDumpFilePathName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-    // DumpĞÅÏ¢
+    // Dumpä¿¡æ¯
     MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
     dumpInfo.ExceptionPointers = pException;
     dumpInfo.ThreadId = GetCurrentThreadId();
     dumpInfo.ClientPointers = TRUE;
 
-    // Ğ´ÈëDumpÎÄ¼şÄÚÈİ
+    // å†™å…¥Dumpæ–‡ä»¶å†…å®¹
     MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &dumpInfo, NULL, NULL);
 
     CloseHandle(hDumpFile);
 }
 
-// ´¦ÀíUnhandled ExceptionµÄ»Øµ÷º¯Êı
+// å¤„ç†Unhandled Exceptionçš„å›è°ƒå‡½æ•°
 long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
     time_t t = time(0);
@@ -101,9 +101,9 @@ void ThreadFunc()
 
 void CreateBackThread()
 {
-    auto f = std::async(std::launch::async, ThreadFunc);
-    //gThread = std::thread(std::bind(&ThreadFunc));
-    //std::cout << "CreateBackThread, thread ID = " << gThread.get_id() << std::endl;
+    gThread = std::thread(std::bind(&ThreadFunc));
+    std::cout << "CreateBackThread, thread ID = " << gThread.get_id() << std::endl;
+    gThread.join();
 }
 
 void InitDaemon()
@@ -122,19 +122,17 @@ void InitDaemon()
 #endif
 }
 
-void PrintfLogo()
+void PrintLogo()
 {
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 
     std::cout << "********************************************" << std::endl;
-    std::cout << std::endl;
-    std::cout << "  \t ARK" << std::endl;
-    std::cout << "  COPYRIGHT (C) 2013-2018 ARK-GAME" << std::endl;
-    std::cout << "  All RIGHTS RESERVED." << std::endl;
-    std::cout << "  HTTPS://ARKGAME.NET" << std::endl;
-    std::cout << std::endl;
+    std::cout << "ARK" << std::endl;
+    std::cout << "COPYRIGHT Â© 2013-2018 ARK-GAME" << std::endl;
+    std::cout << "All RIGHTS RESERVED." << std::endl;
+    std::cout << "HTTPS://ARKGAME.NET" << std::endl;
     std::cout << "********************************************" << std::endl;
 
 #if ARK_PLATFORM == PLATFORM_WIN
@@ -144,7 +142,7 @@ void PrintfLogo()
 
 int main(int argc, char* argv[])
 {
-    PrintfLogo();
+    PrintLogo();
 
     for(int i = 0; i < argc; i++)
     {
@@ -188,9 +186,9 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->CheckConfig();
 
     //back thread, for some cmd
-    CreateBackThread();
+    //CreateBackThread();
 
-    while(!bExitApp)     //DEBUG°æ±¾±ÀÀ££¬RELEASE²»±À
+    while(!bExitApp)     //DEBUGç‰ˆæœ¬å´©æºƒï¼ŒRELEASEä¸å´©
     {
         while(true)
         {
