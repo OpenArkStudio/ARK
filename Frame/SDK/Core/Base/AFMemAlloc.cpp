@@ -60,7 +60,7 @@ void AFMemAlloc::CheckLeak()
     }
     else
     {
-        printf("Find leak, %d bytes!\n", g_totalAlloc);
+        printf("Find leak, %d bytes!\n", g_totalAlloc.load());
         for (auto& iter : g_memMap)
         {
             AllocItem& record = iter.second;
