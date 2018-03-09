@@ -43,9 +43,9 @@ bool HelloWorld1::AfterInit()
 {
     std::cout << "Hello, world1, AfterInit" << std::endl;
 
-    // test timer
-    time_id_1 = t->repeat(1000, 10, [](timerid_t id) { std::cout << "T1 ID = " << id << ", interval=1000ms print timer update" << std::endl; });
-    time_id_2 = t2->repeat(1500, 10, [](timerid_t id) { std::cout << "T2 ID = " << id << ", interval=1500ms print timer update" << std::endl; });
+    //// test timer
+    //time_id_1 = t->repeat(1000, 10, [](timerid_t id) { std::cout << "T1 ID = " << id << ", interval=1000ms print timer update" << std::endl; });
+    //time_id_2 = t2->repeat(1500, 10, [](timerid_t id) { std::cout << "T2 ID = " << id << ", interval=1500ms print timer update" << std::endl; });
 
     //////////////////////////////////////////////////////////////////////////
     //test memory alloc
@@ -69,8 +69,8 @@ bool HelloWorld1::AfterInit()
 
 void HelloWorld1::Update()
 {
-    t->update();
-    t2->update();
+    //t->update();
+    //t2->update();
 }
 
 bool HelloWorld1::BeforeShut()

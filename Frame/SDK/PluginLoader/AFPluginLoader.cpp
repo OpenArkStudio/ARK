@@ -103,7 +103,6 @@ void CreateBackThread()
 {
     gThread = std::thread(std::bind(&ThreadFunc));
     std::cout << "CreateBackThread, thread ID = " << gThread.get_id() << std::endl;
-    gThread.join();
 }
 
 void InitDaemon()
@@ -186,7 +185,7 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->CheckConfig();
 
     //back thread, for some cmd
-    //CreateBackThread();
+    CreateBackThread();
 
     while(!bExitApp)     //DEBUG版本崩溃，RELEASE不崩
     {
@@ -217,6 +216,8 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->Shut();
 
     AFCPluginManager::GetInstancePtr()->ReleaseInstance();
+
+    gThread.join();
 
     return 0;
 }
