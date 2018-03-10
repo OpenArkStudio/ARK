@@ -189,7 +189,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 {
                     ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                pTmpNode->value.SetDouble(ARK_LEXICAL_CAST<float>(pstrConfigValue));
+                pTmpNode->value.SetFloat(ARK_LEXICAL_CAST<float>(pstrConfigValue));
             }
             break;
         case DT_DOUBLE:
