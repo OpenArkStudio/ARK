@@ -166,7 +166,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
         {
         case DT_BOOLEAN:
             {
-                pTmpNode->value.SetInt(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
+                pTmpNode->value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
             }
             break;
         case DT_INT:
