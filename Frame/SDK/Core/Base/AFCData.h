@@ -237,9 +237,9 @@ public:
         int tmp_type = this->mnType;
         int64_t tmp_value = this->mn64Value;
         uint32_t tmp_alloc_len = this->mnAllocLen;
-        char tmp_buffer[BUFFER_SIZE];
-        bool tmp_use_buffer = (tmp_type == DT_STRING) || (this->mstrValue == this->mBuffer);
-        if((src.mnType == DT_STRING) || (src.mstrValue == src.mBuffer))
+        char tmp_buffer[BUFFER_SIZE] = { 0 };
+        bool tmp_use_buffer = (tmp_type == DT_STRING) && (this->mstrValue == this->mBuffer);
+        if((src.mnType == DT_STRING) && (src.mstrValue == src.mBuffer))
         {
             if(tmp_use_buffer)
             {

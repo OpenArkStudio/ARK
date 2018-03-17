@@ -103,7 +103,6 @@ void CreateBackThread()
 {
     gThread = std::thread(std::bind(&ThreadFunc));
     std::cout << "CreateBackThread, thread ID = " << gThread.get_id() << std::endl;
-    gThread.join();
 }
 
 void InitDaemon()
@@ -130,7 +129,7 @@ void PrintLogo()
 
     std::cout << "********************************************" << std::endl;
     std::cout << "ARK" << std::endl;
-    std::cout << "COPYRIGHT © 2013-2018 ARK-GAME" << std::endl;
+    std::cout << "COPYRIGHT (c) 2013-2018 ARK-GAME" << std::endl;
     std::cout << "All RIGHTS RESERVED." << std::endl;
     std::cout << "HTTPS://ARKGAME.NET" << std::endl;
     std::cout << "********************************************" << std::endl;
@@ -186,7 +185,7 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->CheckConfig();
 
     //back thread, for some cmd
-    //CreateBackThread();
+    CreateBackThread();
 
     while(!bExitApp)     //DEBUG版本崩溃，RELEASE不崩
     {
@@ -217,6 +216,8 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->Shut();
 
     AFCPluginManager::GetInstancePtr()->ReleaseInstance();
+
+    gThread.join();
 
     return 0;
 }
