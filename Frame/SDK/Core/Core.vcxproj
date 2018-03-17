@@ -140,7 +140,7 @@
     <ClInclude Include="Base\AFString.hpp" />
     <ClInclude Include="Base\AFStringPod.hpp" />
     <ClInclude Include="Base\AFTime.hpp" />
-    <ClInclude Include="Base\AFTimer.h" />
+    <ClInclude Include="Base\AFTimer.hpp" />
     <ClInclude Include="Base\AFVector3.hpp" />
   </ItemGroup>
   <ItemGroup>

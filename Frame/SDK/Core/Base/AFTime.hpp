@@ -55,7 +55,6 @@ public:
         return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     }
 
-    //static int64_t GetNowSecondTime();        //单位是秒, 特定时区时间 (尽量少用，特别注意：因为NFTime里用的都是毫秒，如果要将此结果的值转成NFTime，需要 *1000)
     int64_t GetNowMillisecond() //单位是毫秒, 特定时区时间
     {
         return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() + GetTimeZoneMillisecond();
