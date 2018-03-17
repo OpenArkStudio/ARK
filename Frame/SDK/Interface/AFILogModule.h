@@ -22,10 +22,8 @@
 
 #include "AFIModule.h"
 
-class AFILogModule
-    : public AFIModule
+class AFILogModule : public AFIModule
 {
-
 public:
     enum ARK_LOG_LEVEL
     {

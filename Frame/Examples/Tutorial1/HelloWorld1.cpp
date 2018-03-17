@@ -20,6 +20,10 @@
 
 #include "HelloWorld1.h"
 #include "SDK/Core/Base/AFMemAlloc.h"
+//#include "SDK/Core/Base/AFTimer.h"
+//
+//AFTimerManager::TimerManagerPtr gTimerManager;
+//AFTimer::TimerWeakPtr timerPtr;
 
 bool HelloWorld1::Init()
 {
@@ -28,6 +32,7 @@ bool HelloWorld1::Init()
 
     AFMemAlloc::InitPool();
     AFMemAlloc::Start();
+    //gTimerManager = std::shared_ptr<AFTimerManager>();
 
     return true;
 }
@@ -35,22 +40,33 @@ bool HelloWorld1::Init()
 bool HelloWorld1::AfterInit()
 {
     std::cout << "Hello, world1, AfterInit" << std::endl;
+    AFCData data1(DT_STRING, "test1");
+    AFCData data2(DT_STRING, "test2");
+
+    data1 = data2;
+    const char* str1 = data1.GetString();
     //////////////////////////////////////////////////////////////////////////
-    //test memory alloc
-    void* ptr1 = ARK_ALLOC(100);
-    memset(ptr1, 0, 100);
+    ////test memory alloc
+    //void* ptr1 = ARK_ALLOC(100);
+    //memset(ptr1, 0, 100);
 
-    void* ptr2 = ARK_ALLOC(10);
+    //void* ptr2 = ARK_ALLOC(10);
 
-    AFMemAlloc::CheckLeak();
+    //AFMemAlloc::CheckLeak();
 
-    ARK_FREE(ptr2);
+    //ARK_FREE(ptr2);
 
-    AFMemAlloc::CheckLeak();
+    //AFMemAlloc::CheckLeak();
 
-    ARK_FREE(ptr1);
-    AFMemAlloc::CheckLeak();
+    //ARK_FREE(ptr1);
+    //AFMemAlloc::CheckLeak();
     //////////////////////////////////////////////////////////////////////////
+
+    //std::chrono::nanoseconds interval_time = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()) + std::chrono::nanoseconds{ 100000000 };
+    //timerPtr = gTimerManager->AddTimer(interval_time, [=]()
+    //{
+    //    std::cout << "Run timer" << std::endl;
+    //});
 
     return true;
 }
@@ -63,6 +79,7 @@ void HelloWorld1::Update()
 bool HelloWorld1::BeforeShut()
 {
     std::cout << "Hello, world1, BeforeShut-------------" << std::endl;
+    //timerPtr->Cancel();
     return true;
 }
 
