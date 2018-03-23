@@ -26,10 +26,9 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Core/Base/AFArrayMap.hpp"
 
-//mxModules defines in AFIPlugin
 #define REGISTER_MODULE(pManager, classBaseName, className)             \
-    assert((TIsDerived<classBaseName, AFIModule>::Result));             \
-    assert((TIsDerived<className, classBaseName>::Result));             \
+    assert((std::is_base_of<AFIModule, classBaseName>::value));         \
+    assert((std::is_base_of<classBaseName, className>::value));         \
     AFIModule* pRegisterModule##className = new className(pManager);    \
     pRegisterModule##className->strName = (#className);                 \
     pManager->AddModule(#classBaseName, pRegisterModule##className);    \
