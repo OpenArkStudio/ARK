@@ -24,9 +24,9 @@
 #pragma comment( lib, "Dbghelp.lib" )
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-//#pragma comment(lib, "AFCore_d.lib")
+#pragma comment(lib, "AFCore_d.lib")
 #else
-//#pragma comment(lib, "AFCore.lib")
+#pragma comment(lib, "AFCore.lib")
 #endif
 
 #endif
