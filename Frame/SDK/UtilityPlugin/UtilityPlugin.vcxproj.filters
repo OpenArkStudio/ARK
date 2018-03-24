@@ -14,6 +14,9 @@
     <ClCompile Include="AFCScheduleModule.cpp">
       <Filter>ScheduleModule</Filter>
     </ClCompile>
+    <ClCompile Include="AFCTimerModule.cpp">
+      <Filter>TimerModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCGUIDModule.h">
@@ -28,6 +31,9 @@
     <ClInclude Include="AFCScheduleModule.h">
       <Filter>ScheduleModule</Filter>
     </ClInclude>
+    <ClInclude Include="AFCTimerModule.h">
+      <Filter>TimerModule</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Plugin">
@@ -41,6 +47,9 @@
     </Filter>
     <Filter Include="LogModule">
       <UniqueIdentifier>{c58ba43f-0a44-4368-b6ca-2a0f9401c1a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TimerModule">
+      <UniqueIdentifier>{d8f35e51-2dd5-4b3b-911d-bad8a174815c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

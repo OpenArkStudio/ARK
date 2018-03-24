@@ -28,6 +28,4 @@ public:
     virtual bool AddSchedule(const std::string& name, const SCHEDULE_FUNCTOR_PTR cb, const int64_t interval_time, const int count) = 0;
     virtual bool RemoveSchedule(const std::string& name) = 0;
     virtual bool ExistSchedule(const std::string& name) = 0;
-
-
 };
