@@ -223,7 +223,7 @@ protected:
 
     bool AddTimerData(const std::string& name, const AFGUID& entity_id, AFTimerData* timer_data)
     {
-        auto& iter = mxTimers.find(name);
+        auto iter = mxTimers.find(name);
         if (iter == mxTimers.end())
         {
             std::map<AFGUID, AFTimerData*> tmp;
