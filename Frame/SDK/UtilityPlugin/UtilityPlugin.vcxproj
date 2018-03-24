@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="AFCLogModule.cpp" />
     <ClCompile Include="AFCScheduleModule.cpp" />
+    <ClCompile Include="AFCTimerModule.cpp" />
     <ClCompile Include="AFUtilityPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="AFCGUIDModule.cpp" />
@@ -21,6 +22,7 @@
     <ClInclude Include="AFCGUIDModule.h" />
     <ClInclude Include="AFCLogModule.h" />
     <ClInclude Include="AFCScheduleModule.h" />
+    <ClInclude Include="AFCTimerModule.h" />
     <ClInclude Include="AFUtilityPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
