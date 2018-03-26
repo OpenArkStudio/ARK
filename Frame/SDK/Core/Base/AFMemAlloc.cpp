@@ -261,7 +261,7 @@ void AFMemAlloc::Dump()
         printf("[Size:%d]:Used:%d    /   Total:%d    (%d bytes) \r\n", g_poolSize[i], g_poolUsed[i], g_poolTotal[i], g_poolSize[i] * g_poolUsed[i]);
     }
 
-    printf("Total: %d bytes used\n", g_totalAlloc);
+    printf("Total: %d bytes used\n", g_totalAlloc.load());
     printf("Memory dump end-----------------------\n");
 }
 
