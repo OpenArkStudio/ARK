@@ -138,9 +138,11 @@ cd Dep
 cd ../
 mkdir build && cd build
 cmake -G "Unix Makefiles" ..
-make -j
+make
 ```
-> Note. If you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
+> Note
+> - If you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
+> - To accelerate building, you can use `make -j` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
 3. Run `ARK\Bin\Server\DataConfig\Tool\gen-config.sh` to generate configuration files
 4. Run the binary file by `Bin/Server/Debug/rund.sh`
 
