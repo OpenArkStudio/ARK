@@ -4,6 +4,7 @@ add_definitions(-DELPP_NO_DEFAULT_LOG_FILE)
 add_executable(PluginLoader ${PluginLoader_SRC})
 
 add_dependencies(PluginLoader AFCore)
+link_libraries(AFCore)
 
 set_target_properties(PluginLoader PROPERTIES OUTPUT_NAME_DEBUG "PluginLoader_d")
 set_target_properties(PluginLoader PROPERTIES
