@@ -24,6 +24,19 @@
 
 class AFIPlugin;
 
+#define ARK_DLL_PLUGIN_ENTRY(plugin_name)                                           \
+ARK_EXPORT void DllStartPlugin(AFIPluginManager* pPluginManager, AFMalloc* pMalloc) \
+{                                                                                   \
+    AFMalloc::Initialize(pMalloc);                                                  \
+    CREATE_PLUGIN(pPluginManager, plugin_name)                                      \
+}
+
+#define ARK_DLL_PLUGIN_EXIT(plugin_name)                            \
+ARK_EXPORT void DllStopPlugin(AFIPluginManager* pPluginManager)     \
+{                                                                   \
+    DESTROY_PLUGIN(pPluginManager, plugin_name)                     \
+}
+
 class AFIPluginManager : public AFIModule
 {
 public:
@@ -36,9 +49,9 @@ public:
     T* FindModule()
     {
         AFIModule* pLogicModule = FindModule(typeid(T).name());
-        if (pLogicModule)
+        if(pLogicModule)
         {
-            if (!std::is_base_of<AFIModule, T>::value)
+            if(!std::is_base_of<AFIModule, T>::value)
             {
                 return nullptr;
             }

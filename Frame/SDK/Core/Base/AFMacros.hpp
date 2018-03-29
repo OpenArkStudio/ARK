@@ -37,9 +37,6 @@
 #define INOUT
 #endif
 
-#define ARK_NEW                     new
-#define ARK_DELETE                  delete
-
 #define ARRAY_CLEAR(v)              memset((v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR(v)             memset(&(v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR_POINTER(v)     memset((v), 0xx, sizeof(*(v)))
@@ -175,6 +172,24 @@
 #define ARK_USE_TCMALLOC
 #endif
 */
+
+#ifndef ARK_FUNCTION_LINE
+#define ARK_FUNCTION_LINE __FUNCTION__, __LINE__
+#endif
+
+#ifndef ARK_NEW
+#define ARK_NEW new
+#endif
+
+#ifndef ARK_DELETE
+#define ARK_DELETE(p) if (p!= nullptr) { delete p; p = nullptr; }
+#endif
+
+#ifndef ARK_DELETE_ARRAY
+#define ARK_DELETE_ARRAY(p) if (p != nullptr) { delete[] p; p = nullptr; }
+#endif
+
+#define ARK_TO_STRING(value) std::to_string(value)
 
 // clear player data time
 #define CLEAR_HOUR 5

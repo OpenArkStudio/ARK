@@ -72,7 +72,7 @@ public:
 
     virtual bool Init()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             bool bRet = pModule->Init();
             ARK_ASSERT_CONTINUE(bRet);
@@ -83,7 +83,7 @@ public:
 
     virtual bool AfterInit()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             bool bRet = pModule->AfterInit();
             ARK_ASSERT_CONTINUE(bRet);
@@ -94,7 +94,7 @@ public:
 
     virtual bool CheckConfig()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             bool bRet = pModule->CheckConfig();
             ARK_ASSERT_CONTINUE(bRet);
@@ -105,7 +105,7 @@ public:
 
     virtual void Update()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             pModule->Update();
         }
@@ -113,7 +113,7 @@ public:
 
     virtual bool BeforeShut()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             bool bRet = pModule->BeforeShut();
             ARK_ASSERT_CONTINUE(bRet);
@@ -124,7 +124,7 @@ public:
 
     virtual bool Shut()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             bool bRet = pModule->Shut();
             ARK_ASSERT_CONTINUE(bRet);

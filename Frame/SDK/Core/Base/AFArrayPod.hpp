@@ -21,7 +21,8 @@
 #pragma once
 
 #include "AFPlatform.hpp"
-#include "AFMemAlloc.h"
+#include "AFMacros.hpp"
+#include "AFMalloc.h"
 
 class ArrayPodAlloc
 {
@@ -31,12 +32,12 @@ public:
 
     void* Alloc(size_t size)
     {
-        return ARK_ALLOC(size);
+        return ARK_MALLOC(ArrayPodAlloc, size);
     }
 
     void Free(void* ptr, size_t size)
     {
-        return ARK_FREE(ptr);
+        return ARK_FREE(ArrayPodAlloc, ptr, size);
     }
 
     void Swap(ArrayPodAlloc& src)
@@ -66,7 +67,7 @@ public:
     ArraryPod(const self_t& src)
     {
         mnSize = src.mnSize;
-        if (mnSize <= SIZE)
+        if(mnSize <= SIZE)
         {
             mpData = mxStack;
             mnCapacity = SIZE;
@@ -82,7 +83,7 @@ public:
 
     ~ArraryPod()
     {
-        if (mnCapacity > SIZE)
+        if(mnCapacity > SIZE)
         {
             mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
         }
@@ -102,7 +103,7 @@ public:
         TYPE* tmp_data = src.mpData;
         TYPE tmp_stack[SIZE];
 
-        if (tmp_capacity <= SIZE)
+        if(tmp_capacity <= SIZE)
         {
             memcpy(tmp_stack, src.mxStack, tmp_size * sizeof(TYPE));
         }
@@ -110,7 +111,7 @@ public:
         src.mnSize = this->mnSize;
         src.mnCapacity = this->mnCapacity;
 
-        if (this->mnCapacity <= SIZE)
+        if(this->mnCapacity <= SIZE)
         {
             memcpy(src.mxStack, this->mxStack, mnSize * sizeof(TYPE));
             src.mpData = src.mxStack;
@@ -123,7 +124,7 @@ public:
         this->mnSize = tmp_size;
         this->mnCapacity = tmp_capacity;
 
-        if (tmp_capacity <= SIZE)
+        if(tmp_capacity <= SIZE)
         {
             memcpy(this->mxStack, tmp_stack, tmp_size * sizeof(TYPE));
             this->mpData = this->mxStack;
@@ -153,13 +154,13 @@ public:
 
     void push_back(const TYPE& data)
     {
-        if (mnSize == mnCapacity)
+        if(mnSize == mnCapacity)
         {
             size_t new_size = mnSize * 2;
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
 
-            if (mnCapacity > SIZE)
+            if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
@@ -204,12 +205,12 @@ public:
     //预分配
     void reserve(size_t size)
     {
-        if (size > mnCapacity)
+        if(size > mnCapacity)
         {
             TYPE* p = (TYPE*)mxAlloc.Alloc(size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
 
-            if (mnCapacity > SIZE)
+            if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
@@ -221,18 +222,18 @@ public:
 
     void resize(size_t size)
     {
-        if (size > mnCapacity)
+        if(size > mnCapacity)
         {
             //申请现有容量的两倍，如果还不够，就按照size来申请
             size_t new_size = mnCapacity * 2;
-            if (new_size < size)
+            if(new_size < size)
             {
                 new_size = size;
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE)); //把原来真正的mnSize数据赋值给新的空间
-            if (mnCapacity > SIZE)
+            if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
@@ -246,18 +247,18 @@ public:
 
     void resize(size_t size, const TYPE& value)
     {
-        if (size > mnCapacity)
+        if(size > mnCapacity)
         {
             //申请现有容量的两倍，如果还不够，就按照size来申请
             size_t new_size = mnCapacity * 2;
-            if (new_size < size)
+            if(new_size < size)
             {
                 new_size = size;
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE)); //把原来真正的mnSize数据赋值给新的空间
-            if (mnCapacity > SIZE)
+            if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
@@ -266,9 +267,9 @@ public:
             mnCapacity = new_size; //容量改成新的
         }
 
-        if (size > mnSize)
+        if(size > mnSize)
         {
-            for (size_t i = mnSize; i < size; ++i)
+            for(size_t i = mnSize; i < size; ++i)
             {
                 mpData[i] = value;
             }
@@ -313,7 +314,7 @@ public:
     size_t get_mem_usage() const
     {
         size_t size = sizeof(self_t);
-        if (mnCapacity > size)
+        if(mnCapacity > size)
         {
             size += mnCapacity * sizeof(TYPE);
         }

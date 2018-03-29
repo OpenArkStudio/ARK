@@ -21,7 +21,8 @@
 #pragma once
 
 #include "AFPlatform.hpp"
-#include "AFMemAlloc.h"
+#include "AFMacros.hpp"
+#include "AFMalloc.h"
 
 //will use memory pool
 class CoreAlloc
@@ -32,12 +33,12 @@ public:
 
     void* Alloc(size_t size)
     {
-        return ARK_ALLOC(size);
+        return ARK_MALLOC(CoreAlloc, size);
     }
 
     void Free(void* ptr, size_t size)
     {
-        return ARK_FREE(ptr);
+        return ARK_FREE(CoreAlloc, ptr, size);
     }
 
     void Swap(CoreAlloc& src)
@@ -49,7 +50,8 @@ public:
 // 取哈希值，忽略大小写
 inline static unsigned int GetHashValueNoCase(const char* name)
 {
-    static unsigned char convert_to_lower[256] = {
+    static unsigned char convert_to_lower[256] =
+    {
         0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
         0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
         0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
@@ -87,7 +89,7 @@ inline static unsigned int GetHashValueNoCase(const char* name)
     assert(name != nullptr);
 
     unsigned int hash = 0;
-    for (; *name; name++)
+    for(; *name; name++)
     {
         hash = hash * 131 + convert_to_lower[(unsigned char)(*name)];
     }
@@ -101,7 +103,7 @@ inline unsigned int GetHashValue(const char* name)
     assert(name != nullptr);
 
     unsigned int hash = 0;
-    for (; *name; name++)
+    for(; *name; name++)
     {
         hash = hash * 131 + *name;
     }
