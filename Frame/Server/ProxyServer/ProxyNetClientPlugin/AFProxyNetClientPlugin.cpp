@@ -25,15 +25,8 @@
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
-ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
-{
-    CREATE_PLUGIN(pm, AFProxyNetClientPlugin)
-}
-
-ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
-{
-    DESTROY_PLUGIN(pm, AFProxyNetClientPlugin)
-}
+ARK_DLL_PLUGIN_ENTRY(AFProxyNetClientPlugin)
+ARK_DLL_PLUGIN_EXIT(AFProxyNetClientPlugin)
 
 #endif
 //////////////////////////////////////////////////////////////////////////

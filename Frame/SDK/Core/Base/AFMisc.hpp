@@ -27,19 +27,28 @@ class AFMisc
 public:
     static uint32_t GetNearest2N(uint32_t size)
     {
-        if (size == 0)
+        if(size <= 8)
+        {
+            return 8;
+        }
+
+        if(size > (1 << 16))
         {
             return 0;
         }
 
-        if ((size & (size - 1)) == 0)
+        if(size == 0)
         {
-            //power(2, n)
+            return 0;
+        }
+
+        if((size & (size - 1)) == 0)
+        {
             return size;
         }
 
         int count = 0;
-        while (size)
+        while(size)
         {
             size = size >> 1;
             ++count;
@@ -76,8 +85,9 @@ public:
             nValue = ARK_LEXICAL_CAST<T>(strValue);
             return true;
         }
-        catch (...)
+        catch(...)
         {
+            ARK_ASSERT_NO_EFFECT(0);
             return false;
         }
 
@@ -92,7 +102,7 @@ public:
             strValue = ARK_LEXICAL_CAST<std::string>(nValue);
             return true;
         }
-        catch (...)
+        catch(...)
         {
             return false;
         }
@@ -100,17 +110,14 @@ public:
         return false;
     }
 
-
-    static uint32_t GetSystemTime()
+    static int64_t GetSystemTime()
     {
 #if ARK_PLATFORM == PLATFORM_WIN
-        return ::GetTickCount();
+        return ::GetTickCount64();
 #else
         struct timeval tv;
         gettimeofday(&tv, NULL);
         return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 #endif
     }
-
-
 };
