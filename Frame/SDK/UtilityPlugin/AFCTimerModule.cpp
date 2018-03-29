@@ -19,10 +19,13 @@
 */
 
 #include "AFCTimerModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 bool AFCTimerModule::Init()
 {
     mxTimerManager = std::make_shared<AFTimerManager>();
+    mxTimerManager->Init(pPluginManager->GetNowTime());
+
     return true;
 }
 
@@ -44,7 +47,7 @@ bool AFCTimerModule::Shut()
 
 void AFCTimerModule::Update()
 {
-    mxTimerManager->Update();
+    mxTimerManager->Update(pPluginManager->GetNowTime());
 }
 
 bool AFCTimerModule::RemoveTimer(const std::string& name)

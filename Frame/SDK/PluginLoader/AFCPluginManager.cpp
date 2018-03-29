@@ -25,6 +25,8 @@
 #include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFMalloc.h"
+#include "SDK/Core/Base/AFTime.hpp"
 
 #if ARK_PLATFORM == PLATFORM_WIN
 #pragma comment( lib, "ws2_32.lib" )
@@ -33,7 +35,7 @@
 AFCPluginManager::AFCPluginManager() : AFIPluginManager()
 {
     mnAppID = 0;
-    mnInitTime = time(NULL);
+    mnInitTime = AFCTimeBase::GetInstance().GetNowMillisecond();
     mnNowTime = mnInitTime;
 
     mstrConfigPath = "";
@@ -69,7 +71,7 @@ inline bool AFCPluginManager::Init()
 #endif
     }
 
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->Init();
     }
@@ -148,7 +150,7 @@ bool AFCPluginManager::LoadStaticPlugin(const std::string& strPluginDLLName)
 void AFCPluginManager::Registered(AFIPlugin* plugin)
 {
     std::string strPluginName = plugin->GetPluginName();
-    if (!FindPlugin(strPluginName))
+    if(!FindPlugin(strPluginName))
     {
         mxPluginInstanceMap.AddElement(strPluginName, plugin);
         plugin->Install();
@@ -178,8 +180,8 @@ AFIPlugin* AFCPluginManager::FindPlugin(const std::string& strPluginName)
 
 void AFCPluginManager::Update()
 {
-    mnNowTime = time(NULL);
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    mnNowTime = AFCTimeBase::GetInstance().GetNowMillisecond();
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->Update();
     }
@@ -260,7 +262,7 @@ AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
 
 bool AFCPluginManager::AfterInit()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->AfterInit();
     }
@@ -270,7 +272,7 @@ bool AFCPluginManager::AfterInit()
 
 bool AFCPluginManager::CheckConfig()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->CheckConfig();
     }
@@ -280,7 +282,7 @@ bool AFCPluginManager::CheckConfig()
 
 bool AFCPluginManager::BeforeShut()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->BeforeShut();
     }
@@ -290,7 +292,7 @@ bool AFCPluginManager::BeforeShut()
 
 bool AFCPluginManager::Shut()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->Shut();
     }
@@ -312,7 +314,7 @@ bool AFCPluginManager::Shut()
 bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 {
     AFCDynLib* pDynLib = mxPluginLibMap.GetElement(strPluginDLLName);
-    if (pDynLib != nullptr)
+    if(pDynLib != nullptr)
     {
         return false;
     }
@@ -332,7 +334,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
             return false;
         }
 
-        pFunc(this);
+        pFunc(this, AFMalloc::Instance());
 
         return true;
     }
@@ -359,7 +361,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 {
     AFCDynLib* pDynLib = mxPluginLibMap.GetElement(strPluginDLLName);
-    if (pDynLib == nullptr)
+    if(pDynLib == nullptr)
     {
         return false;
     }
@@ -389,7 +391,7 @@ bool AFCPluginManager::UnLoadStaticPlugin(const std::string & strPluginDLLName)
 bool AFCPluginManager::StartReLoadState()
 {
     AFIModule::StartReLoadState();
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->StartReLoadState();
     }
@@ -399,7 +401,7 @@ bool AFCPluginManager::StartReLoadState()
 
 bool AFCPluginManager::EndReLoadState()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->EndReLoadState();
     }

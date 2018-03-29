@@ -23,18 +23,8 @@
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
-ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
-{
-#if ARK_PLATFORM == PLATFORM_WIN
-    SetConsoleTitle("ProxyServer -- ArkGame");
-#endif
-    CREATE_PLUGIN(pm, AFProxyLogicPlugin)
-}
-
-ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
-{
-    DESTROY_PLUGIN(pm, AFProxyLogicPlugin)
-}
+ARK_DLL_PLUGIN_ENTRY(AFProxyLogicPlugin)
+ARK_DLL_PLUGIN_EXIT(AFProxyLogicPlugin)
 
 #endif
 //////////////////////////////////////////////////////////////////////////
