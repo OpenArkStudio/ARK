@@ -28,19 +28,8 @@
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
-ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
-{
-#if ARK_PLATFORM == PLATFORM_WIN
-    SetConsoleTitle("GameServer -- ArkGame");
-#endif // ARK_PLATFORM
-    CREATE_PLUGIN(pm, AFGameLogicPlugin)
-
-};
-
-ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
-{
-    DESTROY_PLUGIN(pm, AFGameLogicPlugin)
-};
+ARK_DLL_PLUGIN_ENTRY(AFGameLogicPlugin)
+ARK_DLL_PLUGIN_EXIT(AFGameLogicPlugin)
 
 #endif
 //////////////////////////////////////////////////////////////////////////

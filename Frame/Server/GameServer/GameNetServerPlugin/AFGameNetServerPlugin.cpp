@@ -23,17 +23,8 @@
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
-ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
-{
-
-    CREATE_PLUGIN(pm, AFGameNetServerPlugin)
-
-};
-
-ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
-{
-    DESTROY_PLUGIN(pm, AFGameNetServerPlugin)
-};
+ARK_DLL_PLUGIN_ENTRY(AFGameNetServerPlugin)
+ARK_DLL_PLUGIN_EXIT(AFGameNetServerPlugin)
 
 #endif
 //////////////////////////////////////////////////////////////////////////

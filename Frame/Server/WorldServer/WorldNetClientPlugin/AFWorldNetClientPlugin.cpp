@@ -23,15 +23,8 @@
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
-ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
-{
-    CREATE_PLUGIN(pm, AFWorldNetClientPlugin)
-}
-
-ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
-{
-    DESTROY_PLUGIN(pm, AFWorldNetClientPlugin)
-}
+ARK_DLL_PLUGIN_ENTRY(AFWorldNetClientPlugin)
+ARK_DLL_PLUGIN_EXIT(AFWorldNetClientPlugin)
 
 #endif
 //////////////////////////////////////////////////////////////////////////

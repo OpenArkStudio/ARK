@@ -37,7 +37,13 @@ std::string strPluginName;
 #if ARK_PLATFORM == PLATFORM_WIN
 
 #include <Dbghelp.h>
-#pragma comment( lib, "DbgHelp" )
+#pragma comment(lib, "DbgHelp")
+
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+#pragma comment(lib, "AFCore_d.lib")
+#else
+#pragma comment(lib, "AFCore.lib")
+#endif
 // 创建Dump文件
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
 {
@@ -92,7 +98,7 @@ void ThreadFunc()
 
         std::string s;
         std::cin >> s;
-        if (0 == strcmp(s.c_str(), "exit"))
+        if(0 == strcmp(s.c_str(), "exit"))
         {
             bExitApp = true;
         }
