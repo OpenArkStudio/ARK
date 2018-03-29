@@ -21,7 +21,7 @@
 #include "AFMemAlloc.h"
 
 bool g_needRecord = false;
-std::atomic_int g_totalAlloc = 0;
+std::atomic_int g_totalAlloc(0);
 std::map<void*, AllocItem> g_memMap;
 std::mutex g_memMapMutex;
 
