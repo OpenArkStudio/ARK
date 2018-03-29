@@ -21,19 +21,12 @@
 #include "AFCWorldLogicModule.h"
 #include "AFWorldLogicPlugin.h"
 
-ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
-{
-#if ARK_PLATFORM == PLATFORM_WIN
-    SetConsoleTitle("WorldServer -- ArkGame");
-#endif // ARK_PLATFORM
-    CREATE_PLUGIN(pm, AFWorldLogicPlugin)
-};
+#ifdef ARK_DYNAMIC_PLUGIN
 
-ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
-{
-    DESTROY_PLUGIN(pm, AFWorldLogicPlugin)
-};
+ARK_DLL_PLUGIN_ENTRY(AFWorldLogicPlugin)
+ARK_DLL_PLUGIN_EXIT(AFWorldLogicPlugin)
 
+#endif
 //////////////////////////////////////////////////////////////////////////
 
 int AFWorldLogicPlugin::GetPluginVersion()

@@ -19,54 +19,32 @@
 */
 
 #include "HelloWorld1.h"
-#include "SDK/Core/Base/AFMemAlloc.h"
-//#include "SDK/Core/Base/AFTimer.h"
-//
-//AFTimerManager::TimerManagerPtr gTimerManager;
-//AFTimer::TimerWeakPtr timerPtr;
+#include "SDK/Core/Base/AFTimer.hpp"
 
 bool HelloWorld1::Init()
 {
-	std::cout << typeid(HelloWorld1).name() << std::endl;
+    std::cout << typeid(HelloWorld1).name() << std::endl;
     std::cout << "Hello, world1, Init" << std::endl;
-
-    AFMemAlloc::InitPool();
-    AFMemAlloc::Start();
-    //gTimerManager = std::shared_ptr<AFTimerManager>();
 
     return true;
 }
 
 bool HelloWorld1::AfterInit()
 {
+    m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
+
+    ARK_ASSERT_RET_VAL(m_pTimerModule != nullptr, false);
+
     std::cout << "Hello, world1, AfterInit" << std::endl;
     AFCData data1(DT_STRING, "test1");
     AFCData data2(DT_STRING, "test2");
 
     data1 = data2;
     const char* str1 = data1.GetString();
-    //////////////////////////////////////////////////////////////////////////
-    ////test memory alloc
-    //void* ptr1 = ARK_ALLOC(100);
-    //memset(ptr1, 0, 100);
 
-    //void* ptr2 = ARK_ALLOC(10);
+    std::cout << pPluginManager->GetNowTime() << std::endl;
 
-    //AFMemAlloc::CheckLeak();
-
-    //ARK_FREE(ptr2);
-
-    //AFMemAlloc::CheckLeak();
-
-    //ARK_FREE(ptr1);
-    //AFMemAlloc::CheckLeak();
-    //////////////////////////////////////////////////////////////////////////
-
-    //std::chrono::nanoseconds interval_time = std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::system_clock::now().time_since_epoch()) + std::chrono::nanoseconds{ 100000000 };
-    //timerPtr = gTimerManager->AddTimer(interval_time, [=]()
-    //{
-    //    std::cout << "Run timer" << std::endl;
-    //});
+    m_pTimerModule->AddSingleTimer("test", AFGUID(0, 1), 10 * 1000/*ms*/, 2, this, &HelloWorld1::TestTimer);
 
     return true;
 }
@@ -79,7 +57,6 @@ void HelloWorld1::Update()
 bool HelloWorld1::BeforeShut()
 {
     std::cout << "Hello, world1, BeforeShut-------------" << std::endl;
-    //timerPtr->Cancel();
     return true;
 }
 
@@ -87,4 +64,10 @@ bool HelloWorld1::Shut()
 {
     std::cout << "Hello, world1, Shut" << std::endl;
     return true;
+}
+
+void HelloWorld1::TestTimer(const std::string& name, const AFGUID& entity_id)
+{
+    std::cout << pPluginManager->GetNowTime() << std::endl;
+    std::cout << "Test Timer: " << name << " id = " << entity_id.ToString() << std::endl;
 }

@@ -24,8 +24,7 @@
 #include "AFSingleton.hpp"
 #include "AFMisc.hpp"
 
-class AFCTimeBase :
-    public AFSingleton<AFCTimeBase>
+class AFCTimeBase : public AFSingleton<AFCTimeBase>
 {
 public:
     //∏˜÷÷∫¡√Î
