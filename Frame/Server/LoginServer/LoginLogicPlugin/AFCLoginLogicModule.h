@@ -37,7 +37,7 @@ public:
     virtual bool Shut();
     virtual void Update();
 
-    virtual bool AfterInit();
+    virtual bool PostInit();
 
     virtual int OnLoginProcess(const AFGUID& object, const std::string& strAccount, const std::string& strPwd);
 

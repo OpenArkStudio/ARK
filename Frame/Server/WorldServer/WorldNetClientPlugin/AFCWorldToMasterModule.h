@@ -40,10 +40,10 @@ public:
     }
 
     virtual bool Init();
-    virtual bool BeforeShut();
+    virtual bool PreShut();
     virtual bool Shut();
     virtual void Update();
-    virtual bool AfterInit();
+    virtual bool PostInit();
 
 protected:
 

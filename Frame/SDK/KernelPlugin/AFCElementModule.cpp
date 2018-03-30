@@ -378,13 +378,13 @@ bool AFCElementModule::LegalNumber(const char* str)
     return true;
 }
 
-bool AFCElementModule::AfterInit()
+bool AFCElementModule::PostInit()
 {
     return true;
 
 }
 
-bool AFCElementModule::BeforeShut()
+bool AFCElementModule::PreShut()
 {
     return true;
 

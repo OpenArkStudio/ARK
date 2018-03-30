@@ -36,7 +36,7 @@ void AFCPropertyModule::Update()
 
 }
 
-bool AFCPropertyModule::AfterInit()
+bool AFCPropertyModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();

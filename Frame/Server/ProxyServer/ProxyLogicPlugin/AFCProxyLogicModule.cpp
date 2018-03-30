@@ -36,7 +36,7 @@ void AFCProxyLogicModule::Update()
 
 }
 
-bool AFCProxyLogicModule::AfterInit()
+bool AFCProxyLogicModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();

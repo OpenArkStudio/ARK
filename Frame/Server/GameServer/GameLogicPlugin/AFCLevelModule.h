@@ -41,7 +41,7 @@ public:
     virtual bool Init();
     virtual bool Shut();
     virtual void Update();
-    virtual bool AfterInit();
+    virtual bool PostInit();
 
     virtual int AddExp(const AFGUID& self, const int nExp);
 

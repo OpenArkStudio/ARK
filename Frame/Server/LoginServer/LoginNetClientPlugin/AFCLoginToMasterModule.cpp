@@ -36,7 +36,7 @@ bool AFCLoginToMasterModule::Shut()
     return true;
 }
 
-bool AFCLoginToMasterModule::AfterInit()
+bool AFCLoginToMasterModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pLoginLogicModule = pPluginManager->FindModule<AFILoginLogicModule>();
@@ -83,7 +83,7 @@ bool AFCLoginToMasterModule::AfterInit()
     return true;
 }
 
-bool AFCLoginToMasterModule::BeforeShut()
+bool AFCLoginToMasterModule::PreShut()
 {
 
     return false;
