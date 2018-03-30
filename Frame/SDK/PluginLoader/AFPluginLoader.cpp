@@ -348,7 +348,7 @@ bool ProcArgList(int argc, char* argv[])
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTitle(process_name.c_str());
 #elif ARK_PLATFORM == PLATFORM_UNIX
-    setproctitle(process_name, argc, argv);
+    setproctitle(process_name.c_str(), argc, argv);
 #endif
 
     //Create back thread, for some cmd
