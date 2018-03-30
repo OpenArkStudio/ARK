@@ -28,7 +28,7 @@ bool AFCProxyNetServerModule::Init()
     return true;
 }
 
-bool AFCProxyNetServerModule::AfterInit()
+bool AFCProxyNetServerModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();

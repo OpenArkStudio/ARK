@@ -42,7 +42,7 @@ public:
     virtual bool Init();
     virtual bool Shut();
     virtual void Update();
-    virtual bool AfterInit();
+    virtual bool PostInit();
 
     virtual void StartTrail(const AFGUID self);
     virtual void EndTrail(const AFGUID self);

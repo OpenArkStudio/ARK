@@ -81,11 +81,11 @@ public:
         return true;
     }
 
-    virtual bool AfterInit()
+    virtual bool PostInit()
     {
         for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
-            bool bRet = pModule->AfterInit();
+            bool bRet = pModule->PostInit();
             ARK_ASSERT_CONTINUE(bRet);
         }
 
@@ -111,11 +111,11 @@ public:
         }
     }
 
-    virtual bool BeforeShut()
+    virtual bool PreShut()
     {
         for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
-            bool bRet = pModule->BeforeShut();
+            bool bRet = pModule->PreShut();
             ARK_ASSERT_CONTINUE(bRet);
         }
 

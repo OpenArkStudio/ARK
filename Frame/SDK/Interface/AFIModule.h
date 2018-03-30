@@ -46,7 +46,7 @@ public:
         return true;
     }
 
-    virtual bool AfterInit()
+    virtual bool PostInit()
     {
         return true;
     }
@@ -56,12 +56,7 @@ public:
         return true;
     }
 
-    virtual bool BeforeShut()
-    {
-        return true;
-    }
-
-    virtual bool Shut()
+    virtual bool PreUpdate()
     {
         return true;
     }
@@ -69,6 +64,16 @@ public:
     virtual void Update()
     {
 
+    }
+
+    virtual bool PreShut()
+    {
+        return true;
+    }
+
+    virtual bool Shut()
+    {
+        return true;
     }
 
     virtual bool StartReLoadState()

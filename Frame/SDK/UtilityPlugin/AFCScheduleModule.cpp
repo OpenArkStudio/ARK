@@ -30,12 +30,12 @@ bool AFCScheduleModule::Init()
     return true;
 }
 
-bool AFCScheduleModule::AfterInit()
+bool AFCScheduleModule::PostInit()
 {
     return true;
 }
 
-bool AFCScheduleModule::BeforeShut()
+bool AFCScheduleModule::PreShut()
 {
     return true;
 }
