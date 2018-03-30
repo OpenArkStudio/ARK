@@ -333,12 +333,12 @@ bool ProcArgList(int argc, char* argv[])
     //    std::cout << "parameter app_id is invalid, please check." << std::endl;
     //    return false;
     //}
-
-    if(config.app_name.empty())
-    {
-        std::cout << "parameter app_name is invalid, please check." << std::endl;
-        return false;
-    }
+    //暂时app name也可以不用传参
+    //if(config.app_name.empty())
+    //{
+    //    std::cout << "parameter app_name is invalid, please check." << std::endl;
+    //    return false;
+    //}
 
     //Set plugin file
     AFCPluginManager::GetInstancePtr()->SetConfigName(config.plugin_file);
