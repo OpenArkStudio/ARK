@@ -1,47 +1,68 @@
-cp -a ../../Comm/Release/NFPluginLoader_r ./NFMasterServer/NFMasterServer_r
-cp -a ../../Comm/Release/NFPluginLoader_r ./NFWorldServer/NFWorldServer_r
-cp -a ../../Comm/Release/NFPluginLoader_r ./NFLoginServer/NFLoginServer_r
-cp -a ../../Comm/Release/NFPluginLoader_r ./NFGameServer1/NFGameServer_r
-cp -a ../../Comm/Release/NFPluginLoader_r ./NFProxyServer1/NFProxyServer_r
+echo Copy common dlls...
+cp -a ../../../Bin/Comm/Release/PluginLoader AFLoginServer/
+cp -a ../../../Bin/Comm/Release/PluginLoader AFMasterServer/
+cp -a ../../../Bin/Comm/Release/PluginLoader AFProxyServer/
+cp -a ../../../Bin/Comm/Release/PluginLoader AFWorldServer/
+cp -a ../../../Bin/Comm/Release/PluginLoader AFGameServer/
 
-cp -a ../../Comm/Debug/*.so ./NFMasterServer/
-cp -a ../../Comm/Debug/*.so ./NFWorldServer/
-cp -a ../../Comm/Debug/*.so ./NFLoginServer/
-cp -a ../../Comm/Debug/*.so ./NFGameServer1/
-cp -a ../../Comm/Debug/*.so ./NFProxyServer1/
+cp -a ../../../Dep/lib/Release/libproto*.so AFLoginServer/
+cp -a ../../../Dep/lib/Release/libproto*.so AFMasterServer/
+cp -a ../../../Dep/lib/Release/libproto*.so AFProxyServer/
+cp -a ../../../Dep/lib/Release/libproto*.so AFWorldServer/
+cp -a ../../../Dep/lib/Release/libproto*.so AFGameServer/
+
+cp -a ../../../Bin/Comm/Release/AFProto*.so AFLoginServer/
+cp -a ../../../Bin/Comm/Release/AFProto*.so AFMasterServer/
+cp -a ../../../Bin/Comm/Release/AFProto*.so AFProxyServer/
+cp -a ../../../Bin/Comm/Release/AFProto*.so AFWorldServer/
+cp -a ../../../Bin/Comm/Release/AFProto*.so AFGameServer/
+
+cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so AFLoginServer/
+cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so AFMasterServer/
+cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so AFProxyServer/
+cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so AFWorldServer/
+cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so AFGameServer/
+
+cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so AFLoginServer/
+cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so AFMasterServer/
+cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so AFProxyServer/
+cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so AFWorldServer/
+cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so AFGameServer/
+
+echo Copy self dlls
+cp -a ../../../Bin/Comm/Release/AFLogin*.so AFLoginServer/
+cp -a ../../../Bin/Comm/Release/AFMaster*.so AFMasterServer/
+cp -a ../../../Bin/Comm/Release/AFProxy*.so AFProxyServer/
+cp -a ../../../Bin/Comm/Release/AFWorld*.so AFWorldServer/
+cp -a ../../../Bin/Comm/Release/AFGame*.so AFGameServer/
 
 export LC_ALL="C"
 
-cd ./NFMasterServer
-chmod -R 777  NFMasterServer_r
-./NFMasterServer_r -d
-cd ../
+cd AFMasterServer
+echo Starting AFMasterServer...
+./PluginLoader -d app_id=3 app_name=MasterServer cfg=Plugin.xml
 
-cd ./NFWorldServer
-chmod -R 777  NFWorldServer_r
-./NFWorldServer_r -d
-cd ../
-
-
-cd ./NFLoginServer
-chmod -R 777  NFLoginServer_r
-./NFLoginServer_r -d
-cd ../
+cd ..
+cd AFWorldServer
+echo Starting AFWorldServer...
+./PluginLoader -d app_id=7 app_name=WorldServer cfg=Plugin.xml
 
 
+cd ..
+cd AFLoginServer
+echo Starting AFLoginServer...
+./PluginLoader -d app_id=4 app_name=LoginServer cfg=Plugin.xml
 
-cd ./NFGameServer1
-chmod -R 777  NFGameServer_r
-./NFGameServer_r -d
-cd ../
+cd ..
+cd AFGameServer
+echo Starting AFGameServer...
+./PluginLoader -d app_id=6 app_name=GameServer cfg=Plugin.xml
 
+cd ..
+cd AFProxyServer
+echo Starting AFProxyServer...
+./PluginLoader -d app_id=5 app_name=ProxyServer cfg=Plugin.xml
 
-cd ./NFProxyServer1
-chmod -R 777  NFProxyServer_r
-./NFProxyServer_r -d
-cd ../
+echo All processes are launching...
 
-
-
-
-ps -A|grep NF
+ps ax | grep *Server
