@@ -20,6 +20,7 @@
 
 #include "HelloWorld1.h"
 #include "SDK/Core/Base/AFTimer.hpp"
+#include "SDK/Core/Base/AFMacros.hpp"
 
 bool HelloWorld1::Init()
 {
