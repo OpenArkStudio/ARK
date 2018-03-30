@@ -29,6 +29,8 @@
 #include <sys/prctl.h>
 #endif
 
+bool bExitApp = false;
+std::thread gBackThread;
 
 #if ARK_PLATFORM == PLATFORM_WIN
 #include <Dbghelp.h>
@@ -38,9 +40,6 @@
 #else
 #pragma comment(lib, "AFCore.lib")
 #endif
-
-bool bExitApp = false;
-std::thread gBackThread;
 
 // 创建Dump文件
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
