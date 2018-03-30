@@ -94,25 +94,25 @@ bool AFCPluginManager::LoadPluginConfig()
         mxPluginNameMap.insert(std::make_pair(strPluginName, true));
     }
 
-    rapidxml::xml_node<>* pPluginAppNode = pRoot->first_node("APPID");
-    if(!pPluginAppNode)
-    {
-        ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
-        return false;
-    }
+    //rapidxml::xml_node<>* pPluginAppNode = pRoot->first_node("APPID");
+    //if(!pPluginAppNode)
+    //{
+    //    ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
+    //    return false;
+    //}
 
-    const char* strAppID = pPluginAppNode->first_attribute("Name")->value();
-    if(!strAppID)
-    {
-        ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
-        return false;
-    }
+    //const char* strAppID = pPluginAppNode->first_attribute("Name")->value();
+    //if(!strAppID)
+    //{
+    //    ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
+    //    return false;
+    //}
 
-    if(!AFMisc::ARK_FROM_STR(strAppID, mnAppID))
-    {
-        ARK_ASSERT(0, "App ID Convert Error", __FILE__, __FUNCTION__);
-        return false;
-    }
+    //if(!AFMisc::ARK_FROM_STR(strAppID, mnAppID))
+    //{
+    //    ARK_ASSERT(0, "App ID Convert Error", __FILE__, __FUNCTION__);
+    //    return false;
+    //}
 
     rapidxml::xml_node<>* pPluginConfigPathNode = pRoot->first_node("ConfigPath");
     if(!pPluginConfigPathNode)
