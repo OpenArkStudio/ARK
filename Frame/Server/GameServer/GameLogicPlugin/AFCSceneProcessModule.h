@@ -49,7 +49,7 @@ public:
     virtual bool Init();
     virtual bool Shut();
     virtual void Update();
-    virtual bool AfterInit();
+    virtual bool PostInit();
 
     virtual E_SCENE_TYPE GetCloneSceneType(const int nSceneID);
     virtual bool IsCloneScene(const int nSceneID);

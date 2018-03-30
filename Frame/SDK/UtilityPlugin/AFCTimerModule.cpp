@@ -29,12 +29,12 @@ bool AFCTimerModule::Init()
     return true;
 }
 
-bool AFCTimerModule::AfterInit()
+bool AFCTimerModule::PostInit()
 {
     return true;
 }
 
-bool AFCTimerModule::BeforeShut()
+bool AFCTimerModule::PreShut()
 {
     mxTimerManager->Shut();
     return true;

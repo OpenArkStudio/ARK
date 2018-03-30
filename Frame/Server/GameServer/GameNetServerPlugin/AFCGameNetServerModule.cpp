@@ -30,7 +30,7 @@ bool AFCGameNetServerModule::Init()
     return true;
 }
 
-bool AFCGameNetServerModule::AfterInit()
+bool AFCGameNetServerModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();

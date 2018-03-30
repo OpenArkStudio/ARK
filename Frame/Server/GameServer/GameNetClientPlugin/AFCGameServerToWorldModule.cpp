@@ -110,7 +110,7 @@ void AFCGameServerToWorldModule::RefreshWorldInfo()
     //     }
 }
 
-bool AFCGameServerToWorldModule::AfterInit()
+bool AFCGameServerToWorldModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();

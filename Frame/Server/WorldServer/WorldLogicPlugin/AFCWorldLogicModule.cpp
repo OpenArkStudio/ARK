@@ -37,7 +37,7 @@ void AFCWorldLogicModule::Update()
 
 }
 
-bool AFCWorldLogicModule::AfterInit()
+bool AFCWorldLogicModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
 

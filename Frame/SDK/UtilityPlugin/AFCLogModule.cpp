@@ -99,12 +99,12 @@ bool AFCLogModule::Shut()
     return true;
 }
 
-bool AFCLogModule::BeforeShut()
+bool AFCLogModule::PreShut()
 {
     return true;
 }
 
-bool AFCLogModule::AfterInit()
+bool AFCLogModule::PostInit()
 {
     return true;
 }

@@ -83,4 +83,5 @@ public:
     virtual int64_t GetNowTime() const = 0;
     virtual const std::string& GetConfigPath() const = 0;
     virtual void SetConfigName(const std::string& strFileName) = 0;
+    virtual void SetAppID(const int app_id) = 0;
 };
