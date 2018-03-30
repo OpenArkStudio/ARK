@@ -141,7 +141,7 @@ bool AFCGUIDModule::Init()
     return true;
 }
 
-bool AFCGUIDModule::AfterInit()
+bool AFCGUIDModule::PostInit()
 {
     return true;
 }
@@ -151,7 +151,7 @@ void AFCGUIDModule::Update()
 
 }
 
-bool AFCGUIDModule::BeforeShut()
+bool AFCGUIDModule::PreShut()
 {
     if(m_pIDWoker != nullptr)
     {

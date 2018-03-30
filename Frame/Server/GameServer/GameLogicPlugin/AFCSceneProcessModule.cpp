@@ -38,7 +38,7 @@ void AFCSceneProcessModule::Update()
 
 }
 
-bool AFCSceneProcessModule::AfterInit()
+bool AFCSceneProcessModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();

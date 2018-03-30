@@ -41,7 +41,7 @@ void AFCLoginLogicModule::Update()
 
 }
 
-bool AFCLoginLogicModule::AfterInit()
+bool AFCLoginLogicModule::PostInit()
 {
     m_pLoginNet_ServerModule = pPluginManager->FindModule<AFILoginNetServerModule>();
 

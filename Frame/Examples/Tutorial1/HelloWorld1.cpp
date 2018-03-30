@@ -29,13 +29,13 @@ bool HelloWorld1::Init()
     return true;
 }
 
-bool HelloWorld1::AfterInit()
+bool HelloWorld1::PostInit()
 {
     m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
 
     ARK_ASSERT_RET_VAL(m_pTimerModule != nullptr, false);
 
-    std::cout << "Hello, world1, AfterInit" << std::endl;
+    std::cout << "Hello, world1, PostInit" << std::endl;
     AFCData data1(DT_STRING, "test1");
     AFCData data2(DT_STRING, "test2");
 
@@ -54,9 +54,9 @@ void HelloWorld1::Update()
 
 }
 
-bool HelloWorld1::BeforeShut()
+bool HelloWorld1::PreShut()
 {
-    std::cout << "Hello, world1, BeforeShut-------------" << std::endl;
+    std::cout << "Hello, world1, PreShut-------------" << std::endl;
     return true;
 }
 

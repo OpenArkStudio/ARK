@@ -24,8 +24,7 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFITimerModule.h"
 
-class HelloWorld1
-    : public AFIModule
+class HelloWorld1 : public AFIModule
 {
 public:
     HelloWorld1(AFIPluginManager* p)
@@ -34,11 +33,11 @@ public:
     }
 
     virtual bool Init();
-    virtual bool AfterInit();
+    virtual bool PostInit();
 
     virtual void Update();
 
-    virtual bool BeforeShut();
+    virtual bool PreShut();
     virtual bool Shut();
 
 protected:

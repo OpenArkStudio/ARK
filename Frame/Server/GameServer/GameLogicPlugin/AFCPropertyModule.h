@@ -42,7 +42,7 @@ public:
     virtual bool Init();
     virtual bool Shut();
     virtual void Update();
-    virtual bool AfterInit();
+    virtual bool PostInit();
 
     virtual int RefreshBaseProperty(const AFGUID& self);
 

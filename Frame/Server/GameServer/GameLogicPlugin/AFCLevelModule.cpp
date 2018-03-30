@@ -36,7 +36,7 @@ void AFCLevelModule::Update()
 
 }
 
-bool AFCLevelModule::AfterInit()
+bool AFCLevelModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
