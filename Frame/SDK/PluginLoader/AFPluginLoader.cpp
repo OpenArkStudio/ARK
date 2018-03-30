@@ -325,19 +325,17 @@ bool ProcArgList(int argc, char* argv[])
 #endif
     }
 
-    //暂时还从plugin.xml中获取app id,不做强制要求
-    //如果要做多开，则需要自己处理
-    //if(config.app_id == 0)
-    //{
-    //    std::cout << "parameter app_id is invalid, please check." << std::endl;
-    //    return false;
-    //}
-    //暂时app name也可以不用传参
-    //if(config.app_name.empty())
-    //{
-    //    std::cout << "parameter app_name is invalid, please check." << std::endl;
-    //    return false;
-    //}
+    if(config.app_id == 0)
+    {
+        std::cout << "parameter app_id is invalid, please check." << std::endl;
+        return false;
+    }
+
+    if(config.app_name.empty())
+    {
+        std::cout << "parameter app_name is invalid, please check." << std::endl;
+        return false;
+    }
 
     //Set plugin file
     AFCPluginManager::GetInstancePtr()->SetConfigName(config.plugin_file);
@@ -385,6 +383,7 @@ int main(int argc, char* argv[])
         std::cout << "Application parameter is invalid, please check it..." << std::endl;
         Usage();
 
+        std::this_thread::sleep_for(std::chrono::seconds(30));
         return -1;
     }
 

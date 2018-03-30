@@ -1,7 +1,7 @@
-kill -9 $(pidof NFMasterServer_r)
-kill -9 $(pidof NFWorldServer_r)
-kill -9 $(pidof NFLoginServer_r)
-kill -9 $(pidof NFGameServer_r)
-kill -9 $(pidof NFProxyServer_r)
+kill -9 $(pidof MasterServer)
+kill -9 $(pidof WorldServer)
+kill -9 $(pidof LoginServer)
+kill -9 $(pidof GameServer)
+kill -9 $(pidof ProxyServer)
 
-ps -A|grep NF
+ps ax | grep *Server
