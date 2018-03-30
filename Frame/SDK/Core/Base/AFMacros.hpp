@@ -91,6 +91,27 @@
 
 #endif
 
+template<bool> struct ARK_STATIC_ASSERTION_FAILURE;
+template<> struct ARK_STATIC_ASSERTION_FAILURE<true>
+{
+    enum
+    {
+        value = 1
+    };
+};
+
+template<int x> struct ark_static_assert_test {};
+
+#if ARK_PLATFORM == PLATFORM_UNIX
+#define ARK_UNUSED __attribute__((unused))
+#else
+#define ARK_UNUSED
+#endif
+
+#define ARK_STATIC_ASSERT(x) \
+    typedef ark_static_assert_test<sizeof(ARK_STATIC_ASSERTION_FAILURE<(bool)(x)>)> \
+        __FUNCTION__##__LINE__ ARK_UNUSED
+
 #define ARK_ASSERT_RET_VAL(exp_, val)   \
     do                                  \
     {                                   \
@@ -130,6 +151,7 @@
         assert(exp_);                   \
     } while(0)
 
+
 #if defined(USE_BOOST)
 #  include <boost/lexical_cast.hpp>
 #  define ARK_LEXICAL_CAST boost::lexical_cast
@@ -141,10 +163,8 @@
 #endif
 
 //Google Protobuffer use dll
-#if ARK_PLATFORM == PLATFORM_WIN
-#if !defined(PROTOBUF_USE_DLLS)
+#ifndef PROTOBUF_USE_DLLS
 #define PROTOBUF_USE_DLLS
-#endif
 #endif
 
 //Singleton
