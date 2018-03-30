@@ -222,6 +222,11 @@ void AFCPluginManager::SetConfigName(const std::string & strFileName)
     mstrConfigName = strFileName;
 }
 
+void AFCPluginManager::SetAppID(const int app_id)
+{
+    mnAppID = app_id;
+}
+
 void AFCPluginManager::AddModule(const std::string& strModuleName, AFIModule* pModule)
 {
     ARK_ASSERT_RET_NONE(FindModule(strModuleName) == nullptr);
@@ -260,11 +265,11 @@ AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
     return mxModuleInstanceMap.GetElement(strSubModuleName);
 }
 
-bool AFCPluginManager::AfterInit()
+bool AFCPluginManager::PostInit()
 {
     for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
-        pPlugin->AfterInit();
+        pPlugin->PostInit();
     }
 
     return true;
@@ -280,11 +285,11 @@ bool AFCPluginManager::CheckConfig()
     return true;
 }
 
-bool AFCPluginManager::BeforeShut()
+bool AFCPluginManager::PreShut()
 {
     for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
-        pPlugin->BeforeShut();
+        pPlugin->PreShut();
     }
 
     return true;

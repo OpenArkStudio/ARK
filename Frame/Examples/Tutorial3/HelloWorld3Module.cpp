@@ -92,10 +92,10 @@ int HelloWorld3Module::OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_E
     return 0;
 }
 
-bool HelloWorld3Module::AfterInit()
+bool HelloWorld3Module::PostInit()
 {
     //³õÊ¼»¯Íê±Ï
-    std::cout << "Hello, world3, AfterInit" << std::endl;
+    std::cout << "Hello, world3, PostInit" << std::endl;
 
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
@@ -147,9 +147,9 @@ void HelloWorld3Module::Update()
 
 }
 
-bool HelloWorld3Module::BeforeShut()
+bool HelloWorld3Module::PreShut()
 {
-    std::cout << "Hello, world3, BeforeShut" << std::endl;
+    std::cout << "Hello, world3, PreShut" << std::endl;
     m_pKernelModule->DestroyAll();
 
     return true;

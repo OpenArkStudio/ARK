@@ -35,12 +35,12 @@ bool AFCLoginNetServerModule::Shut()
     return true;
 }
 
-bool AFCLoginNetServerModule::BeforeShut()
+bool AFCLoginNetServerModule::PreShut()
 {
     return true;
 }
 
-bool AFCLoginNetServerModule::AfterInit()
+bool AFCLoginNetServerModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pLoginLogicModule = pPluginManager->FindModule<AFILoginLogicModule>();

@@ -144,7 +144,7 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
     }
 }
 
-bool AFCProxyServerToWorldModule::AfterInit()
+bool AFCProxyServerToWorldModule::PostInit()
 {
     m_pProxyLogicModule = pPluginManager->FindModule<AFIProxyLogicModule>();
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
