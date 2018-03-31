@@ -1202,8 +1202,7 @@ int AFCKernelModule::OnCommonClassEvent(const AFGUID& self, const std::string& s
         return 0;
     }
 
-    std::list<CLASS_EVENT_FUNCTOR_PTR>::iterator it = mxCommonClassCBList.begin();
-    for(it; it != mxCommonClassCBList.end(); it++)
+    for(std::list<CLASS_EVENT_FUNCTOR_PTR>::iterator it = mxCommonClassCBList.begin(); it != mxCommonClassCBList.end(); it++)
     {
         (**it)(self, strClassName, eClassEvent, var);
     }
