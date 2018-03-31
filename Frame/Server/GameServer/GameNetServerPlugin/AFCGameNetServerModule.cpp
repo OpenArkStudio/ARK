@@ -88,9 +88,7 @@ bool AFCGameNetServerModule::PostInit()
             int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nServerID, nCpus);
             if(nRet < 0)
             {
-                std::ostringstream strLog;
-                strLog << "Cannot init server net, Port = " << nPort;
-                m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
+                ARK_LOG_ERROR("Cannot init server net, Port = %d", nPort);
                 ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
                 exit(0);
             }
@@ -114,12 +112,12 @@ void AFCGameNetServerModule::OnSocketPSEvent(const NetEventType eEvent, const AF
 {
     if(eEvent == DISCONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
         OnClientDisconnect(xClientID);
     }
     else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connected success", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
         OnClientConnected(xClientID);
     }
 }
@@ -172,7 +170,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
     {
         if(RemovePlayerGateInfo(nRoleID))
         {
-            m_pLogModule->LogError(nRoleID, "RemovePlayerGateInfo fail", "", __FUNCTION__, __LINE__);
+            ARK_LOG_ERROR("RemovePlayerGateInfo fail, id = %s", nRoleID.ToString().c_str());
         }
     }
 
@@ -223,7 +221,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
     pEntity->SetNodeInt("GateID", nGateID);
     pEntity->SetNodeInt("GameID", pPluginManager->AppID());
 
-    m_pKernelModule->DoEvent(pEntity->Self(), ARK::Player::ThisName(), CLASS_OBJECT_EVENT::COE_CREATE_FINISH, AFCDataList());
+    m_pKernelModule->DoEvent(pEntity->Self(), ARK::Player::ThisName(), ENTITY_EVT_ALL_FINISHED, AFCDataList());
 
     AFCDataList varEntry;
     varEntry << pEntity->Self();
@@ -254,7 +252,7 @@ void AFCGameNetServerModule::OnClienLeaveGameProcess(const AFIMsgHead& xHead, co
 
     if(!RemovePlayerGateInfo(nPlayerID))
     {
-        m_pLogModule->LogError(nPlayerID, "RemovePlayerGateInfo", "", __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("RemovePlayerGateInfo failed, id = %s", nPlayerID.ToString().c_str());
     }
 }
 
@@ -402,7 +400,7 @@ int AFCGameNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const AF
 
             if(!OnEnterPackDataTable(pTable, pPublicTableBase))
             {
-                m_pLogModule->LogError(self, "OnEnterPackDataTable fail ", "", __FUNCTION__, __LINE__);
+                ARK_LOG_ERROR("OnEnterPackDataTable failed, id = %s", self.ToString().c_str());
                 return -1;
             }
         }
@@ -419,7 +417,7 @@ int AFCGameNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const AF
 
             if(OnEnterPackDataTable(pTable, pPrivateTableBase))
             {
-                m_pLogModule->LogError(self, "OnRecordEnterPack fail ", "", __FUNCTION__, __LINE__);
+                ARK_LOG_ERROR("OnRecordEnterPack failed, id = %s", self.ToString().c_str());
                 return -1;
             }
         }
@@ -718,10 +716,10 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
     return 0;
 }
 
-int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
     ////////////1:广播给已经存在的人//////////////////////////////////////////////////////////////
-    if(CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
+    if(ENTITY_EVT_DESTROY == eClassEvent)
     {
         //删除在线标志
 
@@ -759,7 +757,7 @@ int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::st
         OnEntityListLeave(valueBroadListNoSelf, AFCDataList() << self);
     }
 
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_NODATA == eClassEvent)
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_PRE_LOAD_DATA == eClassEvent)
     {
         //id和fd,gateid绑定
         ARK_SHARE_PTR<GateBaseInfo> pDataBase = mRoleBaseData.GetElement(self);
@@ -775,10 +773,10 @@ int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::st
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTER_GAME, xMsg, self);
         }
     }
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_LOADDATA == eClassEvent)
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_LOAD_DATA == eClassEvent)
     {
     }
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_HASDATA == eClassEvent)
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED == eClassEvent)
     {
         //自己广播给自己就够了
         if(strClassName == ARK::Player::ThisName())
@@ -789,7 +787,7 @@ int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::st
             OnDataTableEnter(AFCDataList() << self, self);
         }
     }
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
     {
 
     }
@@ -916,7 +914,7 @@ int AFCGameNetServerModule::OnContainerEvent(const AFGUID& self, const std::stri
     int nOldSceneID = oldVar.GetInt();
     int nNowSceneID = newVar.GetInt();
 
-    m_pLogModule->LogInfo(self, "Enter Scene:", nNowSceneID);
+    ARK_LOG_INFO("Enter Scene, id = %s scene = %d", self.ToString().c_str(), nNowSceneID);
 
     //自己消失,玩家不用广播，因为在消失之前，会回到0层，早已广播了玩家
     AFCDataList valueOldAllObjectList;
@@ -1102,18 +1100,18 @@ int AFCGameNetServerModule::GetBroadcastEntityList(const int nObjectContainerID,
     return valueObject.GetCount();
 }
 
-int AFCGameNetServerModule::OnEntityEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCGameNetServerModule::OnEntityEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
-    if(CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
+    if(ENTITY_EVT_DESTROY == eClassEvent)
     {
         //SaveDataToNoSql( self, true );
-        m_pLogModule->LogInfo(self, "Player Offline", "");
+        ARK_LOG_INFO("Player Offline, player_id = %s", self.ToString().c_str());
     }
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_LOADDATA == eClassEvent)
+    else if(ENTITY_EVT_LOAD_DATA == eClassEvent)
     {
         //LoadDataFormNoSql( self );
     }
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
+    else if(ENTITY_EVT_ALL_FINISHED == eClassEvent)
     {
         m_pKernelModule->AddEventCallBack(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameNetServerModule::OnSwapSceneResultEvent);
     }
@@ -1165,7 +1163,7 @@ void AFCGameNetServerModule::OnReqiureRoleListProcess(const AFIMsgHead& xHead, c
     AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
     if(!m_AccountModule->GetRoleList(xMsg.account(), xAckRoleLiteInfoList))
     {
-        m_pLogModule->LogError(nGateClientID, "Get Role list failed", "", __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("Get role list failed, player_id = %s", nGateClientID.ToString().c_str());
     }
 
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
@@ -1189,7 +1187,7 @@ void AFCGameNetServerModule::OnCreateRoleGameProcess(const AFIMsgHead& xHead, co
     varList.AddInt(xMsg.game_id());
     if(!m_AccountModule->CreateRole(xMsg.account(), xAckRoleLiteInfoList, varList))
     {
-        m_pLogModule->LogError(nGateClientID, "create role failed", "", __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("create role failed, player_id = %s", nGateClientID.ToString().c_str());
     }
 
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
@@ -1207,7 +1205,7 @@ void AFCGameNetServerModule::OnDeleteRoleGameProcess(const AFIMsgHead& xHead, co
     AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
     if(!m_AccountModule->DeleteRole(xMsg.account(), xAckRoleLiteInfoList))
     {
-        m_pLogModule->LogError(nPlayerID, "delete role failed", "", __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("delete role failed, player_id = %s", nPlayerID.ToString().c_str());
     }
 
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nPlayerID);
@@ -1247,7 +1245,7 @@ void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& xH
         pServerData->xServerData.xClient = xClientID;
         *(pServerData->xServerData.pData) = xData;
 
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "Proxy Registered");
+        ARK_LOG_INFO("Proxy Registered, server_id = %d server_name = %s", xData.server_id(), xData.server_name().c_str());
     }
 
     return;
@@ -1266,9 +1264,7 @@ void AFCGameNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead& 
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         mProxyMap.RemoveElement(xData.server_id());
-
-
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "Proxy UnRegistered");
+        ARK_LOG_INFO("Proxy UnRegistered, server_id = %d server_name = %s", xData.server_id(), xData.server_name().c_str());
     }
 
     return;
@@ -1296,7 +1292,7 @@ void AFCGameNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& x
         pServerData->xServerData.xClient = xClientID;
         *(pServerData->xServerData.pData) = xData;
 
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "Proxy Registered");
+        ARK_LOG_INFO("Proxy Registered, server_id = %d server_name = %s", xData.server_id(), xData.server_name().c_str());
     }
 
     return;
@@ -1349,8 +1345,8 @@ bool AFCGameNetServerModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGU
     ARK_SHARE_PTR<AFCGameNetServerModule::GateBaseInfo> pBaseData = mRoleBaseData.GetElement(nRoleID);
     if(nullptr != pBaseData)
     {
-        // 已经存在
-        m_pLogModule->LogError(nClientID, "player is exist, cannot enter game", "", __FUNCTION__, __LINE__);
+        //已经存在
+        ARK_LOG_ERROR("player is already exist, cannot enter game again, id = %s", nClientID.ToString().c_str());
         return false;
     }
 

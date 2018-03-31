@@ -137,16 +137,14 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if(self != ident)
     {
-        m_pLogModule->LogError(ident, "you are not you self, but you want to entry this scene", nTargetScene);
+        ARK_LOG_ERROR("you are not you self, but you want to entry this scene, id = %s scene_id = %d", ident.ToString().c_str(), nTargetScene);
         return 1;
     }
 
-    if(nNowSceneID == nTargetScene
-            && nTargetGroupID == nNowGroupID)
+    if(nNowSceneID == nTargetScene && nTargetGroupID == nNowGroupID)
     {
         //本来就是这个层这个场景就别切换了
-        m_pLogModule->LogInfo(ident, "in same scene and group but it not a clone scene", nTargetScene);
-
+        ARK_LOG_ERROR("In same scene and group but it not a clone scene, id = %s scene_id = %d", ident.ToString().c_str(), nTargetScene);
         return 1;
     }
 
@@ -163,7 +161,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if(nNewGroupID <= 0)
     {
-        m_pLogModule->LogInfo(ident, "CreateCloneScene failed", nTargetScene);
+        ARK_LOG_ERROR("CreateCloneScene failed, id = %s scene_id = %d=", ident.ToString().c_str(), nTargetScene);
         return 0;
     }
 
@@ -187,8 +185,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos.x, xRelivePos.y, xRelivePos.z, 0.0f, var))
     {
-        m_pLogModule->LogInfo(ident, "SwitchScene failed", nTargetScene);
-
+        ARK_LOG_ERROR("SwitchScene failed, id = %s scene_id = %d", ident.ToString().c_str(), nTargetScene);
         return 0;
     }
 
@@ -213,33 +210,29 @@ int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEv
         if(GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
         {
             m_pKernelModule->ReleaseGroupScene(nSceneID, nOldGroupID);
-
-            m_pLogModule->LogInfo(object, "DestroyCloneSceneGroup", nOldGroupID);
+            ARK_LOG_ERROR("DestroyCloneSceneGroup, id = %s scene_id = %d group_id = %d", object.ToString().c_str(), nSceneID, nOldGroupID);
         }
     }
 
     return 0;
 }
 
-int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
     if(strClassName == ARK::Player::ThisName())
     {
-        if(CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
+        if(ARK_ENTITY_EVENT::ENTITY_EVT_DESTROY == eClassEvent)
         {
             //如果在副本中,则删除他的那个副本
             int nSceneID = m_pKernelModule->GetNodeInt(self, ARK::Player::SceneID());
             if(GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
             {
                 int nGroupID = m_pKernelModule->GetNodeInt(self, ARK::Player::GroupID());
-
                 m_pKernelModule->ReleaseGroupScene(nSceneID, nGroupID);
-
-                m_pLogModule->LogInfo(self, "DestroyCloneSceneGroup", nGroupID);
-
+                ARK_LOG_INFO("DestroyCloneSceneGroup, id = %s scene_id = %d group_id = %d", self.ToString().c_str(), nSceneID, nGroupID);
             }
         }
-        else if(CLASS_OBJECT_EVENT::COE_CREATE_HASDATA == eClassEvent)
+        else if(ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED == eClassEvent)
         {
             m_pKernelModule->AddEventCallBack(self, AFED_ON_CLIENT_ENTER_SCENE, this, &AFCSceneProcessModule::OnEnterSceneEvent);
             m_pKernelModule->AddEventCallBack(self, AFED_ON_CLIENT_LEAVE_SCENE, this, &AFCSceneProcessModule::OnLeaveSceneEvent);

@@ -474,7 +474,7 @@ bool AFCClassModule::AddClassCallBack(const std::string& strClassName, const CLA
     return pClass->AddClassCallBack(cb);
 }
 
-bool AFCClassModule::DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList)
+bool AFCClassModule::DoEvent(const AFGUID& objectID, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList)
 {
     ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
     if(nullptr == pClass)

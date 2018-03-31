@@ -31,7 +31,7 @@ public:
     bool AddHeartBeat(const AFGUID self, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const int64_t, const int), const int64_t nTime, const int nCount, const bool bForever = false)
     {
         ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-        if (nullptr != pEntity)
+        if(nullptr != pEntity)
         {
             return pEntity->AddHeartBeat(name, pBase, handler, nTime, nCount, bForever);
         }
@@ -48,7 +48,7 @@ public:
     bool AddNodeCallBack(const AFGUID& self, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
         ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-        if (nullptr != pEntity)
+        if(nullptr != pEntity)
         {
             return pEntity->AddNodeCallBack(name, pBase, handler);
         }
@@ -77,19 +77,19 @@ public:
     }
 
     template<typename BaseType>
-    bool AddClassCallBack(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFIDataList&))
+    bool AddClassCallBack(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
     {
         CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return AddClassCallBack(name, std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
     }
 
-    virtual bool DoEvent(const AFGUID& self, const std::string& name, CLASS_OBJECT_EVENT eEvent, const AFIDataList& valueList) = 0;
+    virtual bool DoEvent(const AFGUID& self, const std::string& name, ARK_ENTITY_EVENT eEvent, const AFIDataList& valueList) = 0;
     virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList) = 0;
 
     //////////////////////////////////////////////////////////////////////////
     //只能网络模块注册，回调用来同步对象类事件,所有的类对象都会回调
     template<typename BaseType>
-    bool RegCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFIDataList&))
+    bool RegCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
     {
         CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return RegCommonClassEvent(std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
