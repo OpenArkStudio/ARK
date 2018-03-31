@@ -197,6 +197,10 @@ template<int x> struct ark_static_assert_test {};
 #define ARK_FUNCTION_LINE __FUNCTION__, __LINE__
 #endif
 
+#ifndef ARK_FILE_FUNCTION_LINE
+#define ARK_FILE_FUNCTION_LINE __FILE__, __FUNCTION__, __LINE__
+#endif
+
 #ifndef ARK_NEW
 #define ARK_NEW new
 #endif

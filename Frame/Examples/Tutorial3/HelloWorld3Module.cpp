@@ -49,12 +49,12 @@ int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHea
     return 0;
 }
 
-int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT event, const AFIDataList& arg)
+int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT event, const AFIDataList& arg)
 {
     //虚拟类事件，只要有此虚拟类创建或者销毁即会回调
     std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.ToString() << " Event: " << event << std::endl;
 
-    if(event == COE_CREATE_HASDATA)
+    if(event == ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED)
     {
         m_pKernelModule->AddEventCallBack(self, 11111111, this, &HelloWorld3Module::OnEvent);
 
@@ -84,11 +84,11 @@ int HelloWorld3Module::OnPropertyStrCallBackEvent(const AFGUID& self, const std:
 
 int HelloWorld3Module::OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_EVENT_DATA& table_data, const AFIData& old_data, const AFIData& new_data)
 {
-    if (table_data.nCol == ARK::Player::PlayerFightHero::PlayerFightHero_FightPos)
+    if(table_data.nCol == ARK::Player::PlayerFightHero::PlayerFightHero_FightPos)
     {
         std::cout << "OnFightHeroTableCB, table_name = " << table_data.strName.c_str() << " old_data = " << old_data.GetInt() << " new_data = " << new_data.GetInt();
     }
-    
+
     return 0;
 }
 
@@ -101,7 +101,7 @@ bool HelloWorld3Module::PostInit()
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-    m_pLogModule->LogInfo(NULL_GUID, "Init finished...", 0, __FUNCTION__, __LINE__);
+    ARK_LOG_INFO("Init finished...");
 
     //创建容器，所有的对象均需在容器中
     m_pKernelModule->CreateScene(1);
@@ -129,7 +129,7 @@ bool HelloWorld3Module::PostInit()
 
     AFDataTable* pTable = m_pKernelModule->FindTable(pEntity->Self(), ARK::Player::R_PlayerFightHero());
     int pos = 0;
-    if (pTable != nullptr)
+    if(pTable != nullptr)
     {
         pTable->AddRow(-1, AFCDataList() << AFGUID(0, 1000) << 1);
 

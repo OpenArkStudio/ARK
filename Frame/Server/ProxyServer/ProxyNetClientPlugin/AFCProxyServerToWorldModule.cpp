@@ -91,11 +91,11 @@ void AFCProxyServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, con
 {
     if(eEvent == DISCONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
     }
     else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
         Register(nServerID);
     }
 }
@@ -137,7 +137,7 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
                     int nTargetID = pServerData->nGameID;
                     GetClusterModule()->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg, 0);
 
-                    m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
+                    ARK_LOG_INFO("Register, server_id = %d server_name = %s", pData->server_id(), pData->server_name().c_str());
                 }
             }
         }
@@ -237,7 +237,7 @@ bool AFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccoun
 
 void AFCProxyServerToWorldModule::LogServerInfo(const std::string& strServerInfo)
 {
-    m_pLogModule->LogInfo(AFGUID(), strServerInfo, "");
+    ARK_LOG_INFO("%s", strServerInfo.c_str());
 }
 
 void AFCProxyServerToWorldModule::OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)

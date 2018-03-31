@@ -62,7 +62,7 @@ public:
         return mxClassEventInfo.Add(cb);
     }
 
-    virtual bool DoEvent(const AFGUID& objectID, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList)
+    virtual bool DoEvent(const AFGUID& objectID, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList)
     {
         CLASS_EVENT_FUNCTOR_PTR cb;
         bool bRet = mxClassEventInfo.First(cb);
@@ -150,7 +150,7 @@ public:
     virtual bool Clear();
 
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
-    virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& valueList);
+    virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList);
 
     virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strClassName);
     virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strClassName);

@@ -26,24 +26,24 @@
 #include "SDK/Core/Base/AFPlatform.hpp"
 
 
-enum CLASS_OBJECT_EVENT
+enum ARK_ENTITY_EVENT
 {
-    COE_NONE                    = 0 ,
-    COE_DESTROY                     ,
-    COE_BEFOREDESTROY               ,
-    COE_CREATE_NODATA               ,
-    COE_CREATE_LOADDATA             ,
-    COE_CREATE_BEFORE_EFFECT        ,
-    COE_CREATE_EFFECTDATA           ,
-    COE_CREATE_AFTER_EFFECT         ,
-    COE_CREATE_HASDATA              ,
-    COE_CREATE_FINISH               ,  //角色创建完成后再挂回调
+    ENTITY_EVT_NONE                 = 0,
+    ENTITY_EVT_DESTROY              = 1,
+    ENTITY_EVT_PRE_DESTROY          = 2,
+    ENTITY_EVT_PRE_LOAD_DATA        = 3,
+    ENTITY_EVT_LOAD_DATA            = 4,
+    ENTITY_EVT_PRE_EFFECT_DATA      = 5,
+    ENTITY_EVT_EFFECT_DATA          = 6,
+    ENTITY_EVT_POST_EFFECT_DATA     = 7,
+    ENTITY_EVT_DATA_FINISHED        = 8,
+    ENTITY_EVT_ALL_FINISHED,        //角色创建完成后再挂回调
 };
 
 struct DATA_TABLE_EVENT_DATA
 {
     DATA_TABLE_EVENT_DATA()
-        : nOpType(COE_NONE)
+        : nOpType(ENTITY_EVT_NONE)
         , nRow(-1)
         , nCol(-1)
         , strName(NULL_STR.c_str())
@@ -60,7 +60,7 @@ using HEART_BEAT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, 
 using MODULE_HEART_BEAT_FUNCTOR = std::function<void()>;
 using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
 using DATA_TABLE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
-using CLASS_EVENT_FUNCTOR = std::function<bool(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFIDataList&)>;
+using CLASS_EVENT_FUNCTOR = std::function<bool(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&)>;
 using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const AFIDataList&)>;
 //using EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR = std::function<int(const AFGUID&, const int, std::string&)>;
 //using EVENT_ASYNC_PROCESS_END_FUNCTOR = std::function<int(const AFGUID&, const int, const int, const std::string&)>;

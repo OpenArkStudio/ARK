@@ -131,7 +131,7 @@ void AFCLoginToMasterModule::Register(const int nServerID)
                     int nTargetID = pServerData->nGameID;
                     m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_LTM_LOGIN_REGISTERED, xMsg, 0);
 
-                    m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
+                    ARK_LOG_INFO("Register, server_id = %d server_name = %s", pData->server_id(), pData->server_name().c_str());
                 }
             }
         }
@@ -154,11 +154,11 @@ void AFCLoginToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AF
 {
     if(eEvent == DISCONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
     }
     else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connected success", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
         Register(nServerID);
     }
 }
@@ -187,7 +187,7 @@ void AFCLoginToMasterModule::OnWorldInfoProcess(const AFIMsgHead& xHead, const i
 
     }
 
-    m_pLogModule->LogInfo(AFGUID(0, xMsg.server_list_size()), "", "WorldInfo");
+    ARK_LOG_INFO("WorldInfo size = %d", xMsg.server_list_size());
 }
 
 AFINetClientModule* AFCLoginToMasterModule::GetClusterModule()

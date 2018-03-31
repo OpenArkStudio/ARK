@@ -23,6 +23,7 @@
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFITimerModule.h"
+#include "SDK/Interface/AFILogModule.h"
 
 class HelloWorld1 : public AFIModule
 {
@@ -45,4 +46,5 @@ protected:
 
 protected:
     AFITimerModule* m_pTimerModule;
+    AFILogModule* m_pLogModule;
 };
