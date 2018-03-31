@@ -1,5 +1,5 @@
 # Contributing to ArkGameFrame
-Welcome to [report Issues](https://github.com/ArkGame/ArkGameFrame/issues) or [pull requests](https://github.com/ArkGame/ArkGameFrame/pulls). It's recommended to read the following Contributing Guide first before contributing. 
+Welcome to [report Issues](https://github.com/ArkGame/ARK/issues) or [pull requests](https://github.com/ArkGame/ARK/pulls). It's recommended to read the following Contributing Guide first before contributing. 
 
 ## Issues
 We use Github Issues to track public bugs and feature requests.
@@ -11,7 +11,7 @@ Please search the existing issues to see if any similar issue or feature request
 If you open an issue, the more information the better. Such as detailed description, screenshot or video of your problem, logcat or code blocks for your crash.
 
 ## Pull Requests
-We strongly welcome your pull request to make `ArkGameFrame` better.
+We strongly welcome your pull request to make `ARK` better.
 
 ### Branch Management
 There are three main branches here:
@@ -48,5 +48,5 @@ Before submitting a pull request, please make sure the followings are done:
 Try to be similar with the other authers.
 
 ## License
-By contributing to `ArkGameFrame`, you agree that your contributions will be licensed
+By contributing to `ARK`, you agree that your contributions will be licensed
 under [Apache LICENSE](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE)
