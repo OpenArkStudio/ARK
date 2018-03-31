@@ -229,7 +229,7 @@ void AFCMasterNetServerModule::OnSelectServerResultProcess(const AFIMsgHead& xHe
     m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
 }
 
-bool AFCMasterNetServerModule::AfterInit()
+bool AFCMasterNetServerModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();

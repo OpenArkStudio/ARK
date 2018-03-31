@@ -33,11 +33,11 @@ public:
 
     virtual bool Init();
 
-    virtual bool AfterInit();
+    virtual bool PostInit();
 
     virtual bool CheckConfig();
 
-    virtual bool BeforeShut();
+    virtual bool PreShut();
 
     virtual bool Shut();
 
@@ -71,6 +71,9 @@ public:
     virtual const std::string& GetConfigPath() const;
 
     virtual void SetConfigName(const std::string& strFileName);
+
+    virtual void SetAppID(const int app_id);
+
 protected:
     bool LoadPluginConfig();
 
@@ -86,7 +89,7 @@ private:
     std::string mstrConfigPath;
     std::string mstrConfigName;
 
-    typedef void(* DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm);
+    typedef void(* DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm, AFMalloc* pMalloc);
     typedef void(* DLL_STOP_PLUGIN_FUNC)(AFIPluginManager* pm);
 
     std::map<std::string, bool> mxPluginNameMap;

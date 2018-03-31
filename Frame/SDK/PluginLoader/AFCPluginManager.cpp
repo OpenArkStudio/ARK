@@ -25,6 +25,8 @@
 #include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFMalloc.h"
+#include "SDK/Core/Base/AFTime.hpp"
 
 #if ARK_PLATFORM == PLATFORM_WIN
 #pragma comment( lib, "ws2_32.lib" )
@@ -33,7 +35,7 @@
 AFCPluginManager::AFCPluginManager() : AFIPluginManager()
 {
     mnAppID = 0;
-    mnInitTime = time(NULL);
+    mnInitTime = AFCTimeBase::GetInstance().GetNowMillisecond();
     mnNowTime = mnInitTime;
 
     mstrConfigPath = "";
@@ -69,7 +71,7 @@ inline bool AFCPluginManager::Init()
 #endif
     }
 
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->Init();
     }
@@ -92,25 +94,25 @@ bool AFCPluginManager::LoadPluginConfig()
         mxPluginNameMap.insert(std::make_pair(strPluginName, true));
     }
 
-    rapidxml::xml_node<>* pPluginAppNode = pRoot->first_node("APPID");
-    if(!pPluginAppNode)
-    {
-        ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
-        return false;
-    }
+    //rapidxml::xml_node<>* pPluginAppNode = pRoot->first_node("APPID");
+    //if(!pPluginAppNode)
+    //{
+    //    ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
+    //    return false;
+    //}
 
-    const char* strAppID = pPluginAppNode->first_attribute("Name")->value();
-    if(!strAppID)
-    {
-        ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
-        return false;
-    }
+    //const char* strAppID = pPluginAppNode->first_attribute("Name")->value();
+    //if(!strAppID)
+    //{
+    //    ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
+    //    return false;
+    //}
 
-    if(!AFMisc::ARK_FROM_STR(strAppID, mnAppID))
-    {
-        ARK_ASSERT(0, "App ID Convert Error", __FILE__, __FUNCTION__);
-        return false;
-    }
+    //if(!AFMisc::ARK_FROM_STR(strAppID, mnAppID))
+    //{
+    //    ARK_ASSERT(0, "App ID Convert Error", __FILE__, __FUNCTION__);
+    //    return false;
+    //}
 
     rapidxml::xml_node<>* pPluginConfigPathNode = pRoot->first_node("ConfigPath");
     if(!pPluginConfigPathNode)
@@ -148,7 +150,7 @@ bool AFCPluginManager::LoadStaticPlugin(const std::string& strPluginDLLName)
 void AFCPluginManager::Registered(AFIPlugin* plugin)
 {
     std::string strPluginName = plugin->GetPluginName();
-    if (!FindPlugin(strPluginName))
+    if(!FindPlugin(strPluginName))
     {
         mxPluginInstanceMap.AddElement(strPluginName, plugin);
         plugin->Install();
@@ -178,8 +180,8 @@ AFIPlugin* AFCPluginManager::FindPlugin(const std::string& strPluginName)
 
 void AFCPluginManager::Update()
 {
-    mnNowTime = time(NULL);
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    mnNowTime = AFCTimeBase::GetInstance().GetNowMillisecond();
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->Update();
     }
@@ -220,6 +222,11 @@ void AFCPluginManager::SetConfigName(const std::string & strFileName)
     mstrConfigName = strFileName;
 }
 
+void AFCPluginManager::SetAppID(const int app_id)
+{
+    mnAppID = app_id;
+}
+
 void AFCPluginManager::AddModule(const std::string& strModuleName, AFIModule* pModule)
 {
     ARK_ASSERT_RET_NONE(FindModule(strModuleName) == nullptr);
@@ -258,11 +265,11 @@ AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
     return mxModuleInstanceMap.GetElement(strSubModuleName);
 }
 
-bool AFCPluginManager::AfterInit()
+bool AFCPluginManager::PostInit()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
-        pPlugin->AfterInit();
+        pPlugin->PostInit();
     }
 
     return true;
@@ -270,7 +277,7 @@ bool AFCPluginManager::AfterInit()
 
 bool AFCPluginManager::CheckConfig()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->CheckConfig();
     }
@@ -278,11 +285,11 @@ bool AFCPluginManager::CheckConfig()
     return true;
 }
 
-bool AFCPluginManager::BeforeShut()
+bool AFCPluginManager::PreShut()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
-        pPlugin->BeforeShut();
+        pPlugin->PreShut();
     }
 
     return true;
@@ -290,7 +297,7 @@ bool AFCPluginManager::BeforeShut()
 
 bool AFCPluginManager::Shut()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->Shut();
     }
@@ -312,7 +319,7 @@ bool AFCPluginManager::Shut()
 bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 {
     AFCDynLib* pDynLib = mxPluginLibMap.GetElement(strPluginDLLName);
-    if (pDynLib != nullptr)
+    if(pDynLib != nullptr)
     {
         return false;
     }
@@ -332,7 +339,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
             return false;
         }
 
-        pFunc(this);
+        pFunc(this, AFMalloc::Instance());
 
         return true;
     }
@@ -359,7 +366,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 {
     AFCDynLib* pDynLib = mxPluginLibMap.GetElement(strPluginDLLName);
-    if (pDynLib == nullptr)
+    if(pDynLib == nullptr)
     {
         return false;
     }
@@ -389,7 +396,7 @@ bool AFCPluginManager::UnLoadStaticPlugin(const std::string & strPluginDLLName)
 bool AFCPluginManager::StartReLoadState()
 {
     AFIModule::StartReLoadState();
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->StartReLoadState();
     }
@@ -399,7 +406,7 @@ bool AFCPluginManager::StartReLoadState()
 
 bool AFCPluginManager::EndReLoadState()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->EndReLoadState();
     }

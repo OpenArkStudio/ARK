@@ -28,26 +28,6 @@
 #include "SDK/Core/Base/AFVector3.hpp"
 #include "SDK/Core/AFDataTable.h"
 
-template<typename DerivedType, typename BaseType>
-class TIsDerived
-{
-public:
-    static int AnyFunction(BaseType* base)
-    {
-        return 1;
-    }
-
-    static  char AnyFunction(void* t2)
-    {
-        return 0;
-    }
-
-    enum
-    {
-        Result = (sizeof(int) == sizeof(AnyFunction((DerivedType*)NULL))),
-    };
-};
-
 class AFIPluginManager;
 
 class AFIModule
@@ -66,7 +46,7 @@ public:
         return true;
     }
 
-    virtual bool AfterInit()
+    virtual bool PostInit()
     {
         return true;
     }
@@ -76,12 +56,7 @@ public:
         return true;
     }
 
-    virtual bool BeforeShut()
-    {
-        return true;
-    }
-
-    virtual bool Shut()
+    virtual bool PreUpdate()
     {
         return true;
     }
@@ -89,6 +64,16 @@ public:
     virtual void Update()
     {
 
+    }
+
+    virtual bool PreShut()
+    {
+        return true;
+    }
+
+    virtual bool Shut()
+    {
+        return true;
     }
 
     virtual bool StartReLoadState()

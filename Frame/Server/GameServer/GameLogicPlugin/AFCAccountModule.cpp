@@ -109,7 +109,7 @@ int AFCAccountModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nEven
     return 0;
 }
 
-bool AFCAccountModule::AfterInit()
+bool AFCAccountModule::PostInit()
 {
     //m_pKernelModule->CreateContainer(mnRoleHallContainer, "");
 

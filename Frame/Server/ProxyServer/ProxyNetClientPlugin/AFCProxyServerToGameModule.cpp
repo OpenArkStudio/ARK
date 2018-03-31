@@ -45,7 +45,7 @@ void AFCProxyServerToGameModule::Update()
     m_pNetClientModule->Update();
 }
 
-bool AFCProxyServerToGameModule::AfterInit()
+bool AFCProxyServerToGameModule::PostInit()
 {
     m_pProxyLogicModule = pPluginManager->FindModule<AFIProxyLogicModule>();
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();

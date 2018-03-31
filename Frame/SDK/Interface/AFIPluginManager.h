@@ -1,35 +1,41 @@
-/*****************************************************************************
-// * This source file is part of ArkGameFrame                                *
-// * For the latest info, see https://github.com/ArkGame                     *
-// *                                                                         *
-// * Copyright(c) 2013 - 2017 ArkGame authors.                               *
-// *                                                                         *
-// * Licensed under the Apache License, Version 2.0 (the "License");         *
-// * you may not use this file except in compliance with the License.        *
-// * You may obtain a copy of the License at                                 *
-// *                                                                         *
-// *     http://www.apache.org/licenses/LICENSE-2.0                          *
-// *                                                                         *
-// * Unless required by applicable law or agreed to in writing, software     *
-// * distributed under the License is distributed on an "AS IS" BASIS,       *
-// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.*
-// * See the License for the specific language governing permissions and     *
-// * limitations under the License.                                          *
-// *                                                                         *
-// *                                                                         *
-// * @file  	AFIPluginManager.h                                                *
-// * @author    Ark Game Tech                                                *
-// * @date      2015-12-15                                                   *
-// * @brief     AFIPluginManager                                                  *
-*****************************************************************************/
+/*
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
+*
+* Copyright (c) 2013-2018 ArkGame authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*
+*/
+
 #pragma once
 
 #include "AFIModule.h"
 
-#define FIND_MODULE(classBaseName, className)  \
-    assert((TIsDerived<classBaseName, AFIModule>::Result));
-
 class AFIPlugin;
+
+#define ARK_DLL_PLUGIN_ENTRY(plugin_name)                                           \
+ARK_EXPORT void DllStartPlugin(AFIPluginManager* pPluginManager, AFMalloc* pMalloc) \
+{                                                                                   \
+    AFMalloc::Initialize(pMalloc);                                                  \
+    CREATE_PLUGIN(pPluginManager, plugin_name)                                      \
+}
+
+#define ARK_DLL_PLUGIN_EXIT(plugin_name)                            \
+ARK_EXPORT void DllStopPlugin(AFIPluginManager* pPluginManager)     \
+{                                                                   \
+    DESTROY_PLUGIN(pPluginManager, plugin_name)                     \
+}
 
 class AFIPluginManager : public AFIModule
 {
@@ -43,20 +49,21 @@ public:
     T* FindModule()
     {
         AFIModule* pLogicModule = FindModule(typeid(T).name());
-        if (pLogicModule)
+        if(pLogicModule)
         {
-            if (!TIsDerived<T, AFIModule>::Result)
+            if(!std::is_base_of<AFIModule, T>::value)
             {
-                return NULL;
+                return nullptr;
             }
 
             T* pT = dynamic_cast<T*>(pLogicModule);
-            assert(NULL != pT);
+            ARK_ASSERT_RET_VAL(pT != nullptr, nullptr);
 
             return pT;
         }
-        assert(NULL);
-        return NULL;
+
+        ARK_ASSERT_NO_EFFECT(0);
+        return nullptr;
     }
 
     virtual void Registered(AFIPlugin* plugin) = 0;
@@ -76,5 +83,5 @@ public:
     virtual int64_t GetNowTime() const = 0;
     virtual const std::string& GetConfigPath() const = 0;
     virtual void SetConfigName(const std::string& strFileName) = 0;
+    virtual void SetAppID(const int app_id) = 0;
 };
-

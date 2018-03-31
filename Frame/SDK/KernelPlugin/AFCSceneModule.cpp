@@ -25,12 +25,12 @@ bool AFCSceneModule::Init()
     return true;
 }
 
-bool AFCSceneModule::AfterInit()
+bool AFCSceneModule::PostInit()
 {
     return true;
 }
 
-bool AFCSceneModule::BeforeShut()
+bool AFCSceneModule::PreShut()
 {
     return true;
 }

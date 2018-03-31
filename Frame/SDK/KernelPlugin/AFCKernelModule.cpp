@@ -1261,7 +1261,7 @@ bool AFCKernelModule::LogSelfInfo(const AFGUID& ident)
     return false;
 }
 
-bool AFCKernelModule::AfterInit()
+bool AFCKernelModule::PostInit()
 {
     ARK_SHARE_PTR<AFIClass> pClass = m_pClassModule->First();
     while(nullptr != pClass)
@@ -1296,7 +1296,7 @@ bool AFCKernelModule::DestroyAll()
     return true;
 }
 
-bool AFCKernelModule::BeforeShut()
+bool AFCKernelModule::PreShut()
 {
     return DestroyAll();
 }
