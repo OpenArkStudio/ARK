@@ -20,7 +20,7 @@
 
 #pragma once
 
-struct AFNoncopyable 
+struct AFNoncopyable
 {
 protected:
     AFNoncopyable() {}

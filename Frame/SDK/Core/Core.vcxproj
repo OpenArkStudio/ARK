@@ -126,11 +126,10 @@
     <ClInclude Include="Base\AFList.h" />
     <ClInclude Include="Base\AFLockFreeQueue.h" />
     <ClInclude Include="Base\AFMacros.hpp" />
+    <ClInclude Include="Base\AFMalloc.h" />
     <ClInclude Include="Base\AFMap.h" />
     <ClInclude Include="Base\AFMapEx.h" />
-    <ClInclude Include="Base\AFMemAlloc.h" />
     <ClInclude Include="Base\AFMemManger.h" />
-    <ClInclude Include="Base\AFMemPool.hpp" />
     <ClInclude Include="Base\AFMisc.hpp" />
     <ClInclude Include="Base\AFNoncopyable.hpp" />
     <ClInclude Include="Base\AFPlatform.hpp" />
@@ -140,6 +139,7 @@
     <ClInclude Include="Base\AFString.hpp" />
     <ClInclude Include="Base\AFStringPod.hpp" />
     <ClInclude Include="Base\AFTime.hpp" />
+    <ClInclude Include="Base\AFTimer.hpp" />
     <ClInclude Include="Base\AFVector3.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -149,7 +149,7 @@
     <ClCompile Include="AFCDataNodeManager.cpp" />
     <ClCompile Include="AFCDataTableManager.cpp" />
     <ClCompile Include="AFDataTable.cpp" />
-    <ClCompile Include="Base\AFMemAlloc.cpp" />
+    <ClCompile Include="Base\AFMalloc.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

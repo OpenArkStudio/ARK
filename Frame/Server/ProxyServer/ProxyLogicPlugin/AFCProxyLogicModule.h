@@ -38,7 +38,7 @@ public:
     virtual bool Shut();
     virtual void Update();
 
-    virtual bool AfterInit();
+    virtual bool PostInit();
 
 private:
     AFIClassModule* m_pClassModule;

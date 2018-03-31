@@ -37,13 +37,13 @@ int HelloWorld2::OnPropertyCallBackEvent(const AFGUID& self, const std::string& 
     return 0;
 }
 
-bool HelloWorld2::AfterInit()
+bool HelloWorld2::PostInit()
 {
     AFCDataList xData;
     xData.AddInt(111);
 
     {
-        std::cout << "Hello, world2, AfterInit" << std::endl;
+        std::cout << "Hello, world2, PostInit" << std::endl;
 
         //created a object for this test
         AFIEntity* pEntity = new AFCEntity(AFGUID(0, 1), pPluginManager);
@@ -81,9 +81,9 @@ void HelloWorld2::Update()
 
 }
 
-bool HelloWorld2::BeforeShut()
+bool HelloWorld2::PreShut()
 {
-    std::cout << "Hello, world2, BeforeShut" << std::endl;
+    std::cout << "Hello, world2, PreShut" << std::endl;
     return true;
 }
 

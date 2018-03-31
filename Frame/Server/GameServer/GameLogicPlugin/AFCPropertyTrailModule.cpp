@@ -37,7 +37,7 @@ void AFCPropertyTrailModule::Update()
 
 }
 
-bool AFCPropertyTrailModule::AfterInit()
+bool AFCPropertyTrailModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();

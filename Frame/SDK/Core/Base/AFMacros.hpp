@@ -37,9 +37,6 @@
 #define INOUT
 #endif
 
-#define ARK_NEW                     new
-#define ARK_DELETE                  delete
-
 #define ARRAY_CLEAR(v)              memset((v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR(v)             memset(&(v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR_POINTER(v)     memset((v), 0xx, sizeof(*(v)))
@@ -94,6 +91,27 @@
 
 #endif
 
+template<bool> struct ARK_STATIC_ASSERTION_FAILURE;
+template<> struct ARK_STATIC_ASSERTION_FAILURE<true>
+{
+    enum
+    {
+        value = 1
+    };
+};
+
+template<int x> struct ark_static_assert_test {};
+
+#if ARK_PLATFORM == PLATFORM_UNIX
+#define ARK_UNUSED __attribute__((unused))
+#else
+#define ARK_UNUSED
+#endif
+
+#define ARK_STATIC_ASSERT(x) \
+    typedef ark_static_assert_test<sizeof(ARK_STATIC_ASSERTION_FAILURE<(bool)(x)>)> \
+        __FUNCTION__##__LINE__ ARK_UNUSED
+
 #define ARK_ASSERT_RET_VAL(exp_, val)   \
     do                                  \
     {                                   \
@@ -133,6 +151,7 @@
         assert(exp_);                   \
     } while(0)
 
+
 #if defined(USE_BOOST)
 #  include <boost/lexical_cast.hpp>
 #  define ARK_LEXICAL_CAST boost::lexical_cast
@@ -143,14 +162,27 @@
 #  define ARK_SHARE_PTR std::shared_ptr
 #endif
 
-
-#if ARK_PLATFORM == PLATFORM_WIN
-#if !defined(PROTOBUF_USE_DLLS)
+//Google Protobuffer use dll
+#ifndef PROTOBUF_USE_DLLS
 #define PROTOBUF_USE_DLLS
 #endif
+
+//Singleton
+#define ARK_SINGLETON_INIT(TYPE) template<> TYPE* Singleton<TYPE>::instance_ = 0;
+
+//cpp version
+#if (__cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1800))
+#define HAVE_LANG_CXX11 1
 #endif
 
-#define ARK_SINGLETON_INIT(TYPE) template<> TYPE* Singleton<TYPE>::instance_ = 0;
+#if (__cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1900))
+#define HAVE_LANG_CXX14 1
+#endif
+
+#if (__cplusplus >= 201703L || (defined(_MSC_VER) && _MSC_VER >= 1910))
+#define HAVE_LANG_CXX17 1
+#endif
+
 /*
 #if ARK_PLATFORM == PLATFORM_WIN
 #  if defined(ARK_USE_TCMALLOC)
@@ -160,6 +192,24 @@
 #define ARK_USE_TCMALLOC
 #endif
 */
+
+#ifndef ARK_FUNCTION_LINE
+#define ARK_FUNCTION_LINE __FUNCTION__, __LINE__
+#endif
+
+#ifndef ARK_NEW
+#define ARK_NEW new
+#endif
+
+#ifndef ARK_DELETE
+#define ARK_DELETE(p) if (p!= nullptr) { delete p; p = nullptr; }
+#endif
+
+#ifndef ARK_DELETE_ARRAY
+#define ARK_DELETE_ARRAY(p) if (p != nullptr) { delete[] p; p = nullptr; }
+#endif
+
+#define ARK_TO_STRING(value) std::to_string(value)
 
 // clear player data time
 #define CLEAR_HOUR 5

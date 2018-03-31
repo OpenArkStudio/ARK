@@ -26,10 +26,9 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Core/Base/AFArrayMap.hpp"
 
-//mxModules defines in AFIPlugin
 #define REGISTER_MODULE(pManager, classBaseName, className)             \
-    assert((TIsDerived<classBaseName, AFIModule>::Result));             \
-    assert((TIsDerived<className, classBaseName>::Result));             \
+    assert((std::is_base_of<AFIModule, classBaseName>::value));         \
+    assert((std::is_base_of<classBaseName, className>::value));         \
     AFIModule* pRegisterModule##className = new className(pManager);    \
     pRegisterModule##className->strName = (#className);                 \
     pManager->AddModule(#classBaseName, pRegisterModule##className);    \
@@ -73,7 +72,7 @@ public:
 
     virtual bool Init()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             bool bRet = pModule->Init();
             ARK_ASSERT_CONTINUE(bRet);
@@ -82,11 +81,11 @@ public:
         return true;
     }
 
-    virtual bool AfterInit()
+    virtual bool PostInit()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
-            bool bRet = pModule->AfterInit();
+            bool bRet = pModule->PostInit();
             ARK_ASSERT_CONTINUE(bRet);
         }
 
@@ -95,7 +94,7 @@ public:
 
     virtual bool CheckConfig()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             bool bRet = pModule->CheckConfig();
             ARK_ASSERT_CONTINUE(bRet);
@@ -106,17 +105,17 @@ public:
 
     virtual void Update()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             pModule->Update();
         }
     }
 
-    virtual bool BeforeShut()
+    virtual bool PreShut()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
-            bool bRet = pModule->BeforeShut();
+            bool bRet = pModule->PreShut();
             ARK_ASSERT_CONTINUE(bRet);
         }
 
@@ -125,7 +124,7 @@ public:
 
     virtual bool Shut()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             bool bRet = pModule->Shut();
             ARK_ASSERT_CONTINUE(bRet);

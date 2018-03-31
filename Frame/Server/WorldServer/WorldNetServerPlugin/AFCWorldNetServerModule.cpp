@@ -31,7 +31,7 @@ bool AFCWorldNetServerModule::Init()
     return true;
 }
 
-bool AFCWorldNetServerModule::AfterInit()
+bool AFCWorldNetServerModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pWorldLogicModule = pPluginManager->FindModule<AFIWorldLogicModule>();
