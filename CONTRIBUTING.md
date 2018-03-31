@@ -1,4 +1,4 @@
-# Contributing to ArkGameFrame
+# Contributing to ARK
 Welcome to [report Issues](https://github.com/ArkGame/ARK/issues) or [pull requests](https://github.com/ArkGame/ARK/pulls). It's recommended to read the following Contributing Guide first before contributing. 
 
 ## Issues
@@ -24,7 +24,7 @@ There are three main branches here:
 	
 2. `develop` branch. 
 
-	(1).There is a `develop` for `ArkGameFrame` developing version. It is our stable developing branch. After full testing, `develop` branch will be merged to `master` branch for the next release.
+	(1).There is a `develop` for `ARK` developing version. It is our stable developing branch. After full testing, `develop` branch will be merged to `master` branch for the next release.
 
 	(2). **You are recommended to submit bugfix or feature PR on `develop` branch.**
 
@@ -49,4 +49,4 @@ Try to be similar with the other authers.
 
 ## License
 By contributing to `ARK`, you agree that your contributions will be licensed
-under [Apache LICENSE](https://github.com/ArkGame/ArkGameFrame/blob/master/LICENSE)
+under [Apache LICENSE](https://github.com/ArkGame/ARK/blob/master/LICENSE)
