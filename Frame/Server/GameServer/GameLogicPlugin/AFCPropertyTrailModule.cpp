@@ -113,18 +113,9 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
     return 0;
 }
 
-int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
+int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar)
 {
-    std::ostringstream stream;
-
-    stream << " Trailing ";
-    stream << " [Old] ";
-    stream << oldVar.GetString();
-    stream << " [New] ";
-    stream << newVar.GetString();
-
-    m_pLogModule->LogInfo(self, strPropertyName, stream.str(),  __FUNCTION__, __LINE__);
-
+    ARK_LOG_INFO("Trace id[%s] Name[%s] Old[%s] New[%s]", self.ToString().c_str(), nodeName.c_str(), oldVar.GetString(), newVar.GetString());
     return 0;
 }
 

@@ -71,9 +71,7 @@ bool AFCProxyNetServerModule::PostInit()
                 int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
                 if(nRet < 0)
                 {
-                    std::ostringstream strLog;
-                    strLog << "Cannot init server net, Port = " << nPort;
-                    m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
+                    ARK_LOG_ERROR("Cannot init server net, Port = %d", nPort);
                     ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
                     exit(0);
                 }
@@ -114,7 +112,7 @@ void AFCProxyNetServerModule::OnOtherMessage(const AFIMsgHead& xHead, const int 
     if(pSessionData->mnUserID != xHead.GetPlayerID())
     {
         //when after entergame xHead.GetPlayerID() is really palyerID
-        m_pLogModule->LogError(xHead.GetPlayerID(), "xHead.GetPlayerID() is not really palyerID", "", __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("xHead.GetPlayerID() is not really palyerID, id = %s", xHead.GetPlayerID().ToString().c_str());
         return;
     }
 
@@ -158,12 +156,12 @@ void AFCProxyNetServerModule::OnSocketClientEvent(const NetEventType eEvent, con
 {
     if(eEvent == DISCONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
         OnClientDisconnect(xClientID);
     }
     else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connected success", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
         OnClientConnected(xClientID);
     }
 }

@@ -22,8 +22,7 @@
 
 #include "SDK/Interface/AFILogModule.h"
 
-class AFCLogModule
-    : public AFILogModule
+class AFCLogModule : public AFILogModule
 {
 public:
 
@@ -38,34 +37,34 @@ public:
 
     virtual void Update();
 
+
+    virtual bool Log(const ARK_LOG_LEVEL nll, const char* file, const char* function, const int line, const char* format, ...);
     ///////////////////////////////////////////////////////////////////////
-    virtual void LogStack();
+    //virtual void LogStack();
 
-    virtual void LogDebug(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
-    virtual void LogInfo(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
-    virtual void LogWarning(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
-    virtual void LogError(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
-    virtual void LogFatal(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
+    //virtual void LogDebug(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
+    //virtual void LogInfo(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
+    //virtual void LogWarning(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
+    //virtual void LogError(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
+    //virtual void LogFatal(const AFGUID self, const std::string& strDesc, const std::string& strInfo = NULL_STR, const char* pFunc = "", int nLine = 0);
 
-    virtual void LogDebug(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc = "", int nLine = 0);
-    virtual void LogInfo(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc = "", int nLine = 0);
-    virtual void LogWarning(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc = "", int nLine = 0);
-    virtual void LogError(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc = "", int nLine = 0);
-    virtual void LogFatal(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc = "", int nLine = 0);
+    //virtual void LogDebug(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc = "", int nLine = 0);
+    //virtual void LogInfo(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc = "", int nLine = 0);
+    //virtual void LogWarning(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc = "", int nLine = 0);
+    //virtual void LogError(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc = "", int nLine = 0);
+    //virtual void LogFatal(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc = "", int nLine = 0);
 
-    virtual void LogDebug(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
-    virtual void LogInfo(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
-    virtual void LogWarning(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
-    virtual void LogError(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
-    virtual void LogFatal(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
+    //virtual void LogDebug(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
+    //virtual void LogInfo(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
+    //virtual void LogWarning(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
+    //virtual void LogError(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
+    //virtual void LogFatal(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc = "", int nLine = 0);
 
-    virtual bool LogDebugFunctionDump(const AFGUID ident, const int nMsg, const std::string& strArg, const char* pFunc = "", int nLine = 0);
+    //virtual bool LogDebugFunctionDump(const AFGUID ident, const int nMsg, const std::string& strArg, const char* pFunc = "", int nLine = 0);
     virtual bool ChangeLogLevel(const std::string& strLevel, const std::string& strStatus);
     virtual bool SetSwitchingValue(const bool bValue);
 
 protected:
-    bool Log(const ARK_LOG_LEVEL nll, const char* format, ...);
-
     static bool CheckLogFileExist(const char* filename);
     static void rolloutHandler(const char* filename, std::size_t size);
 
@@ -73,6 +72,5 @@ private:
     static int idx;
     bool mbSwitchingValue;
     char szBuffer[1024 * 10];
-    bool mbLogSwiths[ARK_LOG_MAX];
+    bool mbLogSwitchs[ARK_LOG_LEVEL_MAX];
 };
-

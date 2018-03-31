@@ -166,11 +166,11 @@ int AFCPropertyModule::OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE
     return 0;
 }
 
-int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
     //if(strClassName == ARK::Player::ThisName())
     //{
-    //    if(CLASS_OBJECT_EVENT::COE_CREATE_NODATA == eClassEvent)
+    //    if(ARK_ENTITY_EVENT::COE_CREATE_NODATA == eClassEvent)
     //    {
     //        ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, ARK::Player::R_CommPropertyValue());
     //        if(nullptr != pRecord)
@@ -186,7 +186,7 @@ int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string&
     //        // TODO:一级属性回调
     //        m_pKernelModule->AddRecordCallBack(self, ARK::Player::R_CommPropertyValue(), this, &AFCPropertyModule::OnRecordPropertyEvent);
     //    }
-    //    else if(CLASS_OBJECT_EVENT::COE_CREATE_EFFECTDATA == eClassEvent)
+    //    else if(ARK_ENTITY_EVENT::COE_CREATE_EFFECTDATA == eClassEvent)
     //    {
     //        int nOnlineCount = m_pKernelModule->GetNodeInt(self, ARK::Player::OnlineCount());
     //        if(nOnlineCount <= 0 && m_pKernelModule->GetNodeInt(self, ARK::Player::SceneID()) > 0)
@@ -195,7 +195,7 @@ int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string&
     //            m_pKernelModule->SetNodeInt(self, ARK::Player::Level(), 1);
     //        }
     //    }
-    //    else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
+    //    else if(ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
     //    {
     //        int nOnlineCount = m_pKernelModule->GetNodeInt(self, ARK::Player::OnlineCount());
     //        m_pKernelModule->SetNodeInt(self, ARK::Player::OnlineCount(), (nOnlineCount + 1));

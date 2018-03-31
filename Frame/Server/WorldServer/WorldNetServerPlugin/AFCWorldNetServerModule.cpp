@@ -51,7 +51,7 @@ bool AFCWorldNetServerModule::PostInit()
     m_pNetModule->AddEventCallBack(this, &AFCWorldNetServerModule::OnSocketEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (nullptr == xLogicClass)
+    if(nullptr == xLogicClass)
     {
         return false;
     }
@@ -73,9 +73,7 @@ bool AFCWorldNetServerModule::PostInit()
             int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
             if(nRet < 0)
             {
-                std::ostringstream strLog;
-                strLog << "Cannot init server net, Port = " << nPort;
-                m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
+                ARK_LOG_ERROR("Cannot init server net, Port = %d", nPort);
                 ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
                 exit(0);
             }
@@ -119,7 +117,7 @@ void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const AFIMsgHead& xH
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "GameServerRegistered");
+        ARK_LOG_INFO("GameServerRegistered, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
     }
 
     SynGameToProxy();
@@ -139,7 +137,7 @@ void AFCWorldNetServerModule::OnGameServerUnRegisteredProcess(const AFIMsgHead& 
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         mGameMap.RemoveElement(xData.server_id());
 
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "GameServerRegistered");
+        ARK_LOG_INFO("GameServer unregistered, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
     }
 }
 
@@ -166,7 +164,7 @@ void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const AFIMsgHead& x
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "GameServerRegistered");
+        ARK_LOG_INFO("GameServer refersh, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
     }
 
     SynGameToProxy();
@@ -195,8 +193,7 @@ void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& x
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "Proxy Registered");
-
+        ARK_LOG_INFO("Proxy Registered, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
         SynGameToProxy(xClientID);
     }
 }
@@ -215,8 +212,7 @@ void AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead&
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
         mGameMap.RemoveElement(xData.server_id());
-
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "Proxy UnRegistered");
+        ARK_LOG_INFO("Proxy UnRegistered, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
     }
 }
 
@@ -243,15 +239,13 @@ void AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& 
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "Proxy Registered");
-
+        ARK_LOG_INFO("Proxy refresh, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
         SynGameToProxy(xClientID);
     }
 }
 
 int AFCWorldNetServerModule::OnLeaveGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-
     return 0;
 }
 
@@ -259,12 +253,12 @@ void AFCWorldNetServerModule::OnSocketEvent(const NetEventType eEvent, const AFG
 {
     if(eEvent == DISCONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
         OnClientDisconnect(xClientID);
     }
     else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
         OnClientConnected(xClientID);
     }
 }
@@ -337,7 +331,6 @@ void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 void AFCWorldNetServerModule::OnClientConnected(const AFGUID& xClientID)
 {
 
-
 }
 
 void AFCWorldNetServerModule::LogGameServer()
@@ -348,36 +341,33 @@ void AFCWorldNetServerModule::LogGameServer()
     }
 
     mnLastCheckTime = GetPluginManager()->GetNowTime();
+    //////////////////////////////////////////////////////////////////////////
+    ARK_LOG_INFO("Begin Log GameServer Info---------------------------");
 
-    m_pLogModule->LogInfo(AFGUID(), "Begin Log GameServer Info", "");
-
-    ARK_SHARE_PTR<ServerData> pGameData = mGameMap.First();
-    while(pGameData)
+    for(ARK_SHARE_PTR<ServerData> pGameData = mGameMap.First(); pGameData != nullptr; pGameData = mGameMap.Next())
     {
-        std::ostringstream stream;
-        stream << "Type: " << pGameData->pData->server_type() << " ID: " << pGameData->pData->server_id() << " State: " <<  AFMsg::EServerState_Name(pGameData->pData->server_state()) << " IP: " << pGameData->pData->server_ip() << " xClient: " << pGameData->xClient.nLow;
-
-        m_pLogModule->LogInfo(AFGUID(), stream);
-
-        pGameData = mGameMap.Next();
+        ARK_LOG_INFO("Type[%d] ID[%d] State[%s] IP[%s] xClient[%d]",
+                     pGameData->pData->server_type(),
+                     pGameData->pData->server_id(),
+                     AFMsg::EServerState_Name(pGameData->pData->server_state()).c_str(),
+                     pGameData->pData->server_ip().c_str(),
+                     pGameData->xClient.nLow);
     }
 
-    m_pLogModule->LogInfo(AFGUID(), "End Log GameServer Info", "");
+    ARK_LOG_INFO("End Log GameServer Info---------------------------");
+    //////////////////////////////////////////////////////////////////////////
+    ARK_LOG_INFO("Begin Log ProxyServer Info---------------------------");
 
-    m_pLogModule->LogInfo(AFGUID(), "Begin Log ProxyServer Info", "");
-
-    pGameData = mProxyMap.First();
-    while(pGameData)
+    for(ARK_SHARE_PTR<ServerData> pGameData = mProxyMap.First(); pGameData != nullptr; pGameData = mProxyMap.Next())
     {
-        std::ostringstream stream;
-        stream << "Type: " << pGameData->pData->server_type() << " ID: " << pGameData->pData->server_id() << " State: " <<  AFMsg::EServerState_Name(pGameData->pData->server_state()) << " IP: " << pGameData->pData->server_ip() << " xClient: " << pGameData->xClient.ToString();
-
-        m_pLogModule->LogInfo(AFGUID(), stream);
-
-        pGameData = mProxyMap.Next();
+        ARK_LOG_INFO("Type[%d] ID[%d] State[%s] IP[%s] xClient[%d]",
+                     pGameData->pData->server_type(),
+                     pGameData->pData->server_id(),
+                     AFMsg::EServerState_Name(pGameData->pData->server_state()).c_str(),
+                     pGameData->pData->server_ip().c_str(),
+                     pGameData->xClient.nLow);
     }
-
-    m_pLogModule->LogInfo(AFGUID(), "End Log ProxyServer Info", "");
+    ARK_LOG_INFO("End Log ProxyServer Info---------------------------");
 }
 
 
