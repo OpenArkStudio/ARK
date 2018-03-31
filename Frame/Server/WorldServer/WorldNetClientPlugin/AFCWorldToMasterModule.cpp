@@ -38,7 +38,7 @@ bool AFCWorldToMasterModule::Shut()
     return true;
 }
 
-bool AFCWorldToMasterModule::AfterInit()
+bool AFCWorldToMasterModule::PostInit()
 {
     m_pWorldLogicModule = pPluginManager->FindModule<AFIWorldLogicModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
@@ -213,7 +213,7 @@ void AFCWorldToMasterModule::OnClientConnected(const AFGUID& xClientID)
 
 }
 
-bool AFCWorldToMasterModule::BeforeShut()
+bool AFCWorldToMasterModule::PreShut()
 {
     return true;
 }

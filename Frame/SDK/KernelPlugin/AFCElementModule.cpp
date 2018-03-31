@@ -166,7 +166,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
         {
         case DT_BOOLEAN:
             {
-                pTmpNode->value.SetInt(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
+                pTmpNode->value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
             }
             break;
         case DT_INT:
@@ -189,7 +189,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 {
                     ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
-                pTmpNode->value.SetDouble(ARK_LEXICAL_CAST<float>(pstrConfigValue));
+                pTmpNode->value.SetFloat(ARK_LEXICAL_CAST<float>(pstrConfigValue));
             }
             break;
         case DT_DOUBLE:
@@ -378,13 +378,13 @@ bool AFCElementModule::LegalNumber(const char* str)
     return true;
 }
 
-bool AFCElementModule::AfterInit()
+bool AFCElementModule::PostInit()
 {
     return true;
 
 }
 
-bool AFCElementModule::BeforeShut()
+bool AFCElementModule::PreShut()
 {
     return true;
 

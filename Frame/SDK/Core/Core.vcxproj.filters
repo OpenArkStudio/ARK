@@ -105,9 +105,6 @@
     <ClInclude Include="Base\AFMemManger.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFMemPool.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\AFMisc.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -138,7 +135,10 @@
     <ClInclude Include="Base\AFVector3.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFMemAlloc.h">
+    <ClInclude Include="Base\AFTimer.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFMalloc.h">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
@@ -161,7 +161,7 @@
     <ClCompile Include="AFCDataTableManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Base\AFMemAlloc.cpp">
+    <ClCompile Include="Base\AFMalloc.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>

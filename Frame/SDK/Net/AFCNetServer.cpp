@@ -50,18 +50,18 @@ int AFCNetServer::Start(const unsigned int nMaxClient, const std::string& strAdd
 
     mnMaxConnect = (int)nMaxClient;
     mstrIPPort = strAddrPort;
-#if __cplusplus < 201402L
-    m_pListenThread.reset(new evpp::EventLoopThread);
-#else
+#if defined(HAVE_LANG_CXX14) || defined(HAVE_LANG_CXX17)
     m_pListenThread = std::make_unique<evpp::EventLoopThread>();
+#else
+    m_pListenThread.reset(new evpp::EventLoopThread);
 #endif
-    
     m_pListenThread->set_name("LisenThread");
     m_pListenThread->Start(true);
-#if __cplusplus < 201402L
-    m_pTcpSrv.reset(new evpp::TCPServer(m_pListenThread->loop(), strAddrPort, "tcp_server", nThreadCount));
-#else
+
+#if defined(HAVE_LANG_CXX14) || defined(HAVE_LANG_CXX17)
     m_pTcpSrv = std::make_unique<evpp::TCPServer>(m_pListenThread->loop(), strAddrPort, "tcp_server", nThreadCount);
+#else
+    m_pTcpSrv.reset(new evpp::TCPServer(m_pListenThread->loop(), strAddrPort, "tcp_server", nThreadCount));
 #endif
     m_pTcpSrv->SetMessageCallback(std::bind(&AFCNetServer::OnMessageInner, this, std::placeholders::_1, std::placeholders::_2));
     m_pTcpSrv->SetConnectionCallback(std::bind(&AFCNetServer::OnClientConnectionInner,this, std::placeholders::_1));

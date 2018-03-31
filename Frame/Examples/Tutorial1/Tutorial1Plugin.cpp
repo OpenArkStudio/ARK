@@ -23,15 +23,18 @@
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
-ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
-{
-    CREATE_PLUGIN(pm, Tutorial1Plugin)
-}
+ARK_DLL_PLUGIN_ENTRY(Tutorial1Plugin)
+ARK_DLL_PLUGIN_EXIT(Tutorial1Plugin)
 
-ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
-{
-    DESTROY_PLUGIN(pm, Tutorial1Plugin)
-}
+//ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
+//{
+//    CREATE_PLUGIN(pm, Tutorial1Plugin)
+//}
+//
+//ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
+//{
+//    DESTROY_PLUGIN(pm, Tutorial1Plugin)
+//}
 
 #endif
 //////////////////////////////////////////////////////////////////////////

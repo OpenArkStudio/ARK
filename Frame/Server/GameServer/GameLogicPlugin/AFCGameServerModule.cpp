@@ -43,12 +43,12 @@ void AFCGameServerModule::Update()
 
 }
 
-bool AFCGameServerModule::AfterInit()
+bool AFCGameServerModule::PostInit()
 {
     return true;
 }
 
-bool AFCGameServerModule::BeforeShut()
+bool AFCGameServerModule::PreShut()
 {
     return true;
 }

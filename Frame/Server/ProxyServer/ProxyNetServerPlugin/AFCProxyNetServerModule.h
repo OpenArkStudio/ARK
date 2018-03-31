@@ -45,7 +45,7 @@ public:
     virtual bool Shut();
     virtual void Update();
 
-    virtual bool AfterInit();
+    virtual bool PostInit();
 
     virtual int Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen);
     virtual int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer);

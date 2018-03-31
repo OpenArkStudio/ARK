@@ -19,63 +19,45 @@
 */
 
 #include "HelloWorld1.h"
-#include "SDK/Core/Base/timer.hpp"
-#include "SDK/Core/Base/AFMemAlloc.h"
-
-using timer_t = timer<std::function<void(timerid_t)> >;
-timer_t* t = new timer_t();
-timer_t* t2 = new timer_t();
-int32_t time_id_1 = 0;
-int32_t time_id_2 = 0;
+#include "SDK/Core/Base/AFTimer.hpp"
+#include "SDK/Core/Base/AFMacros.hpp"
 
 bool HelloWorld1::Init()
 {
-	std::cout << typeid(HelloWorld1).name() << std::endl;
+    std::cout << typeid(HelloWorld1).name() << std::endl;
     std::cout << "Hello, world1, Init" << std::endl;
-
-    AFMemAlloc::InitPool();
-    AFMemAlloc::Start();
 
     return true;
 }
 
-bool HelloWorld1::AfterInit()
+bool HelloWorld1::PostInit()
 {
-    std::cout << "Hello, world1, AfterInit" << std::endl;
+    m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
 
-    //// test timer
-    //time_id_1 = t->repeat(1000, 10, [](timerid_t id) { std::cout << "T1 ID = " << id << ", interval=1000ms print timer update" << std::endl; });
-    //time_id_2 = t2->repeat(1500, 10, [](timerid_t id) { std::cout << "T2 ID = " << id << ", interval=1500ms print timer update" << std::endl; });
+    ARK_ASSERT_RET_VAL(m_pTimerModule != nullptr, false);
 
-    //////////////////////////////////////////////////////////////////////////
-    //test memory alloc
-    void* ptr1 = ARK_ALLOC(100);
-    memset(ptr1, 0, 100);
+    std::cout << "Hello, world1, PostInit" << std::endl;
+    AFCData data1(DT_STRING, "test1");
+    AFCData data2(DT_STRING, "test2");
 
-    void* ptr2 = ARK_ALLOC(10);
+    data1 = data2;
+    const char* str1 = data1.GetString();
 
-    AFMemAlloc::CheckLeak();
+    std::cout << pPluginManager->GetNowTime() << std::endl;
 
-    ARK_FREE(ptr2);
-
-    AFMemAlloc::CheckLeak();
-
-    ARK_FREE(ptr1);
-    AFMemAlloc::CheckLeak();
-    //////////////////////////////////////////////////////////////////////////
+    m_pTimerModule->AddSingleTimer("test", AFGUID(0, 1), 10 * 1000/*ms*/, 2, this, &HelloWorld1::TestTimer);
 
     return true;
 }
 
 void HelloWorld1::Update()
 {
-    //t->update();
-    //t2->update();
+
 }
 
-bool HelloWorld1::BeforeShut()
+bool HelloWorld1::PreShut()
 {
-    std::cout << "Hello, world1, BeforeShut-------------" << std::endl;
+    std::cout << "Hello, world1, PreShut-------------" << std::endl;
     return true;
 }
 
@@ -83,4 +65,10 @@ bool HelloWorld1::Shut()
 {
     std::cout << "Hello, world1, Shut" << std::endl;
     return true;
+}
+
+void HelloWorld1::TestTimer(const std::string& name, const AFGUID& entity_id)
+{
+    std::cout << pPluginManager->GetNowTime() << std::endl;
+    std::cout << "Test Timer: " << name << " id = " << entity_id.ToString() << std::endl;
 }

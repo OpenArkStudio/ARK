@@ -23,18 +23,8 @@
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
-ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
-{
-#if ARK_PLATFORM == PLATFORM_WIN
-    SetConsoleTitle("Tutorial3");
-#endif
-    CREATE_PLUGIN(pm, Tutorial3Plugin)
-}
-
-ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
-{
-    DESTROY_PLUGIN(pm, Tutorial3Plugin)
-}
+ARK_DLL_PLUGIN_ENTRY(Tutorial3Plugin)
+ARK_DLL_PLUGIN_EXIT(Tutorial3Plugin)
 
 #endif
 //////////////////////////////////////////////////////////////////////////
