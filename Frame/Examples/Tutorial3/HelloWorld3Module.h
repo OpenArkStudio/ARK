@@ -46,7 +46,7 @@ public:
 
 protected:
     int OnEvent(const AFGUID & self, const int event, const AFIDataList & arg);
-    int OnClassCallBackEvent(const AFGUID & self, const std::string & strClassName, const CLASS_OBJECT_EVENT event, const AFIDataList & arg);
+    int OnClassCallBackEvent(const AFGUID & self, const std::string & strClassName, const ARK_ENTITY_EVENT event, const AFIDataList & arg);
     int OnPropertyCallBackEvent(const AFGUID & self, const std::string & strProperty, const AFIData & oldVarList, const AFIData & newVarList);
     int OnPropertyStrCallBackEvent(const AFGUID & self, const std::string & strProperty, const AFIData & oldVarList, const AFIData & newVarList);
 

@@ -85,7 +85,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
                 int nTargetID = pServerData->nGameID;
                 m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg, 0);
 
-                m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
+                ARK_LOG_INFO("Register, server_id = %d server_name = %s", pData->server_id(), pData->server_name().c_str());
             }
         }
     }
@@ -163,20 +163,20 @@ void AFCGameServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, cons
 {
     if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connected success", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
         Register(nServerID);
     }
 }
 
-int AFCGameServerToWorldModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCGameServerToWorldModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
     if(strClassName == ARK::Player::ThisName())
     {
-        if(CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
+        if(ARK_ENTITY_EVENT::ENTITY_EVT_DESTROY == eClassEvent)
         {
             SendOffline(self);
         }
-        else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
+        else if(ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
         {
             SendOnline(self);
         }
