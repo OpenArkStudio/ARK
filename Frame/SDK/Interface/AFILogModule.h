@@ -22,11 +22,11 @@
 
 #include "AFIModule.h"
 
-#define ARK_LOG_DEBUG(format, ...) m_pLogModule->Log(AFILogModule::ARK_LOG_LEVEL_DEBUG, ARK_FILE_FUNCTION_LINE, format, __VA_ARGS__);
-#define ARK_LOG_INFO(format, ...) m_pLogModule->Log(AFILogModule::ARK_LOG_LEVEL_INFO, ARK_FILE_FUNCTION_LINE, format, __VA_ARGS__);
-#define ARK_LOG_WARN(format, ...) m_pLogModule->Log(AFILogModule::ARK_LOG_LEVEL_WARNING, ARK_FILE_FUNCTION_LINE, format, __VA_ARGS__);
-#define ARK_LOG_ERROR(format, ...) m_pLogModule->Log(AFILogModule::ARK_LOG_LEVEL_ERROR, ARK_FILE_FUNCTION_LINE, format, __VA_ARGS__);
-#define ARK_LOG_FATAL(format, ...) m_pLogModule->Log(AFILogModule::ARK_LOG_LEVEL_FATAL, ARK_FILE_FUNCTION_LINE, format, __VA_ARGS__);
+#define ARK_LOG_DEBUG(format, ...) m_pLogModule->Log(AFILogModule::ARK_LOG_LEVEL_DEBUG, ARK_FILE_FUNCTION_LINE, format, ##__VA_ARGS__);
+#define ARK_LOG_INFO(format, ...) m_pLogModule->Log(AFILogModule::ARK_LOG_LEVEL_INFO, ARK_FILE_FUNCTION_LINE, format, ##__VA_ARGS__);
+#define ARK_LOG_WARN(format, ...) m_pLogModule->Log(AFILogModule::ARK_LOG_LEVEL_WARNING, ARK_FILE_FUNCTION_LINE, format, ##__VA_ARGS__);
+#define ARK_LOG_ERROR(format, ...) m_pLogModule->Log(AFILogModule::ARK_LOG_LEVEL_ERROR, ARK_FILE_FUNCTION_LINE, format, ##__VA_ARGS__);
+#define ARK_LOG_FATAL(format, ...) m_pLogModule->Log(AFILogModule::ARK_LOG_LEVEL_FATAL, ARK_FILE_FUNCTION_LINE, format, ##__VA_ARGS__);
 
 class AFILogModule : public AFIModule
 {
