@@ -49,7 +49,7 @@ public:
 
     void DecData(uint64_t size)
     {
-        mnCount -= std::min(mnCount, uint32_t(1));
+        mnCount -= std::min(mnCount, (uint32_t)1);
         mnUseSize -= std::min(mnUseSize, size);
     }
 
