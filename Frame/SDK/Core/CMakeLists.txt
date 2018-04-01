@@ -1,4 +1,4 @@
-file(GLOB AFCore_SRC *.h *.hpp *.cpp *.cc *.c Base/*)
+file(GLOB AFCore_SRC *.h *.hpp *.cpp *.cc *.c Base/*.h Base/*.hpp Base/*.cpp)
 
 add_library(AFCore STATIC ${AFCore_SRC})
 
