@@ -68,13 +68,14 @@ svn checkout https://github.com/ArkGame/ARK
 - libevent master
 - easylogging++ 9.80
 - mysql++ 3.2.2
-- google protobuf 2.7.0
+- google protobuf 3.5.x
 - evpp 0.7.0
+- gperftools master
 
 ## Supported Compilers
 
 - GCC >= 4.8 (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
-- MSVC >= VS2015 update 3 (**<font color=red>Recommend</font>. Tested in Win7/10**)
+- MSVC >= VS2015 update 3 (**<font color=red>Recommend VS2017</font>. Tested in Win7/10**)
 
 ## Build and Install
 
@@ -88,7 +89,7 @@ svn checkout https://github.com/ArkGame/ARK
 - CMake 3.0 +
 
 ##### Step:
-Using Visual Studio 2015
+Using Visual Studio 2017
 1. Pull all source
 2. Run command line 
 ```batch
@@ -111,13 +112,15 @@ build_dep.bat
 cd ../
 md build
 cd build
-cmake -G "Visual Studio 14 Win64" ..
+cmake -G "Visual Studio 15 Win64" ..
 ```
 4. Start `ARK.sln`
 5. Run `ARK\Bin\Server\DataConfig\Tool\gen-config.bat` to generate configuration files
 6. Run the binary file by `Bin/Server/Debug/Run.bat`
 
-> Note. If you are using VS2017, please change **%VS140COMNTOOLS%** in **Dep/build_dep.bat** to **YOUR-COMPILER-PATH**.
+> Note
+> - If you are using VS2015, please use `Dep/build_dep_vs2015.bat`
+> - If you are using VS2017, please change `%VS150COMNTOOLS%` in `Dep/build_dep.bat` to `YOUR-COMPILER-PATH`.
 
 ### linux
 
