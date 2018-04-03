@@ -99,17 +99,7 @@ public:
 
     bool AddForverTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, TIMER_FUNCTOR_PTR callback)
     {
-        auto data = FindTimerData(name, entity_id);
-        if(data == nullptr)
-        {
-            data = ARK_CREATE_OBJECT(AFTimerData);
-            AddTimerData(name, entity_id, data);
-        }
-        else
-        {
-            RemoveSlotTimer(data);
-        }
-
+        auto data = ARK_CREATE_OBJECT(AFTimerData);
         data->name = name;
         data->type = TIMER_TYPE_FOREVER;
         data->interval = interval_time;
@@ -121,17 +111,7 @@ public:
 
     bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, uint32_t count, TIMER_FUNCTOR_PTR callback)
     {
-        auto data = FindTimerData(name, entity_id);
-        if(data == nullptr)
-        {
-            data = ARK_CREATE_OBJECT(AFTimerData);
-            AddTimerData(name, entity_id, data);
-        }
-        else
-        {
-            RemoveSlotTimer(data);
-        }
-
+        auto data = ARK_CREATE_OBJECT(AFTimerData);
         data->name = name;
         data->type = TIMER_TYPE_COUNT_LIMIT;
         data->count = std::max((uint32_t)1, count);
