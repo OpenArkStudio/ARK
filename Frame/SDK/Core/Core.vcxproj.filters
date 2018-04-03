@@ -141,6 +141,9 @@
     <ClInclude Include="Base\AFMalloc.h">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Base\AFMemory.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCHeartBeatManager.cpp">
