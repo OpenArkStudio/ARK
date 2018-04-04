@@ -24,7 +24,6 @@
 #include "AFDefine.h"
 #include "AFSingleton.hpp"
 #include "AFTime.hpp"
-//#include "AFMalloc.h"
 
 enum AFTimerEnum
 {
