@@ -119,7 +119,6 @@ struct  AFIMsgHead
         return be16toh(nData);
 #endif
     }
-
 };
 
 class AFCMsgHead : public AFIMsgHead
