@@ -22,7 +22,7 @@
 
 #include "AFPlatform.hpp"
 #include "AFMacros.hpp"
-#include "AFMalloc.h"
+//#include "AFMalloc.h"
 
 class ArrayPodAlloc
 {
@@ -32,17 +32,18 @@ public:
 
     void* Alloc(size_t size)
     {
-        return ARK_MALLOC(ArrayPodAlloc, size);
+        void* ptr = NULL;
+        ARK_ALLOC(ptr, ArrayPodAlloc, size);
+        return ptr;
     }
 
     void Free(void* ptr, size_t size)
     {
-        return ARK_FREE(ArrayPodAlloc, ptr, size);
+        ARK_DEALLOC(ptr, ArrayPodAlloc);
     }
 
     void Swap(ArrayPodAlloc& src)
     {
-
     }
 };
 

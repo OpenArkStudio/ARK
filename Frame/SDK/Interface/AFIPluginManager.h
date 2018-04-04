@@ -24,11 +24,11 @@
 
 class AFIPlugin;
 
-#define ARK_DLL_PLUGIN_ENTRY(plugin_name)                                           \
-ARK_EXPORT void DllStartPlugin(AFIPluginManager* pPluginManager, AFMalloc* pMalloc) \
-{                                                                                   \
-    AFMalloc::Initialize(pMalloc);                                                  \
-    CREATE_PLUGIN(pPluginManager, plugin_name)                                      \
+#define ARK_DLL_PLUGIN_ENTRY(plugin_name)                                               \
+ARK_EXPORT void DllStartPlugin(AFIPluginManager* pPluginManager, MemoryPool* pMalloc)   \
+{                                                                                       \
+    MemoryPool::Initialize(pMalloc);                                                    \
+    CREATE_PLUGIN(pPluginManager, plugin_name)                                          \
 }
 
 #define ARK_DLL_PLUGIN_EXIT(plugin_name)                            \

@@ -25,7 +25,6 @@
 #include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFMalloc.h"
 #include "SDK/Core/Base/AFTime.hpp"
 
 #if ARK_PLATFORM == PLATFORM_WIN
@@ -339,7 +338,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
             return false;
         }
 
-        pFunc(this, AFMalloc::Instance());
+        pFunc(this, MemoryPool::GetInstance());
 
         return true;
     }
