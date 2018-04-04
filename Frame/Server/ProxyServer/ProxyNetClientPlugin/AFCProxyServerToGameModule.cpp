@@ -177,7 +177,7 @@ void AFCProxyServerToGameModule::OnAckEnterGame(const AFIMsgHead& xHead, const i
 
 void AFCProxyServerToGameModule::OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //±£³Ö¼ÇÂ¼,Ö±µ½ÏÂÏß,»òÕß1·ÖÖÓ²»ÉÏÏß¼´¿ÉÉ¾³ı
+    //ä¿æŒè®°å½•,ç›´åˆ°ä¸‹çº¿,æˆ–è€…1åˆ†é’Ÿä¸ä¸Šçº¿å³å¯åˆ é™¤
     AFGUID nPlayerID;
     AFMsg::BrocastMsg xMsg;
     if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))

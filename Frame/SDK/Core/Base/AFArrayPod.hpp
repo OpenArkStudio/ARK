@@ -203,7 +203,7 @@ public:
         return mpData[index];
     }
 
-    //Ô¤·ÖÅä
+    //é¢„åˆ†é…
     void reserve(size_t size)
     {
         if(size > mnCapacity)
@@ -225,7 +225,7 @@ public:
     {
         if(size > mnCapacity)
         {
-            //ÉêÇëÏÖÓĞÈİÁ¿µÄÁ½±¶£¬Èç¹û»¹²»¹»£¬¾Í°´ÕÕsizeÀ´ÉêÇë
+            //ç”³è¯·ç°æœ‰å®¹é‡çš„ä¸¤å€ï¼Œå¦‚æœè¿˜ä¸å¤Ÿï¼Œå°±æŒ‰ç…§sizeæ¥ç”³è¯·
             size_t new_size = mnCapacity * 2;
             if(new_size < size)
             {
@@ -233,14 +233,14 @@ public:
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE)); //°ÑÔ­À´ÕæÕıµÄmnSizeÊı¾İ¸³Öµ¸øĞÂµÄ¿Õ¼ä
+            memcpy(p, mpData, mnSize * sizeof(TYPE)); //æŠŠåŸæ¥çœŸæ­£çš„mnSizeæ•°æ®èµ‹å€¼ç»™æ–°çš„ç©ºé—´
             if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
 
             mpData = p;
-            mnCapacity = new_size; //ÈİÁ¿¸Ä³ÉĞÂµÄ
+            mnCapacity = new_size; //å®¹é‡æ”¹æˆæ–°çš„
         }
 
         mnSize = size;
@@ -250,7 +250,7 @@ public:
     {
         if(size > mnCapacity)
         {
-            //ÉêÇëÏÖÓĞÈİÁ¿µÄÁ½±¶£¬Èç¹û»¹²»¹»£¬¾Í°´ÕÕsizeÀ´ÉêÇë
+            //ç”³è¯·ç°æœ‰å®¹é‡çš„ä¸¤å€ï¼Œå¦‚æœè¿˜ä¸å¤Ÿï¼Œå°±æŒ‰ç…§sizeæ¥ç”³è¯·
             size_t new_size = mnCapacity * 2;
             if(new_size < size)
             {
@@ -258,14 +258,14 @@ public:
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE)); //°ÑÔ­À´ÕæÕıµÄmnSizeÊı¾İ¸³Öµ¸øĞÂµÄ¿Õ¼ä
+            memcpy(p, mpData, mnSize * sizeof(TYPE)); //æŠŠåŸæ¥çœŸæ­£çš„mnSizeæ•°æ®èµ‹å€¼ç»™æ–°çš„ç©ºé—´
             if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
 
             mpData = p;
-            mnCapacity = new_size; //ÈİÁ¿¸Ä³ÉĞÂµÄ
+            mnCapacity = new_size; //å®¹é‡æ”¹æˆæ–°çš„
         }
 
         if(size > mnSize)
@@ -298,7 +298,7 @@ public:
         --mnSize;
     }
 
-    //´Óstart¿ªÊ¼ÒÆ³ıcount¸öÔªËØ
+    //ä»startå¼€å§‹ç§»é™¤countä¸ªå…ƒç´ 
     void remove_some(size_t start, size_t count)
     {
         assert((start <= mnSize) && ((start + count) <= mnSize));
@@ -326,6 +326,6 @@ private:
     ALLOC mxAlloc;
     TYPE mxStack[SIZE];
     TYPE* mpData;
-    size_t mnCapacity; //ÈİÁ¿
-    size_t mnSize; //ÊıÁ¿
+    size_t mnCapacity; //å®¹é‡
+    size_t mnSize; //æ•°é‡
 };

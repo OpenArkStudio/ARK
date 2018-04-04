@@ -141,7 +141,7 @@ public:
             return;
         }
 
-        //°ÑÉÏ´ÎµÄÊı¾İ´¦ÀíÁË
+        //æŠŠä¸Šæ¬¡çš„æ•°æ®å¤„ç†äº†
         KeepAlive();
 
         m_pNet->Update();
@@ -192,7 +192,7 @@ public:
 
         if(pClientIDList)
         {
-            //playeridÖ÷ÒªÊÇÍø¹Ø×ª·¢ÏûÏ¢µÄÊ±ºò×öÊ¶±ğÊ¹ÓÃ£¬ÆäËûÊ¹ÓÃ²»Ê¹ÓÃ
+            //playeridä¸»è¦æ˜¯ç½‘å…³è½¬å‘æ¶ˆæ¯çš„æ—¶å€™åšè¯†åˆ«ä½¿ç”¨ï¼Œå…¶ä»–ä½¿ç”¨ä¸ä½¿ç”¨
             AFMsg::BrocastMsg xMsg;
             AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
             *pPlayerID = AFINetModule::GUIDToPB(nPlayer);

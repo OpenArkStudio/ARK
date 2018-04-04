@@ -87,7 +87,7 @@ public:
     virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList) = 0;
 
     //////////////////////////////////////////////////////////////////////////
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÀàÊÂ¼ş,ËùÓĞµÄÀà¶ÔÏó¶¼»á»Øµ÷
+    //åªèƒ½ç½‘ç»œæ¨¡å—æ³¨å†Œï¼Œå›è°ƒç”¨æ¥åŒæ­¥å¯¹è±¡ç±»äº‹ä»¶,æ‰€æœ‰çš„ç±»å¯¹è±¡éƒ½ä¼šå›è°ƒ
     template<typename BaseType>
     bool RegCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
     {
@@ -95,7 +95,7 @@ public:
         return RegCommonClassEvent(std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
     }
 
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÊôĞÔÊÂ¼ş,ËùÓĞµÄÀàÊôĞÔ¶¼»á»Øµ÷
+    //åªèƒ½ç½‘ç»œæ¨¡å—æ³¨å†Œï¼Œå›è°ƒç”¨æ¥åŒæ­¥å¯¹è±¡å±æ€§äº‹ä»¶,æ‰€æœ‰çš„ç±»å±æ€§éƒ½ä¼šå›è°ƒ
     template<typename BaseType>
     bool RegCommonDataNodeEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
@@ -103,7 +103,7 @@ public:
         return RegCommonDataNodeEvent(std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
     }
 
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÀà±íÊÂ¼ş,ËùÓĞµÄÀà±í¶¼»á»Øµ÷
+    //åªèƒ½ç½‘ç»œæ¨¡å—æ³¨å†Œï¼Œå›è°ƒç”¨æ¥åŒæ­¥å¯¹è±¡ç±»è¡¨äº‹ä»¶,æ‰€æœ‰çš„ç±»è¡¨éƒ½ä¼šå›è°ƒ
     template<typename BaseType>
     bool RegCommonDataTableEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
     {
@@ -185,13 +185,13 @@ protected:
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
 
 protected:
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÀàÊÂ¼ş,ËùÓĞµÄÀà¶ÔÏó¶¼»á»Øµ÷
+    //åªèƒ½ç½‘ç»œæ¨¡å—æ³¨å†Œï¼Œå›è°ƒç”¨æ¥åŒæ­¥å¯¹è±¡ç±»äº‹ä»¶,æ‰€æœ‰çš„ç±»å¯¹è±¡éƒ½ä¼šå›è°ƒ
     virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
 
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÊôĞÔÊÂ¼ş,ËùÓĞµÄÀàÊôĞÔ¶¼»á»Øµ÷
+    //åªèƒ½ç½‘ç»œæ¨¡å—æ³¨å†Œï¼Œå›è°ƒç”¨æ¥åŒæ­¥å¯¹è±¡å±æ€§äº‹ä»¶,æ‰€æœ‰çš„ç±»å±æ€§éƒ½ä¼šå›è°ƒ
     virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
 
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÀà±íÊÂ¼ş,ËùÓĞµÄÀà±í¶¼»á»Øµ÷
+    //åªèƒ½ç½‘ç»œæ¨¡å—æ³¨å†Œï¼Œå›è°ƒç”¨æ¥åŒæ­¥å¯¹è±¡ç±»è¡¨äº‹ä»¶,æ‰€æœ‰çš„ç±»è¡¨éƒ½ä¼šå›è°ƒ
     virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
 };
 

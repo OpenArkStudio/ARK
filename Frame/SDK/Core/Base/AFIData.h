@@ -52,7 +52,7 @@ class AFIData
 public:
 
 public:
-    AFIData& operator=(const AFIData& rhs) = delete; //��ֹ�ȺŸ�ֵ
+    AFIData& operator=(const AFIData& rhs) = delete; //禁止等号赋值
 
 public:
     inline static void* GetUserData(void* value)

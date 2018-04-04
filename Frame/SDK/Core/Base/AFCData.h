@@ -581,7 +581,7 @@ private:
     ALLOC mxAlloc;
     int mnType;
 
-    //¿É±äÊı¾İÁªºÏÌå size = 16
+    //å¯å˜æ•°æ®è”åˆä½“ size = 16
     union
     {
         bool mbValue;
@@ -600,7 +600,7 @@ private:
         };
     };
 
-    //¶îÍâbuffer
+    //é¢å¤–buffer
     union
     {
         uint32_t mnAllocLen;

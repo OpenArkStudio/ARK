@@ -77,7 +77,7 @@ public:
     {
         strIP = "";
         nPort = 0;
-        nWeight = 0;//总共多少权重即是多少虚拟节点
+        nWeight = 0;//鎬诲叡澶氬皯鏉冮噸鍗虫槸澶氬皯铏氭嫙鑺傜偣
         nMachineID = 0;
         bCandidate = false;
     }
@@ -86,7 +86,7 @@ public:
     {
         strIP = "";
         nPort = 0;
-        nWeight = 0;//总共多少权重即是多少虚拟节点
+        nWeight = 0;//鎬诲叡澶氬皯鏉冮噸鍗虫槸澶氬皯铏氭嫙鑺傜偣
         nMachineID = 0;
         bCandidate = false;
     }

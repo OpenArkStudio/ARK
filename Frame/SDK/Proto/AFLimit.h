@@ -22,29 +22,29 @@
 
 #pragma pack(push,1)
 
-//¶¨Òå¼«ÏÞÖµ
-//#define PT_MAX_GC_SIZE          (0x8000)        // Íø¹Øµ½¿Í»§¶ËµÄ×î´óµÄ·â°ü´óÐ¡32K
-//#define PT_MAX_CG_SIZE          (0x2000)        // ¿Í»§¶Ëµ½Íø¹ØµÄ×î´óµÄ·â°ü´óÐ¡8K
+//å®šä¹‰æžé™å€¼
+//#define PT_MAX_GC_SIZE          (0x8000)        // ç½‘å…³åˆ°å®¢æˆ·ç«¯çš„æœ€å¤§çš„å°åŒ…å¤§å°32K
+//#define PT_MAX_CG_SIZE          (0x2000)        // å®¢æˆ·ç«¯åˆ°ç½‘å…³çš„æœ€å¤§çš„å°åŒ…å¤§å°8K
 
-#define NF_NAME_MAXLEN          32              // ×î´óµÄÃû×Ö³¤¶È
-#define NF_BROAD_MAXLEN         64             // ×î´ó¹ã²¥ÊýÁ¿
-#define NF_PATH_MAXLEN          128            // ÊôÐÔÖÐ×î´óµÄÂ·¾¶µÈ³¤¶È
-#define NF_ACCOUNT_MAXROLE      4               //Ò»¸öÕËºÅÏÂÃæ×î¶à¼¸¸ö½ÇÉ«
-#define NF_ROLE_MAXPKG          150             //Ò»¸ö½ÇÉ«ÏÂÃæ×î¶à¼¸¸ö±³°ü¸ñ×Ó
-#define NF_ROLE_DEFAULTPKG      60              //´´½¨ÈËÎïÄ¬ÈÏ¸³Óè±³°ü¸ñ×ÓÊý
+#define NF_NAME_MAXLEN          32              // æœ€å¤§çš„åå­—é•¿åº¦
+#define NF_BROAD_MAXLEN         64             // æœ€å¤§å¹¿æ’­æ•°é‡
+#define NF_PATH_MAXLEN          128            // å±žæ€§ä¸­æœ€å¤§çš„è·¯å¾„ç­‰é•¿åº¦
+#define NF_ACCOUNT_MAXROLE      4               //ä¸€ä¸ªè´¦å·ä¸‹é¢æœ€å¤šå‡ ä¸ªè§’è‰²
+#define NF_ROLE_MAXPKG          150             //ä¸€ä¸ªè§’è‰²ä¸‹é¢æœ€å¤šå‡ ä¸ªèƒŒåŒ…æ ¼å­
+#define NF_ROLE_DEFAULTPKG      60              //åˆ›å»ºäººç‰©é»˜è®¤èµ‹äºˆèƒŒåŒ…æ ¼å­æ•°
 
-#define NF_VIEWGRID_UNIT        200             //Ò»¸ö¸ñ×Ó£¬ÓÐ¶àÉÙ¸ö±ê×¼µ¥Î»£¨10¸ö±ê×¼µ¥Î»Îª1Ã×£©
-#define NF_VIEWSIZE_MAXLEN      9               //×îÔ¶¾àÀë,ÒÔ×Ô¼ºÎªÖÐÐÄ£¬¿ÉÒÔ¿´¼¸¸ö¸ñ×ÓÄÚµÄÐÅÏ¢£¬ÈçÏÂÍ¼,Ô­µãÊÇ×Ô¼ºµÄÎ»ÖÃ£¬ºÚ¿ò±íÊ¾¿ÉÊÓ·¶Î§
+#define NF_VIEWGRID_UNIT        200             //ä¸€ä¸ªæ ¼å­ï¼Œæœ‰å¤šå°‘ä¸ªæ ‡å‡†å•ä½ï¼ˆ10ä¸ªæ ‡å‡†å•ä½ä¸º1ç±³ï¼‰
+#define NF_VIEWSIZE_MAXLEN      9               //æœ€è¿œè·ç¦»,ä»¥è‡ªå·±ä¸ºä¸­å¿ƒï¼Œå¯ä»¥çœ‹å‡ ä¸ªæ ¼å­å†…çš„ä¿¡æ¯ï¼Œå¦‚ä¸‹å›¾,åŽŸç‚¹æ˜¯è‡ªå·±çš„ä½ç½®ï¼Œé»‘æ¡†è¡¨ç¤ºå¯è§†èŒƒå›´
 
-//#define NF_SCENE_LEFTLENPOS       -32000      //³¡¾°×î×ó±ß¾àÀë
-//#define NF_SCENE_RIGHTPOS     32000           //³¡¾°×îÓÒ±ß¾àÀë
+//#define NF_SCENE_LEFTLENPOS       -32000      //åœºæ™¯æœ€å·¦è¾¹è·ç¦»
+//#define NF_SCENE_RIGHTPOS     32000           //åœºæ™¯æœ€å³è¾¹è·ç¦»
 
-//#define NF_MAX_ONLINE         3000            //×î´óÔÚÏßÈËÊý
+//#define NF_MAX_ONLINE         3000            //æœ€å¤§åœ¨çº¿äººæ•°
 
 /*
-¡ö¡ö¡ö
-¡ö¡Ñ¡ö
-¡ö¡ö¡ö
+â– â– â– 
+â– âŠ™â– 
+â– â– â– 
 */
 
 #pragma pack(pop)
