@@ -294,7 +294,7 @@ void AFCWorldNetServerModule::SynGameToProxy(const AFGUID& xClientID)
 
 void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 {
-    //²»¹ÜÊÇgame»¹ÊÇproxy¶¼ÒªÕÒ³öÀ´,ÌæËû·´×¢²á
+    //ä¸ç®¡æ˜¯gameè¿˜æ˜¯proxyéƒ½è¦æ‰¾å‡ºæ¥,æ›¿ä»–åæ³¨å†Œ
     ARK_SHARE_PTR<ServerData> pServerData =  mGameMap.First();
     while(nullptr != pServerData)
     {
@@ -433,7 +433,7 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
     for(int i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOld = argVar.Object(i);
-        //ÅÅ³ı¿Õ¶ÔÏó
+        //æ’é™¤ç©ºå¯¹è±¡
         if(identOld.IsNULL())
         {
             continue;
@@ -463,7 +463,7 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
             continue;
         }
 
-        //¿ÉÄÜÔÚ²»Í¬µÄÍø¹ØÄØ,µÃµ½ºóÕßËùÔÚµÄÍø¹ØFD
+        //å¯èƒ½åœ¨ä¸åŒçš„ç½‘å…³å‘¢,å¾—åˆ°åè€…æ‰€åœ¨çš„ç½‘å…³FD
         SendMsgToPlayer(AFMsg::EGMI_ACK_OBJECT_ENTRY, xPlayerEntryInfoList, ident);
     }
 
@@ -482,7 +482,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
     for(int i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOld = argVar.Object(i);
-        //ÅÅ³ı¿Õ¶ÔÏó
+        //æ’é™¤ç©ºå¯¹è±¡
         if(identOld.IsNULL())
         {
             continue;
@@ -499,7 +499,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
         {
             continue;
         }
-        //¿ÉÄÜÔÚ²»Í¬µÄÍø¹ØÄØ,µÃµ½ºóÕßËùÔÚµÄÍø¹ØFD
+        //å¯èƒ½åœ¨ä¸åŒçš„ç½‘å…³å‘¢,å¾—åˆ°åè€…æ‰€åœ¨çš„ç½‘å…³FD
         SendMsgToPlayer(AFMsg::EGMI_ACK_OBJECT_LEAVE, xPlayerLeaveInfoList, ident);
     }
 
@@ -607,7 +607,7 @@ bool AFCWorldNetServerModule::OnDataTableEnterPack(AFDataTable* pTable, AFMsg::O
 
     for(int i = 0; i < pTable->GetRowCount(); i ++)
     {
-        //²»¹Üpublic»¹ÊÇprivate¶¼Òª¼ÓÉÏ£¬²»È»public¹ã²¥ÁËÄÇ²»ÊÇprivate¾Í¹ã²¥²»ÁËÁË
+        //ä¸ç®¡publicè¿˜æ˜¯privateéƒ½è¦åŠ ä¸Šï¼Œä¸ç„¶publicå¹¿æ’­äº†é‚£ä¸æ˜¯privateå°±å¹¿æ’­ä¸äº†äº†
         AFMsg::RecordAddRowStruct* pAddRowStruct = pObjectRecordBase->add_row_struct();
         pAddRowStruct->set_row(i);
 
@@ -636,9 +636,9 @@ int AFCWorldNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AF
         return 1;
     }
 
-    //·ÖÎª×Ô¼ººÍÍâÈË
-    //1.public·¢ËÍ¸øËùÓĞÈË
-    //2.Èç¹û×Ô¼ºÔÚÁĞ±íÖĞ£¬ÔÙ´Î·¢ËÍprivateÊı¾İ
+    //åˆ†ä¸ºè‡ªå·±å’Œå¤–äºº
+    //1.publicå‘é€ç»™æ‰€æœ‰äºº
+    //2.å¦‚æœè‡ªå·±åœ¨åˆ—è¡¨ä¸­ï¼Œå†æ¬¡å‘é€privateæ•°æ®
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr == pEntity)
     {
@@ -685,7 +685,7 @@ int AFCWorldNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AF
         const int64_t nGameID = argGameID.Int(i);
         if(self == identOther)
         {
-            //ÕÒµ½ËûËùÔÚÍø¹ØµÄFD
+            //æ‰¾åˆ°ä»–æ‰€åœ¨ç½‘å…³çš„FD
             SendMsgToGame(nGameID, AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPrivateMsg, identOther);
         }
         else

@@ -26,7 +26,7 @@
 class AFIGameNetServerModule : public AFIModule
 {
 public:
-    //Òª¹ÜÀíµ±Ç°ËùÓĞµÄ¶ÔÏóËùÔÚµÄactor,gateid,fdµÈ
+    //è¦ç®¡ç†å½“å‰æ‰€æœ‰çš„å¯¹è±¡æ‰€åœ¨çš„actor,gateid,fdç­‰
     struct GateBaseInfo
     {
         GateBaseInfo()
@@ -50,7 +50,7 @@ public:
     struct GateServerInfo
     {
         ServerData xServerData;
-        //´ËÍø¹ØÉÏËùÓĞµÄ¶ÔÏó<½ÇÉ«ID,gate_FD>
+        //æ­¤ç½‘å…³ä¸Šæ‰€æœ‰çš„å¯¹è±¡<è§’è‰²ID,gate_FD>
         std::map<AFGUID, AFGUID> xRoleInfo;
     };
 

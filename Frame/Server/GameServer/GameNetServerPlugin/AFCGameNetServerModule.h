@@ -92,7 +92,7 @@ protected:
     void OnTransWorld(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 protected:
-    //网络同步
+    //缃戠粶鍚屾
     int OnCommonDataNodeEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
     int OnCommonDataTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
     int OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
@@ -107,7 +107,7 @@ protected:
     int GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, AFIDataList& valueObject);
 
 private:
-    //<角色id,角色网关基础信息>//其实可以在object系统中被代替
+    //<瑙掕壊id,瑙掕壊缃戝叧鍩虹淇℃伅>//鍏跺疄鍙互鍦╫bject绯荤粺涓浠ｆ浛
     AFMapEx<AFGUID, GateBaseInfo> mRoleBaseData;
     //gateid,data
     AFMapEx<int, GateServerInfo> mProxyMap;

@@ -27,14 +27,14 @@ class AFIPropertyModule : public AFIModule
 public:
     enum ArkPropertyGroup
     {
-        APG_JOBLEVEL,        //ְҵ�ȼ�����
-        APG_EFFECTVALUE,     //һ������Ӱ��������ԵĲ���(ֱ���ù�ʽ���㣬�������ֲ��ö�)
-        APG_REBIRTH_ADD,     //��������
-        APG_EQUIP,           //װ������Ӱ������֮��ĵ���2�μ���(ֱ�Ӳ�Ҫ��������ʲô��)
-        APG_EQUIP_AWARD,     //��װ����
-        APG_STATIC_BUFF,     //�������͵�BUFF���츳֮��ģ����߳Ե�����ҩˮ
+        APG_JOBLEVEL,        //职业等级基础
+        APG_EFFECTVALUE,     //一级属性影响二级属性的部分(直接用公式计算，其他部分不用动)
+        APG_REBIRTH_ADD,     //重生奖励
+        APG_EQUIP,           //装备不会影响体质之类的导致2次计算(直接不要力量体质什么的)
+        APG_EQUIP_AWARD,     //套装奖励
+        APG_STATIC_BUFF,     //永久类型的BUFF，天赋之类的，或者吃的永久药水
 
-        APG_RUNTIME_BUFF,    //��̬BUFF
+        APG_RUNTIME_BUFF,    //动态BUFF
 
         APG_ALL,
     };

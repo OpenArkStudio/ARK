@@ -37,7 +37,7 @@ enum ARK_ENTITY_EVENT
     ENTITY_EVT_EFFECT_DATA          = 6,
     ENTITY_EVT_POST_EFFECT_DATA     = 7,
     ENTITY_EVT_DATA_FINISHED        = 8,
-    ENTITY_EVT_ALL_FINISHED,        //╫ги╚╢╢╫╗мЙЁи╨Сты╧р╩ь╣В
+    ENTITY_EVT_ALL_FINISHED,        //Х╖▓Х┴╡Е┬⌡Е╩╨Е╝▄Ф┬░Е░▌Е├█Ф▄┌Е⌡·Х╟┐
 };
 
 struct DATA_TABLE_EVENT_DATA

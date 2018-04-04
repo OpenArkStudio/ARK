@@ -103,7 +103,7 @@ struct Point3D
 
         std::string strX = strValue.substr(0, nPos);
 
-        //ÇĞ¹ıÖ®ºóµÄ
+        //åˆ‡è¿‡ä¹‹åçš„
         const std::string& strNewData = strValue.substr(nPos + 1, nStrLength - nPos);
         nPos = strNewData.find(',');
         if(nPos == std::string::npos)

@@ -50,16 +50,16 @@ public:
     virtual int Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen);
     virtual int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer);
 
-    //½øÈëÓÎÏ·³É¹¦
+    //è¿›å…¥æ¸¸æˆæˆåŠŸ
     virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID);
 
 protected:
 
     void OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nSeverID);
 
-    //Á¬½Ó¶ªÊ§,É¾2²ã(Á¬½Ó¶ÔÏó£¬ÕÊºÅ¶ÔÏó)
+    //è¿æ¥ä¸¢å¤±,åˆ 2å±‚(è¿æ¥å¯¹è±¡ï¼Œå¸å·å¯¹è±¡)
     void OnClientDisconnect(const AFGUID& xClientID);
-    //ÓĞÁ¬½Ó
+    //æœ‰è¿æ¥
     void OnClientConnected(const AFGUID& xClientID);
 
     void OnConnectKeyProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
@@ -71,7 +71,7 @@ protected:
     void OnReqEnterGameServer(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 
-    //¿Í»§¶ËµÄÁ¬½Ó60ÃëÉ¾µô
+    //å®¢æˆ·ç«¯çš„è¿æ¥60ç§’åˆ æ‰
     int HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFIDataList& var);
     //////////////////////////////////////////////////////////////////////////
 

@@ -1,4 +1,4 @@
-﻿/*
+锘?*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -41,25 +41,25 @@ std::thread gBackThread;
 #pragma comment(lib, "AFCore.lib")
 #endif
 
-// 创建Dump文件
+// 鍒涘缓Dump鏂囦欢
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
 {
-    // 创建Dump文件
+    // 鍒涘缓Dump鏂囦欢
     HANDLE hDumpFile = CreateFile(strDumpFilePathName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-    // Dump信息
+    // Dump淇℃伅
     MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
     dumpInfo.ExceptionPointers = pException;
     dumpInfo.ThreadId = GetCurrentThreadId();
     dumpInfo.ClientPointers = TRUE;
 
-    // 写入Dump文件内容
+    // 鍐欏叆Dump鏂囦欢鍐呭
     MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &dumpInfo, NULL, NULL);
 
     CloseHandle(hDumpFile);
 }
 
-// 处理Unhandled Exception的回调函数
+// 澶勭悊Unhandled Exception鐨勫洖璋冨嚱鏁?
 long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
     time_t t = time(0);
@@ -392,7 +392,7 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->CheckConfig();
     AFCPluginManager::GetInstancePtr()->PreUpdate();
 
-    while(!bExitApp)     //DEBUG版本崩溃，RELEASE不崩
+    while(!bExitApp)     //DEBUG鐗堟湰宕╂簝锛孯ELEASE涓嶅穿
     {
         while(true)
         {

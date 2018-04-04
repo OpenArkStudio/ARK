@@ -56,7 +56,7 @@ int AFCAccountModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nEven
     //    return -1;
     //}
 
-    ////¸³ÓèÊôĞÔ
+    ////èµ‹äºˆå±æ€§
     //const char* pstrAccount = var.StringVal(0);
     //AFCValueList valueInfo;
     //valueInfo << pstrAccount;
@@ -67,7 +67,7 @@ int AFCAccountModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nEven
     //    const char* pstrRoleName = var.StringVal(i);
     //    if(strlen(pstrRoleName) > 0)
     //    {
-    //        //¿´ÈİÆ÷ÖĞÊÇ·ñÒÑ¾­´æÔÚ£¬´æÔÚÔò²»´´½¨
+    //        //çœ‹å®¹å™¨ä¸­æ˜¯å¦å·²ç»å­˜åœ¨ï¼Œå­˜åœ¨åˆ™ä¸åˆ›å»º
     //        AFCValueList varHallObjectList;
     //        AFCValueList varHalvalueInfo;
     //        varHalvalueInfo << pstrRoleName;
@@ -162,7 +162,7 @@ int AFCAccountModule::OnCreateRoleEvent(const AFGUID& object, const int nEventID
     //    return 0;
     //}
 
-    ////Èç¹ûÓĞ4¸öÍæ¼ÒÔò²»ÈÃ´´½¨
+    ////å¦‚æœæœ‰4ä¸ªç©å®¶åˆ™ä¸è®©åˆ›å»º
     //const char* pstrAccountName = var.StringVal(0);
     //const char* pstrRoleName = var.StringVal(1);
     //int nRoleSex = var.IntVal(2);
@@ -177,7 +177,7 @@ int AFCAccountModule::OnCreateRoleEvent(const AFGUID& object, const int nEventID
     //    return 0;
     //}
     ////////////////////////////////////////////////////////////////////////////
-    ////´´½¨ÈËÎïÖ±½Ó×ßÁËÊı¾İ¿â
+    ////åˆ›å»ºäººç‰©ç›´æ¥èµ°äº†æ•°æ®åº“
     ////////////////////////////////////////////////////////////////////////////
     //if(m_pNoSqlModule->CreateRole(pstrAccountName, pstrRoleName) <= 0)
     //    //if (m_pDataBaseModule->CreateRole(pstrAccountName, pstrRoleName) <= 0)
@@ -210,20 +210,20 @@ int AFCAccountModule::OnCreateRoleEvent(const AFGUID& object, const int nEventID
     //char szConfigName[MAX_PATH] = { 0 };
     //sprintf(szConfigName, "%d", nConfigName);
 
-    ////Åªµ½ËùÓĞµÄÊôĞÔ
+    ////å¼„åˆ°æ‰€æœ‰çš„å±æ€§
     //GTPropertyManager* pConfigPropertyManager = m_pElementInfoModule->GetPropertyManager(szConfigName);
     //if(pConfigPropertyManager)
     //{
     //    GTProperty* pConfigPropertyInfo = pConfigPropertyManager->First();
     //    while(pConfigPropertyInfo)
     //    {
-    //        //¿´ÊôĞÔÊÇ·ñĞèÒª±£´æ,²»ĞèÒª±£´æµÄ¾Í±ğ´å
+    //        //çœ‹å±æ€§æ˜¯å¦éœ€è¦ä¿å­˜,ä¸éœ€è¦ä¿å­˜çš„å°±åˆ«æ‘
     //        if(!pConfigPropertyInfo->GetSave())
     //        {
     //            pConfigPropertyInfo = pConfigPropertyManager->Next();
     //            continue;
     //        }
-    //        //Õâ¸öÊôĞÔRoleNameÊÇÍæ¼ÒµÄ£¬Òò´Ë£¬ÕâÀï²»ÄÜÓĞRoleName
+    //        //è¿™ä¸ªå±æ€§RoleNameæ˜¯ç©å®¶çš„ï¼Œå› æ­¤ï¼Œè¿™é‡Œä¸èƒ½æœ‰RoleName
     //        const AFIDataList& valueList = pConfigPropertyInfo->GetValue();
 
 
@@ -257,7 +257,7 @@ int AFCAccountModule::OnCreateRoleEvent(const AFGUID& object, const int nEventID
     //varPropertyKeyList << "SceneID";
     //varPropertyValueList << mnRoleHallContainer;
     //varPropertyKeyList << "LastContainerID";
-    //varPropertyValueList << 1;//1ºÅ³¡¾°ÎªĞÂÊÖ´å
+    //varPropertyValueList << 1;//1å·åœºæ™¯ä¸ºæ–°æ‰‹æ‘
     //varPropertyKeyList << "ClassName";
     //varPropertyValueList << "Player";
     //varPropertyKeyList << "Level";
@@ -278,7 +278,7 @@ int AFCAccountModule::OnCreateRoleEvent(const AFGUID& object, const int nEventID
     //arg << "Y" << atof(valueRelivePos.StringVal(1));
     //arg << "Z" << atof(valueRelivePos.StringVal(2));
     //m_pKernelModule->CreateObject(0, mnRoleHallContainer, 0, "Player", szConfigName, arg);
-    ////nosql Ôò²»ĞèÒªÕâÑùÁË
+    ////nosql åˆ™ä¸éœ€è¦è¿™æ ·äº†
     ////m_pEventProcessModule->DoEvent(0, AFED_ON_DATABASE_SERVER_LOADROE_BEGIN, AFCValueList() << pstrAccountName);
 
     return 0;
@@ -350,7 +350,7 @@ int AFCAccountModule::OnAcountDisConnectEvent(const AFGUID& object, const int nE
 
 int AFCAccountModule::OnLoadRoleBeginEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
-    ////Ö±½Ó´ÓNOSQLÊı¾İ¿âÀ­
+    ////ç›´æ¥ä»NOSQLæ•°æ®åº“æ‹‰
     //const char* pstrAccount = var.StringVal(0);
     //AFCValueList roleLlist;
     //if(m_pNoSqlModule->QueryAccountRoleList(pstrAccount, roleLlist) > 0)
@@ -360,7 +360,7 @@ int AFCAccountModule::OnLoadRoleBeginEvent(const AFGUID& object, const int nEven
     //        const char* pstrRoleName = roleLlist.StringVal(i);
     //        if(strlen(pstrRoleName) > 0)
     //        {
-    //            //¿´ÈİÆ÷ÖĞÊÇ·ñÒÑ¾­´æÔÚ£¬´æÔÚÔò²»´´½¨
+    //            //çœ‹å®¹å™¨ä¸­æ˜¯å¦å·²ç»å­˜åœ¨ï¼Œå­˜åœ¨åˆ™ä¸åˆ›å»º
     //            AFCValueList varHallObjectList;
     //            AFCValueList varHalvalueInfo;
     //            varHalvalueInfo << pstrRoleName;

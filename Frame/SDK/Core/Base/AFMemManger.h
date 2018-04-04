@@ -47,7 +47,7 @@ public:
     virtual void FreeMem()
     {
 #ifdef ARK_USE_TCMALLOC
-        // »ØÊÕÄÚ´æ
+        // å›žæ”¶å†…å­˜
         MallocExtension::instance()->ReleaseFreeMemory();
 #endif //ARK_USE_TCMALLOC
     }

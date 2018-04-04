@@ -46,7 +46,7 @@ void AFCGameServerToWorldModule::Update()
 
 void AFCGameServerToWorldModule::Register(const int nSeverID)
 {
-    //³É¹¦¾Í×¢²á
+    //æˆåŠŸå°±æ³¨å†Œ
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if(nullptr == xLogicClass)
     {
@@ -123,7 +123,7 @@ bool AFCGameServerToWorldModule::PostInit()
 
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCGameServerToWorldModule::OnObjectClassEvent);
 
-    // Á¬½Óworld server
+    // è¿æ¥world server
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
     if (nullptr == xLogicClass)
     {
