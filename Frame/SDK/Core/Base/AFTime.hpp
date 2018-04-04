@@ -27,13 +27,13 @@
 class AFCTimeBase : public AFSingleton<AFCTimeBase>
 {
 public:
-    //各种毫秒
+    //鍚勭姣
     static const int64_t NSECOND_MS = 1000L;
     static const int64_t NMINUTE_MS = 60 * 1000L;
     static const int64_t NHOUR_MS = 60 * 60 * 1000L;
     static const int64_t NDAY_MS = 24 * 60 * 60 * 1000L;
     static const int64_t NWEEK_MS = 7 * 24 * 60 * 60 * 1000L;
-    //各种秒
+    //鍚勭绉?
     static const int64_t NSECOND_S = 1L;
     static const int64_t NMINUTE_S = 60L;
     static const int64_t NHOUR_S = 60 * 60L;
@@ -49,12 +49,12 @@ public:
     }
 
 public:
-    int64_t GetUTCTime()//单位是秒, 0时区时间
+    int64_t GetUTCTime()//鍗曚綅鏄, 0鏃跺尯鏃堕棿
     {
         return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     }
 
-    int64_t GetNowMillisecond() //单位是毫秒, 特定时区时间
+    int64_t GetNowMillisecond() //鍗曚綅鏄绉? 鐗瑰畾鏃跺尯鏃堕棿
     {
         return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() + GetTimeZoneMillisecond();
     }
@@ -77,7 +77,7 @@ public:
         return mnTimeZone;
     }
 private:
-    int mnTimeZone;  //默认给UTC+8
+    int mnTimeZone;  //榛樿缁橴TC+8
 };
 
 class AFTime
@@ -150,7 +150,7 @@ public:
         InitWithYMDHMSM(nYear, nMonth, nDay, nHour, nMinute, nSecond, nMilliSecond);
     }
 
-    //带时区
+    //甯︽椂鍖?
     std::string GetStr()
     {
         return GetStr_YMDHMS();
@@ -159,7 +159,7 @@ public:
     std::string GetStr_YMD()
     {
         time_t t;
-        t = mnTime / AFCTimeBase::NSECOND_MS; //转成秒
+        t = mnTime / AFCTimeBase::NSECOND_MS; //杞垚绉?
         struct tm* p = gmtime(&t);
 
         char buf[255] = { 0 };
@@ -181,7 +181,7 @@ public:
     std::string GetStr_HMS()
     {
         time_t t;
-        t = mnTime / AFCTimeBase::NSECOND_MS; //转成秒
+        t = mnTime / AFCTimeBase::NSECOND_MS; //杞垚绉?
         struct tm* p = gmtime(&t);
 
         char buf[255] = { 0 };
@@ -201,7 +201,7 @@ public:
     std::string GetStr_YMDHMS()
     {
         time_t t;
-        t = mnTime / AFCTimeBase::NSECOND_MS; //转成秒
+        t = mnTime / AFCTimeBase::NSECOND_MS; //杞垚绉?
         struct tm* p = gmtime(&t);
 
         char buf[255] = { 0 };
@@ -234,7 +234,7 @@ public:
     {
         return mnTime;//GetFixTime();
     }
-    int64_t Get(TimeType nType) //带时区(特别注意: 会在现在mnTime的基础上加上时区毫秒数)
+    int64_t Get(TimeType nType) //甯︽椂鍖?鐗瑰埆娉ㄦ剰: 浼氬湪鐜板湪mnTime鐨勫熀纭€涓婂姞涓婃椂鍖烘绉掓暟)
     {
         int year = 1970;
         int64_t nFixTime = GetTime();//GetFixTime();
@@ -430,7 +430,7 @@ public:
         mnTime = nTime;
     }
 
-    //带时区
+    //甯︽椂鍖?
     int64_t GetYear()
     {
         return Get(YEAR);
@@ -520,13 +520,13 @@ public:
     }
     bool SameWeek(int64_t nTime)
     {
-        //同一天，可定是同一周
+        //鍚屼竴澶╋紝鍙畾鏄悓涓€鍛?
         if(SameDay(nTime))
         {
             return true;
         }
 
-        //不是同一年，直接不做比较
+        //涓嶆槸鍚屼竴骞达紝鐩存帴涓嶅仛姣旇緝
         if(!SameYear(nTime))
         {
             return false;
@@ -564,7 +564,7 @@ public:
         {
             nDayOfYear += AFCTimeBase::GetInstance().MONTH_DAY[i];
 
-            //闰年2月是29，所以多加1
+            //闂板勾2鏈堟槸29锛屾墍浠ュ鍔?
             if(IsLeapYear(nYear) && i == 2)
             {
                 nDayOfYear += 1;
@@ -811,5 +811,5 @@ private:
 
 private:
     int64_t mnTime;
-    int mnTimeZone;  //默认给UTC+8
+    int mnTimeZone;  //榛樿缁橴TC+8
 };

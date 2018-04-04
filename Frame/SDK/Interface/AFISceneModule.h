@@ -94,11 +94,11 @@ public:
         {
             if (bPlayer)
             {
-                return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.second为空，使用的时候千万注意
+                return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.second涓虹┖锛屼娇鐢ㄧ殑鏃跺€欏崈涓囨敞鎰?
             }
             else
             {
-                return pInfo->mxOtherList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.second为空，使用的时候千万注意
+                return pInfo->mxOtherList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.second涓虹┖锛屼娇鐢ㄧ殑鏃跺€欏崈涓囨敞鎰?
             }
         }
 

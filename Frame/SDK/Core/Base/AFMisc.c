@@ -20,6 +20,8 @@
 
 #include "AFMisc.hpp"
 
+#if ARK_PLATFORM == PLATFORM_UNIX
+
 /* isaacs - added strlcpy implementation for systems that lack it. */
 #ifndef strlcpy
 /*	$NetBSD: strlcpy.c,v 1.1 2010/12/05 03:15:43 christos Exp $	*/
@@ -82,4 +84,6 @@ strlcpy(char *dst, const char *src, size_t siz)
 
 	return(s - src - 1);	/* count does not include NUL */
 }
+#endif
+
 #endif

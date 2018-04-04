@@ -49,7 +49,7 @@ void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= 
     ObjectList::iterator itIndex;
     bool bFlag = false;
 
-    //x轴
+    //x杞?
     ObjectMap xTempMap;
     for(ObjectList::iterator iter = xObjectList.begin(); iter != xObjectList.end(); ++iter)
     {
@@ -73,17 +73,17 @@ void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= 
 
     if(bFlag)
     {
-        //找到了，插入进去
+        //鎵惧埌浜嗭紝鎻掑叆杩涘幓
         xObjectList.insert(itIndex, pObject);
     }
     else
     {
-        //没找到，尾部加进去
+        //娌℃壘鍒帮紝灏鹃儴鍔犺繘鍘?
         xObjectList.push_back(pObject);
         pObject->x_pos = itIndex--;
     }
 
-    //y轴
+    //y杞?
     bFlag = false;
     for(ObjectList::iterator iter = yObjectList.begin(); iter != yObjectList.end();)
     {
@@ -217,7 +217,7 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
     ObjectList::iterator iter;
     int differ = pObject->radius;
 
-    //x轴 向后找
+    //x杞?鍚戝悗鎵?
     if(pObject->x_pos != xObjectList.end())
     {
         iter = pObject->x_pos;
@@ -238,7 +238,7 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
         }
     }
 
-    //x轴 向前找
+    //x杞?鍚戝墠鎵?
     if(pObject->x_pos != xObjectList.begin())
     {
         iter = pObject->x_pos;
@@ -259,7 +259,7 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
         }
     }
 
-    //y轴 向后找
+    //y杞?鍚戝悗鎵?
     if(pObject->y_pos != yObjectList.end())
     {
         iter = pObject->y_pos;
@@ -283,7 +283,7 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
         }
     }
 
-    //y轴 向前找
+    //y杞?鍚戝墠鎵?
     if(pObject->y_pos != yObjectList.begin())
     {
         iter = pObject->y_pos;
@@ -319,7 +319,7 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
     ObjectList::iterator iter;
     ObjectList::iterator itIndex;
 
-    //x轴找新的位置
+    //x杞存壘鏂扮殑浣嶇疆
     if(pObject->x > oldX)
     {
         if(pObject->x_pos != xObjectList.end())
@@ -381,7 +381,7 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
         }
     }
 
-    //y轴找新的位置
+    //y杞存壘鏂扮殑浣嶇疆
     if(pObject->y > OldY)
     {
         if(pObject->y_pos != yObjectList.end())

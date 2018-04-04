@@ -457,7 +457,7 @@ const char* AFDataTable::GetStringValue(size_t row, size_t col)
 
     //return data.ToString();
 
-    //TODO:增加AFIData的ToString接口
+    //TODO:澧炲姞AFIData鐨凾oString鎺ュ彛
     return NULL_STR.c_str();
 }
 
