@@ -46,7 +46,7 @@ public:
     }
 };
 
-// ȡ��ϣֵ�����Դ�Сд
+// 取哈希值，忽略大小写
 inline static unsigned int GetHashValueNoCase(const char* name)
 {
     static unsigned char convert_to_lower[256] =
@@ -96,7 +96,7 @@ inline static unsigned int GetHashValueNoCase(const char* name)
     return hash;
 }
 
-// ȡ��ϣֵ
+// 取哈希值
 inline unsigned int GetHashValue(const char* name)
 {
     assert(name != nullptr);

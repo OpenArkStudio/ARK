@@ -179,7 +179,7 @@ void AFCWorldToMasterModule::OnKickClientProcess(const AFIMsgHead& xHead, const 
         return;
     }
 
-    //T»À,œ¬œﬂ
+    //T‰∫∫,‰∏ãÁ∫ø
     //     AFIDataList var;
     //     var << xMsg.world_id() << xMsg.account();
     //     m_pEventProcessModule->DoEvent(AFGUID(), AFED_ON_KICK_FROM_SERVER, var);
@@ -187,7 +187,7 @@ void AFCWorldToMasterModule::OnKickClientProcess(const AFIMsgHead& xHead, const 
 
 void AFCWorldToMasterModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    printf("NFNet || ∑«∑®œ˚œ¢:unMsgID=%d\n", nMsgID);
+    printf("NFNet || ÈùûÊ≥ïÊ∂àÊÅØ:unMsgID=%d\n", nMsgID);
 }
 
 void AFCWorldToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)

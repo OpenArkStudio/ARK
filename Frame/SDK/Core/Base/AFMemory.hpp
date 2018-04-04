@@ -95,14 +95,14 @@ public:
 
 struct MemoryBlock
 {
-    //Á´±íÇ°ºóÖ¸Õë
+    //é“¾è¡¨å‰åæŒ‡é’ˆ
     MemoryBlock*prev;
     MemoryBlock* next;
-    //·ÖÅäMemoryBlock×Ü´óĞ¡¡£
+    //åˆ†é…MemoryBlockæ€»å¤§å°ã€‚
     int mSize;
-    //Î´·ÖÅä¿é¸öÊı
+    //æœªåˆ†é…å—ä¸ªæ•°
     int free;
-    //Ê×¸öÎ´·ÖÅä¿éË÷Òı
+    //é¦–ä¸ªæœªåˆ†é…å—ç´¢å¼•
     int first;
     //Padding
     char mPad[2];
@@ -115,37 +115,37 @@ class MemoryPool
 {
 private:
     static uint16_t poolMapIndex;
-    //·ÖÅä²»Í¬ÄÚ´æ¿éÊ±Æä¶ÔÓ¦µÄÓ³Éä±í
+    //åˆ†é…ä¸åŒå†…å­˜å—æ—¶å…¶å¯¹åº”çš„æ˜ å°„è¡¨
     std::map<int, int>poolMap;
-    //ÄÚ´æ³Ø¶ÔÆë´óĞ¡¡£
+    //å†…å­˜æ± å¯¹é½å¤§å°ã€‚
     const int POOLALIGNMENT = 8;
-    //³õÊ¼»¯ÄÚ´æ¿é
+    //åˆå§‹åŒ–å†…å­˜å—
     int initBlockCount;
-    //ÄÚ´æ¿é²»×ãÔö³¤µÄ¿éÊı¡£
+    //å†…å­˜å—ä¸è¶³å¢é•¿çš„å—æ•°ã€‚
     int growBlockcount;
-    //Ê××ÓÄÚ´æ³ØÏÂ±ê
+    //é¦–å­å†…å­˜æ± ä¸‹æ ‡
     unsigned firstIndex;
-    //Ä©ÄÚ´æ³ØÏÂ±ê¡£
+    //æœ«å†…å­˜æ± ä¸‹æ ‡ã€‚
     unsigned lastIndex;
-    //×î¶à16ÖÖ²»Í¬ÄÚ´æ¿é´óĞ¡£¬Ò²¾ÍÊÇËµ×ÓÄÚ´æ³Ø×î¶àÓĞ16¸ö¡£
+    //æœ€å¤š16ç§ä¸åŒå†…å­˜å—å¤§å°ï¼Œä¹Ÿå°±æ˜¯è¯´å­å†…å­˜æ± æœ€å¤šæœ‰16ä¸ªã€‚
     MemoryBlock* memoryHashMap[16];
     MemoryBlock** mpPtr;
-    //¼ÆËã²»Í¬ÄÚ´æ¿é¶ÔÓ¦µÄhashCode
+    //è®¡ç®—ä¸åŒå†…å­˜å—å¯¹åº”çš„hashCode
     int Hash(int);
-    //¶ÔÆë×Ö½Ú
+    //å¯¹é½å­—èŠ‚
     int AlignBytes(int);
-    //·µ»Ø·ÖÅä¿é´óĞ¡¡£
+    //è¿”å›åˆ†é…å—å¤§å°ã€‚
     int GetUnitSize(int);
 protected:
     static MemoryPool* memoryPoolInstance;
     MemoryPool(int initBlockSize = 1024, int growBlockSize = 256);
 public:
-    //·ÖÅäÄÚ´æ
+    //åˆ†é…å†…å­˜
     void* Alloc(int);
-    //ÊÍ·ÅÄÚ´æ¡£
+    //é‡Šæ”¾å†…å­˜ã€‚
     void FreeAlloc(void*);
     static void Initialize(MemoryPool* p);
-    //·µ»ØÈ«¾ÖÄÚ´æ³ØÊµÀı
+    //è¿”å›å…¨å±€å†…å­˜æ± å®ä¾‹
     static MemoryPool* GetInstance();
     ~MemoryPool();
 };

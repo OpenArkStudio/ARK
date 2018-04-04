@@ -123,7 +123,7 @@ void AFCHeartBeatManager::Update()
         break;
     }
 
-    //É¾³ıËùÓĞ¹ıÊ±ĞÄÌø
+    //åˆ é™¤æ‰€æœ‰è¿‡æ—¶å¿ƒè·³
     std::string strHeartBeatName;
     bool bRet = mRemoveListEx.First(strHeartBeatName);
     while(bRet)
@@ -160,7 +160,7 @@ void AFCHeartBeatManager::Update()
     mRemoveListEx.ClearAll();
 
     //////////////////////////////////////////////////////////////////////////
-    //Ìí¼ÓĞÂĞÄÌøÒ²ÊÇÑÓÊ±Ìí¼ÓµÄ
+    //æ·»åŠ æ–°å¿ƒè·³ä¹Ÿæ˜¯å»¶æ—¶æ·»åŠ çš„
     for(std::list<AFCHeartBeatElement>::iterator iter = mAddListEx.begin(); iter != mAddListEx.end(); ++iter)
     {
         if(mHeartBeatElementMapEx.GetElement(iter->strBeatName) == nullptr)

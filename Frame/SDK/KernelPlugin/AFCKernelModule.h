@@ -136,13 +136,13 @@ public:
 
 protected:
 
-    //注册通用Class事件
+    //娉ㄥ唽閫氱敤Class浜嬩欢
     virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb);
 
-    //注册通用DataNode事件
+    //娉ㄥ唽閫氱敤DataNode浜嬩欢
     virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
 
-    //注册通用DataTable事件
+    //娉ㄥ唽閫氱敤DataTable浜嬩欢
     virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
 
 protected:

@@ -196,7 +196,7 @@ void AFCMasterNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, con
         return;
     }
 
-    //×ª·¢ËÍµ½ÊÀ½ç·şÎñÆ÷
+    //è½¬å‘é€åˆ°ä¸–ç•ŒæœåŠ¡å™¨
     m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
 }
 
@@ -221,7 +221,7 @@ void AFCMasterNetServerModule::OnSelectServerResultProcess(const AFIMsgHead& xHe
         return;
     }
 
-    //×ª·¢ËÍµ½µÇÂ¼·şÎñÆ÷
+    //è½¬å‘é€åˆ°ç™»å½•æœåŠ¡å™¨
     m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
 }
 
@@ -294,7 +294,7 @@ void AFCMasterNetServerModule::OnSocketEvent(const NetEventType eEvent, const AF
 
 void AFCMasterNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 {
-    //²»¹ÜÊÇlogin»¹ÊÇworld¶¼ÒªÕÒ³öÀ´,ÌæËû·´×¢²á
+    //ä¸ç®¡æ˜¯loginè¿˜æ˜¯worldéƒ½è¦æ‰¾å‡ºæ¥,æ›¿ä»–åæ³¨å†Œ
     ARK_SHARE_PTR<ServerData> pServerData =  mWorldMap.First();
     while(nullptr != pServerData)
     {
@@ -331,7 +331,7 @@ void AFCMasterNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 
 void AFCMasterNetServerModule::OnClientConnected(const AFGUID& xClientID)
 {
-    //Á¬½ÓÉÏÀ´É¶¶¼²»×ö
+    //è¿æ¥ä¸Šæ¥å•¥éƒ½ä¸åš
 }
 
 void AFCMasterNetServerModule::SynWorldToLogin()
@@ -347,7 +347,7 @@ void AFCMasterNetServerModule::SynWorldToLogin()
         pServerData = mWorldMap.Next();
     }
 
-    //¹ã²¥¸øËùÓĞloginserver
+    //å¹¿æ’­ç»™æ‰€æœ‰loginserver
     pServerData =  mLoginMap.First();
     while(nullptr != pServerData)
     {
