@@ -30,7 +30,7 @@ bool HelloWorld3Module::Init()
 
 int HelloWorld3Module::OnEvent(const AFGUID& self, const int event, const AFIDataList& arg)
 {
-    //ÊÂ¼ş»Øµ÷º¯Êı
+    //äº‹ä»¶å›è°ƒå‡½æ•°
     std::cout << "OnEvent EventID: " << event << " self: " << self.ToString() << " argList: " << arg.String(0) << " " << " " << arg.Int(1) << std::endl;
 
     m_pKernelModule->SetNodeString(self, "Hello", arg.String(0));
@@ -51,7 +51,7 @@ int HelloWorld3Module::OnHeartBeat(const AFGUID& self, const std::string& strHea
 
 int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT event, const AFIDataList& arg)
 {
-    //ĞéÄâÀàÊÂ¼ş£¬Ö»ÒªÓĞ´ËĞéÄâÀà´´½¨»òÕßÏú»Ù¼´»á»Øµ÷
+    //è™šæ‹Ÿç±»äº‹ä»¶ï¼Œåªè¦æœ‰æ­¤è™šæ‹Ÿç±»åˆ›å»ºæˆ–è€…é”€æ¯å³ä¼šå›è°ƒ
     std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.ToString() << " Event: " << event << std::endl;
 
     if(event == ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED)
@@ -68,7 +68,7 @@ int HelloWorld3Module::OnClassCallBackEvent(const AFGUID& self, const std::strin
 
 int HelloWorld3Module::OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVar, const AFIData& newVar)
 {
-    //ÊôĞÔ»Øµ÷ÊÂ¼ş£¬Ö»ÒªÊôĞÔÖµÄÚÈİÓĞ±ä»¯£¬¾Í»á±»»Øµ÷
+    //å±æ€§å›è°ƒäº‹ä»¶ï¼Œåªè¦å±æ€§å€¼å†…å®¹æœ‰å˜åŒ–ï¼Œå°±ä¼šè¢«å›è°ƒ
     std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt() << std::endl;
 
     return 0;
@@ -76,7 +76,7 @@ int HelloWorld3Module::OnPropertyCallBackEvent(const AFGUID& self, const std::st
 
 int HelloWorld3Module::OnPropertyStrCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVar, const AFIData& newVar)
 {
-    //ÊôĞÔ»Øµ÷ÊÂ¼ş£¬Ö»ÒªÊôĞÔÖµÄÚÈİÓĞ±ä»¯£¬¾Í»á±»»Øµ÷
+    //å±æ€§å›è°ƒäº‹ä»¶ï¼Œåªè¦å±æ€§å€¼å†…å®¹æœ‰å˜åŒ–ï¼Œå°±ä¼šè¢«å›è°ƒ
     std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetString() << " NewValue: " << newVar.GetString() << std::endl;
 
     return 0;
@@ -94,7 +94,7 @@ int HelloWorld3Module::OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_E
 
 bool HelloWorld3Module::PostInit()
 {
-    //³õÊ¼»¯Íê±Ï
+    //åˆå§‹åŒ–å®Œæ¯•
     std::cout << "Hello, world3, PostInit" << std::endl;
 
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
@@ -103,12 +103,12 @@ bool HelloWorld3Module::PostInit()
 
     ARK_LOG_INFO("Init finished...");
 
-    //´´½¨ÈİÆ÷£¬ËùÓĞµÄ¶ÔÏó¾ùĞèÔÚÈİÆ÷ÖĞ
+    //åˆ›å»ºå®¹å™¨ï¼Œæ‰€æœ‰çš„å¯¹è±¡å‡éœ€åœ¨å®¹å™¨ä¸­
     m_pKernelModule->CreateScene(1);
 
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &HelloWorld3Module::OnClassCallBackEvent);
 
-    //´´½¨¶ÔÏó£¬¹ÒÀà»Øµ÷ºÍÊôĞÔ»Øµ÷,È»ºóÊÂ¼ş´¦Àí¶ÔÏó
+    //åˆ›å»ºå¯¹è±¡ï¼ŒæŒ‚ç±»å›è°ƒå’Œå±æ€§å›è°ƒ,ç„¶åäº‹ä»¶å¤„ç†å¯¹è±¡
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
     if(nullptr == pEntity)
     {

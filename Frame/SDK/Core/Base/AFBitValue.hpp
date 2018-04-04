@@ -20,16 +20,16 @@
 
 #pragma once
 
-//¶ÔÄÚÖÃÀàĞÍµÄÎ»²Ù×÷ ÀàĞÍÖµÖ»ÄÜÊÇÄÚÖÃµÄÀàĞÍ(int, short, char..µÈ)
+//å¯¹å†…ç½®ç±»å‹çš„ä½æ“ä½œ ç±»å‹å€¼åªèƒ½æ˜¯å†…ç½®çš„ç±»å‹(int, short, char..ç­‰)
 template<class T>
 class BitValue
 {
 public:
     enum BitValueDefine
     {
-        ErrorValue = -1,        // ´íÎóÖµ
-        NoneValue = 0,          // Ã»ÓĞÎ»Öµ
-        HaveValue = 1,          // ´æÔÚÎ»Öµ
+        ErrorValue = -1,        // é”™è¯¯å€¼
+        NoneValue = 0,          // æ²¡æœ‰ä½å€¼
+        HaveValue = 1,          // å­˜åœ¨ä½å€¼
     };
 
     BitValue() : m_nValue(0) { }
@@ -50,7 +50,7 @@ public:
         return sizeof(T) * 8;
     }
 
-    // »ñµÃµÚÒ»¸öÎ»ÖµÊÇ0µÄÎ»Ë÷Òı
+    // è·å¾—ç¬¬ä¸€ä¸ªä½å€¼æ˜¯0çš„ä½ç´¢å¼•
     int GetFirstNoValueIndex()
     {
         for(int i = 0; i < GetBitLength(); ++i)
@@ -61,10 +61,10 @@ public:
             }
         }
 
-        return -1;  // 32Î»¶¼ÓĞÖµ
+        return -1;  // 32ä½éƒ½æœ‰å€¼
     }
 
-    T GetBitValue(const int nIndex)         // µÃµ½Ä³Î»ÉÏµÄÖµ
+    T GetBitValue(const int nIndex)         // å¾—åˆ°æŸä½ä¸Šçš„å€¼
     {
         if(nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -74,7 +74,7 @@ public:
         return (m_nValue & (T(1) << nIndex));
     }
 
-    void SetBitValue(const int nIndex)        // ÉèÖÃÄ³Î»ÉÏµÄÖµ
+    void SetBitValue(const int nIndex)        // è®¾ç½®æŸä½ä¸Šçš„å€¼
     {
         if(nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -84,7 +84,7 @@ public:
         m_nValue |= (T(1) << nIndex);
     }
 
-    void ClearBitValue(const int nIndex)      // Çå³ıÄ³Î»ÉÏµÄÖµ
+    void ClearBitValue(const int nIndex)      // æ¸…é™¤æŸä½ä¸Šçš„å€¼
     {
         if(nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -110,7 +110,7 @@ public:
             }
         }
 
-        return -1;  // 32Î»¶¼ÓĞÖµ
+        return -1;  // 32ä½éƒ½æœ‰å€¼
     }
 
     static T GetBitValue(const T & nValue, const int nIndex)

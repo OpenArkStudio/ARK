@@ -144,7 +144,7 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
     ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
     if(pSession)
     {
-        //还没有登录过
+        //杩樻病鏈夌櫥褰曡繃
         if(pSession->mnLogicState == 0)
         {
             int nState = m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());
@@ -185,7 +185,7 @@ void AFCLoginNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, cons
         return;
     }
 
-    //没登录过
+    //娌＄櫥褰曡繃
     if(pSession->mnLogicState <= 0)
     {
         return;
@@ -262,7 +262,7 @@ void AFCLoginNetServerModule::OnLogOut(const AFIMsgHead& xHead, const int nMsgID
 
 void AFCLoginNetServerModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    printf("Net || 非法消息:unMsgID=%d\n", nMsgID);
+    printf("Net || 闈炴硶娑堟伅:unMsgID=%d\n", nMsgID);
 }
 
 

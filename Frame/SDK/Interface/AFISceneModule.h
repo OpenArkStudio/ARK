@@ -94,11 +94,11 @@ public:
         {
             if (bPlayer)
             {
-                return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.secondÎª¿Õ£¬Ê¹ÓÃµÄÊ±ºòÇ§Íò×¢Òâ
+                return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.secondä¸ºç©ºï¼Œä½¿ç”¨çš„æ—¶å€™åƒä¸‡æ³¨æ„
             }
             else
             {
-                return pInfo->mxOtherList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.secondÎª¿Õ£¬Ê¹ÓÃµÄÊ±ºòÇ§Íò×¢Òâ
+                return pInfo->mxOtherList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.secondä¸ºç©ºï¼Œä½¿ç”¨çš„æ—¶å€™åƒä¸‡æ³¨æ„
             }
         }
 

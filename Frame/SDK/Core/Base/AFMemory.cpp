@@ -31,7 +31,7 @@ MemoryBlock::MemoryBlock(uint16_t initblock, uint16_t unitSize)
     char* padData = mPad;
     for (int i = 1; i < initblock; i++)
     {
-        *reinterpret_cast<USHORT*>(padData) = i;
+        *reinterpret_cast<uint16_t*>(padData) = i;
         padData += (unitSize + 2);
     }
 }
@@ -138,7 +138,7 @@ void* MemoryPool::Alloc(int bytes)
     if (block)
     {
         char* ptr = block->mPad + (block->first*(alignedByte + 2));
-        block->first = *((USHORT*)ptr);
+        block->first = *((uint16_t*)ptr);
         --block->free;
         return (ptr);
     }

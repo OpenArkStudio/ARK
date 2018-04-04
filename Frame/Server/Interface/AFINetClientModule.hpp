@@ -114,7 +114,7 @@ public:
         SendByServerID(nServerID, nMsgID, strData.c_str(), strData.length(), nPlayerID);
     }
 
-    //ÂãÊı¾İ,·¢Ê±×é°ü
+    //è£¸æ•°æ®,å‘æ—¶ç»„åŒ…
     void SendByServerID(const int nServerID, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nPlayerID)
     {
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
@@ -127,7 +127,7 @@ public:
             }
         }
     }
-    //ÂãÊı¾İ,·¢Ê±×é°ü
+    //è£¸æ•°æ®,å‘æ—¶ç»„åŒ…
     void SendToAllServer(const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
     {
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
@@ -297,7 +297,7 @@ protected:
                 break;
             case ConnectDataState::RECONNECT:
                 {
-                    //¼ÆËãÊ±¼ä
+                    //è®¡ç®—æ—¶é—´
                     if((pServerData->mnLastActionTime + 30) >= GetPluginManager()->GetNowTime())
                     {
                         break;
@@ -391,7 +391,7 @@ private:
             ARK_SHARE_PTR<ConnectData> xServerData = mxServerMap.GetElement(xInfo.nGameID);
             if(nullptr == xServerData)
             {
-                //Õı³££¬Ìí¼ÓĞÂ·şÎñÆ÷
+                //æ­£å¸¸ï¼Œæ·»åŠ æ–°æœåŠ¡å™¨
                 xServerData = ARK_SHARE_PTR<ConnectData>(ARK_NEW ConnectData());
 
                 xServerData->nGameID = xInfo.nGameID;
@@ -436,7 +436,7 @@ private:
 
     void AddServerWeightData(ARK_SHARE_PTR<ConnectData> xInfo)
     {
-        //¸ù¾İÈ¨ÖØ´´½¨½Úµã
+        //æ ¹æ®æƒé‡åˆ›å»ºèŠ‚ç‚¹
         for(int j = 0; j < EConstDefine_DefaultWeith; ++j)
         {
             AFCMachineNode vNode(j);
