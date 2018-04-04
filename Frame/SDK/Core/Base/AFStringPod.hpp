@@ -22,7 +22,6 @@
 
 #include "AFCoreDef.hpp"
 #include "AFMacros.hpp"
-#include "AFMalloc.h"
 
 //取hash值时区分大小写
 template<typename TYPE>
@@ -86,12 +85,14 @@ public:
 
     void* Alloc(size_t size)
     {
-        return ARK_MALLOC(StringPodAlloc, size);
+        void* ptr = NULL;
+        ARK_ALLOC(ptr, StringPodAlloc, size);
+        return ptr;
     }
 
     void Free(void* ptr, size_t size)
     {
-        return ARK_FREE(StringPodAlloc, ptr, size);
+        ARK_DEALLOC(ptr, StringPodAlloc);
     }
 
     void Swap(StringPodAlloc& src)

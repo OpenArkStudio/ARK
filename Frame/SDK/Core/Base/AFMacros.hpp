@@ -21,6 +21,7 @@
 #pragma once
 
 #include "AFPlatform.hpp"
+#include "AFMemory.hpp"
 
 //Input param type
 #ifndef IN
@@ -72,6 +73,7 @@
     } while (0);
 
 #define ARK_EXPORT extern "C"  __declspec(dllexport)
+#define ARK_UNUSED
 
 #else
 
@@ -88,6 +90,7 @@
     } while (0);
 
 #define ARK_EXPORT extern "C" __attribute ((visibility("default")))
+#define ARK_UNUSED __attribute__((unused))
 
 #endif
 
@@ -101,12 +104,6 @@ template<> struct ARK_STATIC_ASSERTION_FAILURE<true>
 };
 
 template<int x> struct ark_static_assert_test {};
-
-#if ARK_PLATFORM == PLATFORM_UNIX
-#define ARK_UNUSED __attribute__((unused))
-#else
-#define ARK_UNUSED
-#endif
 
 #define ARK_STATIC_ASSERT(x) \
     typedef ark_static_assert_test<sizeof(ARK_STATIC_ASSERTION_FAILURE<(bool)(x)>)> \
@@ -218,5 +215,8 @@ template<int x> struct ark_static_assert_test {};
 #undef max
 #undef min
 
-// clear player data time
+#define ARK_ALLOC(ptr, name, size) ptr = (name*)MemoryPool::GetInstance()->Alloc(size); memset(ptr, 0x0, sizeof(name));
+#define ARK_DEALLOC(ptr, name) MemoryPool::GetInstance()->FreeAlloc(ptr);
+
+//clear player data time
 #define CLEAR_HOUR 5
