@@ -20,16 +20,16 @@
 
 #pragma once
 
-//对内置类型的位操作 类型值只能是内置的类型(int, short, char..等)
+//瀵瑰唴缃被鍨嬬殑浣嶆搷浣?绫诲瀷鍊煎彧鑳芥槸鍐呯疆鐨勭被鍨?int, short, char..绛?
 template<class T>
 class BitValue
 {
 public:
     enum BitValueDefine
     {
-        ErrorValue = -1,        // 错误值
-        NoneValue = 0,          // 没有位值
-        HaveValue = 1,          // 存在位值
+        ErrorValue = -1,        // 閿欒鍊?
+        NoneValue = 0,          // 娌℃湁浣嶅€?
+        HaveValue = 1,          // 瀛樺湪浣嶅€?
     };
 
     BitValue() : m_nValue(0) { }
@@ -50,7 +50,7 @@ public:
         return sizeof(T) * 8;
     }
 
-    // 获得第一个位值是0的位索引
+    // 鑾峰緱绗竴涓綅鍊兼槸0鐨勪綅绱㈠紩
     int GetFirstNoValueIndex()
     {
         for(int i = 0; i < GetBitLength(); ++i)
@@ -61,10 +61,10 @@ public:
             }
         }
 
-        return -1;  // 32位都有值
+        return -1;  // 32浣嶉兘鏈夊€?
     }
 
-    T GetBitValue(const int nIndex)         // 得到某位上的值
+    T GetBitValue(const int nIndex)         // 寰楀埌鏌愪綅涓婄殑鍊?
     {
         if(nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -74,7 +74,7 @@ public:
         return (m_nValue & (T(1) << nIndex));
     }
 
-    void SetBitValue(const int nIndex)        // 设置某位上的值
+    void SetBitValue(const int nIndex)        // 璁剧疆鏌愪綅涓婄殑鍊?
     {
         if(nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -84,7 +84,7 @@ public:
         m_nValue |= (T(1) << nIndex);
     }
 
-    void ClearBitValue(const int nIndex)      // 清除某位上的值
+    void ClearBitValue(const int nIndex)      // 娓呴櫎鏌愪綅涓婄殑鍊?
     {
         if(nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -110,7 +110,7 @@ public:
             }
         }
 
-        return -1;  // 32位都有值
+        return -1;  // 32浣嶉兘鏈夊€?
     }
 
     static T GetBitValue(const T & nValue, const int nIndex)

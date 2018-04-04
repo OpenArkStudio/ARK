@@ -46,7 +46,7 @@ public:
             return;
         }
 
-        //把所有的真实主机作为备份
+        //鎶婃墍鏈夌殑鐪熷疄涓绘満浣滀负澶囦唤
         AFCMachineNode xNode;
         xNode.nMachineID = nServerID;
         xNode.strIP = "";

@@ -133,7 +133,7 @@ void AFCNetServer::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
         pMsg->nType = DISCONNECTED;
 
 
-        //涓荤嚎绋嬩笉鑳界洿鎺ュ垹闄ゃ€備笉鐒惰繖閲屽氨閲庝簡
+        //娑撹崵鍤庣粙瀣╃瑝閼崇晫娲块幒銉ュ灩闂勩們鈧倷绗夐悞鎯扮箹闁插苯姘ㄩ柌搴濈啊
         if(!conn->context().IsEmpty())
         {
             NetObject* pEntity = evpp::any_cast<NetObject*>(conn->context());
