@@ -19,11 +19,6 @@ Gitee(码云): https://gitee.com/ArkGame/ARK
 
 **<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ARK/blob/master/CONTRIBUTING.md)</font>**.
 
-## Contact
-
-- QQ Group: 540961187
-- mail: arkgametech@163.com
-
 ## ARK
 ARK is a lightweight, agility, scalable, distributed plugin framework written by C++，make it easier and faster to create your own game server, can be used to develop MMO RPG, ARPG, Round play, chess games. Inspired by UnrealEngine and Ogre.
 

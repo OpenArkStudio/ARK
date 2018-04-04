@@ -78,8 +78,8 @@
 //linux
 #define ARK_SPRINTF snprintf
 #define ARK_STRICMP strcasecmp
-#define ARK_SLEEP(s) usleep(s)
-#define ARK_STRNCPY strncpy
+#define ARK_SLEEP(s) usleep(s * 1000)
+#define ARK_STRNCPY strlcpy
 #define ARK_ASSERT(exp_, msg_, file_, func_)        \
     do                                              \
     {                                               \
