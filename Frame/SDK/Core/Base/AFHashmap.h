@@ -238,7 +238,7 @@ public:
 
     ARK_SHARE_PTR<TD> Suit(T& name)
     {
-        //不能使用迭代器那套，因为会打乱迭代器顺序
+        //涓嶈兘浣跨敤杩唬鍣ㄩ偅濂楋紝鍥犱负浼氭墦涔辫凯浠ｅ櫒椤哄簭
         if (Count() <= 0)
         {
             return nullptr;

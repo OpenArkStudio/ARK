@@ -701,7 +701,7 @@ public:
 
         if(size1 <= (strlen(p) + 1))
         {
-            //如果value的长度 <= 以前的长度，放回原地，不做改变
+            //濡傛灉value鐨勯暱搴?<= 浠ュ墠鐨勯暱搴︼紝鏀惧洖鍘熷湴锛屼笉鍋氭敼鍙?
 #if ARK_PLATFORM == PLATFORM_WIN
             strncpy_s(p, (strlen(p) + 1), value, size1);
 #else
@@ -856,7 +856,7 @@ protected:
             mnBufferSize = new_size;
         }
 
-        char* ret = mpBuffer + mnBufferUsed; //返回的是加buffer之前的位置
+        char* ret = mpBuffer + mnBufferUsed; //杩斿洖鐨勬槸鍔燽uffer涔嬪墠鐨勪綅缃?
         mnBufferUsed = new_used;
         return ret;
     }

@@ -33,7 +33,7 @@ class AFILevelModule
     : public AFIModule
 {
 public:
-    //nType:增加原因
+    //nType:澧炲姞鍘熷洜
     virtual int AddExp(const AFGUID& self, const int nExp) = 0;
 
 };

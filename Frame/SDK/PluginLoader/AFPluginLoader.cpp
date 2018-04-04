@@ -41,25 +41,25 @@ std::thread gBackThread;
 #pragma comment(lib, "AFCore.lib")
 #endif
 
-// 鍒涘缓Dump鏂囦欢
+// 閸掓稑缂揇ump閺傚洣娆?
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
 {
-    // 鍒涘缓Dump鏂囦欢
+    // 閸掓稑缂揇ump閺傚洣娆?
     HANDLE hDumpFile = CreateFile(strDumpFilePathName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-    // Dump淇℃伅
+    // Dump娣団剝浼?
     MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
     dumpInfo.ExceptionPointers = pException;
     dumpInfo.ThreadId = GetCurrentThreadId();
     dumpInfo.ClientPointers = TRUE;
 
-    // 鍐欏叆Dump鏂囦欢鍐呭
+    // 閸愭瑥鍙咲ump閺傚洣娆㈤崘鍛啇
     MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &dumpInfo, NULL, NULL);
 
     CloseHandle(hDumpFile);
 }
 
-// 澶勭悊Unhandled Exception鐨勫洖璋冨嚱鏁?
+// 婢跺嫮鎮奤nhandled Exception閻ㄥ嫬娲栫拫鍐ㄥ毐閺?
 long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
     time_t t = time(0);
@@ -392,7 +392,7 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->CheckConfig();
     AFCPluginManager::GetInstancePtr()->PreUpdate();
 
-    while(!bExitApp)     //DEBUG鐗堟湰宕╂簝锛孯ELEASE涓嶅穿
+    while(!bExitApp)     //DEBUG閻楀牊婀板畷鈺傜皾閿涘ELEASE娑撳秴绌?
     {
         while(true)
         {

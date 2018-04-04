@@ -128,7 +128,7 @@ public:
         return mxNodes[index];
     }
 
-    //不能删除，删除后会导致index错位
+    //涓嶈兘鍒犻櫎锛屽垹闄ゅ悗浼氬鑷磇ndex閿欎綅
     //bool RemoveElement(const std::string& name)
     //{
     //    size_t index;
@@ -140,7 +140,7 @@ public:
     //    //remove from name container
     //    mxIndices.Remove(name.c_str());
 
-    //    //释放内存
+    //    //閲婃斁鍐呭瓨
     //    if (mxNodes[index] != nullptr)
     //    {
     //        //delete mxNodes[index];

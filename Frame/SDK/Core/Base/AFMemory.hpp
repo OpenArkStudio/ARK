@@ -95,14 +95,14 @@ public:
 
 struct MemoryBlock
 {
-    //链表前后指针
+    //閾捐〃鍓嶅悗鎸囬拡
     MemoryBlock*prev;
     MemoryBlock* next;
-    //分配MemoryBlock总大小。
+    //鍒嗛厤MemoryBlock鎬诲ぇ灏忋€?
     int mSize;
-    //未分配块个数
+    //鏈垎閰嶅潡涓暟
     int free;
-    //首个未分配块索引
+    //棣栦釜鏈垎閰嶅潡绱㈠紩
     int first;
     //Padding
     char mPad[2];
@@ -115,37 +115,37 @@ class MemoryPool
 {
 private:
     static uint16_t poolMapIndex;
-    //分配不同内存块时其对应的映射表
+    //鍒嗛厤涓嶅悓鍐呭瓨鍧楁椂鍏跺搴旂殑鏄犲皠琛?
     std::map<int, int>poolMap;
-    //内存池对齐大小。
+    //鍐呭瓨姹犲榻愬ぇ灏忋€?
     const int POOLALIGNMENT = 8;
-    //初始化内存块
+    //鍒濆鍖栧唴瀛樺潡
     int initBlockCount;
-    //内存块不足增长的块数。
+    //鍐呭瓨鍧椾笉瓒冲闀跨殑鍧楁暟銆?
     int growBlockcount;
-    //首子内存池下标
+    //棣栧瓙鍐呭瓨姹犱笅鏍?
     unsigned firstIndex;
-    //末内存池下标。
+    //鏈唴瀛樻睜涓嬫爣銆?
     unsigned lastIndex;
-    //最多16种不同内存块大小，也就是说子内存池最多有16个。
+    //鏈€澶?6绉嶄笉鍚屽唴瀛樺潡澶у皬锛屼篃灏辨槸璇村瓙鍐呭瓨姹犳渶澶氭湁16涓€?
     MemoryBlock* memoryHashMap[16];
     MemoryBlock** mpPtr;
-    //计算不同内存块对应的hashCode
+    //璁＄畻涓嶅悓鍐呭瓨鍧楀搴旂殑hashCode
     int Hash(int);
-    //对齐字节
+    //瀵归綈瀛楄妭
     int AlignBytes(int);
-    //返回分配块大小。
+    //杩斿洖鍒嗛厤鍧楀ぇ灏忋€?
     int GetUnitSize(int);
 protected:
     static MemoryPool* memoryPoolInstance;
     MemoryPool(int initBlockSize = 1024, int growBlockSize = 256);
 public:
-    //分配内存
+    //鍒嗛厤鍐呭瓨
     void* Alloc(int);
-    //释放内存。
+    //閲婃斁鍐呭瓨銆?
     void FreeAlloc(void*);
     static void Initialize(MemoryPool* p);
-    //返回全局内存池实例
+    //杩斿洖鍏ㄥ眬鍐呭瓨姹犲疄渚?
     static MemoryPool* GetInstance();
     ~MemoryPool();
 };
