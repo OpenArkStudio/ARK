@@ -81,6 +81,7 @@
 #define ARK_SPRINTF snprintf
 #define ARK_STRICMP strcasecmp
 #define ARK_SLEEP(s) usleep(s * 1000)
+extern size_t strlcpy(char *dst, const char *src, size_t siz);
 #define ARK_STRNCPY strlcpy
 #define ARK_ASSERT(exp_, msg_, file_, func_)        \
     do                                              \
