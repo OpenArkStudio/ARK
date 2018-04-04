@@ -126,7 +126,6 @@
     <ClInclude Include="Base\AFList.h" />
     <ClInclude Include="Base\AFLockFreeQueue.h" />
     <ClInclude Include="Base\AFMacros.hpp" />
-    <ClInclude Include="Base\AFMalloc.h" />
     <ClInclude Include="Base\AFMap.h" />
     <ClInclude Include="Base\AFMapEx.h" />
     <ClInclude Include="Base\AFMemManger.h" />
@@ -150,7 +149,7 @@
     <ClCompile Include="AFCDataNodeManager.cpp" />
     <ClCompile Include="AFCDataTableManager.cpp" />
     <ClCompile Include="AFDataTable.cpp" />
-    <ClCompile Include="Base\AFMalloc.cpp" />
+    <ClCompile Include="Base\AFMemory.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
