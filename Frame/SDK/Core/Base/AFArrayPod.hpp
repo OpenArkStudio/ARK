@@ -203,7 +203,7 @@ public:
         return mpData[index];
     }
 
-    //预分配
+    //棰勫垎閰?
     void reserve(size_t size)
     {
         if(size > mnCapacity)
@@ -225,7 +225,7 @@ public:
     {
         if(size > mnCapacity)
         {
-            //申请现有容量的两倍，如果还不够，就按照size来申请
+            //鐢宠鐜版湁瀹归噺鐨勪袱鍊嶏紝濡傛灉杩樹笉澶燂紝灏辨寜鐓ize鏉ョ敵璇?
             size_t new_size = mnCapacity * 2;
             if(new_size < size)
             {
@@ -233,14 +233,14 @@ public:
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE)); //把原来真正的mnSize数据赋值给新的空间
+            memcpy(p, mpData, mnSize * sizeof(TYPE)); //鎶婂師鏉ョ湡姝ｇ殑mnSize鏁版嵁璧嬪€肩粰鏂扮殑绌洪棿
             if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
 
             mpData = p;
-            mnCapacity = new_size; //容量改成新的
+            mnCapacity = new_size; //瀹归噺鏀规垚鏂扮殑
         }
 
         mnSize = size;
@@ -250,7 +250,7 @@ public:
     {
         if(size > mnCapacity)
         {
-            //申请现有容量的两倍，如果还不够，就按照size来申请
+            //鐢宠鐜版湁瀹归噺鐨勪袱鍊嶏紝濡傛灉杩樹笉澶燂紝灏辨寜鐓ize鏉ョ敵璇?
             size_t new_size = mnCapacity * 2;
             if(new_size < size)
             {
@@ -258,14 +258,14 @@ public:
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE)); //把原来真正的mnSize数据赋值给新的空间
+            memcpy(p, mpData, mnSize * sizeof(TYPE)); //鎶婂師鏉ョ湡姝ｇ殑mnSize鏁版嵁璧嬪€肩粰鏂扮殑绌洪棿
             if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
 
             mpData = p;
-            mnCapacity = new_size; //容量改成新的
+            mnCapacity = new_size; //瀹归噺鏀规垚鏂扮殑
         }
 
         if(size > mnSize)
@@ -298,7 +298,7 @@ public:
         --mnSize;
     }
 
-    //从start开始移除count个元素
+    //浠巗tart寮€濮嬬Щ闄ount涓厓绱?
     void remove_some(size_t start, size_t count)
     {
         assert((start <= mnSize) && ((start + count) <= mnSize));
@@ -326,6 +326,6 @@ private:
     ALLOC mxAlloc;
     TYPE mxStack[SIZE];
     TYPE* mpData;
-    size_t mnCapacity; //容量
-    size_t mnSize; //数量
+    size_t mnCapacity; //瀹归噺
+    size_t mnSize; //鏁伴噺
 };

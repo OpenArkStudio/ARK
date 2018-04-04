@@ -38,9 +38,12 @@ enum AFTimerEnum
 class AFTimerData
 {
 public:
-    AFTimerData() {}
+    AFTimerData()
+    {
+        memset(name, 0x0, sizeof(name));
+    }
 
-    char name[16] = "\0";
+    char name[16];
     uint32_t type = 0;
     uint32_t count = 0;
     uint32_t interval = 0;

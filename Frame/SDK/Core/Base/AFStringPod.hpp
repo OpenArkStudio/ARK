@@ -23,7 +23,7 @@
 #include "AFCoreDef.hpp"
 #include "AFMacros.hpp"
 
-//取hash值时区分大小写
+//鍙杊ash鍊兼椂鍖哄垎澶у皬鍐?
 template<typename TYPE>
 class StringTraits
 {
@@ -55,7 +55,7 @@ public:
     }
 };
 
-//取hash值时不区分大小写
+//鍙杊ash鍊兼椂涓嶅尯鍒嗗ぇ灏忓啓
 template<typename TYPE>
 class StringTraitsNoCase : public StringTraits<TYPE>
 {
@@ -132,7 +132,7 @@ public:
         mpNode = node;
     }
 
-    //前置++
+    //鍓嶇疆++
     StringPodIter& operator++()
     {
         node_t* next = mpNode->next;
@@ -148,7 +148,7 @@ public:
         return *this;
     }
 
-    //后置++
+    //鍚庣疆++
     StringPodIter& operator++(int)
     {
         StringPodIter tmp(*this);
@@ -565,7 +565,7 @@ private:
 
     void Expand()
     {
-        size_t new_size = mnSize * 2 + 1; //hash bucket要为质数
+        size_t new_size = mnSize * 2 + 1; //hash bucket瑕佷负璐ㄦ暟
         node_t** new_buckets = (node_t**)mxAlloc.Alloc(sizeof(node_t*) * new_size);
         memset(new_buckets, 0, sizeof(node_t*) * new_size);
 

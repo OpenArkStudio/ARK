@@ -33,11 +33,11 @@ class AFILogModule : public AFIModule
 public:
     enum ARK_LOG_LEVEL
     {
-        ARK_LOG_LEVEL_DEBUG,        // debug调试信息(Debug和Release版本都会打印)
-        ARK_LOG_LEVEL_INFO,         // info级别
-        ARK_LOG_LEVEL_WARNING,      // warning级别
-        ARK_LOG_LEVEL_ERROR,        // error级别
-        ARK_LOG_LEVEL_FATAL,        // fatal级别
+        ARK_LOG_LEVEL_DEBUG,        // debug璋冭瘯淇℃伅(Debug鍜孯elease鐗堟湰閮戒細鎵撳嵃)
+        ARK_LOG_LEVEL_INFO,         // info绾у埆
+        ARK_LOG_LEVEL_WARNING,      // warning绾у埆
+        ARK_LOG_LEVEL_ERROR,        // error绾у埆
+        ARK_LOG_LEVEL_FATAL,        // fatal绾у埆
         ARK_LOG_LEVEL_MAX,
     };
 
