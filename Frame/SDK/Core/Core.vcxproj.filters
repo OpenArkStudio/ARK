@@ -164,8 +164,5 @@
     <ClCompile Include="Base\AFMemory.cpp">
       <Filter>Base</Filter>
     </ClCompile>
-    <ClCompile Include="Base\AFMisc.c">
-      <Filter>Base</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
