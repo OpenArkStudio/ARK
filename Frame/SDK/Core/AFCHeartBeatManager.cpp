@@ -123,7 +123,7 @@ void AFCHeartBeatManager::Update()
         break;
     }
 
-    //删除所有过时心跳
+    //閸掔娀娅庨幍鈧張澶庣箖閺冭泛绺剧捄?
     std::string strHeartBeatName;
     bool bRet = mRemoveListEx.First(strHeartBeatName);
     while(bRet)
@@ -160,7 +160,7 @@ void AFCHeartBeatManager::Update()
     mRemoveListEx.ClearAll();
 
     //////////////////////////////////////////////////////////////////////////
-    //添加新心跳也是延时添加的
+    //濞ｈ濮為弬鏉跨妇鐠哄厖绡冮弰顖氭閺冭埖鍧婇崝鐘垫畱
     for(std::list<AFCHeartBeatElement>::iterator iter = mAddListEx.begin(); iter != mAddListEx.end(); ++iter)
     {
         if(mHeartBeatElementMapEx.GetElement(iter->strBeatName) == nullptr)

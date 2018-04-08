@@ -28,17 +28,12 @@
 #if ARK_PLATFORM == PLATFORM_WIN
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-
-#pragma comment( lib, "libtcmalloc_minimal_d.lib" )
-#pragma comment(linker, "/include:__tcmalloc")
-
+#pragma comment(lib, "libtcmalloc_minimal-debug.lib")
 #else
-
-#pragma comment( lib, "libtcmalloc_minimal.lib" )
-#pragma comment(linker, "/include:__tcmalloc")
-
+#pragma comment(lib, "libtcmalloc_minimal.lib")
 #endif
 
+#pragma comment(linker, "/include:__tcmalloc")
 #endif // ARK_RUN_MODE_DEBUG
 
 #endif // ARK_USE_TCMALLOC
@@ -52,10 +47,8 @@ public:
     virtual void FreeMem()
     {
 #ifdef ARK_USE_TCMALLOC
-        // »ØÊÕÄÚ´æ
+        // é¥ç‚´æ•¹éå‘­ç“¨
         MallocExtension::instance()->ReleaseFreeMemory();
 #endif //ARK_USE_TCMALLOC
     }
-
 };
-

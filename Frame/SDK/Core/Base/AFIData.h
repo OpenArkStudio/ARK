@@ -52,7 +52,7 @@ class AFIData
 public:
 
 public:
-    AFIData& operator=(const AFIData& rhs) = delete; //��ֹ�ȺŸ�ֵ
+    AFIData& operator=(const AFIData& rhs) = delete; //绂佹绛夊彿璧嬪€?
 
 public:
     inline static void* GetUserData(void* value)

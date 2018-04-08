@@ -31,7 +31,7 @@ bool HelloWorld2::Init()
 
 int HelloWorld2::OnPropertyCallBackEvent(const AFGUID& self, const std::string& strProperty, const AFIData& oldVar, const AFIData& newVar)
 {
-    //���Իص��¼���ֻҪ����ֵ�����б仯���ͻᱻ�ص�
+    //属性回调事件，只要属性值内容有变化，就会被回调
     std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt() << std::endl;
 
     return 0;

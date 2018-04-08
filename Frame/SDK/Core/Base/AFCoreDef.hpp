@@ -22,9 +22,7 @@
 
 #include "AFPlatform.hpp"
 #include "AFMacros.hpp"
-#include "AFMalloc.h"
 
-//will use memory pool
 class CoreAlloc
 {
 public:
@@ -33,21 +31,22 @@ public:
 
     void* Alloc(size_t size)
     {
-        return ARK_MALLOC(CoreAlloc, size);
+        void* ptr = NULL;
+        ARK_ALLOC(ptr, CoreAlloc, size);
+        return ptr;
     }
 
     void Free(void* ptr, size_t size)
     {
-        return ARK_FREE(CoreAlloc, ptr, size);
+        ARK_DEALLOC(ptr, CoreAlloc);
     }
 
     void Swap(CoreAlloc& src)
     {
-        //TODO:
     }
 };
 
-// 取哈希值，忽略大小写
+// 閸欐牕鎼辩敮灞解偓纭风礉韫囩晫鏆愭径褍鐨崘?
 inline static unsigned int GetHashValueNoCase(const char* name)
 {
     static unsigned char convert_to_lower[256] =
@@ -97,7 +96,7 @@ inline static unsigned int GetHashValueNoCase(const char* name)
     return hash;
 }
 
-// 取哈希值
+// 閸欐牕鎼辩敮灞解偓?
 inline unsigned int GetHashValue(const char* name)
 {
     assert(name != nullptr);

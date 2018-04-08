@@ -22,7 +22,7 @@
 
 #include "AFPlatform.hpp"
 #include "AFMacros.hpp"
-#include "AFMalloc.h"
+//#include "AFMalloc.h"
 
 class ArrayPodAlloc
 {
@@ -32,17 +32,18 @@ public:
 
     void* Alloc(size_t size)
     {
-        return ARK_MALLOC(ArrayPodAlloc, size);
+        void* ptr = NULL;
+        ARK_ALLOC(ptr, ArrayPodAlloc, size);
+        return ptr;
     }
 
     void Free(void* ptr, size_t size)
     {
-        return ARK_FREE(ArrayPodAlloc, ptr, size);
+        ARK_DEALLOC(ptr, ArrayPodAlloc);
     }
 
     void Swap(ArrayPodAlloc& src)
     {
-
     }
 };
 
@@ -202,7 +203,7 @@ public:
         return mpData[index];
     }
 
-    //Ô¤·ÖÅä
+    //æ£°å‹«åé–°?
     void reserve(size_t size)
     {
         if(size > mnCapacity)
@@ -224,7 +225,7 @@ public:
     {
         if(size > mnCapacity)
         {
-            //ÉêÇëÏÖÓĞÈİÁ¿µÄÁ½±¶£¬Èç¹û»¹²»¹»£¬¾Í°´ÕÕsizeÀ´ÉêÇë
+            //é¢å® î‡¬éœç‰ˆæ¹ç€¹å½’å™ºé¨å‹ªè¢±éŠå¶ç´æ¿¡å‚›ç‰æ©æ¨¹ç¬‰æ¾¶ç‡‚ç´çè¾¨å¯œé“îœ¹izeé‰ãƒ§æ•µç’‡?
             size_t new_size = mnCapacity * 2;
             if(new_size < size)
             {
@@ -232,14 +233,14 @@ public:
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE)); //°ÑÔ­À´ÕæÕıµÄmnSizeÊı¾İ¸³Öµ¸øĞÂµÄ¿Õ¼ä
+            memcpy(p, mpData, mnSize * sizeof(TYPE)); //é¶å©‚å¸«é‰ãƒ§æ¹¡å§ï½‡æ®‘mnSizeéç‰ˆåµç’§å¬ªâ‚¬è‚©ç²°é‚æ‰®æ®‘ç»Œæ´ªæ£¿
             if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
 
             mpData = p;
-            mnCapacity = new_size; //ÈİÁ¿¸Ä³ÉĞÂµÄ
+            mnCapacity = new_size; //ç€¹å½’å™ºé€è§„åšé‚æ‰®æ®‘
         }
 
         mnSize = size;
@@ -249,7 +250,7 @@ public:
     {
         if(size > mnCapacity)
         {
-            //ÉêÇëÏÖÓĞÈİÁ¿µÄÁ½±¶£¬Èç¹û»¹²»¹»£¬¾Í°´ÕÕsizeÀ´ÉêÇë
+            //é¢å® î‡¬éœç‰ˆæ¹ç€¹å½’å™ºé¨å‹ªè¢±éŠå¶ç´æ¿¡å‚›ç‰æ©æ¨¹ç¬‰æ¾¶ç‡‚ç´çè¾¨å¯œé“îœ¹izeé‰ãƒ§æ•µç’‡?
             size_t new_size = mnCapacity * 2;
             if(new_size < size)
             {
@@ -257,14 +258,14 @@ public:
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE)); //°ÑÔ­À´ÕæÕıµÄmnSizeÊı¾İ¸³Öµ¸øĞÂµÄ¿Õ¼ä
+            memcpy(p, mpData, mnSize * sizeof(TYPE)); //é¶å©‚å¸«é‰ãƒ§æ¹¡å§ï½‡æ®‘mnSizeéç‰ˆåµç’§å¬ªâ‚¬è‚©ç²°é‚æ‰®æ®‘ç»Œæ´ªæ£¿
             if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
 
             mpData = p;
-            mnCapacity = new_size; //ÈİÁ¿¸Ä³ÉĞÂµÄ
+            mnCapacity = new_size; //ç€¹å½’å™ºé€è§„åšé‚æ‰®æ®‘
         }
 
         if(size > mnSize)
@@ -297,7 +298,7 @@ public:
         --mnSize;
     }
 
-    //´Óstart¿ªÊ¼ÒÆ³ıcount¸öÔªËØ
+    //æµ å·—tartå¯®â‚¬æ¿®å¬¬Ğ©é—„î˜‰ountæ¶“î„å“ç»±?
     void remove_some(size_t start, size_t count)
     {
         assert((start <= mnSize) && ((start + count) <= mnSize));
@@ -325,6 +326,6 @@ private:
     ALLOC mxAlloc;
     TYPE mxStack[SIZE];
     TYPE* mpData;
-    size_t mnCapacity; //ÈİÁ¿
-    size_t mnSize; //ÊıÁ¿
+    size_t mnCapacity; //ç€¹å½’å™º
+    size_t mnSize; //éä¼´å™º
 };

@@ -102,10 +102,11 @@ void AFCProxyServerToGameModule::OnSocketGSEvent(const NetEventType eEvent, cons
 {
     if(eEvent == DISCONNECTED)
     {
+        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
     }
-    else  if(eEvent == CONNECTED)
+    else if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
         Register(nServerID);
     }
 }
@@ -113,42 +114,44 @@ void AFCProxyServerToGameModule::OnSocketGSEvent(const NetEventType eEvent, cons
 void AFCProxyServerToGameModule::Register(const int nServerID)
 {
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr != xLogicClass)
+    if(nullptr == xLogicClass)
     {
-        AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
-        std::string strConfigName;
-        for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+        ARK_ASSERT_NO_EFFECT(0);
+    }
+
+    AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+    std::string strConfigName;
+    for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    {
+        const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
+        const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+        if(nServerType == ARK_SERVER_TYPE::ARK_ST_PROXY && pPluginManager->AppID() == nSelfServerID)
         {
-            const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
-            const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
-            if(nServerType == ARK_SERVER_TYPE::ARK_ST_PROXY && pPluginManager->AppID() == nSelfServerID)
+            const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
+            const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
+            const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
+            const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+            const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
+
+            AFMsg::ServerInfoReportList xMsg;
+            AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
+
+            pData->set_server_id(nSelfServerID);
+            pData->set_server_name(strName);
+            pData->set_server_cur_count(0);
+            pData->set_server_ip(strIP);
+            pData->set_server_port(nPort);
+            pData->set_server_max_online(nMaxConnect);
+            pData->set_server_state(AFMsg::EST_NARMAL);
+            pData->set_server_type(nServerType);
+
+            ARK_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
+            if(pServerData)
             {
-                const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-                const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
-                const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-                const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
-                const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
+                int nTargetID = pServerData->nGameID;
+                m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg, 0);
 
-                AFMsg::ServerInfoReportList xMsg;
-                AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
-
-                pData->set_server_id(nSelfServerID);
-                pData->set_server_name(strName);
-                pData->set_server_cur_count(0);
-                pData->set_server_ip(strIP);
-                pData->set_server_port(nPort);
-                pData->set_server_max_online(nMaxConnect);
-                pData->set_server_state(AFMsg::EST_NARMAL);
-                pData->set_server_type(nServerType);
-
-                ARK_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
-                if(pServerData)
-                {
-                    int nTargetID = pServerData->nGameID;
-                    m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg, 0);
-
-                    m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
-                }
+                ARK_LOG_INFO("Register, server_id = %d server_name = %s", pData->server_id(), pData->server_name().c_str());
             }
         }
     }
@@ -174,7 +177,7 @@ void AFCProxyServerToGameModule::OnAckEnterGame(const AFIMsgHead& xHead, const i
 
 void AFCProxyServerToGameModule::OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //±£≥÷º«¬º,÷±µΩœ¬œﬂ,ªÚ’ﬂ1∑÷÷”≤ª…œœﬂº¥ø……æ≥˝
+    //‰øùÊåÅËÆ∞ÂΩï,Áõ¥Âà∞‰∏ãÁ∫ø,ÊàñËÄÖ1ÂàÜÈíü‰∏ç‰∏äÁ∫øÂç≥ÂèØÂà†Èô§
     AFGUID nPlayerID;
     AFMsg::BrocastMsg xMsg;
     if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
@@ -184,14 +187,14 @@ void AFCProxyServerToGameModule::OnBrocastmsg(const AFIMsgHead& xHead, const int
 
     for(int i = 0; i < xMsg.player_client_list_size(); i++)
     {
-        const AFMsg::Ident& xClientID = xMsg.player_client_list(i);
-        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(xClientID), nPlayerID);
+        const AFMsg::Ident& tmpID = xMsg.player_client_list(i);
+        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(tmpID), nPlayerID);
     }
 }
 
 void AFCProxyServerToGameModule::LogServerInfo(const std::string& strServerInfo)
 {
-    m_pLogModule->LogInfo(AFGUID(), strServerInfo, "");
+    ARK_LOG_INFO("%s", strServerInfo.c_str());
 }
 
 void AFCProxyServerToGameModule::Transpond(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)

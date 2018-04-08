@@ -55,7 +55,7 @@ AFCLogModule::AFCLogModule(AFIPluginManager* p)
     pPluginManager = p;
     mbSwitchingValue = true;
     memset(szBuffer, 0, sizeof(szBuffer));
-    memset(mbLogSwiths, 0, sizeof(mbLogSwiths));
+    memset(mbLogSwitchs, 0, sizeof(mbLogSwitchs));
 }
 
 bool AFCLogModule::Init()
@@ -82,12 +82,11 @@ bool AFCLogModule::Init()
     el::Configuration debugConfiguration(el::Level::Debug, el::ConfigurationType::Enabled, "true");
     pConfigurations->set(&debugConfiguration);
 
-    //获取每种级别log的输出开�?
-    mbLogSwiths[ARK_LOG_DEBUG] = pLogger->typedConfigurations()->enabled(el::Level::Debug);
-    mbLogSwiths[ARK_LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
-    mbLogSwiths[ARK_LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
-    mbLogSwiths[ARK_LOG_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
-    mbLogSwiths[ARK_LOG_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
+    mbLogSwitchs[ARK_LOG_LEVEL_DEBUG] = pLogger->typedConfigurations()->enabled(el::Level::Debug);
+    mbLogSwitchs[ARK_LOG_LEVEL_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
+    mbLogSwitchs[ARK_LOG_LEVEL_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
+    mbLogSwitchs[ARK_LOG_LEVEL_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
+    mbLogSwitchs[ARK_LOG_LEVEL_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
 
     el::Loggers::reconfigureAllLoggers(*pConfigurations);
     return true;
@@ -114,19 +113,21 @@ void AFCLogModule::Update()
 
 }
 
-bool AFCLogModule::Log(const ARK_LOG_LEVEL nll, const char* format, ...)
+bool AFCLogModule::Log(const ARK_LOG_LEVEL level, const char* file, const char* function, const int line, const char* format, ...)
 {
     //error level
-    if(nll >= ARK_LOG_MAX || nll < ARK_LOG_DEBUG)
+    if(level >= ARK_LOG_LEVEL_MAX || level < ARK_LOG_LEVEL_DEBUG)
     {
         return false;
     }
 
-    //开关不开启，不用执行格式化和输出内容
-    if(!mbLogSwiths[nll])
+    if(!mbLogSwitchs[level])
     {
         return false;
     }
+
+    //(file)(func:line)
+    std::string func_line = std::string("(") + file + ")(" + function + ":" + ARK_TO_STRING(line) + ")";
 
     memset(szBuffer, 0, sizeof(szBuffer));
 
@@ -135,264 +136,240 @@ bool AFCLogModule::Log(const ARK_LOG_LEVEL nll, const char* format, ...)
     vsnprintf(szBuffer, sizeof(szBuffer) - 1, format, args);
     va_end(args);
 
-    switch(nll)
+    switch(level)
     {
-    case AFILogModule::ARK_LOG_DEBUG:
+    case AFILogModule::ARK_LOG_LEVEL_DEBUG:
         {
-            LOG(DEBUG) << szBuffer;
+            LOG(DEBUG) << func_line << szBuffer;
         }
         break;
-    case AFILogModule::ARK_LOG_INFO:
-        {
-            if(mbSwitchingValue)
-            {
-                LOG(INFO) << szBuffer;
-            }
-        }
-        break;
-    case AFILogModule::ARK_LOG_WARNING:
+    case AFILogModule::ARK_LOG_LEVEL_INFO:
         {
             if(mbSwitchingValue)
             {
-                LOG(WARNING) << szBuffer;
+                LOG(INFO) << func_line << szBuffer;
             }
         }
         break;
-    case AFILogModule::ARK_LOG_ERROR:
-        LOG(ERROR) << szBuffer;
+    case AFILogModule::ARK_LOG_LEVEL_WARNING:
+        {
+            if(mbSwitchingValue)
+            {
+                LOG(WARNING) << func_line << szBuffer;
+            }
+        }
         break;
-    case AFILogModule::ARK_LOG_FATAL:
-        LOG(FATAL) << szBuffer;
+    case AFILogModule::ARK_LOG_LEVEL_ERROR:
+        LOG(ERROR) << func_line << szBuffer;
+        break;
+    case AFILogModule::ARK_LOG_LEVEL_FATAL:
+        LOG(FATAL) << func_line << szBuffer;
         break;
     default:
-        LOG(INFO) << szBuffer;
+        LOG(INFO) << func_line << szBuffer;
         break;
     }
 
     return true;
 }
 
-void AFCLogModule::LogStack()
-{
-    //To Add
-    //#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-    //    time_t t = time(0);
-    //    char szDmupName[MAX_PATH];
-    //    tm* ptm = localtime(&t);
-    //
-    //    sprintf(szDmupName, "%d_%d_%d_%d_%d_%d.dmp",  ptm->tm_year + 1900, ptm->tm_mon, ptm->tm_mday, ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
-    //    // 创建Dump文件
-    //    HANDLE hDumpFile = CreateFile(szDmupName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
-    //
-    //    // Dump信息
-    //    MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
-    //    //dumpInfo.ExceptionPointers = pException;
-    //    dumpInfo.ThreadId = GetCurrentThreadId();
-    //    dumpInfo.ClientPointers = TRUE;
-    //
-    //    // 写入Dump文件内容
-    //    MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &dumpInfo, NULL, NULL);
-    //
-    //    CloseHandle(hDumpFile);
-    //#endif
-}
-
-void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_DEBUG, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_DEBUG, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
-    }
-}
-
-void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_INFO, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_INFO, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
-    }
-}
-
-void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_WARNING, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_WARNING, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
-    }
-}
-
-void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_ERROR, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_ERROR, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
-    }
-}
-
-void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_FATAL, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_FATAL, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
-    }
-}
-
-void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_DEBUG, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_DEBUG, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
-    }
-}
-
-void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_INFO, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_INFO, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
-    }
-}
-
-void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_WARNING, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_WARNING, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
-    }
-}
-
-void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_ERROR, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_ERROR, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
-    }
-}
-
-void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_FATAL, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_FATAL, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
-    }
-}
-
-void AFCLogModule::LogDebug(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_DEBUG, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_DEBUG, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
-    }
-}
-
-void AFCLogModule::LogInfo(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_INFO, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_INFO, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
-    }
-}
-
-void AFCLogModule::LogWarning(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_WARNING, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_WARNING, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
-    }
-}
-
-void AFCLogModule::LogError(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_ERROR, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_ERROR, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
-    }
-}
-
-void AFCLogModule::LogFatal(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
-{
-    if(nLine > 0 && pFunc != nullptr)
-    {
-        Log(ARK_LOG_FATAL, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
-    }
-    else
-    {
-        Log(ARK_LOG_FATAL, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
-    }
-}
-
-bool AFCLogModule::LogDebugFunctionDump(const AFGUID ident, const int nMsg, const std::string& strArg, const char* func /*= ""*/, const int line /*= 0*/)
-{
-    //#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-    std::ostringstream strLog;
-    strLog << strArg << " MsgID: " << nMsg;
-    LogWarning(ident, strLog, func, line);
-    //#endif
-    return true;
-}
+//void AFCLogModule::LogStack()
+//{
+//    //TODO:
+//}
+//
+//void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_DEBUG, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_DEBUG, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+//    }
+//}
+//
+//void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_INFO, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_INFO, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+//    }
+//}
+//
+//void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_WARNING, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_WARNING, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+//    }
+//}
+//
+//void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_ERROR, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_ERROR, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+//    }
+//}
+//
+//void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const std::string& strInfo/* = NULL_STR*/, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_FATAL, "GUID[%s] %s %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str(), pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_FATAL, "GUID[%s] %s %s", self.ToString().c_str(), strDesc.c_str(), strInfo.c_str());
+//    }
+//}
+//
+//void AFCLogModule::LogDebug(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_DEBUG, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_DEBUG, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+//    }
+//}
+//
+//void AFCLogModule::LogInfo(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_INFO, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_INFO, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+//    }
+//}
+//
+//void AFCLogModule::LogWarning(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_WARNING, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_WARNING, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+//    }
+//}
+//
+//void AFCLogModule::LogError(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_ERROR, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_ERROR, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+//    }
+//}
+//
+//void AFCLogModule::LogFatal(const AFGUID self, const std::string& strDesc, const int64_t nInfo, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_FATAL, "GUID[%s] %s %d FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.c_str(), nInfo, pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_FATAL, "GUID[%s] %s %d", self.ToString().c_str(), strDesc.c_str(), nInfo);
+//    }
+//}
+//
+//void AFCLogModule::LogDebug(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_DEBUG, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_DEBUG, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+//    }
+//}
+//
+//void AFCLogModule::LogInfo(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_INFO, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_INFO, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+//    }
+//}
+//
+//void AFCLogModule::LogWarning(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_WARNING, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_WARNING, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+//    }
+//}
+//
+//void AFCLogModule::LogError(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_ERROR, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_ERROR, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+//    }
+//}
+//
+//void AFCLogModule::LogFatal(const AFGUID self, const std::ostringstream& strDesc, const char* pFunc/* = ""*/, int nLine/* = 0*/)
+//{
+//    if(nLine > 0 && pFunc != nullptr)
+//    {
+//        Log(ARK_LOG_LEVEL_FATAL, "GUID[%s] %s FUNC[%s] LINE[%d]", self.ToString().c_str(), strDesc.str().c_str(), pFunc, nLine);
+//    }
+//    else
+//    {
+//        Log(ARK_LOG_LEVEL_FATAL, "GUID[%s] %s", self.ToString().c_str(), strDesc.str().c_str());
+//    }
+//}
+//
+//bool AFCLogModule::LogDebugFunctionDump(const AFGUID ident, const int nMsg, const std::string& strArg, const char* func /*= ""*/, const int line /*= 0*/)
+//{
+//    std::ostringstream strLog;
+//    strLog << strArg << " MsgID: " << nMsg;
+//    LogWarning(ident, strLog, func, line);
+//
+//    return true;
+//}
 
 bool AFCLogModule::ChangeLogLevel(const std::string& strLevel, const std::string& strStatus)
 {
-    LogDebug(NULL_GUID, "Load log.cnf ------------Begin", " ");
-
-    // 先用默认配置初始化，然后再调整log等级
-    //Init();
+    Log(ARK_LOG_LEVEL_DEBUG, ARK_FILE_FUNCTION_LINE, "Load log.cnf ------------Begin");
 
     el::Level logLevel = el::LevelHelper::convertFromString(strLevel.c_str());
     el::Logger* pLogger = el::Loggers::getLogger("default");
@@ -408,37 +385,34 @@ bool AFCLogModule::ChangeLogLevel(const std::string& strLevel, const std::string
         return false;
     }
 
-    // log级别为debug, info, warning, error, fatal(级别逐渐提高)
-    // 当传入为info时，则高�?包含)info的级别会输出
-    // !!!!!! NOTICE:故意没有break，请千万注意 !!!!!!
     switch(logLevel)
     {
     case el::Level::Fatal:
         {
             el::Configuration errorConfiguration(el::Level::Fatal, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&errorConfiguration);
-            mbLogSwiths[ARK_LOG_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
+            mbLogSwitchs[ARK_LOG_LEVEL_FATAL] = pLogger->typedConfigurations()->enabled(el::Level::Fatal);
             break;
         }
     case el::Level::Error:
         {
             el::Configuration warnConfiguration(el::Level::Error, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&warnConfiguration);
-            mbLogSwiths[ARK_LOG_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
+            mbLogSwitchs[ARK_LOG_LEVEL_ERROR] = pLogger->typedConfigurations()->enabled(el::Level::Error);
             break;
         }
     case el::Level::Warning:
         {
             el::Configuration infoConfiguration(el::Level::Warning, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&infoConfiguration);
-            mbLogSwiths[ARK_LOG_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
+            mbLogSwitchs[ARK_LOG_LEVEL_WARNING] = pLogger->typedConfigurations()->enabled(el::Level::Warning);
             break;
         }
     case el::Level::Info:
         {
             el::Configuration debugConfiguration(el::Level::Info, el::ConfigurationType::Enabled, strStatus);
             pConfigurations->set(&debugConfiguration);
-            mbLogSwiths[ARK_LOG_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
+            mbLogSwitchs[ARK_LOG_LEVEL_INFO] = pLogger->typedConfigurations()->enabled(el::Level::Info);
             break;
         }
     case el::Level::Debug:
@@ -449,12 +423,8 @@ bool AFCLogModule::ChangeLogLevel(const std::string& strLevel, const std::string
 
     el::Loggers::reconfigureAllLoggers(*pConfigurations);
 
-    std::ostringstream strLog;
-    strLog << "[Log] Change log level = " << strLevel;
-    LogDebug(NULL_GUID, strLog, __FUNCTION__, __LINE__);
-
-    LogDebug(NULL_GUID, "Load log.cnf ------------End");
-
+    Log(ARK_LOG_LEVEL_DEBUG, ARK_FILE_FUNCTION_LINE, "[Log] Change log level = %s", strLevel.c_str());
+    Log(ARK_LOG_LEVEL_DEBUG, ARK_FILE_FUNCTION_LINE, "Load log.cnf ------------End");
     return true;
 }
 

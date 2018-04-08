@@ -27,13 +27,13 @@
 class AFCTimeBase : public AFSingleton<AFCTimeBase>
 {
 public:
-    //¸÷ÖÖºÁÃë
+    //éšå‹­î’å§£î‚¤î—
     static const int64_t NSECOND_MS = 1000L;
     static const int64_t NMINUTE_MS = 60 * 1000L;
     static const int64_t NHOUR_MS = 60 * 60 * 1000L;
     static const int64_t NDAY_MS = 24 * 60 * 60 * 1000L;
     static const int64_t NWEEK_MS = 7 * 24 * 60 * 60 * 1000L;
-    //¸÷ÖÖÃë
+    //éšå‹­î’ç»‰?
     static const int64_t NSECOND_S = 1L;
     static const int64_t NMINUTE_S = 60L;
     static const int64_t NHOUR_S = 60 * 60L;
@@ -49,12 +49,12 @@ public:
     }
 
 public:
-    int64_t GetUTCTime()//µ¥Î»ÊÇÃë, 0Ê±ÇøÊ±¼ä
+    int64_t GetUTCTime()//é—æ›šç¶…é„îˆœî—, 0éƒè·ºå°¯éƒå •æ£¿
     {
         return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     }
 
-    int64_t GetNowMillisecond() //µ¥Î»ÊÇºÁÃë, ÌØ¶¨Ê±ÇøÊ±¼ä
+    int64_t GetNowMillisecond() //é—æ›šç¶…é„îˆ›î‡ ç»‰? é—ç‘°ç•¾éƒè·ºå°¯éƒå •æ£¿
     {
         return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() + GetTimeZoneMillisecond();
     }
@@ -77,7 +77,7 @@ public:
         return mnTimeZone;
     }
 private:
-    int mnTimeZone;  //Ä¬ÈÏ¸øUTC+8
+    int mnTimeZone;  //æ¦›æ¨¿î…»ç¼æ©´TC+8
 };
 
 class AFTime
@@ -150,7 +150,7 @@ public:
         InitWithYMDHMSM(nYear, nMonth, nDay, nHour, nMinute, nSecond, nMilliSecond);
     }
 
-    //´øÊ±Çø
+    //ç”¯ï¸½æ¤‚é–?
     std::string GetStr()
     {
         return GetStr_YMDHMS();
@@ -159,7 +159,7 @@ public:
     std::string GetStr_YMD()
     {
         time_t t;
-        t = mnTime / AFCTimeBase::NSECOND_MS; //×ª³ÉÃë
+        t = mnTime / AFCTimeBase::NSECOND_MS; //æî„åšç»‰?
         struct tm* p = gmtime(&t);
 
         char buf[255] = { 0 };
@@ -181,7 +181,7 @@ public:
     std::string GetStr_HMS()
     {
         time_t t;
-        t = mnTime / AFCTimeBase::NSECOND_MS; //×ª³ÉÃë
+        t = mnTime / AFCTimeBase::NSECOND_MS; //æî„åšç»‰?
         struct tm* p = gmtime(&t);
 
         char buf[255] = { 0 };
@@ -201,7 +201,7 @@ public:
     std::string GetStr_YMDHMS()
     {
         time_t t;
-        t = mnTime / AFCTimeBase::NSECOND_MS; //×ª³ÉÃë
+        t = mnTime / AFCTimeBase::NSECOND_MS; //æî„åšç»‰?
         struct tm* p = gmtime(&t);
 
         char buf[255] = { 0 };
@@ -234,7 +234,7 @@ public:
     {
         return mnTime;//GetFixTime();
     }
-    int64_t Get(TimeType nType) //´øÊ±Çø(ÌØ±ğ×¢Òâ: »áÔÚÏÖÔÚmnTimeµÄ»ù´¡ÉÏ¼ÓÉÏÊ±ÇøºÁÃëÊı)
+    int64_t Get(TimeType nType) //ç”¯ï¸½æ¤‚é–?é—ç‘°åŸ†å¨‰ã„¦å‰°: æµ¼æ°¬æ¹ªéœæ¿æ¹ªmnTimeé¨å‹«ç†€çº­â‚¬æ¶“å©‚å§æ¶“å©ƒæ¤‚é–çƒ˜î‡ ç»‰æ“æšŸ)
     {
         int year = 1970;
         int64_t nFixTime = GetTime();//GetFixTime();
@@ -430,7 +430,7 @@ public:
         mnTime = nTime;
     }
 
-    //´øÊ±Çø
+    //ç”¯ï¸½æ¤‚é–?
     int64_t GetYear()
     {
         return Get(YEAR);
@@ -520,13 +520,13 @@ public:
     }
     bool SameWeek(int64_t nTime)
     {
-        //Í¬Ò»Ìì£¬¿É¶¨ÊÇÍ¬Ò»ÖÜ
+        //éšå±¼ç«´æ¾¶â•‹ç´é™îˆšç•¾é„îˆšæ‚“æ¶“â‚¬é›?
         if(SameDay(nTime))
         {
             return true;
         }
 
-        //²»ÊÇÍ¬Ò»Äê£¬Ö±½Ó²»×ö±È½Ï
+        //æ¶“å¶†æ§¸éšå±¼ç«´éªè¾¾ç´é©å­˜å¸´æ¶“å¶…ä»›å§£æ—‡ç·
         if(!SameYear(nTime))
         {
             return false;
@@ -564,7 +564,7 @@ public:
         {
             nDayOfYear += AFCTimeBase::GetInstance().MONTH_DAY[i];
 
-            //ÈòÄê2ÔÂÊÇ29£¬ËùÒÔ¶à¼Ó1
+            //é—‚æ¿å‹¾2éˆå Ÿæ§¸29é”›å±¾å¢æµ ãƒ¥î˜¿é”?
             if(IsLeapYear(nYear) && i == 2)
             {
                 nDayOfYear += 1;
@@ -811,5 +811,5 @@ private:
 
 private:
     int64_t mnTime;
-    int mnTimeZone;  //Ä¬ÈÏ¸øUTC+8
+    int mnTimeZone;  //æ¦›æ¨¿î…»ç¼æ©´TC+8
 };

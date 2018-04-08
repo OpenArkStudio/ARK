@@ -88,9 +88,7 @@ bool AFCGameNetServerModule::PostInit()
             int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nServerID, nCpus);
             if(nRet < 0)
             {
-                std::ostringstream strLog;
-                strLog << "Cannot init server net, Port = " << nPort;
-                m_pLogModule->LogError(NULL_GUID, strLog, __FUNCTION__, __LINE__);
+                ARK_LOG_ERROR("Cannot init server net, Port = %d", nPort);
                 ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
                 exit(0);
             }
@@ -114,19 +112,19 @@ void AFCGameNetServerModule::OnSocketPSEvent(const NetEventType eEvent, const AF
 {
     if(eEvent == DISCONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
         OnClientDisconnect(xClientID);
     }
     else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connected success", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
         OnClientConnected(xClientID);
     }
 }
 
 void AFCGameNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 {
-    //Ö»¿ÉÄÜÊÇÍø¹Ø¶ªÁË
+    //åªå¯èƒ½æ˜¯ç½‘å…³ä¸¢äº†
     int nServerID = 0;
     ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.First();
     while(nullptr != pServerData)
@@ -150,7 +148,7 @@ void AFCGameNetServerModule::OnClientConnected(const AFGUID& xClientID)
 
 void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //ÔÚ½øÈëÓÎÏ·Ö®Ç°nPlayerIDÎªÆäÔÚÍø¹ØµÄFD
+    //åœ¨è¿›å…¥æ¸¸æˆä¹‹å‰nPlayerIDä¸ºå…¶åœ¨ç½‘å…³çš„FD
     AFGUID nGateClientID;
     AFMsg::ReqEnterGameServer xMsg;
     if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nGateClientID))
@@ -172,7 +170,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
     {
         if(RemovePlayerGateInfo(nRoleID))
         {
-            m_pLogModule->LogError(nRoleID, "RemovePlayerGateInfo fail", "", __FUNCTION__, __LINE__);
+            ARK_LOG_ERROR("RemovePlayerGateInfo fail, id = %s", nRoleID.ToString().c_str());
         }
     }
 
@@ -198,7 +196,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
         return;
     }
 
-    //Ä¬ÈÏ1ºÅ³¡¾°
+    //é»˜è®¤1å·åœºæ™¯
     int nSceneID = 1;
     AFCDataList var;
     var.AddString("Name");
@@ -213,7 +211,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(nRoleID, nSceneID, 0, ARK::Player::ThisName(), "", var);
     if(nullptr == pEntity)
     {
-        //ÄÚ´æĞ¹Â©
+        //å†…å­˜æ³„æ¼
         //mRoleBaseData
         //mRoleFDData
         return;
@@ -223,7 +221,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
     pEntity->SetNodeInt("GateID", nGateID);
     pEntity->SetNodeInt("GameID", pPluginManager->AppID());
 
-    m_pKernelModule->DoEvent(pEntity->Self(), ARK::Player::ThisName(), CLASS_OBJECT_EVENT::COE_CREATE_FINISH, AFCDataList());
+    m_pKernelModule->DoEvent(pEntity->Self(), ARK::Player::ThisName(), ENTITY_EVT_ALL_FINISHED, AFCDataList());
 
     AFCDataList varEntry;
     varEntry << pEntity->Self();
@@ -254,7 +252,7 @@ void AFCGameNetServerModule::OnClienLeaveGameProcess(const AFIMsgHead& xHead, co
 
     if(!RemovePlayerGateInfo(nPlayerID))
     {
-        m_pLogModule->LogError(nPlayerID, "RemovePlayerGateInfo", "", __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("RemovePlayerGateInfo failed, id = %s", nPlayerID.ToString().c_str());
     }
 }
 
@@ -268,9 +266,9 @@ int AFCGameNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AFG
     AFMsg::MultiObjectPropertyList xPublicMsg;
     AFMsg::MultiObjectPropertyList xPrivateMsg;
 
-    //·ÖÎª×Ô¼ººÍÍâÈË
-    //1.public·¢ËÍ¸øËùÓĞÈË
-    //2.Èç¹û×Ô¼ºÔÚÁĞ±íÖĞ£¬ÔÙ´Î·¢ËÍprivateÊı¾İ
+    //åˆ†ä¸ºè‡ªå·±å’Œå¤–äºº
+    //1.publicå‘é€ç»™æ‰€æœ‰äºº
+    //2.å¦‚æœè‡ªå·±åœ¨åˆ—è¡¨ä¸­ï¼Œå†æ¬¡å‘é€privateæ•°æ®
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr != pEntity)
     {
@@ -311,7 +309,7 @@ int AFCGameNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AFG
             AFGUID identOther = argVar.Object(i);
             if(self == identOther)
             {
-                //ÕÒµ½ËûËùÔÚÍø¹ØµÄFD
+                //æ‰¾åˆ°ä»–æ‰€åœ¨ç½‘å…³çš„FD
                 SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_PROPERTY_ENTRY, xPrivateMsg, identOther);
             }
             else
@@ -402,7 +400,7 @@ int AFCGameNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const AF
 
             if(!OnEnterPackDataTable(pTable, pPublicTableBase))
             {
-                m_pLogModule->LogError(self, "OnEnterPackDataTable fail ", "", __FUNCTION__, __LINE__);
+                ARK_LOG_ERROR("OnEnterPackDataTable failed, id = %s", self.ToString().c_str());
                 return -1;
             }
         }
@@ -419,7 +417,7 @@ int AFCGameNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const AF
 
             if(OnEnterPackDataTable(pTable, pPrivateTableBase))
             {
-                m_pLogModule->LogError(self, "OnRecordEnterPack fail ", "", __FUNCTION__, __LINE__);
+                ARK_LOG_ERROR("OnRecordEnterPack failed, id = %s", self.ToString().c_str());
                 return -1;
             }
         }
@@ -458,7 +456,7 @@ int AFCGameNetServerModule::OnEntityListEnter(const AFIDataList& self, const AFI
     for(int i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOld = argVar.Object(i);
-        //ÅÅ³ı¿Õ¶ÔÏó
+        //æ’é™¤ç©ºå¯¹è±¡
         if(identOld.IsNULL())
         {
             continue;
@@ -492,7 +490,7 @@ int AFCGameNetServerModule::OnEntityListEnter(const AFIDataList& self, const AFI
             continue;
         }
 
-        //¿ÉÄÜÔÚ²»Í¬µÄÍø¹ØÄØ,µÃµ½ºóÕßËùÔÚµÄÍø¹ØFD
+        //å¯èƒ½åœ¨ä¸åŒçš„ç½‘å…³å‘¢,å¾—åˆ°åè€…æ‰€åœ¨çš„ç½‘å…³FD
         SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_ENTRY, xPlayerEntryInfoList, ident);
     }
 
@@ -510,7 +508,7 @@ int AFCGameNetServerModule::OnEntityListLeave(const AFIDataList& self, const AFI
     for(int i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOld = argVar.Object(i);
-        //ÅÅ³ı¿Õ¶ÔÏó
+        //æ’é™¤ç©ºå¯¹è±¡
         if(identOld.IsNULL())
         {
             continue;
@@ -527,7 +525,7 @@ int AFCGameNetServerModule::OnEntityListLeave(const AFIDataList& self, const AFI
         {
             continue;
         }
-        //¿ÉÄÜÔÚ²»Í¬µÄÍø¹ØÄØ,µÃµ½ºóÕßËùÔÚµÄÍø¹ØFD
+        //å¯èƒ½åœ¨ä¸åŒçš„ç½‘å…³å‘¢,å¾—åˆ°åè€…æ‰€åœ¨çš„ç½‘å…³FD
         SendMsgPBToGate(AFMsg::EGMI_ACK_OBJECT_LEAVE, xPlayerLeaveInfoList, ident);
     }
 
@@ -540,13 +538,13 @@ int AFCGameNetServerModule::OnCommonDataNodeEvent(const AFGUID& self, const std:
     {
         if("GroupID" == name)
         {
-            //×Ô¼º»¹ÊÇÒªÖªµÀ×Ô¼ºµÄÕâ¸öÊôĞÔ±ä»¯µÄ,µ«ÊÇ±ğÈË¾Í²»ĞèÒªÖªµÀÁË
+            //è‡ªå·±è¿˜æ˜¯è¦çŸ¥é“è‡ªå·±çš„è¿™ä¸ªå±æ€§å˜åŒ–çš„,ä½†æ˜¯åˆ«äººå°±ä¸éœ€è¦çŸ¥é“äº†
             int nRet = OnGroupEvent(self, name, oldVar, newVar);
         }
 
         if("SceneID" == name)
         {
-            //×Ô¼º»¹ÊÇÒªÖªµÀ×Ô¼ºµÄÕâ¸öÊôĞÔ±ä»¯µÄ,µ«ÊÇ±ğÈË¾Í²»ĞèÒªÖªµÀÁË
+            //è‡ªå·±è¿˜æ˜¯è¦çŸ¥é“è‡ªå·±çš„è¿™ä¸ªå±æ€§å˜åŒ–çš„,ä½†æ˜¯åˆ«äººå°±ä¸éœ€è¦çŸ¥é“äº†
             int nRet =  OnContainerEvent(self, name, oldVar, newVar);
         }
 
@@ -567,7 +565,7 @@ int AFCGameNetServerModule::OnCommonDataNodeEvent(const AFGUID& self, const std:
     }
     else
     {
-        //´«ÈëµÄ²ÎÊıÊÇÒª¹ã²¥µÄ¶ÔÏóÁĞ±í
+        //ä¼ å…¥çš„å‚æ•°æ˜¯è¦å¹¿æ’­çš„å¯¹è±¡åˆ—è¡¨
         //valueBroadCaseList = argVar;
     }
 
@@ -604,7 +602,7 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
 
     if(nObjectGroupID < 0)
     {
-        //ÈİÆ÷
+        //å®¹å™¨
         return 0;
     }
 
@@ -632,7 +630,7 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
             AFMsg::RecordAddRowStruct* pAddRowData = xAddRecordRow.add_row_data();
             pAddRowData->set_row(nRow);
 
-            //add row ĞèÒªÍêÕûµÄrow
+            //add row éœ€è¦å®Œæ•´çš„row
             AFDataTable* pTable = m_pKernelModule->FindTable(self, strTableName);
             if(pTable != nullptr)
             {
@@ -675,12 +673,12 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
         break;
     case AFDataTable::TABLE_SWAP:
         {
-            //ÆäÊµÊÇ2¸örow½»»»
+            //å…¶å®æ˜¯2ä¸ªrowäº¤æ¢
             AFMsg::ObjectRecordSwap xSwapRecord;
             *xSwapRecord.mutable_player_id() = AFINetServerModule::GUIDToPB(self);
 
             xSwapRecord.set_origin_record_name(strTableName);
-            xSwapRecord.set_target_record_name(strTableName);   // ÔİÊ±Ã»ÓÃ
+            xSwapRecord.set_target_record_name(strTableName);   // æš‚æ—¶æ²¡ç”¨
             xSwapRecord.set_row_origin(nRow);
             xSwapRecord.set_row_target(nCol);
 
@@ -718,12 +716,12 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
     return 0;
 }
 
-int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
-    ////////////1:¹ã²¥¸øÒÑ¾­´æÔÚµÄÈË//////////////////////////////////////////////////////////////
-    if(CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
+    ////////////1:å¹¿æ’­ç»™å·²ç»å­˜åœ¨çš„äºº//////////////////////////////////////////////////////////////
+    if(ENTITY_EVT_DESTROY == eClassEvent)
     {
-        //É¾³ıÔÚÏß±êÖ¾
+        //åˆ é™¤åœ¨çº¿æ ‡å¿—
 
         //////////////////////////////////////////////////////////////////////////
 
@@ -732,7 +730,7 @@ int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::st
 
         if(nObjectGroupID < 0)
         {
-            //ÈİÆ÷
+            //å®¹å™¨
             return 0;
         }
 
@@ -755,17 +753,17 @@ int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::st
             }
         }
 
-        //Èç¹ûÊÇ¸±±¾µÄ¹Ö£¬Ôò²»ĞèÒª·¢ËÍ£¬ÒòÎª»áÔÚÀë¿ª¸±±¾µÄÊ±ºòÒ»´ÎĞÔÒ»ÌõÏûÏ¢·¢ËÍ
+        //å¦‚æœæ˜¯å‰¯æœ¬çš„æ€ªï¼Œåˆ™ä¸éœ€è¦å‘é€ï¼Œå› ä¸ºä¼šåœ¨ç¦»å¼€å‰¯æœ¬çš„æ—¶å€™ä¸€æ¬¡æ€§ä¸€æ¡æ¶ˆæ¯å‘é€
         OnEntityListLeave(valueBroadListNoSelf, AFCDataList() << self);
     }
 
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_NODATA == eClassEvent)
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_PRE_LOAD_DATA == eClassEvent)
     {
-        //idºÍfd,gateid°ó¶¨
+        //idå’Œfd,gateidç»‘å®š
         ARK_SHARE_PTR<GateBaseInfo> pDataBase = mRoleBaseData.GetElement(self);
         if(nullptr != pDataBase)
         {
-            //»Ø¸´¿Í»§¶Ë½ÇÉ«½øÈëÓÎÏ·ÊÀ½ç³É¹¦ÁË
+            //å›å¤å®¢æˆ·ç«¯è§’è‰²è¿›å…¥æ¸¸æˆä¸–ç•ŒæˆåŠŸäº†
             AFMsg::AckEventResult xMsg;
             xMsg.set_event_code(AFMsg::EGEC_ENTER_GAME_SUCCESS);
 
@@ -775,12 +773,12 @@ int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::st
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTER_GAME, xMsg, self);
         }
     }
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_LOADDATA == eClassEvent)
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_LOAD_DATA == eClassEvent)
     {
     }
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_HASDATA == eClassEvent)
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED == eClassEvent)
     {
-        //×Ô¼º¹ã²¥¸ø×Ô¼º¾Í¹»ÁË
+        //è‡ªå·±å¹¿æ’­ç»™è‡ªå·±å°±å¤Ÿäº†
         if(strClassName == ARK::Player::ThisName())
         {
             OnEntityListEnter(AFCDataList() << self, AFCDataList() << self);
@@ -789,7 +787,7 @@ int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::st
             OnDataTableEnter(AFCDataList() << self, self);
         }
     }
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
     {
 
     }
@@ -798,11 +796,11 @@ int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::st
 
 int AFCGameNetServerModule::OnGroupEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
-    //ÈİÆ÷·¢Éú±ä»¯£¬Ö»¿ÉÄÜ´ÓAÈİÆ÷µÄ0²ãÇĞ»»µ½BÈİÆ÷µÄ0²ã
-    //ĞèÒª×¢ÒâµÄÊÇ------------ÈÎºÎ²ã¸Ä±äµÄÊ±ºò£¬´ËÍæ¼ÒÆäÊµ»¹Î´½øÈë²ã£¬Òò´Ë£¬²ã¸Ä±äµÄÊ±ºò»ñÈ¡µÄÍæ¼ÒÁĞ±í£¬Ä¿±ê²ãÊÇ²»°üº¬×Ô¼ºµÄ
+    //å®¹å™¨å‘ç”Ÿå˜åŒ–ï¼Œåªå¯èƒ½ä»Aå®¹å™¨çš„0å±‚åˆ‡æ¢åˆ°Bå®¹å™¨çš„0å±‚
+    //éœ€è¦æ³¨æ„çš„æ˜¯------------ä»»ä½•å±‚æ”¹å˜çš„æ—¶å€™ï¼Œæ­¤ç©å®¶å…¶å®è¿˜æœªè¿›å…¥å±‚ï¼Œå› æ­¤ï¼Œå±‚æ”¹å˜çš„æ—¶å€™è·å–çš„ç©å®¶åˆ—è¡¨ï¼Œç›®æ ‡å±‚æ˜¯ä¸åŒ…å«è‡ªå·±çš„
     int nSceneID = m_pKernelModule->GetNodeInt(self, "SceneID");
 
-    //¹ã²¥¸ø±ğÈË×Ô¼ºÀëÈ¥(²ã½µ»òÕßÔ¾²ã)
+    //å¹¿æ’­ç»™åˆ«äººè‡ªå·±ç¦»å»(å±‚é™æˆ–è€…è·ƒå±‚)
     int nOldGroupID = oldVar.GetInt();
     if(nOldGroupID > 0)
     {
@@ -811,7 +809,7 @@ int AFCGameNetServerModule::OnGroupEvent(const AFGUID& self, const std::string& 
         m_pKernelModule->GetGroupEntityList(nSceneID, nOldGroupID, valueAllOldObjectList);
         if(valueAllOldObjectList.GetCount() > 0)
         {
-            //×Ô¼ºÖ»ĞèÒª¹ã²¥ÆäËûÍæ¼Ò
+            //è‡ªå·±åªéœ€è¦å¹¿æ’­å…¶ä»–ç©å®¶
             for(int i = 0; i < valueAllOldObjectList.GetCount(); i++)
             {
                 AFGUID identBC = valueAllOldObjectList.Object(i);
@@ -830,18 +828,18 @@ int AFCGameNetServerModule::OnGroupEvent(const AFGUID& self, const std::string& 
 
             OnEntityListLeave(valueAllOldPlayerList, AFCDataList() << self);
 
-            //ÀÏµÄÈ«²¿Òª¹ã²¥É¾³ı
+            //è€çš„å…¨éƒ¨è¦å¹¿æ’­åˆ é™¤
             OnEntityListLeave(AFCDataList() << self, valueAllOldObjectList);
         }
 
         m_pKernelModule->DoEvent(self, AFED_ON_CLIENT_LEAVE_SCENE, AFCDataList() << nOldGroupID);
     }
 
-    //ÔÙ¹ã²¥¸ø±ğÈË×Ô¼º³öÏÖ(²ãÉı»òÕßÔ¾²ã)
+    //å†å¹¿æ’­ç»™åˆ«äººè‡ªå·±å‡ºç°(å±‚å‡æˆ–è€…è·ƒå±‚)
     int nNewGroupID = newVar.GetInt();
     if(nNewGroupID > 0)
     {
-        //ÕâÀïĞèÒª°Ñ×Ô¼º´Ó¹ã²¥ÖĞÅÅ³ı
+        //è¿™é‡Œéœ€è¦æŠŠè‡ªå·±ä»å¹¿æ’­ä¸­æ’é™¤
         //////////////////////////////////////////////////////////////////////////
         AFCDataList valueAllObjectList;
         AFCDataList valueAllObjectListNoSelf;
@@ -867,7 +865,7 @@ int AFCGameNetServerModule::OnGroupEvent(const AFGUID& self, const std::string& 
             }
         }
 
-        //¹ã²¥¸ø±ğÈË,×Ô¼º³öÏÖ(ÕâÀï±¾²»Ó¦¸Ã¹ã²¥¸ø×Ô¼º)
+        //å¹¿æ’­ç»™åˆ«äºº,è‡ªå·±å‡ºç°(è¿™é‡Œæœ¬ä¸åº”è¯¥å¹¿æ’­ç»™è‡ªå·±)
         if(valuePlayerListNoSelf.GetCount() > 0)
         {
             OnEntityListEnter(valuePlayerListNoSelf, AFCDataList() << self);
@@ -875,7 +873,7 @@ int AFCGameNetServerModule::OnGroupEvent(const AFGUID& self, const std::string& 
 
         const std::string strSelfClassName(m_pKernelModule->GetNodeString(self, "ClassName"));
 
-        //¹ã²¥¸ø×Ô¼º,ËùÓĞµÄ±ğÈË³öÏÖ
+        //å¹¿æ’­ç»™è‡ªå·±,æ‰€æœ‰çš„åˆ«äººå‡ºç°
         if(valueAllObjectListNoSelf.GetCount() > 0)
         {
             if(strSelfClassName == ARK::Player::ThisName())
@@ -888,17 +886,17 @@ int AFCGameNetServerModule::OnGroupEvent(const AFGUID& self, const std::string& 
         {
             for(int i = 0; i < valueAllObjectListNoSelf.GetCount(); i++)
             {
-                //´ËÊ±²»ÓÃÔÙ¹ã²¥×Ô¼ºµÄÊôĞÔ¸ø×Ô¼º
-                //°ÑÒÑ¾­´æÔÚµÄÈËµÄÊôĞÔ¹ã²¥¸øĞÂÀ´µÄÈË
+                //æ­¤æ—¶ä¸ç”¨å†å¹¿æ’­è‡ªå·±çš„å±æ€§ç»™è‡ªå·±
+                //æŠŠå·²ç»å­˜åœ¨çš„äººçš„å±æ€§å¹¿æ’­ç»™æ–°æ¥çš„äºº
                 AFGUID identOld = valueAllObjectListNoSelf.Object(i);
 
                 OnDataNodeEnter(AFCDataList() << self, identOld);
-                //°ÑÒÑ¾­´æÔÚµÄÈËµÄ±í¹ã²¥¸øĞÂÀ´µÄÈË
+                //æŠŠå·²ç»å­˜åœ¨çš„äººçš„è¡¨å¹¿æ’­ç»™æ–°æ¥çš„äºº
                 OnDataTableEnter(AFCDataList() << self, identOld);
             }
         }
 
-        //°ÑĞÂÀ´µÄÈËµÄÊôĞÔ¹ã²¥¸øÖÜ±ßµÄÈË
+        //æŠŠæ–°æ¥çš„äººçš„å±æ€§å¹¿æ’­ç»™å‘¨è¾¹çš„äºº
         if(valuePlayerListNoSelf.GetCount() > 0)
         {
             OnDataNodeEnter(valuePlayerListNoSelf, self);
@@ -911,14 +909,14 @@ int AFCGameNetServerModule::OnGroupEvent(const AFGUID& self, const std::string& 
 
 int AFCGameNetServerModule::OnContainerEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
-    //ÈİÆ÷·¢Éú±ä»¯£¬Ö»¿ÉÄÜ´ÓAÈİÆ÷µÄ0²ãÇĞ»»µ½BÈİÆ÷µÄ0²ã
-    //ĞèÒª×¢ÒâµÄÊÇ------------ÈÎºÎÈİÆ÷¸Ä±äµÄÊ±ºò£¬Íæ¼Ò±ØĞëÊÇ0²ã
+    //å®¹å™¨å‘ç”Ÿå˜åŒ–ï¼Œåªå¯èƒ½ä»Aå®¹å™¨çš„0å±‚åˆ‡æ¢åˆ°Bå®¹å™¨çš„0å±‚
+    //éœ€è¦æ³¨æ„çš„æ˜¯------------ä»»ä½•å®¹å™¨æ”¹å˜çš„æ—¶å€™ï¼Œç©å®¶å¿…é¡»æ˜¯0å±‚
     int nOldSceneID = oldVar.GetInt();
     int nNowSceneID = newVar.GetInt();
 
-    m_pLogModule->LogInfo(self, "Enter Scene:", nNowSceneID);
+    ARK_LOG_INFO("Enter Scene, id = %s scene = %d", self.ToString().c_str(), nNowSceneID);
 
-    //×Ô¼ºÏûÊ§,Íæ¼Ò²»ÓÃ¹ã²¥£¬ÒòÎªÔÚÏûÊ§Ö®Ç°£¬»á»Øµ½0²ã£¬ÔçÒÑ¹ã²¥ÁËÍæ¼Ò
+    //è‡ªå·±æ¶ˆå¤±,ç©å®¶ä¸ç”¨å¹¿æ’­ï¼Œå› ä¸ºåœ¨æ¶ˆå¤±ä¹‹å‰ï¼Œä¼šå›åˆ°0å±‚ï¼Œæ—©å·²å¹¿æ’­äº†ç©å®¶
     AFCDataList valueOldAllObjectList;
     AFCDataList valueNewAllObjectList;
     AFCDataList valueAllObjectListNoSelf;
@@ -958,32 +956,32 @@ int AFCGameNetServerModule::OnContainerEvent(const AFGUID& self, const std::stri
 
     //////////////////////////////////////////////////////////////////////////
 
-    //µ«ÊÇ¾É³¡¾°0²ãµÄNPCĞèÒª¹ã²¥
+    //ä½†æ˜¯æ—§åœºæ™¯0å±‚çš„NPCéœ€è¦å¹¿æ’­
     OnEntityListLeave(AFCDataList() << self, valueOldAllObjectList);
 
-    //¹ã²¥¸øËùÓĞÈË³öÏÖ¶ÔÏó(Èç¹ûÊÇÍæ¼Ò£¬Ôò°üÀ¨¹ã²¥¸ø×Ô¼º)
-    //ÕâÀï¹ã²¥µÄ¶¼ÊÇ0²ãµÄ
+    //å¹¿æ’­ç»™æ‰€æœ‰äººå‡ºç°å¯¹è±¡(å¦‚æœæ˜¯ç©å®¶ï¼Œåˆ™åŒ…æ‹¬å¹¿æ’­ç»™è‡ªå·±)
+    //è¿™é‡Œå¹¿æ’­çš„éƒ½æ˜¯0å±‚çš„
     if(valuePlayerList.GetCount() > 0)
     {
-        //°Ñself¹ã²¥¸øargVarÕâĞ©ÈË
+        //æŠŠselfå¹¿æ’­ç»™argVarè¿™äº›äºº
         OnEntityListEnter(valuePlayerNoSelf, AFCDataList() << self);
     }
 
-    //ĞÂ²ã±ØÈ»ÊÇ0£¬°Ñ0²ãNPC¹ã²¥¸ø×Ô¼º------------×Ô¼º¹ã²¥¸ø×Ô¼º²»ÔÚÕâÀï¹ã²¥£¬ÒòÎª³¡¾°IDÔÚ¿ç³¡¾°Ê±»á¾­³£±ä»¯
+    //æ–°å±‚å¿…ç„¶æ˜¯0ï¼ŒæŠŠ0å±‚NPCå¹¿æ’­ç»™è‡ªå·±------------è‡ªå·±å¹¿æ’­ç»™è‡ªå·±ä¸åœ¨è¿™é‡Œå¹¿æ’­ï¼Œå› ä¸ºåœºæ™¯IDåœ¨è·¨åœºæ™¯æ—¶ä¼šç»å¸¸å˜åŒ–
 
-    //°ÑvalueAllObjectList¹ã²¥¸øself
+    //æŠŠvalueAllObjectListå¹¿æ’­ç»™self
     OnEntityListEnter(AFCDataList() << self, valueAllObjectListNoSelf);
 
-    ////////////////////°ÑÒÑ¾­´æÔÚµÄÈËµÄÊôĞÔ¹ã²¥¸øĞÂÀ´µÄÈË//////////////////////////////////////////////////////
+    ////////////////////æŠŠå·²ç»å­˜åœ¨çš„äººçš„å±æ€§å¹¿æ’­ç»™æ–°æ¥çš„äºº//////////////////////////////////////////////////////
     for(int i = 0; i < valueAllObjectListNoSelf.GetCount(); i++)
     {
         AFGUID identOld = valueAllObjectListNoSelf.Object(i);
         OnDataNodeEnter(AFCDataList() << self, identOld);
-        ////////////////////°ÑÒÑ¾­´æÔÚµÄÈËµÄ±í¹ã²¥¸øĞÂÀ´µÄÈË//////////////////////////////////////////////////////
+        ////////////////////æŠŠå·²ç»å­˜åœ¨çš„äººçš„è¡¨å¹¿æ’­ç»™æ–°æ¥çš„äºº//////////////////////////////////////////////////////
         OnDataTableEnter(AFCDataList() << self, identOld);
     }
 
-    //°ÑĞÂÀ´µÄÈËµÄÊôĞÔ¹ã²¥¸øÖÜ±ßµÄÈË()
+    //æŠŠæ–°æ¥çš„äººçš„å±æ€§å¹¿æ’­ç»™å‘¨è¾¹çš„äºº()
     if(valuePlayerNoSelf.GetCount() > 0)
     {
         OnDataNodeEnter(valuePlayerNoSelf, self);
@@ -998,7 +996,7 @@ int AFCGameNetServerModule::GetBroadcastEntityList(const AFGUID& self, const std
     int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
     int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
 
-    //ÆÕÍ¨³¡¾°ÈİÆ÷£¬ÅĞ¶Ï¹ã²¥ÊôĞÔ
+    //æ™®é€šåœºæ™¯å®¹å™¨ï¼Œåˆ¤æ–­å¹¿æ’­å±æ€§
     std::string strClassName = m_pKernelModule->GetNodeString(self, "ClassName");
 
     ARK_SHARE_PTR<AFIDataNodeManager> pClassDataNodeManager = m_pClassModule->GetNodeManager(strClassName);
@@ -1061,16 +1059,16 @@ int AFCGameNetServerModule::GetBroadcastEntityList(const AFGUID& self, const std
                 valueObject.AddObject(self);
             }
         }
-        //Ò»¸öÍæ¼Ò¶¼²»¹ã²¥
+        //ä¸€ä¸ªç©å®¶éƒ½ä¸å¹¿æ’­
         return valueObject.GetCount();
     }
 
-    //²»ÊÇÍæ¼Ò,NPCºÍ¹ÖÎïÀàµÈ
+    //ä¸æ˜¯ç©å®¶,NPCå’Œæ€ªç‰©ç±»ç­‰
     if(bTable)
     {
         if(pDataTable->IsPublic())
         {
-            //¹ã²¥¸ø¿Í»§¶Ë×Ô¼ººÍÖÜ±ßÈË
+            //å¹¿æ’­ç»™å®¢æˆ·ç«¯è‡ªå·±å’Œå‘¨è¾¹äºº
             int nCount = GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
         }
     }
@@ -1078,7 +1076,7 @@ int AFCGameNetServerModule::GetBroadcastEntityList(const AFGUID& self, const std
     {
         if(pDataNode->IsPublic())
         {
-            //¹ã²¥¸ø¿Í»§¶Ë×Ô¼ººÍÖÜ±ßÈË
+            //å¹¿æ’­ç»™å®¢æˆ·ç«¯è‡ªå·±å’Œå‘¨è¾¹äºº
             int nCount = GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
         }
     }
@@ -1102,18 +1100,18 @@ int AFCGameNetServerModule::GetBroadcastEntityList(const int nObjectContainerID,
     return valueObject.GetCount();
 }
 
-int AFCGameNetServerModule::OnEntityEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCGameNetServerModule::OnEntityEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
-    if(CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
+    if(ENTITY_EVT_DESTROY == eClassEvent)
     {
         //SaveDataToNoSql( self, true );
-        m_pLogModule->LogInfo(self, "Player Offline", "");
+        ARK_LOG_INFO("Player Offline, player_id = %s", self.ToString().c_str());
     }
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_LOADDATA == eClassEvent)
+    else if(ENTITY_EVT_LOAD_DATA == eClassEvent)
     {
         //LoadDataFormNoSql( self );
     }
-    else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
+    else if(ENTITY_EVT_ALL_FINISHED == eClassEvent)
     {
         m_pKernelModule->AddEventCallBack(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameNetServerModule::OnSwapSceneResultEvent);
     }
@@ -1165,7 +1163,7 @@ void AFCGameNetServerModule::OnReqiureRoleListProcess(const AFIMsgHead& xHead, c
     AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
     if(!m_AccountModule->GetRoleList(xMsg.account(), xAckRoleLiteInfoList))
     {
-        m_pLogModule->LogError(nGateClientID, "Get Role list failed", "", __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("Get role list failed, player_id = %s", nGateClientID.ToString().c_str());
     }
 
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
@@ -1189,7 +1187,7 @@ void AFCGameNetServerModule::OnCreateRoleGameProcess(const AFIMsgHead& xHead, co
     varList.AddInt(xMsg.game_id());
     if(!m_AccountModule->CreateRole(xMsg.account(), xAckRoleLiteInfoList, varList))
     {
-        m_pLogModule->LogError(nGateClientID, "create role failed", "", __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("create role failed, player_id = %s", nGateClientID.ToString().c_str());
     }
 
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
@@ -1207,7 +1205,7 @@ void AFCGameNetServerModule::OnDeleteRoleGameProcess(const AFIMsgHead& xHead, co
     AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
     if(!m_AccountModule->DeleteRole(xMsg.account(), xAckRoleLiteInfoList))
     {
-        m_pLogModule->LogError(nPlayerID, "delete role failed", "", __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("delete role failed, player_id = %s", nPlayerID.ToString().c_str());
     }
 
     m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nPlayerID);
@@ -1247,7 +1245,7 @@ void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& xH
         pServerData->xServerData.xClient = xClientID;
         *(pServerData->xServerData.pData) = xData;
 
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "Proxy Registered");
+        ARK_LOG_INFO("Proxy Registered, server_id = %d server_name = %s", xData.server_id(), xData.server_name().c_str());
     }
 
     return;
@@ -1266,9 +1264,7 @@ void AFCGameNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead& 
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         mProxyMap.RemoveElement(xData.server_id());
-
-
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "Proxy UnRegistered");
+        ARK_LOG_INFO("Proxy UnRegistered, server_id = %d server_name = %s", xData.server_id(), xData.server_name().c_str());
     }
 
     return;
@@ -1296,7 +1292,7 @@ void AFCGameNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& x
         pServerData->xServerData.xClient = xClientID;
         *(pServerData->xServerData.pData) = xData;
 
-        m_pLogModule->LogInfo(AFGUID(0, xData.server_id()), xData.server_name(), "Proxy Registered");
+        ARK_LOG_INFO("Proxy Registered, server_id = %d server_name = %s", xData.server_id(), xData.server_name().c_str());
     }
 
     return;
@@ -1337,7 +1333,7 @@ bool AFCGameNetServerModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGU
 {
     if(nGateID <= 0)
     {
-        //·Ç·¨gate
+        //éæ³•gate
         return false;
     }
 
@@ -1349,8 +1345,8 @@ bool AFCGameNetServerModule::AddPlayerGateInfo(const AFGUID& nRoleID, const AFGU
     ARK_SHARE_PTR<AFCGameNetServerModule::GateBaseInfo> pBaseData = mRoleBaseData.GetElement(nRoleID);
     if(nullptr != pBaseData)
     {
-        // ÒÑ¾­´æÔÚ
-        m_pLogModule->LogError(nClientID, "player is exist, cannot enter game", "", __FUNCTION__, __LINE__);
+        //å·²ç»å­˜åœ¨
+        ARK_LOG_ERROR("player is already exist, cannot enter game again, id = %s", nClientID.ToString().c_str());
         return false;
     }
 

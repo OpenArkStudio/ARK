@@ -65,7 +65,7 @@ protected:
 
 protected:
 
-    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
+    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
 
     int OnEnterSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
     int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);

@@ -131,18 +131,18 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
 
-    virtual bool DoEvent(const AFGUID& self, const std::string& strClassName, CLASS_OBJECT_EVENT eEvent, const AFIDataList& valueList);
+    virtual bool DoEvent(const AFGUID& self, const std::string& strClassName, ARK_ENTITY_EVENT eEvent, const AFIDataList& valueList);
     virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList);
 
 protected:
 
-    //ע��ͨ��Class�¼�
+    //娉ㄥ唽閫氱敤Class浜嬩欢
     virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb);
 
-    //ע��ͨ��DataNode�¼�
+    //娉ㄥ唽閫氱敤DataNode浜嬩欢
     virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
 
-    //ע��ͨ��DataTable�¼�
+    //娉ㄥ唽閫氱敤DataTable浜嬩欢
     virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
 
 protected:
@@ -152,7 +152,7 @@ protected:
 
     void InitRandom();
 
-    int OnCommonClassEvent(const AFGUID& self, const std::string& name, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var);
+    int OnCommonClassEvent(const AFGUID& self, const std::string& name, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
     int OnCommonNodeEvent(const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar);
     int OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 

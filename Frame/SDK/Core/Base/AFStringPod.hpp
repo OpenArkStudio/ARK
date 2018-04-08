@@ -22,9 +22,8 @@
 
 #include "AFCoreDef.hpp"
 #include "AFMacros.hpp"
-#include "AFMalloc.h"
 
-//ȡhashֵʱ���ִ�Сд
+//鍙杊ash鍊兼椂鍖哄垎澶у皬鍐?
 template<typename TYPE>
 class StringTraits
 {
@@ -56,7 +55,7 @@ public:
     }
 };
 
-//ȡhashֵʱ�����ִ�Сд
+//鍙杊ash鍊兼椂涓嶅尯鍒嗗ぇ灏忓啓
 template<typename TYPE>
 class StringTraitsNoCase : public StringTraits<TYPE>
 {
@@ -86,12 +85,14 @@ public:
 
     void* Alloc(size_t size)
     {
-        return ARK_MALLOC(StringPodAlloc, size);
+        void* ptr = NULL;
+        ARK_ALLOC(ptr, StringPodAlloc, size);
+        return ptr;
     }
 
     void Free(void* ptr, size_t size)
     {
-        return ARK_FREE(StringPodAlloc, ptr, size);
+        ARK_DEALLOC(ptr, StringPodAlloc);
     }
 
     void Swap(StringPodAlloc& src)
@@ -131,7 +132,7 @@ public:
         mpNode = node;
     }
 
-    //ǰ��++
+    //鍓嶇疆++
     StringPodIter& operator++()
     {
         node_t* next = mpNode->next;
@@ -147,7 +148,7 @@ public:
         return *this;
     }
 
-    //����++
+    //鍚庣疆++
     StringPodIter& operator++(int)
     {
         StringPodIter tmp(*this);
@@ -564,7 +565,7 @@ private:
 
     void Expand()
     {
-        size_t new_size = mnSize * 2 + 1; //hash bucketҪΪ����
+        size_t new_size = mnSize * 2 + 1; //hash bucket瑕佷负璐ㄦ暟
         node_t** new_buckets = (node_t**)mxAlloc.Alloc(sizeof(node_t*) * new_size);
         memset(new_buckets, 0, sizeof(node_t*) * new_size);
 

@@ -31,29 +31,29 @@
 
 ////////////////////////////////////////////////////////////////////////////
 
-#define CLIENT_MSG_PROCESS( nMsgID, msgData, nLen, msg)                 \
-    AFGUID nPlayerID;                                \
-    msg xMsg;                                           \
+#define CLIENT_MSG_PROCESS( nMsgID, msgData, nLen, msg)                                 \
+    AFGUID nPlayerID;                                                                   \
+    msg xMsg;                                                                           \
     if (!AFINetServerModule::ReceivePB(xHead,nMsgID, msgData, nLen, xMsg, nPlayerID))   \
-    {                                                   \
-        m_pLogModule->LogError(AFGUID(), "", "Parse msg error", __FUNCTION__, __LINE__); \
-        return;                                         \
-    }                                                   \
-    \
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(nPlayerID); \
-    if (nullptr == pEntity)                        \
-    {                                                   \
-        m_pLogModule->LogError(nPlayerID, "FromClient Object do not Exist", "", __FUNCTION__, __LINE__); \
-        return;                                         \
+    {                                                                                   \
+        ARK_LOG_ERROR("Parse msg error, nMsgID = %d", nMsgID);                          \
+        return;                                                                         \
+    }                                                                                   \
+                                                                                        \
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(nPlayerID);                                               \
+    if (nullptr == pEntity)                                                                                                 \
+    {                                                                                                                       \
+        ARK_LOG_ERROR("FromClient Object do not Exist, nMsgID = %d player_id = %s", nMsgID, nPlayerID.ToString().c_str());  \
+        return;                                                                                                             \
     }
 
-#define CLIENT_MSG_PROCESS_NO_OBJECT( nMsgID, msgData, nLen, msg)                 \
-    AFGUID nPlayerID;                                \
-    msg xMsg;                                           \
-    if (!AFINetServerModule::ReceivePB(xHead,nMsgID, msgData, nLen, xMsg, nPlayerID))             \
-    {                                                   \
-        m_pLogModule->LogError(AFGUID(), "", "Parse msg error", __FUNCTION__, __LINE__); \
-        return;                                         \
+#define CLIENT_MSG_PROCESS_NO_OBJECT( nMsgID, msgData, nLen, msg)                       \
+    AFGUID nPlayerID;                                                                   \
+    msg xMsg;                                                                           \
+    if (!AFINetServerModule::ReceivePB(xHead,nMsgID, msgData, nLen, xMsg, nPlayerID))   \
+    {                                                                                   \
+        ARK_LOG_ERROR("Parse msg error, nMsgID = %d", nMsgID);                          \
+        return;                                                                         \
     }
 
 //////////////////////////////////////////////////////////////////////////
@@ -141,7 +141,7 @@ public:
             return;
         }
 
-        //°ÑÉÏ´ÎµÄÊı¾İ´¦ÀíÁË
+        //æŠŠä¸Šæ¬¡çš„æ•°æ®å¤„ç†äº†
         KeepAlive();
 
         m_pNet->Update();
@@ -187,13 +187,12 @@ public:
             char szData[MAX_PATH] = { 0 };
             ARK_SPRINTF(szData, MAX_PATH, "Send Message to %s Failed For NULL Of Net, MessageID: %d\n", xClientID.ToString().c_str(), nMsgID);
             //LogSend(szData);
-
             return false;
         }
 
         if(pClientIDList)
         {
-            //playeridÖ÷ÒªÊÇÍø¹Ø×ª·¢ÏûÏ¢µÄÊ±ºò×öÊ¶±ğÊ¹ÓÃ£¬ÆäËûÊ¹ÓÃ²»Ê¹ÓÃ
+            //playeridä¸»è¦æ˜¯ç½‘å…³è½¬å‘æ¶ˆæ¯çš„æ—¶å€™åšè¯†åˆ«ä½¿ç”¨ï¼Œå…¶ä»–ä½¿ç”¨ä¸ä½¿ç”¨
             AFMsg::BrocastMsg xMsg;
             AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
             *pPlayerID = AFINetModule::GUIDToPB(nPlayer);

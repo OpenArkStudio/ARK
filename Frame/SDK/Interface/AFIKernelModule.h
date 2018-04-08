@@ -31,7 +31,7 @@ public:
     bool AddHeartBeat(const AFGUID self, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const int64_t, const int), const int64_t nTime, const int nCount, const bool bForever = false)
     {
         ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-        if (nullptr != pEntity)
+        if(nullptr != pEntity)
         {
             return pEntity->AddHeartBeat(name, pBase, handler, nTime, nCount, bForever);
         }
@@ -48,7 +48,7 @@ public:
     bool AddNodeCallBack(const AFGUID& self, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
         ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-        if (nullptr != pEntity)
+        if(nullptr != pEntity)
         {
             return pEntity->AddNodeCallBack(name, pBase, handler);
         }
@@ -77,25 +77,25 @@ public:
     }
 
     template<typename BaseType>
-    bool AddClassCallBack(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFIDataList&))
+    bool AddClassCallBack(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
     {
         CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return AddClassCallBack(name, std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
     }
 
-    virtual bool DoEvent(const AFGUID& self, const std::string& name, CLASS_OBJECT_EVENT eEvent, const AFIDataList& valueList) = 0;
+    virtual bool DoEvent(const AFGUID& self, const std::string& name, ARK_ENTITY_EVENT eEvent, const AFIDataList& valueList) = 0;
     virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList) = 0;
 
     //////////////////////////////////////////////////////////////////////////
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÀàÊÂ¼ş,ËùÓĞµÄÀà¶ÔÏó¶¼»á»Øµ÷
+    //é™î‡å…˜ç¼ƒæˆ ç²¶å¦¯â€³æ½¡å¨‰ã„¥å”½é”›å±½æ´–ç’‹å†ªæ•¤é‰ãƒ¥æ‚“å§ãƒ¥î‡®ç’ï¼„è¢«æµœå¬©æ¬¢,éµâ‚¬éˆå¤Œæ®‘ç»«è¯²î‡®ç’ï¿ å…˜æµ¼æ°¬æ´–ç’‹?
     template<typename BaseType>
-    bool RegCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const CLASS_OBJECT_EVENT, const AFIDataList&))
+    bool RegCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
     {
         CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
         return RegCommonClassEvent(std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
     }
 
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÊôĞÔÊÂ¼ş,ËùÓĞµÄÀàÊôĞÔ¶¼»á»Øµ÷
+    //é™î‡å…˜ç¼ƒæˆ ç²¶å¦¯â€³æ½¡å¨‰ã„¥å”½é”›å±½æ´–ç’‹å†ªæ•¤é‰ãƒ¥æ‚“å§ãƒ¥î‡®ç’â€³ç˜é¬Ñ‚ç°¨æµ ?éµâ‚¬éˆå¤Œæ®‘ç»«è¯²ç˜é¬Ñ‡å…˜æµ¼æ°¬æ´–ç’‹?
     template<typename BaseType>
     bool RegCommonDataNodeEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
@@ -103,7 +103,7 @@ public:
         return RegCommonDataNodeEvent(std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
     }
 
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÀà±íÊÂ¼ş,ËùÓĞµÄÀà±í¶¼»á»Øµ÷
+    //é™î‡å…˜ç¼ƒæˆ ç²¶å¦¯â€³æ½¡å¨‰ã„¥å”½é”›å±½æ´–ç’‹å†ªæ•¤é‰ãƒ¥æ‚“å§ãƒ¥î‡®ç’ï¼„è¢«ç›ã„¤ç°¨æµ ?éµâ‚¬éˆå¤Œæ®‘ç»«æ˜ã€ƒé–®æˆ’ç´°é¥ç‚¶çšŸ
     template<typename BaseType>
     bool RegCommonDataTableEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
     {
@@ -185,13 +185,13 @@ protected:
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
 
 protected:
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÀàÊÂ¼ş,ËùÓĞµÄÀà¶ÔÏó¶¼»á»Øµ÷
+    //é™î‡å…˜ç¼ƒæˆ ç²¶å¦¯â€³æ½¡å¨‰ã„¥å”½é”›å±½æ´–ç’‹å†ªæ•¤é‰ãƒ¥æ‚“å§ãƒ¥î‡®ç’ï¼„è¢«æµœå¬©æ¬¢,éµâ‚¬éˆå¤Œæ®‘ç»«è¯²î‡®ç’ï¿ å…˜æµ¼æ°¬æ´–ç’‹?
     virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
 
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÊôĞÔÊÂ¼ş,ËùÓĞµÄÀàÊôĞÔ¶¼»á»Øµ÷
+    //é™î‡å…˜ç¼ƒæˆ ç²¶å¦¯â€³æ½¡å¨‰ã„¥å”½é”›å±½æ´–ç’‹å†ªæ•¤é‰ãƒ¥æ‚“å§ãƒ¥î‡®ç’â€³ç˜é¬Ñ‚ç°¨æµ ?éµâ‚¬éˆå¤Œæ®‘ç»«è¯²ç˜é¬Ñ‡å…˜æµ¼æ°¬æ´–ç’‹?
     virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
 
-    //Ö»ÄÜÍøÂçÄ£¿é×¢²á£¬»Øµ÷ÓÃÀ´Í¬²½¶ÔÏóÀà±íÊÂ¼ş,ËùÓĞµÄÀà±í¶¼»á»Øµ÷
+    //é™î‡å…˜ç¼ƒæˆ ç²¶å¦¯â€³æ½¡å¨‰ã„¥å”½é”›å±½æ´–ç’‹å†ªæ•¤é‰ãƒ¥æ‚“å§ãƒ¥î‡®ç’ï¼„è¢«ç›ã„¤ç°¨æµ ?éµâ‚¬éˆå¤Œæ®‘ç»«æ˜ã€ƒé–®æˆ’ç´°é¥ç‚¶çšŸ
     virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
 };
 

@@ -128,7 +128,7 @@ public:
         return mxNodes[index];
     }
 
-    //²»ÄÜÉ¾³ı£¬É¾³ıºó»áµ¼ÖÂindex´íÎ»
+    //æ¶“å¶ˆå…˜é’çŠ»æ«é”›å±½å¹é—„ã‚…æ‚—æµ¼æ°¬î‡±é‘·ç£‡ndexé–¿æ¬ç¶…
     //bool RemoveElement(const std::string& name)
     //{
     //    size_t index;
@@ -140,7 +140,7 @@ public:
     //    //remove from name container
     //    mxIndices.Remove(name.c_str());
 
-    //    //ÊÍ·ÅÄÚ´æ
+    //    //é–²å©ƒæ–éå‘­ç“¨
     //    if (mxNodes[index] != nullptr)
     //    {
     //        //delete mxNodes[index];
