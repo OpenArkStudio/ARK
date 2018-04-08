@@ -55,24 +55,24 @@ protected:
 
     void OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
-    //Á¬½Ó¶ªÊ§,É¾2²ã(Á¬½Ó¶ÔÏó£¬ÕÊºÅ¶ÔÏó)
+    //è¿æ¥ä¸¢å¤±,åˆ 2å±‚(è¿æ¥å¯¹è±¡ï¼Œå¸å·å¯¹è±¡)
     void OnClientDisconnect(const AFGUID& xClientID);
-    //ÓĞÁ¬½Ó
+    //æœ‰è¿æ¥
     void OnClientConnected(const AFGUID& xClientID);
 
 protected:
-    //ÊÀ½ç·şÎñÆ÷×¢²á£¬Ë¢ĞÂĞÅÏ¢
+    //ä¸–ç•ŒæœåŠ¡å™¨æ³¨å†Œï¼Œåˆ·æ–°ä¿¡æ¯
     void OnWorldRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnWorldUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnRefreshWorldInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     //////////////////////////////////////////////////////////////////////////
-    //µÇÂ¼·şÎñÆ÷×¢²á£¬Ë¢ĞÂĞÅÏ¢
+    //ç™»å½•æœåŠ¡å™¨æ³¨å†Œï¼Œåˆ·æ–°ä¿¡æ¯
     void OnLoginRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnLoginUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnRefreshLoginInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    //Ñ¡ÔñÊÀ½ç·şÎñÆ÷ÏûÏ¢
+    //é€‰æ‹©ä¸–ç•ŒæœåŠ¡å™¨æ¶ˆæ¯
     void OnSelectWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 

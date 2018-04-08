@@ -581,7 +581,7 @@ private:
     ALLOC mxAlloc;
     int mnType;
 
-    //可变数据联合体 size = 16
+    //閸欘垰褰夐弫鐗堝祦閼辨柨鎮庢担?size = 16
     union
     {
         bool mbValue;
@@ -600,7 +600,7 @@ private:
         };
     };
 
-    //额外buffer
+    //妫版繂顦籦uffer
     union
     {
         uint32_t mnAllocLen;

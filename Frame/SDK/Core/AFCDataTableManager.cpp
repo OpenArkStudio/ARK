@@ -108,7 +108,7 @@ bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name
 
 bool AFCDataTableManager::AddTableCallback(const char* table_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
 {
-    //TODO:¸ù¾İÃû×ÖÇø·Ö
+    //TODO:éè§„åµéšå¶…ç“§é–å“„å
     //table_name
     mxTableCallbacks.push_back(cb);
     return true;

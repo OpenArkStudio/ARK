@@ -74,9 +74,9 @@ public:
 protected:
     void OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
-    //Á¬½Ó¶ªÊ§,É¾2²ã(Á¬½Ó¶ÔÏó£¬ÕÊºÅ¶ÔÏó)
+    //è¿æ¥ä¸¢å¤±,åˆ 2å±‚(è¿æ¥å¯¹è±¡ï¼Œå¸å·å¯¹è±¡)
     void OnClientDisconnect(const AFGUID& xClientID);
-    //ÓĞÁ¬½Ó
+    //æœ‰è¿æ¥
     void OnClientConnected(const AFGUID& xClientID);
 
 protected:

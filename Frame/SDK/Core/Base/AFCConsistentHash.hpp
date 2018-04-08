@@ -77,7 +77,7 @@ public:
     {
         strIP = "";
         nPort = 0;
-        nWeight = 0;//×Ü¹²¶àÉÙÈ¨ÖØ¼´ÊÇ¶àÉÙĞéÄâ½Úµã
+        nWeight = 0;//é¬è¯²å¡æ¾¶æ°¬çš¯é‰å†®å™¸é—è™«æ§¸æ¾¶æ°¬çš¯é“æ°­å«™é‘ºå‚œå£
         nMachineID = 0;
         bCandidate = false;
     }
@@ -86,7 +86,7 @@ public:
     {
         strIP = "";
         nPort = 0;
-        nWeight = 0;//×Ü¹²¶àÉÙÈ¨ÖØ¼´ÊÇ¶àÉÙĞéÄâ½Úµã
+        nWeight = 0;//é¬è¯²å¡æ¾¶æ°¬çš¯é‰å†®å™¸é—è™«æ§¸æ¾¶æ°¬çš¯é“æ°­å«™é‘ºå‚œå£
         nMachineID = 0;
         bCandidate = false;
     }

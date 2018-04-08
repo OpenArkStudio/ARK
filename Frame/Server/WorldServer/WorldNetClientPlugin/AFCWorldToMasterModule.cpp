@@ -128,7 +128,7 @@ void AFCWorldToMasterModule::Register(const int nServerID)
                     int nTargetID = pServerData->nGameID;
                     m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_MTL_WORLD_REGISTERED, xMsg, 0);
 
-                    m_pLogModule->LogInfo(AFGUID(0, pData->server_id()), pData->server_name(), "Register");
+                    ARK_LOG_INFO("Register, server_id = %d server_name = %s", pData->server_id(), pData->server_name().c_str());
                 }
             }
         }
@@ -179,7 +179,7 @@ void AFCWorldToMasterModule::OnKickClientProcess(const AFIMsgHead& xHead, const 
         return;
     }
 
-    //TÈË,ÏÂÏß
+    //Täºº,ä¸‹çº¿
     //     AFIDataList var;
     //     var << xMsg.world_id() << xMsg.account();
     //     m_pEventProcessModule->DoEvent(AFGUID(), AFED_ON_KICK_FROM_SERVER, var);
@@ -187,18 +187,18 @@ void AFCWorldToMasterModule::OnKickClientProcess(const AFIMsgHead& xHead, const 
 
 void AFCWorldToMasterModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    printf("NFNet || ·Ç·¨ÏûÏ¢:unMsgID=%d\n", nMsgID);
+    printf("NFNet || éžæ³•æ¶ˆæ¯:unMsgID=%d\n", nMsgID);
 }
 
 void AFCWorldToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
     if(eEvent == DISCONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_EOF", "Connection closed", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
     }
     else  if(eEvent == CONNECTED)
     {
-        m_pLogModule->LogInfo(xClientID, "NF_NET_EVENT_CONNECTED", "connectioned success", __FUNCTION__, __LINE__);
+        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
         Register(nServerID);
     }
 }
@@ -220,6 +220,6 @@ bool AFCWorldToMasterModule::PreShut()
 
 void AFCWorldToMasterModule::LogServerInfo(const std::string& strServerInfo)
 {
-    m_pLogModule->LogInfo(AFGUID(), strServerInfo, "");
+    ARK_LOG_INFO("%s", strServerInfo.c_str());
 }
 

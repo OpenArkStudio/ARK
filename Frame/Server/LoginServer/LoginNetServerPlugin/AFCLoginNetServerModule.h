@@ -60,13 +60,13 @@ protected:
     void OnClientDisconnect(const AFGUID& xClientID);
     void OnClientConnected(const AFGUID& xClientID);
 
-    //µÇÈë
+    //ç™»å…¥
     void OnLoginProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    //Ñ¡Ôñ´óÊÀ½ç
+    //é€‰æ‹©å¤§ä¸–ç•Œ
     void OnSelectWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    //ÉêÇë²é¿´ÊÀ½çÁÐ±í
+    //ç”³è¯·æŸ¥çœ‹ä¸–ç•Œåˆ—è¡¨
     void OnViewWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     void OnHeartBeat(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);

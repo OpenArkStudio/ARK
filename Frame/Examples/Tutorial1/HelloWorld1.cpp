@@ -33,8 +33,13 @@ bool HelloWorld1::Init()
 bool HelloWorld1::PostInit()
 {
     m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
+    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
     ARK_ASSERT_RET_VAL(m_pTimerModule != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pLogModule != nullptr, false);
+
+    AFGUID test_id = AFGUID(0, 1);
+    ARK_LOG_INFO("Test log, id = %s", test_id.ToString().c_str());
 
     std::cout << "Hello, world1, PostInit" << std::endl;
     AFCData data1(DT_STRING, "test1");
@@ -45,7 +50,7 @@ bool HelloWorld1::PostInit()
 
     std::cout << pPluginManager->GetNowTime() << std::endl;
 
-    m_pTimerModule->AddSingleTimer("test", AFGUID(0, 1), 10 * 1000/*ms*/, 2, this, &HelloWorld1::TestTimer);
+    m_pTimerModule->AddSingleTimer("test", test_id, 10 * 1000/*ms*/, 2, this, &HelloWorld1::TestTimer);
 
     return true;
 }

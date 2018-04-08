@@ -23,7 +23,7 @@
 namespace GUIDModule
 {
 //refer:https://github.com/nebula-im/snowflake4cxx
-//�޸�Ϊʱ��� * ARK_GUID_POWER + sequence
+//淇敼涓烘椂闂存埑 * ARK_GUID_POWER + sequence
 	
 #if ARK_PLATFORM == PLATFORM_WIN
 # include <windows.h>

@@ -457,7 +457,7 @@ const char* AFDataTable::GetStringValue(size_t row, size_t col)
 
     //return data.ToString();
 
-    //TODO:Ôö¼ÓAFIDataµÄToString½Ó¿Ú
+    //TODO:æ¾§ç‚²å§AFIDataé¨å‡¾oStringéºãƒ¥å½›
     return NULL_STR.c_str();
 }
 

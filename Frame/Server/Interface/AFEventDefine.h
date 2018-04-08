@@ -63,7 +63,7 @@ enum AFEventDefine
 
     AFED_ON_OBJECT_BE_KILLED,
 
-    // 通知副本奖励
+    // 閫氱煡鍓湰濂栧姳
     AFED_ON_NOTICE_ECTYPE_AWARD,
 
 };

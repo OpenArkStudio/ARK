@@ -58,9 +58,9 @@ int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
     int nRemainExp = nCurExp - nMaxExp;
     while (nRemainExp >= 0)
     {
-        //Éý¼¶
+        //å‡çº§
         nLevel++;
-        //·ÀÖ¹Ô½¼¶BUG
+        //é˜²æ­¢è¶Šçº§BUG
         m_pKernelModule->SetNodeInt(self, ARK::Player::Level(), nLevel);
 
         nCurExp = nRemainExp;

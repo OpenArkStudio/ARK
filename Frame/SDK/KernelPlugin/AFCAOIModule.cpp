@@ -49,7 +49,7 @@ void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= 
     ObjectList::iterator itIndex;
     bool bFlag = false;
 
-    //xÖá
+    //xæž?
     ObjectMap xTempMap;
     for(ObjectList::iterator iter = xObjectList.begin(); iter != xObjectList.end(); ++iter)
     {
@@ -73,17 +73,17 @@ void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= 
 
     if(bFlag)
     {
-        //ÕÒµ½ÁË£¬²åÈë½øÈ¥
+        //éŽµæƒ§åŸŒæµœå—­ç´éŽ»æŽ‘å†æ©æ¶˜å¹“
         xObjectList.insert(itIndex, pObject);
     }
     else
     {
-        //Ã»ÕÒµ½£¬Î²²¿¼Ó½øÈ¥
+        //å¨Œâ„ƒå£˜é’å¸®ç´çé¹ƒå„´é”çŠºç¹˜é˜?
         xObjectList.push_back(pObject);
         pObject->x_pos = itIndex--;
     }
 
-    //yÖá
+    //yæž?
     bFlag = false;
     for(ObjectList::iterator iter = yObjectList.begin(); iter != yObjectList.end();)
     {
@@ -217,7 +217,7 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
     ObjectList::iterator iter;
     int differ = pObject->radius;
 
-    //xÖá ÏòºóÕÒ
+    //xæž?éšæˆæ‚—éŽµ?
     if(pObject->x_pos != xObjectList.end())
     {
         iter = pObject->x_pos;
@@ -238,7 +238,7 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
         }
     }
 
-    //xÖá ÏòÇ°ÕÒ
+    //xæž?éšæˆå¢ éŽµ?
     if(pObject->x_pos != xObjectList.begin())
     {
         iter = pObject->x_pos;
@@ -259,7 +259,7 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
         }
     }
 
-    //yÖá ÏòºóÕÒ
+    //yæž?éšæˆæ‚—éŽµ?
     if(pObject->y_pos != yObjectList.end())
     {
         iter = pObject->y_pos;
@@ -283,7 +283,7 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
         }
     }
 
-    //yÖá ÏòÇ°ÕÒ
+    //yæž?éšæˆå¢ éŽµ?
     if(pObject->y_pos != yObjectList.begin())
     {
         iter = pObject->y_pos;
@@ -319,7 +319,7 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
     ObjectList::iterator iter;
     ObjectList::iterator itIndex;
 
-    //xÖáÕÒÐÂµÄÎ»ÖÃ
+    //xæžå­˜å£˜é‚æ‰®æ®‘æµ£å¶‡ç–†
     if(pObject->x > oldX)
     {
         if(pObject->x_pos != xObjectList.end())
@@ -381,7 +381,7 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
         }
     }
 
-    //yÖáÕÒÐÂµÄÎ»ÖÃ
+    //yæžå­˜å£˜é‚æ‰®æ®‘æµ£å¶‡ç–†
     if(pObject->y > OldY)
     {
         if(pObject->y_pos != yObjectList.end())

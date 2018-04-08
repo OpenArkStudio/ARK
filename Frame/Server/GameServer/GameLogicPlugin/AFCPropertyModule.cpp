@@ -51,7 +51,7 @@ bool AFCPropertyModule::PostInit()
 
 int AFCPropertyModule::GetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType)
 {
-    //TODO:Òª×öÒ»¸ö attr_name->colµÄÓ³Éä
+    //TODO:è¦åšä¸€ä¸ª attr_name->colçš„æ˜ å°„
 
     //if(NFPropertyGroup::NPG_ALL != eGroupType)
     //{
@@ -65,7 +65,7 @@ int AFCPropertyModule::GetPropertyValue(const AFGUID& self, const std::string& s
 
 int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue)
 {
-    //TODO:Òª×öÒ»¸ö attr_name->colµÄÓ³Éä
+    //TODO:è¦åšä¸€ä¸ª attr_name->colçš„æ˜ å°„
 
     //if(NFPropertyGroup::NPG_ALL != eGroupType)
     //{
@@ -83,7 +83,7 @@ int AFCPropertyModule::SetPropertyValue(const AFGUID& self, const std::string& s
     //    //return m_pKernelModule->SetRecordInt( self, mstrCommPropertyName, eGroupType, *pTableCol, nValue );
     //}
 
-    ////¶¯Ì¬±íÖÐÃ»ÓÐ£¬ÔòÉèÖÃµ½×îÖÕÖµ
+    ////åŠ¨æ€è¡¨ä¸­æ²¡æœ‰ï¼Œåˆ™è®¾ç½®åˆ°æœ€ç»ˆå€¼
     //m_pKernelModule->SetNodeInt(self, strPropertyName, nValue);
 
     return 0;
@@ -144,7 +144,7 @@ int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string&
 
 int AFCPropertyModule::OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
-    ////¼ÆËã×ÜÖµ
+    ////è®¡ç®—æ€»å€¼
     //const std::string& strRecordName = xEventData.strRecordName;
     //const int nOpType = xEventData.nOpType;
     //const int nRow = xEventData.nRow;
@@ -166,11 +166,11 @@ int AFCPropertyModule::OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE
     return 0;
 }
 
-int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
     //if(strClassName == ARK::Player::ThisName())
     //{
-    //    if(CLASS_OBJECT_EVENT::COE_CREATE_NODATA == eClassEvent)
+    //    if(ARK_ENTITY_EVENT::COE_CREATE_NODATA == eClassEvent)
     //    {
     //        ARK_SHARE_PTR<AFIRecord> pRecord = m_pKernelModule->FindRecord(self, ARK::Player::R_CommPropertyValue());
     //        if(nullptr != pRecord)
@@ -183,19 +183,19 @@ int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string&
 
     //        m_pKernelModule->AddPropertyCallBack(self, ARK::Player::Level(), this, &AFCPropertyModule::OnObjectLevelEvent);
 
-    //        // TODO:Ò»¼¶ÊôÐÔ»Øµ÷
+    //        // TODO:ä¸€çº§å±žæ€§å›žè°ƒ
     //        m_pKernelModule->AddRecordCallBack(self, ARK::Player::R_CommPropertyValue(), this, &AFCPropertyModule::OnRecordPropertyEvent);
     //    }
-    //    else if(CLASS_OBJECT_EVENT::COE_CREATE_EFFECTDATA == eClassEvent)
+    //    else if(ARK_ENTITY_EVENT::COE_CREATE_EFFECTDATA == eClassEvent)
     //    {
     //        int nOnlineCount = m_pKernelModule->GetNodeInt(self, ARK::Player::OnlineCount());
     //        if(nOnlineCount <= 0 && m_pKernelModule->GetNodeInt(self, ARK::Player::SceneID()) > 0)
     //        {
-    //            //µÚÒ»´Î³öÉú£¬ÉèÖÃ»ù´¡ÊôÐÔ
+    //            //ç¬¬ä¸€æ¬¡å‡ºç”Ÿï¼Œè®¾ç½®åŸºç¡€å±žæ€§
     //            m_pKernelModule->SetNodeInt(self, ARK::Player::Level(), 1);
     //        }
     //    }
-    //    else if(CLASS_OBJECT_EVENT::COE_CREATE_FINISH == eClassEvent)
+    //    else if(ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
     //    {
     //        int nOnlineCount = m_pKernelModule->GetNodeInt(self, ARK::Player::OnlineCount());
     //        m_pKernelModule->SetNodeInt(self, ARK::Player::OnlineCount(), (nOnlineCount + 1));
@@ -214,7 +214,7 @@ int AFCPropertyModule::RefreshBaseProperty(const AFGUID& self)
     //    return 1;
     //}
 
-    ////³õÊ¼ÊôÐÔ+µÈ¼¶ÊôÐÔ(Ö°Òµ¾ö¶¨)
+    ////åˆå§‹å±žæ€§+ç­‰çº§å±žæ€§(èŒä¸šå†³å®š)
     //int eJobType = m_pKernelModule->GetNodeInt(self, ARK::Player::Job());
     //int nLevel = m_pKernelModule->GetNodeInt(self, ARK::Player::Level());
 

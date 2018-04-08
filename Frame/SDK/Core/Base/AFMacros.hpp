@@ -21,6 +21,7 @@
 #pragma once
 
 #include "AFPlatform.hpp"
+#include "AFMemory.hpp"
 
 //Input param type
 #ifndef IN
@@ -54,7 +55,7 @@
 
 #if ARK_PLATFORM == PLATFORM_WIN
 
-//windows
+//Windows
 #define ARK_SPRINTF sprintf_s
 #define ARK_STRICMP _stricmp
 #define ARK_SLEEP(s) Sleep(s)
@@ -72,14 +73,79 @@
     } while (0);
 
 #define ARK_EXPORT extern "C"  __declspec(dllexport)
+#define ARK_UNUSED
 
 #else
 
-//linux
+//Linux
 #define ARK_SPRINTF snprintf
 #define ARK_STRICMP strcasecmp
-#define ARK_SLEEP(s) usleep(s)
-#define ARK_STRNCPY strncpy
+#define ARK_SLEEP(s) usleep(s * 1000)
+
+/* isaacs - added strlcpy implementation for systems that lack it. */
+#ifndef strlcpy
+/*	$NetBSD: strlcpy.c,v 1.1 2010/12/05 03:15:43 christos Exp $	*/
+/*	from OpenBSD: strlcpy.c,v 1.4 1999/05/01 18:56:41 millert Exp 	*/
+
+/*
+* Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
+* All rights reserved.
+*
+* Redistribution and use in source and binary forms, with or without
+* modification, are permitted provided that the following conditions
+* are met:
+* 1. Redistributions of source code must retain the above copyright
+*    notice, this list of conditions and the following disclaimer.
+* 2. Redistributions in binary form must reproduce the above copyright
+*    notice, this list of conditions and the following disclaimer in the
+*    documentation and/or other materials provided with the distribution.
+* 3. The name of the author may not be used to endorse or promote products
+*    derived from this software without specific prior written permission.
+*
+* THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
+* INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
+* AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+* THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+* EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+* PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+* OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+* WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+* OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+* ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+/*
+* Copy src to string dst of size siz.  At most siz-1 characters
+* will be copied.  Always NUL terminates (unless siz == 0).
+* Returns strlen(src); if retval >= siz, truncation occurred.
+*/
+static size_t strlcpy(char *dst, const char *src, size_t siz)
+{
+	register char *d = dst;
+	register const char *s = src;
+	register size_t n = siz;
+
+	/* Copy as many bytes as will fit */
+	if (n != 0 && --n != 0) {
+		do {
+			if ((*d++ = *s++) == 0)
+				break;
+		} while (--n != 0);
+	}
+
+	/* Not enough room in dst, add NUL and traverse rest of src */
+	if (n == 0) {
+		if (siz != 0)
+			*d = '\0';		/* NUL-terminate dst */
+		while (*s++)
+			;
+	}
+
+	return(s - src - 1);	/* count does not include NUL */
+}
+#endif
+
+#define ARK_STRNCPY strlcpy
 #define ARK_ASSERT(exp_, msg_, file_, func_)        \
     do                                              \
     {                                               \
@@ -88,6 +154,7 @@
     } while (0);
 
 #define ARK_EXPORT extern "C" __attribute ((visibility("default")))
+#define ARK_UNUSED __attribute__((unused))
 
 #endif
 
@@ -101,12 +168,6 @@ template<> struct ARK_STATIC_ASSERTION_FAILURE<true>
 };
 
 template<int x> struct ark_static_assert_test {};
-
-#if ARK_PLATFORM == PLATFORM_UNIX
-#define ARK_UNUSED __attribute__((unused))
-#else
-#define ARK_UNUSED
-#endif
 
 #define ARK_STATIC_ASSERT(x) \
     typedef ark_static_assert_test<sizeof(ARK_STATIC_ASSERTION_FAILURE<(bool)(x)>)> \
@@ -197,6 +258,10 @@ template<int x> struct ark_static_assert_test {};
 #define ARK_FUNCTION_LINE __FUNCTION__, __LINE__
 #endif
 
+#ifndef ARK_FILE_FUNCTION_LINE
+#define ARK_FILE_FUNCTION_LINE __FILE__, __FUNCTION__, __LINE__
+#endif
+
 #ifndef ARK_NEW
 #define ARK_NEW new
 #endif
@@ -211,5 +276,11 @@ template<int x> struct ark_static_assert_test {};
 
 #define ARK_TO_STRING(value) std::to_string(value)
 
-// clear player data time
+#undef max
+#undef min
+
+#define ARK_ALLOC(ptr, name, size) ptr = (name*)MemoryPool::GetInstance()->Alloc(size); memset(ptr, 0x0, sizeof(name));
+#define ARK_DEALLOC(ptr, name) MemoryPool::GetInstance()->FreeAlloc(ptr);
+
+//clear player data time
 #define CLEAR_HOUR 5

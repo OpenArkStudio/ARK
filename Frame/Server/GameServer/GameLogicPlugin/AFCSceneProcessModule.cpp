@@ -49,7 +49,7 @@ bool AFCSceneProcessModule::PostInit()
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCSceneProcessModule::OnObjectClassEvent);
     //////////////////////////////////////////////////////////////////////////
 
-    //³õÊ¼»¯³¡¾°ÈİÆ÷
+    //åˆå§‹åŒ–åœºæ™¯å®¹å™¨
     // #ifdef NF_USE_ACTOR
     //  int nSelfActorID = pPluginManager->GetActorID();
     // #endif
@@ -137,20 +137,18 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if(self != ident)
     {
-        m_pLogModule->LogError(ident, "you are not you self, but you want to entry this scene", nTargetScene);
+        ARK_LOG_ERROR("you are not you self, but you want to entry this scene, id = %s scene_id = %d", ident.ToString().c_str(), nTargetScene);
         return 1;
     }
 
-    if(nNowSceneID == nTargetScene
-            && nTargetGroupID == nNowGroupID)
+    if(nNowSceneID == nTargetScene && nTargetGroupID == nNowGroupID)
     {
-        //±¾À´¾ÍÊÇÕâ¸ö²ãÕâ¸ö³¡¾°¾Í±ğÇĞ»»ÁË
-        m_pLogModule->LogInfo(ident, "in same scene and group but it not a clone scene", nTargetScene);
-
+        //æœ¬æ¥å°±æ˜¯è¿™ä¸ªå±‚è¿™ä¸ªåœºæ™¯å°±åˆ«åˆ‡æ¢äº†
+        ARK_LOG_ERROR("In same scene and group but it not a clone scene, id = %s scene_id = %d", ident.ToString().c_str(), nTargetScene);
         return 1;
     }
 
-    //Ã¿¸öÍæ¼Ò£¬Ò»¸ö¸±±¾
+    //æ¯ä¸ªç©å®¶ï¼Œä¸€ä¸ªå‰¯æœ¬
     int64_t nNewGroupID = 0;
     if(nTargetGroupID <= 0)
     {
@@ -163,11 +161,11 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if(nNewGroupID <= 0)
     {
-        m_pLogModule->LogInfo(ident, "CreateCloneScene failed", nTargetScene);
+        ARK_LOG_ERROR("CreateCloneScene failed, id = %s scene_id = %d=", ident.ToString().c_str(), nTargetScene);
         return 0;
     }
 
-    //µÃµ½×ø±ê
+    //å¾—åˆ°åæ ‡
     Point3D xRelivePos;
     const std::string strSceneID = ARK_LEXICAL_CAST<std::string>(nTargetScene);
     const std::string& strRelivePosList = m_pElementModule->GetNodeString(strSceneID, ARK::Scene::RelivePos());
@@ -187,8 +185,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos.x, xRelivePos.y, xRelivePos.z, 0.0f, var))
     {
-        m_pLogModule->LogInfo(ident, "SwitchScene failed", nTargetScene);
-
+        ARK_LOG_ERROR("SwitchScene failed, id = %s scene_id = %d", ident.ToString().c_str(), nTargetScene);
         return 0;
     }
 
@@ -213,33 +210,29 @@ int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEv
         if(GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
         {
             m_pKernelModule->ReleaseGroupScene(nSceneID, nOldGroupID);
-
-            m_pLogModule->LogInfo(object, "DestroyCloneSceneGroup", nOldGroupID);
+            ARK_LOG_ERROR("DestroyCloneSceneGroup, id = %s scene_id = %d group_id = %d", object.ToString().c_str(), nSceneID, nOldGroupID);
         }
     }
 
     return 0;
 }
 
-int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
     if(strClassName == ARK::Player::ThisName())
     {
-        if(CLASS_OBJECT_EVENT::COE_DESTROY == eClassEvent)
+        if(ARK_ENTITY_EVENT::ENTITY_EVT_DESTROY == eClassEvent)
         {
-            //Èç¹ûÔÚ¸±±¾ÖĞ,ÔòÉ¾³ıËûµÄÄÇ¸ö¸±±¾
+            //å¦‚æœåœ¨å‰¯æœ¬ä¸­,åˆ™åˆ é™¤ä»–çš„é‚£ä¸ªå‰¯æœ¬
             int nSceneID = m_pKernelModule->GetNodeInt(self, ARK::Player::SceneID());
             if(GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
             {
                 int nGroupID = m_pKernelModule->GetNodeInt(self, ARK::Player::GroupID());
-
                 m_pKernelModule->ReleaseGroupScene(nSceneID, nGroupID);
-
-                m_pLogModule->LogInfo(self, "DestroyCloneSceneGroup", nGroupID);
-
+                ARK_LOG_INFO("DestroyCloneSceneGroup, id = %s scene_id = %d group_id = %d", self.ToString().c_str(), nSceneID, nGroupID);
             }
         }
-        else if(CLASS_OBJECT_EVENT::COE_CREATE_HASDATA == eClassEvent)
+        else if(ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED == eClassEvent)
         {
             m_pKernelModule->AddEventCallBack(self, AFED_ON_CLIENT_ENTER_SCENE, this, &AFCSceneProcessModule::OnEnterSceneEvent);
             m_pKernelModule->AddEventCallBack(self, AFED_ON_CLIENT_LEAVE_SCENE, this, &AFCSceneProcessModule::OnLeaveSceneEvent);
@@ -286,7 +279,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     const std::string strSceneFilePath(m_pElementModule->GetNodeString(szSceneIDName, ARK::Scene::FilePath()));
     const int nCanClone = m_pElementModule->GetNodeInt(szSceneIDName, ARK::Scene::CanClone());
 
-    //³¡¾°¶ÔÓ¦×ÊÔ´
+    //åœºæ™¯å¯¹åº”èµ„æº
     ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = mtSceneResourceConfig.GetElement(nSceneID);
     if(nullptr == pSceneResourceMap)
     {
@@ -303,11 +296,11 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     rapidxml::xml_document<>  xFileDoc;
     xFileDoc.parse<0>(xFileSource.data());
 
-    //×ÊÔ´ÎÄ¼şÁĞ±í
+    //èµ„æºæ–‡ä»¶åˆ—è¡¨
     rapidxml::xml_node<>* pSeedFileRoot = xFileDoc.first_node();
     for(rapidxml::xml_node<>* pSeedFileNode = pSeedFileRoot->first_node(); pSeedFileNode; pSeedFileNode = pSeedFileNode->next_sibling())
     {
-        //ÖÖ×Ó¾ßÌåĞÅÏ¢
+        //ç§å­å…·ä½“ä¿¡æ¯
         std::string strSeedID = pSeedFileNode->first_attribute("ID")->value();
         std::string strConfigID = pSeedFileNode->first_attribute("NPCConfigID")->value();
         float fSeedX = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedX")->value());

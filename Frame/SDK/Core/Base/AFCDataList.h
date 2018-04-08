@@ -701,7 +701,7 @@ public:
 
         if(size1 <= (strlen(p) + 1))
         {
-            //Èç¹ûvalueµÄ³¤¶È <= ÒÔÇ°µÄ³¤¶È£¬·Å»ØÔ­µØ£¬²»×ö¸Ä±ä
+            //æ¿¡å‚›ç‰valueé¨å‹¯æš±æ´?<= æµ ãƒ¥å¢ é¨å‹¯æš±æ´ï¸¼ç´é€æƒ§æ´–é˜ç†·æ¹´é”›å±¼ç¬‰é‹æ°­æ•¼é™?
 #if ARK_PLATFORM == PLATFORM_WIN
             strncpy_s(p, (strlen(p) + 1), value, size1);
 #else
@@ -856,7 +856,7 @@ protected:
             mnBufferSize = new_size;
         }
 
-        char* ret = mpBuffer + mnBufferUsed; //·µ»ØµÄÊÇ¼ÓbufferÖ®Ç°µÄÎ»ÖÃ
+        char* ret = mpBuffer + mnBufferUsed; //æ©æ–¿æ´–é¨å‹¬æ§¸é”ç‡½ufferæ¶”å¬ªå¢ é¨å‹ªç¶…ç¼ƒ?
         mnBufferUsed = new_used;
         return ret;
     }

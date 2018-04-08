@@ -24,7 +24,6 @@
 #include "AFDefine.h"
 #include "AFSingleton.hpp"
 #include "AFTime.hpp"
-#include "AFMalloc.h"
 
 enum AFTimerEnum
 {
@@ -39,9 +38,12 @@ enum AFTimerEnum
 class AFTimerData
 {
 public:
-    AFTimerData() {}
+    AFTimerData()
+    {
+        memset(name, 0x0, sizeof(name));
+    }
 
-    std::string name = "";
+    char name[16];
     uint32_t type = 0;
     uint32_t count = 0;
     uint32_t interval = 0;
@@ -99,18 +101,9 @@ public:
 
     bool AddForverTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, TIMER_FUNCTOR_PTR callback)
     {
-        auto data = FindTimerData(name, entity_id);
-        if(data == nullptr)
-        {
-            data = ARK_CREATE_OBJECT(AFTimerData);
-            AddTimerData(name, entity_id, data);
-        }
-        else
-        {
-            RemoveSlotTimer(data);
-        }
-
-        data->name = name;
+        AFTimerData* data = NULL;
+        ARK_ALLOC(data, AFTimerData, sizeof(AFTimerData));
+        ARK_STRNCPY(data->name, name.c_str(), (name.length() > 16) ? 16 : name.length());
         data->type = TIMER_TYPE_FOREVER;
         data->interval = interval_time;
         data->callback = callback;
@@ -121,18 +114,9 @@ public:
 
     bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, uint32_t count, TIMER_FUNCTOR_PTR callback)
     {
-        auto data = FindTimerData(name, entity_id);
-        if(data == nullptr)
-        {
-            data = ARK_CREATE_OBJECT(AFTimerData);
-            AddTimerData(name, entity_id, data);
-        }
-        else
-        {
-            RemoveSlotTimer(data);
-        }
-
-        data->name = name;
+        AFTimerData* data = NULL;
+        ARK_ALLOC(data, AFTimerData, sizeof(AFTimerData));
+        ARK_STRNCPY(data->name, name.c_str(), (name.length() > 16) ? 16 : name.length());
         data->type = TIMER_TYPE_COUNT_LIMIT;
         data->count = std::max((uint32_t)1, count);
         data->interval = interval_time;
@@ -242,7 +226,7 @@ protected:
         {
             AFTimerData* data = it.second;
             RemoveSlotTimer(data);
-            ARK_DELETE_OBJECT(AFTimerData, data);
+            ARK_DEALLOC(data, AFTimerData);
         }
 
         iter->second.clear();
@@ -266,7 +250,7 @@ protected:
 
         AFTimerData* data = it->second;
         RemoveSlotTimer(data);
-        ARK_DELETE_OBJECT(AFTimerData, data);
+        ARK_DEALLOC(data, AFTimerData);
 
         iter->second.erase(it);
         if(iter->second.empty())

@@ -254,7 +254,7 @@ void AFCNetClient::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
         pMsg->nType = DISCONNECTED;
 
 
-        //主线程不能直接删除。不然这里就野了
+        //娑撹崵鍤庣粙瀣╃瑝閼崇晫娲块幒銉ュ灩闂勩們鈧倷绗夐悞鎯扮箹闁插苯姘ㄩ柌搴濈啊
         if(!conn->context().IsEmpty())
         {
             NetObject* pEntity = evpp::any_cast<NetObject*>(conn->context());

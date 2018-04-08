@@ -103,23 +103,23 @@ int CopyFile(std::string& SourceFile, std::string& NewFile)
 {
 	ifstream in;
 	ofstream out;
-	in.open(SourceFile.c_str(), ios::binary);//´ò¿ªÔ´ÎÄ¼ş
-	if (in.fail())//´ò¿ªÔ´ÎÄ¼şÊ§°Ü
+	in.open(SourceFile.c_str(), ios::binary);//æ‰“å¼€æºæ–‡ä»¶
+	if (in.fail())//æ‰“å¼€æºæ–‡ä»¶å¤±è´¥
 	{
 		cout << "Error 1: Fail to open the source file." << endl;
 		in.close();
 		out.close();
 		return 0;
 	}
-	out.open(NewFile.c_str(), ios::binary);//´´½¨Ä¿±êÎÄ¼ş 
-	if (out.fail())//´´½¨ÎÄ¼şÊ§°Ü
+	out.open(NewFile.c_str(), ios::binary);//åˆ›å»ºç›®æ ‡æ–‡ä»¶ 
+	if (out.fail())//åˆ›å»ºæ–‡ä»¶å¤±è´¥
 	{
 		cout << "Error 2: Fail to create the new file." << endl;
 		out.close();
 		in.close();
 		return 0;
 	}
-	else//¸´ÖÆÎÄ¼ş
+	else//å¤åˆ¶æ–‡ä»¶
 	{
 		out << in.rdbuf();
 		out.close();
@@ -143,10 +143,10 @@ std::vector<std::string> GetFileListInFolder(std::string folderPath, int depth)
 		exit(-1);
 	}
 	do {
-		//ÅĞ¶ÏÊÇ·ñÓĞ×ÓÄ¿Â¼
+		//åˆ¤æ–­æ˜¯å¦æœ‰å­ç›®å½•
 		if (FileInfo.attrib & _A_SUBDIR)
 		{
-			//Õâ¸öÓï¾äºÜÖØÒª
+			//è¿™ä¸ªè¯­å¥å¾ˆé‡è¦
 			if ((strcmp(FileInfo.name, ".") != 0) && (strcmp(FileInfo.name, "..") != 0))
 			{
 				std::string newPath = folderPath + "\\" + FileInfo.name;
@@ -195,7 +195,7 @@ std::vector<std::string> GetFileListInFolder(std::string folderPath, int depth)
 		}
 	}
 	closedir(dp);
-	sort(result.begin(), result.end());//ÅÅĞò
+	sort(result.begin(), result.end());//æ’åº
 #endif
 	return result;
 }

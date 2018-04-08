@@ -112,19 +112,19 @@ bool AFCKernelModule::FindHeartBeat(const AFGUID& self, const std::string& name)
         return pEntity->CheckHeartBeatExist(name);
     }
 
-    m_pLogModule->LogError(self, "There is no entity", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
 bool AFCKernelModule::RemoveHeartBeat(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
-    if (pEntity != nullptr)
+    if(pEntity != nullptr)
     {
         return pEntity->RemoveHeartBeat(name);
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
 
     return false;
 }
@@ -136,13 +136,13 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
     ARK_SHARE_PTR<AFCSceneInfo> pContainerInfo = m_pSceneModule->GetElement(nSceneID);
     if(!pContainerInfo)
     {
-        m_pLogModule->LogError(AFGUID(0, nSceneID), "There is no scene", nSceneID, __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("There is no scene, scene = %d", nSceneID);
         return nullptr;
     }
 
     if(!pContainerInfo->GetElement(nGroupID))
     {
-        m_pLogModule->LogError(AFGUID(0, nSceneID), "There is no group", nGroupID, __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("There is no group, scene = %d group = %d", nSceneID, nGroupID);
         return nullptr;
     }
 
@@ -153,7 +153,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
 
     if(GetElement(ident))
     {
-        m_pLogModule->LogError(ident, "The object has Exists", NULL_STR, __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("The object has Exists, id = %s", ident.ToString().c_str());
         return nullptr;
     }
 
@@ -210,7 +210,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
         ARK_SHARE_PTR<AFIDataNodeManager> pConfigNodeManager = m_pElementModule->GetNodeManager(strConfigIndex);
         ARK_SHARE_PTR<AFIDataTableManager> pConfigTableManager = m_pElementModule->GetTableManager(strConfigIndex);
 
-        if(pConfigNodeManager != nullptr&& pConfigTableManager != nullptr)
+        if(pConfigNodeManager != nullptr && pConfigTableManager != nullptr)
         {
             size_t configNodeCount = pConfigNodeManager->GetNodeCount();
             for(size_t i = 0; i < configNodeCount; ++i)
@@ -228,9 +228,9 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
             }
         }
 
-        DoEvent(ident, strClassName, CLASS_OBJECT_EVENT::COE_CREATE_NODATA, arg);
+        DoEvent(ident, strClassName, ENTITY_EVT_PRE_LOAD_DATA, arg);
 
-        for(int i = 0; i < ((int)arg.GetCount() - 1); i += 2)
+        for(size_t i = 0; i < (arg.GetCount() - 1); i += 2)
         {
             const std::string& strDataNodeName = arg.String(i);
             if(ARK::IObject::ConfigID() != strDataNodeName
@@ -278,11 +278,11 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
         pEntity->SetNodeInt(ARK::IObject::SceneID(), nSceneID);
         pEntity->SetNodeInt(ARK::IObject::GroupID(), nGroupID);
 
-        DoEvent(ident, strClassName, COE_CREATE_LOADDATA, arg);
-        DoEvent(ident, strClassName, COE_CREATE_BEFORE_EFFECT, arg);
-        DoEvent(ident, strClassName, COE_CREATE_EFFECTDATA, arg);
-        DoEvent(ident, strClassName, COE_CREATE_AFTER_EFFECT, arg);
-        DoEvent(ident, strClassName, COE_CREATE_HASDATA, arg);
+        DoEvent(ident, strClassName, ENTITY_EVT_LOAD_DATA, arg);
+        DoEvent(ident, strClassName, ENTITY_EVT_PRE_EFFECT_DATA, arg);
+        DoEvent(ident, strClassName, ENTITY_EVT_EFFECT_DATA, arg);
+        DoEvent(ident, strClassName, ENTITY_EVT_POST_EFFECT_DATA, arg);
+        DoEvent(ident, strClassName, ENTITY_EVT_DATA_FINISHED, arg);
     }
 
     return pEntity;
@@ -292,11 +292,9 @@ bool AFCKernelModule::DestroyEntity(const AFGUID& self)
 {
     if(self == mnCurExeEntity && !self.IsNULL())
     {
-        //自己的循环过程中，不能删除自己，得等下一帧才�?
         return DestroySelf(self);
     }
 
-    //需要同时从容器中删�?
     int32_t nGroupID = GetNodeInt(self, ARK::IObject::GroupID());
     int32_t nSceneID = GetNodeInt(self, ARK::IObject::SceneID());
 
@@ -307,14 +305,13 @@ bool AFCKernelModule::DestroyEntity(const AFGUID& self)
 
         pContainerInfo->RemoveObjectFromGroup(nGroupID, self, strClassName == ARK::Player::ThisName() ? true : false);
 
-        bool bHaveAndDoSeccull = DoEvent(self, strClassName, COE_BEFOREDESTROY, AFCDataList());
-        bHaveAndDoSeccull = DoEvent(self, strClassName, COE_DESTROY, AFCDataList());
+        bool bHaveAndDoSeccull = DoEvent(self, strClassName, ENTITY_EVT_PRE_DESTROY, AFCDataList());
+        bHaveAndDoSeccull = DoEvent(self, strClassName, ENTITY_EVT_DESTROY, AFCDataList());
 
         return RemoveElement(self);
     }
 
-    m_pLogModule->LogError(self, "There is no scene", nSceneID, __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find this scene, entity_id = %s scene = %d group = %d", self, nSceneID, nGroupID);
     return false;
 }
 
@@ -326,8 +323,7 @@ bool AFCKernelModule::FindNode(const AFGUID& self, const std::string& name)
         return pEntity->CheckNodeExist(name);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -339,8 +335,7 @@ bool AFCKernelModule::SetNodeBool(const AFGUID& self, const std::string& name, c
         return pEntity->SetNodeBool(name, value);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -352,8 +347,7 @@ bool AFCKernelModule::SetNodeInt(const AFGUID& self, const std::string& name, co
         return pEntity->SetNodeInt(name, value);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -365,8 +359,7 @@ bool AFCKernelModule::SetNodeInt64(const AFGUID& self, const std::string& name, 
         return pEntity->SetNodeInt64(name, value);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -378,8 +371,7 @@ bool AFCKernelModule::SetNodeFloat(const AFGUID& self, const std::string& name, 
         return pEntity->SetNodeFloat(name, value);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -391,8 +383,7 @@ bool AFCKernelModule::SetNodeDouble(const AFGUID& self, const std::string& name,
         return pEntity->SetNodeDouble(name, value);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -404,8 +395,7 @@ bool AFCKernelModule::SetNodeString(const AFGUID& self, const std::string& name,
         return pEntity->SetNodeString(name, value);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -417,8 +407,7 @@ bool AFCKernelModule::SetNodeObject(const AFGUID& self, const std::string& name,
         return pEntity->SetNodeObject(name, value);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -430,8 +419,7 @@ bool AFCKernelModule::GetNodeBool(const AFGUID& self, const std::string& name)
         return pEntity->GetNodeBool(name);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return NULL_BOOLEAN;
 }
 
@@ -443,8 +431,7 @@ int32_t AFCKernelModule::GetNodeInt(const AFGUID& self, const std::string& name)
         return pEntity->GetNodeInt(name);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return NULL_INT;
 }
 
@@ -456,8 +443,7 @@ int64_t AFCKernelModule::GetNodeInt64(const AFGUID& self, const std::string& nam
         return pEntity->GetNodeInt64(name);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return NULL_INT64;
 }
 
@@ -469,8 +455,7 @@ float AFCKernelModule::GetNodeFloat(const AFGUID& self, const std::string& name)
         return pEntity->GetNodeFloat(name);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return NULL_FLOAT;
 }
 
@@ -482,12 +467,11 @@ double AFCKernelModule::GetNodeDouble(const AFGUID& self, const std::string& nam
         return pEntity->GetNodeDouble(name);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return NULL_DOUBLE;
 }
 
-const char*  AFCKernelModule::GetNodeString(const AFGUID& self, const std::string& name)
+const char* AFCKernelModule::GetNodeString(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
     if(nullptr != pEntity)
@@ -495,8 +479,7 @@ const char*  AFCKernelModule::GetNodeString(const AFGUID& self, const std::strin
         return pEntity->GetNodeString(name);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return nullptr;
 }
 
@@ -508,8 +491,7 @@ const AFGUID AFCKernelModule::GetNodeObject(const AFGUID& self, const std::strin
         return pEntity->GetNodeObject(name);
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return NULL_GUID;
 }
 
@@ -521,8 +503,7 @@ AFDataTable* AFCKernelModule::FindTable(const AFGUID& self, const std::string& n
         return pEntity->GetTableManager()->GetTable(name.c_str());
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
-
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return NULL;
 }
 
@@ -535,7 +516,7 @@ bool AFCKernelModule::ClearTable(const AFGUID& self, const std::string& name)
         return true;
     }
 
-    m_pLogModule->LogError(self, name, "| There is no table", __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -546,14 +527,14 @@ bool AFCKernelModule::SetTableBool(const AFGUID& self, const std::string& name, 
     {
         if(!pEntity->SetTableBool(name, row, col, value))
         {
-            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
+            ARK_LOG_ERROR("error for row or col, id = %s", self.ToString().c_str());
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -564,14 +545,14 @@ bool AFCKernelModule::SetTableInt(const AFGUID& self, const std::string& name, c
     {
         if(!pEntity->SetTableInt(name, row, col, value))
         {
-            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
+            ARK_LOG_ERROR("error for row or col, id = %s", self.ToString().c_str());
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -582,14 +563,14 @@ bool AFCKernelModule::SetTableInt64(const AFGUID& self, const std::string& name,
     {
         if(!pEntity->SetTableInt64(name, row, col, value))
         {
-            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
+            ARK_LOG_ERROR("error for row or col, id = %s", self.ToString().c_str());
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -600,14 +581,14 @@ bool AFCKernelModule::SetTableFloat(const AFGUID& self, const std::string& name,
     {
         if(!pEntity->SetTableFloat(name, row, col, value))
         {
-            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
+            ARK_LOG_ERROR("error for row or col, id = %s", self.ToString().c_str());
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, name, "| There is no object", __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -618,14 +599,14 @@ bool AFCKernelModule::SetTableDouble(const AFGUID& self, const std::string& name
     {
         if(!pEntity->SetTableDouble(name, row, col, value))
         {
-            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
+            ARK_LOG_ERROR("error for row or col, id = %s", self.ToString().c_str());
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -636,14 +617,14 @@ bool AFCKernelModule::SetTableString(const AFGUID& self, const std::string& name
     {
         if(!pEntity->SetTableString(name, row, col, value))
         {
-            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
+            ARK_LOG_ERROR("error for row or col, id = %s", self.ToString().c_str());
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -654,14 +635,14 @@ bool AFCKernelModule::SetTableObject(const AFGUID& self, const std::string& name
     {
         if(!pEntity->SetTableObject(name, row, col, value))
         {
-            m_pLogModule->LogError(self, name, "error for row or col", __FUNCTION__, __LINE__);
+            ARK_LOG_ERROR("error for row or col, id = %s", self.ToString().c_str());
             return false;
         }
 
         return true;
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -673,7 +654,7 @@ bool AFCKernelModule::GetTableBool(const AFGUID& self, const std::string& name, 
         return pEntity->GetTableBool(name, row, col);
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return 0;
 }
 
@@ -685,7 +666,7 @@ int32_t AFCKernelModule::GetTableInt(const AFGUID& self, const std::string& name
         return pEntity->GetTableInt(name, row, col);
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return 0;
 }
 
@@ -697,7 +678,7 @@ int64_t AFCKernelModule::GetTableInt64(const AFGUID& self, const std::string& na
         return pEntity->GetTableInt64(name, row, col);
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return 0;
 }
 
@@ -709,7 +690,7 @@ float AFCKernelModule::GetTableFloat(const AFGUID& self, const std::string& name
         return pEntity->GetTableFloat(name, row, col);
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return 0;
 }
 
@@ -721,7 +702,7 @@ double AFCKernelModule::GetTableDouble(const AFGUID& self, const std::string& na
         return pEntity->GetTableDouble(name, row, col);
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return 0.0;
 }
 
@@ -733,7 +714,7 @@ const char* AFCKernelModule::GetTableString(const AFGUID& self, const std::strin
         return pEntity->GetTableString(name, row, col);
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return NULL_STR.c_str();
 }
 
@@ -745,7 +726,7 @@ const AFGUID AFCKernelModule::GetTableObject(const AFGUID& self, const std::stri
         return pEntity->GetTableObject(name, row, col);
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return NULL_GUID;
 }
 
@@ -754,7 +735,7 @@ bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, 
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
     if(nullptr == pEntity)
     {
-        m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
         return false;
     }
 
@@ -765,19 +746,19 @@ bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, 
     ARK_SHARE_PTR<AFCSceneInfo> pNewSceneInfo = m_pSceneModule->GetElement(nTargetSceneID);
     if(nullptr == pOldSceneInfo)
     {
-        m_pLogModule->LogError(self, "no this container", nOldSceneID);
+        ARK_LOG_ERROR("no this container, id = %d", nOldSceneID);
         return false;
     }
 
     if(nullptr == pNewSceneInfo)
     {
-        m_pLogModule->LogError(self, "no this container", nTargetSceneID);
+        ARK_LOG_ERROR("no this container, id = %d", nTargetSceneID);
         return false;
     }
 
     if(nullptr == pNewSceneInfo->GetElement(nTargetGroupID))
     {
-        m_pLogModule->LogError(self, "no this group", nTargetGroupID);
+        ARK_LOG_ERROR("no this container, id = %d", nTargetGroupID);
         return false;
     }
 
@@ -809,7 +790,6 @@ bool AFCKernelModule::CreateScene(const int nSceneID)
         return false;
     }
 
-    //容器nSceneIndex
     pSceneInfo = std::make_shared<AFCSceneInfo>(nSceneID);
     if(nullptr == pSceneInfo)
     {
@@ -818,7 +798,6 @@ bool AFCKernelModule::CreateScene(const int nSceneID)
 
     m_pSceneModule->AddElement(nSceneID, pSceneInfo);
 
-    //默认分组0
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = std::make_shared<AFCSceneGroupInfo>(nSceneID, 0);
     if(nullptr == pGroupInfo)
     {
@@ -826,7 +805,7 @@ bool AFCKernelModule::CreateScene(const int nSceneID)
     }
 
     pSceneInfo->AddElement(0, pGroupInfo);
-    m_pLogModule->LogInfo(NULL_GUID, "Create scene success, groupId:0, scene id:", nSceneID, __FUNCTION__, __LINE__);
+    ARK_LOG_INFO("Create scene success, scene id:%d groupId:0", nSceneID);
     return true;
 }
 
@@ -838,9 +817,9 @@ bool AFCKernelModule::DestroyScene(const int nSceneID)
 int AFCKernelModule::GetOnLineCount()
 {
     int nCount = 0;
-    for (ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->First(); pSceneInfo != nullptr; pSceneInfo = m_pSceneModule->Next())
+    for(ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->First(); pSceneInfo != nullptr; pSceneInfo = m_pSceneModule->Next())
     {
-        for (ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
+        for(ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
         {
             nCount += pGroupInfo->mxPlayerList.GetCount();
         }
@@ -866,7 +845,7 @@ int AFCKernelModule::GetSceneOnLineCount(const int nSceneID)
         return nCount;
     }
 
-    for (ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
+    for(ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
     {
         nCount += pGroupInfo->mxPlayerList.GetCount();
     }
@@ -901,10 +880,10 @@ int AFCKernelModule::GetSceneOnLineList(const int nSceneID, AFIDataList& var)
         return 0;
     }
 
-    for (ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
+    for(ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
     {
         AFGUID ident;
-        for (ARK_SHARE_PTR<int> pRet = pGroupInfo->mxPlayerList.First(ident); !ident.IsNULL(); pRet = pGroupInfo->mxPlayerList.Next(ident))
+        for(ARK_SHARE_PTR<int> pRet = pGroupInfo->mxPlayerList.First(ident); !ident.IsNULL(); pRet = pGroupInfo->mxPlayerList.Next(ident))
         {
             var.AddObject(ident);
             ident = NULL_GUID;
@@ -959,7 +938,7 @@ bool AFCKernelModule::ReleaseGroupScene(const int nSceneID, const int nGroupID)
             AFGUID ident = listObject.Object(i);
             if(!DestroyEntity(ident))
             {
-                //add log
+                ARK_LOG_ERROR("Destory entity failed, id = %s, pls check", ident.ToString().c_str());
             }
         }
     }
@@ -1039,7 +1018,7 @@ bool AFCKernelModule::LogInfo(const AFGUID& ident)
     ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(ident);
     if(nullptr == pEntity)
     {
-        m_pLogModule->LogError(ident, "Cannot find this object", NULL_STR, __FUNCTION__, __LINE__);
+        ARK_LOG_ERROR("Cannot find entity, id = %s", ident.ToString().c_str());
         return false;
     }
 
@@ -1047,25 +1026,19 @@ bool AFCKernelModule::LogInfo(const AFGUID& ident)
     {
         int nSceneID = GetNodeInt(ident, "SceneID");
 
-        m_pLogModule->LogInfo(ident, "//----------child object list-------- SceneID = ", nSceneID);
-
+        ARK_LOG_INFO("----------child object list-------- , id = %s SceneID = %d", ident.ToString().c_str(), nSceneID);
         AFCDataList valObjectList;
         int nCount = GetSceneOnLineList(nSceneID, valObjectList);
         for(int i  = 0; i < nCount; i++)
         {
             AFGUID targetIdent = valObjectList.Object(i);
-            if(LogInfo(targetIdent))
-            {
-                //add log
-            }
+            ARK_LOG_INFO("id = %s SceneID = %d", targetIdent.ToString().c_str(), nSceneID);
         }
     }
     else
     {
-        m_pLogModule->LogInfo(ident, "//---------printf object start-------- ", "");
-
-
-        m_pLogModule->LogInfo(ident, "//---------printf object end-------- ", "");
+        ARK_LOG_INFO("---------printf object start--------, id = %s", ident.ToString().c_str());
+        ARK_LOG_INFO("---------printf object end--------", ident.ToString().c_str());
     }
 
     return true;
@@ -1100,7 +1073,7 @@ bool AFCKernelModule::IsContainer(const AFGUID& self)
         return (pEntity->GetNodeInt("GroupID") < 0);
     }
 
-    m_pLogModule->LogError(self, "There is no object", NULL_STR, __FUNCTION__, __LINE__);
+    ARK_LOG_ERROR("Cannot find entity, id = %s", self.ToString().c_str());
     return false;
 }
 
@@ -1222,15 +1195,14 @@ int AFCKernelModule::OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVE
     return 0;
 }
 
-int AFCKernelModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const CLASS_OBJECT_EVENT eClassEvent, const AFIDataList& var)
+int AFCKernelModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
     if(IsContainer(self))
     {
         return 0;
     }
 
-    std::list<CLASS_EVENT_FUNCTOR_PTR>::iterator it = mxCommonClassCBList.begin();
-    for(it; it != mxCommonClassCBList.end(); it++)
+    for(std::list<CLASS_EVENT_FUNCTOR_PTR>::iterator it = mxCommonClassCBList.begin(); it != mxCommonClassCBList.end(); it++)
     {
         (**it)(self, strClassName, eClassEvent, var);
     }
@@ -1346,7 +1318,7 @@ void AFCKernelModule::ProcessMemFree()
     AFMemManger::GetInstancePtr()->FreeMem();
 }
 
-bool AFCKernelModule::DoEvent(const AFGUID& self, const std::string& strClassName, CLASS_OBJECT_EVENT eEvent, const AFIDataList& valueList)
+bool AFCKernelModule::DoEvent(const AFGUID& self, const std::string& strClassName, ARK_ENTITY_EVENT eEvent, const AFIDataList& valueList)
 {
     return m_pClassModule->DoEvent(self, strClassName, eEvent, valueList);
 }

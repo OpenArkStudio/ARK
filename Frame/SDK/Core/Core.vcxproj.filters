@@ -138,7 +138,7 @@
     <ClInclude Include="Base\AFTimer.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFMalloc.h">
+    <ClInclude Include="Base\AFMemory.hpp">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
@@ -161,7 +161,7 @@
     <ClCompile Include="AFCDataTableManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Base\AFMalloc.cpp">
+    <ClCompile Include="Base\AFMemory.cpp">
       <Filter>Base</Filter>
     </ClCompile>
   </ItemGroup>
