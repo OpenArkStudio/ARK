@@ -22,10 +22,10 @@
     <ClCompile Include="AFCDynLib.cpp">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="AFCPluginManager.cpp">
-      <Filter>Header Files</Filter>
-    </ClCompile>
     <ClCompile Include="AFPluginLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCPluginManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

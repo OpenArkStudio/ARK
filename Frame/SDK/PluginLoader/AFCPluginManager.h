@@ -89,8 +89,7 @@ private:
     std::string mstrConfigPath;
     std::string mstrConfigName;
 
-    //typedef void(*DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm, AFMalloc* pMalloc);
-    typedef void(*DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm, MemoryPool* pMalloc);
+    typedef void(*DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm/*, MemoryPool* pMalloc*/);
     typedef void(*DLL_STOP_PLUGIN_FUNC)(AFIPluginManager* pm);
 
     std::map<std::string, bool> mxPluginNameMap;

@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -103,7 +103,6 @@ struct Point3D
 
         std::string strX = strValue.substr(0, nPos);
 
-        //鍒囪繃涔嬪悗鐨?
         const std::string& strNewData = strValue.substr(nPos + 1, nStrLength - nPos);
         nPos = strNewData.find(',');
         if(nPos == std::string::npos)

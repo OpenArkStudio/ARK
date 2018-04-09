@@ -338,7 +338,7 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
             return false;
         }
 
-        pFunc(this, MemoryPool::GetInstance());
+        pFunc(this/*, MemoryPool::GetInstance()*/);
 
         return true;
     }

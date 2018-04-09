@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 #pragma once
 
 #include "AFPlatform.hpp"
-#include "AFMemory.hpp"
+//#include "AFMemory.hpp"
 
 //Input param type
 #ifndef IN
@@ -279,8 +279,8 @@ template<int x> struct ark_static_assert_test {};
 #undef max
 #undef min
 
-#define ARK_ALLOC(ptr, name, size) ptr = (name*)MemoryPool::GetInstance()->Alloc(size); memset(ptr, 0x0, sizeof(name));
-#define ARK_DEALLOC(ptr, name) MemoryPool::GetInstance()->FreeAlloc(ptr);
+//#define ARK_ALLOC(ptr, name, size) ptr = (name*)MemoryPool::GetInstance()->Alloc(size); memset(ptr, 0x0, sizeof(name));
+//#define ARK_DEALLOC(ptr, name) MemoryPool::GetInstance()->FreeAlloc(ptr);
 
 //clear player data time
 #define CLEAR_HOUR 5

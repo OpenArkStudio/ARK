@@ -24,6 +24,7 @@
 #include "AFDefine.h"
 #include "AFSingleton.hpp"
 #include "AFTime.hpp"
+#include "AFMemAlloc.hpp"
 
 enum AFTimerEnum
 {
@@ -101,8 +102,8 @@ public:
 
     bool AddForverTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, TIMER_FUNCTOR_PTR callback)
     {
-        AFTimerData* data = NULL;
-        ARK_ALLOC(data, AFTimerData, sizeof(AFTimerData));
+        AFTimerData* data = (AFTimerData*)ARK_ALLOC(sizeof(AFTimerData));
+        memset(data, 0, sizeof(AFTimerData));
         ARK_STRNCPY(data->name, name.c_str(), (name.length() > 16) ? 16 : name.length());
         data->type = TIMER_TYPE_FOREVER;
         data->interval = interval_time;
@@ -114,8 +115,8 @@ public:
 
     bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, uint32_t count, TIMER_FUNCTOR_PTR callback)
     {
-        AFTimerData* data = NULL;
-        ARK_ALLOC(data, AFTimerData, sizeof(AFTimerData));
+        AFTimerData* data = (AFTimerData*)ARK_ALLOC(sizeof(AFTimerData));
+        memset(data, 0, sizeof(AFTimerData));
         ARK_STRNCPY(data->name, name.c_str(), (name.length() > 16) ? 16 : name.length());
         data->type = TIMER_TYPE_COUNT_LIMIT;
         data->count = std::max((uint32_t)1, count);
@@ -226,7 +227,7 @@ protected:
         {
             AFTimerData* data = it.second;
             RemoveSlotTimer(data);
-            ARK_DEALLOC(data, AFTimerData);
+            ARK_DEALLOC(data);
         }
 
         iter->second.clear();
@@ -250,7 +251,7 @@ protected:
 
         AFTimerData* data = it->second;
         RemoveSlotTimer(data);
-        ARK_DEALLOC(data, AFTimerData);
+        ARK_DEALLOC(data);
 
         iter->second.erase(it);
         if(iter->second.empty())
@@ -318,7 +319,8 @@ protected:
             {
                 --timerData->rotation;
             }
-            else
+            
+            if (timerData->rotation == 0)
             {
                 doneDatas.push_back(timerData);
             }

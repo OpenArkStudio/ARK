@@ -392,7 +392,7 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->CheckConfig();
     AFCPluginManager::GetInstancePtr()->PreUpdate();
 
-    while(!bExitApp)     //DEBUG閻楀牊婀板畷鈺傜皾閿涘ELEASE娑撳秴绌?
+    while(!bExitApp)
     {
         while(true)
         {

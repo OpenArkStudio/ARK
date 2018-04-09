@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@
 class AFCTimeBase : public AFSingleton<AFCTimeBase>
 {
 public:
-    //鍚勭姣
     static const int64_t NSECOND_MS = 1000L;
     static const int64_t NMINUTE_MS = 60 * 1000L;
     static const int64_t NHOUR_MS = 60 * 60 * 1000L;
@@ -49,12 +48,12 @@ public:
     }
 
 public:
-    int64_t GetUTCTime()//鍗曚綅鏄, 0鏃跺尯鏃堕棿
+    int64_t GetUTCTime()//UTC time as seconds
     {
         return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     }
 
-    int64_t GetNowMillisecond() //鍗曚綅鏄绉? 鐗瑰畾鏃跺尯鏃堕棿
+    int64_t GetNowMillisecond() //ms with timezone
     {
         return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() + GetTimeZoneMillisecond();
     }
@@ -77,7 +76,7 @@ public:
         return mnTimeZone;
     }
 private:
-    int mnTimeZone;  //榛樿缁橴TC+8
+    int mnTimeZone;  //UTC+8
 };
 
 class AFTime
@@ -159,7 +158,7 @@ public:
     std::string GetStr_YMD()
     {
         time_t t;
-        t = mnTime / AFCTimeBase::NSECOND_MS; //杞垚绉?
+        t = mnTime / AFCTimeBase::NSECOND_MS;
         struct tm* p = gmtime(&t);
 
         char buf[255] = { 0 };
@@ -181,7 +180,7 @@ public:
     std::string GetStr_HMS()
     {
         time_t t;
-        t = mnTime / AFCTimeBase::NSECOND_MS; //杞垚绉?
+        t = mnTime / AFCTimeBase::NSECOND_MS;
         struct tm* p = gmtime(&t);
 
         char buf[255] = { 0 };
@@ -201,7 +200,7 @@ public:
     std::string GetStr_YMDHMS()
     {
         time_t t;
-        t = mnTime / AFCTimeBase::NSECOND_MS; //杞垚绉?
+        t = mnTime / AFCTimeBase::NSECOND_MS;
         struct tm* p = gmtime(&t);
 
         char buf[255] = { 0 };
@@ -234,7 +233,7 @@ public:
     {
         return mnTime;//GetFixTime();
     }
-    int64_t Get(TimeType nType) //甯︽椂鍖?鐗瑰埆娉ㄦ剰: 浼氬湪鐜板湪mnTime鐨勫熀纭€涓婂姞涓婃椂鍖烘绉掓暟)
+    int64_t Get(TimeType nType)
     {
         int year = 1970;
         int64_t nFixTime = GetTime();//GetFixTime();
@@ -520,13 +519,11 @@ public:
     }
     bool SameWeek(int64_t nTime)
     {
-        //鍚屼竴澶╋紝鍙畾鏄悓涓€鍛?
         if(SameDay(nTime))
         {
             return true;
         }
 
-        //涓嶆槸鍚屼竴骞达紝鐩存帴涓嶅仛姣旇緝
         if(!SameYear(nTime))
         {
             return false;
@@ -564,7 +561,6 @@ public:
         {
             nDayOfYear += AFCTimeBase::GetInstance().MONTH_DAY[i];
 
-            //闂板勾2鏈堟槸29锛屾墍浠ュ鍔?
             if(IsLeapYear(nYear) && i == 2)
             {
                 nDayOfYear += 1;
@@ -690,8 +686,6 @@ private:
         mnTime += AFCTimeBase::NMINUTE_MS * nMinute;
         mnTime += AFCTimeBase::NSECOND_MS * nSecond;
         mnTime += nMilliSecond;
-
-        //mnTime -= NFTime::NHOUR_MS * mnTimeZone;
     }
 
     void InitWithYMDHMSM(int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond, int nMilliSecond)
@@ -756,8 +750,6 @@ private:
         mnTime += AFCTimeBase::NMINUTE_MS * nMinute;
         mnTime += AFCTimeBase::NSECOND_MS * nSecond;
         mnTime += nMilliSecond;
-
-        //mnTime -= NFTime::NHOUR_MS * mnTimeZone;
     }
 
     //int64_t GetFixTime();//add timeZone value
@@ -811,5 +803,5 @@ private:
 
 private:
     int64_t mnTime;
-    int mnTimeZone;  //榛樿缁橴TC+8
+    int mnTimeZone;  //UTC+8
 };
