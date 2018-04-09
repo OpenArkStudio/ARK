@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,16 +20,16 @@
 
 #pragma once
 
-//瀵瑰唴缃被鍨嬬殑浣嶆搷浣?绫诲瀷鍊煎彧鑳芥槸鍐呯疆鐨勭被鍨?int, short, char..绛?
+//T just can be build-in type, like int uint16_t uint64_t 
 template<class T>
 class BitValue
 {
 public:
     enum BitValueDefine
     {
-        ErrorValue = -1,        // 閿欒鍊?
-        NoneValue = 0,          // 娌℃湁浣嶅€?
-        HaveValue = 1,          // 瀛樺湪浣嶅€?
+        ErrorValue = -1,
+        NoneValue = 0,
+        HaveValue = 1,
     };
 
     BitValue() : m_nValue(0) { }
@@ -50,7 +50,6 @@ public:
         return sizeof(T) * 8;
     }
 
-    // 鑾峰緱绗竴涓綅鍊兼槸0鐨勪綅绱㈠紩
     int GetFirstNoValueIndex()
     {
         for(int i = 0; i < GetBitLength(); ++i)
@@ -61,10 +60,10 @@ public:
             }
         }
 
-        return -1;  // 32浣嶉兘鏈夊€?
+        return -1;
     }
 
-    T GetBitValue(const int nIndex)         // 寰楀埌鏌愪綅涓婄殑鍊?
+    T GetBitValue(const int nIndex)
     {
         if(nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -74,7 +73,7 @@ public:
         return (m_nValue & (T(1) << nIndex));
     }
 
-    void SetBitValue(const int nIndex)        // 璁剧疆鏌愪綅涓婄殑鍊?
+    void SetBitValue(const int nIndex)
     {
         if(nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -84,7 +83,7 @@ public:
         m_nValue |= (T(1) << nIndex);
     }
 
-    void ClearBitValue(const int nIndex)      // 娓呴櫎鏌愪綅涓婄殑鍊?
+    void ClearBitValue(const int nIndex)
     {
         if(nIndex < 0 || nIndex >= GetBitLength())
         {
@@ -110,7 +109,7 @@ public:
             }
         }
 
-        return -1;  // 32浣嶉兘鏈夊€?
+        return -1;
     }
 
     static T GetBitValue(const T & nValue, const int nIndex)

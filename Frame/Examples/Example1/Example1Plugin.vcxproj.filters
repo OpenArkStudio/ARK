@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Example1Plugin.h" />
+    <ClInclude Include="Example1Module.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Example1Plugin.cpp" />
+    <ClCompile Include="Example1Module.cpp" />
+  </ItemGroup>
+</Project>

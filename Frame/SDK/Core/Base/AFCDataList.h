@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -234,7 +234,7 @@ public:
         return (0 == mnDataUsed);
     }
 
-    virtual size_t GetCount() const
+    virtual int GetCount() const
     {
         return mnDataUsed;
     }
@@ -701,7 +701,6 @@ public:
 
         if(size1 <= (strlen(p) + 1))
         {
-            //濡傛灉value鐨勯暱搴?<= 浠ュ墠鐨勯暱搴︼紝鏀惧洖鍘熷湴锛屼笉鍋氭敼鍙?
 #if ARK_PLATFORM == PLATFORM_WIN
             strncpy_s(p, (strlen(p) + 1), value, size1);
 #else
@@ -856,7 +855,7 @@ protected:
             mnBufferSize = new_size;
         }
 
-        char* ret = mpBuffer + mnBufferUsed; //杩斿洖鐨勬槸鍔燽uffer涔嬪墠鐨勪綅缃?
+        char* ret = mpBuffer + mnBufferUsed;
         mnBufferUsed = new_used;
         return ret;
     }

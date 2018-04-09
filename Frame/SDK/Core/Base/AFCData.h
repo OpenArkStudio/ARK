@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@
 #include "SDK/Core/Base/AFIData.h"
 #include "SDK/Core/Base/AFPlatform.hpp"
 #include "SDK/Core/Base/AFMisc.hpp"
+#include "SDK/Core/Base/AFMemAlloc.hpp"
 
 class AFDataAlloc
 {
@@ -33,12 +34,14 @@ public:
 
     void* Alloc(size_t size)
     {
-        return new char[size];
+        void* ptr = ARK_ALLOC(size);
+        memset(ptr, 0, size);
+        return ptr;
     }
 
     void Free(void* ptr, size_t size)
     {
-        delete[](char*)ptr;
+        ARK_DEALLOC(ptr);
     }
 
     void Swap(AFDataAlloc& src)
@@ -581,7 +584,7 @@ private:
     ALLOC mxAlloc;
     int mnType;
 
-    //鍙彉鏁版嵁鑱斿悎浣?size = 16
+    //This union size = 16
     union
     {
         bool mbValue;

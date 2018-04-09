@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ enum AF_DATA_TYPE
     DT_FLOAT,       //float
     DT_DOUBLE,      //double
     DT_STRING,      //string(char*)
-    DT_OBJECT,      //object(ident + serial)
+    DT_OBJECT,      //object(high + low)
     DT_POINTER,     //pointer(void*)
     DT_USERDATA,    //user data(char*)
     DT_TABLE,       //table
@@ -52,7 +52,7 @@ class AFIData
 public:
 
 public:
-    AFIData& operator=(const AFIData& rhs) = delete; //绂佹绛夊彿璧嬪€?
+    AFIData& operator=(const AFIData& rhs) = delete;
 
 public:
     inline static void* GetUserData(void* value)

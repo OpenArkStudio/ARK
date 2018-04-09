@@ -87,7 +87,6 @@ public:
     virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList) = 0;
 
     //////////////////////////////////////////////////////////////////////////
-    //鍙兘缃戠粶妯″潡娉ㄥ唽锛屽洖璋冪敤鏉ュ悓姝ュ璞＄被浜嬩欢,鎵€鏈夌殑绫诲璞￠兘浼氬洖璋?
     template<typename BaseType>
     bool RegCommonClassEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
     {
@@ -95,7 +94,6 @@ public:
         return RegCommonClassEvent(std::make_shared<CLASS_EVENT_FUNCTOR>(functor));
     }
 
-    //鍙兘缃戠粶妯″潡娉ㄥ唽锛屽洖璋冪敤鏉ュ悓姝ュ璞″睘鎬т簨浠?鎵€鏈夌殑绫诲睘鎬ч兘浼氬洖璋?
     template<typename BaseType>
     bool RegCommonDataNodeEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
@@ -103,7 +101,6 @@ public:
         return RegCommonDataNodeEvent(std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
     }
 
-    //鍙兘缃戠粶妯″潡娉ㄥ唽锛屽洖璋冪敤鏉ュ悓姝ュ璞＄被琛ㄤ簨浠?鎵€鏈夌殑绫昏〃閮戒細鍥炶皟
     template<typename BaseType>
     bool RegCommonDataTableEvent(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
     {
@@ -185,13 +182,9 @@ protected:
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
 
 protected:
-    //鍙兘缃戠粶妯″潡娉ㄥ唽锛屽洖璋冪敤鏉ュ悓姝ュ璞＄被浜嬩欢,鎵€鏈夌殑绫诲璞￠兘浼氬洖璋?
     virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
 
-    //鍙兘缃戠粶妯″潡娉ㄥ唽锛屽洖璋冪敤鏉ュ悓姝ュ璞″睘鎬т簨浠?鎵€鏈夌殑绫诲睘鎬ч兘浼氬洖璋?
     virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
 
-    //鍙兘缃戠粶妯″潡娉ㄥ唽锛屽洖璋冪敤鏉ュ悓姝ュ璞＄被琛ㄤ簨浠?鎵€鏈夌殑绫昏〃閮戒細鍥炶皟
     virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
 };
-

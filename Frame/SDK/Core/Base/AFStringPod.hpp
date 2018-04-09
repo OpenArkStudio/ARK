@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@
 
 #include "AFCoreDef.hpp"
 #include "AFMacros.hpp"
+#include "AFMemAlloc.hpp"
 
-//鍙杊ash鍊兼椂鍖哄垎澶у皬鍐?
 template<typename TYPE>
 class StringTraits
 {
@@ -55,7 +55,6 @@ public:
     }
 };
 
-//鍙杊ash鍊兼椂涓嶅尯鍒嗗ぇ灏忓啓
 template<typename TYPE>
 class StringTraitsNoCase : public StringTraits<TYPE>
 {
@@ -85,14 +84,14 @@ public:
 
     void* Alloc(size_t size)
     {
-        void* ptr = NULL;
-        ARK_ALLOC(ptr, StringPodAlloc, size);
+        void* ptr = ARK_ALLOC(size);
+        memset(ptr, 0, size);
         return ptr;
     }
 
     void Free(void* ptr, size_t size)
     {
-        ARK_DEALLOC(ptr, StringPodAlloc);
+        ARK_DEALLOC(ptr);
     }
 
     void Swap(StringPodAlloc& src)
@@ -132,7 +131,6 @@ public:
         mpNode = node;
     }
 
-    //鍓嶇疆++
     StringPodIter& operator++()
     {
         node_t* next = mpNode->next;
@@ -148,7 +146,6 @@ public:
         return *this;
     }
 
-    //鍚庣疆++
     StringPodIter& operator++(int)
     {
         StringPodIter tmp(*this);
@@ -565,7 +562,7 @@ private:
 
     void Expand()
     {
-        size_t new_size = mnSize * 2 + 1; //hash bucket瑕佷负璐ㄦ暟
+        size_t new_size = mnSize * 2 + 1; //hash bucket
         node_t** new_buckets = (node_t**)mxAlloc.Alloc(sizeof(node_t*) * new_size);
         memset(new_buckets, 0, sizeof(node_t*) * new_size);
 
