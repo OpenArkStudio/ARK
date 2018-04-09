@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -25,10 +25,10 @@
 #include "SDK/Interface/AFITimerModule.h"
 #include "SDK/Interface/AFILogModule.h"
 
-class HelloWorld1 : public AFIModule
+class Example1Module : public AFIModule
 {
 public:
-    HelloWorld1(AFIPluginManager* p)
+    Example1Module(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
