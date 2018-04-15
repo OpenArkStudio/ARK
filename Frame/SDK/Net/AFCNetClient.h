@@ -22,8 +22,6 @@
 
 #include "AFINet.h"
 #include "SDK/Core/Base/AFQueue.h"
-#include "common/readerwriterqueue.h"
-#include "SDK/Core/Base/AFLockFreeQueue.h"
 #include "SDK/Core/Base/AFRWLock.hpp"
 #include <evpp/libevent.h>
 #include <evpp/event_watcher.h>
@@ -105,8 +103,6 @@ private:
     int mnServerID;
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
-    AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromNet;
-    AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromPool;
     AFCReaderWriterLock mRWLock;
 };
 

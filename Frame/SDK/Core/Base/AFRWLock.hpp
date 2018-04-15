@@ -29,7 +29,7 @@
 class AFCReaderWriterLock : private AFNoncopyable
 {
 public:
-    AFCReaderWriterLock()
+	explicit AFCReaderWriterLock()
     {
         m_Readers = 0;
         InitializeCriticalSection(&m_Writer);
@@ -133,7 +133,7 @@ private:
 class AFScopeRdLock : private AFNoncopyable
 {
 public:
-    AFScopeRdLock(AFCReaderWriterLock &lock) : rwlock(lock)
+	explicit AFScopeRdLock(AFCReaderWriterLock &lock) : rwlock(lock)
     {
         rwlock.ReaderLock();
     }
@@ -149,7 +149,7 @@ private:
 class AFScopeWrLock : private AFNoncopyable
 {
 public:
-    AFScopeWrLock(AFCReaderWriterLock &lock) : rwlock(lock)
+	explicit AFScopeWrLock(AFCReaderWriterLock &lock) : rwlock(lock)
     {
         rwlock.WriterLock();
     }
