@@ -569,7 +569,21 @@ namespace ARK
                         continue;
                     }
 
-                    if (string.IsNullOrEmpty(firstCell.StringCellValue))
+                    string strID = "";
+                    if(firstCell.CellType == CellType.Numeric)
+                    {
+                        strID = firstCell.NumericCellValue.ToString();
+                    }
+                    else if(firstCell.CellType == CellType.String)
+                    {
+                        if(string.IsNullOrEmpty(firstCell.StringCellValue))
+                        {
+                            continue;
+                        }
+
+                        strID = firstCell.StringCellValue;
+                    }
+                    else
                     {
                         continue;
                     }
