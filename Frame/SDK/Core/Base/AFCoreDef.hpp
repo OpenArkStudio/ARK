@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 
 #include "AFPlatform.hpp"
 #include "AFMacros.hpp"
+#include "AFMemAlloc.hpp"
 
 class CoreAlloc
 {
@@ -31,14 +32,14 @@ public:
 
     void* Alloc(size_t size)
     {
-        void* ptr = NULL;
-        ARK_ALLOC(ptr, CoreAlloc, size);
+        void* ptr = ARK_ALLOC(size);
+        memset(ptr, 0, size);
         return ptr;
     }
 
     void Free(void* ptr, size_t size)
     {
-        ARK_DEALLOC(ptr, CoreAlloc);
+        ARK_DEALLOC(ptr);
     }
 
     void Swap(CoreAlloc& src)
@@ -46,7 +47,6 @@ public:
     }
 };
 
-// 鍙栧搱甯屽€硷紝蹇界暐澶у皬鍐?
 inline static unsigned int GetHashValueNoCase(const char* name)
 {
     static unsigned char convert_to_lower[256] =
@@ -96,7 +96,6 @@ inline static unsigned int GetHashValueNoCase(const char* name)
     return hash;
 }
 
-// 鍙栧搱甯屽€?
 inline unsigned int GetHashValue(const char* name)
 {
     assert(name != nullptr);

@@ -71,30 +71,30 @@
       <AdditionalDep>%(AdditionalDep)</AdditionalDep>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFLoginServer\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFLoginServer\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial1\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial1\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial2\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial2\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial3\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial3\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial4\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial4\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial5\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial5\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial6\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial6\$(ProjectName)_d.pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial7\$(ProjectName)_d.exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial7\$(ProjectName)_d.pdb</Command>
+      <Command>copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFLoginServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFLoginServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example1\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example1\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example2\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example2\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example3\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example3\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example4\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example4\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example5\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example5\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example6\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example6\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example7\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example7\</Command>
     </PostBuildEvent>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -119,30 +119,30 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(Soluti
       <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\Comm\$(Configuration)\;$(SolutionDir)..\Dep\lib\$(Configuration)\;$(SolutionDir)..\Dep\boost_1_53_0\stage\lib\x64\vs11_0\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFLoginServer\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFLoginServer\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial1\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial1\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial2\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial2\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial3\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial3\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial4\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial4\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial5\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial5\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial6\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial6\$(ProjectName).pdb
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial7\$(ProjectName).exe
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Tutorial7\$(ProjectName).pdb</Command>
+      <Command>copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFLoginServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFLoginServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFMasterServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example1\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example1\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example2\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example2\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example3\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example3\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example4\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example4\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example5\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example5\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example6\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example6\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).exe $(SolutionDir)..\Bin\Examples\$(Configuration)\Example7\
+copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Examples\$(Configuration)\Example7\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -42,31 +42,31 @@ copy ..\\..\\..\\Bin\\Comm\\Debug\\AFGame*d.dll AFGameServer\\ /Y
 
 cd  AFMasterServer
 echo Starting AFMasterServer...
-start "" "PluginLoader_d.exe -x app_id=3 app_name=MasterServer cfg=Plugin.xml"
+start "" PluginLoader_d.exe -x app_id=3 app_name=MasterServer cfg=Plugin.xml
 choice /t 2 /d y /n >nul
 
 cd  ..
 cd  AFWorldServer
 echo Starting AFWorldServer...
-start "" "PluginLoader_d.exe -x app_id=7 app_name=WorldServer cfg=Plugin.xml"
+start "" PluginLoader_d.exe -x app_id=7 app_name=WorldServer cfg=Plugin.xml
 choice /t 5 /d y /n >nul
 
 cd  ..
 cd  AFLoginServer
 echo Starting AFLoginServer...
-start "" "PluginLoader_d.exe -x app_id=4 app_name=LoginServer cfg=Plugin.xml"
+start "" PluginLoader_d.exe -x app_id=4 app_name=LoginServer cfg=Plugin.xml
 choice /t 2 /d y /n >nul
 
 cd  ..
 cd  AFGameServer
 echo Starting AFGameServer...
-start "" "PluginLoader_d.exe -x app_id=6 app_name=GameServer cfg=Plugin.xml"
+start "" PluginLoader_d.exe -x app_id=6 app_name=GameServer cfg=Plugin.xml
 choice /t 4 /d y /n >nul
 
 cd  ..
 cd  AFProxyServer
 echo Starting AFProxyServer...
-start "" "PluginLoader_d.exe -x app_id=5 app_name=ProxyServer cfg=Plugin.xml"
+start "" PluginLoader_d.exe -x app_id=5 app_name=ProxyServer cfg=Plugin.xml
 
 
 echo All processes are launching...

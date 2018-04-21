@@ -49,7 +49,7 @@ namespace FileProcessor
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the 'License');
 * you may not use this file except in compliance with the License.
@@ -78,7 +78,7 @@ namespace ARK
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the 'License');
 * you may not use this file except in compliance with the License.
@@ -569,7 +569,21 @@ namespace ARK
                         continue;
                     }
 
-                    if (string.IsNullOrEmpty(firstCell.StringCellValue))
+                    string strID = "";
+                    if(firstCell.CellType == CellType.Numeric)
+                    {
+                        strID = firstCell.NumericCellValue.ToString();
+                    }
+                    else if(firstCell.CellType == CellType.String)
+                    {
+                        if(string.IsNullOrEmpty(firstCell.StringCellValue))
+                        {
+                            continue;
+                        }
+
+                        strID = firstCell.StringCellValue;
+                    }
+                    else
                     {
                         continue;
                     }
