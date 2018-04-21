@@ -33,11 +33,11 @@ class AFILogModule : public AFIModule
 public:
     enum ARK_LOG_LEVEL
     {
-        ARK_LOG_LEVEL_DEBUG,        // debug璋冭瘯淇℃伅(Debug鍜孯elease鐗堟湰閮戒細鎵撳嵃)
-        ARK_LOG_LEVEL_INFO,         // info绾у埆
-        ARK_LOG_LEVEL_WARNING,      // warning绾у埆
-        ARK_LOG_LEVEL_ERROR,        // error绾у埆
-        ARK_LOG_LEVEL_FATAL,        // fatal绾у埆
+        ARK_LOG_LEVEL_DEBUG,        // debug level
+        ARK_LOG_LEVEL_INFO,         // info level
+        ARK_LOG_LEVEL_WARNING,      // warning level
+        ARK_LOG_LEVEL_ERROR,        // error level
+        ARK_LOG_LEVEL_FATAL,        // fatal level
         ARK_LOG_LEVEL_MAX,
     };
 
@@ -65,4 +65,3 @@ public:
     virtual bool ChangeLogLevel(const std::string& strLevel, const std::string& strStatus) = 0;
     virtual bool SetSwitchingValue(const bool bValue) = 0;
 };
-

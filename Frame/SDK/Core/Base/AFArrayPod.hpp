@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 
 #include "AFPlatform.hpp"
 #include "AFMacros.hpp"
-//#include "AFMalloc.h"
+#include "AFMemAlloc.hpp"
 
 class ArrayPodAlloc
 {
@@ -32,14 +32,14 @@ public:
 
     void* Alloc(size_t size)
     {
-        void* ptr = NULL;
-        ARK_ALLOC(ptr, ArrayPodAlloc, size);
+        void* ptr = ARK_ALLOC(size);
+        memset(ptr, 0, size);
         return ptr;
     }
 
     void Free(void* ptr, size_t size)
     {
-        ARK_DEALLOC(ptr, ArrayPodAlloc);
+        ARK_DEALLOC(ptr);
     }
 
     void Swap(ArrayPodAlloc& src)
@@ -203,7 +203,6 @@ public:
         return mpData[index];
     }
 
-    //棰勫垎閰?
     void reserve(size_t size)
     {
         if(size > mnCapacity)
@@ -225,7 +224,6 @@ public:
     {
         if(size > mnCapacity)
         {
-            //鐢宠鐜版湁瀹归噺鐨勪袱鍊嶏紝濡傛灉杩樹笉澶燂紝灏辨寜鐓ize鏉ョ敵璇?
             size_t new_size = mnCapacity * 2;
             if(new_size < size)
             {
@@ -233,14 +231,14 @@ public:
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE)); //鎶婂師鏉ョ湡姝ｇ殑mnSize鏁版嵁璧嬪€肩粰鏂扮殑绌洪棿
+            memcpy(p, mpData, mnSize * sizeof(TYPE));
             if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
 
             mpData = p;
-            mnCapacity = new_size; //瀹归噺鏀规垚鏂扮殑
+            mnCapacity = new_size;
         }
 
         mnSize = size;
@@ -250,7 +248,6 @@ public:
     {
         if(size > mnCapacity)
         {
-            //鐢宠鐜版湁瀹归噺鐨勪袱鍊嶏紝濡傛灉杩樹笉澶燂紝灏辨寜鐓ize鏉ョ敵璇?
             size_t new_size = mnCapacity * 2;
             if(new_size < size)
             {
@@ -258,14 +255,14 @@ public:
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE)); //鎶婂師鏉ョ湡姝ｇ殑mnSize鏁版嵁璧嬪€肩粰鏂扮殑绌洪棿
+            memcpy(p, mpData, mnSize * sizeof(TYPE));
             if(mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
 
             mpData = p;
-            mnCapacity = new_size; //瀹归噺鏀规垚鏂扮殑
+            mnCapacity = new_size;
         }
 
         if(size > mnSize)
@@ -298,7 +295,6 @@ public:
         --mnSize;
     }
 
-    //浠巗tart寮€濮嬬Щ闄ount涓厓绱?
     void remove_some(size_t start, size_t count)
     {
         assert((start <= mnSize) && ((start + count) <= mnSize));
@@ -326,6 +322,6 @@ private:
     ALLOC mxAlloc;
     TYPE mxStack[SIZE];
     TYPE* mpData;
-    size_t mnCapacity; //瀹归噺
-    size_t mnSize; //鏁伴噺
+    size_t mnCapacity;
+    size_t mnSize;
 };

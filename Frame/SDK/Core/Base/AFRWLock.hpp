@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@
 class AFCReaderWriterLock : private AFNoncopyable
 {
 public:
-    AFCReaderWriterLock()
+	explicit AFCReaderWriterLock()
     {
         m_Readers = 0;
         InitializeCriticalSection(&m_Writer);
@@ -133,7 +133,7 @@ private:
 class AFScopeRdLock : private AFNoncopyable
 {
 public:
-    AFScopeRdLock(AFCReaderWriterLock &lock) : rwlock(lock)
+	explicit AFScopeRdLock(AFCReaderWriterLock &lock) : rwlock(lock)
     {
         rwlock.ReaderLock();
     }
@@ -149,7 +149,7 @@ private:
 class AFScopeWrLock : private AFNoncopyable
 {
 public:
-    AFScopeWrLock(AFCReaderWriterLock &lock) : rwlock(lock)
+	explicit AFScopeWrLock(AFCReaderWriterLock &lock) : rwlock(lock)
     {
         rwlock.WriterLock();
     }

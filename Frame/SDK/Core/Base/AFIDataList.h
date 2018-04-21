@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ public:
 
     virtual bool Empty() const = 0;
 
-    virtual size_t GetCount() const = 0;
+    virtual int GetCount() const = 0;
 
     virtual int GetType(size_t index) const = 0;
 

@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -128,7 +128,6 @@ public:
         return mxNodes[index];
     }
 
-    //涓嶈兘鍒犻櫎锛屽垹闄ゅ悗浼氬鑷磇ndex閿欎綅
     //bool RemoveElement(const std::string& name)
     //{
     //    size_t index;
@@ -140,7 +139,6 @@ public:
     //    //remove from name container
     //    mxIndices.Remove(name.c_str());
 
-    //    //閲婃斁鍐呭瓨
     //    if (mxNodes[index] != nullptr)
     //    {
     //        //delete mxNodes[index];
@@ -170,9 +168,6 @@ protected:
     {
         for (size_t i = 0; i < GetCount(); ++i)
         {
-            //change use MemPool
-
-            //delete mxNodes[i];
             mxNodes[i] = nullptr;
         }
 
