@@ -49,7 +49,7 @@ struct  AFIMsgHead
     virtual void SetMsgID(uint16_t nMsgID) = 0;
 
     virtual uint32_t GetBodyLength() const = 0;
-    virtual void SetBodyLength(uint32_t nLength) = 0;
+    virtual void SetBodyLength(size_t nLength) = 0;
 
     virtual const AFGUID& GetPlayerID() const = 0;
     virtual void SetPlayerID(const AFGUID& xPlayerID) = 0;
@@ -205,9 +205,9 @@ public:
     {
         return munSize;
     }
-    virtual void SetBodyLength(uint32_t nLength)
+    virtual void SetBodyLength(size_t nLength)
     {
-        munSize = nLength;
+        munSize = (uint32_t)nLength;
     }
 
     virtual const AFGUID& GetPlayerID() const
@@ -235,7 +235,7 @@ enum NetEventType
 
 class AFINet;
 
-typedef std::function<void(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
+typedef std::function<void(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
 typedef std::shared_ptr<NET_RECEIVE_FUNCTOR> NET_RECEIVE_FUNCTOR_PTR;
 
 typedef std::function<void(const NetEventType nEvent, const AFGUID& nClientID, const int nServerID)> NET_EVENT_FUNCTOR;
@@ -261,13 +261,13 @@ public:
     {
     }
 
-    int AddBuff(const char* str, uint32_t nLen)
+    int AddBuff(const char* str, size_t nLen)
     {
         mstrBuff.Write(str, nLen);
         return (int)mstrBuff.length();
     }
 
-    int RemoveBuff(uint32_t nLen)
+    size_t RemoveBuff(size_t nLen)
     {
         if(nLen > mstrBuff.length())
         {
@@ -284,7 +284,7 @@ public:
         return mstrBuff.data();
     }
 
-    int GetBuffLen() const
+    size_t GetBuffLen() const
     {
         return mstrBuff.length();
     }
@@ -369,7 +369,7 @@ public:
     virtual bool Final() = 0;
 
     //send a message with out msg-head[auto add msg-head in this function]
-    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID) = 0;
+    virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID) = 0;
 
     //send a message to all client[need to add msg-head for this message by yourself]
     virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen, const AFGUID& xPlayerID)
@@ -378,7 +378,7 @@ public:
     }
 
     //send a message with out msg-head to all client[auto add msg-head in this function]
-    virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xPlayerID)
+    virtual bool SendMsgToAllClientWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID)
     {
         return false;
     }
@@ -401,8 +401,8 @@ protected:
     bool bWorking;
 
 public:
-    int nReceiverSize;
-    int nSendSize;
+    size_t nReceiverSize;
+    size_t nSendSize;
 };
 
 #pragma pack(pop)

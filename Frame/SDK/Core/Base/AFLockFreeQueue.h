@@ -23,7 +23,6 @@
 #include "SDK/Core/Base/AFPlatform.hpp"
 #include "common/readerwriterqueue.h"
 
-
 template<typename T>
 class AFLockFreeQueue
 {
@@ -47,11 +46,11 @@ public:
         return mList.try_dequeue(object);
     }
 
-    int Count()
+    size_t Count()
     {
         return mList.size_approx();
     }
 
 private:
-    moodycamel::BlockingReaderWriterQueue <T> mList;
+    moodycamel::BlockingReaderWriterQueue<T> mList;
 };
