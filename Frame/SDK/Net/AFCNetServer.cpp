@@ -169,9 +169,9 @@ void AFCNetServer::ProcessMsgLogicThread()
 
 void AFCNetServer::ProcessMsgLogicThread(NetObject* pEntity)
 {
-    //Handle Msg;
-    const int nReceiveCount = pEntity->mqMsgFromNet.Count();
-    for(size_t i = 0; (i < nReceiveCount); i++)
+    //Handle Msg
+    size_t nReceiveCount = pEntity->mqMsgFromNet.Count();
+    for(size_t i = 0; i < nReceiveCount; ++i)
     {
         MsgFromNetInfo* pMsgFromNet(NULL);
         if(!pEntity->mqMsgFromNet.Pop(pMsgFromNet))
@@ -179,7 +179,7 @@ void AFCNetServer::ProcessMsgLogicThread(NetObject* pEntity)
             break;
         }
 
-        if(!pMsgFromNet)
+        if(pMsgFromNet == nullptr)
         {
             continue;
         }
@@ -222,7 +222,7 @@ bool AFCNetServer::Final()
     return true;
 }
 
-bool AFCNetServer::SendMsgToAllClient(const char* msg, const uint32_t nLen)
+bool AFCNetServer::SendMsgToAllClient(const char* msg, const size_t nLen)
 {
     std::map<AFGUID, NetObject*>::iterator it = mmObject.begin();
     for(; it != mmObject.end(); ++it)
@@ -237,7 +237,7 @@ bool AFCNetServer::SendMsgToAllClient(const char* msg, const uint32_t nLen)
     return true;
 }
 
-bool AFCNetServer::SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient)
+bool AFCNetServer::SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient)
 {
     AFScopeRdLock xGuard(mRWLock);
 
@@ -290,7 +290,7 @@ bool AFCNetServer::DismantleNet(NetObject* pEntity)
             pNetInfo->nType = RECIVEDATA;
             pNetInfo->strMsg.append(pEntity->GetBuff() + AFIMsgHead::ARK_MSG_HEAD_LENGTH, nMsgBodyLength);
             pEntity->mqMsgFromNet.Push(pNetInfo);
-            int nRet = pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::ARK_MSG_HEAD_LENGTH);
+            size_t nRet = pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::ARK_MSG_HEAD_LENGTH);
         }
         else
         {
@@ -326,7 +326,7 @@ NetObject* AFCNetServer::GetNetObject(const AFGUID& xClientID)
     return NULL;
 }
 
-bool AFCNetServer::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
+bool AFCNetServer::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
 {
     std::string strOutData;
     AFCMsgHead xHead;
@@ -343,7 +343,7 @@ bool AFCNetServer::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, con
     return false;
 }
 
-bool AFCNetServer::SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xPlayerID)
+bool AFCNetServer::SendMsgToAllClientWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID)
 {
     std::string strOutData;
     AFCMsgHead xHead;
@@ -359,21 +359,21 @@ bool AFCNetServer::SendMsgToAllClientWithOutHead(const int16_t nMsgID, const cha
     return false;
 }
 
-int AFCNetServer::EnCode(const AFCMsgHead& xHead, const char* strData, const uint32_t unDataLen, std::string& strOutData)
+int AFCNetServer::EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData)
 {
     char szHead[AFIMsgHead::ARK_MSG_HEAD_LENGTH] = { 0 };
     int nRet = xHead.EnCode(szHead);
 
     strOutData.clear();
     strOutData.append(szHead, AFIMsgHead::ARK_MSG_HEAD_LENGTH);
-    strOutData.append(strData, unDataLen);
+    strOutData.append(strData, len);
 
     return xHead.GetBodyLength() + AFIMsgHead::ARK_MSG_HEAD_LENGTH;
 }
 
-int AFCNetServer::DeCode(const char* strData, const uint32_t unAllLen, AFCMsgHead& xHead)
+int AFCNetServer::DeCode(const char* strData, const size_t len, AFCMsgHead& xHead)
 {
-    if(unAllLen < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
+    if(len < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return -1;
     }
@@ -383,7 +383,7 @@ int AFCNetServer::DeCode(const char* strData, const uint32_t unAllLen, AFCMsgHea
         return -2;
     }
 
-    if(xHead.GetBodyLength() > (unAllLen - AFIMsgHead::ARK_MSG_HEAD_LENGTH))
+    if(xHead.GetBodyLength() > (len - AFIMsgHead::ARK_MSG_HEAD_LENGTH))
     {
         return -3;
     }
