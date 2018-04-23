@@ -48,7 +48,7 @@ void AFCNetClient::ProcessMsgLogicThread()
         ProcessMsgLogicThread(m_pClientObject.get());
     }
 
-    if(NULL  != m_pClientObject.get() && m_pClientObject->NeedRemove())
+    if(m_pClientObject != nullptr && m_pClientObject->NeedRemove())
     {
         AFScopeWrLock xGuard(mRWLock);
         m_pClientObject.release();
@@ -64,16 +64,16 @@ void AFCNetClient::ProcessMsgLogicThread(NetObject* pEntity)
     }
 
     //Handle Msg;
-    const int nReceiveCount = pEntity->mqMsgFromNet.Count();
-    for(size_t i = 0; (i < nReceiveCount); i++)
+    size_t nReceiveCount = pEntity->mqMsgFromNet.Count();
+    for(size_t i = 0; i < nReceiveCount; ++i)
     {
-        MsgFromNetInfo* pMsgFromNet(NULL);
+        MsgFromNetInfo* pMsgFromNet(nullptr);
         if(!pEntity->mqMsgFromNet.Pop(pMsgFromNet))
         {
             break;
         }
 
-        if(!pMsgFromNet)
+        if(pMsgFromNet == nullptr)
         {
             continue;
         }
@@ -109,25 +109,25 @@ void AFCNetClient::ProcessMsgLogicThread(NetObject* pEntity)
 }
 void AFCNetClient::Initialization(const std::string& strAddrPort, const int nServerID)
 {
-#ifdef _MSC_VER
+#if ARK_PLATFORM == PLATFORM_WIN
     WSADATA wsa_data;
     WSAStartup(MAKEWORD(2, 2), &wsa_data);
 #endif
 
     mstrIPPort = strAddrPort;
     mnServerID = nServerID;
-#if __cplusplus < 201402L
-    m_pThread.reset(new evpp::EventLoopThread);
+#if defined(HAVE_LANG_CXX14) || defined(HAVE_LANG_CXX17)
+    m_pThread = std::make_unique<evpp::EventLoopThread>(); 
 #else
-    m_pThread = std::make_unique<evpp::EventLoopThread>();
+    m_pThread.reset(new evpp::EventLoopThread);
 #endif
     m_pThread->set_name("TCPClientThread");
     m_pThread->Start();
 
-#if __cplusplus < 201402L
-    m_pClient.reset(new evpp::TCPClient(m_pThread->loop(), mstrIPPort, "TCPPingPongClient"));
+#if defined(HAVE_LANG_CXX14) || defined(HAVE_LANG_CXX17)
+    m_pClient = std::make_unique<evpp::TCPClient>(m_pThread->loop(), mstrIPPort, "TCPClient"); 
 #else
-    m_pClient = std::make_unique<evpp::TCPClient>(m_pThread->loop(), mstrIPPort, "TCPPingPongClient");
+    m_pClient.reset(new evpp::TCPClient(m_pThread->loop(), mstrIPPort, "TCPClient"));
 #endif
     
     m_pClient->SetConnectionCallback(std::bind(&AFCNetClient::OnClientConnectionInner,this, std::placeholders::_1));
@@ -156,11 +156,12 @@ bool AFCNetClient::CloseSocketAll()
     return true;
 }
 
-bool AFCNetClient::SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient)
+bool AFCNetClient::SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient)
 {
-    if(m_pClient->conn().get())
+    if(m_pClient->conn() != nullptr)
     {
         m_pClient->conn()->Send(msg, nLen);
+        return true;
     }
 
     return false;
@@ -185,7 +186,7 @@ bool AFCNetClient::DismantleNet(NetObject* pEntity)
             pNetInfo->nType = RECIVEDATA;
             pNetInfo->strMsg.append(pEntity->GetBuff() + AFIMsgHead::ARK_MSG_HEAD_LENGTH, nMsgBodyLength);
             pEntity->mqMsgFromNet.Push(pNetInfo);
-            int nNewSize = pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::ARK_MSG_HEAD_LENGTH);
+            size_t nNewSize = pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::ARK_MSG_HEAD_LENGTH);
         }
         else
         {
@@ -253,8 +254,6 @@ void AFCNetClient::OnClientConnectionInner(const evpp::TCPConnPtr& conn)
         pMsg->xClientID = conn->id();
         pMsg->nType = DISCONNECTED;
 
-
-        //娑撹崵鍤庣粙瀣╃瑝閼崇晫娲块幒銉ュ灩闂勩們鈧倷绗夐悞鎯扮箹闁插苯姘ㄩ柌搴濈啊
         if(!conn->context().IsEmpty())
         {
             NetObject* pEntity = evpp::any_cast<NetObject*>(conn->context());
@@ -297,7 +296,7 @@ void AFCNetClient::OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* ms
     }
 }
 
-bool AFCNetClient::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID, const AFGUID& xPlayerID)
+bool AFCNetClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID & xClientID, const AFGUID& xPlayerID)
 {
     std::string strOutData;
     AFCMsgHead xHead;
@@ -314,21 +313,21 @@ bool AFCNetClient::SendMsgWithOutHead(const int16_t nMsgID, const char* msg, con
     return false;
 }
 
-int AFCNetClient::EnCode(const AFCMsgHead& xHead, const char* strData, const uint32_t unDataLen, std::string& strOutData)
+int AFCNetClient::EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData)
 {
     char szHead[AFIMsgHead::ARK_MSG_HEAD_LENGTH] = { 0 };
     int nSize = xHead.EnCode(szHead);
 
     strOutData.clear();
     strOutData.append(szHead, AFIMsgHead::ARK_MSG_HEAD_LENGTH);
-    strOutData.append(strData, unDataLen);
+    strOutData.append(strData, len);
 
     return xHead.GetBodyLength() + AFIMsgHead::ARK_MSG_HEAD_LENGTH;
 }
 
-int AFCNetClient::DeCode(const char* strData, const uint32_t unAllLen, AFCMsgHead & xHead)
+int AFCNetClient::DeCode(const char* strData, const size_t len, AFCMsgHead & xHead)
 {
-    if(unAllLen < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
+    if(len < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return -1;
     }
@@ -338,7 +337,7 @@ int AFCNetClient::DeCode(const char* strData, const uint32_t unAllLen, AFCMsgHea
         return -2;
     }
 
-    if(xHead.GetBodyLength() > (unAllLen - AFIMsgHead::ARK_MSG_HEAD_LENGTH))
+    if(xHead.GetBodyLength() > (len - AFIMsgHead::ARK_MSG_HEAD_LENGTH))
     {
         return -3;
     }

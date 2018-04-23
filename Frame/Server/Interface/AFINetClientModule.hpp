@@ -309,7 +309,7 @@ protected:
                     }
 
                     pServerData->eState = ConnectDataState::CONNECTING;
-                    pServerData->mxNetModule = ARK_SHARE_PTR<AFCNetClient>(new AFCNetClient(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent));
+                    pServerData->mxNetModule = std::make_shared<AFCNetClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
                     pServerData->mxNetModule->Initialization(pServerData->strIPAndPort, pServerData->nGameID);
                 }
                 break;
@@ -414,7 +414,7 @@ private:
                 xServerData->nPort = xInfo.nPort;
                 xServerData->mnLastActionTime = GetPluginManager()->GetNowTime();
 
-                xServerData->mxNetModule = ARK_SHARE_PTR<AFCNetClient>(ARK_NEW AFCNetClient(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent));
+                xServerData->mxNetModule = std::make_shared<AFCNetClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
 
                 xServerData->mxNetModule->Initialization(xServerData->strIPAndPort, xServerData->nGameID);
 
@@ -464,7 +464,7 @@ private:
     }
 
 protected:
-    void OnReceiveNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void OnReceiveNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID)
     {
         OnReceiveBaseNetPack(xHead, nMsgID, msg, nLen, xClientID);
     }

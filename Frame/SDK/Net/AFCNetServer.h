@@ -49,7 +49,7 @@ public:
     }
 
     template<typename BaseType>
-    AFCNetServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const uint32_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
+    AFCNetServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
         : mnMaxConnect(0)
         , mnCpuCount(0)
         , mnServerID(0)
@@ -74,8 +74,8 @@ public:
         return true;
     }
 
-    virtual bool SendMsgWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID);
-    virtual bool SendMsgToAllClientWithOutHead(const int16_t nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xPlayerID);
+    virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID);
+    virtual bool SendMsgToAllClientWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID);
 
     virtual bool CloseNetObject(const AFGUID& xClientID);
     virtual bool Log(int severity, const char* msg)
@@ -85,18 +85,16 @@ public:
 
 public:
     //From Worker Thread
-    static void OnMessage(const evpp::TCPConnPtr& conn,
-                          evpp::Buffer* msg, void* pData);
-    void OnMessageInner(const evpp::TCPConnPtr& conn,
-                        evpp::Buffer* msg);
+    static void OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* msg, void* pData);
+    void OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* msg);
 
     //From ListenThread
     static void OnClientConnection(const evpp::TCPConnPtr& conn, void* pData);
     void OnClientConnectionInner(const evpp::TCPConnPtr& conn);
 
 private:
-    bool SendMsgToAllClient(const char* msg, const uint32_t nLen);
-    bool SendMsg(const char* msg, const uint32_t nLen, const AFGUID& xClient);
+    bool SendMsgToAllClient(const char* msg, const size_t nLen);
+    bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient);
     bool AddNetObject(const AFGUID& xClientID, NetObject* pEntity);
     bool RemoveNetObject(const AFGUID& xClientID);
     NetObject* GetNetObject(const AFGUID& xClientID);
@@ -108,8 +106,8 @@ private:
     bool DismantleNet(NetObject* pEntity);
 
 protected:
-    int DeCode(const char* strData, const uint32_t unLen, AFCMsgHead& xHead);
-    int EnCode(const AFCMsgHead& xHead, const char* strData, const uint32_t unDataLen, std::string& strOutData);
+    int DeCode(const char* strData, const size_t len, AFCMsgHead& xHead);
+    int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
     std::unique_ptr<evpp::TCPServer> m_pTcpSrv;
