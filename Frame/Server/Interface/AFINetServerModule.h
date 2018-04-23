@@ -230,7 +230,7 @@ public:
     }
 
 protected:
-    void OnReceiveNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void OnReceiveNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID)
     {
         OnReceiveBaseNetPack(xHead, nMsgID, msg, nLen, xClientID);
     }
@@ -266,7 +266,6 @@ protected:
     }
 
 private:
-
     AFINet* m_pNet;
     int64_t nLastTime;
 };
