@@ -20,27 +20,28 @@
 
 #pragma once
 
-#include "SDK/Interface/AFIScheduleModule.h"
+#include "AFPlatform.hpp"
+#include "AFDefine.h"
 
-class AFCScheduleModule : public AFIScheduleModule
+class AFCronSheduler;
+
+class AFCronData
 {
+    friend class AFCronSheduler;
 public:
-    AFCScheduleModule(AFIPluginManager* p);
+    class AFCronSorter
+    {
+    public:
+        bool operator()(const AFCronData* lhs, const AFCronData* rhs)
+        {
+            return lhs->next_time < rhs->next_time;
+        }
+    };
 
-    virtual ~AFCScheduleModule() {}
-
-    virtual bool Init();
-    virtual bool PostInit();
-
-    virtual bool PreShut();
-    virtual bool Shut();
-
-    virtual void Update();
-
-    virtual bool AddSchedule(const std::string& name, const SCHEDULER_FUNCTOR_PTR cb, const int64_t interval_time, const int count);
-    virtual bool RemoveSchedule(const std::string& name);
-    virtual bool ExistSchedule(const std::string& name);
-
+protected:
 private:
-
+    int cron_id = 0;
+    int user_data = 0;//Will be extended by specific logic
+    SCHEDULER_FUNCTOR_PTR callback;
+    time_t next_time;
 };

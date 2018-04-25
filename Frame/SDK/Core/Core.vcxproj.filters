@@ -144,6 +144,9 @@
     <ClInclude Include="Base\AFMemPool.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Base\AFCronScheduler.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCHeartBeatManager.cpp">

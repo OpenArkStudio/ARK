@@ -50,7 +50,7 @@ void AFCScheduleModule::Update()
 
 }
 
-bool AFCScheduleModule::AddSchedule(const std::string& name, const SCHEDULE_FUNCTOR_PTR cb, const int64_t interval_time, const int count)
+bool AFCScheduleModule::AddSchedule(const std::string& name, const SCHEDULER_FUNCTOR_PTR cb, const int64_t interval_time, const int count)
 {
     //TODO:
     return true;

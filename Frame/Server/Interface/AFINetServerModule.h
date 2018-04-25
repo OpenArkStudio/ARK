@@ -242,27 +242,28 @@ protected:
 
     void KeepAlive()
     {
-        if(!m_pNet)
-        {
-            return;
-        }
+        //Do nothing whe m_pNet as server
+        //if(!m_pNet)
+        //{
+        //    return;
+        //}
 
-        if(m_pNet->IsServer())
-        {
-            return;
-        }
+        //if(m_pNet->IsServer())
+        //{
+        //    return;
+        //}
 
-        if(nLastTime + 10 > GetPluginManager()->GetNowTime())
-        {
-            return;
-        }
+        //if(nLastTime + 10 > GetPluginManager()->GetNowTime())
+        //{
+        //    return;
+        //}
 
-        nLastTime = GetPluginManager()->GetNowTime();
+        //nLastTime = GetPluginManager()->GetNowTime();
 
-        AFMsg::ServerHeartBeat xMsg;
-        xMsg.set_count(0);
+        //AFMsg::ServerHeartBeat xMsg;
+        //xMsg.set_count(0);
 
-        SendMsgPB(AFMsg::EGameMsgID::EGMI_STS_HEART_BEAT, xMsg, AFGUID(0), AFGUID(0));
+        //SendMsgPB(AFMsg::EGameMsgID::EGMI_STS_HEART_BEAT, xMsg, AFGUID(0), AFGUID(0));
     }
 
 private:

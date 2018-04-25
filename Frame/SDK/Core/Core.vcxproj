@@ -120,6 +120,7 @@
     <ClInclude Include="Base\AFCData.h" />
     <ClInclude Include="Base\AFCDataList.h" />
     <ClInclude Include="Base\AFCoreDef.hpp" />
+    <ClInclude Include="Base\AFCronScheduler.hpp" />
     <ClInclude Include="Base\AFDefine.h" />
     <ClInclude Include="Base\AFGUID.h" />
     <ClInclude Include="Base\AFHashmap.h" />
