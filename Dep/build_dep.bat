@@ -39,7 +39,7 @@ REM ############################################################################
 echo Building libevent...
 
 if exist libevent (rd libevent /q /s)
-git clone -b master https://github.com/libevent/libevent.git
+git clone -b release-2.1.8-stable https://github.com/libevent/libevent.git
 
 cd libevent
 md build

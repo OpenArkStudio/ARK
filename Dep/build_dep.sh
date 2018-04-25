@@ -35,7 +35,8 @@ if [ -d "libevent" ]; then
     rm -rf libevent
 fi
 
-git clone -b master https://github.com/libevent/libevent.git
+#release-2.1.8-stable as default
+git clone -b release-2.1.8-stable https://github.com/libevent/libevent.git
 
 cd libevent
 chmod -R 755 *
