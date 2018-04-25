@@ -65,7 +65,6 @@ svn checkout https://github.com/ArkGame/ARK
 - mysql++ 3.2.2
 - google protobuf 3.5.x
 - evpp 0.7.0
-- gperftools master
 
 ## Supported Compilers
 
@@ -78,10 +77,10 @@ svn checkout https://github.com/ArkGame/ARK
 
 ##### Prerequisites:
 
-- Windows 10, 8.1, or 7
-- Visual Studio 2017 or Visual Studio 2015 Update 3
+- Windows 7 or later
+- Visual Studio 2017
 - Git
-- CMake 3.0 +
+- CMake
 
 ##### Step:
 Using Visual Studio 2017

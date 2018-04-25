@@ -128,6 +128,8 @@ public:
         return mxNodes[index];
     }
 
+    //TODO:swap array data between index and last,
+    //then index will be new last, so we can delete last
     //bool RemoveElement(const std::string& name)
     //{
     //    size_t index;

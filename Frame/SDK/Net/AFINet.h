@@ -337,7 +337,6 @@ private:
 
     AFINet* m_pNet;
     mutable bool bNeedRemove;
-
 };
 
 struct MsgFromNetInfo
