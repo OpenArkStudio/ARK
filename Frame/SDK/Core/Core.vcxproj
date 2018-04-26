@@ -145,6 +145,7 @@
     <ClInclude Include="Base\AFTime.hpp" />
     <ClInclude Include="Base\AFTimer.hpp" />
     <ClInclude Include="Base\AFVector3.hpp" />
+    <ClInclude Include="Common\cronexpr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCEntity.cpp" />
@@ -154,6 +155,7 @@
     <ClCompile Include="AFCDataTableManager.cpp" />
     <ClCompile Include="AFDataTable.cpp" />
     <ClCompile Include="Base\AFMemAlloc.cpp" />
+    <ClCompile Include="Common\cronexpr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
