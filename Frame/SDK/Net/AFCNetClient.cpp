@@ -107,7 +107,7 @@ void AFCNetClient::ProcessMsgLogicThread(NFCEvppNetObject* pEntity)
         delete pMsgFromNet;
     }
 }
-void AFCNetClient::Initialization(const std::string& strAddrPort, const int nServerID)
+void AFCNetClient::Start(const std::string& strAddrPort, const int nServerID)
 {
 #if ARK_PLATFORM == PLATFORM_WIN
     WSADATA wsa_data;
