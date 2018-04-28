@@ -22,21 +22,12 @@
 #include "AFCGUIDModule.h"
 #include "AFCLogModule.h"
 #include "AFCTimerModule.h"
+#include "AFCScheduleModule.h"
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
 ARK_DLL_PLUGIN_ENTRY(AFUtilityPlugin)
 ARK_DLL_PLUGIN_EXIT(AFUtilityPlugin)
-
-//ARK_EXPORT void DllStartPlugin(AFIPluginManager* pm)
-//{
-//    CREATE_PLUGIN(pm, AFUtilityPlugin)
-//}
-//
-//ARK_EXPORT void DllStopPlugin(AFIPluginManager* pm)
-//{
-//    DESTROY_PLUGIN(pm, AFUtilityPlugin)
-//}
 
 #endif
 
@@ -57,10 +48,12 @@ void AFUtilityPlugin::Install()
     REGISTER_MODULE(pPluginManager, AFILogModule, AFCLogModule)
     REGISTER_MODULE(pPluginManager, AFIGUIDModule, AFCGUIDModule)
     REGISTER_MODULE(pPluginManager, AFITimerModule, AFCTimerModule)
+    REGISTER_MODULE(pPluginManager, AFIScheduleModule, AFCScheduleModule)
 }
 
 void AFUtilityPlugin::Uninstall()
 {
+    UNREGISTER_MODULE(pPluginManager, AFIScheduleModule, AFCScheduleModule)
     UNREGISTER_MODULE(pPluginManager, AFITimerModule, AFCTimerModule)
     UNREGISTER_MODULE(pPluginManager, AFIGUIDModule, AFCGUIDModule)
     UNREGISTER_MODULE(pPluginManager, AFILogModule, AFCLogModule)
