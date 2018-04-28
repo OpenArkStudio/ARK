@@ -43,8 +43,8 @@ public:
     {
         //pNet = new AFCNet(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
         pNet = new AFCNetClient(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
-        pNet->Initialization("192.168.1.143:8088", 1);
-        pNet->StopAfter(60);
+        pNet->Initialization("127.0.0.1:8088", 1);
+        pNet->StopAfter(600000);
         bConnected = false;
         nSendMsgCount = 0;
         nReciveMsgCount = 0;
@@ -53,7 +53,7 @@ public:
         mbTestSendMsg = true;
     }
 
-    void ReciveHandler(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void ReciveHandler(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID)
     {
         nReciveMsgCount++;
         pNet->SendMsgWithOutHead(nMsgID, msg, nLen, xClientID, 0);
@@ -70,9 +70,9 @@ public:
         }
     }
 
-    void Execute()
+    void Update()
     {
-        pNet->Execute();
+        pNet->Update();
     }
 
     bool TestSend()
@@ -85,7 +85,7 @@ public:
         std::string strData = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
         const int nTestSize = 100 ;
-        const int nBodySize = nTestSize - AFIMsgHead::AF_Head::NF_HEAD_LENGTH;
+        const int nBodySize = nTestSize - AFIMsgHead::AF_Head::ARK_MSG_HEAD_LENGTH;
         char data[nBodySize] = {};
 
         memset(data, 22, nBodySize);
@@ -104,7 +104,7 @@ public:
     bool mbTestSendMsg;
 
 public:
-    AFINet* pNet;
+    AFCNetClient * pNet;
     bool bConnected;
     int nSendMsgCount;
     int nReciveMsgCount;
@@ -129,7 +129,7 @@ int main(int argc, char** argv)
     int nCount = 0;
     while(!pNet->IsStop())
     {
-        pNet->Execute();
+        pNet->Update();
         ////int nNowTime = AFCTimeBase::GetInstance().GetUTCTime();
         //std::list<TestClientClass*>::iterator it = list.begin();
         //for(it; it != list.end(); ++it)
@@ -146,7 +146,7 @@ int main(int argc, char** argv)
         //    //    //std::cout << "Frame Time :" << (nNowTime - nLastTime) << std::endl;
         //    //}
 
-        //    (*it)->Execute();
+        //    (*it)->Update();
         //}
 
         //nLastTime = nNowTime;

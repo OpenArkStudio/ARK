@@ -23,15 +23,8 @@
 #include "SDK/Core/Base/AFPlatform.hpp"
 #include "SDK/Core/Base/AFMacros.hpp"
 #include "SDK/Core/Base/AFGUID.h"
-#include <event2/bufferevent.h>
-#include <event2/buffer.h>
-#include <event2/listener.h>
-#include <event2/util.h>
-#include <event2/thread.h>
-#include <event2/event_compat.h>
-#include "evpp/tcp_callbacks.h"
-#include "evpp/buffer.h"
 #include "SDK/Core/Base/AFLockFreeQueue.h"
+#include "AFbuffer.hpp"
 
 #pragma pack(push, 1)
 
@@ -244,12 +237,19 @@ typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_LOG_FUNCTOR> NET_EVENT_LOG_FUNCTOR_PTR;
 
-struct MsgFromNetInfo;
+class MsgFromNetInfo
+{
+public:
+    MsgFromNetInfo()
+    {
+
+    }
+};
 
 class NetObject
 {
 public:
-    NetObject(AFINet* pNet, const AFGUID& xClientID, const evpp::TCPConnPtr& conn): mConnPtr(conn)
+    NetObject(AFINet* pNet, const AFGUID& xClientID)
     {
         bNeedRemove = false;
         m_pNet = pNet;
@@ -263,30 +263,30 @@ public:
 
     int AddBuff(const char* str, size_t nLen)
     {
-        mstrBuff.Write(str, nLen);
-        return (int)mstrBuff.length();
+        mstrBuff.write(str, nLen);
+        return (int)mstrBuff.getlength();
     }
 
     size_t RemoveBuff(size_t nLen)
     {
-        if(nLen > mstrBuff.length())
+        if(nLen > mstrBuff.getlength())
         {
             return 0;
         }
 
-        mstrBuff.Next(nLen);
+        mstrBuff.removedata(nLen);
 
-        return mstrBuff.length();
+        return mstrBuff.getlength();
     }
 
     const char* GetBuff()
     {
-        return mstrBuff.data();
+        return mstrBuff.getdata();
     }
 
-    size_t GetBuffLen() const
+    size_t GetBuffLen()
     {
-        return mstrBuff.length();
+        return mstrBuff.getlength();
     }
 
     AFINet* GetNet()
@@ -320,37 +320,15 @@ public:
     {
         mnClientID = xClientID;
     }
-    const evpp::TCPConnPtr& GetConnPtr()
-    {
-        return mConnPtr;
-    }
-public:
-    AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromNet;
-    evpp::Buffer mstrNetBuff;
 
 private:
     sockaddr_in sin;
-    const evpp::TCPConnPtr mConnPtr;
-    evpp::Buffer mstrBuff;
+    AFBuffer mstrBuff;
     std::string mstrUserData;
     AFGUID mnClientID;//temporary client id
 
     AFINet* m_pNet;
     mutable bool bNeedRemove;
-};
-
-struct MsgFromNetInfo
-{
-    MsgFromNetInfo(const evpp::TCPConnPtr TCPConPtr) : mTCPConPtr(TCPConPtr)
-    {
-        nType = None;
-    }
-
-    NetEventType nType;
-    AFGUID xClientID;
-    evpp::TCPConnPtr mTCPConPtr;
-    std::string strMsg;
-    AFCMsgHead xHead;
 };
 
 class AFINet

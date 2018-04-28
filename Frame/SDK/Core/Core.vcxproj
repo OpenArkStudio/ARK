@@ -63,6 +63,8 @@
       <BrowseInformation>false</BrowseInformation>
       <SDLCheck>false</SDLCheck>
       <CompileAs>Default</CompileAs>
+      <LanguageStandard>
+      </LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
