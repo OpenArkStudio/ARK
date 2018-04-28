@@ -358,7 +358,7 @@ void AFCMasterNetServerModule::SynWorldToLogin()
 
 void AFCMasterNetServerModule::LogGameServer()
 {
-    if(mnLastLogTime + 10 > GetPluginManager()->GetNowTime())
+    if(mnLastLogTime + 10 * 1000 > GetPluginManager()->GetNowTime())
     {
         return;
     }

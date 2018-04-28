@@ -70,5 +70,20 @@ copy lib\Release\*.lib ..\..\lib\Release /Y
 
 cd ..\..\
 REM ####################################################################################################
+echo Building brynet...
+if exist brynet (rd brynet /q /s)
+git clone -b master https://github.com/ArkGame/brynet.git
+
+cd brynet
+md build
+cd build
+cmake -G "Visual Studio 15 Win64" ..
+"%VS150COMNTOOLS%..\IDE\Devenv" brynet.sln /build "Debug|x64" /project brynet.vcxproj
+"%VS150COMNTOOLS%..\IDE\Devenv" brynet.sln /build "Release|x64" /project brynet.vcxproj
+copy lib\Debug\*.lib ..\..\lib\Debug /Y
+copy lib\Release\*.lib ..\..\lib\Release /Y
+
+cd ..\..\
+REM ####################################################################################################
 REM back to root dir
 cd ..\

@@ -22,34 +22,34 @@
 
 #include <thread>
 #include <atomic>
-#include "AFIEvppNet.h"
+#include "AFIBryNet.h"
 #include "SDK/Core/Base/AFQueue.h"
-#include "SDK/Core/Base/AFLockFreeQueue.h"
 #include "SDK/Core/Base/AFRWLock.hpp"
-#include <evpp/libevent.h>
-#include <evpp/event_watcher.h>
-#include <evpp/event_loop.h>
-#include <evpp/event_loop_thread.h>
-#include <evpp/tcp_server.h>
-#include <evpp/buffer.h>
-#include <evpp/tcp_conn.h>
-#include <evpp/tcp_client.h>
+
+#include <brynet/net/SocketLibFunction.h>
+#include <brynet/net/EventLoop.h>
+#include <brynet/net/WrapTCPService.h>
+#include <brynet/net/ListenThread.h>
+#include <brynet/net/Socket.h>
 
 #pragma pack(push, 1)
 
-class AFCNetServer : public AFINet
+class AFCBryNetServer : public AFINet
 {
 public:
-    AFCNetServer()
+    AFCBryNetServer()
         : mnMaxConnect(0)
         , mnCpuCount(0)
         , mnServerID(0)
     {
         bWorking = false;
+
+        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+        m_plistenThread = brynet::net::ListenThread::Create();
     }
 
     template<typename BaseType>
-    AFCNetServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
+    AFCBryNetServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
         : mnMaxConnect(0)
         , mnCpuCount(0)
         , mnServerID(0)
@@ -57,9 +57,12 @@ public:
         mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         bWorking = false;
+
+        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+        m_plistenThread = brynet::net::ListenThread::Create();
     }
 
-    virtual ~AFCNetServer()
+    virtual ~AFCBryNetServer()
     {
         Final();
     };
@@ -85,34 +88,33 @@ public:
 
 public:
     //From Worker Thread
-    static void OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* msg, void* pData);
-    void OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* msg);
+    size_t OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len);
 
     //From ListenThread
-    static void OnClientConnection(const evpp::TCPConnPtr& conn, void* pData);
-    void OnClientConnectionInner(const evpp::TCPConnPtr& conn);
+    void OnAcceptConnectionInner(brynet::net::TcpSocket::PTR session);
+    void OnClientConnectionInner(const brynet::net::TCPSession::PTR & session);
+    void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session);
+    bool SplitHostPort(const std::string& strIpPort, std::string& host, int& port);
 
 private:
     bool SendMsgToAllClient(const char* msg, const size_t nLen);
     bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient);
-    bool AddNetObject(const AFGUID& xClientID, NFCEvppNetObject* pEntity);
+    bool AddNetObject(const AFGUID& xClientID, BryNetObject* pEntity);
     bool RemoveNetObject(const AFGUID& xClientID);
-    NFCEvppNetObject* GetNetObject(const AFGUID& xClientID);
+    BryNetObject* GetNetObject(const AFGUID& xClientID);
 
 private:
     void ProcessMsgLogicThread();
-    void ProcessMsgLogicThread(NFCEvppNetObject* pEntity);
+    void ProcessMsgLogicThread(BryNetObject* pEntity);
     bool CloseSocketAll();
-    bool DismantleNet(NFCEvppNetObject* pEntity);
+    bool DismantleNet(BryNetObject* pEntity);
 
 protected:
     int DeCode(const char* strData, const size_t len, AFCMsgHead& xHead);
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
-    std::unique_ptr<evpp::TCPServer> m_pTcpSrv;
-    std::unique_ptr<evpp::EventLoopThread> m_pListenThread;
-    std::map<AFGUID, NFCEvppNetObject*> mmObject;
+    std::map<AFGUID, BryNetObject*> mmObject;
     AFCReaderWriterLock mRWLock;
     int mnMaxConnect;
     std::string mstrIPPort;
@@ -121,6 +123,10 @@ private:
 
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
+
+    brynet::net::WrapTcpService::PTR m_pServer;
+    brynet::net::ListenThread::PTR m_plistenThread;
+    std::atomic_int nID = 1;
 };
 
 #pragma pack(pop)

@@ -43,7 +43,7 @@ public:
     {
         //pNet = new AFCNet(this, &TestServerClass::ReciveHandler, &TestServerClass::EventHandler);
         pNet = new AFCNetServer(this, &TestServerClass::ReciveHandler, &TestServerClass::EventHandler);
-        pNet->Initialization(10000, "192.168.1.143:8088", 2, 1);
+        pNet->Start(10000, "127.0.0.1:8088", 2, 1);
         nSendMsgCount = 0;
         nReciveMsgCount = 0;
         nStartTime = AFCTimeBase::GetInstance().GetUTCTime();
@@ -52,7 +52,7 @@ public:
         nLasterReciveCount = 0;
     }
 
-    void ReciveHandler(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void ReciveHandler(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID)
     {
         nReciveMsgCount++;
         nSendMsgCount++;
@@ -65,9 +65,9 @@ public:
         std::cout << e << " event_id: " << e << " thread_id: " << std::this_thread::get_id() << std::endl;
     }
 
-    void Execute()
+    void Update()
     {
-        pNet->Execute();
+        pNet->Update();
 
         int nNowTime = AFCTimeBase::GetInstance().GetUTCTime();
         int nSpanTime = nNowTime - nLastTime;
@@ -92,7 +92,7 @@ public:
     }
 
 protected:
-    AFINet* pNet;
+    AFCNetServer * pNet;
     int nSendMsgCount;
     int nReciveMsgCount;
     int64_t nStartTime;
@@ -119,7 +119,7 @@ int main(int argc, char** argv)
                    int64_t nNeeSleepMS = 10 - (nNowMS - nPreFrameMS);
                    std::this_thread::sleep_for(std::chrono::milliseconds(nNeeSleepMS));
                }*/
-        x.Execute();
+        x.Update();
     }
 
     return 0;

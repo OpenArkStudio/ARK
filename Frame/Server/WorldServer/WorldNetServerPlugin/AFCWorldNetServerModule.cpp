@@ -335,7 +335,7 @@ void AFCWorldNetServerModule::OnClientConnected(const AFGUID& xClientID)
 
 void AFCWorldNetServerModule::LogGameServer()
 {
-    if(mnLastCheckTime + 10 > GetPluginManager()->GetNowTime())
+    if(mnLastCheckTime + 10 * 1000 > GetPluginManager()->GetNowTime())
     {
         return;
     }

@@ -13,9 +13,6 @@
   <ItemGroup>
     <ClCompile Include="TestClient.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="WindowsLock.hcpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1953DCD4-3E9D-4017-B4A2-1A8675A70280}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -27,7 +24,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <UseOfMfc>false</UseOfMfc>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -35,7 +32,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -65,9 +62,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_X64;_LIB;_DEBUG;%(PreprocessorDefinitions);WIN32</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\evpp\;$(SolutionDir)..\Dep\\libevent\WIN32-Code\nmake;$(SolutionDir)..\Dep\\libevent\include\;$(SolutionDir)..\Dep\\libevent\compat\;$(SolutionDir)../Dep/glog/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\evpp\;$(SolutionDir)..\Dep\\libevent\WIN32-Code\nmake;$(SolutionDir)..\Dep\\libevent\include\;$(SolutionDir)..\Dep\\libevent\compat\;$(SolutionDir)../Dep/glog/src/windows;$(SolutionDir)..\Dep\brynet\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BrowseInformation>false</BrowseInformation>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -89,7 +87,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_X64;WIN;GOOGLE_STRIP_LOG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\evpp\;$(SolutionDir)..\Dep\\libevent\WIN32-Code\nmake;$(SolutionDir)..\Dep\\libevent\include\;$(SolutionDir)..\Dep\\libevent\compat\;$(SolutionDir)../Dep/glog/src/windows;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\evpp\;$(SolutionDir)..\Dep\\libevent\WIN32-Code\nmake;$(SolutionDir)..\Dep\\libevent\include\;$(SolutionDir)..\Dep\\libevent\compat\;$(SolutionDir)../Dep/glog/src/windows;$(SolutionDir)..\Dep\brynet\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
