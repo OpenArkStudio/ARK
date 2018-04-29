@@ -27,14 +27,17 @@
 #include <string>
 #include "SDK/Core/Base/AFTime.hpp"
 #include "SDK/Core/Base/AFPlatform.hpp"
+#include "AFCBryWebSocktClient.h"
 #pragma comment(lib,"ws2_32.lib")
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #pragma comment(lib,"AFNet_d.lib")
 #pragma comment(lib,"AFCore_d.lib")
+#pragma comment(lib,"brynet.lib")
 #else
 #pragma comment(lib,"AFNet.lib")
 #pragma comment(lib,"AFCore.lib")
+#pragma comment(lib,"brynet.lib")
 #endif
 class TestClientClass
 {
@@ -42,7 +45,8 @@ public:
     TestClientClass(const int nID)
     {
         //pNet = new AFCNet(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
-        pNet = new AFCNetClient(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
+        //pNet = new AFCNetClient(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
+        pNet = new AFCBryWebSocktClient(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
         pNet->Start("127.0.0.1:8088", 1);
         pNet->StopAfter(600000);
         bConnected = false;
@@ -104,7 +108,7 @@ public:
     bool mbTestSendMsg;
 
 public:
-    AFCNetClient * pNet;
+    AFINet * pNet;
     bool bConnected;
     int nSendMsgCount;
     int nReciveMsgCount;

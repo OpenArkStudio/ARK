@@ -28,11 +28,14 @@
 #include <processthreadsapi.h>
 #include "SDK/Core/Base/AFTime.hpp"
 #include "SDK/Core/Base/AFPlatform.hpp"
+#include "AFCBryWebSocktServer.h"
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #pragma comment(lib,"AFNet_d.lib")
 #pragma comment(lib,"AFCore_d.lib")
+#pragma comment(lib,"brynet.lib")
 #else
 #pragma comment(lib,"AFNet.lib")
+#pragma comment(lib,"brynet.lib")
 #pragma comment(lib,"AFCore.lib")
 #endif
 
@@ -42,7 +45,8 @@ public:
     TestServerClass()
     {
         //pNet = new AFCNet(this, &TestServerClass::ReciveHandler, &TestServerClass::EventHandler);
-        pNet = new AFCNetServer(this, &TestServerClass::ReciveHandler, &TestServerClass::EventHandler);
+        //pNet = new AFCNetServer(this, &TestServerClass::ReciveHandler, &TestServerClass::EventHandler);
+        pNet = new AFCBryWebSocktServer(this, &TestServerClass::ReciveHandler, &TestServerClass::EventHandler);
         pNet->Start(10000, "127.0.0.1:8088", 2, 1);
         nSendMsgCount = 0;
         nReciveMsgCount = 0;
@@ -92,7 +96,7 @@ public:
     }
 
 protected:
-    AFCNetServer * pNet;
+    AFINet * pNet;
     int nSendMsgCount;
     int nReciveMsgCount;
     int64_t nStartTime;

@@ -13,12 +13,16 @@
   <ItemGroup>
     <ClCompile Include="AFCBryNetClient.cpp" />
     <ClCompile Include="AFCBryNetServer.cpp" />
+    <ClCompile Include="AFCBryWebSocktClient.cpp" />
+    <ClCompile Include="AFCBryWebSocktServer.cpp" />
     <ClCompile Include="AFCNetClient.cpp" />
     <ClCompile Include="AFCNetServer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCBryNetClient.h" />
     <ClInclude Include="AFCBryNetServer.h" />
+    <ClInclude Include="AFCBryWebSocktClient.h" />
+    <ClInclude Include="AFCBryWebSocktServer.h" />
     <ClInclude Include="AFCNetClient.h" />
     <ClInclude Include="AFCNetServer.h" />
     <ClInclude Include="AFINet.h" />
