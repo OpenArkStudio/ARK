@@ -30,15 +30,16 @@
 #endif
 
 #include <brynet/net/SyncConnector.h>
-#include "AFCBryNetClient.h"
+#include "AFCBryWebSocktClient.h"
+#include "brynet/net/http/HttpFormat.h"
 
 
-void AFCBryNetClient::Update()
+void AFCBryWebSocktClient::Update()
 {
     ProcessMsgLogicThread();
 }
 
-void AFCBryNetClient::ProcessMsgLogicThread()
+void AFCBryWebSocktClient::ProcessMsgLogicThread()
 {
     {
         AFScopeRdLock xGuard(mRWLock);
@@ -53,7 +54,7 @@ void AFCBryNetClient::ProcessMsgLogicThread()
 
 }
 
-void AFCBryNetClient::ProcessMsgLogicThread(BryNetObject* pEntity)
+void AFCBryWebSocktClient::ProcessMsgLogicThread(BryHttpNetObject* pEntity)
 {
     if(pEntity == nullptr)
     {
@@ -64,7 +65,7 @@ void AFCBryNetClient::ProcessMsgLogicThread(BryNetObject* pEntity)
     size_t nReceiveCount = pEntity->mqMsgFromNet.Count();
     for(size_t i = 0; i < nReceiveCount; ++i)
     {
-        MsgFromBryNetInfo* pMsgFromNet(nullptr);
+        MsgFromBryHttpNetInfo* pMsgFromNet(nullptr);
         if(!pEntity->mqMsgFromNet.Pop(pMsgFromNet))
         {
             break;
@@ -105,34 +106,79 @@ void AFCBryNetClient::ProcessMsgLogicThread(BryNetObject* pEntity)
     }
 }
 
-
-void AFCBryNetClient::Start(const std::string& strAddrPort, const int nServerID)
+void AFCBryWebSocktClient::Start(const std::string& strAddrPort, const int nServerID)
 {
     mnServerID = nServerID;
     m_pServer->startWorkThread(1);
-    m_pConector->startWorkerThread();
 
     std::string strIp = "127.0.0.1";
     int nPort = 8001;
     const int nTimeOut = 20;
 
     SplitHostPort(strAddrPort, strIp, nPort);
-    brynet::net::TcpSocket::PTR SocketPtr = brynet::net::SyncConnectSocket(strIp, nPort, std::chrono::milliseconds(nTimeOut), m_pConector);
-    if(SocketPtr == nullptr)
-    {
-        return;
-    }
+    sock fd = brynet::net::base::Connect(false, strIp, nPort);
+    auto SocketPtr = brynet::net::TcpSocket::Create(fd, false);
+    SocketPtr->SocketNodelay();
 
     std::cout << "connect success" << std::endl;
-    SocketPtr->SocketNodelay();
-    auto enterCallback = std::bind(&AFCBryNetClient::OnClientConnectionInner, this, std::placeholders::_1);
+    auto enterCallback = [this](const brynet::net::TCPSession::PTR & session)
+    {
+        brynet::net::HttpService::setup(session, std::bind(&AFCBryWebSocktClient::OnHttpConnect, this, std::placeholders::_1));
+    };
 
     m_pServer->addSession(std::move(SocketPtr),
                           brynet::net::AddSessionOption::WithEnterCallback(enterCallback),
                           brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));
 }
 
-bool AFCBryNetClient::Final()
+void AFCBryWebSocktClient::OnHttpConnect(const brynet::net::HttpSession::PTR& httpSession)
+{
+    brynet::net::HttpRequest request;
+    request.setMethod(brynet::net::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET);
+    request.setUrl("/ws");
+    std::string strIp;
+    int nPort;
+    SplitHostPort(mstrIPPort, strIp, nPort);
+    request.addHeadValue("Host", strIp);
+    request.addHeadValue("Upgrade", "websocket");
+    request.addHeadValue("Connection", "Upgrade");
+    request.addHeadValue("Sec-WebSocket-Key", "dGhlIHNhbXBsZSBub25jZQ==");
+    request.addHeadValue("Sec-WebSocket-Version", "13");
+
+    std::string requestStr = request.getResult();
+    httpSession->send(requestStr.c_str(), requestStr.size());
+
+    httpSession->setWSConnected([this](const brynet::net::HttpSession::PTR & httpSession, const brynet::net::HTTPParser&)
+    {
+        MsgFromBryHttpNetInfo* pMsg = new MsgFromBryHttpNetInfo(httpSession);
+        httpSession->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
+        pMsg->nType = CONNECTED;
+        {
+            AFScopeWrLock xGuard(mRWLock);
+
+            BryHttpNetObject* pEntity = new BryHttpNetObject(this, pMsg->xClientID, httpSession);
+            m_pClientObject.reset(pEntity);
+            pEntity->mqMsgFromNet.Push(pMsg);
+        }
+    });
+
+    httpSession->setWSCallback(std::bind(&AFCBryWebSocktClient::OnWebSockMessageCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    httpSession->setCloseCallback(std::bind(&AFCBryWebSocktClient::OnHttpDisConnection, this, std::placeholders::_1));
+}
+
+void AFCBryWebSocktClient::OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR & httpSession,
+        brynet::net::WebSocketFormat::WebSocketFrameType opcode,
+        const std::string & payload)
+{
+    const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(httpSession->getUD());
+    AFGUID xClient(0, *ud);
+
+    AFScopeRdLock xGuard(mRWLock);
+
+    m_pClientObject->AddBuff(payload.c_str(), payload.size());
+    DismantleNet(m_pClientObject.get());
+}
+bool AFCBryWebSocktClient::Final()
 {
     if(!CloseSocketAll())
     {
@@ -145,32 +191,53 @@ bool AFCBryNetClient::Final()
     return true;
 }
 
-bool AFCBryNetClient::CloseSocketAll()
+void AFCBryWebSocktClient::OnHttpDisConnection(const brynet::net::HttpSession::PTR & httpSession)
 {
-    m_pClientObject->GetConnPtr()->postDisConnect();
+    const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
+    AFGUID xClient(0, 0);
+    xClient.nLow = *ud;
+    AFScopeWrLock xGuard(mRWLock);
+
+    MsgFromBryHttpNetInfo* pMsg = new MsgFromBryHttpNetInfo(httpSession);
+    pMsg->xClientID = xClient;
+    pMsg->nType = DISCONNECTED;
+
+    m_pClientObject->mqMsgFromNet.Push(pMsg);
+}
+bool AFCBryWebSocktClient::CloseSocketAll()
+{
+    m_pClientObject->GetConnPtr()->postClose();
     return true;
 }
 
-bool AFCBryNetClient::SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient)
+bool AFCBryWebSocktClient::SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient)
 {
+    auto frame = std::make_shared<std::string>();
+    brynet::net::WebSocketFormat::wsFrameBuild(msg,
+            nLen,
+            *frame,
+            brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
+            true,
+            true);
+
     if(m_pClientObject->GetConnPtr())
     {
-        m_pClientObject->GetConnPtr()->send(msg, nLen);
+        m_pClientObject->GetConnPtr()->send(frame);
     }
 
     return true;
 }
 
-bool AFCBryNetClient::CloseNetObject(const AFGUID& xClient)
+bool AFCBryWebSocktClient::CloseNetObject(const AFGUID& xClient)
 {
     if(m_pClientObject->GetClientID() == xClient)
     {
-        m_pClientObject->GetConnPtr()->postDisConnect();
+        m_pClientObject->GetConnPtr()->postClose();
     }
     return true;
 }
 
-bool AFCBryNetClient::DismantleNet(BryNetObject* pEntity)
+bool AFCBryWebSocktClient::DismantleNet(BryHttpNetObject* pEntity)
 {
     for(; pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH;)
     {
@@ -178,7 +245,7 @@ bool AFCBryNetClient::DismantleNet(BryNetObject* pEntity)
         int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
         if(nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
         {
-            MsgFromBryNetInfo* pNetInfo = new MsgFromBryNetInfo(pEntity->GetConnPtr());
+            MsgFromBryHttpNetInfo* pNetInfo = new MsgFromBryHttpNetInfo(pEntity->GetConnPtr());
             pNetInfo->xHead = xHead;
             pNetInfo->nType = RECIVEDATA;
             pNetInfo->strMsg.append(pEntity->GetBuff() + AFIMsgHead::ARK_MSG_HEAD_LENGTH, nMsgBodyLength);
@@ -194,72 +261,24 @@ bool AFCBryNetClient::DismantleNet(BryNetObject* pEntity)
     return true;
 }
 
-void AFCBryNetClient::log_cb(int severity, const char* msg)
+void AFCBryWebSocktClient::log_cb(int severity, const char* msg)
 {
 
 }
 
-bool AFCBryNetClient::IsServer()
+bool AFCBryWebSocktClient::IsServer()
 {
     return false;
 }
 
-bool AFCBryNetClient::Log(int severity, const char* msg)
+bool AFCBryWebSocktClient::Log(int severity, const char* msg)
 {
     log_cb(severity, msg);
     return true;
 }
 
-void AFCBryNetClient::OnClientConnectionInner(const brynet::net::TCPSession::PTR& session)
-{
-    session->setDataCallback(std::bind(&AFCBryNetClient::OnMessageInner, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    session->setDisConnectCallback(std::bind(&AFCBryNetClient::OnClientDisConnectionInner, this, std::placeholders::_1));
 
-    MsgFromBryNetInfo* pMsg = new MsgFromBryNetInfo(session);
-    const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    pMsg->xClientID.nLow = *ud;
-    pMsg->nType = CONNECTED;
-    {
-        AFScopeWrLock xGuard(mRWLock);
-
-        BryNetObject* pEntity = new BryNetObject(this, pMsg->xClientID, session);
-        m_pClientObject.reset(pEntity);
-        pEntity->mqMsgFromNet.Push(pMsg);
-    }
-}
-
-void AFCBryNetClient::OnClientDisConnectionInner(const brynet::net::TCPSession::PTR& session)
-{
-    const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    AFGUID xClient(0, *ud);
-
-    MsgFromBryNetInfo* pMsg = new MsgFromBryNetInfo(session);
-    pMsg->xClientID = xClient;
-    pMsg->nType = DISCONNECTED;
-
-    {
-        AFScopeWrLock xGuard(mRWLock);
-        m_pClientObject->mqMsgFromNet.Push(pMsg);
-    }
-}
-
-size_t AFCBryNetClient::OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len)
-{
-    const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    AFGUID xClient(0, *ud);
-
-    AFScopeRdLock xGuard(mRWLock);
-
-    if(m_pClientObject->GetClientID() == xClient)
-    {
-        m_pClientObject->AddBuff(buffer, len);
-        DismantleNet(m_pClientObject.get());
-    }
-
-    return len;
-}
-
-bool AFCBryNetClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID & xClientID, const AFGUID& xPlayerID)
+bool AFCBryWebSocktClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID & xClientID, const AFGUID& xPlayerID)
 {
     std::string strOutData;
     AFCMsgHead xHead;
@@ -276,7 +295,7 @@ bool AFCBryNetClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg,
     return false;
 }
 
-int AFCBryNetClient::EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData)
+int AFCBryWebSocktClient::EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData)
 {
     char szHead[AFIMsgHead::ARK_MSG_HEAD_LENGTH] = { 0 };
     int nSize = xHead.EnCode(szHead);
@@ -288,7 +307,7 @@ int AFCBryNetClient::EnCode(const AFCMsgHead& xHead, const char* strData, const 
     return xHead.GetBodyLength() + AFIMsgHead::ARK_MSG_HEAD_LENGTH;
 }
 
-int AFCBryNetClient::DeCode(const char* strData, const size_t len, AFCMsgHead & xHead)
+int AFCBryWebSocktClient::DeCode(const char* strData, const size_t len, AFCMsgHead & xHead)
 {
     if(len < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {

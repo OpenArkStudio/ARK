@@ -31,13 +31,15 @@
 #include <brynet/net/WrapTCPService.h>
 #include <brynet/net/ListenThread.h>
 #include <brynet/net/Socket.h>
+#include <brynet/net/http/HttpService.h>
+#include <brynet/net/http/HttpFormat.h>
 
 #pragma pack(push, 1)
 
-class AFCBryNetServer : public AFIBryNet
+class AFCBryWebSocktServer : public AFIBryNet
 {
 public:
-    AFCBryNetServer()
+    AFCBryWebSocktServer()
         : mnMaxConnect(0)
         , mnCpuCount(0)
         , mnServerID(0)
@@ -49,7 +51,7 @@ public:
     }
 
     template<typename BaseType>
-    AFCBryNetServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
+    AFCBryWebSocktServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
         : mnMaxConnect(0)
         , mnCpuCount(0)
         , mnServerID(0)
@@ -62,7 +64,7 @@ public:
         m_plistenThread = brynet::net::ListenThread::Create();
     }
 
-    virtual ~AFCBryNetServer()
+    virtual ~AFCBryWebSocktServer()
     {
         Final();
     };
@@ -87,33 +89,33 @@ public:
     };
 
 public:
-    //From Worker Thread
-    size_t OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len);
-
     //From ListenThread
     void OnAcceptConnectionInner(brynet::net::TcpSocket::PTR session);
-    void OnClientConnectionInner(const brynet::net::TCPSession::PTR & session);
-    void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session);
+    void OnHttpMessageCallBack(const brynet::net::HTTPParser & httpParser, const brynet::net::HttpSession::PTR & session);
+    void OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR & httpSession, brynet::net::WebSocketFormat::WebSocketFrameType opcode, const std::string & payload);
+    void OnHttpConnect(const brynet::net::HttpSession::PTR& httpSession);
+    void OnHttpDisConnection(const brynet::net::HttpSession::PTR & httpSession);
+    bool SplitHostPort(const std::string& strIpPort, std::string& host, int& port);
 
 private:
     bool SendMsgToAllClient(const char* msg, const size_t nLen);
     bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient);
-    bool AddNetObject(const AFGUID& xClientID, BryNetObject* pEntity);
+    bool AddNetObject(const AFGUID& xClientID, BryHttpNetObject* pEntity);
     bool RemoveNetObject(const AFGUID& xClientID);
-    BryNetObject* GetNetObject(const AFGUID& xClientID);
+    BryHttpNetObject* GetNetObject(const AFGUID& xClientID);
 
 private:
     void ProcessMsgLogicThread();
-    void ProcessMsgLogicThread(BryNetObject* pEntity);
+    void ProcessMsgLogicThread(BryHttpNetObject* pEntity);
     bool CloseSocketAll();
-    bool DismantleNet(BryNetObject* pEntity);
+    bool DismantleNet(BryHttpNetObject* pEntity);
 
 protected:
     int DeCode(const char* strData, const size_t len, AFCMsgHead& xHead);
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
-    std::map<AFGUID, BryNetObject*> mmObject;
+    std::map<AFGUID, BryHttpNetObject*> mmObject;
     AFCReaderWriterLock mRWLock;
     int mnMaxConnect;
     std::string mstrIPPort;
@@ -125,7 +127,7 @@ private:
 
     brynet::net::WrapTcpService::PTR m_pServer;
     brynet::net::ListenThread::PTR m_plistenThread;
-    std::atomic_int nID = 1;
+    std::atomic_uint64_t nNextID = 1;
 };
 
 #pragma pack(pop)

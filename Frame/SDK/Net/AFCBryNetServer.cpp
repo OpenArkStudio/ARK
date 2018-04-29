@@ -54,7 +54,7 @@ int AFCBryNetServer::Start(const unsigned int nMaxClient, const std::string& str
 size_t AFCBryNetServer::OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len)
 {
     const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    AFGUID xClient(0, (uint64_t)ud);
+    AFGUID xClient(0, *ud);
 
     AFScopeRdLock xGuard(mRWLock);
 
@@ -84,7 +84,7 @@ void AFCBryNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR
 
     MsgFromBryNetInfo* pMsg = new MsgFromBryNetInfo(session);
     const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    pMsg->xClientID.nLow = (uint64_t)ud;
+    pMsg->xClientID.nLow = *ud;
     pMsg->nType = CONNECTED;
     {
         AFScopeWrLock xGuard(mRWLock);
@@ -100,7 +100,7 @@ void AFCBryNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR
 void AFCBryNetServer::OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session)
 {
     const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    AFGUID xClient(0, (uint64_t)ud);
+    AFGUID xClient(0, *ud);
     AFScopeWrLock xGuard(mRWLock);
 
     auto xFind = mmObject.find(xClient);
@@ -116,48 +116,6 @@ void AFCBryNetServer::OnClientDisConnectionInner(const brynet::net::TCPSession::
     xFind->second->mqMsgFromNet.Push(pMsg);
 }
 
-bool AFCBryNetServer::SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
-{
-    std::string a = strIpPort;
-    if(a.empty())
-    {
-        return false;
-    }
-
-    size_t index = a.rfind(':');
-    if(index == std::string::npos)
-    {
-        return false;
-    }
-
-    if(index == a.size() - 1)
-    {
-        return false;
-    }
-
-    port = std::atoi(&a[index + 1]);
-
-    host = std::string(strIpPort, 0, index);
-    if(host[0] == '[')
-    {
-        if(*host.rbegin() != ']')
-        {
-            return false;
-        }
-
-        // trim the leading '[' and trail ']'
-        host = std::string(host.data() + 1, host.size() - 2);
-    }
-
-    // Compatible with "fe80::886a:49f3:20f3:add2]:80"
-    if(*host.rbegin() == ']')
-    {
-        // trim the trail ']'
-        host = std::string(host.data(), host.size() - 1);
-    }
-
-    return true;
-}
 
 void AFCBryNetServer::ProcessMsgLogicThread()
 {

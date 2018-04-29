@@ -32,9 +32,11 @@
 #pragma comment(lib, "AFProto_d.lib")
 #pragma comment(lib, "AFNet_d.lib")
 #pragma comment(lib, "libprotobufd.lib")
+#pragma comment(lib, "brynet.lib")
 
 #else
 
+#pragma comment(lib, "brynet.lib")
 #pragma comment(lib, "AFCore.lib")
 #pragma comment(lib, "AFProto.lib")
 #pragma comment(lib, "AFNet.lib")

@@ -21,6 +21,7 @@
 #pragma once
 #include "AFINet.h"
 #include "brynet/net/WrapTCPService.h"
+#include "brynet/net/http/HttpService.h"
 
 #pragma pack(push, 1)
 
@@ -71,39 +72,49 @@ public:
     }
 };
 
-struct MsgFromBryNetInfo
+template <class SessionPTR>
+struct BaseMsgFromNetInfo
 {
-    MsgFromBryNetInfo(const brynet::net::TCPSession::PTR TCPConPtr) : mTCPConPtr(TCPConPtr)
+    BaseMsgFromNetInfo(const SessionPTR TCPConPtr) : mTCPConPtr(TCPConPtr)
     {
         nType = None;
     }
 
     NetEventType nType;
     AFGUID xClientID;
-    brynet::net::TCPSession::PTR mTCPConPtr;
+    SessionPTR mTCPConPtr;
     std::string strMsg;
     AFCMsgHead xHead;
 };
 
-class BryNetObject: public NetObject
+using MsgFromBryNetInfo = BaseMsgFromNetInfo<brynet::net::TCPSession::PTR>;
+using MsgFromBryHttpNetInfo = BaseMsgFromNetInfo<brynet::net::HttpSession::PTR>;
+
+template <class SessionPTR>
+class BaseNetObject : public NetObject
 {
 public:
-    BryNetObject(AFINet* pNet, const AFGUID& xClientID, const brynet::net::TCPSession::PTR session) : NetObject(pNet, xClientID), mBryNetConnPtr(session)
+    BaseNetObject(AFINet* pNet, const AFGUID& xClientID, const SessionPTR session) : NetObject(pNet, xClientID), mBryNetConnPtr(session)
     {
     }
 
-    virtual ~BryNetObject()
+    virtual ~BaseNetObject()
     {
     }
 
-    const brynet::net::TCPSession::PTR& GetConnPtr()
+    const SessionPTR& GetConnPtr()
     {
         return mBryNetConnPtr;
     }
 public:
-    AFLockFreeQueue<MsgFromBryNetInfo*> mqMsgFromNet;
+    AFLockFreeQueue<BaseMsgFromNetInfo<SessionPTR>*> mqMsgFromNet;
+    SessionPTR mBryNetHttpConnPtr;
+    AFGUID xHttpClientID;
 
 private:
-    const brynet::net::TCPSession::PTR mBryNetConnPtr;
+    const SessionPTR mBryNetConnPtr;
 };
+
+using BryNetObject = BaseNetObject<brynet::net::TCPSession::PTR>;
+using BryHttpNetObject = BaseNetObject<brynet::net::HttpSession::PTR>;
 #pragma pack(pop)
