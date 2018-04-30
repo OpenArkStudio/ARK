@@ -29,6 +29,7 @@ include_directories(
     ${ROOT_DIR}/Dep/evpp
     ${ROOT_DIR}/Dep/protobuf/src
     ${ROOT_DIR}/Frame
+    ${ROOT_DIR}/Dep/brynet/src
 )
 
 if(UNIX)
