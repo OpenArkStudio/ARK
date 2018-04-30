@@ -21,16 +21,6 @@
 #include "AFCBryWebSocktServer.h"
 #include <string.h>
 
-#if ARK_PLATFORM == PLATFORM_WIN
-#include <WS2tcpip.h>
-#include <winsock2.h>
-#pragma  comment(lib,"Ws2_32.lib")
-#pragma  comment(lib,"event.lib")
-#pragma  comment(lib,"event_core.lib")
-#elif ARK_PLATFORM == PLATFORM_APPLE
-#include <arpa/inet.h>
-#endif
-
 #include <atomic>
 #include <memory>
 

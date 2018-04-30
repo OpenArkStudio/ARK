@@ -21,14 +21,6 @@
 #include <string.h>
 #include <memory>
 
-#if ARK_PLATFORM == PLATFORM_WIN
-#include <WS2tcpip.h>
-#include <winsock2.h>
-#pragma  comment(lib,"Ws2_32.lib")
-#elif ARK_PLATFORM == PLATFORM_APPLE
-#include <arpa/inet.h>
-#endif
-
 #include <brynet/net/SyncConnector.h>
 #include "AFCBryWebSocktClient.h"
 #include "brynet/net/http/HttpFormat.h"
