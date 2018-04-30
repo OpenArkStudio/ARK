@@ -254,7 +254,6 @@ public:
         bNeedRemove = false;
         m_pNet = pNet;
         mnClientID = xClientID;
-        memset(&sin, 0, sizeof(sin));
     }
 
     virtual ~NetObject()
@@ -322,7 +321,6 @@ public:
     }
 
 private:
-    sockaddr_in sin;
     AFBuffer mstrBuff;
     std::string mstrUserData;
     AFGUID mnClientID;//temporary client id
