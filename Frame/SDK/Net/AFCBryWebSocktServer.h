@@ -129,7 +129,7 @@ private:
 
     brynet::net::WrapTcpService::PTR m_pServer;
     brynet::net::ListenThread::PTR m_plistenThread;
-    std::atomic_uint64_t nNextID;
+    std::atomic<std::uint64_t> nNextID;
 };
 
 #pragma pack(pop)
