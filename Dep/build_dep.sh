@@ -67,3 +67,24 @@ make -j 8
 cp -R -f lib/*.a ../../lib/Debug
 cp -R -f lib/*.a ../../lib/Release
 cd ../../
+
+##################################################################
+echo Building brynet...
+
+if [ -d "brynet" ]; then
+    rm -rf brynet
+fi
+
+git clone -b master https://github.com/ArkGame/brynet.git
+cd brynet
+chmod -R 755 *
+mkdir build
+cd build
+
+CURDIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd )
+echo $CURDIR
+cmake -G "Unix Makefiles"  
+make -j 8
+cp -R -f lib/*.a ../../lib/Debug
+cp -R -f lib/*.a ../../lib/Release
+cd ../../
