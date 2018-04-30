@@ -41,6 +41,7 @@ public:
         : mnMaxConnect(0)
         , mnCpuCount(0)
         , mnServerID(0)
+        , nID(1)
     {
         bWorking = false;
 
@@ -53,6 +54,7 @@ public:
         : mnMaxConnect(0)
         , mnCpuCount(0)
         , mnServerID(0)
+        , nID(1)
     {
         mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
@@ -125,7 +127,7 @@ private:
 
     brynet::net::WrapTcpService::PTR m_pServer;
     brynet::net::ListenThread::PTR m_plistenThread;
-    std::atomic_int nID = 1;
+    std::atomic_int nID;
 };
 
 #pragma pack(pop)
