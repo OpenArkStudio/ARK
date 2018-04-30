@@ -85,6 +85,6 @@ CURDIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd )
 echo $CURDIR
 cmake -G "Unix Makefiles"  ..
 make -j 8
-cp -R -f lib/Debug/*.a ../../lib/Debug
-cp -R -f lib/Release/*.a ../../lib/Release
+cp -R -f lib/*.a ../../lib/Debug
+cp -R -f lib/*.a ../../lib/Release
 cd ../../
