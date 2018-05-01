@@ -66,6 +66,38 @@ void AFCBryWebSocktServer::OnWebSockMessageCallBack(const brynet::net::HttpSessi
         brynet::net::WebSocketFormat::WebSocketFrameType opcode,
         const std::string & payload)
 {
+
+    switch(opcode)
+    {
+    case brynet::net::WebSocketFormat::WebSocketFrameType::ERROR_FRAME:
+        break;
+    case brynet::net::WebSocketFormat::WebSocketFrameType::CONTINUATION_FRAME:
+        break;
+    case brynet::net::WebSocketFormat::WebSocketFrameType::TEXT_FRAME:
+        break;
+    case brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME:
+        break;
+    case brynet::net::WebSocketFormat::WebSocketFrameType::CLOSE_FRAME:
+        break;
+    case brynet::net::WebSocketFormat::WebSocketFrameType::PING_FRAME:
+        {
+            auto frame = std::make_shared<std::string>();
+            brynet::net::WebSocketFormat::wsFrameBuild(payload.c_str(),
+                    payload.size(),
+                    *frame,
+                    brynet::net::WebSocketFormat::WebSocketFrameType::PONG_FRAME,
+                    true,
+                    false);
+            httpSession->send(frame);
+            return;
+        }
+        break;
+    case brynet::net::WebSocketFormat::WebSocketFrameType::PONG_FRAME:
+        break;
+    default:
+        break;
+    }
+
     const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(httpSession->getUD());
     AFGUID xClient(0, *ud);
 
@@ -250,7 +282,7 @@ bool AFCBryWebSocktServer::SendMsgToAllClient(const char* msg, const size_t nLen
             *frame,
             brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
             true,
-            true);
+            false);
 
     std::map<AFGUID, BryHttpNetObject*>::iterator it = mmObject.begin();
     for(; it != mmObject.end(); ++it)
@@ -280,7 +312,7 @@ bool AFCBryWebSocktServer::SendMsg(const char* msg, const size_t nLen, const AFG
             *frame,
             brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
             true,
-            true);
+            false);
 
     pNetObject->GetConnPtr()->send(frame);
     return true;

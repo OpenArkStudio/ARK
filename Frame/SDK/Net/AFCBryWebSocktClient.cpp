@@ -210,7 +210,7 @@ bool AFCBryWebSocktClient::SendMsg(const char* msg, const size_t nLen, const AFG
             *frame,
             brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
             true,
-            true);
+            false);
 
     if(m_pClientObject->GetConnPtr())
     {
