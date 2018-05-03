@@ -24,7 +24,7 @@
 #include "SDK/Core/Base/AFMacros.hpp"
 #include "SDK/Core/Base/AFGUID.h"
 #include "SDK/Core/Base/AFLockFreeQueue.h"
-#include "AFbuffer.hpp"
+#include "SDK/Core/Base/AFBuffer.hpp"
 
 #pragma pack(push, 1)
 
