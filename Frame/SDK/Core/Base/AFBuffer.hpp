@@ -20,13 +20,6 @@
 
 #pragma once
 
-
-
-struct buffer_s
-{
-
-};
-
 class AFBuffer
 {
 
