@@ -14,7 +14,7 @@
 Website: https://arkgame.net  
 Github: https://github.com/ArkGame/ARK  
 Gitee(码云): https://gitee.com/ArkGame/ARK  
-QQ群: 540961187
+QQ群: [540961187](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 
 ##### Wanna get the newest features? Please switch to the develop branch.
 
