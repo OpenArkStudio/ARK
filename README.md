@@ -116,6 +116,7 @@ cmake -G "Visual Studio 15 Win64" ..
 > Note
 > - If you are using VS2015, please use `Dep/build_dep_vs2015.bat`
 > - If you are using VS2017, please change `%VS150COMNTOOLS%` in `Dep/build_dep.bat` to `YOUR-COMPILER-PATH`.
+> - If you DO NOT install **Win10 SDK**, please use **CMake** to create new solution.
 
 ### linux
 
