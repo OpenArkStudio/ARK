@@ -3,7 +3,7 @@
 [![GitHub version](https://badge.fury.io/gh/ArkGame%2FARK.svg)](https://badge.fury.io/gh/ArkGame%2FARK)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ARK)
-[![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
 
 | Branch | Build Status |
 | - | - | 
