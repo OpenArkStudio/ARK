@@ -244,16 +244,6 @@ template<int x> struct ark_static_assert_test {};
 #define HAVE_LANG_CXX17 1
 #endif
 
-/*
-#if ARK_PLATFORM == PLATFORM_WIN
-#  if defined(ARK_USE_TCMALLOC)
-#  undef ARK_USE_TCMALLOC
-#  endif
-#else
-#define ARK_USE_TCMALLOC
-#endif
-*/
-
 #ifndef ARK_FUNCTION_LINE
 #define ARK_FUNCTION_LINE __FUNCTION__, __LINE__
 #endif
@@ -263,7 +253,7 @@ template<int x> struct ark_static_assert_test {};
 #endif
 
 #ifndef ARK_NEW
-#define ARK_NEW new
+#define ARK_NEW new(nothrow) //when new failed, return NULL
 #endif
 
 #ifndef ARK_DELETE
@@ -278,9 +268,6 @@ template<int x> struct ark_static_assert_test {};
 
 #undef max
 #undef min
-
-//#define ARK_ALLOC(ptr, name, size) ptr = (name*)MemoryPool::GetInstance()->Alloc(size); memset(ptr, 0x0, sizeof(name));
-//#define ARK_DEALLOC(ptr, name) MemoryPool::GetInstance()->FreeAlloc(ptr);
 
 //clear player data time
 #define CLEAR_HOUR 5
