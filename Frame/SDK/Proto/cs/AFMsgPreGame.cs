@@ -31,57 +31,58 @@ namespace AFMsg {
             "bmUYBSABKAUSGAoQc2VydmVyX2N1cl9jb3VudBgGIAEoBRIpCgxzZXJ2ZXJf",
             "c3RhdGUYByABKA4yEy5BRk1zZy5FU2VydmVyU3RhdGUSEwoLc2VydmVyX3R5",
             "cGUYCCABKAUiRAoUU2VydmVySW5mb1JlcG9ydExpc3QSLAoLc2VydmVyX2xp",
-            "c3QYASADKAsyFy5BRk1zZy5TZXJ2ZXJJbmZvUmVwb3J0IoMBCg5BY2tFdmVu",
+            "c3QYASADKAsyFy5BRk1zZy5TZXJ2ZXJJbmZvUmVwb3J0IrYBCg5BY2tFdmVu",
             "dFJlc3VsdBIpCgpldmVudF9jb2RlGAEgASgOMhUuQUZNc2cuRUdhbWVFdmVu",
             "dENvZGUSIgoMZXZlbnRfb2JqZWN0GAIgASgLMgwuQUZNc2cuSWRlbnQSIgoM",
-            "ZXZlbnRfY2xpZW50GAMgASgLMgwuQUZNc2cuSWRlbnQi7AEKD1JlcUFjY291",
-            "bnRMb2dpbhIPCgdhY2NvdW50GAIgASgJEhAKCHBhc3N3b3JkGAMgASgJEhUK",
-            "DXNlY3VyaXR5X2NvZGUYBCABKAkSEAoIc2lnbkJ1ZmYYBSABKAkSFQoNY2xp",
-            "ZW50VmVyc2lvbhgGIAEoBRIRCglsb2dpbk1vZGUYByABKAUSEAoIY2xpZW50",
-            "SVAYCCABKAUSEQoJY2xpZW50TUFDGAkgASgDEhMKC2RldmljZV9pbmZvGAog",
-            "ASgJEhIKCmV4dHJhX2luZm8YCyABKAkSFQoNcGxhdGZvcm1fdHlwZRgMIAEo",
-            "BSI3ChBSZXFBY2NvdW50TG9nb3V0Eg8KB2FjY291bnQYAiABKAkSEgoKZXh0",
-            "cmFfaW5mbxgDIAEoCSJmCgpTZXJ2ZXJJbmZvEhEKCXNlcnZlcl9pZBgBIAEo",
-            "BRIMCgRuYW1lGAIgASgJEhIKCndhaXRfY291bnQYAyABKAUSIwoGc3RhdHVz",
-            "GAQgASgOMhMuQUZNc2cuRVNlcnZlclN0YXRlIjcKDVJlcVNlcnZlckxpc3QS",
-            "JgoEdHlwZRgBIAEoDjIYLkFGTXNnLlJlcVNlcnZlckxpc3RUeXBlIlgKDUFj",
-            "a1NlcnZlckxpc3QSJgoEdHlwZRgBIAEoDjIYLkFGTXNnLlJlcVNlcnZlckxp",
-            "c3RUeXBlEh8KBGluZm8YAiADKAsyES5BRk1zZy5TZXJ2ZXJJbmZvImQKD1Jl",
-            "cUNvbm5lY3RXb3JsZBIQCgh3b3JsZF9pZBgBIAEoBRIPCgdhY2NvdW50GAIg",
-            "ASgJEhwKBnNlbmRlchgDIAEoCzIMLkFGTXNnLklkZW50EhAKCGxvZ2luX2lk",
-            "GAQgASgFIqMBChVBY2tDb25uZWN0V29ybGRSZXN1bHQSEAoId29ybGRfaWQY",
-            "ASABKAUSHAoGc2VuZGVyGAIgASgLMgwuQUZNc2cuSWRlbnQSEAoIbG9naW5f",
-            "aWQYAyABKAUSDwoHYWNjb3VudBgEIAEoCRIQCgh3b3JsZF9pcBgFIAEoCRIS",
-            "Cgp3b3JsZF9wb3J0GAYgASgFEhEKCXdvcmxkX2tleRgHIAEoCSIjCg9SZXFT",
-            "ZWxlY3RTZXJ2ZXISEAoId29ybGRfaWQYASABKAUiNQoQUmVxS2lja0Zyb21X",
-            "b3JsZBIQCgh3b3JsZF9pZBgBIAEoBRIPCgdhY2NvdW50GAIgASgJIi8KC1Jl",
-            "cVJvbGVMaXN0Eg8KB2dhbWVfaWQYASABKAUSDwoHYWNjb3VudBgCIAEoCSL7",
-            "AQoMUm9sZUxpdGVJbmZvEhgKAmlkGAEgASgLMgwuQUZNc2cuSWRlbnQSDgoG",
-            "Y2FyZWVyGAIgASgFEgsKA3NleBgDIAEoBRIMCgRyYWNlGAQgASgFEhEKCW5v",
-            "b2JfbmFtZRgFIAEoCRIPCgdnYW1lX2lkGAYgASgFEhIKCnJvbGVfbGV2ZWwY",
-            "ByABKAUSEwoLZGVsZXRlX3RpbWUYCCABKAUSEAoIcmVnX3RpbWUYCSABKAUS",
-            "GQoRbGFzdF9vZmZsaW5lX3RpbWUYCiABKAUSFwoPbGFzdF9vZmZsaW5lX2lw",
-            "GAsgASgFEhMKC3ZpZXdfcmVjb3JkGAwgASgJIj0KE0Fja1JvbGVMaXRlSW5m",
-            "b0xpc3QSJgoJY2hhcl9kYXRhGAEgAygLMhMuQUZNc2cuUm9sZUxpdGVJbmZv",
-            "Im8KDVJlcUNyZWF0ZVJvbGUSDwoHYWNjb3VudBgBIAEoCRIOCgZjYXJlZXIY",
-            "AiABKAUSCwoDc2V4GAMgASgFEgwKBHJhY2UYBCABKAUSEQoJbm9vYl9uYW1l",
-            "GAUgASgJEg8KB2dhbWVfaWQYBiABKAUiPwoNUmVxRGVsZXRlUm9sZRIPCgdh",
-            "Y2NvdW50GAEgASgJEgwKBG5hbWUYAiABKAkSDwoHZ2FtZV9pZBgDIAEoBSJA",
-            "Cg5SZXFSZWNvdmVyUm9sZRIPCgdhY2NvdW50GAEgASgJEgwKBG5hbWUYAiAB",
-            "KAkSDwoHZ2FtZV9pZBgDIAEoBSIgCg9TZXJ2ZXJIZWFydEJlYXQSDQoFY291",
-            "bnQYASABKAUiLwoQUm9sZU9ubGluZU5vdGlmeRIbCgVndWlsZBgBIAEoCzIM",
-            "LkFGTXNnLklkZW50IjAKEVJvbGVPZmZsaW5lTm90aWZ5EhsKBWd1aWxkGAEg",
-            "ASgLMgwuQUZNc2cuSWRlbnQqWgoMRVNlcnZlclN0YXRlEg0KCUVTVF9DUkFT",
-            "SBAAEg4KCkVTVF9OQVJNQUwQARIMCghFU1RfQlVTWRACEgwKCEVTVF9GSVJF",
-            "EAMSDwoLRVNUX01BSU5URU4QBCpAChFSZXFTZXJ2ZXJMaXN0VHlwZRIVChFS",
-            "U0xUX1dPUkxEX1NFUlZFUhAAEhQKEFJTTFRfR0FNRVNfRVJWRVIQAWIGcHJv",
-            "dG8z"));
+            "ZXZlbnRfY2xpZW50GAMgASgLMgwuQUZNc2cuSWRlbnQSDwoHUGFyYW1lMRgE",
+            "IAEoCRIPCgdQYXJhbWUyGAUgASgJEg8KB1BhcmFtZTMYBiABKAki7AEKD1Jl",
+            "cUFjY291bnRMb2dpbhIPCgdhY2NvdW50GAIgASgJEhAKCHBhc3N3b3JkGAMg",
+            "ASgJEhUKDXNlY3VyaXR5X2NvZGUYBCABKAkSEAoIc2lnbkJ1ZmYYBSABKAkS",
+            "FQoNY2xpZW50VmVyc2lvbhgGIAEoBRIRCglsb2dpbk1vZGUYByABKAUSEAoI",
+            "Y2xpZW50SVAYCCABKAUSEQoJY2xpZW50TUFDGAkgASgDEhMKC2RldmljZV9p",
+            "bmZvGAogASgJEhIKCmV4dHJhX2luZm8YCyABKAkSFQoNcGxhdGZvcm1fdHlw",
+            "ZRgMIAEoBSI3ChBSZXFBY2NvdW50TG9nb3V0Eg8KB2FjY291bnQYAiABKAkS",
+            "EgoKZXh0cmFfaW5mbxgDIAEoCSJmCgpTZXJ2ZXJJbmZvEhEKCXNlcnZlcl9p",
+            "ZBgBIAEoBRIMCgRuYW1lGAIgASgJEhIKCndhaXRfY291bnQYAyABKAUSIwoG",
+            "c3RhdHVzGAQgASgOMhMuQUZNc2cuRVNlcnZlclN0YXRlIjcKDVJlcVNlcnZl",
+            "ckxpc3QSJgoEdHlwZRgBIAEoDjIYLkFGTXNnLlJlcVNlcnZlckxpc3RUeXBl",
+            "IlgKDUFja1NlcnZlckxpc3QSJgoEdHlwZRgBIAEoDjIYLkFGTXNnLlJlcVNl",
+            "cnZlckxpc3RUeXBlEh8KBGluZm8YAiADKAsyES5BRk1zZy5TZXJ2ZXJJbmZv",
+            "ImQKD1JlcUNvbm5lY3RXb3JsZBIQCgh3b3JsZF9pZBgBIAEoBRIPCgdhY2Nv",
+            "dW50GAIgASgJEhwKBnNlbmRlchgDIAEoCzIMLkFGTXNnLklkZW50EhAKCGxv",
+            "Z2luX2lkGAQgASgFIqMBChVBY2tDb25uZWN0V29ybGRSZXN1bHQSEAoId29y",
+            "bGRfaWQYASABKAUSHAoGc2VuZGVyGAIgASgLMgwuQUZNc2cuSWRlbnQSEAoI",
+            "bG9naW5faWQYAyABKAUSDwoHYWNjb3VudBgEIAEoCRIQCgh3b3JsZF9pcBgF",
+            "IAEoCRISCgp3b3JsZF9wb3J0GAYgASgFEhEKCXdvcmxkX2tleRgHIAEoCSIj",
+            "Cg9SZXFTZWxlY3RTZXJ2ZXISEAoId29ybGRfaWQYASABKAUiNQoQUmVxS2lj",
+            "a0Zyb21Xb3JsZBIQCgh3b3JsZF9pZBgBIAEoBRIPCgdhY2NvdW50GAIgASgJ",
+            "Ii8KC1JlcVJvbGVMaXN0Eg8KB2dhbWVfaWQYASABKAUSDwoHYWNjb3VudBgC",
+            "IAEoCSL7AQoMUm9sZUxpdGVJbmZvEhgKAmlkGAEgASgLMgwuQUZNc2cuSWRl",
+            "bnQSDgoGY2FyZWVyGAIgASgFEgsKA3NleBgDIAEoBRIMCgRyYWNlGAQgASgF",
+            "EhEKCW5vb2JfbmFtZRgFIAEoCRIPCgdnYW1lX2lkGAYgASgFEhIKCnJvbGVf",
+            "bGV2ZWwYByABKAUSEwoLZGVsZXRlX3RpbWUYCCABKAUSEAoIcmVnX3RpbWUY",
+            "CSABKAUSGQoRbGFzdF9vZmZsaW5lX3RpbWUYCiABKAUSFwoPbGFzdF9vZmZs",
+            "aW5lX2lwGAsgASgFEhMKC3ZpZXdfcmVjb3JkGAwgASgJIj0KE0Fja1JvbGVM",
+            "aXRlSW5mb0xpc3QSJgoJY2hhcl9kYXRhGAEgAygLMhMuQUZNc2cuUm9sZUxp",
+            "dGVJbmZvIm8KDVJlcUNyZWF0ZVJvbGUSDwoHYWNjb3VudBgBIAEoCRIOCgZj",
+            "YXJlZXIYAiABKAUSCwoDc2V4GAMgASgFEgwKBHJhY2UYBCABKAUSEQoJbm9v",
+            "Yl9uYW1lGAUgASgJEg8KB2dhbWVfaWQYBiABKAUiPwoNUmVxRGVsZXRlUm9s",
+            "ZRIPCgdhY2NvdW50GAEgASgJEgwKBG5hbWUYAiABKAkSDwoHZ2FtZV9pZBgD",
+            "IAEoBSJACg5SZXFSZWNvdmVyUm9sZRIPCgdhY2NvdW50GAEgASgJEgwKBG5h",
+            "bWUYAiABKAkSDwoHZ2FtZV9pZBgDIAEoBSIgCg9TZXJ2ZXJIZWFydEJlYXQS",
+            "DQoFY291bnQYASABKAUiLwoQUm9sZU9ubGluZU5vdGlmeRIbCgVndWlsZBgB",
+            "IAEoCzIMLkFGTXNnLklkZW50IjAKEVJvbGVPZmZsaW5lTm90aWZ5EhsKBWd1",
+            "aWxkGAEgASgLMgwuQUZNc2cuSWRlbnQqWgoMRVNlcnZlclN0YXRlEg0KCUVT",
+            "VF9DUkFTSBAAEg4KCkVTVF9OQVJNQUwQARIMCghFU1RfQlVTWRACEgwKCEVT",
+            "VF9GSVJFEAMSDwoLRVNUX01BSU5URU4QBCpAChFSZXFTZXJ2ZXJMaXN0VHlw",
+            "ZRIVChFSU0xUX1dPUkxEX1NFUlZFUhAAEhQKEFJTTFRfR0FNRVNfRVJWRVIQ",
+            "AWIGcHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AFMsg.AFDefineReflection.Descriptor, global::AFMsg.AFMsgBaseReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AFMsg.EServerState), typeof(global::AFMsg.ReqServerListType), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ServerInfoReport), global::AFMsg.ServerInfoReport.Parser, new[]{ "ServerId", "ServerName", "ServerIp", "ServerPort", "ServerMaxOnline", "ServerCurCount", "ServerState", "ServerType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ServerInfoReportList), global::AFMsg.ServerInfoReportList.Parser, new[]{ "ServerList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.AckEventResult), global::AFMsg.AckEventResult.Parser, new[]{ "EventCode", "EventObject", "EventClient" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.AckEventResult), global::AFMsg.AckEventResult.Parser, new[]{ "EventCode", "EventObject", "EventClient", "Parame1", "Parame2", "Parame3" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ReqAccountLogin), global::AFMsg.ReqAccountLogin.Parser, new[]{ "Account", "Password", "SecurityCode", "SignBuff", "ClientVersion", "LoginMode", "ClientIP", "ClientMAC", "DeviceInfo", "ExtraInfo", "PlatformType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ReqAccountLogout), global::AFMsg.ReqAccountLogout.Parser, new[]{ "Account", "ExtraInfo" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ServerInfo), global::AFMsg.ServerInfo.Parser, new[]{ "ServerId", "Name", "WaitCount", "Status" }, null, null, null),
@@ -599,6 +600,9 @@ namespace AFMsg {
       eventCode_ = other.eventCode_;
       EventObject = other.eventObject_ != null ? other.EventObject.Clone() : null;
       EventClient = other.eventClient_ != null ? other.EventClient.Clone() : null;
+      parame1_ = other.parame1_;
+      parame2_ = other.parame2_;
+      parame3_ = other.parame3_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -646,6 +650,39 @@ namespace AFMsg {
       }
     }
 
+    /// <summary>Field number for the "Parame1" field.</summary>
+    public const int Parame1FieldNumber = 4;
+    private string parame1_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Parame1 {
+      get { return parame1_; }
+      set {
+        parame1_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "Parame2" field.</summary>
+    public const int Parame2FieldNumber = 5;
+    private string parame2_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Parame2 {
+      get { return parame2_; }
+      set {
+        parame2_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "Parame3" field.</summary>
+    public const int Parame3FieldNumber = 6;
+    private string parame3_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Parame3 {
+      get { return parame3_; }
+      set {
+        parame3_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
       return Equals(other as AckEventResult);
@@ -662,6 +699,9 @@ namespace AFMsg {
       if (EventCode != other.EventCode) return false;
       if (!object.Equals(EventObject, other.EventObject)) return false;
       if (!object.Equals(EventClient, other.EventClient)) return false;
+      if (Parame1 != other.Parame1) return false;
+      if (Parame2 != other.Parame2) return false;
+      if (Parame3 != other.Parame3) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -671,6 +711,9 @@ namespace AFMsg {
       if (EventCode != 0) hash ^= EventCode.GetHashCode();
       if (eventObject_ != null) hash ^= EventObject.GetHashCode();
       if (eventClient_ != null) hash ^= EventClient.GetHashCode();
+      if (Parame1.Length != 0) hash ^= Parame1.GetHashCode();
+      if (Parame2.Length != 0) hash ^= Parame2.GetHashCode();
+      if (Parame3.Length != 0) hash ^= Parame3.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -696,6 +739,18 @@ namespace AFMsg {
         output.WriteRawTag(26);
         output.WriteMessage(EventClient);
       }
+      if (Parame1.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Parame1);
+      }
+      if (Parame2.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Parame2);
+      }
+      if (Parame3.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(Parame3);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -712,6 +767,15 @@ namespace AFMsg {
       }
       if (eventClient_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(EventClient);
+      }
+      if (Parame1.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Parame1);
+      }
+      if (Parame2.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Parame2);
+      }
+      if (Parame3.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Parame3);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -738,6 +802,15 @@ namespace AFMsg {
           eventClient_ = new global::AFMsg.Ident();
         }
         EventClient.MergeFrom(other.EventClient);
+      }
+      if (other.Parame1.Length != 0) {
+        Parame1 = other.Parame1;
+      }
+      if (other.Parame2.Length != 0) {
+        Parame2 = other.Parame2;
+      }
+      if (other.Parame3.Length != 0) {
+        Parame3 = other.Parame3;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -766,6 +839,18 @@ namespace AFMsg {
               eventClient_ = new global::AFMsg.Ident();
             }
             input.ReadMessage(eventClient_);
+            break;
+          }
+          case 34: {
+            Parame1 = input.ReadString();
+            break;
+          }
+          case 42: {
+            Parame2 = input.ReadString();
+            break;
+          }
+          case 50: {
+            Parame3 = input.ReadString();
             break;
           }
         }

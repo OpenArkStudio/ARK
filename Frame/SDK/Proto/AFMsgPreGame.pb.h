@@ -576,6 +576,48 @@ class LIBPROTOC_EXPORT AckEventResult : public ::google::protobuf::Message /* @@
 
   // accessors -------------------------------------------------------
 
+  // string Parame1 = 4;
+  void clear_parame1();
+  static const int kParame1FieldNumber = 4;
+  const ::std::string& parame1() const;
+  void set_parame1(const ::std::string& value);
+  #if LANG_CXX11
+  void set_parame1(::std::string&& value);
+  #endif
+  void set_parame1(const char* value);
+  void set_parame1(const char* value, size_t size);
+  ::std::string* mutable_parame1();
+  ::std::string* release_parame1();
+  void set_allocated_parame1(::std::string* parame1);
+
+  // string Parame2 = 5;
+  void clear_parame2();
+  static const int kParame2FieldNumber = 5;
+  const ::std::string& parame2() const;
+  void set_parame2(const ::std::string& value);
+  #if LANG_CXX11
+  void set_parame2(::std::string&& value);
+  #endif
+  void set_parame2(const char* value);
+  void set_parame2(const char* value, size_t size);
+  ::std::string* mutable_parame2();
+  ::std::string* release_parame2();
+  void set_allocated_parame2(::std::string* parame2);
+
+  // string Parame3 = 6;
+  void clear_parame3();
+  static const int kParame3FieldNumber = 6;
+  const ::std::string& parame3() const;
+  void set_parame3(const ::std::string& value);
+  #if LANG_CXX11
+  void set_parame3(::std::string&& value);
+  #endif
+  void set_parame3(const char* value);
+  void set_parame3(const char* value, size_t size);
+  ::std::string* mutable_parame3();
+  ::std::string* release_parame3();
+  void set_allocated_parame3(::std::string* parame3);
+
   // .AFMsg.Ident event_object = 2;
   bool has_event_object() const;
   void clear_event_object();
@@ -604,6 +646,9 @@ class LIBPROTOC_EXPORT AckEventResult : public ::google::protobuf::Message /* @@
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr parame1_;
+  ::google::protobuf::internal::ArenaStringPtr parame2_;
+  ::google::protobuf::internal::ArenaStringPtr parame3_;
   ::AFMsg::Ident* event_object_;
   ::AFMsg::Ident* event_client_;
   int event_code_;
@@ -3265,6 +3310,165 @@ inline void AckEventResult::set_allocated_event_client(::AFMsg::Ident* event_cli
   }
   event_client_ = event_client;
   // @@protoc_insertion_point(field_set_allocated:AFMsg.AckEventResult.event_client)
+}
+
+// string Parame1 = 4;
+inline void AckEventResult::clear_parame1() {
+  parame1_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& AckEventResult::parame1() const {
+  // @@protoc_insertion_point(field_get:AFMsg.AckEventResult.Parame1)
+  return parame1_.GetNoArena();
+}
+inline void AckEventResult::set_parame1(const ::std::string& value) {
+  
+  parame1_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFMsg.AckEventResult.Parame1)
+}
+#if LANG_CXX11
+inline void AckEventResult::set_parame1(::std::string&& value) {
+  
+  parame1_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:AFMsg.AckEventResult.Parame1)
+}
+#endif
+inline void AckEventResult::set_parame1(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  parame1_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFMsg.AckEventResult.Parame1)
+}
+inline void AckEventResult::set_parame1(const char* value, size_t size) {
+  
+  parame1_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFMsg.AckEventResult.Parame1)
+}
+inline ::std::string* AckEventResult::mutable_parame1() {
+  
+  // @@protoc_insertion_point(field_mutable:AFMsg.AckEventResult.Parame1)
+  return parame1_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* AckEventResult::release_parame1() {
+  // @@protoc_insertion_point(field_release:AFMsg.AckEventResult.Parame1)
+  
+  return parame1_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void AckEventResult::set_allocated_parame1(::std::string* parame1) {
+  if (parame1 != NULL) {
+    
+  } else {
+    
+  }
+  parame1_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), parame1);
+  // @@protoc_insertion_point(field_set_allocated:AFMsg.AckEventResult.Parame1)
+}
+
+// string Parame2 = 5;
+inline void AckEventResult::clear_parame2() {
+  parame2_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& AckEventResult::parame2() const {
+  // @@protoc_insertion_point(field_get:AFMsg.AckEventResult.Parame2)
+  return parame2_.GetNoArena();
+}
+inline void AckEventResult::set_parame2(const ::std::string& value) {
+  
+  parame2_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFMsg.AckEventResult.Parame2)
+}
+#if LANG_CXX11
+inline void AckEventResult::set_parame2(::std::string&& value) {
+  
+  parame2_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:AFMsg.AckEventResult.Parame2)
+}
+#endif
+inline void AckEventResult::set_parame2(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  parame2_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFMsg.AckEventResult.Parame2)
+}
+inline void AckEventResult::set_parame2(const char* value, size_t size) {
+  
+  parame2_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFMsg.AckEventResult.Parame2)
+}
+inline ::std::string* AckEventResult::mutable_parame2() {
+  
+  // @@protoc_insertion_point(field_mutable:AFMsg.AckEventResult.Parame2)
+  return parame2_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* AckEventResult::release_parame2() {
+  // @@protoc_insertion_point(field_release:AFMsg.AckEventResult.Parame2)
+  
+  return parame2_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void AckEventResult::set_allocated_parame2(::std::string* parame2) {
+  if (parame2 != NULL) {
+    
+  } else {
+    
+  }
+  parame2_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), parame2);
+  // @@protoc_insertion_point(field_set_allocated:AFMsg.AckEventResult.Parame2)
+}
+
+// string Parame3 = 6;
+inline void AckEventResult::clear_parame3() {
+  parame3_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& AckEventResult::parame3() const {
+  // @@protoc_insertion_point(field_get:AFMsg.AckEventResult.Parame3)
+  return parame3_.GetNoArena();
+}
+inline void AckEventResult::set_parame3(const ::std::string& value) {
+  
+  parame3_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:AFMsg.AckEventResult.Parame3)
+}
+#if LANG_CXX11
+inline void AckEventResult::set_parame3(::std::string&& value) {
+  
+  parame3_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:AFMsg.AckEventResult.Parame3)
+}
+#endif
+inline void AckEventResult::set_parame3(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  
+  parame3_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:AFMsg.AckEventResult.Parame3)
+}
+inline void AckEventResult::set_parame3(const char* value, size_t size) {
+  
+  parame3_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:AFMsg.AckEventResult.Parame3)
+}
+inline ::std::string* AckEventResult::mutable_parame3() {
+  
+  // @@protoc_insertion_point(field_mutable:AFMsg.AckEventResult.Parame3)
+  return parame3_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* AckEventResult::release_parame3() {
+  // @@protoc_insertion_point(field_release:AFMsg.AckEventResult.Parame3)
+  
+  return parame3_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void AckEventResult::set_allocated_parame3(::std::string* parame3) {
+  if (parame3 != NULL) {
+    
+  } else {
+    
+  }
+  parame3_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), parame3);
+  // @@protoc_insertion_point(field_set_allocated:AFMsg.AckEventResult.Parame3)
 }
 
 // -------------------------------------------------------------------

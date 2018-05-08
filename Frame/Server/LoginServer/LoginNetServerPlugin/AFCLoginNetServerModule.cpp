@@ -163,6 +163,9 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
 
             AFMsg::AckEventResult xData;
             xData.set_event_code(AFMsg::EGEC_ACCOUNT_SUCCESS);
+            xData.set_parame1(xMsg.account());
+            xData.set_parame2(xMsg.password());
+            xData.set_parame3(xMsg.security_code());
 
             m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
             ARK_LOG_INFO("In same scene and group but it not a clone scene, id = %s account = %s", xClientID.ToString().c_str(), xMsg.account().c_str());

@@ -28,6 +28,7 @@
 #include "SDK/Core/Base/AFTime.hpp"
 #include "SDK/Core/Base/AFPlatform.hpp"
 #include "AFCBryWebSocktClient.h"
+#include "AFCBryNetClient.h"
 #pragma comment(lib,"ws2_32.lib")
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
@@ -47,6 +48,7 @@ public:
         //pNet = new AFCNet(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
         //pNet = new AFCNetClient(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
         pNet = new AFCBryWebSocktClient(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
+        pNet = new AFCBryNetClient(this, &TestClientClass::ReciveHandler, &TestClientClass::EventHandler);
         pNet->Start("127.0.0.1:8088", 1);
         pNet->StopAfter(600000);
         bConnected = false;

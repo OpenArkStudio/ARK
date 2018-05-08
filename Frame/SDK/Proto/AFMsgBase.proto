@@ -4,13 +4,13 @@ package AFMsg;
 
 import "AFDefine.proto";
 
-message Ident//基础结构，不直接发送
+message Ident		//基础结构，不直接发送
 { 
     int64       high = 1;
     int64       low = 2;
 }
 
-message Point3D//基础结构，不直接发送
+message Point3D		//基础结构，不直接发送
 {
     float      x = 1;
     float      y = 2;
@@ -31,14 +31,14 @@ message VariantData
 }
 
 ////////////////////////BaseCommon/////////////////////////////
-message PropertyPBData//基础结构，不直接发送
+message PropertyPBData		//基础结构，不直接发送
 { 
     string     	property_name 	= 1;
     int32       ndataType 		= 2;
     VariantData variant_data    = 3;
 }
 
-message RecordPBData//基础结构，不直接发送
+message RecordPBData		//基础结构，不直接发送
 {
     int32      row 			= 1;
 	int32      col 			= 2;
@@ -46,7 +46,7 @@ message RecordPBData//基础结构，不直接发送
     VariantData variant_data    = 4;
 }
 
-message PBData//基础结构，不直接发送
+message PBData		//基础结构，不直接发送
 {
     int32       ndataType 		= 1;
     VariantData variant_data    = 2;
@@ -57,55 +57,55 @@ message DataListPBData
 	repeated PBData			data_list = 1;
 }                                  
 
-message RecordAddRowStruct//表添加基础行结构，不直接发送
+message RecordAddRowStruct		//表添加基础行结构，不直接发送
 {
 	int32 				row = 1;
 	repeated RecordPBData			record_data_list = 2;
 }
 
-message ObjectRecordBase//基础结构，不直接发送
+message ObjectRecordBase		//基础结构，不直接发送
 { 
 	string  record_name = 1;
 	repeated RecordAddRowStruct row_struct = 2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-message ObjectPropertyList//个人玩家全部属性列表，可直接发送--统一发,为节约包
+message ObjectPropertyList		//个人玩家全部属性列表，可直接发送--统一发,为节约包
 {
 	Ident  player_id = 1;
 	repeated PropertyPBData property_data_list = 2;
 }
  
- message MultiObjectPropertyList//多人玩家全部属性列表，可直接发送--统一发,为节约包
+ message MultiObjectPropertyList		//多人玩家全部属性列表，可直接发送--统一发,为节约包
  {
 	repeated ObjectPropertyList multi_player_property = 1;
  }
 
-message ObjectRecordList//个人玩家全部表数据，可直接发送--统一发,为节约包
+message ObjectRecordList		//个人玩家全部表数据，可直接发送--统一发,为节约包
 {
 	Ident  player_id = 1;
 	repeated ObjectRecordBase record_list = 2;
 }
 
- message MultiObjectRecordList//多人玩家全部表数据，可直接发送--统一发,为节约包
+ message MultiObjectRecordList		//多人玩家全部表数据，可直接发送--统一发,为节约包
  {
 	repeated ObjectRecordList multi_player_record = 1;
  }
 
-message ObjectPropertyPBData//个人玩家单类型属性数据，可直接发送---变化时
+message ObjectPropertyPBData		//个人玩家单类型属性数据，可直接发送---变化时
 {
 	Ident   player_id = 1;
     repeated PropertyPBData	property_list = 2;
 } 
 
-message ObjectRecordPBData//个人玩家单类型属性数据，可直接发送---变化时
+message ObjectRecordPBData		//个人玩家单类型属性数据，可直接发送---变化时
 {
 	Ident       player_id = 1;
 	string     	record_name = 2;
     repeated RecordPBData  	record_list = 3;
 } 
 
-message ObjectRecordSwap//个人玩家单类型属性数据，可直接发送---变化时
+message ObjectRecordSwap		//个人玩家单类型属性数据，可直接发送---变化时
 {
 	Ident  	    player_id = 1;
 	string    	origin_record_name = 2;
@@ -116,14 +116,14 @@ message ObjectRecordSwap//个人玩家单类型属性数据，可直接发送---变化时
 
 ////////////////////////////////////////////////////////////////////////////
 
-message ObjectRecordAddRow//个人玩家单类型属性数据，可直接发送---变化时
+message ObjectRecordAddRow		//个人玩家单类型属性数据，可直接发送---变化时
 {
 	Ident     			player_id = 1;
 	string     			record_name = 2;
 	repeated RecordAddRowStruct    row_data = 3;
 }
 
-message ObjectRecordRemove//个人玩家单类型属性数据，可直接发送---变化时
+message ObjectRecordRemove		//个人玩家单类型属性数据，可直接发送---变化时
 {
 	Ident     	player_id = 1;
 	string    	record_name = 2;  
@@ -165,7 +165,7 @@ message Position
 	float  z = 3;
 }
 
-message ReqCommand//GM命令
+message ReqCommand		//GM命令
 {
 	enum EGameCommandType
 	{
