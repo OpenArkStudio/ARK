@@ -24,7 +24,7 @@ message ReqLeaveGameServer
 {
 }
 
-message PlayerEntryInfo//对象出现基本信息
+message PlayerEntryInfo		//对象出现基本信息
 {
 	Ident	object_guid = 1;
 	Point3D pos = 2;
@@ -35,19 +35,19 @@ message PlayerEntryInfo//对象出现基本信息
 	string  class_id = 7;
 }
 
-message AckPlayerEntryList//对象出现列表
+message AckPlayerEntryList		//对象出现列表
 {
 	repeated PlayerEntryInfo object_list = 1;
 }
 
-message AckPlayerLeaveList//对象离去列表
+message AckPlayerLeaveList		//对象离去列表
 {
 	repeated Ident 	object_list = 1;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-message ReqAckSynData//对象离去列表
+message ReqAckSynData		//对象离去列表
 {
 	enum SynType
 	{
@@ -177,17 +177,17 @@ message ReqAckEndBattle
 }
 
 
-message ReqPickDropItem//拾取物品
+message ReqPickDropItem		//拾取物品
 {
 	Ident item_guid = 2;
 }
 
-message ReqAcceptTask//接受任务
+message ReqAcceptTask		//接受任务
 {
 	string task_id = 1;
 }
 
-message ReqCompeleteTask//完成任务后申请领奖
+message ReqCompeleteTask		//完成任务后申请领奖
 {
 	string task_id = 1;
 }

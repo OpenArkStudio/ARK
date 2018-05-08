@@ -25,7 +25,7 @@
 
 #pragma comment(lib, "Dbghelp.lib")
 #pragma comment(lib, "ws2_32")
-#pragma comment(lib, "event_core.lib")
+#pragma comment(lib, "brynet.lib")
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 

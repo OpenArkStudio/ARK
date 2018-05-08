@@ -83,8 +83,8 @@ void AFCBryNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR
     session->setDisConnectCallback(std::bind(&AFCBryNetServer::OnClientDisConnectionInner, this, std::placeholders::_1));
 
     MsgFromBryNetInfo* pMsg = new MsgFromBryNetInfo(session);
-    const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    pMsg->xClientID.nLow = *ud;
+    pMsg->xClientID.nLow = mnNextID++;
+    session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
     pMsg->nType = CONNECTED;
     {
         AFScopeWrLock xGuard(mRWLock);

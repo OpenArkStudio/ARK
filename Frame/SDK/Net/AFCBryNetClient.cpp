@@ -209,7 +209,8 @@ void AFCBryNetClient::OnClientConnectionInner(const brynet::net::TCPSession::PTR
 
     MsgFromBryNetInfo* pMsg = new MsgFromBryNetInfo(session);
     const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    pMsg->xClientID.nLow = *ud;
+    pMsg->xClientID.nLow = nNextID++;
+    session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
     pMsg->nType = CONNECTED;
     {
         AFScopeWrLock xGuard(mRWLock);

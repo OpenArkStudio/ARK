@@ -115,6 +115,7 @@ private:
     brynet::net::WrapTcpService::PTR m_pServer;
     brynet::net::AsyncConnector::PTR m_pConector;
     brynet::net::TCPSession::PTR m_Session;
+    std::atomic<std::uint64_t> nNextID = 1;
 
 };
 
