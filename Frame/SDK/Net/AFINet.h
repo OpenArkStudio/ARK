@@ -332,6 +332,19 @@ private:
 class AFINet
 {
 public:
+    AFINet()
+        : bWorking(false)
+        , nReceiverSize(0)
+        , nSendSize(0)
+
+    {
+
+    }
+
+    virtual ~AFINet()
+    {
+
+    }
     //need to call this function every frame to drive network library
     virtual void Update() = 0;
 

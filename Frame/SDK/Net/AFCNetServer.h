@@ -43,7 +43,6 @@ public:
         , mnServerID(0)
         , mnNextID(1)
     {
-        bWorking = false;
 
         m_pServer = std::make_shared<brynet::net::WrapTcpService>();
         m_plistenThread = brynet::net::ListenThread::Create();
