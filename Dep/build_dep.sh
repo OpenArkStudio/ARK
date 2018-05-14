@@ -48,4 +48,6 @@ cmake -G "Unix Makefiles"  ..
 make -j 8
 cp -R -f lib/*.a ../../lib/Debug
 cp -R -f lib/*.a ../../lib/Release
+cp -R -f lib/*.so* ../../lib/Debug
+cp -R -f lib/*.so* ../../lib/Release
 cd ../../
