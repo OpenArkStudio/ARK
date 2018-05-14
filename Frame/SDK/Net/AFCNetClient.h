@@ -33,12 +33,9 @@ class AFCNetClient : public AFIBryNet
 {
 public:
     AFCNetClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr)
+        : mnServerID(0)
+        , mnNextID(0)
     {
-        mnServerID = 0;
-        bWorking = false;
-        nReceiverSize = 0;
-        nSendSize = 0;
-
         if(server)
         {
             m_pServer = server;
@@ -115,7 +112,7 @@ private:
     brynet::net::WrapTcpService::PTR m_pServer;
     brynet::net::AsyncConnector::PTR m_pConector;
     brynet::net::TCPSession::PTR m_Session;
-    std::atomic<std::uint64_t> nNextID = 1;
+    std::atomic<std::uint64_t> mnNextID;
 
 };
 

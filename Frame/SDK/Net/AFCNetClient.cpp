@@ -209,7 +209,7 @@ void AFCNetClient::OnClientConnectionInner(const brynet::net::TCPSession::PTR& s
 
     MsgFromBryNetInfo* pMsg = new MsgFromBryNetInfo(session);
     const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    pMsg->xClientID.nLow = nNextID++;
+    pMsg->xClientID.nLow = mnNextID++;
     session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
     pMsg->nType = CONNECTED;
     {
