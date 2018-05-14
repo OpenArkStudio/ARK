@@ -18,40 +18,40 @@
 *
 */
 
-#include "AFCBryWebSocktServer.h"
+#include "AFCWebSocktServer.h"
 #include <string.h>
 
 #include <atomic>
 #include <memory>
 
-void AFCBryWebSocktServer::Update()
+void AFCWebSocktServer::Update()
 {
     ProcessMsgLogicThread();
 }
 
-int AFCBryWebSocktServer::Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)
+int AFCWebSocktServer::Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)
 {
     std::string strHost;
     int port;
     SplitHostPort(strAddrPort, strHost, port);
-    m_plistenThread->startListen(false, strHost, port, std::bind(&AFCBryWebSocktServer::OnAcceptConnectionInner, this, std::placeholders::_1));
+    m_plistenThread->startListen(false, strHost, port, std::bind(&AFCWebSocktServer::OnAcceptConnectionInner, this, std::placeholders::_1));
 
     m_pServer->startWorkThread(nThreadCount);
     return 0;
 }
 
-void AFCBryWebSocktServer::OnAcceptConnectionInner(brynet::net::TcpSocket::PTR socket)
+void AFCWebSocktServer::OnAcceptConnectionInner(brynet::net::TcpSocket::PTR socket)
 {
     m_pServer->addSession(std::move(socket),
                           brynet::net::AddSessionOption::WithEnterCallback(
                               [this](const brynet::net::TCPSession::PTR & session)
     {
-        brynet::net::HttpService::setup(session, std::bind(&AFCBryWebSocktServer::OnHttpConnect, this, std::placeholders::_1));
+        brynet::net::HttpService::setup(session, std::bind(&AFCWebSocktServer::OnHttpConnect, this, std::placeholders::_1));
     }
                           ),
     brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));
 }
-void AFCBryWebSocktServer::OnHttpMessageCallBack(const brynet::net::HTTPParser & httpParser, const brynet::net::HttpSession::PTR & session)
+void AFCWebSocktServer::OnHttpMessageCallBack(const brynet::net::HTTPParser & httpParser, const brynet::net::HttpSession::PTR & session)
 {
     brynet::net::HttpResponse response;
     response.setBody("test");
@@ -62,7 +62,7 @@ void AFCBryWebSocktServer::OnHttpMessageCallBack(const brynet::net::HTTPParser &
     });
 }
 
-void AFCBryWebSocktServer::OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR & httpSession,
+void AFCWebSocktServer::OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR & httpSession,
         brynet::net::WebSocketFormat::WebSocketFrameType opcode,
         const std::string & payload)
 {
@@ -113,11 +113,11 @@ void AFCBryWebSocktServer::OnWebSockMessageCallBack(const brynet::net::HttpSessi
     DismantleNet(xFind->second);
 }
 
-void AFCBryWebSocktServer::OnHttpConnect(const brynet::net::HttpSession::PTR& httpSession)
+void AFCWebSocktServer::OnHttpConnect(const brynet::net::HttpSession::PTR& httpSession)
 {
-    httpSession->setHttpCallback(std::bind(&AFCBryWebSocktServer::OnHttpMessageCallBack, this, std::placeholders::_1, std::placeholders::_2));
-    httpSession->setWSCallback(std::bind(&AFCBryWebSocktServer::OnWebSockMessageCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
-    httpSession->setCloseCallback(std::bind(&AFCBryWebSocktServer::OnHttpDisConnection, this, std::placeholders::_1));
+    httpSession->setHttpCallback(std::bind(&AFCWebSocktServer::OnHttpMessageCallBack, this, std::placeholders::_1, std::placeholders::_2));
+    httpSession->setWSCallback(std::bind(&AFCWebSocktServer::OnWebSockMessageCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    httpSession->setCloseCallback(std::bind(&AFCWebSocktServer::OnHttpDisConnection, this, std::placeholders::_1));
 
     MsgFromBryHttpNetInfo* pMsg = new MsgFromBryHttpNetInfo(httpSession);
     pMsg->xClientID.nLow = nNextID++;
@@ -134,7 +134,7 @@ void AFCBryWebSocktServer::OnHttpConnect(const brynet::net::HttpSession::PTR& ht
     }
 }
 
-void AFCBryWebSocktServer::OnHttpDisConnection(const brynet::net::HttpSession::PTR & httpSession)
+void AFCWebSocktServer::OnHttpDisConnection(const brynet::net::HttpSession::PTR & httpSession)
 {
     const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
     AFGUID xClient(0, 0);
@@ -154,7 +154,7 @@ void AFCBryWebSocktServer::OnHttpDisConnection(const brynet::net::HttpSession::P
     xFind->second->mqMsgFromNet.Push(pMsg);
 }
 
-bool AFCBryWebSocktServer::SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
+bool AFCWebSocktServer::SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
 {
     std::string a = strIpPort;
     if(a.empty())
@@ -197,7 +197,7 @@ bool AFCBryWebSocktServer::SplitHostPort(const std::string& strIpPort, std::stri
     return true;
 }
 
-void AFCBryWebSocktServer::ProcessMsgLogicThread()
+void AFCWebSocktServer::ProcessMsgLogicThread()
 {
     std::list<AFGUID> xNeedRemoveList;
     {
@@ -221,7 +221,7 @@ void AFCBryWebSocktServer::ProcessMsgLogicThread()
     }
 }
 
-void AFCBryWebSocktServer::ProcessMsgLogicThread(BryHttpNetObject* pEntity)
+void AFCWebSocktServer::ProcessMsgLogicThread(BryHttpNetObject* pEntity)
 {
     //Handle Msg
     size_t nReceiveCount = pEntity->mqMsgFromNet.Count();
@@ -268,13 +268,13 @@ void AFCBryWebSocktServer::ProcessMsgLogicThread(BryHttpNetObject* pEntity)
     }
 }
 
-bool AFCBryWebSocktServer::Final()
+bool AFCWebSocktServer::Final()
 {
     bWorking = false;
     return true;
 }
 
-bool AFCBryWebSocktServer::SendMsgToAllClient(const char* msg, const size_t nLen)
+bool AFCWebSocktServer::SendMsgToAllClient(const char* msg, const size_t nLen)
 {
     auto frame = std::make_shared<std::string>();
     brynet::net::WebSocketFormat::wsFrameBuild(msg,
@@ -297,7 +297,7 @@ bool AFCBryWebSocktServer::SendMsgToAllClient(const char* msg, const size_t nLen
     return true;
 }
 
-bool AFCBryWebSocktServer::SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient)
+bool AFCWebSocktServer::SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient)
 {
     AFScopeRdLock xGuard(mRWLock);
 
@@ -318,12 +318,12 @@ bool AFCBryWebSocktServer::SendMsg(const char* msg, const size_t nLen, const AFG
     return true;
 }
 
-bool AFCBryWebSocktServer::AddNetObject(const AFGUID& xClientID, BryHttpNetObject* pEntity)
+bool AFCWebSocktServer::AddNetObject(const AFGUID& xClientID, BryHttpNetObject* pEntity)
 {
     return mmObject.insert(std::make_pair(xClientID, pEntity)).second;
 }
 
-bool AFCBryWebSocktServer::RemoveNetObject(const AFGUID& xClientID)
+bool AFCWebSocktServer::RemoveNetObject(const AFGUID& xClientID)
 {
     BryHttpNetObject* pNetObject = GetNetObject(xClientID);
     if(pNetObject)
@@ -333,7 +333,7 @@ bool AFCBryWebSocktServer::RemoveNetObject(const AFGUID& xClientID)
     return mmObject.erase(xClientID);
 }
 
-bool AFCBryWebSocktServer::CloseNetObject(const AFGUID& xClientID)
+bool AFCWebSocktServer::CloseNetObject(const AFGUID& xClientID)
 {
     BryHttpNetObject* pEntity = GetNetObject(xClientID);
     if(pEntity)
@@ -344,7 +344,7 @@ bool AFCBryWebSocktServer::CloseNetObject(const AFGUID& xClientID)
     return true;
 }
 
-bool AFCBryWebSocktServer::DismantleNet(BryHttpNetObject* pEntity)
+bool AFCWebSocktServer::DismantleNet(BryHttpNetObject* pEntity)
 {
     for(; pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH;)
     {
@@ -368,7 +368,7 @@ bool AFCBryWebSocktServer::DismantleNet(BryHttpNetObject* pEntity)
     return true;
 }
 
-bool AFCBryWebSocktServer::CloseSocketAll()
+bool AFCWebSocktServer::CloseSocketAll()
 {
     std::map<AFGUID, BryHttpNetObject*>::iterator it = mmObject.begin();
     for(it; it != mmObject.end(); ++it)
@@ -382,7 +382,7 @@ bool AFCBryWebSocktServer::CloseSocketAll()
     return true;
 }
 
-BryHttpNetObject* AFCBryWebSocktServer::GetNetObject(const AFGUID& xClientID)
+BryHttpNetObject* AFCWebSocktServer::GetNetObject(const AFGUID& xClientID)
 {
     std::map<AFGUID, BryHttpNetObject*>::iterator it = mmObject.find(xClientID);
     if(it != mmObject.end())
@@ -393,7 +393,7 @@ BryHttpNetObject* AFCBryWebSocktServer::GetNetObject(const AFGUID& xClientID)
     return NULL;
 }
 
-bool AFCBryWebSocktServer::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
+bool AFCWebSocktServer::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
 {
     std::string strOutData;
     AFCMsgHead xHead;
@@ -410,7 +410,7 @@ bool AFCBryWebSocktServer::SendMsgWithOutHead(const uint16_t nMsgID, const char*
     return false;
 }
 
-bool AFCBryWebSocktServer::SendMsgToAllClientWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID)
+bool AFCWebSocktServer::SendMsgToAllClientWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID)
 {
     std::string strOutData;
     AFCMsgHead xHead;
@@ -426,7 +426,7 @@ bool AFCBryWebSocktServer::SendMsgToAllClientWithOutHead(const uint16_t nMsgID, 
     return false;
 }
 
-int AFCBryWebSocktServer::EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData)
+int AFCWebSocktServer::EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData)
 {
     char szHead[AFIMsgHead::ARK_MSG_HEAD_LENGTH] = { 0 };
     int nRet = xHead.EnCode(szHead);
@@ -438,7 +438,7 @@ int AFCBryWebSocktServer::EnCode(const AFCMsgHead& xHead, const char* strData, c
     return xHead.GetBodyLength() + AFIMsgHead::ARK_MSG_HEAD_LENGTH;
 }
 
-int AFCBryWebSocktServer::DeCode(const char* strData, const size_t len, AFCMsgHead& xHead)
+int AFCWebSocktServer::DeCode(const char* strData, const size_t len, AFCMsgHead& xHead)
 {
     if(len < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {

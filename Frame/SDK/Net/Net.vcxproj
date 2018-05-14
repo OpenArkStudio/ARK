@@ -11,21 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCBryNetClient.cpp" />
-    <ClCompile Include="AFCBryNetServer.cpp" />
-    <ClCompile Include="AFCBryWebSocktClient.cpp" />
-    <ClCompile Include="AFCBryWebSocktServer.cpp" />
-    <ClCompile Include="AFCNetClient.cpp" />
-    <ClCompile Include="AFCNetServer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AFCBryNetClient.h" />
-    <ClInclude Include="AFCBryNetServer.h" />
-    <ClInclude Include="AFCBryWebSocktClient.h" />
-    <ClInclude Include="AFCBryWebSocktServer.h" />
     <ClInclude Include="AFCNetClient.h" />
     <ClInclude Include="AFCNetServer.h" />
+    <ClInclude Include="AFCWebSocktClient.h" />
+    <ClInclude Include="AFCWebSocktServer.h" />
     <ClInclude Include="AFINet.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AFCNetClient.cpp" />
+    <ClCompile Include="AFCNetServer.cpp" />
+    <ClCompile Include="AFCWebSocktClient.cpp" />
+    <ClCompile Include="AFCWebSocktServer.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{403EB74F-6AF5-4250-8DA5-9D3CBFB7E546}</ProjectGuid>

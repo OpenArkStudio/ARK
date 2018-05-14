@@ -22,7 +22,7 @@
 
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Core/Base/AFCConsistentHash.hpp"
-#include "SDK/Net/AFCBryNetClient.h"
+#include "SDK/Net/AFCNetClient.h"
 #include "SDK/Core/Base/AFMapEx.h"
 #include "Server/Interface/AFINetModule.h"
 
@@ -56,7 +56,7 @@ struct ConnectData
     ConnectDataState eState;
     int64_t mnLastActionTime;
 
-    ARK_SHARE_PTR<AFCBryNetClient> mxNetModule;
+    ARK_SHARE_PTR<AFCNetClient> mxNetModule;
 };
 
 class AFINetClientModule : public AFINetModule
@@ -120,7 +120,7 @@ public:
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
         if(pServer)
         {
-            ARK_SHARE_PTR<AFCBryNetClient> pNetModule = pServer->mxNetModule;
+            ARK_SHARE_PTR<AFCNetClient> pNetModule = pServer->mxNetModule;
             if(pNetModule.get())
             {
                 pNetModule->SendMsgWithOutHead(nMsgID, msg, nLen, 0, nPlayerID);
@@ -309,7 +309,7 @@ protected:
                     }
 
                     pServerData->eState = ConnectDataState::CONNECTING;
-                    pServerData->mxNetModule = std::make_shared<AFCBryNetClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
+                    pServerData->mxNetModule = std::make_shared<AFCNetClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
                     pServerData->mxNetModule->Start(pServerData->strIPAndPort, pServerData->nGameID);
                 }
                 break;
@@ -414,7 +414,7 @@ private:
                 xServerData->nPort = xInfo.nPort;
                 xServerData->mnLastActionTime = GetPluginManager()->GetNowTime();
 
-                xServerData->mxNetModule = std::make_shared<AFCBryNetClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
+                xServerData->mxNetModule = std::make_shared<AFCNetClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
 
                 xServerData->mxNetModule->Start(xServerData->strIPAndPort, xServerData->nGameID);
 
