@@ -21,8 +21,8 @@ set_target_properties(AFNet PROPERTIES
 )
 
 if(UNIX)
-    target_link_libraries(AFNet protobuf event event_core brynet)
+    target_link_libraries(AFNet protobuf brynet)
 else()
-    target_link_libraries(AFNet evpp_static protobuf libevent libevent_core brynet)
+    target_link_libraries(AFNet evpp_static protobuf brynet)
     add_definitions(-D_LIB -DWIN32 -DWIN)
 endif()

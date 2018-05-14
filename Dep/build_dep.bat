@@ -35,40 +35,7 @@ copy Release\libprotoc.dll ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
 copy Release\protoc.exe ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
 
 cd ..\..\..\
-REM ######################################################################################################
-echo Building libevent...
 
-if exist libevent (rd libevent /q /s)
-git clone -b release-2.1.8-stable https://github.com/libevent/libevent.git
-
-cd libevent
-md build
-cd build
-cmake -G "Visual Studio 15 Win64" -DEVENT__DISABLE_OPENSSL=ON ..
-"%VS150COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64" /project event_core_static.vcxproj
-"%VS150COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64" /project event_core_static.vcxproj
-"%VS150COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64" /project event_static.vcxproj
-"%VS150COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64" /project event_static.vcxproj
-"%VS150COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64" /project event_extra_static.vcxproj
-"%VS150COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64" /project event_extra_static.vcxproj
-copy lib\Debug\*.lib ..\..\lib\Debug /Y
-copy lib\Release\*.lib ..\..\lib\Release /Y
-cd ..\..\
-REM ######################################################################################################
-echo Building evpp...
-if exist evpp (rd evpp /q /s)
-git clone -b master https://github.com/ArkGame/evpp.git
-
-cd evpp
-md build
-cd build
-cmake -G "Visual Studio 15 Win64" -DLIBEVENT_DIR=..\libevent -DLIBEVENT_LIB_DIR=..\lib\Release ..
-"%VS150COMNTOOLS%..\IDE\Devenv" evpp.sln /build "Debug|x64" /project evpp/evpp_static.vcxproj
-"%VS150COMNTOOLS%..\IDE\Devenv" evpp.sln /build "Release|x64" /project evpp/evpp_static.vcxproj
-copy lib\Debug\*.lib ..\..\lib\Debug /Y
-copy lib\Release\*.lib ..\..\lib\Release /Y
-
-cd ..\..\
 REM ####################################################################################################
 echo Building brynet...
 if exist brynet (rd brynet /q /s)
