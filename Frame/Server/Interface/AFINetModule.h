@@ -22,7 +22,7 @@
 
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Net/AFCBryNetServer.h"
+#include "SDK/Net/AFCNetServer.h"
 #include "SDK/Proto/AFMsgDefine.h"
 #include "SDK/Proto/AFDefine.pb.h"
 

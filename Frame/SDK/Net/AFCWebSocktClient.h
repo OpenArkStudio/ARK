@@ -29,10 +29,10 @@
 
 #pragma pack(push, 1)
 
-class AFCBryWebSocktClient : public AFIBryNet
+class AFCWebSocktClient : public AFIBryNet
 {
 public:
-    AFCBryWebSocktClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr)
+    AFCWebSocktClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr)
     {
         mnServerID = 0;
         bWorking = false;
@@ -58,7 +58,7 @@ public:
     }
 
     template<typename BaseType>
-    AFCBryWebSocktClient(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
+    AFCWebSocktClient(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
     {
         mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
@@ -69,7 +69,7 @@ public:
         m_pConector = brynet::net::AsyncConnector::Create();
     }
 
-    virtual ~AFCBryWebSocktClient()
+    virtual ~AFCWebSocktClient()
     {
         bool bRet = Final();
     };
