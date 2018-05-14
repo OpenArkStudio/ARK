@@ -21,8 +21,8 @@ set_target_properties(AFNet PROPERTIES
 )
 
 if(UNIX)
-    target_link_libraries(AFNet protobuf brynet)
+    target_link_libraries(AFNet protobuf brynet.so)
 else()
-    target_link_libraries(AFNet evpp_static protobuf brynet)
+    target_link_libraries(AFNet protobuf brynet.so)
     add_definitions(-D_LIB -DWIN32 -DWIN)
 endif()
