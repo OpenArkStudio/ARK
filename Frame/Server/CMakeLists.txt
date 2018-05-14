@@ -20,10 +20,10 @@ endif()
 macro(LINK_SDK_MACRO project_name)
 add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFUtilityPlugin AFProto)
 if(UNIX)
-    target_link_libraries(${project_name} AFKernelPlugin AFUtilityPlugin AFCore AFNet AFProto protobuf brynet)
+    target_link_libraries(${project_name} AFKernelPlugin AFUtilityPlugin AFCore AFNet AFProto protobuf brynet.so)
 else(UNIX)
     target_link_libraries(${project_name} 
-        debug brynet
+        debug brynet.lib
         debug AFCore_d.lib
         debug AFNet_d.lib
         debug AFKernelPlugin_d.lib
@@ -31,7 +31,7 @@ else(UNIX)
         debug AFProto_d.lib 
 		debug brynet.lib 
         
-        optimized brynet
+        optimized brynet.lib
         optimized AFCore.lib
         optimized AFNet.lib
         optimized AFKernelPlugin.lib

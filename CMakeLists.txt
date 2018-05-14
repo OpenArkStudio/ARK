@@ -24,9 +24,6 @@ set(ROOT_DIR ${PROJECT_SOURCE_DIR})
 include_directories(
     ${ROOT_DIR}
     ${ROOT_DIR}/Dep
-    ${ROOT_DIR}/Dep/libevent/include
-    ${ROOT_DIR}/Dep/libevent/compat
-    ${ROOT_DIR}/Dep/evpp
     ${ROOT_DIR}/Dep/protobuf/src
     ${ROOT_DIR}/Frame
     ${ROOT_DIR}/Dep/brynet/src
@@ -34,7 +31,7 @@ include_directories(
 
 if(UNIX)
     #linux
-    include_directories(${ROOT_DIR}/Dep/libevent/include)
+    #include_directories(${ROOT_DIR}/Dep/libevent/include)
 
     if(CMAKE_BUILD_TYPE MATCHES "Debug")
         set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -fPIC")
