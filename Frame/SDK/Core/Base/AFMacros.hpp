@@ -41,7 +41,7 @@
 #define ARRAY_CLEAR(v)              memset((v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR(v)             memset(&(v), 0x0, sizeof((v)))
 #define MEMORY_CLEAR_POINTER(v)     memset((v), 0xx, sizeof(*(v)))
-#define ARRAY_LENTGH(v)               (sizeof(v) / sizeof(v[0]))
+#define ARRAY_LENTGH(v)             std::extent<decltype(v)>::value
 
 #define MAX_NAME    256
 #define MAX_BUF     256
