@@ -148,7 +148,7 @@ void AFCProxyNetServerModule::OnConnectKeyProcess(const AFIMsgHead& xHead, const
     }
     else
     {
-        m_pNetModule->GetNet()->CloseNetObject(xClientID);
+        m_pNetModule->GetNet()->CloseNetEntity(xClientID);
     }
 }
 
@@ -159,7 +159,7 @@ void AFCProxyNetServerModule::OnSocketClientEvent(const NetEventType eEvent, con
         ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
         OnClientDisconnect(xClientID);
     }
-    else  if(eEvent == CONNECTED)
+    else if(eEvent == CONNECTED)
     {
         ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
         OnClientConnected(xClientID);

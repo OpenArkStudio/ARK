@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) AFHttpEntity ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,13 +18,9 @@
 *
 */
 
-#include <string.h>
-#include <memory>
-
 #include <brynet/net/SyncConnector.h>
+#include <brynet/net/http/HttpFormat.h>
 #include "AFCWebSocktClient.h"
-#include "brynet/net/http/HttpFormat.h"
-
 
 void AFCWebSocktClient::Update()
 {
@@ -35,18 +31,17 @@ void AFCWebSocktClient::ProcessMsgLogicThread()
 {
     {
         AFScopeRdLock xGuard(mRWLock);
-        ProcessMsgLogicThread(m_pClientObject.get());
+        ProcessMsgLogicThread(m_pClientEntity.get());
     }
 
-    if(m_pClientObject != nullptr && m_pClientObject->NeedRemove())
+    if(m_pClientEntity != nullptr && m_pClientEntity->NeedRemove())
     {
         AFScopeWrLock xGuard(mRWLock);
-        m_pClientObject.release();
+        m_pClientEntity.release();
     }
-
 }
 
-void AFCWebSocktClient::ProcessMsgLogicThread(BryHttpNetObject* pEntity)
+void AFCWebSocktClient::ProcessMsgLogicThread(AFHttpEntity* pEntity)
 {
     if(pEntity == nullptr)
     {
@@ -54,39 +49,39 @@ void AFCWebSocktClient::ProcessMsgLogicThread(BryHttpNetObject* pEntity)
     }
 
     //Handle Msg;
-    size_t nReceiveCount = pEntity->mqMsgFromNet.Count();
+    size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
     for(size_t i = 0; i < nReceiveCount; ++i)
     {
-        MsgFromBryHttpNetInfo* pMsgFromNet(nullptr);
-        if(!pEntity->mqMsgFromNet.Pop(pMsgFromNet))
+        AFHttpMsg* pMsg(nullptr);
+        if(!pEntity->mxNetMsgMQ.Pop(pMsg))
         {
             break;
         }
 
-        if(pMsgFromNet == nullptr)
+        if(pMsg == nullptr)
         {
             continue;
         }
 
-        switch(pMsgFromNet->nType)
+        switch(pMsg->nType)
         {
         case RECIVEDATA:
             {
                 int nRet = 0;
                 if(mRecvCB)
                 {
-                    mRecvCB(pMsgFromNet->xHead, pMsgFromNet->xHead.GetMsgID(), pMsgFromNet->strMsg.c_str(), pMsgFromNet->strMsg.size(), pEntity->GetClientID());
+                    mRecvCB(pMsg->xHead, pMsg->xHead.GetMsgID(), pMsg->strMsg.c_str(), pMsg->strMsg.size(), pEntity->GetClientID());
                 }
             }
             break;
         case CONNECTED:
             {
-                mEventCB((NetEventType)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
+                mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
             }
             break;
         case DISCONNECTED:
             {
-                mEventCB((NetEventType)pMsgFromNet->nType, pMsgFromNet->xClientID, mnServerID);
+                mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
                 pEntity->SetNeedRemove(true);
             }
             break;
@@ -94,7 +89,7 @@ void AFCWebSocktClient::ProcessMsgLogicThread(BryHttpNetObject* pEntity)
             break;
         }
 
-        delete pMsgFromNet;
+        delete pMsg;
     }
 }
 
@@ -142,15 +137,15 @@ void AFCWebSocktClient::OnHttpConnect(const brynet::net::HttpSession::PTR& httpS
 
     httpSession->setWSConnected([this](const brynet::net::HttpSession::PTR & httpSession, const brynet::net::HTTPParser&)
     {
-        MsgFromBryHttpNetInfo* pMsg = new MsgFromBryHttpNetInfo(httpSession);
+        AFHttpMsg* pMsg = new AFHttpMsg(httpSession);
         httpSession->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
         pMsg->nType = CONNECTED;
         {
             AFScopeWrLock xGuard(mRWLock);
 
-            BryHttpNetObject* pEntity = new BryHttpNetObject(this, pMsg->xClientID, httpSession);
-            m_pClientObject.reset(pEntity);
-            pEntity->mqMsgFromNet.Push(pMsg);
+            AFHttpEntity* pEntity = new AFHttpEntity(this, pMsg->xClientID, httpSession);
+            m_pClientEntity.reset(pEntity);
+            pEntity->mxNetMsgMQ.Push(pMsg);
         }
     });
 
@@ -167,8 +162,8 @@ void AFCWebSocktClient::OnWebSockMessageCallBack(const brynet::net::HttpSession:
 
     AFScopeRdLock xGuard(mRWLock);
 
-    m_pClientObject->AddBuff(payload.c_str(), payload.size());
-    DismantleNet(m_pClientObject.get());
+    m_pClientEntity->AddBuff(payload.c_str(), payload.size());
+    DismantleNet(m_pClientEntity.get());
 }
 bool AFCWebSocktClient::Final()
 {
@@ -190,15 +185,15 @@ void AFCWebSocktClient::OnHttpDisConnection(const brynet::net::HttpSession::PTR 
     xClient.nLow = *ud;
     AFScopeWrLock xGuard(mRWLock);
 
-    MsgFromBryHttpNetInfo* pMsg = new MsgFromBryHttpNetInfo(httpSession);
+    AFHttpMsg* pMsg = new AFHttpMsg(httpSession);
     pMsg->xClientID = xClient;
     pMsg->nType = DISCONNECTED;
 
-    m_pClientObject->mqMsgFromNet.Push(pMsg);
+    m_pClientEntity->mxNetMsgMQ.Push(pMsg);
 }
 bool AFCWebSocktClient::CloseSocketAll()
 {
-    m_pClientObject->GetConnPtr()->postClose();
+    m_pClientEntity->GetSession()->postClose();
     return true;
 }
 
@@ -212,24 +207,24 @@ bool AFCWebSocktClient::SendMsg(const char* msg, const size_t nLen, const AFGUID
             true,
             false);
 
-    if(m_pClientObject->GetConnPtr())
+    if(m_pClientEntity->GetSession())
     {
-        m_pClientObject->GetConnPtr()->send(frame);
+        m_pClientEntity->GetSession()->send(frame);
     }
 
     return true;
 }
 
-bool AFCWebSocktClient::CloseNetObject(const AFGUID& xClient)
+bool AFCWebSocktClient::CloseNetEntity(const AFGUID& xClient)
 {
-    if(m_pClientObject->GetClientID() == xClient)
+    if(m_pClientEntity->GetClientID() == xClient)
     {
-        m_pClientObject->GetConnPtr()->postClose();
+        m_pClientEntity->GetSession()->postClose();
     }
     return true;
 }
 
-bool AFCWebSocktClient::DismantleNet(BryHttpNetObject* pEntity)
+bool AFCWebSocktClient::DismantleNet(AFHttpEntity* pEntity)
 {
     for(; pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH;)
     {
@@ -237,11 +232,11 @@ bool AFCWebSocktClient::DismantleNet(BryHttpNetObject* pEntity)
         int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
         if(nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
         {
-            MsgFromBryHttpNetInfo* pNetInfo = new MsgFromBryHttpNetInfo(pEntity->GetConnPtr());
-            pNetInfo->xHead = xHead;
-            pNetInfo->nType = RECIVEDATA;
-            pNetInfo->strMsg.append(pEntity->GetBuff() + AFIMsgHead::ARK_MSG_HEAD_LENGTH, nMsgBodyLength);
-            pEntity->mqMsgFromNet.Push(pNetInfo);
+            AFHttpMsg* pMsg = new AFHttpMsg(pEntity->GetSession());
+            pMsg->xHead = xHead;
+            pMsg->nType = RECIVEDATA;
+            pMsg->strMsg.append(pEntity->GetBuff() + AFIMsgHead::ARK_MSG_HEAD_LENGTH, nMsgBodyLength);
+            pEntity->mxNetMsgMQ.Push(pMsg);
             size_t nNewSize = pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::ARK_MSG_HEAD_LENGTH);
         }
         else
