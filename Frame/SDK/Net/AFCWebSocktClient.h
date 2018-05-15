@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) AFHttpEntity ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "AFIBryNet.h"
+#include "AFINet.h"
 #include "SDK/Core/Base/AFQueue.h"
 #include "SDK/Core/Base/AFRWLock.hpp"
 #include <brynet/net/SocketLibFunction.h>
@@ -29,7 +29,7 @@
 
 #pragma pack(push, 1)
 
-class AFCWebSocktClient : public AFIBryNet
+class AFCWebSocktClient : public AFINet
 {
 public:
     AFCWebSocktClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr)
@@ -80,7 +80,7 @@ public:
     virtual bool Final();
     virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID = 0, const AFGUID& xPlayerID = 0);
 
-    virtual bool CloseNetObject(const AFGUID& xClient);
+    virtual bool CloseNetEntity(const AFGUID& xClient);
 
     virtual bool IsServer();
     virtual bool Log(int severity, const char* msg);
@@ -95,9 +95,9 @@ public:
 private:
     bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient = 0);
 
-    bool DismantleNet(BryHttpNetObject* pEntity);
+    bool DismantleNet(AFHttpEntity* pEntity);
     void ProcessMsgLogicThread();
-    void ProcessMsgLogicThread(BryHttpNetObject* pEntity);
+    void ProcessMsgLogicThread(AFHttpEntity* pEntity);
     bool CloseSocketAll();
 
     static void log_cb(int severity, const char* msg);
@@ -107,7 +107,7 @@ protected:
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
-    std::unique_ptr<BryHttpNetObject> m_pClientObject;
+    std::unique_ptr<AFHttpEntity> m_pClientEntity;
     std::string mstrIPPort;
     int mnServerID;
     NET_RECEIVE_FUNCTOR mRecvCB;
@@ -117,7 +117,6 @@ private:
     brynet::net::WrapTcpService::PTR m_pServer;
     brynet::net::AsyncConnector::PTR m_pConector;
     brynet::net::TCPSession::PTR m_Session;
-
 };
 
 #pragma pack(pop)

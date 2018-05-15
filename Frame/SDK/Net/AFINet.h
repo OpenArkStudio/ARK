@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) AFHttpEntity ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -25,6 +25,8 @@
 #include "SDK/Core/Base/AFGUID.h"
 #include "SDK/Core/Base/AFLockFreeQueue.h"
 #include "SDK/Core/Base/AFBuffer.hpp"
+#include "brynet/net/WrapTCPService.h"
+#include "brynet/net/http/HttpService.h"
 
 #pragma pack(push, 1)
 
@@ -220,13 +222,11 @@ protected:
 };
 enum NetEventType
 {
-    None = 0,
+    NONE = 0,
     CONNECTED = 1,
     DISCONNECTED = 2,
     RECIVEDATA = 3,
 };
-
-class AFINet;
 
 typedef std::function<void(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
 typedef std::shared_ptr<NET_RECEIVE_FUNCTOR> NET_RECEIVE_FUNCTOR_PTR;
@@ -237,26 +237,28 @@ typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_LOG_FUNCTOR> NET_EVENT_LOG_FUNCTOR_PTR;
 
-class MsgFromNetInfo
+//class MsgFromNetInfo
+//{
+//public:
+//    MsgFromNetInfo()
+//    {
+//
+//    }
+//};
+
+class AFINet;
+
+class AFBaseNetEntity
 {
 public:
-    MsgFromNetInfo()
-    {
-
-    }
-};
-
-class NetObject
-{
-public:
-    NetObject(AFINet* pNet, const AFGUID& xClientID)
+    AFBaseNetEntity(AFINet* pNet, const AFGUID& xClientID)
     {
         bNeedRemove = false;
         m_pNet = pNet;
         mnClientID = xClientID;
     }
 
-    virtual ~NetObject()
+    virtual ~AFBaseNetEntity()
     {
     }
 
@@ -332,19 +334,10 @@ private:
 class AFINet
 {
 public:
-    AFINet()
-        : bWorking(false)
-        , nReceiverSize(0)
-        , nSendSize(0)
+    AFINet() : bWorking(false), nReceiverSize(0), nSendSize(0) {}
 
-    {
+    virtual ~AFINet() {}
 
-    }
-
-    virtual ~AFINet()
-    {
-
-    }
     //need to call this function every frame to drive network library
     virtual void Update() = 0;
 
@@ -352,7 +345,7 @@ public:
     virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)
     {
         return -1;
-    };
+    }
 
     virtual bool Final() = 0;
 
@@ -371,19 +364,64 @@ public:
         return false;
     }
 
-    virtual bool CloseNetObject(const AFGUID& xClientID) = 0;
+    virtual bool CloseNetEntity(const AFGUID& xClientID) = 0;
 
     virtual bool IsServer() = 0;
 
     virtual bool Log(int severity, const char* msg) = 0;
+
     bool IsStop()
     {
         return  !bWorking;
-    };
+    }
+
     virtual bool StopAfter(double dTime)
     {
         return false;
-    };
+    }
+
+    bool SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
+    {
+        std::string a = strIpPort;
+        if (a.empty())
+        {
+            return false;
+        }
+
+        size_t index = a.rfind(':');
+        if (index == std::string::npos)
+        {
+            return false;
+        }
+
+        if (index == a.size() - 1)
+        {
+            return false;
+        }
+
+        port = std::atoi(&a[index + 1]);
+
+        host = std::string(strIpPort, 0, index);
+        if (host[0] == '[')
+        {
+            if (*host.rbegin() != ']')
+            {
+                return false;
+            }
+
+            // trim the leading '[' and trail ']'
+            host = std::string(host.data() + 1, host.size() - 2);
+        }
+
+        // Compatible with "fe80::886a:49f3:20f3:add2]:80"
+        if (*host.rbegin() == ']')
+        {
+            // trim the trail ']'
+            host = std::string(host.data(), host.size() - 1);
+        }
+
+        return true;
+    }
 
 protected:
     bool bWorking;
@@ -392,5 +430,51 @@ public:
     size_t nReceiverSize;
     size_t nSendSize;
 };
+
+//////////////////////////////////////////////////////////////////////////
+
+template <typename SessionPTR>
+struct AFNetMsg
+{
+    AFNetMsg(const SessionPTR session_ptr) : mxSession(session_ptr), nType(NONE) {}
+
+    NetEventType nType;
+    AFGUID xClientID;
+    SessionPTR mxSession;
+    std::string strMsg;
+    AFCMsgHead xHead;
+};
+
+using AFTCPMsg = AFNetMsg<brynet::net::TCPSession::PTR>;
+using AFHttpMsg = AFNetMsg<brynet::net::HttpSession::PTR>;
+
+template <typename SessionPTR>
+class AFNetEntity : public AFBaseNetEntity
+{
+public:
+    AFNetEntity(AFINet* pNet, const AFGUID& xClientID, const SessionPTR session) : AFBaseNetEntity(pNet, xClientID), mxSession(session)
+    {
+    }
+
+    virtual ~AFNetEntity()
+    {
+    }
+
+    const SessionPTR& GetSession()
+    {
+        return mxSession;
+    }
+
+public:
+    SessionPTR mBryNetHttpConnPtr; //TO CHECK
+    AFGUID xHttpClientID; //TO CHECK
+
+    AFLockFreeQueue<AFNetMsg<SessionPTR>*> mxNetMsgMQ;
+private:
+    const SessionPTR mxSession;
+};
+
+using AFTCPEntity = AFNetEntity<brynet::net::TCPSession::PTR>;
+using AFHttpEntity = AFNetEntity<brynet::net::HttpSession::PTR>;
 
 #pragma pack(pop)

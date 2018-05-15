@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) AFHttpEntity ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,12 +20,9 @@
 
 #pragma once
 
-#include <thread>
-#include <atomic>
-#include "AFIBryNet.h"
+#include "AFINet.h"
 #include "SDK/Core/Base/AFQueue.h"
 #include "SDK/Core/Base/AFRWLock.hpp"
-
 #include <brynet/net/SocketLibFunction.h>
 #include <brynet/net/EventLoop.h>
 #include <brynet/net/WrapTCPService.h>
@@ -36,7 +33,7 @@
 
 #pragma pack(push, 1)
 
-class AFCWebSocktServer : public AFIBryNet
+class AFCWebSocktServer : public AFINet
 {
 public:
     AFCWebSocktServer()
@@ -84,7 +81,7 @@ public:
     virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID);
     virtual bool SendMsgToAllClientWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID);
 
-    virtual bool CloseNetObject(const AFGUID& xClientID);
+    virtual bool CloseNetEntity(const AFGUID& xClientID);
     virtual bool Log(int severity, const char* msg)
     {
         return true;
@@ -102,22 +99,22 @@ public:
 private:
     bool SendMsgToAllClient(const char* msg, const size_t nLen);
     bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient);
-    bool AddNetObject(const AFGUID& xClientID, BryHttpNetObject* pEntity);
-    bool RemoveNetObject(const AFGUID& xClientID);
-    BryHttpNetObject* GetNetObject(const AFGUID& xClientID);
+    bool AddNetEntity(const AFGUID& xClientID, AFHttpEntity* pEntity);
+    bool RemoveNetEntity(const AFGUID& xClientID);
+    AFHttpEntity* GetNetEntity(const AFGUID& xClientID);
 
 private:
     void ProcessMsgLogicThread();
-    void ProcessMsgLogicThread(BryHttpNetObject* pEntity);
+    void ProcessMsgLogicThread(AFHttpEntity* pEntity);
     bool CloseSocketAll();
-    bool DismantleNet(BryHttpNetObject* pEntity);
+    bool DismantleNet(AFHttpEntity* pEntity);
 
 protected:
     int DeCode(const char* strData, const size_t len, AFCMsgHead& xHead);
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
-    std::map<AFGUID, BryHttpNetObject*> mmObject;
+    std::map<AFGUID, AFHttpEntity*> mxNetEntities;
     AFCReaderWriterLock mRWLock;
     int mnMaxConnect;
     std::string mstrIPPort;
@@ -133,5 +130,3 @@ private:
 };
 
 #pragma pack(pop)
-
-
