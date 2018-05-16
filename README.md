@@ -3,14 +3,15 @@
 [![GitHub version](https://badge.fury.io/gh/ArkGame%2FARK.svg)](https://badge.fury.io/gh/ArkGame%2FARK)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ARK)
+[![Platform](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
 
 | Branch | Build Status |
-| - | - | 
+| - | - |
 | master | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=master)](https://travis-ci.org/ArkGame/ARK) |
 | develop | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=develop)](https://travis-ci.org/ArkGame/ARK) |
 
-**Copyright © [ARK Game](https://arkgame.net "ARK Game")**    
+**Copyright © [ARK Game](https://arkgame.net "ARK Game")**   
 Website: https://arkgame.net  
 Github: https://github.com/ArkGame/ARK  
 Gitee(码云): https://gitee.com/ArkGame/ARK  
@@ -42,7 +43,7 @@ ARK is a lightweight, agility, scalable, distributed plugin framework written by
 
 ### FAQ
 
-Please [create a new issue](https://github.com/ArkGame/ARK/issues) to ask a question.
+Please [create a new issue](https://github.com/ArkGame/ARK/issues) OR [visit our community](https://arkgame.net/community) to ask a question.
 
 
 ## Architecture
@@ -61,11 +62,10 @@ svn checkout https://github.com/ArkGame/ARK
 
 ## Dependencies
 
-- libevent master
-- easylogging++ 9.80
-- mysql++ 3.2.2
-- google protobuf 3.5.x
-- evpp 0.7.0
+- [brynet](https://github.com/IronsDu/brynet) MIT License
+- [easylogging++](https://github.com/muflihun/easyloggingpp) MIT License
+- [mysql++](https://tangentsoft.com/mysqlpp/home)
+- [google protobuf 3.5.x](https://github.com/google/protobuf)
 
 ## Supported Compilers
 
@@ -142,7 +142,7 @@ make
 > Note
 > - If you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
 > - To accelerate building, you can use `make -j` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
-3. Run `ARK\Bin\Server\DataConfig\Tool\gen-config.sh` to generate configuration files
+3. Run `ARK\Bin\Server\DataConfig\Tool\gen-config.sh` to generate configuration files(*Cuz our Tools is written by C#, so please generate your configuration in Windows, we plan to use .Net Core to create a new version in Linux*)
 4. Run the binary file by `Bin/Server/Debug/rund.sh`
 
 ## Documents
