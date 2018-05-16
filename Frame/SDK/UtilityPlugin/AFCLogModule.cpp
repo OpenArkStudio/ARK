@@ -20,7 +20,7 @@
 
 #include "AFCLogModule.h"
 #include <stdarg.h>
-#include "easylogging++.h"
+#include "common/easylogging++.h"
 
 INITIALIZE_EASYLOGGINGPP
 
