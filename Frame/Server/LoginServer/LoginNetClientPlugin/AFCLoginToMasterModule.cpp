@@ -64,7 +64,7 @@ bool AFCLoginToMasterModule::PostInit()
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
                 const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-                const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+                const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
                 ConnectData xServerData;
@@ -73,7 +73,7 @@ bool AFCLoginToMasterModule::PostInit()
                 xServerData.eServerType = (ARK_SERVER_TYPE)nServerType;
                 xServerData.strIP = strIP;
                 xServerData.nPort = nPort;
-                xServerData.strName = strName;
+                xServerData.strName = strServerName;
 
                 m_pNetClientModule->AddServer(xServerData);
             }
@@ -110,14 +110,14 @@ void AFCLoginToMasterModule::Register(const int nServerID)
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
                 const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-                const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+                const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
                 AFMsg::ServerInfoReportList xMsg;
                 AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
 
                 pData->set_server_id(nSelfServerID);
-                pData->set_server_name(strName);
+                pData->set_server_name(strServerName);
                 pData->set_server_cur_count(0);
                 pData->set_server_ip(strIP);
                 pData->set_server_port(nPort);
