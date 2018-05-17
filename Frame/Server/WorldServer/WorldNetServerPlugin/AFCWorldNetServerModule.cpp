@@ -558,7 +558,7 @@ int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const A
             pPublicRecordBase = pPublicData->add_record_list();
             pPublicRecordBase->set_record_name(pTable->GetName());
 
-            bool bRet = OnDataTableEnterPack(pTable, pPublicRecordBase);
+            OnDataTableEnterPack(pTable, pPublicRecordBase);
         }
 
         if(pTable->IsPrivate())
@@ -571,7 +571,7 @@ int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const A
             pPrivateRecordBase = pPrivateData->add_record_list();
             pPrivateRecordBase->set_record_name(pTable->GetName());
 
-            bool bRet = OnDataTableEnterPack(pTable, pPrivateRecordBase);
+            OnDataTableEnterPack(pTable, pPrivateRecordBase);
         }
     }
 
@@ -605,7 +605,7 @@ bool AFCWorldNetServerModule::OnDataTableEnterPack(AFDataTable* pTable, AFMsg::O
         return false;
     }
 
-    for(int i = 0; i < pTable->GetRowCount(); i ++)
+    for(size_t i = 0; i < pTable->GetRowCount(); i ++)
     {
         //不管public还是private都要加上，不然public广播了那不是private就广播不了了
         AFMsg::RecordAddRowStruct* pAddRowStruct = pObjectRecordBase->add_row_struct();
@@ -614,7 +614,7 @@ bool AFCWorldNetServerModule::OnDataTableEnterPack(AFDataTable* pTable, AFMsg::O
         AFCDataList valueList;
         pTable->QueryRow(i, valueList);
 
-        for(int j = 0; j < valueList.GetCount(); j++)
+        for(size_t j = 0; j < valueList.GetCount(); j++)
         {
             AFMsg::RecordPBData* pAddData = pAddRowStruct->add_record_data_list();
             AFINetServerModule::RecordToPBRecord(valueList, i, j, *pAddData);
@@ -655,7 +655,7 @@ int AFCWorldNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AF
 
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
 
-    for(int i = 0; i < pNodeManager->GetNodeCount(); i++)
+    for(size_t i = 0; i < pNodeManager->GetNodeCount(); i++)
     {
         AFDataNode* pNode = pNodeManager->GetNodeByIndex(i);
         if(nullptr == pNode)
@@ -679,7 +679,7 @@ int AFCWorldNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AF
 
     }
 
-    for(int i = 0; i < argVar.GetCount(); i++)
+    for(size_t i = 0; i < argVar.GetCount(); i++)
     {
         const AFGUID& identOther = argVar.Object(i);
         const int64_t nGameID = argGameID.Int(i);
