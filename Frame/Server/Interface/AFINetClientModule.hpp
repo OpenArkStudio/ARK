@@ -471,14 +471,13 @@ protected:
 
     void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
     {
-        int nRet(0);
         if(eEvent == CONNECTED)
         {
-            nRet = OnConnected(eEvent, xClientID, nServerID);
+            OnConnected(eEvent, xClientID, nServerID);
         }
         else
         {
-            nRet = OnDisConnected(eEvent, xClientID, nServerID);
+            OnDisConnected(eEvent, xClientID, nServerID);
         }
 
         OnSocketBaseNetEvent(eEvent, xClientID, nServerID);

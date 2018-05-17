@@ -33,7 +33,7 @@ public:
         }
     }
 
-    AFBuffer(size_t nBufferSize = 1024 * 512): mnDataSize(0), mnReadPos(0), mWritePos(0), mData(nullptr)
+    AFBuffer(size_t nBufferSize = 1024 * 512) : mData(nullptr), mnDataSize(0), mnReadPos(0), mWritePos(0)
     {
         if((mData = (char*)malloc(sizeof(char) * nBufferSize)) != NULL)
         {

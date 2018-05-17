@@ -148,7 +148,7 @@ void AFCGameNetServerModule::OnClientConnected(const AFGUID& xClientID)
 
 void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //在进入游戏之前nPlayerID为其在网关的FD
+    //Before enter game, PlayerID means gate fd
     AFGUID nGateClientID;
     AFMsg::ReqEnterGameServer xMsg;
     if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nGateClientID))

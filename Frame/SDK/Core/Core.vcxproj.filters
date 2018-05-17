@@ -153,6 +153,9 @@
     <ClInclude Include="Common\cronexpr.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="Base\AFBuffer.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCHeartBeatManager.cpp">

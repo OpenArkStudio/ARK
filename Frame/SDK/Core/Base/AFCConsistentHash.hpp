@@ -118,12 +118,14 @@ public:
 class AFIHasher
 {
 public:
+    virtual ~AFIHasher() {}
     virtual uint32_t GetHashValue(const AFIVirtualNode& vNode) = 0;
 };
 
 class AFCHasher : public AFIHasher
 {
 public:
+    virtual ~AFCHasher() {}
 
     virtual uint32_t GetHashValue(const AFIVirtualNode& vNode)
     {

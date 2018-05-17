@@ -183,7 +183,7 @@ public:
 
     bool SendMsgPB(const uint16_t nMsgID, const std::string& strData, const AFGUID& xClientID, const AFGUID nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
     {
-        if(!m_pNet)
+        if(m_pNet != nullptr)
         {
             char szData[MAX_PATH] = { 0 };
             ARK_SPRINTF(szData, MAX_PATH, "Send Message to %s Failed For NULL Of Net, MessageID: %d\n", xClientID.ToString().c_str(), nMsgID);
@@ -191,7 +191,7 @@ public:
             return false;
         }
 
-        if(pClientIDList)
+        if(pClientIDList != nullptr)
         {
             //playerid主要是网关转发消息的时候做识别使用，其他使用不使用
             AFMsg::BrocastMsg xMsg;
@@ -200,7 +200,7 @@ public:
             xMsg.set_msg_data(strData.data(), strData.length());
             xMsg.set_nmsgid(nMsgID);
 
-            for(int i = 0; i < pClientIDList->size(); ++i)
+            for(size_t i = 0; i < pClientIDList->size(); ++i)
             {
                 const AFGUID& ClientID = (*pClientIDList)[i];
 
