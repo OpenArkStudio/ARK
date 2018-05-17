@@ -18,8 +18,6 @@
 *
 */
 
-#pragma once
-
 #include "AFCWorldNetServerModule.h"
 #include "AFWorldNetServerPlugin.h"
 #include "SDK/Proto/AFMsgDefine.h"
