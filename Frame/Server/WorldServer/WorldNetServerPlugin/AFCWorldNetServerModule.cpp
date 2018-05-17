@@ -400,7 +400,7 @@ bool AFCWorldNetServerModule::SendMsgToGame(const AFIDataList& argObjectVar, con
         return false;
     }
 
-    for(int i = 0; i < argObjectVar.GetCount(); i++)
+    for(size_t i = 0; i < argObjectVar.GetCount(); i++)
     {
         const AFGUID& identOther = argObjectVar.Object(i);
         const int64_t  nGameID = argGameID.Int(i);
@@ -430,7 +430,7 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
     }
 
     AFMsg::AckPlayerEntryList xPlayerEntryInfoList;
-    for(int i = 0; i < argVar.GetCount(); i++)
+    for(size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOld = argVar.Object(i);
         //排除空对象
@@ -455,7 +455,7 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
         return 0;
     }
 
-    for(int i = 0; i < self.GetCount(); i++)
+    for(size_t i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
         if(ident.IsNULL())
@@ -479,7 +479,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
     }
 
     AFMsg::AckPlayerLeaveList xPlayerLeaveInfoList;
-    for(int i = 0; i < argVar.GetCount(); i++)
+    for(size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOld = argVar.Object(i);
         //排除空对象
@@ -492,7 +492,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
         *pIdent = AFINetServerModule::GUIDToPB(argVar.Object(i));
     }
 
-    for(int i = 0; i < self.GetCount(); i++)
+    for(size_t i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
         if(ident.IsNULL())
@@ -532,8 +532,8 @@ int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const A
     AFMsg::ObjectRecordList* pPrivateData = NULL;
 
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
-    int nTableCount = pTableManager->GetCount();
-    for(int i = 0; i < nTableCount; ++i)
+    size_t nTableCount = pTableManager->GetCount();
+    for(size_t i = 0; i < nTableCount; ++i)
     {
         AFDataTable* pTable = pTableManager->GetTableByIndex(i);
         if(pTable == nullptr)
@@ -575,7 +575,7 @@ int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const A
         }
     }
 
-    for(int i = 0; i < argVar.GetCount(); i++)
+    for(size_t i = 0; i < argVar.GetCount(); i++)
     {
         const AFGUID& identOther = argVar.Object(i);
         const int64_t nGameID = argGameID.Int(i);
