@@ -39,7 +39,7 @@ public:
 
     virtual bool Empty() const = 0;
 
-    virtual int GetCount() const = 0;
+    virtual size_t GetCount() const = 0;
 
     virtual int GetType(size_t index) const = 0;
 

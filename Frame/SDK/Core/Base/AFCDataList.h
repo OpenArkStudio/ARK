@@ -234,7 +234,7 @@ public:
         return (0 == mnDataUsed);
     }
 
-    virtual int GetCount() const
+    virtual size_t GetCount() const
     {
         return mnDataUsed;
     }

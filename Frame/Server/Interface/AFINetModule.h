@@ -115,7 +115,7 @@ public:
     {
         if(!xData.ParseFromString(std::string(msg, nLen)))
         {
-            char szData[MAX_PATH] = { 0 };
+            //char szData[MAX_PATH] = { 0 };
             //log
             return false;
         }
@@ -211,6 +211,7 @@ public:
             }
             break;
         default:
+            ARK_ASSERT_RET_VAL(0, false);
             break;
         }
 
@@ -265,6 +266,7 @@ public:
             }
             break;
         default:
+            ARK_ASSERT_RET_VAL(0, false);
             break;
         }
 
@@ -318,6 +320,7 @@ public:
             }
             break;
         default:
+            ARK_ASSERT_RET_VAL(0, false);
             break;
         }
 
@@ -327,28 +330,25 @@ public:
 protected:
     void OnReceiveBaseNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        std::map<int, NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxReceiveCallBack.find(nMsgID);
+        auto it = mxReceiveCallBack.find(nMsgID);
         if(mxReceiveCallBack.end() != it)
         {
-            NET_RECEIVE_FUNCTOR_PTR& pFunPtr = it->second;
-            (*pFunPtr)(xHead, nMsgID, msg, nLen, xClientID);
+            (*it->second)(xHead, nMsgID, msg, nLen, xClientID);
         }
         else
         {
-            for(std::list<NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxCallBackList.begin(); it != mxCallBackList.end(); ++it)
+            for(auto iter : mxCallBackList)
             {
-                NET_RECEIVE_FUNCTOR_PTR& pFunPtr = *it;
-                (*pFunPtr)(xHead, nMsgID, msg, nLen, xClientID);
+                (*iter)(xHead, nMsgID, msg, nLen, xClientID);
             }
         }
     }
 
     void OnSocketBaseNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
     {
-        for(std::list<NET_EVENT_FUNCTOR_PTR>::iterator it = mxEventCallBackList.begin(); it != mxEventCallBackList.end(); ++it)
+        for(auto it : mxEventCallBackList)
         {
-            NET_EVENT_FUNCTOR_PTR& pFunPtr = *it;
-            (*pFunPtr)(eEvent, xClientID, nServerID);
+            (*it)(eEvent, xClientID, nServerID);
         }
     }
 

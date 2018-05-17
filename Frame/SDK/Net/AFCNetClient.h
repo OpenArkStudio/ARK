@@ -68,8 +68,8 @@ public:
 
     virtual ~AFCNetClient()
     {
-        bool bRet = Final();
-    };
+        Final();
+    }
 
 public:
     virtual void Update();
