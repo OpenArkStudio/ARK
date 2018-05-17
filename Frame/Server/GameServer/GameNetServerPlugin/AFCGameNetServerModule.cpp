@@ -645,7 +645,7 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
                         AFINetServerModule::RecordToPBRecord(xRowDataList, nRow, nCol, *pAddData);
                     }
 
-                    for(int i = 0; i < valueBroadCaseList.GetCount(); i++)
+                    for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
                     {
                         AFGUID identOther = valueBroadCaseList.Object(i);
 
