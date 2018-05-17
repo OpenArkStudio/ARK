@@ -257,7 +257,7 @@ void AFCProxyServerToWorldModule::OnBrocastmsg(const AFIMsgHead& xHead, const in
 
     for(int i = 0; i < xMsg.player_client_list_size(); i++)
     {
-        const AFMsg::Ident& xClientID = xMsg.player_client_list(i);
-        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(xClientID), nPlayerID);
+        const AFMsg::Ident& xPlayerClientID = xMsg.player_client_list(i);
+        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(xPlayerClientID), nPlayerID);
     }
 }
