@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "AFDefine.pb.h"
-#include "AFMsgBase.pb.h"
-#include "AFMsgPreGame.pb.h"
-#include "AFMsgShare.pb.h"
-#include "AFMsgURl.pb.h"
-#include "AFMsgMysql.pb.h"
+#include "cpp/AFDefine.pb.h"
+#include "cpp/AFMsgBase.pb.h"
+#include "cpp/AFMsgPreGame.pb.h"
+#include "cpp/AFMsgShare.pb.h"
+#include "cpp/AFMsgURl.pb.h"
+#include "cpp/AFMsgMysql.pb.h"

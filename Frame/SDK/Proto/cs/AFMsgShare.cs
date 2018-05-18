@@ -25,249 +25,252 @@ namespace AFMsg {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChBBRk1zZ1NoYXJlLnByb3RvEgVBRk1zZxoOQUZEZWZpbmUucHJvdG8aD0FG",
-            "TXNnQmFzZS5wcm90byJeChJSZXFFbnRlckdhbWVTZXJ2ZXISGAoCaWQYASAB",
-            "KAsyDC5BRk1zZy5JZGVudBIPCgdhY2NvdW50GAIgASgJEg8KB2dhbWVfaWQY",
-            "AyABKAUSDAoEbmFtZRgEIAEoCSIOCgxSZXFIZWFydEJlYXQiFAoSUmVxTGVh",
-            "dmVHYW1lU2VydmVyIrMBCg9QbGF5ZXJFbnRyeUluZm8SIQoLb2JqZWN0X2d1",
-            "aWQYASABKAsyDC5BRk1zZy5JZGVudBIbCgNwb3MYAiABKAsyDi5BRk1zZy5Q",
-            "b2ludDNEEhMKC2NhcmVlcl90eXBlGAMgASgFEhQKDHBsYXllcl9zdGF0ZRgE",
-            "IAEoBRIRCgljb25maWdfaWQYBSABKAkSEAoIc2NlbmVfaWQYBiABKAUSEAoI",
-            "Y2xhc3NfaWQYByABKAkiQQoSQWNrUGxheWVyRW50cnlMaXN0EisKC29iamVj",
-            "dF9saXN0GAEgAygLMhYuQUZNc2cuUGxheWVyRW50cnlJbmZvIjcKEkFja1Bs",
-            "YXllckxlYXZlTGlzdBIhCgtvYmplY3RfbGlzdBgBIAMoCzIMLkFGTXNnLklk",
-            "ZW50IoYCCg1SZXFBY2tTeW5EYXRhEhsKBXN5c2VyGAEgASgLMgwuQUZNc2cu",
-            "SWRlbnQSIQoLb2JqZWN0X2xpc3QYAiADKAsyDC5BRk1zZy5JZGVudBIMCgRk",
-            "YXRhGAMgASgJEi4KCHN5bl90eXBlGAQgASgOMhwuQUZNc2cuUmVxQWNrU3lu",
-            "RGF0YS5TeW5UeXBlEiEKBm1zZ19pZBgFIAEoDjIRLkFGTXNnLkVHYW1lTXNn",
-            "SUQiVAoHU3luVHlwZRIMCghFU1RfTk9ORRAAEg0KCUVTVF9TQ0VORRABEg0K",
-            "CUVTVF9HUk9VUBACEg0KCUVTVF9HVUlMRBADEg4KCkVTVF9GUklFTkQQBCKL",
-            "AQoQUmVxQWNrUGxheWVyTW92ZRIbCgVtb3ZlchgBIAEoCzIMLkFGTXNnLklk",
-            "ZW50EhAKCG1vdmVUeXBlGAIgASgFEiMKCnRhcmdldF9wb3MYAyADKAsyDy5B",
-            "Rk1zZy5Qb3NpdGlvbhIjCgpzb3VyY2VfcG9zGAQgAygLMg8uQUZNc2cuUG9z",
-            "aXRpb24iaAoNQ2hhdENvbnRhaW5lchIVCg1Db25UYWluZXJUeXBlGAIgASgF",
-            "EhEKCWRhdGFfaW5mbxgDIAEoCSItCg1Db250YWluZXJUeXBlEg0KCUVHQ1Rf",
-            "Tk9ORRAAEg0KCUVHQ1RfSVRFTRABIrICChBSZXFBY2tQbGF5ZXJDaGF0Eh0K",
-            "B2NoYXRfaWQYASABKAsyDC5BRk1zZy5JZGVudBI4CgljaGF0X3R5cGUYAiAB",
-            "KA4yJS5BRk1zZy5SZXFBY2tQbGF5ZXJDaGF0LkVHYW1lQ2hhdFR5cGUSEQoJ",
-            "Y2hhdF9pbmZvGAMgASgJEhEKCWNoYXRfbmFtZRgEIAEoCRIfCgl0YXJnZXRf",
-            "aWQYBSABKAsyDC5BRk1zZy5JZGVudBIsCg5Db250YWluZXJfZGF0YRgGIAMo",
-            "CzIULkFGTXNnLkNoYXRDb250YWluZXIiUAoNRUdhbWVDaGF0VHlwZRIOCgpF",
-            "R0NUX0dVSUxEEAASEAoMRUdDVF9QUklWQVRFEAESDQoJRUdDVF9URUFNEAIS",
-            "DgoKRUdDVF9XT1JMRBADIrcBCgpFZmZlY3REYXRhEiIKDGVmZmVjdF9pZGVu",
-            "dBgBIAEoCzIMLkFGTXNnLklkZW50EhQKDGVmZmVjdF92YWx1ZRgCIAEoBRIx",
-            "CgplZmZlY3Rfcmx0GAMgASgOMh0uQUZNc2cuRWZmZWN0RGF0YS5FUmVzdWx0",
-            "VHlwZSI8CgtFUmVzdWx0VHlwZRIPCgtFRVRfU1VDQ0VTUxAAEgwKCEVFVF9G",
-            "QUlMEAESDgoKRUVUX1JFRlVTRRACIr0BCg5SZXFBY2tVc2VTa2lsbBIaCgR1",
-            "c2VyGAEgASgLMgwuQUZNc2cuSWRlbnQSEAoIc2tpbGxfaWQYAiABKAkSIAoH",
-            "bm93X3BvcxgDIAEoCzIPLkFGTXNnLlBvc2l0aW9uEiAKB3Rhcl9wb3MYBCAB",
-            "KAsyDy5BRk1zZy5Qb3NpdGlvbhIRCgl1c2VfaW5kZXgYBSABKAUSJgoLZWZm",
-            "ZWN0X2RhdGEYBiADKAsyES5BRk1zZy5FZmZlY3REYXRhIrUBCg1SZXFBY2tV",
-            "c2VJdGVtEhoKBHVzZXIYASABKAsyDC5BRk1zZy5JZGVudBIfCglpdGVtX2d1",
-            "aWQYAiABKAsyDC5BRk1zZy5JZGVudBImCgtlZmZlY3RfZGF0YRgDIAMoCzIR",
-            "LkFGTXNnLkVmZmVjdERhdGESHwoEaXRlbRgEIAEoCzIRLkFGTXNnLkl0ZW1T",
-            "dHJ1Y3QSHgoIdGFyZ2V0aWQYBSABKAsyDC5BRk1zZy5JZGVudCLlAQoPUmVx",
-            "QWNrU3dhcFNjZW5lEjsKDXRyYW5zZmVyX3R5cGUYASABKA4yJC5BRk1zZy5S",
-            "ZXFBY2tTd2FwU2NlbmUuRUdhbWVTd2FwVHlwZRIQCghzY2VuZV9pZBgCIAEo",
-            "BRIPCgdsaW5lX2lkGAMgASgFEgkKAXgYBCABKAISCQoBeRgFIAEoAhIJCgF6",
-            "GAYgASgCIlEKDUVHYW1lU3dhcFR5cGUSDwoLRUdTVF9OQVJNQUwQABIOCgpF",
-            "R1NUX0NMT05FEAESDgoKRUdTVF9BUkVOQRACEg8KC0VHU1RfTUlSUk9SEAMi",
-            "MQoKSXRlbVN0cnVjdBIPCgdpdGVtX2lkGAEgASgJEhIKCml0ZW1fY291bnQY",
-            "AiABKAUiPwoOQ3VycmVuY3lTdHJ1Y3QSFQoNY3VycmVuY3lfdHlwZRgBIAEo",
-            "BRIWCg5jdXJyZW5jeV9jb3VudBgCIAEoBSJkCg9SZXFBY2tFbmRCYXR0bGUS",
-            "DQoFbW9uZXkYASABKAUSCwoDZXhwGAIgASgFEg8KB2RpYW1vbmQYAyABKAUS",
-            "JAoJaXRlbV9saXN0GAQgAygLMhEuQUZNc2cuSXRlbVN0cnVjdCIyCg9SZXFQ",
-            "aWNrRHJvcEl0ZW0SHwoJaXRlbV9ndWlkGAIgASgLMgwuQUZNc2cuSWRlbnQi",
-            "IAoNUmVxQWNjZXB0VGFzaxIPCgd0YXNrX2lkGAEgASgJIiMKEFJlcUNvbXBl",
-            "bGV0ZVRhc2sSDwoHdGFza19pZBgBIAEoCSLvAQoSUmVxQWNrSm9pbkFjdGl2",
-            "aXR5EkIKDWFjdGl2aXR5X3R5cGUYASABKA4yKy5BRk1zZy5SZXFBY2tKb2lu",
-            "QWN0aXZpdHkuRUdhbWVBY3Rpdml0eVR5cGUSSQoRc3ViX2FjdGl2aXR5X3R5",
-            "cGUYAiABKA4yLi5BRk1zZy5SZXFBY2tKb2luQWN0aXZpdHkuRUdhbWVBY3Rp",
-            "dml0eVN1YlR5cGUiIQoRRUdhbWVBY3Rpdml0eVR5cGUSDAoIRUdBVF9QVlAQ",
-            "ACInChRFR2FtZUFjdGl2aXR5U3ViVHlwZRIPCgtFR0FUX05PUk1BTBAAIj4K",
-            "E1JlcUFja1NlYXJjaE9wcG5lbnQSJwoLc2VhcmNoX3R5cGUYASABKA4yEi5B",
-            "Rk1zZy5FQmF0dGxlVHlwZSI+ChNSZXFBY2tCYXR0bGVPcHBuZW50EicKC2Jh",
-            "dHRsZV90eXBlGAEgASgOMhIuQUZNc2cuRUJhdHRsZVR5cGUiRwoRUmVxQWNr",
-            "Q3JlYXRlR3VpbGQSHgoIZ3VpbGRfaWQYASABKAsyDC5BRk1zZy5JZGVudBIS",
-            "CgpndWlsZF9uYW1lGAIgASgJIiQKDlJlcVNlYXJjaEd1aWxkEhIKCmd1aWxk",
-            "X25hbWUYASABKAkikAIKDkFja1NlYXJjaEd1aWxkEjsKCmd1aWxkX2xpc3QY",
-            "ASADKAsyJy5BRk1zZy5BY2tTZWFyY2hHdWlsZC5TZWFyY2hHdWlsZE9iamVj",
-            "dBrAAQoRU2VhcmNoR3VpbGRPYmplY3QSHgoIZ3VpbGRfSUQYASABKAsyDC5B",
-            "Rk1zZy5JZGVudBISCgpndWlsZF9uYW1lGAIgASgJEhIKCmd1aWxkX2ljb24Y",
-            "AyABKAkSGgoSZ3VpbGRfbWVtYmVyX2NvdW50GAQgASgFEh4KFmd1aWxkX21l",
-            "bWJlcl9tYXhfY291bnQYBSABKAUSEwoLZ3VpbGRfaG9ub3IYBiABKAUSEgoK",
-            "Z3VpbGRfcmFuaxgHIAEoBSJFCg9SZXFBY2tKb2luR3VpbGQSHgoIZ3VpbGRf",
-            "aWQYASABKAsyDC5BRk1zZy5JZGVudBISCgpndWlsZF9uYW1lGAIgASgJIkYK",
-            "EFJlcUFja0xlYXZlR3VpbGQSHgoIZ3VpbGRfaWQYASABKAsyDC5BRk1zZy5J",
-            "ZGVudBISCgpndWlsZF9uYW1lGAIgASgJIskCChRSZXFBY2tPcHJHdWlsZE1l",
-            "bWJlchIeCghndWlsZF9pZBgBIAEoCzIMLkFGTXNnLklkZW50Eh8KCW1lbWJl",
-            "cl9pZBgCIAEoCzIMLkFGTXNnLklkZW50Ej4KBHR5cGUYAyABKA4yMC5BRk1z",
-            "Zy5SZXFBY2tPcHJHdWlsZE1lbWJlci5FR0d1aWxkTWVtYmVyT3ByVHlwZSKv",
-            "AQoURUdHdWlsZE1lbWJlck9wclR5cGUSDQoJRUdBVF9ET1dOEAASCwoHRUdB",
-            "VF9VUBABEg0KCUVHQVRfS0lDSxACEhAKDEVHQVRfQVBQT0lOVBADEg0KCUVH",
-            "QVRfRklSRRAEEg8KC0VHQVRfREVNSVNFEAUSFAoQRUdBVF9BQ0NFUFRBUFBM",
-            "WRAGEhIKDkVHQVRfREVOWUFQUExZEAcSEAoMRUdBVF9LSUNLT1VUEAgizAIK",
-            "DlJlcUFja09wckd1aWxkEh4KCGd1aWxkX2lkGAEgASgLMgwuQUZNc2cuSWRl",
-            "bnQSHwoJcGxheWVyX2lkGAIgASgLMgwuQUZNc2cuSWRlbnQSMgoEdHlwZRgD",
-            "IAEoDjIkLkFGTXNnLlJlcUFja09wckd1aWxkLkVHR3VpbGRPcHJUeXBlEhQK",
-            "DFJlY3J1aXRfZGF0YRgEIAEoCRIPCgdBZF9kYXRhGAUgASgJIp0BCg5FR0d1",
-            "aWxkT3ByVHlwZRINCglFR0FUX05PTkUQABIVChFFR0FUX0FQUExZRElTTUlT",
-            "UxABEhQKEEVHQVRfU1RPUERJU01JU1MQAhITCg9FR0FUX1NFVFJFQ1JVSVQQ",
-            "AxIXChNFR0FUX1BVQkxJU0hSRUNSVUlUEAQSDwoLRUdBVF9FRElUQUQQBRIQ",
-            "CgxFR0FUX0xFVkVMVVAQBiJ+ChVSZXFBY2tEb25hdGVHdWlsZEl0ZW0SHgoI",
-            "Z3VpbGRfaWQYASABKAsyDC5BRk1zZy5JZGVudBIfCgl0YXJnZXRfaWQYAiAB",
-            "KAsyDC5BRk1zZy5JZGVudBIkCglpdGVtX2xpc3QYAyADKAsyES5BRk1zZy5J",
-            "dGVtU3RydWN0IlIKElJlcUd1aWxkRWN0eXBlSW5mbxIcCgZzZWxmaWQYASAB",
-            "KAsyDC5BRk1zZy5JZGVudBIeCghndWlsZF9pZBgCIAEoCzIMLkFGTXNnLklk",
-            "ZW50Im0KD0d1aWxkRWN0eXBlSW5mbxIeCghndWlsZF9pZBgBIAEoCzIMLkFG",
-            "TXNnLklkZW50EhEKCXNlcnZlcl9pZBgCIAEoAxIRCglFY3R5cGVfaWQYAyAB",
-            "KAMSFAoMRWN0eXBlX0dyb3VwGAQgASgDIl8KEkFja0d1aWxkRWN0eXBlSW5m",
-            "bxIcCgZzZWxmaWQYASABKAsyDC5BRk1zZy5JZGVudBIrCgt4ZWN0eXBlaW5m",
-            "bxgCIAEoCzIWLkFGTXNnLkd1aWxkRWN0eXBlSW5mbyJfChJTZXRHdWlsZEVj",
-            "dHlwZUluZm8SHAoGc2VsZmlkGAEgASgLMgwuQUZNc2cuSWRlbnQSKwoLeGVj",
-            "dHlwZWluZm8YAiABKAsyFi5BRk1zZy5HdWlsZEVjdHlwZUluZm8iMwoTUmVx",
-            "RW50ZXJHdWlsZEVjdHlwZRIcCgZzZWxmaWQYASABKAsyDC5BRk1zZy5JZGVu",
-            "dCLVAgoIQ2hhdEluZm8SLAoJY2hhdF90eXBlGAEgASgOMhkuQUZNc2cuQ2hh",
-            "dEluZm8uRUNoYXRUeXBlEhEKCWNoYXRfaW5mbxgCIAEoCRIRCgljaGF0X3Rp",
-            "bWUYAyABKAMSFgoOYWRkdGlvbmFsX2luZm8YBCABKAkSHQoHc2VuZF9pZBgF",
-            "IAEoCzIMLkFGTXNnLklkZW50EhEKCXNlbmRfbmFtZRgGIAEoCRISCgpzZW5k",
-            "X2xldmVsGAcgASgFEiAKCnJlY3ZpZXJfaWQYCCADKAsyDC5BRk1zZy5JZGVu",
-            "dBIRCglndWlkX25hbWUYCSABKAkiYgoJRUNoYXRUeXBlEhQKEEVDSEFUVFlQ",
-            "RV9OT1JNQUwQABIVChFFQ0hBVFRZUEVfUFJJVkFURRABEhMKD0VDSEFUVFlQ",
-            "RV9HVUlMRBACEhMKD0VDSEFUVFlQRV9XT1JMRBADInkKFVJlcUFja0NyZWF0",
-            "ZUNoYXRHcm91cBIMCgRuYW1lGAEgASgJEhwKBnNlbGZpZBgCIAEoCzIMLkFG",
-            "TXNnLklkZW50EiIKDHhDaGF0R3JvdXBpZBgDIAEoCzIMLkFGTXNnLklkZW50",
-            "EhAKCGNoYXRUeXBlGAQgASgFInkKE1JlcUFja2pvaW5DaGF0R3JvdXASHAoG",
-            "c2VsZmlkGAEgASgLMgwuQUZNc2cuSWRlbnQSIgoMeENoYXRHcm91cGlkGAIg",
-            "ASgLMgwuQUZNc2cuSWRlbnQSDgoGcmVzdWx0GAMgASgDEhAKCGNoYXRUeXBl",
-            "GAQgASgFImcKE1JlcUFja1F1aXRDaGF0R3JvdXASHAoGc2VsZmlkGAEgASgL",
-            "MgwuQUZNc2cuSWRlbnQSIgoMeENoYXRHcm91cGlkGAIgASgLMgwuQUZNc2cu",
-            "SWRlbnQSDgoGcmVzdWx0GAMgASgDIlwKGFJlcVN1YnNjcmlwdGlvbkNoYXRH",
-            "cm91cBIcCgZzZWxmaWQYASABKAsyDC5BRk1zZy5JZGVudBIiCgx4Q2hhdEdy",
-            "b3VwaWQYAiADKAsyDC5BRk1zZy5JZGVudCJiCh5SZXFDYW5jZWxTdWJzY3Jp",
-            "cHRpb25DaGF0R3JvdXASHAoGc2VsZmlkGAEgASgLMgwuQUZNc2cuSWRlbnQS",
-            "IgoMeENoYXRHcm91cGlkGAIgAygLMgwuQUZNc2cuSWRlbnQiVwoYUmVxSW50",
-            "ZW5zaWZ5bGV2ZWxUb0VxdWlwEhwKBnNlbGZpZBgBIAEoCzIMLkFGTXNnLklk",
-            "ZW50Eh0KB2VxdWlwaWQYAiABKAsyDC5BRk1zZy5JZGVudCJnChhBY2tJbnRl",
-            "bnNpZnlsZXZlbFRvRXF1aXASHAoGc2VsZmlkGAEgASgLMgwuQUZNc2cuSWRl",
-            "bnQSHQoHZXF1aXBpZBgCIAEoCzIMLkFGTXNnLklkZW50Eg4KBnJlc3VsdBgD",
-            "IAEoBSJNCg5SZXFIb2xlVG9FcXVpcBIcCgZzZWxmaWQYASABKAsyDC5BRk1z",
-            "Zy5JZGVudBIdCgdlcXVpcGlkGAIgASgLMgwuQUZNc2cuSWRlbnQiXQoOQWNr",
-            "SG9sZVRvRXF1aXASHAoGc2VsZmlkGAEgASgLMgwuQUZNc2cuSWRlbnQSHQoH",
-            "ZXF1aXBpZBgCIAEoCzIMLkFGTXNnLklkZW50Eg4KBnJlc3VsdBgDIAEoBSJ4",
-            "ChRSZXFJbmxheXN0b25lVG9FcXVpcBIcCgZzZWxmaWQYASABKAsyDC5BRk1z",
-            "Zy5JZGVudBIdCgdlcXVpcGlkGAIgASgLMgwuQUZNc2cuSWRlbnQSDwoHc3Rv",
-            "bmVpZBgDIAEoCRISCgpob2xlX2luZGV4GAQgASgFImMKFEFja0lubGF5c3Rv",
-            "bmVUb0VxdWlwEhwKBnNlbGZpZBgBIAEoCzIMLkFGTXNnLklkZW50Eh0KB2Vx",
-            "dWlwaWQYAiABKAsyDC5BRk1zZy5JZGVudBIOCgZyZXN1bHQYAyABKAUihAEK",
-            "FlJlcUVsZW1lbnRsZXZlbFRvRXF1aXASHAoGc2VsZmlkGAEgASgLMgwuQUZN",
-            "c2cuSWRlbnQSHQoHZXF1aXBpZBgCIAEoCzIMLkFGTXNnLklkZW50Ei0KDGVF",
-            "bGVtZW50VHlwZRgDIAEoDjIXLkFGTXNnLkVHYW1lRWxlbWVudFR5cGUiZQoW",
-            "QWNrRWxlbWVudGxldmVsVG9FcXVpcBIcCgZzZWxmaWQYASABKAsyDC5BRk1z",
-            "Zy5JZGVudBIdCgdlcXVpcGlkGAIgASgLMgwuQUZNc2cuSWRlbnQSDgoGcmVz",
-            "dWx0GAMgASgFIl8KD1JlcVNldEZpZ2h0SGVybxIcCgZzZWxmaWQYASABKAsy",
-            "DC5BRk1zZy5JZGVudBIcCgZIZXJvaWQYAiABKAsyDC5BRk1zZy5JZGVudBIQ",
-            "CghGaWdodFBvcxgDIAEoBSJrCgxSZXFXZWFyRXF1aXASHAoGc2VsZmlkGAEg",
-            "ASgLMgwuQUZNc2cuSWRlbnQSHQoHZXF1aXBpZBgCIAEoCzIMLkFGTXNnLklk",
-            "ZW50Eh4KCFRhcmdldGlkGAMgASgLMgwuQUZNc2cuSWRlbnQiawoMVGFrZU9m",
-            "ZkVxdWlwEhwKBnNlbGZpZBgBIAEoCzIMLkFGTXNnLklkZW50Eh0KB2VxdWlw",
-            "aWQYAiABKAsyDC5BRk1zZy5JZGVudBIeCghUYXJnZXRpZBgDIAEoCzIMLkFG",
-            "TXNnLklkZW50IkQKDlJlcU1pbmluZ1RpdGxlEhwKBnNlbGZpZBgBIAEoCzIM",
-            "LkFGTXNnLklkZW50EgkKAXgYAiABKAUSCQoBeRgDIAEoBSKfAQoLUmVxU2Vu",
-            "ZE1haWwSHAoGc2VsZmlkGAEgASgLMgwuQUZNc2cuSWRlbnQSHgoIcmVjaWV2",
-            "ZXIYAiABKAsyDC5BRk1zZy5JZGVudBIkCglpdGVtX2xpc3QYAyADKAsyES5B",
-            "Rk1zZy5JdGVtU3RydWN0EiwKDWN1cnJlbmN5X2xpc3QYBCADKAsyFS5BRk1z",
-            "Zy5DdXJyZW5jeVN0cnVjdCK5AQoPUmVxU3dpdGNoU2VydmVyEhwKBnNlbGZp",
-            "ZBgBIAEoCzIMLkFGTXNnLklkZW50EhUKDXNlbGZfc2VydmVyaWQYAiABKAMS",
-            "FwoPdGFyZ2V0X3NlcnZlcmlkGAMgASgDEhUKDWdhdGVfc2VydmVyaWQYBCAB",
-            "KAMSDwoHU2NlbmVJRBgFIAEoAxIfCgljbGllbnRfaWQYBiABKAsyDC5BRk1z",
-            "Zy5JZGVudBIPCgdncm91cElEGAcgASgDInYKD0Fja1N3aXRjaFNlcnZlchIc",
-            "CgZzZWxmaWQYASABKAsyDC5BRk1zZy5JZGVudBIVCg1zZWxmX3NlcnZlcmlk",
-            "GAIgASgDEhcKD3RhcmdldF9zZXJ2ZXJpZBgDIAEoAxIVCg1nYXRlX3NlcnZl",
-            "cmlkGAQgASgDInoKCFRlYW1JbmZvEh0KB3RlYW1faWQYASABKAsyDC5BRk1z",
-            "Zy5JZGVudBIgCgpjYXB0YWluX2lkGAIgASgLMgwuQUZNc2cuSWRlbnQSLQoO",
-            "dGVhbW1lbWJlckluZm8YAyADKAsyFS5BRk1zZy5UZWFtbWVtYmVySW5mbyJu",
-            "Cg5UZWFtbWVtYmVySW5mbxIfCglwbGF5ZXJfaWQYASABKAsyDC5BRk1zZy5J",
-            "ZGVudBIMCgRuYW1lGAIgASgJEg4KBm5MZXZlbBgDIAEoBRILCgNqb2IYBCAB",
-            "KAUSEAoISGVhZEljb24YBSABKAkiVQoQUmVxQWNrQ3JlYXRlVGVhbRIdCgd0",
-            "ZWFtX2lkGAEgASgLMgwuQUZNc2cuSWRlbnQSIgoJeFRlYW1JbmZvGAIgASgL",
-            "Mg8uQUZNc2cuVGVhbUluZm8iUwoOUmVxQWNrSm9pblRlYW0SHQoHdGVhbV9p",
-            "ZBgBIAEoCzIMLkFGTXNnLklkZW50EiIKCXhUZWFtSW5mbxgCIAEoCzIPLkFG",
-            "TXNnLlRlYW1JbmZvIlQKD1JlcUFja0xlYXZlVGVhbRIdCgd0ZWFtX2lkGAEg",
-            "ASgLMgwuQUZNc2cuSWRlbnQSIgoJeFRlYW1JbmZvGAIgASgLMg8uQUZNc2cu",
-            "VGVhbUluZm8i6AIKE1JlcUFja09wclRlYW1NZW1iZXISHQoHdGVhbV9pZBgB",
-            "IAEoCzIMLkFGTXNnLklkZW50Eh8KCW1lbWJlcl9pZBgCIAEoCzIMLkFGTXNn",
-            "LklkZW50EjwKBHR5cGUYAyABKA4yLi5BRk1zZy5SZXFBY2tPcHJUZWFtTWVt",
-            "YmVyLkVHVGVhbU1lbWJlck9wclR5cGUSIgoJeFRlYW1JbmZvGAQgASgLMg8u",
-            "QUZNc2cuVGVhbUluZm8irgEKE0VHVGVhbU1lbWJlck9wclR5cGUSDQoJRUdB",
-            "VF9ET1dOEAASCwoHRUdBVF9VUBABEg0KCUVHQVRfS0lDSxACEhAKDEVHQVRf",
-            "QVBQT0lOVBADEg0KCUVHQVRfRklSRRAEEg8KC0VHQVRfREVNSVNFEAUSFAoQ",
-            "RUdBVF9BQ0NFUFRBUFBMWRAGEhIKDkVHQVRfREVOWUFQUExZEAcSEAoMRUdB",
-            "VF9LSUNLT1VUEAgieAoQUmVxQWNrSW52aXRlVGVhbRIdCgd0ZWFtX2lkGAEg",
-            "ASgLMgwuQUZNc2cuSWRlbnQSHQoHc2VsZl9pZBgCIAEoCzIMLkFGTXNnLklk",
-            "ZW50EiYKEGludml0ZV90YXJnZXRfaWQYAyABKAsyDC5BRk1zZy5JZGVudCKb",
-            "AQoSUmVxVGVhbUVudGVyRWN0eXBlEh0KB3RlYW1faWQYASABKAsyDC5BRk1z",
-            "Zy5JZGVudBIdCgdzZWxmX2lkGAIgASgLMgwuQUZNc2cuSWRlbnQSEQoJbkVj",
-            "dHlwZUlEGAMgASgFEhAKCG5Hcm91cElEGAQgASgFEg8KB25SZXN1bHQYBSAB",
-            "KAUSEQoJblNlcnZlcklEGAYgASgFIogBChJBY2tUZWFtRW50ZXJFY3R5cGUS",
-            "HQoHdGVhbV9pZBgBIAEoCzIMLkFGTXNnLklkZW50Eh0KB3NlbGZfaWQYAiAB",
-            "KAsyDC5BRk1zZy5JZGVudBIRCgluRWN0eXBlSUQYAyABKAUSEAoIbkdyb3Vw",
-            "SUQYBCABKAUSDwoHblJlc3VsdBgFIAEoBSJrChFHcmlkR3VpbGRCYXNlSW5m",
-            "bxIYCgJpZBgBIAEoCzIMLkFGTXNnLklkZW50Eg0KBWxldmVsGAIgASgFEg0K",
-            "BWNvdW50GAMgASgFEhAKCHJlc291cmNlGAQgASgFEgwKBGljb24YBSABKAki",
-            "KQoRUmVxQmlnTWFwR3JpZEluZm8SFAoMbWFwX3RpdGxlX2lkGAEgAygJIroB",
-            "ChJCaWdNYXBHcmlkQmFzZUluZm8SCgoCaWQYASABKAkSLAoKZ3VpbGRfaW5m",
-            "bxgCIAEoCzIYLkFGTXNnLkdyaWRHdWlsZEJhc2VJbmZvEhQKDGtpbmd3YXJf",
-            "dGltZRgKIAEoBRIgCgpraW5nd2FycmVyGAsgASgLMgwuQUZNc2cuSWRlbnQS",
-            "FAoMaHVydGluZ190aW1lGBQgASgFEhwKBmh1cnRlchgVIAEoCzIMLkFGTXNn",
-            "LklkZW50InoKDkJpZ01hcExlYXZlTXNnEhsKBW93bmVyGAEgASgLMgwuQUZN",
-            "c2cuSWRlbnQSEgoKb3duZXJfbmFtZRgCIAEoCRIQCghtc2dfZGF0YRgDIAEo",
-            "CRIQCghtc2dfdGltZRgEIAEoBRITCgtvd25lcl9sZXZlbBgFIAEoBSKeAQoQ",
-            "QmlnTWFwV2FySGlzdG9yeRIqCghyZWRfaW5mbxgBIAEoCzIYLkFGTXNnLkdy",
-            "aWRHdWlsZEJhc2VJbmZvEisKCWJsdWVfaW5mbxgCIAEoCzIYLkFGTXNnLkdy",
-            "aWRHdWlsZEJhc2VJbmZvEh8KCXdpbm5lcl9pZBgKIAEoCzIMLkFGTXNnLklk",
-            "ZW50EhAKCHdhcl90aW1lGAsgASgFItMBChRCaWdNYXBHcmlkRGV0YWlsSW5m",
-            "bxIxCg5ncmlkX2Jhc2VfaW5mbxgBIAEoCzIZLkFGTXNnLkJpZ01hcEdyaWRC",
-            "YXNlSW5mbxIwCg5zdGF5X2d1aWRfbGlzdBgCIAMoCzIYLkFGTXNnLkdyaWRH",
-            "dWlsZEJhc2VJbmZvEigKCWxlYXZlX21zZxgDIAMoCzIVLkFGTXNnLkJpZ01h",
-            "cExlYXZlTXNnEiwKC3dhcl9oaXN0b3J5GAQgAygLMhcuQUZNc2cuQmlnTWFw",
-            "V2FySGlzdG9yeSJCChFBY2tCaWdNYXBHcmlkSW5mbxItCghtYXBfZGF0YRgB",
-            "IAMoCzIbLkFGTXNnLkJpZ01hcEdyaWREZXRhaWxJbmZvIg8KDVJlcUJpZ01h",
-            "cEluZm8iQgoNQWNrQmlnTWFwSW5mbxIxCg5ncmlkX2Jhc2VfaW5mbxgBIAMo",
-            "CzIZLkFGTXNnLkJpZ01hcEdyaWRCYXNlSW5mbyJGCg5SZXFIb2xkTWFwR3Jp",
-            "ZBIUCgxtYXBfdGl0bGVfaWQYASABKAkSHgoIZ3VpbGRfaWQYAiABKAsyDC5B",
-            "Rk1zZy5JZGVudCIQCg5BY2tIb2xkTWFwR3JpZCJQCg5SZXFMZWF2ZU1hcE1z",
-            "ZxIUCgxtYXBfdGl0bGVfaWQYASABKAkSKAoJbGVhdmVfbXNnGAIgASgLMhUu",
-            "QUZNc2cuQmlnTWFwTGVhdmVNc2ciEAoOQWNrTGVhdmVNYXBNc2ciJgoOUmVx",
-            "R2V0TWFwQXdhcmQSFAoMbWFwX3RpdGxlX2lkGAEgASgJIhAKDkFja0dldE1h",
-            "cEF3YXJkIiUKDVJlcU1hcEh1bnRpbmcSFAoMbWFwX3RpdGxlX2lkGAEgASgJ",
-            "Ig8KDUFja01hcEh1bnRpbmciJQoNUmVxTWFwS2luZ1dhchIUCgxtYXBfdGl0",
-            "bGVfaWQYASABKAkiDwoNQWNrTWFwS2luZ1dhciLxAQoLUFZQUm9vbUluZm8S",
-            "EwoLbkNlbGxTdGF0dXMYASABKAUSHAoGUm9vbUlEGAIgASgLMgwuQUZNc2cu",
-            "SWRlbnQSEAoIblBWUE1vZGUYAyABKAUSEQoJblBWUEdyYWRlGAQgASgFEhEK",
-            "CU1heFBhbHllchgFIAEoBRIgCgp4UmVkUGxheWVyGAYgAygLMgwuQUZNc2cu",
-            "SWRlbnQSIQoLeEJsdWVQbGF5ZXIYByADKAsyDC5BRk1zZy5JZGVudBIQCghz",
-            "ZXJ2ZXJpZBgIIAEoAxIPCgdTY2VuZUlEGAkgASgDEg8KB2dyb3VwSUQYCiAB",
-            "KAMivgEKEFJlcVBWUEFwcGx5TWF0Y2gSHQoHc2VsZl9pZBgBIAEoCzIMLkFG",
-            "TXNnLklkZW50EhAKCG5QVlBNb2RlGAIgASgFEg0KBXNjb3JlGAMgASgDEhEK",
-            "CUFwcGx5VHlwZRgEIAEoBRIdCgd0ZWFtX2lkGAUgASgLMgwuQUZNc2cuSWRl",
-            "bnQiOAoKRUFwcGx5VHlwZRIVChFFQXBwbHlUeXBlX1NpbmdsZRAAEhMKD0VB",
-            "cHBseVR5cGVfVGVhbRABInwKEEFja1BWUEFwcGx5TWF0Y2gSHQoHc2VsZl9p",
-            "ZBgBIAEoCzIMLkFGTXNnLklkZW50EiUKCXhSb29tSW5mbxgCIAEoCzISLkFG",
-            "TXNnLlBWUFJvb21JbmZvEhEKCUFwcGx5VHlwZRgDIAEoBRIPCgduUmVzdWx0",
-            "GAQgASgFIloKElJlcUNyZWF0ZVBWUEVjdHlwZRIdCgdzZWxmX2lkGAEgASgL",
-            "MgwuQUZNc2cuSWRlbnQSJQoJeFJvb21JbmZvGAIgASgLMhIuQUZNc2cuUFZQ",
-            "Um9vbUluZm8ibQoSQWNrQ3JlYXRlUFZQRWN0eXBlEh0KB3NlbGZfaWQYASAB",
-            "KAsyDC5BRk1zZy5JZGVudBIlCgl4Um9vbUluZm8YAiABKAsyEi5BRk1zZy5Q",
-            "VlBSb29tSW5mbxIRCglBcHBseVR5cGUYAyABKAViBnByb3RvMw=="));
+            "TXNnQmFzZS5wcm90byJfChJSZXFFbnRlckdhbWVTZXJ2ZXISGQoCaWQYASAB",
+            "KAsyDS5BRk1zZy5QQkdVSUQSDwoHYWNjb3VudBgCIAEoCRIPCgdnYW1lX2lk",
+            "GAMgASgFEgwKBG5hbWUYBCABKAkiDgoMUmVxSGVhcnRCZWF0IhQKElJlcUxl",
+            "YXZlR2FtZVNlcnZlciK0AQoPRW50aXR5RW50ZXJJbmZvEiIKC29iamVjdF9n",
+            "dWlkGAEgASgLMg0uQUZNc2cuUEJHVUlEEhsKA3BvcxgCIAEoCzIOLkFGTXNn",
+            "LlBvaW50M0QSEwoLY2FyZWVyX3R5cGUYAyABKAUSFAoMcGxheWVyX3N0YXRl",
+            "GAQgASgFEhEKCWNvbmZpZ19pZBgFIAEoCRIQCghzY2VuZV9pZBgGIAEoBRIQ",
+            "CghjbGFzc19pZBgHIAEoCSJBChJBY2tFbnRpdHlFbnRlckxpc3QSKwoLZW50",
+            "aXR5X2xpc3QYASADKAsyFi5BRk1zZy5FbnRpdHlFbnRlckluZm8iOAoSQWNr",
+            "RW50aXR5TGVhdmVMaXN0EiIKC2VudGl0eV9saXN0GAEgAygLMg0uQUZNc2cu",
+            "UEJHVUlEIogCCg1SZXFBY2tTeW5EYXRhEhwKBXN5c2VyGAEgASgLMg0uQUZN",
+            "c2cuUEJHVUlEEiIKC29iamVjdF9saXN0GAIgAygLMg0uQUZNc2cuUEJHVUlE",
+            "EgwKBGRhdGEYAyABKAkSLgoIc3luX3R5cGUYBCABKA4yHC5BRk1zZy5SZXFB",
+            "Y2tTeW5EYXRhLlN5blR5cGUSIQoGbXNnX2lkGAUgASgOMhEuQUZNc2cuRUdh",
+            "bWVNc2dJRCJUCgdTeW5UeXBlEgwKCEVTVF9OT05FEAASDQoJRVNUX1NDRU5F",
+            "EAESDQoJRVNUX0dST1VQEAISDQoJRVNUX0dVSUxEEAMSDgoKRVNUX0ZSSUVO",
+            "RBAEIowBChBSZXFBY2tQbGF5ZXJNb3ZlEhwKBW1vdmVyGAEgASgLMg0uQUZN",
+            "c2cuUEJHVUlEEhAKCG1vdmVUeXBlGAIgASgFEiMKCnRhcmdldF9wb3MYAyAD",
+            "KAsyDy5BRk1zZy5Qb3NpdGlvbhIjCgpzb3VyY2VfcG9zGAQgAygLMg8uQUZN",
+            "c2cuUG9zaXRpb24iaAoNQ2hhdENvbnRhaW5lchIVCg1Db25UYWluZXJUeXBl",
+            "GAIgASgFEhEKCWRhdGFfaW5mbxgDIAEoCSItCg1Db250YWluZXJUeXBlEg0K",
+            "CUVHQ1RfTk9ORRAAEg0KCUVHQ1RfSVRFTRABIrQCChBSZXFBY2tQbGF5ZXJD",
+            "aGF0Eh4KB2NoYXRfaWQYASABKAsyDS5BRk1zZy5QQkdVSUQSOAoJY2hhdF90",
+            "eXBlGAIgASgOMiUuQUZNc2cuUmVxQWNrUGxheWVyQ2hhdC5FR2FtZUNoYXRU",
+            "eXBlEhEKCWNoYXRfaW5mbxgDIAEoCRIRCgljaGF0X25hbWUYBCABKAkSIAoJ",
+            "dGFyZ2V0X2lkGAUgASgLMg0uQUZNc2cuUEJHVUlEEiwKDkNvbnRhaW5lcl9k",
+            "YXRhGAYgAygLMhQuQUZNc2cuQ2hhdENvbnRhaW5lciJQCg1FR2FtZUNoYXRU",
+            "eXBlEg4KCkVHQ1RfR1VJTEQQABIQCgxFR0NUX1BSSVZBVEUQARINCglFR0NU",
+            "X1RFQU0QAhIOCgpFR0NUX1dPUkxEEAMiuAEKCkVmZmVjdERhdGESIwoMZWZm",
+            "ZWN0X2lkZW50GAEgASgLMg0uQUZNc2cuUEJHVUlEEhQKDGVmZmVjdF92YWx1",
+            "ZRgCIAEoBRIxCgplZmZlY3Rfcmx0GAMgASgOMh0uQUZNc2cuRWZmZWN0RGF0",
+            "YS5FUmVzdWx0VHlwZSI8CgtFUmVzdWx0VHlwZRIPCgtFRVRfU1VDQ0VTUxAA",
+            "EgwKCEVFVF9GQUlMEAESDgoKRUVUX1JFRlVTRRACIr4BCg5SZXFBY2tVc2VT",
+            "a2lsbBIbCgR1c2VyGAEgASgLMg0uQUZNc2cuUEJHVUlEEhAKCHNraWxsX2lk",
+            "GAIgASgJEiAKB25vd19wb3MYAyABKAsyDy5BRk1zZy5Qb3NpdGlvbhIgCgd0",
+            "YXJfcG9zGAQgASgLMg8uQUZNc2cuUG9zaXRpb24SEQoJdXNlX2luZGV4GAUg",
+            "ASgFEiYKC2VmZmVjdF9kYXRhGAYgAygLMhEuQUZNc2cuRWZmZWN0RGF0YSK4",
+            "AQoNUmVxQWNrVXNlSXRlbRIbCgR1c2VyGAEgASgLMg0uQUZNc2cuUEJHVUlE",
+            "EiAKCWl0ZW1fZ3VpZBgCIAEoCzINLkFGTXNnLlBCR1VJRBImCgtlZmZlY3Rf",
+            "ZGF0YRgDIAMoCzIRLkFGTXNnLkVmZmVjdERhdGESHwoEaXRlbRgEIAEoCzIR",
+            "LkFGTXNnLkl0ZW1TdHJ1Y3QSHwoIdGFyZ2V0aWQYBSABKAsyDS5BRk1zZy5Q",
+            "QkdVSUQi5QEKD1JlcUFja1N3YXBTY2VuZRI7Cg10cmFuc2Zlcl90eXBlGAEg",
+            "ASgOMiQuQUZNc2cuUmVxQWNrU3dhcFNjZW5lLkVHYW1lU3dhcFR5cGUSEAoI",
+            "c2NlbmVfaWQYAiABKAUSDwoHbGluZV9pZBgDIAEoBRIJCgF4GAQgASgCEgkK",
+            "AXkYBSABKAISCQoBehgGIAEoAiJRCg1FR2FtZVN3YXBUeXBlEg8KC0VHU1Rf",
+            "TkFSTUFMEAASDgoKRUdTVF9DTE9ORRABEg4KCkVHU1RfQVJFTkEQAhIPCgtF",
+            "R1NUX01JUlJPUhADIjEKCkl0ZW1TdHJ1Y3QSDwoHaXRlbV9pZBgBIAEoCRIS",
+            "CgppdGVtX2NvdW50GAIgASgFIj8KDkN1cnJlbmN5U3RydWN0EhUKDWN1cnJl",
+            "bmN5X3R5cGUYASABKAUSFgoOY3VycmVuY3lfY291bnQYAiABKAUiZAoPUmVx",
+            "QWNrRW5kQmF0dGxlEg0KBW1vbmV5GAEgASgFEgsKA2V4cBgCIAEoBRIPCgdk",
+            "aWFtb25kGAMgASgFEiQKCWl0ZW1fbGlzdBgEIAMoCzIRLkFGTXNnLkl0ZW1T",
+            "dHJ1Y3QiMwoPUmVxUGlja0Ryb3BJdGVtEiAKCWl0ZW1fZ3VpZBgCIAEoCzIN",
+            "LkFGTXNnLlBCR1VJRCIgCg1SZXFBY2NlcHRUYXNrEg8KB3Rhc2tfaWQYASAB",
+            "KAkiIwoQUmVxQ29tcGVsZXRlVGFzaxIPCgd0YXNrX2lkGAEgASgJIu8BChJS",
+            "ZXFBY2tKb2luQWN0aXZpdHkSQgoNYWN0aXZpdHlfdHlwZRgBIAEoDjIrLkFG",
+            "TXNnLlJlcUFja0pvaW5BY3Rpdml0eS5FR2FtZUFjdGl2aXR5VHlwZRJJChFz",
+            "dWJfYWN0aXZpdHlfdHlwZRgCIAEoDjIuLkFGTXNnLlJlcUFja0pvaW5BY3Rp",
+            "dml0eS5FR2FtZUFjdGl2aXR5U3ViVHlwZSIhChFFR2FtZUFjdGl2aXR5VHlw",
+            "ZRIMCghFR0FUX1BWUBAAIicKFEVHYW1lQWN0aXZpdHlTdWJUeXBlEg8KC0VH",
+            "QVRfTk9STUFMEAAiPgoTUmVxQWNrU2VhcmNoT3BwbmVudBInCgtzZWFyY2hf",
+            "dHlwZRgBIAEoDjISLkFGTXNnLkVCYXR0bGVUeXBlIj4KE1JlcUFja0JhdHRs",
+            "ZU9wcG5lbnQSJwoLYmF0dGxlX3R5cGUYASABKA4yEi5BRk1zZy5FQmF0dGxl",
+            "VHlwZSJIChFSZXFBY2tDcmVhdGVHdWlsZBIfCghndWlsZF9pZBgBIAEoCzIN",
+            "LkFGTXNnLlBCR1VJRBISCgpndWlsZF9uYW1lGAIgASgJIiQKDlJlcVNlYXJj",
+            "aEd1aWxkEhIKCmd1aWxkX25hbWUYASABKAkikQIKDkFja1NlYXJjaEd1aWxk",
+            "EjsKCmd1aWxkX2xpc3QYASADKAsyJy5BRk1zZy5BY2tTZWFyY2hHdWlsZC5T",
+            "ZWFyY2hHdWlsZE9iamVjdBrBAQoRU2VhcmNoR3VpbGRPYmplY3QSHwoIZ3Vp",
+            "bGRfSUQYASABKAsyDS5BRk1zZy5QQkdVSUQSEgoKZ3VpbGRfbmFtZRgCIAEo",
+            "CRISCgpndWlsZF9pY29uGAMgASgJEhoKEmd1aWxkX21lbWJlcl9jb3VudBgE",
+            "IAEoBRIeChZndWlsZF9tZW1iZXJfbWF4X2NvdW50GAUgASgFEhMKC2d1aWxk",
+            "X2hvbm9yGAYgASgFEhIKCmd1aWxkX3JhbmsYByABKAUiRgoPUmVxQWNrSm9p",
+            "bkd1aWxkEh8KCGd1aWxkX2lkGAEgASgLMg0uQUZNc2cuUEJHVUlEEhIKCmd1",
+            "aWxkX25hbWUYAiABKAkiRwoQUmVxQWNrTGVhdmVHdWlsZBIfCghndWlsZF9p",
+            "ZBgBIAEoCzINLkFGTXNnLlBCR1VJRBISCgpndWlsZF9uYW1lGAIgASgJIssC",
+            "ChRSZXFBY2tPcHJHdWlsZE1lbWJlchIfCghndWlsZF9pZBgBIAEoCzINLkFG",
+            "TXNnLlBCR1VJRBIgCgltZW1iZXJfaWQYAiABKAsyDS5BRk1zZy5QQkdVSUQS",
+            "PgoEdHlwZRgDIAEoDjIwLkFGTXNnLlJlcUFja09wckd1aWxkTWVtYmVyLkVH",
+            "R3VpbGRNZW1iZXJPcHJUeXBlIq8BChRFR0d1aWxkTWVtYmVyT3ByVHlwZRIN",
+            "CglFR0FUX0RPV04QABILCgdFR0FUX1VQEAESDQoJRUdBVF9LSUNLEAISEAoM",
+            "RUdBVF9BUFBPSU5UEAMSDQoJRUdBVF9GSVJFEAQSDwoLRUdBVF9ERU1JU0UQ",
+            "BRIUChBFR0FUX0FDQ0VQVEFQUExZEAYSEgoORUdBVF9ERU5ZQVBQTFkQBxIQ",
+            "CgxFR0FUX0tJQ0tPVVQQCCLOAgoOUmVxQWNrT3ByR3VpbGQSHwoIZ3VpbGRf",
+            "aWQYASABKAsyDS5BRk1zZy5QQkdVSUQSIAoJcGxheWVyX2lkGAIgASgLMg0u",
+            "QUZNc2cuUEJHVUlEEjIKBHR5cGUYAyABKA4yJC5BRk1zZy5SZXFBY2tPcHJH",
+            "dWlsZC5FR0d1aWxkT3ByVHlwZRIUCgxSZWNydWl0X2RhdGEYBCABKAkSDwoH",
+            "QWRfZGF0YRgFIAEoCSKdAQoORUdHdWlsZE9wclR5cGUSDQoJRUdBVF9OT05F",
+            "EAASFQoRRUdBVF9BUFBMWURJU01JU1MQARIUChBFR0FUX1NUT1BESVNNSVNT",
+            "EAISEwoPRUdBVF9TRVRSRUNSVUlUEAMSFwoTRUdBVF9QVUJMSVNIUkVDUlVJ",
+            "VBAEEg8KC0VHQVRfRURJVEFEEAUSEAoMRUdBVF9MRVZFTFVQEAYigAEKFVJl",
+            "cUFja0RvbmF0ZUd1aWxkSXRlbRIfCghndWlsZF9pZBgBIAEoCzINLkFGTXNn",
+            "LlBCR1VJRBIgCgl0YXJnZXRfaWQYAiABKAsyDS5BRk1zZy5QQkdVSUQSJAoJ",
+            "aXRlbV9saXN0GAMgAygLMhEuQUZNc2cuSXRlbVN0cnVjdCJUChJSZXFHdWls",
+            "ZEVjdHlwZUluZm8SHQoGc2VsZmlkGAEgASgLMg0uQUZNc2cuUEJHVUlEEh8K",
+            "CGd1aWxkX2lkGAIgASgLMg0uQUZNc2cuUEJHVUlEIm4KD0d1aWxkRWN0eXBl",
+            "SW5mbxIfCghndWlsZF9pZBgBIAEoCzINLkFGTXNnLlBCR1VJRBIRCglzZXJ2",
+            "ZXJfaWQYAiABKAMSEQoJRWN0eXBlX2lkGAMgASgDEhQKDEVjdHlwZV9Hcm91",
+            "cBgEIAEoAyJgChJBY2tHdWlsZEVjdHlwZUluZm8SHQoGc2VsZmlkGAEgASgL",
+            "Mg0uQUZNc2cuUEJHVUlEEisKC3hlY3R5cGVpbmZvGAIgASgLMhYuQUZNc2cu",
+            "R3VpbGRFY3R5cGVJbmZvImAKElNldEd1aWxkRWN0eXBlSW5mbxIdCgZzZWxm",
+            "aWQYASABKAsyDS5BRk1zZy5QQkdVSUQSKwoLeGVjdHlwZWluZm8YAiABKAsy",
+            "Fi5BRk1zZy5HdWlsZEVjdHlwZUluZm8iNAoTUmVxRW50ZXJHdWlsZEVjdHlw",
+            "ZRIdCgZzZWxmaWQYASABKAsyDS5BRk1zZy5QQkdVSUQi1wIKCENoYXRJbmZv",
+            "EiwKCWNoYXRfdHlwZRgBIAEoDjIZLkFGTXNnLkNoYXRJbmZvLkVDaGF0VHlw",
+            "ZRIRCgljaGF0X2luZm8YAiABKAkSEQoJY2hhdF90aW1lGAMgASgDEhYKDmFk",
+            "ZHRpb25hbF9pbmZvGAQgASgJEh4KB3NlbmRfaWQYBSABKAsyDS5BRk1zZy5Q",
+            "QkdVSUQSEQoJc2VuZF9uYW1lGAYgASgJEhIKCnNlbmRfbGV2ZWwYByABKAUS",
+            "IQoKcmVjdmllcl9pZBgIIAMoCzINLkFGTXNnLlBCR1VJRBIRCglndWlkX25h",
+            "bWUYCSABKAkiYgoJRUNoYXRUeXBlEhQKEEVDSEFUVFlQRV9OT1JNQUwQABIV",
+            "ChFFQ0hBVFRZUEVfUFJJVkFURRABEhMKD0VDSEFUVFlQRV9HVUlMRBACEhMK",
+            "D0VDSEFUVFlQRV9XT1JMRBADInsKFVJlcUFja0NyZWF0ZUNoYXRHcm91cBIM",
+            "CgRuYW1lGAEgASgJEh0KBnNlbGZpZBgCIAEoCzINLkFGTXNnLlBCR1VJRBIj",
+            "Cgx4Q2hhdEdyb3VwaWQYAyABKAsyDS5BRk1zZy5QQkdVSUQSEAoIY2hhdFR5",
+            "cGUYBCABKAUiewoTUmVxQWNram9pbkNoYXRHcm91cBIdCgZzZWxmaWQYASAB",
+            "KAsyDS5BRk1zZy5QQkdVSUQSIwoMeENoYXRHcm91cGlkGAIgASgLMg0uQUZN",
+            "c2cuUEJHVUlEEg4KBnJlc3VsdBgDIAEoAxIQCghjaGF0VHlwZRgEIAEoBSJp",
+            "ChNSZXFBY2tRdWl0Q2hhdEdyb3VwEh0KBnNlbGZpZBgBIAEoCzINLkFGTXNn",
+            "LlBCR1VJRBIjCgx4Q2hhdEdyb3VwaWQYAiABKAsyDS5BRk1zZy5QQkdVSUQS",
+            "DgoGcmVzdWx0GAMgASgDIl4KGFJlcVN1YnNjcmlwdGlvbkNoYXRHcm91cBId",
+            "CgZzZWxmaWQYASABKAsyDS5BRk1zZy5QQkdVSUQSIwoMeENoYXRHcm91cGlk",
+            "GAIgAygLMg0uQUZNc2cuUEJHVUlEImQKHlJlcUNhbmNlbFN1YnNjcmlwdGlv",
+            "bkNoYXRHcm91cBIdCgZzZWxmaWQYASABKAsyDS5BRk1zZy5QQkdVSUQSIwoM",
+            "eENoYXRHcm91cGlkGAIgAygLMg0uQUZNc2cuUEJHVUlEIlkKGFJlcUludGVu",
+            "c2lmeWxldmVsVG9FcXVpcBIdCgZzZWxmaWQYASABKAsyDS5BRk1zZy5QQkdV",
+            "SUQSHgoHZXF1aXBpZBgCIAEoCzINLkFGTXNnLlBCR1VJRCJpChhBY2tJbnRl",
+            "bnNpZnlsZXZlbFRvRXF1aXASHQoGc2VsZmlkGAEgASgLMg0uQUZNc2cuUEJH",
+            "VUlEEh4KB2VxdWlwaWQYAiABKAsyDS5BRk1zZy5QQkdVSUQSDgoGcmVzdWx0",
+            "GAMgASgFIk8KDlJlcUhvbGVUb0VxdWlwEh0KBnNlbGZpZBgBIAEoCzINLkFG",
+            "TXNnLlBCR1VJRBIeCgdlcXVpcGlkGAIgASgLMg0uQUZNc2cuUEJHVUlEIl8K",
+            "DkFja0hvbGVUb0VxdWlwEh0KBnNlbGZpZBgBIAEoCzINLkFGTXNnLlBCR1VJ",
+            "RBIeCgdlcXVpcGlkGAIgASgLMg0uQUZNc2cuUEJHVUlEEg4KBnJlc3VsdBgD",
+            "IAEoBSJ6ChRSZXFJbmxheXN0b25lVG9FcXVpcBIdCgZzZWxmaWQYASABKAsy",
+            "DS5BRk1zZy5QQkdVSUQSHgoHZXF1aXBpZBgCIAEoCzINLkFGTXNnLlBCR1VJ",
+            "RBIPCgdzdG9uZWlkGAMgASgJEhIKCmhvbGVfaW5kZXgYBCABKAUiZQoUQWNr",
+            "SW5sYXlzdG9uZVRvRXF1aXASHQoGc2VsZmlkGAEgASgLMg0uQUZNc2cuUEJH",
+            "VUlEEh4KB2VxdWlwaWQYAiABKAsyDS5BRk1zZy5QQkdVSUQSDgoGcmVzdWx0",
+            "GAMgASgFIoYBChZSZXFFbGVtZW50bGV2ZWxUb0VxdWlwEh0KBnNlbGZpZBgB",
+            "IAEoCzINLkFGTXNnLlBCR1VJRBIeCgdlcXVpcGlkGAIgASgLMg0uQUZNc2cu",
+            "UEJHVUlEEi0KDGVFbGVtZW50VHlwZRgDIAEoDjIXLkFGTXNnLkVHYW1lRWxl",
+            "bWVudFR5cGUiZwoWQWNrRWxlbWVudGxldmVsVG9FcXVpcBIdCgZzZWxmaWQY",
+            "ASABKAsyDS5BRk1zZy5QQkdVSUQSHgoHZXF1aXBpZBgCIAEoCzINLkFGTXNn",
+            "LlBCR1VJRBIOCgZyZXN1bHQYAyABKAUiYQoPUmVxU2V0RmlnaHRIZXJvEh0K",
+            "BnNlbGZpZBgBIAEoCzINLkFGTXNnLlBCR1VJRBIdCgZIZXJvaWQYAiABKAsy",
+            "DS5BRk1zZy5QQkdVSUQSEAoIRmlnaHRQb3MYAyABKAUibgoMUmVxV2VhckVx",
+            "dWlwEh0KBnNlbGZpZBgBIAEoCzINLkFGTXNnLlBCR1VJRBIeCgdlcXVpcGlk",
+            "GAIgASgLMg0uQUZNc2cuUEJHVUlEEh8KCFRhcmdldGlkGAMgASgLMg0uQUZN",
+            "c2cuUEJHVUlEIm4KDFRha2VPZmZFcXVpcBIdCgZzZWxmaWQYASABKAsyDS5B",
+            "Rk1zZy5QQkdVSUQSHgoHZXF1aXBpZBgCIAEoCzINLkFGTXNnLlBCR1VJRBIf",
+            "CghUYXJnZXRpZBgDIAEoCzINLkFGTXNnLlBCR1VJRCJFCg5SZXFNaW5pbmdU",
+            "aXRsZRIdCgZzZWxmaWQYASABKAsyDS5BRk1zZy5QQkdVSUQSCQoBeBgCIAEo",
+            "BRIJCgF5GAMgASgFIqEBCgtSZXFTZW5kTWFpbBIdCgZzZWxmaWQYASABKAsy",
+            "DS5BRk1zZy5QQkdVSUQSHwoIcmVjaWV2ZXIYAiABKAsyDS5BRk1zZy5QQkdV",
+            "SUQSJAoJaXRlbV9saXN0GAMgAygLMhEuQUZNc2cuSXRlbVN0cnVjdBIsCg1j",
+            "dXJyZW5jeV9saXN0GAQgAygLMhUuQUZNc2cuQ3VycmVuY3lTdHJ1Y3QiuwEK",
+            "D1JlcVN3aXRjaFNlcnZlchIdCgZzZWxmaWQYASABKAsyDS5BRk1zZy5QQkdV",
+            "SUQSFQoNc2VsZl9zZXJ2ZXJpZBgCIAEoAxIXCg90YXJnZXRfc2VydmVyaWQY",
+            "AyABKAMSFQoNZ2F0ZV9zZXJ2ZXJpZBgEIAEoAxIPCgdTY2VuZUlEGAUgASgD",
+            "EiAKCWNsaWVudF9pZBgGIAEoCzINLkFGTXNnLlBCR1VJRBIPCgdncm91cElE",
+            "GAcgASgDIncKD0Fja1N3aXRjaFNlcnZlchIdCgZzZWxmaWQYASABKAsyDS5B",
+            "Rk1zZy5QQkdVSUQSFQoNc2VsZl9zZXJ2ZXJpZBgCIAEoAxIXCg90YXJnZXRf",
+            "c2VydmVyaWQYAyABKAMSFQoNZ2F0ZV9zZXJ2ZXJpZBgEIAEoAyJ8CghUZWFt",
+            "SW5mbxIeCgd0ZWFtX2lkGAEgASgLMg0uQUZNc2cuUEJHVUlEEiEKCmNhcHRh",
+            "aW5faWQYAiABKAsyDS5BRk1zZy5QQkdVSUQSLQoOdGVhbW1lbWJlckluZm8Y",
+            "AyADKAsyFS5BRk1zZy5UZWFtbWVtYmVySW5mbyJvCg5UZWFtbWVtYmVySW5m",
+            "bxIgCglwbGF5ZXJfaWQYASABKAsyDS5BRk1zZy5QQkdVSUQSDAoEbmFtZRgC",
+            "IAEoCRIOCgZuTGV2ZWwYAyABKAUSCwoDam9iGAQgASgFEhAKCEhlYWRJY29u",
+            "GAUgASgJIlYKEFJlcUFja0NyZWF0ZVRlYW0SHgoHdGVhbV9pZBgBIAEoCzIN",
+            "LkFGTXNnLlBCR1VJRBIiCgl4VGVhbUluZm8YAiABKAsyDy5BRk1zZy5UZWFt",
+            "SW5mbyJUCg5SZXFBY2tKb2luVGVhbRIeCgd0ZWFtX2lkGAEgASgLMg0uQUZN",
+            "c2cuUEJHVUlEEiIKCXhUZWFtSW5mbxgCIAEoCzIPLkFGTXNnLlRlYW1JbmZv",
+            "IlUKD1JlcUFja0xlYXZlVGVhbRIeCgd0ZWFtX2lkGAEgASgLMg0uQUZNc2cu",
+            "UEJHVUlEEiIKCXhUZWFtSW5mbxgCIAEoCzIPLkFGTXNnLlRlYW1JbmZvIuoC",
+            "ChNSZXFBY2tPcHJUZWFtTWVtYmVyEh4KB3RlYW1faWQYASABKAsyDS5BRk1z",
+            "Zy5QQkdVSUQSIAoJbWVtYmVyX2lkGAIgASgLMg0uQUZNc2cuUEJHVUlEEjwK",
+            "BHR5cGUYAyABKA4yLi5BRk1zZy5SZXFBY2tPcHJUZWFtTWVtYmVyLkVHVGVh",
+            "bU1lbWJlck9wclR5cGUSIgoJeFRlYW1JbmZvGAQgASgLMg8uQUZNc2cuVGVh",
+            "bUluZm8irgEKE0VHVGVhbU1lbWJlck9wclR5cGUSDQoJRUdBVF9ET1dOEAAS",
+            "CwoHRUdBVF9VUBABEg0KCUVHQVRfS0lDSxACEhAKDEVHQVRfQVBQT0lOVBAD",
+            "Eg0KCUVHQVRfRklSRRAEEg8KC0VHQVRfREVNSVNFEAUSFAoQRUdBVF9BQ0NF",
+            "UFRBUFBMWRAGEhIKDkVHQVRfREVOWUFQUExZEAcSEAoMRUdBVF9LSUNLT1VU",
+            "EAgiewoQUmVxQWNrSW52aXRlVGVhbRIeCgd0ZWFtX2lkGAEgASgLMg0uQUZN",
+            "c2cuUEJHVUlEEh4KB3NlbGZfaWQYAiABKAsyDS5BRk1zZy5QQkdVSUQSJwoQ",
+            "aW52aXRlX3RhcmdldF9pZBgDIAEoCzINLkFGTXNnLlBCR1VJRCKdAQoSUmVx",
+            "VGVhbUVudGVyRWN0eXBlEh4KB3RlYW1faWQYASABKAsyDS5BRk1zZy5QQkdV",
+            "SUQSHgoHc2VsZl9pZBgCIAEoCzINLkFGTXNnLlBCR1VJRBIRCgluRWN0eXBl",
+            "SUQYAyABKAUSEAoIbkdyb3VwSUQYBCABKAUSDwoHblJlc3VsdBgFIAEoBRIR",
+            "CgluU2VydmVySUQYBiABKAUiigEKEkFja1RlYW1FbnRlckVjdHlwZRIeCgd0",
+            "ZWFtX2lkGAEgASgLMg0uQUZNc2cuUEJHVUlEEh4KB3NlbGZfaWQYAiABKAsy",
+            "DS5BRk1zZy5QQkdVSUQSEQoJbkVjdHlwZUlEGAMgASgFEhAKCG5Hcm91cElE",
+            "GAQgASgFEg8KB25SZXN1bHQYBSABKAUibAoRR3JpZEd1aWxkQmFzZUluZm8S",
+            "GQoCaWQYASABKAsyDS5BRk1zZy5QQkdVSUQSDQoFbGV2ZWwYAiABKAUSDQoF",
+            "Y291bnQYAyABKAUSEAoIcmVzb3VyY2UYBCABKAUSDAoEaWNvbhgFIAEoCSIp",
+            "ChFSZXFCaWdNYXBHcmlkSW5mbxIUCgxtYXBfdGl0bGVfaWQYASADKAkivAEK",
+            "EkJpZ01hcEdyaWRCYXNlSW5mbxIKCgJpZBgBIAEoCRIsCgpndWlsZF9pbmZv",
+            "GAIgASgLMhguQUZNc2cuR3JpZEd1aWxkQmFzZUluZm8SFAoMa2luZ3dhcl90",
+            "aW1lGAogASgFEiEKCmtpbmd3YXJyZXIYCyABKAsyDS5BRk1zZy5QQkdVSUQS",
+            "FAoMaHVydGluZ190aW1lGBQgASgFEh0KBmh1cnRlchgVIAEoCzINLkFGTXNn",
+            "LlBCR1VJRCJ7Cg5CaWdNYXBMZWF2ZU1zZxIcCgVvd25lchgBIAEoCzINLkFG",
+            "TXNnLlBCR1VJRBISCgpvd25lcl9uYW1lGAIgASgJEhAKCG1zZ19kYXRhGAMg",
+            "ASgJEhAKCG1zZ190aW1lGAQgASgFEhMKC293bmVyX2xldmVsGAUgASgFIp8B",
+            "ChBCaWdNYXBXYXJIaXN0b3J5EioKCHJlZF9pbmZvGAEgASgLMhguQUZNc2cu",
+            "R3JpZEd1aWxkQmFzZUluZm8SKwoJYmx1ZV9pbmZvGAIgASgLMhguQUZNc2cu",
+            "R3JpZEd1aWxkQmFzZUluZm8SIAoJd2lubmVyX2lkGAogASgLMg0uQUZNc2cu",
+            "UEJHVUlEEhAKCHdhcl90aW1lGAsgASgFItMBChRCaWdNYXBHcmlkRGV0YWls",
+            "SW5mbxIxCg5ncmlkX2Jhc2VfaW5mbxgBIAEoCzIZLkFGTXNnLkJpZ01hcEdy",
+            "aWRCYXNlSW5mbxIwCg5zdGF5X2d1aWRfbGlzdBgCIAMoCzIYLkFGTXNnLkdy",
+            "aWRHdWlsZEJhc2VJbmZvEigKCWxlYXZlX21zZxgDIAMoCzIVLkFGTXNnLkJp",
+            "Z01hcExlYXZlTXNnEiwKC3dhcl9oaXN0b3J5GAQgAygLMhcuQUZNc2cuQmln",
+            "TWFwV2FySGlzdG9yeSJCChFBY2tCaWdNYXBHcmlkSW5mbxItCghtYXBfZGF0",
+            "YRgBIAMoCzIbLkFGTXNnLkJpZ01hcEdyaWREZXRhaWxJbmZvIg8KDVJlcUJp",
+            "Z01hcEluZm8iQgoNQWNrQmlnTWFwSW5mbxIxCg5ncmlkX2Jhc2VfaW5mbxgB",
+            "IAMoCzIZLkFGTXNnLkJpZ01hcEdyaWRCYXNlSW5mbyJHCg5SZXFIb2xkTWFw",
+            "R3JpZBIUCgxtYXBfdGl0bGVfaWQYASABKAkSHwoIZ3VpbGRfaWQYAiABKAsy",
+            "DS5BRk1zZy5QQkdVSUQiEAoOQWNrSG9sZE1hcEdyaWQiUAoOUmVxTGVhdmVN",
+            "YXBNc2cSFAoMbWFwX3RpdGxlX2lkGAEgASgJEigKCWxlYXZlX21zZxgCIAEo",
+            "CzIVLkFGTXNnLkJpZ01hcExlYXZlTXNnIhAKDkFja0xlYXZlTWFwTXNnIiYK",
+            "DlJlcUdldE1hcEF3YXJkEhQKDG1hcF90aXRsZV9pZBgBIAEoCSIQCg5BY2tH",
+            "ZXRNYXBBd2FyZCIlCg1SZXFNYXBIdW50aW5nEhQKDG1hcF90aXRsZV9pZBgB",
+            "IAEoCSIPCg1BY2tNYXBIdW50aW5nIiUKDVJlcU1hcEtpbmdXYXISFAoMbWFw",
+            "X3RpdGxlX2lkGAEgASgJIg8KDUFja01hcEtpbmdXYXIi9AEKC1BWUFJvb21J",
+            "bmZvEhMKC25DZWxsU3RhdHVzGAEgASgFEh0KBlJvb21JRBgCIAEoCzINLkFG",
+            "TXNnLlBCR1VJRBIQCghuUFZQTW9kZRgDIAEoBRIRCgluUFZQR3JhZGUYBCAB",
+            "KAUSEQoJTWF4UGFseWVyGAUgASgFEiEKCnhSZWRQbGF5ZXIYBiADKAsyDS5B",
+            "Rk1zZy5QQkdVSUQSIgoLeEJsdWVQbGF5ZXIYByADKAsyDS5BRk1zZy5QQkdV",
+            "SUQSEAoIc2VydmVyaWQYCCABKAMSDwoHU2NlbmVJRBgJIAEoAxIPCgdncm91",
+            "cElEGAogASgDIsABChBSZXFQVlBBcHBseU1hdGNoEh4KB3NlbGZfaWQYASAB",
+            "KAsyDS5BRk1zZy5QQkdVSUQSEAoIblBWUE1vZGUYAiABKAUSDQoFc2NvcmUY",
+            "AyABKAMSEQoJQXBwbHlUeXBlGAQgASgFEh4KB3RlYW1faWQYBSABKAsyDS5B",
+            "Rk1zZy5QQkdVSUQiOAoKRUFwcGx5VHlwZRIVChFFQXBwbHlUeXBlX1Npbmds",
+            "ZRAAEhMKD0VBcHBseVR5cGVfVGVhbRABIn0KEEFja1BWUEFwcGx5TWF0Y2gS",
+            "HgoHc2VsZl9pZBgBIAEoCzINLkFGTXNnLlBCR1VJRBIlCgl4Um9vbUluZm8Y",
+            "AiABKAsyEi5BRk1zZy5QVlBSb29tSW5mbxIRCglBcHBseVR5cGUYAyABKAUS",
+            "DwoHblJlc3VsdBgEIAEoBSJbChJSZXFDcmVhdGVQVlBFY3R5cGUSHgoHc2Vs",
+            "Zl9pZBgBIAEoCzINLkFGTXNnLlBCR1VJRBIlCgl4Um9vbUluZm8YAiABKAsy",
+            "Ei5BRk1zZy5QVlBSb29tSW5mbyJuChJBY2tDcmVhdGVQVlBFY3R5cGUSHgoH",
+            "c2VsZl9pZBgBIAEoCzINLkFGTXNnLlBCR1VJRBIlCgl4Um9vbUluZm8YAiAB",
+            "KAsyEi5BRk1zZy5QVlBSb29tSW5mbxIRCglBcHBseVR5cGUYAyABKAViBnBy",
+            "b3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AFMsg.AFDefineReflection.Descriptor, global::AFMsg.AFMsgBaseReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ReqEnterGameServer), global::AFMsg.ReqEnterGameServer.Parser, new[]{ "Id", "Account", "GameId", "Name" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ReqHeartBeat), global::AFMsg.ReqHeartBeat.Parser, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ReqLeaveGameServer), global::AFMsg.ReqLeaveGameServer.Parser, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PlayerEntryInfo), global::AFMsg.PlayerEntryInfo.Parser, new[]{ "ObjectGuid", "Pos", "CareerType", "PlayerState", "ConfigId", "SceneId", "ClassId" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.AckPlayerEntryList), global::AFMsg.AckPlayerEntryList.Parser, new[]{ "ObjectList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.AckPlayerLeaveList), global::AFMsg.AckPlayerLeaveList.Parser, new[]{ "ObjectList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.EntityEnterInfo), global::AFMsg.EntityEnterInfo.Parser, new[]{ "ObjectGuid", "Pos", "CareerType", "PlayerState", "ConfigId", "SceneId", "ClassId" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.AckEntityEnterList), global::AFMsg.AckEntityEnterList.Parser, new[]{ "EntityList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.AckEntityLeaveList), global::AFMsg.AckEntityLeaveList.Parser, new[]{ "EntityList" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ReqAckSynData), global::AFMsg.ReqAckSynData.Parser, new[]{ "Syser", "ObjectList", "Data", "SynType", "MsgId" }, null, new[]{ typeof(global::AFMsg.ReqAckSynData.Types.SynType) }, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ReqAckPlayerMove), global::AFMsg.ReqAckPlayerMove.Parser, new[]{ "Mover", "MoveType", "TargetPos", "SourcePos" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ChatContainer), global::AFMsg.ChatContainer.Parser, new[]{ "ConTainerType", "DataInfo" }, null, new[]{ typeof(global::AFMsg.ChatContainer.Types.ContainerType) }, null),
@@ -397,9 +400,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "id" field.</summary>
     public const int IdFieldNumber = 1;
-    private global::AFMsg.Ident id_;
+    private global::AFMsg.PBGUID id_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Id {
+    public global::AFMsg.PBGUID Id {
       get { return id_; }
       set {
         id_ = value;
@@ -528,7 +531,7 @@ namespace AFMsg {
       }
       if (other.id_ != null) {
         if (id_ == null) {
-          id_ = new global::AFMsg.Ident();
+          id_ = new global::AFMsg.PBGUID();
         }
         Id.MergeFrom(other.Id);
       }
@@ -554,7 +557,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (id_ == null) {
-              id_ = new global::AFMsg.Ident();
+              id_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(id_);
             break;
@@ -779,11 +782,11 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class PlayerEntryInfo : pb::IMessage<PlayerEntryInfo> {
-    private static readonly pb::MessageParser<PlayerEntryInfo> _parser = new pb::MessageParser<PlayerEntryInfo>(() => new PlayerEntryInfo());
+  public sealed partial class EntityEnterInfo : pb::IMessage<EntityEnterInfo> {
+    private static readonly pb::MessageParser<EntityEnterInfo> _parser = new pb::MessageParser<EntityEnterInfo>(() => new EntityEnterInfo());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<PlayerEntryInfo> Parser { get { return _parser; } }
+    public static pb::MessageParser<EntityEnterInfo> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -796,14 +799,14 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerEntryInfo() {
+    public EntityEnterInfo() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerEntryInfo(PlayerEntryInfo other) : this() {
+    public EntityEnterInfo(EntityEnterInfo other) : this() {
       ObjectGuid = other.objectGuid_ != null ? other.ObjectGuid.Clone() : null;
       Pos = other.pos_ != null ? other.Pos.Clone() : null;
       careerType_ = other.careerType_;
@@ -815,15 +818,15 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerEntryInfo Clone() {
-      return new PlayerEntryInfo(this);
+    public EntityEnterInfo Clone() {
+      return new EntityEnterInfo(this);
     }
 
     /// <summary>Field number for the "object_guid" field.</summary>
     public const int ObjectGuidFieldNumber = 1;
-    private global::AFMsg.Ident objectGuid_;
+    private global::AFMsg.PBGUID objectGuid_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident ObjectGuid {
+    public global::AFMsg.PBGUID ObjectGuid {
       get { return objectGuid_; }
       set {
         objectGuid_ = value;
@@ -898,11 +901,11 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as PlayerEntryInfo);
+      return Equals(other as EntityEnterInfo);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(PlayerEntryInfo other) {
+    public bool Equals(EntityEnterInfo other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1006,13 +1009,13 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(PlayerEntryInfo other) {
+    public void MergeFrom(EntityEnterInfo other) {
       if (other == null) {
         return;
       }
       if (other.objectGuid_ != null) {
         if (objectGuid_ == null) {
-          objectGuid_ = new global::AFMsg.Ident();
+          objectGuid_ = new global::AFMsg.PBGUID();
         }
         ObjectGuid.MergeFrom(other.ObjectGuid);
       }
@@ -1050,7 +1053,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (objectGuid_ == null) {
-              objectGuid_ = new global::AFMsg.Ident();
+              objectGuid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(objectGuid_);
             break;
@@ -1088,11 +1091,11 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class AckPlayerEntryList : pb::IMessage<AckPlayerEntryList> {
-    private static readonly pb::MessageParser<AckPlayerEntryList> _parser = new pb::MessageParser<AckPlayerEntryList>(() => new AckPlayerEntryList());
+  public sealed partial class AckEntityEnterList : pb::IMessage<AckEntityEnterList> {
+    private static readonly pb::MessageParser<AckEntityEnterList> _parser = new pb::MessageParser<AckEntityEnterList>(() => new AckEntityEnterList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<AckPlayerEntryList> Parser { get { return _parser; } }
+    public static pb::MessageParser<AckEntityEnterList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1105,54 +1108,54 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public AckPlayerEntryList() {
+    public AckEntityEnterList() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public AckPlayerEntryList(AckPlayerEntryList other) : this() {
-      objectList_ = other.objectList_.Clone();
+    public AckEntityEnterList(AckEntityEnterList other) : this() {
+      entityList_ = other.entityList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public AckPlayerEntryList Clone() {
-      return new AckPlayerEntryList(this);
+    public AckEntityEnterList Clone() {
+      return new AckEntityEnterList(this);
     }
 
-    /// <summary>Field number for the "object_list" field.</summary>
-    public const int ObjectListFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::AFMsg.PlayerEntryInfo> _repeated_objectList_codec
-        = pb::FieldCodec.ForMessage(10, global::AFMsg.PlayerEntryInfo.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.PlayerEntryInfo> objectList_ = new pbc::RepeatedField<global::AFMsg.PlayerEntryInfo>();
+    /// <summary>Field number for the "entity_list" field.</summary>
+    public const int EntityListFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AFMsg.EntityEnterInfo> _repeated_entityList_codec
+        = pb::FieldCodec.ForMessage(10, global::AFMsg.EntityEnterInfo.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.EntityEnterInfo> entityList_ = new pbc::RepeatedField<global::AFMsg.EntityEnterInfo>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.PlayerEntryInfo> ObjectList {
-      get { return objectList_; }
+    public pbc::RepeatedField<global::AFMsg.EntityEnterInfo> EntityList {
+      get { return entityList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as AckPlayerEntryList);
+      return Equals(other as AckEntityEnterList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(AckPlayerEntryList other) {
+    public bool Equals(AckEntityEnterList other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!objectList_.Equals(other.objectList_)) return false;
+      if(!entityList_.Equals(other.entityList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= objectList_.GetHashCode();
+      hash ^= entityList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1166,7 +1169,7 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      objectList_.WriteTo(output, _repeated_objectList_codec);
+      entityList_.WriteTo(output, _repeated_entityList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1175,7 +1178,7 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      size += objectList_.CalculateSize(_repeated_objectList_codec);
+      size += entityList_.CalculateSize(_repeated_entityList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1183,11 +1186,11 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(AckPlayerEntryList other) {
+    public void MergeFrom(AckEntityEnterList other) {
       if (other == null) {
         return;
       }
-      objectList_.Add(other.objectList_);
+      entityList_.Add(other.entityList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1200,7 +1203,7 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            objectList_.AddEntriesFrom(input, _repeated_objectList_codec);
+            entityList_.AddEntriesFrom(input, _repeated_entityList_codec);
             break;
           }
         }
@@ -1209,11 +1212,11 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class AckPlayerLeaveList : pb::IMessage<AckPlayerLeaveList> {
-    private static readonly pb::MessageParser<AckPlayerLeaveList> _parser = new pb::MessageParser<AckPlayerLeaveList>(() => new AckPlayerLeaveList());
+  public sealed partial class AckEntityLeaveList : pb::IMessage<AckEntityLeaveList> {
+    private static readonly pb::MessageParser<AckEntityLeaveList> _parser = new pb::MessageParser<AckEntityLeaveList>(() => new AckEntityLeaveList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<AckPlayerLeaveList> Parser { get { return _parser; } }
+    public static pb::MessageParser<AckEntityLeaveList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1226,54 +1229,54 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public AckPlayerLeaveList() {
+    public AckEntityLeaveList() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public AckPlayerLeaveList(AckPlayerLeaveList other) : this() {
-      objectList_ = other.objectList_.Clone();
+    public AckEntityLeaveList(AckEntityLeaveList other) : this() {
+      entityList_ = other.entityList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public AckPlayerLeaveList Clone() {
-      return new AckPlayerLeaveList(this);
+    public AckEntityLeaveList Clone() {
+      return new AckEntityLeaveList(this);
     }
 
-    /// <summary>Field number for the "object_list" field.</summary>
-    public const int ObjectListFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::AFMsg.Ident> _repeated_objectList_codec
-        = pb::FieldCodec.ForMessage(10, global::AFMsg.Ident.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.Ident> objectList_ = new pbc::RepeatedField<global::AFMsg.Ident>();
+    /// <summary>Field number for the "entity_list" field.</summary>
+    public const int EntityListFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AFMsg.PBGUID> _repeated_entityList_codec
+        = pb::FieldCodec.ForMessage(10, global::AFMsg.PBGUID.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBGUID> entityList_ = new pbc::RepeatedField<global::AFMsg.PBGUID>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.Ident> ObjectList {
-      get { return objectList_; }
+    public pbc::RepeatedField<global::AFMsg.PBGUID> EntityList {
+      get { return entityList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as AckPlayerLeaveList);
+      return Equals(other as AckEntityLeaveList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(AckPlayerLeaveList other) {
+    public bool Equals(AckEntityLeaveList other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!objectList_.Equals(other.objectList_)) return false;
+      if(!entityList_.Equals(other.entityList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= objectList_.GetHashCode();
+      hash ^= entityList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1287,7 +1290,7 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      objectList_.WriteTo(output, _repeated_objectList_codec);
+      entityList_.WriteTo(output, _repeated_entityList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1296,7 +1299,7 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      size += objectList_.CalculateSize(_repeated_objectList_codec);
+      size += entityList_.CalculateSize(_repeated_entityList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1304,11 +1307,11 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(AckPlayerLeaveList other) {
+    public void MergeFrom(AckEntityLeaveList other) {
       if (other == null) {
         return;
       }
-      objectList_.Add(other.objectList_);
+      entityList_.Add(other.entityList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1321,7 +1324,7 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            objectList_.AddEntriesFrom(input, _repeated_objectList_codec);
+            entityList_.AddEntriesFrom(input, _repeated_entityList_codec);
             break;
           }
         }
@@ -1370,9 +1373,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "syser" field.</summary>
     public const int SyserFieldNumber = 1;
-    private global::AFMsg.Ident syser_;
+    private global::AFMsg.PBGUID syser_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Syser {
+    public global::AFMsg.PBGUID Syser {
       get { return syser_; }
       set {
         syser_ = value;
@@ -1381,11 +1384,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "object_list" field.</summary>
     public const int ObjectListFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::AFMsg.Ident> _repeated_objectList_codec
-        = pb::FieldCodec.ForMessage(18, global::AFMsg.Ident.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.Ident> objectList_ = new pbc::RepeatedField<global::AFMsg.Ident>();
+    private static readonly pb::FieldCodec<global::AFMsg.PBGUID> _repeated_objectList_codec
+        = pb::FieldCodec.ForMessage(18, global::AFMsg.PBGUID.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBGUID> objectList_ = new pbc::RepeatedField<global::AFMsg.PBGUID>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.Ident> ObjectList {
+    public pbc::RepeatedField<global::AFMsg.PBGUID> ObjectList {
       get { return objectList_; }
     }
 
@@ -1518,7 +1521,7 @@ namespace AFMsg {
       }
       if (other.syser_ != null) {
         if (syser_ == null) {
-          syser_ = new global::AFMsg.Ident();
+          syser_ = new global::AFMsg.PBGUID();
         }
         Syser.MergeFrom(other.Syser);
       }
@@ -1545,7 +1548,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (syser_ == null) {
-              syser_ = new global::AFMsg.Ident();
+              syser_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(syser_);
             break;
@@ -1644,9 +1647,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "mover" field.</summary>
     public const int MoverFieldNumber = 1;
-    private global::AFMsg.Ident mover_;
+    private global::AFMsg.PBGUID mover_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Mover {
+    public global::AFMsg.PBGUID Mover {
       get { return mover_; }
       set {
         mover_ = value;
@@ -1763,7 +1766,7 @@ namespace AFMsg {
       }
       if (other.mover_ != null) {
         if (mover_ == null) {
-          mover_ = new global::AFMsg.Ident();
+          mover_ = new global::AFMsg.PBGUID();
         }
         Mover.MergeFrom(other.Mover);
       }
@@ -1785,7 +1788,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (mover_ == null) {
-              mover_ = new global::AFMsg.Ident();
+              mover_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(mover_);
             break;
@@ -2024,9 +2027,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "chat_id" field.</summary>
     public const int ChatIdFieldNumber = 1;
-    private global::AFMsg.Ident chatId_;
+    private global::AFMsg.PBGUID chatId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident ChatId {
+    public global::AFMsg.PBGUID ChatId {
       get { return chatId_; }
       set {
         chatId_ = value;
@@ -2068,9 +2071,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "target_id" field.</summary>
     public const int TargetIdFieldNumber = 5;
-    private global::AFMsg.Ident targetId_;
+    private global::AFMsg.PBGUID targetId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TargetId {
+    public global::AFMsg.PBGUID TargetId {
       get { return targetId_; }
       set {
         targetId_ = value;
@@ -2189,7 +2192,7 @@ namespace AFMsg {
       }
       if (other.chatId_ != null) {
         if (chatId_ == null) {
-          chatId_ = new global::AFMsg.Ident();
+          chatId_ = new global::AFMsg.PBGUID();
         }
         ChatId.MergeFrom(other.ChatId);
       }
@@ -2204,7 +2207,7 @@ namespace AFMsg {
       }
       if (other.targetId_ != null) {
         if (targetId_ == null) {
-          targetId_ = new global::AFMsg.Ident();
+          targetId_ = new global::AFMsg.PBGUID();
         }
         TargetId.MergeFrom(other.TargetId);
       }
@@ -2222,7 +2225,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (chatId_ == null) {
-              chatId_ = new global::AFMsg.Ident();
+              chatId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(chatId_);
             break;
@@ -2241,7 +2244,7 @@ namespace AFMsg {
           }
           case 42: {
             if (targetId_ == null) {
-              targetId_ = new global::AFMsg.Ident();
+              targetId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(targetId_);
             break;
@@ -2308,9 +2311,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "effect_ident" field.</summary>
     public const int EffectIdentFieldNumber = 1;
-    private global::AFMsg.Ident effectIdent_;
+    private global::AFMsg.PBGUID effectIdent_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident EffectIdent {
+    public global::AFMsg.PBGUID EffectIdent {
       get { return effectIdent_; }
       set {
         effectIdent_ = value;
@@ -2419,7 +2422,7 @@ namespace AFMsg {
       }
       if (other.effectIdent_ != null) {
         if (effectIdent_ == null) {
-          effectIdent_ = new global::AFMsg.Ident();
+          effectIdent_ = new global::AFMsg.PBGUID();
         }
         EffectIdent.MergeFrom(other.EffectIdent);
       }
@@ -2442,7 +2445,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (effectIdent_ == null) {
-              effectIdent_ = new global::AFMsg.Ident();
+              effectIdent_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(effectIdent_);
             break;
@@ -2515,9 +2518,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "user" field.</summary>
     public const int UserFieldNumber = 1;
-    private global::AFMsg.Ident user_;
+    private global::AFMsg.PBGUID user_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident User {
+    public global::AFMsg.PBGUID User {
       get { return user_; }
       set {
         user_ = value;
@@ -2683,7 +2686,7 @@ namespace AFMsg {
       }
       if (other.user_ != null) {
         if (user_ == null) {
-          user_ = new global::AFMsg.Ident();
+          user_ = new global::AFMsg.PBGUID();
         }
         User.MergeFrom(other.User);
       }
@@ -2719,7 +2722,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (user_ == null) {
-              user_ = new global::AFMsg.Ident();
+              user_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(user_);
             break;
@@ -2796,9 +2799,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "user" field.</summary>
     public const int UserFieldNumber = 1;
-    private global::AFMsg.Ident user_;
+    private global::AFMsg.PBGUID user_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident User {
+    public global::AFMsg.PBGUID User {
       get { return user_; }
       set {
         user_ = value;
@@ -2807,9 +2810,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "item_guid" field.</summary>
     public const int ItemGuidFieldNumber = 2;
-    private global::AFMsg.Ident itemGuid_;
+    private global::AFMsg.PBGUID itemGuid_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident ItemGuid {
+    public global::AFMsg.PBGUID ItemGuid {
       get { return itemGuid_; }
       set {
         itemGuid_ = value;
@@ -2839,9 +2842,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "targetid" field.</summary>
     public const int TargetidFieldNumber = 5;
-    private global::AFMsg.Ident targetid_;
+    private global::AFMsg.PBGUID targetid_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Targetid {
+    public global::AFMsg.PBGUID Targetid {
       get { return targetid_; }
       set {
         targetid_ = value;
@@ -2941,13 +2944,13 @@ namespace AFMsg {
       }
       if (other.user_ != null) {
         if (user_ == null) {
-          user_ = new global::AFMsg.Ident();
+          user_ = new global::AFMsg.PBGUID();
         }
         User.MergeFrom(other.User);
       }
       if (other.itemGuid_ != null) {
         if (itemGuid_ == null) {
-          itemGuid_ = new global::AFMsg.Ident();
+          itemGuid_ = new global::AFMsg.PBGUID();
         }
         ItemGuid.MergeFrom(other.ItemGuid);
       }
@@ -2960,7 +2963,7 @@ namespace AFMsg {
       }
       if (other.targetid_ != null) {
         if (targetid_ == null) {
-          targetid_ = new global::AFMsg.Ident();
+          targetid_ = new global::AFMsg.PBGUID();
         }
         Targetid.MergeFrom(other.Targetid);
       }
@@ -2977,14 +2980,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (user_ == null) {
-              user_ = new global::AFMsg.Ident();
+              user_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(user_);
             break;
           }
           case 18: {
             if (itemGuid_ == null) {
-              itemGuid_ = new global::AFMsg.Ident();
+              itemGuid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(itemGuid_);
             break;
@@ -3002,7 +3005,7 @@ namespace AFMsg {
           }
           case 42: {
             if (targetid_ == null) {
-              targetid_ = new global::AFMsg.Ident();
+              targetid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(targetid_);
             break;
@@ -3888,9 +3891,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "item_guid" field.</summary>
     public const int ItemGuidFieldNumber = 2;
-    private global::AFMsg.Ident itemGuid_;
+    private global::AFMsg.PBGUID itemGuid_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident ItemGuid {
+    public global::AFMsg.PBGUID ItemGuid {
       get { return itemGuid_; }
       set {
         itemGuid_ = value;
@@ -3959,7 +3962,7 @@ namespace AFMsg {
       }
       if (other.itemGuid_ != null) {
         if (itemGuid_ == null) {
-          itemGuid_ = new global::AFMsg.Ident();
+          itemGuid_ = new global::AFMsg.PBGUID();
         }
         ItemGuid.MergeFrom(other.ItemGuid);
       }
@@ -3976,7 +3979,7 @@ namespace AFMsg {
             break;
           case 18: {
             if (itemGuid_ == null) {
-              itemGuid_ = new global::AFMsg.Ident();
+              itemGuid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(itemGuid_);
             break;
@@ -4725,9 +4728,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild_id" field.</summary>
     public const int GuildIdFieldNumber = 1;
-    private global::AFMsg.Ident guildId_;
+    private global::AFMsg.PBGUID guildId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident GuildId {
+    public global::AFMsg.PBGUID GuildId {
       get { return guildId_; }
       set {
         guildId_ = value;
@@ -4816,7 +4819,7 @@ namespace AFMsg {
       }
       if (other.guildId_ != null) {
         if (guildId_ == null) {
-          guildId_ = new global::AFMsg.Ident();
+          guildId_ = new global::AFMsg.PBGUID();
         }
         GuildId.MergeFrom(other.GuildId);
       }
@@ -4836,7 +4839,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (guildId_ == null) {
-              guildId_ = new global::AFMsg.Ident();
+              guildId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guildId_);
             break;
@@ -5151,9 +5154,9 @@ namespace AFMsg {
 
         /// <summary>Field number for the "guild_ID" field.</summary>
         public const int GuildIDFieldNumber = 1;
-        private global::AFMsg.Ident guildID_;
+        private global::AFMsg.PBGUID guildID_;
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-        public global::AFMsg.Ident GuildID {
+        public global::AFMsg.PBGUID GuildID {
           get { return guildID_; }
           set {
             guildID_ = value;
@@ -5342,7 +5345,7 @@ namespace AFMsg {
           }
           if (other.guildID_ != null) {
             if (guildID_ == null) {
-              guildID_ = new global::AFMsg.Ident();
+              guildID_ = new global::AFMsg.PBGUID();
             }
             GuildID.MergeFrom(other.GuildID);
           }
@@ -5377,7 +5380,7 @@ namespace AFMsg {
                 break;
               case 10: {
                 if (guildID_ == null) {
-                  guildID_ = new global::AFMsg.Ident();
+                  guildID_ = new global::AFMsg.PBGUID();
                 }
                 input.ReadMessage(guildID_);
                 break;
@@ -5457,9 +5460,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild_id" field.</summary>
     public const int GuildIdFieldNumber = 1;
-    private global::AFMsg.Ident guildId_;
+    private global::AFMsg.PBGUID guildId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident GuildId {
+    public global::AFMsg.PBGUID GuildId {
       get { return guildId_; }
       set {
         guildId_ = value;
@@ -5548,7 +5551,7 @@ namespace AFMsg {
       }
       if (other.guildId_ != null) {
         if (guildId_ == null) {
-          guildId_ = new global::AFMsg.Ident();
+          guildId_ = new global::AFMsg.PBGUID();
         }
         GuildId.MergeFrom(other.GuildId);
       }
@@ -5568,7 +5571,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (guildId_ == null) {
-              guildId_ = new global::AFMsg.Ident();
+              guildId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guildId_);
             break;
@@ -5623,9 +5626,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild_id" field.</summary>
     public const int GuildIdFieldNumber = 1;
-    private global::AFMsg.Ident guildId_;
+    private global::AFMsg.PBGUID guildId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident GuildId {
+    public global::AFMsg.PBGUID GuildId {
       get { return guildId_; }
       set {
         guildId_ = value;
@@ -5714,7 +5717,7 @@ namespace AFMsg {
       }
       if (other.guildId_ != null) {
         if (guildId_ == null) {
-          guildId_ = new global::AFMsg.Ident();
+          guildId_ = new global::AFMsg.PBGUID();
         }
         GuildId.MergeFrom(other.GuildId);
       }
@@ -5734,7 +5737,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (guildId_ == null) {
-              guildId_ = new global::AFMsg.Ident();
+              guildId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guildId_);
             break;
@@ -5790,9 +5793,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild_id" field.</summary>
     public const int GuildIdFieldNumber = 1;
-    private global::AFMsg.Ident guildId_;
+    private global::AFMsg.PBGUID guildId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident GuildId {
+    public global::AFMsg.PBGUID GuildId {
       get { return guildId_; }
       set {
         guildId_ = value;
@@ -5801,12 +5804,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "member_id" field.</summary>
     public const int MemberIdFieldNumber = 2;
-    private global::AFMsg.Ident memberId_;
+    private global::AFMsg.PBGUID memberId_;
     /// <summary>
     ///被操作的ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident MemberId {
+    public global::AFMsg.PBGUID MemberId {
       get { return memberId_; }
       set {
         memberId_ = value;
@@ -5904,13 +5907,13 @@ namespace AFMsg {
       }
       if (other.guildId_ != null) {
         if (guildId_ == null) {
-          guildId_ = new global::AFMsg.Ident();
+          guildId_ = new global::AFMsg.PBGUID();
         }
         GuildId.MergeFrom(other.GuildId);
       }
       if (other.memberId_ != null) {
         if (memberId_ == null) {
-          memberId_ = new global::AFMsg.Ident();
+          memberId_ = new global::AFMsg.PBGUID();
         }
         MemberId.MergeFrom(other.MemberId);
       }
@@ -5930,14 +5933,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (guildId_ == null) {
-              guildId_ = new global::AFMsg.Ident();
+              guildId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guildId_);
             break;
           }
           case 18: {
             if (memberId_ == null) {
-              memberId_ = new global::AFMsg.Ident();
+              memberId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(memberId_);
             break;
@@ -6032,9 +6035,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild_id" field.</summary>
     public const int GuildIdFieldNumber = 1;
-    private global::AFMsg.Ident guildId_;
+    private global::AFMsg.PBGUID guildId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident GuildId {
+    public global::AFMsg.PBGUID GuildId {
       get { return guildId_; }
       set {
         guildId_ = value;
@@ -6043,11 +6046,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "player_id" field.</summary>
     public const int PlayerIdFieldNumber = 2;
-    private global::AFMsg.Ident playerId_;
+    private global::AFMsg.PBGUID playerId_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident PlayerId {
+    public global::AFMsg.PBGUID PlayerId {
       get { return playerId_; }
       set {
         playerId_ = value;
@@ -6191,13 +6194,13 @@ namespace AFMsg {
       }
       if (other.guildId_ != null) {
         if (guildId_ == null) {
-          guildId_ = new global::AFMsg.Ident();
+          guildId_ = new global::AFMsg.PBGUID();
         }
         GuildId.MergeFrom(other.GuildId);
       }
       if (other.playerId_ != null) {
         if (playerId_ == null) {
-          playerId_ = new global::AFMsg.Ident();
+          playerId_ = new global::AFMsg.PBGUID();
         }
         PlayerId.MergeFrom(other.PlayerId);
       }
@@ -6223,14 +6226,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (guildId_ == null) {
-              guildId_ = new global::AFMsg.Ident();
+              guildId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guildId_);
             break;
           }
           case 18: {
             if (playerId_ == null) {
-              playerId_ = new global::AFMsg.Ident();
+              playerId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(playerId_);
             break;
@@ -6329,9 +6332,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild_id" field.</summary>
     public const int GuildIdFieldNumber = 1;
-    private global::AFMsg.Ident guildId_;
+    private global::AFMsg.PBGUID guildId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident GuildId {
+    public global::AFMsg.PBGUID GuildId {
       get { return guildId_; }
       set {
         guildId_ = value;
@@ -6340,9 +6343,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "target_id" field.</summary>
     public const int TargetIdFieldNumber = 2;
-    private global::AFMsg.Ident targetId_;
+    private global::AFMsg.PBGUID targetId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TargetId {
+    public global::AFMsg.PBGUID TargetId {
       get { return targetId_; }
       set {
         targetId_ = value;
@@ -6434,13 +6437,13 @@ namespace AFMsg {
       }
       if (other.guildId_ != null) {
         if (guildId_ == null) {
-          guildId_ = new global::AFMsg.Ident();
+          guildId_ = new global::AFMsg.PBGUID();
         }
         GuildId.MergeFrom(other.GuildId);
       }
       if (other.targetId_ != null) {
         if (targetId_ == null) {
-          targetId_ = new global::AFMsg.Ident();
+          targetId_ = new global::AFMsg.PBGUID();
         }
         TargetId.MergeFrom(other.TargetId);
       }
@@ -6458,14 +6461,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (guildId_ == null) {
-              guildId_ = new global::AFMsg.Ident();
+              guildId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guildId_);
             break;
           }
           case 18: {
             if (targetId_ == null) {
-              targetId_ = new global::AFMsg.Ident();
+              targetId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(targetId_);
             break;
@@ -6520,12 +6523,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -6534,12 +6537,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild_id" field.</summary>
     public const int GuildIdFieldNumber = 2;
-    private global::AFMsg.Ident guildId_;
+    private global::AFMsg.PBGUID guildId_;
     /// <summary>
     ///工会副本	
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident GuildId {
+    public global::AFMsg.PBGUID GuildId {
       get { return guildId_; }
       set {
         guildId_ = value;
@@ -6617,13 +6620,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.guildId_ != null) {
         if (guildId_ == null) {
-          guildId_ = new global::AFMsg.Ident();
+          guildId_ = new global::AFMsg.PBGUID();
         }
         GuildId.MergeFrom(other.GuildId);
       }
@@ -6640,14 +6643,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (guildId_ == null) {
-              guildId_ = new global::AFMsg.Ident();
+              guildId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guildId_);
             break;
@@ -6697,12 +6700,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild_id" field.</summary>
     public const int GuildIdFieldNumber = 1;
-    private global::AFMsg.Ident guildId_;
+    private global::AFMsg.PBGUID guildId_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident GuildId {
+    public global::AFMsg.PBGUID GuildId {
       get { return guildId_; }
       set {
         guildId_ = value;
@@ -6840,7 +6843,7 @@ namespace AFMsg {
       }
       if (other.guildId_ != null) {
         if (guildId_ == null) {
-          guildId_ = new global::AFMsg.Ident();
+          guildId_ = new global::AFMsg.PBGUID();
         }
         GuildId.MergeFrom(other.GuildId);
       }
@@ -6866,7 +6869,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (guildId_ == null) {
-              guildId_ = new global::AFMsg.Ident();
+              guildId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guildId_);
             break;
@@ -6929,12 +6932,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -7026,7 +7029,7 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
@@ -7049,7 +7052,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
@@ -7107,12 +7110,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -7204,7 +7207,7 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
@@ -7227,7 +7230,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
@@ -7284,12 +7287,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -7358,7 +7361,7 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
@@ -7375,7 +7378,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
@@ -7482,12 +7485,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "send_id" field.</summary>
     public const int SendIdFieldNumber = 5;
-    private global::AFMsg.Ident sendId_;
+    private global::AFMsg.PBGUID sendId_;
     /// <summary>
     ///发送者的ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident SendId {
+    public global::AFMsg.PBGUID SendId {
       get { return sendId_; }
       set {
         sendId_ = value;
@@ -7524,14 +7527,14 @@ namespace AFMsg {
 
     /// <summary>Field number for the "recvier_id" field.</summary>
     public const int RecvierIdFieldNumber = 8;
-    private static readonly pb::FieldCodec<global::AFMsg.Ident> _repeated_recvierId_codec
-        = pb::FieldCodec.ForMessage(66, global::AFMsg.Ident.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.Ident> recvierId_ = new pbc::RepeatedField<global::AFMsg.Ident>();
+    private static readonly pb::FieldCodec<global::AFMsg.PBGUID> _repeated_recvierId_codec
+        = pb::FieldCodec.ForMessage(66, global::AFMsg.PBGUID.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBGUID> recvierId_ = new pbc::RepeatedField<global::AFMsg.PBGUID>();
     /// <summary>
     ///接收者列表
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.Ident> RecvierId {
+    public pbc::RepeatedField<global::AFMsg.PBGUID> RecvierId {
       get { return recvierId_; }
     }
 
@@ -7690,7 +7693,7 @@ namespace AFMsg {
       }
       if (other.sendId_ != null) {
         if (sendId_ == null) {
-          sendId_ = new global::AFMsg.Ident();
+          sendId_ = new global::AFMsg.PBGUID();
         }
         SendId.MergeFrom(other.SendId);
       }
@@ -7733,7 +7736,7 @@ namespace AFMsg {
           }
           case 42: {
             if (sendId_ == null) {
-              sendId_ = new global::AFMsg.Ident();
+              sendId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(sendId_);
             break;
@@ -7839,12 +7842,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 2;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -7853,12 +7856,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "xChatGroupid" field.</summary>
     public const int XChatGroupidFieldNumber = 3;
-    private global::AFMsg.Ident xChatGroupid_;
+    private global::AFMsg.PBGUID xChatGroupid_;
     /// <summary>
     ///聊天组的ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident XChatGroupid {
+    public global::AFMsg.PBGUID XChatGroupid {
       get { return xChatGroupid_; }
       set {
         xChatGroupid_ = value;
@@ -7971,13 +7974,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.xChatGroupid_ != null) {
         if (xChatGroupid_ == null) {
-          xChatGroupid_ = new global::AFMsg.Ident();
+          xChatGroupid_ = new global::AFMsg.PBGUID();
         }
         XChatGroupid.MergeFrom(other.XChatGroupid);
       }
@@ -8001,14 +8004,14 @@ namespace AFMsg {
           }
           case 18: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 26: {
             if (xChatGroupid_ == null) {
-              xChatGroupid_ = new global::AFMsg.Ident();
+              xChatGroupid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(xChatGroupid_);
             break;
@@ -8062,12 +8065,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -8076,12 +8079,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "xChatGroupid" field.</summary>
     public const int XChatGroupidFieldNumber = 2;
-    private global::AFMsg.Ident xChatGroupid_;
+    private global::AFMsg.PBGUID xChatGroupid_;
     /// <summary>
     ///聊天组的ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident XChatGroupid {
+    public global::AFMsg.PBGUID XChatGroupid {
       get { return xChatGroupid_; }
       set {
         xChatGroupid_ = value;
@@ -8205,13 +8208,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.xChatGroupid_ != null) {
         if (xChatGroupid_ == null) {
-          xChatGroupid_ = new global::AFMsg.Ident();
+          xChatGroupid_ = new global::AFMsg.PBGUID();
         }
         XChatGroupid.MergeFrom(other.XChatGroupid);
       }
@@ -8234,14 +8237,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (xChatGroupid_ == null) {
-              xChatGroupid_ = new global::AFMsg.Ident();
+              xChatGroupid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(xChatGroupid_);
             break;
@@ -8298,12 +8301,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -8312,12 +8315,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "xChatGroupid" field.</summary>
     public const int XChatGroupidFieldNumber = 2;
-    private global::AFMsg.Ident xChatGroupid_;
+    private global::AFMsg.PBGUID xChatGroupid_;
     /// <summary>
     ///聊天组的ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident XChatGroupid {
+    public global::AFMsg.PBGUID XChatGroupid {
       get { return xChatGroupid_; }
       set {
         xChatGroupid_ = value;
@@ -8418,13 +8421,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.xChatGroupid_ != null) {
         if (xChatGroupid_ == null) {
-          xChatGroupid_ = new global::AFMsg.Ident();
+          xChatGroupid_ = new global::AFMsg.PBGUID();
         }
         XChatGroupid.MergeFrom(other.XChatGroupid);
       }
@@ -8444,14 +8447,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (xChatGroupid_ == null) {
-              xChatGroupid_ = new global::AFMsg.Ident();
+              xChatGroupid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(xChatGroupid_);
             break;
@@ -8503,12 +8506,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -8517,14 +8520,14 @@ namespace AFMsg {
 
     /// <summary>Field number for the "xChatGroupid" field.</summary>
     public const int XChatGroupidFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::AFMsg.Ident> _repeated_xChatGroupid_codec
-        = pb::FieldCodec.ForMessage(18, global::AFMsg.Ident.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.Ident> xChatGroupid_ = new pbc::RepeatedField<global::AFMsg.Ident>();
+    private static readonly pb::FieldCodec<global::AFMsg.PBGUID> _repeated_xChatGroupid_codec
+        = pb::FieldCodec.ForMessage(18, global::AFMsg.PBGUID.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBGUID> xChatGroupid_ = new pbc::RepeatedField<global::AFMsg.PBGUID>();
     /// <summary>
     ///订阅聊天组消息
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.Ident> XChatGroupid {
+    public pbc::RepeatedField<global::AFMsg.PBGUID> XChatGroupid {
       get { return xChatGroupid_; }
     }
 
@@ -8594,7 +8597,7 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
@@ -8612,7 +8615,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
@@ -8664,12 +8667,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -8678,14 +8681,14 @@ namespace AFMsg {
 
     /// <summary>Field number for the "xChatGroupid" field.</summary>
     public const int XChatGroupidFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::AFMsg.Ident> _repeated_xChatGroupid_codec
-        = pb::FieldCodec.ForMessage(18, global::AFMsg.Ident.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.Ident> xChatGroupid_ = new pbc::RepeatedField<global::AFMsg.Ident>();
+    private static readonly pb::FieldCodec<global::AFMsg.PBGUID> _repeated_xChatGroupid_codec
+        = pb::FieldCodec.ForMessage(18, global::AFMsg.PBGUID.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBGUID> xChatGroupid_ = new pbc::RepeatedField<global::AFMsg.PBGUID>();
     /// <summary>
     ///订阅聊天组消息
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.Ident> XChatGroupid {
+    public pbc::RepeatedField<global::AFMsg.PBGUID> XChatGroupid {
       get { return xChatGroupid_; }
     }
 
@@ -8755,7 +8758,7 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
@@ -8773,7 +8776,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
@@ -8828,12 +8831,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -8842,12 +8845,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "equipid" field.</summary>
     public const int EquipidFieldNumber = 2;
-    private global::AFMsg.Ident equipid_;
+    private global::AFMsg.PBGUID equipid_;
     /// <summary>
     ///装备ID	
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Equipid {
+    public global::AFMsg.PBGUID Equipid {
       get { return equipid_; }
       set {
         equipid_ = value;
@@ -8925,13 +8928,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.equipid_ != null) {
         if (equipid_ == null) {
-          equipid_ = new global::AFMsg.Ident();
+          equipid_ = new global::AFMsg.PBGUID();
         }
         Equipid.MergeFrom(other.Equipid);
       }
@@ -8948,14 +8951,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (equipid_ == null) {
-              equipid_ = new global::AFMsg.Ident();
+              equipid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(equipid_);
             break;
@@ -9007,12 +9010,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -9021,12 +9024,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "equipid" field.</summary>
     public const int EquipidFieldNumber = 2;
-    private global::AFMsg.Ident equipid_;
+    private global::AFMsg.PBGUID equipid_;
     /// <summary>
     ///装备ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Equipid {
+    public global::AFMsg.PBGUID Equipid {
       get { return equipid_; }
       set {
         equipid_ = value;
@@ -9127,13 +9130,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.equipid_ != null) {
         if (equipid_ == null) {
-          equipid_ = new global::AFMsg.Ident();
+          equipid_ = new global::AFMsg.PBGUID();
         }
         Equipid.MergeFrom(other.Equipid);
       }
@@ -9153,14 +9156,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (equipid_ == null) {
-              equipid_ = new global::AFMsg.Ident();
+              equipid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(equipid_);
             break;
@@ -9215,12 +9218,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -9229,12 +9232,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "equipid" field.</summary>
     public const int EquipidFieldNumber = 2;
-    private global::AFMsg.Ident equipid_;
+    private global::AFMsg.PBGUID equipid_;
     /// <summary>
     ///装备ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Equipid {
+    public global::AFMsg.PBGUID Equipid {
       get { return equipid_; }
       set {
         equipid_ = value;
@@ -9312,13 +9315,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.equipid_ != null) {
         if (equipid_ == null) {
-          equipid_ = new global::AFMsg.Ident();
+          equipid_ = new global::AFMsg.PBGUID();
         }
         Equipid.MergeFrom(other.Equipid);
       }
@@ -9335,14 +9338,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (equipid_ == null) {
-              equipid_ = new global::AFMsg.Ident();
+              equipid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(equipid_);
             break;
@@ -9394,12 +9397,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -9408,12 +9411,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "equipid" field.</summary>
     public const int EquipidFieldNumber = 2;
-    private global::AFMsg.Ident equipid_;
+    private global::AFMsg.PBGUID equipid_;
     /// <summary>
     ///装备ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Equipid {
+    public global::AFMsg.PBGUID Equipid {
       get { return equipid_; }
       set {
         equipid_ = value;
@@ -9514,13 +9517,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.equipid_ != null) {
         if (equipid_ == null) {
-          equipid_ = new global::AFMsg.Ident();
+          equipid_ = new global::AFMsg.PBGUID();
         }
         Equipid.MergeFrom(other.Equipid);
       }
@@ -9540,14 +9543,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (equipid_ == null) {
-              equipid_ = new global::AFMsg.Ident();
+              equipid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(equipid_);
             break;
@@ -9604,12 +9607,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -9618,12 +9621,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "equipid" field.</summary>
     public const int EquipidFieldNumber = 2;
-    private global::AFMsg.Ident equipid_;
+    private global::AFMsg.PBGUID equipid_;
     /// <summary>
     ///装备ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Equipid {
+    public global::AFMsg.PBGUID Equipid {
       get { return equipid_; }
       set {
         equipid_ = value;
@@ -9747,13 +9750,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.equipid_ != null) {
         if (equipid_ == null) {
-          equipid_ = new global::AFMsg.Ident();
+          equipid_ = new global::AFMsg.PBGUID();
         }
         Equipid.MergeFrom(other.Equipid);
       }
@@ -9776,14 +9779,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (equipid_ == null) {
-              equipid_ = new global::AFMsg.Ident();
+              equipid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(equipid_);
             break;
@@ -9843,12 +9846,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -9857,12 +9860,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "equipid" field.</summary>
     public const int EquipidFieldNumber = 2;
-    private global::AFMsg.Ident equipid_;
+    private global::AFMsg.PBGUID equipid_;
     /// <summary>
     ///装备ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Equipid {
+    public global::AFMsg.PBGUID Equipid {
       get { return equipid_; }
       set {
         equipid_ = value;
@@ -9963,13 +9966,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.equipid_ != null) {
         if (equipid_ == null) {
-          equipid_ = new global::AFMsg.Ident();
+          equipid_ = new global::AFMsg.PBGUID();
         }
         Equipid.MergeFrom(other.Equipid);
       }
@@ -9989,14 +9992,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (equipid_ == null) {
-              equipid_ = new global::AFMsg.Ident();
+              equipid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(equipid_);
             break;
@@ -10052,12 +10055,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -10066,12 +10069,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "equipid" field.</summary>
     public const int EquipidFieldNumber = 2;
-    private global::AFMsg.Ident equipid_;
+    private global::AFMsg.PBGUID equipid_;
     /// <summary>
     ///装备ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Equipid {
+    public global::AFMsg.PBGUID Equipid {
       get { return equipid_; }
       set {
         equipid_ = value;
@@ -10172,13 +10175,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.equipid_ != null) {
         if (equipid_ == null) {
-          equipid_ = new global::AFMsg.Ident();
+          equipid_ = new global::AFMsg.PBGUID();
         }
         Equipid.MergeFrom(other.Equipid);
       }
@@ -10198,14 +10201,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (equipid_ == null) {
-              equipid_ = new global::AFMsg.Ident();
+              equipid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(equipid_);
             break;
@@ -10261,12 +10264,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -10275,12 +10278,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "equipid" field.</summary>
     public const int EquipidFieldNumber = 2;
-    private global::AFMsg.Ident equipid_;
+    private global::AFMsg.PBGUID equipid_;
     /// <summary>
     ///装备ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Equipid {
+    public global::AFMsg.PBGUID Equipid {
       get { return equipid_; }
       set {
         equipid_ = value;
@@ -10381,13 +10384,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.equipid_ != null) {
         if (equipid_ == null) {
-          equipid_ = new global::AFMsg.Ident();
+          equipid_ = new global::AFMsg.PBGUID();
         }
         Equipid.MergeFrom(other.Equipid);
       }
@@ -10407,14 +10410,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (equipid_ == null) {
-              equipid_ = new global::AFMsg.Ident();
+              equipid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(equipid_);
             break;
@@ -10470,12 +10473,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -10484,11 +10487,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "Heroid" field.</summary>
     public const int HeroidFieldNumber = 2;
-    private global::AFMsg.Ident heroid_;
+    private global::AFMsg.PBGUID heroid_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Heroid {
+    public global::AFMsg.PBGUID Heroid {
       get { return heroid_; }
       set {
         heroid_ = value;
@@ -10588,13 +10591,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.heroid_ != null) {
         if (heroid_ == null) {
-          heroid_ = new global::AFMsg.Ident();
+          heroid_ = new global::AFMsg.PBGUID();
         }
         Heroid.MergeFrom(other.Heroid);
       }
@@ -10614,14 +10617,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (heroid_ == null) {
-              heroid_ = new global::AFMsg.Ident();
+              heroid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(heroid_);
             break;
@@ -10677,12 +10680,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -10691,12 +10694,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "equipid" field.</summary>
     public const int EquipidFieldNumber = 2;
-    private global::AFMsg.Ident equipid_;
+    private global::AFMsg.PBGUID equipid_;
     /// <summary>
     ///装备ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Equipid {
+    public global::AFMsg.PBGUID Equipid {
       get { return equipid_; }
       set {
         equipid_ = value;
@@ -10705,11 +10708,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "Targetid" field.</summary>
     public const int TargetidFieldNumber = 3;
-    private global::AFMsg.Ident targetid_;
+    private global::AFMsg.PBGUID targetid_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Targetid {
+    public global::AFMsg.PBGUID Targetid {
       get { return targetid_; }
       set {
         targetid_ = value;
@@ -10796,19 +10799,19 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.equipid_ != null) {
         if (equipid_ == null) {
-          equipid_ = new global::AFMsg.Ident();
+          equipid_ = new global::AFMsg.PBGUID();
         }
         Equipid.MergeFrom(other.Equipid);
       }
       if (other.targetid_ != null) {
         if (targetid_ == null) {
-          targetid_ = new global::AFMsg.Ident();
+          targetid_ = new global::AFMsg.PBGUID();
         }
         Targetid.MergeFrom(other.Targetid);
       }
@@ -10825,21 +10828,21 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (equipid_ == null) {
-              equipid_ = new global::AFMsg.Ident();
+              equipid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(equipid_);
             break;
           }
           case 26: {
             if (targetid_ == null) {
-              targetid_ = new global::AFMsg.Ident();
+              targetid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(targetid_);
             break;
@@ -10891,12 +10894,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -10905,12 +10908,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "equipid" field.</summary>
     public const int EquipidFieldNumber = 2;
-    private global::AFMsg.Ident equipid_;
+    private global::AFMsg.PBGUID equipid_;
     /// <summary>
     ///装备ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Equipid {
+    public global::AFMsg.PBGUID Equipid {
       get { return equipid_; }
       set {
         equipid_ = value;
@@ -10919,11 +10922,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "Targetid" field.</summary>
     public const int TargetidFieldNumber = 3;
-    private global::AFMsg.Ident targetid_;
+    private global::AFMsg.PBGUID targetid_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Targetid {
+    public global::AFMsg.PBGUID Targetid {
       get { return targetid_; }
       set {
         targetid_ = value;
@@ -11010,19 +11013,19 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.equipid_ != null) {
         if (equipid_ == null) {
-          equipid_ = new global::AFMsg.Ident();
+          equipid_ = new global::AFMsg.PBGUID();
         }
         Equipid.MergeFrom(other.Equipid);
       }
       if (other.targetid_ != null) {
         if (targetid_ == null) {
-          targetid_ = new global::AFMsg.Ident();
+          targetid_ = new global::AFMsg.PBGUID();
         }
         Targetid.MergeFrom(other.Targetid);
       }
@@ -11039,21 +11042,21 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (equipid_ == null) {
-              equipid_ = new global::AFMsg.Ident();
+              equipid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(equipid_);
             break;
           }
           case 26: {
             if (targetid_ == null) {
-              targetid_ = new global::AFMsg.Ident();
+              targetid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(targetid_);
             break;
@@ -11105,12 +11108,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     ///角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -11223,7 +11226,7 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
@@ -11246,7 +11249,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
@@ -11307,12 +11310,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     /// 角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -11321,12 +11324,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "reciever" field.</summary>
     public const int RecieverFieldNumber = 2;
-    private global::AFMsg.Ident reciever_;
+    private global::AFMsg.PBGUID reciever_;
     /// <summary>
     /// 目标ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Reciever {
+    public global::AFMsg.PBGUID Reciever {
       get { return reciever_; }
       set {
         reciever_ = value;
@@ -11435,13 +11438,13 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
       if (other.reciever_ != null) {
         if (reciever_ == null) {
-          reciever_ = new global::AFMsg.Ident();
+          reciever_ = new global::AFMsg.PBGUID();
         }
         Reciever.MergeFrom(other.Reciever);
       }
@@ -11460,14 +11463,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
           }
           case 18: {
             if (reciever_ == null) {
-              reciever_ = new global::AFMsg.Ident();
+              reciever_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(reciever_);
             break;
@@ -11531,12 +11534,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     /// 角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -11601,12 +11604,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "client_id" field.</summary>
     public const int ClientIdFieldNumber = 6;
-    private global::AFMsg.Ident clientId_;
+    private global::AFMsg.PBGUID clientId_;
     /// <summary>
     /// 客户端id
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident ClientId {
+    public global::AFMsg.PBGUID ClientId {
       get { return clientId_; }
       set {
         clientId_ = value;
@@ -11743,7 +11746,7 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
@@ -11761,7 +11764,7 @@ namespace AFMsg {
       }
       if (other.clientId_ != null) {
         if (clientId_ == null) {
-          clientId_ = new global::AFMsg.Ident();
+          clientId_ = new global::AFMsg.PBGUID();
         }
         ClientId.MergeFrom(other.ClientId);
       }
@@ -11781,7 +11784,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
@@ -11804,7 +11807,7 @@ namespace AFMsg {
           }
           case 50: {
             if (clientId_ == null) {
-              clientId_ = new global::AFMsg.Ident();
+              clientId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(clientId_);
             break;
@@ -11861,12 +11864,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "selfid" field.</summary>
     public const int SelfidFieldNumber = 1;
-    private global::AFMsg.Ident selfid_;
+    private global::AFMsg.PBGUID selfid_;
     /// <summary>
     /// 角色ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Selfid {
+    public global::AFMsg.PBGUID Selfid {
       get { return selfid_; }
       set {
         selfid_ = value;
@@ -12004,7 +12007,7 @@ namespace AFMsg {
       }
       if (other.selfid_ != null) {
         if (selfid_ == null) {
-          selfid_ = new global::AFMsg.Ident();
+          selfid_ = new global::AFMsg.PBGUID();
         }
         Selfid.MergeFrom(other.Selfid);
       }
@@ -12030,7 +12033,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfid_ == null) {
-              selfid_ = new global::AFMsg.Ident();
+              selfid_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfid_);
             break;
@@ -12094,12 +12097,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "team_id" field.</summary>
     public const int TeamIdFieldNumber = 1;
-    private global::AFMsg.Ident teamId_;
+    private global::AFMsg.PBGUID teamId_;
     /// <summary>
     ///队伍ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TeamId {
+    public global::AFMsg.PBGUID TeamId {
       get { return teamId_; }
       set {
         teamId_ = value;
@@ -12108,12 +12111,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "captain_id" field.</summary>
     public const int CaptainIdFieldNumber = 2;
-    private global::AFMsg.Ident captainId_;
+    private global::AFMsg.PBGUID captainId_;
     /// <summary>
     ///队长ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident CaptainId {
+    public global::AFMsg.PBGUID CaptainId {
       get { return captainId_; }
       set {
         captainId_ = value;
@@ -12208,13 +12211,13 @@ namespace AFMsg {
       }
       if (other.teamId_ != null) {
         if (teamId_ == null) {
-          teamId_ = new global::AFMsg.Ident();
+          teamId_ = new global::AFMsg.PBGUID();
         }
         TeamId.MergeFrom(other.TeamId);
       }
       if (other.captainId_ != null) {
         if (captainId_ == null) {
-          captainId_ = new global::AFMsg.Ident();
+          captainId_ = new global::AFMsg.PBGUID();
         }
         CaptainId.MergeFrom(other.CaptainId);
       }
@@ -12232,14 +12235,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (teamId_ == null) {
-              teamId_ = new global::AFMsg.Ident();
+              teamId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(teamId_);
             break;
           }
           case 18: {
             if (captainId_ == null) {
-              captainId_ = new global::AFMsg.Ident();
+              captainId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(captainId_);
             break;
@@ -12294,12 +12297,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "player_id" field.</summary>
     public const int PlayerIdFieldNumber = 1;
-    private global::AFMsg.Ident playerId_;
+    private global::AFMsg.PBGUID playerId_;
     /// <summary>
     ///成员ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident PlayerId {
+    public global::AFMsg.PBGUID PlayerId {
       get { return playerId_; }
       set {
         playerId_ = value;
@@ -12460,7 +12463,7 @@ namespace AFMsg {
       }
       if (other.playerId_ != null) {
         if (playerId_ == null) {
-          playerId_ = new global::AFMsg.Ident();
+          playerId_ = new global::AFMsg.PBGUID();
         }
         PlayerId.MergeFrom(other.PlayerId);
       }
@@ -12489,7 +12492,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (playerId_ == null) {
-              playerId_ = new global::AFMsg.Ident();
+              playerId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(playerId_);
             break;
@@ -12557,9 +12560,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "team_id" field.</summary>
     public const int TeamIdFieldNumber = 1;
-    private global::AFMsg.Ident teamId_;
+    private global::AFMsg.PBGUID teamId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TeamId {
+    public global::AFMsg.PBGUID TeamId {
       get { return teamId_; }
       set {
         teamId_ = value;
@@ -12651,7 +12654,7 @@ namespace AFMsg {
       }
       if (other.teamId_ != null) {
         if (teamId_ == null) {
-          teamId_ = new global::AFMsg.Ident();
+          teamId_ = new global::AFMsg.PBGUID();
         }
         TeamId.MergeFrom(other.TeamId);
       }
@@ -12674,7 +12677,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (teamId_ == null) {
-              teamId_ = new global::AFMsg.Ident();
+              teamId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(teamId_);
             break;
@@ -12733,9 +12736,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "team_id" field.</summary>
     public const int TeamIdFieldNumber = 1;
-    private global::AFMsg.Ident teamId_;
+    private global::AFMsg.PBGUID teamId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TeamId {
+    public global::AFMsg.PBGUID TeamId {
       get { return teamId_; }
       set {
         teamId_ = value;
@@ -12827,7 +12830,7 @@ namespace AFMsg {
       }
       if (other.teamId_ != null) {
         if (teamId_ == null) {
-          teamId_ = new global::AFMsg.Ident();
+          teamId_ = new global::AFMsg.PBGUID();
         }
         TeamId.MergeFrom(other.TeamId);
       }
@@ -12850,7 +12853,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (teamId_ == null) {
-              teamId_ = new global::AFMsg.Ident();
+              teamId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(teamId_);
             break;
@@ -12909,9 +12912,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "team_id" field.</summary>
     public const int TeamIdFieldNumber = 1;
-    private global::AFMsg.Ident teamId_;
+    private global::AFMsg.PBGUID teamId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TeamId {
+    public global::AFMsg.PBGUID TeamId {
       get { return teamId_; }
       set {
         teamId_ = value;
@@ -13003,7 +13006,7 @@ namespace AFMsg {
       }
       if (other.teamId_ != null) {
         if (teamId_ == null) {
-          teamId_ = new global::AFMsg.Ident();
+          teamId_ = new global::AFMsg.PBGUID();
         }
         TeamId.MergeFrom(other.TeamId);
       }
@@ -13026,7 +13029,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (teamId_ == null) {
-              teamId_ = new global::AFMsg.Ident();
+              teamId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(teamId_);
             break;
@@ -13087,9 +13090,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "team_id" field.</summary>
     public const int TeamIdFieldNumber = 1;
-    private global::AFMsg.Ident teamId_;
+    private global::AFMsg.PBGUID teamId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TeamId {
+    public global::AFMsg.PBGUID TeamId {
       get { return teamId_; }
       set {
         teamId_ = value;
@@ -13098,12 +13101,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "member_id" field.</summary>
     public const int MemberIdFieldNumber = 2;
-    private global::AFMsg.Ident memberId_;
+    private global::AFMsg.PBGUID memberId_;
     /// <summary>
     ///被操作的ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident MemberId {
+    public global::AFMsg.PBGUID MemberId {
       get { return memberId_; }
       set {
         memberId_ = value;
@@ -13224,13 +13227,13 @@ namespace AFMsg {
       }
       if (other.teamId_ != null) {
         if (teamId_ == null) {
-          teamId_ = new global::AFMsg.Ident();
+          teamId_ = new global::AFMsg.PBGUID();
         }
         TeamId.MergeFrom(other.TeamId);
       }
       if (other.memberId_ != null) {
         if (memberId_ == null) {
-          memberId_ = new global::AFMsg.Ident();
+          memberId_ = new global::AFMsg.PBGUID();
         }
         MemberId.MergeFrom(other.MemberId);
       }
@@ -13256,14 +13259,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (teamId_ == null) {
-              teamId_ = new global::AFMsg.Ident();
+              teamId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(teamId_);
             break;
           }
           case 18: {
             if (memberId_ == null) {
-              memberId_ = new global::AFMsg.Ident();
+              memberId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(memberId_);
             break;
@@ -13363,9 +13366,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "team_id" field.</summary>
     public const int TeamIdFieldNumber = 1;
-    private global::AFMsg.Ident teamId_;
+    private global::AFMsg.PBGUID teamId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TeamId {
+    public global::AFMsg.PBGUID TeamId {
       get { return teamId_; }
       set {
         teamId_ = value;
@@ -13374,11 +13377,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "self_id" field.</summary>
     public const int SelfIdFieldNumber = 2;
-    private global::AFMsg.Ident selfId_;
+    private global::AFMsg.PBGUID selfId_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident SelfId {
+    public global::AFMsg.PBGUID SelfId {
       get { return selfId_; }
       set {
         selfId_ = value;
@@ -13387,11 +13390,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "invite_target_id" field.</summary>
     public const int InviteTargetIdFieldNumber = 3;
-    private global::AFMsg.Ident inviteTargetId_;
+    private global::AFMsg.PBGUID inviteTargetId_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident InviteTargetId {
+    public global::AFMsg.PBGUID InviteTargetId {
       get { return inviteTargetId_; }
       set {
         inviteTargetId_ = value;
@@ -13478,19 +13481,19 @@ namespace AFMsg {
       }
       if (other.teamId_ != null) {
         if (teamId_ == null) {
-          teamId_ = new global::AFMsg.Ident();
+          teamId_ = new global::AFMsg.PBGUID();
         }
         TeamId.MergeFrom(other.TeamId);
       }
       if (other.selfId_ != null) {
         if (selfId_ == null) {
-          selfId_ = new global::AFMsg.Ident();
+          selfId_ = new global::AFMsg.PBGUID();
         }
         SelfId.MergeFrom(other.SelfId);
       }
       if (other.inviteTargetId_ != null) {
         if (inviteTargetId_ == null) {
-          inviteTargetId_ = new global::AFMsg.Ident();
+          inviteTargetId_ = new global::AFMsg.PBGUID();
         }
         InviteTargetId.MergeFrom(other.InviteTargetId);
       }
@@ -13507,21 +13510,21 @@ namespace AFMsg {
             break;
           case 10: {
             if (teamId_ == null) {
-              teamId_ = new global::AFMsg.Ident();
+              teamId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(teamId_);
             break;
           }
           case 18: {
             if (selfId_ == null) {
-              selfId_ = new global::AFMsg.Ident();
+              selfId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfId_);
             break;
           }
           case 26: {
             if (inviteTargetId_ == null) {
-              inviteTargetId_ = new global::AFMsg.Ident();
+              inviteTargetId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(inviteTargetId_);
             break;
@@ -13576,9 +13579,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "team_id" field.</summary>
     public const int TeamIdFieldNumber = 1;
-    private global::AFMsg.Ident teamId_;
+    private global::AFMsg.PBGUID teamId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TeamId {
+    public global::AFMsg.PBGUID TeamId {
       get { return teamId_; }
       set {
         teamId_ = value;
@@ -13587,11 +13590,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "self_id" field.</summary>
     public const int SelfIdFieldNumber = 2;
-    private global::AFMsg.Ident selfId_;
+    private global::AFMsg.PBGUID selfId_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident SelfId {
+    public global::AFMsg.PBGUID SelfId {
       get { return selfId_; }
       set {
         selfId_ = value;
@@ -13757,13 +13760,13 @@ namespace AFMsg {
       }
       if (other.teamId_ != null) {
         if (teamId_ == null) {
-          teamId_ = new global::AFMsg.Ident();
+          teamId_ = new global::AFMsg.PBGUID();
         }
         TeamId.MergeFrom(other.TeamId);
       }
       if (other.selfId_ != null) {
         if (selfId_ == null) {
-          selfId_ = new global::AFMsg.Ident();
+          selfId_ = new global::AFMsg.PBGUID();
         }
         SelfId.MergeFrom(other.SelfId);
       }
@@ -13792,14 +13795,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (teamId_ == null) {
-              teamId_ = new global::AFMsg.Ident();
+              teamId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(teamId_);
             break;
           }
           case 18: {
             if (selfId_ == null) {
-              selfId_ = new global::AFMsg.Ident();
+              selfId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfId_);
             break;
@@ -13869,9 +13872,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "team_id" field.</summary>
     public const int TeamIdFieldNumber = 1;
-    private global::AFMsg.Ident teamId_;
+    private global::AFMsg.PBGUID teamId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TeamId {
+    public global::AFMsg.PBGUID TeamId {
       get { return teamId_; }
       set {
         teamId_ = value;
@@ -13880,11 +13883,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "self_id" field.</summary>
     public const int SelfIdFieldNumber = 2;
-    private global::AFMsg.Ident selfId_;
+    private global::AFMsg.PBGUID selfId_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident SelfId {
+    public global::AFMsg.PBGUID SelfId {
       get { return selfId_; }
       set {
         selfId_ = value;
@@ -14028,13 +14031,13 @@ namespace AFMsg {
       }
       if (other.teamId_ != null) {
         if (teamId_ == null) {
-          teamId_ = new global::AFMsg.Ident();
+          teamId_ = new global::AFMsg.PBGUID();
         }
         TeamId.MergeFrom(other.TeamId);
       }
       if (other.selfId_ != null) {
         if (selfId_ == null) {
-          selfId_ = new global::AFMsg.Ident();
+          selfId_ = new global::AFMsg.PBGUID();
         }
         SelfId.MergeFrom(other.SelfId);
       }
@@ -14060,14 +14063,14 @@ namespace AFMsg {
             break;
           case 10: {
             if (teamId_ == null) {
-              teamId_ = new global::AFMsg.Ident();
+              teamId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(teamId_);
             break;
           }
           case 18: {
             if (selfId_ == null) {
-              selfId_ = new global::AFMsg.Ident();
+              selfId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfId_);
             break;
@@ -14133,12 +14136,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "id" field.</summary>
     public const int IdFieldNumber = 1;
-    private global::AFMsg.Ident id_;
+    private global::AFMsg.PBGUID id_;
     /// <summary>
     ///ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Id {
+    public global::AFMsg.PBGUID Id {
       get { return id_; }
       set {
         id_ = value;
@@ -14299,7 +14302,7 @@ namespace AFMsg {
       }
       if (other.id_ != null) {
         if (id_ == null) {
-          id_ = new global::AFMsg.Ident();
+          id_ = new global::AFMsg.PBGUID();
         }
         Id.MergeFrom(other.Id);
       }
@@ -14328,7 +14331,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (id_ == null) {
-              id_ = new global::AFMsg.Ident();
+              id_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(id_);
             break;
@@ -14562,12 +14565,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "kingwarrer" field.</summary>
     public const int KingwarrerFieldNumber = 11;
-    private global::AFMsg.Ident kingwarrer_;
+    private global::AFMsg.PBGUID kingwarrer_;
     /// <summary>
     ///发动者
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Kingwarrer {
+    public global::AFMsg.PBGUID Kingwarrer {
       get { return kingwarrer_; }
       set {
         kingwarrer_ = value;
@@ -14590,12 +14593,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "hurter" field.</summary>
     public const int HurterFieldNumber = 21;
-    private global::AFMsg.Ident hurter_;
+    private global::AFMsg.PBGUID hurter_;
     /// <summary>
     ///狩猎者
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Hurter {
+    public global::AFMsg.PBGUID Hurter {
       get { return hurter_; }
       set {
         hurter_ = value;
@@ -14721,7 +14724,7 @@ namespace AFMsg {
       }
       if (other.kingwarrer_ != null) {
         if (kingwarrer_ == null) {
-          kingwarrer_ = new global::AFMsg.Ident();
+          kingwarrer_ = new global::AFMsg.PBGUID();
         }
         Kingwarrer.MergeFrom(other.Kingwarrer);
       }
@@ -14730,7 +14733,7 @@ namespace AFMsg {
       }
       if (other.hurter_ != null) {
         if (hurter_ == null) {
-          hurter_ = new global::AFMsg.Ident();
+          hurter_ = new global::AFMsg.PBGUID();
         }
         Hurter.MergeFrom(other.Hurter);
       }
@@ -14762,7 +14765,7 @@ namespace AFMsg {
           }
           case 90: {
             if (kingwarrer_ == null) {
-              kingwarrer_ = new global::AFMsg.Ident();
+              kingwarrer_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(kingwarrer_);
             break;
@@ -14773,7 +14776,7 @@ namespace AFMsg {
           }
           case 170: {
             if (hurter_ == null) {
-              hurter_ = new global::AFMsg.Ident();
+              hurter_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(hurter_);
             break;
@@ -14824,12 +14827,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "owner" field.</summary>
     public const int OwnerFieldNumber = 1;
-    private global::AFMsg.Ident owner_;
+    private global::AFMsg.PBGUID owner_;
     /// <summary>
     ///留言者
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Owner {
+    public global::AFMsg.PBGUID Owner {
       get { return owner_; }
       set {
         owner_ = value;
@@ -14990,7 +14993,7 @@ namespace AFMsg {
       }
       if (other.owner_ != null) {
         if (owner_ == null) {
-          owner_ = new global::AFMsg.Ident();
+          owner_ = new global::AFMsg.PBGUID();
         }
         Owner.MergeFrom(other.Owner);
       }
@@ -15019,7 +15022,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (owner_ == null) {
-              owner_ = new global::AFMsg.Ident();
+              owner_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(owner_);
             break;
@@ -15113,12 +15116,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "winner_id" field.</summary>
     public const int WinnerIdFieldNumber = 10;
-    private global::AFMsg.Ident winnerId_;
+    private global::AFMsg.PBGUID winnerId_;
     /// <summary>
     ///winner
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident WinnerId {
+    public global::AFMsg.PBGUID WinnerId {
       get { return winnerId_; }
       set {
         winnerId_ = value;
@@ -15240,7 +15243,7 @@ namespace AFMsg {
       }
       if (other.winnerId_ != null) {
         if (winnerId_ == null) {
-          winnerId_ = new global::AFMsg.Ident();
+          winnerId_ = new global::AFMsg.PBGUID();
         }
         WinnerId.MergeFrom(other.WinnerId);
       }
@@ -15274,7 +15277,7 @@ namespace AFMsg {
           }
           case 82: {
             if (winnerId_ == null) {
-              winnerId_ = new global::AFMsg.Ident();
+              winnerId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(winnerId_);
             break;
@@ -15895,9 +15898,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild_id" field.</summary>
     public const int GuildIdFieldNumber = 2;
-    private global::AFMsg.Ident guildId_;
+    private global::AFMsg.PBGUID guildId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident GuildId {
+    public global::AFMsg.PBGUID GuildId {
       get { return guildId_; }
       set {
         guildId_ = value;
@@ -15978,7 +15981,7 @@ namespace AFMsg {
       }
       if (other.guildId_ != null) {
         if (guildId_ == null) {
-          guildId_ = new global::AFMsg.Ident();
+          guildId_ = new global::AFMsg.PBGUID();
         }
         GuildId.MergeFrom(other.GuildId);
       }
@@ -15999,7 +16002,7 @@ namespace AFMsg {
           }
           case 18: {
             if (guildId_ == null) {
-              guildId_ = new global::AFMsg.Ident();
+              guildId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guildId_);
             break;
@@ -17154,12 +17157,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "RoomID" field.</summary>
     public const int RoomIDFieldNumber = 2;
-    private global::AFMsg.Ident roomID_;
+    private global::AFMsg.PBGUID roomID_;
     /// <summary>
     /// 房间ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident RoomID {
+    public global::AFMsg.PBGUID RoomID {
       get { return roomID_; }
       set {
         roomID_ = value;
@@ -17207,21 +17210,21 @@ namespace AFMsg {
 
     /// <summary>Field number for the "xRedPlayer" field.</summary>
     public const int XRedPlayerFieldNumber = 6;
-    private static readonly pb::FieldCodec<global::AFMsg.Ident> _repeated_xRedPlayer_codec
-        = pb::FieldCodec.ForMessage(50, global::AFMsg.Ident.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.Ident> xRedPlayer_ = new pbc::RepeatedField<global::AFMsg.Ident>();
+    private static readonly pb::FieldCodec<global::AFMsg.PBGUID> _repeated_xRedPlayer_codec
+        = pb::FieldCodec.ForMessage(50, global::AFMsg.PBGUID.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBGUID> xRedPlayer_ = new pbc::RepeatedField<global::AFMsg.PBGUID>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.Ident> XRedPlayer {
+    public pbc::RepeatedField<global::AFMsg.PBGUID> XRedPlayer {
       get { return xRedPlayer_; }
     }
 
     /// <summary>Field number for the "xBluePlayer" field.</summary>
     public const int XBluePlayerFieldNumber = 7;
-    private static readonly pb::FieldCodec<global::AFMsg.Ident> _repeated_xBluePlayer_codec
-        = pb::FieldCodec.ForMessage(58, global::AFMsg.Ident.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.Ident> xBluePlayer_ = new pbc::RepeatedField<global::AFMsg.Ident>();
+    private static readonly pb::FieldCodec<global::AFMsg.PBGUID> _repeated_xBluePlayer_codec
+        = pb::FieldCodec.ForMessage(58, global::AFMsg.PBGUID.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBGUID> xBluePlayer_ = new pbc::RepeatedField<global::AFMsg.PBGUID>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.Ident> XBluePlayer {
+    public pbc::RepeatedField<global::AFMsg.PBGUID> XBluePlayer {
       get { return xBluePlayer_; }
     }
 
@@ -17403,7 +17406,7 @@ namespace AFMsg {
       }
       if (other.roomID_ != null) {
         if (roomID_ == null) {
-          roomID_ = new global::AFMsg.Ident();
+          roomID_ = new global::AFMsg.PBGUID();
         }
         RoomID.MergeFrom(other.RoomID);
       }
@@ -17444,7 +17447,7 @@ namespace AFMsg {
           }
           case 18: {
             if (roomID_ == null) {
-              roomID_ = new global::AFMsg.Ident();
+              roomID_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(roomID_);
             break;
@@ -17530,11 +17533,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "self_id" field.</summary>
     public const int SelfIdFieldNumber = 1;
-    private global::AFMsg.Ident selfId_;
+    private global::AFMsg.PBGUID selfId_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident SelfId {
+    public global::AFMsg.PBGUID SelfId {
       get { return selfId_; }
       set {
         selfId_ = value;
@@ -17585,12 +17588,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "team_id" field.</summary>
     public const int TeamIdFieldNumber = 5;
-    private global::AFMsg.Ident teamId_;
+    private global::AFMsg.PBGUID teamId_;
     /// <summary>
     /// 队伍ID 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident TeamId {
+    public global::AFMsg.PBGUID TeamId {
       get { return teamId_; }
       set {
         teamId_ = value;
@@ -17695,7 +17698,7 @@ namespace AFMsg {
       }
       if (other.selfId_ != null) {
         if (selfId_ == null) {
-          selfId_ = new global::AFMsg.Ident();
+          selfId_ = new global::AFMsg.PBGUID();
         }
         SelfId.MergeFrom(other.SelfId);
       }
@@ -17710,7 +17713,7 @@ namespace AFMsg {
       }
       if (other.teamId_ != null) {
         if (teamId_ == null) {
-          teamId_ = new global::AFMsg.Ident();
+          teamId_ = new global::AFMsg.PBGUID();
         }
         TeamId.MergeFrom(other.TeamId);
       }
@@ -17727,7 +17730,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfId_ == null) {
-              selfId_ = new global::AFMsg.Ident();
+              selfId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfId_);
             break;
@@ -17746,7 +17749,7 @@ namespace AFMsg {
           }
           case 42: {
             if (teamId_ == null) {
-              teamId_ = new global::AFMsg.Ident();
+              teamId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(teamId_);
             break;
@@ -17817,11 +17820,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "self_id" field.</summary>
     public const int SelfIdFieldNumber = 1;
-    private global::AFMsg.Ident selfId_;
+    private global::AFMsg.PBGUID selfId_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident SelfId {
+    public global::AFMsg.PBGUID SelfId {
       get { return selfId_; }
       set {
         selfId_ = value;
@@ -17956,7 +17959,7 @@ namespace AFMsg {
       }
       if (other.selfId_ != null) {
         if (selfId_ == null) {
-          selfId_ = new global::AFMsg.Ident();
+          selfId_ = new global::AFMsg.PBGUID();
         }
         SelfId.MergeFrom(other.SelfId);
       }
@@ -17985,7 +17988,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfId_ == null) {
-              selfId_ = new global::AFMsg.Ident();
+              selfId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfId_);
             break;
@@ -18051,11 +18054,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "self_id" field.</summary>
     public const int SelfIdFieldNumber = 1;
-    private global::AFMsg.Ident selfId_;
+    private global::AFMsg.PBGUID selfId_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident SelfId {
+    public global::AFMsg.PBGUID SelfId {
       get { return selfId_; }
       set {
         selfId_ = value;
@@ -18144,7 +18147,7 @@ namespace AFMsg {
       }
       if (other.selfId_ != null) {
         if (selfId_ == null) {
-          selfId_ = new global::AFMsg.Ident();
+          selfId_ = new global::AFMsg.PBGUID();
         }
         SelfId.MergeFrom(other.SelfId);
       }
@@ -18167,7 +18170,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfId_ == null) {
-              selfId_ = new global::AFMsg.Ident();
+              selfId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfId_);
             break;
@@ -18226,11 +18229,11 @@ namespace AFMsg {
 
     /// <summary>Field number for the "self_id" field.</summary>
     public const int SelfIdFieldNumber = 1;
-    private global::AFMsg.Ident selfId_;
+    private global::AFMsg.PBGUID selfId_;
     /// <summary>
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident SelfId {
+    public global::AFMsg.PBGUID SelfId {
       get { return selfId_; }
       set {
         selfId_ = value;
@@ -18342,7 +18345,7 @@ namespace AFMsg {
       }
       if (other.selfId_ != null) {
         if (selfId_ == null) {
-          selfId_ = new global::AFMsg.Ident();
+          selfId_ = new global::AFMsg.PBGUID();
         }
         SelfId.MergeFrom(other.SelfId);
       }
@@ -18368,7 +18371,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (selfId_ == null) {
-              selfId_ = new global::AFMsg.Ident();
+              selfId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(selfId_);
             break;

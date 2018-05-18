@@ -255,9 +255,9 @@ void AFCProxyServerToWorldModule::OnBrocastmsg(const AFIMsgHead& xHead, const in
         return;
     }
 
-    for(int i = 0; i < xMsg.player_client_list_size(); i++)
+    for(int i = 0; i < xMsg.target_entity_list_size(); i++)
     {
-        const AFMsg::Ident& xPlayerClientID = xMsg.player_client_list(i);
-        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(xPlayerClientID), nPlayerID);
+        const AFMsg::PBGUID& xPlayerClientID = xMsg.target_entity_list(i);
+        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(xPlayerClientID), nPlayerID);
     }
 }

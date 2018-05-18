@@ -119,20 +119,20 @@ enum EGameMsgID
 	EGMI_REQ_END_BATTLE							= 157;			// 申请副本结算
 	EGMI_ACK_END_BATTLE							= 158;			// 回复副本结算
 
-	EGMI_ACK_OBJECT_ENTRY						= 200;			// 有对象进入
-	EGMI_ACK_OBJECT_LEAVE						= 201;			// 有对象出去
+	EGMI_ACK_ENTITY_ENTER						= 200;			// 有对象进入
+	EGMI_ACK_ENTITY_LEAVE						= 201;			// 有对象出去
 	
-	EGMI_ACK_OBJECT_PROPERTY_ENTRY				= 202;			// 有对象属性进入
-	EGMI_ACK_OBJECT_RECORD_ENTRY				= 203;			// 有对象表进入
+	EGMI_ACK_ENTITY_DATA_NODE_ENTER				= 202;			// 有对象属性进入
+	EGMI_ACK_ENTITY_DATA_TABLE_ENTER            = 203;			// 有对象表进入
 	
-	EGMI_ACK_PROPERTY_DATA						= 210;			// 属性变更
+	EGMI_ACK_NODE_DATA						    = 210;			// 属性变更
 
 	EGMI_ACK_ADD_ROW							= 220;
 	EGMI_ACK_REMOVE_ROW							= 221;
 	EGMI_ACK_SWAP_ROW							= 222;
-	EGMI_ACK_RECORD_DATA						= 223;
-	EGMI_ACK_RECORD_CLEAR						= 229;
-	EGMI_ACK_RECORD_SORT						= 230;
+	EGMI_ACK_TABLE_DATA						    = 223;
+	EGMI_ACK_TABLE_CLEAR						= 229;
+	EGMI_ACK_TABLE_SORT						    = 230;
 
 	EGMI_REQ_MOVE								= 235;
 	EGMI_ACK_MOVE								= 236;

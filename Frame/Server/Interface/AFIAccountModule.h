@@ -21,7 +21,8 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
+
 class AFIAccountModule
     : public AFIModule
 {
