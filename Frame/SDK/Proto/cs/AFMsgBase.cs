@@ -24,85 +24,84 @@ namespace AFMsg {
     static AFMsgBaseReflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "Cg9BRk1zZ0Jhc2UucHJvdG8SBUFGTXNnGg5BRkRlZmluZS5wcm90byIiCgVJ",
-            "ZGVudBIMCgRoaWdoGAEgASgDEgsKA2xvdxgCIAEoAyIqCgdQb2ludDNEEgkK",
-            "AXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCIsEBCgtWYXJpYW50RGF0",
-            "YRIUCgpib29sX3ZhbHVlGAEgASgISAASEwoJaW50X3ZhbHVlGAIgASgFSAAS",
-            "FQoLaW50NjRfdmFsdWUYAyABKANIABIVCgtmbG9hdF92YWx1ZRgEIAEoAkgA",
-            "EhYKDGRvdWJsZV92YWx1ZRgFIAEoAUgAEhMKCXN0cl92YWx1ZRgGIAEoCUgA",
-            "EiIKCmd1aWRfdmFsdWUYByABKAsyDC5BRk1zZy5JZGVudEgAQggKBkFGRGF0",
-            "YSJkCg5Qcm9wZXJ0eVBCRGF0YRIVCg1wcm9wZXJ0eV9uYW1lGAEgASgJEhEK",
-            "CW5kYXRhVHlwZRgCIAEoBRIoCgx2YXJpYW50X2RhdGEYAyABKAsyEi5BRk1z",
-            "Zy5WYXJpYW50RGF0YSJlCgxSZWNvcmRQQkRhdGESCwoDcm93GAEgASgFEgsK",
-            "A2NvbBgCIAEoBRIRCgluZGF0YVR5cGUYAyABKAUSKAoMdmFyaWFudF9kYXRh",
-            "GAQgASgLMhIuQUZNc2cuVmFyaWFudERhdGEiRQoGUEJEYXRhEhEKCW5kYXRh",
-            "VHlwZRgBIAEoBRIoCgx2YXJpYW50X2RhdGEYAiABKAsyEi5BRk1zZy5WYXJp",
-            "YW50RGF0YSIyCg5EYXRhTGlzdFBCRGF0YRIgCglkYXRhX2xpc3QYASADKAsy",
-            "DS5BRk1zZy5QQkRhdGEiUAoSUmVjb3JkQWRkUm93U3RydWN0EgsKA3JvdxgB",
-            "IAEoBRItChByZWNvcmRfZGF0YV9saXN0GAIgAygLMhMuQUZNc2cuUmVjb3Jk",
-            "UEJEYXRhIlYKEE9iamVjdFJlY29yZEJhc2USEwoLcmVjb3JkX25hbWUYASAB",
-            "KAkSLQoKcm93X3N0cnVjdBgCIAMoCzIZLkFGTXNnLlJlY29yZEFkZFJvd1N0",
-            "cnVjdCJoChJPYmplY3RQcm9wZXJ0eUxpc3QSHwoJcGxheWVyX2lkGAEgASgL",
-            "MgwuQUZNc2cuSWRlbnQSMQoScHJvcGVydHlfZGF0YV9saXN0GAIgAygLMhUu",
-            "QUZNc2cuUHJvcGVydHlQQkRhdGEiUwoXTXVsdGlPYmplY3RQcm9wZXJ0eUxp",
-            "c3QSOAoVbXVsdGlfcGxheWVyX3Byb3BlcnR5GAEgAygLMhkuQUZNc2cuT2Jq",
-            "ZWN0UHJvcGVydHlMaXN0ImEKEE9iamVjdFJlY29yZExpc3QSHwoJcGxheWVy",
-            "X2lkGAEgASgLMgwuQUZNc2cuSWRlbnQSLAoLcmVjb3JkX2xpc3QYAiADKAsy",
-            "Fy5BRk1zZy5PYmplY3RSZWNvcmRCYXNlIk0KFU11bHRpT2JqZWN0UmVjb3Jk",
-            "TGlzdBI0ChNtdWx0aV9wbGF5ZXJfcmVjb3JkGAEgAygLMhcuQUZNc2cuT2Jq",
-            "ZWN0UmVjb3JkTGlzdCJlChRPYmplY3RQcm9wZXJ0eVBCRGF0YRIfCglwbGF5",
-            "ZXJfaWQYASABKAsyDC5BRk1zZy5JZGVudBIsCg1wcm9wZXJ0eV9saXN0GAIg",
-            "AygLMhUuQUZNc2cuUHJvcGVydHlQQkRhdGEidAoST2JqZWN0UmVjb3JkUEJE",
-            "YXRhEh8KCXBsYXllcl9pZBgBIAEoCzIMLkFGTXNnLklkZW50EhMKC3JlY29y",
-            "ZF9uYW1lGAIgASgJEigKC3JlY29yZF9saXN0GAMgAygLMhMuQUZNc2cuUmVj",
-            "b3JkUEJEYXRhIpMBChBPYmplY3RSZWNvcmRTd2FwEh8KCXBsYXllcl9pZBgB",
-            "IAEoCzIMLkFGTXNnLklkZW50EhoKEm9yaWdpbl9yZWNvcmRfbmFtZRgCIAEo",
-            "CRIaChJ0YXJnZXRfcmVjb3JkX25hbWUYAyABKAkSEgoKcm93X29yaWdpbhgE",
-            "IAEoBRISCgpyb3dfdGFyZ2V0GAUgASgFIncKEk9iamVjdFJlY29yZEFkZFJv",
-            "dxIfCglwbGF5ZXJfaWQYASABKAsyDC5BRk1zZy5JZGVudBITCgtyZWNvcmRf",
-            "bmFtZRgCIAEoCRIrCghyb3dfZGF0YRgDIAMoCzIZLkFGTXNnLlJlY29yZEFk",
-            "ZFJvd1N0cnVjdCJeChJPYmplY3RSZWNvcmRSZW1vdmUSHwoJcGxheWVyX2lk",
-            "GAEgASgLMgwuQUZNc2cuSWRlbnQSEwoLcmVjb3JkX25hbWUYAiABKAkSEgoK",
-            "cmVtb3ZlX3JvdxgDIAMoBSJHChJQbGF5ZXJQcm9wZXJ0eUJhc2USMQoScHJv",
-            "cGVydHlfZGF0YV9saXN0GAEgAygLMhUuQUZNc2cuUHJvcGVydHlQQkRhdGEi",
-            "VgoQUGxheWVyUmVjb3JkQmFzZRITCgtyZWNvcmRfbmFtZRgBIAEoCRItChBy",
-            "ZWNvcmRfZGF0YV9saXN0GAIgAygLMhMuQUZNc2cuUmVjb3JkUEJEYXRhIkAK",
-            "EFBsYXllclJlY29yZExpc3QSLAoLcmVjb3JkX2xpc3QYASADKAsyFy5BRk1z",
-            "Zy5QbGF5ZXJSZWNvcmRCYXNlInkKCkJyb2Nhc3RNc2cSHwoJcGxheWVyX2lk",
-            "GAEgASgLMgwuQUZNc2cuSWRlbnQSEAoIbXNnX2RhdGEYAiABKAkSDgoGbk1z",
-            "Z0lEGAMgASgDEigKEnBsYXllcl9DbGllbnRfbGlzdBgEIAMoCzIMLkFGTXNn",
-            "LklkZW50IisKCFBvc2l0aW9uEgkKAXgYASABKAISCQoBeRgCIAEoAhIJCgF6",
-            "GAMgASgCItcBCgpSZXFDb21tYW5kEiAKCmNvbnRyb2xfaWQYASABKAsyDC5B",
-            "Rk1zZy5JZGVudBI2Cgpjb21tYW5kX2lkGAIgASgOMiIuQUZNc2cuUmVxQ29t",
-            "bWFuZC5FR2FtZUNvbW1hbmRUeXBlIm8KEEVHYW1lQ29tbWFuZFR5cGUSFwoT",
-            "RUdDVF9NT0RJWV9QUk9QRVJUWRAAEhMKD0VHQ1RfTU9ESVlfSVRFTRABEhYK",
-            "EkVHQ1RfQ1JFQVRFX09CSkVDVBACEhUKEUVHQ1RfQUREX1JPTEVfRVhQEANi",
-            "BnByb3RvMw=="));
+            "Cg9BRk1zZ0Jhc2UucHJvdG8SBUFGTXNnIiMKBlBCR1VJRBIMCgRoaWdoGAEg",
+            "ASgDEgsKA2xvdxgCIAEoAyIqCgdQb2ludDNEEgkKAXgYASABKAISCQoBeRgC",
+            "IAEoAhIJCgF6GAMgASgCIsIBCgtWYXJpYW50RGF0YRIUCgpib29sX3ZhbHVl",
+            "GAEgASgISAASEwoJaW50X3ZhbHVlGAIgASgFSAASFQoLaW50NjRfdmFsdWUY",
+            "AyABKANIABIVCgtmbG9hdF92YWx1ZRgEIAEoAkgAEhYKDGRvdWJsZV92YWx1",
+            "ZRgFIAEoAUgAEhMKCXN0cl92YWx1ZRgGIAEoCUgAEiMKCmd1aWRfdmFsdWUY",
+            "ByABKAsyDS5BRk1zZy5QQkdVSURIAEIICgZBRkRhdGEiXAoKUEJOb2RlRGF0",
+            "YRIRCglub2RlX25hbWUYASABKAkSEQoJZGF0YV90eXBlGAIgASgFEigKDHZh",
+            "cmlhbnRfZGF0YRgDIAEoCzISLkFGTXNnLlZhcmlhbnREYXRhImMKClBCQ2Vs",
+            "bERhdGESCwoDcm93GAEgASgFEgsKA2NvbBgCIAEoBRIRCglkYXRhX3R5cGUY",
+            "AyABKAUSKAoMdmFyaWFudF9kYXRhGAQgASgLMhIuQUZNc2cuVmFyaWFudERh",
+            "dGEiRQoGUEJEYXRhEhEKCWRhdGFfdHlwZRgBIAEoBRIoCgx2YXJpYW50X2Rh",
+            "dGEYAiABKAsyEi5BRk1zZy5WYXJpYW50RGF0YSIuCgpQQkRhdGFMaXN0EiAK",
+            "CWRhdGFfbGlzdBgBIAMoCzINLkFGTXNnLlBCRGF0YSJECg9EYXRhVGFibGVB",
+            "ZGRSb3cSCwoDcm93GAEgASgFEiQKCWNlbGxfbGlzdBgCIAMoCzIRLkFGTXNn",
+            "LlBCQ2VsbERhdGEiTgoTRW50aXR5RGF0YVRhYmxlQmFzZRISCgp0YWJsZV9u",
+            "YW1lGAEgASgJEiMKA3JvdxgCIAMoCzIWLkFGTXNnLkRhdGFUYWJsZUFkZFJv",
+            "dyJhChJFbnRpdHlEYXRhTm9kZUxpc3QSIAoJZW50aXR5X2lkGAEgASgLMg0u",
+            "QUZNc2cuUEJHVUlEEikKDmRhdGFfbm9kZV9saXN0GAIgAygLMhEuQUZNc2cu",
+            "UEJOb2RlRGF0YSJZChdNdWx0aUVudGl0eURhdGFOb2RlTGlzdBI+ChttdWx0",
+            "aV9lbnRpdHlfZGF0YV9ub2RlX2xpc3QYASADKAsyGS5BRk1zZy5FbnRpdHlE",
+            "YXRhTm9kZUxpc3QibAoTRW50aXR5RGF0YVRhYmxlTGlzdBIgCgllbnRpdHlf",
+            "aWQYASABKAsyDS5BRk1zZy5QQkdVSUQSMwoPZGF0YV90YWJsZV9saXN0GAIg",
+            "AygLMhouQUZNc2cuRW50aXR5RGF0YVRhYmxlQmFzZSJcChhNdWx0aUVudGl0",
+            "eURhdGFUYWJsZUxpc3QSQAocbXVsdGlfZW50aXR5X2RhdGFfdGFibGVfbGlz",
+            "dBgBIAMoCzIaLkFGTXNnLkVudGl0eURhdGFUYWJsZUxpc3QiXQoORW50aXR5",
+            "RGF0YU5vZGUSIAoJZW50aXR5X2lkGAEgASgLMg0uQUZNc2cuUEJHVUlEEikK",
+            "DmRhdGFfbm9kZV9saXN0GAIgAygLMhEuQUZNc2cuUEJOb2RlRGF0YSJzCg9F",
+            "bnRpdHlEYXRhVGFibGUSIAoJZW50aXR5X2lkGAEgASgLMg0uQUZNc2cuUEJH",
+            "VUlEEhIKCnRhYmxlX25hbWUYAiABKAkSKgoPdGFibGVfY2VsbF9saXN0GAMg",
+            "AygLMhEuQUZNc2cuUEJDZWxsRGF0YSKVAQoTRW50aXR5RGF0YVRhYmxlU3dh",
+            "cBIgCgllbnRpdHlfaWQYASABKAsyDS5BRk1zZy5QQkdVSUQSGQoRb3JpZ2lu",
+            "X3RhYmxlX25hbWUYAiABKAkSGQoRdGFyZ2V0X3RhYmxlX25hbWUYAyABKAkS",
+            "EgoKcm93X29yaWdpbhgEIAEoBRISCgpyb3dfdGFyZ2V0GAUgASgFIncKFUVu",
+            "dGl0eURhdGFUYWJsZUFkZFJvdxIgCgllbnRpdHlfaWQYASABKAsyDS5BRk1z",
+            "Zy5QQkdVSUQSEgoKdGFibGVfbmFtZRgCIAEoCRIoCghyb3dfZGF0YRgDIAMo",
+            "CzIWLkFGTXNnLkRhdGFUYWJsZUFkZFJvdyJhChVFbnRpdHlEYXRhVGFibGVS",
+            "ZW1vdmUSIAoJZW50aXR5X2lkGAEgASgLMg0uQUZNc2cuUEJHVUlEEhIKCnRh",
+            "YmxlX25hbWUYAiABKAkSEgoKcmVtb3ZlX3JvdxgDIAMoBSI8Cg9QbGF5ZXJE",
+            "YXRhTm9kZXMSKQoOZGF0YV9ub2RlX2xpc3QYASADKAsyES5BRk1zZy5QQk5v",
+            "ZGVEYXRhIlYKD1BsYXllckRhdGFUYWJsZRISCgp0YWJsZV9uYW1lGAEgASgJ",
+            "Ei8KFGRhdGFfdGFibGVfY2VsbF9saXN0GAIgAygLMhEuQUZNc2cuUEJDZWxs",
+            "RGF0YSI+ChBQbGF5ZXJEYXRhVGFibGVzEioKCnRhYmxlX2xpc3QYASADKAsy",
+            "Fi5BRk1zZy5QbGF5ZXJEYXRhVGFibGUiewoKQnJvY2FzdE1zZxIgCgllbnRp",
+            "dHlfaWQYASABKAsyDS5BRk1zZy5QQkdVSUQSEAoIbXNnX2RhdGEYAiABKAkS",
+            "DgoGbXNnX2lkGAMgASgFEikKEnRhcmdldF9lbnRpdHlfbGlzdBgEIAMoCzIN",
+            "LkFGTXNnLlBCR1VJRCIrCghQb3NpdGlvbhIJCgF4GAEgASgCEgkKAXkYAiAB",
+            "KAISCQoBehgDIAEoAiLZAQoKUmVxQ29tbWFuZBIhCgpjb250cm9sX2lkGAEg",
+            "ASgLMg0uQUZNc2cuUEJHVUlEEjYKCmNvbW1hbmRfaWQYAiABKA4yIi5BRk1z",
+            "Zy5SZXFDb21tYW5kLkVHYW1lQ29tbWFuZFR5cGUicAoQRUdhbWVDb21tYW5k",
+            "VHlwZRIYChRFR0NUX01PRElZX0RBVEFfTk9ERRAAEhMKD0VHQ1RfTU9ESVlf",
+            "SVRFTRABEhYKEkVHQ1RfQ1JFQVRFX0VOVElUWRACEhUKEUVHQ1RfQUREX1JP",
+            "TEVfRVhQEANiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::AFMsg.AFDefineReflection.Descriptor, },
+          new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.Ident), global::AFMsg.Ident.Parser, new[]{ "High", "Low" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PBGUID), global::AFMsg.PBGUID.Parser, new[]{ "High", "Low" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.Point3D), global::AFMsg.Point3D.Parser, new[]{ "X", "Y", "Z" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.VariantData), global::AFMsg.VariantData.Parser, new[]{ "BoolValue", "IntValue", "Int64Value", "FloatValue", "DoubleValue", "StrValue", "GuidValue" }, new[]{ "AFData" }, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PropertyPBData), global::AFMsg.PropertyPBData.Parser, new[]{ "PropertyName", "NdataType", "VariantData" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.RecordPBData), global::AFMsg.RecordPBData.Parser, new[]{ "Row", "Col", "NdataType", "VariantData" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PBData), global::AFMsg.PBData.Parser, new[]{ "NdataType", "VariantData" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.DataListPBData), global::AFMsg.DataListPBData.Parser, new[]{ "DataList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.RecordAddRowStruct), global::AFMsg.RecordAddRowStruct.Parser, new[]{ "Row", "RecordDataList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ObjectRecordBase), global::AFMsg.ObjectRecordBase.Parser, new[]{ "RecordName", "RowStruct" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ObjectPropertyList), global::AFMsg.ObjectPropertyList.Parser, new[]{ "PlayerId", "PropertyDataList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.MultiObjectPropertyList), global::AFMsg.MultiObjectPropertyList.Parser, new[]{ "MultiPlayerProperty" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ObjectRecordList), global::AFMsg.ObjectRecordList.Parser, new[]{ "PlayerId", "RecordList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.MultiObjectRecordList), global::AFMsg.MultiObjectRecordList.Parser, new[]{ "MultiPlayerRecord" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ObjectPropertyPBData), global::AFMsg.ObjectPropertyPBData.Parser, new[]{ "PlayerId", "PropertyList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ObjectRecordPBData), global::AFMsg.ObjectRecordPBData.Parser, new[]{ "PlayerId", "RecordName", "RecordList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ObjectRecordSwap), global::AFMsg.ObjectRecordSwap.Parser, new[]{ "PlayerId", "OriginRecordName", "TargetRecordName", "RowOrigin", "RowTarget" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ObjectRecordAddRow), global::AFMsg.ObjectRecordAddRow.Parser, new[]{ "PlayerId", "RecordName", "RowData" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ObjectRecordRemove), global::AFMsg.ObjectRecordRemove.Parser, new[]{ "PlayerId", "RecordName", "RemoveRow" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PlayerPropertyBase), global::AFMsg.PlayerPropertyBase.Parser, new[]{ "PropertyDataList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PlayerRecordBase), global::AFMsg.PlayerRecordBase.Parser, new[]{ "RecordName", "RecordDataList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PlayerRecordList), global::AFMsg.PlayerRecordList.Parser, new[]{ "RecordList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.BrocastMsg), global::AFMsg.BrocastMsg.Parser, new[]{ "PlayerId", "MsgData", "NMsgID", "PlayerClientList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PBNodeData), global::AFMsg.PBNodeData.Parser, new[]{ "NodeName", "DataType", "VariantData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PBCellData), global::AFMsg.PBCellData.Parser, new[]{ "Row", "Col", "DataType", "VariantData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PBData), global::AFMsg.PBData.Parser, new[]{ "DataType", "VariantData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PBDataList), global::AFMsg.PBDataList.Parser, new[]{ "DataList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.DataTableAddRow), global::AFMsg.DataTableAddRow.Parser, new[]{ "Row", "CellList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.EntityDataTableBase), global::AFMsg.EntityDataTableBase.Parser, new[]{ "TableName", "Row" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.EntityDataNodeList), global::AFMsg.EntityDataNodeList.Parser, new[]{ "EntityId", "DataNodeList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.MultiEntityDataNodeList), global::AFMsg.MultiEntityDataNodeList.Parser, new[]{ "MultiEntityDataNodeList_" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.EntityDataTableList), global::AFMsg.EntityDataTableList.Parser, new[]{ "EntityId", "DataTableList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.MultiEntityDataTableList), global::AFMsg.MultiEntityDataTableList.Parser, new[]{ "MultiEntityDataTableList_" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.EntityDataNode), global::AFMsg.EntityDataNode.Parser, new[]{ "EntityId", "DataNodeList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.EntityDataTable), global::AFMsg.EntityDataTable.Parser, new[]{ "EntityId", "TableName", "TableCellList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.EntityDataTableSwap), global::AFMsg.EntityDataTableSwap.Parser, new[]{ "EntityId", "OriginTableName", "TargetTableName", "RowOrigin", "RowTarget" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.EntityDataTableAddRow), global::AFMsg.EntityDataTableAddRow.Parser, new[]{ "EntityId", "TableName", "RowData" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.EntityDataTableRemove), global::AFMsg.EntityDataTableRemove.Parser, new[]{ "EntityId", "TableName", "RemoveRow" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PlayerDataNodes), global::AFMsg.PlayerDataNodes.Parser, new[]{ "DataNodeList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PlayerDataTable), global::AFMsg.PlayerDataTable.Parser, new[]{ "TableName", "DataTableCellList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.PlayerDataTables), global::AFMsg.PlayerDataTables.Parser, new[]{ "TableList" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.BrocastMsg), global::AFMsg.BrocastMsg.Parser, new[]{ "EntityId", "MsgData", "MsgId", "TargetEntityList" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.Position), global::AFMsg.Position.Parser, new[]{ "X", "Y", "Z" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ReqCommand), global::AFMsg.ReqCommand.Parser, new[]{ "ControlId", "CommandId" }, null, new[]{ typeof(global::AFMsg.ReqCommand.Types.EGameCommandType) }, null)
           }));
@@ -111,11 +110,11 @@ namespace AFMsg {
 
   }
   #region Messages
-  public sealed partial class Ident : pb::IMessage<Ident> {
-    private static readonly pb::MessageParser<Ident> _parser = new pb::MessageParser<Ident>(() => new Ident());
+  public sealed partial class PBGUID : pb::IMessage<PBGUID> {
+    private static readonly pb::MessageParser<PBGUID> _parser = new pb::MessageParser<PBGUID>(() => new PBGUID());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<Ident> Parser { get { return _parser; } }
+    public static pb::MessageParser<PBGUID> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -128,22 +127,22 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Ident() {
+    public PBGUID() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Ident(Ident other) : this() {
+    public PBGUID(PBGUID other) : this() {
       high_ = other.high_;
       low_ = other.low_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public Ident Clone() {
-      return new Ident(this);
+    public PBGUID Clone() {
+      return new PBGUID(this);
     }
 
     /// <summary>Field number for the "high" field.</summary>
@@ -170,11 +169,11 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as Ident);
+      return Equals(other as PBGUID);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(Ident other) {
+    public bool Equals(PBGUID other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -233,7 +232,7 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(Ident other) {
+    public void MergeFrom(PBGUID other) {
       if (other == null) {
         return;
       }
@@ -579,8 +578,8 @@ namespace AFMsg {
     /// <summary>Field number for the "guid_value" field.</summary>
     public const int GuidValueFieldNumber = 7;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident GuidValue {
-      get { return aFDataCase_ == AFDataOneofCase.GuidValue ? (global::AFMsg.Ident) aFData_ : null; }
+    public global::AFMsg.PBGUID GuidValue {
+      get { return aFDataCase_ == AFDataOneofCase.GuidValue ? (global::AFMsg.PBGUID) aFData_ : null; }
       set {
         aFData_ = value;
         aFDataCase_ = value == null ? AFDataOneofCase.None : AFDataOneofCase.GuidValue;
@@ -748,7 +747,7 @@ namespace AFMsg {
           break;
         case AFDataOneofCase.GuidValue:
           if (GuidValue == null) {
-            GuidValue = new global::AFMsg.Ident();
+            GuidValue = new global::AFMsg.PBGUID();
           }
           GuidValue.MergeFrom(other.GuidValue);
           break;
@@ -790,7 +789,7 @@ namespace AFMsg {
             break;
           }
           case 58: {
-            global::AFMsg.Ident subBuilder = new global::AFMsg.Ident();
+            global::AFMsg.PBGUID subBuilder = new global::AFMsg.PBGUID();
             if (aFDataCase_ == AFDataOneofCase.GuidValue) {
               subBuilder.MergeFrom(GuidValue);
             }
@@ -806,12 +805,13 @@ namespace AFMsg {
 
   /// <summary>
   /////////////////////////BaseCommon/////////////////////////////
+  ///Node data, do not send directly
   /// </summary>
-  public sealed partial class PropertyPBData : pb::IMessage<PropertyPBData> {
-    private static readonly pb::MessageParser<PropertyPBData> _parser = new pb::MessageParser<PropertyPBData>(() => new PropertyPBData());
+  public sealed partial class PBNodeData : pb::IMessage<PBNodeData> {
+    private static readonly pb::MessageParser<PBNodeData> _parser = new pb::MessageParser<PBNodeData>(() => new PBNodeData());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<PropertyPBData> Parser { get { return _parser; } }
+    public static pb::MessageParser<PBNodeData> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -824,44 +824,44 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PropertyPBData() {
+    public PBNodeData() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PropertyPBData(PropertyPBData other) : this() {
-      propertyName_ = other.propertyName_;
-      ndataType_ = other.ndataType_;
+    public PBNodeData(PBNodeData other) : this() {
+      nodeName_ = other.nodeName_;
+      dataType_ = other.dataType_;
       VariantData = other.variantData_ != null ? other.VariantData.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PropertyPBData Clone() {
-      return new PropertyPBData(this);
+    public PBNodeData Clone() {
+      return new PBNodeData(this);
     }
 
-    /// <summary>Field number for the "property_name" field.</summary>
-    public const int PropertyNameFieldNumber = 1;
-    private string propertyName_ = "";
+    /// <summary>Field number for the "node_name" field.</summary>
+    public const int NodeNameFieldNumber = 1;
+    private string nodeName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string PropertyName {
-      get { return propertyName_; }
+    public string NodeName {
+      get { return nodeName_; }
       set {
-        propertyName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        nodeName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "ndataType" field.</summary>
-    public const int NdataTypeFieldNumber = 2;
-    private int ndataType_;
+    /// <summary>Field number for the "data_type" field.</summary>
+    public const int DataTypeFieldNumber = 2;
+    private int dataType_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int NdataType {
-      get { return ndataType_; }
+    public int DataType {
+      get { return dataType_; }
       set {
-        ndataType_ = value;
+        dataType_ = value;
       }
     }
 
@@ -878,19 +878,19 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as PropertyPBData);
+      return Equals(other as PBNodeData);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(PropertyPBData other) {
+    public bool Equals(PBNodeData other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (PropertyName != other.PropertyName) return false;
-      if (NdataType != other.NdataType) return false;
+      if (NodeName != other.NodeName) return false;
+      if (DataType != other.DataType) return false;
       if (!object.Equals(VariantData, other.VariantData)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -898,8 +898,8 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (PropertyName.Length != 0) hash ^= PropertyName.GetHashCode();
-      if (NdataType != 0) hash ^= NdataType.GetHashCode();
+      if (NodeName.Length != 0) hash ^= NodeName.GetHashCode();
+      if (DataType != 0) hash ^= DataType.GetHashCode();
       if (variantData_ != null) hash ^= VariantData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -914,13 +914,13 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (PropertyName.Length != 0) {
+      if (NodeName.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(PropertyName);
+        output.WriteString(NodeName);
       }
-      if (NdataType != 0) {
+      if (DataType != 0) {
         output.WriteRawTag(16);
-        output.WriteInt32(NdataType);
+        output.WriteInt32(DataType);
       }
       if (variantData_ != null) {
         output.WriteRawTag(26);
@@ -934,11 +934,11 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (PropertyName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(PropertyName);
+      if (NodeName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(NodeName);
       }
-      if (NdataType != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(NdataType);
+      if (DataType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DataType);
       }
       if (variantData_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(VariantData);
@@ -950,15 +950,15 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(PropertyPBData other) {
+    public void MergeFrom(PBNodeData other) {
       if (other == null) {
         return;
       }
-      if (other.PropertyName.Length != 0) {
-        PropertyName = other.PropertyName;
+      if (other.NodeName.Length != 0) {
+        NodeName = other.NodeName;
       }
-      if (other.NdataType != 0) {
-        NdataType = other.NdataType;
+      if (other.DataType != 0) {
+        DataType = other.DataType;
       }
       if (other.variantData_ != null) {
         if (variantData_ == null) {
@@ -978,11 +978,11 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            PropertyName = input.ReadString();
+            NodeName = input.ReadString();
             break;
           }
           case 16: {
-            NdataType = input.ReadInt32();
+            DataType = input.ReadInt32();
             break;
           }
           case 26: {
@@ -998,11 +998,14 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class RecordPBData : pb::IMessage<RecordPBData> {
-    private static readonly pb::MessageParser<RecordPBData> _parser = new pb::MessageParser<RecordPBData>(() => new RecordPBData());
+  /// <summary>
+  ///Table cell data, do not send directly
+  /// </summary>
+  public sealed partial class PBCellData : pb::IMessage<PBCellData> {
+    private static readonly pb::MessageParser<PBCellData> _parser = new pb::MessageParser<PBCellData>(() => new PBCellData());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<RecordPBData> Parser { get { return _parser; } }
+    public static pb::MessageParser<PBCellData> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1015,24 +1018,24 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RecordPBData() {
+    public PBCellData() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RecordPBData(RecordPBData other) : this() {
+    public PBCellData(PBCellData other) : this() {
       row_ = other.row_;
       col_ = other.col_;
-      ndataType_ = other.ndataType_;
+      dataType_ = other.dataType_;
       VariantData = other.variantData_ != null ? other.VariantData.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RecordPBData Clone() {
-      return new RecordPBData(this);
+    public PBCellData Clone() {
+      return new PBCellData(this);
     }
 
     /// <summary>Field number for the "row" field.</summary>
@@ -1057,14 +1060,14 @@ namespace AFMsg {
       }
     }
 
-    /// <summary>Field number for the "ndataType" field.</summary>
-    public const int NdataTypeFieldNumber = 3;
-    private int ndataType_;
+    /// <summary>Field number for the "data_type" field.</summary>
+    public const int DataTypeFieldNumber = 3;
+    private int dataType_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int NdataType {
-      get { return ndataType_; }
+    public int DataType {
+      get { return dataType_; }
       set {
-        ndataType_ = value;
+        dataType_ = value;
       }
     }
 
@@ -1081,11 +1084,11 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as RecordPBData);
+      return Equals(other as PBCellData);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(RecordPBData other) {
+    public bool Equals(PBCellData other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1094,7 +1097,7 @@ namespace AFMsg {
       }
       if (Row != other.Row) return false;
       if (Col != other.Col) return false;
-      if (NdataType != other.NdataType) return false;
+      if (DataType != other.DataType) return false;
       if (!object.Equals(VariantData, other.VariantData)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -1104,7 +1107,7 @@ namespace AFMsg {
       int hash = 1;
       if (Row != 0) hash ^= Row.GetHashCode();
       if (Col != 0) hash ^= Col.GetHashCode();
-      if (NdataType != 0) hash ^= NdataType.GetHashCode();
+      if (DataType != 0) hash ^= DataType.GetHashCode();
       if (variantData_ != null) hash ^= VariantData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1127,9 +1130,9 @@ namespace AFMsg {
         output.WriteRawTag(16);
         output.WriteInt32(Col);
       }
-      if (NdataType != 0) {
+      if (DataType != 0) {
         output.WriteRawTag(24);
-        output.WriteInt32(NdataType);
+        output.WriteInt32(DataType);
       }
       if (variantData_ != null) {
         output.WriteRawTag(34);
@@ -1149,8 +1152,8 @@ namespace AFMsg {
       if (Col != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Col);
       }
-      if (NdataType != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(NdataType);
+      if (DataType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DataType);
       }
       if (variantData_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(VariantData);
@@ -1162,7 +1165,7 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(RecordPBData other) {
+    public void MergeFrom(PBCellData other) {
       if (other == null) {
         return;
       }
@@ -1172,8 +1175,8 @@ namespace AFMsg {
       if (other.Col != 0) {
         Col = other.Col;
       }
-      if (other.NdataType != 0) {
-        NdataType = other.NdataType;
+      if (other.DataType != 0) {
+        DataType = other.DataType;
       }
       if (other.variantData_ != null) {
         if (variantData_ == null) {
@@ -1201,7 +1204,7 @@ namespace AFMsg {
             break;
           }
           case 24: {
-            NdataType = input.ReadInt32();
+            DataType = input.ReadInt32();
             break;
           }
           case 34: {
@@ -1242,7 +1245,7 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public PBData(PBData other) : this() {
-      ndataType_ = other.ndataType_;
+      dataType_ = other.dataType_;
       VariantData = other.variantData_ != null ? other.VariantData.Clone() : null;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -1252,14 +1255,14 @@ namespace AFMsg {
       return new PBData(this);
     }
 
-    /// <summary>Field number for the "ndataType" field.</summary>
-    public const int NdataTypeFieldNumber = 1;
-    private int ndataType_;
+    /// <summary>Field number for the "data_type" field.</summary>
+    public const int DataTypeFieldNumber = 1;
+    private int dataType_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public int NdataType {
-      get { return ndataType_; }
+    public int DataType {
+      get { return dataType_; }
       set {
-        ndataType_ = value;
+        dataType_ = value;
       }
     }
 
@@ -1287,7 +1290,7 @@ namespace AFMsg {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (NdataType != other.NdataType) return false;
+      if (DataType != other.DataType) return false;
       if (!object.Equals(VariantData, other.VariantData)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -1295,7 +1298,7 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (NdataType != 0) hash ^= NdataType.GetHashCode();
+      if (DataType != 0) hash ^= DataType.GetHashCode();
       if (variantData_ != null) hash ^= VariantData.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -1310,9 +1313,9 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (NdataType != 0) {
+      if (DataType != 0) {
         output.WriteRawTag(8);
-        output.WriteInt32(NdataType);
+        output.WriteInt32(DataType);
       }
       if (variantData_ != null) {
         output.WriteRawTag(18);
@@ -1326,8 +1329,8 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (NdataType != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(NdataType);
+      if (DataType != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(DataType);
       }
       if (variantData_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(VariantData);
@@ -1343,8 +1346,8 @@ namespace AFMsg {
       if (other == null) {
         return;
       }
-      if (other.NdataType != 0) {
-        NdataType = other.NdataType;
+      if (other.DataType != 0) {
+        DataType = other.DataType;
       }
       if (other.variantData_ != null) {
         if (variantData_ == null) {
@@ -1364,7 +1367,7 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            NdataType = input.ReadInt32();
+            DataType = input.ReadInt32();
             break;
           }
           case 18: {
@@ -1380,11 +1383,11 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class DataListPBData : pb::IMessage<DataListPBData> {
-    private static readonly pb::MessageParser<DataListPBData> _parser = new pb::MessageParser<DataListPBData>(() => new DataListPBData());
+  public sealed partial class PBDataList : pb::IMessage<PBDataList> {
+    private static readonly pb::MessageParser<PBDataList> _parser = new pb::MessageParser<PBDataList>(() => new PBDataList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<DataListPBData> Parser { get { return _parser; } }
+    public static pb::MessageParser<PBDataList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1397,21 +1400,21 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataListPBData() {
+    public PBDataList() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataListPBData(DataListPBData other) : this() {
+    public PBDataList(PBDataList other) : this() {
       dataList_ = other.dataList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public DataListPBData Clone() {
-      return new DataListPBData(this);
+    public PBDataList Clone() {
+      return new PBDataList(this);
     }
 
     /// <summary>Field number for the "data_list" field.</summary>
@@ -1426,11 +1429,11 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as DataListPBData);
+      return Equals(other as PBDataList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(DataListPBData other) {
+    public bool Equals(PBDataList other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1475,7 +1478,7 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(DataListPBData other) {
+    public void MergeFrom(PBDataList other) {
       if (other == null) {
         return;
       }
@@ -1501,11 +1504,14 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class RecordAddRowStruct : pb::IMessage<RecordAddRowStruct> {
-    private static readonly pb::MessageParser<RecordAddRowStruct> _parser = new pb::MessageParser<RecordAddRowStruct>(() => new RecordAddRowStruct());
+  /// <summary>
+  ///Table添加基础行结构，不直接发送
+  /// </summary>
+  public sealed partial class DataTableAddRow : pb::IMessage<DataTableAddRow> {
+    private static readonly pb::MessageParser<DataTableAddRow> _parser = new pb::MessageParser<DataTableAddRow>(() => new DataTableAddRow());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<RecordAddRowStruct> Parser { get { return _parser; } }
+    public static pb::MessageParser<DataTableAddRow> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1518,22 +1524,22 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RecordAddRowStruct() {
+    public DataTableAddRow() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RecordAddRowStruct(RecordAddRowStruct other) : this() {
+    public DataTableAddRow(DataTableAddRow other) : this() {
       row_ = other.row_;
-      recordDataList_ = other.recordDataList_.Clone();
+      cellList_ = other.cellList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public RecordAddRowStruct Clone() {
-      return new RecordAddRowStruct(this);
+    public DataTableAddRow Clone() {
+      return new DataTableAddRow(this);
     }
 
     /// <summary>Field number for the "row" field.</summary>
@@ -1547,23 +1553,23 @@ namespace AFMsg {
       }
     }
 
-    /// <summary>Field number for the "record_data_list" field.</summary>
-    public const int RecordDataListFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::AFMsg.RecordPBData> _repeated_recordDataList_codec
-        = pb::FieldCodec.ForMessage(18, global::AFMsg.RecordPBData.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.RecordPBData> recordDataList_ = new pbc::RepeatedField<global::AFMsg.RecordPBData>();
+    /// <summary>Field number for the "cell_list" field.</summary>
+    public const int CellListFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::AFMsg.PBCellData> _repeated_cellList_codec
+        = pb::FieldCodec.ForMessage(18, global::AFMsg.PBCellData.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBCellData> cellList_ = new pbc::RepeatedField<global::AFMsg.PBCellData>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.RecordPBData> RecordDataList {
-      get { return recordDataList_; }
+    public pbc::RepeatedField<global::AFMsg.PBCellData> CellList {
+      get { return cellList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as RecordAddRowStruct);
+      return Equals(other as DataTableAddRow);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(RecordAddRowStruct other) {
+    public bool Equals(DataTableAddRow other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
@@ -1571,7 +1577,7 @@ namespace AFMsg {
         return true;
       }
       if (Row != other.Row) return false;
-      if(!recordDataList_.Equals(other.recordDataList_)) return false;
+      if(!cellList_.Equals(other.cellList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1579,7 +1585,7 @@ namespace AFMsg {
     public override int GetHashCode() {
       int hash = 1;
       if (Row != 0) hash ^= Row.GetHashCode();
-      hash ^= recordDataList_.GetHashCode();
+      hash ^= cellList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1597,7 +1603,7 @@ namespace AFMsg {
         output.WriteRawTag(8);
         output.WriteInt32(Row);
       }
-      recordDataList_.WriteTo(output, _repeated_recordDataList_codec);
+      cellList_.WriteTo(output, _repeated_cellList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1609,7 +1615,7 @@ namespace AFMsg {
       if (Row != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(Row);
       }
-      size += recordDataList_.CalculateSize(_repeated_recordDataList_codec);
+      size += cellList_.CalculateSize(_repeated_cellList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1617,14 +1623,14 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(RecordAddRowStruct other) {
+    public void MergeFrom(DataTableAddRow other) {
       if (other == null) {
         return;
       }
       if (other.Row != 0) {
         Row = other.Row;
       }
-      recordDataList_.Add(other.recordDataList_);
+      cellList_.Add(other.cellList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1641,7 +1647,7 @@ namespace AFMsg {
             break;
           }
           case 18: {
-            recordDataList_.AddEntriesFrom(input, _repeated_recordDataList_codec);
+            cellList_.AddEntriesFrom(input, _repeated_cellList_codec);
             break;
           }
         }
@@ -1650,11 +1656,11 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class ObjectRecordBase : pb::IMessage<ObjectRecordBase> {
-    private static readonly pb::MessageParser<ObjectRecordBase> _parser = new pb::MessageParser<ObjectRecordBase>(() => new ObjectRecordBase());
+  public sealed partial class EntityDataTableBase : pb::IMessage<EntityDataTableBase> {
+    private static readonly pb::MessageParser<EntityDataTableBase> _parser = new pb::MessageParser<EntityDataTableBase>(() => new EntityDataTableBase());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ObjectRecordBase> Parser { get { return _parser; } }
+    public static pb::MessageParser<EntityDataTableBase> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1667,68 +1673,68 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordBase() {
+    public EntityDataTableBase() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordBase(ObjectRecordBase other) : this() {
-      recordName_ = other.recordName_;
-      rowStruct_ = other.rowStruct_.Clone();
+    public EntityDataTableBase(EntityDataTableBase other) : this() {
+      tableName_ = other.tableName_;
+      row_ = other.row_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordBase Clone() {
-      return new ObjectRecordBase(this);
+    public EntityDataTableBase Clone() {
+      return new EntityDataTableBase(this);
     }
 
-    /// <summary>Field number for the "record_name" field.</summary>
-    public const int RecordNameFieldNumber = 1;
-    private string recordName_ = "";
+    /// <summary>Field number for the "table_name" field.</summary>
+    public const int TableNameFieldNumber = 1;
+    private string tableName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string RecordName {
-      get { return recordName_; }
+    public string TableName {
+      get { return tableName_; }
       set {
-        recordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        tableName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "row_struct" field.</summary>
-    public const int RowStructFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::AFMsg.RecordAddRowStruct> _repeated_rowStruct_codec
-        = pb::FieldCodec.ForMessage(18, global::AFMsg.RecordAddRowStruct.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.RecordAddRowStruct> rowStruct_ = new pbc::RepeatedField<global::AFMsg.RecordAddRowStruct>();
+    /// <summary>Field number for the "row" field.</summary>
+    public const int RowFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::AFMsg.DataTableAddRow> _repeated_row_codec
+        = pb::FieldCodec.ForMessage(18, global::AFMsg.DataTableAddRow.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.DataTableAddRow> row_ = new pbc::RepeatedField<global::AFMsg.DataTableAddRow>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.RecordAddRowStruct> RowStruct {
-      get { return rowStruct_; }
+    public pbc::RepeatedField<global::AFMsg.DataTableAddRow> Row {
+      get { return row_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as ObjectRecordBase);
+      return Equals(other as EntityDataTableBase);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ObjectRecordBase other) {
+    public bool Equals(EntityDataTableBase other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (RecordName != other.RecordName) return false;
-      if(!rowStruct_.Equals(other.rowStruct_)) return false;
+      if (TableName != other.TableName) return false;
+      if(!row_.Equals(other.row_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RecordName.Length != 0) hash ^= RecordName.GetHashCode();
-      hash ^= rowStruct_.GetHashCode();
+      if (TableName.Length != 0) hash ^= TableName.GetHashCode();
+      hash ^= row_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1742,11 +1748,11 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RecordName.Length != 0) {
+      if (TableName.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(RecordName);
+        output.WriteString(TableName);
       }
-      rowStruct_.WriteTo(output, _repeated_rowStruct_codec);
+      row_.WriteTo(output, _repeated_row_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1755,10 +1761,10 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(RecordName);
+      if (TableName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TableName);
       }
-      size += rowStruct_.CalculateSize(_repeated_rowStruct_codec);
+      size += row_.CalculateSize(_repeated_row_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1766,14 +1772,14 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ObjectRecordBase other) {
+    public void MergeFrom(EntityDataTableBase other) {
       if (other == null) {
         return;
       }
-      if (other.RecordName.Length != 0) {
-        RecordName = other.RecordName;
+      if (other.TableName.Length != 0) {
+        TableName = other.TableName;
       }
-      rowStruct_.Add(other.rowStruct_);
+      row_.Add(other.row_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1786,11 +1792,11 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            RecordName = input.ReadString();
+            TableName = input.ReadString();
             break;
           }
           case 18: {
-            rowStruct_.AddEntriesFrom(input, _repeated_rowStruct_codec);
+            row_.AddEntriesFrom(input, _repeated_row_codec);
             break;
           }
         }
@@ -1801,12 +1807,13 @@ namespace AFMsg {
 
   /// <summary>
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///个人玩家全部属性列表，可直接发送--统一发,为节约包
   /// </summary>
-  public sealed partial class ObjectPropertyList : pb::IMessage<ObjectPropertyList> {
-    private static readonly pb::MessageParser<ObjectPropertyList> _parser = new pb::MessageParser<ObjectPropertyList>(() => new ObjectPropertyList());
+  public sealed partial class EntityDataNodeList : pb::IMessage<EntityDataNodeList> {
+    private static readonly pb::MessageParser<EntityDataNodeList> _parser = new pb::MessageParser<EntityDataNodeList>(() => new EntityDataNodeList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ObjectPropertyList> Parser { get { return _parser; } }
+    public static pb::MessageParser<EntityDataNodeList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1819,68 +1826,68 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectPropertyList() {
+    public EntityDataNodeList() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectPropertyList(ObjectPropertyList other) : this() {
-      PlayerId = other.playerId_ != null ? other.PlayerId.Clone() : null;
-      propertyDataList_ = other.propertyDataList_.Clone();
+    public EntityDataNodeList(EntityDataNodeList other) : this() {
+      EntityId = other.entityId_ != null ? other.EntityId.Clone() : null;
+      dataNodeList_ = other.dataNodeList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectPropertyList Clone() {
-      return new ObjectPropertyList(this);
+    public EntityDataNodeList Clone() {
+      return new EntityDataNodeList(this);
     }
 
-    /// <summary>Field number for the "player_id" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private global::AFMsg.Ident playerId_;
+    /// <summary>Field number for the "entity_id" field.</summary>
+    public const int EntityIdFieldNumber = 1;
+    private global::AFMsg.PBGUID entityId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident PlayerId {
-      get { return playerId_; }
+    public global::AFMsg.PBGUID EntityId {
+      get { return entityId_; }
       set {
-        playerId_ = value;
+        entityId_ = value;
       }
     }
 
-    /// <summary>Field number for the "property_data_list" field.</summary>
-    public const int PropertyDataListFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::AFMsg.PropertyPBData> _repeated_propertyDataList_codec
-        = pb::FieldCodec.ForMessage(18, global::AFMsg.PropertyPBData.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.PropertyPBData> propertyDataList_ = new pbc::RepeatedField<global::AFMsg.PropertyPBData>();
+    /// <summary>Field number for the "data_node_list" field.</summary>
+    public const int DataNodeListFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::AFMsg.PBNodeData> _repeated_dataNodeList_codec
+        = pb::FieldCodec.ForMessage(18, global::AFMsg.PBNodeData.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBNodeData> dataNodeList_ = new pbc::RepeatedField<global::AFMsg.PBNodeData>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.PropertyPBData> PropertyDataList {
-      get { return propertyDataList_; }
+    public pbc::RepeatedField<global::AFMsg.PBNodeData> DataNodeList {
+      get { return dataNodeList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as ObjectPropertyList);
+      return Equals(other as EntityDataNodeList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ObjectPropertyList other) {
+    public bool Equals(EntityDataNodeList other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(PlayerId, other.PlayerId)) return false;
-      if(!propertyDataList_.Equals(other.propertyDataList_)) return false;
+      if (!object.Equals(EntityId, other.EntityId)) return false;
+      if(!dataNodeList_.Equals(other.dataNodeList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (playerId_ != null) hash ^= PlayerId.GetHashCode();
-      hash ^= propertyDataList_.GetHashCode();
+      if (entityId_ != null) hash ^= EntityId.GetHashCode();
+      hash ^= dataNodeList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1894,11 +1901,11 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (playerId_ != null) {
+      if (entityId_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(PlayerId);
+        output.WriteMessage(EntityId);
       }
-      propertyDataList_.WriteTo(output, _repeated_propertyDataList_codec);
+      dataNodeList_.WriteTo(output, _repeated_dataNodeList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1907,10 +1914,10 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (playerId_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
+      if (entityId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EntityId);
       }
-      size += propertyDataList_.CalculateSize(_repeated_propertyDataList_codec);
+      size += dataNodeList_.CalculateSize(_repeated_dataNodeList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1918,17 +1925,17 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ObjectPropertyList other) {
+    public void MergeFrom(EntityDataNodeList other) {
       if (other == null) {
         return;
       }
-      if (other.playerId_ != null) {
-        if (playerId_ == null) {
-          playerId_ = new global::AFMsg.Ident();
+      if (other.entityId_ != null) {
+        if (entityId_ == null) {
+          entityId_ = new global::AFMsg.PBGUID();
         }
-        PlayerId.MergeFrom(other.PlayerId);
+        EntityId.MergeFrom(other.EntityId);
       }
-      propertyDataList_.Add(other.propertyDataList_);
+      dataNodeList_.Add(other.dataNodeList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1941,14 +1948,14 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (playerId_ == null) {
-              playerId_ = new global::AFMsg.Ident();
+            if (entityId_ == null) {
+              entityId_ = new global::AFMsg.PBGUID();
             }
-            input.ReadMessage(playerId_);
+            input.ReadMessage(entityId_);
             break;
           }
           case 18: {
-            propertyDataList_.AddEntriesFrom(input, _repeated_propertyDataList_codec);
+            dataNodeList_.AddEntriesFrom(input, _repeated_dataNodeList_codec);
             break;
           }
         }
@@ -1957,11 +1964,14 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class MultiObjectPropertyList : pb::IMessage<MultiObjectPropertyList> {
-    private static readonly pb::MessageParser<MultiObjectPropertyList> _parser = new pb::MessageParser<MultiObjectPropertyList>(() => new MultiObjectPropertyList());
+  /// <summary>
+  ///多人玩家全部属性列表，可直接发送--统一发,为节约包
+  /// </summary>
+  public sealed partial class MultiEntityDataNodeList : pb::IMessage<MultiEntityDataNodeList> {
+    private static readonly pb::MessageParser<MultiEntityDataNodeList> _parser = new pb::MessageParser<MultiEntityDataNodeList>(() => new MultiEntityDataNodeList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<MultiObjectPropertyList> Parser { get { return _parser; } }
+    public static pb::MessageParser<MultiEntityDataNodeList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -1974,54 +1984,54 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public MultiObjectPropertyList() {
+    public MultiEntityDataNodeList() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public MultiObjectPropertyList(MultiObjectPropertyList other) : this() {
-      multiPlayerProperty_ = other.multiPlayerProperty_.Clone();
+    public MultiEntityDataNodeList(MultiEntityDataNodeList other) : this() {
+      multiEntityDataNodeList_ = other.multiEntityDataNodeList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public MultiObjectPropertyList Clone() {
-      return new MultiObjectPropertyList(this);
+    public MultiEntityDataNodeList Clone() {
+      return new MultiEntityDataNodeList(this);
     }
 
-    /// <summary>Field number for the "multi_player_property" field.</summary>
-    public const int MultiPlayerPropertyFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::AFMsg.ObjectPropertyList> _repeated_multiPlayerProperty_codec
-        = pb::FieldCodec.ForMessage(10, global::AFMsg.ObjectPropertyList.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.ObjectPropertyList> multiPlayerProperty_ = new pbc::RepeatedField<global::AFMsg.ObjectPropertyList>();
+    /// <summary>Field number for the "multi_entity_data_node_list" field.</summary>
+    public const int MultiEntityDataNodeList_FieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AFMsg.EntityDataNodeList> _repeated_multiEntityDataNodeList_codec
+        = pb::FieldCodec.ForMessage(10, global::AFMsg.EntityDataNodeList.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.EntityDataNodeList> multiEntityDataNodeList_ = new pbc::RepeatedField<global::AFMsg.EntityDataNodeList>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.ObjectPropertyList> MultiPlayerProperty {
-      get { return multiPlayerProperty_; }
+    public pbc::RepeatedField<global::AFMsg.EntityDataNodeList> MultiEntityDataNodeList_ {
+      get { return multiEntityDataNodeList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as MultiObjectPropertyList);
+      return Equals(other as MultiEntityDataNodeList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(MultiObjectPropertyList other) {
+    public bool Equals(MultiEntityDataNodeList other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!multiPlayerProperty_.Equals(other.multiPlayerProperty_)) return false;
+      if(!multiEntityDataNodeList_.Equals(other.multiEntityDataNodeList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= multiPlayerProperty_.GetHashCode();
+      hash ^= multiEntityDataNodeList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2035,7 +2045,7 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      multiPlayerProperty_.WriteTo(output, _repeated_multiPlayerProperty_codec);
+      multiEntityDataNodeList_.WriteTo(output, _repeated_multiEntityDataNodeList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2044,7 +2054,7 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      size += multiPlayerProperty_.CalculateSize(_repeated_multiPlayerProperty_codec);
+      size += multiEntityDataNodeList_.CalculateSize(_repeated_multiEntityDataNodeList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -2052,11 +2062,11 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(MultiObjectPropertyList other) {
+    public void MergeFrom(MultiEntityDataNodeList other) {
       if (other == null) {
         return;
       }
-      multiPlayerProperty_.Add(other.multiPlayerProperty_);
+      multiEntityDataNodeList_.Add(other.multiEntityDataNodeList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -2069,7 +2079,7 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            multiPlayerProperty_.AddEntriesFrom(input, _repeated_multiPlayerProperty_codec);
+            multiEntityDataNodeList_.AddEntriesFrom(input, _repeated_multiEntityDataNodeList_codec);
             break;
           }
         }
@@ -2078,11 +2088,14 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class ObjectRecordList : pb::IMessage<ObjectRecordList> {
-    private static readonly pb::MessageParser<ObjectRecordList> _parser = new pb::MessageParser<ObjectRecordList>(() => new ObjectRecordList());
+  /// <summary>
+  ///个人玩家全部表数据，可直接发送--统一发,为节约包
+  /// </summary>
+  public sealed partial class EntityDataTableList : pb::IMessage<EntityDataTableList> {
+    private static readonly pb::MessageParser<EntityDataTableList> _parser = new pb::MessageParser<EntityDataTableList>(() => new EntityDataTableList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ObjectRecordList> Parser { get { return _parser; } }
+    public static pb::MessageParser<EntityDataTableList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -2095,68 +2108,68 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordList() {
+    public EntityDataTableList() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordList(ObjectRecordList other) : this() {
-      PlayerId = other.playerId_ != null ? other.PlayerId.Clone() : null;
-      recordList_ = other.recordList_.Clone();
+    public EntityDataTableList(EntityDataTableList other) : this() {
+      EntityId = other.entityId_ != null ? other.EntityId.Clone() : null;
+      dataTableList_ = other.dataTableList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordList Clone() {
-      return new ObjectRecordList(this);
+    public EntityDataTableList Clone() {
+      return new EntityDataTableList(this);
     }
 
-    /// <summary>Field number for the "player_id" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private global::AFMsg.Ident playerId_;
+    /// <summary>Field number for the "entity_id" field.</summary>
+    public const int EntityIdFieldNumber = 1;
+    private global::AFMsg.PBGUID entityId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident PlayerId {
-      get { return playerId_; }
+    public global::AFMsg.PBGUID EntityId {
+      get { return entityId_; }
       set {
-        playerId_ = value;
+        entityId_ = value;
       }
     }
 
-    /// <summary>Field number for the "record_list" field.</summary>
-    public const int RecordListFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::AFMsg.ObjectRecordBase> _repeated_recordList_codec
-        = pb::FieldCodec.ForMessage(18, global::AFMsg.ObjectRecordBase.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.ObjectRecordBase> recordList_ = new pbc::RepeatedField<global::AFMsg.ObjectRecordBase>();
+    /// <summary>Field number for the "data_table_list" field.</summary>
+    public const int DataTableListFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::AFMsg.EntityDataTableBase> _repeated_dataTableList_codec
+        = pb::FieldCodec.ForMessage(18, global::AFMsg.EntityDataTableBase.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.EntityDataTableBase> dataTableList_ = new pbc::RepeatedField<global::AFMsg.EntityDataTableBase>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.ObjectRecordBase> RecordList {
-      get { return recordList_; }
+    public pbc::RepeatedField<global::AFMsg.EntityDataTableBase> DataTableList {
+      get { return dataTableList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as ObjectRecordList);
+      return Equals(other as EntityDataTableList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ObjectRecordList other) {
+    public bool Equals(EntityDataTableList other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(PlayerId, other.PlayerId)) return false;
-      if(!recordList_.Equals(other.recordList_)) return false;
+      if (!object.Equals(EntityId, other.EntityId)) return false;
+      if(!dataTableList_.Equals(other.dataTableList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (playerId_ != null) hash ^= PlayerId.GetHashCode();
-      hash ^= recordList_.GetHashCode();
+      if (entityId_ != null) hash ^= EntityId.GetHashCode();
+      hash ^= dataTableList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2170,11 +2183,11 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (playerId_ != null) {
+      if (entityId_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(PlayerId);
+        output.WriteMessage(EntityId);
       }
-      recordList_.WriteTo(output, _repeated_recordList_codec);
+      dataTableList_.WriteTo(output, _repeated_dataTableList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2183,10 +2196,10 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (playerId_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
+      if (entityId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EntityId);
       }
-      size += recordList_.CalculateSize(_repeated_recordList_codec);
+      size += dataTableList_.CalculateSize(_repeated_dataTableList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -2194,17 +2207,17 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ObjectRecordList other) {
+    public void MergeFrom(EntityDataTableList other) {
       if (other == null) {
         return;
       }
-      if (other.playerId_ != null) {
-        if (playerId_ == null) {
-          playerId_ = new global::AFMsg.Ident();
+      if (other.entityId_ != null) {
+        if (entityId_ == null) {
+          entityId_ = new global::AFMsg.PBGUID();
         }
-        PlayerId.MergeFrom(other.PlayerId);
+        EntityId.MergeFrom(other.EntityId);
       }
-      recordList_.Add(other.recordList_);
+      dataTableList_.Add(other.dataTableList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -2217,14 +2230,14 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (playerId_ == null) {
-              playerId_ = new global::AFMsg.Ident();
+            if (entityId_ == null) {
+              entityId_ = new global::AFMsg.PBGUID();
             }
-            input.ReadMessage(playerId_);
+            input.ReadMessage(entityId_);
             break;
           }
           case 18: {
-            recordList_.AddEntriesFrom(input, _repeated_recordList_codec);
+            dataTableList_.AddEntriesFrom(input, _repeated_dataTableList_codec);
             break;
           }
         }
@@ -2233,11 +2246,14 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class MultiObjectRecordList : pb::IMessage<MultiObjectRecordList> {
-    private static readonly pb::MessageParser<MultiObjectRecordList> _parser = new pb::MessageParser<MultiObjectRecordList>(() => new MultiObjectRecordList());
+  /// <summary>
+  ///多人玩家全部表数据，可直接发送--统一发,为节约包
+  /// </summary>
+  public sealed partial class MultiEntityDataTableList : pb::IMessage<MultiEntityDataTableList> {
+    private static readonly pb::MessageParser<MultiEntityDataTableList> _parser = new pb::MessageParser<MultiEntityDataTableList>(() => new MultiEntityDataTableList());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<MultiObjectRecordList> Parser { get { return _parser; } }
+    public static pb::MessageParser<MultiEntityDataTableList> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -2250,54 +2266,54 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public MultiObjectRecordList() {
+    public MultiEntityDataTableList() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public MultiObjectRecordList(MultiObjectRecordList other) : this() {
-      multiPlayerRecord_ = other.multiPlayerRecord_.Clone();
+    public MultiEntityDataTableList(MultiEntityDataTableList other) : this() {
+      multiEntityDataTableList_ = other.multiEntityDataTableList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public MultiObjectRecordList Clone() {
-      return new MultiObjectRecordList(this);
+    public MultiEntityDataTableList Clone() {
+      return new MultiEntityDataTableList(this);
     }
 
-    /// <summary>Field number for the "multi_player_record" field.</summary>
-    public const int MultiPlayerRecordFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::AFMsg.ObjectRecordList> _repeated_multiPlayerRecord_codec
-        = pb::FieldCodec.ForMessage(10, global::AFMsg.ObjectRecordList.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.ObjectRecordList> multiPlayerRecord_ = new pbc::RepeatedField<global::AFMsg.ObjectRecordList>();
+    /// <summary>Field number for the "multi_entity_data_table_list" field.</summary>
+    public const int MultiEntityDataTableList_FieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AFMsg.EntityDataTableList> _repeated_multiEntityDataTableList_codec
+        = pb::FieldCodec.ForMessage(10, global::AFMsg.EntityDataTableList.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.EntityDataTableList> multiEntityDataTableList_ = new pbc::RepeatedField<global::AFMsg.EntityDataTableList>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.ObjectRecordList> MultiPlayerRecord {
-      get { return multiPlayerRecord_; }
+    public pbc::RepeatedField<global::AFMsg.EntityDataTableList> MultiEntityDataTableList_ {
+      get { return multiEntityDataTableList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as MultiObjectRecordList);
+      return Equals(other as MultiEntityDataTableList);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(MultiObjectRecordList other) {
+    public bool Equals(MultiEntityDataTableList other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!multiPlayerRecord_.Equals(other.multiPlayerRecord_)) return false;
+      if(!multiEntityDataTableList_.Equals(other.multiEntityDataTableList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= multiPlayerRecord_.GetHashCode();
+      hash ^= multiEntityDataTableList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2311,7 +2327,7 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      multiPlayerRecord_.WriteTo(output, _repeated_multiPlayerRecord_codec);
+      multiEntityDataTableList_.WriteTo(output, _repeated_multiEntityDataTableList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2320,7 +2336,7 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      size += multiPlayerRecord_.CalculateSize(_repeated_multiPlayerRecord_codec);
+      size += multiEntityDataTableList_.CalculateSize(_repeated_multiEntityDataTableList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -2328,11 +2344,11 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(MultiObjectRecordList other) {
+    public void MergeFrom(MultiEntityDataTableList other) {
       if (other == null) {
         return;
       }
-      multiPlayerRecord_.Add(other.multiPlayerRecord_);
+      multiEntityDataTableList_.Add(other.multiEntityDataTableList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -2345,7 +2361,7 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            multiPlayerRecord_.AddEntriesFrom(input, _repeated_multiPlayerRecord_codec);
+            multiEntityDataTableList_.AddEntriesFrom(input, _repeated_multiEntityDataTableList_codec);
             break;
           }
         }
@@ -2354,11 +2370,15 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class ObjectPropertyPBData : pb::IMessage<ObjectPropertyPBData> {
-    private static readonly pb::MessageParser<ObjectPropertyPBData> _parser = new pb::MessageParser<ObjectPropertyPBData>(() => new ObjectPropertyPBData());
+  /// <summary>
+  ///======================TO DELETE
+  ///个人玩家单类型属性数据，可直接发送---变化时
+  /// </summary>
+  public sealed partial class EntityDataNode : pb::IMessage<EntityDataNode> {
+    private static readonly pb::MessageParser<EntityDataNode> _parser = new pb::MessageParser<EntityDataNode>(() => new EntityDataNode());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ObjectPropertyPBData> Parser { get { return _parser; } }
+    public static pb::MessageParser<EntityDataNode> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -2371,68 +2391,68 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectPropertyPBData() {
+    public EntityDataNode() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectPropertyPBData(ObjectPropertyPBData other) : this() {
-      PlayerId = other.playerId_ != null ? other.PlayerId.Clone() : null;
-      propertyList_ = other.propertyList_.Clone();
+    public EntityDataNode(EntityDataNode other) : this() {
+      EntityId = other.entityId_ != null ? other.EntityId.Clone() : null;
+      dataNodeList_ = other.dataNodeList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectPropertyPBData Clone() {
-      return new ObjectPropertyPBData(this);
+    public EntityDataNode Clone() {
+      return new EntityDataNode(this);
     }
 
-    /// <summary>Field number for the "player_id" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private global::AFMsg.Ident playerId_;
+    /// <summary>Field number for the "entity_id" field.</summary>
+    public const int EntityIdFieldNumber = 1;
+    private global::AFMsg.PBGUID entityId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident PlayerId {
-      get { return playerId_; }
+    public global::AFMsg.PBGUID EntityId {
+      get { return entityId_; }
       set {
-        playerId_ = value;
+        entityId_ = value;
       }
     }
 
-    /// <summary>Field number for the "property_list" field.</summary>
-    public const int PropertyListFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::AFMsg.PropertyPBData> _repeated_propertyList_codec
-        = pb::FieldCodec.ForMessage(18, global::AFMsg.PropertyPBData.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.PropertyPBData> propertyList_ = new pbc::RepeatedField<global::AFMsg.PropertyPBData>();
+    /// <summary>Field number for the "data_node_list" field.</summary>
+    public const int DataNodeListFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::AFMsg.PBNodeData> _repeated_dataNodeList_codec
+        = pb::FieldCodec.ForMessage(18, global::AFMsg.PBNodeData.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBNodeData> dataNodeList_ = new pbc::RepeatedField<global::AFMsg.PBNodeData>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.PropertyPBData> PropertyList {
-      get { return propertyList_; }
+    public pbc::RepeatedField<global::AFMsg.PBNodeData> DataNodeList {
+      get { return dataNodeList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as ObjectPropertyPBData);
+      return Equals(other as EntityDataNode);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ObjectPropertyPBData other) {
+    public bool Equals(EntityDataNode other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(PlayerId, other.PlayerId)) return false;
-      if(!propertyList_.Equals(other.propertyList_)) return false;
+      if (!object.Equals(EntityId, other.EntityId)) return false;
+      if(!dataNodeList_.Equals(other.dataNodeList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (playerId_ != null) hash ^= PlayerId.GetHashCode();
-      hash ^= propertyList_.GetHashCode();
+      if (entityId_ != null) hash ^= EntityId.GetHashCode();
+      hash ^= dataNodeList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2446,11 +2466,11 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (playerId_ != null) {
+      if (entityId_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(PlayerId);
+        output.WriteMessage(EntityId);
       }
-      propertyList_.WriteTo(output, _repeated_propertyList_codec);
+      dataNodeList_.WriteTo(output, _repeated_dataNodeList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2459,10 +2479,10 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (playerId_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
+      if (entityId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EntityId);
       }
-      size += propertyList_.CalculateSize(_repeated_propertyList_codec);
+      size += dataNodeList_.CalculateSize(_repeated_dataNodeList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -2470,17 +2490,17 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ObjectPropertyPBData other) {
+    public void MergeFrom(EntityDataNode other) {
       if (other == null) {
         return;
       }
-      if (other.playerId_ != null) {
-        if (playerId_ == null) {
-          playerId_ = new global::AFMsg.Ident();
+      if (other.entityId_ != null) {
+        if (entityId_ == null) {
+          entityId_ = new global::AFMsg.PBGUID();
         }
-        PlayerId.MergeFrom(other.PlayerId);
+        EntityId.MergeFrom(other.EntityId);
       }
-      propertyList_.Add(other.propertyList_);
+      dataNodeList_.Add(other.dataNodeList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -2493,14 +2513,14 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (playerId_ == null) {
-              playerId_ = new global::AFMsg.Ident();
+            if (entityId_ == null) {
+              entityId_ = new global::AFMsg.PBGUID();
             }
-            input.ReadMessage(playerId_);
+            input.ReadMessage(entityId_);
             break;
           }
           case 18: {
-            propertyList_.AddEntriesFrom(input, _repeated_propertyList_codec);
+            dataNodeList_.AddEntriesFrom(input, _repeated_dataNodeList_codec);
             break;
           }
         }
@@ -2509,11 +2529,14 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class ObjectRecordPBData : pb::IMessage<ObjectRecordPBData> {
-    private static readonly pb::MessageParser<ObjectRecordPBData> _parser = new pb::MessageParser<ObjectRecordPBData>(() => new ObjectRecordPBData());
+  /// <summary>
+  ///个人玩家单表属性数据，可直接发送---变化时
+  /// </summary>
+  public sealed partial class EntityDataTable : pb::IMessage<EntityDataTable> {
+    private static readonly pb::MessageParser<EntityDataTable> _parser = new pb::MessageParser<EntityDataTable>(() => new EntityDataTable());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ObjectRecordPBData> Parser { get { return _parser; } }
+    public static pb::MessageParser<EntityDataTable> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -2526,82 +2549,82 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordPBData() {
+    public EntityDataTable() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordPBData(ObjectRecordPBData other) : this() {
-      PlayerId = other.playerId_ != null ? other.PlayerId.Clone() : null;
-      recordName_ = other.recordName_;
-      recordList_ = other.recordList_.Clone();
+    public EntityDataTable(EntityDataTable other) : this() {
+      EntityId = other.entityId_ != null ? other.EntityId.Clone() : null;
+      tableName_ = other.tableName_;
+      tableCellList_ = other.tableCellList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordPBData Clone() {
-      return new ObjectRecordPBData(this);
+    public EntityDataTable Clone() {
+      return new EntityDataTable(this);
     }
 
-    /// <summary>Field number for the "player_id" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private global::AFMsg.Ident playerId_;
+    /// <summary>Field number for the "entity_id" field.</summary>
+    public const int EntityIdFieldNumber = 1;
+    private global::AFMsg.PBGUID entityId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident PlayerId {
-      get { return playerId_; }
+    public global::AFMsg.PBGUID EntityId {
+      get { return entityId_; }
       set {
-        playerId_ = value;
+        entityId_ = value;
       }
     }
 
-    /// <summary>Field number for the "record_name" field.</summary>
-    public const int RecordNameFieldNumber = 2;
-    private string recordName_ = "";
+    /// <summary>Field number for the "table_name" field.</summary>
+    public const int TableNameFieldNumber = 2;
+    private string tableName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string RecordName {
-      get { return recordName_; }
+    public string TableName {
+      get { return tableName_; }
       set {
-        recordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        tableName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "record_list" field.</summary>
-    public const int RecordListFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::AFMsg.RecordPBData> _repeated_recordList_codec
-        = pb::FieldCodec.ForMessage(26, global::AFMsg.RecordPBData.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.RecordPBData> recordList_ = new pbc::RepeatedField<global::AFMsg.RecordPBData>();
+    /// <summary>Field number for the "table_cell_list" field.</summary>
+    public const int TableCellListFieldNumber = 3;
+    private static readonly pb::FieldCodec<global::AFMsg.PBCellData> _repeated_tableCellList_codec
+        = pb::FieldCodec.ForMessage(26, global::AFMsg.PBCellData.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBCellData> tableCellList_ = new pbc::RepeatedField<global::AFMsg.PBCellData>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.RecordPBData> RecordList {
-      get { return recordList_; }
+    public pbc::RepeatedField<global::AFMsg.PBCellData> TableCellList {
+      get { return tableCellList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as ObjectRecordPBData);
+      return Equals(other as EntityDataTable);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ObjectRecordPBData other) {
+    public bool Equals(EntityDataTable other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(PlayerId, other.PlayerId)) return false;
-      if (RecordName != other.RecordName) return false;
-      if(!recordList_.Equals(other.recordList_)) return false;
+      if (!object.Equals(EntityId, other.EntityId)) return false;
+      if (TableName != other.TableName) return false;
+      if(!tableCellList_.Equals(other.tableCellList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (playerId_ != null) hash ^= PlayerId.GetHashCode();
-      if (RecordName.Length != 0) hash ^= RecordName.GetHashCode();
-      hash ^= recordList_.GetHashCode();
+      if (entityId_ != null) hash ^= EntityId.GetHashCode();
+      if (TableName.Length != 0) hash ^= TableName.GetHashCode();
+      hash ^= tableCellList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -2615,15 +2638,15 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (playerId_ != null) {
+      if (entityId_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(PlayerId);
+        output.WriteMessage(EntityId);
       }
-      if (RecordName.Length != 0) {
+      if (TableName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(RecordName);
+        output.WriteString(TableName);
       }
-      recordList_.WriteTo(output, _repeated_recordList_codec);
+      tableCellList_.WriteTo(output, _repeated_tableCellList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -2632,13 +2655,13 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (playerId_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
+      if (entityId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EntityId);
       }
-      if (RecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(RecordName);
+      if (TableName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TableName);
       }
-      size += recordList_.CalculateSize(_repeated_recordList_codec);
+      size += tableCellList_.CalculateSize(_repeated_tableCellList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -2646,20 +2669,20 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ObjectRecordPBData other) {
+    public void MergeFrom(EntityDataTable other) {
       if (other == null) {
         return;
       }
-      if (other.playerId_ != null) {
-        if (playerId_ == null) {
-          playerId_ = new global::AFMsg.Ident();
+      if (other.entityId_ != null) {
+        if (entityId_ == null) {
+          entityId_ = new global::AFMsg.PBGUID();
         }
-        PlayerId.MergeFrom(other.PlayerId);
+        EntityId.MergeFrom(other.EntityId);
       }
-      if (other.RecordName.Length != 0) {
-        RecordName = other.RecordName;
+      if (other.TableName.Length != 0) {
+        TableName = other.TableName;
       }
-      recordList_.Add(other.recordList_);
+      tableCellList_.Add(other.tableCellList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -2672,18 +2695,18 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (playerId_ == null) {
-              playerId_ = new global::AFMsg.Ident();
+            if (entityId_ == null) {
+              entityId_ = new global::AFMsg.PBGUID();
             }
-            input.ReadMessage(playerId_);
+            input.ReadMessage(entityId_);
             break;
           }
           case 18: {
-            RecordName = input.ReadString();
+            TableName = input.ReadString();
             break;
           }
           case 26: {
-            recordList_.AddEntriesFrom(input, _repeated_recordList_codec);
+            tableCellList_.AddEntriesFrom(input, _repeated_tableCellList_codec);
             break;
           }
         }
@@ -2692,11 +2715,14 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class ObjectRecordSwap : pb::IMessage<ObjectRecordSwap> {
-    private static readonly pb::MessageParser<ObjectRecordSwap> _parser = new pb::MessageParser<ObjectRecordSwap>(() => new ObjectRecordSwap());
+  /// <summary>
+  ///个人玩家单类型属性数据，可直接发送---变化时
+  /// </summary>
+  public sealed partial class EntityDataTableSwap : pb::IMessage<EntityDataTableSwap> {
+    private static readonly pb::MessageParser<EntityDataTableSwap> _parser = new pb::MessageParser<EntityDataTableSwap>(() => new EntityDataTableSwap());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ObjectRecordSwap> Parser { get { return _parser; } }
+    public static pb::MessageParser<EntityDataTableSwap> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -2709,57 +2735,57 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordSwap() {
+    public EntityDataTableSwap() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordSwap(ObjectRecordSwap other) : this() {
-      PlayerId = other.playerId_ != null ? other.PlayerId.Clone() : null;
-      originRecordName_ = other.originRecordName_;
-      targetRecordName_ = other.targetRecordName_;
+    public EntityDataTableSwap(EntityDataTableSwap other) : this() {
+      EntityId = other.entityId_ != null ? other.EntityId.Clone() : null;
+      originTableName_ = other.originTableName_;
+      targetTableName_ = other.targetTableName_;
       rowOrigin_ = other.rowOrigin_;
       rowTarget_ = other.rowTarget_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordSwap Clone() {
-      return new ObjectRecordSwap(this);
+    public EntityDataTableSwap Clone() {
+      return new EntityDataTableSwap(this);
     }
 
-    /// <summary>Field number for the "player_id" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private global::AFMsg.Ident playerId_;
+    /// <summary>Field number for the "entity_id" field.</summary>
+    public const int EntityIdFieldNumber = 1;
+    private global::AFMsg.PBGUID entityId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident PlayerId {
-      get { return playerId_; }
+    public global::AFMsg.PBGUID EntityId {
+      get { return entityId_; }
       set {
-        playerId_ = value;
+        entityId_ = value;
       }
     }
 
-    /// <summary>Field number for the "origin_record_name" field.</summary>
-    public const int OriginRecordNameFieldNumber = 2;
-    private string originRecordName_ = "";
+    /// <summary>Field number for the "origin_table_name" field.</summary>
+    public const int OriginTableNameFieldNumber = 2;
+    private string originTableName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string OriginRecordName {
-      get { return originRecordName_; }
+    public string OriginTableName {
+      get { return originTableName_; }
       set {
-        originRecordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        originTableName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "target_record_name" field.</summary>
-    public const int TargetRecordNameFieldNumber = 3;
-    private string targetRecordName_ = "";
+    /// <summary>Field number for the "target_table_name" field.</summary>
+    public const int TargetTableNameFieldNumber = 3;
+    private string targetTableName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string TargetRecordName {
-      get { return targetRecordName_; }
+    public string TargetTableName {
+      get { return targetTableName_; }
       set {
-        targetRecordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        targetTableName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -2787,20 +2813,20 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as ObjectRecordSwap);
+      return Equals(other as EntityDataTableSwap);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ObjectRecordSwap other) {
+    public bool Equals(EntityDataTableSwap other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(PlayerId, other.PlayerId)) return false;
-      if (OriginRecordName != other.OriginRecordName) return false;
-      if (TargetRecordName != other.TargetRecordName) return false;
+      if (!object.Equals(EntityId, other.EntityId)) return false;
+      if (OriginTableName != other.OriginTableName) return false;
+      if (TargetTableName != other.TargetTableName) return false;
       if (RowOrigin != other.RowOrigin) return false;
       if (RowTarget != other.RowTarget) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -2809,9 +2835,9 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (playerId_ != null) hash ^= PlayerId.GetHashCode();
-      if (OriginRecordName.Length != 0) hash ^= OriginRecordName.GetHashCode();
-      if (TargetRecordName.Length != 0) hash ^= TargetRecordName.GetHashCode();
+      if (entityId_ != null) hash ^= EntityId.GetHashCode();
+      if (OriginTableName.Length != 0) hash ^= OriginTableName.GetHashCode();
+      if (TargetTableName.Length != 0) hash ^= TargetTableName.GetHashCode();
       if (RowOrigin != 0) hash ^= RowOrigin.GetHashCode();
       if (RowTarget != 0) hash ^= RowTarget.GetHashCode();
       if (_unknownFields != null) {
@@ -2827,17 +2853,17 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (playerId_ != null) {
+      if (entityId_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(PlayerId);
+        output.WriteMessage(EntityId);
       }
-      if (OriginRecordName.Length != 0) {
+      if (OriginTableName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(OriginRecordName);
+        output.WriteString(OriginTableName);
       }
-      if (TargetRecordName.Length != 0) {
+      if (TargetTableName.Length != 0) {
         output.WriteRawTag(26);
-        output.WriteString(TargetRecordName);
+        output.WriteString(TargetTableName);
       }
       if (RowOrigin != 0) {
         output.WriteRawTag(32);
@@ -2855,14 +2881,14 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (playerId_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
+      if (entityId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EntityId);
       }
-      if (OriginRecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(OriginRecordName);
+      if (OriginTableName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(OriginTableName);
       }
-      if (TargetRecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(TargetRecordName);
+      if (TargetTableName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TargetTableName);
       }
       if (RowOrigin != 0) {
         size += 1 + pb::CodedOutputStream.ComputeInt32Size(RowOrigin);
@@ -2877,21 +2903,21 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ObjectRecordSwap other) {
+    public void MergeFrom(EntityDataTableSwap other) {
       if (other == null) {
         return;
       }
-      if (other.playerId_ != null) {
-        if (playerId_ == null) {
-          playerId_ = new global::AFMsg.Ident();
+      if (other.entityId_ != null) {
+        if (entityId_ == null) {
+          entityId_ = new global::AFMsg.PBGUID();
         }
-        PlayerId.MergeFrom(other.PlayerId);
+        EntityId.MergeFrom(other.EntityId);
       }
-      if (other.OriginRecordName.Length != 0) {
-        OriginRecordName = other.OriginRecordName;
+      if (other.OriginTableName.Length != 0) {
+        OriginTableName = other.OriginTableName;
       }
-      if (other.TargetRecordName.Length != 0) {
-        TargetRecordName = other.TargetRecordName;
+      if (other.TargetTableName.Length != 0) {
+        TargetTableName = other.TargetTableName;
       }
       if (other.RowOrigin != 0) {
         RowOrigin = other.RowOrigin;
@@ -2911,18 +2937,18 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (playerId_ == null) {
-              playerId_ = new global::AFMsg.Ident();
+            if (entityId_ == null) {
+              entityId_ = new global::AFMsg.PBGUID();
             }
-            input.ReadMessage(playerId_);
+            input.ReadMessage(entityId_);
             break;
           }
           case 18: {
-            OriginRecordName = input.ReadString();
+            OriginTableName = input.ReadString();
             break;
           }
           case 26: {
-            TargetRecordName = input.ReadString();
+            TargetTableName = input.ReadString();
             break;
           }
           case 32: {
@@ -2939,11 +2965,15 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class ObjectRecordAddRow : pb::IMessage<ObjectRecordAddRow> {
-    private static readonly pb::MessageParser<ObjectRecordAddRow> _parser = new pb::MessageParser<ObjectRecordAddRow>(() => new ObjectRecordAddRow());
+  /// <summary>
+  /////////////////////////////////////////////////////////////////////////////
+  ///Entity add row data sync
+  /// </summary>
+  public sealed partial class EntityDataTableAddRow : pb::IMessage<EntityDataTableAddRow> {
+    private static readonly pb::MessageParser<EntityDataTableAddRow> _parser = new pb::MessageParser<EntityDataTableAddRow>(() => new EntityDataTableAddRow());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ObjectRecordAddRow> Parser { get { return _parser; } }
+    public static pb::MessageParser<EntityDataTableAddRow> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -2956,72 +2986,72 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordAddRow() {
+    public EntityDataTableAddRow() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordAddRow(ObjectRecordAddRow other) : this() {
-      PlayerId = other.playerId_ != null ? other.PlayerId.Clone() : null;
-      recordName_ = other.recordName_;
+    public EntityDataTableAddRow(EntityDataTableAddRow other) : this() {
+      EntityId = other.entityId_ != null ? other.EntityId.Clone() : null;
+      tableName_ = other.tableName_;
       rowData_ = other.rowData_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordAddRow Clone() {
-      return new ObjectRecordAddRow(this);
+    public EntityDataTableAddRow Clone() {
+      return new EntityDataTableAddRow(this);
     }
 
-    /// <summary>Field number for the "player_id" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private global::AFMsg.Ident playerId_;
+    /// <summary>Field number for the "entity_id" field.</summary>
+    public const int EntityIdFieldNumber = 1;
+    private global::AFMsg.PBGUID entityId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident PlayerId {
-      get { return playerId_; }
+    public global::AFMsg.PBGUID EntityId {
+      get { return entityId_; }
       set {
-        playerId_ = value;
+        entityId_ = value;
       }
     }
 
-    /// <summary>Field number for the "record_name" field.</summary>
-    public const int RecordNameFieldNumber = 2;
-    private string recordName_ = "";
+    /// <summary>Field number for the "table_name" field.</summary>
+    public const int TableNameFieldNumber = 2;
+    private string tableName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string RecordName {
-      get { return recordName_; }
+    public string TableName {
+      get { return tableName_; }
       set {
-        recordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        tableName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
     /// <summary>Field number for the "row_data" field.</summary>
     public const int RowDataFieldNumber = 3;
-    private static readonly pb::FieldCodec<global::AFMsg.RecordAddRowStruct> _repeated_rowData_codec
-        = pb::FieldCodec.ForMessage(26, global::AFMsg.RecordAddRowStruct.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.RecordAddRowStruct> rowData_ = new pbc::RepeatedField<global::AFMsg.RecordAddRowStruct>();
+    private static readonly pb::FieldCodec<global::AFMsg.DataTableAddRow> _repeated_rowData_codec
+        = pb::FieldCodec.ForMessage(26, global::AFMsg.DataTableAddRow.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.DataTableAddRow> rowData_ = new pbc::RepeatedField<global::AFMsg.DataTableAddRow>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.RecordAddRowStruct> RowData {
+    public pbc::RepeatedField<global::AFMsg.DataTableAddRow> RowData {
       get { return rowData_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as ObjectRecordAddRow);
+      return Equals(other as EntityDataTableAddRow);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ObjectRecordAddRow other) {
+    public bool Equals(EntityDataTableAddRow other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(PlayerId, other.PlayerId)) return false;
-      if (RecordName != other.RecordName) return false;
+      if (!object.Equals(EntityId, other.EntityId)) return false;
+      if (TableName != other.TableName) return false;
       if(!rowData_.Equals(other.rowData_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -3029,8 +3059,8 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (playerId_ != null) hash ^= PlayerId.GetHashCode();
-      if (RecordName.Length != 0) hash ^= RecordName.GetHashCode();
+      if (entityId_ != null) hash ^= EntityId.GetHashCode();
+      if (TableName.Length != 0) hash ^= TableName.GetHashCode();
       hash ^= rowData_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3045,13 +3075,13 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (playerId_ != null) {
+      if (entityId_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(PlayerId);
+        output.WriteMessage(EntityId);
       }
-      if (RecordName.Length != 0) {
+      if (TableName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(RecordName);
+        output.WriteString(TableName);
       }
       rowData_.WriteTo(output, _repeated_rowData_codec);
       if (_unknownFields != null) {
@@ -3062,11 +3092,11 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (playerId_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
+      if (entityId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EntityId);
       }
-      if (RecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(RecordName);
+      if (TableName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TableName);
       }
       size += rowData_.CalculateSize(_repeated_rowData_codec);
       if (_unknownFields != null) {
@@ -3076,18 +3106,18 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ObjectRecordAddRow other) {
+    public void MergeFrom(EntityDataTableAddRow other) {
       if (other == null) {
         return;
       }
-      if (other.playerId_ != null) {
-        if (playerId_ == null) {
-          playerId_ = new global::AFMsg.Ident();
+      if (other.entityId_ != null) {
+        if (entityId_ == null) {
+          entityId_ = new global::AFMsg.PBGUID();
         }
-        PlayerId.MergeFrom(other.PlayerId);
+        EntityId.MergeFrom(other.EntityId);
       }
-      if (other.RecordName.Length != 0) {
-        RecordName = other.RecordName;
+      if (other.TableName.Length != 0) {
+        TableName = other.TableName;
       }
       rowData_.Add(other.rowData_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -3102,14 +3132,14 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (playerId_ == null) {
-              playerId_ = new global::AFMsg.Ident();
+            if (entityId_ == null) {
+              entityId_ = new global::AFMsg.PBGUID();
             }
-            input.ReadMessage(playerId_);
+            input.ReadMessage(entityId_);
             break;
           }
           case 18: {
-            RecordName = input.ReadString();
+            TableName = input.ReadString();
             break;
           }
           case 26: {
@@ -3122,11 +3152,11 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class ObjectRecordRemove : pb::IMessage<ObjectRecordRemove> {
-    private static readonly pb::MessageParser<ObjectRecordRemove> _parser = new pb::MessageParser<ObjectRecordRemove>(() => new ObjectRecordRemove());
+  public sealed partial class EntityDataTableRemove : pb::IMessage<EntityDataTableRemove> {
+    private static readonly pb::MessageParser<EntityDataTableRemove> _parser = new pb::MessageParser<EntityDataTableRemove>(() => new EntityDataTableRemove());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<ObjectRecordRemove> Parser { get { return _parser; } }
+    public static pb::MessageParser<EntityDataTableRemove> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -3139,44 +3169,44 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordRemove() {
+    public EntityDataTableRemove() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordRemove(ObjectRecordRemove other) : this() {
-      PlayerId = other.playerId_ != null ? other.PlayerId.Clone() : null;
-      recordName_ = other.recordName_;
+    public EntityDataTableRemove(EntityDataTableRemove other) : this() {
+      EntityId = other.entityId_ != null ? other.EntityId.Clone() : null;
+      tableName_ = other.tableName_;
       removeRow_ = other.removeRow_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public ObjectRecordRemove Clone() {
-      return new ObjectRecordRemove(this);
+    public EntityDataTableRemove Clone() {
+      return new EntityDataTableRemove(this);
     }
 
-    /// <summary>Field number for the "player_id" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private global::AFMsg.Ident playerId_;
+    /// <summary>Field number for the "entity_id" field.</summary>
+    public const int EntityIdFieldNumber = 1;
+    private global::AFMsg.PBGUID entityId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident PlayerId {
-      get { return playerId_; }
+    public global::AFMsg.PBGUID EntityId {
+      get { return entityId_; }
       set {
-        playerId_ = value;
+        entityId_ = value;
       }
     }
 
-    /// <summary>Field number for the "record_name" field.</summary>
-    public const int RecordNameFieldNumber = 2;
-    private string recordName_ = "";
+    /// <summary>Field number for the "table_name" field.</summary>
+    public const int TableNameFieldNumber = 2;
+    private string tableName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string RecordName {
-      get { return recordName_; }
+    public string TableName {
+      get { return tableName_; }
       set {
-        recordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        tableName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -3192,19 +3222,19 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as ObjectRecordRemove);
+      return Equals(other as EntityDataTableRemove);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(ObjectRecordRemove other) {
+    public bool Equals(EntityDataTableRemove other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(PlayerId, other.PlayerId)) return false;
-      if (RecordName != other.RecordName) return false;
+      if (!object.Equals(EntityId, other.EntityId)) return false;
+      if (TableName != other.TableName) return false;
       if(!removeRow_.Equals(other.removeRow_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -3212,8 +3242,8 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (playerId_ != null) hash ^= PlayerId.GetHashCode();
-      if (RecordName.Length != 0) hash ^= RecordName.GetHashCode();
+      if (entityId_ != null) hash ^= EntityId.GetHashCode();
+      if (TableName.Length != 0) hash ^= TableName.GetHashCode();
       hash ^= removeRow_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -3228,13 +3258,13 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (playerId_ != null) {
+      if (entityId_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(PlayerId);
+        output.WriteMessage(EntityId);
       }
-      if (RecordName.Length != 0) {
+      if (TableName.Length != 0) {
         output.WriteRawTag(18);
-        output.WriteString(RecordName);
+        output.WriteString(TableName);
       }
       removeRow_.WriteTo(output, _repeated_removeRow_codec);
       if (_unknownFields != null) {
@@ -3245,11 +3275,11 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (playerId_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
+      if (entityId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EntityId);
       }
-      if (RecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(RecordName);
+      if (TableName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TableName);
       }
       size += removeRow_.CalculateSize(_repeated_removeRow_codec);
       if (_unknownFields != null) {
@@ -3259,18 +3289,18 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(ObjectRecordRemove other) {
+    public void MergeFrom(EntityDataTableRemove other) {
       if (other == null) {
         return;
       }
-      if (other.playerId_ != null) {
-        if (playerId_ == null) {
-          playerId_ = new global::AFMsg.Ident();
+      if (other.entityId_ != null) {
+        if (entityId_ == null) {
+          entityId_ = new global::AFMsg.PBGUID();
         }
-        PlayerId.MergeFrom(other.PlayerId);
+        EntityId.MergeFrom(other.EntityId);
       }
-      if (other.RecordName.Length != 0) {
-        RecordName = other.RecordName;
+      if (other.TableName.Length != 0) {
+        TableName = other.TableName;
       }
       removeRow_.Add(other.removeRow_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
@@ -3285,14 +3315,14 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (playerId_ == null) {
-              playerId_ = new global::AFMsg.Ident();
+            if (entityId_ == null) {
+              entityId_ = new global::AFMsg.PBGUID();
             }
-            input.ReadMessage(playerId_);
+            input.ReadMessage(entityId_);
             break;
           }
           case 18: {
-            RecordName = input.ReadString();
+            TableName = input.ReadString();
             break;
           }
           case 26:
@@ -3308,12 +3338,13 @@ namespace AFMsg {
 
   /// <summary>
   ////////////////////////////////////////////////////////////////////
+  ///===========TO DELETE
   /// </summary>
-  public sealed partial class PlayerPropertyBase : pb::IMessage<PlayerPropertyBase> {
-    private static readonly pb::MessageParser<PlayerPropertyBase> _parser = new pb::MessageParser<PlayerPropertyBase>(() => new PlayerPropertyBase());
+  public sealed partial class PlayerDataNodes : pb::IMessage<PlayerDataNodes> {
+    private static readonly pb::MessageParser<PlayerDataNodes> _parser = new pb::MessageParser<PlayerDataNodes>(() => new PlayerDataNodes());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<PlayerPropertyBase> Parser { get { return _parser; } }
+    public static pb::MessageParser<PlayerDataNodes> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -3326,54 +3357,54 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerPropertyBase() {
+    public PlayerDataNodes() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerPropertyBase(PlayerPropertyBase other) : this() {
-      propertyDataList_ = other.propertyDataList_.Clone();
+    public PlayerDataNodes(PlayerDataNodes other) : this() {
+      dataNodeList_ = other.dataNodeList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerPropertyBase Clone() {
-      return new PlayerPropertyBase(this);
+    public PlayerDataNodes Clone() {
+      return new PlayerDataNodes(this);
     }
 
-    /// <summary>Field number for the "property_data_list" field.</summary>
-    public const int PropertyDataListFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::AFMsg.PropertyPBData> _repeated_propertyDataList_codec
-        = pb::FieldCodec.ForMessage(10, global::AFMsg.PropertyPBData.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.PropertyPBData> propertyDataList_ = new pbc::RepeatedField<global::AFMsg.PropertyPBData>();
+    /// <summary>Field number for the "data_node_list" field.</summary>
+    public const int DataNodeListFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AFMsg.PBNodeData> _repeated_dataNodeList_codec
+        = pb::FieldCodec.ForMessage(10, global::AFMsg.PBNodeData.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBNodeData> dataNodeList_ = new pbc::RepeatedField<global::AFMsg.PBNodeData>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.PropertyPBData> PropertyDataList {
-      get { return propertyDataList_; }
+    public pbc::RepeatedField<global::AFMsg.PBNodeData> DataNodeList {
+      get { return dataNodeList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as PlayerPropertyBase);
+      return Equals(other as PlayerDataNodes);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(PlayerPropertyBase other) {
+    public bool Equals(PlayerDataNodes other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!propertyDataList_.Equals(other.propertyDataList_)) return false;
+      if(!dataNodeList_.Equals(other.dataNodeList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= propertyDataList_.GetHashCode();
+      hash ^= dataNodeList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3387,7 +3418,7 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      propertyDataList_.WriteTo(output, _repeated_propertyDataList_codec);
+      dataNodeList_.WriteTo(output, _repeated_dataNodeList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3396,7 +3427,7 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      size += propertyDataList_.CalculateSize(_repeated_propertyDataList_codec);
+      size += dataNodeList_.CalculateSize(_repeated_dataNodeList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -3404,11 +3435,11 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(PlayerPropertyBase other) {
+    public void MergeFrom(PlayerDataNodes other) {
       if (other == null) {
         return;
       }
-      propertyDataList_.Add(other.propertyDataList_);
+      dataNodeList_.Add(other.dataNodeList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3421,7 +3452,7 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            propertyDataList_.AddEntriesFrom(input, _repeated_propertyDataList_codec);
+            dataNodeList_.AddEntriesFrom(input, _repeated_dataNodeList_codec);
             break;
           }
         }
@@ -3433,11 +3464,11 @@ namespace AFMsg {
   /// <summary>
   /////////////////////////////////////////////////////////////
   /// </summary>
-  public sealed partial class PlayerRecordBase : pb::IMessage<PlayerRecordBase> {
-    private static readonly pb::MessageParser<PlayerRecordBase> _parser = new pb::MessageParser<PlayerRecordBase>(() => new PlayerRecordBase());
+  public sealed partial class PlayerDataTable : pb::IMessage<PlayerDataTable> {
+    private static readonly pb::MessageParser<PlayerDataTable> _parser = new pb::MessageParser<PlayerDataTable>(() => new PlayerDataTable());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<PlayerRecordBase> Parser { get { return _parser; } }
+    public static pb::MessageParser<PlayerDataTable> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -3450,68 +3481,68 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerRecordBase() {
+    public PlayerDataTable() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerRecordBase(PlayerRecordBase other) : this() {
-      recordName_ = other.recordName_;
-      recordDataList_ = other.recordDataList_.Clone();
+    public PlayerDataTable(PlayerDataTable other) : this() {
+      tableName_ = other.tableName_;
+      dataTableCellList_ = other.dataTableCellList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerRecordBase Clone() {
-      return new PlayerRecordBase(this);
+    public PlayerDataTable Clone() {
+      return new PlayerDataTable(this);
     }
 
-    /// <summary>Field number for the "record_name" field.</summary>
-    public const int RecordNameFieldNumber = 1;
-    private string recordName_ = "";
+    /// <summary>Field number for the "table_name" field.</summary>
+    public const int TableNameFieldNumber = 1;
+    private string tableName_ = "";
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public string RecordName {
-      get { return recordName_; }
+    public string TableName {
+      get { return tableName_; }
       set {
-        recordName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+        tableName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
-    /// <summary>Field number for the "record_data_list" field.</summary>
-    public const int RecordDataListFieldNumber = 2;
-    private static readonly pb::FieldCodec<global::AFMsg.RecordPBData> _repeated_recordDataList_codec
-        = pb::FieldCodec.ForMessage(18, global::AFMsg.RecordPBData.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.RecordPBData> recordDataList_ = new pbc::RepeatedField<global::AFMsg.RecordPBData>();
+    /// <summary>Field number for the "data_table_cell_list" field.</summary>
+    public const int DataTableCellListFieldNumber = 2;
+    private static readonly pb::FieldCodec<global::AFMsg.PBCellData> _repeated_dataTableCellList_codec
+        = pb::FieldCodec.ForMessage(18, global::AFMsg.PBCellData.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBCellData> dataTableCellList_ = new pbc::RepeatedField<global::AFMsg.PBCellData>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.RecordPBData> RecordDataList {
-      get { return recordDataList_; }
+    public pbc::RepeatedField<global::AFMsg.PBCellData> DataTableCellList {
+      get { return dataTableCellList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as PlayerRecordBase);
+      return Equals(other as PlayerDataTable);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(PlayerRecordBase other) {
+    public bool Equals(PlayerDataTable other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (RecordName != other.RecordName) return false;
-      if(!recordDataList_.Equals(other.recordDataList_)) return false;
+      if (TableName != other.TableName) return false;
+      if(!dataTableCellList_.Equals(other.dataTableCellList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (RecordName.Length != 0) hash ^= RecordName.GetHashCode();
-      hash ^= recordDataList_.GetHashCode();
+      if (TableName.Length != 0) hash ^= TableName.GetHashCode();
+      hash ^= dataTableCellList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3525,11 +3556,11 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (RecordName.Length != 0) {
+      if (TableName.Length != 0) {
         output.WriteRawTag(10);
-        output.WriteString(RecordName);
+        output.WriteString(TableName);
       }
-      recordDataList_.WriteTo(output, _repeated_recordDataList_codec);
+      dataTableCellList_.WriteTo(output, _repeated_dataTableCellList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3538,10 +3569,10 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (RecordName.Length != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeStringSize(RecordName);
+      if (TableName.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(TableName);
       }
-      size += recordDataList_.CalculateSize(_repeated_recordDataList_codec);
+      size += dataTableCellList_.CalculateSize(_repeated_dataTableCellList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -3549,14 +3580,14 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(PlayerRecordBase other) {
+    public void MergeFrom(PlayerDataTable other) {
       if (other == null) {
         return;
       }
-      if (other.RecordName.Length != 0) {
-        RecordName = other.RecordName;
+      if (other.TableName.Length != 0) {
+        TableName = other.TableName;
       }
-      recordDataList_.Add(other.recordDataList_);
+      dataTableCellList_.Add(other.dataTableCellList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3569,11 +3600,11 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            RecordName = input.ReadString();
+            TableName = input.ReadString();
             break;
           }
           case 18: {
-            recordDataList_.AddEntriesFrom(input, _repeated_recordDataList_codec);
+            dataTableCellList_.AddEntriesFrom(input, _repeated_dataTableCellList_codec);
             break;
           }
         }
@@ -3582,11 +3613,11 @@ namespace AFMsg {
 
   }
 
-  public sealed partial class PlayerRecordList : pb::IMessage<PlayerRecordList> {
-    private static readonly pb::MessageParser<PlayerRecordList> _parser = new pb::MessageParser<PlayerRecordList>(() => new PlayerRecordList());
+  public sealed partial class PlayerDataTables : pb::IMessage<PlayerDataTables> {
+    private static readonly pb::MessageParser<PlayerDataTables> _parser = new pb::MessageParser<PlayerDataTables>(() => new PlayerDataTables());
     private pb::UnknownFieldSet _unknownFields;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public static pb::MessageParser<PlayerRecordList> Parser { get { return _parser; } }
+    public static pb::MessageParser<PlayerDataTables> Parser { get { return _parser; } }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public static pbr::MessageDescriptor Descriptor {
@@ -3599,54 +3630,54 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerRecordList() {
+    public PlayerDataTables() {
       OnConstruction();
     }
 
     partial void OnConstruction();
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerRecordList(PlayerRecordList other) : this() {
-      recordList_ = other.recordList_.Clone();
+    public PlayerDataTables(PlayerDataTables other) : this() {
+      tableList_ = other.tableList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public PlayerRecordList Clone() {
-      return new PlayerRecordList(this);
+    public PlayerDataTables Clone() {
+      return new PlayerDataTables(this);
     }
 
-    /// <summary>Field number for the "record_list" field.</summary>
-    public const int RecordListFieldNumber = 1;
-    private static readonly pb::FieldCodec<global::AFMsg.PlayerRecordBase> _repeated_recordList_codec
-        = pb::FieldCodec.ForMessage(10, global::AFMsg.PlayerRecordBase.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.PlayerRecordBase> recordList_ = new pbc::RepeatedField<global::AFMsg.PlayerRecordBase>();
+    /// <summary>Field number for the "table_list" field.</summary>
+    public const int TableListFieldNumber = 1;
+    private static readonly pb::FieldCodec<global::AFMsg.PlayerDataTable> _repeated_tableList_codec
+        = pb::FieldCodec.ForMessage(10, global::AFMsg.PlayerDataTable.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PlayerDataTable> tableList_ = new pbc::RepeatedField<global::AFMsg.PlayerDataTable>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.PlayerRecordBase> RecordList {
-      get { return recordList_; }
+    public pbc::RepeatedField<global::AFMsg.PlayerDataTable> TableList {
+      get { return tableList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override bool Equals(object other) {
-      return Equals(other as PlayerRecordList);
+      return Equals(other as PlayerDataTables);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public bool Equals(PlayerRecordList other) {
+    public bool Equals(PlayerDataTables other) {
       if (ReferenceEquals(other, null)) {
         return false;
       }
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if(!recordList_.Equals(other.recordList_)) return false;
+      if(!tableList_.Equals(other.tableList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      hash ^= recordList_.GetHashCode();
+      hash ^= tableList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3660,7 +3691,7 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      recordList_.WriteTo(output, _repeated_recordList_codec);
+      tableList_.WriteTo(output, _repeated_tableList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3669,7 +3700,7 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      size += recordList_.CalculateSize(_repeated_recordList_codec);
+      size += tableList_.CalculateSize(_repeated_tableList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -3677,11 +3708,11 @@ namespace AFMsg {
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public void MergeFrom(PlayerRecordList other) {
+    public void MergeFrom(PlayerDataTables other) {
       if (other == null) {
         return;
       }
-      recordList_.Add(other.recordList_);
+      tableList_.Add(other.tableList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3694,7 +3725,7 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            recordList_.AddEntriesFrom(input, _repeated_recordList_codec);
+            tableList_.AddEntriesFrom(input, _repeated_tableList_codec);
             break;
           }
         }
@@ -3731,10 +3762,10 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public BrocastMsg(BrocastMsg other) : this() {
-      PlayerId = other.playerId_ != null ? other.PlayerId.Clone() : null;
+      EntityId = other.entityId_ != null ? other.EntityId.Clone() : null;
       msgData_ = other.msgData_;
-      nMsgID_ = other.nMsgID_;
-      playerClientList_ = other.playerClientList_.Clone();
+      msgId_ = other.msgId_;
+      targetEntityList_ = other.targetEntityList_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -3743,14 +3774,14 @@ namespace AFMsg {
       return new BrocastMsg(this);
     }
 
-    /// <summary>Field number for the "player_id" field.</summary>
-    public const int PlayerIdFieldNumber = 1;
-    private global::AFMsg.Ident playerId_;
+    /// <summary>Field number for the "entity_id" field.</summary>
+    public const int EntityIdFieldNumber = 1;
+    private global::AFMsg.PBGUID entityId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident PlayerId {
-      get { return playerId_; }
+    public global::AFMsg.PBGUID EntityId {
+      get { return entityId_; }
       set {
-        playerId_ = value;
+        entityId_ = value;
       }
     }
 
@@ -3765,25 +3796,25 @@ namespace AFMsg {
       }
     }
 
-    /// <summary>Field number for the "nMsgID" field.</summary>
-    public const int NMsgIDFieldNumber = 3;
-    private long nMsgID_;
+    /// <summary>Field number for the "msg_id" field.</summary>
+    public const int MsgIdFieldNumber = 3;
+    private int msgId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public long NMsgID {
-      get { return nMsgID_; }
+    public int MsgId {
+      get { return msgId_; }
       set {
-        nMsgID_ = value;
+        msgId_ = value;
       }
     }
 
-    /// <summary>Field number for the "player_Client_list" field.</summary>
-    public const int PlayerClientListFieldNumber = 4;
-    private static readonly pb::FieldCodec<global::AFMsg.Ident> _repeated_playerClientList_codec
-        = pb::FieldCodec.ForMessage(34, global::AFMsg.Ident.Parser);
-    private readonly pbc::RepeatedField<global::AFMsg.Ident> playerClientList_ = new pbc::RepeatedField<global::AFMsg.Ident>();
+    /// <summary>Field number for the "target_entity_list" field.</summary>
+    public const int TargetEntityListFieldNumber = 4;
+    private static readonly pb::FieldCodec<global::AFMsg.PBGUID> _repeated_targetEntityList_codec
+        = pb::FieldCodec.ForMessage(34, global::AFMsg.PBGUID.Parser);
+    private readonly pbc::RepeatedField<global::AFMsg.PBGUID> targetEntityList_ = new pbc::RepeatedField<global::AFMsg.PBGUID>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public pbc::RepeatedField<global::AFMsg.Ident> PlayerClientList {
-      get { return playerClientList_; }
+    public pbc::RepeatedField<global::AFMsg.PBGUID> TargetEntityList {
+      get { return targetEntityList_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -3799,20 +3830,20 @@ namespace AFMsg {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (!object.Equals(PlayerId, other.PlayerId)) return false;
+      if (!object.Equals(EntityId, other.EntityId)) return false;
       if (MsgData != other.MsgData) return false;
-      if (NMsgID != other.NMsgID) return false;
-      if(!playerClientList_.Equals(other.playerClientList_)) return false;
+      if (MsgId != other.MsgId) return false;
+      if(!targetEntityList_.Equals(other.targetEntityList_)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public override int GetHashCode() {
       int hash = 1;
-      if (playerId_ != null) hash ^= PlayerId.GetHashCode();
+      if (entityId_ != null) hash ^= EntityId.GetHashCode();
       if (MsgData.Length != 0) hash ^= MsgData.GetHashCode();
-      if (NMsgID != 0L) hash ^= NMsgID.GetHashCode();
-      hash ^= playerClientList_.GetHashCode();
+      if (MsgId != 0) hash ^= MsgId.GetHashCode();
+      hash ^= targetEntityList_.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -3826,19 +3857,19 @@ namespace AFMsg {
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public void WriteTo(pb::CodedOutputStream output) {
-      if (playerId_ != null) {
+      if (entityId_ != null) {
         output.WriteRawTag(10);
-        output.WriteMessage(PlayerId);
+        output.WriteMessage(EntityId);
       }
       if (MsgData.Length != 0) {
         output.WriteRawTag(18);
         output.WriteString(MsgData);
       }
-      if (NMsgID != 0L) {
+      if (MsgId != 0) {
         output.WriteRawTag(24);
-        output.WriteInt64(NMsgID);
+        output.WriteInt32(MsgId);
       }
-      playerClientList_.WriteTo(output, _repeated_playerClientList_codec);
+      targetEntityList_.WriteTo(output, _repeated_targetEntityList_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -3847,16 +3878,16 @@ namespace AFMsg {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     public int CalculateSize() {
       int size = 0;
-      if (playerId_ != null) {
-        size += 1 + pb::CodedOutputStream.ComputeMessageSize(PlayerId);
+      if (entityId_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(EntityId);
       }
       if (MsgData.Length != 0) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(MsgData);
       }
-      if (NMsgID != 0L) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(NMsgID);
+      if (MsgId != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(MsgId);
       }
-      size += playerClientList_.CalculateSize(_repeated_playerClientList_codec);
+      size += targetEntityList_.CalculateSize(_repeated_targetEntityList_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -3868,19 +3899,19 @@ namespace AFMsg {
       if (other == null) {
         return;
       }
-      if (other.playerId_ != null) {
-        if (playerId_ == null) {
-          playerId_ = new global::AFMsg.Ident();
+      if (other.entityId_ != null) {
+        if (entityId_ == null) {
+          entityId_ = new global::AFMsg.PBGUID();
         }
-        PlayerId.MergeFrom(other.PlayerId);
+        EntityId.MergeFrom(other.EntityId);
       }
       if (other.MsgData.Length != 0) {
         MsgData = other.MsgData;
       }
-      if (other.NMsgID != 0L) {
-        NMsgID = other.NMsgID;
+      if (other.MsgId != 0) {
+        MsgId = other.MsgId;
       }
-      playerClientList_.Add(other.playerClientList_);
+      targetEntityList_.Add(other.targetEntityList_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -3893,10 +3924,10 @@ namespace AFMsg {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 10: {
-            if (playerId_ == null) {
-              playerId_ = new global::AFMsg.Ident();
+            if (entityId_ == null) {
+              entityId_ = new global::AFMsg.PBGUID();
             }
-            input.ReadMessage(playerId_);
+            input.ReadMessage(entityId_);
             break;
           }
           case 18: {
@@ -3904,11 +3935,11 @@ namespace AFMsg {
             break;
           }
           case 24: {
-            NMsgID = input.ReadInt64();
+            MsgId = input.ReadInt32();
             break;
           }
           case 34: {
-            playerClientList_.AddEntriesFrom(input, _repeated_playerClientList_codec);
+            targetEntityList_.AddEntriesFrom(input, _repeated_targetEntityList_codec);
             break;
           }
         }
@@ -4139,9 +4170,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "control_id" field.</summary>
     public const int ControlIdFieldNumber = 1;
-    private global::AFMsg.Ident controlId_;
+    private global::AFMsg.PBGUID controlId_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident ControlId {
+    public global::AFMsg.PBGUID ControlId {
       get { return controlId_; }
       set {
         controlId_ = value;
@@ -4230,7 +4261,7 @@ namespace AFMsg {
       }
       if (other.controlId_ != null) {
         if (controlId_ == null) {
-          controlId_ = new global::AFMsg.Ident();
+          controlId_ = new global::AFMsg.PBGUID();
         }
         ControlId.MergeFrom(other.ControlId);
       }
@@ -4250,7 +4281,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (controlId_ == null) {
-              controlId_ = new global::AFMsg.Ident();
+              controlId_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(controlId_);
             break;
@@ -4269,17 +4300,17 @@ namespace AFMsg {
     public static partial class Types {
       public enum EGameCommandType {
         /// <summary>
-        ///修改属性[property_name,value]
+        ///修改NODE[node_name,value]
         /// </summary>
-        [pbr::OriginalName("EGCT_MODIY_PROPERTY")] EgctModiyProperty = 0,
+        [pbr::OriginalName("EGCT_MODIY_DATA_NODE")] EgctModiyDataNode = 0,
         /// <summary>
         ///得到物品[item_id,count]
         /// </summary>
         [pbr::OriginalName("EGCT_MODIY_ITEM")] EgctModiyItem = 1,
         /// <summary>
-        ///创建对象[object_index,count]
+        ///创建对象[entity_index,count]
         /// </summary>
-        [pbr::OriginalName("EGCT_CREATE_OBJECT")] EgctCreateObject = 2,
+        [pbr::OriginalName("EGCT_CREATE_ENTITY")] EgctCreateEntity = 2,
         /// <summary>
         ///增加经验
         /// </summary>

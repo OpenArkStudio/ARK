@@ -1,4 +1,4 @@
-file(GLOB AFProto_SRC *.h *.hpp *.cpp *.cc *.c)
+file(GLOB AFProto_SRC *.h *.hpp *.cpp *.cc *.c cpp/*.h cpp/*.hpp cpp/*.cpp cpp/*.cc cpp/*.c)
 
 add_library(AFProto SHARED ${AFProto_SRC})
 
@@ -15,7 +15,7 @@ if(UNIX)
     target_link_libraries(AFProto)
     add_definitions(
         -DLIBPROTOC_EXPORTS
-	-DPROTOBUF_USE_DLLS)
+        -DPROTOBUF_USE_DLLS)
 else()
     target_link_libraries(AFProto
         debug libprotobufd
@@ -26,5 +26,5 @@ else()
         -D_USRDLL
         -D_LIB
         -DLIBPROTOC_EXPORTS
-	-DPROTOBUF_USE_DLLS)
+        -DPROTOBUF_USE_DLLS)
 endif()

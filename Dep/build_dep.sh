@@ -30,7 +30,7 @@ cp -R -f protoc ../../../../Frame/SDK/Proto/proto-gen
 cd ../../../
 
 ##################################################################
-echo Building brynet...
+echo "Building brynet..."
 
 if [ -d "brynet" ]; then
     rm -rf brynet
@@ -41,13 +41,14 @@ cd brynet
 chmod -R 755 *
 mkdir build
 cd build
-
-CURDIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd )
-echo $CURDIR
 cmake -G "Unix Makefiles"  ..
 make -j 8
 cp -R -f lib/*.a ../../lib/Debug
 cp -R -f lib/*.a ../../lib/Release
-cp -R -f lib/*.so* ../../lib/Debug
-cp -R -f lib/*.so* ../../lib/Release
 cd ../../
+
+##################################################################
+echo "General proto files..."
+cd ../Frame/SDK/Proto/
+bash gen-proto.sh
+cd ../../../

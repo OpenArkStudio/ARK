@@ -20,7 +20,7 @@
 
 #include "AFCGameServerToWorldModule.h"
 #include "AFGameNetClientPlugin.h"
-#include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
 #include "SDK/Proto/ARKDataDefine.hpp"
 #include "Server/Interface/AFINetClientModule.hpp"
 

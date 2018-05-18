@@ -23,7 +23,7 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIElementModule.h"
-#include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "Server/Interface/AFIGameLogicModule.h"
 #include "Server/Interface/AFIAccountModule.h"

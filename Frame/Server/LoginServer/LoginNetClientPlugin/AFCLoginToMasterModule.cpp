@@ -20,7 +20,7 @@
 
 #include "AFCLoginToMasterModule.h"
 #include "AFLoginNetClientPlugin.h"
-#include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
 
 bool AFCLoginToMasterModule::Init()
 {

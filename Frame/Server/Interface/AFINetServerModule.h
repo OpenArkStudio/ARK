@@ -25,8 +25,7 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"
 #include "SDK/Core/Base/AFQueue.h"
-#include "SDK/Proto/AFMsgDefine.h"
-#include "SDK/Proto/AFDefine.pb.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
 #include "Server/Interface/AFINetModule.h"
 
 ////////////////////////////////////////////////////////////////////////////
@@ -181,7 +180,7 @@ public:
         return SendMsgPB(nMsgID, xMsgData, xClientID, nPlayer, pClientIDList);
     }
 
-    bool SendMsgPB(const uint16_t nMsgID, const std::string& strData, const AFGUID& xClientID, const AFGUID nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
+    bool SendMsgPB(const uint16_t nMsgID, const std::string& strData, const AFGUID& xClientID, const AFGUID& nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
     {
         if(m_pNet != nullptr)
         {
@@ -195,16 +194,16 @@ public:
         {
             //playerid主要是网关转发消息的时候做识别使用，其他使用不使用
             AFMsg::BrocastMsg xMsg;
-            AFMsg::Ident* pPlayerID = xMsg.mutable_player_id();
+            AFMsg::PBGUID* pPlayerID = xMsg.mutable_entity_id();
             *pPlayerID = AFINetModule::GUIDToPB(nPlayer);
             xMsg.set_msg_data(strData.data(), strData.length());
-            xMsg.set_nmsgid(nMsgID);
+            xMsg.set_msg_id(nMsgID);
 
             for(size_t i = 0; i < pClientIDList->size(); ++i)
             {
                 const AFGUID& ClientID = (*pClientIDList)[i];
 
-                AFMsg::Ident* pData = xMsg.add_player_client_list();
+                AFMsg::PBGUID* pData = xMsg.add_target_entity_list();
                 if(pData)
                 {
                     *pData = AFINetModule::GUIDToPB(ClientID);
