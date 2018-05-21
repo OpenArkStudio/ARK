@@ -144,7 +144,6 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
     ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
     if(pSession)
     {
-        //还没有登录过
         if(pSession->mnLogicState == 0)
         {
             int nState = m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());

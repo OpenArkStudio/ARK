@@ -238,7 +238,6 @@ public:
 
     ARK_SHARE_PTR<TD> Suit(T& name)
     {
-        //涓嶈兘浣跨敤杩唬鍣ㄩ偅濂楋紝鍥犱负浼氭墦涔辫凯浠ｅ櫒椤哄簭
         if (Count() <= 0)
         {
             return nullptr;

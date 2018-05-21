@@ -141,7 +141,6 @@ public:
             return;
         }
 
-        //把上次的数据处理了
         KeepAlive();
 
         m_pNet->Update();

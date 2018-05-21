@@ -124,7 +124,6 @@ void AFCGameNetServerModule::OnSocketPSEvent(const NetEventType eEvent, const AF
 
 void AFCGameNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 {
-    //只可能是网关丢了
     int nServerID = 0;
     ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.First();
     while(nullptr != pServerData)
