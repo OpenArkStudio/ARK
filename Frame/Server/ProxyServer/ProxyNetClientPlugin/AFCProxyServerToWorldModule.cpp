@@ -197,7 +197,6 @@ bool AFCProxyServerToWorldModule::PostInit()
 
 void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //保持记录,直到下线,或者1分钟不上线即可删除
     AFGUID nPlayerID;
     AFMsg::AckConnectWorldResult xMsg;
     if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
@@ -247,7 +246,6 @@ void AFCProxyServerToWorldModule::OnOtherMessage(const AFIMsgHead& xHead, const 
 
 void AFCProxyServerToWorldModule::OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //保持记录,直到下线,或者1分钟不上线即可删除
     AFGUID nPlayerID;
     AFMsg::BrocastMsg xMsg;
     if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))

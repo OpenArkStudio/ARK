@@ -179,10 +179,9 @@ void AFCWorldToMasterModule::OnKickClientProcess(const AFIMsgHead& xHead, const 
         return;
     }
 
-    //T人,下线
-    //     AFIDataList var;
-    //     var << xMsg.world_id() << xMsg.account();
-    //     m_pEventProcessModule->DoEvent(AFGUID(), AFED_ON_KICK_FROM_SERVER, var);
+    //AFIDataList var;
+    //var << xMsg.world_id() << xMsg.account();
+    //m_pEventProcessModule->DoEvent(AFGUID(), AFED_ON_KICK_FROM_SERVER, var);
 }
 
 void AFCWorldToMasterModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)

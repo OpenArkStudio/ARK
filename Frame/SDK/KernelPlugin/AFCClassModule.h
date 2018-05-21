@@ -166,7 +166,6 @@ protected:
     virtual bool AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIClass> pClass);
     virtual bool AddClass(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIClass> pClass);
 
-    //鍔犺浇姝よ妭鐐圭殑绫?
     virtual bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pParentClass);
 
 protected:
