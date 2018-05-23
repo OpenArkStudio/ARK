@@ -191,6 +191,11 @@ inline int AFCPluginManager::AppID() const
     return mnAppID;
 }
 
+const std::string& AFCPluginManager::AppName() const
+{
+    return mstrAppName;
+}
+
 inline int64_t AFCPluginManager::GetInitTime() const
 {
     return mnInitTime;
@@ -224,6 +229,11 @@ void AFCPluginManager::SetConfigName(const std::string & strFileName)
 void AFCPluginManager::SetAppID(const int app_id)
 {
     mnAppID = app_id;
+}
+
+void AFCPluginManager::SetAppName(const std::string& app_name)
+{
+    mstrAppName = app_name;
 }
 
 void AFCPluginManager::AddModule(const std::string& strModuleName, AFIModule* pModule)
