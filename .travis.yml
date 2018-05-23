@@ -1,6 +1,11 @@
 sudo: false
 language: cpp
 
+env:
+  global:
+    - LANG="en_US.UTF-8"
+    - COVERAGE=false
+
 compiler:
   - gcc
 
@@ -16,6 +21,7 @@ addons:
       #- g++-4.9
       - cmake-data
       - cmake
+      - lcov
     #sonarcloud
     sonarcloud:
         organization: "ark-game"
@@ -29,18 +35,18 @@ before_install:
   - ./build_dep.sh
   - cd ..
 
+install:
+    - sudo pip install codecov
+  
 before_script:
   # cmake
   - if [-d "build" ]; then rm -rf build; fi
   - mkdir build && cd build
-  - cmake -G "Unix Makefiles" ..
+  - cmake -G "Unix Makefiles" -DENABLE_COVERAGE=ON ..
 
 script:
   # make
   - make -j 8
-
-env:
-  global:
-    - LANG="en_US.UTF-8"
     
-addons:
+after_success:
+    - codecov -t 66eca6e3-35af-40f1-bb56-00762b63a9d3 -X gcov
