@@ -70,10 +70,10 @@ private:
     };
 
 private:
-    ArraryPod<AFDataNode*, 1, CoreAlloc> mxNodes;
+	ArrayPod<AFDataNode*, 1, CoreAlloc> mxNodes;
     StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
 
-    ArraryPod<AFNodeCallBack*, 1, CoreAlloc> mxNodeCBs;
+	ArrayPod<AFNodeCallBack*, 1, CoreAlloc> mxNodeCBs;
     StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxCallBackIndices;
 
     AFGUID mxSelf;
