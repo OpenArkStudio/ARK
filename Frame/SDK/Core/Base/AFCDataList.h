@@ -634,7 +634,7 @@ public:
         return true;
     }
 
-    virtual bool SetInt64(size_t index, int value)
+    virtual bool SetInt64(size_t index, int64_t value)
     {
         if(index >= mnDataUsed)
         {
