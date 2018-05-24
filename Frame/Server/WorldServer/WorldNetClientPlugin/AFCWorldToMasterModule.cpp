@@ -128,7 +128,7 @@ void AFCWorldToMasterModule::Register(const int nServerID)
                     int nTargetID = pServerData->nGameID;
                     m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_MTL_WORLD_REGISTERED, xMsg, 0);
 
-                    ARK_LOG_INFO("Register, server_id = %d server_name = %s", pData->server_id(), pData->server_name().c_str());
+                    ARK_LOG_INFO("Register, server_id = {} server_name = {}", pData->server_id(), pData->server_name().c_str());
                 }
             }
         }
@@ -193,11 +193,11 @@ void AFCWorldToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AF
 {
     if(eEvent == DISCONNECTED)
     {
-        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
     }
     else  if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
         Register(nServerID);
     }
 }
@@ -219,6 +219,6 @@ bool AFCWorldToMasterModule::PreShut()
 
 void AFCWorldToMasterModule::LogServerInfo(const std::string& strServerInfo)
 {
-    ARK_LOG_INFO("%s", strServerInfo.c_str());
+    ARK_LOG_INFO("{}", strServerInfo.c_str());
 }
 
