@@ -77,7 +77,7 @@ class AFArrayMap {};
 //public:
 //protected:
 //private:
-//    ArraryPod<NODE*, 1, CoreAlloc> mxNodes;
+//    ArrayPod<NODE*, 1, CoreAlloc> mxNodes;
 //    //StringPod<char, size_t, StringTraits<char>> mxIndices;
 //};
 
@@ -178,6 +178,6 @@ protected:
     }
 
 private:
-    ArraryPod<NODE*, 1, ArrayPodAlloc> mxNodes;
+	ArrayPod<NODE*, 1, ArrayPodAlloc> mxNodes;
     StringPod<char, size_t, StringTraits<char>> mxIndices;
 };
