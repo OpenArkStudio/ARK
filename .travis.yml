@@ -36,8 +36,8 @@ before_install:
   - cd ..
 
 install:
-    - sudo pip install --upgrade pip
-    - sudo pip install codecov
+    #- sudo pip install --upgrade pip
+    #- sudo pip install codecov
   
 before_script:
   # cmake
@@ -50,7 +50,7 @@ script:
   - make -j 8
     
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  #- bash <(curl -s https://codecov.io/bash)
   
 notifications:
   email:
