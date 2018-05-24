@@ -125,6 +125,6 @@ public:
 protected:
     DataTableName mstrName;                         //DataTable name
     int8_t feature;                                 //DataTable feature
-    ArraryPod<int, 1, CoreAlloc> mxColTypes;        //DataTable column type array
-    ArraryPod<RowData*, 1, CoreAlloc> mxRowDatas;   //DataTable data array
+	ArrayPod<int, 1, CoreAlloc> mxColTypes;        //DataTable column type array
+	ArrayPod<RowData*, 1, CoreAlloc> mxRowDatas;   //DataTable data array
 };
