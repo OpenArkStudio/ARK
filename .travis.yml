@@ -36,6 +36,7 @@ before_install:
   - cd ..
 
 install:
+    - sudo pip install --upgrade pip
     - sudo pip install codecov
   
 before_script:
@@ -49,4 +50,9 @@ script:
   - make -j 8
     
 after_success:
-    - codecov -t 66eca6e3-35af-40f1-bb56-00762b63a9d3 -X gcov
+  - bash <(curl -s https://codecov.io/bash)
+  
+notifications:
+  email:
+    - nickyang1988@qq.com
+    - 410274624@qq.com

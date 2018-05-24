@@ -45,7 +45,6 @@ public:
 protected:
     void TestTimer(const std::string& name, const AFGUID& entity_id);
     bool TestSchduler(const int id, const int arg);
-    void test_log();
 protected:
     AFITimerModule* m_pTimerModule;
     AFILogModule* m_pLogModule;

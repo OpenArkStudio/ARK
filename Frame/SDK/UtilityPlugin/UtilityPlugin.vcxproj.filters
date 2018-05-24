@@ -5,9 +5,6 @@
     <ClCompile Include="AFCGUIDModule.cpp">
       <Filter>GUIDModule</Filter>
     </ClCompile>
-    <ClCompile Include="AFCLogModule.cpp">
-      <Filter>LogModule</Filter>
-    </ClCompile>
     <ClCompile Include="AFUtilityPlugin.cpp">
       <Filter>Plugin</Filter>
     </ClCompile>
@@ -17,13 +14,13 @@
     <ClCompile Include="AFCTimerModule.cpp">
       <Filter>TimerModule</Filter>
     </ClCompile>
+    <ClCompile Include="AFCLogModule.cpp">
+      <Filter>LogModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCGUIDModule.h">
       <Filter>GUIDModule</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCLogModule.h">
-      <Filter>LogModule</Filter>
     </ClInclude>
     <ClInclude Include="AFUtilityPlugin.h">
       <Filter>Plugin</Filter>
@@ -33,6 +30,9 @@
     </ClInclude>
     <ClInclude Include="AFCTimerModule.h">
       <Filter>TimerModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCLogModule.h">
+      <Filter>LogModule</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
