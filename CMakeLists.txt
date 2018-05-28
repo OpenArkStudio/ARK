@@ -5,6 +5,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 project(ARK)
 
+#3rd cmake modules
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")
+
 #check cxx flag in linux system
 if(UNIX)
 	#linux
