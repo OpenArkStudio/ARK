@@ -88,6 +88,9 @@ message("ROOT dir=${ROOT_DIR}")
 message("SDK Output dir=${SDK_OUTPUT_DIR}")
 message("DEP lib dir=${DEP_LIB_DIR}")
 
+#codecov
+find_package(codecov)
+
 ##################################################################
 message("Start to build all...")
 add_subdirectory(Frame/SDK)
