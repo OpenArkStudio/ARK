@@ -50,20 +50,21 @@ if(UNIX)
 
     set (CXX_FLAGS
         -g
-        -Wall
-        -Wno-unused-parameter
-        -Wno-unused-function
-        -Wunused-variable
-        -Wunused-value
-        -Wshadow
-        -Wcast-qual
-        -Wcast-align
-        -Wwrite-strings
-        -Wsign-compare
-        -Winvalid-pch
+        -w
+        #-Wall
+        #-Wno-unused-parameter
+        #-Wno-unused-function
+        #-Wunused-variable
+        #-Wunused-value
+        #-Wshadow
+        #-Wcast-qual
+        #-Wcast-align
+        #-Wwrite-strings
+        #-Wsign-compare
+        #-Winvalid-pch
         -fms-extensions
-        -Wfloat-equal
-        -Wextra
+        #-Wfloat-equal
+        #-Wextra
         -fPIC
     )
 

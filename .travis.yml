@@ -51,7 +51,7 @@ script:
   - echo $TRAVIS_BUILD_DIR/Frame
   - cd $TRAVIS_BUILD_DIR/Frame
   - build-wrapper-linux-x86-64 --out-dir bw-output make all
-  - sonar-scanner
+  - sonar-scanner -X
     
 after_success:
   #- bash <(curl -s https://codecov.io/bash)
