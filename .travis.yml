@@ -22,11 +22,11 @@ addons:
       - cmake-data
       - cmake
       - lcov
-    #sonarcloud
-    sonarcloud:
-        organization: "ark-game"
-        token:
-            secure: "ddzOfx+RRNCBteyQbwhTzB/r/gj8dTeTNOu5V9+4cAhMyaUoGzRMe2QYdknid/ichhNJ4eOcwAnmhil7XR1cIobpL52r05WL/+SYogy3U2cXAS9K4y/7To38GxdRXSx9mk0VTWjRW8A8wwVGOteOAuieW0jbXivgxUrGZEybqinzNj9ndLJ1iPapihVWQFy7GmQC3gIkLVLLa1d/ueYiilMOvIsbWjGdVFm3pyNXq2TUQurYuxYAVCYv9BTlj0EeyVHjKcL+OcMDJGSd8rUlLKl/HueM9pBXNi4w3zlVBZpccpJxYbXezf/DDSO7zJlYkBAZ+x6fzGFILVjvEhvdotz49f03/orJa3ofw+oOGYZn8wKQ0DnWSEva39+kLZsqMC+hEMbxcnc/4hUGmFia5HWYdjX3lTiWBGU8H+nhuVQ4XlJaBsN7fUCgfQFDiz0GrwwvXNxHkh2w484oYXVBCHi+T8Fxjmy7JetwkVf2UbCQ+g921peaQr+LeGno0VviJRSqvINlRaMqEu+1+X2/njee9VAQmkXe18bMOzrZjmSHZct5hAIjGNDl67gmZqQ7afI33+rQ7sG32v7jWp66hilYbDVgFnsYVCZKZqtDx/EDL22awKg+zMSrokORwcWIZVAe6R4LEJcUtiOIkpkqqZ7b8a5L2vOc0G0p4GBktR0="
+  #sonarcloud
+  sonarcloud:
+    organization: "ark-game"
+    token:
+        secure: "ddzOfx+RRNCBteyQbwhTzB/r/gj8dTeTNOu5V9+4cAhMyaUoGzRMe2QYdknid/ichhNJ4eOcwAnmhil7XR1cIobpL52r05WL/+SYogy3U2cXAS9K4y/7To38GxdRXSx9mk0VTWjRW8A8wwVGOteOAuieW0jbXivgxUrGZEybqinzNj9ndLJ1iPapihVWQFy7GmQC3gIkLVLLa1d/ueYiilMOvIsbWjGdVFm3pyNXq2TUQurYuxYAVCYv9BTlj0EeyVHjKcL+OcMDJGSd8rUlLKl/HueM9pBXNi4w3zlVBZpccpJxYbXezf/DDSO7zJlYkBAZ+x6fzGFILVjvEhvdotz49f03/orJa3ofw+oOGYZn8wKQ0DnWSEva39+kLZsqMC+hEMbxcnc/4hUGmFia5HWYdjX3lTiWBGU8H+nhuVQ4XlJaBsN7fUCgfQFDiz0GrwwvXNxHkh2w484oYXVBCHi+T8Fxjmy7JetwkVf2UbCQ+g921peaQr+LeGno0VviJRSqvINlRaMqEu+1+X2/njee9VAQmkXe18bMOzrZjmSHZct5hAIjGNDl67gmZqQ7afI33+rQ7sG32v7jWp66hilYbDVgFnsYVCZKZqtDx/EDL22awKg+zMSrokORwcWIZVAe6R4LEJcUtiOIkpkqqZ7b8a5L2vOc0G0p4GBktR0="
 before_install:
   # run build_dep.sh
   - pwd
