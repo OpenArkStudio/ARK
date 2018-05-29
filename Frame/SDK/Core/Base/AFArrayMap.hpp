@@ -77,7 +77,7 @@ class AFArrayMap {};
 //public:
 //protected:
 //private:
-//    ArraryPod<NODE*, 1, CoreAlloc> mxNodes;
+//    ArrayPod<NODE*, 1, CoreAlloc> mxNodes;
 //    //StringPod<char, size_t, StringTraits<char>> mxIndices;
 //};
 
@@ -128,6 +128,8 @@ public:
         return mxNodes[index];
     }
 
+    //TODO:swap array data between index and last,
+    //then index will be new last, so we can delete last
     //bool RemoveElement(const std::string& name)
     //{
     //    size_t index;
@@ -176,6 +178,6 @@ protected:
     }
 
 private:
-    ArraryPod<NODE*, 1, ArrayPodAlloc> mxNodes;
+	ArrayPod<NODE*, 1, ArrayPodAlloc> mxNodes;
     StringPod<char, size_t, StringTraits<char>> mxIndices;
 };

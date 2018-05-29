@@ -1,6 +1,6 @@
 @echo off
 
-echo Building dependencies...
+echo "Building dependencies..."
 
 if exist lib (rd lib /q /s)
 md lib
@@ -8,8 +8,9 @@ cd lib
 md Debug
 md Release
 cd ../
+
 REM ######################################################################################################
-echo Building protobuf...
+echo "Building protobuf..."
 
 if exist protobuf (rd protobuf /q /s)
 git clone -b 3.5.x https://github.com/google/protobuf.git
@@ -28,42 +29,27 @@ copy Release\*.lib ..\..\..\lib\Release /Y
 copy Release\libprotobuf.dll ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
 copy Release\libprotoc.dll ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
 copy Release\protoc.exe ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
-
 cd ..\..\..\
-REM ######################################################################################################
-echo Building libevent...
+REM ####################################################################################################
+echo "Building brynet..."
+if exist brynet (rd brynet /q /s)
+git clone -b master https://github.com/ArkGame/brynet.git
 
-if exist libevent (rd libevent /q /s)
-git clone -b master https://github.com/libevent/libevent.git
-
-cd libevent
+cd brynet
 md build
 cd build
-cmake -G "Visual Studio 14 Win64" -DEVENT__DISABLE_OPENSSL=ON ..
-"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64" /project event_core_static.vcxproj
-"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64" /project event_core_static.vcxproj
-"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64" /project event_static.vcxproj
-"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64" /project event_static.vcxproj
-"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Debug|x64" /project event_extra_static.vcxproj
-"%VS140COMNTOOLS%..\IDE\Devenv" libevent.sln /build "Release|x64" /project event_extra_static.vcxproj
+cmake -G "Visual Studio 14 Win64" ..
+"%VS140COMNTOOLS%..\IDE\Devenv" brynet.sln /build "Debug|x64" /project brynet.vcxproj
+"%VS140COMNTOOLS%..\IDE\Devenv" brynet.sln /build "Release|x64" /project brynet.vcxproj
 copy lib\Debug\*.lib ..\..\lib\Debug /Y
 copy lib\Release\*.lib ..\..\lib\Release /Y
-cd ..\..\
-REM ######################################################################################################
-echo Building evpp...
-if exist evpp (rd evpp /q /s)
-git clone -b master https://github.com/ArkGame/evpp.git
-
-cd evpp
-md build
-cd build
-cmake -G "Visual Studio 14 Win64" -DLIBEVENT_DIR=..\libevent -DLIBEVENT_LIB_DIR=..\lib\Release ..
-"%VS140COMNTOOLS%..\IDE\Devenv" evpp.sln /build "Debug|x64" /project evpp/evpp_static.vcxproj
-"%VS140COMNTOOLS%..\IDE\Devenv" evpp.sln /build "Release|x64" /project evpp/evpp_static.vcxproj
-copy lib\Debug\*.lib ..\..\lib\Debug /Y
-copy lib\Release\*.lib ..\..\lib\Release /Y
-
 cd ..\..\
 REM ####################################################################################################
-REM back to root dir
-cd ..\
+REM generate pb files
+echo "generate proto files..."
+cd ..\Frame\SDK\Proto
+gen-proto.bat
+
+cd ..\..\..\
+
+pause

@@ -63,7 +63,7 @@ bool AFCProxyNetServerModule::PostInit()
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
                 const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-                const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+                const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
                 m_pUUIDModule->SetGUIDMask(nServerID);
@@ -71,7 +71,7 @@ bool AFCProxyNetServerModule::PostInit()
                 int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
                 if(nRet < 0)
                 {
-                    ARK_LOG_ERROR("Cannot init server net, Port = %d", nPort);
+                    ARK_LOG_ERROR("Cannot init server net, Port = {}", nPort);
                     ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
                     exit(0);
                 }
@@ -112,7 +112,7 @@ void AFCProxyNetServerModule::OnOtherMessage(const AFIMsgHead& xHead, const int 
     if(pSessionData->mnUserID != xHead.GetPlayerID())
     {
         //when after entergame xHead.GetPlayerID() is really palyerID
-        ARK_LOG_ERROR("xHead.GetPlayerID() is not really palyerID, id = %s", xHead.GetPlayerID().ToString().c_str());
+        ARK_LOG_ERROR("xHead.GetPlayerID() is not really palyerID, id = {}", xHead.GetPlayerID().ToString().c_str());
         return;
     }
 
@@ -148,7 +148,7 @@ void AFCProxyNetServerModule::OnConnectKeyProcess(const AFIMsgHead& xHead, const
     }
     else
     {
-        m_pNetModule->GetNet()->CloseNetObject(xClientID);
+        m_pNetModule->GetNet()->CloseNetEntity(xClientID);
     }
 }
 
@@ -156,12 +156,12 @@ void AFCProxyNetServerModule::OnSocketClientEvent(const NetEventType eEvent, con
 {
     if(eEvent == DISCONNECTED)
     {
-        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
         OnClientDisconnect(xClientID);
     }
-    else  if(eEvent == CONNECTED)
+    else if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
         OnClientConnected(xClientID);
     }
 }
@@ -208,9 +208,9 @@ void AFCProxyNetServerModule::OnSelectServerProcess(const AFIMsgHead& xHead, con
             //now this client bind a game server, after this time, all message will be sent to this game server who bind with client
             pSessionData->mnGameID = xMsg.world_id();
 
-            AFMsg::AckEventResult xMsg;
-            xMsg.set_event_code(AFMsg::EGameEventCode::EGEC_SELECTSERVER_SUCCESS);
-            m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xMsg, xClientID, nPlayerID);
+            AFMsg::AckEventResult xResultMsg;
+            xResultMsg.set_event_code(AFMsg::EGameEventCode::EGEC_SELECTSERVER_SUCCESS);
+            m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xResultMsg, xClientID, nPlayerID);
             return;
         }
     }

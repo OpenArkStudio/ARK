@@ -21,6 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIScheduleModule.h"
+#include "SDK/Core/Base/AFCronScheduler.hpp"
 
 class AFCScheduleModule : public AFIScheduleModule
 {
@@ -37,10 +38,11 @@ public:
 
     virtual void Update();
 
-    virtual bool AddSchedule(const std::string& name, const SCHEDULE_FUNCTOR_PTR cb, const int64_t interval_time, const int count);
-    virtual bool RemoveSchedule(const std::string& name);
-    virtual bool ExistSchedule(const std::string& name);
+    virtual bool RemoveSchedule(const int cron_id);
+
+protected:
+    virtual bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR_PTR cb);
 
 private:
-
+    std::shared_ptr<AFCronSheduler> mxCronSheduler;
 };

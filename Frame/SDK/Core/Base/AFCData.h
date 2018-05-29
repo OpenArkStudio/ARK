@@ -603,7 +603,7 @@ private:
         };
     };
 
-    //棰濆buffer
+    //buffer
     union
     {
         uint32_t mnAllocLen;

@@ -82,7 +82,7 @@ public:
         //in current microsecond
         if(last_timestamp_ == timestamp)
         {
-            sequence_ += 1;
+			sequence_ = (sequence_ + 1) & 0xFFFF;
             if(sequence_ == 0)
             {
                 timestamp = WaitUntilNextMillis(last_timestamp_);

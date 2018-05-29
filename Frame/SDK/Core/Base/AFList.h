@@ -38,12 +38,9 @@ public:
     int Count();
 
 protected:
-    //idType normal;
-    typedef std::list<T> TLISTOBJCOAFIGLIST;
-    TLISTOBJCOAFIGLIST          mtObjConfigList;
+    using TList = std::list<T>;
+    TList mtObjConfigList;
     typename std::list<T>::iterator mCurIter;
-
-private:
 };
 
 template < typename T >
@@ -116,7 +113,7 @@ bool AFList<T>::Next(T& id)
 template < typename T >
 bool AFList<T>::Find(const T& id)
 {
-    typename TLISTOBJCOAFIGLIST::iterator it = std::find(mtObjConfigList.begin(), mtObjConfigList.end(), id);
+    auto it = std::find(mtObjConfigList.begin(), mtObjConfigList.end(), id);
     if(it != mtObjConfigList.end())
     {
         return true;
@@ -133,7 +130,7 @@ bool AFList<T>::Get(const int32_t index, T& id)
         return false;
     }
 
-    typename std::list<T>::iterator it = this->mtObjConfigList.begin();
+    auto it = this->mtObjConfigList.begin();
     std::advance(it, index);
 
     id = *it;

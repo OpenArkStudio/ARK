@@ -2,15 +2,15 @@ syntax = "proto3";
 
 package AFMsg; 
 
-import "AFDefine.proto";
+//import "AFDefine.proto";
 
-message Ident//基础结构，不直接发送
+message PBGUID		//基础结构，不直接发送
 { 
-    int64       high = 1;
-    int64       low = 2;
+    int64 high = 1;
+    int64 low = 2;
 }
 
-message Point3D//基础结构，不直接发送
+message Point3D		//基础结构，不直接发送
 {
     float      x = 1;
     float      y = 2;
@@ -26,136 +26,146 @@ message VariantData
         float 		float_value     = 4;
         double 	    double_value    = 5;
         string 		str_value		= 6;
-        Ident 		guid_value      = 7;
+        PBGUID 		guid_value      = 7;
     }
 }
 
 ////////////////////////BaseCommon/////////////////////////////
-message PropertyPBData//基础结构，不直接发送
+//Node data, do not send directly
+message PBNodeData
 { 
-    string     	property_name 	= 1;
-    int32       ndataType 		= 2;
-    VariantData variant_data    = 3;
+    string node_name = 1;
+    int32 data_type = 2;
+    VariantData variant_data = 3;
 }
 
-message RecordPBData//基础结构，不直接发送
+//Table cell data, do not send directly
+message PBCellData
 {
-    int32      row 			= 1;
-	int32      col 			= 2;
-    int32      ndataType    = 3;
+    int32 row 			= 1;
+	int32 col 			= 2;
+    int32 data_type    = 3;
     VariantData variant_data    = 4;
 }
 
-message PBData//基础结构，不直接发送
+message PBData		//基础结构，不直接发送
 {
-    int32       ndataType 		= 1;
-    VariantData variant_data    = 2;
+    int32 data_type = 1;
+    VariantData variant_data = 2;
 }      
 
-message DataListPBData
+message PBDataList
 {
-	repeated PBData			data_list = 1;
+	repeated PBData data_list = 1;
 }                                  
 
-message RecordAddRowStruct//表添加基础行结构，不直接发送
+//Table添加基础行结构，不直接发送
+message DataTableAddRow		
 {
-	int32 				row = 1;
-	repeated RecordPBData			record_data_list = 2;
+	int32 row = 1;
+	repeated PBCellData cell_list = 2;
 }
 
-message ObjectRecordBase//基础结构，不直接发送
+message EntityDataTableBase
 { 
-	string  record_name = 1;
-	repeated RecordAddRowStruct row_struct = 2;
+	string table_name = 1;
+	repeated DataTableAddRow row = 2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-message ObjectPropertyList//个人玩家全部属性列表，可直接发送--统一发,为节约包
+//个人玩家全部属性列表，可直接发送--统一发,为节约包
+message EntityDataNodeList
 {
-	Ident  player_id = 1;
-	repeated PropertyPBData property_data_list = 2;
-}
- 
- message MultiObjectPropertyList//多人玩家全部属性列表，可直接发送--统一发,为节约包
- {
-	repeated ObjectPropertyList multi_player_property = 1;
- }
-
-message ObjectRecordList//个人玩家全部表数据，可直接发送--统一发,为节约包
-{
-	Ident  player_id = 1;
-	repeated ObjectRecordBase record_list = 2;
+	PBGUID entity_id = 1;
+	repeated PBNodeData data_node_list = 2;
 }
 
- message MultiObjectRecordList//多人玩家全部表数据，可直接发送--统一发,为节约包
- {
-	repeated ObjectRecordList multi_player_record = 1;
- }
-
-message ObjectPropertyPBData//个人玩家单类型属性数据，可直接发送---变化时
+//多人玩家全部属性列表，可直接发送--统一发,为节约包
+message MultiEntityDataNodeList		
 {
-	Ident   player_id = 1;
-    repeated PropertyPBData	property_list = 2;
+    repeated EntityDataNodeList multi_entity_data_node_list = 1;
+}
+
+//个人玩家全部表数据，可直接发送--统一发,为节约包
+message EntityDataTableList		
+{
+	PBGUID entity_id = 1;
+	repeated EntityDataTableBase data_table_list = 2;
+}
+
+//多人玩家全部表数据，可直接发送--统一发,为节约包
+message MultiEntityDataTableList		
+{
+    repeated EntityDataTableList multi_entity_data_table_list = 1;
+}
+
+//======================TO DELETE
+//个人玩家单类型属性数据，可直接发送---变化时
+message EntityDataNode		
+{
+	PBGUID entity_id = 1;
+    repeated PBNodeData	data_node_list = 2;
 } 
-
-message ObjectRecordPBData//个人玩家单类型属性数据，可直接发送---变化时
+//个人玩家单表属性数据，可直接发送---变化时
+message EntityDataTable
 {
-	Ident       player_id = 1;
-	string     	record_name = 2;
-    repeated RecordPBData  	record_list = 3;
-} 
+	PBGUID entity_id = 1;
+	string table_name = 2;
+    repeated PBCellData table_cell_list = 3;
+}
 
-message ObjectRecordSwap//个人玩家单类型属性数据，可直接发送---变化时
+//个人玩家单类型属性数据，可直接发送---变化时
+message EntityDataTableSwap		
 {
-	Ident  	    player_id = 1;
-	string    	origin_record_name = 2;
-	string		target_record_name = 3;
-	int32 		row_origin = 4;
-	int32 		row_target = 5;
+	PBGUID entity_id = 1;
+	string origin_table_name = 2;
+	string target_table_name = 3;
+	int32 row_origin = 4;
+	int32 row_target = 5;
 }
 
 ////////////////////////////////////////////////////////////////////////////
-
-message ObjectRecordAddRow//个人玩家单类型属性数据，可直接发送---变化时
+//Entity add row data sync
+message EntityDataTableAddRow
 {
-	Ident     			player_id = 1;
-	string     			record_name = 2;
-	repeated RecordAddRowStruct    row_data = 3;
+	PBGUID entity_id = 1;
+	string table_name = 2;
+	repeated DataTableAddRow row_data = 3;
 }
 
-message ObjectRecordRemove//个人玩家单类型属性数据，可直接发送---变化时
+message EntityDataTableRemove		
 {
-	Ident     	player_id = 1;
-	string    	record_name = 2;  
-	repeated int32 		remove_row = 3;
+	PBGUID entity_id = 1;
+	string table_name = 2;  
+	repeated int32 remove_row = 3;
 }
 
 ///////////////////////////////////////////////////////////////////
-message PlayerPropertyBase
+//===========TO DELETE
+message PlayerDataNodes
 {
-	repeated PropertyPBData property_data_list = 1;
+	repeated PBNodeData data_node_list = 1;
 }
 
 ////////////////////////////////////////////////////////////
-message PlayerRecordBase
+message PlayerDataTable
 {
-	string  record_name = 1;
-	repeated RecordPBData  record_data_list = 2;
-
+	string table_name = 1;
+	repeated PBCellData data_table_cell_list = 2;
 }
 
-message PlayerRecordList
+message PlayerDataTables
 {
-	repeated PlayerRecordBase record_list = 1;
+	repeated PlayerDataTable table_list = 1;
 }
 
 ///////////////////////////////////////////////////////////////////
 message BrocastMsg
 {
-	Ident  player_id = 1;
-	string  msg_data = 2;
-	int64  nMsgID = 3;
-	repeated Ident  player_Client_list = 4;
+	PBGUID entity_id = 1;
+	string msg_data = 2;
+	int32 msg_id = 3;
+	repeated PBGUID target_entity_list = 4;
 }
 
 message Position
@@ -165,15 +175,15 @@ message Position
 	float  z = 3;
 }
 
-message ReqCommand//GM命令
+message ReqCommand		//GM命令
 {
 	enum EGameCommandType
 	{
-		EGCT_MODIY_PROPERTY		= 0;//修改属性[property_name,value]
+		EGCT_MODIY_DATA_NODE    = 0;//修改NODE[node_name,value]
 		EGCT_MODIY_ITEM			= 1;//得到物品[item_id,count]
-		EGCT_CREATE_OBJECT		= 2;//创建对象[object_index,count]
+		EGCT_CREATE_ENTITY		= 2;//创建对象[entity_index,count]
 		EGCT_ADD_ROLE_EXP		= 3;//增加经验
 	}
-	Ident control_id = 1;
+	PBGUID control_id = 1;
 	EGameCommandType command_id = 2;
 }

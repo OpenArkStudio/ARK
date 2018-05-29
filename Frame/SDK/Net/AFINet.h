@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) AFHttpEntity ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,15 +23,10 @@
 #include "SDK/Core/Base/AFPlatform.hpp"
 #include "SDK/Core/Base/AFMacros.hpp"
 #include "SDK/Core/Base/AFGUID.h"
-#include <event2/bufferevent.h>
-#include <event2/buffer.h>
-#include <event2/listener.h>
-#include <event2/util.h>
-#include <event2/thread.h>
-#include <event2/event_compat.h>
-#include "evpp/tcp_callbacks.h"
-#include "evpp/buffer.h"
 #include "SDK/Core/Base/AFLockFreeQueue.h"
+#include "SDK/Core/Base/AFBuffer.hpp"
+#include "brynet/net/WrapTCPService.h"
+#include "brynet/net/http/HttpService.h"
 
 #pragma pack(push, 1)
 
@@ -227,13 +222,11 @@ protected:
 };
 enum NetEventType
 {
-    None = 0,
+    NONE = 0,
     CONNECTED = 1,
     DISCONNECTED = 2,
     RECIVEDATA = 3,
 };
-
-class AFINet;
 
 typedef std::function<void(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& nClientID)> NET_RECEIVE_FUNCTOR;
 typedef std::shared_ptr<NET_RECEIVE_FUNCTOR> NET_RECEIVE_FUNCTOR_PTR;
@@ -244,49 +237,57 @@ typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_LOG_FUNCTOR> NET_EVENT_LOG_FUNCTOR_PTR;
 
-struct MsgFromNetInfo;
+//class MsgFromNetInfo
+//{
+//public:
+//    MsgFromNetInfo()
+//    {
+//
+//    }
+//};
 
-class NetObject
+class AFINet;
+
+class AFBaseNetEntity
 {
 public:
-    NetObject(AFINet* pNet, const AFGUID& xClientID, const evpp::TCPConnPtr& conn): mConnPtr(conn)
+    AFBaseNetEntity(AFINet* pNet, const AFGUID& xClientID)
     {
         bNeedRemove = false;
         m_pNet = pNet;
         mnClientID = xClientID;
-        memset(&sin, 0, sizeof(sin));
     }
 
-    virtual ~NetObject()
+    virtual ~AFBaseNetEntity()
     {
     }
 
     int AddBuff(const char* str, size_t nLen)
     {
-        mstrBuff.Write(str, nLen);
-        return (int)mstrBuff.length();
+        mstrBuff.write(str, nLen);
+        return (int)mstrBuff.getlength();
     }
 
     size_t RemoveBuff(size_t nLen)
     {
-        if(nLen > mstrBuff.length())
+        if(nLen > mstrBuff.getlength())
         {
             return 0;
         }
 
-        mstrBuff.Next(nLen);
+        mstrBuff.removedata(nLen);
 
-        return mstrBuff.length();
+        return mstrBuff.getlength();
     }
 
     const char* GetBuff()
     {
-        return mstrBuff.data();
+        return mstrBuff.getdata();
     }
 
-    size_t GetBuffLen() const
+    size_t GetBuffLen()
     {
-        return mstrBuff.length();
+        return mstrBuff.getlength();
     }
 
     AFINet* GetNet()
@@ -320,43 +321,23 @@ public:
     {
         mnClientID = xClientID;
     }
-    const evpp::TCPConnPtr& GetConnPtr()
-    {
-        return mConnPtr;
-    }
-public:
-    AFLockFreeQueue<MsgFromNetInfo*> mqMsgFromNet;
-    evpp::Buffer mstrNetBuff;
 
 private:
-    sockaddr_in sin;
-    const evpp::TCPConnPtr mConnPtr;
-    evpp::Buffer mstrBuff;
+    AFBuffer mstrBuff;
     std::string mstrUserData;
     AFGUID mnClientID;//temporary client id
 
     AFINet* m_pNet;
     mutable bool bNeedRemove;
-
-};
-
-struct MsgFromNetInfo
-{
-    MsgFromNetInfo(const evpp::TCPConnPtr TCPConPtr) : mTCPConPtr(TCPConPtr)
-    {
-        nType = None;
-    }
-
-    NetEventType nType;
-    AFGUID xClientID;
-    evpp::TCPConnPtr mTCPConPtr;
-    std::string strMsg;
-    AFCMsgHead xHead;
 };
 
 class AFINet
 {
 public:
+    AFINet() : bWorking(false), nReceiverSize(0), nSendSize(0) {}
+
+    virtual ~AFINet() {}
+
     //need to call this function every frame to drive network library
     virtual void Update() = 0;
 
@@ -364,7 +345,7 @@ public:
     virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)
     {
         return -1;
-    };
+    }
 
     virtual bool Final() = 0;
 
@@ -383,19 +364,64 @@ public:
         return false;
     }
 
-    virtual bool CloseNetObject(const AFGUID& xClientID) = 0;
+    virtual bool CloseNetEntity(const AFGUID& xClientID) = 0;
 
     virtual bool IsServer() = 0;
 
     virtual bool Log(int severity, const char* msg) = 0;
+
     bool IsStop()
     {
         return  !bWorking;
-    };
+    }
+
     virtual bool StopAfter(double dTime)
     {
         return false;
-    };
+    }
+
+    bool SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
+    {
+        std::string a = strIpPort;
+        if (a.empty())
+        {
+            return false;
+        }
+
+        size_t index = a.rfind(':');
+        if (index == std::string::npos)
+        {
+            return false;
+        }
+
+        if (index == a.size() - 1)
+        {
+            return false;
+        }
+
+        port = std::atoi(&a[index + 1]);
+
+        host = std::string(strIpPort, 0, index);
+        if (host[0] == '[')
+        {
+            if (*host.rbegin() != ']')
+            {
+                return false;
+            }
+
+            // trim the leading '[' and trail ']'
+            host = std::string(host.data() + 1, host.size() - 2);
+        }
+
+        // Compatible with "fe80::886a:49f3:20f3:add2]:80"
+        if (*host.rbegin() == ']')
+        {
+            // trim the trail ']'
+            host = std::string(host.data(), host.size() - 1);
+        }
+
+        return true;
+    }
 
 protected:
     bool bWorking;
@@ -404,5 +430,51 @@ public:
     size_t nReceiverSize;
     size_t nSendSize;
 };
+
+//////////////////////////////////////////////////////////////////////////
+
+template <typename SessionPTR>
+struct AFNetMsg
+{
+    AFNetMsg(const SessionPTR session_ptr) : mxSession(session_ptr), nType(NONE) {}
+
+    NetEventType nType;
+    AFGUID xClientID;
+    SessionPTR mxSession;
+    std::string strMsg;
+    AFCMsgHead xHead;
+};
+
+using AFTCPMsg = AFNetMsg<brynet::net::TCPSession::PTR>;
+using AFHttpMsg = AFNetMsg<brynet::net::HttpSession::PTR>;
+
+template <typename SessionPTR>
+class AFNetEntity : public AFBaseNetEntity
+{
+public:
+    AFNetEntity(AFINet* pNet, const AFGUID& xClientID, const SessionPTR session) : AFBaseNetEntity(pNet, xClientID), mxSession(session)
+    {
+    }
+
+    virtual ~AFNetEntity()
+    {
+    }
+
+    const SessionPTR& GetSession()
+    {
+        return mxSession;
+    }
+
+public:
+    SessionPTR mBryNetHttpConnPtr; //TO CHECK
+    AFGUID xHttpClientID; //TO CHECK
+
+    AFLockFreeQueue<AFNetMsg<SessionPTR>*> mxNetMsgMQ;
+private:
+    const SessionPTR mxSession;
+};
+
+using AFTCPEntity = AFNetEntity<brynet::net::TCPSession::PTR>;
+using AFHttpEntity = AFNetEntity<brynet::net::HttpSession::PTR>;
 
 #pragma pack(pop)

@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
 #include "AFINetServerModule.h"
 
 class AFIWorldNetServerModule : public AFIModule
@@ -34,7 +34,7 @@ public:
     virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) = 0;
     virtual int OnDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self) = 0;
     virtual int OnDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self) = 0;
-    virtual bool OnDataTableEnterPack(AFDataTable* pTable, AFMsg::ObjectRecordBase* pObjectRecordBase) = 0;
+    virtual bool OnDataTableEnterPack(AFDataTable* pTable, AFMsg::EntityDataTableBase* pTableBase) = 0;
 
     virtual ARK_SHARE_PTR<ServerData> GetSuitProxyForEnter() = 0;
     virtual AFINetServerModule* GetNetModule() = 0;

@@ -84,7 +84,7 @@ bool AFCLoginNetServerModule::PostInit()
             int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
             if(nRet < 0)
             {
-                ARK_LOG_ERROR("Cannot init server net, Port = %d", nPort);
+                ARK_LOG_ERROR("Cannot init server net, Port = {}", nPort);
                 ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
                 exit(0);
             }
@@ -144,13 +144,12 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
     ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
     if(pSession)
     {
-        //还没有登录过
         if(pSession->mnLogicState == 0)
         {
             int nState = m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());
             if(0 != nState)
             {
-                ARK_LOG_ERROR("Check password failed, id = %s account = %s password = %s", xClientID.ToString().c_str(), xMsg.account().c_str(), xMsg.password().c_str());
+                ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", xClientID.ToString().c_str(), xMsg.account().c_str(), xMsg.password().c_str());
                 AFMsg::AckEventResult xMsg;
                 xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
 
@@ -163,9 +162,12 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
 
             AFMsg::AckEventResult xData;
             xData.set_event_code(AFMsg::EGEC_ACCOUNT_SUCCESS);
+            xData.set_parame1(xMsg.account());
+            xData.set_parame2(xMsg.password());
+            xData.set_parame3(xMsg.security_code());
 
             m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
-            ARK_LOG_INFO("In same scene and group but it not a clone scene, id = %s account = %s", xClientID.ToString().c_str(), xMsg.account().c_str());
+            ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", xClientID.ToString().c_str(), xMsg.account().c_str());
         }
     }
 }
@@ -204,12 +206,12 @@ void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType eEvent, con
 {
     if(eEvent == DISCONNECTED)
     {
-        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
         OnClientDisconnect(xClientID);
     }
     else  if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
         OnClientConnected(xClientID);
     }
 }

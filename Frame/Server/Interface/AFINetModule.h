@@ -23,8 +23,7 @@
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"
-#include "SDK/Proto/AFMsgDefine.h"
-#include "SDK/Proto/AFDefine.pb.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
 
 enum ARK_SERVER_TYPE
 {
@@ -115,7 +114,7 @@ public:
     {
         if(!xData.ParseFromString(std::string(msg, nLen)))
         {
-            char szData[MAX_PATH] = { 0 };
+            //char szData[MAX_PATH] = { 0 };
             //log
             return false;
         }
@@ -125,7 +124,7 @@ public:
         return true;
     }
 
-    static AFGUID PBToGUID(AFMsg::Ident xID)
+    static AFGUID PBToGUID(AFMsg::PBGUID xID)
     {
         AFGUID xIdent;
         xIdent.nHigh = xID.high();
@@ -134,9 +133,9 @@ public:
         return xIdent;
     }
 
-    static AFMsg::Ident GUIDToPB(AFGUID xID)
+    static AFMsg::PBGUID GUIDToPB(AFGUID xID)
     {
-        AFMsg::Ident  xIdent;
+        AFMsg::PBGUID  xIdent;
         xIdent.set_high(xID.nHigh);
         xIdent.set_low(xID.nLow);
 
@@ -161,15 +160,15 @@ public:
         return xPoint;
     }
 
-    static bool DataToPBProperty(const AFIData& DataVar, const char* name, AFMsg::PropertyPBData& xMsg)
+    static bool DataNodeToPBNode(const AFIData& DataVar, const char* name, AFMsg::PBNodeData& xMsg)
     {
         if(nullptr == name)
         {
             return false;
         }
 
-        xMsg.set_property_name(name);
-        xMsg.set_ndatatype(DataVar.GetType());
+        xMsg.set_node_name(name);
+        xMsg.set_data_type(DataVar.GetType());
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
         switch(DataVar.GetType())
         {
@@ -211,6 +210,7 @@ public:
             }
             break;
         default:
+            ARK_ASSERT_RET_VAL(0, false);
             break;
         }
 
@@ -218,11 +218,11 @@ public:
     }
 
 
-    static bool RecordToPBRecord(const AFIData& DataVar, const int nRow, const int nCol, AFMsg::RecordPBData& xMsg)
+    static bool TableCellToPBCell(const AFIData& DataVar, const int nRow, const int nCol, AFMsg::PBCellData& xMsg)
     {
         xMsg.set_col(nCol);
         xMsg.set_row(nRow);
-        xMsg.set_ndatatype(DataVar.GetType());
+        xMsg.set_data_type(DataVar.GetType());
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
         switch(DataVar.GetType())
         {
@@ -265,17 +265,18 @@ public:
             }
             break;
         default:
+            ARK_ASSERT_RET_VAL(0, false);
             break;
         }
 
         return true;
     }
 
-    static bool RecordToPBRecord(const AFIDataList& DataList, const int nRow, const int nCol, AFMsg::RecordPBData& xMsg)
+    static bool TableCellToPBCell(const AFIDataList& DataList, const int nRow, const int nCol, AFMsg::PBCellData& xMsg)
     {
         xMsg.set_col(nCol);
         xMsg.set_row(nRow);
-        xMsg.set_ndatatype(DataList.GetType(nCol));
+        xMsg.set_data_type(DataList.GetType(nCol));
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
         switch(DataList.GetType(nCol))
         {
@@ -318,6 +319,7 @@ public:
             }
             break;
         default:
+            ARK_ASSERT_RET_VAL(0, false);
             break;
         }
 
@@ -327,28 +329,25 @@ public:
 protected:
     void OnReceiveBaseNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        std::map<int, NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxReceiveCallBack.find(nMsgID);
+        auto it = mxReceiveCallBack.find(nMsgID);
         if(mxReceiveCallBack.end() != it)
         {
-            NET_RECEIVE_FUNCTOR_PTR& pFunPtr = it->second;
-            (*pFunPtr)(xHead, nMsgID, msg, nLen, xClientID);
+            (*it->second)(xHead, nMsgID, msg, nLen, xClientID);
         }
         else
         {
-            for(std::list<NET_RECEIVE_FUNCTOR_PTR>::iterator it = mxCallBackList.begin(); it != mxCallBackList.end(); ++it)
+            for(auto iter : mxCallBackList)
             {
-                NET_RECEIVE_FUNCTOR_PTR& pFunPtr = *it;
-                (*pFunPtr)(xHead, nMsgID, msg, nLen, xClientID);
+                (*iter)(xHead, nMsgID, msg, nLen, xClientID);
             }
         }
     }
 
     void OnSocketBaseNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
     {
-        for(std::list<NET_EVENT_FUNCTOR_PTR>::iterator it = mxEventCallBackList.begin(); it != mxEventCallBackList.end(); ++it)
+        for(auto it : mxEventCallBackList)
         {
-            NET_EVENT_FUNCTOR_PTR& pFunPtr = *it;
-            (*pFunPtr)(eEvent, xClientID, nServerID);
+            (*it)(eEvent, xClientID, nServerID);
         }
     }
 

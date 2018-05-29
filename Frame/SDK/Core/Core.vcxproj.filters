@@ -7,6 +7,9 @@
     <Filter Include="Base">
       <UniqueIdentifier>{222a0684-4f42-4dd3-ae99-a9ab9500bfaa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{4be5f2f0-1e87-42a7-82be-3a5030d45bc5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCEventManager.h">
@@ -144,6 +147,15 @@
     <ClInclude Include="Base\AFMemPool.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Base\AFCronScheduler.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\cronexpr.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFBuffer.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCHeartBeatManager.cpp">
@@ -166,6 +178,9 @@
     </ClCompile>
     <ClCompile Include="Base\AFMemAlloc.cpp">
       <Filter>Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\cronexpr.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

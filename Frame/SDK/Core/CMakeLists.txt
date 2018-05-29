@@ -1,4 +1,4 @@
-file(GLOB AFCore_SRC *.h *.hpp *.cpp *.cc *.c Base/*.h Base/*.hpp Base/*.cpp)
+file(GLOB AFCore_SRC *.h *.hpp *.cpp *.cc *.c Base/*.h Base/*.hpp Base/*.cpp Common/*.h Common/*.hpp Common/*.cpp)
 
 add_library(AFCore STATIC ${AFCore_SRC})
 
@@ -12,3 +12,5 @@ set_target_properties(AFCore PROPERTIES
 )
 
 target_link_libraries(AFCore)
+
+add_coverage(AFCore)

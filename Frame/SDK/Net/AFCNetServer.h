@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) AFHttpEntity ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,20 +20,14 @@
 
 #pragma once
 
-#include <thread>
-#include <atomic>
 #include "AFINet.h"
 #include "SDK/Core/Base/AFQueue.h"
-#include "SDK/Core/Base/AFLockFreeQueue.h"
 #include "SDK/Core/Base/AFRWLock.hpp"
-#include <evpp/libevent.h>
-#include <evpp/event_watcher.h>
-#include <evpp/event_loop.h>
-#include <evpp/event_loop_thread.h>
-#include <evpp/tcp_server.h>
-#include <evpp/buffer.h>
-#include <evpp/tcp_conn.h>
-#include <evpp/tcp_client.h>
+#include <brynet/net/SocketLibFunction.h>
+#include <brynet/net/EventLoop.h>
+#include <brynet/net/WrapTCPService.h>
+#include <brynet/net/ListenThread.h>
+#include <brynet/net/Socket.h>
 
 #pragma pack(push, 1)
 
@@ -44,8 +38,11 @@ public:
         : mnMaxConnect(0)
         , mnCpuCount(0)
         , mnServerID(0)
+        , mnNextID(1)
     {
-        bWorking = false;
+
+        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+        m_plistenThread = brynet::net::ListenThread::Create();
     }
 
     template<typename BaseType>
@@ -53,10 +50,14 @@ public:
         : mnMaxConnect(0)
         , mnCpuCount(0)
         , mnServerID(0)
+        , mnNextID(1)
     {
         mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         bWorking = false;
+
+        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+        m_plistenThread = brynet::net::ListenThread::Create();
     }
 
     virtual ~AFCNetServer()
@@ -77,7 +78,7 @@ public:
     virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID);
     virtual bool SendMsgToAllClientWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID);
 
-    virtual bool CloseNetObject(const AFGUID& xClientID);
+    virtual bool CloseNetEntity(const AFGUID& xClientID);
     virtual bool Log(int severity, const char* msg)
     {
         return true;
@@ -85,34 +86,32 @@ public:
 
 public:
     //From Worker Thread
-    static void OnMessage(const evpp::TCPConnPtr& conn, evpp::Buffer* msg, void* pData);
-    void OnMessageInner(const evpp::TCPConnPtr& conn, evpp::Buffer* msg);
+    size_t OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len);
 
     //From ListenThread
-    static void OnClientConnection(const evpp::TCPConnPtr& conn, void* pData);
-    void OnClientConnectionInner(const evpp::TCPConnPtr& conn);
+    void OnAcceptConnectionInner(brynet::net::TcpSocket::PTR session);
+    void OnClientConnectionInner(const brynet::net::TCPSession::PTR & session);
+    void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session);
 
 private:
     bool SendMsgToAllClient(const char* msg, const size_t nLen);
     bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient);
-    bool AddNetObject(const AFGUID& xClientID, NetObject* pEntity);
-    bool RemoveNetObject(const AFGUID& xClientID);
-    NetObject* GetNetObject(const AFGUID& xClientID);
+    bool AddNetEntity(const AFGUID& xClientID, AFTCPEntity* pEntity);
+    bool RemoveNetEntity(const AFGUID& xClientID);
+    AFTCPEntity* GetNetEntity(const AFGUID& xClientID);
 
 private:
     void ProcessMsgLogicThread();
-    void ProcessMsgLogicThread(NetObject* pEntity);
+    void ProcessMsgLogicThread(AFTCPEntity* pEntity);
     bool CloseSocketAll();
-    bool DismantleNet(NetObject* pEntity);
+    bool DismantleNet(AFTCPEntity* pEntity);
 
 protected:
     int DeCode(const char* strData, const size_t len, AFCMsgHead& xHead);
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
-    std::unique_ptr<evpp::TCPServer> m_pTcpSrv;
-    std::unique_ptr<evpp::EventLoopThread> m_pListenThread;
-    std::map<AFGUID, NetObject*> mmObject;
+    std::map<AFGUID, AFTCPEntity*> mmObject;
     AFCReaderWriterLock mRWLock;
     int mnMaxConnect;
     std::string mstrIPPort;
@@ -121,8 +120,10 @@ private:
 
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
+
+    brynet::net::WrapTcpService::PTR m_pServer;
+    brynet::net::ListenThread::PTR m_plistenThread;
+    std::atomic<std::int64_t> mnNextID;
 };
 
 #pragma pack(pop)
-
-

@@ -63,6 +63,7 @@ public:
     virtual void Update();
 
     virtual int AppID() const;
+    virtual const std::string& AppName() const;
 
     virtual int64_t GetInitTime() const;
 
@@ -73,6 +74,8 @@ public:
     virtual void SetConfigName(const std::string& strFileName);
 
     virtual void SetAppID(const int app_id);
+
+    virtual void SetAppName(const std::string& app_name);
 
 protected:
     bool LoadPluginConfig();
@@ -88,6 +91,7 @@ private:
     int64_t mnNowTime;
     std::string mstrConfigPath;
     std::string mstrConfigName;
+    std::string mstrAppName;
 
     typedef void(*DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm/*, MemoryPool* pMalloc*/);
     typedef void(*DLL_STOP_PLUGIN_FUNC)(AFIPluginManager* pm);

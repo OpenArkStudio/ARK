@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) AFHttpEntity ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,26 +23,35 @@
 #include "AFINet.h"
 #include "SDK/Core/Base/AFQueue.h"
 #include "SDK/Core/Base/AFRWLock.hpp"
-#include <evpp/libevent.h>
-#include <evpp/event_watcher.h>
-#include <evpp/event_loop.h>
-#include <evpp/event_loop_thread.h>
-#include <evpp/tcp_server.h>
-#include <evpp/buffer.h>
-#include <evpp/tcp_conn.h>
-#include <evpp/tcp_client.h>
+#include <brynet/net/SocketLibFunction.h>
+#include <brynet/net/WrapTCPService.h>
+#include <brynet/net/Connector.h>
 
 #pragma pack(push, 1)
 
 class AFCNetClient : public AFINet
 {
 public:
-    AFCNetClient()
+    AFCNetClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr)
+        : mnServerID(0)
+        , mnNextID(0)
     {
-        mnServerID = 0;
-        bWorking = false;
-        nReceiverSize = 0;
-        nSendSize = 0;
+        if(server)
+        {
+            m_pServer = server;
+        }
+        else
+        {
+            m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+        }
+        if(connector)
+        {
+            m_pConector = connector;
+        }
+        else
+        {
+            m_pConector = brynet::net::AsyncConnector::Create();
+        }
     }
 
     template<typename BaseType>
@@ -53,40 +62,37 @@ public:
         mnServerID = 0;
         nReceiverSize = 0;
         nSendSize = 0;
+        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+        m_pConector = brynet::net::AsyncConnector::Create();
     }
 
     virtual ~AFCNetClient()
     {
-        bool bRet = Final();
-    };
+        Final();
+    }
 
 public:
     virtual void Update();
-    virtual void Initialization(const std::string& strAddrPort, const int nServerID);
+    virtual void Start(const std::string& strAddrPort, const int nServerID);
     virtual bool Final();
     virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID = 0, const AFGUID& xPlayerID = 0);
 
-    virtual bool CloseNetObject(const AFGUID& xClient);
+    virtual bool CloseNetEntity(const AFGUID& xClient);
 
     virtual bool IsServer();
     virtual bool Log(int severity, const char* msg);
-    virtual bool StopAfter(double dTime);
 
 public:
-    static void OnClientConnection(const evpp::TCPConnPtr& conn, void* pData);
-    void OnClientConnectionInner(const evpp::TCPConnPtr& conn);
-
-    static void OnMessage(const evpp::TCPConnPtr& conn,
-                          evpp::Buffer* msg, void* pData);
-    void OnMessageInner(const evpp::TCPConnPtr& conn,
-                        evpp::Buffer* msg);
+    void OnClientConnectionInner(const brynet::net::TCPSession::PTR& session);
+    void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR& session);
+    size_t OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len);
 
 private:
     bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient = 0);
 
-    bool DismantleNet(NetObject* pEntity);
+    bool DismantleNet(AFTCPEntity* pEntity);
     void ProcessMsgLogicThread();
-    void ProcessMsgLogicThread(NetObject* pEntity);
+    void ProcessMsgLogicThread(AFTCPEntity* pEntity);
     bool CloseSocketAll();
 
     static void log_cb(int severity, const char* msg);
@@ -96,14 +102,18 @@ protected:
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
-    std::unique_ptr<evpp::EventLoopThread> m_pThread;
-    std::unique_ptr<evpp::TCPClient> m_pClient;
-    std::unique_ptr<NetObject> m_pClientObject;
+    std::unique_ptr<AFTCPEntity> m_pClientEntity;
     std::string mstrIPPort;
     int mnServerID;
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
     AFCReaderWriterLock mRWLock;
+
+    brynet::net::WrapTcpService::PTR m_pServer;
+    brynet::net::AsyncConnector::PTR m_pConector;
+    brynet::net::TCPSession::PTR m_Session;
+    std::atomic<std::uint64_t> mnNextID;
+
 };
 
 #pragma pack(pop)

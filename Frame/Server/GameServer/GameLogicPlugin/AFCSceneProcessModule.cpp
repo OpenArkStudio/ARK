@@ -137,14 +137,14 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if(self != ident)
     {
-        ARK_LOG_ERROR("you are not you self, but you want to entry this scene, id = %s scene_id = %d", ident.ToString().c_str(), nTargetScene);
+        ARK_LOG_ERROR("you are not you self, but you want to entry this scene, id  = {} scene_id = {}", ident.ToString().c_str(), nTargetScene);
         return 1;
     }
 
     if(nNowSceneID == nTargetScene && nTargetGroupID == nNowGroupID)
     {
         //本来就是这个层这个场景就别切换了
-        ARK_LOG_ERROR("In same scene and group but it not a clone scene, id = %s scene_id = %d", ident.ToString().c_str(), nTargetScene);
+        ARK_LOG_ERROR("In same scene and group but it not a clone scene, id  = {} scene_id = {}", ident.ToString().c_str(), nTargetScene);
         return 1;
     }
 
@@ -161,7 +161,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if(nNewGroupID <= 0)
     {
-        ARK_LOG_ERROR("CreateCloneScene failed, id = %s scene_id = %d=", ident.ToString().c_str(), nTargetScene);
+        ARK_LOG_ERROR("CreateCloneScene failed, id  = {} scene_id  = {}=", ident.ToString().c_str(), nTargetScene);
         return 0;
     }
 
@@ -185,7 +185,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos.x, xRelivePos.y, xRelivePos.z, 0.0f, var))
     {
-        ARK_LOG_ERROR("SwitchScene failed, id = %s scene_id = %d", ident.ToString().c_str(), nTargetScene);
+        ARK_LOG_ERROR("SwitchScene failed, id  = {} scene_id = {}", ident.ToString().c_str(), nTargetScene);
         return 0;
     }
 
@@ -210,7 +210,7 @@ int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEv
         if(GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
         {
             m_pKernelModule->ReleaseGroupScene(nSceneID, nOldGroupID);
-            ARK_LOG_ERROR("DestroyCloneSceneGroup, id = %s scene_id = %d group_id = %d", object.ToString().c_str(), nSceneID, nOldGroupID);
+            ARK_LOG_ERROR("DestroyCloneSceneGroup, id  = {} scene_id  = {} group_id = {}", object.ToString().c_str(), nSceneID, nOldGroupID);
         }
     }
 
@@ -229,7 +229,7 @@ int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::str
             {
                 int nGroupID = m_pKernelModule->GetNodeInt(self, ARK::Player::GroupID());
                 m_pKernelModule->ReleaseGroupScene(nSceneID, nGroupID);
-                ARK_LOG_INFO("DestroyCloneSceneGroup, id = %s scene_id = %d group_id = %d", self.ToString().c_str(), nSceneID, nGroupID);
+                ARK_LOG_INFO("DestroyCloneSceneGroup, id  = {} scene_id  = {} group_id = {}", self.ToString().c_str(), nSceneID, nGroupID);
             }
         }
         else if(ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED == eClassEvent)
@@ -245,7 +245,7 @@ int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::str
 E_SCENE_TYPE AFCSceneProcessModule::GetCloneSceneType(const int nSceneID)
 {
     char szSceneIDName[MAX_PATH] = { 0 };
-    sprintf(szSceneIDName, "%d", nSceneID);
+    sprintf(szSceneIDName, "{}", nSceneID);
     if(m_pElementModule->ExistElement(szSceneIDName))
     {
         return (E_SCENE_TYPE)m_pElementModule->GetNodeInt(szSceneIDName, ARK::Scene::CanClone());
@@ -274,7 +274,7 @@ bool AFCSceneProcessModule::ExitCloneGroup(const int nSceneID, const int& nGroup
 bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 {
     char szSceneIDName[MAX_PATH] = { 0 };
-    sprintf(szSceneIDName, "%d", nSceneID);
+    sprintf(szSceneIDName, "{}", nSceneID);
 
     const std::string strSceneFilePath(m_pElementModule->GetNodeString(szSceneIDName, ARK::Scene::FilePath()));
     const int nCanClone = m_pElementModule->GetNodeInt(szSceneIDName, ARK::Scene::CanClone());

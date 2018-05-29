@@ -340,6 +340,7 @@ bool ProcArgList(int argc, char* argv[])
     //Set plugin file
     AFCPluginManager::GetInstancePtr()->SetConfigName(config.plugin_file);
     AFCPluginManager::GetInstancePtr()->SetAppID(config.app_id);
+    AFCPluginManager::GetInstancePtr()->SetAppName(config.app_name);
 
     std::string process_name = "[" + config.app_name + ":" + ARK_TO_STRING(config.app_id) + "]";
     //Set process name

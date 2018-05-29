@@ -17,7 +17,7 @@ enum EServerState
 	EST_MAINTEN = 4;
 }
 
-message ServerInfoReport//服务器之间报告服务器状态
+message ServerInfoReport		//服务器之间报告服务器状态
 {
 	int32   server_id = 1;
 	string  server_name = 2;
@@ -29,20 +29,23 @@ message ServerInfoReport//服务器之间报告服务器状态
 	int32   server_type = 8;
 }
 
-message ServerInfoReportList//服务器之间报告服务器状态
+message ServerInfoReportList		//服务器之间报告服务器状态
 {
 	repeated ServerInfoReport server_list = 1;
 }
 
-message AckEventResult//返回事件结果(对或错等详细)
+message AckEventResult		//返回事件结果(对或错等详细)
 {
 	EGameEventCode event_code = 1;
-	Ident event_object = 2;//playerID
-	Ident event_client = 3;//clientID
+	PBGUID event_object 	= 2;//playerID
+	PBGUID event_client 	= 3;//clientID
+	string	Parame1 	= 4;
+	string	Parame2 	= 5;
+	string	Parame3 	= 6;
 }
 
 ////////////////////////////////////////////////////
-message ReqAccountLogin//向网关(登录服务器)申请登录
+message ReqAccountLogin		//向网关(登录服务器)申请登录
 { 
 	string 			account = 2;
 	string 			password = 3;
@@ -57,13 +60,13 @@ message ReqAccountLogin//向网关(登录服务器)申请登录
 	int32 			platform_type = 12;
 }
 
-message ReqAccountLogout//向网关(登录服务器)申请登出
+message ReqAccountLogout		//向网关(登录服务器)申请登出
 { 
 	string 		account = 2;
 	string 		extra_info = 3;
 }
 
-message ServerInfo//服务器信息---这个是面向玩家的
+message ServerInfo		//服务器信息---这个是面向玩家的
 {
     int32  		server_id = 1;
     string 			name = 2;
@@ -78,29 +81,29 @@ enum ReqServerListType
 	RSLT_GAMES_ERVER = 1;
 };
 
-message ReqServerList//请求游戏服务器列表
+message ReqServerList		//请求游戏服务器列表
 {
 	ReqServerListType type = 1;
 }
 
-message AckServerList//服务器信息列表
+message AckServerList		//服务器信息列表
 {
 	ReqServerListType type = 1;
 	repeated ServerInfo info = 2;
 }
 
-message ReqConnectWorld//玩家想连到世界服务器,进游戏世界--登录通过后选世界
+message ReqConnectWorld		//玩家想连到世界服务器,进游戏世界--登录通过后选世界
 {
 	int32   world_id = 1;//想去的世界ID
 	string  account = 2;//玩家帐号--客户度发送时可以不填--转发需填
-	Ident  sender = 3;//玩家临时ID--客户度发送时可以不填--转发需填
+	PBGUID  sender = 3;//玩家临时ID--客户度发送时可以不填--转发需填
 	int32   login_id = 4;//登录服务器ID--客户度发送时可以不填--转发需填
 }
 
-message AckConnectWorldResult//返回申请到世界服务器的结果
+message AckConnectWorldResult		//返回申请到世界服务器的结果
 {
 	int32   world_id = 1;//申请者想去的世界ID
-	Ident  sender = 2;//申请者临时ID
+	PBGUID  sender = 2;//申请者临时ID
 	int32   login_id = 3;//申请者所在的登录服务器ID
 	string  account = 4;//申请者的帐号
 	string  world_ip = 5;//得到的世界服务器分配的网关IP
@@ -108,12 +111,12 @@ message AckConnectWorldResult//返回申请到世界服务器的结果
 	string  world_key = 7;//得到的握手KEY
 }
 
-message ReqSelectServer//玩家想选择单服务器
+message ReqSelectServer		//玩家想选择单服务器
 {
 	int32   world_id = 1;//想去的服务器ID
 }
 
-message ReqKickFromWorld//玩家想退出游戏世界
+message ReqKickFromWorld		//玩家想退出游戏世界
 {
 	int32   world_id = 1;
 	string   account = 2;//帐号
@@ -122,15 +125,15 @@ message ReqKickFromWorld//玩家想退出游戏世界
 //继续登录进大世界网关
 
 ////////////////////////////////////////////
-message ReqRoleList//请求得到角色列表
+message ReqRoleList		//请求得到角色列表
 {
 	int32   game_id = 1;
 	string   account = 2;	
 }
 
-message RoleLiteInfo//角色基础信息
+message RoleLiteInfo		//角色基础信息
 {
-	Ident 		id = 1;
+	PBGUID 		id = 1;
 	int32 		career = 2;
     int32 		sex = 3;
     int32 		race = 4;
@@ -144,12 +147,12 @@ message RoleLiteInfo//角色基础信息
 	string		view_record = 12;
 }
 
-message AckRoleLiteInfoList//角色基础信息列表
+message AckRoleLiteInfoList		//角色基础信息列表
 {
 	repeated RoleLiteInfo char_data = 1;
 }
 
-message ReqCreateRole//创建角色
+message ReqCreateRole		//创建角色
 {
 	string 		account = 1;
 	int32 		career = 2;
@@ -159,14 +162,14 @@ message ReqCreateRole//创建角色
     int32 		game_id = 6;
 }
 
-message ReqDeleteRole//删除角色
+message ReqDeleteRole		//删除角色
 {
 	string 	account = 1;
     string	name = 2;
 	int32 	game_id = 3;
 }
 
-message ReqRecoverRole//恢复角色
+message ReqRecoverRole		//恢复角色
 {
 	string 	account = 1;
     string	name = 2;
@@ -180,10 +183,10 @@ message ServerHeartBeat // 心跳
 
 message RoleOnlineNotify // 玩家上线通知
 {
-	Ident guild = 1; // 公会ID
+	PBGUID guild = 1; // 公会ID
 }
 
 message RoleOfflineNotify // 玩家下线通知
 {
-	Ident guild = 1; // 公会ID
+	PBGUID guild = 1; // 公会ID
 }

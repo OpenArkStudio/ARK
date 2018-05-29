@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Proto/AFMsgPreGame.pb.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
 #include "AFINetClientModule.hpp"
 
 class AFILoginToMasterModule : public AFIModule

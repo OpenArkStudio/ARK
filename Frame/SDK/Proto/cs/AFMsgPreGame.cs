@@ -31,57 +31,58 @@ namespace AFMsg {
             "bmUYBSABKAUSGAoQc2VydmVyX2N1cl9jb3VudBgGIAEoBRIpCgxzZXJ2ZXJf",
             "c3RhdGUYByABKA4yEy5BRk1zZy5FU2VydmVyU3RhdGUSEwoLc2VydmVyX3R5",
             "cGUYCCABKAUiRAoUU2VydmVySW5mb1JlcG9ydExpc3QSLAoLc2VydmVyX2xp",
-            "c3QYASADKAsyFy5BRk1zZy5TZXJ2ZXJJbmZvUmVwb3J0IoMBCg5BY2tFdmVu",
+            "c3QYASADKAsyFy5BRk1zZy5TZXJ2ZXJJbmZvUmVwb3J0IrgBCg5BY2tFdmVu",
             "dFJlc3VsdBIpCgpldmVudF9jb2RlGAEgASgOMhUuQUZNc2cuRUdhbWVFdmVu",
-            "dENvZGUSIgoMZXZlbnRfb2JqZWN0GAIgASgLMgwuQUZNc2cuSWRlbnQSIgoM",
-            "ZXZlbnRfY2xpZW50GAMgASgLMgwuQUZNc2cuSWRlbnQi7AEKD1JlcUFjY291",
-            "bnRMb2dpbhIPCgdhY2NvdW50GAIgASgJEhAKCHBhc3N3b3JkGAMgASgJEhUK",
-            "DXNlY3VyaXR5X2NvZGUYBCABKAkSEAoIc2lnbkJ1ZmYYBSABKAkSFQoNY2xp",
-            "ZW50VmVyc2lvbhgGIAEoBRIRCglsb2dpbk1vZGUYByABKAUSEAoIY2xpZW50",
-            "SVAYCCABKAUSEQoJY2xpZW50TUFDGAkgASgDEhMKC2RldmljZV9pbmZvGAog",
-            "ASgJEhIKCmV4dHJhX2luZm8YCyABKAkSFQoNcGxhdGZvcm1fdHlwZRgMIAEo",
-            "BSI3ChBSZXFBY2NvdW50TG9nb3V0Eg8KB2FjY291bnQYAiABKAkSEgoKZXh0",
-            "cmFfaW5mbxgDIAEoCSJmCgpTZXJ2ZXJJbmZvEhEKCXNlcnZlcl9pZBgBIAEo",
-            "BRIMCgRuYW1lGAIgASgJEhIKCndhaXRfY291bnQYAyABKAUSIwoGc3RhdHVz",
-            "GAQgASgOMhMuQUZNc2cuRVNlcnZlclN0YXRlIjcKDVJlcVNlcnZlckxpc3QS",
-            "JgoEdHlwZRgBIAEoDjIYLkFGTXNnLlJlcVNlcnZlckxpc3RUeXBlIlgKDUFj",
-            "a1NlcnZlckxpc3QSJgoEdHlwZRgBIAEoDjIYLkFGTXNnLlJlcVNlcnZlckxp",
-            "c3RUeXBlEh8KBGluZm8YAiADKAsyES5BRk1zZy5TZXJ2ZXJJbmZvImQKD1Jl",
-            "cUNvbm5lY3RXb3JsZBIQCgh3b3JsZF9pZBgBIAEoBRIPCgdhY2NvdW50GAIg",
-            "ASgJEhwKBnNlbmRlchgDIAEoCzIMLkFGTXNnLklkZW50EhAKCGxvZ2luX2lk",
-            "GAQgASgFIqMBChVBY2tDb25uZWN0V29ybGRSZXN1bHQSEAoId29ybGRfaWQY",
-            "ASABKAUSHAoGc2VuZGVyGAIgASgLMgwuQUZNc2cuSWRlbnQSEAoIbG9naW5f",
-            "aWQYAyABKAUSDwoHYWNjb3VudBgEIAEoCRIQCgh3b3JsZF9pcBgFIAEoCRIS",
-            "Cgp3b3JsZF9wb3J0GAYgASgFEhEKCXdvcmxkX2tleRgHIAEoCSIjCg9SZXFT",
-            "ZWxlY3RTZXJ2ZXISEAoId29ybGRfaWQYASABKAUiNQoQUmVxS2lja0Zyb21X",
-            "b3JsZBIQCgh3b3JsZF9pZBgBIAEoBRIPCgdhY2NvdW50GAIgASgJIi8KC1Jl",
-            "cVJvbGVMaXN0Eg8KB2dhbWVfaWQYASABKAUSDwoHYWNjb3VudBgCIAEoCSL7",
-            "AQoMUm9sZUxpdGVJbmZvEhgKAmlkGAEgASgLMgwuQUZNc2cuSWRlbnQSDgoG",
-            "Y2FyZWVyGAIgASgFEgsKA3NleBgDIAEoBRIMCgRyYWNlGAQgASgFEhEKCW5v",
-            "b2JfbmFtZRgFIAEoCRIPCgdnYW1lX2lkGAYgASgFEhIKCnJvbGVfbGV2ZWwY",
-            "ByABKAUSEwoLZGVsZXRlX3RpbWUYCCABKAUSEAoIcmVnX3RpbWUYCSABKAUS",
-            "GQoRbGFzdF9vZmZsaW5lX3RpbWUYCiABKAUSFwoPbGFzdF9vZmZsaW5lX2lw",
-            "GAsgASgFEhMKC3ZpZXdfcmVjb3JkGAwgASgJIj0KE0Fja1JvbGVMaXRlSW5m",
-            "b0xpc3QSJgoJY2hhcl9kYXRhGAEgAygLMhMuQUZNc2cuUm9sZUxpdGVJbmZv",
-            "Im8KDVJlcUNyZWF0ZVJvbGUSDwoHYWNjb3VudBgBIAEoCRIOCgZjYXJlZXIY",
-            "AiABKAUSCwoDc2V4GAMgASgFEgwKBHJhY2UYBCABKAUSEQoJbm9vYl9uYW1l",
-            "GAUgASgJEg8KB2dhbWVfaWQYBiABKAUiPwoNUmVxRGVsZXRlUm9sZRIPCgdh",
-            "Y2NvdW50GAEgASgJEgwKBG5hbWUYAiABKAkSDwoHZ2FtZV9pZBgDIAEoBSJA",
-            "Cg5SZXFSZWNvdmVyUm9sZRIPCgdhY2NvdW50GAEgASgJEgwKBG5hbWUYAiAB",
-            "KAkSDwoHZ2FtZV9pZBgDIAEoBSIgCg9TZXJ2ZXJIZWFydEJlYXQSDQoFY291",
-            "bnQYASABKAUiLwoQUm9sZU9ubGluZU5vdGlmeRIbCgVndWlsZBgBIAEoCzIM",
-            "LkFGTXNnLklkZW50IjAKEVJvbGVPZmZsaW5lTm90aWZ5EhsKBWd1aWxkGAEg",
-            "ASgLMgwuQUZNc2cuSWRlbnQqWgoMRVNlcnZlclN0YXRlEg0KCUVTVF9DUkFT",
-            "SBAAEg4KCkVTVF9OQVJNQUwQARIMCghFU1RfQlVTWRACEgwKCEVTVF9GSVJF",
-            "EAMSDwoLRVNUX01BSU5URU4QBCpAChFSZXFTZXJ2ZXJMaXN0VHlwZRIVChFS",
-            "U0xUX1dPUkxEX1NFUlZFUhAAEhQKEFJTTFRfR0FNRVNfRVJWRVIQAWIGcHJv",
-            "dG8z"));
+            "dENvZGUSIwoMZXZlbnRfb2JqZWN0GAIgASgLMg0uQUZNc2cuUEJHVUlEEiMK",
+            "DGV2ZW50X2NsaWVudBgDIAEoCzINLkFGTXNnLlBCR1VJRBIPCgdQYXJhbWUx",
+            "GAQgASgJEg8KB1BhcmFtZTIYBSABKAkSDwoHUGFyYW1lMxgGIAEoCSLsAQoP",
+            "UmVxQWNjb3VudExvZ2luEg8KB2FjY291bnQYAiABKAkSEAoIcGFzc3dvcmQY",
+            "AyABKAkSFQoNc2VjdXJpdHlfY29kZRgEIAEoCRIQCghzaWduQnVmZhgFIAEo",
+            "CRIVCg1jbGllbnRWZXJzaW9uGAYgASgFEhEKCWxvZ2luTW9kZRgHIAEoBRIQ",
+            "CghjbGllbnRJUBgIIAEoBRIRCgljbGllbnRNQUMYCSABKAMSEwoLZGV2aWNl",
+            "X2luZm8YCiABKAkSEgoKZXh0cmFfaW5mbxgLIAEoCRIVCg1wbGF0Zm9ybV90",
+            "eXBlGAwgASgFIjcKEFJlcUFjY291bnRMb2dvdXQSDwoHYWNjb3VudBgCIAEo",
+            "CRISCgpleHRyYV9pbmZvGAMgASgJImYKClNlcnZlckluZm8SEQoJc2VydmVy",
+            "X2lkGAEgASgFEgwKBG5hbWUYAiABKAkSEgoKd2FpdF9jb3VudBgDIAEoBRIj",
+            "CgZzdGF0dXMYBCABKA4yEy5BRk1zZy5FU2VydmVyU3RhdGUiNwoNUmVxU2Vy",
+            "dmVyTGlzdBImCgR0eXBlGAEgASgOMhguQUZNc2cuUmVxU2VydmVyTGlzdFR5",
+            "cGUiWAoNQWNrU2VydmVyTGlzdBImCgR0eXBlGAEgASgOMhguQUZNc2cuUmVx",
+            "U2VydmVyTGlzdFR5cGUSHwoEaW5mbxgCIAMoCzIRLkFGTXNnLlNlcnZlcklu",
+            "Zm8iZQoPUmVxQ29ubmVjdFdvcmxkEhAKCHdvcmxkX2lkGAEgASgFEg8KB2Fj",
+            "Y291bnQYAiABKAkSHQoGc2VuZGVyGAMgASgLMg0uQUZNc2cuUEJHVUlEEhAK",
+            "CGxvZ2luX2lkGAQgASgFIqQBChVBY2tDb25uZWN0V29ybGRSZXN1bHQSEAoI",
+            "d29ybGRfaWQYASABKAUSHQoGc2VuZGVyGAIgASgLMg0uQUZNc2cuUEJHVUlE",
+            "EhAKCGxvZ2luX2lkGAMgASgFEg8KB2FjY291bnQYBCABKAkSEAoId29ybGRf",
+            "aXAYBSABKAkSEgoKd29ybGRfcG9ydBgGIAEoBRIRCgl3b3JsZF9rZXkYByAB",
+            "KAkiIwoPUmVxU2VsZWN0U2VydmVyEhAKCHdvcmxkX2lkGAEgASgFIjUKEFJl",
+            "cUtpY2tGcm9tV29ybGQSEAoId29ybGRfaWQYASABKAUSDwoHYWNjb3VudBgC",
+            "IAEoCSIvCgtSZXFSb2xlTGlzdBIPCgdnYW1lX2lkGAEgASgFEg8KB2FjY291",
+            "bnQYAiABKAki/AEKDFJvbGVMaXRlSW5mbxIZCgJpZBgBIAEoCzINLkFGTXNn",
+            "LlBCR1VJRBIOCgZjYXJlZXIYAiABKAUSCwoDc2V4GAMgASgFEgwKBHJhY2UY",
+            "BCABKAUSEQoJbm9vYl9uYW1lGAUgASgJEg8KB2dhbWVfaWQYBiABKAUSEgoK",
+            "cm9sZV9sZXZlbBgHIAEoBRITCgtkZWxldGVfdGltZRgIIAEoBRIQCghyZWdf",
+            "dGltZRgJIAEoBRIZChFsYXN0X29mZmxpbmVfdGltZRgKIAEoBRIXCg9sYXN0",
+            "X29mZmxpbmVfaXAYCyABKAUSEwoLdmlld19yZWNvcmQYDCABKAkiPQoTQWNr",
+            "Um9sZUxpdGVJbmZvTGlzdBImCgljaGFyX2RhdGEYASADKAsyEy5BRk1zZy5S",
+            "b2xlTGl0ZUluZm8ibwoNUmVxQ3JlYXRlUm9sZRIPCgdhY2NvdW50GAEgASgJ",
+            "Eg4KBmNhcmVlchgCIAEoBRILCgNzZXgYAyABKAUSDAoEcmFjZRgEIAEoBRIR",
+            "Cglub29iX25hbWUYBSABKAkSDwoHZ2FtZV9pZBgGIAEoBSI/Cg1SZXFEZWxl",
+            "dGVSb2xlEg8KB2FjY291bnQYASABKAkSDAoEbmFtZRgCIAEoCRIPCgdnYW1l",
+            "X2lkGAMgASgFIkAKDlJlcVJlY292ZXJSb2xlEg8KB2FjY291bnQYASABKAkS",
+            "DAoEbmFtZRgCIAEoCRIPCgdnYW1lX2lkGAMgASgFIiAKD1NlcnZlckhlYXJ0",
+            "QmVhdBINCgVjb3VudBgBIAEoBSIwChBSb2xlT25saW5lTm90aWZ5EhwKBWd1",
+            "aWxkGAEgASgLMg0uQUZNc2cuUEJHVUlEIjEKEVJvbGVPZmZsaW5lTm90aWZ5",
+            "EhwKBWd1aWxkGAEgASgLMg0uQUZNc2cuUEJHVUlEKloKDEVTZXJ2ZXJTdGF0",
+            "ZRINCglFU1RfQ1JBU0gQABIOCgpFU1RfTkFSTUFMEAESDAoIRVNUX0JVU1kQ",
+            "AhIMCghFU1RfRklSRRADEg8KC0VTVF9NQUlOVEVOEAQqQAoRUmVxU2VydmVy",
+            "TGlzdFR5cGUSFQoRUlNMVF9XT1JMRF9TRVJWRVIQABIUChBSU0xUX0dBTUVT",
+            "X0VSVkVSEAFiBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::AFMsg.AFDefineReflection.Descriptor, global::AFMsg.AFMsgBaseReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AFMsg.EServerState), typeof(global::AFMsg.ReqServerListType), }, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ServerInfoReport), global::AFMsg.ServerInfoReport.Parser, new[]{ "ServerId", "ServerName", "ServerIp", "ServerPort", "ServerMaxOnline", "ServerCurCount", "ServerState", "ServerType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ServerInfoReportList), global::AFMsg.ServerInfoReportList.Parser, new[]{ "ServerList" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.AckEventResult), global::AFMsg.AckEventResult.Parser, new[]{ "EventCode", "EventObject", "EventClient" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.AckEventResult), global::AFMsg.AckEventResult.Parser, new[]{ "EventCode", "EventObject", "EventClient", "Parame1", "Parame2", "Parame3" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ReqAccountLogin), global::AFMsg.ReqAccountLogin.Parser, new[]{ "Account", "Password", "SecurityCode", "SignBuff", "ClientVersion", "LoginMode", "ClientIP", "ClientMAC", "DeviceInfo", "ExtraInfo", "PlatformType" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ReqAccountLogout), global::AFMsg.ReqAccountLogout.Parser, new[]{ "Account", "ExtraInfo" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AFMsg.ServerInfo), global::AFMsg.ServerInfo.Parser, new[]{ "ServerId", "Name", "WaitCount", "Status" }, null, null, null),
@@ -599,6 +600,9 @@ namespace AFMsg {
       eventCode_ = other.eventCode_;
       EventObject = other.eventObject_ != null ? other.EventObject.Clone() : null;
       EventClient = other.eventClient_ != null ? other.EventClient.Clone() : null;
+      parame1_ = other.parame1_;
+      parame2_ = other.parame2_;
+      parame3_ = other.parame3_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -620,12 +624,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "event_object" field.</summary>
     public const int EventObjectFieldNumber = 2;
-    private global::AFMsg.Ident eventObject_;
+    private global::AFMsg.PBGUID eventObject_;
     /// <summary>
     ///playerID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident EventObject {
+    public global::AFMsg.PBGUID EventObject {
       get { return eventObject_; }
       set {
         eventObject_ = value;
@@ -634,15 +638,48 @@ namespace AFMsg {
 
     /// <summary>Field number for the "event_client" field.</summary>
     public const int EventClientFieldNumber = 3;
-    private global::AFMsg.Ident eventClient_;
+    private global::AFMsg.PBGUID eventClient_;
     /// <summary>
     ///clientID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident EventClient {
+    public global::AFMsg.PBGUID EventClient {
       get { return eventClient_; }
       set {
         eventClient_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "Parame1" field.</summary>
+    public const int Parame1FieldNumber = 4;
+    private string parame1_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Parame1 {
+      get { return parame1_; }
+      set {
+        parame1_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "Parame2" field.</summary>
+    public const int Parame2FieldNumber = 5;
+    private string parame2_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Parame2 {
+      get { return parame2_; }
+      set {
+        parame2_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
+    /// <summary>Field number for the "Parame3" field.</summary>
+    public const int Parame3FieldNumber = 6;
+    private string parame3_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    public string Parame3 {
+      get { return parame3_; }
+      set {
+        parame3_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
 
@@ -662,6 +699,9 @@ namespace AFMsg {
       if (EventCode != other.EventCode) return false;
       if (!object.Equals(EventObject, other.EventObject)) return false;
       if (!object.Equals(EventClient, other.EventClient)) return false;
+      if (Parame1 != other.Parame1) return false;
+      if (Parame2 != other.Parame2) return false;
+      if (Parame3 != other.Parame3) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -671,6 +711,9 @@ namespace AFMsg {
       if (EventCode != 0) hash ^= EventCode.GetHashCode();
       if (eventObject_ != null) hash ^= EventObject.GetHashCode();
       if (eventClient_ != null) hash ^= EventClient.GetHashCode();
+      if (Parame1.Length != 0) hash ^= Parame1.GetHashCode();
+      if (Parame2.Length != 0) hash ^= Parame2.GetHashCode();
+      if (Parame3.Length != 0) hash ^= Parame3.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -696,6 +739,18 @@ namespace AFMsg {
         output.WriteRawTag(26);
         output.WriteMessage(EventClient);
       }
+      if (Parame1.Length != 0) {
+        output.WriteRawTag(34);
+        output.WriteString(Parame1);
+      }
+      if (Parame2.Length != 0) {
+        output.WriteRawTag(42);
+        output.WriteString(Parame2);
+      }
+      if (Parame3.Length != 0) {
+        output.WriteRawTag(50);
+        output.WriteString(Parame3);
+      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -713,6 +768,15 @@ namespace AFMsg {
       if (eventClient_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(EventClient);
       }
+      if (Parame1.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Parame1);
+      }
+      if (Parame2.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Parame2);
+      }
+      if (Parame3.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Parame3);
+      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -729,15 +793,24 @@ namespace AFMsg {
       }
       if (other.eventObject_ != null) {
         if (eventObject_ == null) {
-          eventObject_ = new global::AFMsg.Ident();
+          eventObject_ = new global::AFMsg.PBGUID();
         }
         EventObject.MergeFrom(other.EventObject);
       }
       if (other.eventClient_ != null) {
         if (eventClient_ == null) {
-          eventClient_ = new global::AFMsg.Ident();
+          eventClient_ = new global::AFMsg.PBGUID();
         }
         EventClient.MergeFrom(other.EventClient);
+      }
+      if (other.Parame1.Length != 0) {
+        Parame1 = other.Parame1;
+      }
+      if (other.Parame2.Length != 0) {
+        Parame2 = other.Parame2;
+      }
+      if (other.Parame3.Length != 0) {
+        Parame3 = other.Parame3;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -756,16 +829,28 @@ namespace AFMsg {
           }
           case 18: {
             if (eventObject_ == null) {
-              eventObject_ = new global::AFMsg.Ident();
+              eventObject_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(eventObject_);
             break;
           }
           case 26: {
             if (eventClient_ == null) {
-              eventClient_ = new global::AFMsg.Ident();
+              eventClient_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(eventClient_);
+            break;
+          }
+          case 34: {
+            Parame1 = input.ReadString();
+            break;
+          }
+          case 42: {
+            Parame2 = input.ReadString();
+            break;
+          }
+          case 50: {
+            Parame3 = input.ReadString();
             break;
           }
         }
@@ -1901,12 +1986,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "sender" field.</summary>
     public const int SenderFieldNumber = 3;
-    private global::AFMsg.Ident sender_;
+    private global::AFMsg.PBGUID sender_;
     /// <summary>
     ///玩家临时ID--客户度发送时可以不填--转发需填
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Sender {
+    public global::AFMsg.PBGUID Sender {
       get { return sender_; }
       set {
         sender_ = value;
@@ -2022,7 +2107,7 @@ namespace AFMsg {
       }
       if (other.sender_ != null) {
         if (sender_ == null) {
-          sender_ = new global::AFMsg.Ident();
+          sender_ = new global::AFMsg.PBGUID();
         }
         Sender.MergeFrom(other.Sender);
       }
@@ -2050,7 +2135,7 @@ namespace AFMsg {
           }
           case 26: {
             if (sender_ == null) {
-              sender_ = new global::AFMsg.Ident();
+              sender_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(sender_);
             break;
@@ -2121,12 +2206,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "sender" field.</summary>
     public const int SenderFieldNumber = 2;
-    private global::AFMsg.Ident sender_;
+    private global::AFMsg.PBGUID sender_;
     /// <summary>
     ///申请者临时ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Sender {
+    public global::AFMsg.PBGUID Sender {
       get { return sender_; }
       set {
         sender_ = value;
@@ -2322,7 +2407,7 @@ namespace AFMsg {
       }
       if (other.sender_ != null) {
         if (sender_ == null) {
-          sender_ = new global::AFMsg.Ident();
+          sender_ = new global::AFMsg.PBGUID();
         }
         Sender.MergeFrom(other.Sender);
       }
@@ -2358,7 +2443,7 @@ namespace AFMsg {
           }
           case 18: {
             if (sender_ == null) {
-              sender_ = new global::AFMsg.Ident();
+              sender_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(sender_);
             break;
@@ -2888,9 +2973,9 @@ namespace AFMsg {
 
     /// <summary>Field number for the "id" field.</summary>
     public const int IdFieldNumber = 1;
-    private global::AFMsg.Ident id_;
+    private global::AFMsg.PBGUID id_;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Id {
+    public global::AFMsg.PBGUID Id {
       get { return id_; }
       set {
         id_ = value;
@@ -3179,7 +3264,7 @@ namespace AFMsg {
       }
       if (other.id_ != null) {
         if (id_ == null) {
-          id_ = new global::AFMsg.Ident();
+          id_ = new global::AFMsg.PBGUID();
         }
         Id.MergeFrom(other.Id);
       }
@@ -3229,7 +3314,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (id_ == null) {
-              id_ = new global::AFMsg.Ident();
+              id_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(id_);
             break;
@@ -4212,12 +4297,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild" field.</summary>
     public const int GuildFieldNumber = 1;
-    private global::AFMsg.Ident guild_;
+    private global::AFMsg.PBGUID guild_;
     /// <summary>
     /// 公会ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Guild {
+    public global::AFMsg.PBGUID Guild {
       get { return guild_; }
       set {
         guild_ = value;
@@ -4286,7 +4371,7 @@ namespace AFMsg {
       }
       if (other.guild_ != null) {
         if (guild_ == null) {
-          guild_ = new global::AFMsg.Ident();
+          guild_ = new global::AFMsg.PBGUID();
         }
         Guild.MergeFrom(other.Guild);
       }
@@ -4303,7 +4388,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (guild_ == null) {
-              guild_ = new global::AFMsg.Ident();
+              guild_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guild_);
             break;
@@ -4350,12 +4435,12 @@ namespace AFMsg {
 
     /// <summary>Field number for the "guild" field.</summary>
     public const int GuildFieldNumber = 1;
-    private global::AFMsg.Ident guild_;
+    private global::AFMsg.PBGUID guild_;
     /// <summary>
     /// 公会ID
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    public global::AFMsg.Ident Guild {
+    public global::AFMsg.PBGUID Guild {
       get { return guild_; }
       set {
         guild_ = value;
@@ -4424,7 +4509,7 @@ namespace AFMsg {
       }
       if (other.guild_ != null) {
         if (guild_ == null) {
-          guild_ = new global::AFMsg.Ident();
+          guild_ = new global::AFMsg.PBGUID();
         }
         Guild.MergeFrom(other.Guild);
       }
@@ -4441,7 +4526,7 @@ namespace AFMsg {
             break;
           case 10: {
             if (guild_ == null) {
-              guild_ = new global::AFMsg.Ident();
+              guild_ = new global::AFMsg.PBGUID();
             }
             input.ReadMessage(guild_);
             break;

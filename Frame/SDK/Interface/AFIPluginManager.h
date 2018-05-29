@@ -80,9 +80,11 @@ public:
     virtual AFIModule* FindModule(const std::string& strModuleName) = 0;
 
     virtual int AppID() const = 0;
+    virtual const std::string& AppName() const = 0;
     virtual int64_t GetInitTime() const = 0;
     virtual int64_t GetNowTime() const = 0;
     virtual const std::string& GetConfigPath() const = 0;
     virtual void SetConfigName(const std::string& strFileName) = 0;
     virtual void SetAppID(const int app_id) = 0;
+    virtual void SetAppName(const std::string& app_name) = 0;
 };
