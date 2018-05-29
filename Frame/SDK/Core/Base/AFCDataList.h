@@ -88,7 +88,7 @@ public:
         mnBufferUsed = 0;
     }
 
-    AFBaseDataList(const char*  strSour, int nLengh, char strSplit)
+    AFBaseDataList(const char* strSour, int nLengh, char strSplit)
     {
         assert(DATA_SIZE > 0);
         assert(BUFFER_SIZE > 0);
@@ -360,7 +360,7 @@ public:
             value_size = (size_t)nLength;
         }
 
-        value_size = + 1;
+        value_size += 1;
         char* data = AddBuffer(value_size);
         memcpy(data, value, value_size);
 
