@@ -50,7 +50,7 @@ script:
   - make -j 8
   - echo $TRAVIS_BUILD_DIR/Frame
   - cd $TRAVIS_BUILD_DIR/Frame
-  - build-wrapper-linux-x86-64 --out-dir bw-output make all
+  - build-wrapper-linux-x86-64 --out-dir bw-output make clean
   - sonar-scanner -X
     
 after_success:
