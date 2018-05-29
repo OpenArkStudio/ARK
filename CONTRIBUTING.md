@@ -14,7 +14,7 @@ If you open an issue, the more information the better. Such as detailed descript
 We strongly welcome your pull request to make `ARK` better.
 
 ### Branch Management
-There are three main branches here:
+There are two main branches here:
 
 1. `master` branch.
 

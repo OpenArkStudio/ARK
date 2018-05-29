@@ -91,11 +91,11 @@ void AFCProxyServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, con
 {
     if(eEvent == DISCONNECTED)
     {
-        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
     }
     else  if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
         Register(nServerID);
     }
 }
@@ -116,14 +116,14 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
                 const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-                const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+                const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
                 AFMsg::ServerInfoReportList xMsg;
                 AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
 
                 pData->set_server_id(nSelfServerID);
-                pData->set_server_name(strName);
+                pData->set_server_name(strServerName);
                 pData->set_server_cur_count(0);
                 pData->set_server_ip(strIP);
                 pData->set_server_port(nPort);
@@ -137,7 +137,7 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
                     int nTargetID = pServerData->nGameID;
                     GetClusterModule()->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg, 0);
 
-                    ARK_LOG_INFO("Register, server_id = %d server_name = %s", pData->server_id(), pData->server_name().c_str());
+                    ARK_LOG_INFO("Register, server_id  = {} server_name = {}", pData->server_id(), pData->server_name().c_str());
                 }
             }
         }
@@ -175,7 +175,7 @@ bool AFCProxyServerToWorldModule::PostInit()
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
                 const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-                const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+                const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
                 ConnectData xServerData;
@@ -184,7 +184,7 @@ bool AFCProxyServerToWorldModule::PostInit()
                 xServerData.eServerType = (ARK_SERVER_TYPE)nServerType;
                 xServerData.strIP = strIP;
                 xServerData.nPort = nPort;
-                xServerData.strName = strName;
+                xServerData.strName = strServerName;
 
                 m_pNetClientModule->AddServer(xServerData);
             }
@@ -197,7 +197,6 @@ bool AFCProxyServerToWorldModule::PostInit()
 
 void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //保持记录,直到下线,或者1分钟不上线即可删除
     AFGUID nPlayerID;
     AFMsg::AckConnectWorldResult xMsg;
     if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
@@ -237,7 +236,7 @@ bool AFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccoun
 
 void AFCProxyServerToWorldModule::LogServerInfo(const std::string& strServerInfo)
 {
-    ARK_LOG_INFO("%s", strServerInfo.c_str());
+    ARK_LOG_INFO("{}", strServerInfo.c_str());
 }
 
 void AFCProxyServerToWorldModule::OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
@@ -247,7 +246,6 @@ void AFCProxyServerToWorldModule::OnOtherMessage(const AFIMsgHead& xHead, const 
 
 void AFCProxyServerToWorldModule::OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //保持记录,直到下线,或者1分钟不上线即可删除
     AFGUID nPlayerID;
     AFMsg::BrocastMsg xMsg;
     if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
@@ -255,9 +253,9 @@ void AFCProxyServerToWorldModule::OnBrocastmsg(const AFIMsgHead& xHead, const in
         return;
     }
 
-    for(int i = 0; i < xMsg.player_client_list_size(); i++)
+    for(int i = 0; i < xMsg.target_entity_list_size(); i++)
     {
-        const AFMsg::Ident& xClientID = xMsg.player_client_list(i);
-        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.nmsgid(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(xClientID), nPlayerID);
+        const AFMsg::PBGUID& xPlayerClientID = xMsg.target_entity_list(i);
+        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(xPlayerClientID), nPlayerID);
     }
 }

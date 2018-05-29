@@ -1,17 +1,6 @@
 cd /d %~dp0
 
 @echo off
-copy ..\\..\\..\\_Out\\Comm\\Release\\PluginLoader.exe AFLoginServer\\ /Y
-copy ..\\..\\..\\_Out\\Comm\\Release\\PluginLoader.exe AFMasterServer\\ /Y
-copy ..\\..\\..\\_Out\\Comm\\Release\\PluginLoader.exe AFProxyServer1\\ /Y
-copy ..\\..\\..\\_Out\\Comm\\Release\\PluginLoader.exe AFWorldServer\\ /Y
-copy ..\\..\\..\\_Out\\Comm\\Release\\PluginLoader.exe AFGameServer1\\ /Y
-
-copy ..\\..\\..\\Dep\\lib\\Release\\libproto*.dll AFLoginServer\\ /Y
-copy ..\\..\\..\\Dep\\lib\\Release\\libproto*.dll AFMasterServer\\ /Y
-copy ..\\..\\..\\Dep\\lib\\Release\\libproto*.dll AFProxyServer\\ /Y
-copy ..\\..\\..\\Dep\\lib\\Release\\libproto*.dll AFWorldServer\\ /Y
-copy ..\\..\\..\\Dep\\lib\\Release\\libproto*.dll AFGameServer\\ /Y
 
 echo Copy common dlls...
 copy ..\\..\\..\\Bin\\Comm\\Release\\PluginLoader.exe AFLoginServer\\ /Y

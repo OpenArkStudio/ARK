@@ -49,23 +49,23 @@ public:
 
 //predeclare
 template<typename TYPE, size_t SIZE, typename ALLOC = ArrayPodAlloc>
-class ArraryPod;
+class ArrayPod;
 
 template<typename TYPE, size_t SIZE, typename ALLOC>
-class ArraryPod
+class ArrayPod
 {
 public:
-    using self_t = ArraryPod<TYPE, SIZE, ALLOC>;
+    using self_t = ArrayPod<TYPE, SIZE, ALLOC>;
 
 public:
-    ArraryPod()
+	ArrayPod()
     {
         mpData = mxStack;
         mnCapacity = SIZE;
         mnSize = 0;
     }
 
-    ArraryPod(const self_t& src)
+	ArrayPod(const self_t& src)
     {
         mnSize = src.mnSize;
         if(mnSize <= SIZE)
@@ -82,7 +82,7 @@ public:
         memcpy(mpData, src.mpData, mnSize * sizeof(TYPE));
     }
 
-    ~ArraryPod()
+    ~ArrayPod()
     {
         if(mnCapacity > SIZE)
         {

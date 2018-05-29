@@ -137,7 +137,7 @@ void AFCHeartBeatManager::Update()
         typedef std::pair<std::multimap<int64_t, AFCHeartBeatElement*>::iterator, std::multimap<int64_t, AFCHeartBeatElement*>::iterator > Range;
         Range xRange = mTimeList.equal_range(pHeartBeatEx->nNextTriggerTime);
 
-        for(std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = xRange.first; iter != xRange.second; ++iter)
+        for(std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = xRange.first; iter != xRange.second;)
         {
             if(iter->second->id == pHeartBeatEx->id)
             {
@@ -147,11 +147,6 @@ void AFCHeartBeatManager::Update()
             {
                 ++iter;
             }
-        }
-
-        if(!RemoveHeartBeat(strHeartBeatName))
-        {
-            // add log
         }
 
         bRet = mRemoveListEx.Next(strHeartBeatName);

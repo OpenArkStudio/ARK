@@ -88,7 +88,7 @@ public:
         mnBufferUsed = 0;
     }
 
-    AFBaseDataList(const char*  strSour, int nLengh, char strSplit)
+    AFBaseDataList(const char* strSour, int nLengh, char strSplit)
     {
         assert(DATA_SIZE > 0);
         assert(BUFFER_SIZE > 0);
@@ -234,7 +234,7 @@ public:
         return (0 == mnDataUsed);
     }
 
-    virtual int GetCount() const
+    virtual size_t GetCount() const
     {
         return mnDataUsed;
     }
@@ -360,7 +360,7 @@ public:
             value_size = (size_t)nLength;
         }
 
-        value_size = + 1;
+        value_size += 1;
         char* data = AddBuffer(value_size);
         memcpy(data, value, value_size);
 
@@ -634,7 +634,7 @@ public:
         return true;
     }
 
-    virtual bool SetInt64(size_t index, int value)
+    virtual bool SetInt64(size_t index, int64_t value)
     {
         if(index >= mnDataUsed)
         {

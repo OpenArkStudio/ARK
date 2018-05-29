@@ -65,7 +65,7 @@ using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const 
 //using EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR = std::function<int(const AFGUID&, const int, std::string&)>;
 //using EVENT_ASYNC_PROCESS_END_FUNCTOR = std::function<int(const AFGUID&, const int, const int, const std::string&)>;
 using TIMER_FUNCTOR = std::function<void(const std::string&, const AFGUID&)>;
-using SCHEDULE_FUNCTOR = std::function<void(const std::string&, const AFGUID&)>;
+using SCHEDULER_FUNCTOR = std::function<bool(const int, const int)>;
 
 using HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<HEART_BEAT_FUNCTOR>;
 using MODULE_HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR>;
@@ -76,4 +76,4 @@ using EVENT_PROCESS_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_PROCESS_FUNCTOR>;
 //using EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_ASYNC_PROCESS_BEGIN_FUNCTOR>;
 //using EVENT_ASYNC_PROCESS_END_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_ASYNC_PROCESS_END_FUNCTOR>;
 using TIMER_FUNCTOR_PTR = ARK_SHARE_PTR<TIMER_FUNCTOR>;
-using SCHEDULE_FUNCTOR_PTR = ARK_SHARE_PTR<SCHEDULE_FUNCTOR>;
+using SCHEDULER_FUNCTOR_PTR = ARK_SHARE_PTR<SCHEDULER_FUNCTOR>;

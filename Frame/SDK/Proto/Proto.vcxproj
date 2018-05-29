@@ -148,22 +148,22 @@ copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AFDefine.pb.h" />
     <ClInclude Include="AFLimit.h" />
-    <ClInclude Include="AFMsgBase.pb.h" />
-    <ClInclude Include="AFMsgDefine.h" />
-    <ClInclude Include="AFMsgMysql.pb.h" />
-    <ClInclude Include="AFMsgPreGame.pb.h" />
-    <ClInclude Include="AFMsgShare.pb.h" />
-    <ClInclude Include="AFMsgURl.pb.h" />
+    <ClInclude Include="AFProtoCPP.hpp" />
+    <ClInclude Include="cpp\AFDefine.pb.h" />
+    <ClInclude Include="cpp\AFMsgBase.pb.h" />
+    <ClInclude Include="cpp\AFMsgMysql.pb.h" />
+    <ClInclude Include="cpp\AFMsgPreGame.pb.h" />
+    <ClInclude Include="cpp\AFMsgShare.pb.h" />
+    <ClInclude Include="cpp\AFMsgURl.pb.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFDefine.pb.cc" />
-    <ClCompile Include="AFMsgBase.pb.cc" />
-    <ClCompile Include="AFMsgMysql.pb.cc" />
-    <ClCompile Include="AFMsgPreGame.pb.cc" />
-    <ClCompile Include="AFMsgShare.pb.cc" />
-    <ClCompile Include="AFMsgURl.pb.cc" />
+    <ClCompile Include="cpp\AFDefine.pb.cc" />
+    <ClCompile Include="cpp\AFMsgBase.pb.cc" />
+    <ClCompile Include="cpp\AFMsgMysql.pb.cc" />
+    <ClCompile Include="cpp\AFMsgPreGame.pb.cc" />
+    <ClCompile Include="cpp\AFMsgShare.pb.cc" />
+    <ClCompile Include="cpp\AFMsgURl.pb.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

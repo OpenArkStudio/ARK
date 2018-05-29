@@ -28,41 +28,27 @@ cp -R -f *.so ../../../../Frame/SDK/Proto/proto-gen
 cp -R -f protoc ../../../../Frame/SDK/Proto/proto-gen
 
 cd ../../../
-####################################################################
-echo "Building libevent..."
-
-if [ -d "libevent" ]; then
-    rm -rf libevent
-fi
-
-git clone -b master https://github.com/libevent/libevent.git
-
-cd libevent
-chmod -R 755 *
-./autogen.sh #depend automake & libtool
-./configure --disable-shared --disable-openssl
-make -j 8
-cp -R -f .libs/*.a ../lib/Debug
-cp -R -f .libs/*.a ../lib/Release
-cd ../
 
 ##################################################################
-echo Building evpp...
+echo "Building brynet..."
 
-if [ -d "evpp" ]; then
-    rm -rf evpp
+if [ -d "brynet" ]; then
+    rm -rf brynet
 fi
 
-git clone -b master https://github.com/ArkGame/evpp.git
-cd evpp
+git clone -b master https://github.com/ArkGame/brynet.git
+cd brynet
 chmod -R 755 *
 mkdir build
 cd build
-
-CURDIR=$(cd $(dirname ${BASH_SOURCE[0]}); pwd )
-echo $CURDIR
-cmake -G "Unix Makefiles"  -DLIBEVENT_DIR=$CURDIR/../../libevent -DLIBEVENT_LIB_DIR=$CURDIR/../../lib/Release ..
+cmake -G "Unix Makefiles"  ..
 make -j 8
 cp -R -f lib/*.a ../../lib/Debug
 cp -R -f lib/*.a ../../lib/Release
 cd ../../
+
+##################################################################
+echo "General proto files..."
+cd ../Frame/SDK/Proto/
+bash gen-proto.sh
+cd ../../../

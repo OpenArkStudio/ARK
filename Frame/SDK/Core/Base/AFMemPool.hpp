@@ -32,11 +32,11 @@ class AFMemPool
 
 public:
     AFMemPool(uint32_t unit_num = 50, uint32_t unit_size = 1024) :
-        m_pMemBlock(nullptr),
         m_pAllocatedMemBlock(nullptr),
         m_pFreeMemBlock(nullptr),
-        mnBlockSize(unit_num * (unit_size + sizeof(struct MemUnit))),
-        mnUnitSize(unit_size)
+        m_pMemBlock(nullptr),
+        mnUnitSize(unit_size),
+        mnBlockSize(unit_num * (unit_size + sizeof(struct MemUnit)))
     {
         m_pMemBlock = ::malloc(mnBlockSize);
 

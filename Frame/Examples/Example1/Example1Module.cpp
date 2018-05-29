@@ -17,14 +17,19 @@
 * limitations under the License.
 *
 */
+#define SPDLOG_NO_NAME
+#define SPDLOG_DEBUG_ON
+#define SPDLOG_TRACE_ON
 
 #include "Example1Module.h"
 #include "SDK/Core/Base/AFTimer.hpp"
 #include "SDK/Core/Base/AFMacros.hpp"
+#include "SDK/Core/Common/cronexpr.h"
 
 bool Example1Module::Init()
 {
     std::cout << typeid(Example1Module).name() << ", Init" << std::endl;
+
     return true;
 }
 
@@ -32,13 +37,18 @@ bool Example1Module::PostInit()
 {
     m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
 
     ARK_ASSERT_RET_VAL(m_pTimerModule != nullptr, false);
     ARK_ASSERT_RET_VAL(m_pLogModule != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pScheduleModule != nullptr, false);
 
     AFGUID test_id = AFGUID(0, 1);
-    ARK_LOG_INFO("Test log, id = %s", test_id.ToString().c_str());
-
+    //for (int i = 0; i < 1000; ++i)
+    //{
+    //    ARK_LOG_INFO("Test log, id = {}", test_id.ToString());
+    //}
+    
     std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
 
     AFCData data1(DT_STRING, "test1");
@@ -47,9 +57,25 @@ bool Example1Module::PostInit()
     data1 = data2;
     const char* str1 = data1.GetString();
 
-    std::cout << pPluginManager->GetNowTime() << std::endl;
+    //////////////////////////////////////////////////////////////////////////
+    //test cron expression
+    //const char* err_msg = NULL;
+    //cron_expr* test_cron = cron_parse_expr("0 0 0 * * *", &err_msg);
+    //time_t now;
+    //time(&now);
+    //std::cout << "Current time is " << now << std::endl;
+    //time_t next = cron_next(test_cron, (time_t)now);
+    //std::cout << "Next cron time is " << next << std::endl;
+    //bool result = m_pScheduleModule->AddSchedule(1, 0, "0 * * * * *", this, &Example1Module::TestSchduler);
+    //if (!result)
+    //{
+    //    std::cout << "add schedule failed" << std::endl;
+    //}
+    //////////////////////////////////////////////////////////////////////////
 
-    m_pTimerModule->AddSingleTimer("test", test_id, 10 * 1000/*ms*/, 2, this, &Example1Module::TestTimer);
+    //std::cout << pPluginManager->GetNowTime() << std::endl;
+
+    //m_pTimerModule->AddSingleTimer("test", test_id, 10 * 1000/*ms*/, 2, this, &Example1Module::TestTimer);
 
     return true;
 }
@@ -75,4 +101,11 @@ void Example1Module::TestTimer(const std::string& name, const AFGUID& entity_id)
 {
     std::cout << pPluginManager->GetNowTime() << std::endl;
     std::cout << "Test Timer: " << name << " id = " << entity_id.ToString() << std::endl;
+}
+
+bool Example1Module::TestSchduler(const int id, const int arg)
+{
+    std::cout << pPluginManager->GetNowTime() << std::endl;
+    std::cout << "Test Scheduler: id = " << id << ", arg = " << arg << std::endl;
+    return true;
 }

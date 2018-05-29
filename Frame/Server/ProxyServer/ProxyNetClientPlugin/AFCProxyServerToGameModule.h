@@ -21,7 +21,7 @@
 #pragma once
 
 #include <string>
-#include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
 #include "SDK/Core/AFCHeartBeatManager.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIElementModule.h"

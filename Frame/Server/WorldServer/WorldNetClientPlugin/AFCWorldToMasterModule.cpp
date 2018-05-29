@@ -21,7 +21,7 @@
 #include "AFCWorldToMasterModule.h"
 #include "AFWorldNetClientPlugin.h"
 #include "SDK/Core/Base/AFCDataList.h"
-#include "SDK/Proto/AFMsgDefine.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
 #include "Server/Interface/AFINetClientModule.hpp"
 
 bool AFCWorldToMasterModule::Init()
@@ -66,7 +66,7 @@ bool AFCWorldToMasterModule::PostInit()
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
                 const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-                const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+                const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
                 ConnectData xServerData;
@@ -75,7 +75,7 @@ bool AFCWorldToMasterModule::PostInit()
                 xServerData.eServerType = (ARK_SERVER_TYPE)nServerType;
                 xServerData.strIP = strIP;
                 xServerData.nPort = nPort;
-                xServerData.strName = strName;
+                xServerData.strName = strServerName;
 
                 m_pNetClientModule->AddServer(xServerData);
             }
@@ -107,14 +107,14 @@ void AFCWorldToMasterModule::Register(const int nServerID)
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
                 const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-                const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+                const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
                 AFMsg::ServerInfoReportList xMsg;
                 AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
 
                 pData->set_server_id(nSelfServerID);
-                pData->set_server_name(strName);
+                pData->set_server_name(strServerName);
                 pData->set_server_cur_count(0);
                 pData->set_server_ip(strIP);
                 pData->set_server_port(nPort);
@@ -128,7 +128,7 @@ void AFCWorldToMasterModule::Register(const int nServerID)
                     int nTargetID = pServerData->nGameID;
                     m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_MTL_WORLD_REGISTERED, xMsg, 0);
 
-                    ARK_LOG_INFO("Register, server_id = %d server_name = %s", pData->server_id(), pData->server_name().c_str());
+                    ARK_LOG_INFO("Register, server_id = {} server_name = {}", pData->server_id(), pData->server_name().c_str());
                 }
             }
         }
@@ -179,10 +179,9 @@ void AFCWorldToMasterModule::OnKickClientProcess(const AFIMsgHead& xHead, const 
         return;
     }
 
-    //T人,下线
-    //     AFIDataList var;
-    //     var << xMsg.world_id() << xMsg.account();
-    //     m_pEventProcessModule->DoEvent(AFGUID(), AFED_ON_KICK_FROM_SERVER, var);
+    //AFIDataList var;
+    //var << xMsg.world_id() << xMsg.account();
+    //m_pEventProcessModule->DoEvent(AFGUID(), AFED_ON_KICK_FROM_SERVER, var);
 }
 
 void AFCWorldToMasterModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
@@ -194,11 +193,11 @@ void AFCWorldToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AF
 {
     if(eEvent == DISCONNECTED)
     {
-        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
     }
     else  if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
         Register(nServerID);
     }
 }
@@ -220,6 +219,6 @@ bool AFCWorldToMasterModule::PreShut()
 
 void AFCWorldToMasterModule::LogServerInfo(const std::string& strServerInfo)
 {
-    ARK_LOG_INFO("%s", strServerInfo.c_str());
+    ARK_LOG_INFO("{}", strServerInfo.c_str());
 }
 

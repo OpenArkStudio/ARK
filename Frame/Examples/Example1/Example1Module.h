@@ -24,6 +24,7 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFITimerModule.h"
 #include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIScheduleModule.h"
 
 class Example1Module : public AFIModule
 {
@@ -43,8 +44,9 @@ public:
 
 protected:
     void TestTimer(const std::string& name, const AFGUID& entity_id);
-
+    bool TestSchduler(const int id, const int arg);
 protected:
     AFITimerModule* m_pTimerModule;
     AFILogModule* m_pLogModule;
+    AFIScheduleModule* m_pScheduleModule;
 };

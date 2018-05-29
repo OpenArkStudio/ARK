@@ -54,7 +54,7 @@ void AFCMasterNetServerModule::OnWorldRegisteredProcess(const AFIMsgHead& xHead,
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("WorldRegistered, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("WorldRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
     }
 
     SynWorldToLogin();
@@ -74,7 +74,7 @@ void AFCMasterNetServerModule::OnWorldUnRegisteredProcess(const AFIMsgHead& xHea
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         mWorldMap.RemoveElement(xData.server_id());
 
-        ARK_LOG_INFO("WorldUnRegistered, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("WorldUnRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
     }
 
     SynWorldToLogin();
@@ -102,7 +102,7 @@ void AFCMasterNetServerModule::OnRefreshWorldInfoProcess(const AFIMsgHead& xHead
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("RefreshWorldInfo, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("RefreshWorldInfo, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
     }
 
     SynWorldToLogin();
@@ -130,7 +130,7 @@ void AFCMasterNetServerModule::OnLoginRegisteredProcess(const AFIMsgHead& xHead,
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("LoginRegistered, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("LoginRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
     }
 
     SynWorldToLogin();
@@ -151,7 +151,7 @@ void AFCMasterNetServerModule::OnLoginUnRegisteredProcess(const AFIMsgHead& xHea
 
         mLoginMap.RemoveElement(xData.server_id());
 
-        ARK_LOG_INFO("LoginUnRegistered, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("LoginUnRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
     }
 }
 
@@ -177,7 +177,7 @@ void AFCMasterNetServerModule::OnRefreshLoginInfoProcess(const AFIMsgHead& xHead
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("RefreshLoginInfo, server_id[%d] server_name[%s]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("RefreshLoginInfo, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
     }
 }
 
@@ -196,7 +196,7 @@ void AFCMasterNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, con
         return;
     }
 
-    //转发送到世界服务器
+    //send to world
     m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
 }
 
@@ -262,13 +262,13 @@ bool AFCMasterNetServerModule::PostInit()
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
             const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-            const std::string strName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+            const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
             const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
             int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
             if(nRet < 0)
             {
-                ARK_LOG_ERROR("Cannot init server net, Port = %d", nPort);
+                ARK_LOG_ERROR("Cannot init server net, Port = {}", nPort);
                 ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
                 exit(0);
             }
@@ -282,12 +282,12 @@ void AFCMasterNetServerModule::OnSocketEvent(const NetEventType eEvent, const AF
 {
     if(eEvent == DISCONNECTED)
     {
-        ARK_LOG_INFO("Connection closed, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
         OnClientDisconnect(xClientID);
     }
     else  if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = %s", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
         OnClientConnected(xClientID);
     }
 }
@@ -358,7 +358,7 @@ void AFCMasterNetServerModule::SynWorldToLogin()
 
 void AFCMasterNetServerModule::LogGameServer()
 {
-    if(mnLastLogTime + 10 > GetPluginManager()->GetNowTime())
+    if(mnLastLogTime + 10 * 1000 > GetPluginManager()->GetNowTime())
     {
         return;
     }
@@ -370,7 +370,7 @@ void AFCMasterNetServerModule::LogGameServer()
 
     for(ARK_SHARE_PTR<ServerData> pGameData = mWorldMap.First(); pGameData != nullptr; pGameData = mWorldMap.Next())
     {
-        ARK_LOG_INFO("Type[%d] ID[%d] State[%s] IP[%s] xClient[%d]",
+        ARK_LOG_INFO("Type[{}] ID[{}] State[{}] IP[{}] xClient[{}]",
                      pGameData->pData->server_type(),
                      pGameData->pData->server_id(),
                      AFMsg::EServerState_Name(pGameData->pData->server_state()).c_str(),
@@ -384,7 +384,7 @@ void AFCMasterNetServerModule::LogGameServer()
 
     for(ARK_SHARE_PTR<ServerData> pGameData = mLoginMap.First(); pGameData != nullptr; pGameData = mLoginMap.Next())
     {
-        ARK_LOG_INFO("Type[%d] ID[%d] State[%s] IP[%s] xClient[%d]",
+        ARK_LOG_INFO("Type[{}] ID[{}] State[{}] IP[{}] xClient[{}]",
                      pGameData->pData->server_type(),
                      pGameData->pData->server_id(),
                      AFMsg::EServerState_Name(pGameData->pData->server_state()).c_str(),
@@ -400,5 +400,5 @@ void AFCMasterNetServerModule::OnHeartBeat(const AFIMsgHead& xHead, const int nM
 
 void AFCMasterNetServerModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    ARK_LOG_ERROR("Invalid msg id = %d", nMsgID);
+    ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);
 }

@@ -38,10 +38,6 @@ void AFDataTable::ReleaseRow(RowData* row_data, size_t col_num)
     {
         row_data[i].~RowData();
     }
-
-	//TODO:
-    //delete[]row_data;
-    //row_data = NULL;
 }
 
 void AFDataTable::ReleaseAll()
@@ -449,16 +445,13 @@ const AFGUID& AFDataTable::GetObject(size_t row, size_t col)
 
 const char* AFDataTable::GetStringValue(size_t row, size_t col)
 {
-    //AFCData data;
-    //if (!GetValue(row, col, data))
-    //{
-    //    return NULL_STR.c_str();
-    //}
+    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    {
+        return NULL_STR.c_str();
+    }
 
-    //return data.ToString();
-
-    //TODO:澧炲姞AFIData鐨凾oString鎺ュ彛
-    return NULL_STR.c_str();
+    RowData* row_data = mxRowDatas[row];
+    return row_data[col].GetString();
 }
 
 bool AFDataTable::GetColTypeList(AFIDataList& col_type_list)

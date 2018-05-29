@@ -2,18 +2,21 @@
 
 [![GitHub version](https://badge.fury.io/gh/ArkGame%2FARK.svg)](https://badge.fury.io/gh/ArkGame%2FARK)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg)](https://github.com/ArkGame/ARK)
 [![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ARK)
-[![Gitter chat](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
+[![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
+[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
 
 | Branch | Build Status |
-| - | - | 
+| - | - |
 | master | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=master)](https://travis-ci.org/ArkGame/ARK) |
 | develop | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=develop)](https://travis-ci.org/ArkGame/ARK) |
 
-**Copyright © [ARK Game](https://arkgame.net "ARK Game")**    
+**Copyright © [ARK Game](https://arkgame.net "ARK Game")**   
 Website: https://arkgame.net  
 Github: https://github.com/ArkGame/ARK  
 Gitee(码云): https://gitee.com/ArkGame/ARK  
+QQ群: [540961187](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 
 ##### Wanna get the newest features? Please switch to the develop branch.
 
@@ -41,7 +44,7 @@ ARK is a lightweight, agility, scalable, distributed plugin framework written by
 
 ### FAQ
 
-Please [create a new issue](https://github.com/ArkGame/ARK/issues) to ask a question.
+Please [create a new issue](https://github.com/ArkGame/ARK/issues) OR [visit our community](https://arkgame.net/community) to ask a question.
 
 
 ## Architecture
@@ -60,12 +63,10 @@ svn checkout https://github.com/ArkGame/ARK
 
 ## Dependencies
 
-- libevent master
-- easylogging++ 9.80
-- mysql++ 3.2.2
-- google protobuf 3.5.x
-- evpp 0.7.0
-- gperftools master
+- [brynet](https://github.com/IronsDu/brynet) MIT License
+- [easylogging++](https://github.com/muflihun/easyloggingpp) MIT License
+- [mysql++](https://tangentsoft.com/mysqlpp/home)
+- [google protobuf 3.5.x](https://github.com/google/protobuf)
 
 ## Supported Compilers
 
@@ -78,10 +79,10 @@ svn checkout https://github.com/ArkGame/ARK
 
 ##### Prerequisites:
 
-- Windows 10, 8.1, or 7
-- Visual Studio 2017 or Visual Studio 2015 Update 3
+- Windows 7 or later
+- Visual Studio 2017
 - Git
-- CMake 3.0 +
+- CMake
 
 ##### Step:
 Using Visual Studio 2017
@@ -116,6 +117,7 @@ cmake -G "Visual Studio 15 Win64" ..
 > Note
 > - If you are using VS2015, please use `Dep/build_dep_vs2015.bat`
 > - If you are using VS2017, please change `%VS150COMNTOOLS%` in `Dep/build_dep.bat` to `YOUR-COMPILER-PATH`.
+> - If you DO NOT install **Win10 SDK**, please use **CMake** to create new solution.
 
 ### linux
 
@@ -141,7 +143,7 @@ make
 > Note
 > - If you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
 > - To accelerate building, you can use `make -j` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
-3. Run `ARK\Bin\Server\DataConfig\Tool\gen-config.sh` to generate configuration files
+3. Run `ARK\Bin\Server\DataConfig\Tool\gen-config.sh` to generate configuration files(*Cuz our Tools is written by C#, so please generate your configuration in Windows, we plan to use .Net Core to create a new version in Linux*)
 4. Run the binary file by `Bin/Server/Debug/rund.sh`
 
 ## Documents

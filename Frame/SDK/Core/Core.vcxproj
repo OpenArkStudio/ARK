@@ -59,10 +59,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_X64;_DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\Theron\Include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\</AdditionalIncludeDirectories>
       <BrowseInformation>false</BrowseInformation>
       <SDLCheck>false</SDLCheck>
       <CompileAs>Default</CompileAs>
+      <LanguageStandard>
+      </LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -84,7 +86,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_X64;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\Theron\Include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\</AdditionalIncludeDirectories>
       <SDLCheck>false</SDLCheck>
       <CompileAs>Default</CompileAs>
     </ClCompile>
@@ -115,11 +117,13 @@
     <ClInclude Include="Base\AFArrayMap.hpp" />
     <ClInclude Include="Base\AFArrayPod.hpp" />
     <ClInclude Include="Base\AFBitValue.hpp" />
+    <ClInclude Include="Base\AFBuffer.hpp" />
     <ClInclude Include="Base\AFCAddConsistentHash.hpp" />
     <ClInclude Include="Base\AFCConsistentHash.hpp" />
     <ClInclude Include="Base\AFCData.h" />
     <ClInclude Include="Base\AFCDataList.h" />
     <ClInclude Include="Base\AFCoreDef.hpp" />
+    <ClInclude Include="Base\AFCronScheduler.hpp" />
     <ClInclude Include="Base\AFDefine.h" />
     <ClInclude Include="Base\AFGUID.h" />
     <ClInclude Include="Base\AFHashmap.h" />
@@ -144,6 +148,7 @@
     <ClInclude Include="Base\AFTime.hpp" />
     <ClInclude Include="Base\AFTimer.hpp" />
     <ClInclude Include="Base\AFVector3.hpp" />
+    <ClInclude Include="Common\cronexpr.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCEntity.cpp" />
@@ -153,6 +158,7 @@
     <ClCompile Include="AFCDataTableManager.cpp" />
     <ClCompile Include="AFDataTable.cpp" />
     <ClCompile Include="Base\AFMemAlloc.cpp" />
+    <ClCompile Include="Common\cronexpr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -548,7 +548,7 @@ public:
         AFTime xTime((int)Get(YEAR), (int)Get(MONTH), 1, 0, 0, 0, 0);
         int nFirstDayOfWeek = xTime.GetDayOfWeek();
         int64_t nDaySpan = Get(DAY) - 1;
-        return (nFirstDayOfWeek + nDaySpan) / 7;
+        return int((nFirstDayOfWeek + nDaySpan) / 7);
     }
 
     int GetDayOfYear()
@@ -626,66 +626,7 @@ private:
             ARK_ASSERT_NO_EFFECT(bRet);
         }
 
-        if(nYear < 1970)
-        {
-            return;
-        }
-
-        int nTmpYear = 1970;
-        while(nTmpYear < nYear)
-        {
-            mnTime += AFCTimeBase::NDAY_MS * 365;
-            if(IsLeapYear(nTmpYear))
-            {
-                mnTime += AFCTimeBase::NDAY_MS;
-            }
-            nTmpYear++;
-        }
-
-        bool bIsLeapYear = IsLeapYear(nYear);
-        for(int month = 1; month < nMonth; month++)
-        {
-            int64_t nMothDays;
-            switch(month)
-            {
-            case 2:
-                {
-                    if(!bIsLeapYear)
-                    {
-                        nMothDays = 28;
-                    }
-                    else
-                    {
-                        nMothDays = 29;
-                    }
-                }
-                break;
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
-                {
-                    nMothDays = 31;
-                }
-                break;
-            default:
-                {
-                    nMothDays = 30;
-                }
-                break;
-            }
-
-            mnTime += AFCTimeBase::NDAY_MS * nMothDays;
-        }
-
-        mnTime += AFCTimeBase::NDAY_MS * (nDay - 1);
-        mnTime += AFCTimeBase::NHOUR_MS * nHour;
-        mnTime += AFCTimeBase::NMINUTE_MS * nMinute;
-        mnTime += AFCTimeBase::NSECOND_MS * nSecond;
-        mnTime += nMilliSecond;
+        InitWithYMDHMSM(nYear, nMonth, nDay, nHour, nMinute, nSecond, nMilliSecond);
     }
 
     void InitWithYMDHMSM(int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond, int nMilliSecond)

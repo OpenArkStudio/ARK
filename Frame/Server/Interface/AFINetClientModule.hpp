@@ -310,7 +310,7 @@ protected:
 
                     pServerData->eState = ConnectDataState::CONNECTING;
                     pServerData->mxNetModule = std::make_shared<AFCNetClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
-                    pServerData->mxNetModule->Initialization(pServerData->strIPAndPort, pServerData->nGameID);
+                    pServerData->mxNetModule->Start(pServerData->strIPAndPort, pServerData->nGameID);
                 }
                 break;
             default:
@@ -416,7 +416,7 @@ private:
 
                 xServerData->mxNetModule = std::make_shared<AFCNetClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
 
-                xServerData->mxNetModule->Initialization(xServerData->strIPAndPort, xServerData->nGameID);
+                xServerData->mxNetModule->Start(xServerData->strIPAndPort, xServerData->nGameID);
 
                 if(!mxServerMap.AddElement(xInfo.nGameID, xServerData))
                 {
@@ -471,14 +471,13 @@ protected:
 
     void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
     {
-        int nRet(0);
         if(eEvent == CONNECTED)
         {
-            nRet = OnConnected(eEvent, xClientID, nServerID);
+            OnConnected(eEvent, xClientID, nServerID);
         }
         else
         {
-            nRet = OnDisConnected(eEvent, xClientID, nServerID);
+            OnDisConnected(eEvent, xClientID, nServerID);
         }
 
         OnSocketBaseNetEvent(eEvent, xClientID, nServerID);
