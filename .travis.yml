@@ -1,4 +1,4 @@
-sudo: false
+sudo: required
 language: cpp
 
 env:
@@ -48,10 +48,18 @@ before_script:
 script:
   # make
   - make -j 8
+  - echo $TRAVIS_BUILD_DIR/ARK/Frame
+  - cd $TRAVIS_BUILD_DIR/ARK/Frame
+  - build-wrapper-linux-x86-64 --out-dir bw-output make all
+  - sonar-scanner -X
     
 after_success:
   #- bash <(curl -s https://codecov.io/bash)
   
+cache:
+  directories:
+    - '$HOME/.sonar/cache'
+
 notifications:
   email:
     - nickyang1988@qq.com
