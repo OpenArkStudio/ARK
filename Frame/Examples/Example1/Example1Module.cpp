@@ -44,10 +44,10 @@ bool Example1Module::PostInit()
     ARK_ASSERT_RET_VAL(m_pScheduleModule != nullptr, false);
 
     AFGUID test_id = AFGUID(0, 1);
-    for (int i = 0; i < 1000; ++i)
-    {
-        ARK_LOG_INFO("Test log, id = {}", test_id.ToString());
-    }
+    //for (int i = 0; i < 1000; ++i)
+    //{
+    //    ARK_LOG_INFO("Test log, id = {}", test_id.ToString());
+    //}
     
     std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
 
