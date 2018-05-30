@@ -29,19 +29,20 @@
 enum ARK_ENTITY_EVENT
 {
     ENTITY_EVT_NONE                 = 0,
-    ENTITY_EVT_DESTROY              = 1,
-    ENTITY_EVT_PRE_DESTROY          = 2,
-    ENTITY_EVT_PRE_LOAD_DATA        = 3,
-    ENTITY_EVT_LOAD_DATA            = 4,
-    ENTITY_EVT_PRE_EFFECT_DATA      = 5,
-    ENTITY_EVT_EFFECT_DATA          = 6,
-    ENTITY_EVT_POST_EFFECT_DATA     = 7,
-    ENTITY_EVT_DATA_FINISHED        = 8,
-    ENTITY_EVT_ALL_FINISHED,        //瑙掕壊鍒涘缓瀹屾垚鍚庡啀鎸傚洖璋?
+    ENTITY_EVT_DESTROY                 ,
+    ENTITY_EVT_PRE_DESTROY             ,
+    ENTITY_EVT_PRE_LOAD_DATA           ,
+    ENTITY_EVT_LOAD_DATA               ,
+    ENTITY_EVT_PRE_EFFECT_DATA         ,
+    ENTITY_EVT_EFFECT_DATA             ,
+    ENTITY_EVT_POST_EFFECT_DATA        ,
+    ENTITY_EVT_DATA_FINISHED           ,
+    ENTITY_EVT_ALL_FINISHED,        //Call it by yourself when create entity finished
 };
 
-struct DATA_TABLE_EVENT_DATA
+class DATA_TABLE_EVENT_DATA
 {
+public:
     DATA_TABLE_EVENT_DATA()
         : nOpType(ENTITY_EVT_NONE)
         , nRow(-1)

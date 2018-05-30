@@ -22,9 +22,9 @@
 #include "AFDataNode.h"
 #include "SDK/Core/Base/AFMisc.hpp"
 
-AFCDataNodeManager::AFCDataNodeManager(const AFGUID& self)
+AFCDataNodeManager::AFCDataNodeManager(const AFGUID& self) : mxSelf(self)
 {
-    mxSelf = self;
+
 }
 
 AFCDataNodeManager::~AFCDataNodeManager()

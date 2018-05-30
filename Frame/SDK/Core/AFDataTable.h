@@ -122,7 +122,7 @@ public:
     void ReleaseRow(RowData* row_data, size_t col_num);
     void ReleaseAll();
 
-protected:
+private:
     DataTableName mstrName;                         //DataTable name
     int8_t feature;                                 //DataTable feature
 	ArrayPod<int, 1, CoreAlloc> mxColTypes;        //DataTable column type array

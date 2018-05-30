@@ -25,9 +25,8 @@
 #include "AFCEventManager.h"
 
 AFCEntity::AFCEntity(const AFGUID& self, AFIPluginManager* pLuginManager)
-    : AFIEntity(self)
+    : AFIEntity(self), mSelf(self)
 {
-    mSelf = self;
     m_pPluginManager = pLuginManager;
 
     m_pNodeManager = std::make_shared<AFCDataNodeManager>(mSelf);

@@ -27,7 +27,9 @@
 class AFCEventManager : public AFIEventManager
 {
 public:
-    AFCEventManager(AFGUID self);
+    AFCEventManager() = delete;
+
+    explicit AFCEventManager(AFGUID self);
     virtual ~AFCEventManager();
 
     virtual bool Init();

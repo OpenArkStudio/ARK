@@ -27,16 +27,10 @@
 class AFIVirtualNode
 {
 public:
+    AFIVirtualNode() {}
 
-    AFIVirtualNode(const int nVirID)
-        : nVirtualIndex(nVirID)
+    explicit AFIVirtualNode(const int nVirID) : nVirtualIndex(nVirID)
     {
-
-    }
-
-    AFIVirtualNode()
-    {
-        nVirtualIndex = 0;
     }
 
     virtual ~AFIVirtualNode()
@@ -73,20 +67,20 @@ private:
 class AFCMachineNode : public AFIVirtualNode
 {
 public:
-    AFCMachineNode(const int nVirID) : AFIVirtualNode(nVirID)
-    {
-        strIP = "";
-        nPort = 0;
-        nWeight = 0;//鎬诲叡澶氬皯鏉冮噸鍗虫槸澶氬皯铏氭嫙鑺傜偣
-        nMachineID = 0;
-        bCandidate = false;
-    }
-
     AFCMachineNode()
     {
         strIP = "";
         nPort = 0;
-        nWeight = 0;//鎬诲叡澶氬皯鏉冮噸鍗虫槸澶氬皯铏氭嫙鑺傜偣
+        nWeight = 0;
+        nMachineID = 0;
+        bCandidate = false;
+    }
+
+    explicit AFCMachineNode(const int nVirID) : AFIVirtualNode(nVirID)
+    {
+        strIP = "";
+        nPort = 0;
+        nWeight = 0;
         nMachineID = 0;
         bCandidate = false;
     }
@@ -136,6 +130,9 @@ public:
 
 class AFIConsistentHash
 {
+public:
+    virtual ~AFIConsistentHash() {}
+
     virtual std::size_t Size() const = 0;
 
     virtual bool Empty() const = 0;
@@ -157,12 +154,9 @@ class AFIConsistentHash
     virtual bool GetNodeList(std::list<AFCMachineNode>& nodeList) = 0;
 };
 
-class AFCConsistentHash
+class AFCConsistentHash : public AFIConsistentHash
 {
 public:
-
-public:
-
     AFCConsistentHash()
     {
         m_pHasher = new AFCHasher();
@@ -174,19 +168,17 @@ public:
         m_pHasher = NULL;
     }
 
-public:
-
-    std::size_t Size() const
+    std::size_t Size() const override
     {
         return mxNodes.size();
     }
 
-    bool Empty() const
+    bool Empty() const override
     {
         return mxNodes.empty();
     }
 
-    void Insert(const int nID, const std::string& strIP, int nPort)
+    void Insert(const int nID, const std::string& strIP, int nPort) override
     {
         AFCMachineNode xNode;
         xNode.nMachineID = nID;
@@ -196,7 +188,7 @@ public:
         Insert(xNode);
     }
 
-    void Insert(const AFCMachineNode& xNode)
+    void Insert(const AFCMachineNode& xNode) override
     {
         uint32_t hash = m_pHasher->GetHashValue(xNode);
         auto it = mxNodes.find(hash);
@@ -206,7 +198,7 @@ public:
         }
     }
 
-    bool Exist(const AFCMachineNode& xInNode)
+    bool Exist(const AFCMachineNode& xInNode) override
     {
         uint32_t hash = m_pHasher->GetHashValue(xInNode);
         std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.find(hash);
@@ -218,25 +210,25 @@ public:
         return false;
     }
 
-    std::size_t Erase(const AFCMachineNode& xNode)
+    std::size_t Erase(const AFCMachineNode& xNode) override
     {
         uint32_t hash = m_pHasher->GetHashValue(xNode);
         return mxNodes.erase(hash);
     }
 
-    bool GetSuitNode(AFCMachineNode& node)
+    bool GetSuitNode(AFCMachineNode& node) override
     {
         int nID = 0;
         return GetSuitNode(nID, node);
     }
 
-    bool GetSuitNode(const std::string& str, AFCMachineNode& node)
+    bool GetSuitNode(const std::string& str, AFCMachineNode& node) override
     {
         uint32_t nCRC32 = CRC32(str);
         return GetSuitNode(nCRC32, node);
     }
 
-    bool GetSuitNode(uint32_t hashValue, AFCMachineNode& node)
+    bool GetSuitNode(uint32_t hashValue, AFCMachineNode& node) override
     {
         if(mxNodes.empty())
         {
@@ -255,7 +247,7 @@ public:
         return true;
     }
 
-    bool GetNodeList(std::list<AFCMachineNode>& nodeList)
+    bool GetNodeList(std::list<AFCMachineNode>& nodeList) override
     {
         for(std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.begin(); it != mxNodes.end(); ++it)
         {
