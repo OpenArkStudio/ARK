@@ -87,11 +87,11 @@ public:
 public:
     //From Worker Thread
     size_t OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len);
+    void OnClientConnectionInner(const brynet::net::TCPSession::PTR & session);
+    void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session);
 
     //From ListenThread
     void OnAcceptConnectionInner(brynet::net::TcpSocket::PTR session);
-    void OnClientConnectionInner(const brynet::net::TCPSession::PTR & session);
-    void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session);
 
 private:
     bool SendMsgToAllClient(const char* msg, const size_t nLen);
