@@ -266,8 +266,8 @@ template<int x> struct ark_static_assert_test {};
 
 #define ARK_TO_STRING(value) std::to_string(value)
 
-#undef max
-#undef min
+//#undef max
+//#undef min
 
 //clear player data time
 #define CLEAR_HOUR 5

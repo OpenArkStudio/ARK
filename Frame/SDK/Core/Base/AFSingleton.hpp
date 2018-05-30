@@ -74,7 +74,7 @@ public:
         }
     }
 
-protected:
+private:
     static T* instance_;
 };
 

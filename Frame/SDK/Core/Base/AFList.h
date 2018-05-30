@@ -37,7 +37,7 @@ public:
     bool Get(const int32_t index, T& id);
     int Count();
 
-protected:
+private:
     using TList = std::list<T>;
     TList mtObjConfigList;
     typename std::list<T>::iterator mCurIter;
