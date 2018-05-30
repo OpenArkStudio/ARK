@@ -89,9 +89,9 @@ bool AFCLoginToMasterModule::PreShut()
     return false;
 }
 
-void AFCLoginToMasterModule::Update()
+bool AFCLoginToMasterModule::Update()
 {
-    m_pNetClientModule->Update();
+    return m_pNetClientModule->Update();
 }
 
 void AFCLoginToMasterModule::Register(const int nServerID)

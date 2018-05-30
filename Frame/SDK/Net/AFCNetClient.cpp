@@ -129,7 +129,7 @@ bool AFCNetClient::Final()
 
     m_pConector->stopWorkerThread();
     m_pServer->stopWorkThread();
-    bWorking = false;
+    SetWorking(false);
     return true;
 }
 
@@ -184,7 +184,7 @@ bool AFCNetClient::DismantleNet(AFTCPEntity* pEntity)
 
 void AFCNetClient::log_cb(int severity, const char* msg)
 {
-
+    //Will add log
 }
 
 bool AFCNetClient::IsServer()

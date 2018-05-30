@@ -75,7 +75,7 @@ bool AFCKernelModule::Shut()
     return true;
 }
 
-void AFCKernelModule::Update()
+bool AFCKernelModule::Update()
 {
     ProcessMemFree();
 
@@ -102,6 +102,8 @@ void AFCKernelModule::Update()
 
         pEntity = Next();
     }
+
+    return true;
 }
 
 bool AFCKernelModule::FindHeartBeat(const AFGUID& self, const std::string& name)

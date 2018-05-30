@@ -146,9 +146,9 @@ bool Example3Module::PostInit()
     return true;
 }
 
-void Example3Module::Update()
+bool Example3Module::Update()
 {
-
+    return true;
 }
 
 bool Example3Module::PreShut()

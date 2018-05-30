@@ -40,7 +40,7 @@ bool AFCSceneModule::Shut()
     return true;
 }
 
-void AFCSceneModule::Update()
+bool AFCSceneModule::Update()
 {
-
+    return true;
 }

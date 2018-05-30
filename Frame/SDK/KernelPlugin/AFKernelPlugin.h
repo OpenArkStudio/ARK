@@ -26,7 +26,7 @@
 class AFKernelPlugin : public AFIPlugin
 {
 public:
-    AFKernelPlugin(AFIPluginManager* p)
+    explicit AFKernelPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

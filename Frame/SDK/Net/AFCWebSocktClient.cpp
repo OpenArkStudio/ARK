@@ -165,6 +165,7 @@ void AFCWebSocktClient::OnWebSockMessageCallBack(const brynet::net::HttpSession:
     m_pClientEntity->AddBuff(payload.c_str(), payload.size());
     DismantleNet(m_pClientEntity.get());
 }
+
 bool AFCWebSocktClient::Final()
 {
     if(!CloseSocketAll())
@@ -174,7 +175,7 @@ bool AFCWebSocktClient::Final()
 
     m_pConector->stopWorkerThread();
     m_pServer->stopWorkThread();
-    bWorking = false;
+    SetWorking(false);
     return true;
 }
 
@@ -250,7 +251,7 @@ bool AFCWebSocktClient::DismantleNet(AFHttpEntity* pEntity)
 
 void AFCWebSocktClient::log_cb(int severity, const char* msg)
 {
-
+    //Will add log
 }
 
 bool AFCWebSocktClient::IsServer()

@@ -35,7 +35,7 @@ public:
     AFCWebSocktClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr)
     {
         mnServerID = 0;
-        bWorking = false;
+        SetWorking(false);
         nReceiverSize = 0;
         nSendSize = 0;
 
@@ -71,13 +71,13 @@ public:
 
     virtual ~AFCWebSocktClient()
     {
-        bool bRet = Final();
+        Final();
     };
 
 public:
     virtual void Update();
     virtual void Start(const std::string& strAddrPort, const int nServerID);
-    virtual bool Final();
+    virtual bool Final() final;
     virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID = 0, const AFGUID& xPlayerID = 0);
 
     virtual bool CloseNetEntity(const AFGUID& xClient);

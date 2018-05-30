@@ -97,7 +97,7 @@ public:
         return ((timestamp - ARK_EPOCH) * ARK_GUID_POWER + sequence_);
     }
 
-protected:
+private:
     uint64_t last_timestamp_{ 0 };
     uint32_t sequence_{ 0 };
 };
@@ -114,7 +114,7 @@ public:
         return id_worker_.GetNextID();
     }
 
-protected:
+private:
     IdWorkerThreadUnsafe id_worker_;
     mutable std::mutex lock_;
 };
@@ -145,9 +145,9 @@ bool AFCGUIDModule::PostInit()
     return true;
 }
 
-void AFCGUIDModule::Update()
+bool AFCGUIDModule::Update()
 {
-
+    return true;
 }
 
 bool AFCGUIDModule::PreShut()

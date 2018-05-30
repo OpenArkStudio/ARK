@@ -74,7 +74,7 @@ public:
 public:
     virtual void Update();
     virtual void Start(const std::string& strAddrPort, const int nServerID);
-    virtual bool Final();
+    virtual bool Final() final;
     virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID = 0, const AFGUID& xPlayerID = 0);
 
     virtual bool CloseNetEntity(const AFGUID& xClient);

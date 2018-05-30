@@ -97,10 +97,11 @@ public:
         return true;
     }
 
-    virtual void Update()
+    virtual bool Update()
     {
         ProcessExecute();
         ProcessAddNetConnect();
+        return true;
     }
 
     void AddServer(const ConnectData& xInfo)

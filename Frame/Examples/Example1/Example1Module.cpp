@@ -80,9 +80,9 @@ bool Example1Module::PostInit()
     return true;
 }
 
-void Example1Module::Update()
+bool Example1Module::Update()
 {
-
+    return true;
 }
 
 bool Example1Module::PreShut()

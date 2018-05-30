@@ -25,12 +25,12 @@
 class AFCLogModule : public AFILogModule
 {
 public:
-    AFCLogModule(AFIPluginManager* p);
+    explicit AFCLogModule(AFIPluginManager* p);
     virtual ~AFCLogModule() {}
 
     virtual bool Init();
     virtual bool PostInit();
-    virtual void Update();
+    virtual bool Update();
     virtual bool PreShut();
     virtual bool Shut();
 

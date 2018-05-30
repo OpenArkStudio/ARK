@@ -32,9 +32,9 @@ bool AFCPropertyTrailModule::Shut()
     return true;
 }
 
-void AFCPropertyTrailModule::Update()
+bool AFCPropertyTrailModule::Update()
 {
-
+    return true;
 }
 
 bool AFCPropertyTrailModule::PostInit()

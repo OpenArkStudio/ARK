@@ -31,15 +31,16 @@
 class AFCAccountModule : public AFIAccountModule
 {
 public:
-    AFCAccountModule(AFIPluginManager* p)
+    explicit AFCAccountModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
+
     virtual ~AFCAccountModule() {};
 
     virtual bool Init();
     virtual bool Shut();
-    virtual void Update(const float fLasFrametime, const float fStartedTime);
+    virtual bool Update();
     virtual bool PostInit();
 
     virtual bool GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
