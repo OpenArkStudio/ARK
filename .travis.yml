@@ -48,10 +48,9 @@ before_script:
 
 script:
   # make
-  - make -j 8
+  - build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
   - echo $TRAVIS_BUILD_DIR/Frame
   - cd $TRAVIS_BUILD_DIR/Frame
-  - build-wrapper-linux-x86-64 --out-dir bw-output make clean
   - sonar-scanner -X
     
 after_success:
