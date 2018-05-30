@@ -102,7 +102,7 @@ public:
 
     void Swap(AFStringAlloc& src)
     {
-
+        //Do nothing
     }
 };
 

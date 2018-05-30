@@ -32,7 +32,7 @@
 class AFIEntity
 {
 public:
-    AFIEntity(const AFGUID& self) {}
+    explicit AFIEntity(const AFGUID& self) {}
 
     virtual ~AFIEntity() {}
 
