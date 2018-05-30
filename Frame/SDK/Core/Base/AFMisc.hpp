@@ -27,17 +27,17 @@ class AFMisc
 public:
     static uint32_t GetNearest2N(uint32_t size)
     {
+        if (size == 0)
+        {
+            return 0;
+        }
+
         if(size <= 8)
         {
             return 8;
         }
 
         if(size > (1 << 16))
-        {
-            return 0;
-        }
-
-        if(size == 0)
         {
             return 0;
         }
