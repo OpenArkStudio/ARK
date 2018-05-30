@@ -118,7 +118,7 @@ void AFCNetServer::OnClientDisConnectionInner(const brynet::net::TCPSession::PTR
     AFTCPEntity *pEntity = nullptr;
 
     {
-        AFScopeWrLock xGuard(mRWLock);
+        AFScopeRdLock xGuard(mRWLock);
 
         auto xFind = mmObject.find(xClient);
         if(xFind != mmObject.end())
