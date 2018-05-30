@@ -45,9 +45,10 @@ bool AFCTimerModule::Shut()
     return true;
 }
 
-void AFCTimerModule::Update()
+bool AFCTimerModule::Update()
 {
     mxTimerManager->Update(pPluginManager->GetNowTime());
+    return true;
 }
 
 bool AFCTimerModule::RemoveTimer(const std::string& name)

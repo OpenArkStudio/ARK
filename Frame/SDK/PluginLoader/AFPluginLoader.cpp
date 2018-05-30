@@ -84,6 +84,8 @@ void CloseXButton()
         HMENU hMenu = GetSystemMenu(hWnd, FALSE);
         EnableMenuItem(hMenu, SC_CLOSE, MF_DISABLED | MF_BYCOMMAND);
     }
+#else
+    //Do nothing
 #endif
 }
 

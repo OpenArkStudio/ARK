@@ -44,9 +44,9 @@ bool AFCAccountModule::Shut()
     return true;
 }
 
-void AFCAccountModule::Update(const float fLasFrametime, const float fStartedTime)
+bool AFCAccountModule::Update()
 {
-
+    return true;
 }
 
 int AFCAccountModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
@@ -127,7 +127,7 @@ bool AFCAccountModule::GetRoleList(const std::string& strAccount, AFMsg::AckRole
 bool AFCAccountModule::CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList)
 {
     AFMsg::RoleLiteInfo* pData = xAckRoleLiteInfoList.add_char_data();
-    pData->mutable_id()->CopyFrom(AFINetServerModule::GUIDToPB(m_pUUIDModule->CreateGUID()));
+    pData->mutable_id()->CopyFrom(AFINetModule::GUIDToPB(m_pUUIDModule->CreateGUID()));
 
     int nCareer = varList.Int(0);
     int sex = varList.Int(1);

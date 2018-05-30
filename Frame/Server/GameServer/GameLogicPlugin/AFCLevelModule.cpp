@@ -31,9 +31,9 @@ bool AFCLevelModule::Shut()
     return true;
 }
 
-void AFCLevelModule::Update()
+bool AFCLevelModule::Update()
 {
-
+    return true;
 }
 
 bool AFCLevelModule::PostInit()

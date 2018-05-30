@@ -67,9 +67,9 @@ bool Example2Module::PostInit()
     return true;
 }
 
-void Example2Module::Update()
+bool Example2Module::Update()
 {
-
+    return true;
 }
 
 bool Example2Module::PreShut()

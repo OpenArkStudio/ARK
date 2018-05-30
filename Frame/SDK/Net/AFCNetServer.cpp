@@ -187,7 +187,7 @@ void AFCNetServer::ProcessMsgLogicThread(AFTCPEntity* pEntity)
 
 bool AFCNetServer::Final()
 {
-    bWorking = false;
+    SetWorking(false);
     return true;
 }
 

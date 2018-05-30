@@ -26,7 +26,7 @@
 class AFCTimerModule : public AFITimerModule
 {
 public:
-    AFCTimerModule(AFIPluginManager* p)
+    explicit AFCTimerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -39,7 +39,7 @@ public:
     virtual bool PreShut();
     virtual bool Shut();
 
-    virtual void Update();
+    virtual bool Update();
 
     virtual bool RemoveTimer(const std::string& name);
     virtual bool RemoveTimer(const std::string& name, const AFGUID& entity_id);

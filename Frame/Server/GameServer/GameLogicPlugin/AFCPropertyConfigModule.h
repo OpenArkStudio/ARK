@@ -41,7 +41,7 @@ public:
 
     virtual bool Init();
     virtual bool Shut();
-    virtual void Update();
+    virtual bool Update();
     virtual bool PostInit();
 
     virtual int CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty);

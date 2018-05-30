@@ -177,13 +177,15 @@ AFIPlugin* AFCPluginManager::FindPlugin(const std::string& strPluginName)
     return mxPluginInstanceMap.GetElement(strPluginName);
 }
 
-void AFCPluginManager::Update()
+bool AFCPluginManager::Update()
 {
     mnNowTime = AFCTimeBase::GetInstance().GetNowMillisecond();
     for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->Update();
     }
+
+    return true;
 }
 
 inline int AFCPluginManager::AppID() const

@@ -35,10 +35,10 @@
 
 class AFCKernelModule
     : public AFIKernelModule,
-      public AFMapEx<AFGUID, AFIEntity> //TODO:put data as a seperate data
+      public AFMapEx<AFGUID, AFIEntity> //TODO:put data as a separate data
 {
 public:
-    AFCKernelModule(AFIPluginManager* p);
+    explicit AFCKernelModule(AFIPluginManager* p);
     virtual ~AFCKernelModule();
 
     virtual bool Init();
@@ -47,7 +47,7 @@ public:
     virtual bool PreShut();
     virtual bool PostInit();
 
-    virtual void Update();
+    virtual bool Update();
 
     ///////////////////////////////////////////////////////////////////////
 
@@ -135,14 +135,9 @@ public:
     virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList);
 
 protected:
-
     virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb);
-
     virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
-
     virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
-
-protected:
 
     virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb);
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
@@ -155,16 +150,13 @@ protected:
 
     void ProcessMemFree();
 
-protected:
-
+private:
     std::list<AFGUID> mtDeleteSelfList;
-
     //////////////////////////////////////////////////////////////////////////
     std::list<CLASS_EVENT_FUNCTOR_PTR> mxCommonClassCBList;
     std::list<DATA_NODE_EVENT_FUNCTOR_PTR> mxCommonNodeCBList;
     std::list<DATA_TABLE_EVENT_FUNCTOR_PTR> mxCommonTableCBList;
 
-private:
     std::vector<float> mvRandom;
     int mnRandomPos;
 

@@ -60,7 +60,7 @@ public:
 
     virtual AFIModule* FindModule(const std::string& strModuleName);
 
-    virtual void Update();
+    virtual bool Update();
 
     virtual int AppID() const;
     virtual const std::string& AppName() const;

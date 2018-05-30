@@ -42,7 +42,7 @@ public:
 
     virtual bool Init();
     virtual bool Shut();
-    virtual void Update();
+    virtual bool Update();
 
 
     virtual bool PreShut();

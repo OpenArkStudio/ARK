@@ -31,9 +31,9 @@ bool AFCProxyLogicModule::Shut()
     return true;
 }
 
-void AFCProxyLogicModule::Update()
+bool AFCProxyLogicModule::Update()
 {
-
+    return true;
 }
 
 bool AFCProxyLogicModule::PostInit()
