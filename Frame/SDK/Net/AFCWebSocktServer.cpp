@@ -365,12 +365,11 @@ bool AFCWebSocktServer::DismantleNet(AFHttpEntity* pEntity)
 
 bool AFCWebSocktServer::CloseSocketAll()
 {
-    std::map<AFGUID, AFHttpEntity*>::iterator it = mxNetEntities.begin();
-    for(it; it != mxNetEntities.end(); ++it)
+    for(auto it : mxNetEntities)
     {
-        it->second->GetSession()->postShutdown();
-        delete it->second;
-        it->second = nullptr;
+        it.second->GetSession()->postShutdown();
+        delete it.second;
+        it.second = nullptr;
     }
 
     mxNetEntities.clear();
@@ -380,7 +379,7 @@ bool AFCWebSocktServer::CloseSocketAll()
 
 AFHttpEntity* AFCWebSocktServer::GetNetEntity(const AFGUID& xClientID)
 {
-    std::map<AFGUID, AFHttpEntity*>::iterator it = mxNetEntities.find(xClientID);
+    auto it = mxNetEntities.find(xClientID);
     if(it != mxNetEntities.end())
     {
         return it->second;
