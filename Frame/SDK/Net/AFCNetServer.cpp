@@ -253,8 +253,15 @@ bool AFCNetServer::RemoveNetEntity(const AFGUID& xClientID)
     AFTCPEntity* pNetObject = GetNetEntity(xClientID);
     if(pNetObject)
     {
-        delete pNetObject;
-        pNetObject = nullptr;
+        auto session = pNetObject->GetSession();
+        assert(session);
+
+        auto event_loop = session->getEventLoop();
+        assert(event_loop);
+
+        event_loop->pushAsyncProc([=] {
+            delete pNetObject;
+        });
     }
 
     return mmObject.erase(xClientID);
