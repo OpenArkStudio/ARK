@@ -72,7 +72,33 @@ public:
     //get memory usage
     virtual size_t GetMemUsage() const = 0;
 
-    virtual bool TypeEx(const int nType, ...) const = 0;
+    template<typename... Args>
+    bool TypeEx(const int arg1, const Args &... args) const
+    {
+        bool bRet = true;
+        int values[] = { arg1, args... };
+
+        int index = 0;
+        for (auto v : values)
+        {
+            if (v == DT_UNKNOWN)
+            {
+                bRet = false;
+                return bRet;
+            }
+
+            AF_DATA_TYPE varType = (AF_DATA_TYPE)GetType(index);
+            if (varType != v)
+            {
+                bRet = false;
+                break;
+            }
+
+            ++index;
+        }
+
+        return bRet;
+    }
 
     //operator <<
     inline AFIDataList& operator<<(bool value)

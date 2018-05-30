@@ -56,7 +56,6 @@ class AFBaseData : public AFIData
 public:
     using self_t = AFBaseData<BUFFER_SIZE, ALLOC>;
 
-public:
     AFBaseData()
     {
         mnType = DT_UNKNOWN;
@@ -524,14 +523,13 @@ public:
         return size;
     }
 
-protected:
     void Release()
     {
-        switch(mnType)
+        switch (mnType)
         {
         case DT_STRING:
             {
-                if(mstrValue != mBuffer)
+                if (mstrValue != mBuffer)
                 {
                     mxAlloc.Free(mstrValue, mnAllocLen);
                     mstrValue = nullptr;
@@ -540,7 +538,7 @@ protected:
             break;
         case DT_USERDATA:
             {
-                if(mpUserData != nullptr)
+                if (mpUserData != nullptr)
                 {
                     mxAlloc.Free(mpUserData, mnAllocLen);
                     mpUserData = nullptr;
@@ -551,6 +549,8 @@ protected:
             break;
         }
     }
+
+protected:
 
     void InnerSetString(const char* value)
     {

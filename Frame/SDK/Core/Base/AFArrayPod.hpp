@@ -44,10 +44,11 @@ public:
 
     void Swap(ArrayPodAlloc& src)
     {
+        //do nothing
     }
 };
 
-//predeclare
+//pre-declaration
 template<typename TYPE, size_t SIZE, typename ALLOC = ArrayPodAlloc>
 class ArrayPod;
 
@@ -57,7 +58,6 @@ class ArrayPod
 public:
     using self_t = ArrayPod<TYPE, SIZE, ALLOC>;
 
-public:
 	ArrayPod()
     {
         mpData = mxStack;

@@ -91,8 +91,6 @@ bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name
 {
     ARK_ASSERT(table_name != nullptr && sizeof(table_name) > 0, "Table name is invalid", __FILE__, __FUNCTION__);
 
-    //self = self_id;
-
     AFDataTable* pTable = ARK_NEW AFDataTable();
     pTable->SetName(table_name);
     pTable->SetColCount(col_type_list.GetCount());

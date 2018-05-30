@@ -42,6 +42,7 @@ public:
 
     void Swap(AFDataListAlloc& src)
     {
+        //Do nothing
     }
 };
 
@@ -249,38 +250,6 @@ public:
         return mpData[index].nType;
     }
 
-    virtual bool TypeEx(const int nType, ...) const
-    {
-        bool bRet = true;
-
-        if(DT_UNKNOWN == nType)
-        {
-            bRet = false;
-            return bRet;
-        }
-
-        AF_DATA_TYPE pareType = (AF_DATA_TYPE)nType;
-        va_list arg_ptr;
-        va_start(arg_ptr, nType);
-        int index = 0;
-
-        while(pareType != DT_UNKNOWN)
-        {
-            AF_DATA_TYPE varType = (AF_DATA_TYPE)GetType(index);
-            if(varType != pareType)
-            {
-                bRet = false;
-                break;
-            }
-
-            ++index;
-            pareType = (AF_DATA_TYPE)va_arg(arg_ptr, int);
-        }
-
-        va_end(arg_ptr);
-
-        return bRet;
-    }
     //add data
     virtual bool AddBool(bool value)
     {
@@ -908,7 +877,7 @@ protected:
 
     }
 
-    void InnerAppend(const AFIDataList& src, size_t start, size_t end)
+    bool InnerAppend(const AFIDataList& src, size_t start, size_t end)
     {
         for(size_t i = start; i < end; ++i)
         {
@@ -947,13 +916,11 @@ protected:
                 }
                 break;
             default:
-                assert(0);
+                ARK_ASSERT_NO_EFFECT(0);
                 break;
             }
 
-            if(!bRet)
-            {
-            }
+            return bRet;
         }
     }
 

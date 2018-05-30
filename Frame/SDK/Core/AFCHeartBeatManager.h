@@ -32,15 +32,11 @@ class AFCHeartBeatManager : public AFIHeartBeatManager
 {
 public:
 
-    AFCHeartBeatManager()
-    {
-        mSelf = NULL_GUID;
-        mTimerIDIndex = 0;
-    }
+    AFCHeartBeatManager() = delete;
 
-    AFCHeartBeatManager(const AFGUID& self)
+    explicit AFCHeartBeatManager(const AFGUID& self) : mSelf(self), mTimerIDIndex(0)
     {
-        mSelf = self;
+
     }
 
     virtual ~AFCHeartBeatManager();
@@ -54,7 +50,7 @@ public:
     virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever = false);
     virtual bool RemoveHeartBeat(const std::string& strHeartBeatName);
 
-protected:
+private:
     AFGUID mSelf;
 
     AFList<std::string> mRemoveListEx;
