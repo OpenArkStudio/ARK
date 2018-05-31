@@ -136,13 +136,17 @@ bool AFCNetClient::Final()
 
 bool AFCNetClient::CloseSocketAll()
 {
-    m_pClientEntity->GetSession()->postDisConnect();
+	if (nullptr != m_pClientEntity)
+	{
+		m_pClientEntity->GetSession()->postDisConnect();
+	}
+
     return true;
 }
 
 bool AFCNetClient::SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient)
 {
-    if(m_pClientEntity->GetSession())
+    if(nullptr != m_pClientEntity && m_pClientEntity->GetSession())
     {
         m_pClientEntity->GetSession()->send(msg, nLen);
     }
@@ -152,7 +156,7 @@ bool AFCNetClient::SendMsg(const char* msg, const size_t nLen, const AFGUID& xCl
 
 bool AFCNetClient::CloseNetEntity(const AFGUID& xClient)
 {
-    if(m_pClientEntity->GetClientID() == xClient)
+    if(nullptr != m_pClientEntity && m_pClientEntity->GetClientID() == xClient)
     {
         m_pClientEntity->GetSession()->postDisConnect();
     }
