@@ -245,7 +245,7 @@ int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::str
 E_SCENE_TYPE AFCSceneProcessModule::GetCloneSceneType(const int nSceneID)
 {
     char szSceneIDName[MAX_PATH] = { 0 };
-    sprintf(szSceneIDName, "{}", nSceneID);
+    sprintf(szSceneIDName, "%d", nSceneID);
     if(m_pElementModule->ExistElement(szSceneIDName))
     {
         return (E_SCENE_TYPE)m_pElementModule->GetNodeInt(szSceneIDName, ARK::Scene::CanClone());
@@ -274,7 +274,7 @@ bool AFCSceneProcessModule::ExitCloneGroup(const int nSceneID, const int& nGroup
 bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 {
     char szSceneIDName[MAX_PATH] = { 0 };
-    sprintf(szSceneIDName, "{}", nSceneID);
+    sprintf(szSceneIDName, "%d", nSceneID);
 
     const std::string strSceneFilePath(m_pElementModule->GetNodeString(szSceneIDName, ARK::Scene::FilePath()));
     const int nCanClone = m_pElementModule->GetNodeInt(szSceneIDName, ARK::Scene::CanClone());
