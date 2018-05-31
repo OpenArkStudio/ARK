@@ -52,10 +52,10 @@ int AFCNetServer::Start(const unsigned int nMaxClient, const std::string& strAdd
 
 size_t AFCNetServer::OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len)
 {
-	auto pUD = brynet::net::cast<AFPTCPEntity>(session->getUD());
+	auto pUD = brynet::net::cast<int64_t>(session->getUD());
 	if (nullptr != pUD)
 	{
-		const AFPTCPEntity pEntity = *pUD;
+		const AFPTCPEntity pEntity = (AFPTCPEntity)*pUD;
 		pEntity->AddBuff(buffer, len);
 		DismantleNet(pEntity);
 	}
@@ -83,7 +83,7 @@ void AFCNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR & 
         AFScopeWrLock xGuard(mRWLock);
 
         AFPTCPEntity pEntity = ARK_NEW AFTCPEntity(this, pMsg->xClientID, session);
-		session->setUD(pEntity);
+		session->setUD(int64_t(pEntity));
 		if (AddNetEntity(pMsg->xClientID, pEntity))
         {
             pEntity->mxNetMsgMQ.Push(pMsg);
@@ -93,13 +93,13 @@ void AFCNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR & 
 
 void AFCNetServer::OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session)
 {
-	auto pUD = brynet::net::cast<AFPTCPEntity>(session->getUD());
+	auto pUD = brynet::net::cast<int64_t>(session->getUD());
 	if (nullptr ==  pUD)
 	{
 		return;
 	}
 
-	const AFPTCPEntity pEntity = *pUD;
+	const AFPTCPEntity pEntity = (AFPTCPEntity)*pUD;
     AFTCPMsg* pMsg = new AFTCPMsg(session);
     pMsg->xClientID = pEntity->GetClientID();
     pMsg->nType = DISCONNECTED;
