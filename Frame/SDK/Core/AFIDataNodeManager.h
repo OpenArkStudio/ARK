@@ -32,7 +32,7 @@ class AFDataNode;
 class AFIDataNodeManager
 {
 public:
-    virtual ~AFIDataNodeManager() {}
+    virtual ~AFIDataNodeManager() = default;
     virtual void Clear() = 0;
     virtual const AFGUID& Self() const = 0;
 

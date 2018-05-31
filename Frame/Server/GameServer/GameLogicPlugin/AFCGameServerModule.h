@@ -33,7 +33,7 @@ public:
         pPluginManager = p;
     }
 
-    virtual ~AFCGameServerModule() {};
+    virtual ~AFCGameServerModule() = default;
 
     virtual bool Init();
     virtual bool Shut();

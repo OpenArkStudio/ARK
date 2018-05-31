@@ -27,8 +27,8 @@
 class AFDataListAlloc
 {
 public:
-    AFDataListAlloc() {}
-    ~AFDataListAlloc() {}
+    AFDataListAlloc() = default;
+    ~AFDataListAlloc() = default;
 
     void* Alloc(size_t size)
     {
@@ -166,7 +166,7 @@ public:
         Release();
     }
 
-    self_t operator==(const self_t src)
+    self_t operator=(const self_t& src)
     {
         Release();
 
@@ -866,22 +866,18 @@ protected:
             }
             break;
         default:
-            assert(0);
+            ARK_ASSERT_NO_EFFECT(0);
             break;
         }
 
-        if(!bRet)
-        {
-            //
-        }
-
+        ARK_ASSERT_NO_EFFECT(bRet);
     }
 
     bool InnerAppend(const AFIDataList& src, size_t start, size_t end)
     {
+        bool bRet(false);
         for(size_t i = start; i < end; ++i)
         {
-            bool bRet(false);
             switch(src.GetType(i))
             {
             case DT_BOOLEAN:
@@ -919,9 +915,9 @@ protected:
                 ARK_ASSERT_NO_EFFECT(0);
                 break;
             }
-
-            return bRet;
         }
+
+        return bRet;
     }
 
 private:

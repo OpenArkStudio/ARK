@@ -79,8 +79,8 @@ public:
 class StringPodAlloc
 {
 public:
-    StringPodAlloc() {}
-    ~StringPodAlloc() {}
+    StringPodAlloc() = default;
+    ~StringPodAlloc() = default;
 
     void* Alloc(size_t size)
     {

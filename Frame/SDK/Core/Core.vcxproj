@@ -135,7 +135,6 @@
     <ClInclude Include="Base\AFMap.h" />
     <ClInclude Include="Base\AFMapEx.h" />
     <ClInclude Include="Base\AFMemAlloc.h" />
-    <ClInclude Include="Base\AFMemManger.h" />
     <ClInclude Include="Base\AFMemPool.hpp" />
     <ClInclude Include="Base\AFMisc.hpp" />
     <ClInclude Include="Base\AFNoncopyable.hpp" />

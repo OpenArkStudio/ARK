@@ -148,8 +148,6 @@ protected:
     int OnCommonNodeEvent(const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar);
     int OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
-    void ProcessMemFree();
-
 private:
     std::list<AFGUID> mtDeleteSelfList;
     //////////////////////////////////////////////////////////////////////////

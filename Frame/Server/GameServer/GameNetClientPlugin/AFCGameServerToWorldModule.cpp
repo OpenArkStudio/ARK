@@ -85,7 +85,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
                 int nTargetID = pServerData->nGameID;
                 m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg, 0);
 
-                ARK_LOG_INFO("Register, server_id  = {} server_name = {}", pData->server_id(), pData->server_name().c_str());
+                ARK_LOG_INFO("Register, server_id  = {} server_name = {}", pData->server_id(), pData->server_name());
             }
         }
     }
@@ -163,7 +163,7 @@ void AFCGameServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, cons
 {
     if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
         Register(nServerID);
     }
 }

@@ -77,7 +77,7 @@ public:
     }
 
 public:
-    virtual ~AFIData() {}
+    virtual ~AFIData() = default;
 
     virtual int GetType() const = 0;
 

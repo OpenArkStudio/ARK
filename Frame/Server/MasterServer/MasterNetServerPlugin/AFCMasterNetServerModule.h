@@ -48,8 +48,8 @@ public:
     virtual bool PostInit();
     virtual bool Update();
 
-    virtual void LogReceive(const char* str) {}
-    virtual void LogSend(const char* str) {}
+    virtual void LogReceive(const char* str) {/*log*/}
+    virtual void LogSend(const char* str) {/*log*/}
 
 protected:
 

@@ -39,9 +39,9 @@ public:
         PF_SAVE = 3, //if need save to database
     };
 
-    DataNodeName name;  //DataNode name, max = 16 bytes
-    AFCData value;      //DataNode value
-    int8_t feature;     //DataNode feature
+    DataNodeName name = ""; //DataNode name, max = 16 bytes
+    AFCData value;          //DataNode value
+    int8_t feature = 0;     //DataNode feature
 
     bool IsPublic() const
     {

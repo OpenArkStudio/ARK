@@ -27,7 +27,7 @@
 class AFIVirtualNode
 {
 public:
-    AFIVirtualNode() {}
+    AFIVirtualNode() = default;
 
     explicit AFIVirtualNode(const int nVirID) : nVirtualIndex(nVirID)
     {
@@ -112,14 +112,14 @@ public:
 class AFIHasher
 {
 public:
-    virtual ~AFIHasher() {}
+    virtual ~AFIHasher() = default;
     virtual uint32_t GetHashValue(const AFIVirtualNode& vNode) = 0;
 };
 
 class AFCHasher : public AFIHasher
 {
 public:
-    virtual ~AFCHasher() {}
+    virtual ~AFCHasher() = default;
 
     virtual uint32_t GetHashValue(const AFIVirtualNode& vNode)
     {
@@ -131,7 +131,7 @@ public:
 class AFIConsistentHash
 {
 public:
-    virtual ~AFIConsistentHash() {}
+    virtual ~AFIConsistentHash() = default;
 
     virtual std::size_t Size() const = 0;
 

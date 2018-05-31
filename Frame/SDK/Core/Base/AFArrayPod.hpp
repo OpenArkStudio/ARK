@@ -27,8 +27,8 @@
 class ArrayPodAlloc
 {
 public:
-    ArrayPodAlloc() {}
-    ~ArrayPodAlloc() {}
+    ArrayPodAlloc() = default;
+    ~ArrayPodAlloc() = default;
 
     void* Alloc(size_t size)
     {
@@ -58,7 +58,7 @@ class ArrayPod
 public:
     using self_t = ArrayPod<TYPE, SIZE, ALLOC>;
 
-	ArrayPod()
+	ArrayPod() noexcept
     {
         mpData = mxStack;
         mnCapacity = SIZE;

@@ -20,7 +20,6 @@
 
 #include "SDK/Core/Base/AFDefine.h"
 #include "SDK/Core/Base/AFGUID.h"
-#include "SDK/Core/Base/AFMemManger.h"
 #include "SDK/Core/AFCEntity.h"
 #include "SDK/Core/AFDataNode.h"
 #include "SDK/Core/AFDataTable.h"
@@ -77,8 +76,6 @@ bool AFCKernelModule::Shut()
 
 bool AFCKernelModule::Update()
 {
-    ProcessMemFree();
-
     mnCurExeEntity = NULL_GUID;
 
     if(mtDeleteSelfList.size() > 0)
@@ -1077,7 +1074,7 @@ bool AFCKernelModule::IsContainer(const AFGUID& self)
         return (pEntity->GetNodeInt("GroupID") < 0);
     }
 
-    ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString().c_str());
+    ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
     return false;
 }
 
@@ -1308,18 +1305,6 @@ bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, c
 bool AFCKernelModule::AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb)
 {
     return m_pClassModule->AddClassCallBack(strClassName, cb);
-}
-
-void AFCKernelModule::ProcessMemFree()
-{
-    if((nLastTime + 30) > pPluginManager->GetNowTime())
-    {
-        return;
-    }
-
-    nLastTime = pPluginManager->GetNowTime();
-
-    AFMemManger::GetInstancePtr()->FreeMem();
 }
 
 bool AFCKernelModule::DoEvent(const AFGUID& self, const std::string& strClassName, ARK_ENTITY_EVENT eEvent, const AFIDataList& valueList)

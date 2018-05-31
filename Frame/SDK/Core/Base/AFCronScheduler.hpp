@@ -54,7 +54,7 @@ public:
     {
         Reset();
         const char* err_msg = NULL;
-        cron_parser = cron_parse_expr(cron_expression, &err_msg);
+        cron_parse_expr(cron_expression, &cron_parser, &err_msg);
         if (err_msg != NULL)
         {
             return false;
@@ -71,15 +71,6 @@ public:
         user_data = 0;
         next_time = 0;
         delete_flag = false;
-
-        if (cron_parser != nullptr)
-        {
-            cron_expr_free(cron_parser);
-        }
-        else
-        {
-            cron_parser = nullptr;
-        }
     }
 
     bool IsTriggerable(int64_t now)
@@ -122,11 +113,6 @@ public:
 
     void GetNext(int64_t now)
     {
-        if (cron_parser == nullptr)
-        {
-            return;
-        }
-
         if (delete_flag)
         {
             return;
@@ -139,7 +125,7 @@ public:
         }
         else
         {
-            next_time = cron_next(cron_parser, now);
+            next_time = cron_next(&cron_parser, now);
         }
     }
 
@@ -148,7 +134,7 @@ private:
     int user_data = 0;//Will be extended by specific logic
     SCHEDULER_FUNCTOR_PTR callback = nullptr;
     time_t next_time = 0;
-    cron_expr* cron_parser = nullptr;
+    cron_expr cron_parser;
     bool delete_flag = false;
 };
 

@@ -29,8 +29,8 @@ class AFMapEx
 public:
     typedef std::map<T, ARK_SHARE_PTR<TD> > MAP_DATA;
 
-    AFMapEx() {}
-    virtual ~AFMapEx(){}
+    AFMapEx() = default;
+    virtual ~AFMapEx() = default;
 
     virtual bool AddElement(const T& name, const ARK_SHARE_PTR<TD> data)
     {

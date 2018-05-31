@@ -73,7 +73,7 @@ uint64_t WaitUntilNextMillis(uint64_t last_timestamp)
 class IdWorkerThreadUnsafe
 {
 public:
-    IdWorkerThreadUnsafe() {}
+    IdWorkerThreadUnsafe() = default;
 
     uint64_t GetNextID()
     {
@@ -105,8 +105,7 @@ private:
 class IdWorkerThreadSafe
 {
 public:
-    IdWorkerThreadSafe()
-    {}
+    IdWorkerThreadSafe() = default;
 
     uint64_t GetNextID()
     {

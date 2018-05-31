@@ -31,7 +31,7 @@ public:
         pPluginManager = p;
     }
 
-    virtual ~AFCTimerModule() {}
+    virtual ~AFCTimerModule() = default;
 
     virtual bool Init();
     virtual bool PostInit();

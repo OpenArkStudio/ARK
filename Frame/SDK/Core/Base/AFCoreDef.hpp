@@ -27,8 +27,8 @@
 class CoreAlloc
 {
 public:
-    CoreAlloc() {}
-    ~CoreAlloc() {}
+    CoreAlloc() = default;
+    ~CoreAlloc() = default;
 
     void* Alloc(size_t size)
     {

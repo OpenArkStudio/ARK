@@ -115,7 +115,7 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
 
 int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar)
 {
-    ARK_LOG_INFO("Trace id[{}] Name[{}] Old[{}] New[{}]", self.ToString().c_str(), nodeName.c_str(), oldVar.GetString(), newVar.GetString());
+    ARK_LOG_INFO("Trace id[{}] Name[{}] Old[{}] New[{}]", self.ToString(), nodeName, oldVar.GetString(), newVar.GetString());
     return 0;
 }
 

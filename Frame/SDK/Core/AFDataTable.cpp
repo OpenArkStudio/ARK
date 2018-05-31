@@ -21,7 +21,7 @@
 #include "AFDataTable.h"
 #include "SDK/Core/Base/AFMisc.hpp"
 
-AFDataTable::AFDataTable()
+AFDataTable::AFDataTable() noexcept
     : mstrName(NULL_STR.c_str())
     , feature(0)
 {

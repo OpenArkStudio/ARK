@@ -86,7 +86,7 @@ template<typename NODE>
 class AFArrayMap<std::string, NODE>
 {
 public:
-    AFArrayMap()
+    AFArrayMap() noexcept
     {
 
     }

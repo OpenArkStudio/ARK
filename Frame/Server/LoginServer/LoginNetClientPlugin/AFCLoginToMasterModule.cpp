@@ -131,7 +131,7 @@ void AFCLoginToMasterModule::Register(const int nServerID)
                     int nTargetID = pServerData->nGameID;
                     m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_LTM_LOGIN_REGISTERED, xMsg, 0);
 
-                    ARK_LOG_INFO("Register, server_id = {} server_name = {}", pData->server_id(), pData->server_name().c_str());
+                    ARK_LOG_INFO("Register, server_id = {} server_name = {}", pData->server_id(), pData->server_name());
                 }
             }
         }
@@ -154,11 +154,11 @@ void AFCLoginToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AF
 {
     if(eEvent == DISCONNECTED)
     {
-        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
     }
     else  if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
         Register(nServerID);
     }
 }

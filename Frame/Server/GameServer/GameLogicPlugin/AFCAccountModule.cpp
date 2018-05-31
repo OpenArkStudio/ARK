@@ -87,7 +87,7 @@ int AFCAccountModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nEven
     //        AFCValueList valueRelivePos(pstrRelivePos, ",");
 
     //        char szConfigIindex[MAX_PATH] = { 0 };
-    //        sprintf(szConfigIindex, "{}", var.IntVal(i + 1));
+    //        sprintf(szConfigIindex, "%d", var.IntVal(i + 1));
 
     //        AFCValueList arg;
     //        arg << "Account" << pstrAccount;
@@ -208,7 +208,7 @@ int AFCAccountModule::OnCreateRoleEvent(const AFGUID& object, const int nEventID
 
     //int nConfigName = nRoleJob + nRoleSex * 10;
     //char szConfigName[MAX_PATH] = { 0 };
-    //sprintf(szConfigName, "{}", nConfigName);
+    //sprintf(szConfigName, "%d", nConfigName);
 
     ////弄到所有的属性
     //GTPropertyManager* pConfigPropertyManager = m_pElementInfoModule->GetPropertyManager(szConfigName);
@@ -379,7 +379,7 @@ int AFCAccountModule::OnLoadRoleBeginEvent(const AFGUID& object, const int nEven
     //            AFCValueList valueRelivePos(pstrRelivePos, ",");
 
     //            char szConfigIindex[MAX_PATH] = { 0 };
-    //            sprintf(szConfigIindex, "{}", var.IntVal(i + 1));
+    //            sprintf(szConfigIindex, "%d", var.IntVal(i + 1));
 
     //            AFCValueList arg;
     //            arg << "Account" << pstrAccount;

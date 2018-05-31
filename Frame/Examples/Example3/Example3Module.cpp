@@ -30,7 +30,6 @@ bool Example3Module::Init()
 
 int Example3Module::OnEvent(const AFGUID& self, const int event, const AFIDataList& arg)
 {
-    //事件回调函数
     std::cout << "OnEvent EventID: " << event << " self: " << self.ToString() << " argList: " << arg.String(0) << " " << " " << arg.Int(1) << std::endl;
 
     m_pKernelModule->SetNodeString(self, "Hello", arg.String(0));
@@ -51,7 +50,6 @@ int Example3Module::OnHeartBeat(const AFGUID& self, const std::string& strHeartB
 
 int Example3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT event, const AFIDataList& arg)
 {
-    //虚拟类事件，只要有此虚拟类创建或者销毁即会回调
     std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.ToString() << " Event: " << event << std::endl;
 
     if(event == ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED)
@@ -66,18 +64,17 @@ int Example3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& 
     return 0;
 }
 
-int Example3Module::OnIntDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVar, const AFIData& newVar)
+int Example3Module::OnIntDataNodeCB(const AFGUID& self, const std::string& strNodeName, const AFIData& oldVar, const AFIData& newVar)
 {
-    //属性回调事件，只要属性值内容有变化，就会被回调
-    std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt() << std::endl;
+    std::cout << "OnIntDataNodeCB DataNode: " << strNodeName << " OldValue: " << oldVar.GetInt() << " NewValue: " << newVar.GetInt() << std::endl;
 
     return 0;
 }
 
-int Example3Module::OnStrDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVar, const AFIData& newVar)
+int Example3Module::OnStrDataNodeCB(const AFGUID& self, const std::string& strNodeName, const AFIData& oldVar, const AFIData& newVar)
 {
     //属性回调事件，只要属性值内容有变化，就会被回调
-    std::cout << "OnPropertyCallBackEvent Property: " << strProperty << " OldValue: " << oldVar.GetString() << " NewValue: " << newVar.GetString() << std::endl;
+    std::cout << "OnStrDataNodeCB DataNode: " << strNodeName << " OldValue: " << oldVar.GetString() << " NewValue: " << newVar.GetString() << std::endl;
 
     return 0;
 }

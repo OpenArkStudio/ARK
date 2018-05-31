@@ -28,7 +28,7 @@ class AFCScheduleModule : public AFIScheduleModule
 public:
     explicit AFCScheduleModule(AFIPluginManager* p);
 
-    virtual ~AFCScheduleModule() {}
+    virtual ~AFCScheduleModule() = default;
 
     virtual bool Init();
     virtual bool PostInit();

@@ -48,15 +48,14 @@ public:
     virtual bool PreShut();
     virtual bool PostInit();
 
-    virtual void LogReceive(const char* str) {}
-    virtual void LogSend(const char* str) {}
+    virtual void LogReceive(const char* str) {/*log*/}
+    virtual void LogSend(const char* str) {/*log*/}
 
     virtual int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strKey);
 
 protected:
     void OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
-protected:
     void OnClientDisconnect(const AFGUID& xClientID);
     void OnClientConnected(const AFGUID& xClientID);
 
@@ -73,12 +72,10 @@ protected:
     void OnLogOut(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-protected:
     void SynWorldToClient(const AFGUID& xClientID);
 
-    AFMapEx<AFGUID, SessionData> mmClientSessionData;
-
 private:
+    AFMapEx<AFGUID, SessionData> mmClientSessionData;
 
     AFILoginToMasterModule* m_pLoginToMasterModule;
     AFIClassModule* m_pClassModule;

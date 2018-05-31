@@ -37,7 +37,7 @@ public:
     {
         pPluginManager = p;
     }
-    virtual ~AFCPropertyConfigModule() {};
+    virtual ~AFCPropertyConfigModule() = default;
 
     virtual bool Init();
     virtual bool Shut();

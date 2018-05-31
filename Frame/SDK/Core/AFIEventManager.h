@@ -29,7 +29,7 @@
 class AFIEventManager
 {
 public:
-    virtual ~AFIEventManager() {}
+    virtual ~AFIEventManager() = default;
     virtual void Update() = 0;
 
     template<typename BaseType>

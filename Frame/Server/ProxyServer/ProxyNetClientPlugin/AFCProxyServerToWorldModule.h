@@ -49,8 +49,8 @@ public:
 
     virtual bool PostInit();
 
-    virtual void LogReceive(const char* str) {}
-    virtual void LogSend(const char* str) {}
+    virtual void LogReceive(const char* str) {/*log*/}
+    virtual void LogSend(const char* str) {/*log*/}
 
     virtual AFINetClientModule* GetClusterModule();
     virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey);

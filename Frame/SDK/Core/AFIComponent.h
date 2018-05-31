@@ -37,7 +37,7 @@ public:
         mstrName = strName;
     }
 
-    virtual ~AFIComponent() {}
+    virtual ~AFIComponent() = default;
 
     template <typename T>
     ARK_SHARE_PTR<T> CreateNewInstance()

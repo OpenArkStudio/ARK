@@ -112,7 +112,7 @@ void AFCProxyNetServerModule::OnOtherMessage(const AFIMsgHead& xHead, const int 
     if(pSessionData->mnUserID != xHead.GetPlayerID())
     {
         //when after entergame xHead.GetPlayerID() is really palyerID
-        ARK_LOG_ERROR("xHead.GetPlayerID() is not really palyerID, id = {}", xHead.GetPlayerID().ToString().c_str());
+        ARK_LOG_ERROR("xHead.GetPlayerID() is not really palyerID, id = {}", xHead.GetPlayerID().ToString());
         return;
     }
 
@@ -156,12 +156,12 @@ void AFCProxyNetServerModule::OnSocketClientEvent(const NetEventType eEvent, con
 {
     if(eEvent == DISCONNECTED)
     {
-        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
         OnClientDisconnect(xClientID);
     }
     else if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
         OnClientConnected(xClientID);
     }
 }

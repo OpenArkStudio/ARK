@@ -28,7 +28,7 @@
 class AFIDataList
 {
 public:
-    virtual ~AFIDataList() {}
+    virtual ~AFIDataList() = default;
 
     virtual bool Concat(const AFIDataList& src) = 0;
 

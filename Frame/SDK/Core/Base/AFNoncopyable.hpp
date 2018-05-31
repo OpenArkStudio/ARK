@@ -23,8 +23,8 @@
 struct AFNoncopyable
 {
 protected:
-    AFNoncopyable() {}
-    virtual ~AFNoncopyable() {}
+    AFNoncopyable() = default;
+    virtual ~AFNoncopyable() = default;
 
 private:
     AFNoncopyable(const AFNoncopyable&) = delete;

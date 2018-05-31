@@ -34,9 +34,8 @@
 class AFCNetServer : public AFINet
 {
 public:
-	typedef AFTCPEntity* AFPTCPEntity;
+	using AFTCPEntityPtr = AFTCPEntity*;
 
-public:
     AFCNetServer()
         : mnMaxConnect(0)
         , mnCpuCount(0)
@@ -99,22 +98,22 @@ public:
 private:
     bool SendMsgToAllClient(const char* msg, const size_t nLen);
     bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient);
-    bool AddNetEntity(const AFGUID& xClientID, AFPTCPEntity pEntity);
+    bool AddNetEntity(const AFGUID& xClientID, AFTCPEntityPtr pEntity);
     bool RemoveNetEntity(const AFGUID& xClientID);
-	AFPTCPEntity GetNetEntity(const AFGUID& xClientID);
+	AFTCPEntityPtr GetNetEntity(const AFGUID& xClientID);
 
 private:
     void ProcessMsgLogicThread();
-    void ProcessMsgLogicThread(AFPTCPEntity pEntity);
+    void ProcessMsgLogicThread(AFTCPEntityPtr pEntity);
     bool CloseSocketAll();
-    bool DismantleNet(AFPTCPEntity pEntity);
+    bool DismantleNet(AFTCPEntityPtr pEntity);
 
 protected:
     int DeCode(const char* strData, const size_t len, AFCMsgHead& xHead);
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
-	std::map<AFGUID, AFPTCPEntity> mmObject;
+	std::map<AFGUID, AFTCPEntityPtr> mmObject;
     AFCReaderWriterLock mRWLock;
     int mnMaxConnect;
     std::string mstrIPPort;

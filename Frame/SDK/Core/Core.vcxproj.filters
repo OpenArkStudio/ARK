@@ -105,9 +105,6 @@
     <ClInclude Include="Base\AFMapEx.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFMemManger.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\AFMisc.hpp">
       <Filter>Base</Filter>
     </ClInclude>

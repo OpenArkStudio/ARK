@@ -54,7 +54,7 @@ void AFCMasterNetServerModule::OnWorldRegisteredProcess(const AFIMsgHead& xHead,
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("WorldRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("WorldRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
 
     SynWorldToLogin();
@@ -74,7 +74,7 @@ void AFCMasterNetServerModule::OnWorldUnRegisteredProcess(const AFIMsgHead& xHea
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         mWorldMap.RemoveElement(xData.server_id());
 
-        ARK_LOG_INFO("WorldUnRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("WorldUnRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
 
     SynWorldToLogin();
@@ -102,7 +102,7 @@ void AFCMasterNetServerModule::OnRefreshWorldInfoProcess(const AFIMsgHead& xHead
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("RefreshWorldInfo, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("RefreshWorldInfo, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
 
     SynWorldToLogin();
@@ -130,7 +130,7 @@ void AFCMasterNetServerModule::OnLoginRegisteredProcess(const AFIMsgHead& xHead,
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("LoginRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("LoginRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
 
     SynWorldToLogin();
@@ -151,7 +151,7 @@ void AFCMasterNetServerModule::OnLoginUnRegisteredProcess(const AFIMsgHead& xHea
 
         mLoginMap.RemoveElement(xData.server_id());
 
-        ARK_LOG_INFO("LoginUnRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("LoginUnRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
 }
 
@@ -177,7 +177,7 @@ void AFCMasterNetServerModule::OnRefreshLoginInfoProcess(const AFIMsgHead& xHead
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("RefreshLoginInfo, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("RefreshLoginInfo, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
 }
 
@@ -282,12 +282,12 @@ void AFCMasterNetServerModule::OnSocketEvent(const NetEventType eEvent, const AF
 {
     if(eEvent == DISCONNECTED)
     {
-        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
         OnClientDisconnect(xClientID);
     }
     else  if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
         OnClientConnected(xClientID);
     }
 }
@@ -373,8 +373,8 @@ void AFCMasterNetServerModule::LogGameServer()
         ARK_LOG_INFO("Type[{}] ID[{}] State[{}] IP[{}] xClient[{}]",
                      pGameData->pData->server_type(),
                      pGameData->pData->server_id(),
-                     AFMsg::EServerState_Name(pGameData->pData->server_state()).c_str(),
-                     pGameData->pData->server_ip().c_str(),
+                     AFMsg::EServerState_Name(pGameData->pData->server_state()),
+                     pGameData->pData->server_ip(),
                      pGameData->xClient.nLow);
     }
 

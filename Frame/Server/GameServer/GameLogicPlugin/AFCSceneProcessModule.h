@@ -44,7 +44,8 @@ public:
     {
         pPluginManager = p;
     }
-    virtual ~AFCSceneProcessModule() {};
+
+    virtual ~AFCSceneProcessModule() = default;
 
     virtual bool Init();
     virtual bool Shut();

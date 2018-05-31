@@ -327,7 +327,7 @@ class AFINet
 public:
     AFINet() : bWorking(false), nReceiverSize(0), nSendSize(0) {}
 
-    virtual ~AFINet() {}
+    virtual ~AFINet() = default;
 
     //need to call this function every frame to drive network library
     virtual void Update() = 0;

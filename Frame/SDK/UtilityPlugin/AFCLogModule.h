@@ -26,7 +26,7 @@ class AFCLogModule : public AFILogModule
 {
 public:
     explicit AFCLogModule(AFIPluginManager* p);
-    virtual ~AFCLogModule() {}
+    virtual ~AFCLogModule() = default;
 
     virtual bool Init();
     virtual bool PostInit();

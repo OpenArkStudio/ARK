@@ -29,8 +29,8 @@ class AFMap
 public:
     typedef std::map<T, TD*> MAP_DATA;
 
-    AFMap() {}
-    virtual ~AFMap() {}
+    AFMap() = default;
+    virtual ~AFMap() = default;
 
     virtual bool AddElement(const T& name, TD* data)
     {

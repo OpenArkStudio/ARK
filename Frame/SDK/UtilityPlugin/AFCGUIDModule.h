@@ -34,7 +34,7 @@ class AFCGUIDModule
 {
 public:
     explicit AFCGUIDModule(AFIPluginManager* p);
-    virtual ~AFCGUIDModule() {}
+    virtual ~AFCGUIDModule() = default;
 
     virtual bool Init();
     virtual bool PostInit();

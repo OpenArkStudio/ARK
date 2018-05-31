@@ -38,15 +38,10 @@ public:
         return false;
     }
 
-    AFCHeartBeatElement()
+    AFCHeartBeatElement() noexcept
     {
-        nBeatTime = 0;
-        nNextTriggerTime = 0;
-        nCount = 0;
-        strBeatName = NULL_STR;
-        bStop = false;
-        bForever = false;
-    };
+
+    }
 
     virtual ~AFCHeartBeatElement()
     {
@@ -59,20 +54,20 @@ public:
         return bStop;
     }
 
-    AFGUID self;
-    uint64_t id;
-    int64_t nBeatTime;
-    int64_t nNextTriggerTime;//next trigger time, millisecond
-    int nCount;
-    bool bStop;
-    bool bForever;
-    std::string strBeatName;
+    AFGUID self = 0;
+    uint64_t id = 0;
+    int64_t nBeatTime = 0;
+    int64_t nNextTriggerTime = 0;//next trigger time, millisecond
+    int nCount = 0;
+    bool bStop = false;
+    bool bForever = false;
+    std::string strBeatName = NULL_STR;
 };
 
 class AFIHeartBeatManager
 {
 public:
-    virtual ~AFIHeartBeatManager() {}
+    virtual ~AFIHeartBeatManager() = default;
     virtual AFGUID Self() = 0;
     virtual void Update() = 0;
     virtual bool Exist(const std::string& strHeartBeatName) = 0;

@@ -36,7 +36,7 @@ public:
     {
         pPluginManager = p;
     }
-    virtual ~AFCLevelModule() {};
+    virtual ~AFCLevelModule() = default;
 
     virtual bool Init();
     virtual bool Shut();

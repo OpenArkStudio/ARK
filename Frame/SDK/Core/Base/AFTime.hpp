@@ -232,6 +232,7 @@ public:
     {
         return mnTime;//GetFixTime();
     }
+
     int64_t Get(TimeType nType)
     {
         int year = 1970;
@@ -738,7 +739,7 @@ private:
             }
         }
 
-        return ret_.size();
+        return (int)ret_.size();
     }
 
 private:

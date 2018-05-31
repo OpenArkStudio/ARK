@@ -123,7 +123,6 @@ void AFCHeartBeatManager::Update()
         break;
     }
 
-    //鍒犻櫎鎵€鏈夎繃鏃跺績璺?
     std::string strHeartBeatName;
     bool bRet = mRemoveListEx.First(strHeartBeatName);
     while(bRet)
@@ -155,12 +154,16 @@ void AFCHeartBeatManager::Update()
     mRemoveListEx.ClearAll();
 
     //////////////////////////////////////////////////////////////////////////
-    //娣诲姞鏂板績璺充篃鏄欢鏃舵坊鍔犵殑
     for(std::list<AFCHeartBeatElement>::iterator iter = mAddListEx.begin(); iter != mAddListEx.end(); ++iter)
     {
         if(mHeartBeatElementMapEx.GetElement(iter->strBeatName) == nullptr)
         {
             AFCHeartBeatElement* pHeartBeatEx = ARK_NEW AFCHeartBeatElement();
+            if (pHeartBeatEx == nullptr)
+            {
+                continue;
+            }
+
             *pHeartBeatEx = *iter;
             mHeartBeatElementMapEx.AddElement(pHeartBeatEx->strBeatName, pHeartBeatEx);
             mTimeList.insert(std::make_pair(pHeartBeatEx->nNextTriggerTime, pHeartBeatEx));

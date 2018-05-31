@@ -115,7 +115,7 @@ void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const AFIMsgHead& xH
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("GameServerRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("GameServerRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
 
     SynGameToProxy();
@@ -135,7 +135,7 @@ void AFCWorldNetServerModule::OnGameServerUnRegisteredProcess(const AFIMsgHead& 
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         mGameMap.RemoveElement(xData.server_id());
 
-        ARK_LOG_INFO("GameServer unregistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("GameServer unregistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
 }
 
@@ -162,7 +162,7 @@ void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const AFIMsgHead& x
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("GameServer refersh, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("GameServer refersh, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
 
     SynGameToProxy();
@@ -191,7 +191,7 @@ void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& x
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("Proxy Registered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("Proxy Registered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
         SynGameToProxy(xClientID);
     }
 }
@@ -210,7 +210,7 @@ void AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead&
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
         mGameMap.RemoveElement(xData.server_id());
-        ARK_LOG_INFO("Proxy UnRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("Proxy UnRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
 }
 
@@ -237,7 +237,7 @@ void AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& 
         pServerData->xClient = xClientID;
         *(pServerData->pData) = xData;
 
-        ARK_LOG_INFO("Proxy refresh, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name().c_str());
+        ARK_LOG_INFO("Proxy refresh, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
         SynGameToProxy(xClientID);
     }
 }
@@ -251,12 +251,12 @@ void AFCWorldNetServerModule::OnSocketEvent(const NetEventType eEvent, const AFG
 {
     if(eEvent == DISCONNECTED)
     {
-        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
         OnClientDisconnect(xClientID);
     }
     else  if(eEvent == CONNECTED)
     {
-        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
+        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
         OnClientConnected(xClientID);
     }
 }
@@ -347,8 +347,8 @@ void AFCWorldNetServerModule::LogGameServer()
         ARK_LOG_INFO("Type[{}] ID[{}] State[{}] IP[{}] xClient[{}]",
                      pGameData->pData->server_type(),
                      pGameData->pData->server_id(),
-                     AFMsg::EServerState_Name(pGameData->pData->server_state()).c_str(),
-                     pGameData->pData->server_ip().c_str(),
+                     AFMsg::EServerState_Name(pGameData->pData->server_state()),
+                     pGameData->pData->server_ip(),
                      pGameData->xClient.nLow);
     }
 

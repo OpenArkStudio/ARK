@@ -52,7 +52,7 @@ public:
     };
 
 public:
-    AFDataTable();
+    AFDataTable() noexcept;
     virtual ~AFDataTable();
 
     void SetName(const char* value);

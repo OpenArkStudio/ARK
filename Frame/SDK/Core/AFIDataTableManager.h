@@ -30,7 +30,7 @@ class AFDataTable;
 class AFIDataTableManager
 {
 public:
-    virtual ~AFIDataTableManager() {}
+    virtual ~AFIDataTableManager() = default;
 
     virtual const AFGUID& Self() = 0;
 

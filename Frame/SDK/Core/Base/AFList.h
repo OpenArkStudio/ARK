@@ -26,7 +26,7 @@ template < typename T >
 class AFList
 {
 public:
-    virtual ~AFList() {}
+    virtual ~AFList() = default;
     bool Add(const T& id);
     bool Find(const T& id);
     bool Remove(const T& id);

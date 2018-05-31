@@ -29,8 +29,8 @@
 class AFDataAlloc
 {
 public:
-    AFDataAlloc() {}
-    ~AFDataAlloc() {}
+    AFDataAlloc() = default;
+    ~AFDataAlloc() = default;
 
     void* Alloc(size_t size)
     {
@@ -176,7 +176,7 @@ public:
         assert(type == DT_INT64);
 
         mnType = DT_INT64;
-        mnValue = value;
+        mn64Value = value;
     }
 
     AFBaseData(int type, float value)

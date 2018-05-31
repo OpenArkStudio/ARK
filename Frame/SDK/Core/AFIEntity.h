@@ -34,7 +34,7 @@ class AFIEntity
 public:
     explicit AFIEntity(const AFGUID& self) {}
 
-    virtual ~AFIEntity() {}
+    virtual ~AFIEntity() = default;
 
     virtual void Update() = 0;
     virtual const AFGUID& Self() = 0;

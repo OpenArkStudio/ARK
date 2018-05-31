@@ -36,7 +36,7 @@ public:
         pPluginManager = p;
     }
 
-    virtual ~AFCAccountModule() {};
+    virtual ~AFCAccountModule() = default;
 
     virtual bool Init();
     virtual bool Shut();

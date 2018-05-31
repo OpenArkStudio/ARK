@@ -37,7 +37,7 @@ public:
     {
         pPluginManager = p;
     }
-    virtual ~AFCPropertyTrailModule() {}
+    virtual ~AFCPropertyTrailModule() = default;
 
     virtual bool Init();
     virtual bool Shut();
