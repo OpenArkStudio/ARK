@@ -40,7 +40,7 @@
 class AFCSceneProcessModule : public AFISceneProcessModule
 {
 public:
-    AFCSceneProcessModule(AFIPluginManager* p)
+    explicit AFCSceneProcessModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

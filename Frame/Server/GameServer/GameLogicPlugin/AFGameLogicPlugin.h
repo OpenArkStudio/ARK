@@ -26,7 +26,7 @@
 class AFGameLogicPlugin : public AFIPlugin
 {
 public:
-    AFGameLogicPlugin(AFIPluginManager* p)
+    explicit AFGameLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

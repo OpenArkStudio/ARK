@@ -61,18 +61,14 @@ struct ConnectData
 
 class AFINetClientModule : public AFINetModule
 {
-
-protected:
-    AFINetClientModule()
-    {
-    }
 public:
     enum EConstDefine
     {
         EConstDefine_DefaultWeith = 500,
     };
 
-    AFINetClientModule(AFIPluginManager* p)
+    AFINetClientModule() = delete;
+    explicit AFINetClientModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -322,9 +318,8 @@ protected:
         }
     }
 
-    void KeepReport(ConnectData* pServerData) {};
-    void LogServerInfo(const std::string& strServerInfo) {};
-
+    void KeepReport(ConnectData* pServerData) {/*Will add*/}
+    void LogServerInfo(const std::string& strServerInfo) {/*Will add*/}
 
 private:
     virtual void LogServerInfo()

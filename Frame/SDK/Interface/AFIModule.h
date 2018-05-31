@@ -93,13 +93,12 @@ public:
         return pPluginManager;
     }
 
+    void SetPluginManager(AFIPluginManager* p) { pPluginManager = p; }
+
     bool Loading() const
     {
         return mbReloading;
     }
-
-    void SetPluginManager(AFIPluginManager* p) { pPluginManager = p; }
-    AFIPluginManager* GetPluginManager(AFIPluginManager* p) const { return pPluginManager; }
 
     std::string strName;
 

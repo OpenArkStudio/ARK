@@ -33,7 +33,7 @@ class AFCPropertyConfigModule
     : public AFIPropertyConfigModule
 {
 public:
-    AFCPropertyConfigModule(AFIPluginManager* p)
+    explicit AFCPropertyConfigModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

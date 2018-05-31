@@ -34,7 +34,7 @@
 class AFCGameServerToWorldModule : public AFIGameServerToWorldModule
 {
 public:
-    AFCGameServerToWorldModule(AFIPluginManager* p)
+    explicit AFCGameServerToWorldModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

@@ -331,7 +331,7 @@ public:
 
     //need to call this function every frame to drive network library
     virtual void Update() = 0;
-    virtual void Start(const std::string& strAddrPort, const int nServerID) {}
+    virtual void Start(const std::string& strAddrPort, const int nServerID) {/*Just a base class function*/}
     virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount) { return -1;  }
 
     virtual bool Final() = 0;

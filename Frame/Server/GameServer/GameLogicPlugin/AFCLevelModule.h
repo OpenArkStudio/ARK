@@ -32,7 +32,7 @@
 class AFCLevelModule : public AFILevelModule
 {
 public:
-    AFCLevelModule(AFIPluginManager* p)
+    explicit AFCLevelModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

@@ -26,7 +26,7 @@
 class AFGameNetServerPlugin : public AFIPlugin
 {
 public:
-    AFGameNetServerPlugin(AFIPluginManager* p)
+    explicit AFGameNetServerPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
