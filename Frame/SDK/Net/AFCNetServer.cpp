@@ -45,25 +45,21 @@ int AFCNetServer::Start(const unsigned int nMaxClient, const std::string& strAdd
     m_plistenThread->startListen(false, strHost, port, std::bind(&AFCNetServer::OnAcceptConnectionInner, this, std::placeholders::_1));
 
     m_pServer->startWorkThread(nThreadCount);
-    return 0;
+	SetWorking(true);
+	return 0;
 }
 
 
 size_t AFCNetServer::OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len)
 {
-    const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    AFGUID xClient(0, *ud);
+	auto pUD = brynet::net::cast<PAFTCPEntity>(session->getUD());
+	if (nullptr != pUD)
+	{
+		const PAFTCPEntity pEntity = *pUD;
+		pEntity->AddBuff(buffer, len);
+		DismantleNet(pEntity);
+	}
 
-    AFScopeRdLock xGuard(mRWLock);
-
-    auto xFind = mmObject.find(xClient);
-    if(xFind == mmObject.end())
-    {
-        return len;
-    }
-
-    xFind->second->AddBuff(buffer, len);
-    DismantleNet(xFind->second);
     return len;
 }
 
@@ -82,13 +78,13 @@ void AFCNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR & 
 
     AFTCPMsg* pMsg = new AFTCPMsg(session);
     pMsg->xClientID.nLow = mnNextID++;
-    session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
     pMsg->nType = CONNECTED;
     {
         AFScopeWrLock xGuard(mRWLock);
 
-        AFTCPEntity* pEntity = new AFTCPEntity(this, pMsg->xClientID, session);
-        if(AddNetEntity(pMsg->xClientID, pEntity))
+        PAFTCPEntity pEntity = std::make_shared<AFTCPEntity>(this, pMsg->xClientID, session);
+		session->setUD(pEntity);
+		if (AddNetEntity(pMsg->xClientID, pEntity))
         {
             pEntity->mxNetMsgMQ.Push(pMsg);
         }
@@ -97,21 +93,18 @@ void AFCNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR & 
 
 void AFCNetServer::OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session)
 {
-    const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    AFGUID xClient(0, *ud);
-    AFScopeWrLock xGuard(mRWLock);
+	auto pUD = brynet::net::cast<PAFTCPEntity>(session->getUD());
+	if (nullptr ==  pUD)
+	{
+		return;
+	}
 
-    auto xFind = mmObject.find(xClient);
-    if(xFind == mmObject.end())
-    {
-        return ;
-    }
-
+	const PAFTCPEntity pEntity = *pUD;
     AFTCPMsg* pMsg = new AFTCPMsg(session);
-    pMsg->xClientID = xClient;
+    pMsg->xClientID = pEntity->GetClientID();
     pMsg->nType = DISCONNECTED;
 
-    xFind->second->mxNetMsgMQ.Push(pMsg);
+	pEntity->mxNetMsgMQ.Push(pMsg);
 }
 
 void AFCNetServer::ProcessMsgLogicThread()
@@ -119,7 +112,7 @@ void AFCNetServer::ProcessMsgLogicThread()
     std::list<AFGUID> xNeedRemoveList;
     {
         AFScopeRdLock xGuard(mRWLock);
-        for(std::map<AFGUID, AFTCPEntity*>::iterator iter = mmObject.begin(); iter != mmObject.end(); ++iter)
+        for(std::map<AFGUID, PAFTCPEntity>::iterator iter = mmObject.begin(); iter != mmObject.end(); ++iter)
         {
             ProcessMsgLogicThread(iter->second);
             if(!iter->second->NeedRemove())
@@ -138,7 +131,7 @@ void AFCNetServer::ProcessMsgLogicThread()
     }
 }
 
-void AFCNetServer::ProcessMsgLogicThread(AFTCPEntity* pEntity)
+void AFCNetServer::ProcessMsgLogicThread(PAFTCPEntity pEntity)
 {
     //Handle Msg
     size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
@@ -193,10 +186,10 @@ bool AFCNetServer::Final()
 
 bool AFCNetServer::SendMsgToAllClient(const char* msg, const size_t nLen)
 {
-    std::map<AFGUID, AFTCPEntity*>::iterator it = mmObject.begin();
+    std::map<AFGUID, PAFTCPEntity>::iterator it = mmObject.begin();
     for(; it != mmObject.end(); ++it)
     {
-        AFTCPEntity* pNetObject = (AFTCPEntity*)it->second;
+        PAFTCPEntity pNetObject = (PAFTCPEntity)it->second;
         if(pNetObject && !pNetObject->NeedRemove())
         {
             pNetObject->GetSession()->send(msg, nLen);
@@ -210,7 +203,7 @@ bool AFCNetServer::SendMsg(const char* msg, const size_t nLen, const AFGUID& xCl
 {
     AFScopeRdLock xGuard(mRWLock);
 
-    AFTCPEntity* pNetObject = GetNetEntity(xClient);
+    PAFTCPEntity pNetObject = GetNetEntity(xClient);
     if(pNetObject == nullptr)
     {
         return false;
@@ -220,26 +213,19 @@ bool AFCNetServer::SendMsg(const char* msg, const size_t nLen, const AFGUID& xCl
     return true;
 }
 
-bool AFCNetServer::AddNetEntity(const AFGUID& xClientID, AFTCPEntity* pEntity)
+bool AFCNetServer::AddNetEntity(const AFGUID& xClientID, PAFTCPEntity pEntity)
 {
     return mmObject.insert(std::make_pair(xClientID, pEntity)).second;
 }
 
 bool AFCNetServer::RemoveNetEntity(const AFGUID& xClientID)
 {
-    AFTCPEntity* pNetObject = GetNetEntity(xClientID);
-    if(pNetObject)
-    {
-        delete pNetObject;
-        pNetObject = nullptr;
-    }
-
     return mmObject.erase(xClientID);
 }
 
 bool AFCNetServer::CloseNetEntity(const AFGUID& xClientID)
 {
-    AFTCPEntity* pEntity = GetNetEntity(xClientID);
+    PAFTCPEntity pEntity = GetNetEntity(xClientID);
     if(pEntity)
     {
         pEntity->GetSession()->postDisConnect();
@@ -248,7 +234,7 @@ bool AFCNetServer::CloseNetEntity(const AFGUID& xClientID)
     return true;
 }
 
-bool AFCNetServer::DismantleNet(AFTCPEntity* pEntity)
+bool AFCNetServer::DismantleNet(PAFTCPEntity pEntity)
 {
     for(; pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH;)
     {
@@ -277,15 +263,13 @@ bool AFCNetServer::CloseSocketAll()
     for(auto it : mmObject)
     {
         it.second->GetSession()->postDisConnect();
-        delete it.second;
-        it.second = nullptr;
     }
 
     mmObject.clear();
     return true;
 }
 
-AFTCPEntity* AFCNetServer::GetNetEntity(const AFGUID& xClientID)
+AFCNetServer::PAFTCPEntity AFCNetServer::GetNetEntity(const AFGUID& xClientID)
 {
     auto it = mmObject.find(xClientID);
     if(it != mmObject.end())

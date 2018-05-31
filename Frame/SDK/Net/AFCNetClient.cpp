@@ -100,9 +100,9 @@ void AFCNetClient::Start(const std::string& strAddrPort, const int nServerID)
     m_pServer->startWorkThread(1);
     m_pConector->startWorkerThread();
 
-    std::string strIp = "127.0.0.1";
-    int nPort = 8001;
-    const int nTimeOut = 20;
+    std::string strIp;
+    int nPort(0);
+    const int nTimeOut(20);
 
     SplitHostPort(strAddrPort, strIp, nPort);
     brynet::net::TcpSocket::PTR SocketPtr = brynet::net::SyncConnectSocket(strIp, nPort, std::chrono::milliseconds(nTimeOut), m_pConector);
@@ -118,6 +118,7 @@ void AFCNetClient::Start(const std::string& strAddrPort, const int nServerID)
     m_pServer->addSession(std::move(SocketPtr),
                           brynet::net::AddSessionOption::WithEnterCallback(enterCallback),
                           brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));
+	SetWorking(true);
 }
 
 bool AFCNetClient::Final()
