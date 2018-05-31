@@ -26,7 +26,7 @@
 class AFCScheduleModule : public AFIScheduleModule
 {
 public:
-    AFCScheduleModule(AFIPluginManager* p);
+    explicit AFCScheduleModule(AFIPluginManager* p);
 
     virtual ~AFCScheduleModule() {}
 
@@ -36,7 +36,7 @@ public:
     virtual bool PreShut();
     virtual bool Shut();
 
-    virtual void Update();
+    virtual bool Update();
 
     virtual bool RemoveSchedule(const int cron_id);
 

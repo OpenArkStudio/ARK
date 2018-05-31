@@ -88,9 +88,9 @@ bool AFCProxyNetServerModule::Shut()
     return true;
 }
 
-void AFCProxyNetServerModule::Update()
+bool AFCProxyNetServerModule::Update()
 {
-    m_pNetModule->Update();
+    return m_pNetModule->Update();
 }
 
 int AFCProxyNetServerModule::HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFIDataList& var)

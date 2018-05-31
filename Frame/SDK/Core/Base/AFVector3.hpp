@@ -35,7 +35,7 @@ struct Point3D
     {
     }
 
-    Point3D(float f3[])
+    explicit Point3D(float f3[])
     {
         x = f3[0];
         y = f3[1];

@@ -58,14 +58,14 @@ class AFCSceneInfo
 {
 public:
 
-    AFCSceneInfo(int nSceneID)
+    explicit AFCSceneInfo(int nSceneID)
     {
         mnGroupIndex = 0;
         mnSceneID = nSceneID;
         mnWidth = 512;
     }
 
-    AFCSceneInfo(int nSceneID, int nWidth)
+    explicit AFCSceneInfo(int nSceneID, int nWidth)
     {
         mnGroupIndex = 0;
         mnSceneID = nSceneID;

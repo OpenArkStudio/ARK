@@ -23,14 +23,14 @@
 #include "AFIDataNodeManager.h"
 #include "SDK/Core/Base/AFNoncopyable.hpp"
 
-class AFCDataNodeManager : public AFIDataNodeManager, AFNoncopyable
+class AFCDataNodeManager : public AFIDataNodeManager, public AFNoncopyable
 {
 public:
     AFCDataNodeManager() = delete;
 
-    AFCDataNodeManager(const AFGUID& self);
+    explicit AFCDataNodeManager(const AFGUID& self);
     virtual ~AFCDataNodeManager();
-    virtual void Clear();
+    virtual void Clear() final;
 
     virtual const AFGUID& Self() const;
 

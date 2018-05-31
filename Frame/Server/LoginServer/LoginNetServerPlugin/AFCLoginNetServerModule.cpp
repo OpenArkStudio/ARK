@@ -114,7 +114,7 @@ int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, con
     return 0;
 }
 
-void AFCLoginNetServerModule::Update()
+bool AFCLoginNetServerModule::Update()
 {
     return m_pNetModule->Update();
 }

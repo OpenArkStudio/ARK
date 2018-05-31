@@ -33,7 +33,7 @@ class AFCPropertyConfigModule
     : public AFIPropertyConfigModule
 {
 public:
-    AFCPropertyConfigModule(AFIPluginManager* p)
+    explicit AFCPropertyConfigModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -41,7 +41,7 @@ public:
 
     virtual bool Init();
     virtual bool Shut();
-    virtual void Update();
+    virtual bool Update();
     virtual bool PostInit();
 
     virtual int CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty);

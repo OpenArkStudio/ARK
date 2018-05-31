@@ -28,9 +28,9 @@ class AFCSceneModule
     : public AFISceneModule
 {
 public:
-    AFCSceneModule(AFIPluginManager* p)
+    explicit AFCSceneModule(AFIPluginManager* p)
     {
-        //pPluginManager = p;
+        pPluginManager = p;
     }
 
     virtual ~AFCSceneModule()
@@ -41,5 +41,5 @@ public:
     virtual bool PostInit();
     virtual bool PreShut();
     virtual bool Shut();
-    virtual void Update();
+    virtual bool Update();
 };

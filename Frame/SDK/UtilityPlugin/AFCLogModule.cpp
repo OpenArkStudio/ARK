@@ -63,9 +63,9 @@ bool AFCLogModule::PostInit()
     return true;
 }
 
-void AFCLogModule::Update()
+bool AFCLogModule::Update()
 {
-
+    return true;
 }
 
 bool AFCLogModule::PreShut()

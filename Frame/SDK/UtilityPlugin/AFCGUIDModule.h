@@ -33,12 +33,12 @@ class AFCGUIDModule
     : public AFIGUIDModule
 {
 public:
-    AFCGUIDModule(AFIPluginManager* p);
+    explicit AFCGUIDModule(AFIPluginManager* p);
     virtual ~AFCGUIDModule() {}
 
     virtual bool Init();
     virtual bool PostInit();
-    virtual void Update();
+    virtual bool Update();
     virtual bool PreShut();
     virtual bool Shut();
 

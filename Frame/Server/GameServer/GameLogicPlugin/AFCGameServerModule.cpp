@@ -38,9 +38,9 @@ bool AFCGameServerModule::Shut()
     return true;
 }
 
-void AFCGameServerModule::Update()
+bool AFCGameServerModule::Update()
 {
-
+    return true;
 }
 
 bool AFCGameServerModule::PostInit()

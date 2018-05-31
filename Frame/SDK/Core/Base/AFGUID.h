@@ -23,28 +23,22 @@
 #include "SDK/Core/Base/AFPlatform.hpp"
 #include "SDK/Core/Base/AFMacros.hpp"
 
-struct AFGUID
+class AFGUID
 {
+public:
 	uint64_t nHigh;
     uint64_t nLow;
 
-    AFGUID()
+    AFGUID() : nHigh(0), nLow(0)
     {
-        nHigh = 0;
-        nLow = 0;
     }
 
-
-    AFGUID(uint64_t value)
+    AFGUID(uint64_t value) : nHigh(0), nLow(value)
     {
-        nHigh = 0;
-        nLow = value;
     }
 
-    AFGUID(uint64_t high, uint64_t low)
+    AFGUID(uint64_t high, uint64_t low) : nHigh(high), nLow(low)
     {
-        nHigh = high;
-        nLow = low;
     }
 
     bool IsNULL()
@@ -55,6 +49,20 @@ struct AFGUID
     bool IsNULL() const
     {
         return (0 == nHigh) && (0 == nLow);
+    }
+
+    AFGUID& operator=(const int& rhs)
+    {
+        nHigh = 0;
+        nLow = rhs;
+        return *this;
+    }
+
+    AFGUID& operator=(const int64_t& rhs)
+    {
+        nHigh = 0;
+        nLow = rhs;
+        return *this;
     }
 
     AFGUID& operator=(const AFGUID& rhs)
@@ -112,8 +120,10 @@ struct AFGUID
 
             return true;
         }
-        catch (...)
+        catch (std::exception& exp)
         {
+            std::cout << "AFGUID from string failed, msg = " << exp.what() << std::endl;
+            ARK_ASSERT_NO_EFFECT(0);
             return false;
         }
     }

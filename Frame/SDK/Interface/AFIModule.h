@@ -61,9 +61,9 @@ public:
         return true;
     }
 
-    virtual void Update()
+    virtual bool Update()
     {
-
+        return true;
     }
 
     virtual bool PreShut()
@@ -93,15 +93,18 @@ public:
         return pPluginManager;
     }
 
+    void SetPluginManager(AFIPluginManager* p) { pPluginManager = p; }
+
     bool Loading() const
     {
         return mbReloading;
     }
 
-public:
     std::string strName;
 
 protected:
     AFIPluginManager* pPluginManager;
+
+private:
     bool mbReloading;
 };

@@ -22,7 +22,6 @@
 
 class AFBuffer
 {
-
 public:
     ~AFBuffer()
     {
@@ -33,7 +32,7 @@ public:
         }
     }
 
-    AFBuffer(size_t nBufferSize = 1024 * 512) : mData(nullptr), mnDataSize(0), mWritePos(0), mnReadPos(0)
+    explicit AFBuffer(size_t nBufferSize = 1024 * 512) : mData(nullptr), mnDataSize(0), mWritePos(0), mnReadPos(0)
     {
         if((mData = (char*)malloc(sizeof(char) * nBufferSize)) != NULL)
         {
@@ -43,7 +42,6 @@ public:
         }
     }
 
-public:
     bool write(const char* data, size_t len)
     {
         bool write_ret = true;
@@ -125,21 +123,23 @@ private:
         mWritePos = len;
     }
 
-    void init()
-    {
-        mnReadPos = 0;
-        mWritePos = 0;
-    }
+    //Remove unused function
+    //void init()
+    //{
+    //    mnReadPos = 0;
+    //    mWritePos = 0;
+    //}
 
     size_t getwritepos()
     {
         return mWritePos;
     }
 
-    size_t getreadpos()
-    {
-        return mnReadPos;
-    }
+    //Remove unused function
+    //size_t getreadpos()
+    //{
+    //    return mnReadPos;
+    //}
 
     void addwritepos(size_t value)
     {
@@ -155,10 +155,11 @@ private:
         return mnDataSize - mWritePos;
     }
 
-    size_t getsize()
-    {
-        return mnDataSize;
-    }
+    //Remove unused function
+    //size_t getsize()
+    //{
+    //    return mnDataSize;
+    //}
 
     char* getwriteptr()
     {

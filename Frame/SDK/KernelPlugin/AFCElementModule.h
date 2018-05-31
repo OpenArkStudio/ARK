@@ -57,7 +57,7 @@ public:
         return m_pTableManager;
     }
 
-protected:
+private:
     ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
     ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
 };
@@ -65,7 +65,7 @@ protected:
 class AFCElementModule : public AFIElementModule
 {
 public:
-    AFCElementModule(AFIPluginManager* p);
+    explicit AFCElementModule(AFIPluginManager* p);
     virtual ~AFCElementModule();
 
     virtual bool Init();
@@ -73,7 +73,7 @@ public:
 
     virtual bool PostInit();
     virtual bool PreShut();
-    virtual void Update();
+    virtual bool Update();
 
     virtual bool Load();
     virtual bool Save();
@@ -98,7 +98,8 @@ protected:
     virtual bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pLogicClass);
 
     virtual bool LegalNumber(const char* str);
-protected:
+
+private:
     AFIClassModule* m_pClassModule;
     bool mbLoaded;
     AFArrayMap<std::string, ElementConfigInfo> mxElementConfigMap;

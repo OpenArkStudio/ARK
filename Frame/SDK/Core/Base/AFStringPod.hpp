@@ -96,6 +96,7 @@ public:
 
     void Swap(StringPodAlloc& src)
     {
+        //Do nothing
     }
 };
 

@@ -39,11 +39,9 @@ enum ARK_SERVER_TYPE
 
 class AFINetModule : public AFIModule
 {
-protected:
-    AFINetModule()
-    {
 
-    }
+protected:
+    AFINetModule() {}
 
 public:
     virtual ~AFINetModule()
@@ -351,7 +349,7 @@ protected:
         }
     }
 
-protected:
+private:
     std::map<int, NET_RECEIVE_FUNCTOR_PTR> mxReceiveCallBack;
     std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
     std::list<NET_RECEIVE_FUNCTOR_PTR> mxCallBackList;

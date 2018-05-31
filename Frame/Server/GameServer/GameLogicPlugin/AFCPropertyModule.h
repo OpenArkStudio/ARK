@@ -33,7 +33,7 @@
 class AFCPropertyModule : public AFIPropertyModule
 {
 public:
-    AFCPropertyModule(AFIPluginManager* p)
+    explicit AFCPropertyModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -41,7 +41,7 @@ public:
 
     virtual bool Init();
     virtual bool Shut();
-    virtual void Update();
+    virtual bool Update();
     virtual bool PostInit();
 
     virtual int RefreshBaseProperty(const AFGUID& self);

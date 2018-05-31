@@ -187,7 +187,7 @@ void AFCNetServer::ProcessMsgLogicThread(AFTCPEntity* pEntity)
 
 bool AFCNetServer::Final()
 {
-    bWorking = false;
+    SetWorking(false);
     return true;
 }
 
@@ -274,12 +274,11 @@ bool AFCNetServer::DismantleNet(AFTCPEntity* pEntity)
 
 bool AFCNetServer::CloseSocketAll()
 {
-    std::map<AFGUID, AFTCPEntity*>::iterator it = mmObject.begin();
-    for(it; it != mmObject.end(); ++it)
+    for(auto it : mmObject)
     {
-        it->second->GetSession()->postDisConnect();
-        delete it->second;
-        it->second = nullptr;
+        it.second->GetSession()->postDisConnect();
+        delete it.second;
+        it.second = nullptr;
     }
 
     mmObject.clear();
@@ -288,7 +287,7 @@ bool AFCNetServer::CloseSocketAll()
 
 AFTCPEntity* AFCNetServer::GetNetEntity(const AFGUID& xClientID)
 {
-    std::map<AFGUID, AFTCPEntity*>::iterator it = mmObject.find(xClientID);
+    auto it = mmObject.find(xClientID);
     if(it != mmObject.end())
     {
         return it->second;

@@ -33,7 +33,7 @@
 class AFCClass : public AFIClass
 {
 public:
-    AFCClass(const std::string& strClassName)
+    explicit AFCClass(const std::string& strClassName)
     {
         m_pParentClass = NULL;
         mstrClassName = strClassName;
@@ -139,7 +139,7 @@ class AFCClassModule
     : public AFIClassModule
 {
 public:
-    AFCClassModule(AFIPluginManager* p);
+    explicit AFCClassModule(AFIPluginManager* p);
     virtual ~AFCClassModule();
 
     virtual bool Init();
@@ -168,7 +168,7 @@ protected:
 
     virtual bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pParentClass);
 
-protected:
+private:
     AFIElementModule* m_pElementModule;
     std::string msConfigFileName;
 };

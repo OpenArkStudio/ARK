@@ -103,9 +103,9 @@ bool AFCGameNetServerModule::Shut()
     return true;
 }
 
-void AFCGameNetServerModule::Update()
+bool AFCGameNetServerModule::Update()
 {
-    m_pNetModule->Update();
+    return m_pNetModule->Update();
 }
 
 void AFCGameNetServerModule::OnSocketPSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
@@ -142,7 +142,7 @@ void AFCGameNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 
 void AFCGameNetServerModule::OnClientConnected(const AFGUID& xClientID)
 {
-
+    //do something
 }
 
 void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
@@ -155,7 +155,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
         return;
     }
 
-    AFGUID nRoleID = AFINetServerModule::PBToGUID(xMsg.id());
+    AFGUID nRoleID = AFINetModule::PBToGUID(xMsg.id());
 
     if(m_pKernelModule->GetEntity(nRoleID))
     {
@@ -277,8 +277,8 @@ int AFCGameNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AFG
     AFMsg::EntityDataNodeList* pPublicData = xPublicMsg.add_multi_entity_data_node_list();
     AFMsg::EntityDataNodeList* pPrivateData = xPrivateMsg.add_multi_entity_data_node_list();
 
-    *(pPublicData->mutable_entity_id()) = AFINetServerModule::GUIDToPB(self);
-    *(pPrivateData->mutable_entity_id()) = AFINetServerModule::GUIDToPB(self);
+    *(pPublicData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
+    *(pPrivateData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
 
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
 
@@ -295,13 +295,13 @@ int AFCGameNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AFG
             if(pNode->IsPublic())
             {
                 AFMsg::PBNodeData* pData = pPublicData->add_data_node_list();
-                AFINetServerModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
+                AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
             }
 
             if(pNode->IsPrivate())
             {
                 AFMsg::PBNodeData* pData = pPrivateData->add_data_node_list();
-                AFINetServerModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
+                AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
             }
         }
     }
@@ -394,7 +394,7 @@ int AFCGameNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const AF
             if(!pPublicData)
             {
                 pPublicData = xPublicMsg.add_multi_entity_data_table_list();
-                *(pPublicData->mutable_entity_id()) = AFINetServerModule::GUIDToPB(self);
+                *(pPublicData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
             }
             pPublicTableBase = pPublicData->add_data_table_list();
             pPublicTableBase->set_table_name(pTable->GetName());
@@ -411,7 +411,7 @@ int AFCGameNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const AF
             if(!pPrivateData)
             {
                 pPrivateData = xPrivateMsg.add_multi_entity_data_table_list();
-                *(pPrivateData->mutable_entity_id()) = AFINetServerModule::GUIDToPB(self);
+                *(pPrivateData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
             }
             pPrivateTableBase = pPrivateData->add_data_table_list();
             pPrivateTableBase->set_table_name(pTable->GetName());
@@ -464,13 +464,13 @@ int AFCGameNetServerModule::OnEntityListEnter(const AFIDataList& self, const AFI
         }
 
         AFMsg::EntityEnterInfo* pEnterInfo = xEntityEnterList.add_entity_list();
-        *(pEnterInfo->mutable_object_guid()) = AFINetServerModule::GUIDToPB(identOld);
+        *(pEnterInfo->mutable_object_guid()) = AFINetModule::GUIDToPB(identOld);
         Point3D xPoint;
         xPoint.x = m_pKernelModule->GetNodeFloat(identOld, "x");
         xPoint.y = m_pKernelModule->GetNodeFloat(identOld, "y");
         xPoint.z = m_pKernelModule->GetNodeFloat(identOld, "z");
 
-        *pEnterInfo->mutable_pos() = AFINetServerModule::VecToPB(xPoint);
+        *pEnterInfo->mutable_pos() = AFINetModule::VecToPB(xPoint);
         pEnterInfo->set_career_type(m_pKernelModule->GetNodeInt(identOld, "Job"));
         pEnterInfo->set_player_state(m_pKernelModule->GetNodeInt(identOld, "State"));
         pEnterInfo->set_config_id(m_pKernelModule->GetNodeString(identOld, "ConfigID"));
@@ -583,9 +583,9 @@ int AFCGameNetServerModule::OnCommonDataNodeEvent(const AFGUID& self, const std:
     }
 
     AFMsg::EntityDataNode xEntityDataNode;
-    *xEntityDataNode.mutable_entity_id() = AFINetServerModule::GUIDToPB(self);
+    *xEntityDataNode.mutable_entity_id() = AFINetModule::GUIDToPB(self);
     AFMsg::PBNodeData* pData = xEntityDataNode.add_data_node_list();
-    AFINetServerModule::DataNodeToPBNode(oldVar, name.c_str(), *pData);
+    AFINetModule::DataNodeToPBNode(oldVar, name.c_str(), *pData);
 
     for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
     {
@@ -628,7 +628,7 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
     case AFDataTable::TABLE_ADD:
         {
             AFMsg::EntityDataTableAddRow xTableAddRow;
-            *xTableAddRow.mutable_entity_id() = AFINetServerModule::GUIDToPB(self);
+            *xTableAddRow.mutable_entity_id() = AFINetModule::GUIDToPB(self);
 
             xTableAddRow.set_table_name(strTableName);
 
@@ -645,7 +645,7 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
                     for(size_t i = 0; i < xRowDataList.GetCount(); i++)
                     {
                         AFMsg::PBCellData* pAddData = pAddRowData->add_cell_list();
-                        AFINetServerModule::TableCellToPBCell(xRowDataList, nRow, nCol, *pAddData);
+                        AFINetModule::TableCellToPBCell(xRowDataList, nRow, nCol, *pAddData);
                     }
 
                     for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
@@ -661,7 +661,7 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
     case AFDataTable::TABLE_DELETE:
         {
             AFMsg::EntityDataTableRemove xTableRemoveRow;
-            *xTableRemoveRow.mutable_entity_id() = AFINetServerModule::GUIDToPB(self);
+            *xTableRemoveRow.mutable_entity_id() = AFINetModule::GUIDToPB(self);
             xTableRemoveRow.set_table_name(strTableName);
             xTableRemoveRow.add_remove_row(nRow);
 
@@ -677,7 +677,7 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
         {
             //其实是2个row交换
             AFMsg::EntityDataTableSwap xTableSwap;
-            *xTableSwap.mutable_entity_id() = AFINetServerModule::GUIDToPB(self);
+            *xTableSwap.mutable_entity_id() = AFINetModule::GUIDToPB(self);
 
             xTableSwap.set_origin_table_name(strTableName);
             xTableSwap.set_target_table_name(strTableName);   // 暂时没用
@@ -695,10 +695,10 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
     case AFDataTable::TABLE_UPDATE:
         {
             AFMsg::EntityDataTable xTableChanged;
-            *xTableChanged.mutable_entity_id() = AFINetServerModule::GUIDToPB(self);
+            *xTableChanged.mutable_entity_id() = AFINetModule::GUIDToPB(self);
             xTableChanged.set_table_name(strTableName);
             AFMsg::PBCellData* pCellData = xTableChanged.add_table_cell_list();
-            AFINetServerModule::TableCellToPBCell(newVar, nRow, nCol, *pCellData);
+            AFINetModule::TableCellToPBCell(newVar, nRow, nCol, *pCellData);
 
             for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
             {
@@ -769,8 +769,8 @@ int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::st
             AFMsg::AckEventResult xMsg;
             xMsg.set_event_code(AFMsg::EGEC_ENTER_GAME_SUCCESS);
 
-            *xMsg.mutable_event_client() = AFINetServerModule::GUIDToPB(pDataBase->xClientID);
-            *xMsg.mutable_event_object() = AFINetServerModule::GUIDToPB(self);
+            *xMsg.mutable_event_client() = AFINetModule::GUIDToPB(pDataBase->xClientID);
+            *xMsg.mutable_event_object() = AFINetModule::GUIDToPB(self);
 
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTER_GAME, xMsg, self);
         }

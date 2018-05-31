@@ -24,28 +24,28 @@
 
 #if ARK_PLATFORM == PLATFORM_WIN
 
-    #define DYNLIB_HANDLE hInstance
-    #define DYNLIB_LOAD( a ) LoadLibraryEx( a, NULL, LOAD_WITH_ALTERED_SEARCH_PATH )
-    #define DYNLIB_GETSYM( a, b ) GetProcAddress( a, b )
-    #define DYNLIB_UNLOAD( a ) FreeLibrary( a )
+#define DYNLIB_HANDLE hInstance
+#define DYNLIB_LOAD(a) LoadLibraryEx(a, NULL, LOAD_WITH_ALTERED_SEARCH_PATH)
+#define DYNLIB_GETSYM(a, b) GetProcAddress(a, b)
+#define DYNLIB_UNLOAD(a) FreeLibrary(a)
 
-    struct HINSTANCE__;
-    typedef struct HINSTANCE__* hInstance;
+struct HINSTANCE__;
+typedef struct HINSTANCE__* hInstance;
 
 #elif ARK_PLATFORM == PLATFORM_UNIX
 
-    #include <dlfcn.h>
-    #define DYNLIB_HANDLE void*
-    #define DYNLIB_LOAD( a ) dlopen( a, RTLD_LAZY | RTLD_GLOBAL)
-    #define DYNLIB_GETSYM( a, b ) dlsym( a, b )
-    #define DYNLIB_UNLOAD( a ) dlclose( a )
+#include <dlfcn.h>
+#define DYNLIB_HANDLE void*
+#define DYNLIB_LOAD(a) dlopen(a, RTLD_LAZY | RTLD_GLOBAL)
+#define DYNLIB_GETSYM(a, b) dlsym(a, b)
+#define DYNLIB_UNLOAD(a) dlclose(a)
 
 #elif ARK_PLATFORM == PLATFORM_APPLE
 
-    #define DYNLIB_HANDLE void*
-    #define DYNLIB_LOAD( a ) mac_loadDylib( a )
-    #define DYNLIB_GETSYM( a, b ) dlsym( a, b )
-    #define DYNLIB_UNLOAD( a ) dlclose( a )
+#define DYNLIB_HANDLE void*
+#define DYNLIB_LOAD(a) mac_loadDylib(a)
+#define DYNLIB_GETSYM(a, b) dlsym(a, b)
+#define DYNLIB_UNLOAD(a) dlclose(a)
 
 #endif
 
@@ -53,7 +53,7 @@ class AFCDynLib
 {
 public:
 
-    AFCDynLib(const std::string& strName)
+    explicit AFCDynLib(const std::string& strName)
     {
         mbMain = false;
         mstrName = strName;
@@ -94,8 +94,7 @@ public:
 
     void* GetSymbol(const char* szProcName);
 
-protected:
-
+private:
     std::string mstrName;
     bool mbMain;
 

@@ -22,9 +22,9 @@
 #include "AFDataNode.h"
 #include "SDK/Core/Base/AFMisc.hpp"
 
-AFCDataNodeManager::AFCDataNodeManager(const AFGUID& self)
+AFCDataNodeManager::AFCDataNodeManager(const AFGUID& self) : mxSelf(self)
 {
-    mxSelf = self;
+
 }
 
 AFCDataNodeManager::~AFCDataNodeManager()
@@ -85,7 +85,7 @@ size_t AFCDataNodeManager::GetNodeCount()
 
 AFDataNode* AFCDataNodeManager::GetNodeByIndex(size_t index)
 {
-    ARK_ASSERT_RET_VAL(index >= 0 && index <= mxNodes.size(), NULL);
+    ARK_ASSERT_RET_VAL(index >= 0 && index <= mxNodes.size(), nullptr);
 
     return mxNodes[index];
 }
@@ -95,7 +95,7 @@ AFDataNode* AFCDataNodeManager::GetNode(const char* name)
     size_t index;
     if(!FindIndex(name, index))
     {
-        return NULL;
+        return nullptr;
     }
 
     return mxNodes[index];
@@ -146,12 +146,35 @@ bool AFCDataNodeManager::SetNode(const char* name, const AFIData& value)
         return false;
     }
 
-    AFCData oldValue = mxNodes[index]->value;
-    mxNodes[index]->value = value;
+    switch (value.GetType())
+    {
+    case DT_BOOLEAN:
+        return SetNodeBool(name, value.GetBool());
+        break;
+    case DT_INT:
+        return SetNodeInt(name, value.GetInt());
+        break;
+    case DT_INT64:
+        return SetNodeInt64(name, value.GetInt64());
+        break;
+    case DT_FLOAT:
+        return SetNodeFloat(name, value.GetFloat());
+        break;
+    case DT_DOUBLE:
+        return SetNodeDouble(name, value.GetDouble());
+        break;
+    case DT_STRING:
+        return SetNodeString(name, value.GetString());
+        break;
+    case DT_OBJECT:
+        return SetNodeObject(name, value.GetObject());
+        break;
+    default:
+        ARK_ASSERT_NO_EFFECT(0);
+        break;
+    }
 
-    //TODO:call cb
-
-    return true;
+    return false;
 }
 
 bool AFCDataNodeManager::SetNodeBool(const char* name, const bool value)

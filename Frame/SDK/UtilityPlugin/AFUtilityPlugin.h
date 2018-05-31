@@ -26,7 +26,7 @@
 class AFUtilityPlugin : public AFIPlugin
 {
 public:
-    AFUtilityPlugin(AFIPluginManager* p)
+    explicit AFUtilityPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

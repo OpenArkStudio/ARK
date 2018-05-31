@@ -32,7 +32,7 @@
 class AFIEntity
 {
 public:
-    AFIEntity(const AFGUID& self) {}
+    explicit AFIEntity(const AFGUID& self) {}
 
     virtual ~AFIEntity() {}
 
@@ -108,7 +108,4 @@ protected:
     virtual bool AddNodeCallBack(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
     virtual bool AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
     virtual bool AddHeartBeat(const std::string& name, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever) = 0;
-
-protected:
-    AFIPluginManager* m_pPluginManager;
 };

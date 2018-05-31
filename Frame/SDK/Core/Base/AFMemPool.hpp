@@ -38,7 +38,7 @@ public:
         mnUnitSize(unit_size),
         mnBlockSize(unit_num * (unit_size + sizeof(struct MemUnit)))
     {
-        m_pMemBlock = ::malloc(mnBlockSize);
+        m_pMemBlock = ARK_NEW char[mnBlockSize];
 
         if (m_pMemBlock != nullptr)
         {
@@ -70,7 +70,7 @@ public:
             m_pMemBlock == nullptr ||
             m_pFreeMemBlock == nullptr)
         {
-            return ::malloc(size);
+            return ARK_NEW char[size];
         }
 
         //Now FreeList is not empty
@@ -102,7 +102,7 @@ public:
             m_pAllocatedMemBlock = pCurrentUnit->pNext;
             if (m_pAllocatedMemBlock != nullptr)
             {
-                m_pAllocatedMemBlock->pPrev = NULL;
+                m_pAllocatedMemBlock->pPrev = nullptr;
             }
 
             pCurrentUnit->pNext = m_pFreeMemBlock;
@@ -115,7 +115,7 @@ public:
         }
         else
         {
-            ::free(p);
+            ARK_DELETE_ARRAY(p);
         }
     }
 

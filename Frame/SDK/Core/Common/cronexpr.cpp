@@ -407,12 +407,12 @@ static char* str_replace(char *orig, const char *rep, const char *with) {
     }
 
     /* first time through the loop, all the variable are set correctly
-     from here on,
-        tmp points to the end of the result string
-        ins points to the next occurrence of rep in orig
-        orig points to the remainder of orig after "end of rep"
+    from here on,
+    tmp points to the end of the result string
+    ins points to the next occurrence of rep in orig
+    orig points to the remainder of orig after "end of rep"
     */
-    tmp = result = (char*) malloc(strlen(orig) + (len_with - len_rep) * count + 1);
+    tmp = result = (char*)malloc(strlen(orig) + (len_with - len_rep) * count + 1);
     if (!result) return NULL;
 
     while (count--) {

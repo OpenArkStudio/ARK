@@ -20,9 +20,9 @@
 
 #include "AFCEventManager.h"
 
-AFCEventManager::AFCEventManager(AFGUID self)
+AFCEventManager::AFCEventManager(AFGUID self) : mSelf(self)
 {
-    mSelf = self;
+    
 }
 
 AFCEventManager::~AFCEventManager()

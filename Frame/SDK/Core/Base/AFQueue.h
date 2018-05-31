@@ -44,7 +44,7 @@ public:
         flag.clear(std::memory_order_release);
     }
 
-protected:
+private:
     mutable std::atomic_flag flag;
 };
 

@@ -75,7 +75,7 @@ bool AFCKernelModule::Shut()
     return true;
 }
 
-void AFCKernelModule::Update()
+bool AFCKernelModule::Update()
 {
     ProcessMemFree();
 
@@ -83,11 +83,11 @@ void AFCKernelModule::Update()
 
     if(mtDeleteSelfList.size() > 0)
     {
-        std::list<AFGUID>::iterator it = mtDeleteSelfList.begin();
-        for(it; it != mtDeleteSelfList.end(); it++)
+        for(auto it : mtDeleteSelfList)
         {
-            DestroyEntity(*it);
+            DestroyEntity(it);
         }
+
         mtDeleteSelfList.clear();
     }
 
@@ -102,6 +102,8 @@ void AFCKernelModule::Update()
 
         pEntity = Next();
     }
+
+    return true;
 }
 
 bool AFCKernelModule::FindHeartBeat(const AFGUID& self, const std::string& name)
@@ -1054,10 +1056,9 @@ int AFCKernelModule::OnCommonNodeEvent(const AFGUID& self, const std::string& na
         return 0;
     }
 
-    std::list<DATA_NODE_EVENT_FUNCTOR_PTR>::iterator it = mxCommonNodeCBList.begin();
-    for(it; it != mxCommonNodeCBList.end(); it++)
+    for(auto it : mxCommonNodeCBList)
     {
-        (**it)(self, name, oldVar, newVar);
+        (*it)(self, name, oldVar, newVar);
     }
 
     return 0;
@@ -1190,9 +1191,9 @@ int AFCKernelModule::OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVE
     }
 
     std::list<DATA_TABLE_EVENT_FUNCTOR_PTR>::iterator it = mxCommonTableCBList.begin();
-    for(it; it != mxCommonTableCBList.end(); it++)
+    for(auto it : mxCommonTableCBList)
     {
-        (**it)(self, xEventData, oldVar, newVar);
+        (*it)(self, xEventData, oldVar, newVar);
     }
 
     return 0;
@@ -1205,9 +1206,9 @@ int AFCKernelModule::OnCommonClassEvent(const AFGUID& self, const std::string& s
         return 0;
     }
 
-    for(std::list<CLASS_EVENT_FUNCTOR_PTR>::iterator it = mxCommonClassCBList.begin(); it != mxCommonClassCBList.end(); it++)
+    for(auto it : mxCommonClassCBList)
     {
-        (**it)(self, strClassName, eClassEvent, var);
+        (*it)(self, strClassName, eClassEvent, var);
     }
 
     return 0;

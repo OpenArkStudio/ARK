@@ -44,6 +44,7 @@ public:
 
     void Swap(CoreAlloc& src)
     {
+        //Do nothing
     }
 };
 

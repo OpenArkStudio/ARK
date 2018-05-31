@@ -33,7 +33,7 @@
 class AFCPropertyTrailModule : public AFIPropertyTrailModule
 {
 public:
-    AFCPropertyTrailModule(AFIPluginManager* p)
+    explicit AFCPropertyTrailModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -41,7 +41,7 @@ public:
 
     virtual bool Init();
     virtual bool Shut();
-    virtual void Update();
+    virtual bool Update();
     virtual bool PostInit();
 
     virtual void StartTrail(const AFGUID self);

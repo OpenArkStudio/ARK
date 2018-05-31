@@ -31,9 +31,9 @@ bool AFCPropertyConfigModule::Shut()
     return true;
 }
 
-void AFCPropertyConfigModule::Update()
+bool AFCPropertyConfigModule::Update()
 {
-
+    return true;
 }
 
 bool AFCPropertyConfigModule::PostInit()

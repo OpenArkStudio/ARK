@@ -83,7 +83,7 @@ void AFMemAlloc::ClearPool()
 {
     for (int i = 0; i < POOL_SIZE; ++i)
     {
-        delete g_pool[i];
+        ARK_DELETE(g_pool[i]);
     }
 
     g_usePool = false;
@@ -271,7 +271,7 @@ void* AFMemAlloc::AllocInternal(size_t bytes)
     }
     else
     {
-        return ::malloc(bytes);
+        return ARK_NEW char[bytes];
     }
 }
 
@@ -307,7 +307,7 @@ void AFMemAlloc::FreeInternal(void* p)
     }
     else
     {
-        ::free(p);
+        ARK_DELETE_ARRAY(p);
     }
 }
 
@@ -319,7 +319,7 @@ void* AFMemAlloc::AllocFromPool(uint32_t bytes)
     }
     else if (bytes > 2048)
     {
-        return ::malloc(bytes);
+        return ARK_NEW char[bytes];
     }
 
     int32_t index = SizeToPoolIndex(bytes);
@@ -370,7 +370,7 @@ size_t AFMemAlloc::FreeFromPool(void* p)
 
     if (poolIndex < 0)
     {
-        ::free(p);
+        ARK_DELETE_ARRAY(p);
     }
 
     return poolIndex;

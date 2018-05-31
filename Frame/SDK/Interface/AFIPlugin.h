@@ -103,12 +103,14 @@ public:
         return true;
     }
 
-    virtual void Update()
+    virtual bool Update()
     {
         for(AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
         {
             pModule->Update();
         }
+
+        return true;
     }
 
     virtual bool PreShut()

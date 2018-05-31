@@ -42,7 +42,7 @@ public:
         , mnServerID(0)
         , nNextID(0)
     {
-        bWorking = false;
+        SetWorking(false);
 
         m_pServer = std::make_shared<brynet::net::WrapTcpService>();
         m_plistenThread = brynet::net::ListenThread::Create();
@@ -66,13 +66,13 @@ public:
     virtual ~AFCWebSocktServer()
     {
         Final();
-    };
+    }
 
 public:
     virtual void Update();
 
     virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount);
-    virtual bool Final();
+    virtual bool Final() final;
     virtual bool IsServer()
     {
         return true;
@@ -94,7 +94,6 @@ public:
     void OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR & httpSession, brynet::net::WebSocketFormat::WebSocketFrameType opcode, const std::string & payload);
     void OnHttpConnect(const brynet::net::HttpSession::PTR& httpSession);
     void OnHttpDisConnection(const brynet::net::HttpSession::PTR & httpSession);
-    bool SplitHostPort(const std::string& strIpPort, std::string& host, int& port);
 
 private:
     bool SendMsgToAllClient(const char* msg, const size_t nLen);

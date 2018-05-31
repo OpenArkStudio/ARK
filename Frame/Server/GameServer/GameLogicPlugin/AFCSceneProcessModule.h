@@ -40,7 +40,7 @@
 class AFCSceneProcessModule : public AFISceneProcessModule
 {
 public:
-    AFCSceneProcessModule(AFIPluginManager* p)
+    explicit AFCSceneProcessModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -48,7 +48,7 @@ public:
 
     virtual bool Init();
     virtual bool Shut();
-    virtual void Update();
+    virtual bool Update();
     virtual bool PostInit();
 
     virtual E_SCENE_TYPE GetCloneSceneType(const int nSceneID);

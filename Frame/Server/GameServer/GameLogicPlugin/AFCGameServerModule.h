@@ -28,15 +28,16 @@
 class AFCGameServerModule : public AFIGameServerModule
 {
 public:
-    AFCGameServerModule(AFIPluginManager* p)
+    explicit AFCGameServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
+
     virtual ~AFCGameServerModule() {};
 
     virtual bool Init();
     virtual bool Shut();
-    virtual void Update();
+    virtual bool Update();
 
     virtual bool PostInit();
     virtual bool PreShut();

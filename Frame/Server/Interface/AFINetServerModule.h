@@ -104,7 +104,7 @@ public:
         m_pNet = NULL;
     }
 
-    AFINetServerModule(AFIPluginManager* p)
+    explicit AFINetServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
         nLastTime = GetPluginManager()->GetNowTime();
@@ -134,16 +134,17 @@ public:
         return m_pNet->Start(nMaxClient, strIPAndPort, nServerID, nCpuCount);
     }
 
-    virtual void Update()
+    virtual bool Update()
     {
         if(m_pNet == nullptr)
         {
-            return;
+            return false;
         }
 
         KeepAlive();
 
         m_pNet->Update();
+        return true;
     }
 
     bool SendMsgToAllClientWithOutHead(const int nMsgID, const std::string& msg, const AFGUID& nPlayerID)

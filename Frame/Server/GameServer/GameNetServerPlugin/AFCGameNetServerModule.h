@@ -39,18 +39,18 @@ class AFCGameNetServerModule
     : public AFIGameNetServerModule
 {
 public:
-    AFCGameNetServerModule(AFIPluginManager* p)
+    explicit AFCGameNetServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
     virtual bool Init();
     virtual bool Shut();
-    virtual void Update();
+    virtual bool Update();
 
     virtual bool PostInit();
 
-    virtual void LogReceive(const char* str) {}
-    virtual void LogSend(const char* str) {}
+    virtual void LogReceive(const char* str) {/*Will add*/}
+    virtual void LogSend(const char* str) {/*will add*/}
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self);
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self);
     virtual AFINetServerModule* GetNetModule();

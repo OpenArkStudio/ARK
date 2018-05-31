@@ -149,49 +149,6 @@ void AFCWebSocktServer::OnHttpDisConnection(const brynet::net::HttpSession::PTR 
     xFind->second->mxNetMsgMQ.Push(pMsg);
 }
 
-bool AFCWebSocktServer::SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
-{
-    std::string a = strIpPort;
-    if(a.empty())
-    {
-        return false;
-    }
-
-    size_t index = a.rfind(':');
-    if(index == std::string::npos)
-    {
-        return false;
-    }
-
-    if(index == a.size() - 1)
-    {
-        return false;
-    }
-
-    port = std::atoi(&a[index + 1]);
-
-    host = std::string(strIpPort, 0, index);
-    if(host[0] == '[')
-    {
-        if(*host.rbegin() != ']')
-        {
-            return false;
-        }
-
-        // trim the leading '[' and trail ']'
-        host = std::string(host.data() + 1, host.size() - 2);
-    }
-
-    // Compatible with "fe80::886a:49f3:20f3:add2]:80"
-    if(*host.rbegin() == ']')
-    {
-        // trim the trail ']'
-        host = std::string(host.data(), host.size() - 1);
-    }
-
-    return true;
-}
-
 void AFCWebSocktServer::ProcessMsgLogicThread()
 {
     std::list<AFGUID> xNeedRemoveList;
@@ -265,7 +222,7 @@ void AFCWebSocktServer::ProcessMsgLogicThread(AFHttpEntity* pEntity)
 
 bool AFCWebSocktServer::Final()
 {
-    bWorking = false;
+    SetWorking(false);
     return true;
 }
 
@@ -365,12 +322,11 @@ bool AFCWebSocktServer::DismantleNet(AFHttpEntity* pEntity)
 
 bool AFCWebSocktServer::CloseSocketAll()
 {
-    std::map<AFGUID, AFHttpEntity*>::iterator it = mxNetEntities.begin();
-    for(it; it != mxNetEntities.end(); ++it)
+    for(auto it : mxNetEntities)
     {
-        it->second->GetSession()->postShutdown();
-        delete it->second;
-        it->second = nullptr;
+        it.second->GetSession()->postShutdown();
+        delete it.second;
+        it.second = nullptr;
     }
 
     mxNetEntities.clear();
@@ -380,7 +336,7 @@ bool AFCWebSocktServer::CloseSocketAll()
 
 AFHttpEntity* AFCWebSocktServer::GetNetEntity(const AFGUID& xClientID)
 {
-    std::map<AFGUID, AFHttpEntity*>::iterator it = mxNetEntities.find(xClientID);
+    auto it = mxNetEntities.find(xClientID);
     if(it != mxNetEntities.end())
     {
         return it->second;

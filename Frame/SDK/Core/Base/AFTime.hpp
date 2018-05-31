@@ -106,8 +106,7 @@ public:
         mnTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count() + AFCTimeBase::GetInstance().GetTimeZoneMillisecond();
     };
 
-    AFTime(int64_t nTime)
-        : mnTime(nTime)
+    explicit AFTime(int64_t nTime) : mnTime(nTime)
     {
         mnTimeZone = AFCTimeBase::GetInstance().GetTimeZone();
     };
@@ -118,7 +117,7 @@ public:
         mnTime = nTime;
     }
 
-    AFTime(std::string strTime)
+    explicit AFTime(std::string strTime)
     {
         mnTimeZone = AFCTimeBase::GetInstance().GetTimeZone();
         mnTime = 0;

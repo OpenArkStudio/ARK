@@ -54,7 +54,7 @@ public:
     {
         mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-        bWorking = false;
+        SetWorking(false);
 
         m_pServer = std::make_shared<brynet::net::WrapTcpService>();
         m_plistenThread = brynet::net::ListenThread::Create();
@@ -69,7 +69,7 @@ public:
     virtual void Update();
 
     virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount);
-    virtual bool Final();
+    virtual bool Final() final;
     virtual bool IsServer()
     {
         return true;

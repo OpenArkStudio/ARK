@@ -32,9 +32,9 @@ bool AFCPropertyTrailModule::Shut()
     return true;
 }
 
-void AFCPropertyTrailModule::Update()
+bool AFCPropertyTrailModule::Update()
 {
-
+    return true;
 }
 
 bool AFCPropertyTrailModule::PostInit()
@@ -54,7 +54,7 @@ void AFCPropertyTrailModule::StartTrail(const AFGUID self)
 
 void AFCPropertyTrailModule::EndTrail(const AFGUID self)
 {
-
+    //Will complete this
 }
 
 int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)

@@ -51,7 +51,8 @@ script:
   - build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
   - echo $TRAVIS_BUILD_DIR/Frame
   - cd $TRAVIS_BUILD_DIR/Frame
-  - sonar-scanner -X
+  #If you need debug log, plase add -X parameters
+  - sonar-scanner
     
 after_success:
   #- bash <(curl -s https://codecov.io/bash)

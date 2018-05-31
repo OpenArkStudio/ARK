@@ -36,7 +36,7 @@ void AFDataTable::ReleaseRow(RowData* row_data, size_t col_num)
 {
     for(size_t i = 0; i < col_num; ++i)
     {
-        row_data[i].~RowData();
+        row_data[i].Release();
     }
 }
 
@@ -712,9 +712,10 @@ bool AFDataTable::QueryRow(const int row, AFIDataList& varList)
             varList.AddObject(subData.GetObject());
             break;
         default:
+            return false;
             break;
         }
     }
 
-    return false;
+    return true;
 }

@@ -238,8 +238,10 @@ bool AFCElementModule::GetNodeBool(const std::string& strConfigName, const std::
     {
         return pNode->value.GetBool();
     }
-
-    return NULL_BOOLEAN;
+    else
+    {
+        return NULL_BOOLEAN;
+    }
 }
 
 int32_t AFCElementModule::GetNodeInt(const std::string& strConfigName, const std::string& strDataNodeName)
@@ -249,8 +251,10 @@ int32_t AFCElementModule::GetNodeInt(const std::string& strConfigName, const std
     {
         return pNode->value.GetInt();
     }
-
-    return NULL_INT;
+    else
+    {
+        return NULL_INT;
+    }
 }
 
 int64_t AFCElementModule::GetNodeInt64(const std::string& strConfigName, const std::string& strDataNodeName)
@@ -260,8 +264,10 @@ int64_t AFCElementModule::GetNodeInt64(const std::string& strConfigName, const s
     {
         return pNode->value.GetInt64();
     }
-
-    return NULL_INT64;
+    else
+    {
+        return NULL_INT64;
+    }
 }
 
 float AFCElementModule::GetNodeFloat(const std::string& strConfigName, const std::string& strDataNodeName)
@@ -271,8 +277,10 @@ float AFCElementModule::GetNodeFloat(const std::string& strConfigName, const std
     {
         return pNode->value.GetFloat();
     }
-
-    return NULL_FLOAT;
+    else
+    {
+        return NULL_FLOAT;
+    }
 }
 
 double AFCElementModule::GetNodeDouble(const std::string& strConfigName, const std::string& strDataNodeName)
@@ -282,8 +290,10 @@ double AFCElementModule::GetNodeDouble(const std::string& strConfigName, const s
     {
         return pNode->value.GetDouble();
     }
-
-    return NULL_DOUBLE;
+    else
+    {
+        return NULL_DOUBLE;
+    }
 }
 
 const char* AFCElementModule::GetNodeString(const std::string& strConfigName, const std::string& strDataNodeName)
@@ -293,8 +303,10 @@ const char* AFCElementModule::GetNodeString(const std::string& strConfigName, co
     {
         return pNode->value.GetString();
     }
-
-    return nullptr;
+    else
+    {
+        return nullptr;
+    }
 }
 
 AFDataNode* AFCElementModule::GetNode(const std::string& strConfigName, const std::string& strDataNodeName)
@@ -304,8 +316,10 @@ AFDataNode* AFCElementModule::GetNode(const std::string& strConfigName, const st
     {
         return pElementInfo->GetNodeManager()->GetNode(strDataNodeName.c_str());
     }
-
-    return nullptr;
+    else
+    {
+        return nullptr;
+    }
 }
 
 ARK_SHARE_PTR<AFIDataNodeManager> AFCElementModule::GetNodeManager(const std::string& strConfigName)
@@ -315,8 +329,10 @@ ARK_SHARE_PTR<AFIDataNodeManager> AFCElementModule::GetNodeManager(const std::st
     {
         return pElementInfo->GetNodeManager();
     }
-
-    return nullptr;
+    else
+    {
+        return nullptr;
+    }
 }
 
 ARK_SHARE_PTR<AFIDataTableManager> AFCElementModule::GetTableManager(const std::string& strConfigName)
@@ -326,8 +342,10 @@ ARK_SHARE_PTR<AFIDataTableManager> AFCElementModule::GetTableManager(const std::
     {
         return pElementInfo->GetTableManager();
     }
-
-    return nullptr;
+    else
+    {
+        return nullptr;
+    }
 }
 
 bool AFCElementModule::ExistElement(const std::string& strConfigName)
@@ -345,12 +363,7 @@ bool AFCElementModule::ExistElement(const std::string& strClassName, const std::
     }
 
     const std::string strClass(pElementInfo->GetNodeManager()->GetNodeString("ClassName"));
-    if(strClass != strClassName)
-    {
-        return false;
-    }
-
-    return true;
+    return (strClass == strClassName);
 }
 
 bool AFCElementModule::LegalNumber(const char* str)
@@ -381,18 +394,16 @@ bool AFCElementModule::LegalNumber(const char* str)
 bool AFCElementModule::PostInit()
 {
     return true;
-
 }
 
 bool AFCElementModule::PreShut()
 {
     return true;
-
 }
 
-void AFCElementModule::Update()
+bool AFCElementModule::Update()
 {
-
+    return true;
 }
 
 bool AFCElementModule::Clear()
