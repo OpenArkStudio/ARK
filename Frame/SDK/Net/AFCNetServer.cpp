@@ -54,16 +54,24 @@ size_t AFCNetServer::OnMessageInner(const brynet::net::TCPSession::PTR& session,
     const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
     AFGUID xClient(0, *ud);
 
-    AFScopeRdLock xGuard(mRWLock);
+    AFTCPEntity *pEntity = nullptr;
 
-    auto xFind = mmObject.find(xClient);
-    if(xFind == mmObject.end())
     {
-        return len;
+        AFScopeRdLock xGuard(mRWLock);
+
+        auto xFind = mmObject.find(xClient);
+        if(xFind != mmObject.end())
+        {
+            pEntity = xFind->second;
+        }
     }
 
-    xFind->second->AddBuff(buffer, len);
-    DismantleNet(xFind->second);
+    if (nullptr != pEntity)
+    {
+        pEntity->AddBuff(buffer, len);
+        DismantleNet(pEntity);
+    }
+
     return len;
 }
 
@@ -84,14 +92,22 @@ void AFCNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR & 
     pMsg->xClientID.nLow = mnNextID++;
     session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
     pMsg->nType = CONNECTED;
+
+    AFTCPEntity* pEntity = new AFTCPEntity(this, pMsg->xClientID, session);
+    bool ret = false;
+
     {
         AFScopeWrLock xGuard(mRWLock);
+        ret = AddNetEntity(pMsg->xClientID, pEntity);
+    }
 
-        AFTCPEntity* pEntity = new AFTCPEntity(this, pMsg->xClientID, session);
-        if(AddNetEntity(pMsg->xClientID, pEntity))
-        {
-            pEntity->mxNetMsgMQ.Push(pMsg);
-        }
+    if(ret)
+    {
+        pEntity->mxNetMsgMQ.Push(pMsg);
+    }
+    else
+    {
+        delete pEntity;
     }
 }
 
@@ -99,19 +115,26 @@ void AFCNetServer::OnClientDisConnectionInner(const brynet::net::TCPSession::PTR
 {
     const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
     AFGUID xClient(0, *ud);
-    AFScopeWrLock xGuard(mRWLock);
+    AFTCPEntity *pEntity = nullptr;
 
-    auto xFind = mmObject.find(xClient);
-    if(xFind == mmObject.end())
     {
-        return ;
+        AFScopeRdLock xGuard(mRWLock);
+
+        auto xFind = mmObject.find(xClient);
+        if(xFind != mmObject.end())
+        {
+            pEntity = xFind->second;
+        }
     }
 
-    AFTCPMsg* pMsg = new AFTCPMsg(session);
-    pMsg->xClientID = xClient;
-    pMsg->nType = DISCONNECTED;
+    if (nullptr != pEntity)
+    {
+        AFTCPMsg* pMsg = new AFTCPMsg(session);
+        pMsg->xClientID = xClient;
+        pMsg->nType = DISCONNECTED;
 
-    xFind->second->mxNetMsgMQ.Push(pMsg);
+        pEntity->mxNetMsgMQ.Push(pMsg);
+    }
 }
 
 void AFCNetServer::ProcessMsgLogicThread()
@@ -230,8 +253,15 @@ bool AFCNetServer::RemoveNetEntity(const AFGUID& xClientID)
     AFTCPEntity* pNetObject = GetNetEntity(xClientID);
     if(pNetObject)
     {
-        delete pNetObject;
-        pNetObject = nullptr;
+        auto session = pNetObject->GetSession();
+        assert(session);
+
+        auto event_loop = session->getEventLoop();
+        assert(event_loop);
+
+        event_loop->pushAsyncProc([=] {
+            delete pNetObject;
+        });
     }
 
     return mmObject.erase(xClientID);
