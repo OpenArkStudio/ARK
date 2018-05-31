@@ -54,7 +54,7 @@ void AFCPropertyTrailModule::StartTrail(const AFGUID self)
 
 void AFCPropertyTrailModule::EndTrail(const AFGUID self)
 {
-
+    //Will complete this
 }
 
 int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)

@@ -57,7 +57,7 @@ public:
         return m_pTableManager;
     }
 
-protected:
+private:
     ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
     ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
 };

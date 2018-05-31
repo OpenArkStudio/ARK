@@ -33,7 +33,7 @@
 class AFCPropertyTrailModule : public AFIPropertyTrailModule
 {
 public:
-    AFCPropertyTrailModule(AFIPluginManager* p)
+    explicit AFCPropertyTrailModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

@@ -104,7 +104,7 @@ public:
         m_pNet = NULL;
     }
 
-    AFINetServerModule(AFIPluginManager* p)
+    explicit AFINetServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
         nLastTime = GetPluginManager()->GetNowTime();
