@@ -328,7 +328,7 @@ void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 
 void AFCWorldNetServerModule::OnClientConnected(const AFGUID& xClientID)
 {
-
+    //log
 }
 
 void AFCWorldNetServerModule::LogGameServer()
@@ -438,8 +438,8 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
         }
 
         AFMsg::EntityEnterInfo * pEnter = xEntityEnterList.add_entity_list();
-        *(pEnter->mutable_object_guid()) = AFINetServerModule::GUIDToPB(identOld);
-        //*pEntryInfo->mutable_pos() = AFINetServerModule::GUIDToPB(m_pKernelModule->GetObject(identOld, "Pos")); todo
+        *(pEnter->mutable_object_guid()) = AFINetModule::GUIDToPB(identOld);
+        //*pEntryInfo->mutable_pos() = AFINetModule::GUIDToPB(m_pKernelModule->GetObject(identOld, "Pos")); todo
         pEnter->set_career_type(m_pKernelModule->GetNodeInt(identOld, "Job"));
         pEnter->set_player_state(m_pKernelModule->GetNodeInt(identOld, "State"));
         pEnter->set_config_id(m_pKernelModule->GetNodeString(identOld, "ConfigID"));
@@ -551,7 +551,7 @@ int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const A
             if(!pPublicData)
             {
                 pPublicData = xPublicMsg.add_multi_entity_data_table_list();
-                *(pPublicData->mutable_entity_id()) = AFINetServerModule::GUIDToPB(self);
+                *(pPublicData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
             }
             pPublicTableBase = pPublicData->add_data_table_list();
             pPublicTableBase->set_table_name(pTable->GetName());
@@ -564,7 +564,7 @@ int AFCWorldNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const A
             if(!pPrivateData)
             {
                 pPrivateData = xPrivateMsg.add_multi_entity_data_table_list();
-                *(pPrivateData->mutable_entity_id()) = AFINetServerModule::GUIDToPB(self);
+                *(pPrivateData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
             }
             pPrivateTableBase = pPrivateData->add_data_table_list();
             pPrivateTableBase->set_table_name(pTable->GetName());
@@ -648,8 +648,8 @@ int AFCWorldNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AF
     AFMsg::EntityDataNodeList* pPublicData = xPublicMsg.add_multi_entity_data_node_list();
     AFMsg::EntityDataNodeList* pPrivateData = xPrivateMsg.add_multi_entity_data_node_list();
 
-    *(pPublicData->mutable_entity_id()) = AFINetServerModule::GUIDToPB(self);
-    *(pPrivateData->mutable_entity_id()) = AFINetServerModule::GUIDToPB(self);
+    *(pPublicData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
+    *(pPrivateData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
 
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
 
@@ -665,13 +665,13 @@ int AFCWorldNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AF
             if(pNode->IsPublic())
             {
                 AFMsg::PBNodeData* pData = pPublicData->add_data_node_list();
-                AFINetServerModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
+                AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
             }
 
             if(pNode->IsPrivate())
             {
                 AFMsg::PBNodeData* pData = pPrivateData->add_data_node_list();
-                AFINetServerModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
+                AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
             }
         }
     }

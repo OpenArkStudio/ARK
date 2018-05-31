@@ -21,62 +21,68 @@
 #pragma once
 
 #include "AFPlatform.hpp"
+#include "AFSpinLock.hpp"
 
-template <typename T>
+template <class Derived>
 class AFSingleton
 {
 public:
-    AFSingleton(void)
+    static inline Derived& GetInstance()
     {
-        assert(!instance_);
-#if ARK_PLATFORM == PLATFORM_WIN && _MSC_VER < 1200
-        int offset = (int)(T*)1 - (int)(AFSingleton<T>*)(T*)1;
-        instance_ = (T*)((int)this + offset);
-#else
-        instance_ = static_cast<T*>(this);
-#endif
+        return *GetInstancePtr();
     }
 
-    ~AFSingleton()
+    static inline Derived* GetInstancePtr()
     {
-        assert(instance_);
-        instance_ = 0;
+        static Derived *instancePointer = CreateInstance();
+        return instancePointer;
     }
 
-    static T& GetInstance()
-    {
-        if(nullptr == instance_)
-        {
-            instance_ = new T;
-        }
+protected:
+    using Access = AFSingleton<Derived>;
 
-        assert(instance_);
-        return (*instance_);
-    }
-
-    static T* GetInstancePtr()
-    {
-        if(nullptr == instance_)
-        {
-            instance_ = new T;
-        }
-
-        assert(instance_);
-        return instance_;
-    }
-
-    void ReleaseInstance()
-    {
-        if(nullptr != instance_)
-        {
-            delete instance_;
-            instance_ = nullptr;
-        }
-    }
+    AFSingleton(void) = default;
+    AFSingleton(AFSingleton const &) = default;
+    AFSingleton(AFSingleton &&) = default;
+    AFSingleton &operator=(AFSingleton const &) = default;
+    AFSingleton &operator=(AFSingleton &&) = default;
+    virtual ~AFSingleton(void) = default;
 
 private:
-    static T* instance_;
+    static Derived* InstancePointer;
+    static AFSpinLock Lock;
+
+    static inline Derived *CreateInstance()
+    {
+        if (AFSingleton::InstancePointer == nullptr)
+        {
+            std::lock_guard<decltype(AFSingleton::Lock)> lock(AFSingleton::Lock);
+            if (AFSingleton::InstancePointer == nullptr)
+            {
+                void *data = static_cast<void *>(GetData());
+                new (data) Derived();
+                AFSingleton::InstancePointer = reinterpret_cast<Derived *>(data);
+                std::atexit(&AFSingleton::DestroyInstance);
+            }
+        }
+
+        return AFSingleton::InstancePointer;
+    }
+
+    static inline void DestroyInstance(void)
+    {
+        reinterpret_cast<Derived *>(GetData())->~Derived();
+    }
+
+    static inline unsigned char *GetData(void)
+    {
+        static unsigned char data[sizeof(Derived)];
+        return data;
+    }
 };
 
-template <typename T> T* AFSingleton<T>::instance_ = NULL;
+template <class Derived>
+Derived *AFSingleton<Derived>::InstancePointer = nullptr;
 
+template <class Derived>
+AFSpinLock AFSingleton<Derived>::Lock;

@@ -101,7 +101,7 @@ int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, con
     {
         AFMsg::AckConnectWorldResult xMsg;
         xMsg.set_world_id(nWorldID);
-        xMsg.mutable_sender()->CopyFrom(AFINetServerModule::GUIDToPB(xSenderID));
+        xMsg.mutable_sender()->CopyFrom(AFINetModule::GUIDToPB(xSenderID));
         xMsg.set_login_id(nLoginID);
         xMsg.set_account(strAccount);
         xMsg.set_world_ip(strWorldIP);
@@ -256,15 +256,17 @@ void AFCLoginNetServerModule::OnViewWorldProcess(const AFIMsgHead& xHead, const 
 
 void AFCLoginNetServerModule::OnHeartBeat(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
+    //do nothing
 }
 
 void AFCLoginNetServerModule::OnLogOut(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
+    //do nothing
 }
 
 void AFCLoginNetServerModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    printf("Net || 非法消息:unMsgID=%d\n", nMsgID);
+    ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);
 }
 
 

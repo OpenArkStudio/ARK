@@ -88,7 +88,7 @@ public:
         return true;
     }
 
-    virtual AFIPluginManager* GetPluginManager() const
+    virtual AFIPluginManager* GetPluginManager() const final
     {
         return pPluginManager;
     }

@@ -26,6 +26,8 @@
 #pragma comment(lib, "ws2_32")
 #pragma comment(lib, "brynet.lib")
 
+#pragma warning(once:4251)
+
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 
 #pragma comment(lib, "libprotobufd.lib")

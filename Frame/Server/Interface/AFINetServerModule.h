@@ -95,6 +95,7 @@ protected:
         nLastTime = GetPluginManager()->GetNowTime();
         m_pNet = NULL;
     }
+
 public:
     template<typename BaseType>
     AFINetServerModule(AFIPluginManager* p, BaseType* pBase, void (BaseType::*handleRecieve)(const int, const int, const char*, const uint32_t, const AFGUID))

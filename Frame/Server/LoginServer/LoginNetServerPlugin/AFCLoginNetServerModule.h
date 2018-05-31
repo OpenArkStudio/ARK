@@ -35,7 +35,7 @@ class AFCLoginNetServerModule
     : public AFILoginNetServerModule
 {
 public:
-    AFCLoginNetServerModule(AFIPluginManager* p)
+    explicit AFCLoginNetServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

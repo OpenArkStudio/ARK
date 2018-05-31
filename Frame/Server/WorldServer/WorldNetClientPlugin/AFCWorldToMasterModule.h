@@ -30,11 +30,10 @@
 #include "Server/Interface/AFIWorldNetServerModule.h"
 #include "Server/Interface/AFINetClientModule.hpp"
 
-class AFCWorldToMasterModule
-    : public AFIWorldToMasterModule
+class AFCWorldToMasterModule : public AFIWorldToMasterModule
 {
 public:
-    AFCWorldToMasterModule(AFIPluginManager* p)
+    explicit AFCWorldToMasterModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

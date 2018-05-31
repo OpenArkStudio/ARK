@@ -142,6 +142,7 @@
     <ClInclude Include="Base\AFQueue.h" />
     <ClInclude Include="Base\AFRWLock.hpp" />
     <ClInclude Include="Base\AFSingleton.hpp" />
+    <ClInclude Include="Base\AFSpinLock.hpp" />
     <ClInclude Include="Base\AFString.hpp" />
     <ClInclude Include="Base\AFStringPod.hpp" />
     <ClInclude Include="Base\AFTime.hpp" />

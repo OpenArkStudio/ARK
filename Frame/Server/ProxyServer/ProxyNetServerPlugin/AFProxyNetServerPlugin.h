@@ -26,7 +26,7 @@
 class AFProxyNetServerPlugin : public AFIPlugin
 {
 public:
-    AFProxyNetServerPlugin(AFIPluginManager* p)
+    explicit AFProxyNetServerPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

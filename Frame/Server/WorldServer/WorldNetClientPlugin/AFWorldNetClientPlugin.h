@@ -26,7 +26,7 @@
 class AFWorldNetClientPlugin : public AFIPlugin
 {
 public:
-    AFWorldNetClientPlugin(AFIPluginManager* p)
+    explicit AFWorldNetClientPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -39,6 +39,3 @@ public:
 
     virtual void Uninstall();
 };
-
-
-

@@ -29,15 +29,13 @@
 #include "Server/Interface/AFILoginNetServerModule.h"
 #include "Server/Interface/AFILoginToMasterModule.h"
 
-class AFCLoginToMasterModule
-    : public AFILoginToMasterModule
+class AFCLoginToMasterModule : public AFILoginToMasterModule
 {
 public:
-    AFCLoginToMasterModule(AFIPluginManager* p)
+    explicit AFCLoginToMasterModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
-
 
     virtual bool Init();
     virtual bool Shut();
@@ -46,8 +44,8 @@ public:
     virtual bool PostInit();
     virtual bool PreShut();
 
-    virtual void LogReceive(const char* str) {}
-    virtual void LogSend(const char* str) {}
+    virtual void LogReceive(const char* str) {/*log*/}
+    virtual void LogSend(const char* str) {/*log*/}
 
     virtual AFINetClientModule* GetClusterModule();
     virtual AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap();

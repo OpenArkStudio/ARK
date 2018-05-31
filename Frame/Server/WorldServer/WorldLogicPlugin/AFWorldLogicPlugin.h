@@ -27,7 +27,7 @@
 class AFWorldLogicPlugin : public AFIPlugin
 {
 public:
-    AFWorldLogicPlugin(AFIPluginManager* p)
+    explicit AFWorldLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

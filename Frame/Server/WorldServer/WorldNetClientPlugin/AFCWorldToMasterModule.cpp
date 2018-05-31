@@ -137,7 +137,7 @@ void AFCWorldToMasterModule::Register(const int nServerID)
 
 void AFCWorldToMasterModule::RefreshWorldInfo()
 {
-
+    //Will add
 }
 
 void AFCWorldToMasterModule::OnSelectServerProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)

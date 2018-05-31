@@ -60,7 +60,7 @@ public:
 
     ~AFMemPool()
     {
-        ::free(m_pMemBlock);
+        ARK_DELETE(m_pMemBlock);
     }
 
     void* Alloc(uint32_t size, bool use_pool = true)

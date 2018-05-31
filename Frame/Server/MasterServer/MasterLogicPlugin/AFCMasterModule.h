@@ -24,12 +24,10 @@
 #include "Server/Interface/AFIMasterModule.h"
 #include "Server/Interface/AFIMasterNetServerModule.h"
 
-class AFCMasterModule
-    : public AFIMasterModule
+class AFCMasterModule : public AFIMasterModule
 {
-
 public:
-    AFCMasterModule(AFIPluginManager* p)
+    explicit AFCMasterModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -39,6 +37,5 @@ public:
     virtual bool Update();
 
 private:
-
     AFIKernelModule* m_pKernelModule;
 };

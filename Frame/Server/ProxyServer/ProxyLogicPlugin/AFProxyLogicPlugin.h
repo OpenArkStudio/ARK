@@ -27,7 +27,7 @@
 class AFProxyLogicPlugin : public AFIPlugin
 {
 public:
-    AFProxyLogicPlugin(AFIPluginManager* p)
+    explicit AFProxyLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

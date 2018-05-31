@@ -26,7 +26,7 @@
 class AFLoginNetClientPlugin : public AFIPlugin
 {
 public:
-    AFLoginNetClientPlugin(AFIPluginManager* p)
+    explicit AFLoginNetClientPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

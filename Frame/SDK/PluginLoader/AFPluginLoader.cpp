@@ -413,8 +413,6 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->PreShut();
     AFCPluginManager::GetInstancePtr()->Shut();
 
-    AFCPluginManager::GetInstancePtr()->ReleaseInstance();
-
     gBackThread.join();
 
     return 0;

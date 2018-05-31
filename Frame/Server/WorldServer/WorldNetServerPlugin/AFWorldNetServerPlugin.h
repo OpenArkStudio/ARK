@@ -26,7 +26,7 @@
 class AFWorldNetServerPlugin : public AFIPlugin
 {
 public:
-    AFWorldNetServerPlugin(AFIPluginManager* p)
+    explicit AFWorldNetServerPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

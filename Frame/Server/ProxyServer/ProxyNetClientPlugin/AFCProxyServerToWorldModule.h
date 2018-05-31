@@ -37,8 +37,7 @@
 class AFCProxyServerToWorldModule : public AFIProxyServerToWorldModule
 {
 public:
-
-    AFCProxyServerToWorldModule(AFIPluginManager* p)
+    explicit AFCProxyServerToWorldModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

@@ -140,8 +140,8 @@ void AFCProxyNetServerModule::OnConnectKeyProcess(const AFIMsgHead& xHead, const
 
             AFMsg::AckEventResult xSendMsg;
             xSendMsg.set_event_code(AFMsg::EGEC_VERIFY_KEY_SUCCESS);
-            *xSendMsg.mutable_event_client() = AFINetServerModule::GUIDToPB(pSessionData->mnClientID);//让前端记得自己的fd，后面有一些验证
-            *xSendMsg.mutable_event_object() = AFINetServerModule::GUIDToPB(nPlayerID);
+            *xSendMsg.mutable_event_client() = AFINetModule::GUIDToPB(pSessionData->mnClientID);//让前端记得自己的fd，后面有一些验证
+            *xSendMsg.mutable_event_object() = AFINetModule::GUIDToPB(nPlayerID);
 
             m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_KEY, xSendMsg, xClientID, nPlayerID);
         }

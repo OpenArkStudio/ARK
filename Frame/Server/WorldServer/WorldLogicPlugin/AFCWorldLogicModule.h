@@ -23,11 +23,10 @@
 #include "SDK/Interface/AFIKernelModule.h"
 #include "Server/Interface/AFIWorldLogicModule.h"
 
-class AFCWorldLogicModule
-    : public AFIWorldLogicModule
+class AFCWorldLogicModule : public AFIWorldLogicModule
 {
 public:
-    AFCWorldLogicModule(AFIPluginManager* p)
+    explicit AFCWorldLogicModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -35,12 +34,8 @@ public:
     virtual bool Init();
     virtual bool Shut();
     virtual bool Update();
-
     virtual bool PostInit();
 
-protected:
-
-protected:
-    AFIKernelModule* m_pKernelModule;
 private:
+    AFIKernelModule* m_pKernelModule;
 };

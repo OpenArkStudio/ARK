@@ -25,11 +25,10 @@
 #include "Server/Interface/AFIGameLogicModule.h"
 #include "Server/Interface/AFIProxyLogicModule.h"
 
-class AFCProxyLogicModule
-    : public AFIProxyLogicModule
+class AFCProxyLogicModule : public AFIProxyLogicModule
 {
 public:
-    AFCProxyLogicModule(AFIPluginManager* p)
+    explicit AFCProxyLogicModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

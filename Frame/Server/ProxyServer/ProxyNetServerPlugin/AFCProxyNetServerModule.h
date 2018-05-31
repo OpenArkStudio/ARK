@@ -36,7 +36,7 @@
 class AFCProxyNetServerModule : public AFIProxyNetServerModule
 {
 public:
-    AFCProxyNetServerModule(AFIPluginManager* p)
+    explicit AFCProxyNetServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -76,11 +76,11 @@ protected:
     //////////////////////////////////////////////////////////////////////////
 
     void OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-protected:
 
+private:
     AFMapEx<AFGUID, SessionData> mmSessionData; //Player Client <--> SessionData
     AFCConsistentHash mxConsistentHash;
-protected:
+
     AFIProxyServerToWorldModule* m_pProxyToWorldModule;
     AFIProxyServerToGameModule* m_pProxyServerToGameModule;
     AFIKernelModule* m_pKernelModule;

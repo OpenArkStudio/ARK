@@ -36,8 +36,7 @@
 class AFCProxyServerToGameModule : public AFIProxyServerToGameModule
 {
 public:
-
-    AFCProxyServerToGameModule(AFIPluginManager* p)
+    explicit AFCProxyServerToGameModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
@@ -62,7 +61,6 @@ protected:
     void Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 private:
-
     AFILogModule* m_pLogModule;
     AFIProxyLogicModule* m_pProxyLogicModule;
     AFIKernelModule* m_pKernelModule;

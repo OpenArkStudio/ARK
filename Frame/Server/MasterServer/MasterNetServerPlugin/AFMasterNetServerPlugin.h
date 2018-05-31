@@ -26,7 +26,7 @@
 class AFMasterNetServerPlugin : public AFIPlugin
 {
 public:
-    AFMasterNetServerPlugin(AFIPluginManager* p)
+    explicit AFMasterNetServerPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

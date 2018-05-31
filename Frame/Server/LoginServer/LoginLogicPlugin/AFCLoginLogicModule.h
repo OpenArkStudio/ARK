@@ -24,11 +24,10 @@
 #include "Server/Interface/AFILoginLogicModule.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
 
-class AFCLoginLogicModule
-    : public AFILoginLogicModule
+class AFCLoginLogicModule : public AFILoginLogicModule
 {
 public:
-    AFCLoginLogicModule(AFIPluginManager* p)
+    explicit AFCLoginLogicModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

@@ -26,7 +26,7 @@
 class AFMasterLogicPlugin : public AFIPlugin
 {
 public:
-    AFMasterLogicPlugin(AFIPluginManager* p)
+    explicit AFMasterLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }

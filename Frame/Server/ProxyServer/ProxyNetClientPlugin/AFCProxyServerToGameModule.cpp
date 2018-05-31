@@ -168,8 +168,8 @@ void AFCProxyServerToGameModule::OnAckEnterGame(const AFIMsgHead& xHead, const i
 
     if(xData.event_code() == AFMsg::EGEC_ENTER_GAME_SUCCESS)
     {
-        const AFGUID& xClient = AFINetServerModule::PBToGUID(xData.event_client());
-        const AFGUID& xPlayer = AFINetServerModule::PBToGUID(xData.event_object());
+        const AFGUID& xClient = AFINetModule::PBToGUID(xData.event_client());
+        const AFGUID& xPlayer = AFINetModule::PBToGUID(xData.event_object());
 
         m_pProxyServerNet_ServerModule->EnterGameSuccessEvent(xClient, xPlayer);
     }
@@ -187,7 +187,7 @@ void AFCProxyServerToGameModule::OnBrocastmsg(const AFIMsgHead& xHead, const int
     for(int i = 0; i < xMsg.target_entity_list_size(); i++)
     {
         const AFMsg::PBGUID& tmpID = xMsg.target_entity_list(i);
-        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetServerModule::PBToGUID(tmpID), nPlayerID);
+        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetModule::PBToGUID(tmpID), nPlayerID);
     }
 }
 

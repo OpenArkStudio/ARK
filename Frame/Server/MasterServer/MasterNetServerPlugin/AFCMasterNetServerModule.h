@@ -31,12 +31,7 @@
 class AFCMasterNetServerModule : public AFIMasterNetServerModule
 {
 public:
-    AFCMasterNetServerModule(AFIPluginManager* p)
-        : m_pElementModule(nullptr)
-        , m_pClassModule(nullptr)
-        , m_pKernelModule(nullptr)
-        , m_pLogModule(nullptr)
-        , m_pNetModule(nullptr)
+    explicit AFCMasterNetServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
         mnLastLogTime = pPluginManager->GetNowTime();
@@ -85,7 +80,6 @@ protected:
     void InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 private:
-
     int64_t mnLastLogTime;
 
     //serverid,data

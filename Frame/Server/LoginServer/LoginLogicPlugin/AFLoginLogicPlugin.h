@@ -26,10 +26,11 @@
 class AFLoginLogicPlugin : public AFIPlugin
 {
 public:
-    AFLoginLogicPlugin(AFIPluginManager* p)
+    explicit AFLoginLogicPlugin(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
+
     virtual int GetPluginVersion();
 
     virtual const std::string GetPluginName();

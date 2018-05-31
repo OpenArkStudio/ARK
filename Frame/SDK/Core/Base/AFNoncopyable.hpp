@@ -20,16 +20,12 @@
 
 #pragma once
 
-struct AFNoncopyable
+class AFNoncopyable
 {
-protected:
+public:
     AFNoncopyable() = default;
-    virtual ~AFNoncopyable() = default;
-
-private:
     AFNoncopyable(const AFNoncopyable&) = delete;
     AFNoncopyable& operator=(const AFNoncopyable&) = delete;
     AFNoncopyable(AFNoncopyable&&) = delete;
     AFNoncopyable& operator=(AFNoncopyable&&) = delete;
 };
-

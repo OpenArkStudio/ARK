@@ -153,6 +153,9 @@
     <ClInclude Include="Base\AFBuffer.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Base\AFSpinLock.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCHeartBeatManager.cpp">
