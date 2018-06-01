@@ -33,7 +33,6 @@ class AFCNetClient : public AFINet
 {
 public:
     AFCNetClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr)
-        : mnNextID(0)
     {
         if(server)
         {
@@ -56,7 +55,6 @@ public:
     template<typename BaseType>
     AFCNetClient(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
     {
-        mnNextID = 0;
         mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         mnServerID = 0;
@@ -100,17 +98,17 @@ protected:
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
-    std::unique_ptr<AFTCPEntity> m_pClientEntity = nullptr;
-    std::string mstrIPPort = "";
-    int mnServerID = 0;
-    std::atomic_int64_t mnNextID;
+    std::unique_ptr<AFTCPEntity> m_pClientEntity{ nullptr };
+    std::string mstrIPPort{ "" };
+    int mnServerID{ 0 };
+    std::atomic<uint64_t> mnNextID{ 0 };
 
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
     AFCReaderWriterLock mRWLock;
 
-    brynet::net::WrapTcpService::PTR m_pServer = nullptr;
-    brynet::net::AsyncConnector::PTR m_pConector = nullptr;
+    brynet::net::WrapTcpService::PTR m_pServer{ nullptr };
+    brynet::net::AsyncConnector::PTR m_pConector{ nullptr };
     //brynet::net::TCPSession::PTR m_Session = nullptr; //will delete
 };
 
