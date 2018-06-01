@@ -1,6 +1,9 @@
 ![Server Architecture](https://raw.githubusercontent.com/ArkGame/ARK/master/Docs/asserts/imgs/ArkGameFrame.png)
 
 [![GitHub version](https://badge.fury.io/gh/ArkGame%2FARK.svg)](https://badge.fury.io/gh/ArkGame%2FARK)
+![GitHub stars](https://img.shields.io/github/stars/ArkGame/ARK.svg?style=flat-square&label=Stars)
+![GitHub issues](https://img.shields.io/github/issues-raw/ArkGame/ARK.svg?style=flat-square)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ArkGame/ARK.svg?style=flat-square)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg)](https://github.com/ArkGame/ARK)
 [![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ARK)
