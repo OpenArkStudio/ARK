@@ -30,7 +30,7 @@ class AFCEntity : public AFIEntity
 public:
     AFCEntity() = delete;
 
-    explicit AFCEntity(const AFGUID& self, AFIPluginManager* pLuginManager);
+    explicit AFCEntity(const AFGUID& self, AFIPluginManager* pluginManager);
     virtual ~AFCEntity();
 
     virtual bool Init();

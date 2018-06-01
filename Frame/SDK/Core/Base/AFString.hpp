@@ -395,7 +395,7 @@ private:
             this->swap(tmp);
         }
 
-        return *this;
+        return (*this);
     }
 
     self_t& InnerAppend(const TYPE* src, size_t len)
@@ -413,7 +413,7 @@ private:
             this->swap(tmp);
         }
 
-        return *this;
+        return (*this);
     }
 
 private:
@@ -430,8 +430,9 @@ typedef AFString<char, 16, CharTraits<char>, CoreAlloc> DataTableName;
 namespace std
 {
     template<>
-    struct hash<DataNodeName>
+    class hash<DataNodeName>
     {
+    public:
         size_t operator()(DataNodeName const& pro) const
         {
             const char* value = pro.c_str();

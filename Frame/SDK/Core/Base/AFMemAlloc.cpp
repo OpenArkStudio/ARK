@@ -116,16 +116,13 @@ void* AFMemAlloc::AllocDebug(size_t bytes, const char* file, int line)
 
 void* AFMemAlloc::ReallocDebug(void* addr, size_t bytes, const char* file, int line)
 {
-    if (g_needRecord)
+    if (g_needRecord && addr != nullptr)
     {
-        if (addr != nullptr)
-        {
-            AllocItem record = g_memMap[addr];
-            g_totalAlloc -= record.length;
-            g_memMapMutex.lock();
-            g_memMap.erase(addr);
-            g_memMapMutex.unlock();
-        }
+        AllocItem record = g_memMap[addr];
+        g_totalAlloc -= record.length;
+        g_memMapMutex.lock();
+        g_memMap.erase(addr);
+        g_memMapMutex.unlock();
     }
 
     ARK_ASSERT_NO_EFFECT(bytes > 0);
@@ -178,16 +175,13 @@ void* AFMemAlloc::CallocDebug(size_t count, size_t bytes, const char* file, int 
 
 void AFMemAlloc::FreeDebug(void* p)
 {
-    if (g_needRecord)
+    if (g_needRecord && p != nullptr)
     {
-        if (p != nullptr)
-        {
-            AllocItem record = g_memMap[p];
-            g_totalAlloc -= record.length;
-            g_memMapMutex.lock();
-            g_memMap.erase(p);
-            g_memMapMutex.unlock();
-        }
+        AllocItem record = g_memMap[p];
+        g_totalAlloc -= record.length;
+        g_memMapMutex.lock();
+        g_memMap.erase(p);
+        g_memMapMutex.unlock();
     }
 
     FreeInternal(p);

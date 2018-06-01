@@ -107,16 +107,16 @@ protected:
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
-    std::unique_ptr<AFHttpEntity> m_pClientEntity;
-    std::string mstrIPPort;
-    int mnServerID;
-    NET_RECEIVE_FUNCTOR mRecvCB;
-    NET_EVENT_FUNCTOR mEventCB;
+    std::unique_ptr<AFHttpEntity> m_pClientEntity = nullptr;
+    std::string mstrIPPort = "";
+    int mnServerID = 0;
+    NET_RECEIVE_FUNCTOR mRecvCB = nullptr;
+    NET_EVENT_FUNCTOR mEventCB = nullptr;
     AFCReaderWriterLock mRWLock;
 
-    brynet::net::WrapTcpService::PTR m_pServer;
-    brynet::net::AsyncConnector::PTR m_pConector;
-    brynet::net::TCPSession::PTR m_Session;
+    brynet::net::WrapTcpService::PTR m_pServer = nullptr;
+    brynet::net::AsyncConnector::PTR m_pConector = nullptr;
+    //brynet::net::TCPSession::PTR m_Session;
 };
 
 #pragma pack(pop)

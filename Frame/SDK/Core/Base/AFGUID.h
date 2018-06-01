@@ -118,9 +118,9 @@ public:
 
             return true;
         }
-        catch (std::exception& exp)
+        catch (std::system_error& ex)
         {
-            std::cout << "AFGUID from string failed, msg = " << exp.what() << std::endl;
+            std::cout << "AFGUID from string failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
             ARK_ASSERT_NO_EFFECT(0);
             return false;
         }

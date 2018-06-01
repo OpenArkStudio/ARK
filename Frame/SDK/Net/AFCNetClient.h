@@ -33,8 +33,6 @@ class AFCNetClient : public AFINet
 {
 public:
     AFCNetClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr)
-        : mnServerID(0)
-        , mnNextID(0)
     {
         if(server)
         {
@@ -71,7 +69,6 @@ public:
         Final();
     }
 
-public:
     virtual void Update();
     virtual void Start(const std::string& strAddrPort, const int nServerID);
     virtual bool Final() final;
@@ -82,7 +79,6 @@ public:
     virtual bool IsServer();
     virtual bool Log(int severity, const char* msg);
 
-public:
     void OnClientConnectionInner(const brynet::net::TCPSession::PTR& session);
     void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR& session);
     size_t OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len);
@@ -102,18 +98,18 @@ protected:
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 
 private:
-    std::unique_ptr<AFTCPEntity> m_pClientEntity;
-    std::string mstrIPPort;
-    int mnServerID;
+    std::unique_ptr<AFTCPEntity> m_pClientEntity = nullptr;
+    std::string mstrIPPort = "";
+    int mnServerID = 0;
+    std::atomic<std::uint64_t> mnNextID = 0;
+
     NET_RECEIVE_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
     AFCReaderWriterLock mRWLock;
 
-    brynet::net::WrapTcpService::PTR m_pServer;
-    brynet::net::AsyncConnector::PTR m_pConector;
-    brynet::net::TCPSession::PTR m_Session;
-    std::atomic<std::uint64_t> mnNextID;
-
+    brynet::net::WrapTcpService::PTR m_pServer = nullptr;
+    brynet::net::AsyncConnector::PTR m_pConector = nullptr;
+    //brynet::net::TCPSession::PTR m_Session = nullptr; //will delete
 };
 
 #pragma pack(pop)

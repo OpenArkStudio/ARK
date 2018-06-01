@@ -109,34 +109,28 @@ public:
     explicit AFTime(int64_t nTime) : mnTime(nTime)
     {
         mnTimeZone = AFCTimeBase::GetInstance().GetTimeZone();
-    };
-
-    AFTime(int64_t nTime, int nTimeZone)
-    {
-        mnTimeZone = nTimeZone;
-        mnTime = nTime;
     }
 
-    explicit AFTime(std::string strTime)
+    AFTime(int64_t nTime, int nTimeZone) : mnTimeZone(nTimeZone), mnTime(nTime)
     {
-        mnTimeZone = AFCTimeBase::GetInstance().GetTimeZone();
-        mnTime = 0;
-        InitWithYMDHMSM(strTime);
-    };
+    }
 
-    AFTime(std::string strTime, int nTimeZone)
+    explicit AFTime(std::string strTime) : mnTimeZone(AFCTimeBase::GetInstance().GetTimeZone()), mnTime(0)
     {
-        mnTimeZone = nTimeZone;
-        mnTime = 0;
         InitWithYMDHMSM(strTime);
     }
 
-    AFTime(int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond)//with default(UTC+8) timezone
+    AFTime(std::string strTime, int nTimeZone) : mnTimeZone(nTimeZone), mnTime(0)
     {
-        mnTime = 0;
-        mnTimeZone = AFCTimeBase::GetInstance().GetTimeZone();
+        InitWithYMDHMSM(strTime);
+    }
+
+    //with default(UTC+8) timezone
+    AFTime(int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond) : mnTimeZone(AFCTimeBase::GetInstance().GetTimeZone()), mnTime(0)
+    {
         InitWithYMDHMSM(nYear, nMonth, nDay, nHour, nMinute, nSecond, 0);
     }
+
     AFTime(int nYear, int nMonth, int nDay, int nHour, int nMinute, int nSecond, int nMilliSecond, int nTimeZone = -1) //with particular timezone
     {
         if(nTimeZone == -1)
@@ -148,7 +142,6 @@ public:
         InitWithYMDHMSM(nYear, nMonth, nDay, nHour, nMinute, nSecond, nMilliSecond);
     }
 
-    //甯︽椂鍖?
     std::string GetStr()
     {
         return GetStr_YMDHMS();

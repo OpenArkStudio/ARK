@@ -209,17 +209,18 @@ void AFCNetClient::OnClientConnectionInner(const brynet::net::TCPSession::PTR& s
     session->setDisConnectCallback(std::bind(&AFCNetClient::OnClientDisConnectionInner, this, std::placeholders::_1));
 
     AFTCPMsg* pMsg = new AFTCPMsg(session);
-    const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
-    pMsg->xClientID.nLow = mnNextID++;
+    const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD()); //unused, please check
+    pMsg->xClientID.nLow = (++mnNextID);
     session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
     pMsg->nType = CONNECTED;
+    do
     {
         AFScopeWrLock xGuard(mRWLock);
 
         AFTCPEntity* pEntity = new AFTCPEntity(this, pMsg->xClientID, session);
         m_pClientEntity.reset(pEntity);
         pEntity->mxNetMsgMQ.Push(pMsg);
-    }
+    } while (0);
 }
 
 void AFCNetClient::OnClientDisConnectionInner(const brynet::net::TCPSession::PTR& session)
