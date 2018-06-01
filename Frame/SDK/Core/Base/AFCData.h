@@ -91,10 +91,7 @@ public:
             InnerSetString(src.GetString());
             break;
         case DT_OBJECT:
-            {
-                mnHigh = src.mnHigh;
-                mnLow = src.mnLow;
-            }
+            mxGUID = src.mxGUID;
             break;
         case DT_POINTER:
             mpVaule = src.mpVaule;
@@ -107,6 +104,7 @@ public:
             }
             break;
         default:
+            ARK_ASSERT_NO_EFFECT(0);
             break;
         }
     }
@@ -135,10 +133,7 @@ public:
             InnerSetString(src.GetString());
             break;
         case DT_OBJECT:
-            {
-                mnHigh = src.GetObject().nHigh;
-                mnLow = src.GetObject().nLow;
-            }
+            mxGUID = src.GetObject();
             break;
         case DT_POINTER:
             mpVaule = src.GetPointer();
@@ -208,8 +203,7 @@ public:
         assert(type == DT_OBJECT);
 
         mnType = DT_OBJECT;
-        mnHigh = value.nHigh;
-        mnLow = value.nLow;
+        mxGUID = value;
     }
 
     AFBaseData(int type, const void* value, size_t size)
@@ -238,6 +232,7 @@ public:
     {
         int tmp_type = this->mnType;
         int64_t tmp_value = this->mn64Value;
+        AFGUID tmp_guid = this->mxGUID;
         uint32_t tmp_alloc_len = this->mnAllocLen;
         char tmp_buffer[BUFFER_SIZE] = { 0 };
         bool tmp_use_buffer = (tmp_type == DT_STRING) && (this->mstrValue == this->mBuffer);
@@ -253,8 +248,16 @@ public:
         }
         else
         {
-            this->mn64Value = src.mn64Value;
-            mnAllocLen = src.mnAllocLen;
+            if (src.mnType == DT_OBJECT)
+            {
+                this->mxGUID = src.mxGUID;
+                mnAllocLen = src.mnAllocLen;
+            }
+            else
+            {
+                this->mn64Value = src.mn64Value;
+                mnAllocLen = src.mnAllocLen;
+            }
         }
 
         this->mnType = src.mnType;
@@ -266,7 +269,15 @@ public:
         }
         else
         {
-            src.mn64Value = tmp_value;
+            if (src.mnType == DT_OBJECT)
+            {
+                src.mxGUID = tmp_guid;
+            }
+            else
+            {
+                src.mn64Value = tmp_value;
+            }
+            
             src.mnAllocLen = tmp_alloc_len;
         }
 
@@ -306,7 +317,7 @@ public:
             SetObject(AFGUID(0));
             break;
         default:
-            ARK_ASSERT(0, "don't have data type", __FILE__, __FUNCTION__);
+            ARK_ASSERT_NO_EFFECT(0);
             break;
         }
     }
@@ -337,6 +348,7 @@ public:
             return GetObject() == NULL_GUID;
             break;
         default:
+            ARK_ASSERT_NO_EFFECT(0);
             break;
         }
 
@@ -383,7 +395,7 @@ public:
     virtual AFGUID GetObject() const
     {
         ARK_ASSERT_RET_VAL(mnType == DT_OBJECT, NULL_GUID);
-        return AFGUID(mnHigh, mnLow);
+        return mxGUID;
     }
 
     virtual void* GetPointer() const
@@ -466,8 +478,7 @@ public:
     {
         Release();
         mnType = DT_OBJECT;
-        mnHigh = value.nHigh;
-        mnLow = value.nLow;
+        mxGUID = value;
     }
 
     virtual void SetPointer(void* value)
@@ -595,12 +606,7 @@ private:
         char* mstrValue;
         void* mpVaule;
         char* mpUserData;
-
-        struct
-        {
-            uint64_t mnHigh;
-            uint64_t mnLow;
-        };
+        AFGUID mxGUID;
     };
 
     //buffer

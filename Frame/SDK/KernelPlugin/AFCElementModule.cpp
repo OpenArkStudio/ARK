@@ -70,7 +70,7 @@ bool AFCElementModule::Load()
         rapidxml::file<> fdoc(strFile.c_str());
         nDataSize = fdoc.size();
         ARK_SHARE_PTR<char>pData(new char[nDataSize + 1]);
-        strncpy(pData.get(), fdoc.data(), nDataSize);
+        ARK_STRNCPY(pData.get(), fdoc.data(), nDataSize);
 
         pData.get()[nDataSize] = 0;
         xDoc.parse<0>(pData.get());

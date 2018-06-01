@@ -53,35 +53,7 @@
 #define ARK_GUID_POWER 100000
 #define ARK_EPOCH 1288834974657L
 
-#if ARK_PLATFORM == PLATFORM_WIN
-
-//Windows
-#define ARK_SPRINTF sprintf_s
-#define ARK_STRICMP _stricmp
-#define ARK_SLEEP(s) Sleep(s)
-#define ARK_STRNCPY strncpy_s
-#define ARK_ASSERT(exp_, msg_, file_, func_)        \
-    do                                              \
-    {                                               \
-        if (!(exp_))                                \
-        {                                           \
-            std::string strInfo("Message:");        \
-            strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_;\
-            MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_"#exp_), MB_RETRYCANCEL | MB_ICONERROR); \
-        }                                           \
-        assert(exp_);                               \
-    } while (0);
-
-#define ARK_EXPORT extern "C"  __declspec(dllexport)
-#define ARK_UNUSED
-
-#else
-
-//Linux
-#define ARK_SPRINTF snprintf
-#define ARK_STRICMP strcasecmp
-#define ARK_SLEEP(s) usleep(s * 1000)
-
+//////////////////////////////////////////////////////////////////////////
 /* isaacs - added strlcpy implementation for systems that lack it. */
 #ifndef strlcpy
 /*	$NetBSD: strlcpy.c,v 1.1 2010/12/05 03:15:43 christos Exp $	*/
@@ -121,30 +93,59 @@
 */
 static size_t strlcpy(char *dst, const char *src, size_t siz)
 {
-	register char *d = dst;
-	register const char *s = src;
-	register size_t n = siz;
+    register char *d = dst;
+    register const char *s = src;
+    register size_t n = siz;
 
-	/* Copy as many bytes as will fit */
-	if (n != 0 && --n != 0) {
-		do {
-			if ((*d++ = *s++) == 0)
-				break;
-		} while (--n != 0);
-	}
+    /* Copy as many bytes as will fit */
+    if (n != 0 && --n != 0) {
+        do {
+            if ((*d++ = *s++) == 0)
+                break;
+        } while (--n != 0);
+    }
 
-	/* Not enough room in dst, add NUL and traverse rest of src */
-	if (n == 0) {
-		if (siz != 0)
-			*d = '\0';		/* NUL-terminate dst */
-		while (*s++)
-			;
-	}
+    /* Not enough room in dst, add NUL and traverse rest of src */
+    if (n == 0) {
+        if (siz != 0)
+            *d = '\0';		/* NUL-terminate dst */
+        while (*s++)
+            ;
+    }
 
-	return(s - src - 1);	/* count does not include NUL */
+    return(s - src - 1);	/* count does not include NUL */
 }
 #endif
+//////////////////////////////////////////////////////////////////////////
 
+#if ARK_PLATFORM == PLATFORM_WIN
+
+//Windows
+#define ARK_SPRINTF sprintf_s
+#define ARK_STRICMP _stricmp
+#define ARK_SLEEP(s) Sleep(s)
+#define ARK_STRNCPY strlcpy
+#define ARK_ASSERT(exp_, msg_, file_, func_)        \
+    do                                              \
+    {                                               \
+        if (!(exp_))                                \
+        {                                           \
+            std::string strInfo("Message:");        \
+            strInfo += msg_ + std::string(" don't exist or some warning") + std::string("\n\nFile:") + std::string(file_) + std::string("\n Function:") + func_;\
+            MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_"#exp_), MB_RETRYCANCEL | MB_ICONERROR); \
+        }                                           \
+        assert(exp_);                               \
+    } while (0);
+
+#define ARK_EXPORT extern "C" __declspec(dllexport)
+#define ARK_UNUSED
+
+#else
+
+//Linux
+#define ARK_SPRINTF snprintf
+#define ARK_STRICMP strcasecmp
+#define ARK_SLEEP(s) usleep(s * 1000)
 #define ARK_STRNCPY strlcpy
 #define ARK_ASSERT(exp_, msg_, file_, func_)        \
     do                                              \

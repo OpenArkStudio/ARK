@@ -35,6 +35,8 @@ bool Example1Module::Init()
 
 bool Example1Module::PostInit()
 {
+    std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
+
     m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
@@ -44,16 +46,17 @@ bool Example1Module::PostInit()
     ARK_ASSERT_RET_VAL(m_pScheduleModule != nullptr, false);
 
     AFGUID test_id = AFGUID(0, 1);
-    //for (int i = 0; i < 1000; ++i)
-    //{
-    //    ARK_LOG_INFO("Test log, id = {}", test_id.ToString());
-    //}
     
-    std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
+    //test GUID type
+    AFCData guid_data1(DT_OBJECT, AFGUID(0, 1));
+    AFCData guid_data2(DT_OBJECT, AFGUID(1, 0));
+    guid_data1 = guid_data2;
+    AFGUID guid = guid_data1.GetObject();
 
+
+    //test string type
     AFCData data1(DT_STRING, "test1");
     AFCData data2(DT_STRING, "test2");
-
     data1 = data2;
     const char* str1 = data1.GetString();
 

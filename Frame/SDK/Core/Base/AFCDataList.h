@@ -32,12 +32,14 @@ public:
 
     void* Alloc(size_t size)
     {
-        return new char[size];
+        void* ptr = ARK_ALLOC(size);
+        memset(ptr, 0, size);
+        return ptr;
     }
 
     void Free(void* ptr, size_t size)
     {
-        delete[](char*)ptr;
+        ARK_DEALLOC(ptr);
     }
 
     void Swap(AFDataListAlloc& src)
@@ -65,12 +67,7 @@ private:
             size_t mnstrValue;
             void* mpVaule;
             size_t mnUserData;
-
-            struct
-            {
-                uint64_t mnHigh;
-                uint64_t mnLow;
-            };
+            AFGUID mxGUID;
         };
     };
 
@@ -111,7 +108,7 @@ public:
                 nEnd = i;
                 if(!AddString(&strSour[nBegin], nEnd - nBegin))
                 {
-                    //return false;
+                    ARK_ASSERT_NO_EFFECT(0);
                 }
 
                 if(i + 1 < nLengh)
@@ -126,7 +123,7 @@ public:
             nEnd = nLengh;
             if(!AddString(&strSour[nBegin], nEnd - nBegin))
             {
-                //return false;
+                ARK_ASSERT_NO_EFFECT(0);
             }
         }
     }
@@ -322,7 +319,6 @@ public:
         p->nType = DT_STRING;
         p->mnstrValue = mnBufferUsed;
 
-        //need only need  sub string
         size_t value_size = strlen(value);
         if(value_size > (size_t)nLength)
         {
@@ -340,8 +336,7 @@ public:
     {
         dynamic_data_t* p = AddDynamicData();
         p->nType = DT_OBJECT;
-        p->mnHigh = value.nHigh;
-        p->mnLow = value.nLow;
+        p->mxGUID = value;
         return true;
     }
 
@@ -498,7 +493,7 @@ public:
         switch(mpData[index].nType)
         {
         case DT_OBJECT:
-            return AFGUID(mpData[index].mnHigh, mpData[index].mnLow);
+            return mpData[index].mxGUID;
             break;
         default:
             break;
@@ -670,11 +665,7 @@ public:
 
         if(size1 <= (strlen(p) + 1))
         {
-#if ARK_PLATFORM == PLATFORM_WIN
-            strncpy_s(p, (strlen(p) + 1), value, size1);
-#else
-            strncpy(p, value, size1);
-#endif
+            ARK_STRNCPY(p, value, size1);
             return true;
         }
 
@@ -698,8 +689,7 @@ public:
             return false;
         }
 
-        mpData[index].mnHigh = value.nHigh;
-        mpData[index].mnLow = value.nLow;
+        mpData[index].mxGUID = value;
         return true;
     }
 

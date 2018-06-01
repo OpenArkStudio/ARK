@@ -29,9 +29,7 @@ public:
 	uint64_t nHigh;
     uint64_t nLow;
 
-    AFGUID() : nHigh(0), nLow(0)
-    {
-    }
+    AFGUID() = default;
 
     AFGUID(uint64_t value) : nHigh(0), nLow(value)
     {
