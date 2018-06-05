@@ -124,6 +124,7 @@
     <ClInclude Include="Base\AFCDataList.h" />
     <ClInclude Include="Base\AFCoreDef.hpp" />
     <ClInclude Include="Base\AFCronScheduler.hpp" />
+    <ClInclude Include="Base\AFDateTime.hpp" />
     <ClInclude Include="Base\AFDefine.h" />
     <ClInclude Include="Base\AFGUID.h" />
     <ClInclude Include="Base\AFHashmap.h" />
@@ -134,7 +135,7 @@
     <ClInclude Include="Base\AFMacros.hpp" />
     <ClInclude Include="Base\AFMap.h" />
     <ClInclude Include="Base\AFMapEx.h" />
-    <ClInclude Include="Base\AFMemAlloc.h" />
+    <ClInclude Include="Base\AFMemAlloc.hpp" />
     <ClInclude Include="Base\AFMemPool.hpp" />
     <ClInclude Include="Base\AFMisc.hpp" />
     <ClInclude Include="Base\AFNoncopyable.hpp" />
@@ -147,6 +148,8 @@
     <ClInclude Include="Base\AFStringPod.hpp" />
     <ClInclude Include="Base\AFTime.hpp" />
     <ClInclude Include="Base\AFTimer.hpp" />
+    <ClInclude Include="Base\AFTimespan.hpp" />
+    <ClInclude Include="Base\AFTimestamp.hpp" />
     <ClInclude Include="Base\AFVector3.hpp" />
     <ClInclude Include="Common\cronexpr.h" />
   </ItemGroup>

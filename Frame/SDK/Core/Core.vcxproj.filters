@@ -138,9 +138,6 @@
     <ClInclude Include="Base\AFTimer.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFMemAlloc.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\AFMemPool.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -154,6 +151,18 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Base\AFSpinLock.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFMemAlloc.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFTimespan.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFTimestamp.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFDateTime.hpp">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>
