@@ -148,6 +148,7 @@ void AFCHeartBeatManager::Update()
             }
         }
 
+		mHeartBeatElementMapEx.RemoveElement(strHeartBeatName);
         bRet = mRemoveListEx.Next(strHeartBeatName);
     }
 
