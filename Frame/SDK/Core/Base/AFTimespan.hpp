@@ -29,27 +29,28 @@ class AFTimespan
 public:
     using TimeDiff = int64_t;
 
-    static const TimeDiff MICROSECONDS = 1;
-    static const TimeDiff MILLISECONDS = 1000 * MICROSECONDS;
-    static const TimeDiff SECONDS = 1000 * MILLISECONDS;
-    static const TimeDiff MINUTES = 60 * SECONDS;
-    static const TimeDiff HOURS = 60 * MINUTES;
-    static const TimeDiff DAYS = 24 * HOURS;
+    static const TimeDiff MILLISECONDS = 1L;
+    static const TimeDiff SECOND_MS = 1000 * MILLISECONDS;
+    static const TimeDiff MINUTE_MS = 60 * SECOND_MS;
+    static const TimeDiff HOUR_MS = 60 * MINUTE_MS;
+    static const TimeDiff DAY_MS = 24 * HOUR_MS;
+    static const TimeDiff WEEK_MS = 7 * DAY_MS;
+    const int MONTH_DAY[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
     AFTimespan()
         : _span(0)
     {}
     
-    AFTimespan(TimeDiff microseconds)
-        : _span(microseconds)
+    AFTimespan(TimeDiff milliseconds)
+        : _span(milliseconds)
     {}
     
-    AFTimespan(int seconds, int microseconds)
-        : _span(TimeDiff(seconds) * SECONDS + microseconds)
+    AFTimespan(int seconds, int milliseconds)
+        : _span(TimeDiff(seconds) * SECOND_MS + milliseconds)
     {}
 
-    AFTimespan(int days, int hours, int seconds, int microseconds)
-        : _span(TimeDiff(microseconds) + TimeDiff(seconds) * SECONDS + TimeDiff(hours) * HOURS + TimeDiff(days) * DAYS)
+    AFTimespan(int days, int hours, int seconds, int milliseconds)
+        : _span(TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS + TimeDiff(days) * DAY_MS)
     {}
 
     AFTimespan(const AFTimespan& timespan)
@@ -70,15 +71,15 @@ public:
         return *this;
     }
 
-    AFTimespan& assign(int days, int hours, int minutes, int seconds, int microseconds = 0)
+    AFTimespan& assign(int days, int hours, int minutes, int seconds, int milliseconds = 0)
     {
-        _span = TimeDiff(microseconds) + TimeDiff(seconds) * SECONDS + TimeDiff(hours) * HOURS + TimeDiff(days) * DAYS;
+        _span = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS + TimeDiff(days) * DAY_MS;
         return *this;
     }
 
-    AFTimespan& assign(int seconds, int microseconds = 0)
+    AFTimespan& assign(int seconds, int milliseconds = 0)
     {
-        _span = TimeDiff(seconds) * SECONDS + microseconds;
+        _span = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS;
         return *this;
     }
 
@@ -117,34 +118,34 @@ public:
         return _span <= ts._span;
     }
 
-    inline bool operator == (TimeDiff microSeconds) const
+    inline bool operator == (TimeDiff milliseconds) const
     {
-        return _span == microSeconds;
+        return _span == milliseconds;
     }
 
-    inline bool operator != (TimeDiff microSeconds) const
+    inline bool operator != (TimeDiff milliseconds) const
     {
-        return _span != microSeconds;
+        return _span != milliseconds;
     }
 
-    inline bool operator > (TimeDiff microSeconds) const
+    inline bool operator > (TimeDiff milliseconds) const
     {
-        return _span > microSeconds;
+        return _span > milliseconds;
     }
 
-    inline bool operator >= (TimeDiff microSeconds) const
+    inline bool operator >= (TimeDiff milliseconds) const
     {
-        return _span >= microSeconds;
+        return _span >= milliseconds;
     }
 
-    inline bool operator <  (TimeDiff microSeconds) const
+    inline bool operator <  (TimeDiff milliseconds) const
     {
-        return _span < microSeconds;
+        return _span < milliseconds;
     }
 
-    inline bool operator <= (TimeDiff microSeconds) const
+    inline bool operator <= (TimeDiff milliseconds) const
     {
-        return _span <= microSeconds;
+        return _span <= milliseconds;
     }
 
     inline AFTimespan operator + (const AFTimespan& d) const
@@ -169,89 +170,74 @@ public:
         return *this;
     }
 
-    inline AFTimespan operator + (TimeDiff microSeconds) const
+    inline AFTimespan operator + (TimeDiff milliseconds) const
     {
-        return AFTimespan(_span + microSeconds);
+        return AFTimespan(_span + milliseconds);
     }
 
-    inline AFTimespan operator - (TimeDiff microSeconds) const
+    inline AFTimespan operator - (TimeDiff milliseconds) const
     {
-        return AFTimespan(_span - microSeconds);
+        return AFTimespan(_span - milliseconds);
     }
 
-    inline AFTimespan& operator += (TimeDiff microSeconds)
+    inline AFTimespan& operator += (TimeDiff milliseconds)
     {
-        _span += microSeconds;
+        _span += milliseconds;
         return *this;
     }
 
-    inline AFTimespan& operator -= (TimeDiff microSeconds)
+    inline AFTimespan& operator -= (TimeDiff milliseconds)
     {
-        _span -= microSeconds;
+        _span -= milliseconds;
         return *this;
     }
 
     inline int days() const
     {
-        return int(_span / DAYS);
+        return int(_span / DAY_MS);
     }
 
     inline int hours() const
     {
-        return int((_span / HOURS) % 24);
+        return int((_span / HOUR_MS) % 24);
     }
 
     inline int totalHours() const
     {
-        return int((_span / HOURS));
+        return int((_span / HOUR_MS));
     }
 
     inline int minutes() const
     {
-        return int((_span / MINUTES) % 24);
+        return int((_span / MINUTE_MS) % 60);
     }
 
     inline int totalMinutes() const
     {
-        return int(_span / MINUTES);
+        return int(_span / MINUTE_MS);
     }
 
     inline int seconds() const
     {
-        return int((_span / SECONDS) % 60);
+        return int((_span / SECOND_MS) % 60);
     }
 
     inline int totalSeconds() const
     {
-        return int(_span / SECONDS);
+        return int(_span / SECOND_MS);
     }
 
     inline int milliseconds() const
     {
-        return int((_span / MILLISECONDS) % 1000);
-    }
-
-    inline TimeDiff totalMilliseconds() const
-    {
-        return _span / MILLISECONDS;
-    }
-
-    inline int microseconds() const
-    {
         return int(_span % 1000);
     }
 
-    inline int useconds() const
-    {
-        return int(_span % (1000 * 1000));
-    }
-
-    inline TimeDiff totalMicroseconds() const
+    inline TimeDiff totalMilliseconds() const
     {
         return _span;
     }
 
 private:
-    //microseconds
+    //milliseconds
     TimeDiff _span;
 };

@@ -402,7 +402,7 @@ public:
             break;
         case DAY_OF_WEEK:
             {
-                return ((nFixTime + AFCTimeBase::NDAY_MS * 3) % AFCTimeBase::NWEEK_MS) / AFCTimeBase::NDAY_MS + 1;// 1970.1.1 is thursday , monday is first day of week ,start by 1
+                return ((nFixTime + AFCTimeBase::NDAY_MS * 3) % AFCTimeBase::NWEEK_MS) / AFCTimeBase::NDAY_MS + 1;// 1970.1.1 is thursday , Monday is first day of week ,start by 1
             }
             break;
         default:

@@ -25,7 +25,6 @@
 #include "SDK/Core/Base/AFTimer.hpp"
 #include "SDK/Core/Base/AFMacros.hpp"
 #include "SDK/Core/Common/cronexpr.h"
-#include "SDK/Core/Base/AFTimestamp.hpp"
 #include "SDK/Core/Base/AFDateTime.hpp"
 
 bool Example1Module::Init()
@@ -61,13 +60,6 @@ bool Example1Module::PostInit()
     AFCData data2(DT_STRING, "test2");
     data1 = data2;
     const char* str1 = data1.GetString();
-
-    //////////////////////////////////////////////////////////////////////////
-    //time test
-    AFTimestamp now;
-    AFDateTime dateTime(now);
-
-    ARK_LOG_INFO("DateTime: {}-{}-{} {}:{}:{}", dateTime.year(), dateTime.month(), dateTime.day(), dateTime.hour(), dateTime.minute(), dateTime.second());
 
     //////////////////////////////////////////////////////////////////////////
     //test cron expression
