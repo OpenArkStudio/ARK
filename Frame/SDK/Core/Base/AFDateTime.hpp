@@ -355,7 +355,7 @@ public:
         struct timeval tv;
         if (gettimeofday(&tv, NULL))
         {
-            throw SystemException("cannot get time of day");
+            throw std::runtime_error("cannot get time of day");
         }
         _ts = TimeVal(tv.tv_sec) * Resolution() + tv.tv_usec / Resolution();
 #endif
