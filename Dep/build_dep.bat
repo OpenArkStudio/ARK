@@ -17,7 +17,7 @@ REM ############################################################################
 echo "Building protobuf..."
 
 if exist protobuf (rd protobuf /q /s)
-git clone -b 3.5.x https://github.com/google/protobuf.git
+git clone -b 3.5.x https://github.com/google/protobuf.git --depth 1
 
 cd protobuf/cmake
 md build
@@ -39,7 +39,7 @@ cd ..\..\..\
 REM ####################################################################################################
 echo "Building brynet..."
 if exist brynet (rd brynet /q /s)
-git clone -b master https://github.com/ArkGame/brynet.git
+git clone -b master https://github.com/ArkGame/brynet.git --depth 1
 
 cd brynet
 md build

@@ -18,7 +18,7 @@
 *
 */
 
-#include "SDK/Core/Base/AFTime.hpp"
+#include "SDK/Core/Base/AFDateTime.hpp"
 #include "AFCHeartBeatManager.h"
 
 
@@ -74,7 +74,7 @@ bool AFCHeartBeatElement::CheckTime(int64_t nNowTime)
 void AFCHeartBeatManager::Update()
 {
     //millisecond
-    int64_t nTime = AFCTimeBase::GetInstance().GetNowMillisecond();
+    int64_t nTime = AFDateTime::GetTimestamp();
     for(std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = mTimeList.begin(); iter != mTimeList.end();)
     {
         if(iter->second->IsStop())
@@ -188,7 +188,7 @@ AFGUID AFCHeartBeatManager::Self()
 bool AFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever /*= false*/)
 {
     AFCHeartBeatElement xHeartBeat;
-    xHeartBeat.nNextTriggerTime = AFCTimeBase::GetInstance().GetNowMillisecond() + nTime;
+    xHeartBeat.nNextTriggerTime = AFDateTime::GetTimestamp() + nTime;
     xHeartBeat.nBeatTime = nTime;
     xHeartBeat.nCount = nCount;
     xHeartBeat.self = self;
@@ -203,10 +203,5 @@ bool AFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& str
 
 bool AFCHeartBeatManager::Exist(const std::string& strHeartBeatName)
 {
-    if(mHeartBeatElementMapEx.GetElement(strHeartBeatName))
-    {
-        return true;
-    }
-
-    return false;
+	return (mHeartBeatElementMapEx.GetElement(strHeartBeatName) != nullptr);
 }

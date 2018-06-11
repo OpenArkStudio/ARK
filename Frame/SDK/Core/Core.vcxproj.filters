@@ -129,9 +129,6 @@
     <ClInclude Include="Base\AFStringPod.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFTime.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\AFVector3.hpp">
       <Filter>Base</Filter>
     </ClInclude>
@@ -154,12 +151,6 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Base\AFMemAlloc.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\AFTimespan.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\AFTimestamp.hpp">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Base\AFDateTime.hpp">

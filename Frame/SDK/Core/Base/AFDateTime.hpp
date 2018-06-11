@@ -21,8 +21,227 @@
 #pragma once
 
 #include "AFPlatform.hpp"
-#include "AFTimespan.hpp"
 #include "AFMacros.hpp"
+
+class AFTimespan
+{
+public:
+	using TimeDiff = int64_t;
+
+	static const TimeDiff MILLISECONDS = 1L;
+	static const TimeDiff SECOND_MS = 1000 * MILLISECONDS;
+	static const TimeDiff MINUTE_MS = 60 * SECOND_MS;
+	static const TimeDiff HOUR_MS = 60 * MINUTE_MS;
+	static const TimeDiff DAY_MS = 24 * HOUR_MS;
+	static const TimeDiff WEEK_MS = 7 * DAY_MS;
+	const int MONTH_DAY[12] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+	AFTimespan()
+		: _span(0)
+	{}
+
+	AFTimespan(TimeDiff milliseconds)
+		: _span(milliseconds)
+	{}
+
+	AFTimespan(int seconds, int milliseconds)
+		: _span(TimeDiff(seconds) * SECOND_MS + milliseconds)
+	{}
+
+	AFTimespan(int days, int hours, int seconds, int milliseconds)
+		: _span(TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS + TimeDiff(days) * DAY_MS)
+	{}
+
+	AFTimespan(const AFTimespan& timespan)
+		: _span(timespan._span)
+	{}
+
+	~AFTimespan() {}
+
+	AFTimespan& operator=(const AFTimespan& timespan)
+	{
+		_span = timespan._span;
+		return *this;
+	}
+
+	AFTimespan& operator=(TimeDiff microseconds)
+	{
+		_span = microseconds;
+		return *this;
+	}
+
+	AFTimespan& assign(int days, int hours, int minutes, int seconds, int milliseconds = 0)
+	{
+		_span = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS + TimeDiff(hours) * HOUR_MS + TimeDiff(days) * DAY_MS;
+		return *this;
+	}
+
+	AFTimespan& assign(int seconds, int milliseconds = 0)
+	{
+		_span = TimeDiff(milliseconds) + TimeDiff(seconds) * SECOND_MS;
+		return *this;
+	}
+
+	void swap(AFTimespan& timespan)
+	{
+		std::swap(_span, timespan._span);
+	}
+
+	inline bool operator == (const AFTimespan& ts) const
+	{
+		return _span == ts._span;
+	}
+
+	inline bool operator != (const AFTimespan& ts) const
+	{
+		return _span != ts._span;
+	}
+
+	inline bool operator >  (const AFTimespan& ts) const
+	{
+		return _span > ts._span;
+	}
+
+	inline bool operator >= (const AFTimespan& ts) const
+	{
+		return _span >= ts._span;
+	}
+
+	inline bool operator <  (const AFTimespan& ts) const
+	{
+		return _span < ts._span;
+	}
+
+	inline bool operator <= (const AFTimespan& ts) const
+	{
+		return _span <= ts._span;
+	}
+
+	inline bool operator == (TimeDiff milliseconds) const
+	{
+		return _span == milliseconds;
+	}
+
+	inline bool operator != (TimeDiff milliseconds) const
+	{
+		return _span != milliseconds;
+	}
+
+	inline bool operator > (TimeDiff milliseconds) const
+	{
+		return _span > milliseconds;
+	}
+
+	inline bool operator >= (TimeDiff milliseconds) const
+	{
+		return _span >= milliseconds;
+	}
+
+	inline bool operator <  (TimeDiff milliseconds) const
+	{
+		return _span < milliseconds;
+	}
+
+	inline bool operator <= (TimeDiff milliseconds) const
+	{
+		return _span <= milliseconds;
+	}
+
+	inline AFTimespan operator + (const AFTimespan& d) const
+	{
+		return AFTimespan(_span + d._span);
+	}
+
+	inline AFTimespan operator - (const AFTimespan& d) const
+	{
+		return AFTimespan(_span - d._span);
+	}
+
+	inline AFTimespan& operator += (const AFTimespan& d)
+	{
+		_span += d._span;
+		return *this;
+	}
+
+	inline AFTimespan& operator -= (const AFTimespan& d)
+	{
+		_span -= d._span;
+		return *this;
+	}
+
+	inline AFTimespan operator + (TimeDiff milliseconds) const
+	{
+		return AFTimespan(_span + milliseconds);
+	}
+
+	inline AFTimespan operator - (TimeDiff milliseconds) const
+	{
+		return AFTimespan(_span - milliseconds);
+	}
+
+	inline AFTimespan& operator += (TimeDiff milliseconds)
+	{
+		_span += milliseconds;
+		return *this;
+	}
+
+	inline AFTimespan& operator -= (TimeDiff milliseconds)
+	{
+		_span -= milliseconds;
+		return *this;
+	}
+
+	inline int days() const
+	{
+		return int(_span / DAY_MS);
+	}
+
+	inline int hours() const
+	{
+		return int((_span / HOUR_MS) % 24);
+	}
+
+	inline int totalHours() const
+	{
+		return int((_span / HOUR_MS));
+	}
+
+	inline int minutes() const
+	{
+		return int((_span / MINUTE_MS) % 60);
+	}
+
+	inline int totalMinutes() const
+	{
+		return int(_span / MINUTE_MS);
+	}
+
+	inline int seconds() const
+	{
+		return int((_span / SECOND_MS) % 60);
+	}
+
+	inline int totalSeconds() const
+	{
+		return int(_span / SECOND_MS);
+	}
+
+	inline int milliseconds() const
+	{
+		return int(_span % 1000);
+	}
+
+	inline TimeDiff totalMilliseconds() const
+	{
+		return _span;
+	}
+
+private:
+	//milliseconds
+	TimeDiff _span;
+};
+
+////////////////////////////////////////////////////////////////////////
 
 class AFDateTime
 {
@@ -43,7 +262,6 @@ public:
         DECEMBER
     };
 
-    /// Symbolic names for week day numbers (0 to 6).
     enum DaysOfWeek
     {
         SUNDAY = 0,
@@ -55,39 +273,48 @@ public:
         SATURDAY
     };
 
-    /// Monotonic UTC time value in microsecond resolution,
-    /// with base time midnight, January 1, 1970.
+    //Monotonic UTC time value in microsecond resolution,
+    //with base time midnight, January 1, 1970.
     using TimeVal = int64_t;
-    /// Monotonic UTC time value in 100 nanosecond resolution,
-    /// with base time midnight, October 15, 1582.
-    using UTCTimeVal = int64_t;
-    /// Difference between two TimeVal values in microseconds.
+    //Difference between two TimeVal values in milliseconds.
     using TimeDiff = int64_t;
 
     static const TimeVal TIMEVAL_MIN = std::numeric_limits<int64_t>::min();
     static const TimeVal TIMEVAL_MAX = std::numeric_limits<int64_t>::max();
 
-    /// Creates a timestamp with the current time.
+    //Creates a timestamp with the current time.
     AFDateTime()
     {
         update();
-        computeDaytime();
     }
 
-    /// Creates a timestamp from the given time value
-    /// (microseconds since midnight, January 1, 1970).
+    //Creates a timestamp from the given time value
+    //(milliseconds since midnight, January 1, 1970).
     AFDateTime(TimeVal tv)
     {
         _ts = tv;
-        computeDaytime();
     }
 
-    /// Copy constructor.
+	AFDateTime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int tzd = 8)
+	{
+		struct tm tmp_tm;
+		tmp_tm.tm_year = year - 1970;
+		tmp_tm.tm_mon = month - 1;
+		tmp_tm.tm_mday = day;
+		tmp_tm.tm_hour = hour;
+		tmp_tm.tm_min = minute;
+		tmp_tm.tm_sec = second;
+		tmp_tm.tm_isdst = -1;
+		time_t time = std::mktime(&tmp_tm);
+		_ts = TimeVal(time) - tzd * AFTimespan::HOUR_MS;
+	}
+
+    //Copy constructor.
     AFDateTime(const AFDateTime& other)
     {
         _ts = other._ts;
     }
-    /// Destroys the timestamp
+    //Destroys the timestamp
     ~AFDateTime()
     {
 
@@ -107,7 +334,6 @@ public:
     void swap(AFDateTime& timestamp)
     {
         std::swap(_ts, timestamp._ts);
-        computeDaytime();
     }
     /// Updates the Timestamp with the current time.
     void update()
@@ -124,17 +350,15 @@ public:
         ts.LowPart = ft.dwLowDateTime;
         ts.HighPart = ft.dwHighDateTime;
         ts.QuadPart -= epoch.QuadPart;
-        _ts = ts.QuadPart / (10 * 1000);
+        _ts = ts.QuadPart / (10 * Resolution());
 #else
         struct timeval tv;
         if (gettimeofday(&tv, NULL))
         {
             throw SystemException("cannot get time of day");
         }
-        _ts = TimeVal(tv.tv_sec) * resolution() + tv.tv_usec / 1000;
+        _ts = TimeVal(tv.tv_sec) * Resolution() + tv.tv_usec / Resolution();
 #endif
-
-        computeDaytime();
     }
 
     bool operator == (const AFDateTime& ts) const
@@ -214,238 +438,276 @@ public:
         return *this -= span.totalMilliseconds();
     }
 
-    /// Returns the timestamp expressed in time_t.
-    /// time_t base time is midnight, January 1, 1970.
-    /// Resolution is one second.
-    std::time_t epochTime() const
+    //Returns the timestamp expressed in time_t.
+    //ime_t base time is midnight, January 1, 1970.
+    //Resolution is one second.
+    std::time_t GetTime() const
     {
-        return std::time_t(_ts / resolution());
+        return std::time_t(_ts / Resolution());
     }
 
-    /// Returns the timestamp expressed in milliseconds
-    /// since the Unix epoch, midnight, January 1, 1970.
-    TimeVal epochMilliseconds()
-    {
-        return _ts / 1000;
-    }
-
-    /// Returns the timestamp expressed in microseconds
-    /// since the Unix epoch, midnight, January 1, 1970.
-    TimeVal epochMicroseconds() const
+    //Returns the timestamp expressed in milliseconds
+    //since the Unix epoch, midnight, January 1, 1970.
+    TimeVal GetMilliseconds()
     {
         return _ts;
     }
 
-    /// Returns the time elapsed since the time denoted by
-    /// the timestamp. Equivalent to Timestamp() - *this.
-    TimeDiff elapsed() const
+    //Returns the time elapsed since the time denoted by
+    //the timestamp. Equivalent to Timestamp() - *this.
+    TimeDiff GetElapsed() const
     {
         AFDateTime now;
         return now - *this;
     }
 
-    /// Returns true diff the given interval has passed
-    /// since the time denoted by the timestamp.
-    bool isElapsed(TimeDiff interval) const
+    //Returns true diff the given interval has passed
+    //since the time denoted by the timestamp.
+    bool IsElapsed(TimeDiff interval) const
     {
         AFDateTime now;
         TimeDiff diff = now - *this;
         return diff >= interval;
     }
 
-    /// Returns the raw time value.
-    /// Same as epochMicroseconds().
-    TimeVal raw() const
+    //Returns the raw time value.
+    //Same as epochMicroseconds().
+    TimeVal Raw() const
     {
         return _ts;
     }
 
-    /// return utc tm data
-    struct tm* utcTime() const
-    {
-        time_t time = epochTime();
-        return std::gmtime(&time);
-    }
+	//Returns utc tm data
+	struct tm* GetUTCTime() const
+	{
+		time_t time = GetTime();
+		return std::gmtime(&time);
+	}
 
-    struct tm* localTime() const
+    //Return local tm data
+    struct tm* GetLocalTime() const
     {
-        time_t time = epochTime();
+        time_t time = GetTime();
         return std::localtime(&time);
     }
 
-    /// Returns the year.
-    int year() const
-    {
-        return _year;
+    //Returns the year.
+    int GetYear() const
+	{
+		struct tm* ptm = GetUTCTime();
+        return ptm->tm_year + 1970;
     }
 
-    /// Returns the month (1 to 12).
-    int month() const
+    //Returns the month (1 to 12).
+    int GetMonth() const
     {
-        return _month;
+		struct tm* ptm = GetUTCTime();
+		return ptm->tm_mon + 1;
     }
 
-    /// Returns the week number within the year.
-    /// FirstDayOfWeek should be either SUNDAY (0) or MONDAY (1).
-    /// The returned week number will be from 0 to 53. Week number 1 is the week 
-    /// containing January 4. This is in accordance to ISO 8601.
-    /// 
-    /// The following example assumes that firstDayOfWeek is MONDAY. For 2005, which started
-    /// on a Saturday, week 1 will be the week starting on Monday, January 3.
-    /// January 1 and 2 will fall within week 0 (or the last week of the previous year).
-    ///
-    /// For 2007, which starts on a Monday, week 1 will be the week starting on Monday, January 1.
-    /// There will be no week 0 in 2007.
-    int week(int firstDayOfWeek = MONDAY) const
+    int GetWeekOfYear(int firstDayOfWeek = MONDAY) const
     {
-        //ARK_ASSERT_NO_EFFECT(firstDayOfWeek >= SUNDAY && firstDayOfWeek <= SATURDAY);
+        ARK_ASSERT_NO_EFFECT(firstDayOfWeek >= SUNDAY && firstDayOfWeek <= SATURDAY);
 
-        ///// find the first firstDayOfWeek.
-        //int baseDay = 1;
-        //while (AFDateTime(_year, 1, baseDay).dayOfWeek() != firstDayOfWeek) ++baseDay;
+        //find the first firstDayOfWeek.
+        int baseDay = 1;
+        while (AFDateTime(GetYear(), 1, baseDay).GetDayOfWeek() != firstDayOfWeek) ++baseDay;
 
-        //int doy = dayOfYear();
-        //int offs = baseDay <= 4 ? 0 : 1;
-        //if (doy < baseDay)
-        //{
-        //    return offs;
-        //}
-        //else
-        //{
-        //    return (doy - baseDay) / 7 + 1 + offs;
-        //}
+        int day = GetDayOfYear();
+        int offs = baseDay <= 4 ? 0 : 1;
+        if (day < baseDay)
+        {
+            return offs;
+        }
+        else
+        {
+            return (day - baseDay) / 7 + 1 + offs;
+        }
 
         return 0;
     }
 
-    /// Returns the day within the month (1 to 31).
-    int day() const
+    //Returns the day within the month (1 to 31).
+    int GetDay(bool is_monday_first_day = true) const
     {
-        return _day;
+		struct tm* ptm = GetUTCTime();
+		return ptm->tm_mday;
     }
 
-    /// Returns the weekday (0 to 6, where
-    /// 0 = Sunday, 1 = Monday, ..., 6 = Saturday).
-    int dayOfWeek(int firstDayOfWeek = MONDAY) const
+    //Returns the weekday (0 to 6, where
+    //0 = Sunday, 1 = Monday, ..., 6 = Saturday).
+    int GetDayOfWeek(int firstDayOfWeek = MONDAY) const
     {
+		struct tm* ptm = GetUTCTime();
         if (firstDayOfWeek == MONDAY)
         {
-            return ((_wday == 0) ? 7 : _wday);
+            return ((ptm->tm_wday == 0) ? 7 : ptm->tm_wday);
         }
         else
         {
-            return _wday;
+            return ptm->tm_wday;
         }
     }
 
-    /// Returns the number of the day in the year.
-    /// January 1 is 1, February 1 is 32, etc.
-    int dayOfYear() const
-    {
-        int day = 0;
-        for (int month = 1; month < _month; ++month)
-        {
-            day += daysOfMonth(_year, month);
-        }
-        day += _day;
-        return day;
+    //Returns the number of the day in the year.
+    //January 1 is 1, February 1 is 32, etc.
+    int GetDayOfYear() const
+	{
+		struct tm* ptm = GetUTCTime();
+		return ptm->tm_yday;
     }
 
-    /// Returns the hour (0 to 23).
-    int hour() const
+    //Returns the hour (0 to 23).
+    int GetHour() const
     {
-        return _hour;
+		struct tm* ptm = GetUTCTime();
+        return ptm->tm_hour;
     }
 
-    /// Returns the hour (0 to 12).
-    int hourAMPM() const
+    //Returns the hour (0 to 12).
+    int GethourAMPM() const
     {
-        if (_hour < 1)
+		int hour = GetHour();
+        if (hour < 1)
             return 12;
-        else if (_hour > 12)
-            return _hour - 12;
+        else if (hour > 12)
+            return hour - 12;
         else
-            return _hour;
+            return hour;
     }
 
-    /// Returns true if hour < 12;
-    bool isAM() const
+    //Returns true if hour < 12;
+    bool IsAM() const
     {
-        return _hour < 12;
+        return GetHour() < 12;
     }
 
-    /// Returns true if hour >= 12.
-    bool isPM() const
+    //Returns true if hour >= 12.
+    bool IsPM() const
     {
-        return _hour >= 12;
+        return GetHour() >= 12;
     }
 
     /// Returns the minute (0 to 59).
-    int minute() const
+    int GetMinute() const
     {
-        return _minute;
+		struct tm* ptm = GetUTCTime();
+		return ptm->tm_min;
     }
 
-    /// Returns the second (0 to 59).
-    int second() const
+    //Returns the second (0 to 59).
+    int GetSecond() const
     {
-        return _second;
+		struct tm* ptm = GetUTCTime();
+		return ptm->tm_sec;
     }
 
-    static bool isLeapYear(int year)
+	bool IsLeapYear() const
+	{
+		int year = GetYear();
+		return IsLeapYear(year);
+	}
+
+	bool SameMinute(TimeVal time)
+	{
+		AFDateTime xTime(time);
+		return (xTime.GetMinute() == GetMinute() && 
+			xTime.GetHour() == GetHour() && 
+			xTime.GetDay() == GetDay() && 
+			xTime.GetMonth() == GetMonth() && 
+			xTime.GetYear() == GetYear());
+	}
+
+	bool SameHour(TimeVal time)
+	{
+		AFDateTime xTime(time);
+		return (xTime.GetHour() == GetHour() &&
+			xTime.GetDay() == GetDay() &&
+			xTime.GetMonth() == GetMonth() &&
+			xTime.GetYear() == GetYear());
+	}
+
+	bool SameDay(TimeVal time)
+	{
+		AFDateTime xTime(time);
+		return (xTime.GetDay() == GetDay() &&
+			xTime.GetMonth() == GetMonth() &&
+			xTime.GetYear() == GetYear());
+	}
+
+	bool SameMonth(TimeVal time)
+	{
+		AFDateTime xTime(time);
+		return (xTime.GetMonth() == GetMonth() &&
+			xTime.GetYear() == GetYear());
+	}
+
+	bool SameYear(TimeVal time)
+	{
+		AFDateTime xTime(time);
+		return (xTime.GetYear() == GetYear());
+	}
+
+	bool SameWeek(TimeVal time)
+	{
+		if (!SameYear(time))
+		{
+			return false;
+		}
+
+		if (SameDay(time))
+		{
+			return true;
+		}
+
+		AFDateTime xTime(time);
+		return (GetWeekOfYear() == xTime.GetWeekOfYear());
+	}
+
+    static bool IsLeapYear(int year)
     {
         return (year % 4) == 0 && ((year % 100) != 0 || (year % 400) == 0);
     }
 
-    /// Returns the number of days in the given month
-    /// and year. Month is from 1 to 12.
-    static int daysOfMonth(int year, int month)
+    //Returns the number of days in the given month
+    //and year. Month is from 1 to 12.
+    static int GetDaysOfMonth(int year, int month)
     {
         ARK_ASSERT_NO_EFFECT(month >= 1 && month <= 12);
 
         static int daysOfMonthTable[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-        if (month == 2 && isLeapYear(year))
+        if (month == 2 && IsLeapYear(year))
             return 29;
         else
             return daysOfMonthTable[month];
     }
 
-    /// Checks if the given date and time is valid
-    /// (all arguments are within a proper range).
-    ///
-    /// Returns true if all arguments are valid, false otherwise.
-    static bool isValid(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int millisecond = 0, int microsecond = 0)
+    //Checks if the given date and time is valid
+    //all arguments are within a proper range).
+    //
+    //Returns true if all arguments are valid, false otherwise.
+    static bool isValid(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int millisecond = 0)
     {
         return
             (year >= 0 && year <= 9999) &&
             (month >= 1 && month <= 12) &&
-            (day >= 1 && day <= daysOfMonth(year, month)) &&
+            (day >= 1 && day <= GetDaysOfMonth(year, month)) &&
             (hour >= 0 && hour <= 23) &&
             (minute >= 0 && minute <= 59) &&
             (second >= 0 && second <= 60) &&
-            (millisecond >= 0 && millisecond <= 999) &&
-            (microsecond >= 0 && microsecond <= 999);
+            (millisecond >= 0 && millisecond <= 999);
     }
 
-    /// Creates a timestamp static
-    /// Returns milliseconds
-    static TimeVal getTimestamp()
+    //Creates a timestamp static
+    //Returns milliseconds
+    static TimeVal GetTimestamp()
     {
         AFDateTime now;
-        return now.epochMilliseconds();
+        return now.Raw();
     }
 
-    /// Creates a timestamp from a std::time_t.
-    static AFDateTime fromEpochTime(std::time_t t)
-    {
-        return AFDateTime(TimeVal(t) * resolution());
-    }
-
-    /// Returns the resolution in units per second.
-    /// Since the timestamp has microsecond resolution,
-    /// the returned value is always 1000000.
-    static TimeDiff resolution()
+    static TimeDiff Resolution()
     {
         return 1000; //1s = 1000 milliseconds
     }
@@ -462,7 +724,7 @@ public:
         ts.HighPart = fileTimeHigh;
         ts.QuadPart -= epoch.QuadPart;
 
-        return AFDateTime(ts.QuadPart / 10);
+        return AFDateTime(ts.QuadPart / (10 * Resolution()));
     }
 
     void toFileTimeNP(uint32_t& fileTimeLow, uint32_t& fileTimeHigh) const
@@ -472,37 +734,16 @@ public:
         epoch.HighPart = 0x019DB1DE;
 
         ULARGE_INTEGER ts;
-        ts.QuadPart = _ts * 10;
+        ts.QuadPart = _ts * 10 * Resolution();
         ts.QuadPart += epoch.QuadPart;
         fileTimeLow = ts.LowPart;
         fileTimeHigh = ts.HighPart;
     }
 #endif
 
-protected:
-    void computeDaytime()
-    {
-        struct tm* ptm = utcTime();
-        _year = ptm->tm_year + 1970;
-        _month = ptm->tm_mon + 1;
-        _day = ptm->tm_mday;
-        _hour = ptm->tm_hour;
-        _minute = ptm->tm_min;
-        _second = ptm->tm_sec;
-        _wday = ptm->tm_wday;
-    }
-
 private:
-    //microseconds
+    //milliseconds
     TimeVal _ts;
-
-    short  _year{ 0 };
-    short  _month{ 0 };
-    short  _day{ 0 };
-    short  _hour{ 0 };
-    short  _minute{ 0 };
-    short  _second{ 0 };
-    short  _wday{ 0 }; //day of week
 };
 
 inline void swap(AFDateTime& d1, AFDateTime& d2)

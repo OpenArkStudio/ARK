@@ -14,7 +14,7 @@ if [ -d "protobuf" ]; then
     rm -rf protobuf
 fi
 
-git clone -b 3.5.x https://github.com/google/protobuf.git
+git clone -b 3.5.x https://github.com/google/protobuf.git --depth 1
 cd protobuf/cmake
 mkdir build && cd build
 cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF ..
@@ -36,7 +36,7 @@ if [ -d "brynet" ]; then
     rm -rf brynet
 fi
 
-git clone -b master https://github.com/ArkGame/brynet.git
+git clone -b master https://github.com/ArkGame/brynet.git --depth 1
 cd brynet
 chmod -R 755 *
 mkdir build

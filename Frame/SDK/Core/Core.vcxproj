@@ -146,10 +146,7 @@
     <ClInclude Include="Base\AFSpinLock.hpp" />
     <ClInclude Include="Base\AFString.hpp" />
     <ClInclude Include="Base\AFStringPod.hpp" />
-    <ClInclude Include="Base\AFTime.hpp" />
     <ClInclude Include="Base\AFTimer.hpp" />
-    <ClInclude Include="Base\AFTimespan.hpp" />
-    <ClInclude Include="Base\AFTimestamp.hpp" />
     <ClInclude Include="Base\AFVector3.hpp" />
     <ClInclude Include="Common\cronexpr.h" />
   </ItemGroup>
