@@ -298,7 +298,7 @@ public:
 	AFDateTime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int tzd = 8)
 	{
 		struct tm tmp_tm;
-		tmp_tm.tm_year = year - 1970;
+		tmp_tm.tm_year = year - 1900;
 		tmp_tm.tm_mon = month - 1;
 		tmp_tm.tm_mday = day;
 		tmp_tm.tm_hour = hour;
@@ -306,7 +306,7 @@ public:
 		tmp_tm.tm_sec = second;
 		tmp_tm.tm_isdst = -1;
 		time_t time = std::mktime(&tmp_tm);
-		_ts = TimeVal(time) - tzd * AFTimespan::HOUR_MS;
+		_ts = TimeVal(time * Resolution()) + tzd * AFTimespan::HOUR_MS;
 	}
 
     //Copy constructor.
@@ -495,7 +495,7 @@ public:
     int GetYear() const
 	{
 		struct tm* ptm = GetUTCTime();
-        return ptm->tm_year + 1970;
+        return ptm->tm_year + 1900;
     }
 
     //Returns the month (1 to 12).
@@ -663,6 +663,14 @@ public:
 		AFDateTime xTime(time);
 		return (GetWeekOfYear() == xTime.GetWeekOfYear());
 	}
+
+    std::string ToString()
+    {
+        struct tm* ptm = GetLocalTime(); //local time
+        static char timeBuff[30] = { 0 };
+        std::strftime(timeBuff, sizeof(timeBuff), "%Y/%m/%d %H:%M:%S", ptm);
+        return std::string(timeBuff);
+    }
 
     static bool IsLeapYear(int year)
     {

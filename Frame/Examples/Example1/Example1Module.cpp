@@ -34,6 +34,17 @@ bool Example1Module::Init()
     return true;
 }
 
+void TestDateTime()
+{
+    AFDateTime now;
+    std::cout << now.ToString() << std::endl;
+    std::cout << now.GetYear() << "/" << now.GetMonth() << "/" << now.GetDay() << " " << now.GetHour() << ":" << now.GetMinute() << ":" << now.GetSecond() << std::endl;
+    std::cout << now.GetTime() << std::endl;
+    
+    AFDateTime now2(now.GetYear(), now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
+    ARK_ASSERT_NO_EFFECT(now.GetTime() == now2.GetTime());
+}
+
 bool Example1Module::PostInit()
 {
     std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
@@ -61,6 +72,9 @@ bool Example1Module::PostInit()
     data1 = data2;
     const char* str1 = data1.GetString();
 
+    //////////////////////////////////////////////////////////////////////////
+    //Test AFDateTime
+    TestDateTime();
     //////////////////////////////////////////////////////////////////////////
     //test cron expression
     //const char* err_msg = NULL;

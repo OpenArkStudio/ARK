@@ -20,7 +20,7 @@
 
 #include "Example3Module.h"
 #include "SDK/Proto/ARKDataDefine.hpp"
-#include "SDK/Core/Base/AFTime.hpp"
+#include "SDK/Core/Base/AFDateTime.hpp"
 
 bool Example3Module::Init()
 {
@@ -40,7 +40,7 @@ int Example3Module::OnEvent(const AFGUID& self, const int event, const AFIDataLi
 
 int Example3Module::OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const int64_t nTime, const int nCount)
 {
-    int64_t unNowTime = AFCTimeBase::GetInstance().GetNowMillisecond();
+    int64_t unNowTime = AFDateTime::GetTimestamp();
     std::cout << "strHeartBeat: " << nTime << " Count: " << nCount << "  TimeDis: " << unNowTime - mLastTime << std::endl;
 
     mLastTime = unNowTime;

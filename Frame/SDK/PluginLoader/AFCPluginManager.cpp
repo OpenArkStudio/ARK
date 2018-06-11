@@ -25,7 +25,7 @@
 #include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFTime.hpp"
+#include "SDK/Core/Base/AFDateTime.hpp"
 
 #if ARK_PLATFORM == PLATFORM_WIN
 #pragma comment( lib, "ws2_32.lib" )
@@ -34,7 +34,7 @@
 AFCPluginManager::AFCPluginManager() : AFIPluginManager()
 {
     mnAppID = 0;
-    mnInitTime = AFCTimeBase::GetInstance().GetNowMillisecond();
+    mnInitTime = AFDateTime::GetTimestamp();
     mnNowTime = mnInitTime;
 
     mstrConfigPath = "";
@@ -179,7 +179,7 @@ AFIPlugin* AFCPluginManager::FindPlugin(const std::string& strPluginName)
 
 bool AFCPluginManager::Update()
 {
-    mnNowTime = AFCTimeBase::GetInstance().GetNowMillisecond();
+    mnNowTime = AFDateTime::GetTimestamp();
     for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->Update();
