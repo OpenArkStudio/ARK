@@ -24,11 +24,11 @@
 #include "AFCDataNodeManager.h"
 #include "AFCEventManager.h"
 
-AFCEntity::AFCEntity(const AFGUID& self, AFIPluginManager* pLuginManager)
-    : AFIEntity(self), mSelf(self)
+AFCEntity::AFCEntity(const AFGUID& self, AFIPluginManager* pPluginManager) :
+    AFIEntity(self),
+    mSelf(self),
+    m_pPluginManager(pPluginManager)
 {
-    m_pPluginManager = pLuginManager;
-
     m_pNodeManager = std::make_shared<AFCDataNodeManager>(mSelf);
     m_pTableManager = std::make_shared<AFCDataTableManager>(mSelf);
     m_pHeartBeatManager = std::make_shared<AFCHeartBeatManager>(mSelf);

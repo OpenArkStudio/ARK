@@ -118,7 +118,7 @@ public:
 
     bool QueryRow(const int row, AFIDataList& varList);
 
-public:
+protected:
     void ReleaseRow(RowData* row_data, size_t col_num);
     void ReleaseAll();
 

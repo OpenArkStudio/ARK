@@ -69,7 +69,6 @@ private:
         std::vector<DATA_NODE_EVENT_FUNCTOR_PTR> mxCallBackList;
     };
 
-private:
 	ArrayPod<AFDataNode*, 1, CoreAlloc> mxNodes;
     StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
 
