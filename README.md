@@ -8,6 +8,7 @@
 [![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg)](https://github.com/ArkGame/ARK)
 [![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ARK)
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1916/badge)](https://bestpractices.coreinfrastructure.org/projects/1916)
 [![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
 
 | Branch | Build Status |

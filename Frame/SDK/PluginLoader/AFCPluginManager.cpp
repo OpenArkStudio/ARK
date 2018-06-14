@@ -177,17 +177,6 @@ AFIPlugin* AFCPluginManager::FindPlugin(const std::string& strPluginName)
     return mxPluginInstanceMap.GetElement(strPluginName);
 }
 
-bool AFCPluginManager::Update()
-{
-    mnNowTime = AFDateTime::GetTimestamp();
-    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
-    {
-        pPlugin->Update();
-    }
-
-    return true;
-}
-
 inline int AFCPluginManager::AppID() const
 {
     return mnAppID;
@@ -291,6 +280,27 @@ bool AFCPluginManager::CheckConfig()
     for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->CheckConfig();
+    }
+
+    return true;
+}
+
+bool AFCPluginManager::PreUpdate()
+{
+    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    {
+        pPlugin->PreUpdate();
+    }
+
+    return true;
+}
+
+bool AFCPluginManager::Update()
+{
+    mnNowTime = AFDateTime::GetTimestamp();
+    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    {
+        pPlugin->Update();
     }
 
     return true;

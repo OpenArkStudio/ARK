@@ -37,6 +37,10 @@ public:
 
     virtual bool CheckConfig();
 
+    virtual bool PreUpdate();
+
+    virtual bool Update();
+
     virtual bool PreShut();
 
     virtual bool Shut();
@@ -59,8 +63,6 @@ public:
     virtual void RemoveModule(const std::string& strModuleName);
 
     virtual AFIModule* FindModule(const std::string& strModuleName);
-
-    virtual bool Update();
 
     virtual int AppID() const;
     virtual const std::string& AppName() const;
