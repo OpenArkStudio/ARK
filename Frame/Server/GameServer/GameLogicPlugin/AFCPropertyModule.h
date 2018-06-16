@@ -81,10 +81,15 @@ protected:
 
     int OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
+    const std::string& ColToPropertyName(const int64_t nCol);
+    int64_t PropertyNameToCol(const std::string& strClassName);
+
 private:
     AFIKernelModule* m_pKernelModule;
     AFIPropertyConfigModule* m_pPropertyConfigModule;
     AFIElementModule* m_pElementModule;
     AFIClassModule* m_pClassModule;
     AFILevelModule* m_pLevelModule;
+    std::map<std::string, int64_t> mNameToCol;
+    std::vector<std::string> mColToName;
 };
