@@ -31,6 +31,8 @@
 #pragma comment( lib, "ws2_32.lib" )
 #endif
 
+#define CONSOLE_LOG std::cout << __FILE__ << ":" << __LINE__ << " "
+
 AFCPluginManager::AFCPluginManager() : AFIPluginManager()
 {
     mnAppID = 0;
@@ -93,26 +95,6 @@ bool AFCPluginManager::LoadPluginConfig()
         mxPluginNameMap.insert(std::make_pair(strPluginName, true));
     }
 
-    //rapidxml::xml_node<>* pPluginAppNode = pRoot->first_node("APPID");
-    //if(!pPluginAppNode)
-    //{
-    //    ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
-    //    return false;
-    //}
-
-    //const char* strAppID = pPluginAppNode->first_attribute("Name")->value();
-    //if(!strAppID)
-    //{
-    //    ARK_ASSERT(0, "There are no App ID", __FILE__, __FUNCTION__);
-    //    return false;
-    //}
-
-    //if(!AFMisc::ARK_FROM_STR(strAppID, mnAppID))
-    //{
-    //    ARK_ASSERT(0, "App ID Convert Error", __FILE__, __FUNCTION__);
-    //    return false;
-    //}
-
     rapidxml::xml_node<>* pPluginConfigPathNode = pRoot->first_node("ConfigPath");
     if(!pPluginConfigPathNode)
     {
@@ -133,16 +115,6 @@ bool AFCPluginManager::LoadPluginConfig()
 
 bool AFCPluginManager::LoadStaticPlugin(const std::string& strPluginDLLName)
 {
-    //PluginNameList::iterator it = mPluginNameList.begin();
-    //for (it; it != mPluginNameList.end(); it++)
-    //{
-    //    const std::string& strPluginName = *it;
-    //    CREATE_PLUGIN( this, strPluginName );
-    //}
-
-    //CREATE_PLUGIN(this, AFKernelPlugin)
-    //CREATE_PLUGIN(this, AFConfigPlugin)
-
     return false;
 }
 
@@ -287,7 +259,7 @@ bool AFCPluginManager::CheckConfig()
 
 bool AFCPluginManager::PreUpdate()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->PreUpdate();
     }
@@ -298,7 +270,7 @@ bool AFCPluginManager::PreUpdate()
 bool AFCPluginManager::Update()
 {
     mnNowTime = AFDateTime::GetTimestamp();
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->Update();
     }
@@ -355,12 +327,12 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
         DLL_START_PLUGIN_FUNC pFunc = (DLL_START_PLUGIN_FUNC)pLib->GetSymbol("DllStartPlugin");
         if(!pFunc)
         {
-            std::cout << "Find function DllStartPlugin Failed in [" << pLib->GetName() << "]" << std::endl;
+            CONSOLE_LOG << "Find function DllStartPlugin Failed in [" << pLib->GetName() << "]" << std::endl;
             assert(0);
             return false;
         }
 
-        pFunc(this/*, MemoryPool::GetInstance()*/);
+        pFunc(this);
 
         return true;
     }
@@ -370,14 +342,14 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
         char* error = dlerror();
         if(error)
         {
-            std::cout << stderr << " Load shared lib[" << pLib->GetName() << "] failed, ErrorNo. = [" << error << "]" << std::endl;
-            std::cout << "Load [" << pLib->GetName() << "] failed" << std::endl;
+            CONSOLE_LOG << stderr << " Load shared lib[" << pLib->GetName() << "] failed, ErrorNo. = [" << error << "]" << std::endl;
+            CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
             assert(0);
             return false;
         }
 #elif ARK_PLATFORM == PLATFORM_WIN
-        std::cout << stderr << " Load DLL[" << pLib->GetName() << "] failed, ErrorNo. = [" << GetLastError() << "]" << std::endl;
-        std::cout << "Load [" << pLib->GetName() << "] failed" << std::endl;
+        CONSOLE_LOG << stderr << " Load DLL[" << pLib->GetName() << "] failed, ErrorNo. = [" << GetLastError() << "]" << std::endl;
+        CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
         assert(0);
         return false;
 #endif // ARK_PLATFORM
@@ -409,8 +381,6 @@ bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 
 bool AFCPluginManager::UnLoadStaticPlugin(const std::string & strPluginDLLName)
 {
-    //DESTROY_PLUGIN(this, AFConfigPlugin)
-    //DESTROY_PLUGIN(this, AFKernelPlugin)
     return false;
 }
 

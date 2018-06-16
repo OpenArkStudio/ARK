@@ -87,6 +87,8 @@ protected:
     bool UnLoadPluginLibrary(const std::string& strPluginDLLName);
     bool UnLoadStaticPlugin(const std::string& strPluginDLLName);
 
+    bool ConsoleLog(const std::ostringstream& varLog);
+
 private:
     int mnAppID;
     int64_t mnInitTime;
