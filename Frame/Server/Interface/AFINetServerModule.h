@@ -27,35 +27,6 @@
 #include "SDK/Core/Base/AFQueue.h"
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "Server/Interface/AFINetModule.h"
-
-////////////////////////////////////////////////////////////////////////////
-
-#define CLIENT_MSG_PROCESS( nMsgID, msgData, nLen, msg)                                 \
-    AFGUID nPlayerID;                                                                   \
-    msg xMsg;                                                                           \
-    if (!AFINetServerModule::ReceivePB(xHead,nMsgID, msgData, nLen, xMsg, nPlayerID))   \
-    {                                                                                   \
-        ARK_LOG_ERROR("Parse msg error, nMsgID = %d", nMsgID);                          \
-        return;                                                                         \
-    }                                                                                   \
-                                                                                        \
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(nPlayerID);                                               \
-    if (nullptr == pEntity)                                                                                                 \
-    {                                                                                                                       \
-        ARK_LOG_ERROR("FromClient Object do not Exist, nMsgID = %d player_id = %s", nMsgID, nPlayerID.ToString().c_str());  \
-        return;                                                                                                             \
-    }
-
-#define CLIENT_MSG_PROCESS_NO_OBJECT( nMsgID, msgData, nLen, msg)                       \
-    AFGUID nPlayerID;                                                                   \
-    msg xMsg;                                                                           \
-    if (!AFINetServerModule::ReceivePB(xHead,nMsgID, msgData, nLen, xMsg, nPlayerID))   \
-    {                                                                                   \
-        ARK_LOG_ERROR("Parse msg error, nMsgID = %d", nMsgID);                          \
-        return;                                                                         \
-    }
-
-//////////////////////////////////////////////////////////////////////////
 struct ServerData
 {
     ServerData()
@@ -66,6 +37,12 @@ struct ServerData
     {
         pData = NULL;
     }
+
+	void Init(const AFGUID& xClientID, const AFMsg::ServerInfoReport& xData)
+	{
+		xClient = xClientID;
+		*(pData) = xData;
+	}
 
     AFGUID xClient;
     ARK_SHARE_PTR<AFMsg::ServerInfoReport> pData;

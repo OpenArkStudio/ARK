@@ -148,13 +148,8 @@ void AFCGameNetServerModule::OnClientConnected(const AFGUID& xClientID)
 void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //Before enter game, PlayerID means gate fd
-    AFGUID nGateClientID;
-    AFMsg::ReqEnterGameServer xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nGateClientID))
-    {
-        return;
-    }
-
+	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqEnterGameServer);
+	const AFGUID& nGateClientID = nPlayerID;
     AFGUID nRoleID = AFINetModule::PBToGUID(xMsg.id());
 
     if(m_pKernelModule->GetEntity(nRoleID))
@@ -232,12 +227,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
 
 void AFCGameNetServerModule::OnClientLeaveGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ReqLeaveGameServer xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
+	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqLeaveGameServer);
 
     if(nPlayerID.IsNULL())
     {
@@ -1156,13 +1146,9 @@ int AFCGameNetServerModule::OnSwapSceneResultEvent(const AFGUID& self, const int
 void AFCGameNetServerModule::OnReqiureRoleListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //fd
-    AFGUID nGateClientID;
-    AFMsg::ReqRoleList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nGateClientID))
-    {
-        return;
-    }
-    AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
+	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqRoleList);
+	const AFGUID& nGateClientID = nPlayerID;
+	AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
     if(!m_AccountModule->GetRoleList(xMsg.account(), xAckRoleLiteInfoList))
     {
         ARK_LOG_ERROR("Get role list failed, player_id = {}", nGateClientID.ToString());
@@ -1173,12 +1159,8 @@ void AFCGameNetServerModule::OnReqiureRoleListProcess(const AFIMsgHead& xHead, c
 
 void AFCGameNetServerModule::OnCreateRoleGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nGateClientID;
-    AFMsg::ReqCreateRole xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nGateClientID))
-    {
-        return;
-    }
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqCreateRole);
+	const AFGUID& nGateClientID = nPlayerID;
 
     AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
     AFCDataList varList;
@@ -1197,12 +1179,7 @@ void AFCGameNetServerModule::OnCreateRoleGameProcess(const AFIMsgHead& xHead, co
 
 void AFCGameNetServerModule::OnDeleteRoleGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ReqDeleteRole xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
+	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqDeleteRole);
 
     AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
     if(!m_AccountModule->DeleteRole(xMsg.account(), xAckRoleLiteInfoList))
@@ -1215,7 +1192,7 @@ void AFCGameNetServerModule::OnDeleteRoleGameProcess(const AFIMsgHead& xHead, co
 
 void AFCGameNetServerModule::OnClienSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    CLIENT_MSG_PROCESS(nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
+    ARK_MSG_PROCESS(xHead, nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
 
     AFCDataList varEntry;
     varEntry << pEntity->Self();
@@ -1227,13 +1204,7 @@ void AFCGameNetServerModule::OnClienSwapSceneProcess(const AFIMsgHead& xHead, co
 
 void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
-
+	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
@@ -1255,12 +1226,7 @@ void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& xH
 
 void AFCGameNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
+	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
@@ -1274,12 +1240,7 @@ void AFCGameNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead& 
 
 void AFCGameNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
+	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
@@ -1427,14 +1388,7 @@ ARK_SHARE_PTR<AFIGameNetServerModule::GateServerInfo> AFCGameNetServerModule::Ge
 
 void AFCGameNetServerModule::OnTransWorld(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    std::string strMsg;
-    AFGUID nPlayer;
-    int nHasKey = 0;
-    if(AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, strMsg, nPlayer))
-    {
-        nHasKey = nPlayer.nLow;
-    }
-
+	ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen);
     m_pGameServerToWorldModule->SendBySuit(nHasKey, nMsgID, msg, nLen);
 }
 

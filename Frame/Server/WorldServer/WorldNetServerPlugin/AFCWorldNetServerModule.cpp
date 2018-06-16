@@ -95,12 +95,7 @@ bool AFCWorldNetServerModule::Update()
 
 void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
@@ -112,8 +107,7 @@ void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const AFIMsgHead& xH
             mGameMap.AddElement(xData.server_id(), pServerData);
         }
 
-        pServerData->xClient = xClientID;
-        *(pServerData->pData) = xData;
+        pServerData->Init(xClientID, xData);
 
         ARK_LOG_INFO("GameServerRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
@@ -123,13 +117,7 @@ void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const AFIMsgHead& xH
 
 void AFCWorldNetServerModule::OnGameServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
-
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
@@ -141,13 +129,7 @@ void AFCWorldNetServerModule::OnGameServerUnRegisteredProcess(const AFIMsgHead& 
 
 void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
-
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
@@ -159,8 +141,7 @@ void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const AFIMsgHead& x
             mGameMap.AddElement(xData.server_id(), pServerData);
         }
 
-        pServerData->xClient = xClientID;
-        *(pServerData->pData) = xData;
+        pServerData->Init(xClientID, xData);
 
         ARK_LOG_INFO("GameServer refersh, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
     }
@@ -170,13 +151,7 @@ void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const AFIMsgHead& x
 
 void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
-
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
@@ -188,8 +163,7 @@ void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& x
             mProxyMap.AddElement(xData.server_id(), pServerData);
         }
 
-        pServerData->xClient = xClientID;
-        *(pServerData->pData) = xData;
+        pServerData->Init(xClientID, xData);
 
         ARK_LOG_INFO("Proxy Registered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
         SynGameToProxy(xClientID);
@@ -198,13 +172,7 @@ void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& x
 
 void AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
-
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
@@ -216,17 +184,10 @@ void AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead&
 
 void AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ServerInfoReportList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
-
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-
         ARK_SHARE_PTR<ServerData> pServerData =  mProxyMap.GetElement(xData.server_id());
         if(nullptr == pServerData)
         {
@@ -234,9 +195,7 @@ void AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& 
             mGameMap.AddElement(xData.server_id(), pServerData);
         }
 
-        pServerData->xClient = xClientID;
-        *(pServerData->pData) = xData;
-
+        pServerData->Init(xClientID, xData);
         ARK_LOG_INFO("Proxy refresh, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
         SynGameToProxy(xClientID);
     }
@@ -371,13 +330,13 @@ void AFCWorldNetServerModule::LogGameServer()
 
 void AFCWorldNetServerModule::OnOnlineProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    CLIENT_MSG_PROCESS_NO_OBJECT(nMsgID, msg, nLen, AFMsg::RoleOnlineNotify);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead,msg, nLen, AFMsg::RoleOnlineNotify);
 
 }
 
 void AFCWorldNetServerModule::OnOfflineProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    CLIENT_MSG_PROCESS_NO_OBJECT(nMsgID, msg, nLen, AFMsg::RoleOfflineNotify);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::RoleOfflineNotify);
 }
 
 bool AFCWorldNetServerModule::SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer)

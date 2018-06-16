@@ -121,13 +121,7 @@ void AFCProxyNetServerModule::OnOtherMessage(const AFIMsgHead& xHead, const int 
 
 void AFCProxyNetServerModule::OnConnectKeyProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ReqAccountLogin xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
-
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
     bool bRet = m_pProxyToWorldModule->VerifyConnectData(xMsg.account(), xMsg.security_code());
     if(bRet)
     {
@@ -171,19 +165,16 @@ void AFCProxyNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
     ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
     if(pSessionData)
     {
-        if(pSessionData->mnGameID > 0)
+        if(pSessionData->mnGameID > 0 && !pSessionData->mnUserID.IsNULL())
         {
-            if(!pSessionData->mnUserID.IsNULL())
-            {
-                AFMsg::ReqLeaveGameServer xData;
-                std::string strMsg;
-                if(!xData.SerializeToString(&strMsg))
-                {
-                    return;
-                }
+			AFMsg::ReqLeaveGameServer xData;
+			std::string strMsg;
+			if (!xData.SerializeToString(&strMsg))
+			{
+				return;
+			}
 
-                m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, strMsg, pSessionData->mnUserID);
-            }
+			m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, strMsg, pSessionData->mnUserID);
         }
 
         mmSessionData.RemoveElement(xClientID);
@@ -192,13 +183,7 @@ void AFCProxyNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 
 void AFCProxyNetServerModule::OnSelectServerProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ReqSelectServer xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
-
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqSelectServer);
     ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(xMsg.world_id());
     if(pServerData && ConnectDataState::NORMAL == pServerData->eState)
     {
@@ -222,13 +207,7 @@ void AFCProxyNetServerModule::OnSelectServerProcess(const AFIMsgHead& xHead, con
 
 void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::ReqServerList xMsg;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
-
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqServerList);
     if(xMsg.type() != AFMsg::RSLT_GAMES_ERVER)
     {
         return;
@@ -290,123 +269,23 @@ void AFCProxyNetServerModule::OnClientConnected(const AFGUID& xClientID)
 
 void AFCProxyNetServerModule::OnReqRoleListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //在没有正式进入游戏之前，nPlayerID都是FD
-    AFGUID nPlayerID;
-    AFMsg::ReqRoleList xData;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xData, nPlayerID))
-    {
-        return;
-    }
-
-    ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(xData.game_id());
-    if(pServerData && ConnectDataState::NORMAL == pServerData->eState)
-    {
-        //数据匹配
-        ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-        if(pSessionData
-                && pSessionData->mnLogicState > 0
-                && pSessionData->mnGameID == xData.game_id()
-                && pSessionData->mstrAccout == xData.account())
-        {
-            std::string strMsg;
-            if(!xData.SerializeToString(&strMsg))
-            {
-                return;
-            }
-
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_ROLE_LIST, strMsg, xClientID);
-        }
-    }
+	CheckSessionTransMsg<AFMsg::ReqRoleList>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
 void AFCProxyNetServerModule::OnReqCreateRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //在没有正式进入游戏之前，nPlayerID都是FD
-    AFGUID nPlayerID;
-    AFMsg::ReqCreateRole xData;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xData, nPlayerID))
-    {
-        return;
-    }
-
-    ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(xData.game_id());
-    if(pServerData && ConnectDataState::NORMAL == pServerData->eState)
-    {
-        //数据匹配
-        ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-        if(pSessionData
-                && pSessionData->mnLogicState > 0
-                && pSessionData->mnGameID == xData.game_id()
-                && pSessionData->mstrAccout == xData.account())
-        {
-            std::string strMsg;
-            if(!xData.SerializeToString(&strMsg))
-            {
-                return;
-            }
-
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, nMsgID, strMsg, pSessionData->mnClientID);
-        }
-    }
+	CheckSessionTransMsg<AFMsg::ReqCreateRole>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
 void AFCProxyNetServerModule::OnReqDelRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //在没有正式进入游戏之前，nPlayerID都是FD
-    AFGUID nPlayerID;
-    AFMsg::ReqDeleteRole xData;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xData, nPlayerID))
-    {
-        return;
-    }
-
-    ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(xData.game_id());
-    if(pServerData && ConnectDataState::NORMAL == pServerData->eState)
-    {
-        //数据匹配
-        ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-        if(pSessionData
-                && pSessionData->mnLogicState > 0
-                && pSessionData->mnGameID == xData.game_id()
-                && pSessionData->mstrAccout == xData.account())
-        {
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, nMsgID, std::string(msg, nLen), xClientID);
-        }
-    }
+	CheckSessionTransMsg<AFMsg::ReqDeleteRole>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
 void AFCProxyNetServerModule::OnReqEnterGameServer(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //在没有正式进入游戏之前，nPlayerID都是FD
-    AFGUID nPlayerID;
-    AFMsg::ReqEnterGameServer xData;
-    if(!m_pNetModule->ReceivePB(xHead, nMsgID, msg, nLen, xData, nPlayerID))
-    {
-        return;
-    }
-
-    ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(xData.game_id());
-    if(pServerData && ConnectDataState::NORMAL == pServerData->eState)
-    {
-        //数据匹配
-        ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-        if(pSessionData
-                && pSessionData->mnLogicState > 0
-                && pSessionData->mnGameID == xData.game_id()
-                && pSessionData->mstrAccout == xData.account()
-                && !xData.name().empty()
-                && !xData.account().empty())
-        {
-            std::string strMsg;
-            if(!xData.SerializeToString(&strMsg))
-            {
-                return;
-            }
-
-            //playerid在进入游戏之前都是FD，其他时候是真实的ID
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_ENTER_GAME, strMsg, pSessionData->mnClientID);
-        }
-    }
+	CheckSessionTransMsg<AFMsg::ReqEnterGameServer>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
 int AFCProxyNetServerModule::EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID)
@@ -420,3 +299,21 @@ int AFCProxyNetServerModule::EnterGameSuccessEvent(const AFGUID xClientID, const
     return 0;
 }
 
+bool AFCProxyNetServerModule::ChecSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount)
+{
+	ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(nGameID);
+	if (pServerData && ConnectDataState::NORMAL == pServerData->eState)
+	{
+		//数据匹配
+		ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
+		if (pSessionData
+			&& pSessionData->mnLogicState > 0
+			&& pSessionData->mnGameID == nGameID
+			&& pSessionData->mstrAccout == strAccount)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}

@@ -76,6 +76,18 @@ protected:
     //////////////////////////////////////////////////////////////////////////
 
     void OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+	
+	template<class TypeName> void CheckSessionTransMsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+	{
+		//在没有正式进入游戏之前，nPlayerID都是FD
+		ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, TypeName);
+		if (ChecSessionState(xMsg.game_id(), xClientID, xMsg.account()))
+		{
+			m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(xMsg.game_id(), nMsgID, msg, nLen, xClientID);
+		}
+	}
+
+	bool ChecSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount);
 
 private:
     AFMapEx<AFGUID, SessionData> mmSessionData; //Player Client <--> SessionData

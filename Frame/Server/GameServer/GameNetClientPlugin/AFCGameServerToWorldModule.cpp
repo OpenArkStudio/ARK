@@ -209,14 +209,8 @@ void AFCGameServerToWorldModule::SendOffline(const AFGUID& self)
 
 void AFCGameServerToWorldModule::TransPBToProxy(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    std::string strData;
-    if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, strData, nPlayerID))
-    {
-        return;
-    }
-
-    m_pGameServerNet_ServerModule->SendMsgPBToGate(nMsgID, strData, nPlayerID);
+	ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen);
+    m_pGameServerNet_ServerModule->SendMsgPBToGate(nMsgID, strMsg, nPlayerID);
 
     return;
 }

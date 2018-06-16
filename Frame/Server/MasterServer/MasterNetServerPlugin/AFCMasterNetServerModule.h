@@ -38,7 +38,6 @@ public:
     }
 
     virtual bool Init();
-    virtual bool Shut();
 
     virtual bool PostInit();
     virtual bool Update();

@@ -159,17 +159,11 @@ void AFCProxyServerToGameModule::Register(const int nServerID)
 
 void AFCProxyServerToGameModule::OnAckEnterGame(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::AckEventResult xData;
-    if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xData, nPlayerID))
+	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckEventResult);
+    if(xMsg.event_code() == AFMsg::EGEC_ENTER_GAME_SUCCESS)
     {
-        return;
-    }
-
-    if(xData.event_code() == AFMsg::EGEC_ENTER_GAME_SUCCESS)
-    {
-        const AFGUID& xClient = AFINetModule::PBToGUID(xData.event_client());
-        const AFGUID& xPlayer = AFINetModule::PBToGUID(xData.event_object());
+        const AFGUID& xClient = AFINetModule::PBToGUID(xMsg.event_client());
+        const AFGUID& xPlayer = AFINetModule::PBToGUID(xMsg.event_object());
 
         m_pProxyServerNet_ServerModule->EnterGameSuccessEvent(xClient, xPlayer);
     }
@@ -177,13 +171,7 @@ void AFCProxyServerToGameModule::OnAckEnterGame(const AFIMsgHead& xHead, const i
 
 void AFCProxyServerToGameModule::OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    AFGUID nPlayerID;
-    AFMsg::BrocastMsg xMsg;
-    if(!AFINetServerModule::ReceivePB(xHead, nMsgID, msg, nLen, xMsg, nPlayerID))
-    {
-        return;
-    }
-
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::BrocastMsg);
     for(int i = 0; i < xMsg.target_entity_list_size(); i++)
     {
         const AFMsg::PBGUID& tmpID = xMsg.target_entity_list(i);

@@ -68,7 +68,6 @@ public:
         Final();
     }
 
-public:
     virtual void Update();
 
     virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount);
@@ -87,7 +86,6 @@ public:
         return true;
     };
 
-public:
     //From ListenThread
     void OnAcceptConnectionInner(brynet::net::TcpSocket::PTR session);
     void OnHttpMessageCallBack(const brynet::net::HTTPParser & httpParser, const brynet::net::HttpSession::PTR & session);
@@ -102,7 +100,6 @@ private:
     bool RemoveNetEntity(const AFGUID& xClientID);
     AFHttpEntity* GetNetEntity(const AFGUID& xClientID);
 
-private:
     void ProcessMsgLogicThread();
     void ProcessMsgLogicThread(AFHttpEntity* pEntity);
     bool CloseSocketAll();
