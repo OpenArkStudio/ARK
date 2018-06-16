@@ -111,16 +111,16 @@ void EchoArkLogo()
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 
-    std::cout << "     _         _        ____  _             _ _       " << std::endl;
-    std::cout << "    / \\   _ __| | __   / ___|| |_ _   _  __| (_) ___  " << std::endl;
-    std::cout << "   / _ \\ | '__| |/ /   \\___ \\| __| | | |/ _` | |/ _ \\ " << std::endl;
-    std::cout << "  / ___ \\| |  |   <     ___) | |_| |_| | (_| | | (_) |" << std::endl;
-    std::cout << " /_/   \\_\\_|  |_|\\_\\   |____/ \\__|\\__,_|\\__,_|_|\\___/ " << std::endl;
-    std::cout << std::endl;
-    std::cout << "COPYRIGHT (c) 2013-2018 Ark Studio" << std::endl;
-    std::cout << "All RIGHTS RESERVED." << std::endl;
-    std::cout << "HTTPS://ARKGAME.NET" << std::endl;
-    std::cout << "********************************************" << std::endl;
+    CONSOLE_LOG_NO_FILE << "     _         _        ____  _             _ _       " << std::endl;
+    CONSOLE_LOG_NO_FILE << "    / \\   _ __| | __   / ___|| |_ _   _  __| (_) ___  " << std::endl;
+    CONSOLE_LOG_NO_FILE << "   / _ \\ | '__| |/ /   \\___ \\| __| | | |/ _` | |/ _ \\ " << std::endl;
+    CONSOLE_LOG_NO_FILE << "  / ___ \\| |  |   <     ___) | |_| |_| | (_| | | (_) |" << std::endl;
+    CONSOLE_LOG_NO_FILE << " /_/   \\_\\_|  |_|\\_\\   |____/ \\__|\\__,_|\\__,_|_|\\___/ " << std::endl;
+    CONSOLE_LOG_NO_FILE << std::endl;
+    CONSOLE_LOG_NO_FILE << "COPYRIGHT (c) 2013-2018 Ark Studio" << std::endl;
+    CONSOLE_LOG_NO_FILE << "All RIGHTS RESERVED." << std::endl;
+    CONSOLE_LOG_NO_FILE << "HTTPS://ARKGAME.NET" << std::endl;
+    CONSOLE_LOG_NO_FILE << "********************************************" << std::endl;
 
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -129,15 +129,15 @@ void EchoArkLogo()
 
 void Usage()
 {
-    std::cout << "Ark PluginLoader usage:" << std::endl;
-    std::cout << "./PluginLoader [options]" << std::endl;
-    std::cout << "Option:" << std::endl;
-    std::cout << "\t" << "-d, Run as daemon, just take effect in Linux" << std::endl;
-    std::cout << "\t" << "-x, Remove close button, just take effect in Windows" << std::endl;
-    std::cout << "\t" << "cfg=plugin.xml, plugin configuration files" << std::endl;
-    std::cout << "\t" << "app_id=1, set application's id" << std::endl;
-    std::cout << "\t" << "app_name=GameServer, set application's name" << std::endl;
-    std::cout << "i.e. ./PluginLoader -d -x cfg=plugin.xml app_id=1 app_name=my_test" << std::endl;
+    CONSOLE_LOG_NO_FILE << "Ark PluginLoader usage:" << std::endl;
+    CONSOLE_LOG_NO_FILE << "./PluginLoader [options]" << std::endl;
+    CONSOLE_LOG_NO_FILE << "Option:" << std::endl;
+    CONSOLE_LOG_NO_FILE << "\t" << "-d, Run as daemon, just take effect in Linux" << std::endl;
+    CONSOLE_LOG_NO_FILE << "\t" << "-x, Remove close button, just take effect in Windows" << std::endl;
+    CONSOLE_LOG_NO_FILE << "\t" << "cfg=plugin.xml, plugin configuration files" << std::endl;
+    CONSOLE_LOG_NO_FILE << "\t" << "app_id=1, set application's id" << std::endl;
+    CONSOLE_LOG_NO_FILE << "\t" << "app_name=GameServer, set application's name" << std::endl;
+    CONSOLE_LOG_NO_FILE << "i.e. ./PluginLoader -d -x cfg=plugin.xml app_id=1 app_name=my_test" << std::endl;
 }
 
 void ThreadFunc()
@@ -163,7 +163,6 @@ void ThreadFunc()
 void CreateBackThread()
 {
     gBackThread = std::thread(std::bind(&ThreadFunc));
-    //std::cout << "CreateBackThread, thread ID = " << gThread.get_id() << std::endl;
 }
 
 struct ApplicationConfig
@@ -178,7 +177,7 @@ struct ApplicationConfig
 #if ARK_PLATFORM == PLATFORM_UNIX
 extern char** environ;
 
-struct environ_guard
+class environ_guard
 {
 public:
     ~environ_guard()
@@ -310,32 +309,32 @@ bool ProcArgList(int argc, char* argv[])
         }
     }
 
+#if ARK_PLATFORM == PLATFORM_UNIX
     if(config.deamon)
     {
-#if ARK_PLATFORM == PLATFORM_UNIX
         //Run as a daemon process
         signal(SIGPIPE, SIG_IGN);
         signal(SIGCHLD, SIG_IGN);
-#endif
     }
+#endif
 
+#if ARK_PLATFORM == PLATFORM_WIN
     if(config.xbutton)
     {
-#if ARK_PLATFORM == PLATFORM_WIN
         SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
         CloseXButton();
-#endif
     }
+#endif
 
     if(config.app_id == 0)
     {
-        std::cout << "parameter app_id is invalid, please check." << std::endl;
+        CONSOLE_LOG << "parameter app_id is invalid, please check." << std::endl;
         return false;
     }
 
     if(config.app_name.empty())
     {
-        std::cout << "parameter app_name is invalid, please check." << std::endl;
+        CONSOLE_LOG << "parameter app_name is invalid, please check." << std::endl;
         return false;
     }
 
@@ -383,7 +382,7 @@ int main(int argc, char* argv[])
     //app_name=GameServer, set application's name
     if(!ProcArgList(argc, argv))
     {
-        std::cout << "Application parameter is invalid, please check it..." << std::endl;
+        CONSOLE_LOG << "Application parameter is invalid, please check it..." << std::endl;
         Usage();
 
         std::this_thread::sleep_for(std::chrono::seconds(30));

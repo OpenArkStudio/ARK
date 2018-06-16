@@ -19,11 +19,6 @@
 */
 
 #include "AFCGUIDModule.h"
-
-namespace GUIDModule
-{
-//refer:https://github.com/nebula-im/snowflake4cxx
-	
 #if ARK_PLATFORM == PLATFORM_WIN
 # include <windows.h>
 # include <winsock2.h>
@@ -31,6 +26,10 @@ namespace GUIDModule
 #else
 # include <sys/time.h>
 #endif
+
+namespace GUIDModule
+{
+//refer:https://github.com/nebula-im/snowflake4cxx
 
 #if ARK_PLATFORM == PLATFORM_WIN
 int gettimeofday(struct timeval* tp, void *tzp)
@@ -82,7 +81,7 @@ public:
         //in current microsecond
         if(last_timestamp_ == timestamp)
         {
-			sequence_ = (sequence_ + 1) & 0xFFFF;
+            sequence_ = (sequence_ + 1) & 0xFFFF;
             if(sequence_ == 0)
             {
                 timestamp = WaitUntilNextMillis(last_timestamp_);

@@ -56,8 +56,8 @@
 //////////////////////////////////////////////////////////////////////////
 /* isaacs - added strlcpy implementation for systems that lack it. */
 #ifndef strlcpy
-/*	$NetBSD: strlcpy.c,v 1.1 2010/12/05 03:15:43 christos Exp $	*/
-/*	from OpenBSD: strlcpy.c,v 1.4 1999/05/01 18:56:41 millert Exp 	*/
+/*  $NetBSD: strlcpy.c,v 1.1 2010/12/05 03:15:43 christos Exp $ */
+/*  from OpenBSD: strlcpy.c,v 1.4 1999/05/01 18:56:41 millert Exp   */
 
 /*
 * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -98,22 +98,26 @@ static size_t strlcpy(char *dst, const char *src, size_t siz)
     register size_t n = siz;
 
     /* Copy as many bytes as will fit */
-    if (n != 0 && --n != 0) {
-        do {
-            if ((*d++ = *s++) == 0)
+    if(n != 0 && --n != 0)
+    {
+        do
+        {
+            if((*d++ = *s++) == 0)
                 break;
-        } while (--n != 0);
+        }
+        while(--n != 0);
     }
 
     /* Not enough room in dst, add NUL and traverse rest of src */
-    if (n == 0) {
-        if (siz != 0)
-            *d = '\0';		/* NUL-terminate dst */
-        while (*s++)
+    if(n == 0)
+    {
+        if(siz != 0)
+            *d = '\0';      /* NUL-terminate dst */
+        while(*s++)
             ;
     }
 
-    return(s - src - 1);	/* count does not include NUL */
+    return(s - src - 1);    /* count does not include NUL */
 }
 #endif
 //////////////////////////////////////////////////////////////////////////
@@ -272,3 +276,6 @@ template<int x> struct ark_static_assert_test {};
 
 //clear player data time
 #define CLEAR_HOUR 5
+
+#define CONSOLE_LOG std::cout << __FILE__ << ":" << __LINE__ << " "
+#define CONSOLE_LOG_NO_FILE std::cout << " "

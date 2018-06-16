@@ -31,8 +31,6 @@
 #pragma comment( lib, "ws2_32.lib" )
 #endif
 
-#define CONSOLE_LOG std::cout << __FILE__ << ":" << __LINE__ << " "
-
 AFCPluginManager::AFCPluginManager() : AFIPluginManager()
 {
     mnAppID = 0;
