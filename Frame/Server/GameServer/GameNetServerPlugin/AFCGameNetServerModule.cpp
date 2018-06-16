@@ -245,7 +245,7 @@ void AFCGameNetServerModule::OnClientLeaveGameProcess(const AFIMsgHead& xHead, c
     }
 }
 
-int AFCGameNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AFGUID& self)
+int AFCGameNetServerModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUID& self)
 {
     if(argVar.GetCount() <= 0 || self.IsNULL())
     {
@@ -264,47 +264,14 @@ int AFCGameNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AFG
         return 0;
     }
 
-    AFMsg::EntityDataNodeList* pPublicData = xPublicMsg.add_multi_entity_data_node_list();
-    AFMsg::EntityDataNodeList* pPrivateData = xPrivateMsg.add_multi_entity_data_node_list();
-
-    *(pPublicData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
-    *(pPrivateData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
-
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
-
-    for(size_t i = 0; i < pNodeManager->GetNodeCount(); i++)
-    {
-        AFDataNode* pNode = pNodeManager->GetNodeByIndex(i);
-        if(pNode == nullptr)
-        {
-            continue;
-        }
-
-        if(pNode->Changed())
-        {
-            if(pNode->IsPublic())
-            {
-                AFMsg::PBNodeData* pData = pPublicData->add_data_node_list();
-                AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
-            }
-
-            if(pNode->IsPrivate())
-            {
-                AFMsg::PBNodeData* pData = pPrivateData->add_data_node_list();
-                AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
-            }
-        }
-    }
-
+	int8_t nFeature = 0;
+	BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PUBLIC);
+	NoteListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
     for(size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOther = argVar.Object(i);
-        if(self == identOther)
-        {
-            //找到他所在网关的FD
-            SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, xPrivateMsg, identOther);
-        }
-        else
+        if(self != identOther)
         {
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, xPublicMsg, identOther);
         }
@@ -313,7 +280,30 @@ int AFCGameNetServerModule::OnDataNodeEnter(const AFIDataList& argVar, const AFG
     return 0;
 }
 
-bool OnEnterPackDataTable(AFDataTable* pTable, AFMsg::EntityDataTableBase* pEntityTableBase)
+int AFCGameNetServerModule::OnSelfDataNodeEnter(const AFGUID& self)
+{
+	if ( self.IsNULL())
+	{
+		return 0;
+	}
+
+	ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+	if (nullptr == pEntity)
+	{
+		return 0;
+	}
+
+	AFMsg::MultiEntityDataNodeList xPrivateMsg;
+	ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
+	int8_t nFeature = 0;
+	BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PRIVATE);
+	NoteListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
+
+	SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, xPrivateMsg, self);
+	return 0;
+}
+
+bool PackTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableBase* pEntityTableBase)
 {
     if(pTable == nullptr || pEntityTableBase == nullptr)
     {
@@ -342,7 +332,30 @@ bool OnEnterPackDataTable(AFDataTable* pTable, AFMsg::EntityDataTableBase* pEnti
     return true;
 }
 
-int AFCGameNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const AFGUID& self)
+int AFCGameNetServerModule::OnSelfDataTableEnter(const AFGUID& self)
+{
+	if (self.IsNULL())
+	{
+		return 0;
+	}
+
+	AFMsg::MultiEntityDataTableList xPrivateMsg;
+
+	ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+	if (nullptr == pEntity)
+	{
+		return 0;
+	}
+
+	int8_t nFeature = 0;
+	BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PRIVATE);
+	ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
+	TableListToPB(self, pTableManager, *xPrivateMsg.add_multi_entity_data_table_list(), nFeature);
+	SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPrivateMsg, self);
+	return 0;
+}
+
+int AFCGameNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, const AFGUID& self)
 {
     if(argVar.GetCount() <= 0 || self.IsNULL())
     {
@@ -350,7 +363,6 @@ int AFCGameNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const AF
     }
 
     AFMsg::MultiEntityDataTableList xPublicMsg;
-    AFMsg::MultiEntityDataTableList xPrivateMsg;
 
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr == pEntity)
@@ -358,82 +370,97 @@ int AFCGameNetServerModule::OnDataTableEnter(const AFIDataList& argVar, const AF
         return 0;
     }
 
-    AFMsg::EntityDataTableList* pPublicData = nullptr;
-    AFMsg::EntityDataTableList* pPrivateData = nullptr;
-
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
-
-    size_t nTableCount = pTableManager->GetCount();
-    for(size_t i = 0; i < nTableCount; ++i)
-    {
-        AFDataTable* pTable = pTableManager->GetTableByIndex(i);
-        if(pTable == nullptr)
-        {
-            continue;
-        }
-
-        if(!pTable->IsPublic() && !pTable->IsPrivate())
-        {
-            continue;
-        }
-
-        AFMsg::EntityDataTableBase* pPrivateTableBase = nullptr;
-        AFMsg::EntityDataTableBase* pPublicTableBase = nullptr;
-        if(pTable->IsPublic())
-        {
-            if(!pPublicData)
-            {
-                pPublicData = xPublicMsg.add_multi_entity_data_table_list();
-                *(pPublicData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
-            }
-            pPublicTableBase = pPublicData->add_data_table_list();
-            pPublicTableBase->set_table_name(pTable->GetName());
-
-            if(!OnEnterPackDataTable(pTable, pPublicTableBase))
-            {
-                ARK_LOG_ERROR("OnEnterPackDataTable failed, id = {}", self.ToString());
-                return -1;
-            }
-        }
-
-        if(pTable->IsPrivate())
-        {
-            if(!pPrivateData)
-            {
-                pPrivateData = xPrivateMsg.add_multi_entity_data_table_list();
-                *(pPrivateData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
-            }
-            pPrivateTableBase = pPrivateData->add_data_table_list();
-            pPrivateTableBase->set_table_name(pTable->GetName());
-
-            if(!OnEnterPackDataTable(pTable, pPrivateTableBase))
-            {
-                ARK_LOG_ERROR("OnRecordEnterPack failed, id = {}", self.ToString());
-                return -1;
-            }
-        }
-    }
+	int8_t nFeature = 0;
+	BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PUBLIC);
+	TableListToPB(self, pTableManager, *xPublicMsg.add_multi_entity_data_table_list(), nFeature);
 
     for(size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOther = argVar.Object(i);
-        if(self == identOther)
+        if(self != identOther&& xPublicMsg.multi_entity_data_table_list_size() > 0)
         {
-            if(xPrivateMsg.multi_entity_data_table_list_size() > 0)
-            {
-                SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPrivateMsg, identOther);
-            }
-        }
-        else
-        {
-            if(xPublicMsg.multi_entity_data_table_list_size() > 0)
-            {
-                SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPublicMsg, identOther);
-            }
+			SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPublicMsg, identOther);
         }
     }
 
     return 0;
+}
+
+
+bool AFCGameNetServerModule::TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager> pTableManager, AFMsg::EntityDataTableList& xPBData, const int8_t nFeature)
+{
+	AFMsg::EntityDataTableList* pPBData = &xPBData;
+	*(pPBData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
+
+	if (!pTableManager)
+	{
+		return false;
+	}
+
+	size_t nTableCount = pTableManager->GetCount();
+	for (size_t i = 0; i < nTableCount; ++i)
+	{
+		AFDataTable* pTable = pTableManager->GetTableByIndex(i);
+		if (pTable == nullptr)
+		{
+			continue;
+		}
+
+		if (pTable->GetFeature() & nFeature)
+		{
+			AddTableToPB(pTable, pPBData);
+		}
+	}
+
+	return true;
+}
+
+bool AFCGameNetServerModule::NoteListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const int8_t nFeature)
+{
+	if (!pNodeManager)
+	{
+		return false;
+	}
+
+	for (size_t i = 0; i < pNodeManager->GetNodeCount(); i++)
+	{
+		AFDataNode* pNode = pNodeManager->GetNodeByIndex(i);
+		if (pNode == nullptr)
+		{
+			continue;
+		}
+
+		if (pNode->Changed())
+		{
+			if (pNode->GetFeature() & nFeature)
+			{
+				AFMsg::PBNodeData* pData = xPBData.add_data_node_list();
+				AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
+			}
+		}
+	}
+
+	return true;
+}
+
+bool AFCGameNetServerModule::AddTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableList* pPBData)
+{
+	if (!pTable||!pPBData)
+	{
+		return false;
+	}
+
+	AFMsg::EntityDataTableBase* pTableBase = pPBData->add_data_table_list();
+	pTableBase->set_table_name(pTable->GetName());
+
+	if (!PackTableToPB(pTable, pTableBase))
+	{
+		ARK_LOG_ERROR("OnRecordEnterPack failed, id ");
+		return false;
+	}
+
+	return true;
 }
 
 int AFCGameNetServerModule::OnEntityListEnter(const AFIDataList& self, const AFIDataList& argVar)
@@ -775,8 +802,8 @@ int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::st
         {
             OnEntityListEnter(AFCDataList() << self, AFCDataList() << self);
 
-            OnDataNodeEnter(AFCDataList() << self, self);
-            OnDataTableEnter(AFCDataList() << self, self);
+			OnSelfDataNodeEnter(self);
+			OnSelfDataTableEnter(self);
         }
     }
     else if(ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
@@ -882,17 +909,17 @@ int AFCGameNetServerModule::OnGroupEvent(const AFGUID& self, const std::string& 
                 //把已经存在的人的属性广播给新来的人
                 AFGUID identOld = valueAllObjectListNoSelf.Object(i);
 
-                OnDataNodeEnter(AFCDataList() << self, identOld);
+                OnViewDataNodeEnter(AFCDataList() << self, identOld);
                 //把已经存在的人的表广播给新来的人
-                OnDataTableEnter(AFCDataList() << self, identOld);
+                OnViewDataTableEnter(AFCDataList() << self, identOld);
             }
         }
 
         //把新来的人的属性广播给周边的人
         if(valuePlayerListNoSelf.GetCount() > 0)
         {
-            OnDataNodeEnter(valuePlayerListNoSelf, self);
-            OnDataTableEnter(valuePlayerListNoSelf, self);
+            OnViewDataNodeEnter(valuePlayerListNoSelf, self);
+            OnViewDataTableEnter(valuePlayerListNoSelf, self);
         }
     }
 
@@ -968,16 +995,16 @@ int AFCGameNetServerModule::OnContainerEvent(const AFGUID& self, const std::stri
     for(size_t i = 0; i < valueAllObjectListNoSelf.GetCount(); i++)
     {
         AFGUID identOld = valueAllObjectListNoSelf.Object(i);
-        OnDataNodeEnter(AFCDataList() << self, identOld);
+        OnViewDataNodeEnter(AFCDataList() << self, identOld);
         ////////////////////把已经存在的人的表广播给新来的人//////////////////////////////////////////////////////
-        OnDataTableEnter(AFCDataList() << self, identOld);
+        OnViewDataTableEnter(AFCDataList() << self, identOld);
     }
 
     //把新来的人的属性广播给周边的人()
     if(valuePlayerNoSelf.GetCount() > 0)
     {
-        OnDataNodeEnter(valuePlayerNoSelf, self);
-        OnDataTableEnter(valuePlayerNoSelf, self);
+        OnViewDataNodeEnter(valuePlayerNoSelf, self);
+        OnViewDataTableEnter(valuePlayerNoSelf, self);
     }
 
     return 0;

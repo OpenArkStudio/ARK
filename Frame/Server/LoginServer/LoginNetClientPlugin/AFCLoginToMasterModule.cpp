@@ -63,7 +63,6 @@ bool AFCLoginToMasterModule::PostInit()
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
-                const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
                 const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
@@ -109,7 +108,6 @@ void AFCLoginToMasterModule::Register(const int nServerID)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
-                const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
                 const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 

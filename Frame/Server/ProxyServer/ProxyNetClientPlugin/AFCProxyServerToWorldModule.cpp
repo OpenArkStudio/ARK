@@ -57,7 +57,6 @@ void AFCProxyServerToWorldModule::OnServerInfoProcess(const AFIMsgHead& xHead, c
         xServerData.strIP = xData.server_ip();
         xServerData.nPort = xData.server_port();
         xServerData.strName = xData.server_name();
-        //xServerData.eState = pData->server_state();
         xServerData.eServerType = (ARK_SERVER_TYPE)xData.server_type();
 
         switch(xServerData.eServerType)
@@ -107,7 +106,6 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
-                const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
                 const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
@@ -166,7 +164,6 @@ bool AFCProxyServerToWorldModule::PostInit()
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
-                const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
                 const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
