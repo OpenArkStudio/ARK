@@ -50,6 +50,11 @@ public:
     virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever = false);
     virtual bool RemoveHeartBeat(const std::string& strHeartBeatName);
 
+protected:
+    bool ProcessFinishHeartBeat(AFCHeartBeatElement* pTarget);
+    bool ProcessFinishHeartBeat();
+    bool ProcessAddHeartBeat();
+
 private:
     AFGUID mSelf;
 

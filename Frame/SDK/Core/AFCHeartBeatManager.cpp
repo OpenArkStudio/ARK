@@ -77,19 +77,8 @@ void AFCHeartBeatManager::Update()
     int64_t nTime = AFDateTime::GetTimestamp();
     for(std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = mTimeList.begin(); iter != mTimeList.end();)
     {
-        if(iter->second->IsStop())
+        if(iter->second->IsStop() && ProcessFinishHeartBeat(iter->second))
         {
-            AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.GetElement(iter->second->strBeatName);
-            if(pElement == nullptr)
-            {
-                continue;
-            }
-
-            if(pElement->id == iter->second->id)
-            {
-                mHeartBeatElementMapEx.RemoveElement(iter->second->strBeatName);
-            }
-
             iter = mTimeList.erase(iter);
             continue;
         }
@@ -100,16 +89,7 @@ void AFCHeartBeatManager::Update()
 
             if(iter->second->IsStop())
             {
-                AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.GetElement(iter->second->strBeatName);
-                if(pElement == nullptr)
-                {
-                    continue;
-                }
-
-                if(pElement->id == iter->second->id)
-                {
-                    mHeartBeatElementMapEx.RemoveElement(iter->second->strBeatName);
-                }
+                ProcessFinishHeartBeat(iter->second);
             }
             else
             {
@@ -123,6 +103,29 @@ void AFCHeartBeatManager::Update()
         break;
     }
 
+    ProcessFinishHeartBeat();
+    ProcessAddHeartBeat();
+}
+
+bool AFCHeartBeatManager::ProcessFinishHeartBeat(AFCHeartBeatElement* pTarget)
+{
+    AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.GetElement(pTarget->strBeatName);
+    if(pElement == nullptr)
+    {
+        return false;
+    }
+
+    if(pElement->id != pTarget->id)
+    {
+        return false;
+    }
+
+    mHeartBeatElementMapEx.RemoveElement(pTarget->strBeatName);
+    return true;
+}
+
+bool AFCHeartBeatManager::ProcessFinishHeartBeat()
+{
     std::string strHeartBeatName;
     bool bRet = mRemoveListEx.First(strHeartBeatName);
     while(bRet)
@@ -148,19 +151,23 @@ void AFCHeartBeatManager::Update()
             }
         }
 
-		mHeartBeatElementMapEx.RemoveElement(strHeartBeatName);
+        mHeartBeatElementMapEx.RemoveElement(strHeartBeatName);
         bRet = mRemoveListEx.Next(strHeartBeatName);
     }
 
     mRemoveListEx.ClearAll();
 
-    //////////////////////////////////////////////////////////////////////////
+    return true;
+}
+
+bool AFCHeartBeatManager::ProcessAddHeartBeat()
+{
     for(std::list<AFCHeartBeatElement>::iterator iter = mAddListEx.begin(); iter != mAddListEx.end(); ++iter)
     {
         if(mHeartBeatElementMapEx.GetElement(iter->strBeatName) == nullptr)
         {
             AFCHeartBeatElement* pHeartBeatEx = ARK_NEW AFCHeartBeatElement();
-            if (pHeartBeatEx == nullptr)
+            if(pHeartBeatEx == nullptr)
             {
                 continue;
             }
@@ -172,7 +179,9 @@ void AFCHeartBeatManager::Update()
     }
 
     mAddListEx.clear();
+    return true;
 }
+
 
 bool AFCHeartBeatManager::RemoveHeartBeat(const std::string& strHeartBeatName)
 {
@@ -203,5 +212,5 @@ bool AFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& str
 
 bool AFCHeartBeatManager::Exist(const std::string& strHeartBeatName)
 {
-	return (mHeartBeatElementMapEx.GetElement(strHeartBeatName) != nullptr);
+    return (mHeartBeatElementMapEx.GetElement(strHeartBeatName) != nullptr);
 }
