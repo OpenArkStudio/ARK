@@ -70,17 +70,13 @@ public:
 	virtual int OnEntityListEnter(const AFIDataList& self, const AFIDataList& argVar);
     virtual int OnEntityListLeave(const AFIDataList& self, const AFIDataList& argVar);
 
-protected:
     void OnSocketPSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
     void OnClientDisconnect(const AFGUID& xClientID);
     void OnClientConnected(const AFGUID& xClientID);
 
-protected:
     void OnProxyServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnProxyServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnRefreshProxyServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-
-protected:
     void OnReqiureRoleListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnCreateRoleGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnDeleteRoleGameProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
@@ -93,7 +89,6 @@ protected:
     ///////////WORLD_START///////////////////////////////////////////////////////////////
     void OnTransWorld(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-protected:
     //Common Node & table & class event
     int OnCommonDataNodeEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
     int OnCommonDataTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
@@ -111,6 +106,7 @@ protected:
 	bool AddTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableList* pPrivateData);
 	bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager> pTableManager, AFMsg::EntityDataTableList& xPBData, const int8_t nFeature);
 	bool NoteListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const int8_t nFeature);
+
 private:
     //<角色id,角色网关基础信息>//其实可以在object系统中被代替
     AFMapEx<AFGUID, GateBaseInfo> mRoleBaseData;
