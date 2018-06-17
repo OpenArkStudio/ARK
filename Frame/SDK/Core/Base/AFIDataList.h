@@ -134,6 +134,42 @@ public:
         return true;
     }
 
+    bool Equal(size_t index, const AFIData& xData) const
+    {
+        if(GetType(index) != xData.GetType())
+        {
+            return false;
+        }
+
+        switch(xData.GetType())
+        {
+        case DT_BOOLEAN:
+            return xData.GetBool() == Bool(index);
+            break;
+        case DT_INT:
+            return xData.GetInt() == Int(index);
+            break;
+        case DT_INT64:
+            return xData.GetInt64() == Int64(index);
+            break;
+        case DT_FLOAT:
+            return AFMisc::IsZeroFloat(xData.GetFloat() - Float(index));
+            break;
+        case DT_DOUBLE:
+            return AFMisc::IsZeroDouble(xData.GetDouble() - Double(index));
+            break;
+        case DT_STRING:
+            return std::string(xData.GetString()) == std::string(String(index));
+            break;
+        case DT_OBJECT:
+            return xData.GetObject() == Object(index);
+            break;
+        default:
+            break;
+        }
+        return true;
+    }
+
 //operator <<
     inline AFIDataList& operator<<(bool value)
     {
@@ -217,7 +253,7 @@ public:
         ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
-    inline AFIDataList& operator<<(const std::string& value)
+    inline AFIDataList& operator<<(const std::string & value)
     {
         bool bRet = AddString(value.c_str());
         ARK_ASSERT_NO_EFFECT(bRet);
@@ -231,14 +267,14 @@ public:
         return *this;
     }
 
-    inline AFIDataList& operator<<(const AFGUID& value)
+    inline AFIDataList& operator<<(const AFGUID & value)
     {
         bool bRet = AddObject(value);
         ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
-    inline AFIDataList& operator<<(const AFIDataList& value)
+    inline AFIDataList& operator<<(const AFIDataList & value)
     {
         bool bRet = Concat(value);
         ARK_ASSERT_NO_EFFECT(bRet);

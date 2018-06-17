@@ -1014,85 +1014,27 @@ int AFCKernelModule::GetEntityByDataNode(const int nSceneID, const std::string& 
     AFCDataList varObjectList;
     GetSceneOnLineList(nSceneID, varObjectList);
     int nWorldCount = varObjectList.GetCount();
+
     for(int i = 0; i < nWorldCount; i++)
     {
         AFGUID ident = varObjectList.Object(i);
-        if(!FindNode(ident, name))
+
+        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(ident);
+        if(nullptr == pEntity)
         {
             continue;
         }
 
-        int eType = valueArg.GetType(0);
-        switch(eType)
+        ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
+        if(pNodeManager)
         {
-        case DT_BOOLEAN:
-            {
-                bool bValue = GetNodeBool(ident, name.c_str());
-                if(valueArg.Bool(0) == bValue)
-                {
-                    list.AddObject(ident);
-                }
-            }
-            break;
-        case DT_INT:
-            {
-                int nValue = GetNodeInt(ident, name.c_str());
-                if(valueArg.Int(0) == nValue)
-                {
-                    list.AddObject(ident);
-                }
-            }
-            break;
-        case DT_INT64:
-            {
-                int64_t nValue = GetNodeInt64(ident, name.c_str());
-                if(valueArg.Int64(0) == nValue)
-                {
-                    list.AddObject(ident);
-                }
-            }
-            break;
-        case DT_FLOAT:
-            {
-                float fValue = GetNodeFloat(ident, name.c_str());
-                float fCompareValue = valueArg.Float(0);
-                if(AFMisc::IsZeroFloat(fValue - fCompareValue))
-                {
-                    list.AddObject(ident);
-                }
-            }
-            break;
-        case DT_DOUBLE:
-            {
-                double dValue = GetNodeDouble(ident, name.c_str());
-                double dCompareValue = valueArg.Double(0);
-                if(AFMisc::IsZeroDouble(dValue - dCompareValue))
-                {
-                    list.AddObject(ident);
-                }
-            }
-            break;
-        case DT_STRING:
-            {
-                std::string strValue = GetNodeString(ident, name.c_str());
-                std::string strCompareValue = valueArg.String(0);
-                if(strValue == strCompareValue)
-                {
-                    list.AddObject(ident);
-                }
-            }
-            break;
-        case DT_OBJECT:
-            {
-                AFGUID identObject = GetNodeObject(ident, name.c_str());
-                if(valueArg.Object(0) == identObject)
-                {
-                    list.AddObject(ident);
-                }
-            }
-            break;
-        default:
-            break;
+            continue;
+        }
+
+        AFDataNode* pDataNode = pNodeManager->GetNode(name.c_str());
+        if(nullptr != pDataNode && list.Equal(0, pDataNode->value))
+        {
+            list.AddObject(ident);
         }
     }
 
