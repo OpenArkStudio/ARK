@@ -655,41 +655,25 @@ int AFCGameNetServerModule::OnEntityListLeave(const AFIDataList& self, const AFI
 
 int AFCGameNetServerModule::OnCommonDataNodeEvent(const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar)
 {
-    //if ( ARK::Player::ThisName() == m_pKernelModule->GetNodeString( self, "ClassName" ) )
+    if("GroupID" == name)
     {
-        if("GroupID" == name)
-        {
-            //自己还是要知道自己的这个属性变化的,但是别人就不需要知道了
-            OnGroupEvent(self, name, oldVar, newVar);
-        }
+        //自己还是要知道自己的这个属性变化的,但是别人就不需要知道了
+        OnGroupEvent(self, name, oldVar, newVar);
+    }
 
-        if("SceneID" == name)
-        {
-            //自己还是要知道自己的这个属性变化的,但是别人就不需要知道了
-            OnContainerEvent(self, name, oldVar, newVar);
-        }
+    if("SceneID" == name)
+    {
+        //自己还是要知道自己的这个属性变化的,但是别人就不需要知道了
+        OnContainerEvent(self, name, oldVar, newVar);
+    }
 
-        if(ARK::Player::ThisName() == std::string(m_pKernelModule->GetNodeString(self, "ClassName")))
-        {
-            if(m_pKernelModule->GetNodeInt(self, "LoadPropertyFinish") <= 0)
-            {
-                return 0;
-            }
-        }
+    if(ARK::Player::ThisName() == std::string(m_pKernelModule->GetNodeString(self, "ClassName")) && (m_pKernelModule->GetNodeInt(self, "LoadPropertyFinish") <= 0))
+    {
+        return 0;
     }
 
     AFCDataList valueBroadCaseList;
-    int nCount = 0;//argVar.GetCount() ;
-    if(nCount <= 0)
-    {
-        nCount = GetBroadcastEntityList(self, name, false, valueBroadCaseList);
-    }
-    else
-    {
-        //传入的参数是要广播的对象列表
-        //valueBroadCaseList = argVar;
-    }
-
+    GetNodeBroadcastEntityList(self, name, valueBroadCaseList);
     if(valueBroadCaseList.GetCount() <= 0)
     {
         return 0;
@@ -721,20 +705,16 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
 
     if(nObjectGroupID < 0)
     {
-        //容器
         return 0;
     }
 
-    if(ARK::Player::ThisName() == std::string(m_pKernelModule->GetNodeString(self, "ClassName")))
+    if(ARK::Player::ThisName() == std::string(m_pKernelModule->GetNodeString(self, "ClassName")) && (m_pKernelModule->GetNodeInt(self, "LoadPropertyFinish") <= 0))
     {
-        if(m_pKernelModule->GetNodeInt(self, "LoadPropertyFinish") <= 0)
-        {
-            return 0;
-        }
+        return 0;
     }
 
     AFCDataList valueBroadCaseList;
-    GetBroadcastEntityList(self, strTableName, true, valueBroadCaseList);
+    GetTableBroadcastEntityList(self, strTableName, valueBroadCaseList);
 
     switch(nOpType)
     {
@@ -1009,7 +989,41 @@ int AFCGameNetServerModule::OnContainerEvent(const AFGUID& self, const std::stri
     return 0;
 }
 
-int AFCGameNetServerModule::GetBroadcastEntityList(const AFGUID& self, const std::string& name, const bool bTable, AFIDataList& valueObject)
+int AFCGameNetServerModule::GetNodeBroadcastEntityList(const AFGUID& self, const std::string& name, AFIDataList& valueObject)
+{
+    int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
+    int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
+
+    //普通场景容器，判断广播属性
+    std::string strClassName = m_pKernelModule->GetNodeString(self, "ClassName");
+    ARK_SHARE_PTR<AFIDataNodeManager> pClassDataNodeManager = m_pClassModule->GetNodeManager(strClassName);
+
+    if(pClassDataNodeManager == nullptr)
+    {
+        return -1;
+    }
+
+    AFDataNode* pDataNode = pClassDataNodeManager->GetNode(name.c_str());
+    if(nullptr == pDataNode)
+    {
+        return -1;
+    }
+
+    if(pDataNode->IsPublic())
+    {
+        //广播给客户端自己和周边人
+        GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
+    }
+
+    if(ARK::Player::ThisName() == strClassName && pDataNode->IsPrivate())
+    {
+        valueObject.AddObject(self);
+    }
+
+    return valueObject.GetCount();
+}
+
+int AFCGameNetServerModule::GetTableBroadcastEntityList(const AFGUID& self, const std::string& name, AFIDataList& valueObject)
 {
     int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
     int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
@@ -1017,91 +1031,34 @@ int AFCGameNetServerModule::GetBroadcastEntityList(const AFGUID& self, const std
     //普通场景容器，判断广播属性
     std::string strClassName = m_pKernelModule->GetNodeString(self, "ClassName");
 
-    ARK_SHARE_PTR<AFIDataNodeManager> pClassDataNodeManager = m_pClassModule->GetNodeManager(strClassName);
     ARK_SHARE_PTR<AFIDataTableManager> pClassDataTableManager = m_pClassModule->GetTableManager(strClassName);
-
-    AFDataNode* pDataNode = nullptr;
-    AFDataTable* pDataTable = nullptr;
-    if(bTable)
+    if(pClassDataTableManager == nullptr)
     {
-        if(pClassDataTableManager == nullptr)
-        {
-            return -1;
-        }
-
-        pDataTable = pClassDataTableManager->GetTable(name.c_str());
-        if(pDataTable == nullptr)
-        {
-            return -1;
-        }
+        return -1;
     }
-    else
-    {
-        if(pClassDataNodeManager == nullptr)
-        {
-            return -1;
-        }
 
-        pDataNode = pClassDataNodeManager->GetNode(name.c_str());
-        if(nullptr == pDataNode)
-        {
-            return -1;
-        }
+    AFDataTable* pDataTable = pClassDataTableManager->GetTable(name.c_str());
+    if(pDataTable == nullptr)
+    {
+        return -1;
+    }
+
+    if(pDataTable->IsPublic())
+    {
+        //广播给客户端自己和周边人
+        GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
     }
 
     if(ARK::Player::ThisName() == strClassName)
     {
-        if(bTable)
+        if(pDataTable->IsPrivate())
         {
-            if(pDataTable->IsPublic())
-            {
-                int nCount = GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
-                if(nCount < 0)
-                {
-                    //TODO:log
-                }
-            }
-            else if(pDataTable->IsPrivate())
-            {
-                valueObject.AddObject(self);
-            }
-        }
-        else
-        {
-            if(pDataNode->IsPublic())
-            {
-                GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
-            }
-            else if(pDataNode->IsPrivate())
-            {
-                valueObject.AddObject(self);
-            }
-        }
-        //一个玩家都不广播
-        return valueObject.GetCount();
-    }
-
-    //不是玩家,NPC和怪物类等
-    if(bTable)
-    {
-        if(pDataTable->IsPublic())
-        {
-            //广播给客户端自己和周边人
-            GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
-        }
-    }
-    else
-    {
-        if(pDataNode->IsPublic())
-        {
-            //广播给客户端自己和周边人
-            GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
+            valueObject.AddObject(self);
         }
     }
 
     return valueObject.GetCount();
 }
-
 int AFCGameNetServerModule::GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, AFIDataList& valueObject)
 {
     AFCDataList valContainerObjectList;

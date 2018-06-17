@@ -100,7 +100,8 @@ public:
     int OnEntityEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
     int OnSwapSceneResultEvent(const AFGUID& self, const int nEventID, const AFIDataList& var);
 
-    int GetBroadcastEntityList(const AFGUID& self, const std::string& strPropertyName, const bool bTable, AFIDataList& valueObject);
+    int GetNodeBroadcastEntityList(const AFGUID& self, const std::string& strPropertyName, AFIDataList& valueObject);
+    int GetTableBroadcastEntityList(const AFGUID& self, const std::string& strPropertyName, AFIDataList& valueObject);
     int GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, AFIDataList& valueObject);
 
     bool AddTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableList* pPrivateData);
