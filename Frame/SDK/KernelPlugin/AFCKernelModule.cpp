@@ -32,10 +32,20 @@ AFCKernelModule::AFCKernelModule(AFIPluginManager* p)
 
     nLastTime = pPluginManager->GetNowTime();
     InitRandom();
+
+    mInnerProperty.AddElement(ARK::IObject::ConfigID(), ARK_NEW int32_t(0));
+    mInnerProperty.AddElement(ARK::IObject::ClassName(), ARK_NEW int32_t(0));
+    mInnerProperty.AddElement(ARK::IObject::SceneID(), ARK_NEW int32_t(0));
+    mInnerProperty.AddElement(ARK::IObject::GroupID(), ARK_NEW int32_t(0));
 }
 
 AFCKernelModule::~AFCKernelModule()
 {
+    for(size_t i = 0; i < mInnerProperty.GetCount(); ++i)
+    {
+        delete mInnerProperty[i];
+    }
+
     ClearAll();
 }
 
@@ -157,114 +167,56 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
     }
 
     ARK_SHARE_PTR<AFIEntity> pEntity;
-    ARK_SHARE_PTR<AFIDataNodeManager> pStaticClassNodeManager = m_pClassModule->GetNodeManager(strClassName);
-    ARK_SHARE_PTR<AFIDataTableManager> pStaticClassTableManager = m_pClassModule->GetTableManager(strClassName);
-    if(pStaticClassNodeManager != nullptr && pStaticClassTableManager != nullptr)
+    pEntity = std::make_shared<AFCEntity>(ident, pPluginManager);
+    AddElement(ident, pEntity);
+    pContainerInfo->AddObjectToGroup(nGroupID, ident, strClassName == ARK::Player::ThisName() ? true : false);
+
+    ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
+    ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
+    m_pClassModule->InitDataNodeManager(strClassName, pNodeManager);
+    m_pClassModule->InitDataTableManager(strClassName, pTableManager);
+    pNodeManager->AddCommonCallBack(this, &AFCKernelModule::OnCommonNodeEvent);
+    pTableManager->AddTableCommonCallback(this, &AFCKernelModule::OnCommonTableEvent);
+
+    ARK_SHARE_PTR<AFIDataNodeManager> pConfigNodeManager = m_pElementModule->GetNodeManager(strConfigIndex);
+    if(pConfigNodeManager != nullptr)
     {
-        pEntity = std::make_shared<AFCEntity>(ident, pPluginManager);
-        AddElement(ident, pEntity);
-        pContainerInfo->AddObjectToGroup(nGroupID, ident, strClassName == ARK::Player::ThisName() ? true : false);
-
-        ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
-        ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
-
-        size_t staticNodeCount = pStaticClassNodeManager->GetNodeCount();
-        for(size_t i = 0; i < staticNodeCount; ++i)
+        size_t configNodeCount = pConfigNodeManager->GetNodeCount();
+        for(size_t i = 0; i < configNodeCount; ++i)
         {
-            AFDataNode* pStaticConfigNode = pStaticClassNodeManager->GetNodeByIndex(i);
-            if(pStaticConfigNode == nullptr)
+            AFDataNode* pConfigNode = pConfigNodeManager->GetNodeByIndex(i);
+            if(pConfigNode != nullptr || pConfigNode->Changed())
             {
-                continue;
-            }
-
-            bool bRet = pNodeManager->AddNode(pStaticConfigNode->GetName().c_str(), pStaticConfigNode->GetValue(), pStaticConfigNode->GetFeature());
-            if(!bRet)
-            {
-                ARK_ASSERT(0, "AddNode failed, please check it", __FILE__, __FUNCTION__);
-                continue;
-            }
-
-            pEntity->AddNodeCallBack(pStaticConfigNode->GetName().c_str(), this, &AFCKernelModule::OnCommonNodeEvent);
-        }
-
-        int staticTableCount = pStaticClassTableManager->GetCount();
-        for(size_t i = 0; i < staticTableCount; ++i)
-        {
-            AFDataTable* pStaticTable = pStaticClassTableManager->GetTableByIndex(i);
-            if(pStaticTable == nullptr)
-            {
-                continue;
-            }
-
-            AFCDataList col_type_list;
-            pStaticTable->GetColTypeList(col_type_list);
-            int8_t feature = pStaticTable->GetFeature();
-            pTableManager->AddTable(NULL_GUID, pStaticTable->GetName(), col_type_list, feature);
-
-            //Add table callback
-            pEntity->AddTableCallBack(pStaticTable->GetName(), this, &AFCKernelModule::OnCommonTableEvent);
-        }
-
-        //////////////////////////////////////////////////////////////////////////
-        ARK_SHARE_PTR<AFIDataNodeManager> pConfigNodeManager = m_pElementModule->GetNodeManager(strConfigIndex);
-        ARK_SHARE_PTR<AFIDataTableManager> pConfigTableManager = m_pElementModule->GetTableManager(strConfigIndex);
-
-        if(pConfigNodeManager != nullptr && pConfigTableManager != nullptr)
-        {
-            size_t configNodeCount = pConfigNodeManager->GetNodeCount();
-            for(size_t i = 0; i < configNodeCount; ++i)
-            {
-                AFDataNode* pConfigNode = pConfigNodeManager->GetNodeByIndex(i);
-                if(pConfigNode == nullptr)
-                {
-                    continue;
-                }
-
-                if(pConfigNode->Changed())
-                {
-                    pNodeManager->SetNode(pConfigNode->GetName().c_str(), pConfigNode->GetValue());
-                }
+                pNodeManager->SetNode(pConfigNode->GetName().c_str(), pConfigNode->GetValue());
             }
         }
-
-        DoEvent(ident, strClassName, ENTITY_EVT_PRE_LOAD_DATA, arg);
-
-        if(arg.GetCount() >= 2)
-        {
-            ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
-            if(pNodeManager)
-            {
-            }
-            for(int i = 0; i < (arg.GetCount() - 1); i += 2)
-            {
-                const std::string& strDataNodeName = arg.String(i);
-                if(ARK::IObject::ConfigID() != strDataNodeName
-                        && ARK::IObject::ClassName() != strDataNodeName
-                        && ARK::IObject::SceneID() != strDataNodeName
-                        && ARK::IObject::GroupID() != strDataNodeName)
-                {
-                    AFDataNode* pArgNode = pNodeManager->GetNode(strDataNodeName.c_str());
-                    if(pArgNode == nullptr)
-                    {
-                        continue;
-                    }
-
-                    arg.ToAFIData(i + 1, pArgNode->value);
-                }
-            }
-        }
-
-        pEntity->SetNodeString(ARK::IObject::ConfigID(), strConfigIndex);
-        pEntity->SetNodeString(ARK::IObject::ClassName(), strClassName);
-        pEntity->SetNodeInt(ARK::IObject::SceneID(), nSceneID);
-        pEntity->SetNodeInt(ARK::IObject::GroupID(), nGroupID);
-
-        DoEvent(ident, strClassName, ENTITY_EVT_LOAD_DATA, arg);
-        DoEvent(ident, strClassName, ENTITY_EVT_PRE_EFFECT_DATA, arg);
-        DoEvent(ident, strClassName, ENTITY_EVT_EFFECT_DATA, arg);
-        DoEvent(ident, strClassName, ENTITY_EVT_POST_EFFECT_DATA, arg);
-        DoEvent(ident, strClassName, ENTITY_EVT_DATA_FINISHED, arg);
     }
+
+    DoEvent(ident, strClassName, ENTITY_EVT_PRE_LOAD_DATA, arg);
+
+    for(int i = 0; (i + 1) < (arg.GetCount() - 1); i += 2)
+    {
+        const std::string& strDataNodeName = arg.String(i);
+        if(!mInnerProperty.ExistElement(strDataNodeName))
+        {
+            AFDataNode* pArgNode = pNodeManager->GetNode(strDataNodeName.c_str());
+            if(pArgNode != nullptr)
+            {
+                arg.ToAFIData(i + 1, pArgNode->value);
+            }
+        }
+    }
+
+    pEntity->SetNodeString(ARK::IObject::ConfigID(), strConfigIndex);
+    pEntity->SetNodeString(ARK::IObject::ClassName(), strClassName);
+    pEntity->SetNodeInt(ARK::IObject::SceneID(), nSceneID);
+    pEntity->SetNodeInt(ARK::IObject::GroupID(), nGroupID);
+
+    DoEvent(ident, strClassName, ENTITY_EVT_LOAD_DATA, arg);
+    DoEvent(ident, strClassName, ENTITY_EVT_PRE_EFFECT_DATA, arg);
+    DoEvent(ident, strClassName, ENTITY_EVT_EFFECT_DATA, arg);
+    DoEvent(ident, strClassName, ENTITY_EVT_POST_EFFECT_DATA, arg);
+    DoEvent(ident, strClassName, ENTITY_EVT_DATA_FINISHED, arg);
 
     return pEntity;
 }

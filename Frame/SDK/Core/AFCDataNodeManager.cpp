@@ -78,6 +78,12 @@ bool AFCDataNodeManager::RegisterCallback(const std::string& name, const DATA_NO
     return true;
 }
 
+bool AFCDataNodeManager::RegisterCommonCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
+{
+    mxCommonCallBackList.push_back(cb);
+    return true;
+}
+
 size_t AFCDataNodeManager::GetNodeCount()
 {
     return mxNodes.size();
@@ -119,6 +125,11 @@ bool AFCDataNodeManager::OnNodeCallback(const char* name, const AFIData& oldData
         return false;
     }
 
+    for(size_t i = 0; i < mxCommonCallBackList.size(); ++i)
+    {
+        (*mxCommonCallBackList[i])(mxSelf, name, oldData, newData);
+    }
+
     for(size_t i = 0; i < mxNodeCBs[indexCallBack]->mxCallBackList.size(); ++i)
     {
         (*(mxNodeCBs[indexCallBack]->mxCallBackList[i]))(mxSelf, name, oldData, newData);
@@ -146,7 +157,7 @@ bool AFCDataNodeManager::SetNode(const char* name, const AFIData& value)
         return false;
     }
 
-    switch (value.GetType())
+    switch(value.GetType())
     {
     case DT_BOOLEAN:
         return SetNodeBool(name, value.GetBool());

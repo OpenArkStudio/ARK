@@ -154,8 +154,8 @@ public:
 
     virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strClassName);
     virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strClassName);
-    //virtual ARK_SHARE_PTR<AFIComponentManager> GetClassComponentManager(const std::string& strClassName);
-
+    virtual bool InitDataNodeManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager);
+    virtual bool InitDataTableManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataTableManager> pTableManager);
     virtual bool AddClass(const std::string& strClassName, const std::string& strParentName);
 
 protected:

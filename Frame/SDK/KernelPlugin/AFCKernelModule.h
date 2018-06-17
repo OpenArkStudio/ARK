@@ -32,6 +32,7 @@
 #include "SDK/Interface/AFISceneModule.h"
 #include "SDK/Core/Base/AFPlatform.hpp"
 #include "SDK/Core/Base/AFMapEx.h"
+#include "../Core/Base/AFArrayMap.hpp"
 
 class AFCKernelModule
     : public AFIKernelModule,
@@ -166,4 +167,6 @@ private:
     AFIClassModule* m_pClassModule;
     AFIElementModule* m_pElementModule;
     AFIGUIDModule* m_pGUIDModule;
+
+    AFArrayMap<std::string, int32_t> mInnerProperty;
 };

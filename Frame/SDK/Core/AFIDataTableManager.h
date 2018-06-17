@@ -39,6 +39,14 @@ public:
 
     virtual bool AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const int8_t feature) = 0;
     virtual bool AddTableCallback(const char* table_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
+    virtual bool AddTableCommonCallback(const char* table_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
+
+    template<typename BaseType>
+    bool AddTableCommonCallback(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
+    {
+        DATA_TABLE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+        return AddTableCommonCallback(name, std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
+    }
 
     virtual void Clear() = 0;
     virtual AFDataTable* GetTable(const char* name) = 0;

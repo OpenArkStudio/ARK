@@ -75,4 +75,6 @@ public:
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
     virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strClassName) = 0;
     virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strClassName) = 0;
+    virtual bool InitDataNodeManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager);
+    virtual bool InitDataTableManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataTableManager> pTableManager);
 };
