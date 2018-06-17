@@ -66,10 +66,9 @@ public:
     virtual void* Pointer(size_t index) const = 0;
     virtual const void* UserData(size_t index, size_t& size) const = 0;
     virtual void* RawUserData(size_t index) const = 0;
-
     virtual const std::string ToString(size_t index) = 0;
 
-    //get memory usage
+//get memory usage
     virtual size_t GetMemUsage() const = 0;
 
     template<typename... Args>
@@ -79,16 +78,16 @@ public:
         int values[] = { arg1, args... };
 
         int index = 0;
-        for (auto v : values)
+        for(auto v : values)
         {
-            if (v == DT_UNKNOWN)
+            if(v == DT_UNKNOWN)
             {
                 bRet = false;
                 return bRet;
             }
 
             AF_DATA_TYPE varType = (AF_DATA_TYPE)GetType(index);
-            if (varType != v)
+            if(varType != v)
             {
                 bRet = false;
                 break;
@@ -100,7 +99,42 @@ public:
         return bRet;
     }
 
-    //operator <<
+    bool ToAFIData(size_t index, AFIData& xData) const
+    {
+        if(GetType(index) != xData.GetType())
+        {
+            return false;
+        }
+        switch(xData.GetType())
+        {
+        case DT_BOOLEAN:
+            xData.SetBool(Bool(index));
+            break;
+        case DT_INT:
+            xData.SetInt(Int(index));
+            break;
+        case DT_INT64:
+            xData.SetInt64(Int64(index));
+            break;
+        case DT_FLOAT:
+            xData.SetFloat(Float(index));
+            break;
+        case DT_DOUBLE:
+            xData.SetDouble(Double(index));
+            break;
+        case DT_STRING:
+            xData.SetString(String(index));
+            break;
+        case DT_OBJECT:
+            xData.SetObject(Object(index));
+            break;
+        default:
+            break;
+        }
+        return true;
+    }
+
+//operator <<
     inline AFIDataList& operator<<(bool value)
     {
         bool bRet = AddBool(value);
@@ -149,28 +183,6 @@ public:
         ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
-
-//    inline AFIDataList& operator<<(long value)
-//    {
-//#if ARK_PLATFORM == PLATFORM_WIN || defined(WIN32)
-//        bool bRet = AddInt(value);
-//#else
-//        bool bRet = AddInt64(value);
-//#endif
-//        ARK_ASSERT_NO_EFFECT(bRet);
-//        return *this;
-//    }
-//
-//    inline AFIDataList& operator<<(unsigned long value)
-//    {
-//#if ARK_PLATFORM == PLATFORM_WIN || defined(WIN32)
-//        bool bRet = AddInt(value);
-//#else
-//        bool bRet = AddInt64(value);
-//#endif
-//        ARK_ASSERT_NO_EFFECT(bRet);
-//        return *this;
-//    }
 
     inline AFIDataList& operator<<(int64_t value)
     {

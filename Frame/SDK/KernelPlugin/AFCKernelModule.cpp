@@ -229,51 +229,30 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
 
         DoEvent(ident, strClassName, ENTITY_EVT_PRE_LOAD_DATA, arg);
 
-		if (arg.GetCount() >= 2)
-		{
-			for (int i = 0; i < (arg.GetCount() - 1); i += 2)
-			{
-				const std::string& strDataNodeName = arg.String(i);
-				if (ARK::IObject::ConfigID() != strDataNodeName
-					&& ARK::IObject::ClassName() != strDataNodeName
-					&& ARK::IObject::SceneID() != strDataNodeName
-					&& ARK::IObject::GroupID() != strDataNodeName)
-				{
-					AFDataNode* pArgNode = pStaticClassNodeManager->GetNode(strDataNodeName.c_str());
-					if (pArgNode == nullptr)
-					{
-						continue;
-					}
+        if(arg.GetCount() >= 2)
+        {
+            ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
+            if(pNodeManager)
+            {
+            }
+            for(int i = 0; i < (arg.GetCount() - 1); i += 2)
+            {
+                const std::string& strDataNodeName = arg.String(i);
+                if(ARK::IObject::ConfigID() != strDataNodeName
+                        && ARK::IObject::ClassName() != strDataNodeName
+                        && ARK::IObject::SceneID() != strDataNodeName
+                        && ARK::IObject::GroupID() != strDataNodeName)
+                {
+                    AFDataNode* pArgNode = pNodeManager->GetNode(strDataNodeName.c_str());
+                    if(pArgNode == nullptr)
+                    {
+                        continue;
+                    }
 
-					switch (pArgNode->GetType())
-					{
-					case DT_BOOLEAN:
-						pEntity->SetNodeBool(strDataNodeName, arg.Bool(i + 1));
-						break;
-					case DT_INT:
-						pEntity->SetNodeInt(strDataNodeName, arg.Int(i + 1));
-						break;
-					case DT_INT64:
-						pEntity->SetNodeInt64(strDataNodeName, arg.Int64(i + 1));
-						break;
-					case DT_FLOAT:
-						pEntity->SetNodeFloat(strDataNodeName, arg.Float(i + 1));
-						break;
-					case DT_DOUBLE:
-						pEntity->SetNodeDouble(strDataNodeName, arg.Double(i + 1));
-						break;
-					case DT_STRING:
-						pEntity->SetNodeString(strDataNodeName, arg.String(i + 1));
-						break;
-					case DT_OBJECT:
-						pEntity->SetNodeObject(strDataNodeName, arg.Object(i + 1));
-						break;
-					default:
-						break;
-					}
-				}
-			}
-		}
+                    arg.ToAFIData(i + 1, pArgNode->value);
+                }
+            }
+        }
 
         pEntity->SetNodeString(ARK::IObject::ConfigID(), strConfigIndex);
         pEntity->SetNodeString(ARK::IObject::ClassName(), strClassName);

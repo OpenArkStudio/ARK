@@ -58,7 +58,7 @@ bool Example1Module::PostInit()
     ARK_ASSERT_RET_VAL(m_pScheduleModule != nullptr, false);
 
     AFGUID test_id = AFGUID(0, 1);
-    
+
     //test GUID type
     AFCData guid_data1(DT_OBJECT, AFGUID(0, 1));
     AFCData guid_data2(DT_OBJECT, AFGUID(1, 0));
@@ -111,7 +111,7 @@ bool Example1Module::PreShut()
 
 bool Example1Module::Shut()
 {
-    std::cout << typeid(Example1Module).name() << ", Shut" << std::endl; 
+    std::cout << typeid(Example1Module).name() << ", Shut" << std::endl;
     return true;
 }
 
