@@ -798,579 +798,580 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
                 AFGUID identOther = valueBroadCaseList.Object(i);
 
                 SendMsgPBToGate(AFMsg::EGMI_ACK_TABLE_DATA, xTableChanged, identOther);
-
-                break;
-            case AFDataTable::TABLE_COVERAGE:
-                //TODO:
-                break;
-            default:
-                break;
             }
+        }
+        break;
+    case AFDataTable::TABLE_COVERAGE:
+        //TODO:
+        break;
+    default:
+        break;
+    }
 
+    return 0;
+}
+
+int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID & self, const std::string & strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList & var)
+{
+    ////////////1:广播给已经存在的人//////////////////////////////////////////////////////////////
+    if(ENTITY_EVT_DESTROY == eClassEvent)
+    {
+        //删除在线标志
+
+        //////////////////////////////////////////////////////////////////////////
+
+        int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
+        int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
+
+        if(nObjectGroupID < 0)
+        {
+            //容器
             return 0;
         }
 
-        int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID & self, const std::string & strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList & var)
+        AFCDataList valueAllObjectList;
+        AFCDataList valueBroadCaseList;
+        AFCDataList valueBroadListNoSelf;
+        m_pKernelModule->GetGroupEntityList(nObjectContainerID, nObjectGroupID, valueAllObjectList);
+
+        for(size_t i = 0; i < valueAllObjectList.GetCount(); i++)
         {
-            ////////////1:广播给已经存在的人//////////////////////////////////////////////////////////////
-            if(ENTITY_EVT_DESTROY == eClassEvent)
+            AFGUID identBC = valueAllObjectList.Object(i);
+            const std::string strIdentClassName(m_pKernelModule->GetNodeString(identBC, "ClassName"));
+            if(ARK::Player::ThisName() == strIdentClassName)
             {
-                //删除在线标志
-
-                //////////////////////////////////////////////////////////////////////////
-
-                int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
-                int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
-
-                if(nObjectGroupID < 0)
-                {
-                    //容器
-                    return 0;
-                }
-
-                AFCDataList valueAllObjectList;
-                AFCDataList valueBroadCaseList;
-                AFCDataList valueBroadListNoSelf;
-                m_pKernelModule->GetGroupEntityList(nObjectContainerID, nObjectGroupID, valueAllObjectList);
-
-                for(size_t i = 0; i < valueAllObjectList.GetCount(); i++)
-                {
-                    AFGUID identBC = valueAllObjectList.Object(i);
-                    const std::string strIdentClassName(m_pKernelModule->GetNodeString(identBC, "ClassName"));
-                    if(ARK::Player::ThisName() == strIdentClassName)
-                    {
-                        valueBroadCaseList << identBC;
-                        if(identBC != self)
-                        {
-                            valueBroadListNoSelf << identBC;
-                        }
-                    }
-                }
-
-                //如果是副本的怪，则不需要发送，因为会在离开副本的时候一次性一条消息发送
-                OnEntityListLeave(valueBroadListNoSelf, AFCDataList() << self);
-            }
-
-            else if(ARK_ENTITY_EVENT::ENTITY_EVT_PRE_LOAD_DATA == eClassEvent)
-            {
-                //id和fd,gateid绑定
-                ARK_SHARE_PTR<GateBaseInfo> pDataBase = mRoleBaseData.GetElement(self);
-                if(nullptr != pDataBase)
-                {
-                    //回复客户端角色进入游戏世界成功了
-                    AFMsg::AckEventResult xMsg;
-                    xMsg.set_event_code(AFMsg::EGEC_ENTER_GAME_SUCCESS);
-
-                    *xMsg.mutable_event_client() = AFINetModule::GUIDToPB(pDataBase->xClientID);
-                    *xMsg.mutable_event_object() = AFINetModule::GUIDToPB(self);
-
-                    SendMsgPBToGate(AFMsg::EGMI_ACK_ENTER_GAME, xMsg, self);
-                }
-            }
-            else if(ARK_ENTITY_EVENT::ENTITY_EVT_LOAD_DATA == eClassEvent)
-            {
-            }
-            else if(ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED == eClassEvent)
-            {
-                //自己广播给自己就够了
-                if(strClassName == ARK::Player::ThisName())
-                {
-                    OnEntityListEnter(AFCDataList() << self, AFCDataList() << self);
-
-                    OnSelfDataNodeEnter(self);
-                    OnSelfDataTableEnter(self);
-                }
-            }
-            else if(ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
-            {
-
-            }
-            return 0;
-        }
-
-        int AFCGameNetServerModule::OnGroupEvent(const AFGUID & self, const std::string & strPropertyName, const AFIData & oldVar, const AFIData & newVar)
-        {
-            //容器发生变化，只可能从A容器的0层切换到B容器的0层
-            //需要注意的是------------任何层改变的时候，此玩家其实还未进入层，因此，层改变的时候获取的玩家列表，目标层是不包含自己的
-            int nSceneID = m_pKernelModule->GetNodeInt(self, "SceneID");
-
-            //广播给别人自己离去(层降或者跃层)
-            int nOldGroupID = oldVar.GetInt();
-            ProcessLeaveGroup(self, nSceneID, nOldGroupID);
-
-            int nNewGroupID = newVar.GetInt();
-            ProcessEnterGroup(self, nSceneID, nNewGroupID);
-
-            return 0;
-        }
-
-        int AFCGameNetServerModule::OnContainerEvent(const AFGUID & self, const std::string & strPropertyName, const AFIData & oldVar, const AFIData & newVar)
-        {
-            //容器发生变化，只可能从A容器的0层切换到B容器的0层
-            //需要注意的是------------任何容器改变的时候，玩家必须是0层
-            int nOldSceneID = oldVar.GetInt();
-            int nNowSceneID = newVar.GetInt();
-
-            ARK_LOG_INFO("Enter Scene, id  = {} scene = {}", self.ToString(), nNowSceneID);
-
-            //自己消失,玩家不用广播，因为在消失之前，会回到0层，早已广播了玩家
-            AFCDataList valueOldAllObjectList;
-            AFCDataList valueNewAllObjectList;
-            AFCDataList valueAllObjectListNoSelf;
-            AFCDataList valuePlayerList;
-            AFCDataList valuePlayerNoSelf;
-
-            m_pKernelModule->GetGroupEntityList(nOldSceneID, 0, valueOldAllObjectList);
-            m_pKernelModule->GetGroupEntityList(nNowSceneID, 0, valueNewAllObjectList);
-
-            for(size_t i = 0; i < valueOldAllObjectList.GetCount(); i++)
-            {
-                AFGUID identBC = valueOldAllObjectList.Object(i);
-                if(identBC == self)
-                {
-                    valueOldAllObjectList.SetObject(i, AFGUID());
-                }
-            }
-
-            for(size_t i = 0; i < valueNewAllObjectList.GetCount(); i++)
-            {
-                AFGUID identBC = valueNewAllObjectList.Object(i);
-                const std::string strClassName(m_pKernelModule->GetNodeString(identBC, "ClassName"));
-                if(ARK::Player::ThisName() == strClassName)
-                {
-                    valuePlayerList << identBC;
-                    if(identBC != self)
-                    {
-                        valuePlayerNoSelf << identBC;
-                    }
-                }
-
+                valueBroadCaseList << identBC;
                 if(identBC != self)
                 {
-                    valueAllObjectListNoSelf << identBC;
-                }
-            }
-
-            //////////////////////////////////////////////////////////////////////////
-
-            //但是旧场景0层的NPC需要广播
-            OnEntityListLeave(AFCDataList() << self, valueOldAllObjectList);
-
-            //广播给所有人出现对象(如果是玩家，则包括广播给自己)
-            //这里广播的都是0层的
-            if(valuePlayerList.GetCount() > 0)
-            {
-                //把self广播给argVar这些人
-                OnEntityListEnter(valuePlayerNoSelf, AFCDataList() << self);
-            }
-
-            //新层必然是0，把0层NPC广播给自己------------自己广播给自己不在这里广播，因为场景ID在跨场景时会经常变化
-
-            //把valueAllObjectList广播给self
-            OnEntityListEnter(AFCDataList() << self, valueAllObjectListNoSelf);
-
-            ////////////////////把已经存在的人的属性广播给新来的人//////////////////////////////////////////////////////
-            for(size_t i = 0; i < valueAllObjectListNoSelf.GetCount(); i++)
-            {
-                AFGUID identOld = valueAllObjectListNoSelf.Object(i);
-                OnViewDataNodeEnter(AFCDataList() << self, identOld);
-                ////////////////////把已经存在的人的表广播给新来的人//////////////////////////////////////////////////////
-                OnViewDataTableEnter(AFCDataList() << self, identOld);
-            }
-
-            //把新来的人的属性广播给周边的人()
-            if(valuePlayerNoSelf.GetCount() > 0)
-            {
-                OnViewDataNodeEnter(valuePlayerNoSelf, self);
-                OnViewDataTableEnter(valuePlayerNoSelf, self);
-            }
-
-            return 0;
-        }
-
-        int AFCGameNetServerModule::GetNodeBroadcastEntityList(const AFGUID & self, const std::string & name, AFIDataList & valueObject)
-        {
-            int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
-            int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
-
-            //普通场景容器，判断广播属性
-            std::string strClassName = m_pKernelModule->GetNodeString(self, "ClassName");
-            ARK_SHARE_PTR<AFIDataNodeManager> pClassDataNodeManager = m_pClassModule->GetNodeManager(strClassName);
-
-            if(pClassDataNodeManager == nullptr)
-            {
-                return -1;
-            }
-
-            AFDataNode* pDataNode = pClassDataNodeManager->GetNode(name.c_str());
-            if(nullptr == pDataNode)
-            {
-                return -1;
-            }
-
-            if(pDataNode->IsPublic())
-            {
-                //广播给客户端自己和周边人
-                GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
-            }
-
-            if(ARK::Player::ThisName() == strClassName && pDataNode->IsPrivate())
-            {
-                valueObject.AddObject(self);
-            }
-
-            return valueObject.GetCount();
-        }
-
-        int AFCGameNetServerModule::GetTableBroadcastEntityList(const AFGUID & self, const std::string & name, AFIDataList & valueObject)
-        {
-            int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
-            int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
-
-            //普通场景容器，判断广播属性
-            std::string strClassName = m_pKernelModule->GetNodeString(self, "ClassName");
-
-            ARK_SHARE_PTR<AFIDataTableManager> pClassDataTableManager = m_pClassModule->GetTableManager(strClassName);
-            if(pClassDataTableManager == nullptr)
-            {
-                return -1;
-            }
-
-            AFDataTable* pDataTable = pClassDataTableManager->GetTable(name.c_str());
-            if(pDataTable == nullptr)
-            {
-                return -1;
-            }
-
-            if(pDataTable->IsPublic())
-            {
-                //广播给客户端自己和周边人
-                GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
-            }
-
-            if(ARK::Player::ThisName() == strClassName)
-            {
-                if(pDataTable->IsPrivate())
-                {
-                    valueObject.AddObject(self);
-                }
-            }
-
-            return valueObject.GetCount();
-        }
-        int AFCGameNetServerModule::GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, AFIDataList & valueObject)
-        {
-            AFCDataList valContainerObjectList;
-            m_pKernelModule->GetGroupEntityList(nObjectContainerID, nGroupID, valContainerObjectList);
-            for(size_t i = 0; i < valContainerObjectList.GetCount(); i++)
-            {
-                const std::string& strObjClassName = m_pKernelModule->GetNodeString(valContainerObjectList.Object(i), "ClassName");
-                if(ARK::Player::ThisName() == strObjClassName)
-                {
-                    valueObject.AddObject(valContainerObjectList.Object(i));
-                }
-            }
-
-            return valueObject.GetCount();
-        }
-
-        int AFCGameNetServerModule::OnEntityEvent(const AFGUID & self, const std::string & strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList & var)
-        {
-            if(ENTITY_EVT_DESTROY == eClassEvent)
-            {
-                //SaveDataToNoSql( self, true );
-                ARK_LOG_INFO("Player Offline, player_id = {}", self.ToString());
-            }
-            else if(ENTITY_EVT_LOAD_DATA == eClassEvent)
-            {
-                //LoadDataFormNoSql( self );
-            }
-            else if(ENTITY_EVT_ALL_FINISHED == eClassEvent)
-            {
-                m_pKernelModule->AddEventCallBack(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameNetServerModule::OnSwapSceneResultEvent);
-            }
-
-            return 0;
-        }
-
-        int AFCGameNetServerModule::OnSwapSceneResultEvent(const AFGUID & self, const int nEventID, const AFIDataList & var)
-        {
-            if(var.GetCount() != 7 ||
-                    !var.TypeEx(AF_DATA_TYPE::DT_OBJECT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT,
-                                AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_UNKNOWN)
-              )
-            {
-                return 1;
-            }
-
-            AFGUID ident = var.Object(0);
-            int nType = var.Int(1);
-            int nTargetScene = var.Int(2);
-            int nTargetGroupID = var.Int(3);
-            Point3D xPos;
-            xPos.x = var.Float(4);
-            xPos.y = var.Float(5);
-            xPos.z = var.Float(6);
-
-            AFMsg::ReqAckSwapScene xSwapScene;
-            xSwapScene.set_transfer_type(AFMsg::ReqAckSwapScene::EGameSwapType::ReqAckSwapScene_EGameSwapType_EGST_NARMAL);
-            xSwapScene.set_scene_id(nTargetScene);
-            xSwapScene.set_line_id(nTargetGroupID);
-            xSwapScene.set_x(xPos.x);
-            xSwapScene.set_y(xPos.y);
-            xSwapScene.set_z(xPos.z);
-
-            SendMsgPBToGate(AFMsg::EGMI_ACK_SWAP_SCENE, xSwapScene, self);
-
-            return 0;
-        }
-
-        void AFCGameNetServerModule::OnReqiureRoleListProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
-        {
-            //fd
-            ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqRoleList);
-            const AFGUID& nGateClientID = nPlayerID;
-            AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
-            if(!m_AccountModule->GetRoleList(xMsg.account(), xAckRoleLiteInfoList))
-            {
-                ARK_LOG_ERROR("Get role list failed, player_id = {}", nGateClientID.ToString());
-            }
-
-            m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
-        }
-
-        void AFCGameNetServerModule::OnCreateRoleGameProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
-        {
-            ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqCreateRole);
-            const AFGUID& nGateClientID = nPlayerID;
-
-            AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
-            AFCDataList varList;
-            varList.AddInt(xMsg.career());
-            varList.AddInt(xMsg.sex());
-            varList.AddInt(xMsg.race());
-            varList.AddString(xMsg.noob_name().c_str());
-            varList.AddInt(xMsg.game_id());
-            if(!m_AccountModule->CreateRole(xMsg.account(), xAckRoleLiteInfoList, varList))
-            {
-                ARK_LOG_ERROR("create role failed, player_id = {}", nGateClientID.ToString());
-            }
-
-            m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
-        }
-
-        void AFCGameNetServerModule::OnDeleteRoleGameProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
-        {
-            ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqDeleteRole);
-
-            AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
-            if(!m_AccountModule->DeleteRole(xMsg.account(), xAckRoleLiteInfoList))
-            {
-                ARK_LOG_ERROR("delete role failed, player_id = {}", nPlayerID.ToString());
-            }
-
-            m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nPlayerID);
-        }
-
-        void AFCGameNetServerModule::OnClienSwapSceneProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
-        {
-            ARK_MSG_PROCESS(xHead, nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
-
-            AFCDataList varEntry;
-            varEntry << pEntity->Self();
-            varEntry << int32_t(0);
-            varEntry << xMsg.scene_id();
-            varEntry << int32_t(-1) ;
-            m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
-        }
-
-        void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
-        {
-            ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
-            for(int i = 0; i < xMsg.server_list_size(); ++i)
-            {
-                const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-                ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.server_id());
-                if(nullptr == pServerData)
-                {
-                    pServerData = std::make_shared<GateServerInfo>();
-                    mProxyMap.AddElement(xData.server_id(), pServerData);
-                }
-
-                pServerData->xServerData.xClient = xClientID;
-                *(pServerData->xServerData.pData) = xData;
-
-                ARK_LOG_INFO("Proxy Registered, server_id  = {} server_name = {}", xData.server_id(), xData.server_name());
-            }
-
-            return;
-        }
-
-        void AFCGameNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
-        {
-            ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
-
-            for(int i = 0; i < xMsg.server_list_size(); ++i)
-            {
-                const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-                mProxyMap.RemoveElement(xData.server_id());
-                ARK_LOG_INFO("Proxy UnRegistered, server_id  = {} server_name = {}", xData.server_id(), xData.server_name());
-            }
-
-            return;
-        }
-
-        void AFCGameNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
-        {
-            ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
-
-            for(int i = 0; i < xMsg.server_list_size(); ++i)
-            {
-                const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-                ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.server_id());
-                if(nullptr == pServerData)
-                {
-                    pServerData = std::make_shared<GateServerInfo>();
-                    mProxyMap.AddElement(xData.server_id(), pServerData);
-                }
-
-                pServerData->xServerData.xClient = xClientID;
-                *(pServerData->xServerData.pData) = xData;
-
-                ARK_LOG_INFO("Proxy Registered, server_id  = {} server_name = {}", xData.server_id(), xData.server_name());
-            }
-
-            return;
-        }
-
-        void AFCGameNetServerModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message & xMsg, const AFGUID & self)
-        {
-            ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.GetElement(self);
-            if(nullptr != pData)
-            {
-                ARK_SHARE_PTR<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
-                if(nullptr != pProxyData)
-                {
-                    m_pNetModule->SendMsgPB(nMsgID, xMsg, pProxyData->xServerData.xClient, pData->xClientID);
+                    valueBroadListNoSelf << identBC;
                 }
             }
         }
 
-        void AFCGameNetServerModule::SendMsgPBToGate(const uint16_t nMsgID, const std::string & strMsg, const AFGUID & self)
+        //如果是副本的怪，则不需要发送，因为会在离开副本的时候一次性一条消息发送
+        OnEntityListLeave(valueBroadListNoSelf, AFCDataList() << self);
+    }
+
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_PRE_LOAD_DATA == eClassEvent)
+    {
+        //id和fd,gateid绑定
+        ARK_SHARE_PTR<GateBaseInfo> pDataBase = mRoleBaseData.GetElement(self);
+        if(nullptr != pDataBase)
         {
-            ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.GetElement(self);
-            if(nullptr != pData)
+            //回复客户端角色进入游戏世界成功了
+            AFMsg::AckEventResult xMsg;
+            xMsg.set_event_code(AFMsg::EGEC_ENTER_GAME_SUCCESS);
+
+            *xMsg.mutable_event_client() = AFINetModule::GUIDToPB(pDataBase->xClientID);
+            *xMsg.mutable_event_object() = AFINetModule::GUIDToPB(self);
+
+            SendMsgPBToGate(AFMsg::EGMI_ACK_ENTER_GAME, xMsg, self);
+        }
+    }
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_LOAD_DATA == eClassEvent)
+    {
+    }
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED == eClassEvent)
+    {
+        //自己广播给自己就够了
+        if(strClassName == ARK::Player::ThisName())
+        {
+            OnEntityListEnter(AFCDataList() << self, AFCDataList() << self);
+
+            OnSelfDataNodeEnter(self);
+            OnSelfDataTableEnter(self);
+        }
+    }
+    else if(ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
+    {
+
+    }
+    return 0;
+}
+
+int AFCGameNetServerModule::OnGroupEvent(const AFGUID & self, const std::string & strPropertyName, const AFIData & oldVar, const AFIData & newVar)
+{
+    //容器发生变化，只可能从A容器的0层切换到B容器的0层
+    //需要注意的是------------任何层改变的时候，此玩家其实还未进入层，因此，层改变的时候获取的玩家列表，目标层是不包含自己的
+    int nSceneID = m_pKernelModule->GetNodeInt(self, "SceneID");
+
+    //广播给别人自己离去(层降或者跃层)
+    int nOldGroupID = oldVar.GetInt();
+    ProcessLeaveGroup(self, nSceneID, nOldGroupID);
+
+    int nNewGroupID = newVar.GetInt();
+    ProcessEnterGroup(self, nSceneID, nNewGroupID);
+
+    return 0;
+}
+
+int AFCGameNetServerModule::OnContainerEvent(const AFGUID & self, const std::string & strPropertyName, const AFIData & oldVar, const AFIData & newVar)
+{
+    //容器发生变化，只可能从A容器的0层切换到B容器的0层
+    //需要注意的是------------任何容器改变的时候，玩家必须是0层
+    int nOldSceneID = oldVar.GetInt();
+    int nNowSceneID = newVar.GetInt();
+
+    ARK_LOG_INFO("Enter Scene, id  = {} scene = {}", self.ToString(), nNowSceneID);
+
+    //自己消失,玩家不用广播，因为在消失之前，会回到0层，早已广播了玩家
+    AFCDataList valueOldAllObjectList;
+    AFCDataList valueNewAllObjectList;
+    AFCDataList valueAllObjectListNoSelf;
+    AFCDataList valuePlayerList;
+    AFCDataList valuePlayerNoSelf;
+
+    m_pKernelModule->GetGroupEntityList(nOldSceneID, 0, valueOldAllObjectList);
+    m_pKernelModule->GetGroupEntityList(nNowSceneID, 0, valueNewAllObjectList);
+
+    for(size_t i = 0; i < valueOldAllObjectList.GetCount(); i++)
+    {
+        AFGUID identBC = valueOldAllObjectList.Object(i);
+        if(identBC == self)
+        {
+            valueOldAllObjectList.SetObject(i, AFGUID());
+        }
+    }
+
+    for(size_t i = 0; i < valueNewAllObjectList.GetCount(); i++)
+    {
+        AFGUID identBC = valueNewAllObjectList.Object(i);
+        const std::string strClassName(m_pKernelModule->GetNodeString(identBC, "ClassName"));
+        if(ARK::Player::ThisName() == strClassName)
+        {
+            valuePlayerList << identBC;
+            if(identBC != self)
             {
-                ARK_SHARE_PTR<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
-                if(nullptr != pProxyData)
-                {
-                    m_pNetModule->SendMsgPB(nMsgID, strMsg, pProxyData->xServerData.xClient, pData->xClientID);
-                }
+                valuePlayerNoSelf << identBC;
             }
         }
 
-        AFINetServerModule* AFCGameNetServerModule::GetNetModule()
+        if(identBC != self)
         {
-            return m_pNetModule;
+            valueAllObjectListNoSelf << identBC;
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+
+    //但是旧场景0层的NPC需要广播
+    OnEntityListLeave(AFCDataList() << self, valueOldAllObjectList);
+
+    //广播给所有人出现对象(如果是玩家，则包括广播给自己)
+    //这里广播的都是0层的
+    if(valuePlayerList.GetCount() > 0)
+    {
+        //把self广播给argVar这些人
+        OnEntityListEnter(valuePlayerNoSelf, AFCDataList() << self);
+    }
+
+    //新层必然是0，把0层NPC广播给自己------------自己广播给自己不在这里广播，因为场景ID在跨场景时会经常变化
+
+    //把valueAllObjectList广播给self
+    OnEntityListEnter(AFCDataList() << self, valueAllObjectListNoSelf);
+
+    ////////////////////把已经存在的人的属性广播给新来的人//////////////////////////////////////////////////////
+    for(size_t i = 0; i < valueAllObjectListNoSelf.GetCount(); i++)
+    {
+        AFGUID identOld = valueAllObjectListNoSelf.Object(i);
+        OnViewDataNodeEnter(AFCDataList() << self, identOld);
+        ////////////////////把已经存在的人的表广播给新来的人//////////////////////////////////////////////////////
+        OnViewDataTableEnter(AFCDataList() << self, identOld);
+    }
+
+    //把新来的人的属性广播给周边的人()
+    if(valuePlayerNoSelf.GetCount() > 0)
+    {
+        OnViewDataNodeEnter(valuePlayerNoSelf, self);
+        OnViewDataTableEnter(valuePlayerNoSelf, self);
+    }
+
+    return 0;
+}
+
+int AFCGameNetServerModule::GetNodeBroadcastEntityList(const AFGUID & self, const std::string & name, AFIDataList & valueObject)
+{
+    int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
+    int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
+
+    //普通场景容器，判断广播属性
+    std::string strClassName = m_pKernelModule->GetNodeString(self, "ClassName");
+    ARK_SHARE_PTR<AFIDataNodeManager> pClassDataNodeManager = m_pClassModule->GetNodeManager(strClassName);
+
+    if(pClassDataNodeManager == nullptr)
+    {
+        return -1;
+    }
+
+    AFDataNode* pDataNode = pClassDataNodeManager->GetNode(name.c_str());
+    if(nullptr == pDataNode)
+    {
+        return -1;
+    }
+
+    if(pDataNode->IsPublic())
+    {
+        //广播给客户端自己和周边人
+        GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
+    }
+
+    if(ARK::Player::ThisName() == strClassName && pDataNode->IsPrivate())
+    {
+        valueObject.AddObject(self);
+    }
+
+    return valueObject.GetCount();
+}
+
+int AFCGameNetServerModule::GetTableBroadcastEntityList(const AFGUID & self, const std::string & name, AFIDataList & valueObject)
+{
+    int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
+    int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
+
+    //普通场景容器，判断广播属性
+    std::string strClassName = m_pKernelModule->GetNodeString(self, "ClassName");
+
+    ARK_SHARE_PTR<AFIDataTableManager> pClassDataTableManager = m_pClassModule->GetTableManager(strClassName);
+    if(pClassDataTableManager == nullptr)
+    {
+        return -1;
+    }
+
+    AFDataTable* pDataTable = pClassDataTableManager->GetTable(name.c_str());
+    if(pDataTable == nullptr)
+    {
+        return -1;
+    }
+
+    if(pDataTable->IsPublic())
+    {
+        //广播给客户端自己和周边人
+        GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
+    }
+
+    if(ARK::Player::ThisName() == strClassName)
+    {
+        if(pDataTable->IsPrivate())
+        {
+            valueObject.AddObject(self);
+        }
+    }
+
+    return valueObject.GetCount();
+}
+int AFCGameNetServerModule::GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, AFIDataList & valueObject)
+{
+    AFCDataList valContainerObjectList;
+    m_pKernelModule->GetGroupEntityList(nObjectContainerID, nGroupID, valContainerObjectList);
+    for(size_t i = 0; i < valContainerObjectList.GetCount(); i++)
+    {
+        const std::string& strObjClassName = m_pKernelModule->GetNodeString(valContainerObjectList.Object(i), "ClassName");
+        if(ARK::Player::ThisName() == strObjClassName)
+        {
+            valueObject.AddObject(valContainerObjectList.Object(i));
+        }
+    }
+
+    return valueObject.GetCount();
+}
+
+int AFCGameNetServerModule::OnEntityEvent(const AFGUID & self, const std::string & strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList & var)
+{
+    if(ENTITY_EVT_DESTROY == eClassEvent)
+    {
+        //SaveDataToNoSql( self, true );
+        ARK_LOG_INFO("Player Offline, player_id = {}", self.ToString());
+    }
+    else if(ENTITY_EVT_LOAD_DATA == eClassEvent)
+    {
+        //LoadDataFormNoSql( self );
+    }
+    else if(ENTITY_EVT_ALL_FINISHED == eClassEvent)
+    {
+        m_pKernelModule->AddEventCallBack(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameNetServerModule::OnSwapSceneResultEvent);
+    }
+
+    return 0;
+}
+
+int AFCGameNetServerModule::OnSwapSceneResultEvent(const AFGUID & self, const int nEventID, const AFIDataList & var)
+{
+    if(var.GetCount() != 7 ||
+            !var.TypeEx(AF_DATA_TYPE::DT_OBJECT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT,
+                        AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_FLOAT, AF_DATA_TYPE::DT_UNKNOWN)
+      )
+    {
+        return 1;
+    }
+
+    AFGUID ident = var.Object(0);
+    int nType = var.Int(1);
+    int nTargetScene = var.Int(2);
+    int nTargetGroupID = var.Int(3);
+    Point3D xPos;
+    xPos.x = var.Float(4);
+    xPos.y = var.Float(5);
+    xPos.z = var.Float(6);
+
+    AFMsg::ReqAckSwapScene xSwapScene;
+    xSwapScene.set_transfer_type(AFMsg::ReqAckSwapScene::EGameSwapType::ReqAckSwapScene_EGameSwapType_EGST_NARMAL);
+    xSwapScene.set_scene_id(nTargetScene);
+    xSwapScene.set_line_id(nTargetGroupID);
+    xSwapScene.set_x(xPos.x);
+    xSwapScene.set_y(xPos.y);
+    xSwapScene.set_z(xPos.z);
+
+    SendMsgPBToGate(AFMsg::EGMI_ACK_SWAP_SCENE, xSwapScene, self);
+
+    return 0;
+}
+
+void AFCGameNetServerModule::OnReqiureRoleListProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
+{
+    //fd
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqRoleList);
+    const AFGUID& nGateClientID = nPlayerID;
+    AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
+    if(!m_AccountModule->GetRoleList(xMsg.account(), xAckRoleLiteInfoList))
+    {
+        ARK_LOG_ERROR("Get role list failed, player_id = {}", nGateClientID.ToString());
+    }
+
+    m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
+}
+
+void AFCGameNetServerModule::OnCreateRoleGameProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
+{
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqCreateRole);
+    const AFGUID& nGateClientID = nPlayerID;
+
+    AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
+    AFCDataList varList;
+    varList.AddInt(xMsg.career());
+    varList.AddInt(xMsg.sex());
+    varList.AddInt(xMsg.race());
+    varList.AddString(xMsg.noob_name().c_str());
+    varList.AddInt(xMsg.game_id());
+    if(!m_AccountModule->CreateRole(xMsg.account(), xAckRoleLiteInfoList, varList))
+    {
+        ARK_LOG_ERROR("create role failed, player_id = {}", nGateClientID.ToString());
+    }
+
+    m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
+}
+
+void AFCGameNetServerModule::OnDeleteRoleGameProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
+{
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqDeleteRole);
+
+    AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
+    if(!m_AccountModule->DeleteRole(xMsg.account(), xAckRoleLiteInfoList))
+    {
+        ARK_LOG_ERROR("delete role failed, player_id = {}", nPlayerID.ToString());
+    }
+
+    m_pNetModule->SendMsgPB(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nPlayerID);
+}
+
+void AFCGameNetServerModule::OnClienSwapSceneProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
+{
+    ARK_MSG_PROCESS(xHead, nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
+
+    AFCDataList varEntry;
+    varEntry << pEntity->Self();
+    varEntry << int32_t(0);
+    varEntry << xMsg.scene_id();
+    varEntry << int32_t(-1) ;
+    m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
+}
+
+void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
+{
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+    for(int i = 0; i < xMsg.server_list_size(); ++i)
+    {
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.server_id());
+        if(nullptr == pServerData)
+        {
+            pServerData = std::make_shared<GateServerInfo>();
+            mProxyMap.AddElement(xData.server_id(), pServerData);
         }
 
-        bool AFCGameNetServerModule::AddPlayerGateInfo(const AFGUID & nRoleID, const AFGUID & nClientID, const int nGateID)
+        pServerData->xServerData.xClient = xClientID;
+        *(pServerData->xServerData.pData) = xData;
+
+        ARK_LOG_INFO("Proxy Registered, server_id  = {} server_name = {}", xData.server_id(), xData.server_name());
+    }
+
+    return;
+}
+
+void AFCGameNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
+{
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+
+    for(int i = 0; i < xMsg.server_list_size(); ++i)
+    {
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        mProxyMap.RemoveElement(xData.server_id());
+        ARK_LOG_INFO("Proxy UnRegistered, server_id  = {} server_name = {}", xData.server_id(), xData.server_name());
+    }
+
+    return;
+}
+
+void AFCGameNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
+{
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+
+    for(int i = 0; i < xMsg.server_list_size(); ++i)
+    {
+        const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.server_id());
+        if(nullptr == pServerData)
         {
-            if(nGateID <= 0)
-            {
-                //非法gate
-                return false;
-            }
-
-            if(nClientID.IsNULL())
-            {
-                return false;
-            }
-
-            ARK_SHARE_PTR<AFCGameNetServerModule::GateBaseInfo> pBaseData = mRoleBaseData.GetElement(nRoleID);
-            if(nullptr != pBaseData)
-            {
-                //已经存在
-                ARK_LOG_ERROR("player is already exist, cannot enter game again, id = {}", nClientID.ToString());
-                return false;
-            }
-
-            ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(nGateID);
-            if(nullptr == pServerData)
-            {
-                return false;
-            }
-
-            if(!pServerData->xRoleInfo.insert(std::make_pair(nRoleID, pServerData->xServerData.xClient)).second)
-            {
-                return false;
-            }
-
-            if(!mRoleBaseData.AddElement(nRoleID, std::make_shared<GateBaseInfo>(nGateID, nClientID)))
-            {
-                pServerData->xRoleInfo.erase(nRoleID);
-                return false;
-            }
-
-            return true;
+            pServerData = std::make_shared<GateServerInfo>();
+            mProxyMap.AddElement(xData.server_id(), pServerData);
         }
 
-        bool AFCGameNetServerModule::RemovePlayerGateInfo(const AFGUID & nRoleID)
+        pServerData->xServerData.xClient = xClientID;
+        *(pServerData->xServerData.pData) = xData;
+
+        ARK_LOG_INFO("Proxy Registered, server_id  = {} server_name = {}", xData.server_id(), xData.server_name());
+    }
+
+    return;
+}
+
+void AFCGameNetServerModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message & xMsg, const AFGUID & self)
+{
+    ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.GetElement(self);
+    if(nullptr != pData)
+    {
+        ARK_SHARE_PTR<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
+        if(nullptr != pProxyData)
         {
-            ARK_SHARE_PTR<GateBaseInfo> pBaseData = mRoleBaseData.GetElement(nRoleID);
-            if(nullptr == pBaseData)
-            {
-                return false;
-            }
+            m_pNetModule->SendMsgPB(nMsgID, xMsg, pProxyData->xServerData.xClient, pData->xClientID);
+        }
+    }
+}
 
-            mRoleBaseData.RemoveElement(nRoleID);
+void AFCGameNetServerModule::SendMsgPBToGate(const uint16_t nMsgID, const std::string & strMsg, const AFGUID & self)
+{
+    ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.GetElement(self);
+    if(nullptr != pData)
+    {
+        ARK_SHARE_PTR<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
+        if(nullptr != pProxyData)
+        {
+            m_pNetModule->SendMsgPB(nMsgID, strMsg, pProxyData->xServerData.xClient, pData->xClientID);
+        }
+    }
+}
 
-            ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(pBaseData->nGateID);
-            if(nullptr == pServerData)
-            {
-                return false;
-            }
+AFINetServerModule* AFCGameNetServerModule::GetNetModule()
+{
+    return m_pNetModule;
+}
 
-            pServerData->xRoleInfo.erase(nRoleID);
-            return true;
+bool AFCGameNetServerModule::AddPlayerGateInfo(const AFGUID & nRoleID, const AFGUID & nClientID, const int nGateID)
+{
+    if(nGateID <= 0)
+    {
+        //非法gate
+        return false;
+    }
+
+    if(nClientID.IsNULL())
+    {
+        return false;
+    }
+
+    ARK_SHARE_PTR<AFCGameNetServerModule::GateBaseInfo> pBaseData = mRoleBaseData.GetElement(nRoleID);
+    if(nullptr != pBaseData)
+    {
+        //已经存在
+        ARK_LOG_ERROR("player is already exist, cannot enter game again, id = {}", nClientID.ToString());
+        return false;
+    }
+
+    ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(nGateID);
+    if(nullptr == pServerData)
+    {
+        return false;
+    }
+
+    if(!pServerData->xRoleInfo.insert(std::make_pair(nRoleID, pServerData->xServerData.xClient)).second)
+    {
+        return false;
+    }
+
+    if(!mRoleBaseData.AddElement(nRoleID, std::make_shared<GateBaseInfo>(nGateID, nClientID)))
+    {
+        pServerData->xRoleInfo.erase(nRoleID);
+        return false;
+    }
+
+    return true;
+}
+
+bool AFCGameNetServerModule::RemovePlayerGateInfo(const AFGUID & nRoleID)
+{
+    ARK_SHARE_PTR<GateBaseInfo> pBaseData = mRoleBaseData.GetElement(nRoleID);
+    if(nullptr == pBaseData)
+    {
+        return false;
+    }
+
+    mRoleBaseData.RemoveElement(nRoleID);
+
+    ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(pBaseData->nGateID);
+    if(nullptr == pServerData)
+    {
+        return false;
+    }
+
+    pServerData->xRoleInfo.erase(nRoleID);
+    return true;
+}
+
+ARK_SHARE_PTR<AFIGameNetServerModule::GateBaseInfo> AFCGameNetServerModule::GetPlayerGateInfo(const AFGUID & nRoleID)
+{
+    return mRoleBaseData.GetElement(nRoleID);
+}
+
+ARK_SHARE_PTR<AFIGameNetServerModule::GateServerInfo> AFCGameNetServerModule::GetGateServerInfo(const int nGateID)
+{
+    return mProxyMap.GetElement(nGateID);
+}
+
+ARK_SHARE_PTR<AFIGameNetServerModule::GateServerInfo> AFCGameNetServerModule::GetGateServerInfoByClientID(const AFGUID & nClientID)
+{
+    int nGateID = -1;
+    ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.First();
+    while(nullptr != pServerData)
+    {
+        if(nClientID == pServerData->xServerData.xClient)
+        {
+            nGateID = pServerData->xServerData.pData->server_id();
+            break;
         }
 
-        ARK_SHARE_PTR<AFIGameNetServerModule::GateBaseInfo> AFCGameNetServerModule::GetPlayerGateInfo(const AFGUID & nRoleID)
-        {
-            return mRoleBaseData.GetElement(nRoleID);
-        }
+        pServerData = mProxyMap.Next();
+    }
 
-        ARK_SHARE_PTR<AFIGameNetServerModule::GateServerInfo> AFCGameNetServerModule::GetGateServerInfo(const int nGateID)
-        {
-            return mProxyMap.GetElement(nGateID);
-        }
+    if(nGateID == -1)
+    {
+        return nullptr;
+    }
 
-        ARK_SHARE_PTR<AFIGameNetServerModule::GateServerInfo> AFCGameNetServerModule::GetGateServerInfoByClientID(const AFGUID & nClientID)
-        {
-            int nGateID = -1;
-            ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.First();
-            while(nullptr != pServerData)
-            {
-                if(nClientID == pServerData->xServerData.xClient)
-                {
-                    nGateID = pServerData->xServerData.pData->server_id();
-                    break;
-                }
+    return pServerData;
+}
 
-                pServerData = mProxyMap.Next();
-            }
-
-            if(nGateID == -1)
-            {
-                return nullptr;
-            }
-
-            return pServerData;
-        }
-
-        void AFCGameNetServerModule::OnTransWorld(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
-        {
-            ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen);
-            m_pGameServerToWorldModule->SendBySuit(nHasKey, nMsgID, msg, nLen);
-        }
+void AFCGameNetServerModule::OnTransWorld(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
+{
+    ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen);
+    m_pGameServerToWorldModule->SendBySuit(nHasKey, nMsgID, msg, nLen);
+}
 
