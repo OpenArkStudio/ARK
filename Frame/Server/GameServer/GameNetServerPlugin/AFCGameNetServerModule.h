@@ -63,11 +63,11 @@ public:
     virtual ARK_SHARE_PTR<GateServerInfo> GetGateServerInfoByClientID(const AFGUID& nClientID);
 
     virtual int OnViewDataNodeEnter(const AFIDataList& argVar, const AFGUID& self);
-	virtual int OnSelfDataNodeEnter(const AFGUID& self);
-	virtual int OnViewDataTableEnter(const AFIDataList& argVar, const AFGUID& self);
-	virtual int OnSelfDataTableEnter(const AFGUID& self);
+    virtual int OnSelfDataNodeEnter(const AFGUID& self);
+    virtual int OnViewDataTableEnter(const AFIDataList& argVar, const AFGUID& self);
+    virtual int OnSelfDataTableEnter(const AFGUID& self);
 
-	virtual int OnEntityListEnter(const AFIDataList& self, const AFIDataList& argVar);
+    virtual int OnEntityListEnter(const AFIDataList& self, const AFIDataList& argVar);
     virtual int OnEntityListLeave(const AFIDataList& self, const AFIDataList& argVar);
 
     void OnSocketPSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
@@ -103,9 +103,11 @@ public:
     int GetBroadcastEntityList(const AFGUID& self, const std::string& strPropertyName, const bool bTable, AFIDataList& valueObject);
     int GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, AFIDataList& valueObject);
 
-	bool AddTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableList* pPrivateData);
-	bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager> pTableManager, AFMsg::EntityDataTableList& xPBData, const int8_t nFeature);
-	bool NoteListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const int8_t nFeature);
+    bool AddTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableList* pPrivateData);
+    bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager> pTableManager, AFMsg::EntityDataTableList& xPBData, const int8_t nFeature);
+    bool NoteListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const int8_t nFeature);
+    bool ProcessLeaveGroup(const AFGUID& self, int nSceneID, int nOldGroupID);
+    bool ProcessEnterGroup(const AFGUID& self, int nSceneID, int nNewGroupID);
 
 private:
     //<角色id,角色网关基础信息>//其实可以在object系统中被代替
