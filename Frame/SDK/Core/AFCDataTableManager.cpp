@@ -129,7 +129,7 @@ bool AFCDataTableManager::AddTableCallback(const char* table_name, const DATA_TA
     return true;
 }
 
-bool AFCDataTableManager::AddTableCommonCallback(const char* table_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+bool AFCDataTableManager::AddTableCommonCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
 {
     mxTableCommonCallbacks.push_back(cb);
     return true;

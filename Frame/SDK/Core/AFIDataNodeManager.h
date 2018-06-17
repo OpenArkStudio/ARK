@@ -40,7 +40,7 @@ public:
     bool AddCommonCallBack(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
         DATA_NODE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return RegisterCommonCallback(name, std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
+        return RegisterCommonCallback(std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
     }
     virtual bool RegisterCallback(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
     virtual bool RegisterCommonCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
