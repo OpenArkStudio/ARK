@@ -56,9 +56,11 @@ public:
 
     virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar);
     virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar);
-    virtual int OnDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    virtual int OnDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    virtual bool OnDataTableEnterPack(AFDataTable* pTable, AFMsg::EntityDataTableBase* pTableBase);
+
+    virtual int OnViewDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
+    virtual int OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList& argGameID);
+    virtual int OnViewDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
+    virtual int OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID);
 
     virtual ARK_SHARE_PTR<ServerData> GetSuitProxyForEnter();
     virtual AFINetServerModule* GetNetModule();

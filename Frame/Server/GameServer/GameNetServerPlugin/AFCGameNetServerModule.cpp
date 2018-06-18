@@ -253,11 +253,6 @@ int AFCGameNetServerModule::OnViewDataNodeEnter(const AFIDataList& argVar, const
     }
 
     AFMsg::MultiEntityDataNodeList xPublicMsg;
-    AFMsg::MultiEntityDataNodeList xPrivateMsg;
-
-    //分为自己和外人
-    //1.public发送给所有人
-    //2.如果自己在列表中，再次发送private数据
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr == pEntity)
     {
@@ -267,7 +262,7 @@ int AFCGameNetServerModule::OnViewDataNodeEnter(const AFIDataList& argVar, const
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
     int8_t nFeature = 0;
     BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PUBLIC);
-    NoteListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
+    m_pNetModule->NoteListToPB(self, pNodeManager, *xPublicMsg.add_multi_entity_data_node_list(), nFeature);
     for(size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOther = argVar.Object(i);
@@ -297,40 +292,12 @@ int AFCGameNetServerModule::OnSelfDataNodeEnter(const AFGUID& self)
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
     int8_t nFeature = 0;
     BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PRIVATE);
-    NoteListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
+    m_pNetModule->NoteListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
 
     SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, xPrivateMsg, self);
     return 0;
 }
 
-bool PackTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableBase* pEntityTableBase)
-{
-    if(pTable == nullptr || pEntityTableBase == nullptr)
-    {
-        return false;
-    }
-
-    for(size_t i = 0; i < pTable->GetRowCount(); i++)
-    {
-        AFMsg::DataTableAddRow* pAddRowStruct = pEntityTableBase->add_row();
-        pAddRowStruct->set_row(i);
-        for(size_t j = 0; j < pTable->GetColCount(); j++)
-        {
-            AFMsg::PBCellData* pAddData = pAddRowStruct->add_cell_list();
-
-            AFCData xRowColData;
-            if(!pTable->GetValue(i, j, xRowColData))
-            {
-                ARK_ASSERT(0, "Get record value failed, please check", __FILE__, __FUNCTION__);
-                continue;
-            }
-
-            AFINetServerModule::TableCellToPBCell(xRowColData, i, j, *pAddData);
-        }
-    }
-
-    return true;
-}
 
 int AFCGameNetServerModule::OnSelfDataTableEnter(const AFGUID& self)
 {
@@ -350,7 +317,7 @@ int AFCGameNetServerModule::OnSelfDataTableEnter(const AFGUID& self)
     int8_t nFeature = 0;
     BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PRIVATE);
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
-    TableListToPB(self, pTableManager, *xPrivateMsg.add_multi_entity_data_table_list(), nFeature);
+    m_pNetModule->TableListToPB(self, pTableManager, *xPrivateMsg.add_multi_entity_data_table_list(), nFeature);
     SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPrivateMsg, self);
     return 0;
 }
@@ -373,7 +340,7 @@ int AFCGameNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, cons
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
     int8_t nFeature = 0;
     BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PUBLIC);
-    TableListToPB(self, pTableManager, *xPublicMsg.add_multi_entity_data_table_list(), nFeature);
+    m_pNetModule->TableListToPB(self, pTableManager, *xPublicMsg.add_multi_entity_data_table_list(), nFeature);
 
     for(size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -383,65 +350,7 @@ int AFCGameNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, cons
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPublicMsg, identOther);
         }
     }
-
     return 0;
-}
-
-
-bool AFCGameNetServerModule::TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager> pTableManager, AFMsg::EntityDataTableList& xPBData, const int8_t nFeature)
-{
-    AFMsg::EntityDataTableList* pPBData = &xPBData;
-    *(pPBData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
-
-    if(!pTableManager)
-    {
-        return false;
-    }
-
-    size_t nTableCount = pTableManager->GetCount();
-    for(size_t i = 0; i < nTableCount; ++i)
-    {
-        AFDataTable* pTable = pTableManager->GetTableByIndex(i);
-        if(pTable == nullptr)
-        {
-            continue;
-        }
-
-        if(pTable->GetFeature() & nFeature)
-        {
-            AddTableToPB(pTable, pPBData);
-        }
-    }
-
-    return true;
-}
-
-bool AFCGameNetServerModule::NoteListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const int8_t nFeature)
-{
-    if(!pNodeManager)
-    {
-        return false;
-    }
-
-    for(size_t i = 0; i < pNodeManager->GetNodeCount(); i++)
-    {
-        AFDataNode* pNode = pNodeManager->GetNodeByIndex(i);
-        if(pNode == nullptr)
-        {
-            continue;
-        }
-
-        if(pNode->Changed())
-        {
-            if(pNode->GetFeature() & nFeature)
-            {
-                AFMsg::PBNodeData* pData = xPBData.add_data_node_list();
-                AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
-            }
-        }
-    }
-
-    return true;
 }
 
 bool AFCGameNetServerModule::ProcessLeaveGroup(const AFGUID& self, int nSceneID, int nOldGroupID)
@@ -540,24 +449,6 @@ bool AFCGameNetServerModule::ProcessEnterGroup(const AFGUID& self, int nSceneID,
     return true;
 }
 
-bool AFCGameNetServerModule::AddTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableList* pPBData)
-{
-    if(!pTable || !pPBData)
-    {
-        return false;
-    }
-
-    AFMsg::EntityDataTableBase* pTableBase = pPBData->add_data_table_list();
-    pTableBase->set_table_name(pTable->GetName());
-
-    if(!PackTableToPB(pTable, pTableBase))
-    {
-        ARK_LOG_ERROR("OnRecordEnterPack failed, id ");
-        return false;
-    }
-
-    return true;
-}
 
 int AFCGameNetServerModule::OnEntityListEnter(const AFIDataList& self, const AFIDataList& argVar)
 {

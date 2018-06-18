@@ -27,6 +27,7 @@
 #include "SDK/Core/Base/AFQueue.h"
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "Server/Interface/AFINetModule.h"
+#include "SDK/Core/AFDataNode.h"
 struct ServerData
 {
     ServerData()
@@ -38,11 +39,11 @@ struct ServerData
         pData = NULL;
     }
 
-	void Init(const AFGUID& xClientID, const AFMsg::ServerInfoReport& xData)
-	{
-		xClient = xClientID;
-		*(pData) = xData;
-	}
+    void Init(const AFGUID& xClientID, const AFMsg::ServerInfoReport& xData)
+    {
+        xClient = xClientID;
+        *(pData) = xData;
+    }
 
     AFGUID xClient;
     ARK_SHARE_PTR<AFMsg::ServerInfoReport> pData;
@@ -207,6 +208,109 @@ public:
         return m_pNet;
     }
 
+    bool PackTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableBase* pEntityTableBase)
+    {
+        if(pTable == nullptr || pEntityTableBase == nullptr)
+        {
+            return false;
+        }
+
+        for(size_t i = 0; i < pTable->GetRowCount(); i++)
+        {
+            AFMsg::DataTableAddRow* pAddRowStruct = pEntityTableBase->add_row();
+            pAddRowStruct->set_row(i);
+            for(size_t j = 0; j < pTable->GetColCount(); j++)
+            {
+                AFMsg::PBCellData* pAddData = pAddRowStruct->add_cell_list();
+
+                AFCData xRowColData;
+                if(!pTable->GetValue(i, j, xRowColData))
+                {
+                    continue;
+                }
+
+                AFINetServerModule::TableCellToPBCell(xRowColData, i, j, *pAddData);
+            }
+        }
+
+        return true;
+    }
+
+    bool AddTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableList* pPBData)
+    {
+        if(!pTable || !pPBData)
+        {
+            return false;
+        }
+
+        AFMsg::EntityDataTableBase* pTableBase = pPBData->add_data_table_list();
+        pTableBase->set_table_name(pTable->GetName());
+
+        if(!PackTableToPB(pTable, pTableBase))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager> pTableManager, AFMsg::EntityDataTableList& xPBData, const int8_t nFeature)
+    {
+        AFMsg::EntityDataTableList* pPBData = &xPBData;
+        *(pPBData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
+
+        if(!pTableManager)
+        {
+            return false;
+        }
+
+        size_t nTableCount = pTableManager->GetCount();
+        for(size_t i = 0; i < nTableCount; ++i)
+        {
+            AFDataTable* pTable = pTableManager->GetTableByIndex(i);
+            if(pTable == nullptr)
+            {
+                continue;
+            }
+
+            if(pTable->GetFeature() & nFeature)
+            {
+                AddTableToPB(pTable, pPBData);
+            }
+        }
+
+        return true;
+    }
+
+    bool NoteListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const int8_t nFeature)
+    {
+        if(!pNodeManager)
+        {
+            return false;
+        }
+
+        for(size_t i = 0; i < pNodeManager->GetNodeCount(); i++)
+        {
+            AFDataNode* pNode = pNodeManager->GetNodeByIndex(i);
+            if(pNode == nullptr)
+            {
+                continue;
+            }
+
+            if(pNode->Changed())
+            {
+                if(pNode->GetFeature() & nFeature)
+                {
+                    AFMsg::PBNodeData* pData = xPBData.add_data_node_list();
+                    AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
+                }
+            }
+        }
+
+        return true;
+    }
+
 protected:
     void OnReceiveNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID)
     {
@@ -243,6 +347,8 @@ protected:
 
         //SendMsgPB(AFMsg::EGameMsgID::EGMI_STS_HEART_BEAT, xMsg, AFGUID(0), AFGUID(0));
     }
+
+
 
 private:
     AFINet* m_pNet;

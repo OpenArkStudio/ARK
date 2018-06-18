@@ -104,9 +104,6 @@ public:
     int GetTableBroadcastEntityList(const AFGUID& self, const std::string& strPropertyName, AFIDataList& valueObject);
     int GetBroadcastEntityList(const int nObjectContainerID, const int nGroupID, AFIDataList& valueObject);
 
-    bool AddTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableList* pPrivateData);
-    bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager> pTableManager, AFMsg::EntityDataTableList& xPBData, const int8_t nFeature);
-    bool NoteListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const int8_t nFeature);
     bool ProcessLeaveGroup(const AFGUID& self, int nSceneID, int nOldGroupID);
     bool ProcessEnterGroup(const AFGUID& self, int nSceneID, int nNewGroupID);
 
