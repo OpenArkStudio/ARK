@@ -167,14 +167,14 @@ void AFCProxyNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
     {
         if(pSessionData->mnGameID > 0 && !pSessionData->mnUserID.IsNULL())
         {
-			AFMsg::ReqLeaveGameServer xData;
-			std::string strMsg;
-			if (!xData.SerializeToString(&strMsg))
-			{
-				return;
-			}
+            AFMsg::ReqLeaveGameServer xData;
+            std::string strMsg;
+            if(!xData.SerializeToString(&strMsg))
+            {
+                return;
+            }
 
-			m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, strMsg, pSessionData->mnUserID);
+            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, strMsg, pSessionData->mnUserID);
         }
 
         mmSessionData.RemoveElement(xClientID);
@@ -221,7 +221,7 @@ void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, co
         xData.set_type(AFMsg::RSLT_GAMES_ERVER);
 
         AFMapEx<int, ConnectData>& xServerList = m_pProxyServerToGameModule->GetClusterModule()->GetServerList();
-        ConnectData* pGameData = xServerList.FirstNude();
+        auto pGameData = xServerList.First();
         while(pGameData != nullptr)
         {
             if(ConnectDataState::NORMAL == pGameData->eState)
@@ -234,7 +234,7 @@ void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, co
                 pServerInfo->set_wait_count(0);
             }
 
-            pGameData = xServerList.NextNude();
+            pGameData = xServerList.Next();
         }
 
         m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, nPlayerID);
@@ -269,23 +269,23 @@ void AFCProxyNetServerModule::OnClientConnected(const AFGUID& xClientID)
 
 void AFCProxyNetServerModule::OnReqRoleListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	CheckSessionTransMsg<AFMsg::ReqRoleList>(xHead, nMsgID, msg, nLen, xClientID);
+    CheckSessionTransMsg<AFMsg::ReqRoleList>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
 void AFCProxyNetServerModule::OnReqCreateRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //在没有正式进入游戏之前，nPlayerID都是FD
-	CheckSessionTransMsg<AFMsg::ReqCreateRole>(xHead, nMsgID, msg, nLen, xClientID);
+    CheckSessionTransMsg<AFMsg::ReqCreateRole>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
 void AFCProxyNetServerModule::OnReqDelRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	CheckSessionTransMsg<AFMsg::ReqDeleteRole>(xHead, nMsgID, msg, nLen, xClientID);
+    CheckSessionTransMsg<AFMsg::ReqDeleteRole>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
 void AFCProxyNetServerModule::OnReqEnterGameServer(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	CheckSessionTransMsg<AFMsg::ReqEnterGameServer>(xHead, nMsgID, msg, nLen, xClientID);
+    CheckSessionTransMsg<AFMsg::ReqEnterGameServer>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
 int AFCProxyNetServerModule::EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID)
@@ -301,19 +301,19 @@ int AFCProxyNetServerModule::EnterGameSuccessEvent(const AFGUID xClientID, const
 
 bool AFCProxyNetServerModule::ChecSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount)
 {
-	ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(nGameID);
-	if (pServerData && ConnectDataState::NORMAL == pServerData->eState)
-	{
-		//数据匹配
-		ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-		if (pSessionData
-			&& pSessionData->mnLogicState > 0
-			&& pSessionData->mnGameID == nGameID
-			&& pSessionData->mstrAccout == strAccount)
-		{
-			return true;
-		}
-	}
+    ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(nGameID);
+    if(pServerData && ConnectDataState::NORMAL == pServerData->eState)
+    {
+        //数据匹配
+        ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
+        if(pSessionData
+                && pSessionData->mnLogicState > 0
+                && pSessionData->mnGameID == nGameID
+                && pSessionData->mstrAccout == strAccount)
+        {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }

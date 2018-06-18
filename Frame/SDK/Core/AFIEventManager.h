@@ -23,7 +23,7 @@
 #include "SDK/Core/Base/AFPlatform.hpp"
 #include "SDK/Core/Base/AFDefine.h"
 #include "SDK/Core/Base/AFList.h"
-#include "SDK/Core/Base/AFMapEx.h"
+#include "SDK/Core/Base/AFMap.hpp"
 #include "SDK/Core/Base/AFIDataList.h"
 
 class AFIEventManager
@@ -39,7 +39,7 @@ public:
         EVENT_PROCESS_FUNCTOR_PTR functorPtr(new EVENT_PROCESS_FUNCTOR(functor));
         return AddEventCallBack(nEventID, functorPtr);
     }
-    
+
     virtual bool RemoveEventCallBack(const int nEventID) = 0;
 
     virtual bool DoEvent(const int nEventID, const AFIDataList& valueList) = 0;

@@ -23,7 +23,7 @@
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Core/Base/AFCConsistentHash.hpp"
 #include "SDK/Net/AFCNetClient.h"
-#include "SDK/Core/Base/AFMapEx.h"
+#include "SDK/Core/Base/AFMap.hpp"
 #include "Server/Interface/AFINetModule.h"
 
 enum ConnectDataState
@@ -260,7 +260,7 @@ protected:
 protected:
     void ProcessExecute()
     {
-        ConnectData* pServerData = mxServerMap.FirstNude();
+        auto pServerData = mxServerMap.FirstNude();
         while(pServerData != nullptr)
         {
             switch(pServerData->eState)
@@ -326,7 +326,7 @@ private:
     {
         LogServerInfo("This is a client, begin to print Server Info----------------------------------");
 
-        ConnectData* pServerData = mxServerMap.FirstNude();
+        auto pServerData = mxServerMap.FirstNude();
         while(nullptr != pServerData)
         {
             std::ostringstream stream;

@@ -25,8 +25,7 @@
 #include "SDK/Core/Base/AFCDataList.h"
 #include "SDK/Core/Base/AFIData.h"
 #include "AFIHeartBeatManager.h"
-#include "SDK/Core/Base/AFMapEx.h"
-#include "SDK/Core/Base/AFMap.h"
+#include "SDK/Core/Base/AFMap.hpp"
 
 class AFCHeartBeatManager : public AFIHeartBeatManager
 {

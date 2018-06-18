@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Core/Base/AFList.h"
-#include "SDK/Core/Base/AFMap.h"
+#include "SDK/Core/Base/AFMap.hpp"
 #include "SDK/Core/Base/AFGUID.h"
 #include "SDK/Core/AFIEntity.h"
 
@@ -90,9 +90,9 @@ public:
     bool AddObjectToGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
         ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
-        if (pInfo.get())
+        if(pInfo.get())
         {
-            if (bPlayer)
+            if(bPlayer)
             {
                 return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.second涓虹┖锛屼娇鐢ㄧ殑鏃跺€欏崈涓囨敞鎰?
             }
@@ -108,9 +108,9 @@ public:
     bool RemoveObjectFromGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
         ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
-        if (nullptr != pInfo)
+        if(nullptr != pInfo)
         {
-            if (bPlayer)
+            if(bPlayer)
             {
                 return pInfo->mxPlayerList.RemoveElement(ident);
             }
@@ -126,7 +126,7 @@ public:
     bool Execute()
     {
         ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = First();
-        while (pGroupInfo.get())
+        while(pGroupInfo.get())
         {
             pGroupInfo->Execute();
 
@@ -142,7 +142,7 @@ private:
 
 class AFISceneModule
     : public AFIModule,
-  public AFMapEx<int, AFCSceneInfo>
+      public AFMapEx<int, AFCSceneInfo>
 {
 public:
     virtual ~AFISceneModule()

@@ -22,7 +22,7 @@
 
 #include "SDK/Core/Base/AFMacros.hpp"
 #include "AFIModule.h"
-#include "SDK/Core/Base/AFMapEx.h"
+#include "SDK/Core/Base/AFMap.hpp"
 #include "SDK/Core/AFIDataNodeManager.h"
 #include "SDK/Core/AFIDataTableManager.h"
 

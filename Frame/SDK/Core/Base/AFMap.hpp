@@ -20,19 +20,38 @@
 
 #pragma once
 
-#include "AFPlatform.hpp"
-#include "AFMacros.hpp"
+#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFMacros.hpp"
 
-template <typename T, typename TD>
-class AFMap
+
+template <typename TD, bool NEEDSMART>
+struct MapSmartPtrType
+{
+    typedef TD* VALUE;
+};
+
+template <typename TD>
+struct MapSmartPtrType<TD, true>
+{
+    typedef ARK_SHARE_PTR<TD> VALUE;
+};
+
+template <typename TD>
+struct MapSmartPtrType<TD, false>
+{
+    typedef TD* VALUE;
+};
+
+template <typename T, typename TD, bool NEEDSMART>
+class AFMapBase
 {
 public:
-    typedef std::map<T, TD*> MAP_DATA;
+    typedef typename MapSmartPtrType<TD, NEEDSMART>::VALUE PTRTYPE;
+    typedef std::map<T, PTRTYPE > MAP_DATA;
+    AFMapBase() = default;
+    virtual ~AFMapBase() = default;
 
-    AFMap() = default;
-    virtual ~AFMap() = default;
-
-    virtual bool AddElement(const T& name, TD* data)
+    virtual bool AddElement(const T& name, const PTRTYPE data)
     {
         typename MAP_DATA::iterator iter = mxObjectList.find(name);
         if(iter == mxObjectList.end())
@@ -44,37 +63,43 @@ public:
         return false;
     }
 
-    virtual TD* RemoveElement(const T& name)
+    virtual bool SetElement(const T& name, const PTRTYPE data)
     {
-        TD* pData = NULL;
+        mxObjectList[name] = data;
+        return true;
+    }
+
+    virtual bool RemoveElement(const T& name)
+    {
+        PTRTYPE pData;
         typename MAP_DATA::iterator iter = mxObjectList.find(name);
         if(iter != mxObjectList.end())
         {
             pData = iter->second;
             mxObjectList.erase(iter);
+
+            return true;
         }
 
-        return pData;
+        return false;
     }
 
-    virtual TD* GetElement(const T& name)
+    virtual const PTRTYPE& GetElement(const T& name)
     {
         typename MAP_DATA::iterator iter = mxObjectList.find(name);
         if(iter != mxObjectList.end())
         {
             return iter->second;
         }
-        else
-        {
-            return NULL;
-        }
+
+        return mNullPtr;
     }
 
-    virtual TD* First()
+    virtual const PTRTYPE& First()
     {
         if(mxObjectList.size() <= 0)
         {
-            return NULL;
+            return mNullPtr;
         }
 
         mxObjectCurIter = mxObjectList.begin();
@@ -82,17 +107,15 @@ public:
         {
             return mxObjectCurIter->second;
         }
-        else
-        {
-            return NULL;
-        }
+
+        return mNullPtr;
     }
 
-    virtual TD* Next()
+    virtual const PTRTYPE&  Next()
     {
         if(mxObjectCurIter == mxObjectList.end())
         {
-            return NULL;
+            return mNullPtr;
         }
 
         ++mxObjectCurIter;
@@ -100,17 +123,15 @@ public:
         {
             return mxObjectCurIter->second;
         }
-        else
-        {
-            return NULL;
-        }
+
+        return mNullPtr;
     }
 
-    virtual TD* First(T& name)
+    virtual const PTRTYPE& First(T& name)
     {
         if(mxObjectList.size() <= 0)
         {
-            return NULL;
+            return mNullPtr;
         }
 
         mxObjectCurIter = mxObjectList.begin();
@@ -119,17 +140,14 @@ public:
             name = mxObjectCurIter->first;
             return mxObjectCurIter->second;
         }
-        else
-        {
-            return NULL;
-        }
-    }
 
-    virtual TD* Next(T& name)
+        return mNullPtr;
+    }
+    virtual const PTRTYPE&  Next(T& name)
     {
         if(mxObjectCurIter == mxObjectList.end())
         {
-            return NULL;
+            return mNullPtr;
         }
 
         mxObjectCurIter++;
@@ -139,20 +157,79 @@ public:
             return mxObjectCurIter->second;
         }
 
-        return NULL;
+        return mNullPtr;
+    }
+
+    virtual  TD* FirstNude()
+    {
+        return nullptr;
+    }
+
+    virtual  TD*  NextNude()
+    {
+        return nullptr;
     }
 
     int GetCount()
     {
-        return mxObjectList.size();
+        return (int)mxObjectList.size();
     }
 
-    bool Clear()
+    bool ClearAll()
     {
         mxObjectList.clear();
         return true;
     }
-private:
+
+protected:
     MAP_DATA mxObjectList;
     typename MAP_DATA::iterator mxObjectCurIter;
+    const PTRTYPE mNullPtr = nullptr;
+};
+
+template <typename T, typename TD>
+class AFMapEx: public AFMapBase<T, TD, true >
+{
+public:
+    virtual  TD* FirstNude()
+    {
+        mxObjectCurIter = mxObjectList.begin();
+        if(mxObjectCurIter != mxObjectList.end())
+        {
+            return mxObjectCurIter->second.get();
+        }
+
+        return nullptr;
+    }
+
+    virtual  TD*  NextNude()
+    {
+        if(mxObjectCurIter == mxObjectList.end())
+        {
+            return nullptr;
+        }
+
+        mxObjectCurIter++;
+        if(mxObjectCurIter == mxObjectList.end())
+        {
+            return nullptr;
+        }
+
+        return mxObjectCurIter->second.get();
+    }
+};
+
+template <typename T, typename TD>
+class AFMap: public AFMapBase<T, TD, false >
+{
+public:
+    virtual  TD* FirstNude()
+    {
+        return First();
+    }
+
+    virtual  TD*  NextNude()
+    {
+        return Next();
+    }
 };

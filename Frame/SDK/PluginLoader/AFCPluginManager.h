@@ -24,6 +24,7 @@
 #include "SDK/Core/Base/AFSingleton.hpp"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Core/Base/AFArrayMap.hpp"
+#include "SDK/Core/Base/AFMap.hpp"
 
 class AFCPluginManager : public AFIPluginManager, public AFSingleton<AFCPluginManager>
 {
@@ -86,8 +87,6 @@ protected:
     bool LoadPluginLibrary(const std::string& strPluginDLLName);
     bool UnLoadPluginLibrary(const std::string& strPluginDLLName);
     bool UnLoadStaticPlugin(const std::string& strPluginDLLName);
-
-    bool ConsoleLog(const std::ostringstream& varLog);
 
 private:
     int mnAppID;

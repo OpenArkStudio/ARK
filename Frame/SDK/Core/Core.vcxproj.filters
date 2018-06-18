@@ -81,9 +81,6 @@
     <ClInclude Include="Base\AFGUID.h">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFHashmap.h">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\AFIData.h">
       <Filter>Base</Filter>
     </ClInclude>
@@ -97,12 +94,6 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Base\AFMacros.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\AFMap.h">
-      <Filter>Base</Filter>
-    </ClInclude>
-    <ClInclude Include="Base\AFMapEx.h">
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Base\AFMisc.hpp">
@@ -154,6 +145,9 @@
       <Filter>Base</Filter>
     </ClInclude>
     <ClInclude Include="Base\AFDateTime.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFMap.hpp">
       <Filter>Base</Filter>
     </ClInclude>
   </ItemGroup>

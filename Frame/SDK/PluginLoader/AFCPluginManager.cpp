@@ -302,7 +302,7 @@ bool AFCPluginManager::Shut()
 #endif
     }
 
-    mxPluginInstanceMap.Clear();
+    mxPluginInstanceMap.ClearAll();
     mxPluginNameMap.clear();
     return true;
 }

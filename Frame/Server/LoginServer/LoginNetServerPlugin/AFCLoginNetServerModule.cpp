@@ -200,7 +200,7 @@ void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
     xData.set_type(AFMsg::RSLT_WORLD_SERVER);
 
     AFMapEx<int, AFMsg::ServerInfoReport>& xWorldMap = m_pLoginToMasterModule->GetWorldMap();
-    AFMsg::ServerInfoReport* pWorldData = xWorldMap.FirstNude();
+    auto pWorldData = xWorldMap.First();
     while(pWorldData)
     {
         AFMsg::ServerInfo* pServerInfo = xData.add_info();
@@ -210,7 +210,7 @@ void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
         pServerInfo->set_server_id(pWorldData->server_id());
         pServerInfo->set_wait_count(0);
 
-        pWorldData = xWorldMap.NextNude();
+        pWorldData = xWorldMap.Next();
     }
 
 

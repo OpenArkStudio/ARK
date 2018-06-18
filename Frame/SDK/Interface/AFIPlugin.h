@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFMap.h"
+#include "SDK/Core/Base/AFMap.hpp"
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Core/Base/AFArrayMap.hpp"

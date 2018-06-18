@@ -24,7 +24,7 @@
 
 AFCHeartBeatManager::~AFCHeartBeatManager()
 {
-    mHeartBeatElementMapEx.Clear();
+    mHeartBeatElementMapEx.ClearAll();
 }
 
 void AFCHeartBeatElement::DoHeartBeatEvent(int64_t nNowTime)

@@ -21,7 +21,6 @@
 #pragma once
 
 #include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFMap.h"
 #include "SDK/Core/Base/AFList.h"
 #include "SDK/Core/Base/AFDefine.h"
 #include "SDK/Core/Base/AFCDataList.h"
@@ -93,7 +92,10 @@ public:
         return pPluginManager;
     }
 
-    void SetPluginManager(AFIPluginManager* p) { pPluginManager = p; }
+    void SetPluginManager(AFIPluginManager* p)
+    {
+        pPluginManager = p;
+    }
 
     bool Loading() const
     {

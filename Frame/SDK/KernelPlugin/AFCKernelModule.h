@@ -31,8 +31,8 @@
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFISceneModule.h"
 #include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFMapEx.h"
-#include "../Core/Base/AFArrayMap.hpp"
+#include "SDK/Core/Base/AFMap.hpp"
+#include "SDK/Core/Base/AFArrayMap.hpp"
 
 class AFCKernelModule
     : public AFIKernelModule,
