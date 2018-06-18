@@ -29,19 +29,9 @@ bool AFCTimerModule::Init()
     return true;
 }
 
-bool AFCTimerModule::PostInit()
-{
-    return true;
-}
-
 bool AFCTimerModule::PreShut()
 {
     mxTimerManager->Shut();
-    return true;
-}
-
-bool AFCTimerModule::Shut()
-{
     return true;
 }
 

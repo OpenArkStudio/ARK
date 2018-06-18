@@ -143,11 +143,6 @@ bool Example3Module::PostInit()
     return true;
 }
 
-bool Example3Module::Update()
-{
-    return true;
-}
-
 bool Example3Module::PreShut()
 {
     std::cout << typeid(Example3Module).name() << ", PreShut" << std::endl;

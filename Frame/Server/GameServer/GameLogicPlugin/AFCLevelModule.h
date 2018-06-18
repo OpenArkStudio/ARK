@@ -38,9 +38,6 @@ public:
     }
     virtual ~AFCLevelModule() = default;
 
-    virtual bool Init();
-    virtual bool Shut();
-    virtual bool Update();
     virtual bool PostInit();
 
     virtual int AddExp(const AFGUID& self, const int nExp);

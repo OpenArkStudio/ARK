@@ -33,8 +33,6 @@ public:
     }
 
     virtual bool Init();
-    virtual bool Shut();
-    virtual bool Update();
 
 private:
     AFIKernelModule* m_pKernelModule;

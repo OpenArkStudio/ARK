@@ -37,10 +37,7 @@ public:
     virtual ~AFCGUIDModule() = default;
 
     virtual bool Init();
-    virtual bool PostInit();
-    virtual bool Update();
     virtual bool PreShut();
-    virtual bool Shut();
 
     virtual void SetGUIDMask(uint64_t mask);
     virtual AFGUID CreateGUID();

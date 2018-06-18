@@ -38,10 +38,6 @@ public:
         pPluginManager = p;
     }
     virtual ~AFCPropertyConfigModule() = default;
-
-    virtual bool Init();
-    virtual bool Shut();
-    virtual bool Update();
     virtual bool PostInit();
 
     virtual int CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty);

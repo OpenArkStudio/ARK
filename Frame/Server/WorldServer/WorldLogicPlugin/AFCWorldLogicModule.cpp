@@ -22,21 +22,6 @@
 #include "AFCWorldLogicModule.h"
 #include "SDK/Core/Base/AFPlatform.hpp"
 
-bool AFCWorldLogicModule::Init()
-{
-    return true;
-}
-
-bool AFCWorldLogicModule::Shut()
-{
-    return true;
-}
-
-bool AFCWorldLogicModule::Update()
-{
-    return true;
-}
-
 bool AFCWorldLogicModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();

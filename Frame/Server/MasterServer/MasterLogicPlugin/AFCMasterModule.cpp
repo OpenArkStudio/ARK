@@ -26,13 +26,3 @@ bool AFCMasterModule::Init()
 
     return true;
 }
-
-bool AFCMasterModule::Shut()
-{
-    return true;
-}
-
-bool AFCMasterModule::Update()
-{
-    return true;
-}

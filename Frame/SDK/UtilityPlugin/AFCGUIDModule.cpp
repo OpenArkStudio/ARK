@@ -138,16 +138,6 @@ bool AFCGUIDModule::Init()
     return true;
 }
 
-bool AFCGUIDModule::PostInit()
-{
-    return true;
-}
-
-bool AFCGUIDModule::Update()
-{
-    return true;
-}
-
 bool AFCGUIDModule::PreShut()
 {
     if(m_pIDWoker != nullptr)
@@ -156,11 +146,6 @@ bool AFCGUIDModule::PreShut()
         m_pIDWoker = NULL;
     }
 
-    return true;
-}
-
-bool AFCGUIDModule::Shut()
-{
     return true;
 }
 

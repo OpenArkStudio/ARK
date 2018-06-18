@@ -22,21 +22,6 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Core/Base/AFCDataList.h"
 
-bool AFCPropertyTrailModule::Init()
-{
-    return true;
-}
-
-bool AFCPropertyTrailModule::Shut()
-{
-    return true;
-}
-
-bool AFCPropertyTrailModule::Update()
-{
-    return true;
-}
-
 bool AFCPropertyTrailModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();

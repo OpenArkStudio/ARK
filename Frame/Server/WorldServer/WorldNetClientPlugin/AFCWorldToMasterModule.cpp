@@ -139,7 +139,7 @@ void AFCWorldToMasterModule::RefreshWorldInfo()
 
 void AFCWorldToMasterModule::OnSelectServerProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
 
     ARK_SHARE_PTR<ServerData> xServerData = m_pWorldNet_ServerModule->GetSuitProxyForEnter();
     if(xServerData)
@@ -164,7 +164,7 @@ void AFCWorldToMasterModule::OnSelectServerProcess(const AFIMsgHead& xHead, cons
 
 void AFCWorldToMasterModule::OnKickClientProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqKickFromWorld);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqKickFromWorld);
 }
 
 void AFCWorldToMasterModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
@@ -193,11 +193,6 @@ void AFCWorldToMasterModule::OnClientDisconnect(const AFGUID& xClientID)
 void AFCWorldToMasterModule::OnClientConnected(const AFGUID& xClientID)
 {
     //do something
-}
-
-bool AFCWorldToMasterModule::PreShut()
-{
-    return true;
 }
 
 void AFCWorldToMasterModule::LogServerInfo(const std::string& strServerInfo)

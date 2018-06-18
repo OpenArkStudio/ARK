@@ -40,7 +40,7 @@ void TestDateTime()
     std::cout << now.ToString() << std::endl;
     std::cout << now.GetYear() << "/" << now.GetMonth() << "/" << now.GetDay() << " " << now.GetHour() << ":" << now.GetMinute() << ":" << now.GetSecond() << std::endl;
     std::cout << now.GetTime() << std::endl;
-    
+
     AFDateTime now2(now.GetYear(), now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
     ARK_ASSERT_NO_EFFECT(now.GetTime() == now2.GetTime());
 }
@@ -95,11 +95,6 @@ bool Example1Module::PostInit()
 
     //m_pTimerModule->AddSingleTimer("test", test_id, 10 * 1000/*ms*/, 2, this, &Example1Module::TestTimer);
 
-    return true;
-}
-
-bool Example1Module::Update()
-{
     return true;
 }
 

@@ -98,11 +98,6 @@ bool AFCGameNetServerModule::PostInit()
     return true;
 }
 
-bool AFCGameNetServerModule::Shut()
-{
-    return true;
-}
-
 bool AFCGameNetServerModule::Update()
 {
     return m_pNetModule->Update();

@@ -121,7 +121,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
     //2.set the default value of them
     ARK_SHARE_PTR<AFIDataNodeManager> pClassNodeManager = pLogicClass->GetNodeManager();
     ARK_SHARE_PTR<AFIDataTableManager> pClassTableManager = pLogicClass->GetTableManager();
-    if(pClassNodeManager != nullptr&& pClassTableManager != nullptr)
+    if(pClassNodeManager != nullptr && pClassTableManager != nullptr)
     {
         size_t nodeCount = pClassNodeManager->GetNodeCount();
         for(size_t i = 0; i < nodeCount; ++i)
@@ -247,7 +247,7 @@ bool AFCElementModule::GetNodeBool(const std::string& strConfigName, const std::
 int32_t AFCElementModule::GetNodeInt(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-    if (pNode != nullptr)
+    if(pNode != nullptr)
     {
         return pNode->value.GetInt();
     }
@@ -260,7 +260,7 @@ int32_t AFCElementModule::GetNodeInt(const std::string& strConfigName, const std
 int64_t AFCElementModule::GetNodeInt64(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-    if (pNode != nullptr)
+    if(pNode != nullptr)
     {
         return pNode->value.GetInt64();
     }
@@ -273,7 +273,7 @@ int64_t AFCElementModule::GetNodeInt64(const std::string& strConfigName, const s
 float AFCElementModule::GetNodeFloat(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-    if (pNode != nullptr)
+    if(pNode != nullptr)
     {
         return pNode->value.GetFloat();
     }
@@ -286,7 +286,7 @@ float AFCElementModule::GetNodeFloat(const std::string& strConfigName, const std
 double AFCElementModule::GetNodeDouble(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-    if (pNode != nullptr)
+    if(pNode != nullptr)
     {
         return pNode->value.GetDouble();
     }
@@ -299,7 +299,7 @@ double AFCElementModule::GetNodeDouble(const std::string& strConfigName, const s
 const char* AFCElementModule::GetNodeString(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-    if (pNode != nullptr)
+    if(pNode != nullptr)
     {
         return pNode->value.GetString();
     }
@@ -388,21 +388,6 @@ bool AFCElementModule::LegalNumber(const char* str)
         }
     }
 
-    return true;
-}
-
-bool AFCElementModule::PostInit()
-{
-    return true;
-}
-
-bool AFCElementModule::PreShut()
-{
-    return true;
-}
-
-bool AFCElementModule::Update()
-{
     return true;
 }
 

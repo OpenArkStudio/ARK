@@ -31,11 +31,7 @@ public:
     virtual ~AFCScheduleModule() = default;
 
     virtual bool Init();
-    virtual bool PostInit();
-
     virtual bool PreShut();
-    virtual bool Shut();
-
     virtual bool Update();
 
     virtual bool RemoveSchedule(const int cron_id);

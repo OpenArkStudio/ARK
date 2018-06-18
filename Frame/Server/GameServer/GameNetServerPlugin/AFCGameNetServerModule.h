@@ -44,7 +44,6 @@ public:
         pPluginManager = p;
     }
     virtual bool Init();
-    virtual bool Shut();
     virtual bool Update();
 
     virtual bool PostInit();

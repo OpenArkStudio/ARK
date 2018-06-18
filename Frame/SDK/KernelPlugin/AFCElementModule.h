@@ -71,10 +71,6 @@ public:
     virtual bool Init();
     virtual bool Shut();
 
-    virtual bool PostInit();
-    virtual bool PreShut();
-    virtual bool Update();
-
     virtual bool Load();
     virtual bool Save();
     virtual bool Clear();

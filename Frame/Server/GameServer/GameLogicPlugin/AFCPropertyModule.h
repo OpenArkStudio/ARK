@@ -40,8 +40,6 @@ public:
     virtual ~AFCPropertyModule() = default;
 
     virtual bool Init();
-    virtual bool Shut();
-    virtual bool Update();
     virtual bool PostInit();
 
     virtual int RefreshBaseProperty(const AFGUID& self);

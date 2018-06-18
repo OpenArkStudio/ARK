@@ -33,12 +33,6 @@ bool AFCGameServerToWorldModule::Init()
     return true;
 }
 
-bool AFCGameServerToWorldModule::Shut()
-{
-    return true;
-}
-
-
 bool AFCGameServerToWorldModule::Update()
 {
     return m_pNetClientModule->Update();
@@ -124,7 +118,7 @@ bool AFCGameServerToWorldModule::PostInit()
 
     // 连接world server
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (nullptr == xLogicClass)
+    if(nullptr == xLogicClass)
     {
         return false;
     }
@@ -207,7 +201,7 @@ void AFCGameServerToWorldModule::SendOffline(const AFGUID& self)
 
 void AFCGameServerToWorldModule::TransPBToProxy(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen);
+    ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen);
     m_pGameServerNet_ServerModule->SendMsgPBToGate(nMsgID, strMsg, nPlayerID);
 
     return;

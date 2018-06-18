@@ -33,11 +33,6 @@ bool AFCProxyServerToWorldModule::Init()
     return true;
 }
 
-bool AFCProxyServerToWorldModule::Shut()
-{
-    return true;
-}
-
 bool AFCProxyServerToWorldModule::Update()
 {
     return m_pNetClientModule->Update();
@@ -186,7 +181,7 @@ bool AFCProxyServerToWorldModule::PostInit()
 
 void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
     ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.GetElement(xMsg.account());
     if(pConnectData != nullptr)
     {
@@ -229,7 +224,7 @@ void AFCProxyServerToWorldModule::OnOtherMessage(const AFIMsgHead& xHead, const 
 
 void AFCProxyServerToWorldModule::OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::BrocastMsg);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::BrocastMsg);
     for(int i = 0; i < xMsg.target_entity_list_size(); i++)
     {
         const AFMsg::PBGUID& xPlayerClientID = xMsg.target_entity_list(i);

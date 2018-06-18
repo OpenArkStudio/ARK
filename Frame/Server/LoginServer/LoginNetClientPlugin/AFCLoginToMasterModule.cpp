@@ -31,11 +31,6 @@ bool AFCLoginToMasterModule::Init()
     return true;
 }
 
-bool AFCLoginToMasterModule::Shut()
-{
-    return true;
-}
-
 bool AFCLoginToMasterModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
@@ -80,12 +75,6 @@ bool AFCLoginToMasterModule::PostInit()
     }
 
     return true;
-}
-
-bool AFCLoginToMasterModule::PreShut()
-{
-
-    return false;
 }
 
 bool AFCLoginToMasterModule::Update()
@@ -138,7 +127,7 @@ void AFCLoginToMasterModule::Register(const int nServerID)
 
 void AFCLoginToMasterModule::OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
     m_pLoginNet_ServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), AFINetModule::PBToGUID(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_ip(), xMsg.world_port(), xMsg.world_key());
 }
 
@@ -157,7 +146,7 @@ void AFCLoginToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AF
 
 void AFCLoginToMasterModule::OnWorldInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
     for(int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);

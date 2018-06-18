@@ -34,11 +34,7 @@ public:
     virtual ~AFCTimerModule() = default;
 
     virtual bool Init();
-    virtual bool PostInit();
-
     virtual bool PreShut();
-    virtual bool Shut();
-
     virtual bool Update();
 
     virtual bool RemoveTimer(const std::string& name);

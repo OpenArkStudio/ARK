@@ -31,24 +31,3 @@ bool AFCGameServerModule::Init()
 
     return true;
 }
-
-bool AFCGameServerModule::Shut()
-{
-
-    return true;
-}
-
-bool AFCGameServerModule::Update()
-{
-    return true;
-}
-
-bool AFCGameServerModule::PostInit()
-{
-    return true;
-}
-
-bool AFCGameServerModule::PreShut()
-{
-    return true;
-}

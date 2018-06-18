@@ -28,10 +28,6 @@ public:
     explicit AFCLogModule(AFIPluginManager* p);
     virtual ~AFCLogModule() = default;
 
-    virtual bool Init();
-    virtual bool PostInit();
-    virtual bool Update();
-    virtual bool PreShut();
     virtual bool Shut();
 
     virtual std::shared_ptr<spdlog::logger>& GetLogger();

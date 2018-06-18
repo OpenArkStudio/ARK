@@ -30,16 +30,6 @@ bool AFCLoginNetServerModule::Init()
     return true;
 }
 
-bool AFCLoginNetServerModule::Shut()
-{
-    return true;
-}
-
-bool AFCLoginNetServerModule::PreShut()
-{
-    return true;
-}
-
 bool AFCLoginNetServerModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
@@ -134,7 +124,7 @@ void AFCLoginNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 
 void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
     ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
     if(pSession)
     {
@@ -168,7 +158,7 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
 
 void AFCLoginNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
     ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
     if(!pSession)
     {
@@ -229,7 +219,7 @@ void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
 
 void AFCLoginNetServerModule::OnViewWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqServerList);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqServerList);
     if(xMsg.type() == AFMsg::RSLT_WORLD_SERVER)
     {
         SynWorldToClient(xClientID);

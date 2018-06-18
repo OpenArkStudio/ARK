@@ -22,7 +22,7 @@
 
 AFCEventManager::AFCEventManager(AFGUID self) : mSelf(self)
 {
-    
+
 }
 
 AFCEventManager::~AFCEventManager()

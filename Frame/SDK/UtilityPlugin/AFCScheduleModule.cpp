@@ -32,19 +32,9 @@ bool AFCScheduleModule::Init()
     return true;
 }
 
-bool AFCScheduleModule::PostInit()
-{
-    return true;
-}
-
 bool AFCScheduleModule::PreShut()
 {
     mxCronSheduler->Clear();
-    return true;
-}
-
-bool AFCScheduleModule::Shut()
-{
     return true;
 }
 

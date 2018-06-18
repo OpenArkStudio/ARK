@@ -21,21 +21,6 @@
 #include "AFProxyLogicPlugin.h"
 #include "AFCProxyLogicModule.h"
 
-bool AFCProxyLogicModule::Init()
-{
-    return true;
-}
-
-bool AFCProxyLogicModule::Shut()
-{
-    return true;
-}
-
-bool AFCProxyLogicModule::Update()
-{
-    return true;
-}
-
 bool AFCProxyLogicModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();

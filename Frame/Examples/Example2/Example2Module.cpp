@@ -67,11 +67,6 @@ bool Example2Module::PostInit()
     return true;
 }
 
-bool Example2Module::Update()
-{
-    return true;
-}
-
 bool Example2Module::PreShut()
 {
     std::cout << typeid(Example2Module).name() << ", PreShut" << std::endl;

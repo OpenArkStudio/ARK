@@ -24,23 +24,3 @@ bool AFCSceneModule::Init()
 {
     return true;
 }
-
-bool AFCSceneModule::PostInit()
-{
-    return true;
-}
-
-bool AFCSceneModule::PreShut()
-{
-    return true;
-}
-
-bool AFCSceneModule::Shut()
-{
-    return true;
-}
-
-bool AFCSceneModule::Update()
-{
-    return true;
-}

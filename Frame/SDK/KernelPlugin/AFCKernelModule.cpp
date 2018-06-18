@@ -98,8 +98,6 @@ bool AFCKernelModule::Update()
         mtDeleteSelfList.clear();
     }
 
-    m_pSceneModule->Update();
-
     ARK_SHARE_PTR<AFIEntity> pEntity = First();
     while(pEntity)
     {

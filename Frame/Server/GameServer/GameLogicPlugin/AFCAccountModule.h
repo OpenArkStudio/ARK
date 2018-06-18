@@ -39,9 +39,6 @@ public:
     virtual ~AFCAccountModule() = default;
 
     virtual bool Init();
-    virtual bool Shut();
-    virtual bool Update();
-    virtual bool PostInit();
 
     virtual bool GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
     virtual bool CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList);

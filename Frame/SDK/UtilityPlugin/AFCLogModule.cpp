@@ -40,7 +40,7 @@ AFCLogModule::AFCLogModule(AFIPluginManager* p)
     sinks_vec.push_back(color_sink);
 #endif
     sinks_vec.push_back(daily_sink);
-    
+
     mxLogger = std::make_shared<spdlog::logger>("", std::begin(sinks_vec), std::end(sinks_vec));
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
@@ -51,26 +51,6 @@ AFCLogModule::AFCLogModule(AFIPluginManager* p)
 #endif
 
     spdlog::register_logger(mxLogger);
-}
-
-bool AFCLogModule::Init()
-{
-    return true;
-}
-
-bool AFCLogModule::PostInit()
-{
-    return true;
-}
-
-bool AFCLogModule::Update()
-{
-    return true;
-}
-
-bool AFCLogModule::PreShut()
-{
-    return true;
 }
 
 bool AFCLogModule::Shut()

@@ -23,21 +23,6 @@
 #include "SDK/Proto/ARKDataDefine.hpp"
 #include "Server/Interface/AFEventDefine.h"
 
-bool AFCSceneProcessModule::Init()
-{
-    return true;
-}
-
-bool AFCSceneProcessModule::Shut()
-{
-    return true;
-}
-
-bool AFCSceneProcessModule::Update()
-{
-    return true;
-}
-
 bool AFCSceneProcessModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();

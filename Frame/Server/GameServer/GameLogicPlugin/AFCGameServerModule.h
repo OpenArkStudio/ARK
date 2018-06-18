@@ -36,11 +36,6 @@ public:
     virtual ~AFCGameServerModule() = default;
 
     virtual bool Init();
-    virtual bool Shut();
-    virtual bool Update();
-
-    virtual bool PostInit();
-    virtual bool PreShut();
 
 private:
     AFIGUIDModule* m_pUUIDModule;

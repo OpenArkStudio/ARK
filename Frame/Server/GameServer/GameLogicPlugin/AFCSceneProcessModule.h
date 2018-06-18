@@ -47,9 +47,6 @@ public:
 
     virtual ~AFCSceneProcessModule() = default;
 
-    virtual bool Init();
-    virtual bool Shut();
-    virtual bool Update();
     virtual bool PostInit();
 
     virtual E_SCENE_TYPE GetCloneSceneType(const int nSceneID);

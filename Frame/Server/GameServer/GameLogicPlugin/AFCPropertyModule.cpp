@@ -29,16 +29,6 @@ bool AFCPropertyModule::Init()
     return true;
 }
 
-bool AFCPropertyModule::Shut()
-{
-    return true;
-}
-
-bool AFCPropertyModule::Update()
-{
-    return true;
-}
-
 bool AFCPropertyModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();

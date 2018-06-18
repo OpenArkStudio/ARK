@@ -38,11 +38,9 @@ public:
     }
 
     virtual bool Init();
-    virtual bool Shut();
     virtual bool Update();
 
     virtual bool PostInit();
-    virtual bool PreShut();
 
     virtual void LogReceive(const char* str) {/*log*/}
     virtual void LogSend(const char* str) {/*log*/}

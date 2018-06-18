@@ -32,24 +32,9 @@ bool AFCAccountModule::Init()
     return true;
 }
 
-bool AFCAccountModule::Shut()
-{
-    return true;
-}
-
-bool AFCAccountModule::Update()
-{
-    return true;
-}
-
 int AFCAccountModule::OnLoadRoleFinalEvent(const AFGUID& object, const int nEventID, const AFIDataList& var)
 {
     return 0;
-}
-
-bool AFCAccountModule::PostInit()
-{
-    return true;
 }
 
 bool AFCAccountModule::GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList)

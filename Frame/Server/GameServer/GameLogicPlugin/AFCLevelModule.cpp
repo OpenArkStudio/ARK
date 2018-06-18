@@ -20,22 +20,6 @@
 
 #include "AFCLevelModule.h"
 
-bool AFCLevelModule::Init()
-{
-    return true;
-}
-
-
-bool AFCLevelModule::Shut()
-{
-    return true;
-}
-
-bool AFCLevelModule::Update()
-{
-    return true;
-}
-
 bool AFCLevelModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
@@ -56,7 +40,7 @@ int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
     nCurExp += nExp;
 
     int nRemainExp = nCurExp - nMaxExp;
-    while (nRemainExp >= 0)
+    while(nRemainExp >= 0)
     {
         //升级
         nLevel++;
@@ -66,7 +50,7 @@ int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
         nCurExp = nRemainExp;
 
         nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ARK::Player::MAXEXP());
-        if (nMaxExp <= 0)
+        if(nMaxExp <= 0)
         {
             break;
         }
