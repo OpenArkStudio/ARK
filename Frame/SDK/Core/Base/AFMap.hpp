@@ -179,15 +179,39 @@ public:
         return true;
     }
 
-protected:
-    MAP_DATA& GetObjectList()
+public:
+    bool Begin()
     {
-        return mxObjectList;
+        mxObjectCurIter = mxObjectList.begin();
+        if(mxObjectCurIter != mxObjectList.end())
+        {
+            return true;
+        }
+
+        return false;
     }
 
-    typename MAP_DATA::iterator & GetCurIter()
+    bool Increase()
     {
-        return mxObjectCurIter;
+        if(mxObjectCurIter != mxObjectList.end())
+        {
+            ++mxObjectCurIter;
+            if(mxObjectCurIter != mxObjectList.end())
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    const PTRTYPE& GetCurrentData()
+    {
+        if(mxObjectCurIter != mxObjectList.end())
+        {
+            return mxObjectCurIter->second;
+        }
+        return mNullPtr;
     }
 
 private:
@@ -199,46 +223,9 @@ private:
 template <typename T, typename TD>
 class AFMapEx: public AFMapBase<T, TD, true >
 {
-public:
-    virtual  TD* FirstNude()
-    {
-        GetCurIter() = GetObjectList().begin();
-        if(GetCurIter() != GetObjectList().end())
-        {
-            return GetCurIter()->second.get();
-        }
-
-        return nullptr;
-    }
-
-    virtual  TD*  NextNude()
-    {
-        if(GetCurIter() == GetObjectList().end())
-        {
-            return nullptr;
-        }
-
-        GetCurIter()++;
-        if(GetCurIter() == GetObjectList().end())
-        {
-            return nullptr;
-        }
-
-        return GetCurIter()->second.get();
-    }
 };
 
 template <typename T, typename TD>
 class AFMap: public AFMapBase<T, TD, false >
 {
-public:
-    virtual  TD* FirstNude()
-    {
-        return First();
-    }
-
-    virtual  TD*  NextNude()
-    {
-        return Next();
-    }
 };

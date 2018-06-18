@@ -260,9 +260,10 @@ protected:
 protected:
     void ProcessExecute()
     {
-        auto pServerData = mxServerMap.FirstNude();
-        while(pServerData != nullptr)
+        bool bRet = mxServerMap.Begin();
+        while(bRet)
         {
+            const auto& pServerData = mxServerMap.GetCurrentData();
             switch(pServerData->eState)
             {
             case ConnectDataState::DISCONNECT:
@@ -288,7 +289,7 @@ protected:
                     {
                         pServerData->mxNetModule->Update();
 
-                        KeepState(pServerData);
+                        KeepState(pServerData.get());
                     }
                 }
                 break;
@@ -314,7 +315,7 @@ protected:
                 break;
             }
 
-            pServerData = mxServerMap.NextNude();
+            bRet = mxServerMap.Increase();
         }
     }
 
@@ -326,15 +327,16 @@ private:
     {
         LogServerInfo("This is a client, begin to print Server Info----------------------------------");
 
-        auto pServerData = mxServerMap.FirstNude();
-        while(nullptr != pServerData)
+        bool bRet = mxServerMap.Begin();
+        while(bRet)
         {
+            const auto& pServerData = mxServerMap.GetCurrentData();
             std::ostringstream stream;
             stream << "Type: " << pServerData->eServerType << " ProxyServer ID: " << pServerData->nGameID << " State: " << pServerData->eState << " IP: " << pServerData->strIP << " Port: " << pServerData->nPort;
 
             LogServerInfo(stream.str());
 
-            pServerData = mxServerMap.NextNude();
+            bRet = mxServerMap.Increase();
         }
 
         LogServerInfo("This is a client, end to print Server Info----------------------------------");
