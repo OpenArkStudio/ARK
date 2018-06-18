@@ -48,7 +48,11 @@ class AFMapBase
 public:
     typedef typename MapSmartPtrType<TD, NEEDSMART>::VALUE PTRTYPE;
     typedef std::map<T, PTRTYPE > MAP_DATA;
-    AFMapBase() = default;
+    AFMapBase()
+    {
+        mNullPtr = nullptr;
+    }
+
     virtual ~AFMapBase() = default;
 
     virtual bool AddElement(const T& name, const PTRTYPE data)
@@ -158,16 +162,6 @@ public:
         return mNullPtr;
     }
 
-    virtual  TD* FirstNude()
-    {
-        return nullptr;
-    }
-
-    virtual  TD*  NextNude()
-    {
-        return nullptr;
-    }
-
     int GetCount()
     {
         return (int)mxObjectList.size();
@@ -217,7 +211,7 @@ public:
 private:
     MAP_DATA mxObjectList;
     typename MAP_DATA::iterator mxObjectCurIter;
-    const PTRTYPE mNullPtr = nullptr;
+    PTRTYPE mNullPtr;
 };
 
 template <typename T, typename TD>
