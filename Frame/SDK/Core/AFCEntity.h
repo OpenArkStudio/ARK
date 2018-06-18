@@ -30,7 +30,7 @@ class AFCEntity : public AFIEntity
 public:
     AFCEntity() = delete;
 
-    explicit AFCEntity(const AFGUID& self, AFIPluginManager* pluginManager);
+    explicit AFCEntity(const AFGUID& self);
     virtual ~AFCEntity();
 
     virtual bool Init();
@@ -92,7 +92,6 @@ protected:
 private:
     AFGUID mSelf;
 
-    AFIPluginManager * m_pPluginManager;
     ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
     ARK_SHARE_PTR<AFIHeartBeatManager> m_pHeartBeatManager;
     ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;

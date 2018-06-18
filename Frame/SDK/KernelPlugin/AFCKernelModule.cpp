@@ -165,7 +165,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
     }
 
     ARK_SHARE_PTR<AFIEntity> pEntity;
-    pEntity = std::make_shared<AFCEntity>(ident, pPluginManager);
+    pEntity = std::make_shared<AFCEntity>(ident);
     AddElement(ident, pEntity);
     pContainerInfo->AddObjectToGroup(nGroupID, ident, strClassName == ARK::Player::ThisName() ? true : false);
 

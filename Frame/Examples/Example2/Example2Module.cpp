@@ -41,7 +41,7 @@ bool Example2Module::PostInit()
     std::cout << typeid(Example2Module).name() << ", PostInit" << std::endl;
 
     //Create an Entity for this test
-    AFIEntity* pEntity = ARK_NEW AFCEntity(AFGUID(0, 1), pPluginManager);
+    AFIEntity* pEntity = ARK_NEW AFCEntity(AFGUID(0, 1));
 
     //Add a DataNode name is "my_test1" of this Entity
     pEntity->GetNodeManager()->AddNode("my_test1", AFCData(DT_INT, 1), 0);

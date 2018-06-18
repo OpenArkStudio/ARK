@@ -24,10 +24,9 @@
 #include "AFCDataNodeManager.h"
 #include "AFCEventManager.h"
 
-AFCEntity::AFCEntity(const AFGUID& self, AFIPluginManager* pPluginManager) :
+AFCEntity::AFCEntity(const AFGUID& self) :
     AFIEntity(self),
-    mSelf(self),
-    m_pPluginManager(pPluginManager)
+    mSelf(self)
 {
     m_pNodeManager = std::make_shared<AFCDataNodeManager>(mSelf);
     m_pTableManager = std::make_shared<AFCDataTableManager>(mSelf);
@@ -74,7 +73,7 @@ bool AFCEntity::RemoveHeartBeat(const std::string& name)
 bool AFCEntity::AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
 {
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = GetTableManager();
-    if (nullptr == pTableManager)
+    if(nullptr == pTableManager)
     {
         return false;
     }

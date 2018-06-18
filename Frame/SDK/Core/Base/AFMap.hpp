@@ -71,11 +71,9 @@ public:
 
     virtual bool RemoveElement(const T& name)
     {
-        PTRTYPE pData;
         typename MAP_DATA::iterator iter = mxObjectList.find(name);
         if(iter != mxObjectList.end())
         {
-            pData = iter->second;
             mxObjectList.erase(iter);
 
             return true;
@@ -182,6 +180,17 @@ public:
     }
 
 protected:
+    MAP_DATA& GetObjectList()
+    {
+        return mxObjectList;
+    }
+
+    typename MAP_DATA::iterator & GetCurIter()
+    {
+        return mxObjectCurIter;
+    }
+
+private:
     MAP_DATA mxObjectList;
     typename MAP_DATA::iterator mxObjectCurIter;
     const PTRTYPE mNullPtr = nullptr;
@@ -193,10 +202,10 @@ class AFMapEx: public AFMapBase<T, TD, true >
 public:
     virtual  TD* FirstNude()
     {
-        mxObjectCurIter = mxObjectList.begin();
-        if(mxObjectCurIter != mxObjectList.end())
+        GetCurIter() = GetObjectList().begin();
+        if(GetCurIter() != GetObjectList().end())
         {
-            return mxObjectCurIter->second.get();
+            return GetCurIter()->second.get();
         }
 
         return nullptr;
@@ -204,18 +213,18 @@ public:
 
     virtual  TD*  NextNude()
     {
-        if(mxObjectCurIter == mxObjectList.end())
+        if(GetCurIter() == GetObjectList().end())
         {
             return nullptr;
         }
 
-        mxObjectCurIter++;
-        if(mxObjectCurIter == mxObjectList.end())
+        GetCurIter()++;
+        if(GetCurIter() == GetObjectList().end())
         {
             return nullptr;
         }
 
-        return mxObjectCurIter->second.get();
+        return GetCurIter()->second.get();
     }
 };
 

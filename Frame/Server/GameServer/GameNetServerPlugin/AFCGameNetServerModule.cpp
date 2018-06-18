@@ -935,12 +935,9 @@ int AFCGameNetServerModule::GetTableBroadcastEntityList(const AFGUID & self, con
         GetBroadcastEntityList(nObjectContainerID, nObjectGroupID, valueObject);
     }
 
-    if(ARK::Player::ThisName() == strClassName)
+    if(ARK::Player::ThisName() == strClassName && pDataTable->IsPrivate())
     {
-        if(pDataTable->IsPrivate())
-        {
-            valueObject.AddObject(self);
-        }
+        valueObject.AddObject(self);
     }
 
     return valueObject.GetCount();

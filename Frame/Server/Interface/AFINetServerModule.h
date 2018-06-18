@@ -298,13 +298,10 @@ public:
                 continue;
             }
 
-            if(pNode->Changed())
+            if(pNode->Changed() && (pNode->GetFeature() & nFeature))
             {
-                if(pNode->GetFeature() & nFeature)
-                {
-                    AFMsg::PBNodeData* pData = xPBData.add_data_node_list();
-                    AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
-                }
+                AFMsg::PBNodeData* pData = xPBData.add_data_node_list();
+                AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
             }
         }
 
