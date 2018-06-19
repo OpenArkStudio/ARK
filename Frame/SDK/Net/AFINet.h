@@ -250,9 +250,9 @@ class AFBaseNetEntity
 public:
     AFBaseNetEntity(AFINet* pNet, const AFGUID& xClientID) : 
         mnClientID(xClientID),
-        bNeedRemove(false)
+        bNeedRemove(false),
+        m_pNet(pNet)
     {
-        m_pNet = pNet;
     }
 
     virtual ~AFBaseNetEntity()

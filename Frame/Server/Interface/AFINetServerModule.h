@@ -301,7 +301,7 @@ public:
             if(pNode->Changed() && (pNode->GetFeature() & nFeature))
             {
                 AFMsg::PBNodeData* pData = xPBData.add_data_node_list();
-                AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);
+                AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName(), *pData);
             }
         }
 

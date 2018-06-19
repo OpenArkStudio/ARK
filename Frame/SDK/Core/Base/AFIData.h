@@ -111,4 +111,5 @@ public:
 
     virtual void Assign(const AFIData& src) = 0;
     virtual size_t GetMemUsage() const = 0;
+    virtual std::string ToString() = 0;
 };

@@ -233,25 +233,19 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
     rapidxml::xml_node<>* root = xDoc.first_node();
 
     rapidxml::xml_node<>* pRootNodeDataNode = root->first_node("DataNodes");
-    if(pRootNodeDataNode != nullptr)
+    if(pRootNodeDataNode != nullptr && !AddNodes(pRootNodeDataNode, pClass))
     {
-        if(!AddNodes(pRootNodeDataNode, pClass))
-        {
-            ARK_ASSERT(0, "Add Nodes failed", __FILE__, __FUNCTION__);
-            return false;
-        }
+        ARK_ASSERT(0, "Add Nodes failed", __FILE__, __FUNCTION__);
+        return false;
     }
 
     //////////////////////////////////////////////////////////////////////////
     //Add table
     rapidxml::xml_node<>* pRootNodeDataTable = root->first_node("DataTables");
-    if(pRootNodeDataTable != nullptr)
+    if(pRootNodeDataTable != nullptr && !AddTables(pRootNodeDataTable, pClass))
     {
-        if(!AddTables(pRootNodeDataTable, pClass))
-        {
-            ARK_ASSERT(0, "AddTables failed", __FILE__, __FUNCTION__);
-            return false;
-        }
+        ARK_ASSERT(0, "AddTables failed", __FILE__, __FUNCTION__);
+        return false;
     }
 
     //add include file
@@ -408,7 +402,7 @@ bool AFCClassModule::InitDataNodeManager(const std::string& strClassName, ARK_SH
             continue;
         }
 
-        bool bRet = pNodeManager->AddNode(pStaticConfigNode->GetName().c_str(), pStaticConfigNode->GetValue(), pStaticConfigNode->GetFeature());
+        bool bRet = pNodeManager->AddNode(pStaticConfigNode->GetName(), pStaticConfigNode->GetValue(), pStaticConfigNode->GetFeature());
         if(!bRet)
         {
             ARK_ASSERT_NO_EFFECT(0);

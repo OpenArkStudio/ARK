@@ -185,7 +185,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
             AFDataNode* pConfigNode = pConfigNodeManager->GetNodeByIndex(i);
             if(pConfigNode != nullptr || pConfigNode->Changed())
             {
-                pNodeManager->SetNode(pConfigNode->GetName().c_str(), pConfigNode->GetValue());
+                pNodeManager->SetNode(pConfigNode->GetName(), pConfigNode->GetValue());
             }
         }
     }

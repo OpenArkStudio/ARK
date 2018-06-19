@@ -28,7 +28,7 @@
 class AFCSceneGroupInfo
 {
 public:
-    AFCSceneGroupInfo(int nGroupID) :
+    explicit AFCSceneGroupInfo(int nGroupID) :
         mnGroupID(nGroupID)
     {
         
