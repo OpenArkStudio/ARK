@@ -127,7 +127,7 @@ public:
     {
     }
 
-    virtual virtual ~AFCMsgHead() {}
+    virtual ~AFCMsgHead() {}
 
     // Message Head[ MsgID(2) | MsgSize(4) | PlayerID(16) ]
     virtual int EnCode(char* strData) const
