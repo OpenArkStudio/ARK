@@ -127,6 +127,7 @@
     <ClInclude Include="Base\AFDateTime.hpp" />
     <ClInclude Include="Base\AFDefine.h" />
     <ClInclude Include="Base\AFGUID.h" />
+    <ClInclude Include="Base\AFHashmap.h" />
     <ClInclude Include="Base\AFIData.h" />
     <ClInclude Include="Base\AFIDataList.h" />
     <ClInclude Include="Base\AFList.h" />
