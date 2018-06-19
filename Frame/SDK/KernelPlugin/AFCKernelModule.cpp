@@ -236,8 +236,8 @@ bool AFCKernelModule::DestroyEntity(const AFGUID& self)
 
         pContainerInfo->RemoveObjectFromGroup(nGroupID, self, strClassName == ARK::Player::ThisName() ? true : false);
 
-        bool bHaveAndDoSeccull = DoEvent(self, strClassName, ENTITY_EVT_PRE_DESTROY, AFCDataList());
-        bHaveAndDoSeccull = DoEvent(self, strClassName, ENTITY_EVT_DESTROY, AFCDataList());
+        DoEvent(self, strClassName, ENTITY_EVT_PRE_DESTROY, AFCDataList());
+        DoEvent(self, strClassName, ENTITY_EVT_DESTROY, AFCDataList());
 
         return RemoveElement(self);
     }
@@ -661,7 +661,7 @@ const AFGUID AFCKernelModule::GetTableObject(const AFGUID& self, const std::stri
     return NULL_GUID;
 }
 
-bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const AFIDataList& arg)
+bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const Point3D& pos, const float fOrient, const AFIDataList& arg)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
     if(nullptr == pEntity)
@@ -704,9 +704,9 @@ bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, 
 
     pEntity->SetNodeInt("GroupID", nTargetGroupID);
 
-    pEntity->SetNodeDouble("X", fX);
-    pEntity->SetNodeDouble("Y", fY);
-    pEntity->SetNodeDouble("Z", fZ);
+    pEntity->SetNodeDouble("X", pos.x);
+    pEntity->SetNodeDouble("Y", pos.y);
+    pEntity->SetNodeDouble("Z", pos.z);
 
     pNewSceneInfo->AddObjectToGroup(nTargetGroupID, self, true);
 
@@ -729,7 +729,8 @@ bool AFCKernelModule::CreateScene(const int nSceneID)
 
     m_pSceneModule->AddElement(nSceneID, pSceneInfo);
 
-    ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = std::make_shared<AFCSceneGroupInfo>(nSceneID, 0);
+    //create group 0
+    ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = std::make_shared<AFCSceneGroupInfo>(0);
     if(nullptr == pGroupInfo)
     {
         return false;
@@ -838,7 +839,7 @@ int AFCKernelModule::RequestGroupScene(const int nSceneID)
         return -1;
     }
 
-    ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = std::make_shared<AFCSceneGroupInfo>(nSceneID, nNewGroupID, pSceneInfo->GetWidth());
+    ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = std::make_shared<AFCSceneGroupInfo>(nNewGroupID);
     if(nullptr == pGroupInfo)
     {
         return -1;
@@ -906,22 +907,23 @@ bool AFCKernelModule::GetGroupEntityList(const int nSceneID, const int nGroupID,
     }
 
     AFGUID ident = NULL_GUID;
-    ARK_SHARE_PTR<int> pRet = pGroupInfo->mxPlayerList.First(ident);
+    pGroupInfo->mxPlayerList.First(ident);
     while(!ident.IsNULL())
     {
         list.AddObject(ident);
 
         ident = NULL_GUID;
-        pRet = pGroupInfo->mxPlayerList.Next(ident);
+        pGroupInfo->mxPlayerList.Next(ident);
     }
 
-    pRet = pGroupInfo->mxOtherList.First(ident);
+    ident = NULL_GUID;
+    pGroupInfo->mxOtherList.First(ident);
     while(!ident.IsNULL())
     {
         list.AddObject(ident);
 
         ident = NULL_GUID;
-        pRet = pGroupInfo->mxOtherList.Next(ident);
+        pGroupInfo->mxOtherList.Next(ident);
     }
 
     return true;
@@ -979,7 +981,7 @@ int AFCKernelModule::OnCommonNodeEvent(const AFGUID& self, const std::string& na
 {
     if(IsContainer(self))
     {
-        return 0;
+        return 1;
     }
 
     for(auto it : mxCommonNodeCBList)
@@ -1055,7 +1057,7 @@ int AFCKernelModule::OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVE
 {
     if(IsContainer(self))
     {
-        return 0;
+        return 1;
     }
 
     std::list<DATA_TABLE_EVENT_FUNCTOR_PTR>::iterator it = mxCommonTableCBList.begin();
@@ -1071,7 +1073,7 @@ int AFCKernelModule::OnCommonClassEvent(const AFGUID& self, const std::string& s
 {
     if(IsContainer(self))
     {
-        return 0;
+        return 1;
     }
 
     for(auto it : mxCommonClassCBList)

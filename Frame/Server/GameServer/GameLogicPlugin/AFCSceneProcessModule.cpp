@@ -34,10 +34,7 @@ bool AFCSceneProcessModule::PostInit()
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCSceneProcessModule::OnObjectClassEvent);
     //////////////////////////////////////////////////////////////////////////
 
-    //初始化场景容器
-    // #ifdef NF_USE_ACTOR
-    //  int nSelfActorID = pPluginManager->GetActorID();
-    // #endif
+    //Init scene container
     ARK_SHARE_PTR<AFIClass> pLogicClass =  m_pClassModule->GetElement("Scene");
     if(nullptr != pLogicClass)
     {
@@ -93,12 +90,9 @@ int AFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
     const E_SCENE_TYPE eType = GetCloneSceneType(nSceneID);
     int nTargetGroupID = m_pKernelModule->RequestGroupScene(nSceneID);
 
-    if(nTargetGroupID > 0 && eType == SCENE_TYPE_CLONE_SCENE)
+    if(nTargetGroupID > 0 && eType == SCENE_TYPE_CLONE_SCENE && !CreateSceneObject(nSceneID, nTargetGroupID))
     {
-        if(!CreateSceneObject(nSceneID, nTargetGroupID))
-        {
-            return -1;
-        }
+        return -1;
     }
 
     return nTargetGroupID;
@@ -128,7 +122,6 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if(nNowSceneID == nTargetScene && nTargetGroupID == nNowGroupID)
     {
-        //本来就是这个层这个场景就别切换了
         ARK_LOG_ERROR("In same scene and group but it not a clone scene, id  = {} scene_id = {}", ident.ToString(), nTargetScene);
         return 1;
     }
@@ -168,7 +161,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     m_pKernelModule->DoEvent(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, xSceneResult);
 
-    if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos.x, xRelivePos.y, xRelivePos.z, 0.0f, var))
+    if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos, 0.0f, var))
     {
         ARK_LOG_ERROR("SwitchScene failed, id  = {} scene_id = {}", ident.ToString(), nTargetScene);
         return 0;
@@ -317,12 +310,5 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 
 void AFCSceneProcessModule::OnClienSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    //ARK_MSG_PROCESS(nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
-    //AFIDataList varEntry;
-    //varEntry << pEntity->Self();
-    //varEntry << 0;
-    //varEntry << xMsg.scene_id();
-    //varEntry << -1;
-
-    //const AFGUID self = AFINetServerModule::PBToGUID((xMsg.selfid()));
+    //Will add by yourself
 }

@@ -27,19 +27,21 @@ class AFIGameNetServerModule : public AFIModule
 {
 public:
     //要管理当前所有的对象所在的actor,gateid,fd等
-    struct GateBaseInfo
+    class GateBaseInfo
     {
-        GateBaseInfo()
+    public:
+        GateBaseInfo() :
+            nActorID(0),
+            nGateID(0)
         {
-            nActorID = 0;
-            nGateID = 0;
+
         }
 
-        GateBaseInfo(const int gateID, const AFGUID xIdent)
+        GateBaseInfo(const int gateID, const AFGUID xIdent) :
+            nActorID(0),
+            nGateID(gateID),
+            xClientID(xIdent)
         {
-            nActorID = 0;
-            nGateID = gateID;
-            xClientID = xIdent;
         }
 
         int nActorID;
@@ -47,8 +49,9 @@ public:
         AFGUID xClientID;
     };
 
-    struct GateServerInfo
+    class GateServerInfo
     {
+    public:
         ServerData xServerData;
         //此网关上所有的对象<角色ID,gate_FD>
         std::map<AFGUID, AFGUID> xRoleInfo;

@@ -22,8 +22,9 @@
 
 #include "AFMisc.hpp"
 
-struct Point3D
+class Point3D
 {
+public:
     float x;
     float y;
     float z;

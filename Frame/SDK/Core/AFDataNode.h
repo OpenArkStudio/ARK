@@ -45,22 +45,22 @@ public:
 
     bool IsPublic() const
     {
-        return BitValue<int8_t>::HaveBitValue(feature, PF_PUBLIC);
+        return AFBitValue<int8_t>::HaveBitValue(feature, PF_PUBLIC);
     }
 
     bool IsPrivate() const
     {
-        return BitValue<int8_t>::HaveBitValue(feature, PF_PRIVATE);
+        return AFBitValue<int8_t>::HaveBitValue(feature, PF_PRIVATE);
     }
 
     bool IsRealTime() const
     {
-        return BitValue<int8_t>::HaveBitValue(feature, PF_REAL_TIME);
+        return AFBitValue<int8_t>::HaveBitValue(feature, PF_REAL_TIME);
     }
 
     bool IsSave() const
     {
-        return BitValue<int8_t>::HaveBitValue(feature, PF_SAVE);
+        return AFBitValue<int8_t>::HaveBitValue(feature, PF_SAVE);
     }
 
     bool Changed() const

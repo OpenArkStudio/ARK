@@ -28,21 +28,17 @@
 class AFCSceneGroupInfo
 {
 public:
-    AFCSceneGroupInfo(int nSceneID, int nGroupID)
+    AFCSceneGroupInfo(int nGroupID) :
+        mnGroupID(nGroupID)
     {
-        mnGroupID = nGroupID;
-    }
-
-    AFCSceneGroupInfo(int nSceneID, int nGroupID, int nWidth)
-    {
-        mnGroupID = nGroupID;
+        
     }
 
     virtual ~AFCSceneGroupInfo()
     {
     }
 
-    bool Execute()
+    bool Update()
     {
         return true;
     }
@@ -53,23 +49,21 @@ public:
 };
 
 // all group in this scene
-class AFCSceneInfo
-    : public AFMapEx<int, AFCSceneGroupInfo>
+class AFCSceneInfo : public AFMapEx<int, AFCSceneGroupInfo>
 {
 public:
-
-    explicit AFCSceneInfo(int nSceneID)
+    explicit AFCSceneInfo(int nSceneID) :
+        mnGroupIndex(0),
+        mnSceneID(nSceneID),
+        mnWidth(512)
     {
-        mnGroupIndex = 0;
-        mnSceneID = nSceneID;
-        mnWidth = 512;
     }
 
-    explicit AFCSceneInfo(int nSceneID, int nWidth)
+    explicit AFCSceneInfo(int nSceneID, int nWidth) :
+        mnGroupIndex(0),
+        mnSceneID(nSceneID),
+        mnWidth(nWidth)
     {
-        mnGroupIndex = 0;
-        mnSceneID = nSceneID;
-        mnWidth = nWidth;
     }
 
     virtual ~AFCSceneInfo()
@@ -90,25 +84,31 @@ public:
     bool AddObjectToGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
         ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
-        if(pInfo.get())
+        if (pInfo == nullptr)
+        {
+            return false;
+        }
+        else
         {
             if(bPlayer)
             {
-                return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.second涓虹┖锛屼娇鐢ㄧ殑鏃跺€欏崈涓囨敞鎰?
+                return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); //TODO:Map.second mean nothing
             }
             else
             {
-                return pInfo->mxOtherList.AddElement(ident, ARK_SHARE_PTR<int>()); // TODO:Map.second涓虹┖锛屼娇鐢ㄧ殑鏃跺€欏崈涓囨敞鎰?
+                return pInfo->mxOtherList.AddElement(ident, ARK_SHARE_PTR<int>()); //TODO:Map.second mean nothing
             }
         }
-
-        return false;
     }
 
     bool RemoveObjectFromGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
         ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
-        if(nullptr != pInfo)
+        if (nullptr == pInfo)
+        {
+            return false;
+        }
+        else
         {
             if(bPlayer)
             {
@@ -119,30 +119,27 @@ public:
                 return pInfo->mxOtherList.RemoveElement(ident);
             }
         }
-
-        return false;
     }
 
-    bool Execute()
+    bool Update()
     {
-        ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = First();
-        while(pGroupInfo.get())
-        {
-            pGroupInfo->Execute();
+        //ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = First();
+        //while(pGroupInfo.get())
+        //{
+        //    pGroupInfo->Update();
 
-            pGroupInfo = Next();
-        }
+        //    pGroupInfo = Next();
+        //}
         return true;
     }
+
 private:
     int mnGroupIndex;
     int mnSceneID;
     int mnWidth;
 };
 
-class AFISceneModule
-    : public AFIModule,
-      public AFMapEx<int, AFCSceneInfo>
+class AFISceneModule : public AFIModule, public AFMapEx<int, AFCSceneInfo>
 {
 public:
     virtual ~AFISceneModule()
@@ -150,4 +147,3 @@ public:
         ClearAll();
     }
 };
-

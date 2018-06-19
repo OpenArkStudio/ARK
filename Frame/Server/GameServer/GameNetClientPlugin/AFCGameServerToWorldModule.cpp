@@ -86,21 +86,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
 
 void AFCGameServerToWorldModule::RefreshWorldInfo()
 {
-    //     _tagPT_KEY_BASE_MSG baseMsg;
-    //     AFMsg::ServerInfoReport xMsg;
-    //
-    //     xMsg.set_server_id(m_pGameLogicModule->GetGameID());
-    //     xMsg.set_server_port(m_pGameServerModule->GetServerPort());
-    //     xMsg.set_server_cur_count(0);
-    //     xMsg.set_server_max_online(50000);
-    //
-    //     if (xMsg.SerializeToString(&baseMsg.strSyncInfo))
-    //     {
-    //         baseMsg._unMsgID = GTW_GAME_REFRESH;
-    //         RakNet::BitStream oBitStream;
-    //         baseMsg.EnCode(&oBitStream);
-    //         SendBitStream(&oBitStream);
-    //     }
+    //do nothing for now
 }
 
 bool AFCGameServerToWorldModule::PostInit()

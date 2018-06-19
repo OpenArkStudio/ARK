@@ -27,10 +27,6 @@
 AFCClassModule::AFCClassModule(AFIPluginManager* p) : m_pElementModule(nullptr)
 {
     pPluginManager = p;
-
-    msConfigFileName = "DataConfig/Struct/LogicClass.xml";
-
-    std::cout << "Using [" << pPluginManager->GetConfigPath() + msConfigFileName << "]" << std::endl;
 }
 
 AFCClassModule::~AFCClassModule()
@@ -41,9 +37,12 @@ AFCClassModule::~AFCClassModule()
 bool AFCClassModule::Init()
 {
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+
+    msConfigFileName = "DataConfig/Struct/LogicClass.xml";
+    ARK_LOG_INFO("Using file [{}]", msConfigFileName);
 
     bool bRet = Load();
-
     ARK_ASSERT_RET_VAL(bRet, false);
 
     return true;
@@ -129,22 +128,22 @@ bool AFCClassModule::AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR
         int8_t feature(0);
         if(bPublic)
         {
-            BitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_PUBLIC);
+            AFBitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_PUBLIC);
         }
 
         if(bPrivate)
         {
-            BitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_PRIVATE);
+            AFBitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_PRIVATE);
         }
 
         if(bRealTime)
         {
-            BitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_REAL_TIME);
+            AFBitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_REAL_TIME);
         }
 
         if(bSave)
         {
-            BitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_SAVE);
+            AFBitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_SAVE);
         }
 
         pClass->GetNodeManager()->AddNode(strNodeName, varNode, feature);
@@ -163,9 +162,6 @@ bool AFCClassModule::AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_P
             ARK_ASSERT(0, pTableName, __FILE__, __FUNCTION__);
             continue;
         }
-
-        //const char* pstrRow = pTableNode->first_attribute("Row")->value();
-        //const char* pstrCol = pTableNode->first_attribute("Col")->value();
 
         bool bPublic = ARK_LEXICAL_CAST<bool>(pTableNode->first_attribute("Public")->value());
         bool bPrivate = ARK_LEXICAL_CAST<bool>(pTableNode->first_attribute("Private")->value());
@@ -188,22 +184,22 @@ bool AFCClassModule::AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_P
         int8_t feature(0);
         if(bPublic)
         {
-            BitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_PUBLIC);
+            AFBitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_PUBLIC);
         }
 
         if(bPrivate)
         {
-            BitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_PRIVATE);
+            AFBitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_PRIVATE);
         }
 
         if(bRealtime)
         {
-            BitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_REAL_TIME);
+            AFBitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_REAL_TIME);
         }
 
         if(bSave)
         {
-            BitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_SAVE);
+            AFBitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_SAVE);
         }
 
         bool result = pClass->GetTableManager()->AddTable(NULL_GUID, pTableName, col_type_list, feature);
@@ -215,28 +211,7 @@ bool AFCClassModule::AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_P
 
 bool AFCClassModule::AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK_SHARE_PTR<AFIClass> pClass)
 {
-    //for(rapidxml::xml_node<>* pComponentNode = pComponentRootNode->first_node(); pComponentNode; pComponentNode = pComponentNode->next_sibling())
-    //{
-    //    if(pComponentNode)
-    //    {
-    //        const char* strComponentName = pComponentNode->first_attribute("Name")->value();
-    //        const char* strLanguage = pComponentNode->first_attribute("Language")->value();
-    //        const char* strEnable = pComponentNode->first_attribute("Enable")->value();
-    //        bool bEnable = ARK_LEXICAL_CAST<bool>(strEnable);
-    //        if(bEnable)
-    //        {
-    //            if(pClass->GetComponentManager()->GetElement(strComponentName))
-    //            {
-    //                //error
-    //                ARK_ASSERT(0, strComponentName, __FILE__, __FUNCTION__);
-    //                continue;
-    //            }
-    //            ARK_SHARE_PTR<AFIComponent> xComponent = std::make_shared<AFCComponent>(NULL_GUID, strComponentName);
-    //            pClass->GetComponentManager()->AddComponent(strComponentName, xComponent);
-    //        }
-    //    }
-    //}
-
+    //Components will be added in Ark-ECS
     return true;
 }
 
@@ -262,7 +237,7 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
     {
         if(!AddNodes(pRootNodeDataNode, pClass))
         {
-            ARK_ASSERT(0, "AddNodes failed", __FILE__, __FUNCTION__);
+            ARK_ASSERT(0, "Add Nodes failed", __FILE__, __FUNCTION__);
             return false;
         }
     }
@@ -279,19 +254,9 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
         }
     }
 
-    //rapidxml::xml_node<>* pComponentRootNode = root->first_node("Components");
-    //if(pComponentRootNode)
-    //{
-    //    if(!AddComponents(pComponentRootNode, pClass))
-    //    {
-    //        ARK_ASSERT(0, "AddComponents failed", __FILE__, __FUNCTION__);
-    //        return false;
-    //    }
-    //}
-
-    //and include file
+    //add include file
     rapidxml::xml_node<>* pIncludeRootNode = root->first_node("Includes");
-    if(pIncludeRootNode)
+    if(pIncludeRootNode != nullptr)
     {
         for(rapidxml::xml_node<>* includeNode = pIncludeRootNode->first_node(); includeNode; includeNode = includeNode->next_sibling())
         {
@@ -340,8 +305,6 @@ bool AFCClassModule::AddClass(const char* pstrClassFilePath, ARK_SHARE_PTR<AFICl
         pClass->Add(pstrClassFilePath);
     }
 
-    //file.close();
-
     return true;
 }
 
@@ -353,8 +316,7 @@ bool AFCClassModule::AddClass(const std::string& strClassName, const std::string
     {
         pChildClass = std::make_shared<AFCClass>(strClassName);
         AddElement(strClassName, pChildClass);
-        //pChildClass = CreateElement( strClassName );
-
+ 
         pChildClass->SetTypeName("");
         pChildClass->SetInstancePath("");
 
@@ -374,9 +336,6 @@ bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass
     const char* pstrPath = attrNode->first_attribute("Path")->value();
     const char* pstrInstancePath = attrNode->first_attribute("ResPath")->value();
 
-    //printf( "-----------------------------------------------------\n");
-    //printf( "%s:\n", pstrLogicClassName );
-
     ARK_SHARE_PTR<AFIClass> pClass = std::make_shared<AFCClass>(pstrLogicClassName);
     AddElement(pstrLogicClassName, pClass);
     pClass->SetParent(pParentClass);
@@ -390,13 +349,12 @@ bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass
 
     for(rapidxml::xml_node<>* pDataNode = attrNode->first_node(); pDataNode; pDataNode = pDataNode->next_sibling())
     {
-        //her children
+        //children
         if(!Load(pDataNode, pClass))
         {
             return false;
         }
     }
-    //printf( "-----------------------------------------------------\n");
     return true;
 }
 
@@ -417,34 +375,20 @@ bool AFCClassModule::Load()
             return false;
         }
     }
-    return true;
-}
 
-bool AFCClassModule::Save()
-{
     return true;
 }
 
 ARK_SHARE_PTR<AFIDataNodeManager> AFCClassModule::GetNodeManager(const std::string& strClassName)
 {
     ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
-    if(nullptr != pClass)
-    {
-        return pClass->GetNodeManager();
-    }
-
-    return nullptr;
+    return pClass != nullptr ? pClass->GetNodeManager() : nullptr;
 }
 
 ARK_SHARE_PTR<AFIDataTableManager> AFCClassModule::GetTableManager(const std::string& strClassName)
 {
     ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
-    if(nullptr != pClass)
-    {
-        return pClass->GetTableManager();
-    }
-
-    return NULL;
+    return pClass != nullptr ? pClass->GetTableManager() : nullptr;
 }
 
 bool AFCClassModule::InitDataNodeManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager)
@@ -467,7 +411,7 @@ bool AFCClassModule::InitDataNodeManager(const std::string& strClassName, ARK_SH
         bool bRet = pNodeManager->AddNode(pStaticConfigNode->GetName().c_str(), pStaticConfigNode->GetValue(), pStaticConfigNode->GetFeature());
         if(!bRet)
         {
-            ARK_ASSERT(0, "AddNode failed, please check it", __FILE__, __FUNCTION__);
+            ARK_ASSERT_NO_EFFECT(0);
             continue;
         }
     }

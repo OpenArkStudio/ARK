@@ -52,11 +52,10 @@ typedef struct HINSTANCE__* hInstance;
 class AFCDynLib
 {
 public:
-
-    explicit AFCDynLib(const std::string& strName)
+    explicit AFCDynLib(const std::string& strName) :
+        mbMain(false),
+        mstrName(strName)
     {
-        mbMain = false;
-        mstrName = strName;
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
         mstrName.append("_d");
 #endif
@@ -69,7 +68,7 @@ public:
         mstrName.append(".so");
 #endif
 
-        printf("LoadPlugin:%s\n", mstrName.c_str());
+        std::cout << "LoadPlugin: " << mstrName << std::endl;
     }
 
     ~AFCDynLib()

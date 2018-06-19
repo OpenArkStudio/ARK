@@ -156,7 +156,7 @@ public:
     virtual const AFGUID GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
 
     //////////////////////////////////////////////////////////////////////////
-    virtual bool SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const float fX, const float fY, const float fZ, const float fOrient, const AFIDataList& arg) = 0;
+    virtual bool SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const Point3D& pos, const float fOrient, const AFIDataList& arg) = 0;
 
     virtual bool CreateScene(const int nSceneID) = 0;
     virtual bool DestroyScene(const int nSceneID) = 0;

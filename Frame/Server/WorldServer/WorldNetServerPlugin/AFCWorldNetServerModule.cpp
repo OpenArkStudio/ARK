@@ -480,8 +480,8 @@ int AFCWorldNetServerModule::OnViewDataNodeEnter(const AFIDataList& argVar, cons
 
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
     int8_t nFeature = 0;
-    BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PUBLIC);
-    m_pNetModule->NoteListToPB(self, pNodeManager, *xPublicMsg.add_multi_entity_data_node_list(), nFeature);
+    AFBitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PUBLIC);
+    m_pNetModule->NodeListToPB(self, pNodeManager, *xPublicMsg.add_multi_entity_data_node_list(), nFeature);
     for(size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOther = argVar.Object(i);
@@ -512,8 +512,8 @@ int AFCWorldNetServerModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDa
     AFMsg::MultiEntityDataNodeList xPrivateMsg;
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
     int8_t nFeature = 0;
-    BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PRIVATE);
-    m_pNetModule->NoteListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
+    AFBitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PRIVATE);
+    m_pNetModule->NodeListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
 
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, xPrivateMsg, self);
     return 0;
@@ -536,7 +536,7 @@ int AFCWorldNetServerModule::OnSelfDataTableEnter(const AFGUID& self, const AFID
     }
 
     int8_t nFeature = 0;
-    BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PRIVATE);
+    AFBitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PRIVATE);
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
     m_pNetModule->TableListToPB(self, pTableManager, *xPrivateMsg.add_multi_entity_data_table_list(), nFeature);
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPrivateMsg, self);
@@ -560,7 +560,7 @@ int AFCWorldNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, con
 
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
     int8_t nFeature = 0;
-    BitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PUBLIC);
+    AFBitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PUBLIC);
     m_pNetModule->TableListToPB(self, pTableManager, *xPublicMsg.add_multi_entity_data_table_list(), nFeature);
 
     for(size_t i = 0; i < argVar.GetCount(); i++)
@@ -587,6 +587,6 @@ AFINetServerModule* AFCWorldNetServerModule::GetNetModule()
 
 int AFCWorldNetServerModule::GetPlayerGameID(const AFGUID self)
 {
-    //to do
+    //do somthing
     return -1;
 }

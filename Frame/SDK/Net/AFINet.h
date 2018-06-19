@@ -30,12 +30,16 @@
 
 #pragma pack(push, 1)
 
-struct  AFIMsgHead
+class  AFIMsgHead
 {
+public:
+
     enum AF_Head
     {
         ARK_MSG_HEAD_LENGTH = 22,
     };
+
+    virtual ~AFIMsgHead() {}
 
     virtual int EnCode(char* strData) const = 0;
     virtual int DeCode(const char* strData)  = 0;
@@ -122,6 +126,8 @@ public:
     AFCMsgHead(): munSize(0), munMsgID(0), mxPlayerID(0)
     {
     }
+
+    virtual virtual ~AFCMsgHead() {}
 
     // Message Head[ MsgID(2) | MsgSize(4) | PlayerID(16) ]
     virtual int EnCode(char* strData) const
@@ -242,11 +248,11 @@ class AFINet;
 class AFBaseNetEntity
 {
 public:
-    AFBaseNetEntity(AFINet* pNet, const AFGUID& xClientID)
+    AFBaseNetEntity(AFINet* pNet, const AFGUID& xClientID) : 
+        mnClientID(xClientID),
+        bNeedRemove(false)
     {
-        bNeedRemove = false;
         m_pNet = pNet;
-        mnClientID = xClientID;
     }
 
     virtual ~AFBaseNetEntity()
@@ -423,8 +429,9 @@ public:
 //////////////////////////////////////////////////////////////////////////
 
 template <typename SessionPTR>
-struct AFNetMsg
+class AFNetMsg
 {
+public:
     AFNetMsg(const SessionPTR session_ptr) : mxSession(session_ptr), nType(NONE) {}
 
     NetEventType nType;

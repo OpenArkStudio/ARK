@@ -211,42 +211,42 @@ int8_t AFDataTable::GetFeature() const
 
 void AFDataTable::SetPublic()
 {
-    BitValue<int8_t>::SetBitValue(feature, TABLE_PUBLIC);
+    AFBitValue<int8_t>::SetBitValue(feature, TABLE_PUBLIC);
 }
 
 bool AFDataTable::IsPublic() const
 {
-    return BitValue<int8_t>::HaveBitValue(feature, TABLE_PUBLIC);
+    return AFBitValue<int8_t>::HaveBitValue(feature, TABLE_PUBLIC);
 }
 
 void AFDataTable::SetPrivate()
 {
-    BitValue<int8_t>::SetBitValue(feature, TABLE_PRIVATE);
+    AFBitValue<int8_t>::SetBitValue(feature, TABLE_PRIVATE);
 }
 
 bool AFDataTable::IsPrivate() const
 {
-    return BitValue<int8_t>::HaveBitValue(feature, TABLE_PRIVATE);
+    return AFBitValue<int8_t>::HaveBitValue(feature, TABLE_PRIVATE);
 }
 
 void AFDataTable::SetRealTime()
 {
-    BitValue<int8_t>::SetBitValue(feature, TABLE_REAL_TIME);
+    AFBitValue<int8_t>::SetBitValue(feature, TABLE_REAL_TIME);
 }
 
 bool AFDataTable::IsRealTime() const
 {
-    return BitValue<int8_t>::HaveBitValue(feature, TABLE_REAL_TIME);
+    return AFBitValue<int8_t>::HaveBitValue(feature, TABLE_REAL_TIME);
 }
 
 void AFDataTable::SetSave()
 {
-    BitValue<int8_t>::SetBitValue(feature, TABLE_SAVE);
+    AFBitValue<int8_t>::SetBitValue(feature, TABLE_SAVE);
 }
 
 bool AFDataTable::IsSave() const
 {
-    return BitValue<int8_t>::HaveBitValue(feature, TABLE_SAVE);
+    return AFBitValue<int8_t>::HaveBitValue(feature, TABLE_SAVE);
 }
 
 bool AFDataTable::SetValue(size_t row, size_t col, const AFIData& value)

@@ -29,15 +29,18 @@
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Interface/AFILogModule.h"
 
 class AFCClass : public AFIClass
 {
 public:
-    explicit AFCClass(const std::string& strClassName)
-    {
-        m_pParentClass = NULL;
-        mstrClassName = strClassName;
+    explicit AFCClass(const std::string& strClassName) :
+        m_pParentClass(nullptr),
+        mstrType(NULL_STR),
+        mstrClassName(strClassName),
+        mstrClassInstancePath(NULL_STR)
 
+    {
         m_pNodeManager = std::make_shared<AFCDataNodeManager>(NULL_GUID);
         m_pTableManager = std::make_shared<AFCDataTableManager>(NULL_GUID);
     }
@@ -135,8 +138,7 @@ private:
     AFList<CLASS_EVENT_FUNCTOR_PTR> mxClassEventInfo;
 };
 
-class AFCClassModule
-    : public AFIClassModule
+class AFCClassModule : public AFIClassModule
 {
 public:
     explicit AFCClassModule(AFIPluginManager* p);
@@ -146,7 +148,6 @@ public:
     virtual bool Shut();
 
     virtual bool Load();
-    virtual bool Save();
     virtual bool Clear();
 
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
@@ -170,5 +171,6 @@ protected:
 
 private:
     AFIElementModule* m_pElementModule;
+    AFILogModule* m_pLogModule;
     std::string msConfigFileName;
 };

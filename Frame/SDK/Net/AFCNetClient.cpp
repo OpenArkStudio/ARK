@@ -48,7 +48,7 @@ void AFCNetClient::ProcessMsgLogicThread(AFTCPEntity* pEntity)
         return;
     }
 
-    //Handle Msg;
+    //Handle messages
     size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
     for(size_t i = 0; i < nReceiveCount; ++i)
     {

@@ -398,14 +398,3 @@ bool AFCElementModule::Clear()
     mbLoaded = false;
     return true;
 }
-
-//ARK_SHARE_PTR<AFIComponentManager> AFCElementModule::GetComponentManager(const std::string& strConfigName)
-//{
-//    ARK_SHARE_PTR<ElementConfigInfo> pElementInfo = GetElement(strConfigName);
-//    if(nullptr != pElementInfo)
-//    {
-//        return pElementInfo->GetComponentManager();
-//    }
-//
-//    return nullptr;
-//}

@@ -22,7 +22,7 @@
 
 //T just can be build-in type, like int uint16_t uint64_t 
 template<class T>
-class BitValue
+class AFBitValue
 {
 public:
     enum BitValueDefine
@@ -32,8 +32,8 @@ public:
         HaveValue = 1,
     };
 
-    BitValue() : m_nValue(0) { }
-    BitValue(T nValue) : m_nValue(nValue) { }
+    AFBitValue() : m_nValue(0) { }
+    AFBitValue(T nValue) : m_nValue(nValue) { }
 
     void SetValue(const T& nValue)
     {
