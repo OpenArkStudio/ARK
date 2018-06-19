@@ -28,7 +28,7 @@
 class AFCSceneGroupInfo
 {
 public:
-    AFCSceneGroupInfo(int nGroupID) :
+    explicit AFCSceneGroupInfo(int nGroupID) :
         mnGroupID(nGroupID)
     {
         
@@ -52,16 +52,14 @@ public:
 class AFCSceneInfo : public AFMapEx<int, AFCSceneGroupInfo>
 {
 public:
-    explicit AFCSceneInfo(int nSceneID) :
+    explicit AFCSceneInfo() :
         mnGroupIndex(0),
-        mnSceneID(nSceneID),
         mnWidth(512)
     {
     }
 
-    explicit AFCSceneInfo(int nSceneID, int nWidth) :
+    explicit AFCSceneInfo(int nWidth) :
         mnGroupIndex(0),
-        mnSceneID(nSceneID),
         mnWidth(nWidth)
     {
     }

@@ -21,6 +21,7 @@
 #pragma once
 
 #include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/Base/AFMacros.hpp"
 
 #if ARK_PLATFORM == PLATFORM_WIN
 
@@ -53,9 +54,9 @@ class AFCDynLib
 {
 public:
     explicit AFCDynLib(const std::string& strName) :
-        mbMain(false),
-        mstrName(strName)
+        mbMain(false)
     {
+		mstrName = strName;
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
         mstrName.append("_d");
 #endif
@@ -68,7 +69,7 @@ public:
         mstrName.append(".so");
 #endif
 
-        std::cout << "LoadPlugin: " << mstrName << std::endl;
+		CONSOLE_LOG << "LoadPlugin: " << mstrName << std::endl;
     }
 
     ~AFCDynLib()

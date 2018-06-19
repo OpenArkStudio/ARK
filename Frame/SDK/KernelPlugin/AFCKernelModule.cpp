@@ -721,7 +721,7 @@ bool AFCKernelModule::CreateScene(const int nSceneID)
         return false;
     }
 
-    pSceneInfo = std::make_shared<AFCSceneInfo>(nSceneID);
+    pSceneInfo = std::make_shared<AFCSceneInfo>();
     if(nullptr == pSceneInfo)
     {
         return false;

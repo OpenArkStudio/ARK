@@ -161,7 +161,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     m_pKernelModule->DoEvent(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, xSceneResult);
 
-    if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos, 0.0f, var))
+    if(!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos, 0.0F, var))
     {
         ARK_LOG_ERROR("SwitchScene failed, id  = {} scene_id = {}", ident.ToString(), nTargetScene);
         return 0;
