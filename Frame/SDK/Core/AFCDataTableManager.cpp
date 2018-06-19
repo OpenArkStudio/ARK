@@ -99,7 +99,7 @@ bool AFCDataTableManager::AddTableInternal(AFDataTable* pTable)
     return mxTables.AddElement(pTable->GetName(), pTable);
 }
 
-bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const int8_t feature)
+bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const AFFeatureType feature)
 {
     ARK_ASSERT(table_name != nullptr && sizeof(table_name) > 0, "Table name is invalid", __FILE__, __FUNCTION__);
 

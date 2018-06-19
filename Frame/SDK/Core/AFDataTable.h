@@ -25,7 +25,6 @@
 #include "SDK/Core/Base/AFCoreDef.hpp"
 #include "SDK/Core/Base/AFString.hpp"
 #include "SDK/Core/Base/AFCData.h"
-#include "SDK/Core/Base/AFBitValue.hpp"
 #include "SDK/Core/Base/AFDefine.h"
 
 class AFDataTable
@@ -44,11 +43,11 @@ public:
 
     enum DATA_TABLE_OP_TYPE
     {
-        TABLE_ADD     = 0 , //add whole row data
-        TABLE_DELETE      , //delete whole row data
-        TABLE_UPDATE      , //update row & col cell data
-        TABLE_COVERAGE    , //coverage whole row data
-        TABLE_SWAP        , //swap two whole row data
+        TABLE_ADD     = 0,  //add whole row data
+        TABLE_DELETE,       //delete whole row data
+        TABLE_UPDATE,       //update row & col cell data
+        TABLE_COVERAGE,     //coverage whole row data
+        TABLE_SWAP,         //swap two whole row data
     };
 
 public:
@@ -74,8 +73,8 @@ public:
 
     void Clear();
 
-    void SetFeature(int8_t new_feature);
-    int8_t GetFeature() const;
+    void SetFeature(const AFFeatureType& new_feature);
+    const AFFeatureType& GetFeature() const;
 
     void SetPublic();
     bool IsPublic() const;
@@ -124,7 +123,7 @@ protected:
 
 private:
     DataTableName mstrName;                         //DataTable name
-    int8_t feature;                                 //DataTable feature
-	ArrayPod<int, 1, CoreAlloc> mxColTypes;        //DataTable column type array
-	ArrayPod<RowData*, 1, CoreAlloc> mxRowDatas;   //DataTable data array
+    AFFeatureType feature;                          //DataTable feature
+    ArrayPod<int, 1, CoreAlloc> mxColTypes;        //DataTable column type array
+    ArrayPod<RowData*, 1, CoreAlloc> mxRowDatas;   //DataTable data array
 };

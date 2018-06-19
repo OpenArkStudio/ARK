@@ -144,8 +144,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
 
             AFCDataList col_type_list;
             pTable->GetColTypeList(col_type_list);
-            int8_t feature = pTable->GetFeature();
-            pElementTableManager->AddTable(NULL_GUID, pTable->GetName(), col_type_list, feature);
+            pElementTableManager->AddTable(NULL_GUID, pTable->GetName(), col_type_list, pTable->GetFeature());
         }
     }
 

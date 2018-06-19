@@ -199,54 +199,54 @@ void AFDataTable::Clear()
     ReleaseAll();
 }
 
-void AFDataTable::SetFeature(int8_t new_feature)
+void AFDataTable::SetFeature(const AFFeatureType& new_feature)
 {
     this->feature = new_feature;
 }
 
-int8_t AFDataTable::GetFeature() const
+const AFFeatureType& AFDataTable::GetFeature() const
 {
     return feature;
 }
 
 void AFDataTable::SetPublic()
 {
-    AFBitValue<int8_t>::SetBitValue(feature, TABLE_PUBLIC);
+    feature[TABLE_PUBLIC] = 1;
 }
 
 bool AFDataTable::IsPublic() const
 {
-    return AFBitValue<int8_t>::HaveBitValue(feature, TABLE_PUBLIC);
+    return feature.test(TABLE_PUBLIC);
 }
 
 void AFDataTable::SetPrivate()
 {
-    AFBitValue<int8_t>::SetBitValue(feature, TABLE_PRIVATE);
+    feature[TABLE_PRIVATE] = 1;
 }
 
 bool AFDataTable::IsPrivate() const
 {
-    return AFBitValue<int8_t>::HaveBitValue(feature, TABLE_PRIVATE);
+    return feature.test(TABLE_PRIVATE);
 }
 
 void AFDataTable::SetRealTime()
 {
-    AFBitValue<int8_t>::SetBitValue(feature, TABLE_REAL_TIME);
+    feature[TABLE_REAL_TIME] = 1;
 }
 
 bool AFDataTable::IsRealTime() const
 {
-    return AFBitValue<int8_t>::HaveBitValue(feature, TABLE_REAL_TIME);
+    return feature.test(TABLE_REAL_TIME);
 }
 
 void AFDataTable::SetSave()
 {
-    AFBitValue<int8_t>::SetBitValue(feature, TABLE_SAVE);
+    feature[TABLE_SAVE] = 1;
 }
 
 bool AFDataTable::IsSave() const
 {
-    return AFBitValue<int8_t>::HaveBitValue(feature, TABLE_SAVE);
+    return feature.test(TABLE_SAVE);
 }
 
 bool AFDataTable::SetValue(size_t row, size_t col, const AFIData& value)
@@ -445,7 +445,7 @@ const AFGUID& AFDataTable::GetObject(size_t row, size_t col)
 
 const char* AFDataTable::GetStringValue(size_t row, size_t col)
 {
-    if ((row >= GetRowCount()) || (col >= GetColCount()))
+    if((row >= GetRowCount()) || (col >= GetColCount()))
     {
         return NULL_STR.c_str();
     }
@@ -685,10 +685,10 @@ bool AFDataTable::QueryRow(const int row, AFIDataList& varList)
     ARK_ASSERT_RET_VAL(row < mxRowDatas.size(), false);
 
     RowData* rowData = mxRowDatas[row];
-    for (int i = 0; i < mxColTypes.size(); ++i)
+    for(int i = 0; i < mxColTypes.size(); ++i)
     {
         RowData& subData = rowData[i];
-        switch (subData.GetType())
+        switch(subData.GetType())
         {
         case DT_BOOLEAN:
             varList.AddBool(subData.GetBool());

@@ -25,18 +25,20 @@
 #include "SDK/Core/Base/AFGUID.h"
 #include "SDK/Core/Base/AFPlatform.hpp"
 
+#include <bitset>
+using  AFFeatureType = std::bitset<8>;
 
 enum ARK_ENTITY_EVENT
 {
     ENTITY_EVT_NONE                 = 0,
-    ENTITY_EVT_DESTROY                 ,
-    ENTITY_EVT_PRE_DESTROY             ,
-    ENTITY_EVT_PRE_LOAD_DATA           ,
-    ENTITY_EVT_LOAD_DATA               ,
-    ENTITY_EVT_PRE_EFFECT_DATA         ,
-    ENTITY_EVT_EFFECT_DATA             ,
-    ENTITY_EVT_POST_EFFECT_DATA        ,
-    ENTITY_EVT_DATA_FINISHED           ,
+    ENTITY_EVT_DESTROY,
+    ENTITY_EVT_PRE_DESTROY,
+    ENTITY_EVT_PRE_LOAD_DATA,
+    ENTITY_EVT_LOAD_DATA,
+    ENTITY_EVT_PRE_EFFECT_DATA,
+    ENTITY_EVT_EFFECT_DATA,
+    ENTITY_EVT_POST_EFFECT_DATA,
+    ENTITY_EVT_DATA_FINISHED,
     ENTITY_EVT_ALL_FINISHED,        //Call it by yourself when create entity finished
 };
 

@@ -26,7 +26,7 @@
 #include "SDK/Core/Base/AFArrayPod.hpp"
 #include "SDK/Core/Base/AFStringPod.hpp"
 #include "SDK/Core/Base/AFCData.h"
-#include "SDK/Core/Base/AFBitValue.hpp"
+#include <bitset>
 
 class AFDataNode
 {
@@ -41,26 +41,26 @@ public:
 
     DataNodeName name = ""; //DataNode name, max = 16 bytes
     AFCData value;          //DataNode value
-    int8_t feature = 0;     //DataNode feature
+    AFFeatureType feature; //DataNode feature
 
     bool IsPublic() const
     {
-        return AFBitValue<int8_t>::HaveBitValue(feature, PF_PUBLIC);
+        return feature.test(PF_PUBLIC);
     }
 
     bool IsPrivate() const
     {
-        return AFBitValue<int8_t>::HaveBitValue(feature, PF_PRIVATE);
+        return feature.test(PF_PRIVATE);
     }
 
     bool IsRealTime() const
     {
-        return AFBitValue<int8_t>::HaveBitValue(feature, PF_REAL_TIME);
+        return feature.test(PF_REAL_TIME);
     }
 
     bool IsSave() const
     {
-        return AFBitValue<int8_t>::HaveBitValue(feature, PF_SAVE);
+        return feature.test(PF_SAVE);
     }
 
     bool Changed() const
@@ -83,7 +83,7 @@ public:
         return value.GetType();
     }
 
-    int8_t GetFeature()
+    const AFFeatureType& GetFeature()
     {
         return feature;
     }

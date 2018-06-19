@@ -255,7 +255,7 @@ public:
     }
 
 
-    bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager> pTableManager, AFMsg::EntityDataTableList& xPBData, const int8_t nFeature)
+    bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager> pTableManager, AFMsg::EntityDataTableList& xPBData, const AFFeatureType nFeature)
     {
         AFMsg::EntityDataTableList* pPBData = &xPBData;
         *(pPBData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
@@ -274,7 +274,8 @@ public:
                 continue;
             }
 
-            if(pTable->GetFeature() & nFeature)
+            AFFeatureType xResult = (pTable->GetFeature() & nFeature);
+            if(xResult.any())
             {
                 AddTableToPB(pTable, pPBData);
             }
@@ -283,7 +284,7 @@ public:
         return true;
     }
 
-    bool NodeListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const int8_t nFeature)
+    bool NodeListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const AFFeatureType nFeature)
     {
         if(!pNodeManager)
         {
@@ -297,8 +298,8 @@ public:
             {
                 continue;
             }
-
-            if(pNode->Changed() && (pNode->GetFeature() & nFeature))
+            AFFeatureType xResult = (pNode->GetFeature() & nFeature);
+            if(pNode->Changed() && xResult.any())
             {
                 AFMsg::PBNodeData* pData = xPBData.add_data_node_list();
                 AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName().c_str(), *pData);

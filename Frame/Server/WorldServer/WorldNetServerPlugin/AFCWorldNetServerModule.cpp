@@ -479,8 +479,8 @@ int AFCWorldNetServerModule::OnViewDataNodeEnter(const AFIDataList& argVar, cons
     }
 
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
-    int8_t nFeature = 0;
-    AFBitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PUBLIC);
+    AFFeatureType nFeature ;
+    nFeature[AFDataNode::PF_PUBLIC] = 1;
     m_pNetModule->NodeListToPB(self, pNodeManager, *xPublicMsg.add_multi_entity_data_node_list(), nFeature);
     for(size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -511,8 +511,8 @@ int AFCWorldNetServerModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDa
 
     AFMsg::MultiEntityDataNodeList xPrivateMsg;
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
-    int8_t nFeature = 0;
-    AFBitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PRIVATE);
+    AFFeatureType nFeature;
+    nFeature[AFDataNode::PF_PRIVATE] = 1;
     m_pNetModule->NodeListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
 
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, xPrivateMsg, self);
@@ -535,8 +535,8 @@ int AFCWorldNetServerModule::OnSelfDataTableEnter(const AFGUID& self, const AFID
         return 0;
     }
 
-    int8_t nFeature = 0;
-    AFBitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PRIVATE);
+    AFFeatureType nFeature;
+    nFeature[AFDataNode::PF_PRIVATE] = 1;
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
     m_pNetModule->TableListToPB(self, pTableManager, *xPrivateMsg.add_multi_entity_data_table_list(), nFeature);
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPrivateMsg, self);
@@ -559,8 +559,9 @@ int AFCWorldNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, con
     }
 
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
-    int8_t nFeature = 0;
-    AFBitValue<int8_t>::SetBitValue(nFeature, AFDataNode::PF_PUBLIC);
+
+    AFFeatureType nFeature;
+    nFeature[AFDataNode::PF_PUBLIC] = 1;
     m_pNetModule->TableListToPB(self, pTableManager, *xPublicMsg.add_multi_entity_data_table_list(), nFeature);
 
     for(size_t i = 0; i < argVar.GetCount(); i++)

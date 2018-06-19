@@ -125,26 +125,11 @@ bool AFCClassModule::AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR
             ARK_ASSERT(0, strNodeName, __FILE__, __FUNCTION__);
         }
 
-        int8_t feature(0);
-        if(bPublic)
-        {
-            AFBitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_PUBLIC);
-        }
-
-        if(bPrivate)
-        {
-            AFBitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_PRIVATE);
-        }
-
-        if(bRealTime)
-        {
-            AFBitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_REAL_TIME);
-        }
-
-        if(bSave)
-        {
-            AFBitValue<int8_t>::SetBitValue(feature, AFDataNode::PF_SAVE);
-        }
+        AFFeatureType feature;
+        feature[AFDataNode::PF_PUBLIC] = (int)bPublic;
+        feature[AFDataNode::PF_PRIVATE] = (int)bPrivate;
+        feature[AFDataNode::PF_REAL_TIME] = (int)bRealTime;
+        feature[AFDataNode::PF_SAVE] = (int)bSave;
 
         pClass->GetNodeManager()->AddNode(strNodeName, varNode, feature);
     }
@@ -181,26 +166,11 @@ bool AFCClassModule::AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_P
             col_type_list.Append(data);
         }
 
-        int8_t feature(0);
-        if(bPublic)
-        {
-            AFBitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_PUBLIC);
-        }
-
-        if(bPrivate)
-        {
-            AFBitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_PRIVATE);
-        }
-
-        if(bRealtime)
-        {
-            AFBitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_REAL_TIME);
-        }
-
-        if(bSave)
-        {
-            AFBitValue<int8_t>::SetBitValue(feature, AFDataTable::TABLE_SAVE);
-        }
+        AFFeatureType feature(0);
+        feature[AFDataTable::TABLE_PUBLIC] = bPublic;
+        feature[AFDataTable::TABLE_PRIVATE] = bPrivate;
+        feature[AFDataTable::TABLE_REAL_TIME] = bRealtime;
+        feature[AFDataTable::TABLE_SAVE] = bSave;
 
         bool result = pClass->GetTableManager()->AddTable(NULL_GUID, pTableName, col_type_list, feature);
         ARK_ASSERT(result, "add table failed, please check", __FILE__, __FUNCTION__);
@@ -316,7 +286,7 @@ bool AFCClassModule::AddClass(const std::string& strClassName, const std::string
     {
         pChildClass = std::make_shared<AFCClass>(strClassName);
         AddElement(strClassName, pChildClass);
- 
+
         pChildClass->SetTypeName("");
         pChildClass->SetInstancePath("");
 
@@ -438,8 +408,7 @@ bool AFCClassModule::InitDataTableManager(const std::string& strClassName, ARK_S
 
         AFCDataList col_type_list;
         pStaticTable->GetColTypeList(col_type_list);
-        int8_t feature = pStaticTable->GetFeature();
-        pTableManager->AddTable(NULL_GUID, pStaticTable->GetName(), col_type_list, feature);
+        pTableManager->AddTable(NULL_GUID, pStaticTable->GetName(), col_type_list, pStaticTable->GetFeature());
     }
 
     return true;

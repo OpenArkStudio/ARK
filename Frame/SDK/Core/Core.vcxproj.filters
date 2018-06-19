@@ -60,9 +60,6 @@
     <ClInclude Include="Base\AFArrayPod.hpp">
       <Filter>Base</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFBitValue.hpp">
-      <Filter>Base</Filter>
-    </ClInclude>
     <ClInclude Include="Base\AFBuffer.hpp">
       <Filter>Base</Filter>
     </ClInclude>

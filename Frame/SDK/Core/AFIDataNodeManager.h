@@ -48,7 +48,7 @@ public:
     virtual size_t GetNodeCount() = 0;
     virtual AFDataNode* GetNodeByIndex(size_t index) = 0;
     virtual AFDataNode* GetNode(const char* name) = 0;
-    virtual bool AddNode(const char* name, const AFIData& value, const int8_t feature) = 0;
+    virtual bool AddNode(const char* name, const AFIData& value, const AFFeatureType feature) = 0;
     virtual bool SetNode(const char* name, const AFIData& value) = 0;
 
     virtual bool SetNodeBool(const char* name, const bool value) = 0;

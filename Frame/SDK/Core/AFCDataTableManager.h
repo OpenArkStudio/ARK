@@ -40,7 +40,7 @@ public:
     virtual bool Exist(const char* name) const;
     virtual bool Exist(const char* name, size_t& index) const;
 
-    virtual bool AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const int8_t feature);
+    virtual bool AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const AFFeatureType feature);
     virtual bool AddTableCallback(const char* table_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
     virtual bool AddTableCommonCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
 

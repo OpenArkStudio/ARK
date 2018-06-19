@@ -116,7 +116,6 @@
     <ClInclude Include="AFDataTable.h" />
     <ClInclude Include="Base\AFArrayMap.hpp" />
     <ClInclude Include="Base\AFArrayPod.hpp" />
-    <ClInclude Include="Base\AFBitValue.hpp" />
     <ClInclude Include="Base\AFBuffer.hpp" />
     <ClInclude Include="Base\AFCAddConsistentHash.hpp" />
     <ClInclude Include="Base\AFCConsistentHash.hpp" />

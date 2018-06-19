@@ -138,7 +138,7 @@ bool AFCDataNodeManager::OnNodeCallback(const char* name, const AFIData& oldData
     return true;
 }
 
-bool AFCDataNodeManager::AddNode(const char* name, const AFIData& value, const int8_t feature)
+bool AFCDataNodeManager::AddNode(const char* name, const AFIData& value, const AFFeatureType feature)
 {
     AFDataNode* pNode = new AFDataNode();
     pNode->name = name;
