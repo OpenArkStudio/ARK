@@ -50,7 +50,6 @@ void AFCNetClient::ProcessMsgLogicThread(AFTCPEntity* pEntity)
         return;
     }
 
-    //Handle messages
     size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
     for(size_t i = 0; i < nReceiveCount; ++i)
     {
@@ -208,7 +207,6 @@ void AFCNetClient::OnClientConnectionInner(const brynet::net::TCPSession::PTR& s
     session->setDisConnectCallback(std::bind(&AFCNetClient::OnClientDisConnectionInner, this, std::placeholders::_1));
 
     AFTCPMsg* pMsg = new AFTCPMsg(session);
-    //unused, please check!!! const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(session->getUD());
     pMsg->xClientID.nLow = (++mnNextID);
     session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
     pMsg->nType = CONNECTED;

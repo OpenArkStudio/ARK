@@ -128,8 +128,8 @@ public:
         }
         catch(std::system_error& ex)
         {
-            std::cout << "Vector3 FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
-            ARK_ASSERT_NO_EFFECT(0);
+			CONSOLE_LOG_NO_FILE << "Vector3 FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+            ARK_ASSERT_NO_EFFECT(0); 
             return false;
         }
 
