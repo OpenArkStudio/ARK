@@ -116,6 +116,7 @@
     <ClInclude Include="AFDataTable.h" />
     <ClInclude Include="Base\AFArrayMap.hpp" />
     <ClInclude Include="Base\AFArrayPod.hpp" />
+    <ClInclude Include="Base\AFBitValue.hpp" />
     <ClInclude Include="Base\AFBuffer.hpp" />
     <ClInclude Include="Base\AFCAddConsistentHash.hpp" />
     <ClInclude Include="Base\AFCConsistentHash.hpp" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Base\AFNoncopyable.hpp" />
     <ClInclude Include="Base\AFPlatform.hpp" />
     <ClInclude Include="Base\AFQueue.h" />
+    <ClInclude Include="Base\AFRandom.hpp" />
     <ClInclude Include="Base\AFRWLock.hpp" />
     <ClInclude Include="Base\AFSingleton.hpp" />
     <ClInclude Include="Base\AFSpinLock.hpp" />

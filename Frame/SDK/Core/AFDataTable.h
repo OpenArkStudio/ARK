@@ -50,7 +50,6 @@ public:
         TABLE_SWAP,         //swap two whole row data
     };
 
-public:
     AFDataTable() noexcept;
     virtual ~AFDataTable();
 

@@ -97,11 +97,7 @@ public:
             mpVaule = src.mpVaule;
             break;
         case DT_USERDATA:
-            {
-                size_t size;
-                const void* pData = src.GetUserData(size);
-                InnerSetUserData(pData, size);
-            }
+            SetUserData(src);
             break;
         default:
             ARK_ASSERT_NO_EFFECT(0);
@@ -139,11 +135,7 @@ public:
             mpVaule = src.GetPointer();
             break;
         case DT_USERDATA:
-            {
-                size_t size;
-                const void* pData = src.GetUserData(size);
-                InnerSetUserData(pData, size);
-            }
+            SetUserData(src);
             break;
         default:
             break;
@@ -248,7 +240,7 @@ public:
         }
         else
         {
-            if (src.mnType == DT_OBJECT)
+            if(src.mnType == DT_OBJECT)
             {
                 this->mxGUID = src.mxGUID;
                 mnAllocLen = src.mnAllocLen;
@@ -269,7 +261,7 @@ public:
         }
         else
         {
-            if (src.mnType == DT_OBJECT)
+            if(src.mnType == DT_OBJECT)
             {
                 src.mxGUID = tmp_guid;
             }
@@ -277,7 +269,7 @@ public:
             {
                 src.mn64Value = tmp_value;
             }
-            
+
             src.mnAllocLen = tmp_alloc_len;
         }
 
@@ -536,7 +528,7 @@ public:
 
     virtual std::string ToString()
     {
-        switch (GetType())
+        switch(GetType())
         {
         case DT_BOOLEAN:
             return ARK_TO_STRING(this->mbValue);
@@ -569,11 +561,11 @@ public:
 
     void Release()
     {
-        switch (mnType)
+        switch(mnType)
         {
         case DT_STRING:
             {
-                if (mstrValue != mBuffer)
+                if(mstrValue != mBuffer)
                 {
                     mxAlloc.Free(mstrValue, mnAllocLen);
                     mstrValue = nullptr;
@@ -582,7 +574,7 @@ public:
             break;
         case DT_USERDATA:
             {
-                if (mpUserData != nullptr)
+                if(mpUserData != nullptr)
                 {
                     mxAlloc.Free(mpUserData, mnAllocLen);
                     mpUserData = nullptr;
@@ -621,6 +613,20 @@ protected:
         InitRawUserData(p, data, size);
         mpUserData = p;
         mnAllocLen = (uint32_t)value_size;
+    }
+
+    void SetUserData(const self_t& src)
+    {
+        size_t size;
+        const void* pData = src.GetUserData(size);
+        InnerSetUserData(pData, size);
+    }
+
+    void SetUserData(const AFIData& src)
+    {
+        size_t size;
+        const void* pData = src.GetUserData(size);
+        InnerSetUserData(pData, size);
     }
 
 private:

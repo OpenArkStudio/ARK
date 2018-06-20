@@ -81,7 +81,7 @@ public:
     static void Free(void* p);
 
     //Utils
-    static inline int32_t SizeToPoolIndex(size_t size);
+    static int32_t SizeToPoolIndex(size_t size);
     static void Dump();
 
 private:

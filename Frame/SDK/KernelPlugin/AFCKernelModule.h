@@ -122,9 +122,6 @@ public:
 
     virtual bool GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list);
     virtual int GetEntityByDataNode(const int nSceneID, const std::string& strNodeName, const AFIDataList& valueArgArg, AFIDataList& list);
-
-    virtual void Random(int nStart, int nEnd, int nCount, AFIDataList& valueList);
-
     //////////////////////////////////////////////////////////////////////////
     virtual bool LogStack();
     virtual bool LogInfo(const AFGUID& ident);
@@ -143,8 +140,6 @@ protected:
     virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb);
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
 
-    void InitRandom();
-
     int OnCommonClassEvent(const AFGUID& self, const std::string& name, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
     int OnCommonNodeEvent(const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar);
     int OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
@@ -155,9 +150,6 @@ private:
     std::list<CLASS_EVENT_FUNCTOR_PTR> mxCommonClassCBList;
     std::list<DATA_NODE_EVENT_FUNCTOR_PTR> mxCommonNodeCBList;
     std::list<DATA_TABLE_EVENT_FUNCTOR_PTR> mxCommonTableCBList;
-
-    std::vector<float> mvRandom;
-    int mnRandomPos;
 
     AFGUID mnCurExeEntity;
     int64_t nLastTime;

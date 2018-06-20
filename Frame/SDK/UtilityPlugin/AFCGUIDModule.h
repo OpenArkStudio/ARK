@@ -22,7 +22,7 @@
 
 #include "SDK/Interface/AFIGUIDModule.h"
 
-namespace GUIDModule
+namespace guid_module
 {
 class IdWorkerThreadUnsafe;
 class IdWorkerThreadSafe;
@@ -45,8 +45,8 @@ public:
 private:
     uint64_t mnMask; //area_id * 100000 + server_id
 #ifdef AF_THREAD_SAFE
-    GUIDModule::IdWorkerThreadSafe* m_pIDWoker;
+    guid_module::IdWorkerThreadSafe* m_pIDWoker;
 #else
-    GUIDModule::IdWorkerThreadUnsafe* m_pIDWoker;
+    guid_module::IdWorkerThreadUnsafe* m_pIDWoker;
 #endif // AF_THREAD_SAFE
 };

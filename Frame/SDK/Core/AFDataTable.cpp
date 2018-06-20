@@ -165,7 +165,7 @@ bool AFDataTable::AddRow(size_t row, const AFIDataList& data)
             break;
         default:
             {
-                delete[] row_data;
+                ReleaseRow(row_data, col_num);
                 return false;
             }
             break;

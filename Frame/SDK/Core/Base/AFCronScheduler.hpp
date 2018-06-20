@@ -40,7 +40,6 @@ public:
         }
     };
 
-public:
     AFCronData()
     {
     }
@@ -53,16 +52,9 @@ public:
     bool Parse(const char* cron_expression)
     {
         Reset();
-        const char* err_msg = NULL;
+        const char* err_msg = nullptr;
         cron_parse_expr(cron_expression, &cron_parser, &err_msg);
-        if (err_msg != NULL)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return (err_msg == nullptr);
     }
 
     void Reset()
@@ -75,13 +67,13 @@ public:
 
     bool IsTriggerable(int64_t now)
     {
-        if (delete_flag)
+        if(delete_flag)
         {
             return false;
         }
 
         now = now / 1000; //convert ms to s
-        if (now > next_time)
+        if(now > next_time)
         {
             return true;
         }
@@ -93,12 +85,12 @@ public:
 
     bool Trigger()
     {
-        if (callback == nullptr)
+        if(callback == nullptr)
         {
             return false;
         }
 
-        if (delete_flag)
+        if(delete_flag)
         {
             return false;
         }
@@ -113,29 +105,25 @@ public:
 
     void GetNext(int64_t now)
     {
-        if (delete_flag)
+        if(delete_flag)
         {
             return;
         }
 
         now = now / 1000; //convert ms to s
-        if (now < next_time)
-        {
-            return;
-        }
-        else
+        if(now >= next_time)
         {
             next_time = cron_next(&cron_parser, now);
         }
     }
 
 private:
-    int cron_id = 0;
-    int user_data = 0;//Will be extended by specific logic
-    SCHEDULER_FUNCTOR_PTR callback = nullptr;
-    time_t next_time = 0;
+    int cron_id{ 0 };
+    int user_data{ 0 };//Will be extended by specific logic
+    SCHEDULER_FUNCTOR_PTR callback{ nullptr };
+    time_t next_time{ 0 };
     cron_expr cron_parser;
-    bool delete_flag = false;
+    bool delete_flag{ false };
 };
 
 class AFCronSheduler
@@ -153,12 +141,12 @@ public:
 
     void Update(int64_t now)
     {
-        if (mbCronWaitDelete)
+        if(mbCronWaitDelete)
         {
-            for (auto iter = mxCronList.begin(); iter != mxCronList.end();)
+            for(auto iter = mxCronList.begin(); iter != mxCronList.end();)
             {
                 AFCronData* pCron = *iter;
-                if (pCron->delete_flag)
+                if(pCron->delete_flag)
                 {
                     ARK_DEALLOC(pCron);
                     iter = mxCronList.erase(iter);
@@ -176,9 +164,9 @@ public:
         time(&tn);
         bool bTriggered = false;
 
-        for (auto it : mxCronList)
+        for(auto it : mxCronList)
         {
-            if (it->IsTriggerable(now))
+            if(it->IsTriggerable(now))
             {
                 it->Trigger();
                 it->GetNext(now);
@@ -190,7 +178,7 @@ public:
             }
         }
 
-        if (bTriggered)
+        if(bTriggered)
         {
             SortCrons();
         }
@@ -200,7 +188,7 @@ public:
     {
         AFCronData* pCron = (AFCronData*)ARK_ALLOC(sizeof(AFCronData));
         memset(pCron, 0, sizeof(*pCron));
-        if (!pCron->Parse(cron_expression))
+        if(!pCron->Parse(cron_expression))
         {
             ARK_DELETE(pCron);
             return false;
@@ -220,9 +208,9 @@ public:
     int RemoveCron(int cron_id)
     {
         int count = 0;
-        for (auto it : mxCronList)
+        for(auto it : mxCronList)
         {
-            if (it->cron_id == cron_id)
+            if(it->cron_id == cron_id)
             {
                 it->delete_flag = true;
                 mbCronWaitDelete = true;
@@ -235,7 +223,7 @@ public:
 
     void Clear()
     {
-        for (auto it : mxCronList)
+        for(auto it : mxCronList)
         {
             ARK_DEALLOC(it);
         }

@@ -54,8 +54,8 @@ class AFCDynLib
 {
 public:
     explicit AFCDynLib(const std::string& strName) :
-        mbMain(false),
-        mstrName(strName)
+        mstrName(strName),
+        mbMain(false)
     {
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
         mstrName.append("_d");
@@ -69,7 +69,7 @@ public:
         mstrName.append(".so");
 #endif
 
-		CONSOLE_LOG << "LoadPlugin: " << mstrName << std::endl;
+        CONSOLE_LOG << "LoadPlugin: " << mstrName << std::endl;
     }
 
     ~AFCDynLib()

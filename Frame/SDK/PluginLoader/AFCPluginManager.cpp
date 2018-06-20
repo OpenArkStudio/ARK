@@ -88,7 +88,6 @@ bool AFCPluginManager::LoadPluginConfig()
     for(rapidxml::xml_node<>* pPluginNode = pRoot->first_node("Plugin"); pPluginNode; pPluginNode = pPluginNode->next_sibling("Plugin"))
     {
         const char* strPluginName = pPluginNode->first_attribute("Name")->value();
-        const char* strMain = pPluginNode->first_attribute("Main")->value();
 
         mxPluginNameMap.insert(std::make_pair(strPluginName, true));
     }
@@ -293,12 +292,12 @@ bool AFCPluginManager::Shut()
         pPlugin->Shut();
     }
 
-    for(auto it = mxPluginNameMap.begin(); it != mxPluginNameMap.end(); it++)
+    for(auto it : mxPluginNameMap)
     {
 #ifdef ARK_DYNAMIC_PLUGIN
-        bool bRet = UnLoadPluginLibrary(it->first);
+        bool bRet = UnLoadPluginLibrary(it.first);
 #else
-        bool bRet = UnLoadStaticPlugin(it->first);
+        bool bRet = UnLoadStaticPlugin(it.first);
 #endif
     }
 
@@ -371,13 +370,12 @@ bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 
     pDynLib->UnLoad();
 
-    delete pDynLib;
-    pDynLib = NULL;
+    ARK_DELETE(pDynLib);
     mxPluginLibMap.RemoveElement(strPluginDLLName);
     return true;
 }
 
-bool AFCPluginManager::UnLoadStaticPlugin(const std::string & strPluginDLLName)
+bool AFCPluginManager::UnLoadStaticPlugin(const std::string& strPluginDLLName)
 {
     return false;
 }
@@ -385,7 +383,7 @@ bool AFCPluginManager::UnLoadStaticPlugin(const std::string & strPluginDLLName)
 bool AFCPluginManager::StartReLoadState()
 {
     AFIModule::StartReLoadState();
-    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->StartReLoadState();
     }
@@ -395,7 +393,7 @@ bool AFCPluginManager::StartReLoadState()
 
 bool AFCPluginManager::EndReLoadState()
 {
-    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != NULL; pPlugin = mxPluginInstanceMap.Next())
+    for(AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
         pPlugin->EndReLoadState();
     }

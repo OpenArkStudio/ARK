@@ -19,53 +19,20 @@
 */
 
 #include "AFCGUIDModule.h"
-#if ARK_PLATFORM == PLATFORM_WIN
-# include <windows.h>
-# include <winsock2.h>
-# include <time.h>
-#else
-# include <sys/time.h>
-#endif
+#include "SDK/Core/Base/AFDateTime.hpp"
 
-namespace GUIDModule
+namespace guid_module
 {
 //refer:https://github.com/nebula-im/snowflake4cxx
 
-#if ARK_PLATFORM == PLATFORM_WIN
-int gettimeofday(struct timeval* tp, void *tzp)
-{
-    time_t clock;
-    struct tm tm;
-    SYSTEMTIME wtm;
-    GetLocalTime(&wtm);
-    tm.tm_year = wtm.wYear - 1900;
-    tm.tm_mon = wtm.wMonth - 1;
-    tm.tm_mday = wtm.wDay;
-    tm.tm_hour = wtm.wHour;
-    tm.tm_min = wtm.wMinute;
-    tm.tm_sec = wtm.wSecond;
-    tm.tm_isdst = -1;
-    clock = mktime(&tm);
-    tp->tv_sec = clock;
-    tp->tv_usec = wtm.wMilliseconds * 1000;
-    return (0);
-}
-#endif
-
-uint64_t GetNowInMsec()
-{
-    struct timeval tv;
-    int  nRet = gettimeofday(&tv, 0);
-    return uint64_t(tv.tv_sec) * 1000 + tv.tv_usec / 1000;
-}
-
 uint64_t WaitUntilNextMillis(uint64_t last_timestamp)
 {
-    uint64_t timestamp = GetNowInMsec();
+    uint64_t timestamp = AFDateTime::GetNowTime();
     while(timestamp <= last_timestamp)
     {
-        timestamp = GetNowInMsec();
+        timestamp = AFDateTime::GetNowTime();
     }
+
     return timestamp;
 }
 
@@ -76,7 +43,7 @@ public:
 
     uint64_t GetNextID()
     {
-        uint64_t timestamp = GetNowInMsec();
+        uint64_t timestamp = AFDateTime::GetNowTime();
 
         //in current microsecond
         if(last_timestamp_ == timestamp)
@@ -130,9 +97,9 @@ AFCGUIDModule::AFCGUIDModule(AFIPluginManager* p)
 bool AFCGUIDModule::Init()
 {
 #ifdef AF_THREAD_SAFE
-    m_pIDWoker = new GUIDModule::IdWorkerThreadSafe();
+    m_pIDWoker = new guid_module::IdWorkerThreadSafe();
 #else
-    m_pIDWoker = new GUIDModule::IdWorkerThreadUnsafe();
+    m_pIDWoker = new guid_module::IdWorkerThreadUnsafe();
 #endif // AF_THREAD_SAFE
 
     return true;

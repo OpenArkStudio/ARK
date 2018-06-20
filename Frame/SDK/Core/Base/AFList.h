@@ -43,19 +43,14 @@ private:
     typename std::list<T>::iterator mCurIter;
 };
 
-template < typename T >
+template<typename T>
 bool AFList<T>::Add(const T& id)
 {
-    //if (!Find(id))
-    {
-        mtObjConfigList.push_back(id);
-        return true;
-    }
-
-    return false;
+    mtObjConfigList.push_back(id);
+    return true;
 }
 
-template < typename T >
+template<typename T>
 bool AFList<T>::Remove(const T& id)
 {
     if(Find(id))

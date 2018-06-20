@@ -57,6 +57,7 @@
 #include <algorithm>
 #include <future>
 #include <ctime>
+#include <bitset>
 
 #define NOMINMAX
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
@@ -83,6 +84,7 @@
 // only other unix/linux include
 #include <sys/socket.h>
 #include <sys/time.h>
+#include <pthread.h>
 #endif
 
 #define ARK_LITTLE_ENDIAN

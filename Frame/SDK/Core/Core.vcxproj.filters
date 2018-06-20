@@ -150,6 +150,12 @@
     <ClInclude Include="Base\AFVector3.hpp">
       <Filter>Base</Filter>
     </ClInclude>
+    <ClInclude Include="Base\AFBitValue.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\AFRandom.hpp">
+      <Filter>Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCHeartBeatManager.cpp">

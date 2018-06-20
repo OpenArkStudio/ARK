@@ -164,9 +164,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
         switch(eType)
         {
         case DT_BOOLEAN:
-            {
-                pTmpNode->value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
-            }
+            pTmpNode->value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
             break;
         case DT_INT:
             {
@@ -174,11 +172,17 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 {
                     ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
+
                 pTmpNode->value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
             }
             break;
         case DT_INT64:
             {
+                if(!LegalNumber(pstrConfigValue))
+                {
+                    ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
+                }
+
                 pTmpNode->value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
             }
             break;
@@ -188,6 +192,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 {
                     ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
+
                 pTmpNode->value.SetFloat(ARK_LEXICAL_CAST<float>(pstrConfigValue));
             }
             break;
@@ -197,13 +202,12 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 {
                     ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
+
                 pTmpNode->value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
             }
             break;
         case DT_STRING:
-            {
-                pTmpNode->value.SetString(pstrConfigValue);
-            }
+            pTmpNode->value.SetString(pstrConfigValue);
             break;
         case DT_OBJECT:
             {
@@ -215,7 +219,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
             }
             break;
         default:
-            ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
+            ARK_ASSERT_NO_EFFECT(0);
             break;
         }
     }
@@ -381,7 +385,7 @@ bool AFCElementModule::LegalNumber(const char* str)
 
     for(int i = nStart; i < nLen; ++i)
     {
-        if(!isdigit(str[i]))
+        if(!std::isdigit(str[i]))
         {
             return false;
         }

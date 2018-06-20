@@ -376,16 +376,14 @@ public:
             return NULL_BOOLEAN;
         }
 
-        switch(mpData[index].nType)
+        if(mpData[index].nType == DT_BOOLEAN)
         {
-        case DT_BOOLEAN:
             return mpData[index].mbValue;
-            break;
-        default:
-            break;
         }
-
-        return NULL_BOOLEAN;
+        else
+        {
+            return NULL_BOOLEAN;
+        }
     }
 
     virtual int Int(size_t index) const
@@ -395,16 +393,14 @@ public:
             return NULL_INT;
         }
 
-        switch(mpData[index].nType)
+        if(mpData[index].nType == DT_INT)
         {
-        case DT_INT:
             return mpData[index].mnValue;
-            break;
-        default:
-            break;
         }
-
-        return NULL_INT;
+        else
+        {
+            return NULL_INT;
+        }
     }
 
     virtual int64_t Int64(size_t index) const
@@ -414,16 +410,14 @@ public:
             return NULL_INT64;
         }
 
-        switch(mpData[index].nType)
+        if(mpData[index].nType == DT_INT64)
         {
-        case DT_INT64:
             return mpData[index].mn64Value;
-            break;
-        default:
-            break;
         }
-
-        return NULL_INT64;
+        else
+        {
+            return NULL_INT64;
+        }
     }
 
     virtual float Float(size_t index) const
@@ -433,16 +427,14 @@ public:
             return NULL_FLOAT;
         }
 
-        switch(mpData[index].nType)
+        if(mpData[index].nType == DT_FLOAT)
         {
-        case DT_FLOAT:
             return mpData[index].mfValue;
-            break;
-        default:
-            break;
         }
-
-        return NULL_FLOAT;
+        else
+        {
+            return NULL_FLOAT;
+        }
     }
 
     virtual double Double(size_t index) const
@@ -452,16 +444,14 @@ public:
             return NULL_DOUBLE;
         }
 
-        switch(mpData[index].nType)
+        if(mpData[index].nType == DT_DOUBLE)
         {
-        case DT_DOUBLE:
             return mpData[index].mdValue;
-            break;
-        default:
-            break;
         }
-
-        return NULL_DOUBLE;
+        else
+        {
+            return NULL_DOUBLE;
+        }
     }
 
     virtual const char* String(size_t index) const
@@ -471,16 +461,14 @@ public:
             return NULL_STR.c_str();
         }
 
-        switch(mpData[index].nType)
+        if(mpData[index].nType == DT_STRING)
         {
-        case DT_STRING:
             return mpBuffer + mpData[index].mnstrValue;
-            break;
-        default:
-            break;
         }
-
-        return NULL_STR.c_str();
+        else
+        {
+            return NULL_STR.c_str();
+        }
     }
 
     virtual AFGUID Object(size_t index) const
@@ -490,16 +478,14 @@ public:
             return NULL_GUID;
         }
 
-        switch(mpData[index].nType)
+        if(mpData[index].nType == DT_OBJECT)
         {
-        case DT_OBJECT:
             return mpData[index].mxGUID;
-            break;
-        default:
-            break;
         }
-
-        return NULL_GUID;
+        else
+        {
+            return NULL_GUID;
+        }
     }
 
     virtual void* Pointer(size_t index) const
@@ -509,16 +495,14 @@ public:
             return NULL;
         }
 
-        switch(mpData[index].nType)
+        if(mpData[index].nType == DT_POINTER)
         {
-        case DT_STRING:
             return mpData[index].mpVaule;
-            break;
-        default:
-            break;
         }
-
-        return NULL;
+        else
+        {
+            return NULL;
+        }
     }
 
     virtual const void* UserData(size_t index, size_t& size) const
@@ -529,22 +513,19 @@ public:
             return NULL;
         }
 
-        switch(mpData[index].nType)
+        if(mpData[index].nType == DT_USERDATA)
         {
-        case DT_USERDATA:
-            {
-                char* p = mpBuffer + mpData[index].mnUserData;
-                size = AFIData::GetUserDataSize(p);
-                return AFIData::GetUserData(p);
-            }
-            break;
-        default:
-            break;
+            char* p = mpBuffer + mpData[index].mnUserData;
+            size = AFIData::GetUserDataSize(p);
+            return AFIData::GetUserData(p);
         }
-
-        size = 0;
-        return NULL;
+        else
+        {
+            size = 0;
+            return NULL;
+        }
     }
+
     virtual void* RawUserData(size_t index) const
     {
         if(index > mnDataUsed)
@@ -552,18 +533,14 @@ public:
             return NULL;
         }
 
-        switch(mpData[index].nType)
+        if(mpData[index].nType == DT_USERDATA)
         {
-        case DT_USERDATA:
-            {
-                return mpBuffer + mpData[index].mnUserData;
-            }
-            break;
-        default:
-            break;
+            return mpBuffer + mpData[index].mnUserData;
         }
-
-        return NULL;
+        else
+        {
+            return NULL;
+        }
     }
 
     virtual bool SetBool(size_t index, bool value)
@@ -577,9 +554,11 @@ public:
         {
             return false;
         }
-
-        mpData[index].mbValue = value;
-        return true;
+        else
+        {
+            mpData[index].mbValue = value;
+            return true;
+        }
     }
 
     virtual bool SetInt(size_t index, int value)
@@ -593,9 +572,11 @@ public:
         {
             return false;
         }
-
-        mpData[index].mnValue = value;
-        return true;
+        else
+        {
+            mpData[index].mnValue = value;
+            return true;
+        }
     }
 
     virtual bool SetInt64(size_t index, int64_t value)
@@ -609,9 +590,11 @@ public:
         {
             return false;
         }
-
-        mpData[index].mn64Value = value;
-        return true;
+        else
+        {
+            mpData[index].mn64Value = value;
+            return true;
+        }
     }
 
     virtual bool SetFloat(size_t index, float value)
@@ -625,9 +608,11 @@ public:
         {
             return false;
         }
-
-        mpData[index].mfValue = value;
-        return true;
+        else
+        {
+            mpData[index].mfValue = value;
+            return true;
+        }
     }
 
     virtual bool SetDouble(size_t index, double value)
@@ -641,9 +626,11 @@ public:
         {
             return false;
         }
-
-        mpData[index].mdValue = value;
-        return true;
+        else
+        {
+            mpData[index].mdValue = value;
+            return true;
+        }
     }
 
     virtual bool SetString(size_t index, const char* value)
@@ -688,9 +675,11 @@ public:
         {
             return false;
         }
-
-        mpData[index].mxGUID = value;
-        return true;
+        else
+        {
+            mpData[index].mxGUID = value;
+            return true;
+        }
     }
 
     virtual bool SetPointer(size_t index, void* value)
@@ -704,9 +693,11 @@ public:
         {
             return false;
         }
-
-        mpData[index].mpVaule = value;
-        return true;
+        else
+        {
+            mpData[index].mpVaule = value;
+            return true;
+        }
     }
 
     virtual const std::string ToString(size_t index)

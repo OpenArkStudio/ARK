@@ -52,14 +52,14 @@ void AFMemAlloc::CheckLeak()
 {
     printf("Memory check leak start-----------------------\n");
 
-    if (g_totalAlloc == 0)
+    if(g_totalAlloc == 0)
     {
         printf("No memory leak!\n");
     }
     else
     {
         printf("Find leak, %d bytes!\n", g_totalAlloc.load());
-        for (auto& iter : g_memMap)
+        for(auto& iter : g_memMap)
         {
             AllocItem& record = iter.second;
             printf("%s(%d) %d bytes\n", record.filename.c_str(), record.line, record.length);
@@ -71,7 +71,7 @@ void AFMemAlloc::CheckLeak()
 
 void AFMemAlloc::InitPool()
 {
-    for (int i = 0; i < POOL_SIZE; ++i)
+    for(int i = 0; i < POOL_SIZE; ++i)
     {
         g_pool[i] = ARK_NEW AFMemPool(g_poolTotal[i], g_poolSize[i]);
     }
@@ -81,7 +81,7 @@ void AFMemAlloc::InitPool()
 
 void AFMemAlloc::ClearPool()
 {
-    for (int i = 0; i < POOL_SIZE; ++i)
+    for(int i = 0; i < POOL_SIZE; ++i)
     {
         ARK_DELETE(g_pool[i]);
     }
@@ -94,12 +94,12 @@ void* AFMemAlloc::AllocDebug(size_t bytes, const char* file, int line)
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = AllocInternal(bytes);
-    if (ptr == nullptr)
+    if(ptr == nullptr)
     {
         return nullptr;
     }
 
-    if (g_needRecord)
+    if(g_needRecord)
     {
         AllocItem record;
         record.length = bytes;
@@ -116,7 +116,7 @@ void* AFMemAlloc::AllocDebug(size_t bytes, const char* file, int line)
 
 void* AFMemAlloc::ReallocDebug(void* addr, size_t bytes, const char* file, int line)
 {
-    if (g_needRecord && addr != nullptr)
+    if(g_needRecord && addr != nullptr)
     {
         AllocItem record = g_memMap[addr];
         g_totalAlloc -= record.length;
@@ -128,12 +128,12 @@ void* AFMemAlloc::ReallocDebug(void* addr, size_t bytes, const char* file, int l
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = ReallocInternal(addr, bytes);
-    if (ptr == nullptr)
+    if(ptr == nullptr)
     {
         return nullptr;
     }
 
-    if (g_needRecord)
+    if(g_needRecord)
     {
         AllocItem record;
         record.length = bytes;
@@ -153,12 +153,12 @@ void* AFMemAlloc::CallocDebug(size_t count, size_t bytes, const char* file, int 
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = CallocInternal(count, bytes);
-    if (ptr == nullptr)
+    if(ptr == nullptr)
     {
         return nullptr;
     }
 
-    if (g_needRecord)
+    if(g_needRecord)
     {
         AllocItem record;
         record.length = bytes;
@@ -175,7 +175,7 @@ void* AFMemAlloc::CallocDebug(size_t count, size_t bytes, const char* file, int 
 
 void AFMemAlloc::FreeDebug(void* p)
 {
-    if (g_needRecord && p != nullptr)
+    if(g_needRecord && p != nullptr)
     {
         AllocItem record = g_memMap[p];
         g_totalAlloc -= record.length;
@@ -192,7 +192,7 @@ void* AFMemAlloc::Alloc(size_t bytes)
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = AllocInternal(bytes);
-    if (ptr == nullptr)
+    if(ptr == nullptr)
     {
         return nullptr;
     }
@@ -205,7 +205,7 @@ void* AFMemAlloc::Realloc(void* addr, size_t bytes)
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = ReallocInternal(addr, bytes);
-    if (ptr == nullptr)
+    if(ptr == nullptr)
     {
         return nullptr;
     }
@@ -218,7 +218,7 @@ void* AFMemAlloc::Calloc(size_t count, size_t bytes)
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = CallocInternal(count, bytes);
-    if (ptr == nullptr)
+    if(ptr == nullptr)
     {
         return nullptr;
     }
@@ -231,12 +231,12 @@ void AFMemAlloc::Free(void* p)
     FreeInternal(p);
 }
 
-int32_t AFMemAlloc::SizeToPoolIndex(size_t size)
+inline int32_t AFMemAlloc::SizeToPoolIndex(size_t size)
 {
     uint32_t allocSize = AFMisc::GetNearest2N(size);
     uint32_t nIndexT = allocSize >> 4;
     int32_t cIndex = -1;
-    while (nIndexT)
+    while(nIndexT)
     {
         nIndexT = nIndexT >> 1;
         ++cIndex;
@@ -248,7 +248,7 @@ int32_t AFMemAlloc::SizeToPoolIndex(size_t size)
 void AFMemAlloc::Dump()
 {
     printf("Memory dump start---------------------\n");
-    for (int i = 0; i < POOL_SIZE; ++i)
+    for(int i = 0; i < POOL_SIZE; ++i)
     {
         printf("[Size:%d]:Used:%d    /   Total:%d    (%d bytes) \r\n", g_poolSize[i], g_poolUsed[i], g_poolTotal[i], g_poolSize[i] * g_poolUsed[i]);
     }
@@ -259,7 +259,7 @@ void AFMemAlloc::Dump()
 
 void* AFMemAlloc::AllocInternal(size_t bytes)
 {
-    if (g_usePool)
+    if(g_usePool)
     {
         return AllocFromPool(bytes);
     }
@@ -271,7 +271,7 @@ void* AFMemAlloc::AllocInternal(size_t bytes)
 
 void* AFMemAlloc::ReallocInternal(void* addr, size_t bytes)
 {
-    if (g_usePool)
+    if(g_usePool)
     {
         return ReallocFromPool(addr, bytes);
     }
@@ -283,7 +283,7 @@ void* AFMemAlloc::ReallocInternal(void* addr, size_t bytes)
 
 void* AFMemAlloc::CallocInternal(size_t count, size_t bytes)
 {
-    if (g_usePool)
+    if(g_usePool)
     {
         return CallocFromPool(count, bytes);
     }
@@ -295,7 +295,7 @@ void* AFMemAlloc::CallocInternal(size_t count, size_t bytes)
 
 void AFMemAlloc::FreeInternal(void* p)
 {
-    if (g_usePool)
+    if(g_usePool)
     {
         FreeFromPool(p);
     }
@@ -307,11 +307,11 @@ void AFMemAlloc::FreeInternal(void* p)
 
 void* AFMemAlloc::AllocFromPool(uint32_t bytes)
 {
-    if (bytes < 16)
+    if(bytes < 16)
     {
         bytes = 16;
     }
-    else if (bytes > 2048)
+    else if(bytes > 2048)
     {
         return ARK_NEW char[bytes];
     }
@@ -325,13 +325,13 @@ void* AFMemAlloc::AllocFromPool(uint32_t bytes)
 
 void* AFMemAlloc::ReallocFromPool(void* addr, size_t bytes)
 {
-    if (addr == nullptr)
+    if(addr == nullptr)
     {
         return AllocFromPool(bytes);
     }
 
     uint32_t poolIndex = FreeFromPool(addr);
-    if (poolIndex != -1)
+    if(poolIndex != -1)
     {
         void* ptr = AllocFromPool(bytes);
         memcpy(ptr, addr, g_pool[poolIndex]->mnUnitSize);
@@ -351,9 +351,9 @@ void* AFMemAlloc::CallocFromPool(size_t count, size_t bytes)
 size_t AFMemAlloc::FreeFromPool(void* p)
 {
     uint32_t poolIndex = -1;
-    for (int i = 0; i < POOL_SIZE; ++i)
+    for(int i = 0; i < POOL_SIZE; ++i)
     {
-        if (g_pool[i]->InPool(p))
+        if(g_pool[i]->InPool(p))
         {
             poolIndex = i;
             g_pool[poolIndex]->Free(p);
@@ -362,7 +362,7 @@ size_t AFMemAlloc::FreeFromPool(void* p)
         }
     }
 
-    if (poolIndex < 0)
+    if(poolIndex < 0)
     {
         ARK_DELETE_ARRAY(p);
     }

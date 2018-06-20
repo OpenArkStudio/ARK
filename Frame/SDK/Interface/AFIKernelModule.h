@@ -174,17 +174,13 @@ public:
     virtual bool GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list) = 0;
     virtual int GetEntityByDataNode(const int nSceneID, const std::string& strPropertyName, const AFIDataList& valueArg, AFIDataList& list) = 0;
 
-    virtual void Random(int nStart, int nEnd, int nCount, AFIDataList& valueList) = 0;
     virtual bool LogInfo(const AFGUID& ident) = 0;
 
 protected:
     virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb) = 0;
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
 
-protected:
     virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
-
     virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
-
     virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
 };

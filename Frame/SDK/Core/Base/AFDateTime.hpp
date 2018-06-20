@@ -713,10 +713,18 @@ public:
 
     //Creates a timestamp static
     //Returns milliseconds
-    static TimeVal GetTimestamp()
+    static TimeVal GetNowTime()
     {
         AFDateTime now;
         return now.Raw();
+    }
+
+    //Creates a timestamp static
+    //Returns seconds
+    static int GetTimestamp()
+    {
+        AFDateTime now;
+        return now.GetTime();
     }
 
     static TimeDiff Resolution()

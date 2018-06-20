@@ -115,7 +115,7 @@ int AFCPropertyModule::SubPropertyValue(const AFGUID& self, const std::string& s
 
 int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar)
 {
-    int nRet = RefreshBaseProperty(self);
+    RefreshBaseProperty(self);
 
     FullHPMP(self);
     FullSP(self);
@@ -125,7 +125,7 @@ int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string&
 
 int AFCPropertyModule::OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
-    ////计算总值
+    //计算总值
     const DataTableName & strRecordName = xEventData.strName;
     const int nOpType = xEventData.nOpType;
     const int nRow = xEventData.nRow;

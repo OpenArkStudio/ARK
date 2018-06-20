@@ -109,7 +109,6 @@ public:
 template<typename TYPE, size_t SIZE, typename TRAITS = CharTraits<TYPE>, typename ALLOC = AFStringAlloc>
 class AFString
 {
-private:
     using self_t = AFString<TYPE, SIZE, TRAITS, ALLOC>;
 
 public:
@@ -416,7 +415,6 @@ private:
         return (*this);
     }
 
-private:
     ALLOC mxAlloc;
     TYPE mxStack[SIZE];
     TYPE* mpData;
@@ -429,16 +427,16 @@ typedef AFString<char, 16, CharTraits<char>, CoreAlloc> DataTableName;
 
 namespace std
 {
-    template<>
-    class hash<DataNodeName>
+template<>
+class hash<DataNodeName>
+{
+public:
+    size_t operator()(DataNodeName const& pro) const
     {
-    public:
-        size_t operator()(DataNodeName const& pro) const
-        {
-            const char* value = pro.c_str();
-            return GetHashValue(value);
-        }
-    };
+        const char* value = pro.c_str();
+        return GetHashValue(value);
+    }
+};
 }
 
 template<typename TYPE, size_t SIZE, typename TRAITS, typename ALLOC>

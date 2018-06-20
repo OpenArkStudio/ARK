@@ -48,7 +48,7 @@ ARK is a lightweight, agility, scalable, distributed plugin framework written by
 
 ### FAQ
 
-Please [create a new issue](https://github.com/ArkGame/ARK/issues) OR [visit our community](https://arkgame.net/community) to ask a question.
+Please [create a new issue](https://github.com/ArkGame/ARK/issues) OR [visit our community](https://arkgame.net/questions) to ask a question.
 
 
 ## Architecture

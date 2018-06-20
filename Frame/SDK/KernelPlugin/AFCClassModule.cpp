@@ -376,7 +376,6 @@ bool AFCClassModule::InitDataNodeManager(const std::string& strClassName, ARK_SH
         if(!bRet)
         {
             ARK_ASSERT_NO_EFFECT(0);
-            continue;
         }
     }
 

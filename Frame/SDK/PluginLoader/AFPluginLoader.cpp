@@ -204,6 +204,8 @@ int realloc_environ()
 {
     int var_count = 0;
     int env_size = 0;
+
+    do
     {
         char** ep = environ;
         while(*ep)
@@ -213,11 +215,14 @@ int realloc_environ()
             ++ep;
         }
     }
+    while(0);
 
     char* new_env_buf = new char[env_size];
     std::memcpy((void *)new_env_buf, (void *)*environ, env_size);
 
     char** new_env = new char*[var_count + 1];
+
+    do
     {
         int var = 0;
         int offset = 0;
@@ -229,6 +234,8 @@ int realloc_environ()
             ++ep;
         }
     }
+    while(0);
+
     new_env[var_count] = 0;
 
     // RAII to prevent memory leak

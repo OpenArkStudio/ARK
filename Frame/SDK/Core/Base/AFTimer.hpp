@@ -288,13 +288,13 @@ protected:
 
     void RemoveSlotTimer(AFTimerData* timer_data)
     {
-        auto prev = timer_data->prev;
+        auto* prev = timer_data->prev;
         if(prev != nullptr)
         {
             prev->next = timer_data->next;
         }
 
-        auto next = timer_data->next;
+        auto* next = timer_data->next;
         if(next != nullptr)
         {
             next->prev = timer_data->prev;
@@ -319,8 +319,8 @@ protected:
             {
                 --timerData->rotation;
             }
-            
-            if (timerData->rotation == 0)
+
+            if(timerData->rotation == 0)
             {
                 doneDatas.push_back(timerData);
             }

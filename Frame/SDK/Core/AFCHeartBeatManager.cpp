@@ -74,7 +74,7 @@ bool AFCHeartBeatElement::CheckTime(int64_t nNowTime)
 void AFCHeartBeatManager::Update()
 {
     //millisecond
-    int64_t nTime = AFDateTime::GetTimestamp();
+    int64_t nTime = AFDateTime::GetNowTime();
     for(std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = mTimeList.begin(); iter != mTimeList.end();)
     {
         if(iter->second->IsStop() && ProcessFinishHeartBeat(iter->second))
@@ -197,7 +197,7 @@ AFGUID AFCHeartBeatManager::Self()
 bool AFCHeartBeatManager::AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever /*= false*/)
 {
     AFCHeartBeatElement xHeartBeat;
-    xHeartBeat.nNextTriggerTime = AFDateTime::GetTimestamp() + nTime;
+    xHeartBeat.nNextTriggerTime = AFDateTime::GetNowTime() + nTime;
     xHeartBeat.nBeatTime = nTime;
     xHeartBeat.nCount = nCount;
     xHeartBeat.self = self;

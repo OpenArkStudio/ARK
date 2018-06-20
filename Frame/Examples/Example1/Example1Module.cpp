@@ -17,15 +17,13 @@
 * limitations under the License.
 *
 */
-#define SPDLOG_NO_NAME
-#define SPDLOG_DEBUG_ON
-#define SPDLOG_TRACE_ON
 
 #include "Example1Module.h"
 #include "SDK/Core/Base/AFTimer.hpp"
 #include "SDK/Core/Base/AFMacros.hpp"
 #include "SDK/Core/Common/cronexpr.h"
 #include "SDK/Core/Base/AFDateTime.hpp"
+#include "SDK/Core/Base/AFRandom.hpp"
 
 bool Example1Module::Init()
 {
@@ -43,6 +41,63 @@ void TestDateTime()
 
     AFDateTime now2(now.GetYear(), now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
     ARK_ASSERT_NO_EFFECT(now.GetTime() == now2.GetTime());
+}
+
+void TestRandom()
+{
+    AFRandom rand;
+    rand.SetSeed(AFDateTime::GetTimestamp());
+
+    int rand_array[10] = { 0 };
+    for(int i = 0; i < 100000; ++i)
+    {
+        uint32_t my_rand = rand.Random(0, 100000);
+        if(my_rand <= 10000)
+        {
+            rand_array[0]++;
+        }
+        else if(my_rand > 10000 && my_rand <= 20000)
+        {
+            rand_array[1]++;
+        }
+        else if(my_rand > 20000 && my_rand <= 30000)
+        {
+            rand_array[2]++;
+        }
+        else if(my_rand > 30000 && my_rand <= 40000)
+        {
+            rand_array[3]++;
+        }
+        else if(my_rand > 40000 && my_rand <= 50000)
+        {
+            rand_array[4]++;
+        }
+        else if(my_rand > 50000 && my_rand <= 60000)
+        {
+            rand_array[5]++;
+        }
+        else if(my_rand > 60000 && my_rand <= 70000)
+        {
+            rand_array[6]++;
+        }
+        else if(my_rand > 70000 && my_rand <= 80000)
+        {
+            rand_array[7]++;
+        }
+        else if(my_rand > 80000 && my_rand <= 90000)
+        {
+            rand_array[8]++;
+        }
+        else
+        {
+            rand_array[9]++;
+        }
+    }
+
+    for(int i = 0; i < ARRAY_LENTGH(rand_array); ++i)
+    {
+        std::cout << rand_array[i] << " int range [" << i * 10000 << ", " << (i + 1) * 10000 << "]" << std::endl;
+    }
 }
 
 bool Example1Module::PostInit()
@@ -75,6 +130,9 @@ bool Example1Module::PostInit()
     //////////////////////////////////////////////////////////////////////////
     //Test AFDateTime
     TestDateTime();
+    //////////////////////////////////////////////////////////////////////////
+    //Test Random
+    TestRandom();
     //////////////////////////////////////////////////////////////////////////
     //test cron expression
     //const char* err_msg = NULL;

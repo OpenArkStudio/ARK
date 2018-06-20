@@ -126,10 +126,14 @@ public:
             z = ARK_LEXICAL_CAST<float>(strZ);
             return true;
         }
-        catch(...)
+        catch(std::system_error& ex)
         {
+            std::cout << "Vector3 FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+            ARK_ASSERT_NO_EFFECT(0);
             return false;
         }
+
+        return true;
     }
 
     static float Distance(const Point3D& a, const Point3D& b)

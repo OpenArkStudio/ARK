@@ -31,7 +31,6 @@ AFCKernelModule::AFCKernelModule(AFIPluginManager* p)
     pPluginManager = p;
 
     nLastTime = pPluginManager->GetNowTime();
-    InitRandom();
 
     mInnerProperty.AddElement(ARK::IObject::ConfigID(), ARK_NEW int32_t(0));
     mInnerProperty.AddElement(ARK::IObject::ClassName(), ARK_NEW int32_t(0));
@@ -47,23 +46,6 @@ AFCKernelModule::~AFCKernelModule()
     }
 
     ClearAll();
-}
-
-void AFCKernelModule::InitRandom()
-{
-    mvRandom.clear();
-
-    int nRandomMax = 100000;
-    mnRandomPos = 0;
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<> dis(0.0f, 1.0f);
-
-    for(int i = 0; i < nRandomMax; i++)
-    {
-        mvRandom.push_back(dis(gen));
-    }
 }
 
 bool AFCKernelModule::Init()
@@ -1134,7 +1116,6 @@ bool AFCKernelModule::DestroyAll()
 
     m_pSceneModule->ClearAll();
 
-    mvRandom.clear();
     mxCommonClassCBList.clear();
     mxCommonNodeCBList.clear();
     mxCommonTableCBList.clear();
@@ -1147,23 +1128,6 @@ bool AFCKernelModule::PreShut()
     return DestroyAll();
 }
 
-void AFCKernelModule::Random(int nStart, int nEnd, int nCount, AFIDataList& valueList)
-{
-    if(mnRandomPos + nCount >= mvRandom.size())
-    {
-        mnRandomPos = 0;
-    }
-
-    for(int i = mnRandomPos; i < mnRandomPos + nCount; i++)
-    {
-        float fRanValue = mvRandom.at(i);
-        int32_t nValue = int32_t((nEnd - nStart) * fRanValue + nStart);
-        valueList.AddInt(nValue);
-    }
-
-    mnRandomPos += nCount;
-}
-
 bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
@@ -1171,8 +1135,10 @@ bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, c
     {
         return pEntity->GetEventManager()->AddEventCallBack(nEventID, cb);
     }
-
-    return false;
+    else
+    {
+        return false;
+    }
 }
 
 bool AFCKernelModule::AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb)
@@ -1192,6 +1158,8 @@ bool AFCKernelModule::DoEvent(const AFGUID& self, const int nEventID, const AFID
     {
         return pEntity->GetEventManager()->DoEvent(nEventID, valueList);
     }
-
-    return false;
+    else
+    {
+        return false;
+    }
 }

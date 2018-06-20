@@ -25,7 +25,6 @@
 #include "SDK/Core/Base/AFGUID.h"
 #include "SDK/Core/Base/AFPlatform.hpp"
 
-#include <bitset>
 using  AFFeatureType = std::bitset<8>;
 
 enum ARK_ENTITY_EVENT

@@ -50,11 +50,8 @@ const static AFGUID NULL_GUID = AFGUID();
 class AFIData
 {
 public:
-
-public:
     AFIData& operator=(const AFIData& rhs) = delete;
 
-public:
     inline static void* GetUserData(void* value)
     {
         return (char*)value + sizeof(size_t);
@@ -76,7 +73,6 @@ public:
         memcpy((char*)p + sizeof(size_t), pData, size);
     }
 
-public:
     virtual ~AFIData() = default;
 
     virtual int GetType() const = 0;

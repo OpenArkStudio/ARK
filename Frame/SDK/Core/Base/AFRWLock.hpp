@@ -25,11 +25,10 @@
 
 #if ARK_PLATFORM == PLATFORM_WIN
 
-#include <windows.h>
-class AFCReaderWriterLock : private AFNoncopyable
+class AFCReaderWriterLock : public AFNoncopyable
 {
 public:
-	explicit AFCReaderWriterLock()
+    explicit AFCReaderWriterLock()
     {
         m_Readers = 0;
         InitializeCriticalSection(&m_Writer);
@@ -89,9 +88,7 @@ private:
 
 #else
 
-#include <pthread.h>
-
-class AFCReaderWriterLock : private AFNoncopyable
+class AFCReaderWriterLock : public AFNoncopyable
 {
 public:
 
@@ -130,10 +127,10 @@ private:
 };
 #endif
 
-class AFScopeRdLock : private AFNoncopyable
+class AFScopeRdLock : public AFNoncopyable
 {
 public:
-	explicit AFScopeRdLock(AFCReaderWriterLock &lock) : rwlock(lock)
+    explicit AFScopeRdLock(AFCReaderWriterLock &lock) : rwlock(lock)
     {
         rwlock.ReaderLock();
     }
@@ -146,10 +143,10 @@ private:
     AFCReaderWriterLock & rwlock;
 };
 
-class AFScopeWrLock : private AFNoncopyable
+class AFScopeWrLock : public AFNoncopyable
 {
 public:
-	explicit AFScopeWrLock(AFCReaderWriterLock &lock) : rwlock(lock)
+    explicit AFScopeWrLock(AFCReaderWriterLock &lock) : rwlock(lock)
     {
         rwlock.WriterLock();
     }
