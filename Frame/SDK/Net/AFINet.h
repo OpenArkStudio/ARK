@@ -240,8 +240,9 @@ typedef std::shared_ptr<NET_RECEIVE_FUNCTOR> NET_RECEIVE_FUNCTOR_PTR;
 typedef std::function<void(const NetEventType nEvent, const AFGUID& nClientID, const int nServerID)> NET_EVENT_FUNCTOR;
 typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 
-typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
-typedef std::shared_ptr<NET_EVENT_LOG_FUNCTOR> NET_EVENT_LOG_FUNCTOR_PTR;
+//For now, unused
+//typedef std::function<void(int severity, const char* msg)> NET_EVENT_LOG_FUNCTOR;
+//typedef std::shared_ptr<NET_EVENT_LOG_FUNCTOR> NET_EVENT_LOG_FUNCTOR_PTR;
 
 class AFINet;
 
@@ -250,9 +251,9 @@ class AFBaseNetEntity
 public:
     AFBaseNetEntity(AFINet* pNet, const AFGUID& xClientID) : 
         mnClientID(xClientID),
-        bNeedRemove(false)
+        bNeedRemove(false),
+        m_pNet(pNet)
     {
-        m_pNet = pNet;
     }
 
     virtual ~AFBaseNetEntity()

@@ -110,7 +110,7 @@ void AFCGameNetServerModule::OnSocketPSEvent(const NetEventType eEvent, const AF
         ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
         OnClientDisconnect(xClientID);
     }
-    else  if(eEvent == CONNECTED)
+    else if(eEvent == CONNECTED)
     {
         ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
         OnClientConnected(xClientID);

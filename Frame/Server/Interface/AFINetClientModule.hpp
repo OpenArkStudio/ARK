@@ -34,29 +34,23 @@ enum ConnectDataState
     RECONNECT,
 };
 
-struct ConnectData
+class ConnectData
 {
+public:
     ConnectData()
     {
-        nGameID = 0;
-        nPort = 0;
-        strName = "";
-        strIP = "";
-        eServerType = ARK_ST_NONE;
-        eState = ConnectDataState::DISCONNECT;
-        mnLastActionTime = 0;
     }
 
-    int nGameID;
-    ARK_SERVER_TYPE eServerType;
-    std::string strIP;
-    int nPort;
-    std::string strIPAndPort;
-    std::string strName;
-    ConnectDataState eState;
-    int64_t mnLastActionTime;
+    int nGameID{ 0 };
+    ARK_SERVER_TYPE eServerType{ ARK_ST_NONE };
+    std::string strIP{ "" };
+    int nPort{ 0 };
+    std::string strIPAndPort{ "" };
+    std::string strName{ "" };
+    ConnectDataState eState{ ConnectDataState::DISCONNECT };
+    int64_t mnLastActionTime{ 0 };
 
-    ARK_SHARE_PTR<AFCNetClient> mxNetModule;
+    ARK_SHARE_PTR<AFCNetClient> mxNetModule{ nullptr };
 };
 
 class AFINetClientModule : public AFINetModule
@@ -90,6 +84,15 @@ public:
 
     virtual bool Shut()
     {
+        int id = 0;
+        for (auto connect_data = mxServerMap.First(id); connect_data != nullptr; connect_data = mxServerMap.Next(id))
+        {
+            if (connect_data->mxNetModule != nullptr)
+            {
+                connect_data->mxNetModule->Final();
+            }
+        }
+
         return true;
     }
 

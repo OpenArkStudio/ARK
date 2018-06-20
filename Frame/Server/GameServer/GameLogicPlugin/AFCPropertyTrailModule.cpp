@@ -21,6 +21,8 @@
 #include "AFCPropertyTrailModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/AFDataNode.h"
+#include "SDK/Core/AFDataTable.h"
 
 bool AFCPropertyTrailModule::PostInit()
 {
@@ -34,7 +36,7 @@ bool AFCPropertyTrailModule::PostInit()
 
 void AFCPropertyTrailModule::StartTrail(const AFGUID self)
 {
-    int nRet = LogObjectData(self);
+    LogObjectData(self);
 }
 
 void AFCPropertyTrailModule::EndTrail(const AFGUID self)
@@ -44,56 +46,47 @@ void AFCPropertyTrailModule::EndTrail(const AFGUID self)
 
 int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
 {
-    /* ARK_SHARE_PTR<AFIEntity> xObject = m_pKernelModule->GetObject(self);
-     if(nullptr == xObject)
+    ARK_SHARE_PTR<AFIEntity> xEntity = m_pKernelModule->GetEntity(self);
+     if(nullptr == xEntity)
      {
          return -1;
      }
 
-     ARK_SHARE_PTR<AFIPropertyMgr> xPropertyManager = xObject->GetPropertyManager();
-     if(nullptr != xPropertyManager)
+     ARK_SHARE_PTR<AFIDataNodeManager> xNodeManager = xEntity->GetNodeManager();
+     if(nullptr != xNodeManager)
      {
-         ARK_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
-         while(nullptr != xProperty)
+         size_t nodeCount = xNodeManager->GetNodeCount();
+         for (size_t i = 0; i < nodeCount; ++i)
          {
-             std::ostringstream stream;
-
-             stream << " Start trail ";
-             stream << xProperty->ToString();
-
-             m_pLogModule->LogInfo(self, xProperty->GetKey(), stream.str(),  __FUNCTION__, __LINE__);
-
-             xProperty = xPropertyManager->Next();
+             AFDataNode* pNode = xNodeManager->GetNodeByIndex(i);
+             ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self.ToString(), pNode->GetName(), pNode->ToString());
          }
      }
 
-     ARK_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
-     if(nullptr != xRecordManager)
+     ARK_SHARE_PTR<AFIDataTableManager> xTableManager = xEntity->GetTableManager();
+     if(nullptr != xTableManager)
      {
-         ARK_SHARE_PTR<AFIRecord> xRecord = xRecordManager->First();
-         while(nullptr != xRecord)
+         size_t tableCount = xTableManager->GetCount();
+         for (size_t i = 0; i < tableCount; ++i)
          {
-             for(int i = 0; i < xRecord->GetRows(); ++i)
+             AFDataTable* pTable = xTableManager->GetTableByIndex(i);
+             size_t rowCount = pTable->GetRowCount();
+             for (size_t j = 0; j < rowCount; ++j)
              {
                  AFCDataList xDataList;
-                 bool bRet = xRecord->QueryRow(i, xDataList);
-                 if(bRet)
+                 bool ret = pTable->QueryRow(j, xDataList);
+                 if (!ret)
                  {
-                     std::ostringstream stream;
-                     stream << " Start trail Row[" << i << "]";
+                     continue;
+                 }
 
-                     for(int j = 0; j < xDataList.GetCount(); ++j)
-                     {
-                         stream << " [" << j << "] " << xDataList.ToString(j);
-                     }
-
-                     m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
+                 for (size_t k = 0; k < xDataList.GetCount(); ++k)
+                 {
+                     ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self.ToString(), pTable->GetName(), j, k, xDataList.ToString(k));
                  }
              }
-
-             xRecord = xRecordManager->Next();
          }
-     }*/
+     }
 
     return 0;
 }
@@ -106,98 +99,13 @@ int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std:
 
 int AFCPropertyTrailModule::OnEntityTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
-    //std::ostringstream stream;
-    //ARK_SHARE_PTR<AFIRecord> xRecord = m_pKernelModule->FindRecord(self, xEventData.strRecordName);
-    //if(nullptr == xRecord)
-    //{
-    //    return 0;
-    //}
-
-    //switch(xEventData.nOpType)
-    //{
-    //case AFIRecord::RecordOptype::Add:
-    //    {
-    //        AFCDataList xDataList;
-    //        bool bRet = xRecord->QueryRow(xEventData.nRow, xDataList);
-    //        if(bRet)
-    //        {
-    //            stream << " Trail Add Row[" << xEventData.nRow << "]";
-
-    //            for(int j = 0; j < xDataList.GetCount(); ++j)
-    //            {
-    //                stream << " [" << j << "] " << xDataList.ToString(j);
-    //            }
-
-    //            m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
-    //        }
-    //    }
-    //    break;
-    //case AFIRecord::RecordOptype::Del:
-    //    {
-    //        stream << " Trail Del Row[" << xEventData.nRow << "]";
-    //        m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
-    //    }
-    //    break;
-    //case AFIRecord::RecordOptype::Swap:
-    //    {
-    //        stream << " Trail Swap Row[" << xEventData.nRow << "] Row[" << xEventData.nCol << "]";
-    //        m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
-    //    }
-    //    break;
-    //case AFIRecord::RecordOptype::Create:
-    //    break;
-    //case AFIRecord::RecordOptype::Update:
-    //    {
-    //        stream << " Trail UpData Row[" << xEventData.nRow << "] Col[" << xEventData.nCol << "]";
-    //        //stream << " [Old] " << oldVar.ToString();
-    //        //stream << " [New] " << newVar.ToString();
-    //        m_pLogModule->LogInfo(self, xRecord->GetName(), stream.str(),  __FUNCTION__, __LINE__);
-    //    }
-    //    break;
-    //case AFIRecord::RecordOptype::Cleared:
-    //    break;
-    //case AFIRecord::RecordOptype::Sort:
-    //    break;
-    //default:
-    //    break;
-    //}
-
+    //will add
     return 0;
 }
 
 int AFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
 {
-    //ARK_SHARE_PTR<AFIEntity> xObject = m_pKernelModule->GetObject(self);
-    //if(nullptr == xObject)
-    //{
-    //    return -1;
-    //}
-
-    //ARK_SHARE_PTR<AFIPropertyManager> xPropertyManager = xObject->GetPropertyManager();
-    //if(nullptr != xPropertyManager)
-    //{
-    //    ARK_SHARE_PTR<AFIProperty> xProperty = xPropertyManager->First();
-    //    while(nullptr != xProperty)
-    //    {
-    //        m_pKernelModule->AddPropertyCallBack(self, xProperty->GetKey(), this, &AFCPropertyTrailModule::OnObjectPropertyEvent);
-
-    //        xProperty = xPropertyManager->Next();
-    //    }
-    //}
-    //
-    //ARK_SHARE_PTR<AFIRecordManager> xRecordManager = xObject->GetRecordManager();
-    //if(nullptr != xRecordManager)
-    //{
-    //    ARK_SHARE_PTR<AFIRecord> xRecord = xRecordManager->First();
-    //    while(nullptr != xRecord)
-    //    {
-    //        m_pKernelModule->AddRecordCallBack(self, xRecord->GetName(), this, &AFCPropertyTrailModule::OnObjectRecordEvent);
-
-
-    //        xRecord = xRecordManager->Next();
-    //    }
-    //}
-
+    //will add
     return 0;
 }
 

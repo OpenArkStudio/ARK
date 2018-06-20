@@ -534,6 +534,39 @@ public:
         return size;
     }
 
+    virtual std::string ToString()
+    {
+        switch (GetType())
+        {
+        case DT_BOOLEAN:
+            return ARK_TO_STRING(this->mbValue);
+            break;
+        case DT_INT:
+            return ARK_TO_STRING(this->mnValue);
+            break;
+        case DT_INT64:
+            return ARK_TO_STRING(this->mn64Value);
+            break;
+        case DT_FLOAT:
+            return ARK_TO_STRING(this->mfValue);
+            break;
+        case DT_DOUBLE:
+            return ARK_TO_STRING(this->mdValue);
+            break;
+        case DT_STRING:
+            return this->mstrValue;
+            break;
+        case DT_OBJECT:
+            return GetObject().ToString();
+            break;
+        default:
+            ARK_ASSERT_NO_EFFECT(0);
+            break;
+        }
+
+        return NULL_STR;
+    }
+
     void Release()
     {
         switch (mnType)
@@ -562,7 +595,6 @@ public:
     }
 
 protected:
-
     void InnerSetString(const char* value)
     {
         const size_t value_size = strlen(value) + 1;

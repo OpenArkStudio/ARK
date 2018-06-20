@@ -121,13 +121,6 @@ public:
 
     bool Update()
     {
-        //ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = First();
-        //while(pGroupInfo.get())
-        //{
-        //    pGroupInfo->Update();
-
-        //    pGroupInfo = Next();
-        //}
         return true;
     }
 

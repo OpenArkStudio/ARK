@@ -68,9 +68,9 @@ public:
         return !(value.IsNullValue());
     }
 
-    const DataNodeName& GetName()
+    const char* GetName()
     {
-        return name;
+        return name.c_str();
     }
 
     const AFIData& GetValue()
@@ -86,5 +86,10 @@ public:
     const AFFeatureType& GetFeature()
     {
         return feature;
+    }
+
+    std::string ToString()
+    {
+        return value.ToString();
     }
 };

@@ -126,33 +126,35 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
     ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
-    if(pSession)
+    if (pSession == nullptr)
     {
-        if(pSession->mnLogicState == 0)
+        return;
+    }
+
+    if(pSession->mnLogicState == 0)
+    {
+        int nState = m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());
+        if(0 != nState)
         {
-            int nState = m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());
-            if(0 != nState)
-            {
-                ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", xClientID.ToString().c_str(), xMsg.account().c_str(), xMsg.password().c_str());
-                AFMsg::AckEventResult xMsg;
-                xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
+            ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", xClientID.ToString().c_str(), xMsg.account().c_str(), xMsg.password().c_str());
+            AFMsg::AckEventResult xMsg;
+            xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
 
-                m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, xClientID, nPlayerID);
-                return;
-            }
-
-            pSession->mnLogicState = 1;
-            pSession->mstrAccout = xMsg.account();
-
-            AFMsg::AckEventResult xData;
-            xData.set_event_code(AFMsg::EGEC_ACCOUNT_SUCCESS);
-            xData.set_parame1(xMsg.account());
-            xData.set_parame2(xMsg.password());
-            xData.set_parame3(xMsg.security_code());
-
-            m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
-            ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", xClientID.ToString().c_str(), xMsg.account().c_str());
+            m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, xClientID, nPlayerID);
+            return;
         }
+
+        pSession->mnLogicState = 1;
+        pSession->mstrAccout = xMsg.account();
+
+        AFMsg::AckEventResult xData;
+        xData.set_event_code(AFMsg::EGEC_ACCOUNT_SUCCESS);
+        xData.set_parame1(xMsg.account());
+        xData.set_parame2(xMsg.password());
+        xData.set_parame3(xMsg.security_code());
+
+        m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
+        ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", xClientID.ToString().c_str(), xMsg.account().c_str());
     }
 }
 
