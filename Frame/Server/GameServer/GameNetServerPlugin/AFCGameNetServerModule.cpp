@@ -241,7 +241,7 @@ int AFCGameNetServerModule::OnViewDataNodeEnter(const AFIDataList& argVar, const
 {
     if(argVar.GetCount() <= 0 || self.IsNULL())
     {
-        return 0;
+        return 1;
     }
 
     AFMsg::MultiEntityDataNodeList xPublicMsg;
@@ -271,13 +271,13 @@ int AFCGameNetServerModule::OnSelfDataNodeEnter(const AFGUID& self)
 {
     if(self.IsNULL())
     {
-        return 0;
+        return 1;
     }
 
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr == pEntity)
     {
-        return 0;
+        return 1;
     }
 
     AFMsg::MultiEntityDataNodeList xPrivateMsg;
@@ -295,7 +295,7 @@ int AFCGameNetServerModule::OnSelfDataTableEnter(const AFGUID& self)
 {
     if(self.IsNULL())
     {
-        return 0;
+        return 1;
     }
 
     AFMsg::MultiEntityDataTableList xPrivateMsg;
@@ -303,8 +303,9 @@ int AFCGameNetServerModule::OnSelfDataTableEnter(const AFGUID& self)
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr == pEntity)
     {
-        return 0;
+        return 1;
     }
+
     AFFeatureType nFeature = 0;
     nFeature[AFDataNode::PF_PRIVATE] = 1;
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
@@ -317,7 +318,7 @@ int AFCGameNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, cons
 {
     if(argVar.GetCount() <= 0 || self.IsNULL())
     {
-        return 0;
+        return 1;
     }
 
     AFMsg::MultiEntityDataTableList xPublicMsg;
@@ -325,7 +326,7 @@ int AFCGameNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, cons
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr == pEntity)
     {
-        return 0;
+        return 1;
     }
 
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
@@ -341,6 +342,7 @@ int AFCGameNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, cons
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPublicMsg, identOther);
         }
     }
+
     return 0;
 }
 

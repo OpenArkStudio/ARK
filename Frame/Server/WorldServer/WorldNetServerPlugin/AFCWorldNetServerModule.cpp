@@ -432,7 +432,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
 {
     if(self.GetCount() <= 0 || argVar.GetCount() <= 0)
     {
-        return 0;
+        return 1;
     }
 
     AFMsg::AckEntityLeaveList xEntityLeaveList;
@@ -460,22 +460,21 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
         SendMsgToPlayer(AFMsg::EGMI_ACK_ENTITY_LEAVE, xEntityLeaveList, ident);
     }
 
-    return 1;
+    return 0;
 }
-
 
 int AFCWorldNetServerModule::OnViewDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self)
 {
     if(argVar.GetCount() <= 0 || self.IsNULL())
     {
-        return 0;
+        return 1;
     }
 
     AFMsg::MultiEntityDataNodeList xPublicMsg;
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr == pEntity)
     {
-        return 0;
+        return 1;
     }
 
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
@@ -499,14 +498,15 @@ int AFCWorldNetServerModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDa
 {
     if(self.IsNULL())
     {
-        return 0;
+        return 1;
     }
+
     const int64_t nGameID = argGameID.Int(0);
 
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr == pEntity)
     {
-        return 0;
+        return 1;
     }
 
     AFMsg::MultiEntityDataNodeList xPrivateMsg;
@@ -519,20 +519,20 @@ int AFCWorldNetServerModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDa
     return 0;
 }
 
-
 int AFCWorldNetServerModule::OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID)
 {
     if(self.IsNULL())
     {
-        return 0;
+        return 1;
     }
+
     const int64_t nGameID = argGameID.Int(0);
     AFMsg::MultiEntityDataTableList xPrivateMsg;
 
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr == pEntity)
     {
-        return 0;
+        return 1;
     }
 
     AFFeatureType nFeature;
@@ -547,7 +547,7 @@ int AFCWorldNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, con
 {
     if(argVar.GetCount() <= 0 || self.IsNULL())
     {
-        return 0;
+        return 1;
     }
 
     AFMsg::MultiEntityDataTableList xPublicMsg;
@@ -555,7 +555,7 @@ int AFCWorldNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, con
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
     if(nullptr == pEntity)
     {
-        return 0;
+        return 1;
     }
 
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
@@ -573,6 +573,7 @@ int AFCWorldNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, con
             SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPublicMsg, identOther);
         }
     }
+
     return 0;
 }
 
@@ -588,6 +589,6 @@ AFINetServerModule* AFCWorldNetServerModule::GetNetModule()
 
 int AFCWorldNetServerModule::GetPlayerGameID(const AFGUID self)
 {
-    //do somthing
+    //do something
     return -1;
 }

@@ -54,9 +54,9 @@ class AFCDynLib
 {
 public:
     explicit AFCDynLib(const std::string& strName) :
-        mbMain(false)
+        mbMain(false),
+        mstrName(strName)
     {
-		mstrName = strName;
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
         mstrName.append("_d");
 #endif
@@ -81,7 +81,7 @@ public:
 
     bool UnLoad();
 
-    /// Get the name of the library
+    //Get the name of the library
     const std::string& GetName(void) const
     {
         return mstrName;

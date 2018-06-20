@@ -100,14 +100,13 @@ void AFCWebSocktClient::Start(const std::string& strAddrPort, const int nServerI
 
     std::string strIp = "127.0.0.1";
     int nPort = 8001;
-    const int nTimeOut = 20;
 
     SplitHostPort(strAddrPort, strIp, nPort);
     sock fd = brynet::net::base::Connect(false, strIp, nPort);
     auto SocketPtr = brynet::net::TcpSocket::Create(fd, false);
     SocketPtr->SocketNodelay();
 
-    std::cout << "connect success" << std::endl;
+    CONSOLE_LOG_NO_FILE << "connect success" << std::endl;
     auto enterCallback = [this](const brynet::net::TCPSession::PTR & session)
     {
         brynet::net::HttpService::setup(session, std::bind(&AFCWebSocktClient::OnHttpConnect, this, std::placeholders::_1));

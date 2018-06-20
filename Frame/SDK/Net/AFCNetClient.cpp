@@ -111,7 +111,7 @@ void AFCNetClient::Start(const std::string& strAddrPort, const int nServerID)
         return;
     }
 
-    std::cout << "connect success" << std::endl;
+    CONSOLE_LOG_NO_FILE << "connect success" << std::endl;
     SocketPtr->SocketNodelay();
     auto enterCallback = std::bind(&AFCNetClient::OnClientConnectionInner, this, std::placeholders::_1);
 
