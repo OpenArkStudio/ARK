@@ -68,16 +68,15 @@ protected:
     void OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 private:
-    struct ClientConnectData
+    class ClientConnectData
     {
+    public:
         ClientConnectData()
         {
-            strAccount = "";
-            strConnectKey = "";
         }
 
-        std::string strAccount;
-        std::string strConnectKey;
+        std::string strAccount{ "" };
+        std::string strConnectKey{ "" };
     };
 
     AFMapEx<std::string, ClientConnectData> mxWantToConnectMap;

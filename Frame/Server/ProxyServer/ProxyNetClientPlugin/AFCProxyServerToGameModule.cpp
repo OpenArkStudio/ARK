@@ -27,7 +27,6 @@
 bool AFCProxyServerToGameModule::Init()
 {
     m_pNetClientModule = ARK_NEW AFINetClientModule(pPluginManager);
-
     m_pNetClientModule->Init();
 
     return true;
@@ -35,8 +34,9 @@ bool AFCProxyServerToGameModule::Init()
 
 bool AFCProxyServerToGameModule::Shut()
 {
-    //Final();
-    //Clear();
+    m_pNetClientModule->Shut();
+    ARK_DELETE(m_pNetClientModule);
+
     return true;
 }
 
@@ -61,31 +61,34 @@ bool AFCProxyServerToGameModule::PostInit()
     m_pNetClientModule->AddEventCallBack(this, &AFCProxyServerToGameModule::OnSocketGSEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr != xLogicClass)
+    if (nullptr == xLogicClass)
     {
-        AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
-        std::string strConfigName;
-        for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+        ARK_ASSERT_NO_EFFECT(0);
+        return false;
+    }
+
+    AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
+    std::string strConfigName;
+    for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    {
+        const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
+        const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+        if(nServerType == ARK_SERVER_TYPE::ARK_ST_GAME)
         {
-            const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
-            const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
-            if(nServerType == ARK_SERVER_TYPE::ARK_ST_GAME)
-            {
-                const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-                const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
-                const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
-                const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
+            const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
+            const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
+            const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
+            const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
-                ConnectData xServerData;
+            ConnectData xServerData;
 
-                xServerData.nGameID = nServerID;
-                xServerData.eServerType = (ARK_SERVER_TYPE)nServerType;
-                xServerData.strIP = strIP;
-                xServerData.nPort = nPort;
-                xServerData.strName = strServerName;
+            xServerData.nGameID = nServerID;
+            xServerData.eServerType = (ARK_SERVER_TYPE)nServerType;
+            xServerData.strIP = strIP;
+            xServerData.nPort = nPort;
+            xServerData.strName = strServerName;
 
-                m_pNetClientModule->AddServer(xServerData);
-            }
+            m_pNetClientModule->AddServer(xServerData);
         }
     }
 

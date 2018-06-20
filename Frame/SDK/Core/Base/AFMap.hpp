@@ -173,7 +173,6 @@ public:
         return true;
     }
 
-public:
     bool Begin()
     {
         mxObjectCurIter = mxObjectList.begin();

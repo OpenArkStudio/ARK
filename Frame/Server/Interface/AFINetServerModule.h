@@ -28,15 +28,18 @@
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "Server/Interface/AFINetModule.h"
 #include "SDK/Core/AFDataNode.h"
-struct ServerData
+
+class ServerData
 {
+public:
     ServerData()
     {
-        pData = ARK_SHARE_PTR<AFMsg::ServerInfoReport>(ARK_NEW AFMsg::ServerInfoReport());
+        pData = std::make_shared<AFMsg::ServerInfoReport>();
     }
+
     ~ServerData()
     {
-        pData = NULL;
+
     }
 
     void Init(const AFGUID& xClientID, const AFMsg::ServerInfoReport& xData)
@@ -45,24 +48,23 @@ struct ServerData
         *(pData) = xData;
     }
 
-    AFGUID xClient;
-    ARK_SHARE_PTR<AFMsg::ServerInfoReport> pData;
+    AFGUID xClient{ 0 };
+    ARK_SHARE_PTR<AFMsg::ServerInfoReport> pData{ nullptr };
 };
 
-struct SessionData
+class SessionData
 {
+public:
     SessionData()
     {
-        mnLogicState = 0;
-        mnGameID = 0;
     }
 
-    int32_t mnLogicState;
-    int32_t mnGameID;
-    AFGUID mnUserID;
-    AFGUID mnClientID;
-    AFGUID mnHashIdentID;
-    std::string mstrAccout;
+    int32_t mnLogicState{ 0 };
+    int32_t mnGameID{ 0 };
+    AFGUID mnUserID{ 0 };
+    AFGUID mnClientID{ 0 };
+    AFGUID mnHashIdentID{ 0 };
+    std::string mstrAccout{ "" };
 };
 
 class AFINetServerModule : public AFINetModule
