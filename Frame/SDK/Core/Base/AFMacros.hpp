@@ -235,9 +235,6 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 #define PROTOBUF_USE_DLLS
 #endif
 
-//Singleton
-#define ARK_SINGLETON_INIT(TYPE) template<> TYPE* Singleton<TYPE>::instance_ = 0;
-
 //cpp version
 #if (__cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1800))
 #define HAVE_LANG_CXX11 1
