@@ -249,10 +249,10 @@ class AFINet;
 class AFBaseNetEntity
 {
 public:
-    AFBaseNetEntity(AFINet* pNet, const AFGUID& xClientID) : 
+    AFBaseNetEntity(AFINet* pNet, const AFGUID& xClientID) :
         mnClientID(xClientID),
-        bNeedRemove(false),
-        m_pNet(pNet)
+        m_pNet(pNet),
+        bNeedRemove(false)
     {
     }
 
@@ -339,7 +339,10 @@ public:
     //need to call this function every frame to drive network library
     virtual void Update() = 0;
     virtual void Start(const std::string& strAddrPort, const int nServerID) {/*Just a base class function*/}
-    virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount) { return -1;  }
+    virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)
+    {
+        return -1;
+    }
 
     virtual bool Final() = 0;
 
@@ -377,18 +380,18 @@ public:
     bool SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
     {
         std::string a = strIpPort;
-        if (a.empty())
+        if(a.empty())
         {
             return false;
         }
 
         size_t index = a.rfind(':');
-        if (index == std::string::npos)
+        if(index == std::string::npos)
         {
             return false;
         }
 
-        if (index == a.size() - 1)
+        if(index == a.size() - 1)
         {
             return false;
         }
@@ -396,9 +399,9 @@ public:
         port = std::atoi(&a[index + 1]);
 
         host = std::string(strIpPort, 0, index);
-        if (host[0] == '[')
+        if(host[0] == '[')
         {
-            if (*host.rbegin() != ']')
+            if(*host.rbegin() != ']')
             {
                 return false;
             }
@@ -408,7 +411,7 @@ public:
         }
 
         // Compatible with "fe80::886a:49f3:20f3:add2]:80"
-        if (*host.rbegin() == ']')
+        if(*host.rbegin() == ']')
         {
             // trim the trail ']'
             host = std::string(host.data(), host.size() - 1);
@@ -417,7 +420,10 @@ public:
         return true;
     }
 
-    void SetWorking(bool value) { bWorking = value; }
+    void SetWorking(bool value)
+    {
+        bWorking = value;
+    }
 
 private:
     bool bWorking;
@@ -433,7 +439,7 @@ template <typename SessionPTR>
 class AFNetMsg
 {
 public:
-    AFNetMsg(const SessionPTR session_ptr) : mxSession(session_ptr), nType(NONE) {}
+    AFNetMsg(const SessionPTR session_ptr) : nType(NONE), mxSession(session_ptr) {}
 
     NetEventType nType;
     AFGUID xClientID;
@@ -462,9 +468,8 @@ public:
         return mxSession;
     }
 
-public:
-    SessionPTR mBryNetHttpConnPtr; //TO CHECK
-    AFGUID xHttpClientID; //TO CHECK
+    SessionPTR mBryNetHttpConnPtr;
+    AFGUID xHttpClientID;
 
     AFLockFreeQueue<AFNetMsg<SessionPTR>*> mxNetMsgMQ;
 private:

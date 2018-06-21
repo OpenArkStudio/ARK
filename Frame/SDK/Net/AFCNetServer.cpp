@@ -263,7 +263,7 @@ bool AFCNetServer::DismantleNet(AFTCPEntityPtr pEntity)
             pNetInfo->nType = RECIVEDATA;
             pNetInfo->strMsg.append(pEntity->GetBuff() + AFIMsgHead::ARK_MSG_HEAD_LENGTH, nMsgBodyLength);
             pEntity->mxNetMsgMQ.Push(pNetInfo);
-            size_t nRet = pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::ARK_MSG_HEAD_LENGTH);
+            pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::ARK_MSG_HEAD_LENGTH);
         }
         else
         {
@@ -341,7 +341,7 @@ bool AFCNetServer::SendMsgToAllClientWithOutHead(const uint16_t nMsgID, const ch
 int AFCNetServer::EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData)
 {
     char szHead[AFIMsgHead::ARK_MSG_HEAD_LENGTH] = { 0 };
-    int nRet = xHead.EnCode(szHead);
+    xHead.EnCode(szHead);
 
     strOutData.clear();
     strOutData.append(szHead, AFIMsgHead::ARK_MSG_HEAD_LENGTH);

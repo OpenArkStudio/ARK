@@ -74,7 +74,6 @@ public:
         Final();
     };
 
-public:
     virtual void Update();
     virtual void Start(const std::string& strAddrPort, const int nServerID);
     virtual bool Final() final;
@@ -85,7 +84,6 @@ public:
     virtual bool IsServer();
     virtual bool Log(int severity, const char* msg);
 
-public:
     void OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR & httpSession,
                                   brynet::net::WebSocketFormat::WebSocketFrameType opcode,
                                   const std::string & payload);
@@ -116,7 +114,6 @@ private:
 
     brynet::net::WrapTcpService::PTR m_pServer = nullptr;
     brynet::net::AsyncConnector::PTR m_pConector = nullptr;
-    //brynet::net::TCPSession::PTR m_Session;
 };
 
 #pragma pack(pop)

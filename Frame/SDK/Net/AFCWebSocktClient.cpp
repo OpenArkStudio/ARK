@@ -67,7 +67,6 @@ void AFCWebSocktClient::ProcessMsgLogicThread(AFHttpEntity* pEntity)
         {
         case RECIVEDATA:
             {
-                int nRet = 0;
                 if(mRecvCB)
                 {
                     mRecvCB(pMsg->xHead, pMsg->xHead.GetMsgID(), pMsg->strMsg.c_str(), pMsg->strMsg.size(), pEntity->GetClientID());
@@ -75,9 +74,7 @@ void AFCWebSocktClient::ProcessMsgLogicThread(AFHttpEntity* pEntity)
             }
             break;
         case CONNECTED:
-            {
-                mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
-            }
+            mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
             break;
         case DISCONNECTED:
             {
@@ -226,7 +223,7 @@ bool AFCWebSocktClient::CloseNetEntity(const AFGUID& xClient)
 
 bool AFCWebSocktClient::DismantleNet(AFHttpEntity* pEntity)
 {
-    for(; pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH;)
+    while(pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         AFCMsgHead xHead;
         int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
@@ -237,7 +234,7 @@ bool AFCWebSocktClient::DismantleNet(AFHttpEntity* pEntity)
             pMsg->nType = RECIVEDATA;
             pMsg->strMsg.append(pEntity->GetBuff() + AFIMsgHead::ARK_MSG_HEAD_LENGTH, nMsgBodyLength);
             pEntity->mxNetMsgMQ.Push(pMsg);
-            size_t nNewSize = pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::ARK_MSG_HEAD_LENGTH);
+            pEntity->RemoveBuff(nMsgBodyLength + AFIMsgHead::ARK_MSG_HEAD_LENGTH);
         }
         else
         {
@@ -285,7 +282,7 @@ bool AFCWebSocktClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* ms
 int AFCWebSocktClient::EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData)
 {
     char szHead[AFIMsgHead::ARK_MSG_HEAD_LENGTH] = { 0 };
-    int nSize = xHead.EnCode(szHead);
+    xHead.EnCode(szHead);
 
     strOutData.clear();
     strOutData.append(szHead, AFIMsgHead::ARK_MSG_HEAD_LENGTH);

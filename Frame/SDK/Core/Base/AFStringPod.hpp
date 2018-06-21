@@ -492,7 +492,7 @@ public:
         return size;
     }
 
-private:
+protected:
     size_t GetBucket(size_t hash) const
     {
         return (hash % mnSize);

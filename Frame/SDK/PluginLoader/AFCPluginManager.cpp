@@ -295,9 +295,9 @@ bool AFCPluginManager::Shut()
     for(auto it : mxPluginNameMap)
     {
 #ifdef ARK_DYNAMIC_PLUGIN
-        bool bRet = UnLoadPluginLibrary(it.first);
+        UnLoadPluginLibrary(it.first);
 #else
-        bool bRet = UnLoadStaticPlugin(it.first);
+        UnLoadStaticPlugin(it.first);
 #endif
     }
 
