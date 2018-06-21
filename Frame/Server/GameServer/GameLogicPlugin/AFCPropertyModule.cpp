@@ -126,7 +126,6 @@ int AFCPropertyModule::OnObjectLevelEvent(const AFGUID& self, const std::string&
 int AFCPropertyModule::OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     //计算总值
-    const DataTableName & strRecordName = xEventData.strName;
     const int nOpType = xEventData.nOpType;
     const int nRow = xEventData.nRow;
     const int nCol = xEventData.nCol;

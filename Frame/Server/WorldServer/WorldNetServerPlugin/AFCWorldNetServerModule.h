@@ -31,8 +31,7 @@
 #include "Server/Interface/AFIWorldNetServerModule.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
 
-class AFCWorldNetServerModule
-    : public AFIWorldNetServerModule
+class AFCWorldNetServerModule : public AFIWorldNetServerModule
 {
 public:
     explicit AFCWorldNetServerModule(AFIPluginManager* p)
@@ -75,7 +74,6 @@ protected:
     //有连接
     void OnClientConnected(const AFGUID& xClientID);
 
-protected:
     void OnGameServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnGameServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnRefreshGameServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
@@ -93,7 +91,6 @@ protected:
     //////////////////////////////////////////////////////////////////////////
     void LogGameServer();
 
-protected:
     void OnOnlineProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnOfflineProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 

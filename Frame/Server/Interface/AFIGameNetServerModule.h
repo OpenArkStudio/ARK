@@ -57,7 +57,6 @@ public:
         std::map<AFGUID, AFGUID> xRoleInfo;
     };
 
-public:
     virtual AFINetServerModule* GetNetModule() = 0;
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self) = 0;
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self) = 0;

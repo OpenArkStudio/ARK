@@ -22,7 +22,6 @@
 
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "Server/Interface/AFIGameLogicModule.h"
 #include "Server/Interface/AFIProxyLogicModule.h"
 
 class AFCProxyLogicModule : public AFIProxyLogicModule

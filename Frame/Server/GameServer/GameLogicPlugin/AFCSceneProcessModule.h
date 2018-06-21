@@ -34,7 +34,6 @@
 #include "Server/Interface/AFIGameServerConfigModule.h"
 #include "Server/Interface/AFISceneProcessModule.h"
 #include "Server/Interface/AFIPropertyModule.h"
-#include "Server/Interface/AFIGameLogicModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
 
 class AFCSceneProcessModule : public AFISceneProcessModule
@@ -56,23 +55,16 @@ public:
 
 protected:
     int CreateCloneScene(const int& nSceneID);
-
     bool CreateSceneObject(const int nSceneID, const int nGroupID);
-
     bool LoadSceneResource(const int nSceneID);
 
-protected:
-
     int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
-
     int OnEnterSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
     int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-protected:
     void OnClienSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 private:
-
     AFIElementModule* m_pElementModule;
     AFIClassModule* m_pClassModule;
     AFIKernelModule* m_pKernelModule;

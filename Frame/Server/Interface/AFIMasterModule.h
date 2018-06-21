@@ -24,6 +24,5 @@
 
 class AFIMasterModule : public AFIModule
 {
-public:
 
 };

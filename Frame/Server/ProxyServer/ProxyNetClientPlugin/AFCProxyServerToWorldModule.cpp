@@ -158,12 +158,10 @@ bool AFCProxyServerToWorldModule::PostInit()
             if(nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-                const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
                 const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
                 ConnectData xServerData;
-
                 xServerData.nGameID = nServerID;
                 xServerData.eServerType = (ARK_SERVER_TYPE)nServerType;
                 xServerData.strIP = strIP;

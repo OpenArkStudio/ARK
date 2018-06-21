@@ -25,7 +25,6 @@
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "Server/Interface/AFIGameLogicModule.h"
 #include "Server/Interface/AFIPropertyModule.h"
 #include "Server/Interface/AFIPropertyConfigModule.h"
 #include "Server/Interface/AFIPropertyTrailModule.h"

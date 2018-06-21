@@ -61,7 +61,7 @@ bool AFCProxyServerToGameModule::PostInit()
     m_pNetClientModule->AddEventCallBack(this, &AFCProxyServerToGameModule::OnSocketGSEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if (nullptr == xLogicClass)
+    if(nullptr == xLogicClass)
     {
         ARK_ASSERT_NO_EFFECT(0);
         return false;
@@ -76,7 +76,6 @@ bool AFCProxyServerToGameModule::PostInit()
         if(nServerType == ARK_SERVER_TYPE::ARK_ST_GAME)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-            const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
             const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
             const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
@@ -160,7 +159,7 @@ void AFCProxyServerToGameModule::Register(const int nServerID)
 
 void AFCProxyServerToGameModule::OnAckEnterGame(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-	ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckEventResult);
+    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckEventResult);
     if(xMsg.event_code() == AFMsg::EGEC_ENTER_GAME_SUCCESS)
     {
         const AFGUID& xClient = AFINetModule::PBToGUID(xMsg.event_client());

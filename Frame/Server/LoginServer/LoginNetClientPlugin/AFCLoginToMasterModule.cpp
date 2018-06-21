@@ -57,7 +57,6 @@ bool AFCLoginToMasterModule::PostInit()
             if(nServerType == ARK_SERVER_TYPE::ARK_ST_MASTER)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-                const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
                 const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
                 const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 

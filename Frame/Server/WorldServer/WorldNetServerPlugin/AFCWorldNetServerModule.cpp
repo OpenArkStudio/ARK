@@ -222,13 +222,10 @@ void AFCWorldNetServerModule::OnSocketEvent(const NetEventType eEvent, const AFG
 
 void AFCWorldNetServerModule::SynGameToProxy()
 {
-    AFMsg::ServerInfoReportList xData;
-
     ARK_SHARE_PTR<ServerData> pServerData =  mProxyMap.First();
     while(nullptr != pServerData)
     {
         SynGameToProxy(pServerData->xClient);
-
         pServerData = mProxyMap.Next();
     }
 }

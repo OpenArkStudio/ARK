@@ -51,8 +51,6 @@ public:
 protected:
     void OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
-protected:
-
     //////////////////////////////////////////////////////////////////////////
     void OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnWorldInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);

@@ -108,7 +108,6 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
     }
 
     const AFGUID ident = var.Object(0);
-    const int nType = var.Int(1);
     const int nTargetScene = var.Int(2);
     const int nTargetGroupID = var.Int(3);
     const int nNowSceneID = m_pKernelModule->GetNodeInt(self, ARK::Player::SceneID());
@@ -251,11 +250,8 @@ bool AFCSceneProcessModule::ExitCloneGroup(const int nSceneID, const int& nGroup
 
 bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 {
-    char szSceneIDName[MAX_PATH] = { 0 };
-    sprintf(szSceneIDName, "%d", nSceneID);
-
-    const std::string strSceneFilePath(m_pElementModule->GetNodeString(szSceneIDName, ARK::Scene::FilePath()));
-    const int nCanClone = m_pElementModule->GetNodeInt(szSceneIDName, ARK::Scene::CanClone());
+    std::string sceneIDName = ARK_TO_STRING(nSceneID);
+    const std::string strSceneFilePath(m_pElementModule->GetNodeString(sceneIDName, ARK::Scene::FilePath()));
 
     //场景对应资源
     ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = mtSceneResourceConfig.GetElement(nSceneID);

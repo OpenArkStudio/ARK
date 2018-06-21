@@ -26,9 +26,7 @@
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "Server/Interface/AFINetClientModule.hpp"
-#include "Server/Interface/AFIGameNetClientModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
-#include "Server/Interface/AFIGameLogicModule.h"
 #include "Server/Interface/AFIGameServerToWorldModule.h"
 
 class AFCGameServerToWorldModule : public AFIGameServerToWorldModule
@@ -48,14 +46,12 @@ public:
 protected:
     void OnSocketWSEvent(const NetEventType e, const AFGUID& xClientID, const int nServerID);
 
-protected:
     void Register(const int nSeverID);
     void RefreshWorldInfo();
     void TransPBToProxy(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
 
-private:
     void SendOnline(const AFGUID& self);
     void SendOffline(const AFGUID& self);
 

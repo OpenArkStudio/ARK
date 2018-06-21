@@ -25,7 +25,6 @@
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIGUIDModule.h"
-#include "Server/Interface/AFIGameLogicModule.h"
 #include "Server/Interface/AFIAccountModule.h"
 
 class AFCAccountModule : public AFIAccountModule
@@ -65,9 +64,6 @@ private:
     //-3
     int mnRoleHallContainer;
 
-    //AFIEventProcessModule* m_pEventProcessModule;
-    //static AFIDataBaseModule* m_pDataBaseModule;
-    //AFIDataNoSqlModule* m_pNoSqlModule;
     AFIKernelModule* m_pKernelModule;
     AFIElementModule* m_pElementInfoModule;
     AFIGUIDModule* m_pUUIDModule;

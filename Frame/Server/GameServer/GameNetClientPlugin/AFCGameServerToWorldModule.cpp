@@ -118,7 +118,6 @@ bool AFCGameServerToWorldModule::PostInit()
         if(nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-            const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
             const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
             const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
@@ -189,8 +188,6 @@ void AFCGameServerToWorldModule::TransPBToProxy(const AFIMsgHead& xHead, const i
 {
     ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen);
     m_pGameServerNet_ServerModule->SendMsgPBToGate(nMsgID, strMsg, nPlayerID);
-
-    return;
 }
 
 void AFCGameServerToWorldModule::SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen)

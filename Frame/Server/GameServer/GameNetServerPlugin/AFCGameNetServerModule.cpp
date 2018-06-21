@@ -488,11 +488,7 @@ int AFCGameNetServerModule::OnEntityListEnter(const AFIDataList& self, const AFI
     for(size_t i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
-        if(ident.IsNULL())
-        {
-            continue;
-        }
-        else
+        if(!ident.IsNULL())
         {
             //可能在不同的网关呢,得到后者所在的网关FD
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_ENTER, xEntityEnterList, ident);
@@ -514,11 +510,7 @@ int AFCGameNetServerModule::OnEntityListLeave(const AFIDataList& self, const AFI
     {
         AFGUID identOld = argVar.Object(i);
         //排除空对象
-        if(identOld.IsNULL())
-        {
-            continue;
-        }
-        else
+        if(!identOld.IsNULL())
         {
             AFMsg::PBGUID* pIdent = xEntityLeaveInfoList.add_entity_list();
             *pIdent = AFINetServerModule::GUIDToPB(argVar.Object(i));
@@ -528,11 +520,7 @@ int AFCGameNetServerModule::OnEntityListLeave(const AFIDataList& self, const AFI
     for(size_t i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
-        if(ident.IsNULL())
-        {
-            continue;
-        }
-        else
+        if(!ident.IsNULL())
         {
             //可能在不同的网关,得到后者所在的网关FD
             SendMsgPBToGate(AFMsg::EGMI_ACK_ENTITY_LEAVE, xEntityLeaveInfoList, ident);
@@ -589,7 +577,6 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
     const int nRow = xEventData.nRow;
     const int nCol = xEventData.nCol;
 
-    int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
     int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
 
     if(nObjectGroupID < 0)
@@ -1001,8 +988,6 @@ int AFCGameNetServerModule::OnSwapSceneResultEvent(const AFGUID & self, const in
         return 1;
     }
 
-    AFGUID ident = var.Object(0);
-    int nType = var.Int(1);
     int nTargetScene = var.Int(2);
     int nTargetGroupID = var.Int(3);
     Point3D xPos;
@@ -1100,8 +1085,6 @@ void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead & x
 
         ARK_LOG_INFO("Proxy Registered, server_id  = {} server_name = {}", xData.server_id(), xData.server_name());
     }
-
-    return;
 }
 
 void AFCGameNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
@@ -1114,8 +1097,6 @@ void AFCGameNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead &
         mProxyMap.RemoveElement(xData.server_id());
         ARK_LOG_INFO("Proxy UnRegistered, server_id  = {} server_name = {}", xData.server_id(), xData.server_name());
     }
-
-    return;
 }
 
 void AFCGameNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead & xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID & xClientID)
@@ -1137,33 +1118,35 @@ void AFCGameNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead & 
 
         ARK_LOG_INFO("Proxy Registered, server_id  = {} server_name = {}", xData.server_id(), xData.server_name());
     }
-
-    return;
 }
 
 void AFCGameNetServerModule::SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message & xMsg, const AFGUID & self)
 {
     ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.GetElement(self);
-    if(nullptr != pData)
+    if(nullptr == pData)
     {
-        ARK_SHARE_PTR<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
-        if(nullptr != pProxyData)
-        {
-            m_pNetModule->SendMsgPB(nMsgID, xMsg, pProxyData->xServerData.xClient, pData->xClientID);
-        }
+        return;
+    }
+
+    ARK_SHARE_PTR<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
+    if(nullptr != pProxyData)
+    {
+        m_pNetModule->SendMsgPB(nMsgID, xMsg, pProxyData->xServerData.xClient, pData->xClientID);
     }
 }
 
 void AFCGameNetServerModule::SendMsgPBToGate(const uint16_t nMsgID, const std::string & strMsg, const AFGUID & self)
 {
     ARK_SHARE_PTR<GateBaseInfo> pData = mRoleBaseData.GetElement(self);
-    if(nullptr != pData)
+    if(nullptr == pData)
     {
-        ARK_SHARE_PTR<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
-        if(nullptr != pProxyData)
-        {
-            m_pNetModule->SendMsgPB(nMsgID, strMsg, pProxyData->xServerData.xClient, pData->xClientID);
-        }
+        return;
+    }
+
+    ARK_SHARE_PTR<GateServerInfo> pProxyData = mProxyMap.GetElement(pData->nGateID);
+    if(nullptr != pProxyData)
+    {
+        m_pNetModule->SendMsgPB(nMsgID, strMsg, pProxyData->xServerData.xClient, pData->xClientID);
     }
 }
 

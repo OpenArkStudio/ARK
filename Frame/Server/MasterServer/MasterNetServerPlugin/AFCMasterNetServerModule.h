@@ -46,7 +46,6 @@ public:
     virtual void LogSend(const char* str) {/*log*/}
 
 protected:
-
     void OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
     //连接丢失,删2层(连接对象，帐号对象)
@@ -54,7 +53,6 @@ protected:
     //有连接
     void OnClientConnected(const AFGUID& xClientID);
 
-protected:
     //世界服务器注册，刷新信息
     void OnWorldRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnWorldUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);

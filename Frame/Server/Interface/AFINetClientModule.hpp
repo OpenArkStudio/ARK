@@ -85,9 +85,9 @@ public:
     virtual bool Shut()
     {
         int id = 0;
-        for (auto connect_data = mxServerMap.First(id); connect_data != nullptr; connect_data = mxServerMap.Next(id))
+        for(auto connect_data = mxServerMap.First(id); connect_data != nullptr; connect_data = mxServerMap.Next(id))
         {
-            if (connect_data->mxNetModule != nullptr)
+            if(connect_data->mxNetModule != nullptr)
             {
                 connect_data->mxNetModule->Final();
             }
@@ -260,7 +260,6 @@ protected:
         return true;
     }
 
-protected:
     void ProcessExecute()
     {
         bool bRet = mxServerMap.Begin();
@@ -483,10 +482,10 @@ protected:
 
         OnSocketBaseNetEvent(eEvent, xClientID, nServerID);
     }
+
 private:
     AFMapEx<int, ConnectData> mxServerMap;
     AFCConsistentHash mxConsistentHash;
 
     std::list<ConnectData> mxTempNetList;
-
 };
