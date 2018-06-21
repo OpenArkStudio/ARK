@@ -678,7 +678,7 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
         }
         break;
     case AFDataTable::TABLE_COVERAGE:
-        //TODO:
+        //will do something
         break;
     default:
         break;

@@ -388,20 +388,16 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
     {
         AFGUID identOld = argVar.Object(i);
         //排除空对象
-        if(identOld.IsNULL())
+        if(!identOld.IsNULL())
         {
-            continue;
+            AFMsg::EntityEnterInfo * pEnter = xEntityEnterList.add_entity_list();
+            *(pEnter->mutable_object_guid()) = AFINetModule::GUIDToPB(identOld);
+            pEnter->set_career_type(m_pKernelModule->GetNodeInt(identOld, "Job"));
+            pEnter->set_player_state(m_pKernelModule->GetNodeInt(identOld, "State"));
+            pEnter->set_config_id(m_pKernelModule->GetNodeString(identOld, "ConfigID"));
+            pEnter->set_scene_id(m_pKernelModule->GetNodeInt(identOld, "SceneID"));
+            pEnter->set_class_id(m_pKernelModule->GetNodeString(identOld, "ClassName"));
         }
-
-        AFMsg::EntityEnterInfo * pEnter = xEntityEnterList.add_entity_list();
-        *(pEnter->mutable_object_guid()) = AFINetModule::GUIDToPB(identOld);
-        //*pEntryInfo->mutable_pos() = AFINetModule::GUIDToPB(m_pKernelModule->GetObject(identOld, "Pos")); todo
-        pEnter->set_career_type(m_pKernelModule->GetNodeInt(identOld, "Job"));
-        pEnter->set_player_state(m_pKernelModule->GetNodeInt(identOld, "State"));
-        pEnter->set_config_id(m_pKernelModule->GetNodeString(identOld, "ConfigID"));
-        pEnter->set_scene_id(m_pKernelModule->GetNodeInt(identOld, "SceneID"));
-        pEnter->set_class_id(m_pKernelModule->GetNodeString(identOld, "ClassName"));
-
     }
 
     if(xEntityEnterList.entity_list_size() <= 0)
@@ -412,13 +408,11 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
     for(size_t i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
-        if(ident.IsNULL())
+        if(!ident.IsNULL())
         {
-            continue;
+            //可能在不同的网关呢,得到后者所在的网关FD
+            SendMsgToPlayer(AFMsg::EGMI_ACK_ENTITY_ENTER, xEntityEnterList, ident);
         }
-
-        //可能在不同的网关呢,得到后者所在的网关FD
-        SendMsgToPlayer(AFMsg::EGMI_ACK_ENTITY_ENTER, xEntityEnterList, ident);
     }
 
     return 1;
@@ -437,13 +431,11 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
     {
         AFGUID identOld = argVar.Object(i);
         //排除空对象
-        if(identOld.IsNULL())
+        if(!identOld.IsNULL())
         {
-            continue;
+            AFMsg::PBGUID* pIdent = xEntityLeaveList.add_entity_list();
+            *pIdent = AFINetServerModule::GUIDToPB(argVar.Object(i));
         }
-
-        AFMsg::PBGUID* pIdent = xEntityLeaveList.add_entity_list();
-        *pIdent = AFINetServerModule::GUIDToPB(argVar.Object(i));
     }
 
     for(size_t i = 0; i < self.GetCount(); i++)
@@ -451,10 +443,9 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
         AFGUID ident = self.Object(i);
         if(ident.IsNULL())
         {
-            continue;
+            //可能在不同的网关呢,得到后者所在的网关FD
+            SendMsgToPlayer(AFMsg::EGMI_ACK_ENTITY_LEAVE, xEntityLeaveList, ident);
         }
-        //可能在不同的网关呢,得到后者所在的网关FD
-        SendMsgToPlayer(AFMsg::EGMI_ACK_ENTITY_LEAVE, xEntityLeaveList, ident);
     }
 
     return 0;

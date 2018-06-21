@@ -117,7 +117,7 @@ bool AFCClassModule::AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR
         bool bPublic = ARK_LEXICAL_CAST<bool>(pNode->first_attribute("Public")->value());
         bool bPrivate = ARK_LEXICAL_CAST<bool>(pNode->first_attribute("Private")->value());
         bool bSave = ARK_LEXICAL_CAST<bool>(pNode->first_attribute("Save")->value());
-        bool bRealTime = ARK_LEXICAL_CAST<bool>(pNode->first_attribute("Cache")->value()); //TODO:real-time
+        bool bRealTime = ARK_LEXICAL_CAST<bool>(pNode->first_attribute("Cache")->value()); //will change to real-time
 
         AFCData varNode;
         if(DT_UNKNOWN == ComputerType(pstrType, varNode))
@@ -151,7 +151,7 @@ bool AFCClassModule::AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_P
         bool bPublic = ARK_LEXICAL_CAST<bool>(pTableNode->first_attribute("Public")->value());
         bool bPrivate = ARK_LEXICAL_CAST<bool>(pTableNode->first_attribute("Private")->value());
         bool bSave = ARK_LEXICAL_CAST<bool>(pTableNode->first_attribute("Save")->value());
-        bool bRealtime = ARK_LEXICAL_CAST<bool>(pTableNode->first_attribute("Cache")->value());//TODO:real-time
+        bool bRealtime = ARK_LEXICAL_CAST<bool>(pTableNode->first_attribute("Cache")->value());//will change to real-time
 
         AFCDataList col_type_list;
         for(rapidxml::xml_node<>* pTableColNode = pTableNode->first_node(); pTableColNode != nullptr;  pTableColNode = pTableColNode->next_sibling())
