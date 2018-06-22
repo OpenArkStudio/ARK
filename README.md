@@ -67,8 +67,8 @@ svn checkout https://github.com/ArkGame/ARK
 
 ## Dependencies
 
-- [brynet](https://github.com/IronsDu/brynet) MIT License
-- [easylogging++](https://github.com/muflihun/easyloggingpp) MIT License
+- [brynet](https://github.com/IronsDu/brynet) MIT
+- [spdlog](https://github.com/gabime/spdlog) MIT
 - [mysql++](https://tangentsoft.com/mysqlpp/home)
 - [google protobuf 3.5.x](https://github.com/google/protobuf)
 
