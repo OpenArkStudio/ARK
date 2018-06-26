@@ -174,22 +174,22 @@ public:
             variantData->set_bool_value(DataVar.GetBool());
             break;
         case DT_INT:
-                variantData->set_int_value(DataVar.GetInt());
+            variantData->set_int_value(DataVar.GetInt());
             break;
         case DT_INT64:
-                variantData->set_int64_value(DataVar.GetInt64());
+            variantData->set_int64_value(DataVar.GetInt64());
             break;
         case DT_FLOAT:
-                variantData->set_float_value(DataVar.GetFloat());
+            variantData->set_float_value(DataVar.GetFloat());
             break;
         case DT_DOUBLE:
-                variantData->set_double_value(DataVar.GetDouble());
+            variantData->set_double_value(DataVar.GetDouble());
             break;
         case DT_STRING:
-                variantData->set_str_value(DataVar.GetString());
+            variantData->set_str_value(DataVar.GetString());
             break;
         case DT_OBJECT:
-                *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
+            *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
             break;
         default:
             ARK_ASSERT_RET_VAL(0, false);
@@ -209,7 +209,7 @@ public:
         switch(DataVar.GetType())
         {
         case DT_BOOLEAN:
-			variantData->set_bool_value(DataVar.GetBool());
+            variantData->set_bool_value(DataVar.GetBool());
             break;
         case DT_INT:
             variantData->set_int_value(DataVar.GetInt());
@@ -246,25 +246,25 @@ public:
         switch(DataList.GetType(nCol))
         {
         case DT_BOOLEAN:
-			variantData->set_bool_value(DataList.Bool(nCol));
+            variantData->set_bool_value(DataList.Bool(nCol));
             break;
         case DT_INT:
-			variantData->set_int_value(DataList.Int(nCol));
+            variantData->set_int_value(DataList.Int(nCol));
             break;
         case DT_INT64:
-			variantData->set_int64_value(DataList.Int64(nCol));
+            variantData->set_int64_value(DataList.Int64(nCol));
             break;
         case DT_FLOAT:
-			variantData->set_float_value(DataList.Float(nCol));
+            variantData->set_float_value(DataList.Float(nCol));
             break;
         case DT_DOUBLE:
-			variantData->set_double_value(DataList.Double(nCol));
+            variantData->set_double_value(DataList.Double(nCol));
             break;
         case DT_STRING:
-			variantData->set_str_value(DataList.String(nCol));
+            variantData->set_str_value(DataList.String(nCol));
             break;
         case DT_OBJECT:
-			*variantData->mutable_guid_value() = GUIDToPB(DataList.Object(nCol));
+            *variantData->mutable_guid_value() = GUIDToPB(DataList.Object(nCol));
             break;
         default:
             ARK_ASSERT_RET_VAL(0, false);
@@ -305,36 +305,36 @@ private:
     std::list<NET_RECEIVE_FUNCTOR_PTR> mxCallBackList;
 };
 
-#define ARK_MSG_PROCESS(xHead, nMsgID, msgData, nLen, msgType)							\
+#define ARK_MSG_PROCESS(xHead, nMsgID, msgData, nLen, msgType)                          \
     AFGUID nPlayerID;                                                                   \
     msgType xMsg;                                                                       \
-    if (!AFINetModule::ReceivePB(xHead, msgData, nLen, xMsg, nPlayerID))				\
+    if (!AFINetModule::ReceivePB(xHead, msgData, nLen, xMsg, nPlayerID))                \
     {                                                                                   \
         ARK_LOG_ERROR("Parse msg error, nMsgID = %d", nMsgID);                          \
         return;                                                                         \
     }                                                                                   \
                                                                                         \
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(nPlayerID);			\
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(nPlayerID);           \
     if (nullptr == pEntity)                                                                                                 \
     {                                                                                                                       \
         ARK_LOG_ERROR("FromClient Object do not Exist, nMsgID = %d player_id = %s", nMsgID, nPlayerID.ToString().c_str());  \
         return;                                                                                                             \
     }
 
-#define ARK_MSG_PROCESS_NO_OBJECT(xHead, msgData, nLen, msgType)						\
+#define ARK_MSG_PROCESS_NO_OBJECT(xHead, msgData, nLen, msgType)                        \
     AFGUID nPlayerID;                                                                   \
-    msgType xMsg;																		\
-    if (!AFINetModule::ReceivePB(xHead, msgData, nLen, xMsg, nPlayerID))				\
+    msgType xMsg;                                                                       \
+    if (!AFINetModule::ReceivePB(xHead, msgData, nLen, xMsg, nPlayerID))                \
     {                                                                                   \
         ARK_LOG_ERROR("Parse msg error, nMsgID = %d", nMsgID);                          \
         return;                                                                         \
     }
 
-#define  ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen)						\
-	std::string strMsg;															\
-	AFGUID nPlayerID;															\
-	int nHasKey = 0;															\
-	if (AFINetModule::ReceivePB((xHead), (msg), (nLen), strMsg, nPlayerID))		\
-	{																			\
-		nHasKey = nPlayerID.nLow;												\
-	}
+#define  ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen)                     \
+    std::string strMsg;                                                         \
+    AFGUID nPlayerID;                                                           \
+    int nHasKey = 0;                                                            \
+    if (AFINetModule::ReceivePB((xHead), (msg), (nLen), strMsg, nPlayerID))     \
+    {                                                                           \
+        nHasKey = nPlayerID.nLow;                                               \
+    }
