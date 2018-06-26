@@ -26,5 +26,5 @@
 class AFIProxyServerToGameModule : public  AFIModule
 {
 public:
-	virtual AFINetClientModule* GetClusterModule() = 0;
+    virtual AFINetClientModule* GetClusterModule() = 0;
 };

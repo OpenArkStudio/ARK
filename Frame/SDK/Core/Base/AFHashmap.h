@@ -22,7 +22,7 @@
 
 #include "AFPlatform.hpp"
 
-template <typename T , typename TD>
+template <typename T, typename TD>
 class AFHashmap
 {
 public:
@@ -272,5 +272,5 @@ private:
     typename HashmapObject::iterator mxObjectCurIter;
 };
 
-template <typename T , typename TD>
+template <typename T, typename TD>
 int AFHashmap<T, TD>::mnHashmapCount = 0;

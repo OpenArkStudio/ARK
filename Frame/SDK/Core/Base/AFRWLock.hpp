@@ -50,7 +50,7 @@ public:
     {
         EnterCriticalSection(&m_Writer);
         EnterCriticalSection(&m_ReaderCount);
-        if(++m_Readers == 1)
+        if (++m_Readers == 1)
         {
             ::ResetEvent(m_ClearReadersEvent);
         }
@@ -61,7 +61,7 @@ public:
     void ReaderUnlock(void)
     {
         EnterCriticalSection(&m_ReaderCount);
-        if(--m_Readers == 0)
+        if (--m_Readers == 0)
         {
             ::SetEvent(m_ClearReadersEvent);
         }

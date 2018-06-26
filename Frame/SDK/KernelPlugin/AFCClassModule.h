@@ -69,7 +69,7 @@ public:
     {
         CLASS_EVENT_FUNCTOR_PTR cb;
         bool bRet = mxClassEventInfo.First(cb);
-        while(bRet)
+        while (bRet)
         {
             (*cb)(objectID, mstrClassName, eClassEvent,  valueList);
 

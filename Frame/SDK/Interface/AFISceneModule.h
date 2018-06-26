@@ -31,7 +31,7 @@ public:
     explicit AFCSceneGroupInfo(int nGroupID) :
         mnGroupID(nGroupID)
     {
-        
+
     }
 
     virtual ~AFCSceneGroupInfo()
@@ -88,7 +88,7 @@ public:
         }
         else
         {
-            if(bPlayer)
+            if (bPlayer)
             {
                 return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); //TODO:Map.second mean nothing
             }
@@ -108,7 +108,7 @@ public:
         }
         else
         {
-            if(bPlayer)
+            if (bPlayer)
             {
                 return pInfo->mxPlayerList.RemoveElement(ident);
             }

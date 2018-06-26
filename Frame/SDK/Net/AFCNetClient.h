@@ -34,7 +34,7 @@ class AFCNetClient : public AFINet
 public:
     AFCNetClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr)
     {
-        if(server)
+        if (server)
         {
             m_pServer = server;
         }
@@ -42,7 +42,7 @@ public:
         {
             m_pServer = std::make_shared<brynet::net::WrapTcpService>();
         }
-        if(connector)
+        if (connector)
         {
             m_pConector = connector;
         }

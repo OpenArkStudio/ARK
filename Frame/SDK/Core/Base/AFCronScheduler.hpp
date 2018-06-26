@@ -67,13 +67,13 @@ public:
 
     bool IsTriggerable(int64_t now)
     {
-        if(delete_flag)
+        if (delete_flag)
         {
             return false;
         }
 
         now = now / 1000; //convert ms to s
-        if(now > next_time)
+        if (now > next_time)
         {
             return true;
         }
@@ -85,12 +85,12 @@ public:
 
     bool Trigger()
     {
-        if(callback == nullptr)
+        if (callback == nullptr)
         {
             return false;
         }
 
-        if(delete_flag)
+        if (delete_flag)
         {
             return false;
         }
@@ -105,13 +105,13 @@ public:
 
     void GetNext(int64_t now)
     {
-        if(delete_flag)
+        if (delete_flag)
         {
             return;
         }
 
         now = now / 1000; //convert ms to s
-        if(now >= next_time)
+        if (now >= next_time)
         {
             next_time = cron_next(&cron_parser, now);
         }
@@ -141,12 +141,12 @@ public:
 
     void Update(int64_t now)
     {
-        if(mbCronWaitDelete)
+        if (mbCronWaitDelete)
         {
-            for(auto iter = mxCronList.begin(); iter != mxCronList.end();)
+            for (auto iter = mxCronList.begin(); iter != mxCronList.end();)
             {
                 AFCronData* pCron = *iter;
-                if(pCron->delete_flag)
+                if (pCron->delete_flag)
                 {
                     ARK_DEALLOC(pCron);
                     iter = mxCronList.erase(iter);
@@ -164,9 +164,9 @@ public:
         time(&tn);
         bool bTriggered = false;
 
-        for(auto it : mxCronList)
+        for (auto it : mxCronList)
         {
-            if(it->IsTriggerable(now))
+            if (it->IsTriggerable(now))
             {
                 it->Trigger();
                 it->GetNext(now);
@@ -178,7 +178,7 @@ public:
             }
         }
 
-        if(bTriggered)
+        if (bTriggered)
         {
             SortCrons();
         }
@@ -188,7 +188,7 @@ public:
     {
         AFCronData* pCron = (AFCronData*)ARK_ALLOC(sizeof(AFCronData));
         memset(pCron, 0, sizeof(*pCron));
-        if(!pCron->Parse(cron_expression))
+        if (!pCron->Parse(cron_expression))
         {
             ARK_DELETE(pCron);
             return false;
@@ -208,9 +208,9 @@ public:
     int RemoveCron(int cron_id)
     {
         int count = 0;
-        for(auto it : mxCronList)
+        for (auto it : mxCronList)
         {
-            if(it->cron_id == cron_id)
+            if (it->cron_id == cron_id)
             {
                 it->delete_flag = true;
                 mbCronWaitDelete = true;
@@ -223,7 +223,7 @@ public:
 
     void Clear()
     {
-        for(auto it : mxCronList)
+        for (auto it : mxCronList)
         {
             ARK_DEALLOC(it);
         }

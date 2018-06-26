@@ -27,28 +27,28 @@ class AFMisc
 public:
     static uint32_t GetNearest2N(uint32_t size)
     {
-        if(size == 0)
+        if (size == 0)
         {
             return 0;
         }
 
-        if(size <= 8)
+        if (size <= 8)
         {
             return 8;
         }
 
-        if(size > (1 << 16))
+        if (size > (1 << 16))
         {
             return 0;
         }
 
-        if((size & (size - 1)) == 0)
+        if ((size & (size - 1)) == 0)
         {
             return size;
         }
 
         int count = 0;
-        while(size)
+        while (size)
         {
             size = size >> 1;
             ++count;
@@ -85,7 +85,7 @@ public:
             nValue = ARK_LEXICAL_CAST<T>(strValue);
             return true;
         }
-        catch(std::system_error& ex)
+        catch (std::system_error& ex)
         {
             std::cout << "ARK_FROM_STR failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
             ARK_ASSERT_NO_EFFECT(0);
@@ -103,7 +103,7 @@ public:
             strValue = ARK_LEXICAL_CAST<std::string>(nValue);
             return true;
         }
-        catch(std::system_error& ex)
+        catch (std::system_error& ex)
         {
             std::cout << "ARK_TO_STR failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
             ARK_ASSERT_NO_EFFECT(0);

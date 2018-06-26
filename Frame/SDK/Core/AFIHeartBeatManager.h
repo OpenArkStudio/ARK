@@ -30,7 +30,7 @@ class  AFCHeartBeatElement : public AFList<HEART_BEAT_FUNCTOR_PTR>
 public:
     bool operator==(const AFCHeartBeatElement& src)
     {
-        if(strBeatName == src.strBeatName)
+        if (strBeatName == src.strBeatName)
         {
             return true;
         }

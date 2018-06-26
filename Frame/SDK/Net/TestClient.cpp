@@ -65,7 +65,7 @@ public:
     void EventHandler(const NetEventType e, const AFGUID& xClientID, const int nServerID)
     {
         std::cout << " event_id: " << e << " thread_id: " << std::this_thread::get_id() << std::endl;
-        if(e == CONNECTED)
+        if (e == CONNECTED)
         {
             bConnected = true;
 
@@ -80,7 +80,7 @@ public:
 
     bool TestSend()
     {
-        if(!bConnected)
+        if (!bConnected)
         {
             return false;
         }
@@ -130,7 +130,7 @@ int main(int argc, char** argv)
     int nTime = AFCTimeBase::GetInstance().GetUTCTime();
     int nLastTime = AFCTimeBase::GetInstance().GetUTCTime();
     int nCount = 0;
-    while(!pNet->IsStop())
+    while (!pNet->IsStop())
     {
         pNet->Update();
         ////int nNowTime = AFCTimeBase::GetInstance().GetUTCTime();

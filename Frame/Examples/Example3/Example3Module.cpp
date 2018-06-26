@@ -52,7 +52,7 @@ int Example3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& 
 {
     std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.ToString() << " Event: " << event << std::endl;
 
-    if(event == ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED)
+    if (event == ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED)
     {
         m_pKernelModule->AddEventCallBack(self, 11111111, this, &Example3Module::OnEvent);
 
@@ -81,7 +81,7 @@ int Example3Module::OnStrDataNodeCB(const AFGUID& self, const std::string& strNo
 
 int Example3Module::OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_EVENT_DATA& table_data, const AFIData& old_data, const AFIData& new_data)
 {
-    if(table_data.nCol == ARK::Player::PlayerFightHero::PlayerFightHero_FightPos)
+    if (table_data.nCol == ARK::Player::PlayerFightHero::PlayerFightHero_FightPos)
     {
         std::cout << "OnFightHeroTableCB, table_name = " << table_data.strName.c_str() << " old_data = " << old_data.GetInt() << " new_data = " << new_data.GetInt();
     }
@@ -111,7 +111,7 @@ bool Example3Module::PostInit()
     //GroupID = 0
     //Class Name = ARK::Player::ThisName()
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
-    if(nullptr == pEntity)
+    if (nullptr == pEntity)
     {
         return false;
     }
@@ -130,7 +130,7 @@ bool Example3Module::PostInit()
 
     AFDataTable* pTable = m_pKernelModule->FindTable(pEntity->Self(), ARK::Player::R_PlayerFightHero());
     int pos = 0;
-    if(pTable != nullptr)
+    if (pTable != nullptr)
     {
         pTable->AddRow(-1, AFCDataList() << AFGUID(0, 1000) << 1);
 

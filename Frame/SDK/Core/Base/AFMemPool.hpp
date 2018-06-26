@@ -66,9 +66,9 @@ public:
     void* Alloc(uint32_t size, bool use_pool = true)
     {
         if (size > mnUnitSize ||
-            use_pool == false ||
-            m_pMemBlock == nullptr ||
-            m_pFreeMemBlock == nullptr)
+                use_pool == false ||
+                m_pMemBlock == nullptr ||
+                m_pFreeMemBlock == nullptr)
         {
             return ARK_NEW char[size];
         }

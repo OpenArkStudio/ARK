@@ -58,17 +58,17 @@ class ArrayPod
 public:
     using self_t = ArrayPod<TYPE, SIZE, ALLOC>;
 
-	ArrayPod() noexcept
+    ArrayPod() noexcept
     {
         mpData = mxStack;
         mnCapacity = SIZE;
         mnSize = 0;
     }
 
-	ArrayPod(const self_t& src)
+    ArrayPod(const self_t& src)
     {
         mnSize = src.mnSize;
-        if(mnSize <= SIZE)
+        if (mnSize <= SIZE)
         {
             mpData = mxStack;
             mnCapacity = SIZE;
@@ -84,7 +84,7 @@ public:
 
     ~ArrayPod()
     {
-        if(mnCapacity > SIZE)
+        if (mnCapacity > SIZE)
         {
             mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
         }
@@ -104,7 +104,7 @@ public:
         TYPE* tmp_data = src.mpData;
         TYPE tmp_stack[SIZE];
 
-        if(tmp_capacity <= SIZE)
+        if (tmp_capacity <= SIZE)
         {
             memcpy(tmp_stack, src.mxStack, tmp_size * sizeof(TYPE));
         }
@@ -112,7 +112,7 @@ public:
         src.mnSize = this->mnSize;
         src.mnCapacity = this->mnCapacity;
 
-        if(this->mnCapacity <= SIZE)
+        if (this->mnCapacity <= SIZE)
         {
             memcpy(src.mxStack, this->mxStack, mnSize * sizeof(TYPE));
             src.mpData = src.mxStack;
@@ -125,7 +125,7 @@ public:
         this->mnSize = tmp_size;
         this->mnCapacity = tmp_capacity;
 
-        if(tmp_capacity <= SIZE)
+        if (tmp_capacity <= SIZE)
         {
             memcpy(this->mxStack, tmp_stack, tmp_size * sizeof(TYPE));
             this->mpData = this->mxStack;
@@ -155,13 +155,13 @@ public:
 
     void push_back(const TYPE& data)
     {
-        if(mnSize == mnCapacity)
+        if (mnSize == mnCapacity)
         {
             size_t new_size = mnSize * 2;
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
 
-            if(mnCapacity > SIZE)
+            if (mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
@@ -205,12 +205,12 @@ public:
 
     void reserve(size_t size)
     {
-        if(size > mnCapacity)
+        if (size > mnCapacity)
         {
             TYPE* p = (TYPE*)mxAlloc.Alloc(size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
 
-            if(mnCapacity > SIZE)
+            if (mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
@@ -222,17 +222,17 @@ public:
 
     void resize(size_t size)
     {
-        if(size > mnCapacity)
+        if (size > mnCapacity)
         {
             size_t new_size = mnCapacity * 2;
-            if(new_size < size)
+            if (new_size < size)
             {
                 new_size = size;
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
-            if(mnCapacity > SIZE)
+            if (mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
@@ -246,17 +246,17 @@ public:
 
     void resize(size_t size, const TYPE& value)
     {
-        if(size > mnCapacity)
+        if (size > mnCapacity)
         {
             size_t new_size = mnCapacity * 2;
-            if(new_size < size)
+            if (new_size < size)
             {
                 new_size = size;
             }
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
-            if(mnCapacity > SIZE)
+            if (mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
@@ -265,9 +265,9 @@ public:
             mnCapacity = new_size;
         }
 
-        if(size > mnSize)
+        if (size > mnSize)
         {
-            for(size_t i = mnSize; i < size; ++i)
+            for (size_t i = mnSize; i < size; ++i)
             {
                 mpData[i] = value;
             }
@@ -311,7 +311,7 @@ public:
     size_t get_mem_usage() const
     {
         size_t size = sizeof(self_t);
-        if(mnCapacity > size)
+        if (mnCapacity > size)
         {
             size += mnCapacity * sizeof(TYPE);
         }

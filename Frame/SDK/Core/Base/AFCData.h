@@ -70,7 +70,7 @@ public:
     AFBaseData(const self_t& src)
     {
         this->mnType = src.mnType;
-        switch(this->mnType)
+        switch (this->mnType)
         {
         case DT_BOOLEAN:
             mbValue = src.mbValue;
@@ -108,7 +108,7 @@ public:
     explicit AFBaseData(const AFIData& src)
     {
         this->mnType = src.GetType();
-        switch(this->mnType)
+        switch (this->mnType)
         {
         case DT_BOOLEAN:
             mbValue = src.GetBool();
@@ -228,9 +228,9 @@ public:
         uint32_t tmp_alloc_len = this->mnAllocLen;
         char tmp_buffer[BUFFER_SIZE] = { 0 };
         bool tmp_use_buffer = (tmp_type == DT_STRING) && (this->mstrValue == this->mBuffer);
-        if((src.mnType == DT_STRING) && (src.mstrValue == src.mBuffer))
+        if ((src.mnType == DT_STRING) && (src.mstrValue == src.mBuffer))
         {
-            if(tmp_use_buffer)
+            if (tmp_use_buffer)
             {
                 memcpy(tmp_buffer, this->mBuffer, BUFFER_SIZE);
             }
@@ -240,7 +240,7 @@ public:
         }
         else
         {
-            if(src.mnType == DT_OBJECT)
+            if (src.mnType == DT_OBJECT)
             {
                 this->mxGUID = src.mxGUID;
                 mnAllocLen = src.mnAllocLen;
@@ -254,14 +254,14 @@ public:
 
         this->mnType = src.mnType;
 
-        if(tmp_use_buffer)
+        if (tmp_use_buffer)
         {
             memcpy(src.mBuffer, tmp_buffer, BUFFER_SIZE);
             src.mstrValue = src.mBuffer;
         }
         else
         {
-            if(src.mnType == DT_OBJECT)
+            if (src.mnType == DT_OBJECT)
             {
                 src.mxGUID = tmp_guid;
             }
@@ -285,7 +285,7 @@ public:
 
     virtual void SetDefaultValue(int type)
     {
-        switch(type)
+        switch (type)
         {
         case DT_BOOLEAN:
             SetBool(NULL_BOOLEAN);
@@ -316,7 +316,7 @@ public:
 
     virtual bool IsNullValue() const
     {
-        switch(GetType())
+        switch (GetType())
         {
         case DT_BOOLEAN:
             return mbValue == NULL_BOOLEAN;
@@ -400,7 +400,7 @@ public:
     {
         assert(mnType == DT_USERDATA);
 
-        if(mnType != DT_USERDATA)
+        if (mnType != DT_USERDATA)
         {
             size = 0;
             return NULL;
@@ -501,11 +501,11 @@ public:
     virtual size_t GetMemUsage() const
     {
         size_t size = sizeof(self_t);
-        switch(mnType)
+        switch (mnType)
         {
         case DT_STRING:
             {
-                if(mstrValue != nullptr)
+                if (mstrValue != nullptr)
                 {
                     size += strlen(mstrValue) + 1;
                 }
@@ -513,7 +513,7 @@ public:
             break;
         case DT_USERDATA:
             {
-                if(mpUserData != nullptr)
+                if (mpUserData != nullptr)
                 {
                     size += AFIData::GetUserDataSize(mpUserData);
                 }
@@ -528,7 +528,7 @@ public:
 
     virtual std::string ToString()
     {
-        switch(GetType())
+        switch (GetType())
         {
         case DT_BOOLEAN:
             return ARK_TO_STRING(this->mbValue);
@@ -561,11 +561,11 @@ public:
 
     void Release()
     {
-        switch(mnType)
+        switch (mnType)
         {
         case DT_STRING:
             {
-                if(mstrValue != mBuffer)
+                if (mstrValue != mBuffer)
                 {
                     mxAlloc.Free(mstrValue, mnAllocLen);
                     mstrValue = nullptr;
@@ -574,7 +574,7 @@ public:
             break;
         case DT_USERDATA:
             {
-                if(mpUserData != nullptr)
+                if (mpUserData != nullptr)
                 {
                     mxAlloc.Free(mpUserData, mnAllocLen);
                     mpUserData = nullptr;
@@ -592,7 +592,7 @@ protected:
         const size_t value_size = strlen(value) + 1;
         char* p = NULL;
 
-        if(value_size > BUFFER_SIZE)
+        if (value_size > BUFFER_SIZE)
         {
             p = (char*)mxAlloc.Alloc(value_size);
             mnAllocLen = (uint32_t)value_size;

@@ -28,7 +28,7 @@ namespace guid_module
 uint64_t WaitUntilNextMillis(uint64_t last_timestamp)
 {
     uint64_t timestamp = AFDateTime::GetNowTime();
-    while(timestamp <= last_timestamp)
+    while (timestamp <= last_timestamp)
     {
         timestamp = AFDateTime::GetNowTime();
     }
@@ -46,10 +46,10 @@ public:
         uint64_t timestamp = AFDateTime::GetNowTime();
 
         //in current microsecond
-        if(last_timestamp_ == timestamp)
+        if (last_timestamp_ == timestamp)
         {
             sequence_ = (sequence_ + 1) & 0xFFFF;
-            if(sequence_ == 0)
+            if (sequence_ == 0)
             {
                 timestamp = WaitUntilNextMillis(last_timestamp_);
             }
@@ -107,7 +107,7 @@ bool AFCGUIDModule::Init()
 
 bool AFCGUIDModule::PreShut()
 {
-    if(m_pIDWoker != nullptr)
+    if (m_pIDWoker != nullptr)
     {
         delete m_pIDWoker;
         m_pIDWoker = NULL;

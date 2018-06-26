@@ -32,14 +32,14 @@ void AFCHeartBeatElement::DoHeartBeatEvent(int64_t nNowTime)
     nCount--;
     HEART_BEAT_FUNCTOR_PTR cb;
     bool bRet = First(cb);
-    while(bRet)
+    while (bRet)
     {
         (*cb)(self, strBeatName, nBeatTime, nCount);
 
         bRet = Next(cb);
     }
 
-    if(nCount <= 0 && !bForever)
+    if (nCount <= 0 && !bForever)
     {
         bStop = true;
     }
@@ -51,17 +51,17 @@ void AFCHeartBeatElement::DoHeartBeatEvent(int64_t nNowTime)
 
 bool AFCHeartBeatElement::CheckTime(int64_t nNowTime)
 {
-    if(IsStop())
+    if (IsStop())
     {
         return false;
     }
 
-    if(nNowTime < nNextTriggerTime)
+    if (nNowTime < nNextTriggerTime)
     {
         return false;
     }
 
-    if(nCount <= 0 && !bForever)
+    if (nCount <= 0 && !bForever)
     {
         bStop = true;
         return false;
@@ -75,19 +75,19 @@ void AFCHeartBeatManager::Update()
 {
     //millisecond
     int64_t nTime = AFDateTime::GetNowTime();
-    for(std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = mTimeList.begin(); iter != mTimeList.end();)
+    for (std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = mTimeList.begin(); iter != mTimeList.end();)
     {
-        if(iter->second->IsStop() && ProcessFinishHeartBeat(iter->second))
+        if (iter->second->IsStop() && ProcessFinishHeartBeat(iter->second))
         {
             iter = mTimeList.erase(iter);
             continue;
         }
 
-        if(iter->second->CheckTime(nTime))
+        if (iter->second->CheckTime(nTime))
         {
             iter->second->DoHeartBeatEvent(nTime);
 
-            if(iter->second->IsStop())
+            if (iter->second->IsStop())
             {
                 ProcessFinishHeartBeat(iter->second);
             }
@@ -110,12 +110,12 @@ void AFCHeartBeatManager::Update()
 bool AFCHeartBeatManager::ProcessFinishHeartBeat(AFCHeartBeatElement* pTarget)
 {
     AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.GetElement(pTarget->strBeatName);
-    if(pElement == nullptr)
+    if (pElement == nullptr)
     {
         return false;
     }
 
-    if(pElement->id != pTarget->id)
+    if (pElement->id != pTarget->id)
     {
         return false;
     }
@@ -128,10 +128,10 @@ bool AFCHeartBeatManager::ProcessFinishHeartBeat()
 {
     std::string strHeartBeatName;
     bool bRet = mRemoveListEx.First(strHeartBeatName);
-    while(bRet)
+    while (bRet)
     {
         AFCHeartBeatElement* pHeartBeatEx = mHeartBeatElementMapEx.GetElement(strHeartBeatName);
-        if(pHeartBeatEx == nullptr)
+        if (pHeartBeatEx == nullptr)
         {
             continue;
         }
@@ -139,9 +139,9 @@ bool AFCHeartBeatManager::ProcessFinishHeartBeat()
         typedef std::pair<std::multimap<int64_t, AFCHeartBeatElement*>::iterator, std::multimap<int64_t, AFCHeartBeatElement*>::iterator > Range;
         Range xRange = mTimeList.equal_range(pHeartBeatEx->nNextTriggerTime);
 
-        for(std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = xRange.first; iter != xRange.second;)
+        for (std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = xRange.first; iter != xRange.second;)
         {
-            if(iter->second->id == pHeartBeatEx->id)
+            if (iter->second->id == pHeartBeatEx->id)
             {
                 iter = mTimeList.erase(iter);
             }
@@ -162,12 +162,12 @@ bool AFCHeartBeatManager::ProcessFinishHeartBeat()
 
 bool AFCHeartBeatManager::ProcessAddHeartBeat()
 {
-    for(std::list<AFCHeartBeatElement>::iterator iter = mAddListEx.begin(); iter != mAddListEx.end(); ++iter)
+    for (std::list<AFCHeartBeatElement>::iterator iter = mAddListEx.begin(); iter != mAddListEx.end(); ++iter)
     {
-        if(mHeartBeatElementMapEx.GetElement(iter->strBeatName) == nullptr)
+        if (mHeartBeatElementMapEx.GetElement(iter->strBeatName) == nullptr)
         {
             AFCHeartBeatElement* pHeartBeatEx = ARK_NEW AFCHeartBeatElement();
-            if(pHeartBeatEx == nullptr)
+            if (pHeartBeatEx == nullptr)
             {
                 continue;
             }

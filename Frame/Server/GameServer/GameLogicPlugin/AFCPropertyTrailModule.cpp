@@ -47,46 +47,46 @@ void AFCPropertyTrailModule::EndTrail(const AFGUID self)
 int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
 {
     ARK_SHARE_PTR<AFIEntity> xEntity = m_pKernelModule->GetEntity(self);
-     if(nullptr == xEntity)
-     {
-         return -1;
-     }
+    if (nullptr == xEntity)
+    {
+        return -1;
+    }
 
-     ARK_SHARE_PTR<AFIDataNodeManager> xNodeManager = xEntity->GetNodeManager();
-     if(nullptr != xNodeManager)
-     {
-         size_t nodeCount = xNodeManager->GetNodeCount();
-         for (size_t i = 0; i < nodeCount; ++i)
-         {
-             AFDataNode* pNode = xNodeManager->GetNodeByIndex(i);
-             ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self.ToString(), pNode->GetName(), pNode->ToString());
-         }
-     }
+    ARK_SHARE_PTR<AFIDataNodeManager> xNodeManager = xEntity->GetNodeManager();
+    if (nullptr != xNodeManager)
+    {
+        size_t nodeCount = xNodeManager->GetNodeCount();
+        for (size_t i = 0; i < nodeCount; ++i)
+        {
+            AFDataNode* pNode = xNodeManager->GetNodeByIndex(i);
+            ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self.ToString(), pNode->GetName(), pNode->ToString());
+        }
+    }
 
-     ARK_SHARE_PTR<AFIDataTableManager> xTableManager = xEntity->GetTableManager();
-     if(nullptr != xTableManager)
-     {
-         size_t tableCount = xTableManager->GetCount();
-         for (size_t i = 0; i < tableCount; ++i)
-         {
-             AFDataTable* pTable = xTableManager->GetTableByIndex(i);
-             size_t rowCount = pTable->GetRowCount();
-             for (size_t j = 0; j < rowCount; ++j)
-             {
-                 AFCDataList xDataList;
-                 bool ret = pTable->QueryRow(j, xDataList);
-                 if (!ret)
-                 {
-                     continue;
-                 }
+    ARK_SHARE_PTR<AFIDataTableManager> xTableManager = xEntity->GetTableManager();
+    if (nullptr != xTableManager)
+    {
+        size_t tableCount = xTableManager->GetCount();
+        for (size_t i = 0; i < tableCount; ++i)
+        {
+            AFDataTable* pTable = xTableManager->GetTableByIndex(i);
+            size_t rowCount = pTable->GetRowCount();
+            for (size_t j = 0; j < rowCount; ++j)
+            {
+                AFCDataList xDataList;
+                bool ret = pTable->QueryRow(j, xDataList);
+                if (!ret)
+                {
+                    continue;
+                }
 
-                 for (size_t k = 0; k < xDataList.GetCount(); ++k)
-                 {
-                     ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self.ToString(), pTable->GetName(), j, k, xDataList.ToString(k));
-                 }
-             }
-         }
-     }
+                for (size_t k = 0; k < xDataList.GetCount(); ++k)
+                {
+                    ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self.ToString(), pTable->GetName(), j, k, xDataList.ToString(k));
+                }
+            }
+        }
+    }
 
     return 0;
 }

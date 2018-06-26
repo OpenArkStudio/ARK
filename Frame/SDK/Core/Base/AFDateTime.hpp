@@ -353,7 +353,7 @@ public:
         _ts = ts.QuadPart / (10 * Resolution());
 #else
         struct timeval tv;
-        if(gettimeofday(&tv, NULL))
+        if (gettimeofday(&tv, NULL))
         {
             throw std::invalid_argument("cannot get time of day");
         }
@@ -511,11 +511,11 @@ public:
 
         //find the first firstDayOfWeek.
         int baseDay = 1;
-        while(AFDateTime(GetYear(), 1, baseDay).GetDayOfWeek() != firstDayOfWeek) ++baseDay;
+        while (AFDateTime(GetYear(), 1, baseDay).GetDayOfWeek() != firstDayOfWeek) ++baseDay;
 
         int day = GetDayOfYear();
         int offs = baseDay <= 4 ? 0 : 1;
-        if(day < baseDay)
+        if (day < baseDay)
         {
             return offs;
         }
@@ -539,7 +539,7 @@ public:
     int GetDayOfWeek(int firstDayOfWeek = MONDAY) const
     {
         struct tm* ptm = GetUTCTime();
-        if(firstDayOfWeek == MONDAY)
+        if (firstDayOfWeek == MONDAY)
         {
             return ((ptm->tm_wday == 0) ? 7 : ptm->tm_wday);
         }
@@ -568,9 +568,9 @@ public:
     int GethourAMPM() const
     {
         int hour = GetHour();
-        if(hour < 1)
+        if (hour < 1)
             return 12;
-        else if(hour > 12)
+        else if (hour > 12)
             return hour - 12;
         else
             return hour;
@@ -650,12 +650,12 @@ public:
 
     bool SameWeek(TimeVal time)
     {
-        if(!SameYear(time))
+        if (!SameYear(time))
         {
             return false;
         }
 
-        if(SameDay(time))
+        if (SameDay(time))
         {
             return true;
         }
@@ -682,14 +682,14 @@ public:
     static int GetDaysOfMonth(int year, int month)
     {
         ARK_ASSERT_NO_EFFECT(month >= 1 && month <= 12);
-        if(month < 1 || month > 12)
+        if (month < 1 || month > 12)
         {
             return -1;
         }
 
         static int daysOfMonthTable[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
-        if(month == 2 && IsLeapYear(year))
+        if (month == 2 && IsLeapYear(year))
             return 29;
         else
             return daysOfMonthTable[month];

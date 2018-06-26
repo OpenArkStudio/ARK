@@ -137,7 +137,7 @@ public:
     //    {
     //        return false;
     //    }
-    //    
+    //
     //    //remove from name container
     //    mxIndices.Remove(name.c_str());
 
@@ -178,6 +178,6 @@ protected:
     }
 
 private:
-	ArrayPod<NODE*, 1, ArrayPodAlloc> mxNodes;
+    ArrayPod<NODE*, 1, ArrayPodAlloc> mxNodes;
     StringPod<char, size_t, StringTraits<char>> mxIndices;
 };

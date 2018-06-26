@@ -42,18 +42,18 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
 {
     //成功就注册
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr == xLogicClass)
+    if (nullptr == xLogicClass)
     {
         return;
     }
 
     AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
     std::string strConfigName;
-    for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
-        if(nServerType == ARK_SERVER_TYPE::ARK_ST_GAME && pPluginManager->AppID() == nSelfServerID)
+        if (nServerType == ARK_SERVER_TYPE::ARK_ST_GAME && pPluginManager->AppID() == nSelfServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -73,7 +73,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
             pData->set_server_type(nServerType);
 
             ARK_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nSeverID);
-            if(pServerData)
+            if (pServerData)
             {
                 int nTargetID = pServerData->nGameID;
                 m_pNetClientModule->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg, 0);
@@ -104,18 +104,18 @@ bool AFCGameServerToWorldModule::PostInit()
 
     // 连接world server
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr == xLogicClass)
+    if (nullptr == xLogicClass)
     {
         return false;
     }
 
     AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
     std::string strConfigName;
-    for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
-        if(nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD)
+        if (nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
@@ -138,7 +138,7 @@ bool AFCGameServerToWorldModule::PostInit()
 
 void AFCGameServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
-    if(eEvent == CONNECTED)
+    if (eEvent == CONNECTED)
     {
         ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
         Register(nServerID);
@@ -147,13 +147,13 @@ void AFCGameServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, cons
 
 int AFCGameServerToWorldModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
-    if(strClassName == ARK::Player::ThisName())
+    if (strClassName == ARK::Player::ThisName())
     {
-        if(ARK_ENTITY_EVENT::ENTITY_EVT_DESTROY == eClassEvent)
+        if (ARK_ENTITY_EVENT::ENTITY_EVT_DESTROY == eClassEvent)
         {
             SendOffline(self);
         }
-        else if(ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
+        else if (ARK_ENTITY_EVENT::ENTITY_EVT_ALL_FINISHED == eClassEvent)
         {
             SendOnline(self);
         }

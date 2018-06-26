@@ -49,42 +49,42 @@ void TestRandom()
     rand.SetSeed(AFDateTime::GetTimestamp());
 
     int rand_array[10] = { 0 };
-    for(int i = 0; i < 100000; ++i)
+    for (int i = 0; i < 100000; ++i)
     {
         uint32_t my_rand = rand.Random(0, 100000);
-        if(my_rand <= 10000)
+        if (my_rand <= 10000)
         {
             rand_array[0]++;
         }
-        else if(my_rand > 10000 && my_rand <= 20000)
+        else if (my_rand > 10000 && my_rand <= 20000)
         {
             rand_array[1]++;
         }
-        else if(my_rand > 20000 && my_rand <= 30000)
+        else if (my_rand > 20000 && my_rand <= 30000)
         {
             rand_array[2]++;
         }
-        else if(my_rand > 30000 && my_rand <= 40000)
+        else if (my_rand > 30000 && my_rand <= 40000)
         {
             rand_array[3]++;
         }
-        else if(my_rand > 40000 && my_rand <= 50000)
+        else if (my_rand > 40000 && my_rand <= 50000)
         {
             rand_array[4]++;
         }
-        else if(my_rand > 50000 && my_rand <= 60000)
+        else if (my_rand > 50000 && my_rand <= 60000)
         {
             rand_array[5]++;
         }
-        else if(my_rand > 60000 && my_rand <= 70000)
+        else if (my_rand > 60000 && my_rand <= 70000)
         {
             rand_array[6]++;
         }
-        else if(my_rand > 70000 && my_rand <= 80000)
+        else if (my_rand > 70000 && my_rand <= 80000)
         {
             rand_array[7]++;
         }
-        else if(my_rand > 80000 && my_rand <= 90000)
+        else if (my_rand > 80000 && my_rand <= 90000)
         {
             rand_array[8]++;
         }
@@ -94,7 +94,7 @@ void TestRandom()
         }
     }
 
-    for(int i = 0; i < ARRAY_LENTGH(rand_array); ++i)
+    for (int i = 0; i < ARRAY_LENTGH(rand_array); ++i)
     {
         std::cout << rand_array[i] << " int range [" << i * 10000 << ", " << (i + 1) * 10000 << "]" << std::endl;
     }

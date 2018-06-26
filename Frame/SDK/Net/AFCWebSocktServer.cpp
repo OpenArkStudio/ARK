@@ -62,7 +62,7 @@ void AFCWebSocktServer::OnWebSockMessageCallBack(const brynet::net::HttpSession:
         const std::string & payload)
 {
 
-    switch(opcode)
+    switch (opcode)
     {
     case brynet::net::WebSocketFormat::WebSocketFrameType::ERROR_FRAME:
         break;
@@ -99,7 +99,7 @@ void AFCWebSocktServer::OnWebSockMessageCallBack(const brynet::net::HttpSession:
     AFScopeRdLock xGuard(mRWLock);
 
     auto xFind = mxNetEntities.find(xClient);
-    if(xFind == mxNetEntities.end())
+    if (xFind == mxNetEntities.end())
     {
         return;
     }
@@ -118,7 +118,7 @@ void AFCWebSocktServer::OnHttpConnect(const brynet::net::HttpSession::PTR& httpS
     pMsg->xClientID.nLow = nNextID++;
     httpSession->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
     pMsg->nType = CONNECTED;
-    do 
+    do
     {
         AFScopeWrLock xGuard(mRWLock);
 
@@ -138,7 +138,7 @@ void AFCWebSocktServer::OnHttpDisConnection(const brynet::net::HttpSession::PTR 
     AFScopeWrLock xGuard(mRWLock);
 
     auto xFind = mxNetEntities.find(xClient);
-    if(xFind == mxNetEntities.end())
+    if (xFind == mxNetEntities.end())
     {
         return ;
     }
@@ -153,7 +153,7 @@ void AFCWebSocktServer::OnHttpDisConnection(const brynet::net::HttpSession::PTR 
 void AFCWebSocktServer::ProcessMsgLogicThread()
 {
     std::list<AFGUID> xNeedRemoveList;
-    do 
+    do
     {
         AFScopeRdLock xGuard(mRWLock);
         for (std::map<AFGUID, AFHttpEntity*>::iterator iter = mxNetEntities.begin(); iter != mxNetEntities.end(); ++iter)
@@ -168,7 +168,7 @@ void AFCWebSocktServer::ProcessMsgLogicThread()
         }
     } while (0);
 
-    for(auto iter : xNeedRemoveList)
+    for (auto iter : xNeedRemoveList)
     {
         AFScopeWrLock xGuard(mRWLock);
         RemoveNetEntity(iter);
@@ -179,24 +179,24 @@ void AFCWebSocktServer::ProcessMsgLogicThread(AFHttpEntity* pEntity)
 {
     //Handle Msg
     size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
-    for(size_t i = 0; i < nReceiveCount; ++i)
+    for (size_t i = 0; i < nReceiveCount; ++i)
     {
         AFHttpMsg* pMsg(nullptr);
-        if(!pEntity->mxNetMsgMQ.Pop(pMsg))
+        if (!pEntity->mxNetMsgMQ.Pop(pMsg))
         {
             break;
         }
 
-        if(pMsg == nullptr)
+        if (pMsg == nullptr)
         {
             continue;
         }
 
-        switch(pMsg->nType)
+        switch (pMsg->nType)
         {
         case RECIVEDATA:
             {
-                if(mRecvCB)
+                if (mRecvCB)
                 {
                     mRecvCB(pMsg->xHead, pMsg->xHead.GetMsgID(), pMsg->strMsg.c_str(), pMsg->strMsg.size(), pEntity->GetClientID());
                 }
@@ -236,10 +236,10 @@ bool AFCWebSocktServer::SendMsgToAllClient(const char* msg, const size_t nLen)
             false);
 
     std::map<AFGUID, AFHttpEntity*>::iterator it = mxNetEntities.begin();
-    for(; it != mxNetEntities.end(); ++it)
+    for (; it != mxNetEntities.end(); ++it)
     {
         AFHttpEntity* pNetObject = (AFHttpEntity*)it->second;
-        if(pNetObject && !pNetObject->NeedRemove())
+        if (pNetObject && !pNetObject->NeedRemove())
         {
             pNetObject->GetSession()->send(frame);
         }
@@ -253,7 +253,7 @@ bool AFCWebSocktServer::SendMsg(const char* msg, const size_t nLen, const AFGUID
     AFScopeRdLock xGuard(mRWLock);
 
     AFHttpEntity* pNetObject = GetNetEntity(xClient);
-    if(pNetObject == nullptr)
+    if (pNetObject == nullptr)
     {
         return false;
     }
@@ -277,7 +277,7 @@ bool AFCWebSocktServer::AddNetEntity(const AFGUID& xClientID, AFHttpEntity* pEnt
 bool AFCWebSocktServer::RemoveNetEntity(const AFGUID& xClientID)
 {
     AFHttpEntity* pNetObject = GetNetEntity(xClientID);
-    if(pNetObject)
+    if (pNetObject)
     {
         delete pNetObject;
     }
@@ -287,7 +287,7 @@ bool AFCWebSocktServer::RemoveNetEntity(const AFGUID& xClientID)
 bool AFCWebSocktServer::CloseNetEntity(const AFGUID& xClientID)
 {
     AFHttpEntity* pEntity = GetNetEntity(xClientID);
-    if(pEntity)
+    if (pEntity)
     {
         pEntity->GetSession()->postShutdown();
     }
@@ -297,11 +297,11 @@ bool AFCWebSocktServer::CloseNetEntity(const AFGUID& xClientID)
 
 bool AFCWebSocktServer::DismantleNet(AFHttpEntity* pEntity)
 {
-    while(pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH)
+    while (pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         AFCMsgHead xHead;
         int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
-        if(nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
+        if (nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
         {
             AFHttpMsg* pMsg = new AFHttpMsg(pEntity->GetSession());
             pMsg->xHead = xHead;
@@ -321,7 +321,7 @@ bool AFCWebSocktServer::DismantleNet(AFHttpEntity* pEntity)
 
 bool AFCWebSocktServer::CloseSocketAll()
 {
-    for(auto it : mxNetEntities)
+    for (auto it : mxNetEntities)
     {
         it.second->GetSession()->postShutdown();
         delete it.second;
@@ -336,7 +336,7 @@ bool AFCWebSocktServer::CloseSocketAll()
 AFHttpEntity* AFCWebSocktServer::GetNetEntity(const AFGUID& xClientID)
 {
     auto it = mxNetEntities.find(xClientID);
-    if(it != mxNetEntities.end())
+    if (it != mxNetEntities.end())
     {
         return it->second;
     }
@@ -353,7 +353,7 @@ bool AFCWebSocktServer::SendMsgWithOutHead(const uint16_t nMsgID, const char* ms
     xHead.SetBodyLength(nLen);
 
     int nAllLen = EnCode(xHead, msg, nLen, strOutData);
-    if(nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
+    if (nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return SendMsg(strOutData.c_str(), strOutData.length(), xClientID);
     }
@@ -369,7 +369,7 @@ bool AFCWebSocktServer::SendMsgToAllClientWithOutHead(const uint16_t nMsgID, con
     xHead.SetPlayerID(xPlayerID);
 
     int nAllLen = EnCode(xHead, msg, nLen, strOutData);
-    if(nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
+    if (nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return SendMsgToAllClient(strOutData.c_str(), strOutData.length());
     }
@@ -391,17 +391,17 @@ int AFCWebSocktServer::EnCode(const AFCMsgHead& xHead, const char* strData, cons
 
 int AFCWebSocktServer::DeCode(const char* strData, const size_t len, AFCMsgHead& xHead)
 {
-    if(len < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
+    if (len < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return -1;
     }
 
-    if(AFIMsgHead::ARK_MSG_HEAD_LENGTH != xHead.DeCode(strData))
+    if (AFIMsgHead::ARK_MSG_HEAD_LENGTH != xHead.DeCode(strData))
     {
         return -2;
     }
 
-    if(xHead.GetBodyLength() > (len - AFIMsgHead::ARK_MSG_HEAD_LENGTH))
+    if (xHead.GetBodyLength() > (len - AFIMsgHead::ARK_MSG_HEAD_LENGTH))
     {
         return -3;
     }

@@ -34,7 +34,7 @@ void AFCWebSocktClient::ProcessMsgLogicThread()
         ProcessMsgLogicThread(m_pClientEntity.get());
     }
 
-    if(m_pClientEntity != nullptr && m_pClientEntity->NeedRemove())
+    if (m_pClientEntity != nullptr && m_pClientEntity->NeedRemove())
     {
         AFScopeWrLock xGuard(mRWLock);
         m_pClientEntity.release();
@@ -43,31 +43,31 @@ void AFCWebSocktClient::ProcessMsgLogicThread()
 
 void AFCWebSocktClient::ProcessMsgLogicThread(AFHttpEntity* pEntity)
 {
-    if(pEntity == nullptr)
+    if (pEntity == nullptr)
     {
         return;
     }
 
     //Handle messages
     size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
-    for(size_t i = 0; i < nReceiveCount; ++i)
+    for (size_t i = 0; i < nReceiveCount; ++i)
     {
         AFHttpMsg* pMsg(nullptr);
-        if(!pEntity->mxNetMsgMQ.Pop(pMsg))
+        if (!pEntity->mxNetMsgMQ.Pop(pMsg))
         {
             break;
         }
 
-        if(pMsg == nullptr)
+        if (pMsg == nullptr)
         {
             continue;
         }
 
-        switch(pMsg->nType)
+        switch (pMsg->nType)
         {
         case RECIVEDATA:
             {
-                if(mRecvCB)
+                if (mRecvCB)
                 {
                     mRecvCB(pMsg->xHead, pMsg->xHead.GetMsgID(), pMsg->strMsg.c_str(), pMsg->strMsg.size(), pEntity->GetClientID());
                 }
@@ -165,7 +165,7 @@ void AFCWebSocktClient::OnWebSockMessageCallBack(const brynet::net::HttpSession:
 
 bool AFCWebSocktClient::Final()
 {
-    if(!CloseSocketAll())
+    if (!CloseSocketAll())
     {
         //add log
     }
@@ -205,7 +205,7 @@ bool AFCWebSocktClient::SendMsg(const char* msg, const size_t nLen, const AFGUID
             true,
             false);
 
-    if(m_pClientEntity->GetSession())
+    if (m_pClientEntity->GetSession())
     {
         m_pClientEntity->GetSession()->send(frame);
     }
@@ -215,7 +215,7 @@ bool AFCWebSocktClient::SendMsg(const char* msg, const size_t nLen, const AFGUID
 
 bool AFCWebSocktClient::CloseNetEntity(const AFGUID& xClient)
 {
-    if(m_pClientEntity->GetClientID() == xClient)
+    if (m_pClientEntity->GetClientID() == xClient)
     {
         m_pClientEntity->GetSession()->postClose();
     }
@@ -224,11 +224,11 @@ bool AFCWebSocktClient::CloseNetEntity(const AFGUID& xClient)
 
 bool AFCWebSocktClient::DismantleNet(AFHttpEntity* pEntity)
 {
-    while(pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH)
+    while (pEntity->GetBuffLen() >= AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         AFCMsgHead xHead;
         int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
-        if(nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
+        if (nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
         {
             AFHttpMsg* pMsg = new AFHttpMsg(pEntity->GetSession());
             pMsg->xHead = xHead;
@@ -272,7 +272,7 @@ bool AFCWebSocktClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* ms
     xHead.SetBodyLength(nLen);
 
     int nAllLen = EnCode(xHead, msg, nLen, strOutData);
-    if(nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
+    if (nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return SendMsg(strOutData.c_str(), strOutData.length(), xClientID);
     }
@@ -294,17 +294,17 @@ int AFCWebSocktClient::EnCode(const AFCMsgHead& xHead, const char* strData, cons
 
 int AFCWebSocktClient::DeCode(const char* strData, const size_t len, AFCMsgHead & xHead)
 {
-    if(len < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
+    if (len < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return -1;
     }
 
-    if(AFIMsgHead::ARK_MSG_HEAD_LENGTH != xHead.DeCode(strData))
+    if (AFIMsgHead::ARK_MSG_HEAD_LENGTH != xHead.DeCode(strData))
     {
         return -2;
     }
 
-    if(xHead.GetBodyLength() > (len - AFIMsgHead::ARK_MSG_HEAD_LENGTH))
+    if (xHead.GetBodyLength() > (len - AFIMsgHead::ARK_MSG_HEAD_LENGTH))
     {
         return -3;
     }

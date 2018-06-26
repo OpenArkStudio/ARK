@@ -88,9 +88,9 @@ public:
 
     void Shut()
     {
-        for(auto iter : mxTimers)
+        for (auto iter : mxTimers)
         {
-            for(auto it : iter.second)
+            for (auto it : iter.second)
             {
                 ARK_DELETE(it.second);
             }
@@ -147,13 +147,13 @@ protected:
     void UpdateTimer(int64_t now_time)
     {
         uint64_t passedSlot = (now_time - mnLastUpdateTime) / SLOT_TIME;
-        if(passedSlot == 0)
+        if (passedSlot == 0)
         {
             return;
         }
 
         mnLastUpdateTime += passedSlot * SLOT_TIME;
-        for(uint64_t i = 0; i < passedSlot; ++i)
+        for (uint64_t i = 0; i < passedSlot; ++i)
         {
             mnNowSlot = (mnNowSlot + 1) % MAX_SLOT;
             UpdateSlotTimer();
@@ -162,14 +162,14 @@ protected:
 
     void UpdateTimerReg()
     {
-        if(mxRegTimers.empty())
+        if (mxRegTimers.empty())
         {
             return;
         }
 
-        for(auto data : mxRegTimers)
+        for (auto data : mxRegTimers)
         {
-            switch(data->type)
+            switch (data->type)
             {
             case TIMER_TYPE_FOREVER:
                 AddSlotTimer(data, true);
@@ -189,13 +189,13 @@ protected:
     AFTimerData* FindTimerData(const std::string& name, const AFGUID& entity_id)
     {
         auto iter = mxTimers.find(name);
-        if(iter == mxTimers.end())
+        if (iter == mxTimers.end())
         {
             return nullptr;
         }
 
         auto it = iter->second.find(entity_id);
-        if(it == iter->second.end())
+        if (it == iter->second.end())
         {
             return nullptr;
         }
@@ -206,7 +206,7 @@ protected:
     bool AddTimerData(const std::string& name, const AFGUID& entity_id, AFTimerData* timer_data)
     {
         auto iter = mxTimers.find(name);
-        if(iter == mxTimers.end())
+        if (iter == mxTimers.end())
         {
             std::map<AFGUID, AFTimerData*> tmp;
             iter = mxTimers.insert(std::make_pair(name, tmp)).first;
@@ -218,12 +218,12 @@ protected:
     bool RemoveTimerData(const std::string& name)
     {
         auto iter = mxTimers.find(name);
-        if(iter == mxTimers.end())
+        if (iter == mxTimers.end())
         {
             return false;
         }
 
-        for(auto it : iter->second)
+        for (auto it : iter->second)
         {
             AFTimerData* data = it.second;
             RemoveSlotTimer(data);
@@ -238,13 +238,13 @@ protected:
     bool RemoveTimerData(const std::string& name, const AFGUID& entity_id)
     {
         auto iter = mxTimers.find(name);
-        if(iter == mxTimers.end())
+        if (iter == mxTimers.end())
         {
             return false;
         }
 
         auto it = iter->second.find(entity_id);
-        if(it == iter->second.end())
+        if (it == iter->second.end())
         {
             return false;
         }
@@ -254,7 +254,7 @@ protected:
         ARK_DEALLOC(data);
 
         iter->second.erase(it);
-        if(iter->second.empty())
+        if (iter->second.empty())
         {
             mxTimers.erase(iter);
         }
@@ -264,7 +264,7 @@ protected:
 
     void AddSlotTimer(AFTimerData* timer_data, bool first)
     {
-        if(first)
+        if (first)
         {
             timer_data->rotation = 0;
             timer_data->slot = (mnNowSlot + 1) % MAX_SLOT;
@@ -277,7 +277,7 @@ protected:
         }
 
         auto wheelData = mxSlots[timer_data->slot];
-        if(wheelData != nullptr)
+        if (wheelData != nullptr)
         {
             timer_data->next = wheelData;
             wheelData->prev = timer_data;
@@ -289,18 +289,18 @@ protected:
     void RemoveSlotTimer(AFTimerData* timer_data)
     {
         auto* prev = timer_data->prev;
-        if(prev != nullptr)
+        if (prev != nullptr)
         {
             prev->next = timer_data->next;
         }
 
         auto* next = timer_data->next;
-        if(next != nullptr)
+        if (next != nullptr)
         {
             next->prev = timer_data->prev;
         }
 
-        if(timer_data == mxSlots[timer_data->slot])
+        if (timer_data == mxSlots[timer_data->slot])
         {
             mxSlots[timer_data->slot] = next;
         }
@@ -313,14 +313,14 @@ protected:
     {
         std::list<AFTimerData*> doneDatas;
         auto timerData = mxSlots[mnNowSlot];
-        while(timerData != nullptr)
+        while (timerData != nullptr)
         {
-            if(timerData->rotation > 0)
+            if (timerData->rotation > 0)
             {
                 --timerData->rotation;
             }
 
-            if(timerData->rotation == 0)
+            if (timerData->rotation == 0)
             {
                 doneDatas.push_back(timerData);
             }
@@ -328,12 +328,12 @@ protected:
             timerData = timerData->next;
         }
 
-        for(auto data : doneDatas)
+        for (auto data : doneDatas)
         {
             RemoveSlotTimer(data);
 
             (*(data->callback))(data->name, data->entity_id);
-            switch(data->type)
+            switch (data->type)
             {
             case TIMER_TYPE_FOREVER:
                 AddSlotTimer(data, false);
@@ -341,7 +341,7 @@ protected:
             case TIMER_TYPE_COUNT_LIMIT:
                 {
                     --data->count;
-                    if(data->count == 0)
+                    if (data->count == 0)
                     {
                         RemoveTimerData(data->name, data->entity_id);
                     }

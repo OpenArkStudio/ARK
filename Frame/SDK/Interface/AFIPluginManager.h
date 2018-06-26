@@ -50,9 +50,9 @@ public:
     T* FindModule()
     {
         AFIModule* pLogicModule = FindModule(typeid(T).name());
-        if(pLogicModule)
+        if (pLogicModule)
         {
-            if(!std::is_base_of<AFIModule, T>::value)
+            if (!std::is_base_of<AFIModule, T>::value)
             {
                 return nullptr;
             }

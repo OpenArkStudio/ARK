@@ -50,15 +50,15 @@ bool AFCProxyNetServerModule::PostInit()
     m_pNetModule->AddEventCallBack(this, &AFCProxyNetServerModule::OnSocketClientEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr != xLogicClass)
+    if (nullptr != xLogicClass)
     {
         AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
-        for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+        for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
             const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
             const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
-            if(nServerType == ARK_SERVER_TYPE::ARK_ST_PROXY && pPluginManager->AppID() == nServerID)
+            if (nServerType == ARK_SERVER_TYPE::ARK_ST_PROXY && pPluginManager->AppID() == nServerID)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -69,7 +69,7 @@ bool AFCProxyNetServerModule::PostInit()
                 m_pUUIDModule->SetGUIDMask(nServerID);
 
                 int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
-                if(nRet < 0)
+                if (nRet < 0)
                 {
                     ARK_LOG_ERROR("Cannot init server net, Port = {}", nPort);
                     ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
@@ -103,13 +103,13 @@ int AFCProxyNetServerModule::HB_OnConnectCheckTime(const AFGUID& self, const std
 void AFCProxyNetServerModule::OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-    if(!pSessionData || pSessionData->mnLogicState <= 0 || pSessionData->mnGameID <= 0)
+    if (!pSessionData || pSessionData->mnLogicState <= 0 || pSessionData->mnGameID <= 0)
     {
         //state error
         return;
     }
 
-    if(pSessionData->mnUserID != xHead.GetPlayerID())
+    if (pSessionData->mnUserID != xHead.GetPlayerID())
     {
         //when after entergame xHead.GetPlayerID() is really palyerID
         ARK_LOG_ERROR("xHead.GetPlayerID() is not really palyerID, id = {}", xHead.GetPlayerID().ToString());
@@ -123,11 +123,11 @@ void AFCProxyNetServerModule::OnConnectKeyProcess(const AFIMsgHead& xHead, const
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
     bool bRet = m_pProxyToWorldModule->VerifyConnectData(xMsg.account(), xMsg.security_code());
-    if(bRet)
+    if (bRet)
     {
         //可以进入,设置标志，选单服,心跳延迟,进入gs创建角色和删除角色,这里只是转发
         ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-        if(pSessionData)
+        if (pSessionData)
         {
             pSessionData->mnLogicState = 1;
             pSessionData->mstrAccout  = xMsg.account();
@@ -148,12 +148,12 @@ void AFCProxyNetServerModule::OnConnectKeyProcess(const AFIMsgHead& xHead, const
 
 void AFCProxyNetServerModule::OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nSeverID)
 {
-    if(eEvent == DISCONNECTED)
+    if (eEvent == DISCONNECTED)
     {
         ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
         OnClientDisconnect(xClientID);
     }
-    else if(eEvent == CONNECTED)
+    else if (eEvent == CONNECTED)
     {
         ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
         OnClientConnected(xClientID);
@@ -163,13 +163,13 @@ void AFCProxyNetServerModule::OnSocketClientEvent(const NetEventType eEvent, con
 void AFCProxyNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 {
     ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-    if(pSessionData)
+    if (pSessionData)
     {
-        if(pSessionData->mnGameID > 0 && !pSessionData->mnUserID.IsNULL())
+        if (pSessionData->mnGameID > 0 && !pSessionData->mnUserID.IsNULL())
         {
             AFMsg::ReqLeaveGameServer xData;
             std::string strMsg;
-            if(!xData.SerializeToString(&strMsg))
+            if (!xData.SerializeToString(&strMsg))
             {
                 return;
             }
@@ -185,10 +185,10 @@ void AFCProxyNetServerModule::OnSelectServerProcess(const AFIMsgHead& xHead, con
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqSelectServer);
     ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(xMsg.world_id());
-    if(pServerData && ConnectDataState::NORMAL == pServerData->eState)
+    if (pServerData && ConnectDataState::NORMAL == pServerData->eState)
     {
         ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-        if(pSessionData)
+        if (pSessionData)
         {
             //now this client bind a game server, after this time, all message will be sent to this game server who bind with client
             pSessionData->mnGameID = xMsg.world_id();
@@ -208,13 +208,13 @@ void AFCProxyNetServerModule::OnSelectServerProcess(const AFIMsgHead& xHead, con
 void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqServerList);
-    if(xMsg.type() != AFMsg::RSLT_GAMES_ERVER)
+    if (xMsg.type() != AFMsg::RSLT_GAMES_ERVER)
     {
         return;
     }
 
     ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-    if(pSessionData && pSessionData->mnLogicState > 0)
+    if (pSessionData && pSessionData->mnLogicState > 0)
     {
         //ack all gameserver data
         AFMsg::AckServerList xData;
@@ -222,9 +222,9 @@ void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, co
 
         AFMapEx<int, ConnectData>& xServerList = m_pProxyServerToGameModule->GetClusterModule()->GetServerList();
         auto pGameData = xServerList.First();
-        while(pGameData != nullptr)
+        while (pGameData != nullptr)
         {
-            if(ConnectDataState::NORMAL == pGameData->eState)
+            if (ConnectDataState::NORMAL == pGameData->eState)
             {
                 AFMsg::ServerInfo* pServerInfo = xData.add_info();
 
@@ -244,7 +244,7 @@ void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, co
 int AFCProxyNetServerModule::Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen)
 {
     ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xHead.GetPlayerID());
-    if(pSessionData)
+    if (pSessionData)
     {
         m_pNetModule->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, pSessionData->mnClientID, xHead.GetPlayerID());
     }
@@ -291,7 +291,7 @@ void AFCProxyNetServerModule::OnReqEnterGameServer(const AFIMsgHead& xHead, cons
 int AFCProxyNetServerModule::EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID)
 {
     ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-    if(pSessionData)
+    if (pSessionData)
     {
         pSessionData->mnUserID = xPlayerID;
     }
@@ -302,11 +302,11 @@ int AFCProxyNetServerModule::EnterGameSuccessEvent(const AFGUID xClientID, const
 bool AFCProxyNetServerModule::ChecSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount)
 {
     ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(nGameID);
-    if(pServerData && ConnectDataState::NORMAL == pServerData->eState)
+    if (pServerData && ConnectDataState::NORMAL == pServerData->eState)
     {
         //数据匹配
         ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
-        if(pSessionData
+        if (pSessionData
                 && pSessionData->mnLogicState > 0
                 && pSessionData->mnGameID == nGameID
                 && pSessionData->mstrAccout == strAccount)

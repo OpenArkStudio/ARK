@@ -52,9 +52,9 @@ public:
 
     int GetFirstNoValueIndex()
     {
-        for(int i = 0; i < GetBitLength(); ++i)
+        for (int i = 0; i < GetBitLength(); ++i)
         {
-            if((m_nValue & (T(1) << i)) == NoneValue)
+            if ((m_nValue & (T(1) << i)) == NoneValue)
             {
                 return i;
             }
@@ -65,7 +65,7 @@ public:
 
     T GetBitValue(const int nIndex)
     {
-        if(nIndex < 0 || nIndex >= GetBitLength())
+        if (nIndex < 0 || nIndex >= GetBitLength())
         {
             return ErrorValue;
         }
@@ -75,7 +75,7 @@ public:
 
     void SetBitValue(const int nIndex)
     {
-        if(nIndex < 0 || nIndex >= GetBitLength())
+        if (nIndex < 0 || nIndex >= GetBitLength())
         {
             return;
         }
@@ -85,7 +85,7 @@ public:
 
     void ClearBitValue(const int nIndex)
     {
-        if(nIndex < 0 || nIndex >= GetBitLength())
+        if (nIndex < 0 || nIndex >= GetBitLength())
         {
             return;
         }
@@ -101,9 +101,9 @@ public:
     ////////////////////////////////////////////////////////////////////////////////////////
     static int GetFirstNoValueIndex(const T& nValue)
     {
-        for(int i = 0; i < GetBitLength(); ++i)
+        for (int i = 0; i < GetBitLength(); ++i)
         {
-            if((nValue & (T(1) << i)) == NoneValue)
+            if ((nValue & (T(1) << i)) == NoneValue)
             {
                 return i;
             }
@@ -114,7 +114,7 @@ public:
 
     static T GetBitValue(const T & nValue, const int nIndex)
     {
-        if(nIndex < 0 || nIndex >= GetBitLength())
+        if (nIndex < 0 || nIndex >= GetBitLength())
         {
             return ErrorValue;
         }
@@ -124,7 +124,7 @@ public:
 
     static void SetBitValue(T& nValue, const int nIndex)
     {
-        if(nIndex < 0 || nIndex >= GetBitLength())
+        if (nIndex < 0 || nIndex >= GetBitLength())
         {
             return;
         }
@@ -134,7 +134,7 @@ public:
 
     static void ClearBitValue(T& nValue, const int nIndex)
     {
-        if(nIndex < 0 || nIndex >= GetBitLength())
+        if (nIndex < 0 || nIndex >= GetBitLength())
         {
             return;
         }

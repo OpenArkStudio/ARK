@@ -41,7 +41,7 @@ bool AFCProxyServerToWorldModule::Update()
 void AFCProxyServerToWorldModule::OnServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
-    for(int i = 0; i < xMsg.server_list_size(); ++i)
+    for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
@@ -52,7 +52,7 @@ void AFCProxyServerToWorldModule::OnServerInfoProcess(const AFIMsgHead& xHead, c
         xServerData.strName = xData.server_name();
         xServerData.eServerType = (ARK_SERVER_TYPE)xData.server_type();
 
-        switch(xServerData.eServerType)
+        switch (xServerData.eServerType)
         {
         case ARK_SERVER_TYPE::ARK_ST_GAME:
             m_pProxyServerToGameModule->GetClusterModule()->AddServer(xServerData);
@@ -68,11 +68,11 @@ void AFCProxyServerToWorldModule::OnServerInfoProcess(const AFIMsgHead& xHead, c
 
 void AFCProxyServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
-    if(eEvent == DISCONNECTED)
+    if (eEvent == DISCONNECTED)
     {
         ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
     }
-    else if(eEvent == CONNECTED)
+    else if (eEvent == CONNECTED)
     {
         ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
         Register(nServerID);
@@ -82,15 +82,15 @@ void AFCProxyServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, con
 void AFCProxyServerToWorldModule::Register(const int nServerID)
 {
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr != xLogicClass)
+    if (nullptr != xLogicClass)
     {
         AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
-        for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+        for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
             const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
             const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
-            if(nServerType == ARK_SERVER_TYPE::ARK_ST_PROXY && pPluginManager->AppID() == nSelfServerID)
+            if (nServerType == ARK_SERVER_TYPE::ARK_ST_PROXY && pPluginManager->AppID() == nSelfServerID)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -110,7 +110,7 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
                 pData->set_server_type(nServerType);
 
                 ARK_SHARE_PTR<ConnectData> pServerData = GetClusterModule()->GetServerNetInfo(nServerID);
-                if(pServerData)
+                if (pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
                     GetClusterModule()->SendToServerByPB(nTargetID, AFMsg::EGameMsgID::EGMI_PTWG_PROXY_REGISTERED, xMsg, 0);
@@ -140,15 +140,15 @@ bool AFCProxyServerToWorldModule::PostInit()
     m_pNetClientModule->AddEventCallBack(this, &AFCProxyServerToWorldModule::OnSocketWSEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr != xLogicClass)
+    if (nullptr != xLogicClass)
     {
         AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
-        for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+        for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
             const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
             const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
-            if(nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD)
+            if (nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
@@ -174,7 +174,7 @@ void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const AFIMsgHead& 
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
     ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.GetElement(xMsg.account());
-    if(pConnectData != nullptr)
+    if (pConnectData != nullptr)
     {
         pConnectData->strConnectKey = xMsg.world_key();
         return;
@@ -194,7 +194,7 @@ AFINetClientModule* AFCProxyServerToWorldModule::GetClusterModule()
 bool AFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccount, const std::string& strKey)
 {
     ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.GetElement(strAccount);
-    if(pConnectData != nullptr && strKey == pConnectData->strConnectKey)
+    if (pConnectData != nullptr && strKey == pConnectData->strConnectKey)
     {
         mxWantToConnectMap.RemoveElement(strAccount);
         return true;
@@ -216,7 +216,7 @@ void AFCProxyServerToWorldModule::OnOtherMessage(const AFIMsgHead& xHead, const 
 void AFCProxyServerToWorldModule::OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::BrocastMsg);
-    for(int i = 0; i < xMsg.target_entity_list_size(); i++)
+    for (int i = 0; i < xMsg.target_entity_list_size(); i++)
     {
         const AFMsg::PBGUID& xPlayerClientID = xMsg.target_entity_list(i);
         m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetModule::PBToGUID(xPlayerClientID), nPlayerID);

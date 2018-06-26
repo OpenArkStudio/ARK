@@ -39,7 +39,7 @@ public:
         nReceiverSize = 0;
         nSendSize = 0;
 
-        if(server)
+        if (server)
         {
             m_pServer = server;
         }
@@ -47,7 +47,7 @@ public:
         {
             m_pServer = std::make_shared<brynet::net::WrapTcpService>();
         }
-        if(connector)
+        if (connector)
         {
             m_pConector = connector;
         }

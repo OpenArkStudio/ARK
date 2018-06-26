@@ -68,7 +68,7 @@ public:
 
     virtual bool AddReceiveCallBack(const int nMsgID, const NET_RECEIVE_FUNCTOR_PTR& cb)
     {
-        if(mxReceiveCallBack.find(nMsgID) != mxReceiveCallBack.end())
+        if (mxReceiveCallBack.find(nMsgID) != mxReceiveCallBack.end())
         {
             return false;
         }
@@ -110,7 +110,7 @@ public:
 
     static bool ReceivePB(const AFIMsgHead& xHead, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, AFGUID& nPlayer)
     {
-        if(!xData.ParseFromString(std::string(msg, nLen)))
+        if (!xData.ParseFromString(std::string(msg, nLen)))
         {
             //char szData[MAX_PATH] = { 0 };
             //log
@@ -160,7 +160,7 @@ public:
 
     static bool DataNodeToPBNode(const AFIData& DataVar, const char* name, AFMsg::PBNodeData& xMsg)
     {
-        if(nullptr == name)
+        if (nullptr == name)
         {
             return false;
         }
@@ -168,7 +168,7 @@ public:
         xMsg.set_node_name(name);
         xMsg.set_data_type(DataVar.GetType());
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
-        switch(DataVar.GetType())
+        switch (DataVar.GetType())
         {
         case DT_BOOLEAN:
             variantData->set_bool_value(DataVar.GetBool());
@@ -206,7 +206,7 @@ public:
         xMsg.set_row(nRow);
         xMsg.set_data_type(DataVar.GetType());
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
-        switch(DataVar.GetType())
+        switch (DataVar.GetType())
         {
         case DT_BOOLEAN:
             variantData->set_bool_value(DataVar.GetBool());
@@ -243,7 +243,7 @@ public:
         xMsg.set_row(nRow);
         xMsg.set_data_type(DataList.GetType(nCol));
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
-        switch(DataList.GetType(nCol))
+        switch (DataList.GetType(nCol))
         {
         case DT_BOOLEAN:
             variantData->set_bool_value(DataList.Bool(nCol));
@@ -278,13 +278,13 @@ protected:
     void OnReceiveBaseNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
         auto it = mxReceiveCallBack.find(nMsgID);
-        if(mxReceiveCallBack.end() != it)
+        if (mxReceiveCallBack.end() != it)
         {
             (*it->second)(xHead, nMsgID, msg, nLen, xClientID);
         }
         else
         {
-            for(auto iter : mxCallBackList)
+            for (auto iter : mxCallBackList)
             {
                 (*iter)(xHead, nMsgID, msg, nLen, xClientID);
             }
@@ -293,7 +293,7 @@ protected:
 
     void OnSocketBaseNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
     {
-        for(auto it : mxEventCallBackList)
+        for (auto it : mxEventCallBackList)
         {
             (*it)(eEvent, xClientID, nServerID);
         }

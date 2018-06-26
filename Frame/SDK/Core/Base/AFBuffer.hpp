@@ -25,7 +25,7 @@ class AFBuffer
 public:
     ~AFBuffer()
     {
-        if(mData != nullptr)
+        if (mData != nullptr)
         {
             free(mData);
             mData = nullptr;
@@ -34,7 +34,7 @@ public:
 
     explicit AFBuffer(size_t nBufferSize = 1024 * 512) : mData(nullptr), mnDataSize(0), mWritePos(0), mnReadPos(0)
     {
-        if((mData = (char*)malloc(sizeof(char) * nBufferSize)) != NULL)
+        if ((mData = (char*)malloc(sizeof(char) * nBufferSize)) != NULL)
         {
             mnDataSize = nBufferSize;
             mnReadPos = 0;
@@ -46,7 +46,7 @@ public:
     {
         bool write_ret = true;
 
-        if(getwritevalidcount() >= len)
+        if (getwritevalidcount() >= len)
         {
             memcpy(getwriteptr(), data, len);
             addwritepos(len);
@@ -54,7 +54,7 @@ public:
         else
         {
             size_t left_len = mnDataSize - getlength();
-            if(left_len >= len)
+            if (left_len >= len)
             {
                 AdjusttoHead();
                 write(data, len);
@@ -62,7 +62,7 @@ public:
             else
             {
                 size_t needLen = len - left_len;
-                if(needLen > 0)
+                if (needLen > 0)
                 {
                     grow(needLen);
                     write(data, len);
@@ -84,7 +84,7 @@ public:
 
     char* getdata()
     {
-        if(mnReadPos < mnDataSize)
+        if (mnReadPos < mnDataSize)
         {
             return mData + mnReadPos;
         }
@@ -97,7 +97,7 @@ public:
     void removedata(size_t value)
     {
         size_t temp = mnReadPos + value;
-        if(temp <= mnDataSize)
+        if (temp <= mnDataSize)
         {
             mnReadPos = temp;
         }
@@ -108,13 +108,13 @@ private:
     {
         size_t len = 0;
 
-        if(mnReadPos <= 0)
+        if (mnReadPos <= 0)
         {
             return;
         }
 
         len = getlength();
-        if(len > 0)
+        if (len > 0)
         {
             memmove(mData, mData + mnReadPos, len);
         }
@@ -144,7 +144,7 @@ private:
     void addwritepos(size_t value)
     {
         size_t temp = mWritePos + value;
-        if(temp <= mnDataSize)
+        if (temp <= mnDataSize)
         {
             mWritePos = temp;
         }
@@ -163,7 +163,7 @@ private:
 
     char* getwriteptr()
     {
-        if(mWritePos < mnDataSize)
+        if (mWritePos < mnDataSize)
         {
             return mData + mWritePos;
         }

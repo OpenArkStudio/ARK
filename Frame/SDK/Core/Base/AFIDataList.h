@@ -78,16 +78,16 @@ public:
         int values[] = { arg1, args... };
 
         int index = 0;
-        for(auto v : values)
+        for (auto v : values)
         {
-            if(v == DT_UNKNOWN)
+            if (v == DT_UNKNOWN)
             {
                 bRet = false;
                 return bRet;
             }
 
             AF_DATA_TYPE varType = (AF_DATA_TYPE)GetType(index);
-            if(varType != v)
+            if (varType != v)
             {
                 bRet = false;
                 break;
@@ -101,11 +101,11 @@ public:
 
     bool ToAFIData(size_t index, AFIData& xData) const
     {
-        if(GetType(index) != xData.GetType())
+        if (GetType(index) != xData.GetType())
         {
             return false;
         }
-        switch(xData.GetType())
+        switch (xData.GetType())
         {
         case DT_BOOLEAN:
             xData.SetBool(Bool(index));
@@ -136,12 +136,12 @@ public:
 
     bool Equal(size_t index, const AFIData& xData) const
     {
-        if(GetType(index) != xData.GetType())
+        if (GetType(index) != xData.GetType())
         {
             return false;
         }
 
-        switch(xData.GetType())
+        switch (xData.GetType())
         {
         case DT_BOOLEAN:
             return xData.GetBool() == Bool(index);

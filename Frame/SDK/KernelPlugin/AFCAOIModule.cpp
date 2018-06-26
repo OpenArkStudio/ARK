@@ -28,7 +28,7 @@ AFCAOIModule::AFCAOIModule()
 AFCAOIModule::~AFCAOIModule()
 {
     ObjectMap::iterator tmpIter;
-    for(ObjectMap::iterator iter = objectMap.begin(); iter != objectMap.end();)
+    for (ObjectMap::iterator iter = objectMap.begin(); iter != objectMap.end();)
     {
         tmpIter = iter;
         ++iter;
@@ -38,7 +38,7 @@ AFCAOIModule::~AFCAOIModule()
 
 void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= DEFAULT_RADIUS*/)
 {
-    if(objectMap.find(self) != objectMap.end())
+    if (objectMap.find(self) != objectMap.end())
     {
         return;
     }
@@ -51,27 +51,27 @@ void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= 
 
     //x杞?
     ObjectMap xTempMap;
-    for(ObjectList::iterator iter = xObjectList.begin(); iter != xObjectList.end(); ++iter)
+    for (ObjectList::iterator iter = xObjectList.begin(); iter != xObjectList.end(); ++iter)
     {
         int differ = (*iter)->x - pObject->x;
-        if(abs(differ) <= nRadius)
+        if (abs(differ) <= nRadius)
         {
             xTempMap[(*iter)->id] = *iter;
         }
 
-        if(!bFlag && differ > 0)
+        if (!bFlag && differ > 0)
         {
             itIndex = iter;
             bFlag = true;
         }
 
-        if(differ > nRadius)
+        if (differ > nRadius)
         {
             break;
         }
     }
 
-    if(bFlag)
+    if (bFlag)
     {
         //鎵惧埌浜嗭紝鎻掑叆杩涘幓
         xObjectList.insert(itIndex, pObject);
@@ -85,27 +85,27 @@ void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= 
 
     //y杞?
     bFlag = false;
-    for(ObjectList::iterator iter = yObjectList.begin(); iter != yObjectList.end();)
+    for (ObjectList::iterator iter = yObjectList.begin(); iter != yObjectList.end();)
     {
         int differ = (*iter)->y - pObject->y;
-        if(abs(differ) <= nRadius && xTempMap.find((*iter)->id) != xTempMap.end())
+        if (abs(differ) <= nRadius && xTempMap.find((*iter)->id) != xTempMap.end())
         {
             enterMap[(*iter)->id] = *iter;
         }
 
-        if(!bFlag && differ > 0)
+        if (!bFlag && differ > 0)
         {
             itIndex = iter;
             bFlag = true;
         }
 
-        if(differ > nRadius)
+        if (differ > nRadius)
         {
             break;
         }
     }
 
-    if(bFlag)
+    if (bFlag)
     {
         yObjectList.insert(itIndex, pObject);
         pObject->y_pos = --itIndex;
@@ -122,7 +122,7 @@ void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= 
 void AFCAOIModule::Move(const AFGUID& self, const Point3D& xPos)
 {
     ObjectMap::iterator iter = objectMap.find(self);
-    if(iter == objectMap.end())
+    if (iter == objectMap.end())
     {
         return;
     }
@@ -142,27 +142,27 @@ void AFCAOIModule::Move(const AFGUID& self, const Point3D& xPos)
     GetRange(pObject, &newMap);
 
     //move data = Old MIX New
-    for(ObjectMap::iterator iter = oldMap.begin(); iter != oldMap.end(); ++iter)
+    for (ObjectMap::iterator iter = oldMap.begin(); iter != oldMap.end(); ++iter)
     {
-        if(newMap.find(iter->first) != newMap.end())
+        if (newMap.find(iter->first) != newMap.end())
         {
             moveMap[iter->first] = iter->second;
         }
     }
 
     //leave data = Old SUB Move
-    for(ObjectMap::iterator iter = oldMap.begin(); iter != oldMap.end(); ++iter)
+    for (ObjectMap::iterator iter = oldMap.begin(); iter != oldMap.end(); ++iter)
     {
-        if(moveMap.find(iter->first) == moveMap.end())
+        if (moveMap.find(iter->first) == moveMap.end())
         {
             leaveMap[iter->first] = iter->second;
         }
     }
 
     //enter data = New SUB move data
-    for(ObjectMap::iterator iter = newMap.begin(); iter != newMap.end(); ++iter)
+    for (ObjectMap::iterator iter = newMap.begin(); iter != newMap.end(); ++iter)
     {
-        if(moveMap.find(iter->first) == moveMap.end())
+        if (moveMap.find(iter->first) == moveMap.end())
         {
             enterMap[iter->first] = iter->second;
         }
@@ -174,7 +174,7 @@ void AFCAOIModule::Move(const AFGUID& self, const Point3D& xPos)
 void AFCAOIModule::Leave(const AFGUID& self)
 {
     ObjectMap::iterator iter = objectMap.find(self);
-    if(iter == objectMap.end())
+    if (iter == objectMap.end())
     {
         return;
     }
@@ -218,18 +218,18 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
     int differ = pObject->radius;
 
     //x杞?鍚戝悗鎵?
-    if(pObject->x_pos != xObjectList.end())
+    if (pObject->x_pos != xObjectList.end())
     {
         iter = pObject->x_pos;
-        while(true)
+        while (true)
         {
             ++iter;
-            if(iter == xObjectList.end())
+            if (iter == xObjectList.end())
             {
                 break;
             }
 
-            if(pObject->x - (*iter)->x > differ)
+            if (pObject->x - (*iter)->x > differ)
             {
                 break;
             }
@@ -239,20 +239,20 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
     }
 
     //x杞?鍚戝墠鎵?
-    if(pObject->x_pos != xObjectList.begin())
+    if (pObject->x_pos != xObjectList.begin())
     {
         iter = pObject->x_pos;
-        while(true)
+        while (true)
         {
             --iter;
-            if(((*iter)->x - pObject->x) > differ)
+            if (((*iter)->x - pObject->x) > differ)
             {
                 break;
             }
 
             xTempMap[(*iter)->id] = *iter;
 
-            if(iter == xObjectList.begin())
+            if (iter == xObjectList.begin())
             {
                 break;
             }
@@ -260,23 +260,23 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
     }
 
     //y杞?鍚戝悗鎵?
-    if(pObject->y_pos != yObjectList.end())
+    if (pObject->y_pos != yObjectList.end())
     {
         iter = pObject->y_pos;
-        while(true)
+        while (true)
         {
             ++iter;
-            if(iter == yObjectList.end())
+            if (iter == yObjectList.end())
             {
                 break;
             }
 
-            if(pObject->y - (*iter)->y > differ)
+            if (pObject->y - (*iter)->y > differ)
             {
                 break;
             }
 
-            if(xTempMap.find((*iter)->id) != xTempMap.end())
+            if (xTempMap.find((*iter)->id) != xTempMap.end())
             {
                 (*pMap)[(*iter)->id] = *iter;
             }
@@ -284,23 +284,23 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
     }
 
     //y杞?鍚戝墠鎵?
-    if(pObject->y_pos != yObjectList.begin())
+    if (pObject->y_pos != yObjectList.begin())
     {
         iter = pObject->y_pos;
-        while(true)
+        while (true)
         {
             --iter;
-            if(((*iter)->y - pObject->y) > differ)
+            if (((*iter)->y - pObject->y) > differ)
             {
                 break;
             }
 
-            if(xTempMap.find((*iter)->id) != xTempMap.end())
+            if (xTempMap.find((*iter)->id) != xTempMap.end())
             {
                 (*pMap)[(*iter)->id] = *iter;
             }
 
-            if(iter == yObjectList.begin())
+            if (iter == yObjectList.begin())
             {
                 break;
             }
@@ -320,16 +320,16 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
     ObjectList::iterator itIndex;
 
     //x杞存壘鏂扮殑浣嶇疆
-    if(pObject->x > oldX)
+    if (pObject->x > oldX)
     {
-        if(pObject->x_pos != xObjectList.end())
+        if (pObject->x_pos != xObjectList.end())
         {
             iter = pObject->x_pos;
             ++iter;
             xObjectList.erase(pObject->x_pos);
-            while(iter != xObjectList.end())
+            while (iter != xObjectList.end())
             {
-                if(pObject->x - (*iter)->x < 0)
+                if (pObject->x - (*iter)->x < 0)
                 {
                     itIndex = iter;
                     break;
@@ -338,7 +338,7 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
                 ++iter;
             }
 
-            if(iter != xObjectList.end())
+            if (iter != xObjectList.end())
             {
                 xObjectList.insert(itIndex, pObject);
                 pObject->x_pos = --itIndex;
@@ -350,16 +350,16 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
             }
         }
     }
-    else if(pObject->x < oldX)
+    else if (pObject->x < oldX)
     {
-        if(pObject->x_pos != xObjectList.begin())
+        if (pObject->x_pos != xObjectList.begin())
         {
             iter = pObject->x_pos;
             --iter;
             xObjectList.erase(pObject->x_pos);
-            while(iter != xObjectList.begin())
+            while (iter != xObjectList.begin())
             {
-                if(pObject->x - (*iter)->x > 0)
+                if (pObject->x - (*iter)->x > 0)
                 {
                     itIndex = ++iter;
                     break;
@@ -368,7 +368,7 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
                 --iter;
             }
 
-            if(iter != xObjectList.begin())
+            if (iter != xObjectList.begin())
             {
                 xObjectList.insert(itIndex, pObject);
                 pObject->x_pos = --itIndex;
@@ -382,23 +382,23 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
     }
 
     //y杞存壘鏂扮殑浣嶇疆
-    if(pObject->y > OldY)
+    if (pObject->y > OldY)
     {
-        if(pObject->y_pos != yObjectList.end())
+        if (pObject->y_pos != yObjectList.end())
         {
             iter = pObject->y_pos;
             ++iter;
             yObjectList.erase(pObject->y_pos);
-            while(iter != yObjectList.end())
+            while (iter != yObjectList.end())
             {
-                if(pObject->y - (*iter)->y < 0)
+                if (pObject->y - (*iter)->y < 0)
                 {
                     itIndex = iter;
                     break;
                 }
                 ++iter;
             }
-            if(iter != yObjectList.end())
+            if (iter != yObjectList.end())
             {
                 yObjectList.insert(itIndex, pObject);
                 pObject->y_pos = --itIndex;
@@ -410,23 +410,23 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
             }
         }
     }
-    else if(pObject->y < OldY)
+    else if (pObject->y < OldY)
     {
-        if(pObject->y_pos != yObjectList.begin())
+        if (pObject->y_pos != yObjectList.begin())
         {
             iter = pObject->y_pos;
             --iter;
             yObjectList.erase(pObject->y_pos);
-            while(iter != yObjectList.begin())
+            while (iter != yObjectList.begin())
             {
-                if(pObject->y - (*iter)->y > 0)
+                if (pObject->y - (*iter)->y > 0)
                 {
                     itIndex = ++iter;
                     break;
                 }
                 --iter;
             }
-            if(iter != yObjectList.begin())
+            if (iter != yObjectList.begin())
             {
                 yObjectList.insert(itIndex, pObject);
                 pObject->y_pos = --itIndex;

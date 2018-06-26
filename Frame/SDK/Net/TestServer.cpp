@@ -75,7 +75,7 @@ public:
         int nNowTime = AFCTimeBase::GetInstance().GetUTCTime();
         int nSpanTime = nNowTime - nLastTime;
         int nAllSpanTime = nNowTime - nStartTime;
-        if(nSpanTime > 5 && nAllSpanTime > 0)
+        if (nSpanTime > 5 && nAllSpanTime > 0)
         {
             nLastTime = nNowTime;
 
@@ -112,7 +112,7 @@ int main(int argc, char** argv)
     int64_t nNowMS = 0;
     int64_t nFrameTime = 0;
     int64_t nPreFrameMS = 0;
-    while(1)
+    while (1)
     {
         /*       nNowMS = AFTime::GetNowMillisecond();
                nFrameTime = nNowMS - nPreFrameMS;

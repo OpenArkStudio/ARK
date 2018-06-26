@@ -136,7 +136,7 @@ public:
     virtual std::size_t Size() const = 0;
 
     virtual bool Empty() const = 0;
-    
+
     virtual void Insert(const int nID, const std::string& strIP, int nPort) = 0;
 
     virtual void Insert(const AFCMachineNode& xNode) = 0;
@@ -192,7 +192,7 @@ public:
     {
         uint32_t hash = m_pHasher->GetHashValue(xNode);
         auto it = mxNodes.find(hash);
-        if(it == mxNodes.end())
+        if (it == mxNodes.end())
         {
             mxNodes.insert(std::map<uint32_t, AFCMachineNode>::value_type(hash, xNode));
         }
@@ -202,7 +202,7 @@ public:
     {
         uint32_t hash = m_pHasher->GetHashValue(xInNode);
         std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.find(hash);
-        if(it != mxNodes.end())
+        if (it != mxNodes.end())
         {
             return true;
         }
@@ -230,14 +230,14 @@ public:
 
     bool GetSuitNode(uint32_t hashValue, AFCMachineNode& node) override
     {
-        if(mxNodes.empty())
+        if (mxNodes.empty())
         {
             return false;
         }
 
         std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.lower_bound(hashValue);
 
-        if(it == mxNodes.end())
+        if (it == mxNodes.end())
         {
             it = mxNodes.begin();
         }
@@ -249,7 +249,7 @@ public:
 
     bool GetNodeList(std::list<AFCMachineNode>& nodeList) override
     {
-        for(std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.begin(); it != mxNodes.end(); ++it)
+        for (std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.begin(); it != mxNodes.end(); ++it)
         {
             nodeList.push_back(it->second);
         }

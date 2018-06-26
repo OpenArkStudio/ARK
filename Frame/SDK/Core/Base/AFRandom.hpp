@@ -70,7 +70,7 @@ public:
         _get_count++;
 
         //reset
-        if(_get_count >= (std::numeric_limits<int>::max() - 1))
+        if (_get_count >= (std::numeric_limits<int>::max() - 1))
         {
             _get_count = 0;
         }
@@ -82,7 +82,7 @@ public:
     //生成一个[0, max_range - 1]之间的随机数
     uint32_t Random(uint32_t max_range)
     {
-        if(max_range == 0)
+        if (max_range == 0)
         {
             return 0;
         }
@@ -96,7 +96,7 @@ public:
         uint32_t min = 0;
         uint32_t max = 0;
 
-        if(min_range <= max_range)
+        if (min_range <= max_range)
         {
             min = min_range;
             max = max_range;
@@ -107,7 +107,7 @@ public:
             max = min_range;
         }
 
-        if(min == max)
+        if (min == max)
         {
             return max;
         }
@@ -118,11 +118,11 @@ public:
     // 生成一个[min_range, max_range - 1]之间的随机数
     int Random(int min_range, int max_range)
     {
-        if(min_range == max_range)
+        if (min_range == max_range)
         {
             return min_range;
         }
-        else if(min_range > max_range)
+        else if (min_range > max_range)
         {
             std::swap(min_range, max_range);
             //int iMinSwap = min_range;

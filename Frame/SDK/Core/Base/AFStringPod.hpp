@@ -135,7 +135,7 @@ public:
     StringPodIter& operator++()
     {
         node_t* next = mpNode->next;
-        if(next != nullptr)
+        if (next != nullptr)
         {
             mpNode = next;
         }
@@ -198,7 +198,7 @@ public:
     {
         mnSize = size;
         mnCount = 0;
-        if(size > 0)
+        if (size > 0)
         {
             mpBuckets = (node_t**)mxAlloc.Alloc(sizeof(node_t*) * size);
             memset(mpBuckets, 0, sizeof(node_t*) * size);
@@ -215,17 +215,17 @@ public:
         mnCount = 0;
         mnSize = size;
 
-        if(size > 0)
+        if (size > 0)
         {
             mpBuckets = (node_t**)mxAlloc.Alloc(sizeof(node_t*) * size);
             memset(mpBuckets, 0, sizeof(node_t*) * size);
 
-            for(size_t i = 0; i < size; ++i)
+            for (size_t i = 0; i < size; ++i)
             {
                 node_t* p = src.mpBuckets[i];
-                while(p)
+                while (p)
                 {
-                    if(!Add(p->name, p->data))
+                    if (!Add(p->name, p->data))
                     {
                         ARK_ASSERT(0, "Add fail ", __FILE__, __FUNCTION__);
                     }
@@ -244,7 +244,7 @@ public:
     {
         Clear();
 
-        if(mpBuckets)
+        if (mpBuckets)
         {
             mxAlloc.Free(mpBuckets, sizeof(node_t*) * mnSize);
         }
@@ -267,10 +267,10 @@ public:
 
     void Clear()
     {
-        for(size_t i = 0; i < mnSize; ++i)
+        for (size_t i = 0; i < mnSize; ++i)
         {
             node_t* p = mpBuckets[i];
-            while(p)
+            while (p)
             {
                 node_t* next = p->next;
                 DeleteNode(p);
@@ -289,7 +289,7 @@ public:
     bool Set(const TYPE* name, const DATA& data)
     {
         node_t* node = FindNode(name);
-        if(node == nullptr)
+        if (node == nullptr)
         {
             return Add(name, data);
         }
@@ -302,7 +302,7 @@ public:
     {
         assert(name != nullptr);
 
-        if(mnCount == mnSize)
+        if (mnCount == mnSize)
         {
             Expand();
         }
@@ -324,7 +324,7 @@ public:
     {
         assert(name != nullptr);
 
-        if(mnCount == mnSize)
+        if (mnCount == mnSize)
         {
             Expand();
         }
@@ -348,7 +348,7 @@ public:
     {
         assert(name != nullptr);
 
-        if(mnSize == 0)
+        if (mnSize == 0)
         {
             return false;
         }
@@ -356,9 +356,9 @@ public:
         size_t hash = TRAITS::Hash(name);
         size_t bucket = GetBucket(hash);
         node_t* p = mpBuckets[bucket];
-        while(p)
+        while (p)
         {
-            if((p->hash == hash) && TRAITS::Equal(p->name, name))
+            if ((p->hash == hash) && TRAITS::Equal(p->name, name))
             {
                 EraseNode(bucket, p);
                 DeleteNode(p);
@@ -376,7 +376,7 @@ public:
     {
         assert(name != nullptr);
 
-        if(mnSize == 0)
+        if (mnSize == 0)
         {
             return false;
         }
@@ -384,9 +384,9 @@ public:
         size_t hash = TRAITS::Hash(name);
         size_t bucket = GetBucket(hash);
         node_t* p = mpBuckets[bucket];
-        while(p)
+        while (p)
         {
-            if((p->hash == hash) && TRAITS::Equal(p->name, name) && (p->data == data))
+            if ((p->hash == hash) && TRAITS::Equal(p->name, name) && (p->data == data))
             {
                 EraseNode(bucket, p);
                 DeleteNode(p);
@@ -418,7 +418,7 @@ public:
     bool GetData(const TYPE* name, DATA& data) const
     {
         node_t* p = FindNode(name);
-        if(p == nullptr)
+        if (p == nullptr)
         {
             return false;
         }
@@ -429,9 +429,9 @@ public:
 
     iterator Begin()
     {
-        for(size_t i = 0; i < mnSize; ++i)
+        for (size_t i = 0; i < mnSize; ++i)
         {
-            if(mpBuckets[i])
+            if (mpBuckets[i])
             {
                 return iterator(this, mpBuckets[i]);
             }
@@ -447,9 +447,9 @@ public:
 
     const_iterator Begin() const
     {
-        for(size_t i = 0; i < mnSize; ++i)
+        for (size_t i = 0; i < mnSize; ++i)
         {
-            if(mpBuckets[i])
+            if (mpBuckets[i])
             {
                 return const_iterator(this, mpBuckets[i]);
             }
@@ -478,10 +478,10 @@ public:
     size_t get_mem_usage() const
     {
         size_t size = sizeof(hash_t);
-        for(size_t i = 0; i < mnSize; ++i)
+        for (size_t i = 0; i < mnSize; ++i)
         {
             node_t* p = mpBuckets[i];
-            while(p)
+            while (p)
             {
                 size += sizeof(node_t) + TRAITS::length(p->name) * sizeof(TYPE);
                 p = p->next;
@@ -518,15 +518,15 @@ protected:
         assert(p != nullptr);
 
         node_t* node = mpBuckets[bucket];
-        if(node == p)
+        if (node == p)
         {
             mpBuckets[bucket] = p->next;
             return;
         }
 
-        while(node)
+        while (node)
         {
-            if(node->next == p)
+            if (node->next == p)
             {
                 node->next = p->next;
                 return;
@@ -540,7 +540,7 @@ protected:
     {
         assert(name != nullptr);
 
-        if(0 == mnSize)
+        if (0 == mnSize)
         {
             return nullptr;
         }
@@ -548,9 +548,9 @@ protected:
         size_t hash = TRAITS::Hash(name);
         size_t bucket = GetBucket(hash);
         node_t* node = mpBuckets[bucket];
-        while(node)
+        while (node)
         {
-            if((node->hash == hash) && TRAITS::Equal(node->name, name))
+            if ((node->hash == hash) && TRAITS::Equal(node->name, name))
             {
                 return node;
             }
@@ -567,12 +567,12 @@ protected:
         node_t** new_buckets = (node_t**)mxAlloc.Alloc(sizeof(node_t*) * new_size);
         memset(new_buckets, 0, sizeof(node_t*) * new_size);
 
-        for(size_t i = 0; i < mnSize; ++i)
+        for (size_t i = 0; i < mnSize; ++i)
         {
-            if(nullptr != mpBuckets)
+            if (nullptr != mpBuckets)
             {
                 node_t* p = mpBuckets[i];
-                while(p)
+                while (p)
                 {
                     node_t* next = p->next;
                     size_t bucket = size_t(p->hash) % new_size;
@@ -584,7 +584,7 @@ protected:
             }
         }
 
-        if(mpBuckets)
+        if (mpBuckets)
         {
             mxAlloc.Free(mpBuckets, sizeof(node_t*) * mnSize);
         }
@@ -597,9 +597,9 @@ protected:
     {
         assert(node != nullptr);
 
-        for(size_t i = GetBucket(node->hash) + 1; i < mnSize; ++i)
+        for (size_t i = GetBucket(node->hash) + 1; i < mnSize; ++i)
         {
-            if(mpBuckets[i])
+            if (mpBuckets[i])
             {
                 return mpBuckets[i];
             }

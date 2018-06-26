@@ -51,18 +51,18 @@ bool AFCLoginNetServerModule::PostInit()
     m_pNetModule->AddEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-    if(nullptr == xLogicClass)
+    if (nullptr == xLogicClass)
     {
         return false;
     }
 
     AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
     std::string strConfigName;
-    for(bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
-        if(nServerType == ARK_SERVER_TYPE::ARK_ST_LOGIN && pPluginManager->AppID() == nServerID)
+        if (nServerType == ARK_SERVER_TYPE::ARK_ST_LOGIN && pPluginManager->AppID() == nServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -72,7 +72,7 @@ bool AFCLoginNetServerModule::PostInit()
             m_pUUIDModule->SetGUIDMask(nServerID);
 
             int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
-            if(nRet < 0)
+            if (nRet < 0)
             {
                 ARK_LOG_ERROR("Cannot init server net, Port = {}", nPort);
                 ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
@@ -87,7 +87,7 @@ bool AFCLoginNetServerModule::PostInit()
 int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strWorldKey)
 {
     ARK_SHARE_PTR<SessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
-    if(pSessionData)
+    if (pSessionData)
     {
         AFMsg::AckConnectWorldResult xMsg;
         xMsg.set_world_id(nWorldID);
@@ -131,10 +131,10 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
         return;
     }
 
-    if(pSession->mnLogicState == 0)
+    if (pSession->mnLogicState == 0)
     {
         int nState = m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());
-        if(0 != nState)
+        if (0 != nState)
         {
             ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", xClientID.ToString().c_str(), xMsg.account().c_str(), xMsg.password().c_str());
             AFMsg::AckEventResult xMsg;
@@ -162,13 +162,13 @@ void AFCLoginNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, cons
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
     ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
-    if(!pSession)
+    if (!pSession)
     {
         return;
     }
 
     //没登录过
-    if(pSession->mnLogicState <= 0)
+    if (pSession->mnLogicState <= 0)
     {
         return;
     }
@@ -184,12 +184,12 @@ void AFCLoginNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, cons
 
 void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
-    if(eEvent == DISCONNECTED)
+    if (eEvent == DISCONNECTED)
     {
         ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
         OnClientDisconnect(xClientID);
     }
-    else  if(eEvent == CONNECTED)
+    else  if (eEvent == CONNECTED)
     {
         ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
         OnClientConnected(xClientID);
@@ -203,7 +203,7 @@ void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
 
     AFMapEx<int, AFMsg::ServerInfoReport>& xWorldMap = m_pLoginToMasterModule->GetWorldMap();
     auto pWorldData = xWorldMap.First();
-    while(pWorldData)
+    while (pWorldData)
     {
         AFMsg::ServerInfo* pServerInfo = xData.add_info();
 
@@ -222,7 +222,7 @@ void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
 void AFCLoginNetServerModule::OnViewWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqServerList);
-    if(xMsg.type() == AFMsg::RSLT_WORLD_SERVER)
+    if (xMsg.type() == AFMsg::RSLT_WORLD_SERVER)
     {
         SynWorldToClient(xClientID);
     }

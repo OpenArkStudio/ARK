@@ -82,7 +82,7 @@ public:
 
     bool operator<(const AFGUID& rhs) const
     {
-        if(this->nHigh == rhs.nHigh)
+        if (this->nHigh == rhs.nHigh)
         {
             return this->nLow < rhs.nLow;
         }
@@ -99,14 +99,14 @@ public:
     {
         size_t nStrLength = strID.length();
         size_t nPos = strID.find('-');
-        if(nPos == std::string::npos)
+        if (nPos == std::string::npos)
         {
             return false;
         }
 
         std::string strHigh = strID.substr(0, nPos);
         std::string strLow = "";
-        if((nPos + 1) < nStrLength)
+        if ((nPos + 1) < nStrLength)
         {
             strLow = strID.substr(nPos + 1, nStrLength - nPos);
         }
@@ -118,7 +118,7 @@ public:
 
             return true;
         }
-        catch(std::system_error& ex)
+        catch (std::system_error& ex)
         {
             CONSOLE_LOG_NO_FILE << "AFGUID from string failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
             ARK_ASSERT_NO_EFFECT(0);

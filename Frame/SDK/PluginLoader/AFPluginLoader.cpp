@@ -79,7 +79,7 @@ void CloseXButton()
 {
 #if ARK_PLATFORM == PLATFORM_WIN
     HWND hWnd = GetConsoleWindow();
-    if(hWnd)
+    if (hWnd)
     {
         HMENU hMenu = GetSystemMenu(hWnd, FALSE);
         EnableMenuItem(hMenu, SC_CLOSE, MF_DISABLED | MF_BYCOMMAND);
@@ -142,18 +142,18 @@ void Usage()
 
 void ThreadFunc()
 {
-    while(!bExitApp)
+    while (!bExitApp)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
         std::string s;
         std::cin >> s;
         std::transform(s.begin(), s.end(), s.begin(), ::tolower);
-        if(s == "exit")
+        if (s == "exit")
         {
             bExitApp = true;
         }
-        else if(s == "help")
+        else if (s == "help")
         {
             Usage();
         }
@@ -182,12 +182,12 @@ class environ_guard
 public:
     ~environ_guard()
     {
-        if(env_buf)
+        if (env_buf)
         {
             delete[] env_buf;
             env_buf = nullptr;
         }
-        if(environ)
+        if (environ)
         {
             delete[] environ;
             environ = nullptr;
@@ -208,14 +208,13 @@ int realloc_environ()
     do
     {
         char** ep = environ;
-        while(*ep)
+        while (*ep)
         {
             env_size += std::strlen(*ep) + 1;
             ++var_count;
             ++ep;
         }
-    }
-    while(0);
+    } while (0);
 
     char* new_env_buf = new char[env_size];
     std::memcpy((void *)new_env_buf, (void *)*environ, env_size);
@@ -227,14 +226,13 @@ int realloc_environ()
         int var = 0;
         int offset = 0;
         char** ep = environ;
-        while(*ep)
+        while (*ep)
         {
             new_env[var++] = (new_env_buf + offset);
             offset += std::strlen(*ep) + 1;
             ++ep;
         }
-    }
-    while(0);
+    } while (0);
 
     new_env[var_count] = 0;
 
@@ -249,7 +247,7 @@ int realloc_environ()
 void setproctitle(const char* title, int argc, char** argv)
 {
     int argv_size = 0;
-    for(int i = 0; i < argc; ++i)
+    for (int i = 0; i < argc; ++i)
     {
         int len = std::strlen(argv[i]);
         std::memset(argv[i], 0, len);
@@ -257,10 +255,10 @@ void setproctitle(const char* title, int argc, char** argv)
     }
 
     int to_be_copied = std::strlen(title);
-    if(argv_size <= to_be_copied)
+    if (argv_size <= to_be_copied)
     {
         int env_size = realloc_environ();
-        if(env_size < to_be_copied)
+        if (env_size < to_be_copied)
         {
             to_be_copied = env_size;
         }
@@ -279,37 +277,37 @@ bool ProcArgList(int argc, char* argv[])
 
     //Analyse arg list
     ApplicationConfig config;
-    for(int i = 0; i < argc; ++i)
+    for (int i = 0; i < argc; ++i)
     {
         std::string arg = argv[i];
-        if(arg == "-d")
+        if (arg == "-d")
         {
             config.deamon = true;
         }
-        else if(arg == "-x")
+        else if (arg == "-x")
         {
             config.xbutton = true;
         }
-        else if(arg.find("cfg") != std::string::npos)
+        else if (arg.find("cfg") != std::string::npos)
         {
             size_t pos = arg.find("=");
-            if(pos != std::string::npos)
+            if (pos != std::string::npos)
             {
                 config.plugin_file = arg.substr(pos + 1, arg.length() - pos - 1);
             }
         }
-        else if(arg.find("app_id") != std::string::npos)
+        else if (arg.find("app_id") != std::string::npos)
         {
             size_t pos = arg.find("=");
-            if(pos != std::string::npos)
+            if (pos != std::string::npos)
             {
                 config.app_id = ARK_LEXICAL_CAST<int>(arg.substr(pos + 1, arg.length() - pos - 1));
             }
         }
-        else if(arg.find("app_name") != std::string::npos)
+        else if (arg.find("app_name") != std::string::npos)
         {
             size_t pos = arg.find("=");
-            if(pos != std::string::npos)
+            if (pos != std::string::npos)
             {
                 config.app_name = arg.substr(pos + 1, arg.length() - pos - 1);
             }
@@ -317,7 +315,7 @@ bool ProcArgList(int argc, char* argv[])
     }
 
 #if ARK_PLATFORM == PLATFORM_UNIX
-    if(config.deamon)
+    if (config.deamon)
     {
         //Run as a daemon process
         signal(SIGPIPE, SIG_IGN);
@@ -326,20 +324,20 @@ bool ProcArgList(int argc, char* argv[])
 #endif
 
 #if ARK_PLATFORM == PLATFORM_WIN
-    if(config.xbutton)
+    if (config.xbutton)
     {
         SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
         CloseXButton();
     }
 #endif
 
-    if(config.app_id == 0)
+    if (config.app_id == 0)
     {
         CONSOLE_LOG << "parameter app_id is invalid, please check." << std::endl;
         return false;
     }
 
-    if(config.app_name.empty())
+    if (config.app_name.empty())
     {
         CONSOLE_LOG << "parameter app_name is invalid, please check." << std::endl;
         return false;
@@ -371,7 +369,7 @@ void MainLoop()
     {
         AFCPluginManager::GetInstancePtr()->Update();
     }
-    __except(ApplicationCrashHandler(GetExceptionInformation()))
+    __except (ApplicationCrashHandler(GetExceptionInformation()))
     {
     }
 #else
@@ -387,7 +385,7 @@ int main(int argc, char* argv[])
     //cfg=plugin.xml, plugin configuration files
     //app_id=1, set application's id
     //app_name=GameServer, set application's name
-    if(!ProcArgList(argc, argv))
+    if (!ProcArgList(argc, argv))
     {
         CONSOLE_LOG << "Application parameter is invalid, please check it..." << std::endl;
         Usage();
@@ -401,13 +399,13 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->CheckConfig();
     AFCPluginManager::GetInstancePtr()->PreUpdate();
 
-    while(!bExitApp)
+    while (!bExitApp)
     {
-        while(true)
+        while (true)
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-            if(bExitApp)
+            if (bExitApp)
             {
                 break;
             }

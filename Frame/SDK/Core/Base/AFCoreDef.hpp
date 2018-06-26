@@ -89,7 +89,7 @@ inline static unsigned int GetHashValueNoCase(const char* name)
     assert(name != nullptr);
 
     unsigned int hash = 0;
-    for(; *name; name++)
+    for (; *name; name++)
     {
         hash = hash * 131 + convert_to_lower[(unsigned char)(*name)];
     }
@@ -102,7 +102,7 @@ inline unsigned int GetHashValue(const char* name)
     assert(name != nullptr);
 
     unsigned int hash = 0;
-    for(; *name; name++)
+    for (; *name; name++)
     {
         hash = hash * 131 + *name;
     }

@@ -61,7 +61,7 @@ public:
     static size_t Find(const char* dst, const char* find, size_t begin = 0)
     {
         const char* pos = strstr(&dst[begin], find);
-        if(pos == nullptr)
+        if (pos == nullptr)
         {
             return -1;
         }
@@ -122,7 +122,7 @@ public:
 
     ~AFString()
     {
-        if(mnCapacity > SIZE)
+        if (mnCapacity > SIZE)
         {
             mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
         }
@@ -166,14 +166,14 @@ public:
         TYPE* tmp_data = src.mpData;
         TYPE tmp_stack[SIZE];
 
-        if(tmp_capacity <= SIZE)
+        if (tmp_capacity <= SIZE)
         {
             TRAITS::Copy(tmp_stack, src.mxStack, tmp_size + 1);
         }
 
         src.mnSize = this->mnSize;
         src.mnCapacity = this->mnCapacity;
-        if(this->mnCapacity <= SIZE)
+        if (this->mnCapacity <= SIZE)
         {
             TRAITS::Copy(src.mxStack, this->mxStack, this->mnSize + 1);
             src.mpData = src.mxStack;
@@ -186,7 +186,7 @@ public:
         this->mnSize = tmp_size;
         this->mnCapacity = tmp_capacity;
 
-        if(tmp_capacity <= SIZE)
+        if (tmp_capacity <= SIZE)
         {
             TRAITS::Copy(this->mxStack, tmp_stack, tmp_size + 1);
             this->mpData = this->mxStack;
@@ -262,7 +262,7 @@ public:
 
     void clear()
     {
-        if(mpData != mxStack)
+        if (mpData != mxStack)
         {
             mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
         }
@@ -310,9 +310,9 @@ public:
 
     size_t find_last_of(TYPE value)
     {
-        for(size_t i = mnSize - 1; i >= 0; --i)
+        for (size_t i = mnSize - 1; i >= 0; --i)
         {
-            if(mpData[i] == value)
+            if (mpData[i] == value)
             {
                 return i;
             }
@@ -334,7 +334,7 @@ public:
     size_t get_mem_usage() const
     {
         size_t size = sizeof(self_t);
-        if(mnCapacity > SIZE)
+        if (mnCapacity > SIZE)
         {
             size += mnCapacity * sizeof(TYPE);
         }
@@ -346,7 +346,7 @@ private:
     void Init(const TYPE* src, size_t len)
     {
         mnSize = len;
-        if(mnSize < SIZE)
+        if (mnSize < SIZE)
         {
             mnCapacity = SIZE;
             mpData = mxStack;
@@ -364,7 +364,7 @@ private:
     void InitWithTwo(const TYPE* value1, size_t size1, const TYPE* value2, size_t size2)
     {
         mnSize = size1 + size2;
-        if(mnSize < SIZE)
+        if (mnSize < SIZE)
         {
             mnCapacity = SIZE;
             mpData = mxStack;
@@ -382,7 +382,7 @@ private:
 
     self_t& InnerAssign(const TYPE* src, size_t len)
     {
-        if(len < mnCapacity)
+        if (len < mnCapacity)
         {
             TRAITS::Copy(mpData, src, len);
             TRAITS::Put(mpData + len, 0);
@@ -400,7 +400,7 @@ private:
     self_t& InnerAppend(const TYPE* src, size_t len)
     {
         const size_t NEW_SIZE = this->mnSize + len;
-        if(NEW_SIZE < mnCapacity)
+        if (NEW_SIZE < mnCapacity)
         {
             TRAITS::Copy(mpData + mnSize, src, len);
             TRAITS::Put(mpData + mnSize + len, 0);

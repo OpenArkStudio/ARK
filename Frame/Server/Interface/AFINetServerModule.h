@@ -94,7 +94,7 @@ public:
 
     virtual ~AFINetServerModule()
     {
-        if(m_pNet)
+        if (m_pNet)
         {
             m_pNet->Final();
         }
@@ -117,7 +117,7 @@ public:
 
     virtual bool Update()
     {
-        if(m_pNet == nullptr)
+        if (m_pNet == nullptr)
         {
             return false;
         }
@@ -136,7 +136,7 @@ public:
     bool SendMsgPBToAllClient(const uint16_t nMsgID, const google::protobuf::Message& xData, const AFGUID& nPlayerID)
     {
         std::string strMsg;
-        if(!xData.SerializeToString(&strMsg))
+        if (!xData.SerializeToString(&strMsg))
         {
             char szData[MAX_PATH] = { 0 };
             ARK_SPRINTF(szData, MAX_PATH, "Send Message to all Failed For Serialize of MsgData, MessageID: %d\n", nMsgID);
@@ -150,7 +150,7 @@ public:
     bool SendMsgPB(const uint16_t nMsgID, const google::protobuf::Message& xData, const AFGUID& xClientID, const AFGUID nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
     {
         std::string xMsgData;
-        if(!xData.SerializeToString(&xMsgData))
+        if (!xData.SerializeToString(&xMsgData))
         {
             char szData[MAX_PATH] = { 0 };
             ARK_SPRINTF(szData, MAX_PATH, "Send Message to %s Failed For Serialize of MsgData, MessageID: %d\n", xClientID.ToString().c_str(), nMsgID);
@@ -163,7 +163,7 @@ public:
 
     bool SendMsgPB(const uint16_t nMsgID, const std::string& strData, const AFGUID& xClientID, const AFGUID& nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
     {
-        if(m_pNet != nullptr)
+        if (m_pNet != nullptr)
         {
             char szData[MAX_PATH] = { 0 };
             ARK_SPRINTF(szData, MAX_PATH, "Send Message to %s Failed For NULL Of Net, MessageID: %d\n", xClientID.ToString().c_str(), nMsgID);
@@ -171,7 +171,7 @@ public:
             return false;
         }
 
-        if(pClientIDList != nullptr)
+        if (pClientIDList != nullptr)
         {
             //playerid主要是网关转发消息的时候做识别使用，其他使用不使用
             AFMsg::BrocastMsg xMsg;
@@ -180,19 +180,19 @@ public:
             xMsg.set_msg_data(strData.data(), strData.length());
             xMsg.set_msg_id(nMsgID);
 
-            for(size_t i = 0; i < pClientIDList->size(); ++i)
+            for (size_t i = 0; i < pClientIDList->size(); ++i)
             {
                 const AFGUID& ClientID = (*pClientIDList)[i];
 
                 AFMsg::PBGUID* pData = xMsg.add_target_entity_list();
-                if(pData)
+                if (pData)
                 {
                     *pData = AFINetModule::GUIDToPB(ClientID);
                 }
             }
 
             std::string strMsg;
-            if(!xMsg.SerializeToString(&strMsg))
+            if (!xMsg.SerializeToString(&strMsg))
             {
                 return false;
             }
@@ -212,21 +212,21 @@ public:
 
     bool PackTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableBase* pEntityTableBase)
     {
-        if(pTable == nullptr || pEntityTableBase == nullptr)
+        if (pTable == nullptr || pEntityTableBase == nullptr)
         {
             return false;
         }
 
-        for(size_t i = 0; i < pTable->GetRowCount(); i++)
+        for (size_t i = 0; i < pTable->GetRowCount(); i++)
         {
             AFMsg::DataTableAddRow* pAddRowStruct = pEntityTableBase->add_row();
             pAddRowStruct->set_row(i);
-            for(size_t j = 0; j < pTable->GetColCount(); j++)
+            for (size_t j = 0; j < pTable->GetColCount(); j++)
             {
                 AFMsg::PBCellData* pAddData = pAddRowStruct->add_cell_list();
 
                 AFCData xRowColData;
-                if(!pTable->GetValue(i, j, xRowColData))
+                if (!pTable->GetValue(i, j, xRowColData))
                 {
                     continue;
                 }
@@ -240,7 +240,7 @@ public:
 
     bool AddTableToPB(AFDataTable* pTable, AFMsg::EntityDataTableList* pPBData)
     {
-        if(!pTable || !pPBData)
+        if (!pTable || !pPBData)
         {
             return false;
         }
@@ -248,7 +248,7 @@ public:
         AFMsg::EntityDataTableBase* pTableBase = pPBData->add_data_table_list();
         pTableBase->set_table_name(pTable->GetName());
 
-        if(!PackTableToPB(pTable, pTableBase))
+        if (!PackTableToPB(pTable, pTableBase))
         {
             return false;
         }
@@ -262,22 +262,22 @@ public:
         AFMsg::EntityDataTableList* pPBData = &xPBData;
         *(pPBData->mutable_entity_id()) = AFINetModule::GUIDToPB(self);
 
-        if(!pTableManager)
+        if (!pTableManager)
         {
             return false;
         }
 
         size_t nTableCount = pTableManager->GetCount();
-        for(size_t i = 0; i < nTableCount; ++i)
+        for (size_t i = 0; i < nTableCount; ++i)
         {
             AFDataTable* pTable = pTableManager->GetTableByIndex(i);
-            if(pTable == nullptr)
+            if (pTable == nullptr)
             {
                 continue;
             }
 
             AFFeatureType xResult = (pTable->GetFeature() & nFeature);
-            if(xResult.any())
+            if (xResult.any())
             {
                 AddTableToPB(pTable, pPBData);
             }
@@ -288,20 +288,20 @@ public:
 
     bool NodeListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const AFFeatureType nFeature)
     {
-        if(!pNodeManager)
+        if (!pNodeManager)
         {
             return false;
         }
 
-        for(size_t i = 0; i < pNodeManager->GetNodeCount(); i++)
+        for (size_t i = 0; i < pNodeManager->GetNodeCount(); i++)
         {
             AFDataNode* pNode = pNodeManager->GetNodeByIndex(i);
-            if(pNode == nullptr)
+            if (pNode == nullptr)
             {
                 continue;
             }
             AFFeatureType xResult = (pNode->GetFeature() & nFeature);
-            if(pNode->Changed() && xResult.any())
+            if (pNode->Changed() && xResult.any())
             {
                 AFMsg::PBNodeData* pData = xPBData.add_data_node_list();
                 AFINetModule::DataNodeToPBNode(pNode->GetValue(), pNode->GetName(), *pData);

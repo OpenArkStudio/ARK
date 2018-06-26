@@ -28,6 +28,6 @@ class AFIGameServerToWorldModule
 {
 
 public:
-	virtual void SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen) = 0;
+    virtual void SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen) = 0;
     virtual AFINetClientModule* GetClusterClientModule() = 0;
 };

@@ -73,7 +73,7 @@ bool AFCEntity::RemoveHeartBeat(const std::string& name)
 bool AFCEntity::AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
 {
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = GetTableManager();
-    if(nullptr == pTableManager)
+    if (nullptr == pTableManager)
     {
         return false;
     }

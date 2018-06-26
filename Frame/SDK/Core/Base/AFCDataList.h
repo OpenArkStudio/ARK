@@ -101,27 +101,27 @@ public:
 
         int nBegin = 0;
         int nEnd = 0;
-        for(int i = 0; i < nLengh; i++)
+        for (int i = 0; i < nLengh; i++)
         {
-            if(strSour[i] == strSplit)
+            if (strSour[i] == strSplit)
             {
                 nEnd = i;
-                if(!AddString(&strSour[nBegin], nEnd - nBegin))
+                if (!AddString(&strSour[nBegin], nEnd - nBegin))
                 {
                     ARK_ASSERT_NO_EFFECT(0);
                 }
 
-                if(i + 1 < nLengh)
+                if (i + 1 < nLengh)
                 {
                     nBegin = i + 1;
                 }
             }
         }
 
-        if(nEnd < nLengh)
+        if (nEnd < nLengh)
         {
             nEnd = nLengh;
-            if(!AddString(&strSour[nBegin], nEnd - nBegin))
+            if (!AddString(&strSour[nBegin], nEnd - nBegin))
             {
                 ARK_ASSERT_NO_EFFECT(0);
             }
@@ -181,12 +181,12 @@ public:
 
     void Release()
     {
-        if(mnDataSize > DATA_SIZE)
+        if (mnDataSize > DATA_SIZE)
         {
             mxAlloc.Free(mpData, mnDataSize * sizeof(dynamic_data_t));
         }
 
-        if(mnBufferSize > BUFFER_SIZE)
+        if (mnBufferSize > BUFFER_SIZE)
         {
             mxAlloc.Free(mpBuffer, mnBufferSize * sizeof(char));
         }
@@ -206,13 +206,13 @@ public:
 
     virtual bool Append(const AFIDataList& src, size_t start, size_t count)
     {
-        if(start >= src.GetCount())
+        if (start >= src.GetCount())
         {
             return false;
         }
 
         size_t end = start + count;
-        if(end > src.GetCount())
+        if (end > src.GetCount())
         {
             return false;
         }
@@ -239,7 +239,7 @@ public:
 
     virtual int GetType(size_t index) const
     {
-        if(index >= mnDataUsed)
+        if (index >= mnDataUsed)
         {
             return DT_UNKNOWN;
         }
@@ -304,14 +304,14 @@ public:
 
     virtual bool AddString(const char* value, const int nLength)
     {
-        if(nLength <= 0)
+        if (nLength <= 0)
         {
             return false;
         }
 
         assert(value != nullptr);
         dynamic_data_t* p = AddDynamicData();
-        if(nullptr == p)
+        if (nullptr == p)
         {
             return false;
         }
@@ -320,7 +320,7 @@ public:
         p->mnstrValue = mnBufferUsed;
 
         size_t value_size = strlen(value);
-        if(value_size > (size_t)nLength)
+        if (value_size > (size_t)nLength)
         {
             value_size = (size_t)nLength;
         }
@@ -371,12 +371,12 @@ public:
     //get data
     virtual bool Bool(size_t index) const
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             return NULL_BOOLEAN;
         }
 
-        if(mpData[index].nType == DT_BOOLEAN)
+        if (mpData[index].nType == DT_BOOLEAN)
         {
             return mpData[index].mbValue;
         }
@@ -388,12 +388,12 @@ public:
 
     virtual int Int(size_t index) const
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             return NULL_INT;
         }
 
-        if(mpData[index].nType == DT_INT)
+        if (mpData[index].nType == DT_INT)
         {
             return mpData[index].mnValue;
         }
@@ -405,12 +405,12 @@ public:
 
     virtual int64_t Int64(size_t index) const
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             return NULL_INT64;
         }
 
-        if(mpData[index].nType == DT_INT64)
+        if (mpData[index].nType == DT_INT64)
         {
             return mpData[index].mn64Value;
         }
@@ -422,12 +422,12 @@ public:
 
     virtual float Float(size_t index) const
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             return NULL_FLOAT;
         }
 
-        if(mpData[index].nType == DT_FLOAT)
+        if (mpData[index].nType == DT_FLOAT)
         {
             return mpData[index].mfValue;
         }
@@ -439,12 +439,12 @@ public:
 
     virtual double Double(size_t index) const
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             return NULL_DOUBLE;
         }
 
-        if(mpData[index].nType == DT_DOUBLE)
+        if (mpData[index].nType == DT_DOUBLE)
         {
             return mpData[index].mdValue;
         }
@@ -456,12 +456,12 @@ public:
 
     virtual const char* String(size_t index) const
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             return NULL_STR.c_str();
         }
 
-        if(mpData[index].nType == DT_STRING)
+        if (mpData[index].nType == DT_STRING)
         {
             return mpBuffer + mpData[index].mnstrValue;
         }
@@ -473,12 +473,12 @@ public:
 
     virtual AFGUID Object(size_t index) const
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             return NULL_GUID;
         }
 
-        if(mpData[index].nType == DT_OBJECT)
+        if (mpData[index].nType == DT_OBJECT)
         {
             return mpData[index].mxGUID;
         }
@@ -490,12 +490,12 @@ public:
 
     virtual void* Pointer(size_t index) const
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             return NULL;
         }
 
-        if(mpData[index].nType == DT_POINTER)
+        if (mpData[index].nType == DT_POINTER)
         {
             return mpData[index].mpVaule;
         }
@@ -507,13 +507,13 @@ public:
 
     virtual const void* UserData(size_t index, size_t& size) const
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             size = 0;
             return NULL;
         }
 
-        if(mpData[index].nType == DT_USERDATA)
+        if (mpData[index].nType == DT_USERDATA)
         {
             char* p = mpBuffer + mpData[index].mnUserData;
             size = AFIData::GetUserDataSize(p);
@@ -528,12 +528,12 @@ public:
 
     virtual void* RawUserData(size_t index) const
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             return NULL;
         }
 
-        if(mpData[index].nType == DT_USERDATA)
+        if (mpData[index].nType == DT_USERDATA)
         {
             return mpBuffer + mpData[index].mnUserData;
         }
@@ -545,12 +545,12 @@ public:
 
     virtual bool SetBool(size_t index, bool value)
     {
-        if(index >= mnDataUsed)
+        if (index >= mnDataUsed)
         {
             return false;
         }
 
-        if(mpData[index].nType != DT_BOOLEAN)
+        if (mpData[index].nType != DT_BOOLEAN)
         {
             return false;
         }
@@ -563,12 +563,12 @@ public:
 
     virtual bool SetInt(size_t index, int value)
     {
-        if(index >= mnDataUsed)
+        if (index >= mnDataUsed)
         {
             return false;
         }
 
-        if(mpData[index].nType != DT_INT)
+        if (mpData[index].nType != DT_INT)
         {
             return false;
         }
@@ -581,12 +581,12 @@ public:
 
     virtual bool SetInt64(size_t index, int64_t value)
     {
-        if(index >= mnDataUsed)
+        if (index >= mnDataUsed)
         {
             return false;
         }
 
-        if(mpData[index].nType != DT_INT64)
+        if (mpData[index].nType != DT_INT64)
         {
             return false;
         }
@@ -599,12 +599,12 @@ public:
 
     virtual bool SetFloat(size_t index, float value)
     {
-        if(index >= mnDataUsed)
+        if (index >= mnDataUsed)
         {
             return false;
         }
 
-        if(mpData[index].nType != DT_FLOAT)
+        if (mpData[index].nType != DT_FLOAT)
         {
             return false;
         }
@@ -617,12 +617,12 @@ public:
 
     virtual bool SetDouble(size_t index, double value)
     {
-        if(index >= mnDataUsed)
+        if (index >= mnDataUsed)
         {
             return false;
         }
 
-        if(mpData[index].nType != DT_DOUBLE)
+        if (mpData[index].nType != DT_DOUBLE)
         {
             return false;
         }
@@ -637,12 +637,12 @@ public:
     {
         assert(value != nullptr);
 
-        if(index >= mnDataUsed)
+        if (index >= mnDataUsed)
         {
             return false;
         }
 
-        if(mpData[index].nType != DT_STRING)
+        if (mpData[index].nType != DT_STRING)
         {
             return false;
         }
@@ -650,7 +650,7 @@ public:
         char* p = mpBuffer + mpData[index].mnstrValue;
         const size_t size1 = strlen(value) + 1;
 
-        if(size1 <= (strlen(p) + 1))
+        if (size1 <= (strlen(p) + 1))
         {
             ARK_STRNCPY(p, value, size1);
             return true;
@@ -666,12 +666,12 @@ public:
 
     virtual bool SetObject(size_t index, const AFGUID& value)
     {
-        if(index >= mnDataUsed)
+        if (index >= mnDataUsed)
         {
             return false;
         }
 
-        if(mpData[index].nType != DT_OBJECT)
+        if (mpData[index].nType != DT_OBJECT)
         {
             return false;
         }
@@ -684,12 +684,12 @@ public:
 
     virtual bool SetPointer(size_t index, void* value)
     {
-        if(index >= mnDataUsed)
+        if (index >= mnDataUsed)
         {
             return false;
         }
 
-        if(mpData[index].nType != DT_POINTER)
+        if (mpData[index].nType != DT_POINTER)
         {
             return false;
         }
@@ -702,14 +702,14 @@ public:
 
     virtual const std::string ToString(size_t index)
     {
-        if(index > mnDataUsed)
+        if (index > mnDataUsed)
         {
             return "";
         }
 
         std::string strdata;
         bool ret = true;
-        switch(mpData[index].nType)
+        switch (mpData[index].nType)
         {
         case DT_BOOLEAN:
             ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mbValue);
@@ -749,12 +749,12 @@ public:
     virtual size_t GetMemUsage() const
     {
         size_t size = sizeof(self_t);
-        if(mnDataSize > DATA_SIZE)
+        if (mnDataSize > DATA_SIZE)
         {
             size += sizeof(dynamic_data_t) * mnDataSize;
         }
 
-        if(mnBufferSize > BUFFER_SIZE)
+        if (mnBufferSize > BUFFER_SIZE)
         {
             size += sizeof(char) * mnBufferSize;
         }
@@ -765,12 +765,12 @@ public:
 protected:
     dynamic_data_t* AddDynamicData()
     {
-        if(mnDataUsed >= mnDataSize)
+        if (mnDataUsed >= mnDataSize)
         {
             size_t new_size = mnDataSize * 2;
             dynamic_data_t* p = (dynamic_data_t*)mxAlloc.Alloc(new_size * sizeof(dynamic_data_t));
             memcpy(p, mpData, mnDataUsed * sizeof(dynamic_data_t));
-            if(mnDataSize > DATA_SIZE)
+            if (mnDataSize > DATA_SIZE)
             {
                 mxAlloc.Free(mpData, mnDataSize * sizeof(dynamic_data_t));
             }
@@ -785,10 +785,10 @@ protected:
     char* AddBuffer(size_t need_size)
     {
         size_t new_used = mnBufferUsed + need_size;
-        if(new_used > mnBufferSize)
+        if (new_used > mnBufferSize)
         {
             size_t new_size = mnBufferSize * 2;
-            if(new_used > new_size)
+            if (new_used > new_size)
             {
                 new_size = new_used * 2;
             }
@@ -796,7 +796,7 @@ protected:
             char* p = (char*)mxAlloc.Alloc(new_size);
             memcpy(p, mpBuffer, mnBufferUsed);
 
-            if(mnBufferSize > BUFFER_SIZE)
+            if (mnBufferSize > BUFFER_SIZE)
             {
                 mxAlloc.Free(mpBuffer, mnBufferSize);
             }
@@ -813,7 +813,7 @@ protected:
     void InnerAppend(const AFIData& data)
     {
         bool bRet(false);
-        switch(data.GetType())
+        switch (data.GetType())
         {
         case DT_BOOLEAN:
             bRet = AddBool(data.GetBool());
@@ -857,9 +857,9 @@ protected:
     bool InnerAppend(const AFIDataList& src, size_t start, size_t end)
     {
         bool bRet(false);
-        for(size_t i = start; i < end; ++i)
+        for (size_t i = start; i < end; ++i)
         {
-            switch(src.GetType(i))
+            switch (src.GetType(i))
             {
             case DT_BOOLEAN:
                 bRet = AddBool(src.Bool(i));

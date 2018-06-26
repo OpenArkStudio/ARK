@@ -25,7 +25,7 @@
 class AFIWorldGuildModule : public AFIModule
 {
 public:
-    virtual const AFGUID& CreateGuild(const NFGUID& self, const std::string& strName, const std::string& strRoleName, const int nLevel, const int nJob , const int nDonation , const int nVIP) = 0;
+    virtual const AFGUID& CreateGuild(const NFGUID& self, const std::string& strName, const std::string& strRoleName, const int nLevel, const int nJob, const int nDonation, const int nVIP) = 0;
     virtual bool JoinGuild(const NFGUID& self, const NFGUID& xGuildID) = 0;
     virtual bool LeaveGuild(const NFGUID& self, const NFGUID& xGuildID) = 0;
     virtual bool UpGuildMmember(const NFGUID& self, const NFGUID& xGuildID, const NFGUID& xMmember) = 0;

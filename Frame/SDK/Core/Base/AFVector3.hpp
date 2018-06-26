@@ -97,7 +97,7 @@ public:
         //x,y,z
         size_t nStrLength = strValue.length();
         size_t nPos = strValue.find(',');
-        if(nPos == std::string::npos)
+        if (nPos == std::string::npos)
         {
             return false;
         }
@@ -106,7 +106,7 @@ public:
 
         const std::string& strNewData = strValue.substr(nPos + 1, nStrLength - nPos);
         nPos = strNewData.find(',');
-        if(nPos == std::string::npos)
+        if (nPos == std::string::npos)
         {
             return false;
         }
@@ -114,7 +114,7 @@ public:
         std::string strY = strNewData.substr(0, nPos);
 
         std::string strZ = "";
-        if((nPos + 1) < strNewData.length())
+        if ((nPos + 1) < strNewData.length())
         {
             strZ = strNewData.substr(nPos + 1, strNewData.length() - nPos);
         }
@@ -126,10 +126,10 @@ public:
             z = ARK_LEXICAL_CAST<float>(strZ);
             return true;
         }
-        catch(std::system_error& ex)
+        catch (std::system_error& ex)
         {
-			CONSOLE_LOG_NO_FILE << "Vector3 FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
-            ARK_ASSERT_NO_EFFECT(0); 
+            CONSOLE_LOG_NO_FILE << "Vector3 FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+            ARK_ASSERT_NO_EFFECT(0);
             return false;
         }
 

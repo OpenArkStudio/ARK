@@ -58,7 +58,7 @@ public:
     virtual bool AddElement(const T& name, const PTRTYPE data)
     {
         typename MAP_DATA::iterator iter = mxObjectList.find(name);
-        if(iter == mxObjectList.end())
+        if (iter == mxObjectList.end())
         {
             mxObjectList.insert(typename MAP_DATA::value_type(name, data));
             return true;
@@ -76,7 +76,7 @@ public:
     virtual bool RemoveElement(const T& name)
     {
         typename MAP_DATA::iterator iter = mxObjectList.find(name);
-        if(iter != mxObjectList.end())
+        if (iter != mxObjectList.end())
         {
             mxObjectList.erase(iter);
 
@@ -89,7 +89,7 @@ public:
     virtual const PTRTYPE& GetElement(const T& name)
     {
         typename MAP_DATA::iterator iter = mxObjectList.find(name);
-        if(iter != mxObjectList.end())
+        if (iter != mxObjectList.end())
         {
             return iter->second;
         }
@@ -99,13 +99,13 @@ public:
 
     virtual const PTRTYPE& First()
     {
-        if(mxObjectList.size() <= 0)
+        if (mxObjectList.size() <= 0)
         {
             return mNullPtr;
         }
 
         mxObjectCurIter = mxObjectList.begin();
-        if(mxObjectCurIter != mxObjectList.end())
+        if (mxObjectCurIter != mxObjectList.end())
         {
             return mxObjectCurIter->second;
         }
@@ -115,13 +115,13 @@ public:
 
     virtual const PTRTYPE&  Next()
     {
-        if(mxObjectCurIter == mxObjectList.end())
+        if (mxObjectCurIter == mxObjectList.end())
         {
             return mNullPtr;
         }
 
         ++mxObjectCurIter;
-        if(mxObjectCurIter != mxObjectList.end())
+        if (mxObjectCurIter != mxObjectList.end())
         {
             return mxObjectCurIter->second;
         }
@@ -131,13 +131,13 @@ public:
 
     virtual const PTRTYPE& First(T& name)
     {
-        if(mxObjectList.size() <= 0)
+        if (mxObjectList.size() <= 0)
         {
             return mNullPtr;
         }
 
         mxObjectCurIter = mxObjectList.begin();
-        if(mxObjectCurIter != mxObjectList.end())
+        if (mxObjectCurIter != mxObjectList.end())
         {
             name = mxObjectCurIter->first;
             return mxObjectCurIter->second;
@@ -147,13 +147,13 @@ public:
     }
     virtual const PTRTYPE&  Next(T& name)
     {
-        if(mxObjectCurIter == mxObjectList.end())
+        if (mxObjectCurIter == mxObjectList.end())
         {
             return mNullPtr;
         }
 
         mxObjectCurIter++;
-        if(mxObjectCurIter != mxObjectList.end())
+        if (mxObjectCurIter != mxObjectList.end())
         {
             name = mxObjectCurIter->first;
             return mxObjectCurIter->second;
@@ -176,7 +176,7 @@ public:
     bool Begin()
     {
         mxObjectCurIter = mxObjectList.begin();
-        if(mxObjectCurIter != mxObjectList.end())
+        if (mxObjectCurIter != mxObjectList.end())
         {
             return true;
         }
@@ -186,10 +186,10 @@ public:
 
     bool Increase()
     {
-        if(mxObjectCurIter != mxObjectList.end())
+        if (mxObjectCurIter != mxObjectList.end())
         {
             ++mxObjectCurIter;
-            if(mxObjectCurIter != mxObjectList.end())
+            if (mxObjectCurIter != mxObjectList.end())
             {
                 return true;
             }
@@ -200,7 +200,7 @@ public:
 
     const PTRTYPE& GetCurrentData()
     {
-        if(mxObjectCurIter != mxObjectList.end())
+        if (mxObjectCurIter != mxObjectList.end())
         {
             return mxObjectCurIter->second;
         }

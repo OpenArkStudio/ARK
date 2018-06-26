@@ -31,7 +31,7 @@ public:
     bool AddHeartBeat(const AFGUID self, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const int64_t, const int), const int64_t nTime, const int nCount, const bool bForever = false)
     {
         ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-        if(nullptr != pEntity)
+        if (nullptr != pEntity)
         {
             return pEntity->AddHeartBeat(name, pBase, handler, nTime, nCount, bForever);
         }
@@ -48,7 +48,7 @@ public:
     bool AddNodeCallBack(const AFGUID& self, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
         ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-        if(nullptr != pEntity)
+        if (nullptr != pEntity)
         {
             return pEntity->AddNodeCallBack(name, pBase, handler);
         }
@@ -60,7 +60,7 @@ public:
     bool AddTableCallBack(const AFGUID& self, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
     {
         ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-        if(nullptr != pEntity)
+        if (nullptr != pEntity)
         {
             return pEntity->AddTableCallBack(name, pBase, handler);
         }

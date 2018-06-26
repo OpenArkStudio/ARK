@@ -151,7 +151,7 @@ public:
         memcpy(strData + nOffset, (void*)(&nLowData), sizeof(nLowData));
         nOffset += sizeof(nLowData);
 
-        if(nOffset != ARK_MSG_HEAD_LENGTH)
+        if (nOffset != ARK_MSG_HEAD_LENGTH)
         {
             assert(0);
         }
@@ -185,7 +185,7 @@ public:
         mxPlayerID.nLow = ARK_NTOHLL(nLowData);
         nOffset += sizeof(nLowData);
 
-        if(nOffset != ARK_MSG_HEAD_LENGTH)
+        if (nOffset != ARK_MSG_HEAD_LENGTH)
         {
             assert(0);
         }
@@ -268,7 +268,7 @@ public:
 
     size_t RemoveBuff(size_t nLen)
     {
-        if(nLen > mstrBuff.getlength())
+        if (nLen > mstrBuff.getlength())
         {
             return 0;
         }
@@ -380,18 +380,18 @@ public:
     bool SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
     {
         std::string a = strIpPort;
-        if(a.empty())
+        if (a.empty())
         {
             return false;
         }
 
         size_t index = a.rfind(':');
-        if(index == std::string::npos)
+        if (index == std::string::npos)
         {
             return false;
         }
 
-        if(index == a.size() - 1)
+        if (index == a.size() - 1)
         {
             return false;
         }
@@ -399,9 +399,9 @@ public:
         port = std::atoi(&a[index + 1]);
 
         host = std::string(strIpPort, 0, index);
-        if(host[0] == '[')
+        if (host[0] == '[')
         {
-            if(*host.rbegin() != ']')
+            if (*host.rbegin() != ']')
             {
                 return false;
             }
@@ -411,7 +411,7 @@ public:
         }
 
         // Compatible with "fe80::886a:49f3:20f3:add2]:80"
-        if(*host.rbegin() == ']')
+        if (*host.rbegin() == ']')
         {
             // trim the trail ']'
             host = std::string(host.data(), host.size() - 1);

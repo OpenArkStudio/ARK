@@ -41,7 +41,7 @@ public:
     {
         std::list<AFCMachineNode> xNodeList;
 
-        if(GetNodeList(xNodeList))
+        if (GetNodeList(xNodeList))
         {
             return;
         }
@@ -53,10 +53,10 @@ public:
         xNode.nPort = 0;
         xNode.bCandidate = true;
 
-        for(std::list<AFCMachineNode>::iterator it = xNodeList.begin(); it != xNodeList.end(); ++it)
+        for (std::list<AFCMachineNode>::iterator it = xNodeList.begin(); it != xNodeList.end(); ++it)
         {
             AFIVirtualNode&  xRealNode = *it;
-            if(!xRealNode.Candidate())
+            if (!xRealNode.Candidate())
             {
                 xNode.xRealMachine.push_back(xRealNode);
             }
