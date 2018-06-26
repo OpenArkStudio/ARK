@@ -90,8 +90,7 @@ void AFCNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR & 
         {
             pEntity->mxNetMsgMQ.Push(pMsg);
         }
-    }
-    while(0);
+    } while(0);
 }
 
 void AFCNetServer::OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session)
@@ -127,8 +126,7 @@ void AFCNetServer::ProcessMsgLogicThread()
 
             xNeedRemoveList.push_back(iter->second->GetClientID());
         }
-    }
-    while(0);
+    } while(0);
 
     for(std::list<AFGUID>::iterator iter = xNeedRemoveList.begin(); iter != xNeedRemoveList.end(); ++iter)
     {
@@ -227,13 +225,10 @@ bool AFCNetServer::RemoveNetEntity(const AFGUID& xClientID)
     AFTCPEntityPtr pEntity = GetNetEntity(xClientID);
     if(pEntity != nullptr)
     {
-        delete pEntity;
-        pEntity = nullptr;
+        ARK_DELETE(pEntity);
     }
-    else
-    {
-        return mmObject.erase(xClientID);
-    }
+
+    return mmObject.erase(xClientID);
 }
 
 bool AFCNetServer::CloseNetEntity(const AFGUID& xClientID)
@@ -279,8 +274,7 @@ bool AFCNetServer::CloseSocketAll()
     for(auto it : mmObject)
     {
         it.second->GetSession()->postDisConnect();
-        delete it.second;
-        it.second = nullptr;
+        ARK_DELETE(it.second);
     }
 
     mmObject.clear();
@@ -290,14 +284,7 @@ bool AFCNetServer::CloseSocketAll()
 AFCNetServer::AFTCPEntityPtr AFCNetServer::GetNetEntity(const AFGUID& xClientID)
 {
     auto it = mmObject.find(xClientID);
-    if(it != mmObject.end())
-    {
-        return it->second;
-    }
-    else
-    {
-        return nullptr;
-    }
+    return (it != mmObject.end() ? it->second : nullptr);
 }
 
 bool AFCNetServer::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
@@ -317,7 +304,6 @@ bool AFCNetServer::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, co
     {
         return false;
     }
-
 }
 
 bool AFCNetServer::SendMsgToAllClientWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID)
