@@ -570,6 +570,90 @@ int AFCGameNetServerModule::OnCommonDataNodeEvent(const AFGUID& self, const std:
     return 0;
 }
 
+void AFCGameNetServerModule::CommonDataTableAddEvent(const AFGUID& self, const std::string& strTableName, int nRow, int nCol, const AFCDataList& valueBroadCaseList)
+{
+    AFMsg::EntityDataTableAddRow xTableAddRow;
+    *xTableAddRow.mutable_entity_id() = AFINetModule::GUIDToPB(self);
+
+    xTableAddRow.set_table_name(strTableName);
+
+    AFMsg::DataTableAddRow* pAddRowData = xTableAddRow.add_row_data();
+    pAddRowData->set_row(nRow);
+
+    //add row 需要完整的row
+    AFDataTable* pTable = m_pKernelModule->FindTable(self, strTableName);
+    if(pTable == nullptr)
+    {
+        return;
+    }
+
+    AFCDataList xRowDataList;
+    if(pTable->QueryRow(nRow, xRowDataList))
+    {
+        for(size_t i = 0; i < xRowDataList.GetCount(); i++)
+        {
+            AFMsg::PBCellData* pAddData = pAddRowData->add_cell_list();
+            AFINetModule::TableCellToPBCell(xRowDataList, nRow, nCol, *pAddData);
+        }
+
+        for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
+        {
+            AFGUID identOther = valueBroadCaseList.Object(i);
+
+            SendMsgPBToGate(AFMsg::EGMI_ACK_ADD_ROW, xTableAddRow, identOther);
+        }
+    }
+}
+
+void AFCGameNetServerModule::CommonDataTableDeleteEvent(const AFGUID& self, const std::string& strTableName, int nRow, const AFCDataList& valueBroadCaseList)
+{
+    AFMsg::EntityDataTableRemove xTableRemoveRow;
+    *xTableRemoveRow.mutable_entity_id() = AFINetModule::GUIDToPB(self);
+    xTableRemoveRow.set_table_name(strTableName);
+    xTableRemoveRow.add_remove_row(nRow);
+
+    for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
+    {
+        AFGUID identOther = valueBroadCaseList.Object(i);
+
+        SendMsgPBToGate(AFMsg::EGMI_ACK_REMOVE_ROW, xTableRemoveRow, identOther);
+    }
+}
+
+void AFCGameNetServerModule::CommonDataTableSwapEvent(const AFGUID & self, const std::string& strTableName, int nRow, int target_row, const AFCDataList& valueBroadCaseList)
+{
+    //swap 2 different rows
+    AFMsg::EntityDataTableSwap xTableSwap;
+    *xTableSwap.mutable_entity_id() = AFINetModule::GUIDToPB(self);
+
+    xTableSwap.set_origin_table_name(strTableName);
+    xTableSwap.set_target_table_name(strTableName);
+    xTableSwap.set_row_origin(nRow);
+    xTableSwap.set_row_target(target_row);
+
+    for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
+    {
+        AFGUID identOther = valueBroadCaseList.Object(i);
+        SendMsgPBToGate(AFMsg::EGMI_ACK_SWAP_ROW, xTableSwap, identOther);
+    }
+}
+
+void AFCGameNetServerModule::CommonDataTableUpdateEvent(const AFGUID& self, const std::string& strTableName, int nRow, int nCol, const AFIData& newVar, const AFCDataList& valueBroadCaseList)
+{
+    AFMsg::EntityDataTable xTableChanged;
+    *xTableChanged.mutable_entity_id() = AFINetModule::GUIDToPB(self);
+    xTableChanged.set_table_name(strTableName);
+    AFMsg::PBCellData* pCellData = xTableChanged.add_table_cell_list();
+    AFINetModule::TableCellToPBCell(newVar, nRow, nCol, *pCellData);
+
+    for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
+    {
+        AFGUID identOther = valueBroadCaseList.Object(i);
+
+        SendMsgPBToGate(AFMsg::EGMI_ACK_TABLE_DATA, xTableChanged, identOther);
+    }
+}
+
 int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
 {
     const std::string& strTableName = xEventData.strName.c_str();
@@ -595,87 +679,16 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
     switch(nOpType)
     {
     case AFDataTable::TABLE_ADD:
-        {
-            AFMsg::EntityDataTableAddRow xTableAddRow;
-            *xTableAddRow.mutable_entity_id() = AFINetModule::GUIDToPB(self);
-
-            xTableAddRow.set_table_name(strTableName);
-
-            AFMsg::DataTableAddRow* pAddRowData = xTableAddRow.add_row_data();
-            pAddRowData->set_row(nRow);
-
-            //add row 需要完整的row
-            AFDataTable* pTable = m_pKernelModule->FindTable(self, strTableName);
-            if(pTable != nullptr)
-            {
-                AFCDataList xRowDataList;
-                if(pTable->QueryRow(nRow, xRowDataList))
-                {
-                    for(size_t i = 0; i < xRowDataList.GetCount(); i++)
-                    {
-                        AFMsg::PBCellData* pAddData = pAddRowData->add_cell_list();
-                        AFINetModule::TableCellToPBCell(xRowDataList, nRow, nCol, *pAddData);
-                    }
-
-                    for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
-                    {
-                        AFGUID identOther = valueBroadCaseList.Object(i);
-
-                        SendMsgPBToGate(AFMsg::EGMI_ACK_ADD_ROW, xTableAddRow, identOther);
-                    }
-                }
-            }
-        }
+        CommonDataTableAddEvent(self, strTableName, nRow, nCol, valueBroadCaseList);
         break;
     case AFDataTable::TABLE_DELETE:
-        {
-            AFMsg::EntityDataTableRemove xTableRemoveRow;
-            *xTableRemoveRow.mutable_entity_id() = AFINetModule::GUIDToPB(self);
-            xTableRemoveRow.set_table_name(strTableName);
-            xTableRemoveRow.add_remove_row(nRow);
-
-            for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
-            {
-                AFGUID identOther = valueBroadCaseList.Object(i);
-
-                SendMsgPBToGate(AFMsg::EGMI_ACK_REMOVE_ROW, xTableRemoveRow, identOther);
-            }
-        }
+        CommonDataTableDeleteEvent(self, strTableName, nRow, valueBroadCaseList);
         break;
     case AFDataTable::TABLE_SWAP:
-        {
-            //其实是2个row交换
-            AFMsg::EntityDataTableSwap xTableSwap;
-            *xTableSwap.mutable_entity_id() = AFINetModule::GUIDToPB(self);
-
-            xTableSwap.set_origin_table_name(strTableName);
-            xTableSwap.set_target_table_name(strTableName);   // 暂时没用
-            xTableSwap.set_row_origin(nRow);
-            xTableSwap.set_row_target(nCol);
-
-            for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
-            {
-                AFGUID identOther = valueBroadCaseList.Object(i);
-
-                SendMsgPBToGate(AFMsg::EGMI_ACK_SWAP_ROW, xTableSwap, identOther);
-            }
-        }
+        CommonDataTableSwapEvent(self, strTableName, nRow, nCol, valueBroadCaseList);
         break;
     case AFDataTable::TABLE_UPDATE:
-        {
-            AFMsg::EntityDataTable xTableChanged;
-            *xTableChanged.mutable_entity_id() = AFINetModule::GUIDToPB(self);
-            xTableChanged.set_table_name(strTableName);
-            AFMsg::PBCellData* pCellData = xTableChanged.add_table_cell_list();
-            AFINetModule::TableCellToPBCell(newVar, nRow, nCol, *pCellData);
-
-            for(size_t i = 0; i < valueBroadCaseList.GetCount(); i++)
-            {
-                AFGUID identOther = valueBroadCaseList.Object(i);
-
-                SendMsgPBToGate(AFMsg::EGMI_ACK_TABLE_DATA, xTableChanged, identOther);
-            }
-        }
+        CommonDataTableUpdateEvent(self, strTableName, nRow, nCol, newVar, valueBroadCaseList);
         break;
     case AFDataTable::TABLE_COVERAGE:
         //will do something
@@ -687,47 +700,46 @@ int AFCGameNetServerModule::OnCommonDataTableEvent(const AFGUID& self, const DAT
     return 0;
 }
 
+int AFCGameNetServerModule::CommonClassDestoryEvent(const AFGUID& self)
+{
+    int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
+    int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
+
+    if(nObjectGroupID < 0)
+    {
+        //容器
+        return 0;
+    }
+
+    AFCDataList valueAllObjectList;
+    AFCDataList valueBroadCaseList;
+    AFCDataList valueBroadListNoSelf;
+    m_pKernelModule->GetGroupEntityList(nObjectContainerID, nObjectGroupID, valueAllObjectList);
+
+    for(size_t i = 0; i < valueAllObjectList.GetCount(); i++)
+    {
+        AFGUID identBC = valueAllObjectList.Object(i);
+        const std::string strIdentClassName(m_pKernelModule->GetNodeString(identBC, "ClassName"));
+        if(ARK::Player::ThisName() == strIdentClassName)
+        {
+            valueBroadCaseList << identBC;
+            if(identBC != self)
+            {
+                valueBroadListNoSelf << identBC;
+            }
+        }
+    }
+
+    //如果是副本的怪，则不需要发送，因为会在离开副本的时候一次性一条消息发送
+    OnEntityListLeave(valueBroadListNoSelf, AFCDataList() << self);
+}
+
 int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID & self, const std::string & strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList & var)
 {
     switch(eClassEvent)
     {
     case ENTITY_EVT_DESTROY:
-        {
-            //删除在线标志
-
-            //////////////////////////////////////////////////////////////////////////
-
-            int nObjectContainerID = m_pKernelModule->GetNodeInt(self, "SceneID");
-            int nObjectGroupID = m_pKernelModule->GetNodeInt(self, "GroupID");
-
-            if(nObjectGroupID < 0)
-            {
-                //容器
-                return 0;
-            }
-
-            AFCDataList valueAllObjectList;
-            AFCDataList valueBroadCaseList;
-            AFCDataList valueBroadListNoSelf;
-            m_pKernelModule->GetGroupEntityList(nObjectContainerID, nObjectGroupID, valueAllObjectList);
-
-            for(size_t i = 0; i < valueAllObjectList.GetCount(); i++)
-            {
-                AFGUID identBC = valueAllObjectList.Object(i);
-                const std::string strIdentClassName(m_pKernelModule->GetNodeString(identBC, "ClassName"));
-                if(ARK::Player::ThisName() == strIdentClassName)
-                {
-                    valueBroadCaseList << identBC;
-                    if(identBC != self)
-                    {
-                        valueBroadListNoSelf << identBC;
-                    }
-                }
-            }
-
-            //如果是副本的怪，则不需要发送，因为会在离开副本的时候一次性一条消息发送
-            OnEntityListLeave(valueBroadListNoSelf, AFCDataList() << self);
-        }
+        CommonClassDestoryEvent(self);
         break;
     case ENTITY_EVT_PRE_LOAD_DATA:
         {

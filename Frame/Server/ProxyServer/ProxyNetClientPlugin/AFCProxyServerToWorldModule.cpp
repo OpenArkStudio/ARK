@@ -45,9 +45,7 @@ void AFCProxyServerToWorldModule::OnServerInfoProcess(const AFIMsgHead& xHead, c
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
-        //type
         ConnectData xServerData;
-
         xServerData.nGameID = xData.server_id();
         xServerData.strIP = xData.server_ip();
         xServerData.nPort = xData.server_port();
@@ -65,7 +63,6 @@ void AFCProxyServerToWorldModule::OnServerInfoProcess(const AFIMsgHead& xHead, c
         default:
             break;
         }
-
     }
 }
 
@@ -75,7 +72,7 @@ void AFCProxyServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, con
     {
         ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
     }
-    else  if(eEvent == CONNECTED)
+    else if(eEvent == CONNECTED)
     {
         ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
         Register(nServerID);

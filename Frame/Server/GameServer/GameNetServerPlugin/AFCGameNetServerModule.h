@@ -104,6 +104,14 @@ public:
     bool ProcessLeaveGroup(const AFGUID& self, int nSceneID, int nOldGroupID);
     bool ProcessEnterGroup(const AFGUID& self, int nSceneID, int nNewGroupID);
 
+protected:
+    void CommonDataTableAddEvent(const AFGUID& self, const std::string& strTableName, int nRow, int nCol, const AFCDataList& valueBroadCaseList);
+    void CommonDataTableDeleteEvent(const AFGUID& self, const std::string& strTableName, int nRow, const AFCDataList& valueBroadCaseList);
+    void CommonDataTableSwapEvent(const AFGUID & self, const std::string& strTableName, int nRow, int target_row, const AFCDataList& valueBroadCaseList);
+    void CommonDataTableUpdateEvent(const AFGUID& self, const std::string& strTableName, int nRow, int nCol, const AFIData& newVar, const AFCDataList& valueBroadCaseList);
+
+    int CommonClassDestoryEvent(const AFGUID& self);
+
 private:
     //<角色id,角色网关基础信息>//其实可以在object系统中被代替
     AFMapEx<AFGUID, GateBaseInfo> mRoleBaseData;
