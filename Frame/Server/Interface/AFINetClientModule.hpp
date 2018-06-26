@@ -25,6 +25,7 @@
 #include "SDK/Net/AFCNetClient.h"
 #include "SDK/Core/Base/AFMap.hpp"
 #include "Server/Interface/AFINetModule.h"
+#include "SDK/Core/Base/AFDateTime.hpp"
 
 enum ConnectDataState
 {
@@ -298,7 +299,7 @@ protected:
             case ConnectDataState::RECONNECT:
                 {
                     //计算时间
-                    if((pServerData->mnLastActionTime + 30) >= GetPluginManager()->GetNowTime())
+                    if((pServerData->mnLastActionTime + 30 * AFTimespan::SECOND_MS) >= GetPluginManager()->GetNowTime())
                     {
                         break;
                     }

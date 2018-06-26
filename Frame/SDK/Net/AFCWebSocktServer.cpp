@@ -101,7 +101,7 @@ void AFCWebSocktServer::OnWebSockMessageCallBack(const brynet::net::HttpSession:
     auto xFind = mxNetEntities.find(xClient);
     if(xFind == mxNetEntities.end())
     {
-        return ;
+        return;
     }
 
     xFind->second->AddBuff(payload.c_str(), payload.size());
@@ -118,15 +118,16 @@ void AFCWebSocktServer::OnHttpConnect(const brynet::net::HttpSession::PTR& httpS
     pMsg->xClientID.nLow = nNextID++;
     httpSession->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
     pMsg->nType = CONNECTED;
+    do 
     {
         AFScopeWrLock xGuard(mRWLock);
 
         AFHttpEntity* pEntity = new AFHttpEntity(this, pMsg->xClientID, httpSession);
-        if(AddNetEntity(pMsg->xClientID, pEntity))
+        if (AddNetEntity(pMsg->xClientID, pEntity))
         {
             pEntity->mxNetMsgMQ.Push(pMsg);
         }
-    }
+    } while (0);
 }
 
 void AFCWebSocktServer::OnHttpDisConnection(const brynet::net::HttpSession::PTR & httpSession)
@@ -152,24 +153,25 @@ void AFCWebSocktServer::OnHttpDisConnection(const brynet::net::HttpSession::PTR 
 void AFCWebSocktServer::ProcessMsgLogicThread()
 {
     std::list<AFGUID> xNeedRemoveList;
+    do 
     {
         AFScopeRdLock xGuard(mRWLock);
-        for(std::map<AFGUID, AFHttpEntity*>::iterator iter = mxNetEntities.begin(); iter != mxNetEntities.end(); ++iter)
+        for (std::map<AFGUID, AFHttpEntity*>::iterator iter = mxNetEntities.begin(); iter != mxNetEntities.end(); ++iter)
         {
             ProcessMsgLogicThread(iter->second);
-            if(!iter->second->NeedRemove())
+            if (!iter->second->NeedRemove())
             {
                 continue;
             }
 
             xNeedRemoveList.push_back(iter->second->GetClientID());
         }
-    }
+    } while (0);
 
-    for(std::list<AFGUID>::iterator iter = xNeedRemoveList.begin(); iter != xNeedRemoveList.end(); ++iter)
+    for(auto iter : xNeedRemoveList)
     {
         AFScopeWrLock xGuard(mRWLock);
-        RemoveNetEntity(*iter);
+        RemoveNetEntity(iter);
     }
 }
 

@@ -136,13 +136,14 @@ void AFCWebSocktClient::OnHttpConnect(const brynet::net::HttpSession::PTR& httpS
         AFHttpMsg* pMsg = new AFHttpMsg(httpSession);
         httpSession->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
         pMsg->nType = CONNECTED;
+        do
         {
             AFScopeWrLock xGuard(mRWLock);
 
             AFHttpEntity* pEntity = new AFHttpEntity(this, pMsg->xClientID, httpSession);
             m_pClientEntity.reset(pEntity);
             pEntity->mxNetMsgMQ.Push(pMsg);
-        }
+        } while (0);
     });
 
     httpSession->setWSCallback(std::bind(&AFCWebSocktClient::OnWebSockMessageCallBack, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));

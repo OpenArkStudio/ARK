@@ -171,41 +171,25 @@ public:
         switch(DataVar.GetType())
         {
         case DT_BOOLEAN:
-            {
-                variantData->set_bool_value(DataVar.GetBool());
-            }
+            variantData->set_bool_value(DataVar.GetBool());
             break;
         case DT_INT:
-            {
                 variantData->set_int_value(DataVar.GetInt());
-            }
             break;
         case DT_INT64:
-            {
                 variantData->set_int64_value(DataVar.GetInt64());
-            }
             break;
         case DT_FLOAT:
-            {
                 variantData->set_float_value(DataVar.GetFloat());
-            }
             break;
         case DT_DOUBLE:
-            {
                 variantData->set_double_value(DataVar.GetDouble());
-            }
             break;
-
         case DT_STRING:
-            {
                 variantData->set_str_value(DataVar.GetString());
-            }
             break;
-
         case DT_OBJECT:
-            {
                 *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
-            }
             break;
         default:
             ARK_ASSERT_RET_VAL(0, false);

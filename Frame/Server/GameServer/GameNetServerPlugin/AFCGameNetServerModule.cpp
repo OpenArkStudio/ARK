@@ -957,16 +957,12 @@ int AFCGameNetServerModule::OnEntityEvent(const AFGUID & self, const std::string
     switch(eClassEvent)
     {
     case ENTITY_EVT_DESTROY:
-        {
-            //save data to db by yourself logic
-            ARK_LOG_INFO("Player Offline, player_id = {}", self.ToString());
-        }
+        //save data to db by yourself logic
+        ARK_LOG_INFO("Player Offline, player_id = {}", self.ToString());
         break;
     case ENTITY_EVT_LOAD_DATA:
-        {
-            //load data from db by yourself logic
-            ARK_LOG_INFO("Player online, player_id = {}", self.ToString());
-        }
+        //load data from db by yourself logic
+        ARK_LOG_INFO("Player online, player_id = {}", self.ToString());
         break;
     case ENTITY_EVT_ALL_FINISHED:
         m_pKernelModule->AddEventCallBack(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, this, &AFCGameNetServerModule::OnSwapSceneResultEvent);

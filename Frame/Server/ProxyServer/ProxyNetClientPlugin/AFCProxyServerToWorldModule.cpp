@@ -57,14 +57,10 @@ void AFCProxyServerToWorldModule::OnServerInfoProcess(const AFIMsgHead& xHead, c
         switch(xServerData.eServerType)
         {
         case ARK_SERVER_TYPE::ARK_ST_GAME:
-            {
-                m_pProxyServerToGameModule->GetClusterModule()->AddServer(xServerData);
-            }
+            m_pProxyServerToGameModule->GetClusterModule()->AddServer(xServerData);
             break;
         case ARK_SERVER_TYPE::ARK_ST_WORLD:
-            {
-                m_pNetClientModule->AddServer(xServerData);
-            }
+            m_pNetClientModule->AddServer(xServerData);
             break;
         default:
             break;
