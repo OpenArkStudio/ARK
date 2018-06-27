@@ -31,6 +31,10 @@ public:
     virtual bool Shut();
 
     virtual std::shared_ptr<spdlog::logger>& GetLogger();
+
+protected:
+    void CreateLogger();
+
 private:
     std::shared_ptr<spdlog::logger> mxLogger;
 };
