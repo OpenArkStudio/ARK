@@ -1,9 +1,10 @@
 ## ARK 计划 2018
 
-- [ ] 1.spdlog增加按照文件夹/大小/小时滚动的sink
+- [ ] 1.spdlog增加按照文件夹/大小/小时滚动的sink(*已经修改了一部分，还需要进一步修改成tlog的格式，binlog/1001/20180627/game1_hour.log*)
 - [ ] 2.Map, Layer,对应修改协议和Client的处理
 - [ ] 3.新架构修改
-- [ ] 4.增加连接关系的配置，不再通过程序中手动设置关系
+- [ ] 4.增加连接关系的配置，不再通过程序中手动设置关系(bus_relation, server_settting, IP和port不用再指定了, 通过获取IP和动态生成port)
+- [ ] 5.增加logserver和logclient插件
 
 
 
@@ -16,9 +17,7 @@
 - [ ] 57.考虑使用ECS，全部对象Entity化，通过GUID来确定属于哪个分组的哪个位置，能快速定位和查找(通过守望先锋、ET、[ECS-unity](https://github.com/sschmid/Entitas-CSharp)，具体还要再调研)
 - [ ] 58.增加coroutine，参考libgo
 
-
-- [ ] 100.完整的带业务功能的demo
-- [ ] 101.UE4 Demo
+- [ ] 100.UE4 Demo
   
 - [ ] 200.增加监控web页面(vue-admin)
 - [ ] 201.增加Deployment web工具

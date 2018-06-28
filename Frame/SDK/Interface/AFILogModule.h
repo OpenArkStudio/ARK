@@ -37,7 +37,7 @@ public:
     void Log(spdlog::level::level_enum log_level, const char* function, int line, const char* fmt, const Args &... args)
     {
         std::shared_ptr<spdlog::logger>& logger = GetLogger();
-        if (logger == NULL)
+        if (logger == nullptr)
         {
             return;
         }
