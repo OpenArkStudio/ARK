@@ -36,12 +36,14 @@ bool AFCSceneProcessModule::PostInit()
 
     //Init scene container
     ARK_SHARE_PTR<AFIClass> pLogicClass =  m_pClassModule->GetElement("Scene");
+
     if (nullptr != pLogicClass)
     {
         AFList<std::string>& list = pLogicClass->GetConfigNameList();
 
         std::string strData;
         bool bRet = list.First(strData);
+
         while (bRet)
         {
             int nSceneID = ARK_LEXICAL_CAST<int>(strData);
@@ -63,9 +65,11 @@ bool AFCSceneProcessModule::PostInit()
 bool AFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGroupID)
 {
     ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResource = mtSceneResourceConfig.GetElement(nSceneID);
+
     if (nullptr != pSceneResource)
     {
         ARK_SHARE_PTR<SceneSeedResource> pResource = pSceneResource->First();
+
         while (nullptr != pResource)
         {
             const std::string strClassName(m_pElementModule->GetNodeString(pResource->strConfigID, ARK::NPC::ClassName()));
@@ -127,6 +131,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     //每个玩家，一个副本
     int64_t nNewGroupID = 0;
+
     if (nTargetGroupID <= 0)
     {
         nNewGroupID = CreateCloneScene(nTargetScene);
@@ -148,6 +153,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
     const std::string& strRelivePosList = m_pElementModule->GetNodeString(strSceneID, ARK::Scene::RelivePos());
 
     AFCDataList valueRelivePosList(strRelivePosList.c_str(), strRelivePosList.length(), ';');
+
     if (valueRelivePosList.GetCount() >= 1)
     {
         xRelivePos.FromString(valueRelivePosList.String(0));
@@ -181,9 +187,11 @@ int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEv
     }
 
     int32_t nOldGroupID = var.Int(0);
+
     if (nOldGroupID > 0)
     {
         int nSceneID = m_pKernelModule->GetNodeInt(object, ARK::Player::SceneID());
+
         if (GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
         {
             m_pKernelModule->ReleaseGroupScene(nSceneID, nOldGroupID);
@@ -202,6 +210,7 @@ int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::str
         {
             //如果在副本中,则删除他的那个副本
             int nSceneID = m_pKernelModule->GetNodeInt(self, ARK::Player::SceneID());
+
             if (GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
             {
                 int nGroupID = m_pKernelModule->GetNodeInt(self, ARK::Player::GroupID());
@@ -223,6 +232,7 @@ E_SCENE_TYPE AFCSceneProcessModule::GetCloneSceneType(const int nSceneID)
 {
     char szSceneIDName[MAX_PATH] = { 0 };
     sprintf(szSceneIDName, "%d", nSceneID);
+
     if (m_pElementModule->ExistElement(szSceneIDName))
     {
         return (E_SCENE_TYPE)m_pElementModule->GetNodeInt(szSceneIDName, ARK::Scene::CanClone());
@@ -255,6 +265,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 
     //场景对应资源
     ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = mtSceneResourceConfig.GetElement(nSceneID);
+
     if (nullptr == pSceneResourceMap)
     {
         pSceneResourceMap = std::make_shared<AFMapEx<std::string, SceneSeedResource>>();
@@ -272,6 +283,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 
     //资源文件列表
     rapidxml::xml_node<>* pSeedFileRoot = xFileDoc.first_node();
+
     for (rapidxml::xml_node<>* pSeedFileNode = pSeedFileRoot->first_node(); pSeedFileNode; pSeedFileNode = pSeedFileNode->next_sibling())
     {
         //种子具体信息
@@ -287,6 +299,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
         }
 
         ARK_SHARE_PTR<SceneSeedResource> pSeedResource = pSceneResourceMap->GetElement(strSeedID);
+
         if (nullptr == pSeedResource)
         {
             pSeedResource = std::make_shared<SceneSeedResource>();

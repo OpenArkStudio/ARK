@@ -135,6 +135,7 @@ public:
     StringPodIter& operator++()
     {
         node_t* next = mpNode->next;
+
         if (next != nullptr)
         {
             mpNode = next;
@@ -198,6 +199,7 @@ public:
     {
         mnSize = size;
         mnCount = 0;
+
         if (size > 0)
         {
             mpBuckets = (node_t**)mxAlloc.Alloc(sizeof(node_t*) * size);
@@ -223,6 +225,7 @@ public:
             for (size_t i = 0; i < size; ++i)
             {
                 node_t* p = src.mpBuckets[i];
+
                 while (p)
                 {
                     if (!Add(p->name, p->data))
@@ -270,6 +273,7 @@ public:
         for (size_t i = 0; i < mnSize; ++i)
         {
             node_t* p = mpBuckets[i];
+
             while (p)
             {
                 node_t* next = p->next;
@@ -289,6 +293,7 @@ public:
     bool Set(const TYPE* name, const DATA& data)
     {
         node_t* node = FindNode(name);
+
         if (node == nullptr)
         {
             return Add(name, data);
@@ -356,6 +361,7 @@ public:
         size_t hash = TRAITS::Hash(name);
         size_t bucket = GetBucket(hash);
         node_t* p = mpBuckets[bucket];
+
         while (p)
         {
             if ((p->hash == hash) && TRAITS::Equal(p->name, name))
@@ -384,6 +390,7 @@ public:
         size_t hash = TRAITS::Hash(name);
         size_t bucket = GetBucket(hash);
         node_t* p = mpBuckets[bucket];
+
         while (p)
         {
             if ((p->hash == hash) && TRAITS::Equal(p->name, name) && (p->data == data))
@@ -418,6 +425,7 @@ public:
     bool GetData(const TYPE* name, DATA& data) const
     {
         node_t* p = FindNode(name);
+
         if (p == nullptr)
         {
             return false;
@@ -478,9 +486,11 @@ public:
     size_t get_mem_usage() const
     {
         size_t size = sizeof(hash_t);
+
         for (size_t i = 0; i < mnSize; ++i)
         {
             node_t* p = mpBuckets[i];
+
             while (p)
             {
                 size += sizeof(node_t) + TRAITS::length(p->name) * sizeof(TYPE);
@@ -518,6 +528,7 @@ protected:
         assert(p != nullptr);
 
         node_t* node = mpBuckets[bucket];
+
         if (node == p)
         {
             mpBuckets[bucket] = p->next;
@@ -548,6 +559,7 @@ protected:
         size_t hash = TRAITS::Hash(name);
         size_t bucket = GetBucket(hash);
         node_t* node = mpBuckets[bucket];
+
         while (node)
         {
             if ((node->hash == hash) && TRAITS::Equal(node->name, name))
@@ -572,6 +584,7 @@ protected:
             if (nullptr != mpBuckets)
             {
                 node_t* p = mpBuckets[i];
+
                 while (p)
                 {
                     node_t* next = p->next;

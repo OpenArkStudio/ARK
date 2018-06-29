@@ -99,6 +99,7 @@ public:
     {
         size_t nStrLength = strID.length();
         size_t nPos = strID.find('-');
+
         if (nPos == std::string::npos)
         {
             return false;
@@ -106,6 +107,7 @@ public:
 
         std::string strHigh = strID.substr(0, nPos);
         std::string strLow = "";
+
         if ((nPos + 1) < nStrLength)
         {
             strLow = strID.substr(nPos + 1, nStrLength - nPos);

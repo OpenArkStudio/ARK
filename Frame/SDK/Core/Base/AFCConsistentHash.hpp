@@ -192,6 +192,7 @@ public:
     {
         uint32_t hash = m_pHasher->GetHashValue(xNode);
         auto it = mxNodes.find(hash);
+
         if (it == mxNodes.end())
         {
             mxNodes.insert(std::map<uint32_t, AFCMachineNode>::value_type(hash, xNode));
@@ -202,6 +203,7 @@ public:
     {
         uint32_t hash = m_pHasher->GetHashValue(xInNode);
         std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.find(hash);
+
         if (it != mxNodes.end())
         {
             return true;

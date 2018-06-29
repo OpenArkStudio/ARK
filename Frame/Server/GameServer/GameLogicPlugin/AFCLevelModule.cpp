@@ -40,6 +40,7 @@ int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
     nCurExp += nExp;
 
     int nRemainExp = nCurExp - nMaxExp;
+
     while (nRemainExp >= 0)
     {
         //升级
@@ -50,6 +51,7 @@ int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
         nCurExp = nRemainExp;
 
         nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ARK::Player::MAXEXP());
+
         if (nMaxExp <= 0)
         {
             break;

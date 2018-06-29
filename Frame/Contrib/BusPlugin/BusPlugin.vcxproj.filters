@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Plguin">
+      <UniqueIdentifier>{0452a471-5564-4f23-a749-62f784ce1789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KernelModule">
+      <UniqueIdentifier>{a8aa8caa-98c2-4623-b91e-119c2b3027fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneModule">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ClassModule">
+      <UniqueIdentifier>{b4055331-2076-4489-95ec-24014d6aff42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ElementModule">
+      <UniqueIdentifier>{2a38a29f-7156-4c74-a3a7-fe425c8f8361}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFCSceneModule.h">
+      <Filter>SceneModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCKernelModule.h">
+      <Filter>KernelModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFKernelPlugin.h">
+      <Filter>Plguin</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCClassModule.h">
+      <Filter>ClassModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCElementModule.h">
+      <Filter>ElementModule</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFCSceneModule.cpp">
+      <Filter>SceneModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCKernelModule.cpp">
+      <Filter>KernelModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFKernelPlugin.cpp">
+      <Filter>Plguin</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCClassModule.cpp">
+      <Filter>ClassModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCElementModule.cpp">
+      <Filter>ElementModule</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

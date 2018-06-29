@@ -51,6 +51,7 @@ bool AFCLoginNetServerModule::PostInit()
     m_pNetModule->AddEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+
     if (nullptr == xLogicClass)
     {
         return false;
@@ -58,10 +59,12 @@ bool AFCLoginNetServerModule::PostInit()
 
     AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
     std::string strConfigName;
+
     for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+
         if (nServerType == ARK_SERVER_TYPE::ARK_ST_LOGIN && pPluginManager->AppID() == nServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
@@ -72,6 +75,7 @@ bool AFCLoginNetServerModule::PostInit()
             m_pUUIDModule->SetGUIDMask(nServerID);
 
             int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
+
             if (nRet < 0)
             {
                 ARK_LOG_ERROR("Cannot init server net, Port = {}", nPort);
@@ -87,6 +91,7 @@ bool AFCLoginNetServerModule::PostInit()
 int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strWorldKey)
 {
     ARK_SHARE_PTR<SessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
+
     if (pSessionData)
     {
         AFMsg::AckConnectWorldResult xMsg;
@@ -126,6 +131,7 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
     ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
+
     if (pSession == nullptr)
     {
         return;
@@ -134,6 +140,7 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
     if (pSession->mnLogicState == 0)
     {
         int nState = m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());
+
         if (0 != nState)
         {
             ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", xClientID.ToString().c_str(), xMsg.account().c_str(), xMsg.password().c_str());
@@ -162,6 +169,7 @@ void AFCLoginNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, cons
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
     ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
+
     if (!pSession)
     {
         return;
@@ -203,6 +211,7 @@ void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
 
     AFMapEx<int, AFMsg::ServerInfoReport>& xWorldMap = m_pLoginToMasterModule->GetWorldMap();
     auto pWorldData = xWorldMap.First();
+
     while (pWorldData)
     {
         AFMsg::ServerInfo* pServerInfo = xData.add_info();
@@ -222,23 +231,24 @@ void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
 void AFCLoginNetServerModule::OnViewWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqServerList);
+
     if (xMsg.type() == AFMsg::RSLT_WORLD_SERVER)
     {
         SynWorldToClient(xClientID);
     }
 }
 
-void AFCLoginNetServerModule::OnHeartBeat(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNetServerModule::OnHeartBeat(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //do nothing
 }
 
-void AFCLoginNetServerModule::OnLogOut(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNetServerModule::OnLogOut(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //do nothing
 }
 
-void AFCLoginNetServerModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNetServerModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);
 }

@@ -68,16 +68,17 @@ public:
     virtual void* RawUserData(size_t index) const = 0;
     virtual const std::string ToString(size_t index) = 0;
 
-//get memory usage
+    //get memory usage
     virtual size_t GetMemUsage() const = 0;
 
     template<typename... Args>
-    bool TypeEx(const int arg1, const Args &... args) const
+    bool TypeEx(const int arg1, const Args& ... args) const
     {
         bool bRet = true;
         int values[] = { arg1, args... };
 
         int index = 0;
+
         for (auto v : values)
         {
             if (v == DT_UNKNOWN)
@@ -87,6 +88,7 @@ public:
             }
 
             AF_DATA_TYPE varType = (AF_DATA_TYPE)GetType(index);
+
             if (varType != v)
             {
                 bRet = false;
@@ -105,32 +107,41 @@ public:
         {
             return false;
         }
+
         switch (xData.GetType())
         {
         case DT_BOOLEAN:
             xData.SetBool(Bool(index));
             break;
+
         case DT_INT:
             xData.SetInt(Int(index));
             break;
+
         case DT_INT64:
             xData.SetInt64(Int64(index));
             break;
+
         case DT_FLOAT:
             xData.SetFloat(Float(index));
             break;
+
         case DT_DOUBLE:
             xData.SetDouble(Double(index));
             break;
+
         case DT_STRING:
             xData.SetString(String(index));
             break;
+
         case DT_OBJECT:
             xData.SetObject(Object(index));
             break;
+
         default:
             break;
         }
+
         return true;
     }
 
@@ -146,31 +157,39 @@ public:
         case DT_BOOLEAN:
             return xData.GetBool() == Bool(index);
             break;
+
         case DT_INT:
             return xData.GetInt() == Int(index);
             break;
+
         case DT_INT64:
             return xData.GetInt64() == Int64(index);
             break;
+
         case DT_FLOAT:
             return AFMisc::IsZeroFloat(xData.GetFloat() - Float(index));
             break;
+
         case DT_DOUBLE:
             return AFMisc::IsZeroDouble(xData.GetDouble() - Double(index));
             break;
+
         case DT_STRING:
             return std::string(xData.GetString()) == std::string(String(index));
             break;
+
         case DT_OBJECT:
             return xData.GetObject() == Object(index);
             break;
+
         default:
             break;
         }
+
         return true;
     }
 
-//operator <<
+    //operator <<
     inline AFIDataList& operator<<(bool value)
     {
         bool bRet = AddBool(value);
@@ -253,7 +272,7 @@ public:
         ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
-    inline AFIDataList& operator<<(const std::string & value)
+    inline AFIDataList& operator<<(const std::string& value)
     {
         bool bRet = AddString(value.c_str());
         ARK_ASSERT_NO_EFFECT(bRet);
@@ -267,14 +286,14 @@ public:
         return *this;
     }
 
-    inline AFIDataList& operator<<(const AFGUID & value)
+    inline AFIDataList& operator<<(const AFGUID& value)
     {
         bool bRet = AddObject(value);
         ARK_ASSERT_NO_EFFECT(bRet);
         return *this;
     }
 
-    inline AFIDataList& operator<<(const AFIDataList & value)
+    inline AFIDataList& operator<<(const AFIDataList& value)
     {
         bool bRet = Concat(value);
         ARK_ASSERT_NO_EFFECT(bRet);

@@ -54,6 +54,7 @@ public:
         else
         {
             size_t left_len = mnDataSize - getlength();
+
             if (left_len >= len)
             {
                 AdjusttoHead();
@@ -62,6 +63,7 @@ public:
             else
             {
                 size_t needLen = len - left_len;
+
                 if (needLen > 0)
                 {
                     grow(needLen);
@@ -97,6 +99,7 @@ public:
     void removedata(size_t value)
     {
         size_t temp = mnReadPos + value;
+
         if (temp <= mnDataSize)
         {
             mnReadPos = temp;
@@ -114,6 +117,7 @@ private:
         }
 
         len = getlength();
+
         if (len > 0)
         {
             memmove(mData, mData + mnReadPos, len);
@@ -144,6 +148,7 @@ private:
     void addwritepos(size_t value)
     {
         size_t temp = mWritePos + value;
+
         if (temp <= mnDataSize)
         {
             mWritePos = temp;

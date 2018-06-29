@@ -56,6 +56,7 @@ public:
         for (std::list<AFCMachineNode>::iterator it = xNodeList.begin(); it != xNodeList.end(); ++it)
         {
             AFIVirtualNode&  xRealNode = *it;
+
             if (!xRealNode.Candidate())
             {
                 xNode.xRealMachine.push_back(xRealNode);

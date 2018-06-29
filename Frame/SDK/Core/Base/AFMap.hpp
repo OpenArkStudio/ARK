@@ -58,6 +58,7 @@ public:
     virtual bool AddElement(const T& name, const PTRTYPE data)
     {
         typename MAP_DATA::iterator iter = mxObjectList.find(name);
+
         if (iter == mxObjectList.end())
         {
             mxObjectList.insert(typename MAP_DATA::value_type(name, data));
@@ -76,6 +77,7 @@ public:
     virtual bool RemoveElement(const T& name)
     {
         typename MAP_DATA::iterator iter = mxObjectList.find(name);
+
         if (iter != mxObjectList.end())
         {
             mxObjectList.erase(iter);
@@ -89,6 +91,7 @@ public:
     virtual const PTRTYPE& GetElement(const T& name)
     {
         typename MAP_DATA::iterator iter = mxObjectList.find(name);
+
         if (iter != mxObjectList.end())
         {
             return iter->second;
@@ -105,6 +108,7 @@ public:
         }
 
         mxObjectCurIter = mxObjectList.begin();
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             return mxObjectCurIter->second;
@@ -121,6 +125,7 @@ public:
         }
 
         ++mxObjectCurIter;
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             return mxObjectCurIter->second;
@@ -137,6 +142,7 @@ public:
         }
 
         mxObjectCurIter = mxObjectList.begin();
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             name = mxObjectCurIter->first;
@@ -153,6 +159,7 @@ public:
         }
 
         mxObjectCurIter++;
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             name = mxObjectCurIter->first;
@@ -176,6 +183,7 @@ public:
     bool Begin()
     {
         mxObjectCurIter = mxObjectList.begin();
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             return true;
@@ -189,6 +197,7 @@ public:
         if (mxObjectCurIter != mxObjectList.end())
         {
             ++mxObjectCurIter;
+
             if (mxObjectCurIter != mxObjectList.end())
             {
                 return true;
@@ -204,6 +213,7 @@ public:
         {
             return mxObjectCurIter->second;
         }
+
         return mNullPtr;
     }
 

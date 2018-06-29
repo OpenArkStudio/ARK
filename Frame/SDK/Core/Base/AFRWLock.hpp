@@ -50,10 +50,12 @@ public:
     {
         EnterCriticalSection(&m_Writer);
         EnterCriticalSection(&m_ReaderCount);
+
         if (++m_Readers == 1)
         {
             ::ResetEvent(m_ClearReadersEvent);
         }
+
         LeaveCriticalSection(&m_ReaderCount);
         LeaveCriticalSection(&m_Writer);
     }
@@ -61,10 +63,12 @@ public:
     void ReaderUnlock(void)
     {
         EnterCriticalSection(&m_ReaderCount);
+
         if (--m_Readers == 0)
         {
             ::SetEvent(m_ClearReadersEvent);
         }
+
         LeaveCriticalSection(&m_ReaderCount);
     }
 
@@ -130,7 +134,7 @@ private:
 class AFScopeRdLock : public AFNoncopyable
 {
 public:
-    explicit AFScopeRdLock(AFCReaderWriterLock &lock) : rwlock(lock)
+    explicit AFScopeRdLock(AFCReaderWriterLock& lock) : rwlock(lock)
     {
         rwlock.ReaderLock();
     }
@@ -140,13 +144,13 @@ public:
         rwlock.ReaderUnlock();
     }
 private:
-    AFCReaderWriterLock & rwlock;
+    AFCReaderWriterLock& rwlock;
 };
 
 class AFScopeWrLock : public AFNoncopyable
 {
 public:
-    explicit AFScopeWrLock(AFCReaderWriterLock &lock) : rwlock(lock)
+    explicit AFScopeWrLock(AFCReaderWriterLock& lock) : rwlock(lock)
     {
         rwlock.WriterLock();
     }
@@ -156,6 +160,6 @@ public:
         rwlock.WriterUnLock();
     }
 private:
-    AFCReaderWriterLock & rwlock;
+    AFCReaderWriterLock& rwlock;
 };
 

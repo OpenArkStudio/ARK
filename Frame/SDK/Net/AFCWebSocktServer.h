@@ -88,10 +88,10 @@ public:
 
     //From ListenThread
     void OnAcceptConnectionInner(brynet::net::TcpSocket::PTR session);
-    void OnHttpMessageCallBack(const brynet::net::HTTPParser & httpParser, const brynet::net::HttpSession::PTR & session);
-    void OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR & httpSession, brynet::net::WebSocketFormat::WebSocketFrameType opcode, const std::string & payload);
+    void OnHttpMessageCallBack(const brynet::net::HTTPParser& httpParser, const brynet::net::HttpSession::PTR& session);
+    void OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR& httpSession, brynet::net::WebSocketFormat::WebSocketFrameType opcode, const std::string& payload);
     void OnHttpConnect(const brynet::net::HttpSession::PTR& httpSession);
-    void OnHttpDisConnection(const brynet::net::HttpSession::PTR & httpSession);
+    void OnHttpDisConnection(const brynet::net::HttpSession::PTR& httpSession);
 
 private:
     bool SendMsgToAllClient(const char* msg, const size_t nLen);

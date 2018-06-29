@@ -86,6 +86,7 @@ public:
     virtual bool Shut()
     {
         int id = 0;
+
         for (auto connect_data = mxServerMap.First(id); connect_data != nullptr; connect_data = mxServerMap.Next(id))
         {
             if (connect_data->mxNetModule != nullptr)
@@ -119,9 +120,11 @@ public:
     void SendByServerID(const int nServerID, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nPlayerID)
     {
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
+
         if (pServer)
         {
             ARK_SHARE_PTR<AFCNetClient> pNetModule = pServer->mxNetModule;
+
             if (pNetModule.get())
             {
                 pNetModule->SendMsgWithOutHead(nMsgID, msg, nLen, 0, nPlayerID);
@@ -132,9 +135,11 @@ public:
     void SendToAllServer(const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
     {
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
+
         while (pServer)
         {
             ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
+
             if (pNetModule.get())
             {
                 pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.size(), 0, nPlayerID);
@@ -143,9 +148,10 @@ public:
             pServer = mxServerMap.Next();
         }
     }
-    void SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID&nPlayerID)
+    void SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
     {
         std::string strData;
+
         if (!PackMsgToBasePB(xData, nPlayerID, strData))
         {
             //add log
@@ -153,9 +159,11 @@ public:
         }
 
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.GetElement(nServerID);
+
         if (pServer)
         {
             ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
+
             if (pNetModule.get())
             {
                 pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
@@ -166,6 +174,7 @@ public:
     void SendToAllServerByPB(const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
     {
         std::string strData;
+
         if (!PackMsgToBasePB(xData, nPlayerID, strData))
         {
             //add log
@@ -173,9 +182,11 @@ public:
         }
 
         ARK_SHARE_PTR<ConnectData> pServer = mxServerMap.First();
+
         while (pServer)
         {
             ARK_SHARE_PTR<AFINet> pNetModule = pServer->mxNetModule;
+
             if (pNetModule.get())
             {
                 pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
@@ -210,6 +221,7 @@ public:
         }
 
         AFCMachineNode xNode;
+
         if (!GetServerMachineData(ARK_LEXICAL_CAST<std::string>(nHashKey), xNode))
         {
             return;
@@ -232,6 +244,7 @@ public:
         }
 
         AFCMachineNode xNode;
+
         if (!GetServerMachineData(ARK_LEXICAL_CAST<std::string> (nHashKey), xNode))
         {
             return;
@@ -264,9 +277,11 @@ protected:
     void ProcessExecute()
     {
         bool bRet = mxServerMap.Begin();
+
         while (bRet)
         {
             const auto& pServerData = mxServerMap.GetCurrentData();
+
             switch (pServerData->eState)
             {
             case ConnectDataState::DISCONNECT:
@@ -278,6 +293,7 @@ protected:
                     }
                 }
                 break;
+
             case ConnectDataState::CONNECTING:
                 {
                     if (pServerData->mxNetModule)
@@ -286,6 +302,7 @@ protected:
                     }
                 }
                 break;
+
             case ConnectDataState::NORMAL:
                 {
                     if (pServerData->mxNetModule)
@@ -296,6 +313,7 @@ protected:
                     }
                 }
                 break;
+
             case ConnectDataState::RECONNECT:
                 {
                     //计算时间
@@ -314,6 +332,7 @@ protected:
                     pServerData->mxNetModule->Start(pServerData->strIPAndPort, pServerData->nGameID);
                 }
                 break;
+
             default:
                 break;
             }
@@ -331,6 +350,7 @@ private:
         LogServerInfo("This is a client, begin to print Server Info----------------------------------");
 
         bool bRet = mxServerMap.Begin();
+
         while (bRet)
         {
             const auto& pServerData = mxServerMap.GetCurrentData();
@@ -361,6 +381,7 @@ private:
     int OnConnected(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
     {
         ARK_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
+
         if (pServerInfo.get())
         {
             AddServerWeightData(pServerInfo);
@@ -373,6 +394,7 @@ private:
     int OnDisConnected(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
     {
         ARK_SHARE_PTR<ConnectData> pServerInfo = GetServerNetInfo(nServerID);
+
         if (nullptr != pServerInfo)
         {
             RemoveServerWeightData(pServerInfo);
@@ -386,10 +408,12 @@ private:
     void ProcessAddNetConnect()
     {
         std::list<ConnectData>::iterator it = mxTempNetList.begin();
+
         for (; it != mxTempNetList.end(); ++it)
         {
             const ConnectData& xInfo = *it;
             ARK_SHARE_PTR<ConnectData> xServerData = mxServerMap.GetElement(xInfo.nGameID);
+
             if (nullptr == xServerData)
             {
                 //正常，添加新服务器

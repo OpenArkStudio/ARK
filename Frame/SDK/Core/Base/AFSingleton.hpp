@@ -34,7 +34,7 @@ public:
 
     static inline Derived* GetInstancePtr()
     {
-        static Derived *instancePointer = CreateInstance();
+        static Derived* instancePointer = CreateInstance();
         return instancePointer;
     }
 
@@ -42,26 +42,27 @@ protected:
     using Access = AFSingleton<Derived>;
 
     AFSingleton(void) = default;
-    AFSingleton(AFSingleton const &) = default;
-    AFSingleton(AFSingleton &&) = default;
-    AFSingleton &operator=(AFSingleton const &) = default;
-    AFSingleton &operator=(AFSingleton &&) = default;
+    AFSingleton(AFSingleton const&) = default;
+    AFSingleton(AFSingleton&&) = default;
+    AFSingleton& operator=(AFSingleton const&) = default;
+    AFSingleton& operator=(AFSingleton&&) = default;
     virtual ~AFSingleton(void) = default;
 
 private:
     static Derived* InstancePointer;
     static AFSpinLock Lock;
 
-    static inline Derived *CreateInstance()
+    static inline Derived* CreateInstance()
     {
         if (AFSingleton::InstancePointer == nullptr)
         {
             std::lock_guard<decltype(AFSingleton::Lock)> lock(AFSingleton::Lock);
+
             if (AFSingleton::InstancePointer == nullptr)
             {
-                void *data = static_cast<void *>(GetData());
+                void* data = static_cast<void*>(GetData());
                 new (data) Derived();
-                AFSingleton::InstancePointer = reinterpret_cast<Derived *>(data);
+                AFSingleton::InstancePointer = reinterpret_cast<Derived*>(data);
                 std::atexit(&AFSingleton::DestroyInstance);
             }
         }
@@ -71,10 +72,10 @@ private:
 
     static inline void DestroyInstance(void)
     {
-        reinterpret_cast<Derived *>(GetData())->~Derived();
+        reinterpret_cast<Derived*>(GetData())->~Derived();
     }
 
-    static inline unsigned char *GetData(void)
+    static inline unsigned char* GetData(void)
     {
         static unsigned char data[sizeof(Derived)];
         return data;
@@ -82,7 +83,7 @@ private:
 };
 
 template <class Derived>
-Derived *AFSingleton<Derived>::InstancePointer = nullptr;
+Derived* AFSingleton<Derived>::InstancePointer = nullptr;
 
 template <class Derived>
 AFSpinLock AFSingleton<Derived>::Lock;

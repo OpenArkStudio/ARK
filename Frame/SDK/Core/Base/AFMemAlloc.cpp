@@ -59,6 +59,7 @@ void AFMemAlloc::CheckLeak()
     else
     {
         printf("Find leak, %d bytes!\n", g_totalAlloc.load());
+
         for (auto& iter : g_memMap)
         {
             AllocItem& record = iter.second;
@@ -94,6 +95,7 @@ void* AFMemAlloc::AllocDebug(size_t bytes, const char* file, int line)
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = AllocInternal(bytes);
+
     if (ptr == nullptr)
     {
         return nullptr;
@@ -128,6 +130,7 @@ void* AFMemAlloc::ReallocDebug(void* addr, size_t bytes, const char* file, int l
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = ReallocInternal(addr, bytes);
+
     if (ptr == nullptr)
     {
         return nullptr;
@@ -153,6 +156,7 @@ void* AFMemAlloc::CallocDebug(size_t count, size_t bytes, const char* file, int 
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = CallocInternal(count, bytes);
+
     if (ptr == nullptr)
     {
         return nullptr;
@@ -192,6 +196,7 @@ void* AFMemAlloc::Alloc(size_t bytes)
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = AllocInternal(bytes);
+
     if (ptr == nullptr)
     {
         return nullptr;
@@ -205,6 +210,7 @@ void* AFMemAlloc::Realloc(void* addr, size_t bytes)
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = ReallocInternal(addr, bytes);
+
     if (ptr == nullptr)
     {
         return nullptr;
@@ -218,6 +224,7 @@ void* AFMemAlloc::Calloc(size_t count, size_t bytes)
     ARK_ASSERT_NO_EFFECT(bytes > 0);
 
     void* ptr = CallocInternal(count, bytes);
+
     if (ptr == nullptr)
     {
         return nullptr;
@@ -236,6 +243,7 @@ inline int32_t AFMemAlloc::SizeToPoolIndex(size_t size)
     uint32_t allocSize = AFMisc::GetNearest2N(size);
     uint32_t nIndexT = allocSize >> 4;
     int32_t cIndex = -1;
+
     while (nIndexT)
     {
         nIndexT = nIndexT >> 1;
@@ -248,6 +256,7 @@ inline int32_t AFMemAlloc::SizeToPoolIndex(size_t size)
 void AFMemAlloc::Dump()
 {
     printf("Memory dump start---------------------\n");
+
     for (int i = 0; i < POOL_SIZE; ++i)
     {
         printf("[Size:%d]:Used:%d    /   Total:%d    (%d bytes) \r\n", g_poolSize[i], g_poolUsed[i], g_poolTotal[i], g_poolSize[i] * g_poolUsed[i]);
@@ -331,6 +340,7 @@ void* AFMemAlloc::ReallocFromPool(void* addr, size_t bytes)
     }
 
     uint32_t poolIndex = FreeFromPool(addr);
+
     if (poolIndex != -1)
     {
         void* ptr = AllocFromPool(bytes);
@@ -351,6 +361,7 @@ void* AFMemAlloc::CallocFromPool(size_t count, size_t bytes)
 size_t AFMemAlloc::FreeFromPool(void* p)
 {
     uint32_t poolIndex = -1;
+
     for (int i = 0; i < POOL_SIZE; ++i)
     {
         if (g_pool[i]->InPool(p))

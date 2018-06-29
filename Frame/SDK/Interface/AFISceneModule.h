@@ -82,6 +82,7 @@ public:
     bool AddObjectToGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
         ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
+
         if (pInfo == nullptr)
         {
             return false;
@@ -102,6 +103,7 @@ public:
     bool RemoveObjectFromGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
         ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
+
         if (nullptr == pInfo)
         {
             return false;

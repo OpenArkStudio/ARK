@@ -68,6 +68,7 @@ public:
     ArrayPod(const self_t& src)
     {
         mnSize = src.mnSize;
+
         if (mnSize <= SIZE)
         {
             mpData = mxStack;
@@ -121,6 +122,7 @@ public:
         {
             src.mpData = this->mpData;
         }
+
         //////////////////////////////////////////////////////////////////////////
         this->mnSize = tmp_size;
         this->mnCapacity = tmp_capacity;
@@ -225,6 +227,7 @@ public:
         if (size > mnCapacity)
         {
             size_t new_size = mnCapacity * 2;
+
             if (new_size < size)
             {
                 new_size = size;
@@ -232,6 +235,7 @@ public:
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
+
             if (mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
@@ -249,6 +253,7 @@ public:
         if (size > mnCapacity)
         {
             size_t new_size = mnCapacity * 2;
+
             if (new_size < size)
             {
                 new_size = size;
@@ -256,6 +261,7 @@ public:
 
             TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
             memcpy(p, mpData, mnSize * sizeof(TYPE));
+
             if (mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
@@ -311,6 +317,7 @@ public:
     size_t get_mem_usage() const
     {
         size_t size = sizeof(self_t);
+
         if (mnCapacity > size)
         {
             size += mnCapacity * sizeof(TYPE);

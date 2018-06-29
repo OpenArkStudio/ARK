@@ -70,35 +70,45 @@ public:
     AFBaseData(const self_t& src)
     {
         this->mnType = src.mnType;
+
         switch (this->mnType)
         {
         case DT_BOOLEAN:
             mbValue = src.mbValue;
             break;
+
         case DT_INT:
             mnValue = src.mnValue;
             break;
+
         case DT_INT64:
             mn64Value = src.mn64Value;
             break;
+
         case DT_FLOAT:
             mfValue = src.mfValue;
             break;
+
         case DT_DOUBLE:
             mdValue = src.mdValue;
             break;
+
         case DT_STRING:
             InnerSetString(src.GetString());
             break;
+
         case DT_OBJECT:
             mxGUID = src.mxGUID;
             break;
+
         case DT_POINTER:
             mpVaule = src.mpVaule;
             break;
+
         case DT_USERDATA:
             SetUserData(src);
             break;
+
         default:
             ARK_ASSERT_NO_EFFECT(0);
             break;
@@ -108,35 +118,45 @@ public:
     explicit AFBaseData(const AFIData& src)
     {
         this->mnType = src.GetType();
+
         switch (this->mnType)
         {
         case DT_BOOLEAN:
             mbValue = src.GetBool();
             break;
+
         case DT_INT:
             mnValue = src.GetInt();
             break;
+
         case DT_INT64:
             mn64Value = src.GetInt64();
             break;
+
         case DT_FLOAT:
             mfValue = src.GetFloat();
             break;
+
         case DT_DOUBLE:
             mdValue = src.GetDouble();
             break;
+
         case DT_STRING:
             InnerSetString(src.GetString());
             break;
+
         case DT_OBJECT:
             mxGUID = src.GetObject();
             break;
+
         case DT_POINTER:
             mpVaule = src.GetPointer();
             break;
+
         case DT_USERDATA:
             SetUserData(src);
             break;
+
         default:
             break;
         }
@@ -228,6 +248,7 @@ public:
         uint32_t tmp_alloc_len = this->mnAllocLen;
         char tmp_buffer[BUFFER_SIZE] = { 0 };
         bool tmp_use_buffer = (tmp_type == DT_STRING) && (this->mstrValue == this->mBuffer);
+
         if ((src.mnType == DT_STRING) && (src.mstrValue == src.mBuffer))
         {
             if (tmp_use_buffer)
@@ -290,24 +311,31 @@ public:
         case DT_BOOLEAN:
             SetBool(NULL_BOOLEAN);
             break;
+
         case DT_INT:
             SetInt(NULL_INT);
             break;
+
         case DT_INT64:
             SetInt64(NULL_INT64);
             break;
+
         case DT_FLOAT:
             SetFloat(NULL_FLOAT);
             break;
+
         case DT_DOUBLE:
             SetDouble(NULL_DOUBLE);
             break;
+
         case DT_STRING:
             SetString("");
             break;
+
         case DT_OBJECT:
             SetObject(AFGUID(0));
             break;
+
         default:
             ARK_ASSERT_NO_EFFECT(0);
             break;
@@ -321,24 +349,31 @@ public:
         case DT_BOOLEAN:
             return mbValue == NULL_BOOLEAN;
             break;
+
         case DT_INT:
             return mnValue == NULL_INT;
             break;
+
         case DT_INT64:
             return mn64Value == NULL_INT64;
             break;
+
         case DT_FLOAT:
             return AFMisc::IsZeroFloat(mfValue);
             break;
+
         case DT_DOUBLE:
             return AFMisc::IsZeroDouble(mdValue);
             break;
+
         case DT_STRING:
             return mstrValue == NULL_STR.c_str();
             break;
+
         case DT_OBJECT:
             return GetObject() == NULL_GUID;
             break;
+
         default:
             ARK_ASSERT_NO_EFFECT(0);
             break;
@@ -501,6 +536,7 @@ public:
     virtual size_t GetMemUsage() const
     {
         size_t size = sizeof(self_t);
+
         switch (mnType)
         {
         case DT_STRING:
@@ -511,6 +547,7 @@ public:
                 }
             }
             break;
+
         case DT_USERDATA:
             {
                 if (mpUserData != nullptr)
@@ -519,6 +556,7 @@ public:
                 }
             }
             break;
+
         default:
             break;
         }
@@ -533,24 +571,31 @@ public:
         case DT_BOOLEAN:
             return ARK_TO_STRING(this->mbValue);
             break;
+
         case DT_INT:
             return ARK_TO_STRING(this->mnValue);
             break;
+
         case DT_INT64:
             return ARK_TO_STRING(this->mn64Value);
             break;
+
         case DT_FLOAT:
             return ARK_TO_STRING(this->mfValue);
             break;
+
         case DT_DOUBLE:
             return ARK_TO_STRING(this->mdValue);
             break;
+
         case DT_STRING:
             return this->mstrValue;
             break;
+
         case DT_OBJECT:
             return GetObject().ToString();
             break;
+
         default:
             ARK_ASSERT_NO_EFFECT(0);
             break;
@@ -572,6 +617,7 @@ public:
                 }
             }
             break;
+
         case DT_USERDATA:
             {
                 if (mpUserData != nullptr)
@@ -581,6 +627,7 @@ public:
                 }
             }
             break;
+
         default:
             break;
         }

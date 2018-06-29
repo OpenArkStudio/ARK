@@ -78,6 +78,7 @@ bool AFList<T>::First(T& id)
     }
 
     mCurIter = mtObjConfigList.begin();
+
     if (mCurIter != mtObjConfigList.end())
     {
         id = *mCurIter;
@@ -96,6 +97,7 @@ bool AFList<T>::Next(T& id)
     }
 
     ++mCurIter;
+
     if (mCurIter != mtObjConfigList.end())
     {
         id = *mCurIter;
@@ -109,6 +111,7 @@ template < typename T >
 bool AFList<T>::Find(const T& id)
 {
     auto it = std::find(mtObjConfigList.begin(), mtObjConfigList.end(), id);
+
     if (it != mtObjConfigList.end())
     {
         return true;

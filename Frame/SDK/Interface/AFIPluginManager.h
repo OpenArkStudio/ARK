@@ -50,6 +50,7 @@ public:
     T* FindModule()
     {
         AFIModule* pLogicModule = FindModule(typeid(T).name());
+
         if (pLogicModule)
         {
             if (!std::is_base_of<AFIModule, T>::value)

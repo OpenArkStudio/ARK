@@ -73,6 +73,7 @@ public:
         }
 
         now = now / 1000; //convert ms to s
+
         if (now > next_time)
         {
             return true;
@@ -111,6 +112,7 @@ public:
         }
 
         now = now / 1000; //convert ms to s
+
         if (now >= next_time)
         {
             next_time = cron_next(&cron_parser, now);
@@ -146,6 +148,7 @@ public:
             for (auto iter = mxCronList.begin(); iter != mxCronList.end();)
             {
                 AFCronData* pCron = *iter;
+
                 if (pCron->delete_flag)
                 {
                     ARK_DEALLOC(pCron);
@@ -188,6 +191,7 @@ public:
     {
         AFCronData* pCron = (AFCronData*)ARK_ALLOC(sizeof(AFCronData));
         memset(pCron, 0, sizeof(*pCron));
+
         if (!pCron->Parse(cron_expression))
         {
             ARK_DELETE(pCron);
@@ -208,6 +212,7 @@ public:
     int RemoveCron(int cron_id)
     {
         int count = 0;
+
         for (auto it : mxCronList)
         {
             if (it->cron_id == cron_id)

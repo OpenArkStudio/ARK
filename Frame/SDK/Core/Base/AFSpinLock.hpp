@@ -26,10 +26,10 @@ class AFSpinLock
 {
 public:
     AFSpinLock() : _atomic_lock(false) {}
-    AFSpinLock(AFSpinLock const &) = default;
-    AFSpinLock(AFSpinLock &&) = default;
-    AFSpinLock &operator=(AFSpinLock const &) = default;
-    AFSpinLock &operator=(AFSpinLock &&) = default;
+    AFSpinLock(AFSpinLock const&) = default;
+    AFSpinLock(AFSpinLock&&) = default;
+    AFSpinLock& operator=(AFSpinLock const&) = default;
+    AFSpinLock& operator=(AFSpinLock&&) = default;
 
     ~AFSpinLock(void) = default;
 

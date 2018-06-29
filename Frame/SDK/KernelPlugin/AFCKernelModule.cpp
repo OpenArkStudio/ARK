@@ -81,6 +81,7 @@ bool AFCKernelModule::Update()
     }
 
     ARK_SHARE_PTR<AFIEntity> pEntity = First();
+
     while (pEntity)
     {
         mnCurExeEntity = pEntity->Self();
@@ -96,6 +97,7 @@ bool AFCKernelModule::Update()
 bool AFCKernelModule::FindHeartBeat(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (pEntity != nullptr)
     {
         return pEntity->CheckHeartBeatExist(name);
@@ -108,6 +110,7 @@ bool AFCKernelModule::FindHeartBeat(const AFGUID& self, const std::string& name)
 bool AFCKernelModule::RemoveHeartBeat(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (pEntity != nullptr)
     {
         return pEntity->RemoveHeartBeat(name);
@@ -123,6 +126,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
     AFGUID ident = self;
 
     ARK_SHARE_PTR<AFCSceneInfo> pContainerInfo = m_pSceneModule->GetElement(nSceneID);
+
     if (!pContainerInfo)
     {
         ARK_LOG_ERROR("There is no scene, scene = {}", nSceneID);
@@ -159,12 +163,15 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
     pTableManager->AddTableCommonCallback(this, &AFCKernelModule::OnCommonTableEvent);
 
     ARK_SHARE_PTR<AFIDataNodeManager> pConfigNodeManager = m_pElementModule->GetNodeManager(strConfigIndex);
+
     if (pConfigNodeManager != nullptr)
     {
         size_t configNodeCount = pConfigNodeManager->GetNodeCount();
+
         for (size_t i = 0; i < configNodeCount; ++i)
         {
             AFDataNode* pConfigNode = pConfigNodeManager->GetNodeByIndex(i);
+
             if (pConfigNode != nullptr || pConfigNode->Changed())
             {
                 pNodeManager->SetNode(pConfigNode->GetName(), pConfigNode->GetValue());
@@ -177,9 +184,11 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
     for (int i = 0; (i + 1) < (arg.GetCount() - 1); i += 2)
     {
         const std::string& strDataNodeName = arg.String(i);
+
         if (!mInnerProperty.ExistElement(strDataNodeName))
         {
             AFDataNode* pArgNode = pNodeManager->GetNode(strDataNodeName.c_str());
+
             if (pArgNode != nullptr)
             {
                 arg.ToAFIData(i + 1, pArgNode->value);
@@ -212,6 +221,7 @@ bool AFCKernelModule::DestroyEntity(const AFGUID& self)
     int32_t nSceneID = GetNodeInt(self, ARK::IObject::SceneID());
 
     ARK_SHARE_PTR<AFCSceneInfo> pContainerInfo = m_pSceneModule->GetElement(nSceneID);
+
     if (nullptr != pContainerInfo)
     {
         const std::string& strClassName = GetNodeString(self, ARK::IObject::ClassName());
@@ -231,6 +241,7 @@ bool AFCKernelModule::DestroyEntity(const AFGUID& self)
 bool AFCKernelModule::FindNode(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->CheckNodeExist(name);
@@ -243,6 +254,7 @@ bool AFCKernelModule::FindNode(const AFGUID& self, const std::string& name)
 bool AFCKernelModule::SetNodeBool(const AFGUID& self, const std::string& name, const bool value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->SetNodeBool(name, value);
@@ -255,6 +267,7 @@ bool AFCKernelModule::SetNodeBool(const AFGUID& self, const std::string& name, c
 bool AFCKernelModule::SetNodeInt(const AFGUID& self, const std::string& name, const int32_t value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->SetNodeInt(name, value);
@@ -267,6 +280,7 @@ bool AFCKernelModule::SetNodeInt(const AFGUID& self, const std::string& name, co
 bool AFCKernelModule::SetNodeInt64(const AFGUID& self, const std::string& name, const int64_t value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->SetNodeInt64(name, value);
@@ -279,6 +293,7 @@ bool AFCKernelModule::SetNodeInt64(const AFGUID& self, const std::string& name, 
 bool AFCKernelModule::SetNodeFloat(const AFGUID& self, const std::string& name, const float value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->SetNodeFloat(name, value);
@@ -291,6 +306,7 @@ bool AFCKernelModule::SetNodeFloat(const AFGUID& self, const std::string& name, 
 bool AFCKernelModule::SetNodeDouble(const AFGUID& self, const std::string& name, const double value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->SetNodeDouble(name, value);
@@ -303,6 +319,7 @@ bool AFCKernelModule::SetNodeDouble(const AFGUID& self, const std::string& name,
 bool AFCKernelModule::SetNodeString(const AFGUID& self, const std::string& name, const std::string& value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->SetNodeString(name, value);
@@ -315,6 +332,7 @@ bool AFCKernelModule::SetNodeString(const AFGUID& self, const std::string& name,
 bool AFCKernelModule::SetNodeObject(const AFGUID& self, const std::string& name, const AFGUID& value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->SetNodeObject(name, value);
@@ -327,6 +345,7 @@ bool AFCKernelModule::SetNodeObject(const AFGUID& self, const std::string& name,
 bool AFCKernelModule::GetNodeBool(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetNodeBool(name);
@@ -339,6 +358,7 @@ bool AFCKernelModule::GetNodeBool(const AFGUID& self, const std::string& name)
 int32_t AFCKernelModule::GetNodeInt(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetNodeInt(name);
@@ -351,6 +371,7 @@ int32_t AFCKernelModule::GetNodeInt(const AFGUID& self, const std::string& name)
 int64_t AFCKernelModule::GetNodeInt64(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetNodeInt64(name);
@@ -363,6 +384,7 @@ int64_t AFCKernelModule::GetNodeInt64(const AFGUID& self, const std::string& nam
 float AFCKernelModule::GetNodeFloat(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetNodeFloat(name);
@@ -375,6 +397,7 @@ float AFCKernelModule::GetNodeFloat(const AFGUID& self, const std::string& name)
 double AFCKernelModule::GetNodeDouble(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetNodeDouble(name);
@@ -387,6 +410,7 @@ double AFCKernelModule::GetNodeDouble(const AFGUID& self, const std::string& nam
 const char* AFCKernelModule::GetNodeString(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetNodeString(name);
@@ -399,6 +423,7 @@ const char* AFCKernelModule::GetNodeString(const AFGUID& self, const std::string
 const AFGUID AFCKernelModule::GetNodeObject(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetNodeObject(name);
@@ -411,6 +436,7 @@ const AFGUID AFCKernelModule::GetNodeObject(const AFGUID& self, const std::strin
 AFDataTable* AFCKernelModule::FindTable(const AFGUID& self, const std::string& name)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetTableManager()->GetTable(name.c_str());
@@ -423,6 +449,7 @@ AFDataTable* AFCKernelModule::FindTable(const AFGUID& self, const std::string& n
 bool AFCKernelModule::ClearTable(const AFGUID& self, const std::string& name)
 {
     AFDataTable* pTable = FindTable(self, name);
+
     if (pTable != nullptr)
     {
         pTable->Clear();
@@ -436,6 +463,7 @@ bool AFCKernelModule::ClearTable(const AFGUID& self, const std::string& name)
 bool AFCKernelModule::SetTableBool(const AFGUID& self, const std::string& name, const int row, const int col, const bool value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         if (!pEntity->SetTableBool(name, row, col, value))
@@ -454,6 +482,7 @@ bool AFCKernelModule::SetTableBool(const AFGUID& self, const std::string& name, 
 bool AFCKernelModule::SetTableInt(const AFGUID& self, const std::string& name, const int row, const int col, const int32_t value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         if (!pEntity->SetTableInt(name, row, col, value))
@@ -472,6 +501,7 @@ bool AFCKernelModule::SetTableInt(const AFGUID& self, const std::string& name, c
 bool AFCKernelModule::SetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col, const int64_t value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         if (!pEntity->SetTableInt64(name, row, col, value))
@@ -490,6 +520,7 @@ bool AFCKernelModule::SetTableInt64(const AFGUID& self, const std::string& name,
 bool AFCKernelModule::SetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col, const float value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         if (!pEntity->SetTableFloat(name, row, col, value))
@@ -508,6 +539,7 @@ bool AFCKernelModule::SetTableFloat(const AFGUID& self, const std::string& name,
 bool AFCKernelModule::SetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col, const double value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         if (!pEntity->SetTableDouble(name, row, col, value))
@@ -526,6 +558,7 @@ bool AFCKernelModule::SetTableDouble(const AFGUID& self, const std::string& name
 bool AFCKernelModule::SetTableString(const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         if (!pEntity->SetTableString(name, row, col, value))
@@ -544,6 +577,7 @@ bool AFCKernelModule::SetTableString(const AFGUID& self, const std::string& name
 bool AFCKernelModule::SetTableObject(const AFGUID& self, const std::string& name, const int row, const int col, const AFGUID& value)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         if (!pEntity->SetTableObject(name, row, col, value))
@@ -562,6 +596,7 @@ bool AFCKernelModule::SetTableObject(const AFGUID& self, const std::string& name
 bool AFCKernelModule::GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetTableBool(name, row, col);
@@ -574,6 +609,7 @@ bool AFCKernelModule::GetTableBool(const AFGUID& self, const std::string& name, 
 int32_t AFCKernelModule::GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetTableInt(name, row, col);
@@ -586,6 +622,7 @@ int32_t AFCKernelModule::GetTableInt(const AFGUID& self, const std::string& name
 int64_t AFCKernelModule::GetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetTableInt64(name, row, col);
@@ -598,6 +635,7 @@ int64_t AFCKernelModule::GetTableInt64(const AFGUID& self, const std::string& na
 float AFCKernelModule::GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetTableFloat(name, row, col);
@@ -610,6 +648,7 @@ float AFCKernelModule::GetTableFloat(const AFGUID& self, const std::string& name
 double AFCKernelModule::GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetTableDouble(name, row, col);
@@ -622,6 +661,7 @@ double AFCKernelModule::GetTableDouble(const AFGUID& self, const std::string& na
 const char* AFCKernelModule::GetTableString(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetTableString(name, row, col);
@@ -634,6 +674,7 @@ const char* AFCKernelModule::GetTableString(const AFGUID& self, const std::strin
 const AFGUID AFCKernelModule::GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetTableObject(name, row, col);
@@ -646,6 +687,7 @@ const AFGUID AFCKernelModule::GetTableObject(const AFGUID& self, const std::stri
 bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const Point3D& pos, const float fOrient, const AFIDataList& arg)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr == pEntity)
     {
         ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString().c_str());
@@ -657,6 +699,7 @@ bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, 
 
     ARK_SHARE_PTR<AFCSceneInfo> pOldSceneInfo = m_pSceneModule->GetElement(nOldSceneID);
     ARK_SHARE_PTR<AFCSceneInfo> pNewSceneInfo = m_pSceneModule->GetElement(nTargetSceneID);
+
     if (nullptr == pOldSceneInfo)
     {
         ARK_LOG_ERROR("no this container, id = {}", nOldSceneID);
@@ -698,12 +741,14 @@ bool AFCKernelModule::SwitchScene(const AFGUID& self, const int nTargetSceneID, 
 bool AFCKernelModule::CreateScene(const int nSceneID)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
+
     if (nullptr != pSceneInfo)
     {
         return false;
     }
 
     pSceneInfo = std::make_shared<AFCSceneInfo>();
+
     if (nullptr == pSceneInfo)
     {
         return false;
@@ -713,6 +758,7 @@ bool AFCKernelModule::CreateScene(const int nSceneID)
 
     //create group 0
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = std::make_shared<AFCSceneGroupInfo>(0);
+
     if (nullptr == pGroupInfo)
     {
         return false;
@@ -731,6 +777,7 @@ bool AFCKernelModule::DestroyScene(const int nSceneID)
 int AFCKernelModule::GetOnLineCount()
 {
     int nCount = 0;
+
     for (ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->First(); pSceneInfo != nullptr; pSceneInfo = m_pSceneModule->Next())
     {
         for (ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
@@ -754,6 +801,7 @@ int AFCKernelModule::GetSceneOnLineCount(const int nSceneID)
     int nCount = 0;
 
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
+
     if (nullptr == pSceneInfo)
     {
         return nCount;
@@ -772,12 +820,14 @@ int AFCKernelModule::GetSceneOnLineCount(const int nSceneID, const int nGroupID)
     int nCount = 0;
 
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
+
     if (nullptr == pSceneInfo)
     {
         return nCount;
     }
 
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->GetElement(nGroupID);
+
     if (nullptr != pGroupInfo)
     {
         nCount = pGroupInfo->mxPlayerList.GetCount();
@@ -789,6 +839,7 @@ int AFCKernelModule::GetSceneOnLineCount(const int nSceneID, const int nGroupID)
 int AFCKernelModule::GetSceneOnLineList(const int nSceneID, AFIDataList& var)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
+
     if (nullptr == pSceneInfo)
     {
         return 0;
@@ -797,6 +848,7 @@ int AFCKernelModule::GetSceneOnLineList(const int nSceneID, AFIDataList& var)
     for (ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->First(); pGroupInfo != nullptr; pGroupInfo = pSceneInfo->Next())
     {
         AFGUID ident;
+
         for (ARK_SHARE_PTR<int> pRet = pGroupInfo->mxPlayerList.First(ident); !ident.IsNULL(); pRet = pGroupInfo->mxPlayerList.Next(ident))
         {
             var.AddObject(ident);
@@ -810,18 +862,21 @@ int AFCKernelModule::GetSceneOnLineList(const int nSceneID, AFIDataList& var)
 int AFCKernelModule::RequestGroupScene(const int nSceneID)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
+
     if (nullptr == pSceneInfo)
     {
         return -1;
     }
 
     int nNewGroupID = pSceneInfo->NewGroupID();
+
     if (nullptr != pSceneInfo->GetElement(nNewGroupID))
     {
         return -1;
     }
 
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = std::make_shared<AFCSceneGroupInfo>(nNewGroupID);
+
     if (nullptr == pGroupInfo)
     {
         return -1;
@@ -834,6 +889,7 @@ int AFCKernelModule::RequestGroupScene(const int nSceneID)
 bool AFCKernelModule::ReleaseGroupScene(const int nSceneID, const int nGroupID)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
+
     if (nullptr == pSceneInfo)
     {
         return false;
@@ -845,11 +901,13 @@ bool AFCKernelModule::ReleaseGroupScene(const int nSceneID, const int nGroupID)
     }
 
     AFCDataList listObject;
+
     if (GetGroupEntityList(nSceneID, nGroupID, listObject))
     {
         for (int i = 0; i < listObject.GetCount(); ++i)
         {
             AFGUID ident = listObject.Object(i);
+
             if (!DestroyEntity(ident))
             {
                 ARK_LOG_ERROR("Destory entity failed, id  = {}, pls check", ident.ToString().c_str());
@@ -865,6 +923,7 @@ bool AFCKernelModule::ReleaseGroupScene(const int nSceneID, const int nGroupID)
 bool AFCKernelModule::ExitGroupScene(const int nSceneID, const int nGroupID)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
+
     if (nullptr != pSceneInfo)
     {
         ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->GetElement(nGroupID);
@@ -877,12 +936,14 @@ bool AFCKernelModule::ExitGroupScene(const int nSceneID, const int nGroupID)
 bool AFCKernelModule::GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list)
 {
     ARK_SHARE_PTR<AFCSceneInfo> pSceneInfo = m_pSceneModule->GetElement(nSceneID);
+
     if (nullptr == pSceneInfo)
     {
         return false;
     }
 
     ARK_SHARE_PTR<AFCSceneGroupInfo> pGroupInfo = pSceneInfo->GetElement(nGroupID);
+
     if (nullptr == pGroupInfo)
     {
         return false;
@@ -890,6 +951,7 @@ bool AFCKernelModule::GetGroupEntityList(const int nSceneID, const int nGroupID,
 
     AFGUID ident = NULL_GUID;
     pGroupInfo->mxPlayerList.First(ident);
+
     while (!ident.IsNULL())
     {
         list.AddObject(ident);
@@ -900,6 +962,7 @@ bool AFCKernelModule::GetGroupEntityList(const int nSceneID, const int nGroupID,
 
     ident = NULL_GUID;
     pGroupInfo->mxOtherList.First(ident);
+
     while (!ident.IsNULL())
     {
         list.AddObject(ident);
@@ -931,6 +994,7 @@ bool AFCKernelModule::LogStack()
 bool AFCKernelModule::LogInfo(const AFGUID& ident)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(ident);
+
     if (nullptr == pEntity)
     {
         ARK_LOG_ERROR("Cannot find entity, id = {}", ident.ToString().c_str());
@@ -944,6 +1008,7 @@ bool AFCKernelModule::LogInfo(const AFGUID& ident)
         ARK_LOG_INFO("----------child object list-------- , id = {} SceneID = {}", ident.ToString().c_str(), nSceneID);
         AFCDataList valObjectList;
         int nCount = GetSceneOnLineList(nSceneID, valObjectList);
+
         for (int i  = 0; i < nCount; i++)
         {
             AFGUID targetIdent = valObjectList.Object(i);
@@ -982,6 +1047,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::GetEntity(const AFGUID& ident)
 bool AFCKernelModule::IsContainer(const AFGUID& self)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
+
     if (nullptr != pEntity)
     {
         return (pEntity->GetNodeInt("GroupID") < 0);
@@ -1002,18 +1068,21 @@ int AFCKernelModule::GetEntityByDataNode(const int nSceneID, const std::string& 
         AFGUID ident = varObjectList.Object(i);
 
         ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(ident);
+
         if (nullptr == pEntity)
         {
             continue;
         }
 
         ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
+
         if (pNodeManager)
         {
             continue;
         }
 
         AFDataNode* pDataNode = pNodeManager->GetNode(name.c_str());
+
         if (nullptr != pDataNode && list.Equal(0, pDataNode->value))
         {
             list.AddObject(ident);
@@ -1043,6 +1112,7 @@ int AFCKernelModule::OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVE
     }
 
     std::list<DATA_TABLE_EVENT_FUNCTOR_PTR>::iterator it = mxCommonTableCBList.begin();
+
     for (auto it : mxCommonTableCBList)
     {
         (*it)(self, xEventData, oldVar, newVar);
@@ -1092,6 +1162,7 @@ bool AFCKernelModule::LogSelfInfo(const AFGUID& ident)
 bool AFCKernelModule::PostInit()
 {
     ARK_SHARE_PTR<AFIClass> pClass = m_pClassModule->First();
+
     while (nullptr != pClass)
     {
         AFIKernelModule::AddClassCallBack(pClass->GetClassName(), this, &AFCKernelModule::OnCommonClassEvent);
@@ -1104,6 +1175,7 @@ bool AFCKernelModule::PostInit()
 bool AFCKernelModule::DestroyAll()
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = First();
+
     while (nullptr != pEntity)
     {
         mtDeleteSelfList.push_back(pEntity->Self());
@@ -1131,6 +1203,7 @@ bool AFCKernelModule::PreShut()
 bool AFCKernelModule::AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetEventManager()->AddEventCallBack(nEventID, cb);
@@ -1154,6 +1227,7 @@ bool AFCKernelModule::DoEvent(const AFGUID& self, const std::string& strClassNam
 bool AFCKernelModule::DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList)
 {
     ARK_SHARE_PTR<AFIEntity> pEntity = GetElement(self);
+
     if (nullptr != pEntity)
     {
         return pEntity->GetEventManager()->DoEvent(nEventID, valueList);

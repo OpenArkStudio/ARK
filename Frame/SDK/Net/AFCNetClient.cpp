@@ -50,9 +50,11 @@ void AFCNetClient::ProcessMsgLogicThread(AFTCPEntity* pEntity)
     }
 
     size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
+
     for (size_t i = 0; i < nReceiveCount; ++i)
     {
         AFTCPMsg* pMsg(nullptr);
+
         if (!pEntity->mxNetMsgMQ.Pop(pMsg))
         {
             break;
@@ -73,15 +75,18 @@ void AFCNetClient::ProcessMsgLogicThread(AFTCPEntity* pEntity)
                 }
             }
             break;
+
         case CONNECTED:
             mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
             break;
+
         case DISCONNECTED:
             {
                 mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
                 pEntity->SetNeedRemove(true);
             }
             break;
+
         default:
             break;
         }
@@ -103,6 +108,7 @@ void AFCNetClient::Start(const std::string& strAddrPort, const int nServerID)
 
     SplitHostPort(strAddrPort, strIp, nPort);
     brynet::net::TcpSocket::PTR SocketPtr = brynet::net::SyncConnectSocket(strIp, nPort, std::chrono::milliseconds(nTimeOut), m_pConector);
+
     if (SocketPtr == nullptr)
     {
         return;
@@ -157,6 +163,7 @@ bool AFCNetClient::CloseNetEntity(const AFGUID& xClient)
     {
         m_pClientEntity->GetSession()->postDisConnect();
     }
+
     return true;
 }
 
@@ -166,6 +173,7 @@ bool AFCNetClient::DismantleNet(AFTCPEntity* pEntity)
     {
         AFCMsgHead xHead;
         int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
+
         if (nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
         {
             AFTCPMsg* pMsg = ARK_NEW AFTCPMsg(pEntity->GetSession());
@@ -209,6 +217,7 @@ void AFCNetClient::OnClientConnectionInner(const brynet::net::TCPSession::PTR& s
     pMsg->xClientID.nLow = (++mnNextID);
     session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
     pMsg->nType = CONNECTED;
+
     do
     {
         AFScopeWrLock xGuard(mRWLock);
@@ -251,7 +260,7 @@ size_t AFCNetClient::OnMessageInner(const brynet::net::TCPSession::PTR& session,
     return len;
 }
 
-bool AFCNetClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID & xClientID, const AFGUID& xPlayerID)
+bool AFCNetClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
 {
     std::string strOutData;
     AFCMsgHead xHead;
@@ -260,6 +269,7 @@ bool AFCNetClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, co
     xHead.SetBodyLength(nLen);
 
     int nAllLen = EnCode(xHead, msg, nLen, strOutData);
+
     if (nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return SendMsg(strOutData.c_str(), strOutData.length(), xClientID);
@@ -282,7 +292,7 @@ int AFCNetClient::EnCode(const AFCMsgHead& xHead, const char* strData, const siz
     return xHead.GetBodyLength() + AFIMsgHead::ARK_MSG_HEAD_LENGTH;
 }
 
-int AFCNetClient::DeCode(const char* strData, const size_t len, AFCMsgHead & xHead)
+int AFCNetClient::DeCode(const char* strData, const size_t len, AFCMsgHead& xHead)
 {
     if (len < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
@@ -298,5 +308,6 @@ int AFCNetClient::DeCode(const char* strData, const size_t len, AFCMsgHead & xHe
     {
         return -3;
     }
+
     return xHead.GetBodyLength();
 }

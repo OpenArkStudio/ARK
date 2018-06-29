@@ -136,6 +136,7 @@ public:
     bool SendMsgPBToAllClient(const uint16_t nMsgID, const google::protobuf::Message& xData, const AFGUID& nPlayerID)
     {
         std::string strMsg;
+
         if (!xData.SerializeToString(&strMsg))
         {
             char szData[MAX_PATH] = { 0 };
@@ -150,6 +151,7 @@ public:
     bool SendMsgPB(const uint16_t nMsgID, const google::protobuf::Message& xData, const AFGUID& xClientID, const AFGUID nPlayer, const std::vector<AFGUID>* pClientIDList = NULL)
     {
         std::string xMsgData;
+
         if (!xData.SerializeToString(&xMsgData))
         {
             char szData[MAX_PATH] = { 0 };
@@ -185,6 +187,7 @@ public:
                 const AFGUID& ClientID = (*pClientIDList)[i];
 
                 AFMsg::PBGUID* pData = xMsg.add_target_entity_list();
+
                 if (pData)
                 {
                     *pData = AFINetModule::GUIDToPB(ClientID);
@@ -192,6 +195,7 @@ public:
             }
 
             std::string strMsg;
+
             if (!xMsg.SerializeToString(&strMsg))
             {
                 return false;
@@ -221,11 +225,13 @@ public:
         {
             AFMsg::DataTableAddRow* pAddRowStruct = pEntityTableBase->add_row();
             pAddRowStruct->set_row(i);
+
             for (size_t j = 0; j < pTable->GetColCount(); j++)
             {
                 AFMsg::PBCellData* pAddData = pAddRowStruct->add_cell_list();
 
                 AFCData xRowColData;
+
                 if (!pTable->GetValue(i, j, xRowColData))
                 {
                     continue;
@@ -268,15 +274,18 @@ public:
         }
 
         size_t nTableCount = pTableManager->GetCount();
+
         for (size_t i = 0; i < nTableCount; ++i)
         {
             AFDataTable* pTable = pTableManager->GetTableByIndex(i);
+
             if (pTable == nullptr)
             {
                 continue;
             }
 
             AFFeatureType xResult = (pTable->GetFeature() & nFeature);
+
             if (xResult.any())
             {
                 AddTableToPB(pTable, pPBData);
@@ -296,11 +305,14 @@ public:
         for (size_t i = 0; i < pNodeManager->GetNodeCount(); i++)
         {
             AFDataNode* pNode = pNodeManager->GetNodeByIndex(i);
+
             if (pNode == nullptr)
             {
                 continue;
             }
+
             AFFeatureType xResult = (pNode->GetFeature() & nFeature);
+
             if (pNode->Changed() && xResult.any())
             {
                 AFMsg::PBNodeData* pData = xPBData.add_data_node_list();

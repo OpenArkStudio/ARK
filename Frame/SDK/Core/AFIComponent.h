@@ -43,11 +43,13 @@ public:
     ARK_SHARE_PTR<T> CreateNewInstance()
     {
         ARK_SHARE_PTR<AFIComponent> pComponent = CreateNewInstance();
+
         if (nullptr != pComponent)
         {
             if (TIsDerived<T, AFIComponent>::Result)
             {
                 ARK_SHARE_PTR<T> pT = std::dynamic_pointer_cast<T>(pComponent);
+
                 if (nullptr != pT)
                 {
                     return pT;

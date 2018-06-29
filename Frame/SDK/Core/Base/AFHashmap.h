@@ -41,6 +41,7 @@ public:
     bool AddElement(const T& name, const ARK_SHARE_PTR<TD> data)
     {
         typename HashmapObject::iterator itr = mxObjectList.find(name);
+
         if (itr == mxObjectList.end())
         {
             mxObjectList.insert(typename HashmapObject::value_type(name, data));
@@ -60,6 +61,7 @@ public:
     {
         ARK_SHARE_PTR<TD> pData;
         typename HashmapObject::iterator itr = mxObjectList.find(name);
+
         if (itr != mxObjectList.end())
         {
             pData = itr->second;
@@ -73,6 +75,7 @@ public:
     TD* GetElementNude(const T& name)
     {
         typename HashmapObject::iterator itr = mxObjectList.find(name);
+
         if (itr != mxObjectList.end())
         {
             return itr->second.get();
@@ -84,6 +87,7 @@ public:
     ARK_SHARE_PTR<TD> GetElement(const T& name)
     {
         typename HashmapObject::iterator itr = mxObjectList.find(name);
+
         if (itr != mxObjectList.end())
         {
             return itr->second;
@@ -106,6 +110,7 @@ public:
         }
 
         mxObjectCurIter = mxObjectList.begin();
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             return mxObjectCurIter->second;
@@ -122,6 +127,7 @@ public:
         }
 
         ++mxObjectCurIter;
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             return mxObjectCurIter->second;
@@ -138,6 +144,7 @@ public:
         }
 
         mxObjectCurIter = mxObjectList.begin();
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             name = mxObjectCurIter->first;
@@ -155,6 +162,7 @@ public:
         }
 
         ++mxObjectCurIter;
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             name = mxObjectCurIter->first;
@@ -172,6 +180,7 @@ public:
         }
 
         mxObjectCurIter = mxObjectList.begin();
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             return mxObjectCurIter->second.get();
@@ -188,6 +197,7 @@ public:
         }
 
         ++mxObjectCurIter;
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             return mxObjectCurIter->second.get();
@@ -204,6 +214,7 @@ public:
         }
 
         mxObjectCurIter = mxObjectList.begin();
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             name = mxObjectCurIter->first;
@@ -221,6 +232,7 @@ public:
         }
 
         mxObjectCurIter++;
+
         if (mxObjectCurIter != mxObjectList.end())
         {
             name = mxObjectCurIter->first;

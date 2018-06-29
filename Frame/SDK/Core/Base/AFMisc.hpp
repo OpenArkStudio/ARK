@@ -48,6 +48,7 @@ public:
         }
 
         int count = 0;
+
         while (size)
         {
             size = size >> 1;

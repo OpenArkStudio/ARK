@@ -53,14 +53,17 @@ bool AFCWorldToMasterModule::PostInit()
     m_pNetClientModule->AddEventCallBack(this, &AFCWorldToMasterModule::OnSocketMSEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+
     if (nullptr != xLogicClass)
     {
         AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
+
         for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
             const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
             const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+
             if (nServerType == ARK_SERVER_TYPE::ARK_ST_MASTER)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
@@ -92,14 +95,17 @@ bool AFCWorldToMasterModule::Update()
 void AFCWorldToMasterModule::Register(const int nServerID)
 {
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+
     if (nullptr != xLogicClass)
     {
         AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
         std::string strConfigName;
+
         for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
             const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
             const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+
             if (nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD && pPluginManager->AppID() == nSelfServerID)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
@@ -120,6 +126,7 @@ void AFCWorldToMasterModule::Register(const int nServerID)
                 pData->set_server_type(nServerType);
 
                 ARK_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nServerID);
+
                 if (pServerData)
                 {
                     int nTargetID = pServerData->nGameID;
@@ -142,6 +149,7 @@ void AFCWorldToMasterModule::OnSelectServerProcess(const AFIMsgHead& xHead, cons
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
 
     ARK_SHARE_PTR<ServerData> xServerData = m_pWorldNet_ServerModule->GetSuitProxyForEnter();
+
     if (xServerData)
     {
         AFMsg::AckConnectWorldResult xData;
@@ -167,7 +175,7 @@ void AFCWorldToMasterModule::OnKickClientProcess(const AFIMsgHead& xHead, const 
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqKickFromWorld);
 }
 
-void AFCWorldToMasterModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char * msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCWorldToMasterModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     printf("NFNet || 非法消息:unMsgID=%d\n", nMsgID);
 }

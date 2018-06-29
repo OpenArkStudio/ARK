@@ -49,6 +49,7 @@ bool AFCWorldNetServerModule::PostInit()
     m_pNetModule->AddEventCallBack(this, &AFCWorldNetServerModule::OnSocketEvent);
 
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+
     if (nullptr == xLogicClass)
     {
         return false;
@@ -56,10 +57,12 @@ bool AFCWorldNetServerModule::PostInit()
 
     AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
     std::string strConfigName;
+
     for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+
         if (nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD && pPluginManager->AppID() == nServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
@@ -69,6 +72,7 @@ bool AFCWorldNetServerModule::PostInit()
             const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
 
             int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
+
             if (nRet < 0)
             {
                 ARK_LOG_ERROR("Cannot init server net, Port = {}", nPort);
@@ -101,6 +105,7 @@ void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const AFIMsgHead& xH
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         ARK_SHARE_PTR<ServerData> pServerData =  mGameMap.GetElement(xData.server_id());
+
         if (nullptr == pServerData)
         {
             pServerData = std::make_shared<ServerData>();
@@ -118,6 +123,7 @@ void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const AFIMsgHead& xH
 void AFCWorldNetServerModule::OnGameServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
@@ -130,11 +136,13 @@ void AFCWorldNetServerModule::OnGameServerUnRegisteredProcess(const AFIMsgHead& 
 void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
         ARK_SHARE_PTR<ServerData> pServerData =  mGameMap.GetElement(xData.server_id());
+
         if (nullptr == pServerData)
         {
             pServerData = std::make_shared<ServerData>();
@@ -152,11 +160,13 @@ void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const AFIMsgHead& x
 void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
         ARK_SHARE_PTR<ServerData> pServerData =  mProxyMap.GetElement(xData.server_id());
+
         if (!pServerData)
         {
             pServerData = std::make_shared<ServerData>();
@@ -173,6 +183,7 @@ void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& x
 void AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
@@ -185,10 +196,12 @@ void AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess(const AFIMsgHead&
 void AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
         ARK_SHARE_PTR<ServerData> pServerData =  mProxyMap.GetElement(xData.server_id());
+
         if (nullptr == pServerData)
         {
             pServerData = std::make_shared<ServerData>();
@@ -223,6 +236,7 @@ void AFCWorldNetServerModule::OnSocketEvent(const NetEventType eEvent, const AFG
 void AFCWorldNetServerModule::SynGameToProxy()
 {
     ARK_SHARE_PTR<ServerData> pServerData =  mProxyMap.First();
+
     while (nullptr != pServerData)
     {
         SynGameToProxy(pServerData->xClient);
@@ -235,6 +249,7 @@ void AFCWorldNetServerModule::SynGameToProxy(const AFGUID& xClientID)
     AFMsg::ServerInfoReportList xData;
 
     ARK_SHARE_PTR<ServerData> pServerData =  mGameMap.First();
+
     while (nullptr != pServerData)
     {
         AFMsg::ServerInfoReport* pData = xData.add_server_list();
@@ -250,6 +265,7 @@ void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 {
     //不管是game还是proxy都要找出来,替他反注册
     ARK_SHARE_PTR<ServerData> pServerData =  mGameMap.First();
+
     while (nullptr != pServerData)
     {
         if (xClientID == pServerData->xClient)
@@ -268,6 +284,7 @@ void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 
     int nServerID = 0;
     pServerData =  mProxyMap.First();
+
     while (pServerData)
     {
         if (xClientID == pServerData->xClient)
@@ -321,6 +338,7 @@ void AFCWorldNetServerModule::LogGameServer()
                      pGameData->pData->server_ip().c_str(),
                      pGameData->xClient.nLow);
     }
+
     ARK_LOG_INFO("End Log ProxyServer Info---------------------------");
 }
 
@@ -339,6 +357,7 @@ void AFCWorldNetServerModule::OnOfflineProcess(const AFIMsgHead& xHead, const in
 bool AFCWorldNetServerModule::SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer)
 {
     ARK_SHARE_PTR<ServerData> pData = mGameMap.GetElement(nGameID);
+
     if (nullptr != pData)
     {
         m_pNetModule->SendMsgPB(eMsgID, xData, pData->xClient, nPlayer);
@@ -368,6 +387,7 @@ bool AFCWorldNetServerModule::SendMsgToGame(const AFIDataList& argObjectVar, con
 bool AFCWorldNetServerModule::SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer)
 {
     int nGameID = GetPlayerGameID(nPlayer);
+
     if (nGameID < 0)
     {
         return false;
@@ -384,13 +404,15 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
     }
 
     AFMsg::AckEntityEnterList xEntityEnterList;
+
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOld = argVar.Object(i);
+
         //排除空对象
         if (!identOld.IsNULL())
         {
-            AFMsg::EntityEnterInfo * pEnter = xEntityEnterList.add_entity_list();
+            AFMsg::EntityEnterInfo* pEnter = xEntityEnterList.add_entity_list();
             *(pEnter->mutable_object_guid()) = AFINetModule::GUIDToPB(identOld);
             pEnter->set_career_type(m_pKernelModule->GetNodeInt(identOld, "Job"));
             pEnter->set_player_state(m_pKernelModule->GetNodeInt(identOld, "State"));
@@ -408,6 +430,7 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
     for (size_t i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
+
         if (!ident.IsNULL())
         {
             //可能在不同的网关呢,得到后者所在的网关FD
@@ -427,9 +450,11 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
     }
 
     AFMsg::AckEntityLeaveList xEntityLeaveList;
+
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOld = argVar.Object(i);
+
         //排除空对象
         if (!identOld.IsNULL())
         {
@@ -441,6 +466,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
     for (size_t i = 0; i < self.GetCount(); i++)
     {
         AFGUID ident = self.Object(i);
+
         if (ident.IsNULL())
         {
             //可能在不同的网关呢,得到后者所在的网关FD
@@ -460,6 +486,7 @@ int AFCWorldNetServerModule::OnViewDataNodeEnter(const AFIDataList& argVar, cons
 
     AFMsg::MultiEntityDataNodeList xPublicMsg;
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+
     if (nullptr == pEntity)
     {
         return 1;
@@ -469,10 +496,12 @@ int AFCWorldNetServerModule::OnViewDataNodeEnter(const AFIDataList& argVar, cons
     AFFeatureType nFeature ;
     nFeature[AFDataNode::PF_PUBLIC] = 1;
     m_pNetModule->NodeListToPB(self, pNodeManager, *xPublicMsg.add_multi_entity_data_node_list(), nFeature);
+
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
         AFGUID identOther = argVar.Object(i);
         const int64_t nGameID = argGameID.Int(i);
+
         if (self != identOther)
         {
             SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, xPublicMsg, identOther);
@@ -492,6 +521,7 @@ int AFCWorldNetServerModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDa
     const int64_t nGameID = argGameID.Int(0);
 
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+
     if (nullptr == pEntity)
     {
         return 1;
@@ -518,6 +548,7 @@ int AFCWorldNetServerModule::OnSelfDataTableEnter(const AFGUID& self, const AFID
     AFMsg::MultiEntityDataTableList xPrivateMsg;
 
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+
     if (nullptr == pEntity)
     {
         return 1;
@@ -541,6 +572,7 @@ int AFCWorldNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, con
     AFMsg::MultiEntityDataTableList xPublicMsg;
 
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(self);
+
     if (nullptr == pEntity)
     {
         return 1;
@@ -556,6 +588,7 @@ int AFCWorldNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, con
     {
         AFGUID identOther = argVar.Object(i);
         const int64_t nGameID = argGameID.Int(i);
+
         if (self != identOther && xPublicMsg.multi_entity_data_table_list_size() > 0)
         {
             SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPublicMsg, identOther);

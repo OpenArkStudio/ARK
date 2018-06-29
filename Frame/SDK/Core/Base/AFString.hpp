@@ -61,6 +61,7 @@ public:
     static size_t Find(const char* dst, const char* find, size_t begin = 0)
     {
         const char* pos = strstr(&dst[begin], find);
+
         if (pos == nullptr)
         {
             return -1;
@@ -173,6 +174,7 @@ public:
 
         src.mnSize = this->mnSize;
         src.mnCapacity = this->mnCapacity;
+
         if (this->mnCapacity <= SIZE)
         {
             TRAITS::Copy(src.mxStack, this->mxStack, this->mnSize + 1);
@@ -334,6 +336,7 @@ public:
     size_t get_mem_usage() const
     {
         size_t size = sizeof(self_t);
+
         if (mnCapacity > SIZE)
         {
             size += mnCapacity * sizeof(TYPE);
@@ -346,6 +349,7 @@ private:
     void Init(const TYPE* src, size_t len)
     {
         mnSize = len;
+
         if (mnSize < SIZE)
         {
             mnCapacity = SIZE;
@@ -364,6 +368,7 @@ private:
     void InitWithTwo(const TYPE* value1, size_t size1, const TYPE* value2, size_t size2)
     {
         mnSize = size1 + size2;
+
         if (mnSize < SIZE)
         {
             mnCapacity = SIZE;
@@ -400,6 +405,7 @@ private:
     self_t& InnerAppend(const TYPE* src, size_t len)
     {
         const size_t NEW_SIZE = this->mnSize + len;
+
         if (NEW_SIZE < mnCapacity)
         {
             TRAITS::Copy(mpData + mnSize, src, len);

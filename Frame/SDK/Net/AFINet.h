@@ -380,12 +380,14 @@ public:
     bool SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
     {
         std::string a = strIpPort;
+
         if (a.empty())
         {
             return false;
         }
 
         size_t index = a.rfind(':');
+
         if (index == std::string::npos)
         {
             return false;
@@ -399,6 +401,7 @@ public:
         port = std::atoi(&a[index + 1]);
 
         host = std::string(strIpPort, 0, index);
+
         if (host[0] == '[')
         {
             if (*host.rbegin() != ']')

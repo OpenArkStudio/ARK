@@ -41,10 +41,10 @@ public:
     virtual bool Shut();
 
 protected:
-    int OnEvent(const AFGUID & self, const int event, const AFIDataList & arg);
-    int OnClassCallBackEvent(const AFGUID & self, const std::string & strClassName, const ARK_ENTITY_EVENT event, const AFIDataList & arg);
-    int OnIntDataNodeCB(const AFGUID & self, const std::string & strProperty, const AFIData & oldVarList, const AFIData & newVarList);
-    int OnStrDataNodeCB(const AFGUID & self, const std::string & strProperty, const AFIData & oldVarList, const AFIData & newVarList);
+    int OnEvent(const AFGUID& self, const int event, const AFIDataList& arg);
+    int OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT event, const AFIDataList& arg);
+    int OnIntDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
+    int OnStrDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
 
     int OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_EVENT_DATA& table_data, const AFIData& old_data, const AFIData& new_data);
     int OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const int64_t nTime, const int nCount);

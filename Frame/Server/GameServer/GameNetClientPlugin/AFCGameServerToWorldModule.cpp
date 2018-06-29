@@ -42,6 +42,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
 {
     //成功就注册
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+
     if (nullptr == xLogicClass)
     {
         return;
@@ -49,10 +50,12 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
 
     AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
     std::string strConfigName;
+
     for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+
         if (nServerType == ARK_SERVER_TYPE::ARK_ST_GAME && pPluginManager->AppID() == nSelfServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
@@ -73,6 +76,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
             pData->set_server_type(nServerType);
 
             ARK_SHARE_PTR<ConnectData> pServerData = m_pNetClientModule->GetServerNetInfo(nSeverID);
+
             if (pServerData)
             {
                 int nTargetID = pServerData->nGameID;
@@ -104,6 +108,7 @@ bool AFCGameServerToWorldModule::PostInit()
 
     // 连接world server
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
+
     if (nullptr == xLogicClass)
     {
         return false;
@@ -111,10 +116,12 @@ bool AFCGameServerToWorldModule::PostInit()
 
     AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
     std::string strConfigName;
+
     for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+
         if (nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");

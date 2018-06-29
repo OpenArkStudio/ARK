@@ -49,9 +49,11 @@ void TestRandom()
     rand.SetSeed(AFDateTime::GetTimestamp());
 
     int rand_array[10] = { 0 };
+
     for (int i = 0; i < 100000; ++i)
     {
         uint32_t my_rand = rand.Random(0, 100000);
+
         if (my_rand <= 10000)
         {
             rand_array[0]++;
@@ -139,6 +141,7 @@ bool Example1Module::PostInit()
     {
         ARK_LOG_INFO("This is a test log");
     }
+
     //////////////////////////////////////////////////////////////////////////
     //test cron expression
     //const char* err_msg = NULL;

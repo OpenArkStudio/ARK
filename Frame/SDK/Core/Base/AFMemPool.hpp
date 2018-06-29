@@ -77,6 +77,7 @@ public:
         struct MemUnit* pCurrentUnit = m_pFreeMemBlock;
 
         m_pFreeMemBlock = pCurrentUnit->pNext;
+
         if (m_pFreeMemBlock != nullptr)
         {
             m_pFreeMemBlock->pPrev = nullptr;
@@ -100,12 +101,14 @@ public:
         {
             struct MemUnit* pCurrentUnit = (struct MemUnit*)((char*)p - sizeof(struct MemUnit));
             m_pAllocatedMemBlock = pCurrentUnit->pNext;
+
             if (m_pAllocatedMemBlock != nullptr)
             {
                 m_pAllocatedMemBlock->pPrev = nullptr;
             }
 
             pCurrentUnit->pNext = m_pFreeMemBlock;
+
             if (m_pFreeMemBlock != nullptr)
             {
                 m_pFreeMemBlock->pPrev = pCurrentUnit;

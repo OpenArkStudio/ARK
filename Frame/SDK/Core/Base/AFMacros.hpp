@@ -91,10 +91,10 @@
 * will be copied.  Always NUL terminates (unless siz == 0).
 * Returns strlen(src); if retval >= siz, truncation occurred.
 */
-static size_t strlcpy(char *dst, const char *src, size_t siz)
+static size_t strlcpy(char* dst, const char* src, size_t siz)
 {
-    char *d = dst;
-    const char *s = src;
+    char* d = dst;
+    const char* s = src;
     size_t n = siz;
 
     /* Copy as many bytes as will fit */
@@ -112,6 +112,7 @@ static size_t strlcpy(char *dst, const char *src, size_t siz)
     {
         if (siz != 0)
             *d = '\0';      /* NUL-terminate dst */
+
         while (*s++)
             ;
     }

@@ -90,8 +90,8 @@ public:
 
     //From ListenThread
     void OnAcceptConnectionInner(brynet::net::TcpSocket::PTR session);
-    void OnClientConnectionInner(const brynet::net::TCPSession::PTR & session);
-    void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session);
+    void OnClientConnectionInner(const brynet::net::TCPSession::PTR& session);
+    void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR& session);
 
 private:
     bool SendMsgToAllClient(const char* msg, const size_t nLen);

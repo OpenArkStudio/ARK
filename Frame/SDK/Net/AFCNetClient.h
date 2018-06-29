@@ -42,6 +42,7 @@ public:
         {
             m_pServer = std::make_shared<brynet::net::WrapTcpService>();
         }
+
         if (connector)
         {
             m_pConector = connector;

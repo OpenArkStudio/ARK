@@ -113,6 +113,7 @@ public:
     NODE* GetElement(const std::string& name)
     {
         size_t index;
+
         if (!mxIndices.GetData(name.c_str(), index))
         {
             return nullptr;

@@ -43,6 +43,7 @@ void AFDataTable::ReleaseRow(RowData* row_data, size_t col_num)
 void AFDataTable::ReleaseAll()
 {
     size_t col_num = mxColTypes.size();
+
     for (size_t i = 0; i < mxRowDatas.size(); ++i)
     {
         if (mxRowDatas[i] != nullptr)
@@ -73,6 +74,7 @@ size_t AFDataTable::GetRowCount() const
 void AFDataTable::SetColCount(size_t value)
 {
     assert(value > 0);
+
     if (mxColTypes.size() > 0)
     {
         ReleaseAll();
@@ -115,6 +117,7 @@ bool AFDataTable::AddRow(size_t row)
 {
     size_t col_num = GetColCount();
     RowData* row_data = new RowData[col_num];
+
     if (row >= GetRowCount())
     {
         mxRowDatas.push_back(row_data);
@@ -130,6 +133,7 @@ bool AFDataTable::AddRow(size_t row)
 bool AFDataTable::AddRow(size_t row, const AFIDataList& data)
 {
     size_t col_num = GetColCount();
+
     if (data.GetCount() != col_num)
     {
         ARK_ASSERT(0, "data size is not equal with col_num, please check your arg.", __FILE__, __FUNCTION__);
@@ -137,32 +141,41 @@ bool AFDataTable::AddRow(size_t row, const AFIDataList& data)
     }
 
     RowData* row_data = new RowData[col_num];
+
     for (size_t i = 0; i < data.GetCount(); ++i)
     {
         int type = GetColType(i);
+
         switch (type)
         {
         case DT_BOOLEAN:
             row_data[i].SetBool(data.Bool(i));
             break;
+
         case DT_INT:
             row_data[i].SetInt(data.Int(i));
             break;
+
         case DT_INT64:
             row_data[i].SetInt64(data.Int64(i));
             break;
+
         case DT_FLOAT:
             row_data[i].SetFloat(data.Float(i));
             break;
+
         case DT_DOUBLE:
             row_data[i].SetDouble(data.Double(i));
             break;
+
         case DT_STRING:
             row_data[i].SetString(data.String(i));
             break;
+
         case DT_OBJECT:
             row_data[i].SetObject(data.Object(i));
             break;
+
         default:
             {
                 ReleaseRow(row_data, col_num);
@@ -457,6 +470,7 @@ const char* AFDataTable::GetStringValue(size_t row, size_t col)
 bool AFDataTable::GetColTypeList(AFIDataList& col_type_list)
 {
     int col_count = GetColCount();
+
     for (int i = 0; i < col_count; ++i)
     {
         AFCData data;
@@ -480,24 +494,31 @@ int AFDataTable::FindRow(size_t col, const AFIData& key, size_t begin_row /*= 0*
     case DT_BOOLEAN:
         return FindBool(col, key.GetBool(), begin_row);
         break;
+
     case DT_INT:
         return FindInt(col, key.GetInt(), begin_row);
         break;
+
     case DT_INT64:
         return FindInt64(col, key.GetInt64(), begin_row);
         break;
+
     case DT_FLOAT:
         return FindFloat(col, key.GetFloat(), begin_row);
         break;
+
     case DT_DOUBLE:
         return FindDouble(col, key.GetDouble(), begin_row);
         break;
+
     case DT_STRING:
         return FindString(col, key.GetString(), begin_row);
         break;
+
     case DT_OBJECT:
         return FindObject(col, key.GetObject(), begin_row);
         break;
+
     default:
         break;
     }
@@ -513,6 +534,7 @@ int AFDataTable::FindBool(size_t col, const bool key, size_t begin_row /*= 0*/)
     }
 
     size_t row_num = GetRowCount();
+
     if (begin_row >= row_num)
     {
         return -1;
@@ -521,6 +543,7 @@ int AFDataTable::FindBool(size_t col, const bool key, size_t begin_row /*= 0*/)
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+
         if (row_data[col].GetBool() == key)
         {
             return i;
@@ -538,6 +561,7 @@ int AFDataTable::FindInt(size_t col, const int key, size_t begin_row /*= 0*/)
     }
 
     size_t row_num = GetRowCount();
+
     if (begin_row >= row_num)
     {
         return -1;
@@ -546,6 +570,7 @@ int AFDataTable::FindInt(size_t col, const int key, size_t begin_row /*= 0*/)
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+
         if (row_data[col].GetInt() == key)
         {
             return i;
@@ -563,6 +588,7 @@ int AFDataTable::FindInt64(size_t col, const int64_t key, size_t begin_row /*= 0
     }
 
     size_t row_num = GetRowCount();
+
     if (begin_row >= row_num)
     {
         return -1;
@@ -571,6 +597,7 @@ int AFDataTable::FindInt64(size_t col, const int64_t key, size_t begin_row /*= 0
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+
         if (row_data[col].GetInt64() == key)
         {
             return i;
@@ -588,6 +615,7 @@ int AFDataTable::FindFloat(size_t col, const float key, size_t begin_row /*= 0*/
     }
 
     size_t row_num = GetRowCount();
+
     if (begin_row >= row_num)
     {
         return -1;
@@ -596,6 +624,7 @@ int AFDataTable::FindFloat(size_t col, const float key, size_t begin_row /*= 0*/
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+
         if (AFMisc::IsFloatEqual(row_data[col].GetFloat(), key))
         {
             return i;
@@ -613,6 +642,7 @@ int AFDataTable::FindDouble(size_t col, const double key, size_t begin_row /*= 0
     }
 
     size_t row_num = GetRowCount();
+
     if (begin_row >= row_num)
     {
         return -1;
@@ -621,6 +651,7 @@ int AFDataTable::FindDouble(size_t col, const double key, size_t begin_row /*= 0
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+
         if (AFMisc::IsDoubleEqual(row_data[col].GetDouble(), key))
         {
             return i;
@@ -638,6 +669,7 @@ int AFDataTable::FindString(size_t col, const char* key, size_t begin_row /*= 0*
     }
 
     size_t row_num = GetRowCount();
+
     if (begin_row >= row_num)
     {
         return -1;
@@ -646,6 +678,7 @@ int AFDataTable::FindString(size_t col, const char* key, size_t begin_row /*= 0*
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+
         if (ARK_STRICMP(row_data[col].GetString(), key) == 0)
         {
             return i;
@@ -663,6 +696,7 @@ int AFDataTable::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 
     }
 
     size_t row_num = GetRowCount();
+
     if (begin_row >= row_num)
     {
         return -1;
@@ -671,6 +705,7 @@ int AFDataTable::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+
         if (row_data[col].GetObject() == key)
         {
             return i;
@@ -685,32 +720,41 @@ bool AFDataTable::QueryRow(const int row, AFIDataList& varList)
     ARK_ASSERT_RET_VAL(row < mxRowDatas.size(), false);
 
     RowData* rowData = mxRowDatas[row];
+
     for (int i = 0; i < mxColTypes.size(); ++i)
     {
         RowData& subData = rowData[i];
+
         switch (subData.GetType())
         {
         case DT_BOOLEAN:
             varList.AddBool(subData.GetBool());
             break;
+
         case DT_INT:
             varList.AddInt(subData.GetInt());
             break;
+
         case DT_INT64:
             varList.AddInt64(subData.GetInt64());
             break;
+
         case DT_FLOAT:
             varList.AddFloat(subData.GetFloat());
             break;
+
         case DT_DOUBLE:
             varList.AddDouble(subData.GetDouble());
             break;
+
         case DT_STRING:
             varList.AddString(subData.GetString());
             break;
+
         case DT_OBJECT:
             varList.AddObject(subData.GetObject());
             break;
+
         default:
             return false;
             break;

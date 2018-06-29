@@ -112,7 +112,7 @@ public:
         return 1;
     }
 
-    static T GetBitValue(const T & nValue, const int nIndex)
+    static T GetBitValue(const T& nValue, const int nIndex)
     {
         if (nIndex < 0 || nIndex >= GetBitLength())
         {

@@ -101,11 +101,13 @@ public:
 
         int nBegin = 0;
         int nEnd = 0;
+
         for (int i = 0; i < nLengh; i++)
         {
             if (strSour[i] == strSplit)
             {
                 nEnd = i;
+
                 if (!AddString(&strSour[nBegin], nEnd - nBegin))
                 {
                     ARK_ASSERT_NO_EFFECT(0);
@@ -121,6 +123,7 @@ public:
         if (nEnd < nLengh)
         {
             nEnd = nLengh;
+
             if (!AddString(&strSour[nBegin], nEnd - nBegin))
             {
                 ARK_ASSERT_NO_EFFECT(0);
@@ -212,6 +215,7 @@ public:
         }
 
         size_t end = start + count;
+
         if (end > src.GetCount())
         {
             return false;
@@ -311,6 +315,7 @@ public:
 
         assert(value != nullptr);
         dynamic_data_t* p = AddDynamicData();
+
         if (nullptr == p)
         {
             return false;
@@ -320,6 +325,7 @@ public:
         p->mnstrValue = mnBufferUsed;
 
         size_t value_size = strlen(value);
+
         if (value_size > (size_t)nLength)
         {
             value_size = (size_t)nLength;
@@ -709,33 +715,43 @@ public:
 
         std::string strdata;
         bool ret = true;
+
         switch (mpData[index].nType)
         {
         case DT_BOOLEAN:
             ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mbValue);
             break;
+
         case DT_INT:
             ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mnValue);
             break;
+
         case DT_INT64:
             ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mn64Value);
             break;
+
         case DT_FLOAT:
             ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mfValue);
             break;
+
         case DT_DOUBLE:
             ret = AFMisc::ARK_TO_STR(strdata, mpData[index].mdValue);
             break;
+
         case DT_STRING:
             strdata = String(index);
             break;
+
         case DT_OBJECT:
             strdata = Object(index).ToString();
             break;
+
         case DT_POINTER:
             break;
+
         case DT_USERDATA:
             break;
+
         default:
             assert(0);
             break;
@@ -749,6 +765,7 @@ public:
     virtual size_t GetMemUsage() const
     {
         size_t size = sizeof(self_t);
+
         if (mnDataSize > DATA_SIZE)
         {
             size += sizeof(dynamic_data_t) * mnDataSize;
@@ -770,6 +787,7 @@ protected:
             size_t new_size = mnDataSize * 2;
             dynamic_data_t* p = (dynamic_data_t*)mxAlloc.Alloc(new_size * sizeof(dynamic_data_t));
             memcpy(p, mpData, mnDataUsed * sizeof(dynamic_data_t));
+
             if (mnDataSize > DATA_SIZE)
             {
                 mxAlloc.Free(mpData, mnDataSize * sizeof(dynamic_data_t));
@@ -785,9 +803,11 @@ protected:
     char* AddBuffer(size_t need_size)
     {
         size_t new_used = mnBufferUsed + need_size;
+
         if (new_used > mnBufferSize)
         {
             size_t new_size = mnBufferSize * 2;
+
             if (new_used > new_size)
             {
                 new_size = new_used * 2;
@@ -813,32 +833,41 @@ protected:
     void InnerAppend(const AFIData& data)
     {
         bool bRet(false);
+
         switch (data.GetType())
         {
         case DT_BOOLEAN:
             bRet = AddBool(data.GetBool());
             break;
+
         case DT_INT:
             bRet = AddInt(data.GetInt());
             break;
+
         case DT_INT64:
             bRet = AddInt64(data.GetInt64());
             break;
+
         case DT_FLOAT:
             bRet = AddFloat(data.GetFloat());
             break;
+
         case DT_DOUBLE:
             bRet = AddDouble(data.GetDouble());
             break;
+
         case DT_STRING:
             bRet = AddString(data.GetString());
             break;
+
         case DT_OBJECT:
             bRet = AddObject(data.GetObject());
             break;
+
         case DT_POINTER:
             bRet = AddPointer(data.GetPointer());
             break;
+
         case DT_USERDATA:
             {
                 size_t size;
@@ -846,6 +875,7 @@ protected:
                 bRet = AddUserData(pData, size);
             }
             break;
+
         default:
             ARK_ASSERT_NO_EFFECT(0);
             break;
@@ -857,6 +887,7 @@ protected:
     bool InnerAppend(const AFIDataList& src, size_t start, size_t end)
     {
         bool bRet(false);
+
         for (size_t i = start; i < end; ++i)
         {
             switch (src.GetType(i))
@@ -864,27 +895,35 @@ protected:
             case DT_BOOLEAN:
                 bRet = AddBool(src.Bool(i));
                 break;
+
             case DT_INT:
                 bRet = AddInt(src.Int(i));
                 break;
+
             case DT_INT64:
                 bRet = AddInt64(src.Int64(i));
                 break;
+
             case DT_FLOAT:
                 bRet = AddFloat(src.Float(i));
                 break;
+
             case DT_DOUBLE:
                 bRet = AddDouble(src.Double(i));
                 break;
+
             case DT_STRING:
                 bRet = AddString(src.String(i));
                 break;
+
             case DT_OBJECT:
                 bRet = AddObject(src.Object(i));
                 break;
+
             case DT_POINTER:
                 bRet = AddPointer(src.Pointer(i));
                 break;
+
             case DT_USERDATA:
                 {
                     size_t size;
@@ -892,6 +931,7 @@ protected:
                     bRet = AddUserData(pData, size);
                 }
                 break;
+
             default:
                 ARK_ASSERT_NO_EFFECT(0);
                 break;

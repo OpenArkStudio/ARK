@@ -353,10 +353,12 @@ public:
         _ts = ts.QuadPart / (10 * Resolution());
 #else
         struct timeval tv;
+
         if (gettimeofday(&tv, NULL))
         {
             throw std::invalid_argument("cannot get time of day");
         }
+
         _ts = TimeVal(tv.tv_sec) * Resolution() + tv.tv_usec / Resolution();
 #endif
     }
@@ -511,10 +513,12 @@ public:
 
         //find the first firstDayOfWeek.
         int baseDay = 1;
+
         while (AFDateTime(GetYear(), 1, baseDay).GetDayOfWeek() != firstDayOfWeek) ++baseDay;
 
         int day = GetDayOfYear();
         int offs = baseDay <= 4 ? 0 : 1;
+
         if (day < baseDay)
         {
             return offs;
@@ -539,6 +543,7 @@ public:
     int GetDayOfWeek(int firstDayOfWeek = MONDAY) const
     {
         struct tm* ptm = GetUTCTime();
+
         if (firstDayOfWeek == MONDAY)
         {
             return ((ptm->tm_wday == 0) ? 7 : ptm->tm_wday);
@@ -568,6 +573,7 @@ public:
     int GethourAMPM() const
     {
         int hour = GetHour();
+
         if (hour < 1)
             return 12;
         else if (hour > 12)
@@ -682,6 +688,7 @@ public:
     static int GetDaysOfMonth(int year, int month)
     {
         ARK_ASSERT_NO_EFFECT(month >= 1 && month <= 12);
+
         if (month < 1 || month > 12)
         {
             return -1;
