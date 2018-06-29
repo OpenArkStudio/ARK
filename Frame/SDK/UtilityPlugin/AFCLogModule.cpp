@@ -55,7 +55,7 @@ void AFCLogModule::CreateLogger()
     spdlog::set_async_mode(8 * 1024);
     std::vector<spdlog::sink_ptr> sinks_vec;
 #if ARK_PLATFORM == PLATFORM_WIN
-    std::string log_name = "..\\log\\" + pPluginManager->AppName() + ".log";
+    std::string log_name = ARK_FORMAT("..\\log\\{}.log", pPluginManager->AppName());
 #else
     std::string log_name = "../log/" + pPluginManager->AppName() + ".log";
 #endif
