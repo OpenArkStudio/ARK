@@ -20,7 +20,7 @@
 
 #include "AFCLogModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include <spdlog/contrib/sinks/date_and_hour_file_sink.h>
+#include "spdlog/contrib/sinks/date_and_hour_file_sink.h"
 
 AFCLogModule::AFCLogModule(AFIPluginManager* p)
 {
