@@ -21,10 +21,11 @@
 #pragma once
 
 #include "AFIModule.h"
-#include "spdlog/spdlog.h"
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/fmt.h>
 
-#define ARK_FORMAT(format, ...)             fmt::format(format, ##__VA_ARGS__)
-#define ARK_FORMAT_FUNCTION(format, ...)    fmt::format(std::string("[{}:{}]{}") + format, ARK_FUNCTION_LINE, ##__VA_ARGS__)
+#define ARK_FORMAT(format, ...)             fmt::format((format, ##__VA_ARGS__);
+#define ARK_FORMAT_FUNCTION(format, ...)    fmt::format(std::string("[{}:{}]{}") + format, ARK_FUNCTION_LINE, ##__VA_ARGS__);
 
 #define ARK_LOG_TRACE(fmt, ...)     m_pLogModule->Log(spdlog::level::trace, ARK_FUNCTION_LINE, fmt, ##__VA_ARGS__);
 #define ARK_LOG_DEBUG(fmt, ...)     m_pLogModule->Log(spdlog::level::debug, ARK_FUNCTION_LINE, fmt, ##__VA_ARGS__);

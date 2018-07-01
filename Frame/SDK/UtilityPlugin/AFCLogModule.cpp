@@ -54,10 +54,11 @@ void AFCLogModule::CreateLogger()
     //open async mode
     spdlog::set_async_mode(8 * 1024);
     std::vector<spdlog::sink_ptr> sinks_vec;
+    std::string log_name;
 #if ARK_PLATFORM == PLATFORM_WIN
-    std::string log_name = ARK_FORMAT("..\\log\\{}.log", pPluginManager->AppName());
+    log_name = fmt::format("..\\log\\{}.log", pPluginManager->AppName());
 #else
-    std::string log_name = "../log/" + pPluginManager->AppName() + ".log";
+    log_name = fmt::format("../log/{}.log", pPluginManager->AppName());
 #endif
 
     auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
