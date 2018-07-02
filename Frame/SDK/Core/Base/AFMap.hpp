@@ -96,8 +96,10 @@ public:
         {
             return iter->second;
         }
-
-        return mNullPtr;
+        else
+        {
+            return mNullPtr;
+        }
     }
 
     virtual const PTRTYPE& First()
@@ -113,8 +115,10 @@ public:
         {
             return mxObjectCurIter->second;
         }
-
-        return mNullPtr;
+        else
+        {
+            return mNullPtr;
+        }
     }
 
     virtual const PTRTYPE&  Next()
@@ -130,8 +134,10 @@ public:
         {
             return mxObjectCurIter->second;
         }
-
-        return mNullPtr;
+        else
+        {
+            return mNullPtr;
+        }
     }
 
     virtual const PTRTYPE& First(T& name)
@@ -148,8 +154,10 @@ public:
             name = mxObjectCurIter->first;
             return mxObjectCurIter->second;
         }
-
-        return mNullPtr;
+        else
+        {
+            return mNullPtr;
+        }
     }
     virtual const PTRTYPE&  Next(T& name)
     {
@@ -165,8 +173,10 @@ public:
             name = mxObjectCurIter->first;
             return mxObjectCurIter->second;
         }
-
-        return mNullPtr;
+        else
+        {
+            return mNullPtr;
+        }
     }
 
     int GetCount()
@@ -184,12 +194,7 @@ public:
     {
         mxObjectCurIter = mxObjectList.begin();
 
-        if (mxObjectCurIter != mxObjectList.end())
-        {
-            return true;
-        }
-
-        return false;
+        return mxObjectCurIter != mxObjectList.end();
     }
 
     bool Increase()
@@ -213,8 +218,10 @@ public:
         {
             return mxObjectCurIter->second;
         }
-
-        return mNullPtr;
+        else
+        {
+            return mNullPtr;
+        }
     }
 
 private:

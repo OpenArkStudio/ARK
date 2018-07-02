@@ -108,10 +108,12 @@ bool Example1Module::PostInit()
 
     m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pDynamicLogModule = pPluginManager->FindModule<AFIDynamicLogModule>();
     m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
 
     ARK_ASSERT_RET_VAL(m_pTimerModule != nullptr, false);
     ARK_ASSERT_RET_VAL(m_pLogModule != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pDynamicLogModule != nullptr, false);
     ARK_ASSERT_RET_VAL(m_pScheduleModule != nullptr, false);
 
     AFGUID test_id = AFGUID(0, 1);
@@ -137,10 +139,12 @@ bool Example1Module::PostInit()
     //TestRandom();
     //////////////////////////////////////////////////////////////////////////
     //Test log
-    for (int i = 0; i < 10000; ++i)
-    {
-        ARK_LOG_INFO("This is a test log");
-    }
+    //for (int i = 0; i < 10000; ++i)
+    //{
+    //    ARK_LOG_INFO("This is a test log");
+    //}
+
+    ARK_DYNAMIC_LOG_DEBUG(1001, "game", "this is a dynamic log test");
 
     //////////////////////////////////////////////////////////////////////////
     //test cron expression

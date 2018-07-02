@@ -52,7 +52,7 @@ struct default_date_and_hour_file_name_calculator
     // ".mylog" => ("", ".mylog". "")
     // "my_folder/.mylog" => ("my_folder/", ".mylog", "")
     // "my_folder/.mylog.txt" => ("my_folder/", ".mylog", ".txt")
-    static std::tuple<filename_t, filename_t, filename_t> split_by_dir_and_extenstion(const spdlog::filename_t &fname)
+    static std::tuple<filename_t, filename_t, filename_t> split_by_dir_and_extenstion(const spdlog::filename_t& fname)
     {
         auto ext_index = fname.rfind('.');
 
@@ -64,6 +64,7 @@ struct default_date_and_hour_file_name_calculator
 
         // treat cases like "/etc/rc.d/somelogfile or "/abc/.hiddenfile"
         auto folder_index = fname.rfind(details::os::folder_sep);
+
         if (folder_index != fname.npos && folder_index >= ext_index - 1)
         {
             return std::make_tuple(fname.substr(0, folder_index), fname.substr(folder_index + 1), spdlog::filename_t());
@@ -74,21 +75,33 @@ struct default_date_and_hour_file_name_calculator
     }
 
     // Create filename for the form pre_dir/filename.YYYY-MM-DD_hh-mm.ext
-    static filename_t calc_filename(const filename_t &filename)
+    static filename_t calc_filename(const filename_t& filename)
     {
         std::tm tm = spdlog::details::os::localtime();
         filename_t pre_dir, basename, ext;
         std::tie(pre_dir, basename, ext) = split_by_dir_and_extenstion(filename);
         std::conditional<std::is_same<filename_t::value_type, char>::value, fmt::MemoryWriter, fmt::WMemoryWriter>::type w;
-        auto dir_path = pre_dir + spdlog::details::os::folder_sep + fmt::format(SPDLOG_FILENAME_T("{:04d}{:02d}{:02d}"), tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+        auto dir_path = fmt::format(SPDLOG_FILENAME_T("{}{}{:04d}{:02d}{:02d}{}"), pre_dir, spdlog::details::os::folder_sep, tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, spdlog::details::os::folder_sep);
 
         //CHECK if directory is already existed
-        if (ACCESS(dir_path.c_str(), 0) == -1)
+        char tmp_dir_path[MAX_PATH] = { 0 };
+        for (size_t i = 0; i < dir_path.length(); ++i)
         {
-            MKDIR(dir_path.c_str());
+            tmp_dir_path[i] = dir_path[i];
+            if (tmp_dir_path[i] == spdlog::details::os::folder_sep)
+            {
+                if (ACCESS(tmp_dir_path, 0) == -1)
+                {
+                    int32_t ret = MKDIR(tmp_dir_path);
+                    if (ret != 0)
+                    {
+                        assert(0);
+                    }
+                }
+            }
         }
 
-        w.write(SPDLOG_FILENAME_T("{}{}{}_{:02d}{}"), dir_path, spdlog::details::os::folder_sep, basename, tm.tm_hour, ext);
+        w.write(SPDLOG_FILENAME_T("{}{}_{:02d}{}"), dir_path, basename, tm.tm_hour, ext);
         return w.str();
     }
 };
@@ -110,13 +123,14 @@ public:
     }
 
 protected:
-    void _sink_it(const details::log_msg &msg) override
+    void _sink_it(const details::log_msg& msg) override
     {
         if (std::chrono::system_clock::now() >= _rotation_tp)
         {
             _file_helper.open(FileNameCalc::calc_filename(_base_filename));
             _rotation_tp = _next_rotation_tp();
         }
+
         _file_helper.write(msg);
     }
 
