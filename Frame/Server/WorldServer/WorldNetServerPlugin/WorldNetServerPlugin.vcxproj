@@ -81,8 +81,8 @@
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.dll $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\$(ProjectName)_d.dll
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\$(ProjectName)_d.pdb</Command>
+      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.dll $(SolutionDir)..\Bin\Server\$(Configuration)\world\$(ProjectName)_d.dll
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\world\$(ProjectName)_d.pdb</Command>
     </PostBuildEvent>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -109,8 +109,8 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(Soluti
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).dll $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\$(ProjectName).dll
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFWorldServer\$(ProjectName).pdb</Command>
+      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).dll $(SolutionDir)..\Bin\Server\$(Configuration)\world\$(ProjectName).dll
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\world\$(ProjectName).pdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

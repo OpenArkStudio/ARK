@@ -30,6 +30,14 @@ AFCBusConfigModule::~AFCBusConfigModule()
 
 }
 
+bool AFCBusConfigModule::Init()
+{
+    //load bus relation files
+
+
+    return true;
+}
+
 bool AFCBusConfigModule::GetBusRelation(const std::string& name, const int& id, std::string& server, int& port)
 {
     //TODO:

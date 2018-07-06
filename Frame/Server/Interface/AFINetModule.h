@@ -27,14 +27,30 @@
 
 enum ARK_SERVER_TYPE
 {
-    ARK_ST_NONE = 0,    // NONE
-    ARK_ST_REDIS = 1,    //
-    ARK_ST_MYSQL = 2,    //
-    ARK_ST_MASTER = 3,    //
-    ARK_ST_LOGIN = 4,    //
-    ARK_ST_PROXY = 5,    //
-    ARK_ST_GAME = 6,    //
-    ARK_ST_WORLD = 7,    //
+    ARK_ST_NONE             = 0,    //none
+    //cluster
+    ARK_ST_MASTER           = 1,    //master
+    ARK_ST_DIR              = 2,    //dir
+    ARK_ST_LOG              = 3,    //log
+    ARK_ST_ROUTER           = 4,    //router, world & cluster middle layer
+    ARK_CLUTER_RANK         = 5,    //cluster rand
+    ARK_CLUSTER_MAIL        = 6,    //cluster mail
+    ARK_CLUSTER_PUB         = 7,    //cluster public
+    ARK_IDIP                = 8,    //idip
+
+    //world
+    ARK_ST_WORLD            = 50,   //world
+    ARK_ST_GAME             = 51,   //game
+    ARK_ST_LOGIN            = 52,   //login
+    ARK_ST_PROXY            = 53,   //proxy
+    ARK_ST_RANK             = 54,   //rank
+    ARK_ST_PUB              = 55,   //public
+
+    ARK_ST_CS_PROXY         = 80,   //cs_proxy, produce cross-server things
+
+    //db
+    ARK_ST_REDIS = 100,    //
+    ARK_ST_MYSQL = 101,    //
 };
 
 class AFINetModule : public AFIModule

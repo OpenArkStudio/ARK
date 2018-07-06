@@ -82,8 +82,8 @@
       <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\Comm\$(Configuration)\;$(SolutionDir)..\Dep\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.dll $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\$(ProjectName)_d.dll
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\$(ProjectName)_d.pdb</Command>
+      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.dll $(SolutionDir)..\Bin\Server\$(Configuration)\proxy\$(ProjectName)_d.dll
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\proxy\$(ProjectName)_d.pdb</Command>
     </PostBuildEvent>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -108,8 +108,8 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(Soluti
       <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\Comm\$(Configuration)\;$(SolutionDir)..\Dep\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).dll $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\$(ProjectName).dll
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFProxyServer\$(ProjectName).pdb</Command>
+      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).dll $(SolutionDir)..\Bin\Server\$(Configuration)\proxy\$(ProjectName).dll
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\proxy\$(ProjectName).pdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

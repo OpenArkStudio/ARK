@@ -28,9 +28,13 @@ public:
     explicit AFCBusConfigModule(AFIPluginManager* p);
     virtual ~AFCBusConfigModule();
 
+    virtual bool Init();
+
     virtual bool GetBusRelation(const std::string& name, const int& id, std::string& server, int& port);
     virtual bool GetBusServer(const std::string& name, const int& id, std::string& ip, int& port);
 
-protected:
-    //ConfigHandler ;
+private:
+    std::string _bus_relation_cfg;
+    std::string _world_cfg;
+    std::string _cluster_cfg;
 };

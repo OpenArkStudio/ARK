@@ -3,71 +3,71 @@ cd /d %~dp0
 @echo off
 
 echo Copy common dlls...
-copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe AFLoginServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe AFMasterServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe AFProxyServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe AFWorldServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe AFGameServer\\ /Y
 
-copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFLoginServer\\ /Y
-copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFMasterServer\\ /Y
-copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFProxyServer\\ /Y
-copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFWorldServer\\ /Y
-copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll AFGameServer\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe master\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe world\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe login\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe proxy\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe game\\ /Y
 
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll AFLoginServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll AFMasterServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll AFProxyServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll AFWorldServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll AFGameServer\\ /Y
+copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll master\\ /Y
+copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll world\\ /Y
+copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll login\\ /Y
+copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll proxy\\ /Y
+copy ..\\..\\..\\Dep\\lib\\Debug\\libproto*d.dll game\\ /Y
 
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll AFLoginServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll AFMasterServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll AFProxyServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll AFWorldServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll AFGameServer\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll master\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll world\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll login\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll proxy\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll game\\ /Y
 
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll AFLoginServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll AFMasterServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll AFProxyServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll AFWorldServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll AFGameServer\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll master\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll world\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll login\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll proxy\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll game\\ /Y
+
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll master\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll world\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll login\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll proxy\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll game\\ /Y
 
 echo Copy self dlls
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFLogin*d.dll AFLoginServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFMaster*d.dll AFMasterServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProxy*d.dll AFProxyServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFWorld*d.dll AFWorldServer\\ /Y
-copy ..\\..\\..\\Bin\\Comm\\Debug\\AFGame*d.dll AFGameServer\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFMaster*d.dll	master\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFWorld*d.dll	world\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFLogin*d.dll	login\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFProxy*d.dll	proxy\\ /Y
+copy ..\\..\\..\\Bin\\Comm\\Debug\\AFGame*d.dll		game\\ /Y
 
-cd  AFMasterServer
-echo Starting AFMasterServer...
-start "" PluginLoader_d.exe -x app_id=3 app_name=MasterServer cfg=Plugin.xml
+cd  master
+echo Starting master...
+start "" PluginLoader_d.exe -x app_id=1 app_name=master_server cfg=Plugin.xml
 choice /t 2 /d y /n >nul
 
 cd  ..
-cd  AFWorldServer
-echo Starting AFWorldServer...
-start "" PluginLoader_d.exe -x app_id=7 app_name=WorldServer cfg=Plugin.xml
+cd  world
+echo Starting world...
+start "" PluginLoader_d.exe -x app_id=50 app_name=world_server cfg=Plugin.xml
 choice /t 5 /d y /n >nul
 
 cd  ..
-cd  AFLoginServer
-echo Starting AFLoginServer...
-start "" PluginLoader_d.exe -x app_id=4 app_name=LoginServer cfg=Plugin.xml
+cd  login
+echo Starting login...
+start "" PluginLoader_d.exe -x app_id=52 app_name=login_server cfg=Plugin.xml
 choice /t 2 /d y /n >nul
 
 cd  ..
-cd  AFGameServer
-echo Starting AFGameServer...
-start "" PluginLoader_d.exe -x app_id=6 app_name=GameServer cfg=Plugin.xml
-choice /t 4 /d y /n >nul
+cd  proxy
+echo Starting proxy...
+start "" PluginLoader_d.exe -x app_id=53 app_name=proxy_server cfg=Plugin.xml
 
 cd  ..
-cd  AFProxyServer
-echo Starting AFProxyServer...
-start "" PluginLoader_d.exe -x app_id=5 app_name=ProxyServer cfg=Plugin.xml
-
+cd  game
+echo Starting game...
+start "" PluginLoader_d.exe -x app_id=51 app_name=game_server cfg=Plugin.xml
+choice /t 4 /d y /n >nul
 
 echo All processes are launching...
 
