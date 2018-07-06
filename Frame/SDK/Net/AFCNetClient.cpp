@@ -37,7 +37,7 @@ void AFCNetClient::ProcessMsgLogicThread()
     if (m_pClientEntity != nullptr && m_pClientEntity->NeedRemove())
     {
         AFScopeWrLock xGuard(mRWLock);
-        m_pClientEntity.release();
+        m_pClientEntity.reset(nullptr);
     }
 
 }
