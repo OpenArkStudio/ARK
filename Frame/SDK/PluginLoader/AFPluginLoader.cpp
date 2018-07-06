@@ -41,25 +41,21 @@ std::thread gBackThread;
 #pragma comment(lib, "AFCore.lib")
 #endif
 
-// 閸掓稑缂揇ump閺傚洣娆?
+//minidump
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
 {
-    // 閸掓稑缂揇ump閺傚洣娆?
     HANDLE hDumpFile = CreateFile(strDumpFilePathName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-    // Dump娣団剝浼?
     MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
     dumpInfo.ExceptionPointers = pException;
     dumpInfo.ThreadId = GetCurrentThreadId();
     dumpInfo.ClientPointers = TRUE;
 
-    // 閸愭瑥鍙咲ump閺傚洣娆㈤崘鍛啇
     MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &dumpInfo, NULL, NULL);
 
     CloseHandle(hDumpFile);
 }
 
-// 婢跺嫮鎮奤nhandled Exception閻ㄥ嫬娲栫拫鍐ㄥ毐閺?
 long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
     time_t t = time(0);
@@ -173,7 +169,7 @@ struct ApplicationConfig
     bool deamon = true;                     //run as deamon, Linux
     bool xbutton = true;                    //close X button in windows
     std::string plugin_file = "Plugin.xml"; //config file
-    int app_id = 0;                 //app id
+    int app_id = 0;                         //app id
     std::string app_name = "";              //app name
 };
 
