@@ -44,15 +44,13 @@ bool AFCLogModule::Shut()
     return true;
 }
 
-const std::shared_ptr<spdlog::logger>& AFCLogModule::GetLogger()
+const std::shared_ptr<spdlog::async_logger>& AFCLogModule::GetLogger()
 {
     return mxLogger;
 }
 
 void AFCLogModule::CreateLogger()
 {
-    //open async mode
-    spdlog::set_async_mode(8 * 1024);
     std::vector<spdlog::sink_ptr> sinks_vec;
     std::string log_name;
 #if ARK_PLATFORM == PLATFORM_WIN
@@ -73,13 +71,13 @@ void AFCLogModule::CreateLogger()
 #endif
     sinks_vec.push_back(date_and_hour_sink);
 
-    mxLogger = std::make_shared<spdlog::logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec));
+    mxLogger = std::make_shared<spdlog::async_logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), 8 * 1024, spdlog::async_overflow_policy::block_retry, nullptr, std::chrono::seconds(5));
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
     mxLogger->set_level(spdlog::level::level_enum::trace);
-    mxLogger->set_pattern("%^[%Y%m%d %H:%M:%S.%e][pid:%P][tid:%t][%l]%v%$");
+    mxLogger->set_pattern("%^[%Y%m%d %H:%M:%S.%e][%l]%v%$");
 #else
-    mxLogger->set_pattern("[%Y%m%d %H:%M:%S.%e][pid:%P][tid:%t][%l]%v");
+    mxLogger->set_pattern("[%Y%m%d %H:%M:%S.%e][%l]%v");
 #endif
 
     spdlog::register_logger(mxLogger);
@@ -98,7 +96,7 @@ bool AFCDynamicLogModule::Shut()
     return true;
 }
 
-const std::shared_ptr<spdlog::logger>& AFCDynamicLogModule::GetLogger(const int id, const char* name)
+const std::shared_ptr<spdlog::async_logger>& AFCDynamicLogModule::GetLogger(const int id, const char* name)
 {
     auto iter = _dynamic_loggers.find(std::make_pair(id, name));
 
@@ -135,8 +133,6 @@ const std::shared_ptr<spdlog::logger>& AFCDynamicLogModule::GetLogger(const int 
 
 void AFCDynamicLogModule::CreateLogger(const int id, const char* name)
 {
-    //open async mode
-    spdlog::set_async_mode(8 * 1024);
     std::vector<spdlog::sink_ptr> sinks_vec;
     std::string log_name;
 #if ARK_PLATFORM == PLATFORM_WIN
@@ -157,7 +153,7 @@ void AFCDynamicLogModule::CreateLogger(const int id, const char* name)
 #endif
     sinks_vec.push_back(date_and_hour_sink);
 
-    auto dynamic_logger = std::make_shared<spdlog::logger>(name, std::begin(sinks_vec), std::end(sinks_vec));
+    auto dynamic_logger = std::make_shared<spdlog::async_logger>(name, std::begin(sinks_vec), std::end(sinks_vec), 8 * 1024, spdlog::async_overflow_policy::block_retry, nullptr, std::chrono::seconds(5));
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
     dynamic_logger->set_level(spdlog::level::level_enum::trace);

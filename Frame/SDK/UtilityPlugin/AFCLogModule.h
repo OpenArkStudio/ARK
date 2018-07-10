@@ -30,13 +30,13 @@ public:
 
     virtual bool Shut();
 
-    virtual const std::shared_ptr<spdlog::logger>& GetLogger();
+    virtual const std::shared_ptr<spdlog::async_logger>& GetLogger();
 
 protected:
     void CreateLogger();
 
 private:
-    std::shared_ptr<spdlog::logger> mxLogger;
+    std::shared_ptr<spdlog::async_logger> mxLogger;
 };
 
 class AFCDynamicLogModule : public AFIDynamicLogModule
@@ -46,15 +46,15 @@ public:
     virtual ~AFCDynamicLogModule() = default;
     virtual bool Shut();
 
-    virtual const std::shared_ptr<spdlog::logger>& GetLogger(const int id, const char* name);
+    virtual const std::shared_ptr<spdlog::async_logger>& GetLogger(const int id, const char* name);
 
 protected:
     void CreateLogger(const int id, const char* name);
 
 private:
     using dynamic_log_key = std::pair<int, const char*>;
-    using dynamic_log_container = std::map<dynamic_log_key, std::shared_ptr<spdlog::logger>>;
+    using dynamic_log_container = std::map<dynamic_log_key, std::shared_ptr<spdlog::async_logger>>;
 
     dynamic_log_container _dynamic_loggers;
-    const std::shared_ptr<spdlog::logger>& _null_logger = nullptr;
+    const std::shared_ptr<spdlog::async_logger>& _null_logger = nullptr;
 };

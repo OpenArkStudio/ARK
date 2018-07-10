@@ -40,7 +40,7 @@ public:
     template<typename... ARGS>
     void Log(spdlog::level::level_enum log_level, const char* function, int line, const char* my_fmt, const ARGS& ... args)
     {
-        const std::shared_ptr<spdlog::logger>& logger = GetLogger();
+        const std::shared_ptr<spdlog::async_logger>& logger = GetLogger();
 
         if (logger == nullptr)
         {
@@ -51,7 +51,7 @@ public:
         logger->log(log_level, new_fmt.c_str(), function, line, args...);
     }
 
-    virtual const std::shared_ptr<spdlog::logger>& GetLogger() = 0;
+    virtual const std::shared_ptr<spdlog::async_logger>& GetLogger() = 0;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ public:
     template<typename... ARGS>
     void Log(spdlog::level::level_enum log_level, const int id, const std::string& name, const std::string& info)
     {
-        const std::shared_ptr<spdlog::logger>& logger = GetLogger(id, name.c_str());
+        auto& logger = GetLogger(id, name.c_str());
 
         if (logger == nullptr)
         {
@@ -79,5 +79,5 @@ public:
         logger->log(log_level, "[{}][{}]{}", id, name, info);
     }
 
-    virtual const std::shared_ptr<spdlog::logger>& GetLogger(const int id, const char* name) = 0;
+    virtual const std::shared_ptr<spdlog::async_logger>& GetLogger(const int id, const char* name) = 0;
 };

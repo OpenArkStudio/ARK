@@ -139,10 +139,10 @@ bool Example1Module::PostInit()
     //TestRandom();
     //////////////////////////////////////////////////////////////////////////
     //Test log
-    //for (int i = 0; i < 10000; ++i)
-    //{
-    //    ARK_LOG_INFO("This is a test log");
-    //}
+    for (int i = 0; i < 1; ++i)
+    {
+        ARK_LOG_INFO("This is a test log");
+    }
 
     ARK_DYNAMIC_LOG_DEBUG(1001, "game", "this is a dynamic log test");
 
