@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "AFPlatform.hpp"
+#include "AFMacros.hpp"
 
 class AFMisc
 {
