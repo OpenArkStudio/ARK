@@ -18,8 +18,8 @@
 *
 */
 
+#include "SDK/Core/AFMisc.hpp"
 #include "AFDataTable.h"
-#include "SDK/Core/Base/AFMisc.hpp"
 
 AFDataTable::AFDataTable() noexcept
     : mstrName(NULL_STR.c_str())

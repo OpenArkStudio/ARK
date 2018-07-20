@@ -18,11 +18,11 @@
 *
 */
 
-#include "AFCClassModule.h"
 #include "RapidXML/rapidxml.hpp"
 #include "RapidXML/rapidxml_print.hpp"
-#include "SDK/Core/Base/AFIData.h"
+#include "SDK/Core/AFIData.h"
 #include "SDK/Core/AFDataNode.h"
+#include "AFCClassModule.h"
 
 AFCClassModule::AFCClassModule(AFIPluginManager* p) : m_pElementModule(nullptr)
 {

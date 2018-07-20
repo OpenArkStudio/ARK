@@ -21,7 +21,7 @@
 #pragma once
 
 #include "AFPlatform.hpp"
-//#include "AFMemory.hpp"
+#include "spdlog/fmt/fmt.h"
 
 //Input param type
 #ifndef IN
@@ -270,11 +270,12 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 
 #define ARK_TO_STRING(value) std::to_string(value)
 
-//#undef max
-//#undef min
+#define CONSOLE_LOG std::cout << __FILE__ << ":" << __LINE__ << " "
+#define CONSOLE_LOG_NO_FILE std::cout << " "
+
+#define ARK_FORMAT(my_fmt, ...)             fmt::format(my_fmt, ##__VA_ARGS__);
+#define ARK_FORMAT_FUNCTION(my_fmt, ...)    fmt::format(std::string("[{}:{}]") + my_fmt, ARK_FUNCTION_LINE, ##__VA_ARGS__);
+
 
 //clear player data time
 #define CLEAR_HOUR 5
-
-#define CONSOLE_LOG std::cout << __FILE__ << ":" << __LINE__ << " "
-#define CONSOLE_LOG_NO_FILE std::cout << " "

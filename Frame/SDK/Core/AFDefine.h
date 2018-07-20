@@ -20,10 +20,8 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFCData.h"
-#include "SDK/Core/Base/AFCDataList.h"
-#include "SDK/Core/Base/AFGUID.h"
-#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/AFCData.h"
+#include "SDK/Core/AFCDataList.h"
 
 using  AFFeatureType = std::bitset<8>;
 
@@ -44,11 +42,11 @@ enum ARK_ENTITY_EVENT
 class DATA_TABLE_EVENT_DATA
 {
 public:
-    DATA_TABLE_EVENT_DATA()
-        : nOpType(ENTITY_EVT_NONE)
-        , nRow(-1)
-        , nCol(-1)
-        , strName(NULL_STR.c_str())
+    DATA_TABLE_EVENT_DATA() :
+        nOpType(ENTITY_EVT_NONE),
+        nRow(-1),
+        nCol(-1),
+        strName(NULL_STR.c_str())
     {
     }
 

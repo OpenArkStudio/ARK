@@ -1,29 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xml>
-    <world_bus_relations>
-        <relation name="proxy"          server="world"      id="15001"      type="5"        connect_type="0"/>
-        <relation name="proxy"          server="game"       id="15001"      type="5"        connect_type="1"/>
-        <relation name="login"          server="world"      id="14001"      type="4"        connect_type="0"/>
-        <relation name="login"          server="game"       id="14001"      type="4"        connect_type="1"/>
-        <relation name="game"           server="world"      id="16001"      type="6"        connect_type="0"/>
-        <relation name="world"          server="master"     id="17001"      type="7"        connect_type="0"/>
-        <!--<relation name="world"          server="cs_proxy"   id="7"      type="7"        connect_type="1"/>-->
-        <!--<relation name="cs_proxy"       server="master"     id="10"     type="10"       connect_type="0"/>-->
-        <!-- router -> world -->
-    </world_bus_relations>
-    <cluster_bus_relations>
-        <relation name="log"            server="master"     id="9"      type="9"        connect_type="0"/>
-        <!--to add other relation-->
-    </cluster_bus_relations>
-    <world_servers>
-        <server name="world"    id="17001" type="" ip="127.0.0.1" port="17001" max_connection="5000" thread_num="2"/>
-        <server name="game"     id="16001" type="" ip="127.0.0.1" port="16001" max_connection="5000" thread_num="2"/>
-        <server name="proxy"    id="15001" type="" ip="127.0.0.1" port="15001" max_connection="5000" thread_num="4"/>
-        <server name="login"    id="14001" type="" ip="127.0.0.1" port="14001" max_connection="5000" thread_num="2"/>
-    </world_servers>
-    <cluster_servers>
-        <server name="master"   id="3001" ip="127.0.0.1" port="3001"  max_connection="10000" thread_num="2"/>
-        <server name="log"      id="9001" ip="127.0.0.1" port="9001"  max_connection="10000" thread_num="2"/>
-        <!--<server name="cs_proxy" ip="127.0.0.1" port="10001" max_connection="10000" thread_num="2"/>-->
-    </cluster_servers>
+    <!-- declare connection type -->
+    <connect_types>
+        <connect_type name="wait_for_high_level"    value="0" desc="connect target server while high level server sync registeration msg"/>
+        <connect_type name="direct"                 value="1" desc="connect target server directly"/>
+    </connect_types>
+
+    <!-- all bus channels -->
+    <bus_relations>
+        <relation proc="proxy"          target_proc="world"     connect_type="1"/>
+        <relation proc="login"          target_proc="world"     connect_type="1"/>
+        <relation proc="game"           target_proc="world"     connect_type="1"/>
+        <relation proc="db"             target_proc="world"     connect_type="1"/>
+        <relation proc="proxy"          target_proc="game"      connect_type="0"/>
+        <relation proc="login"          target_proc="game"      connect_type="0"/>
+        <relation proc="game"           target_proc="db"        connect_type="0">
+        <relation proc="world"          target_proc="router"    connect_type="0"/>
+        <relation proc="router"         target_proc="master"    connect_type="1"/>
+        <relation proc="log"            target_proc="master"    connect_type="1"/>
+    </bus_relations>
+
+    <!-- all server processes -->
+    <!-- 
+    ex.
+    if
+    zone id = 1001
+    then
+
+    master1 -> 0.0.1.1
+    master2 -> 0.0.1.2
+
+    world -> 1.1.50.1
+
+    ------------------
+    (default formula if you do not configure port)
+    port = 
+      if (type < world 20)
+          type * 5000 + instance_id
+      else
+          type * 1000 + instance_id
+    ex.
+    master port = 1 * 5000 + 1 = 5001
+    world1 port = 20 * 1000 + 1 = 20001
+    world2 port = 20 * 1000 + 2 = 20002
+    -->
+    <servers>
+        <server proc="master"   type="1"  num="1" host_name="test1_x64" max_connection="5000" thread_num="2" bin_path="" cfg_path="" args=""/>
+        <server proc="dir"      type="2"  num="1" host_name="test1_x64" max_connection="5000" thread_num="2" bin_path="" cfg_path="" args=""/>
+        <server proc="log"      type="3"  num="1" host_name="test1_x64" max_connection="5000" thread_num="2" bin_path="" cfg_path="" args=""/>
+        <server proc="router"   type="4"  num="1" host_name="test1_x64" max_connection="5000" thread_num="2" bin_path="" cfg_path="" args=""/>
+        
+        <server proc="world"    type="20" num="1" host_name="test2_x64" max_connection="5000" thread_num="2" bin_path="" cfg_path="" args=""/>
+        <server proc="game"     type="21" num="1" host_name="test2_x64" max_connection="5000" thread_num="2" bin_path="" cfg_path="" args=""/>
+        <server proc="login"    type="22" num="1" host_name="test2_x64" max_connection="5000" thread_num="2" bin_path="" cfg_path="" args=""/>
+        <server proc="proxy"    type="23" num="1" host_name="test2_x64" max_connection="5000" thread_num="4" bin_path="" cfg_path="" args=""/>
+        <server proc="db"       type="24" num="1" host_name="test2_x64" max_connection="5000" thread_num="4" bin_path="" cfg_path="" args=""/>
+    </servers>
+
+    <hosts>
+        <host name="test1_x64" private_ip="127.0.0.1"/>
+        <host name="test2_x64" private_ip="127.0.0.1" public_ip_count="1">
+            <public_ip ip="127.0.0.1"/>
+        </host>
+    </hosts>
 </xml>

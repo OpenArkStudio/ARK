@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFNoncopyable.hpp"
+#include "SDK/Core/AFPlatform.hpp"
+#include "SDK/Core/AFNoncopyable.hpp"
 
 #if ARK_PLATFORM == PLATFORM_WIN
 

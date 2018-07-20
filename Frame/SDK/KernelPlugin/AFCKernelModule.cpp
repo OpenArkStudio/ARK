@@ -18,8 +18,8 @@
 *
 */
 
-#include "SDK/Core/Base/AFDefine.h"
-#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/AFDefine.h"
+#include "SDK/Core/AFGUID.h"
 #include "SDK/Core/AFCEntity.h"
 #include "SDK/Core/AFDataNode.h"
 #include "SDK/Core/AFDataTable.h"

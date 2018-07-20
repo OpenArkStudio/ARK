@@ -18,11 +18,11 @@
 *
 */
 
-#include "AFCPropertyTrailModule.h"
-#include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFDataNode.h"
 #include "SDK/Core/AFDataTable.h"
+#include "SDK/Interface/AFIPluginManager.h"
+#include "AFCPropertyTrailModule.h"
 
 bool AFCPropertyTrailModule::PostInit()
 {

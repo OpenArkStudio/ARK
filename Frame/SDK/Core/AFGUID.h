@@ -20,8 +20,7 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFMacros.hpp"
+#include "SDK/Core/AFMacros.hpp"
 
 class AFGUID
 {

@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFMacros.hpp"
-#include "AFIModule.h"
-#include "SDK/Core/Base/AFMap.hpp"
+#include "SDK/Core/AFMacros.hpp"
+#include "SDK/Core/AFMap.hpp"
 #include "SDK/Core/AFIDataNodeManager.h"
 #include "SDK/Core/AFIDataTableManager.h"
+#include "AFIModule.h"
 
 class AFIClass : public AFList<std::string>
 {

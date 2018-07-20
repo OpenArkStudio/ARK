@@ -18,12 +18,12 @@
 *
 */
 
-#include "Example1Module.h"
-#include "SDK/Core/Base/AFTimer.hpp"
-#include "SDK/Core/Base/AFMacros.hpp"
+#include "SDK/Core/AFMacros.hpp"
+#include "SDK/Core/AFDateTime.hpp"
+#include "SDK/Core/AFRandom.hpp"
+#include "SDK/Core/AFTimer.hpp"
 #include "SDK/Core/Common/cronexpr.h"
-#include "SDK/Core/Base/AFDateTime.hpp"
-#include "SDK/Core/Base/AFRandom.hpp"
+#include "Example1Module.h"
 
 bool Example1Module::Init()
 {

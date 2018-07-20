@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "AFCDynLib.h"
-#include "SDK/Core/Base/AFSingleton.hpp"
+#include "SDK/Core/AFSingleton.hpp"
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Core/AFArrayMap.hpp"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Core/Base/AFArrayMap.hpp"
-#include "SDK/Core/Base/AFMap.hpp"
+#include "AFCDynLib.h"
 
 class AFCPluginManager : public AFIPluginManager, public AFSingleton<AFCPluginManager>
 {

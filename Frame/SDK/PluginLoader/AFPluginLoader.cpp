@@ -19,29 +19,20 @@
 */
 
 #include "AFCPluginManager.h"
-#include "SDK/Core/Base/AFPlatform.hpp"
-
-#if ARK_PLATFORM == PLATFORM_UNIX
-#include <unistd.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <signal.h>
-#include <sys/prctl.h>
-#endif
+#include "SDK/Core/AFMacros.hpp"
+#include "SDK/Core/AFDateTime.hpp"
 
 bool bExitApp = false;
 std::thread gBackThread;
 
 #if ARK_PLATFORM == PLATFORM_WIN
-#include <Dbghelp.h>
-#pragma comment(lib, "DbgHelp")
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #pragma comment(lib, "AFCore_d.lib")
 #else
 #pragma comment(lib, "AFCore.lib")
 #endif
 
-//minidump
+//mini-dump
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
 {
     HANDLE hDumpFile = CreateFile(strDumpFilePathName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -58,15 +49,12 @@ void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* 
 
 long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
-    time_t t = time(0);
-    char szDmupName[MAX_PATH];
-    tm* ptm = localtime(&t);
+    AFDateTime now;
+    tm* ptm = now.GetLocalTime();
+    std::string dump_name = ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFCPluginManager::GetInstancePtr()->AppName(), ptm->tm_year + 1900, ptm->tm_mon + 1, ptm->tm_mday, ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
+    CreateDumpFile(dump_name.c_str(), pException);
 
-    sprintf_s(szDmupName, "%04d_%02d_%02d_%02d_%02d_%02d.dmp",  ptm->tm_year + 1900, ptm->tm_mon + 1, ptm->tm_mday, ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
-    CreateDumpFile(szDmupName, pException);
-
-    FatalAppExit(-1,  szDmupName);
-
+    FatalAppExit(-1, dump_name.c_str());
     return EXCEPTION_EXECUTE_HANDLER;
 }
 #endif

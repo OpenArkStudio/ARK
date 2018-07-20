@@ -18,9 +18,9 @@
 *
 */
 
+#include "SDK/Core/AFMisc.hpp"
 #include "AFCDataTableManager.h"
 #include "AFDataTable.h"
-#include "SDK/Core/Base/AFMisc.hpp"
 
 AFCDataTableManager::AFCDataTableManager(const AFGUID& guid)
     : self(guid)

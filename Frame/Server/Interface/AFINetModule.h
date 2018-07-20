@@ -24,34 +24,7 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"
 #include "SDK/Proto/AFProtoCPP.hpp"
-
-enum ARK_SERVER_TYPE
-{
-    ARK_ST_NONE             = 0,    //none
-    //cluster
-    ARK_ST_MASTER           = 1,    //master
-    ARK_ST_DIR              = 2,    //dir
-    ARK_ST_LOG              = 3,    //log
-    ARK_ST_ROUTER           = 4,    //router, world & cluster middle layer
-    ARK_CLUTER_RANK         = 5,    //cluster rand
-    ARK_CLUSTER_MAIL        = 6,    //cluster mail
-    ARK_CLUSTER_PUB         = 7,    //cluster public
-    ARK_IDIP                = 8,    //idip
-
-    //world
-    ARK_ST_WORLD            = 50,   //world
-    ARK_ST_GAME             = 51,   //game
-    ARK_ST_LOGIN            = 52,   //login
-    ARK_ST_PROXY            = 53,   //proxy
-    ARK_ST_RANK             = 54,   //rank
-    ARK_ST_PUB              = 55,   //public
-
-    ARK_ST_CS_PROXY         = 80,   //cs_proxy, produce cross-server things
-
-    //db
-    ARK_ST_REDIS = 100,    //
-    ARK_ST_MYSQL = 101,    //
-};
+#include "Server/Common/AFApp.hpp"
 
 class AFINetModule : public AFIModule
 {
@@ -88,10 +61,11 @@ public:
         {
             return false;
         }
-
-        mxReceiveCallBack.insert(std::map<int, NET_RECEIVE_FUNCTOR_PTR>::value_type(nMsgID, cb));
-
-        return true;
+        else
+        {
+            mxReceiveCallBack.insert(std::make_pair(nMsgID, cb));
+            return true;
+        }
     }
 
     virtual bool AddReceiveCallBack(const NET_RECEIVE_FUNCTOR_PTR& cb)
@@ -174,6 +148,44 @@ public:
         return xPoint;
     }
 
+    static bool AFData2PBVariant(const AFIData& DataVar, AFMsg::VariantData* variantData)
+    {
+        if (variantData == nullptr)
+        {
+            return false;
+        }
+
+        switch (DataVar.GetType())
+        {
+        case DT_BOOLEAN:
+            variantData->set_bool_value(DataVar.GetBool());
+            break;
+        case DT_INT:
+            variantData->set_int_value(DataVar.GetInt());
+            break;
+        case DT_INT64:
+            variantData->set_int64_value(DataVar.GetInt64());
+            break;
+        case DT_FLOAT:
+            variantData->set_float_value(DataVar.GetFloat());
+            break;
+        case DT_DOUBLE:
+            variantData->set_double_value(DataVar.GetDouble());
+            break;
+        case DT_STRING:
+            variantData->set_str_value(DataVar.GetString());
+            break;
+        case DT_OBJECT:
+            *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
+            break;
+        default:
+            ARK_ASSERT_RET_VAL(0, false);
+            break;
+        }
+
+        return true;
+    }
+
     static bool DataNodeToPBNode(const AFIData& DataVar, const char* name, AFMsg::PBNodeData& xMsg)
     {
         if (nullptr == name)
@@ -185,42 +197,7 @@ public:
         xMsg.set_data_type(DataVar.GetType());
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
 
-        switch (DataVar.GetType())
-        {
-        case DT_BOOLEAN:
-            variantData->set_bool_value(DataVar.GetBool());
-            break;
-
-        case DT_INT:
-            variantData->set_int_value(DataVar.GetInt());
-            break;
-
-        case DT_INT64:
-            variantData->set_int64_value(DataVar.GetInt64());
-            break;
-
-        case DT_FLOAT:
-            variantData->set_float_value(DataVar.GetFloat());
-            break;
-
-        case DT_DOUBLE:
-            variantData->set_double_value(DataVar.GetDouble());
-            break;
-
-        case DT_STRING:
-            variantData->set_str_value(DataVar.GetString());
-            break;
-
-        case DT_OBJECT:
-            *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
-            break;
-
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
-        }
-
-        return true;
+        return AFData2PBVariant(DataVar, variantData);
     }
 
 
@@ -231,42 +208,7 @@ public:
         xMsg.set_data_type(DataVar.GetType());
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
 
-        switch (DataVar.GetType())
-        {
-        case DT_BOOLEAN:
-            variantData->set_bool_value(DataVar.GetBool());
-            break;
-
-        case DT_INT:
-            variantData->set_int_value(DataVar.GetInt());
-            break;
-
-        case DT_INT64:
-            variantData->set_int64_value(DataVar.GetInt64());
-            break;
-
-        case DT_FLOAT:
-            variantData->set_float_value(DataVar.GetFloat());
-            break;
-
-        case DT_DOUBLE:
-            variantData->set_double_value(DataVar.GetDouble());
-            break;
-
-        case DT_STRING:
-            variantData->set_str_value(DataVar.GetString());
-            break;
-
-        case DT_OBJECT:
-            *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
-            break;
-
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
-        }
-
-        return true;
+        return AFData2PBVariant(DataVar, variantData);
     }
 
     static bool TableCellToPBCell(const AFIDataList& DataList, const int nRow, const int nCol, AFMsg::PBCellData& xMsg)

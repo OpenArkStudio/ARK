@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFArrayMap.hpp"
 #include "SDK/Proto/AFProtoCPP.hpp"
+#include "SDK/Core/AFArrayMap.hpp"
 #include "SDK/Core/AFCHeartBeatManager.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIElementModule.h"

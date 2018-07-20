@@ -22,8 +22,8 @@
 
 #include "AFCElementModule.h"
 #include "RapidXML/rapidxml.hpp"
-#include "SDK/Core/Base/AFList.h"
-#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/AFList.h"
+#include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFCDataNodeManager.h"
 #include "SDK/Core/AFCDataTableManager.h"
 #include "SDK/Interface/AFIClassModule.h"

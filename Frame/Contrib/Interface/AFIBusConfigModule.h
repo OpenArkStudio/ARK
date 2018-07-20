@@ -25,20 +25,16 @@
 class AFIBusConfigModule : public AFIModule
 {
 public:
+    enum EConnectionType
+    {
+        EConnectionType_WAIT    = 0,//wait for high level server sync other service
+        EConnectionType_DIRECT  = 1,//connect target server directly
+    };
+
     virtual bool GetBusRelation(const std::string& name, const int& id, std::string& server, int& port) = 0;
     virtual bool GetBusServer(const std::string& name, const int& id, std::string& ip, int& port) = 0;
 };
 
-//<bus_relation>
-//    <relations>
-//      <relation name = "mail_proxy" server = "mail_master" id = "100" count = "4" / >
-//      <relation name = "mail_shard" server = "mail_master" id = "200" count = "2" / > <!--2001 2002 -->
-//    </relations>
-//    <servers>
-//      <server name = "mail_master" ip = "127.0.0.1" port = "9001" machine = "xxxx" / >
-//    </servers>
-//</bus_relation>
-//
 //<!--
 //    config - path = "bus_relation.xml" id = "1001" machine1 = "1001A@xxx.com" machine2 = "1001B@xxx.com"
 //    config launch 1001

@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/AFPlatform.hpp"
 
-template < typename T >
+template <typename T>
 class AFList
 {
 public:

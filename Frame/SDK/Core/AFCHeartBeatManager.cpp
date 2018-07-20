@@ -18,9 +18,8 @@
 *
 */
 
-#include "SDK/Core/Base/AFDateTime.hpp"
+#include "SDK/Core/AFDateTime.hpp"
 #include "AFCHeartBeatManager.h"
-
 
 AFCHeartBeatManager::~AFCHeartBeatManager()
 {

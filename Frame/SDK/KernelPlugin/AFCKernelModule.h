@@ -21,18 +21,17 @@
 #pragma once
 
 #include "SDK/Core/AFIEntity.h"
-#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFDataTable.h"
-#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/AFGUID.h"
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFISceneModule.h"
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFMap.hpp"
-#include "SDK/Core/Base/AFArrayMap.hpp"
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Core/AFArrayMap.hpp"
 
 class AFCKernelModule
     : public AFIKernelModule,

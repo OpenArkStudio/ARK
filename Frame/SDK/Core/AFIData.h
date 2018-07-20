@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include <SDK/Core/Base/AFPlatform.hpp>
-#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/AFPlatform.hpp"
+#include "SDK/Core/AFGUID.h"
 
 enum AF_DATA_TYPE
 {

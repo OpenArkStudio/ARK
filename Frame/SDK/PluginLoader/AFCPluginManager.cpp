@@ -18,14 +18,15 @@
 *
 */
 
-#include "AFCPluginManager.h"
+
 #include "RapidXML/rapidxml.hpp"
 #include "RapidXML/rapidxml_iterators.hpp"
 #include "RapidXML/rapidxml_print.hpp"
 #include "RapidXML/rapidxml_utils.hpp"
+#include "SDK/Core/AFPlatform.hpp"
+#include "SDK/Core/AFDateTime.hpp"
 #include "SDK/Interface/AFIPlugin.h"
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFDateTime.hpp"
+#include "AFCPluginManager.h"
 
 #if ARK_PLATFORM == PLATFORM_WIN
 #pragma comment( lib, "ws2_32.lib" )

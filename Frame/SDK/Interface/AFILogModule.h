@@ -24,9 +24,6 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/fmt.h"
 
-#define ARK_FORMAT(my_fmt, ...)             fmt::format(my_fmt, ##__VA_ARGS__);
-#define ARK_FORMAT_FUNCTION(my_fmt, ...)    fmt::format(std::string("[{}:{}]") + my_fmt, ARK_FUNCTION_LINE, ##__VA_ARGS__);
-
 #define ARK_LOG_TRACE(my_fmt, ...)     m_pLogModule->Log(spdlog::level::trace, ARK_FUNCTION_LINE, my_fmt, ##__VA_ARGS__);
 #define ARK_LOG_DEBUG(my_fmt, ...)     m_pLogModule->Log(spdlog::level::debug, ARK_FUNCTION_LINE, my_fmt, ##__VA_ARGS__);
 #define ARK_LOG_INFO(my_fmt, ...)      m_pLogModule->Log(spdlog::level::info, ARK_FUNCTION_LINE, my_fmt, ##__VA_ARGS__);

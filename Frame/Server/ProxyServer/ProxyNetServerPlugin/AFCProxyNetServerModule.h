@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFCConsistentHash.hpp"
 #include "SDK/Proto/AFProtoCPP.hpp"
+#include "SDK/Core/AFCConsistentHash.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFILogModule.h"

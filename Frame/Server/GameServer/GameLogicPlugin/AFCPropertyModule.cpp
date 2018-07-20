@@ -18,12 +18,11 @@
 *
 */
 
+#include "SDK/Core/AFDateTime.hpp"
 #include "AFCPropertyModule.h"
-#include "SDK/Core/Base/AFDateTime.hpp"
 
 bool AFCPropertyModule::Init()
 {
-
     //to do
     //init mNameToCol mColToName
     return true;

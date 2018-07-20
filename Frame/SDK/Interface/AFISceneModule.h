@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFList.h"
-#include "SDK/Core/Base/AFMap.hpp"
-#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/AFList.h"
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Core/AFGUID.h"
 #include "SDK/Core/AFIEntity.h"
 
 class AFCSceneGroupInfo

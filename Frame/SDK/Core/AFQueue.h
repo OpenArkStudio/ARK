@@ -20,37 +20,83 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "common/readerwriterqueue.h"
+#include "SDK/Core/AFPlatform.hpp"
+#include "SDK/Core/AFNoncopyable.hpp"
 
-template<typename T>
-class AFLockFreeQueue
+class AFLock : public AFNoncopyable
 {
 public:
-    AFLockFreeQueue()
+    explicit AFLock()
+    {
+        flag.clear();
+    }
+
+    ~AFLock()
     {
     }
 
-    virtual ~AFLockFreeQueue()
+    void lock()
+    {
+        while (flag.test_and_set(std::memory_order_acquire));
+    }
+
+    void unlock()
+    {
+        flag.clear(std::memory_order_release);
+    }
+
+private:
+    mutable std::atomic_flag flag;
+};
+
+template<typename T>
+class AFQueue : public AFLock
+{
+public:
+    AFQueue()
+    {
+    }
+
+    virtual ~AFQueue()
     {
     }
 
     bool Push(const T& object)
     {
-        return mList.enqueue(object);
+        lock();
+
+        mList.push_back(object);
+
+        unlock();
+
+        return true;
     }
 
     bool Pop(T& object)
     {
-        //return mList.wait_dequeue_timed(object, std::chrono::milliseconds(5));
-        return mList.try_dequeue(object);
+        lock();
+
+        if (mList.empty())
+        {
+            unlock();
+
+            return false;
+        }
+
+        object = mList.front();
+        mList.pop_front();
+
+        unlock();
+
+        return true;
     }
 
-    size_t Count()
+    int Count()
     {
-        return mList.size_approx();
+        return mList.size();
     }
 
 private:
-    moodycamel::BlockingReaderWriterQueue<T> mList;
+    std::list<T> mList;
 };
+

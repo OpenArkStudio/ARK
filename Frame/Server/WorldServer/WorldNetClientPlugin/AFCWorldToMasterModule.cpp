@@ -18,10 +18,10 @@
 *
 */
 
+#include "SDK/Core/AFCDataList.h"
+#include "SDK/Proto/AFProtoCPP.hpp"
 #include "AFCWorldToMasterModule.h"
 #include "AFWorldNetClientPlugin.h"
-#include "SDK/Core/Base/AFCDataList.h"
-#include "SDK/Proto/AFProtoCPP.hpp"
 #include "Server/Interface/AFINetClientModule.hpp"
 
 bool AFCWorldToMasterModule::Init()

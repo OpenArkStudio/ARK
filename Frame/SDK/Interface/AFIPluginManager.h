@@ -21,7 +21,7 @@
 #pragma once
 
 #include "AFIModule.h"
-#include "SDK/Core/Base/AFMemAlloc.hpp"
+#include "SDK/Core/AFMemAlloc.hpp"
 
 class AFIPlugin;
 #define ARK_DLL_PLUGIN_ENTRY(plugin_name)                           \

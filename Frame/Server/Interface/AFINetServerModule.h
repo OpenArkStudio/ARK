@@ -20,14 +20,14 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/AFGUID.h"
+#include "SDK/Core/AFQueue.h"
+#include "SDK/Core/AFDataNode.h"
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"
-#include "SDK/Core/Base/AFQueue.h"
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "Server/Interface/AFINetModule.h"
-#include "SDK/Core/AFDataNode.h"
 
 class ServerData
 {

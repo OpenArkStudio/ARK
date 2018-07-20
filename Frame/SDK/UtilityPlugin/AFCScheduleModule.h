@@ -20,8 +20,8 @@
 
 #pragma once
 
+#include "SDK/Core/AFCronScheduler.hpp"
 #include "SDK/Interface/AFIScheduleModule.h"
-#include "SDK/Core/Base/AFCronScheduler.hpp"
 
 class AFCScheduleModule : public AFIScheduleModule
 {

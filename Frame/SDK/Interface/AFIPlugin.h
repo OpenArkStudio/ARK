@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFMap.hpp"
+#include "SDK/Core/AFPlatform.hpp"
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Core/AFArrayMap.hpp"
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Core/Base/AFArrayMap.hpp"
 
 #define REGISTER_MODULE(pManager, classBaseName, className)             \
     assert((std::is_base_of<AFIModule, classBaseName>::value));         \

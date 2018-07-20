@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "AFIModule.h"
 #include "SDK/Core/AFIEntity.h"
-#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/AFGUID.h"
+#include "AFIModule.h"
 
 class AFIKernelModule : public AFIModule
 {

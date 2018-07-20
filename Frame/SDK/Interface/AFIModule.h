@@ -20,11 +20,10 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFList.h"
-#include "SDK/Core/Base/AFDefine.h"
-#include "SDK/Core/Base/AFCDataList.h"
-#include "SDK/Core/Base/AFVector3.hpp"
+#include "SDK/Core/AFList.h"
+#include "SDK/Core/AFDefine.h"
+#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/AFVector3.hpp"
 #include "SDK/Core/AFDataTable.h"
 
 class AFIPluginManager;

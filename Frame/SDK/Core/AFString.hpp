@@ -20,8 +20,7 @@
 
 #pragma once
 
-#include <string>
-#include "SDK/Core/Base/AFCoreDef.hpp"
+#include "SDK/Core/AFCoreDef.hpp"
 
 template<typename TYPE>
 class CharTraits

@@ -11,11 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{8F2AA50E-1F15-41E8-9EB9-07C7D0BB757C}</ProjectGuid>
+    <ProjectGuid>{9D23DA22-6ECC-47CB-85F7-0BF440B88298}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AFKernelPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
-    <ProjectName>AFKernelPlugin</ProjectName>
+    <ProjectName>AFBusPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -152,18 +152,9 @@ copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AFCClassModule.h" />
-    <ClInclude Include="AFCElementModule.h" />
-    <ClInclude Include="AFCKernelModule.h" />
-    <ClInclude Include="AFCSceneModule.h" />
-    <ClInclude Include="AFKernelPlugin.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="AFCClassModule.cpp" />
-    <ClCompile Include="AFCElementModule.cpp" />
-    <ClCompile Include="AFCKernelModule.cpp" />
-    <ClCompile Include="AFCSceneModule.cpp" />
-    <ClCompile Include="AFKernelPlugin.cpp" />
+    <ClCompile Include="AFBusPlugin.cpp" />
+    <ClCompile Include="AFCBusConfigModule.cpp" />
+    <ClCompile Include="AFCBusModule.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -172,6 +163,11 @@ copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFBusPlugin.h" />
+    <ClInclude Include="AFCBusConfigModule.h" />
+    <ClInclude Include="AFCBusModule.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

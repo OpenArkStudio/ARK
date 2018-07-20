@@ -4,9 +4,6 @@
     <Filter Include="Core">
       <UniqueIdentifier>{b5f80948-3769-4657-b1ce-fd9d9d536f73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Base">
-      <UniqueIdentifier>{222a0684-4f42-4dd3-ae99-a9ab9500bfaa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Common">
       <UniqueIdentifier>{4be5f2f0-1e87-42a7-82be-3a5030d45bc5}</UniqueIdentifier>
     </Filter>
@@ -54,107 +51,107 @@
     <ClInclude Include="Common\cronexpr.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFArrayMap.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFArrayMap.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFArrayPod.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFArrayPod.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFBuffer.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFBitValue.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFCAddConsistentHash.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFBuffer.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFCConsistentHash.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFCAddConsistentHash.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFCData.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFCConsistentHash.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFCDataList.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFCData.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFCoreDef.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFCDataList.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFCronScheduler.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFCoreDef.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFDateTime.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFCronScheduler.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFDefine.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFDateTime.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFGUID.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFDefine.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFHashmap.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFGUID.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFIData.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFHashmap.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFIDataList.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFIData.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFList.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFIDataList.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFLockFreeQueue.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFList.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFMacros.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFLockFreeQueue.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFMap.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFMacros.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFMemAlloc.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFMap.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFMemPool.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFMemAlloc.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFMisc.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFMemPool.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFNoncopyable.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFMisc.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFPlatform.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFNoncopyable.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFQueue.h">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFPlatform.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFRWLock.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFQueue.h">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFSingleton.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFRandom.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFSpinLock.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFRWLock.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFString.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFSingleton.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFStringPod.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFSpinLock.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFTimer.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFString.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFVector3.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFStringPod.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFBitValue.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFTimer.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="Base\AFRandom.hpp">
-      <Filter>Base</Filter>
+    <ClInclude Include="AFVector3.hpp">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -179,8 +176,8 @@
     <ClCompile Include="Common\cronexpr.cpp">
       <Filter>Common</Filter>
     </ClCompile>
-    <ClCompile Include="Base\AFMemAlloc.cpp">
-      <Filter>Base</Filter>
+    <ClCompile Include="AFMemAlloc.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

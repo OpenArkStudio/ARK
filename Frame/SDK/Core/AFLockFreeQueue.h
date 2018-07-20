@@ -18,13 +18,39 @@
 *
 */
 
+#pragma once
+
 #include "SDK/Core/AFPlatform.hpp"
-#include "AFWorldLogicPlugin.h"
-#include "AFCWorldLogicModule.h"
+#include "common/readerwriterqueue.h"
 
-bool AFCWorldLogicModule::PostInit()
+template<typename T>
+class AFLockFreeQueue
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+public:
+    AFLockFreeQueue()
+    {
+    }
 
-    return true;
-}
+    virtual ~AFLockFreeQueue()
+    {
+    }
+
+    bool Push(const T& object)
+    {
+        return mList.enqueue(object);
+    }
+
+    bool Pop(T& object)
+    {
+        //return mList.wait_dequeue_timed(object, std::chrono::milliseconds(5));
+        return mList.try_dequeue(object);
+    }
+
+    size_t Count()
+    {
+        return mList.size_approx();
+    }
+
+private:
+    moodycamel::BlockingReaderWriterQueue<T> mList;
+};
