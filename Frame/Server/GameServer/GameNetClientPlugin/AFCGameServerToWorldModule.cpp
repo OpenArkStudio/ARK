@@ -56,7 +56,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_SERVER_TYPE::ARK_ST_GAME && pPluginManager->AppID() == nSelfServerID)
+        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_GAME && pPluginManager->AppID() == nSelfServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -122,7 +122,7 @@ bool AFCGameServerToWorldModule::PostInit()
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD)
+        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_WORLD)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
@@ -131,7 +131,7 @@ bool AFCGameServerToWorldModule::PostInit()
             ConnectData xServerData;
 
             xServerData.nGameID = nServerID;
-            xServerData.eServerType = (ARK_SERVER_TYPE)nServerType;
+            xServerData.eServerType = (ARK_PROCESS_TYPE)nServerType;
             xServerData.strIP = strIP;
             xServerData.nPort = nPort;
             xServerData.strName = strServerName;

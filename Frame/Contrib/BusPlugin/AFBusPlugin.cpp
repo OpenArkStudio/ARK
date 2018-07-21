@@ -20,6 +20,7 @@
 
 #include "AFBusPlugin.h"
 #include "AFCBusModule.h"
+#include "AFCProcModule.h"
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
@@ -43,9 +44,11 @@ const std::string AFBusPlugin::GetPluginName()
 void AFBusPlugin::Install()
 {
     REGISTER_MODULE(pPluginManager, AFIBusModule, AFCBusModule)
+    REGISTER_MODULE(pPluginManager, AFIProcModule, AFCProcModule)
 }
 
 void AFBusPlugin::Uninstall()
 {
+    UNREGISTER_MODULE(pPluginManager, AFIProcModule, AFCProcModule)
     UNREGISTER_MODULE(pPluginManager, AFIBusModule, AFCBusModule)
 }

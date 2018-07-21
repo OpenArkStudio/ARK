@@ -124,4 +124,15 @@ public:
         return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
 #endif
     }
+
+    static std::string ToLower(std::string s)
+    {
+        std::transform(s.begin(), s.end(), s.begin(), std::tolower);
+        return s;
+    }
+    static std::string ToUpper(std::string s)
+    {
+        std::transform(s.begin(), s.end(), s.begin(), std::toupper);
+        return s;
+    }
 };

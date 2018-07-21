@@ -51,15 +51,15 @@ void AFCProxyServerToWorldModule::OnServerInfoProcess(const AFIMsgHead& xHead, c
         xServerData.strIP = xData.server_ip();
         xServerData.nPort = xData.server_port();
         xServerData.strName = xData.server_name();
-        xServerData.eServerType = (ARK_SERVER_TYPE)xData.server_type();
+        xServerData.eServerType = (ARK_PROCESS_TYPE)xData.server_type();
 
         switch (xServerData.eServerType)
         {
-        case ARK_SERVER_TYPE::ARK_ST_GAME:
+        case ARK_PROCESS_TYPE::ARK_PROC_GAME:
             m_pProxyServerToGameModule->GetClusterModule()->AddServer(xServerData);
             break;
 
-        case ARK_SERVER_TYPE::ARK_ST_WORLD:
+        case ARK_PROCESS_TYPE::ARK_PROC_WORLD:
             m_pNetClientModule->AddServer(xServerData);
             break;
 
@@ -96,7 +96,7 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
             const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
             const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-            if (nServerType == ARK_SERVER_TYPE::ARK_ST_PROXY && pPluginManager->AppID() == nSelfServerID)
+            if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_PROXY && pPluginManager->AppID() == nSelfServerID)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -158,7 +158,7 @@ bool AFCProxyServerToWorldModule::PostInit()
             const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
             const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-            if (nServerType == ARK_SERVER_TYPE::ARK_ST_WORLD)
+            if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_WORLD)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
@@ -166,7 +166,7 @@ bool AFCProxyServerToWorldModule::PostInit()
 
                 ConnectData xServerData;
                 xServerData.nGameID = nServerID;
-                xServerData.eServerType = (ARK_SERVER_TYPE)nServerType;
+                xServerData.eServerType = (ARK_PROCESS_TYPE)nServerType;
                 xServerData.strIP = strIP;
                 xServerData.nPort = nPort;
                 xServerData.strName = strServerName;

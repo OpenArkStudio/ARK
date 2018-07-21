@@ -5,10 +5,12 @@
     <ClCompile Include="AFBusPlugin.cpp" />
     <ClCompile Include="AFCBusConfigModule.cpp" />
     <ClCompile Include="AFCBusModule.cpp" />
+    <ClCompile Include="AFCProcModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFBusPlugin.h" />
     <ClInclude Include="AFCBusConfigModule.h" />
     <ClInclude Include="AFCBusModule.h" />
+    <ClInclude Include="AFCProcModule.h" />
   </ItemGroup>
 </Project>

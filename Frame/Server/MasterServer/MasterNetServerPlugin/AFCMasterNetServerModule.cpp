@@ -217,7 +217,7 @@ bool AFCMasterNetServerModule::PostInit()
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_SERVER_TYPE::ARK_ST_MASTER && pPluginManager->AppID() == nServerID)
+        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_MASTER && pPluginManager->AppID() == nServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");

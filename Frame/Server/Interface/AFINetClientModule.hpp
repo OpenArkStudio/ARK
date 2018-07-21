@@ -44,7 +44,7 @@ public:
     }
 
     int nGameID{ 0 };
-    ARK_SERVER_TYPE eServerType{ ARK_ST_NONE };
+    ARK_PROCESS_TYPE eServerType{ ARK_PROC_NONE };
     std::string strIP{ "" };
     int nPort{ 0 };
     std::string strIPAndPort{ "" };

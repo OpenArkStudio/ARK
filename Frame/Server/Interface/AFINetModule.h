@@ -24,7 +24,7 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"
 #include "SDK/Proto/AFProtoCPP.hpp"
-#include "Server/Common/AFApp.hpp"
+#include "Server/Interface/AFApp.hpp"
 
 class AFINetModule : public AFIModule
 {

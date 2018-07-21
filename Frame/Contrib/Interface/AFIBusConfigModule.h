@@ -22,6 +22,18 @@
 
 #include "SDK/Interface/AFIModule.h"
 
+union AFBusAddr
+{
+    int _bus_id;
+    struct
+    {
+        uint8_t _channel_id;    //渠道id
+        uint8_t _zone_id;       //小区id
+        uint8_t _proc_id;       //进程id
+        uint8_t _inst_id;       //进程实例id
+    };
+};
+
 class AFIBusConfigModule : public AFIModule
 {
 public:
