@@ -18,8 +18,8 @@
 *
 */
 
-#include "RapidXML/rapidxml.hpp"
-#include "RapidXML/rapidxml_print.hpp"
+#include "rapidxml/rapidxml.hpp"
+#include "rapidxml/rapidxml_print.hpp"
 #include "SDK/Core/AFIData.h"
 #include "SDK/Core/AFDataNode.h"
 #include "AFCClassModule.h"

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xml>
+    <hosts>
+        <host name="test1_x64" private_ip="127.0.0.1"/>
+        <host name="test2_x64" private_ip="127.0.0.1" public_ip_count="1">
+            <public_ip ip="127.0.0.1"/>
+        </host>
+    </hosts>
+
+    <!-- all server processes -->
+    <!-- 
+    ex.
+    if
+    zone id = 1001
+    then
+
+    master1 -> 0.0.1.1
+    master2 -> 0.0.1.2
+
+    world -> 1.1.100.1
+
+    ------------------
+    (default formula if you do not configure port)
+    port = 
+      if (type < ARK_PROC_CLUSTER_MAX 99)
+          10000 + type * 100 + instance_id
+      else
+          20000 + type * 100 + instance_id
+    ex.
+    master port = 10000 + 1 * 100 + 1 = 10101
+    cluster max port = 10000 + 99 * 100 + 1 = 19901
+
+    world1 port = 20000 + 100 * 100 + 1 = 30001
+    world2 port = 20000 + 100 * 100 + 2 = 30002
+    world max port = 20000 + 199 * 100 + 1 = 20000 +19900 + 1 = 39901
+    -->
+    <servers>
+        <server proc="master"   type="1"  num="1" host_name="test1_x64" max_connection="5000" thread_num="2" work_path="" cfg_path="" args=""/>
+        <server proc="dir"      type="2"  num="1" host_name="test1_x64" max_connection="5000" thread_num="2" work_path="" cfg_path="" args=""/>
+        <server proc="log"      type="3"  num="1" host_name="test1_x64" max_connection="5000" thread_num="2" work_path="" cfg_path="" args=""/>
+        <server proc="router"   type="4"  num="1" host_name="test1_x64" max_connection="5000" thread_num="2" work_path="" cfg_path="" args=""/>
+        
+        <server proc="world"    type="100" num="1" host_name="test2_x64" max_connection="5000" thread_num="2" work_path="" cfg_path="" args=""/>
+        <server proc="game"     type="101" num="1" host_name="test2_x64" max_connection="5000" thread_num="2" work_path="" cfg_path="" args=""/>
+        <server proc="login"    type="102" num="1" host_name="test2_x64" max_connection="5000" thread_num="2" work_path="" cfg_path="" args=""/>
+        <server proc="proxy"    type="103" num="1" host_name="test2_x64" max_connection="5000" thread_num="4" work_path="" cfg_path="" args=""/>
+        <server proc="db"       type="104" num="1" host_name="test2_x64" max_connection="5000" thread_num="4" work_path="" cfg_path="" args=""/>
+    </servers>
+</xml>

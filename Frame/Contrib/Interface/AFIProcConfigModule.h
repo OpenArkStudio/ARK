@@ -21,13 +21,10 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "Server/Interface/AFApp.hpp"
 
-class AFIProcModule : public AFIModule
+class AFIProcConfigModule : public AFIModule
 {
 public:
-    virtual ~AFIProcModule() = default;
+    virtual ~AFIProcConfigModule() = default;
 
-    virtual const std::string& GetProcName(const ARK_PROCESS_TYPE& type) = 0;
-    virtual const ARK_PROCESS_TYPE& GetProcType(const std::string& proc_name) = 0;
 };

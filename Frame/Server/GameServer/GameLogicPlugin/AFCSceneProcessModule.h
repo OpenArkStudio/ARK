@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "RapidXML/rapidxml.hpp"
-#include "RapidXML/rapidxml_iterators.hpp"
-#include "RapidXML/rapidxml_print.hpp"
-#include "RapidXML/rapidxml_utils.hpp"
+#include "rapidxml/rapidxml.hpp"
+#include "rapidxml/rapidxml_iterators.hpp"
+#include "rapidxml/rapidxml_print.hpp"
+#include "rapidxml/rapidxml_utils.hpp"
 #include "SDK/Core/AFList.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIElementModule.h"

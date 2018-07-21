@@ -25,11 +25,6 @@ AFCBusConfigModule::AFCBusConfigModule(AFIPluginManager* p)
     pPluginManager = p;
 }
 
-AFCBusConfigModule::~AFCBusConfigModule()
-{
-
-}
-
 bool AFCBusConfigModule::Init()
 {
     //load bus relation files

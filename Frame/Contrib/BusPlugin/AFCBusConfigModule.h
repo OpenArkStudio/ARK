@@ -26,7 +26,7 @@ class AFCBusConfigModule final : public AFIBusConfigModule
 {
 public:
     explicit AFCBusConfigModule(AFIPluginManager* p);
-    virtual ~AFCBusConfigModule();
+    virtual ~AFCBusConfigModule() = default;
 
     virtual bool Init();
 
@@ -34,7 +34,4 @@ public:
     virtual bool GetBusServer(const std::string& name, const int& id, std::string& ip, int& port);
 
 private:
-    std::string _bus_relation_cfg;
-    std::string _world_cfg;
-    std::string _cluster_cfg;
 };

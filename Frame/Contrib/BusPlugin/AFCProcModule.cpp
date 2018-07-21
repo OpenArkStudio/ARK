@@ -27,27 +27,13 @@
         name = name.substr(strlen("ARK_PROC_"), name.length() - strlen("ARK_PROC_")); \
         name = AFMisc::ToLower(name);   \
         mxProcNames[type_name] = name;  \
+        mxProcTypes[name] = type_name;  \
     } while (0);
 
 AFCProcModule::AFCProcModule(AFIPluginManager* p)
 {
     pPluginManager = p;
     InitProcNames();
-    std::cout << "test" << std::endl;
-}
-
-const std::string& AFCProcModule::GetProcName(const ARK_PROCESS_TYPE& type)
-{
-    auto iter = mxProcNames.find(type);
-    if (iter != mxProcNames.end())
-    {
-        return iter->second;
-    }
-    else
-    {
-        ARK_ASSERT_NO_EFFECT(0);
-        return NULL_STR;
-    }
 }
 
 bool AFCProcModule::InitProcNames()
@@ -70,4 +56,32 @@ bool AFCProcModule::InitProcNames()
     //to add
 
     return true;
+}
+
+const std::string& AFCProcModule::GetProcName(const ARK_PROCESS_TYPE& type)
+{
+    auto iter = mxProcNames.find(type);
+    if (iter != mxProcNames.end())
+    {
+        return iter->second;
+    }
+    else
+    {
+        ARK_ASSERT_NO_EFFECT(0);
+        return NULL_STR;
+    }
+}
+
+const ARK_PROCESS_TYPE& AFCProcModule::GetProcType(const std::string& proc_name)
+{
+    auto iter = mxProcTypes.find(proc_name);
+    if (iter != mxProcTypes.end())
+    {
+        return iter->second;
+    }
+    else
+    {
+        ARK_ASSERT_NO_EFFECT(0);
+        return ARK_PROC_NONE;
+    }
 }

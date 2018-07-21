@@ -20,8 +20,7 @@
 
 #pragma once
 
-#include "AFCElementModule.h"
-#include "RapidXML/rapidxml.hpp"
+#include "rapidxml/rapidxml.hpp"
 #include "SDK/Core/AFList.h"
 #include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFCDataNodeManager.h"
@@ -30,6 +29,7 @@
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFILogModule.h"
+#include "AFCElementModule.h"
 
 class AFCClass : public AFIClass
 {

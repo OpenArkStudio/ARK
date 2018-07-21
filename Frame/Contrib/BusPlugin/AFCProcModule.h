@@ -29,10 +29,12 @@ public:
     virtual ~AFCProcModule() = default;
 
     virtual const std::string& GetProcName(const ARK_PROCESS_TYPE& type);
+    virtual const ARK_PROCESS_TYPE& GetProcType(const std::string& proc_name);
 
 protected:
     bool InitProcNames();
 
 private:
     std::map<ARK_PROCESS_TYPE, std::string> mxProcNames;
+    std::map<std::string, ARK_PROCESS_TYPE> mxProcTypes;
 };

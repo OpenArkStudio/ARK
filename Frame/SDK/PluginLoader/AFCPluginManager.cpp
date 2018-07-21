@@ -19,10 +19,10 @@
 */
 
 
-#include "RapidXML/rapidxml.hpp"
-#include "RapidXML/rapidxml_iterators.hpp"
-#include "RapidXML/rapidxml_print.hpp"
-#include "RapidXML/rapidxml_utils.hpp"
+#include "rapidxml/rapidxml.hpp"
+#include "rapidxml/rapidxml_iterators.hpp"
+#include "rapidxml/rapidxml_print.hpp"
+#include "rapidxml/rapidxml_utils.hpp"
 #include "SDK/Core/AFPlatform.hpp"
 #include "SDK/Core/AFDateTime.hpp"
 #include "SDK/Interface/AFIPlugin.h"

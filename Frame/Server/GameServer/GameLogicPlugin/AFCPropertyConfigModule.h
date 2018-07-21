@@ -20,10 +20,6 @@
 
 #pragma once
 
-#include "RapidXML/rapidxml.hpp"
-#include "RapidXML/rapidxml_iterators.hpp"
-#include "RapidXML/rapidxml_print.hpp"
-#include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Proto/ARKDataDefine.hpp"

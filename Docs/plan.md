@@ -6,7 +6,7 @@
 - [ ] 4.增加连接关系的配置，不再通过程序中手动设置关系(bus_relation, server_settting, IP和port不用再指定了, 通过获取IP和动态生成port)
 - [ ] 5.增加logserver和logclient插件
 - [ ] 6.修改bin文件夹debug和release在一起，debug和release分开配置(方便配置是一套)
-
+- [ ] 7.增加运维工具(tcm & deploy)
 
 
 - [ ] 51.优化数据同步的流量,减小属性同步的体积(去掉`NodeName`和`TableName`类似的string同步)
