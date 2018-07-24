@@ -22,6 +22,7 @@
 
 #include "SDK/Interface/AFIModule.h"
 #include "Server/Interface/AFApp.hpp"
+#include "AFIProcConfigModule.h"
 
 union AFBusAddr
 {
@@ -74,8 +75,8 @@ public:
 class AFIBusConfigModule : public AFIModule
 {
 public:
-    virtual bool GetBusRelation(const ARK_PROCESS_TYPE& type, const int& inst_id, std::string& host, int& port, const ARK_CONNECTION_TYPE& connect_type) = 0;
-    virtual bool GetBusServer(const ARK_PROCESS_TYPE& type, const int& inst_id, std::string& ip, int& port) = 0;
+    virtual bool GetBusRelation(const ARK_PROCESS_TYPE& target_type, const int& inst_id, ARK_CONNECTION_TYPE& connect_type, AFHostConfig& host_config) = 0;
+    virtual bool GetBusServer(const ARK_PROCESS_TYPE& type, const uint8_t inst_id, AFHostConfig& host_config) = 0;
 
     virtual const ARK_PROCESS_TYPE GetSelfProcType() = 0;
     virtual const AFBusAddr GetSelfBusID() = 0;

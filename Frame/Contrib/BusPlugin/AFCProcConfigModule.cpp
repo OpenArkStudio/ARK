@@ -156,5 +156,27 @@ bool AFCProcConfigModule::GetProcServerInfo(const ARK_PROCESS_TYPE& type, uint8_
     return false;
 }
 
+bool AFCProcConfigModule::GetProcHostInfo(const ARK_PROCESS_TYPE& type, uint8_t inst_id, AFHostConfig& host_config)
+{
+    AFServerConfig server_config;
+    if (!GetProcServerInfo(type, inst_id, server_config))
+    {
+        return false;
+    }
+    else
+    {
+        auto iter = mxProcConfig.hosts.find(server_config.host);
+        if (iter != mxProcConfig.hosts.end())
+        {
+            host_config = iter->second;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+}
+
 //pluginloader.exe -d -x app_name=world app_bus_id=1.1.100.1 cfg=plugin.xml
 //pluginloader.exe -d -x app_name=world app_bus_id=1.1.100.2 cfg=plugin.xml

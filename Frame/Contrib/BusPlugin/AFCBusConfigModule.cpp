@@ -83,7 +83,7 @@ bool AFCBusConfigModule::LoadBusRelation()
     return true;
 }
 
-bool AFCBusConfigModule::GetBusRelation(const ARK_PROCESS_TYPE& target_type, const int& target_inst_id, std::string& host, int& port, ARK_CONNECTION_TYPE& connect_type)
+bool AFCBusConfigModule::GetBusRelation(const ARK_PROCESS_TYPE& target_type, const int& target_inst_id, ARK_CONNECTION_TYPE& connect_type, AFHostConfig& host_config)
 {
     const ARK_PROCESS_TYPE& type = GetSelfProcType();
     auto iter = mxBusRelations.find(type);
@@ -95,23 +95,12 @@ bool AFCBusConfigModule::GetBusRelation(const ARK_PROCESS_TYPE& target_type, con
     auto it = iter->second.find(target_type);
     connect_type = it->second;
 
-    AFServerConfig server_config;
-    if (!m_pProcConfigModule->GetProcServerInfo(target_type, target_inst_id, server_config))
-    {
-        return false;
-    }
-    else
-    {
-        host = server_config.host;
-        port = server_config.port;
-        return true;
-    }
+    return m_pProcConfigModule->GetProcHostInfo(target_type, target_inst_id, host_config);
 }
 
-bool AFCBusConfigModule::GetBusServer(std::string& ip, int& port)
+bool AFCBusConfigModule::GetBusServer(const ARK_PROCESS_TYPE& type, const uint8_t inst_id, AFHostConfig& host_config)
 {
-
-    return true;
+    return m_pProcConfigModule->GetProcHostInfo(type, inst_id, host_config);
 }
 
 const AFBusAddr AFCBusConfigModule::GetSelfBusID()
