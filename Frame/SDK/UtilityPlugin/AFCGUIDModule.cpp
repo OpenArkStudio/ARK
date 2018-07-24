@@ -19,7 +19,7 @@
 */
 
 #include "AFCGUIDModule.h"
-#include "SDK/Core/Base/AFDateTime.hpp"
+#include "SDK/Core/AFDateTime.hpp"
 
 namespace guid_module
 {
@@ -28,6 +28,7 @@ namespace guid_module
 uint64_t WaitUntilNextMillis(uint64_t last_timestamp)
 {
     uint64_t timestamp = AFDateTime::GetNowTime();
+
     while (timestamp <= last_timestamp)
     {
         timestamp = AFDateTime::GetNowTime();
@@ -49,6 +50,7 @@ public:
         if (last_timestamp_ == timestamp)
         {
             sequence_ = (sequence_ + 1) & 0xFFFF;
+
             if (sequence_ == 0)
             {
                 timestamp = WaitUntilNextMillis(last_timestamp_);

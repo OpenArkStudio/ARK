@@ -18,9 +18,9 @@
 *
 */
 
+#include "SDK/Core/AFPlatform.hpp"
 #include "AFWorldLogicPlugin.h"
 #include "AFCWorldLogicModule.h"
-#include "SDK/Core/Base/AFPlatform.hpp"
 
 bool AFCWorldLogicModule::PostInit()
 {

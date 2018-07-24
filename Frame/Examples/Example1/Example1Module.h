@@ -45,5 +45,6 @@ protected:
 protected:
     AFITimerModule* m_pTimerModule;
     AFILogModule* m_pLogModule;
+    AFIDynamicLogModule* m_pDynamicLogModule;
     AFIScheduleModule* m_pScheduleModule;
 };

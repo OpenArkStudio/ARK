@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFList.h"
-#include "SDK/Core/Base/AFMap.hpp"
-#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/AFList.h"
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Core/AFGUID.h"
 #include "SDK/Core/AFIEntity.h"
 
 class AFCSceneGroupInfo
@@ -82,6 +82,7 @@ public:
     bool AddObjectToGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
         ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
+
         if (pInfo == nullptr)
         {
             return false;
@@ -102,6 +103,7 @@ public:
     bool RemoveObjectFromGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
     {
         ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
+
         if (nullptr == pInfo)
         {
             return false;

@@ -54,14 +54,17 @@ bool AFCElementModule::Load()
     }
 
     ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->First();
+
     while (nullptr != pLogicClass)
     {
         const std::string& strInstancePath = pLogicClass->GetInstancePath();
+
         if (strInstancePath.empty())
         {
             pLogicClass = m_pClassModule->Next();
             continue;
         }
+
         //////////////////////////////////////////////////////////////////////////
         rapidxml::xml_document<> xDoc;
         int nDataSize = 0;
@@ -77,6 +80,7 @@ bool AFCElementModule::Load()
         //////////////////////////////////////////////////////////////////////////
         //support for unlimited layer class inherits
         rapidxml::xml_node<>* root = xDoc.first_node();
+
         for (rapidxml::xml_node<>* attrNode = root->first_node(); attrNode; attrNode = attrNode->next_sibling())
         {
             if (!Load(attrNode, pLogicClass))
@@ -96,6 +100,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
 {
     //attrNode is the node of a object
     std::string strConfigID = attrNode->first_attribute("Id")->value();
+
     if (strConfigID.empty())
     {
         ARK_ASSERT(0, strConfigID, __FILE__, __FUNCTION__);
@@ -121,22 +126,28 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
     //2.set the default value of them
     ARK_SHARE_PTR<AFIDataNodeManager> pClassNodeManager = pLogicClass->GetNodeManager();
     ARK_SHARE_PTR<AFIDataTableManager> pClassTableManager = pLogicClass->GetTableManager();
+
     if (pClassNodeManager != nullptr && pClassTableManager != nullptr)
     {
         size_t nodeCount = pClassNodeManager->GetNodeCount();
+
         for (size_t i = 0; i < nodeCount; ++i)
         {
             AFDataNode* pNode = pClassNodeManager->GetNodeByIndex(i);
+
             if (pNode != nullptr)
             {
                 pElementNodeManager->AddNode(pNode->name.c_str(), pNode->value, pNode->feature);
             }
         }
+
         //////////////////////////////////////////////////////////////////////////
         size_t tableCount = pClassTableManager->GetCount();
+
         for (size_t i = 0; i < tableCount; ++i)
         {
             AFDataTable* pTable = pClassTableManager->GetTableByIndex(i);
+
             if (pTable != nullptr)
             {
                 continue;
@@ -155,17 +166,20 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
         const char* pstrConfigValue = pAttribute->value();
 
         AFDataNode* pTmpNode = pElementNodeManager->GetNode(pstrConfigName);
+
         if (pTmpNode == nullptr)
         {
             continue;
         }
 
         const int eType = pTmpNode->GetType();
+
         switch (eType)
         {
         case DT_BOOLEAN:
             pTmpNode->value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
             break;
+
         case DT_INT:
             {
                 if (!LegalNumber(pstrConfigValue))
@@ -176,6 +190,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 pTmpNode->value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
             }
             break;
+
         case DT_INT64:
             {
                 if (!LegalNumber(pstrConfigValue))
@@ -186,6 +201,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 pTmpNode->value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
             }
             break;
+
         case DT_FLOAT:
             {
                 if (strlen(pstrConfigValue) <= 0)
@@ -196,6 +212,7 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 pTmpNode->value.SetFloat(ARK_LEXICAL_CAST<float>(pstrConfigValue));
             }
             break;
+
         case DT_DOUBLE:
             {
                 if (strlen(pstrConfigValue) <= 0)
@@ -206,18 +223,22 @@ bool AFCElementModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFICla
                 pTmpNode->value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
             }
             break;
+
         case DT_STRING:
             pTmpNode->value.SetString(pstrConfigValue);
             break;
+
         case DT_OBJECT:
             {
                 if (strlen(pstrConfigValue) <= 0)
                 {
                     ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
+
                 pTmpNode->value.SetObject(NULL_GUID);
             }
             break;
+
         default:
             ARK_ASSERT_NO_EFFECT(0);
             break;
@@ -237,6 +258,7 @@ bool AFCElementModule::Save()
 bool AFCElementModule::GetNodeBool(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+
     if (pNode != nullptr)
     {
         return pNode->value.GetBool();
@@ -250,6 +272,7 @@ bool AFCElementModule::GetNodeBool(const std::string& strConfigName, const std::
 int32_t AFCElementModule::GetNodeInt(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+
     if (pNode != nullptr)
     {
         return pNode->value.GetInt();
@@ -263,6 +286,7 @@ int32_t AFCElementModule::GetNodeInt(const std::string& strConfigName, const std
 int64_t AFCElementModule::GetNodeInt64(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+
     if (pNode != nullptr)
     {
         return pNode->value.GetInt64();
@@ -276,6 +300,7 @@ int64_t AFCElementModule::GetNodeInt64(const std::string& strConfigName, const s
 float AFCElementModule::GetNodeFloat(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+
     if (pNode != nullptr)
     {
         return pNode->value.GetFloat();
@@ -289,6 +314,7 @@ float AFCElementModule::GetNodeFloat(const std::string& strConfigName, const std
 double AFCElementModule::GetNodeDouble(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+
     if (pNode != nullptr)
     {
         return pNode->value.GetDouble();
@@ -302,6 +328,7 @@ double AFCElementModule::GetNodeDouble(const std::string& strConfigName, const s
 const char* AFCElementModule::GetNodeString(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+
     if (pNode != nullptr)
     {
         return pNode->value.GetString();
@@ -315,6 +342,7 @@ const char* AFCElementModule::GetNodeString(const std::string& strConfigName, co
 AFDataNode* AFCElementModule::GetNode(const std::string& strConfigName, const std::string& strDataNodeName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+
     if (pElementInfo != nullptr)
     {
         return pElementInfo->GetNodeManager()->GetNode(strDataNodeName.c_str());
@@ -328,6 +356,7 @@ AFDataNode* AFCElementModule::GetNode(const std::string& strConfigName, const st
 ARK_SHARE_PTR<AFIDataNodeManager> AFCElementModule::GetNodeManager(const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+
     if (pElementInfo != nullptr)
     {
         return pElementInfo->GetNodeManager();
@@ -341,6 +370,7 @@ ARK_SHARE_PTR<AFIDataNodeManager> AFCElementModule::GetNodeManager(const std::st
 ARK_SHARE_PTR<AFIDataTableManager> AFCElementModule::GetTableManager(const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+
     if (pElementInfo != nullptr)
     {
         return pElementInfo->GetTableManager();
@@ -360,6 +390,7 @@ bool AFCElementModule::ExistElement(const std::string& strConfigName)
 bool AFCElementModule::ExistElement(const std::string& strClassName, const std::string& strConfigName)
 {
     ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+
     if (pElementInfo == nullptr)
     {
         return false;
@@ -372,12 +403,14 @@ bool AFCElementModule::ExistElement(const std::string& strClassName, const std::
 bool AFCElementModule::LegalNumber(const char* str)
 {
     int nLen = int(strlen(str));
+
     if (nLen <= 0)
     {
         return false;
     }
 
     int nStart = 0;
+
     if ('-' == str[0])
     {
         nStart = 1;

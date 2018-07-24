@@ -21,7 +21,7 @@
 #pragma once
 
 #include "AFIModule.h"
-#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFIDataNodeManager.h"
 #include "SDK/Core/AFIDataTableManager.h"
 

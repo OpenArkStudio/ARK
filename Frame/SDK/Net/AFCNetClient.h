@@ -21,8 +21,8 @@
 #pragma once
 
 #include "AFINet.h"
-#include "SDK/Core/Base/AFQueue.h"
-#include "SDK/Core/Base/AFRWLock.hpp"
+#include "SDK/Core/AFQueue.h"
+#include "SDK/Core/AFRWLock.hpp"
 #include <brynet/net/SocketLibFunction.h>
 #include <brynet/net/WrapTCPService.h>
 #include <brynet/net/Connector.h>
@@ -42,6 +42,7 @@ public:
         {
             m_pServer = std::make_shared<brynet::net::WrapTcpService>();
         }
+
         if (connector)
         {
             m_pConector = connector;

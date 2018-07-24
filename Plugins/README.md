@@ -1,3 +1,3 @@
-# Plugins
+# Third plugins
 
-Put your own plugins or `git clone ARK-Plugins` in this directory.
+Put **3rd plugins** OR `git clone 3rd plugins` in this directory.

@@ -20,7 +20,7 @@
 
 #include "Example3Module.h"
 #include "SDK/Proto/ARKDataDefine.hpp"
-#include "SDK/Core/Base/AFDateTime.hpp"
+#include "SDK/Core/AFDateTime.hpp"
 
 bool Example3Module::Init()
 {
@@ -111,6 +111,7 @@ bool Example3Module::PostInit()
     //GroupID = 0
     //Class Name = ARK::Player::ThisName()
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
+
     if (nullptr == pEntity)
     {
         return false;
@@ -130,6 +131,7 @@ bool Example3Module::PostInit()
 
     AFDataTable* pTable = m_pKernelModule->FindTable(pEntity->Self(), ARK::Player::R_PlayerFightHero());
     int pos = 0;
+
     if (pTable != nullptr)
     {
         pTable->AddRow(-1, AFCDataList() << AFGUID(0, 1000) << 1);

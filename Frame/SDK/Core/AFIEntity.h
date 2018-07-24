@@ -20,14 +20,13 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/AFCDataList.h"
+#include "SDK/Interface/AFIPluginManager.h"
 #include "AFDataTable.h"
 #include "AFIDataTableManager.h"
 #include "AFIHeartBeatManager.h"
 #include "AFIDataNodeManager.h"
 #include "AFIEventManager.h"
-#include "SDK/Interface/AFIPluginManager.h"
 
 class AFIEntity
 {

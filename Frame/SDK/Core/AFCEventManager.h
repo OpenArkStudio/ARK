@@ -20,9 +20,9 @@
 
 #pragma once
 
+#include "SDK/Core/AFDefine.h"
+#include "SDK/Core/AFCDataList.h"
 #include "AFIEventManager.h"
-#include "SDK/Core/Base/AFDefine.h"
-#include "SDK/Core/Base/AFCDataList.h"
 
 class AFCEventManager : public AFIEventManager
 {

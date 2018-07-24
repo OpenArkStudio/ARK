@@ -143,11 +143,6 @@ enum class pattern_time_type
 //
 // Log exception
 //
-namespace details {
-namespace os {
-std::string errno_str(int err_num);
-}
-} // namespace details
 class spdlog_ex : public std::exception
 {
 public:
@@ -158,7 +153,9 @@ public:
 
     spdlog_ex(const std::string &msg, int last_errno)
     {
-        _msg = msg + ": " + details::os::errno_str(last_errno);
+        fmt::MemoryWriter writer;
+        fmt::format_system_error(writer, last_errno, msg);
+        _msg = writer.str();
     }
 
     const char *what() const SPDLOG_NOEXCEPT override
@@ -179,4 +176,13 @@ using filename_t = std::wstring;
 using filename_t = std::string;
 #endif
 
+#define SPDLOG_CATCH_AND_HANDLE                                                                                                            \
+    catch (const std::exception &ex)                                                                                                       \
+    {                                                                                                                                      \
+        _err_handler(ex.what());                                                                                                           \
+    }                                                                                                                                      \
+    catch (...)                                                                                                                            \
+    {                                                                                                                                      \
+        _err_handler("Unknown exeption in logger");                                                                                        \
+    }
 } // namespace spdlog

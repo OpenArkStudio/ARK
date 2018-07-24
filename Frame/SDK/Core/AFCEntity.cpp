@@ -73,6 +73,7 @@ bool AFCEntity::RemoveHeartBeat(const std::string& name)
 bool AFCEntity::AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
 {
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = GetTableManager();
+
     if (nullptr == pTableManager)
     {
         return false;
@@ -197,7 +198,7 @@ bool AFCEntity::SetTableString(const std::string& name, const int row, const int
     return GetTableManager()->SetTableString(name.c_str(), row, col, value.c_str());
 }
 
-bool AFCEntity::SetTableObject(const std::string & name, const int row, const int col, const AFGUID & value)
+bool AFCEntity::SetTableObject(const std::string& name, const int row, const int col, const AFGUID& value)
 {
     return GetTableManager()->SetTableObject(name.c_str(), row, col, value);
 }
@@ -207,7 +208,7 @@ bool AFCEntity::GetTableBool(const std::string& name, const int row, const int c
     return GetTableManager()->GetTableBool(name.c_str(), row, col);
 }
 
-int32_t AFCEntity::GetTableInt(const std::string & name, const int row, const int col)
+int32_t AFCEntity::GetTableInt(const std::string& name, const int row, const int col)
 {
     return GetTableManager()->GetTableInt(name.c_str(), row, col);
 }
@@ -222,7 +223,7 @@ float AFCEntity::GetTableFloat(const std::string& name, const int row, const int
     return GetTableManager()->GetTableFloat(name.c_str(), row, col);
 }
 
-double AFCEntity::GetTableDouble(const std::string & name, const int row, const int col)
+double AFCEntity::GetTableDouble(const std::string& name, const int row, const int col)
 {
     return GetTableManager()->GetTableDouble(name.c_str(), row, col);
 }

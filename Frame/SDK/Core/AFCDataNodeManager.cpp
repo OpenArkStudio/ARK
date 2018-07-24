@@ -18,9 +18,9 @@
 *
 */
 
+#include "SDK/Core/AFMisc.hpp"
 #include "AFCDataNodeManager.h"
 #include "AFDataNode.h"
-#include "SDK/Core/Base/AFMisc.hpp"
 
 AFCDataNodeManager::AFCDataNodeManager(const AFGUID& self) : mxSelf(self)
 {
@@ -58,12 +58,14 @@ const AFGUID& AFCDataNodeManager::Self() const
 bool AFCDataNodeManager::RegisterCallback(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
 {
     size_t index(0);
+
     if (!FindIndex(name.c_str(), index))
     {
         return false;
     }
 
     size_t indexCallback(0);
+
     if (mxCallBackIndices.GetData(name.c_str(), indexCallback))
     {
         mxNodeCBs[indexCallback]->mxCallBackList.push_back(cb);
@@ -75,6 +77,7 @@ bool AFCDataNodeManager::RegisterCallback(const std::string& name, const DATA_NO
         mxCallBackIndices.Add(name.c_str(), mxNodeCBs.size());
         mxNodeCBs.push_back(pNodeCB);
     }
+
     return true;
 }
 
@@ -99,6 +102,7 @@ AFDataNode* AFCDataNodeManager::GetNodeByIndex(size_t index)
 AFDataNode* AFCDataNodeManager::GetNode(const char* name)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return nullptr;
@@ -120,6 +124,7 @@ bool AFCDataNodeManager::FindIndex(const char* name, size_t& index)
 bool AFCDataNodeManager::OnNodeCallback(const char* name, const AFIData& oldData, const AFIData& newData)
 {
     size_t indexCallBack = 0;
+
     if (!mxCallBackIndices.GetData(name, indexCallBack))
     {
         return false;
@@ -152,6 +157,7 @@ bool AFCDataNodeManager::AddNode(const char* name, const AFIData& value, const A
 bool AFCDataNodeManager::SetNode(const char* name, const AFIData& value)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return false;
@@ -162,24 +168,31 @@ bool AFCDataNodeManager::SetNode(const char* name, const AFIData& value)
     case DT_BOOLEAN:
         return SetNodeBool(name, value.GetBool());
         break;
+
     case DT_INT:
         return SetNodeInt(name, value.GetInt());
         break;
+
     case DT_INT64:
         return SetNodeInt64(name, value.GetInt64());
         break;
+
     case DT_FLOAT:
         return SetNodeFloat(name, value.GetFloat());
         break;
+
     case DT_DOUBLE:
         return SetNodeDouble(name, value.GetDouble());
         break;
+
     case DT_STRING:
         return SetNodeString(name, value.GetString());
         break;
+
     case DT_OBJECT:
         return SetNodeObject(name, value.GetObject());
         break;
+
     default:
         ARK_ASSERT_NO_EFFECT(0);
         break;
@@ -191,6 +204,7 @@ bool AFCDataNodeManager::SetNode(const char* name, const AFIData& value)
 bool AFCDataNodeManager::SetNodeBool(const char* name, const bool value)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return false;
@@ -215,6 +229,7 @@ bool AFCDataNodeManager::SetNodeBool(const char* name, const bool value)
 bool AFCDataNodeManager::SetNodeInt(const char* name, const int32_t value)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return false;
@@ -239,6 +254,7 @@ bool AFCDataNodeManager::SetNodeInt(const char* name, const int32_t value)
 bool AFCDataNodeManager::SetNodeInt64(const char* name, const int64_t value)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return false;
@@ -263,6 +279,7 @@ bool AFCDataNodeManager::SetNodeInt64(const char* name, const int64_t value)
 bool AFCDataNodeManager::SetNodeFloat(const char* name, const float value)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return false;
@@ -287,6 +304,7 @@ bool AFCDataNodeManager::SetNodeFloat(const char* name, const float value)
 bool AFCDataNodeManager::SetNodeDouble(const char* name, const double value)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return false;
@@ -311,6 +329,7 @@ bool AFCDataNodeManager::SetNodeDouble(const char* name, const double value)
 bool AFCDataNodeManager::SetNodeString(const char* name, const std::string& value)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return false;
@@ -335,6 +354,7 @@ bool AFCDataNodeManager::SetNodeString(const char* name, const std::string& valu
 bool AFCDataNodeManager::SetNodeObject(const char* name, const AFGUID& value)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return false;
@@ -359,6 +379,7 @@ bool AFCDataNodeManager::SetNodeObject(const char* name, const AFGUID& value)
 bool AFCDataNodeManager::GetNodeBool(const char* name)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return NULL_BOOLEAN;
@@ -370,6 +391,7 @@ bool AFCDataNodeManager::GetNodeBool(const char* name)
 int32_t AFCDataNodeManager::GetNodeInt(const char* name)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return NULL_INT;
@@ -381,6 +403,7 @@ int32_t AFCDataNodeManager::GetNodeInt(const char* name)
 int64_t AFCDataNodeManager::GetNodeInt64(const char* name)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return NULL_INT64;
@@ -392,6 +415,7 @@ int64_t AFCDataNodeManager::GetNodeInt64(const char* name)
 float AFCDataNodeManager::GetNodeFloat(const char* name)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return NULL_FLOAT;
@@ -403,6 +427,7 @@ float AFCDataNodeManager::GetNodeFloat(const char* name)
 double AFCDataNodeManager::GetNodeDouble(const char* name)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return NULL_DOUBLE;
@@ -414,6 +439,7 @@ double AFCDataNodeManager::GetNodeDouble(const char* name)
 const char* AFCDataNodeManager::GetNodeString(const char* name)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return NULL_STR.c_str();
@@ -425,6 +451,7 @@ const char* AFCDataNodeManager::GetNodeString(const char* name)
 const AFGUID AFCDataNodeManager::GetNodeObject(const char* name)
 {
     size_t index;
+
     if (!FindIndex(name, index))
     {
         return NULL_GUID;

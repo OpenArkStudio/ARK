@@ -20,16 +20,16 @@
 
 #pragma once
 
-#include "AFCElementModule.h"
-#include "RapidXML/rapidxml.hpp"
-#include "SDK/Core/Base/AFList.h"
-#include "SDK/Core/Base/AFCDataList.h"
+#include "rapidxml/rapidxml.hpp"
+#include "SDK/Core/AFList.h"
+#include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFCDataNodeManager.h"
 #include "SDK/Core/AFCDataTableManager.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFILogModule.h"
+#include "AFCElementModule.h"
 
 class AFCClass : public AFIClass
 {
@@ -69,6 +69,7 @@ public:
     {
         CLASS_EVENT_FUNCTOR_PTR cb;
         bool bRet = mxClassEventInfo.First(cb);
+
         while (bRet)
         {
             (*cb)(objectID, mstrClassName, eClassEvent,  valueList);

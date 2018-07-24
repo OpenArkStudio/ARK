@@ -20,8 +20,8 @@
 
 #pragma once
 
+#include "SDK/Core/AFTimer.hpp"
 #include "SDK/Interface/AFITimerModule.h"
-#include "SDK/Core/Base/AFTimer.hpp"
 
 class AFCTimerModule : public AFITimerModule
 {

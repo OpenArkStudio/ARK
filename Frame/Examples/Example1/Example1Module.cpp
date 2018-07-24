@@ -18,12 +18,12 @@
 *
 */
 
-#include "Example1Module.h"
-#include "SDK/Core/Base/AFTimer.hpp"
-#include "SDK/Core/Base/AFMacros.hpp"
+#include "SDK/Core/AFMacros.hpp"
+#include "SDK/Core/AFDateTime.hpp"
+#include "SDK/Core/AFRandom.hpp"
+#include "SDK/Core/AFTimer.hpp"
 #include "SDK/Core/Common/cronexpr.h"
-#include "SDK/Core/Base/AFDateTime.hpp"
-#include "SDK/Core/Base/AFRandom.hpp"
+#include "Example1Module.h"
 
 bool Example1Module::Init()
 {
@@ -49,9 +49,11 @@ void TestRandom()
     rand.SetSeed(AFDateTime::GetTimestamp());
 
     int rand_array[10] = { 0 };
+
     for (int i = 0; i < 100000; ++i)
     {
         uint32_t my_rand = rand.Random(0, 100000);
+
         if (my_rand <= 10000)
         {
             rand_array[0]++;
@@ -106,10 +108,12 @@ bool Example1Module::PostInit()
 
     m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+    m_pDynamicLogModule = pPluginManager->FindModule<AFIDynamicLogModule>();
     m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
 
     ARK_ASSERT_RET_VAL(m_pTimerModule != nullptr, false);
     ARK_ASSERT_RET_VAL(m_pLogModule != nullptr, false);
+    ARK_ASSERT_RET_VAL(m_pDynamicLogModule != nullptr, false);
     ARK_ASSERT_RET_VAL(m_pScheduleModule != nullptr, false);
 
     AFGUID test_id = AFGUID(0, 1);
@@ -129,10 +133,19 @@ bool Example1Module::PostInit()
 
     //////////////////////////////////////////////////////////////////////////
     //Test AFDateTime
-    TestDateTime();
+    //TestDateTime();
     //////////////////////////////////////////////////////////////////////////
     //Test Random
-    TestRandom();
+    //TestRandom();
+    //////////////////////////////////////////////////////////////////////////
+    //Test log
+    for (int i = 0; i < 1; ++i)
+    {
+        ARK_LOG_INFO("This is a test log");
+    }
+
+    ARK_DYNAMIC_LOG_DEBUG(1001, "game", "this is a dynamic log test");
+
     //////////////////////////////////////////////////////////////////////////
     //test cron expression
     //const char* err_msg = NULL;

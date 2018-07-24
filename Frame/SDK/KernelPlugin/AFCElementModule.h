@@ -20,17 +20,17 @@
 
 #pragma once
 
-#include "RapidXML/rapidxml.hpp"
-#include "RapidXML/rapidxml_iterators.hpp"
-#include "RapidXML/rapidxml_print.hpp"
-#include "RapidXML/rapidxml_utils.hpp"
-#include "SDK/Core/Base/AFCDataList.h"
+#include "rapidxml/rapidxml.hpp"
+#include "rapidxml/rapidxml_iterators.hpp"
+#include "rapidxml/rapidxml_print.hpp"
+#include "rapidxml/rapidxml_utils.hpp"
+#include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFDataTable.h"
+#include "SDK/Core/AFArrayMap.hpp"
 #include "SDK/Core/AFCDataNodeManager.h"
 #include "SDK/Core/AFCDataTableManager.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Core/Base/AFArrayMap.hpp"
 
 class AFCClass;
 

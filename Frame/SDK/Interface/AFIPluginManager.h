@@ -21,7 +21,7 @@
 #pragma once
 
 #include "AFIModule.h"
-#include "SDK/Core/Base/AFMemAlloc.hpp"
+#include "SDK/Core/AFMemAlloc.hpp"
 
 class AFIPlugin;
 #define ARK_DLL_PLUGIN_ENTRY(plugin_name)                           \
@@ -50,6 +50,7 @@ public:
     T* FindModule()
     {
         AFIModule* pLogicModule = FindModule(typeid(T).name());
+
         if (pLogicModule)
         {
             if (!std::is_base_of<AFIModule, T>::value)

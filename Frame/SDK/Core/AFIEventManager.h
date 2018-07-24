@@ -20,11 +20,11 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFDefine.h"
-#include "SDK/Core/Base/AFList.h"
-#include "SDK/Core/Base/AFMap.hpp"
-#include "SDK/Core/Base/AFIDataList.h"
+#include "SDK/Core/AFPlatform.hpp"
+#include "SDK/Core/AFDefine.h"
+#include "SDK/Core/AFList.h"
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Core/AFIDataList.h"
 
 class AFIEventManager
 {

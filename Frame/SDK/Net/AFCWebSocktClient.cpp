@@ -50,9 +50,11 @@ void AFCWebSocktClient::ProcessMsgLogicThread(AFHttpEntity* pEntity)
 
     //Handle messages
     size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
+
     for (size_t i = 0; i < nReceiveCount; ++i)
     {
         AFHttpMsg* pMsg(nullptr);
+
         if (!pEntity->mxNetMsgMQ.Pop(pMsg))
         {
             break;
@@ -73,15 +75,18 @@ void AFCWebSocktClient::ProcessMsgLogicThread(AFHttpEntity* pEntity)
                 }
             }
             break;
+
         case CONNECTED:
             mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
             break;
+
         case DISCONNECTED:
             {
                 mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
                 pEntity->SetNeedRemove(true);
             }
             break;
+
         default:
             break;
         }
@@ -136,6 +141,7 @@ void AFCWebSocktClient::OnHttpConnect(const brynet::net::HttpSession::PTR& httpS
         AFHttpMsg* pMsg = new AFHttpMsg(httpSession);
         httpSession->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
         pMsg->nType = CONNECTED;
+
         do
         {
             AFScopeWrLock xGuard(mRWLock);
@@ -150,9 +156,9 @@ void AFCWebSocktClient::OnHttpConnect(const brynet::net::HttpSession::PTR& httpS
     httpSession->setCloseCallback(std::bind(&AFCWebSocktClient::OnHttpDisConnection, this, std::placeholders::_1));
 }
 
-void AFCWebSocktClient::OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR & httpSession,
+void AFCWebSocktClient::OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR& httpSession,
         brynet::net::WebSocketFormat::WebSocketFrameType opcode,
-        const std::string & payload)
+        const std::string& payload)
 {
     const auto ud = brynet::net::cast<brynet::net::TcpService::SESSION_TYPE>(httpSession->getUD());
     AFGUID xClient(0, *ud);
@@ -176,7 +182,7 @@ bool AFCWebSocktClient::Final()
     return true;
 }
 
-void AFCWebSocktClient::OnHttpDisConnection(const brynet::net::HttpSession::PTR & httpSession)
+void AFCWebSocktClient::OnHttpDisConnection(const brynet::net::HttpSession::PTR& httpSession)
 {
     const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
     AFGUID xClient(0, 0);
@@ -219,6 +225,7 @@ bool AFCWebSocktClient::CloseNetEntity(const AFGUID& xClient)
     {
         m_pClientEntity->GetSession()->postClose();
     }
+
     return true;
 }
 
@@ -228,6 +235,7 @@ bool AFCWebSocktClient::DismantleNet(AFHttpEntity* pEntity)
     {
         AFCMsgHead xHead;
         int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
+
         if (nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
         {
             AFHttpMsg* pMsg = new AFHttpMsg(pEntity->GetSession());
@@ -263,7 +271,7 @@ bool AFCWebSocktClient::Log(int severity, const char* msg)
 }
 
 
-bool AFCWebSocktClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID & xClientID, const AFGUID& xPlayerID)
+bool AFCWebSocktClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
 {
     std::string strOutData;
     AFCMsgHead xHead;
@@ -272,6 +280,7 @@ bool AFCWebSocktClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* ms
     xHead.SetBodyLength(nLen);
 
     int nAllLen = EnCode(xHead, msg, nLen, strOutData);
+
     if (nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return SendMsg(strOutData.c_str(), strOutData.length(), xClientID);
@@ -292,7 +301,7 @@ int AFCWebSocktClient::EnCode(const AFCMsgHead& xHead, const char* strData, cons
     return xHead.GetBodyLength() + AFIMsgHead::ARK_MSG_HEAD_LENGTH;
 }
 
-int AFCWebSocktClient::DeCode(const char* strData, const size_t len, AFCMsgHead & xHead)
+int AFCWebSocktClient::DeCode(const char* strData, const size_t len, AFCMsgHead& xHead)
 {
     if (len < AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
@@ -308,5 +317,6 @@ int AFCWebSocktClient::DeCode(const char* strData, const size_t len, AFCMsgHead 
     {
         return -3;
     }
+
     return xHead.GetBodyLength();
 }

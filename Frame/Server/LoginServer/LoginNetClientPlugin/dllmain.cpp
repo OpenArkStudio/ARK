@@ -18,5 +18,4 @@
 *
 */
 
-#include "SDK/Core/Base/AFPlatform.hpp"
 #include "SDK/Interface/AFDLLHeader.h"

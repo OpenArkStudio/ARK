@@ -1,67 +1,67 @@
 echo Copy common dlls...
-cp -a ../../../Bin/Comm/Release/PluginLoader AFLoginServer/
-cp -a ../../../Bin/Comm/Release/PluginLoader AFMasterServer/
-cp -a ../../../Bin/Comm/Release/PluginLoader AFProxyServer/
-cp -a ../../../Bin/Comm/Release/PluginLoader AFWorldServer/
-cp -a ../../../Bin/Comm/Release/PluginLoader AFGameServer/
 
-cp -a ../../../Dep/lib/Release/libproto*.so AFLoginServer/
-cp -a ../../../Dep/lib/Release/libproto*.so AFMasterServer/
-cp -a ../../../Dep/lib/Release/libproto*.so AFProxyServer/
-cp -a ../../../Dep/lib/Release/libproto*.so AFWorldServer/
-cp -a ../../../Dep/lib/Release/libproto*.so AFGameServer/
+cp -a ../../../Bin/Comm/Release/PluginLoader master/
+cp -a ../../../Bin/Comm/Release/PluginLoader world/
+cp -a ../../../Bin/Comm/Release/PluginLoader login/
+cp -a ../../../Bin/Comm/Release/PluginLoader proxy/
+cp -a ../../../Bin/Comm/Release/PluginLoader game/
 
-cp -a ../../../Bin/Comm/Release/AFProto*.so AFLoginServer/
-cp -a ../../../Bin/Comm/Release/AFProto*.so AFMasterServer/
-cp -a ../../../Bin/Comm/Release/AFProto*.so AFProxyServer/
-cp -a ../../../Bin/Comm/Release/AFProto*.so AFWorldServer/
-cp -a ../../../Bin/Comm/Release/AFProto*.so AFGameServer/
+cp -a ../../../Dep/lib/Release/libproto*.so master/
+cp -a ../../../Dep/lib/Release/libproto*.so world/
+cp -a ../../../Dep/lib/Release/libproto*.so login/
+cp -a ../../../Dep/lib/Release/libproto*.so proxy/
+cp -a ../../../Dep/lib/Release/libproto*.so game/
 
-cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so AFLoginServer/
-cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so AFMasterServer/
-cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so AFProxyServer/
-cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so AFWorldServer/
-cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so AFGameServer/
+cp -a ../../../Bin/Comm/Release/AFProto*.so master/
+cp -a ../../../Bin/Comm/Release/AFProto*.so world/
+cp -a ../../../Bin/Comm/Release/AFProto*.so login/
+cp -a ../../../Bin/Comm/Release/AFProto*.so proxy/
+cp -a ../../../Bin/Comm/Release/AFProto*.so game/
 
-cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so AFLoginServer/
-cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so AFMasterServer/
-cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so AFProxyServer/
-cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so AFWorldServer/
-cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so AFGameServer/
+cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so master/
+cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so world/
+cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so login/
+cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so proxy/
+cp -a ../../../Bin/Comm/Release/AFKernelPlugin*.so game/
+
+cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so master/
+cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so world/
+cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so login/
+cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so proxy/
+cp -a ../../../Bin/Comm/Release/AFUtilityPlugin*.so game/
 
 echo Copy self dlls
-cp -a ../../../Bin/Comm/Release/AFLogin*.so AFLoginServer/
-cp -a ../../../Bin/Comm/Release/AFMaster*.so AFMasterServer/
-cp -a ../../../Bin/Comm/Release/AFProxy*.so AFProxyServer/
-cp -a ../../../Bin/Comm/Release/AFWorld*.so AFWorldServer/
-cp -a ../../../Bin/Comm/Release/AFGame*.so AFGameServer/
+cp -a ../../../Bin/Comm/Release/AFMaster*.so	master/
+cp -a ../../../Bin/Comm/Release/AFWorld*.so		world/
+cp -a ../../../Bin/Comm/Release/AFLogin*.so		login/
+cp -a ../../../Bin/Comm/Release/AFProxy*.so		proxy/
+cp -a ../../../Bin/Comm/Release/AFGame*.so		game/
 
 export LC_ALL="C"
 
-cd AFMasterServer
-echo Starting AFMasterServer...
-./PluginLoader -d app_id=3 app_name=MasterServer cfg=Plugin.xml
+cd master
+echo Starting master...
+./PluginLoader -d app_id=1 app_name=master_server cfg=Plugin.xml
 
 cd ..
-cd AFWorldServer
-echo Starting AFWorldServer...
-./PluginLoader -d app_id=7 app_name=WorldServer cfg=Plugin.xml
-
-
-cd ..
-cd AFLoginServer
-echo Starting AFLoginServer...
-./PluginLoader -d app_id=4 app_name=LoginServer cfg=Plugin.xml
+cd world
+echo Starting world...
+./PluginLoader -d app_id=50 app_name=world_server cfg=Plugin.xml
 
 cd ..
-cd AFGameServer
-echo Starting AFGameServer...
-./PluginLoader -d app_id=6 app_name=GameServer cfg=Plugin.xml
+cd login
+echo Starting login...
+./PluginLoader -d app_id=52 app_name=login_server cfg=Plugin.xml
 
 cd ..
-cd AFProxyServer
-echo Starting AFProxyServer...
-./PluginLoader -d app_id=5 app_name=ProxyServer cfg=Plugin.xml
+cd proxy
+echo Starting proxy...
+./PluginLoader -d app_id=51 app_name=proxy_server cfg=Plugin.xml
+
+cd ..
+cd game
+echo Starting game...
+./PluginLoader -d app_id=53 app_name=game_server cfg=Plugin.xml
 
 echo All processes are launching...
 

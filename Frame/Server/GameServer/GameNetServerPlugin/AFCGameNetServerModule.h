@@ -107,7 +107,7 @@ public:
 protected:
     void CommonDataTableAddEvent(const AFGUID& self, const std::string& strTableName, int nRow, int nCol, const AFCDataList& valueBroadCaseList);
     void CommonDataTableDeleteEvent(const AFGUID& self, const std::string& strTableName, int nRow, const AFCDataList& valueBroadCaseList);
-    void CommonDataTableSwapEvent(const AFGUID & self, const std::string& strTableName, int nRow, int target_row, const AFCDataList& valueBroadCaseList);
+    void CommonDataTableSwapEvent(const AFGUID& self, const std::string& strTableName, int nRow, int target_row, const AFCDataList& valueBroadCaseList);
     void CommonDataTableUpdateEvent(const AFGUID& self, const std::string& strTableName, int nRow, int nCol, const AFIData& newVar, const AFCDataList& valueBroadCaseList);
 
     int CommonClassDestoryEvent(const AFGUID& self);

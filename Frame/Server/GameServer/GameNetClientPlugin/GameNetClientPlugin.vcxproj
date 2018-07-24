@@ -73,8 +73,8 @@
       </IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.dll $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName)_d.dll
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName)_d.pdb</Command>
+      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.dll $(SolutionDir)..\Bin\Server\$(Configuration)\game\$(ProjectName)_d.dll
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(SolutionDir)..\Bin\Server\$(Configuration)\game\$(ProjectName)_d.pdb</Command>
     </PostBuildEvent>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -99,8 +99,8 @@ copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName)_d.pdb $(Soluti
       <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\Comm\$(Configuration)\;$(SolutionDir)..\Dep\lib\$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).dll $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName).dll
-copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\AFGameServer\$(ProjectName).pdb</Command>
+      <Command>copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).dll $(SolutionDir)..\Bin\Server\$(Configuration)\game\$(ProjectName).dll
+copy /y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(SolutionDir)..\Bin\Server\$(Configuration)\game\$(ProjectName).pdb</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

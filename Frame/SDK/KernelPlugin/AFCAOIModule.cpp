@@ -28,6 +28,7 @@ AFCAOIModule::AFCAOIModule()
 AFCAOIModule::~AFCAOIModule()
 {
     ObjectMap::iterator tmpIter;
+
     for (ObjectMap::iterator iter = objectMap.begin(); iter != objectMap.end();)
     {
         tmpIter = iter;
@@ -51,9 +52,11 @@ void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= 
 
     //x杞?
     ObjectMap xTempMap;
+
     for (ObjectList::iterator iter = xObjectList.begin(); iter != xObjectList.end(); ++iter)
     {
         int differ = (*iter)->x - pObject->x;
+
         if (abs(differ) <= nRadius)
         {
             xTempMap[(*iter)->id] = *iter;
@@ -85,9 +88,11 @@ void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= 
 
     //y杞?
     bFlag = false;
+
     for (ObjectList::iterator iter = yObjectList.begin(); iter != yObjectList.end();)
     {
         int differ = (*iter)->y - pObject->y;
+
         if (abs(differ) <= nRadius && xTempMap.find((*iter)->id) != xTempMap.end())
         {
             enterMap[(*iter)->id] = *iter;
@@ -122,6 +127,7 @@ void AFCAOIModule::Add(const AFGUID& self, const Point3D& xPos, int nRadius /*= 
 void AFCAOIModule::Move(const AFGUID& self, const Point3D& xPos)
 {
     ObjectMap::iterator iter = objectMap.find(self);
+
     if (iter == objectMap.end())
     {
         return;
@@ -174,6 +180,7 @@ void AFCAOIModule::Move(const AFGUID& self, const Point3D& xPos)
 void AFCAOIModule::Leave(const AFGUID& self)
 {
     ObjectMap::iterator iter = objectMap.find(self);
+
     if (iter == objectMap.end())
     {
         return;
@@ -221,9 +228,11 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
     if (pObject->x_pos != xObjectList.end())
     {
         iter = pObject->x_pos;
+
         while (true)
         {
             ++iter;
+
             if (iter == xObjectList.end())
             {
                 break;
@@ -242,9 +251,11 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
     if (pObject->x_pos != xObjectList.begin())
     {
         iter = pObject->x_pos;
+
         while (true)
         {
             --iter;
+
             if (((*iter)->x - pObject->x) > differ)
             {
                 break;
@@ -263,9 +274,11 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
     if (pObject->y_pos != yObjectList.end())
     {
         iter = pObject->y_pos;
+
         while (true)
         {
             ++iter;
+
             if (iter == yObjectList.end())
             {
                 break;
@@ -287,9 +300,11 @@ void AFCAOIModule::GetRange(AOIObject* pObject, ObjectMap* pMap)
     if (pObject->y_pos != yObjectList.begin())
     {
         iter = pObject->y_pos;
+
         while (true)
         {
             --iter;
+
             if (((*iter)->y - pObject->y) > differ)
             {
                 break;
@@ -327,6 +342,7 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
             iter = pObject->x_pos;
             ++iter;
             xObjectList.erase(pObject->x_pos);
+
             while (iter != xObjectList.end())
             {
                 if (pObject->x - (*iter)->x < 0)
@@ -357,6 +373,7 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
             iter = pObject->x_pos;
             --iter;
             xObjectList.erase(pObject->x_pos);
+
             while (iter != xObjectList.begin())
             {
                 if (pObject->x - (*iter)->x > 0)
@@ -389,6 +406,7 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
             iter = pObject->y_pos;
             ++iter;
             yObjectList.erase(pObject->y_pos);
+
             while (iter != yObjectList.end())
             {
                 if (pObject->y - (*iter)->y < 0)
@@ -396,8 +414,10 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
                     itIndex = iter;
                     break;
                 }
+
                 ++iter;
             }
+
             if (iter != yObjectList.end())
             {
                 yObjectList.insert(itIndex, pObject);
@@ -417,6 +437,7 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
             iter = pObject->y_pos;
             --iter;
             yObjectList.erase(pObject->y_pos);
+
             while (iter != yObjectList.begin())
             {
                 if (pObject->y - (*iter)->y > 0)
@@ -424,8 +445,10 @@ void AFCAOIModule::UpdateObejctPos(AOIObject* pObject, const Point3D& xNewPos)
                     itIndex = ++iter;
                     break;
                 }
+
                 --iter;
             }
+
             if (iter != yObjectList.begin())
             {
                 yObjectList.insert(itIndex, pObject);

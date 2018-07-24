@@ -19,58 +19,42 @@
 */
 
 #include "AFCPluginManager.h"
-#include "SDK/Core/Base/AFPlatform.hpp"
-
-#if ARK_PLATFORM == PLATFORM_UNIX
-#include <unistd.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <signal.h>
-#include <sys/prctl.h>
-#endif
+#include "SDK/Core/AFMacros.hpp"
+#include "SDK/Core/AFDateTime.hpp"
 
 bool bExitApp = false;
 std::thread gBackThread;
 
 #if ARK_PLATFORM == PLATFORM_WIN
-#include <Dbghelp.h>
-#pragma comment(lib, "DbgHelp")
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #pragma comment(lib, "AFCore_d.lib")
 #else
 #pragma comment(lib, "AFCore.lib")
 #endif
 
-// 閸掓稑缂揇ump閺傚洣娆?
+//mini-dump
 void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* pException)
 {
-    // 閸掓稑缂揇ump閺傚洣娆?
     HANDLE hDumpFile = CreateFile(strDumpFilePathName.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-    // Dump娣団剝浼?
     MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
     dumpInfo.ExceptionPointers = pException;
     dumpInfo.ThreadId = GetCurrentThreadId();
     dumpInfo.ClientPointers = TRUE;
 
-    // 閸愭瑥鍙咲ump閺傚洣娆㈤崘鍛啇
     MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &dumpInfo, NULL, NULL);
 
     CloseHandle(hDumpFile);
 }
 
-// 婢跺嫮鎮奤nhandled Exception閻ㄥ嫬娲栫拫鍐ㄥ毐閺?
 long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
-    time_t t = time(0);
-    char szDmupName[MAX_PATH];
-    tm* ptm = localtime(&t);
+    AFDateTime now;
+    tm* ptm = now.GetLocalTime();
+    std::string dump_name = ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFCPluginManager::GetInstancePtr()->AppName(), ptm->tm_year + 1900, ptm->tm_mon + 1, ptm->tm_mday, ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
+    CreateDumpFile(dump_name.c_str(), pException);
 
-    sprintf_s(szDmupName, "%04d_%02d_%02d_%02d_%02d_%02d.dmp",  ptm->tm_year + 1900, ptm->tm_mon + 1, ptm->tm_mday, ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
-    CreateDumpFile(szDmupName, pException);
-
-    FatalAppExit(-1,  szDmupName);
-
+    FatalAppExit(-1, dump_name.c_str());
     return EXCEPTION_EXECUTE_HANDLER;
 }
 #endif
@@ -79,11 +63,13 @@ void CloseXButton()
 {
 #if ARK_PLATFORM == PLATFORM_WIN
     HWND hWnd = GetConsoleWindow();
+
     if (hWnd)
     {
         HMENU hMenu = GetSystemMenu(hWnd, FALSE);
         EnableMenuItem(hMenu, SC_CLOSE, MF_DISABLED | MF_BYCOMMAND);
     }
+
 #else
     //Do nothing
 #endif
@@ -149,6 +135,7 @@ void ThreadFunc()
         std::string s;
         std::cin >> s;
         std::transform(s.begin(), s.end(), s.begin(), ::tolower);
+
         if (s == "exit")
         {
             bExitApp = true;
@@ -170,7 +157,7 @@ struct ApplicationConfig
     bool deamon = true;                     //run as deamon, Linux
     bool xbutton = true;                    //close X button in windows
     std::string plugin_file = "Plugin.xml"; //config file
-    int app_id = 0;                 //app id
+    int app_id = 0;                         //app id
     std::string app_name = "";              //app name
 };
 
@@ -187,6 +174,7 @@ public:
             delete[] env_buf;
             env_buf = nullptr;
         }
+
         if (environ)
         {
             delete[] environ;
@@ -208,6 +196,7 @@ int realloc_environ()
     do
     {
         char** ep = environ;
+
         while (*ep)
         {
             env_size += std::strlen(*ep) + 1;
@@ -217,15 +206,16 @@ int realloc_environ()
     } while (0);
 
     char* new_env_buf = new char[env_size];
-    std::memcpy((void *)new_env_buf, (void *)*environ, env_size);
+    std::memcpy((void*)new_env_buf, (void*)*environ, env_size);
 
-    char** new_env = new char*[var_count + 1];
+    char** new_env = new char* [var_count + 1];
 
     do
     {
         int var = 0;
         int offset = 0;
         char** ep = environ;
+
         while (*ep)
         {
             new_env[var++] = (new_env_buf + offset);
@@ -247,6 +237,7 @@ int realloc_environ()
 void setproctitle(const char* title, int argc, char** argv)
 {
     int argv_size = 0;
+
     for (int i = 0; i < argc; ++i)
     {
         int len = std::strlen(argv[i]);
@@ -255,9 +246,11 @@ void setproctitle(const char* title, int argc, char** argv)
     }
 
     int to_be_copied = std::strlen(title);
+
     if (argv_size <= to_be_copied)
     {
         int env_size = realloc_environ();
+
         if (env_size < to_be_copied)
         {
             to_be_copied = env_size;
@@ -277,9 +270,11 @@ bool ProcArgList(int argc, char* argv[])
 
     //Analyse arg list
     ApplicationConfig config;
+
     for (int i = 0; i < argc; ++i)
     {
         std::string arg = argv[i];
+
         if (arg == "-d")
         {
             config.deamon = true;
@@ -291,6 +286,7 @@ bool ProcArgList(int argc, char* argv[])
         else if (arg.find("cfg") != std::string::npos)
         {
             size_t pos = arg.find("=");
+
             if (pos != std::string::npos)
             {
                 config.plugin_file = arg.substr(pos + 1, arg.length() - pos - 1);
@@ -299,6 +295,7 @@ bool ProcArgList(int argc, char* argv[])
         else if (arg.find("app_id") != std::string::npos)
         {
             size_t pos = arg.find("=");
+
             if (pos != std::string::npos)
             {
                 config.app_id = ARK_LEXICAL_CAST<int>(arg.substr(pos + 1, arg.length() - pos - 1));
@@ -307,6 +304,7 @@ bool ProcArgList(int argc, char* argv[])
         else if (arg.find("app_name") != std::string::npos)
         {
             size_t pos = arg.find("=");
+
             if (pos != std::string::npos)
             {
                 config.app_name = arg.substr(pos + 1, arg.length() - pos - 1);
@@ -315,20 +313,24 @@ bool ProcArgList(int argc, char* argv[])
     }
 
 #if ARK_PLATFORM == PLATFORM_UNIX
+
     if (config.deamon)
     {
         //Run as a daemon process
         signal(SIGPIPE, SIG_IGN);
         signal(SIGCHLD, SIG_IGN);
     }
+
 #endif
 
 #if ARK_PLATFORM == PLATFORM_WIN
+
     if (config.xbutton)
     {
         SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
         CloseXButton();
     }
+
 #endif
 
     if (config.app_id == 0)
@@ -365,6 +367,7 @@ bool ProcArgList(int argc, char* argv[])
 void MainLoop()
 {
 #if ARK_PLATFORM == PLATFORM_WIN
+
     __try
     {
         AFCPluginManager::GetInstancePtr()->Update();
@@ -372,6 +375,7 @@ void MainLoop()
     __except (ApplicationCrashHandler(GetExceptionInformation()))
     {
     }
+
 #else
     AFCPluginManager::GetInstancePtr()->Update();
 #endif

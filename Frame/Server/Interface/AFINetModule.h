@@ -24,18 +24,7 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"
 #include "SDK/Proto/AFProtoCPP.hpp"
-
-enum ARK_SERVER_TYPE
-{
-    ARK_ST_NONE = 0,    // NONE
-    ARK_ST_REDIS = 1,    //
-    ARK_ST_MYSQL = 2,    //
-    ARK_ST_MASTER = 3,    //
-    ARK_ST_LOGIN = 4,    //
-    ARK_ST_PROXY = 5,    //
-    ARK_ST_GAME = 6,    //
-    ARK_ST_WORLD = 7,    //
-};
+#include "Server/Interface/AFApp.hpp"
 
 class AFINetModule : public AFIModule
 {
@@ -72,10 +61,11 @@ public:
         {
             return false;
         }
-
-        mxReceiveCallBack.insert(std::map<int, NET_RECEIVE_FUNCTOR_PTR>::value_type(nMsgID, cb));
-
-        return true;
+        else
+        {
+            mxReceiveCallBack.insert(std::make_pair(nMsgID, cb));
+            return true;
+        }
     }
 
     virtual bool AddReceiveCallBack(const NET_RECEIVE_FUNCTOR_PTR& cb)
@@ -158,6 +148,44 @@ public:
         return xPoint;
     }
 
+    static bool AFData2PBVariant(const AFIData& DataVar, AFMsg::VariantData* variantData)
+    {
+        if (variantData == nullptr)
+        {
+            return false;
+        }
+
+        switch (DataVar.GetType())
+        {
+        case DT_BOOLEAN:
+            variantData->set_bool_value(DataVar.GetBool());
+            break;
+        case DT_INT:
+            variantData->set_int_value(DataVar.GetInt());
+            break;
+        case DT_INT64:
+            variantData->set_int64_value(DataVar.GetInt64());
+            break;
+        case DT_FLOAT:
+            variantData->set_float_value(DataVar.GetFloat());
+            break;
+        case DT_DOUBLE:
+            variantData->set_double_value(DataVar.GetDouble());
+            break;
+        case DT_STRING:
+            variantData->set_str_value(DataVar.GetString());
+            break;
+        case DT_OBJECT:
+            *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
+            break;
+        default:
+            ARK_ASSERT_RET_VAL(0, false);
+            break;
+        }
+
+        return true;
+    }
+
     static bool DataNodeToPBNode(const AFIData& DataVar, const char* name, AFMsg::PBNodeData& xMsg)
     {
         if (nullptr == name)
@@ -168,35 +196,8 @@ public:
         xMsg.set_node_name(name);
         xMsg.set_data_type(DataVar.GetType());
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
-        switch (DataVar.GetType())
-        {
-        case DT_BOOLEAN:
-            variantData->set_bool_value(DataVar.GetBool());
-            break;
-        case DT_INT:
-            variantData->set_int_value(DataVar.GetInt());
-            break;
-        case DT_INT64:
-            variantData->set_int64_value(DataVar.GetInt64());
-            break;
-        case DT_FLOAT:
-            variantData->set_float_value(DataVar.GetFloat());
-            break;
-        case DT_DOUBLE:
-            variantData->set_double_value(DataVar.GetDouble());
-            break;
-        case DT_STRING:
-            variantData->set_str_value(DataVar.GetString());
-            break;
-        case DT_OBJECT:
-            *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
-            break;
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
-        }
 
-        return true;
+        return AFData2PBVariant(DataVar, variantData);
     }
 
 
@@ -206,35 +207,8 @@ public:
         xMsg.set_row(nRow);
         xMsg.set_data_type(DataVar.GetType());
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
-        switch (DataVar.GetType())
-        {
-        case DT_BOOLEAN:
-            variantData->set_bool_value(DataVar.GetBool());
-            break;
-        case DT_INT:
-            variantData->set_int_value(DataVar.GetInt());
-            break;
-        case DT_INT64:
-            variantData->set_int64_value(DataVar.GetInt64());
-            break;
-        case DT_FLOAT:
-            variantData->set_float_value(DataVar.GetFloat());
-            break;
-        case DT_DOUBLE:
-            variantData->set_double_value(DataVar.GetDouble());
-            break;
-        case DT_STRING:
-            variantData->set_str_value(DataVar.GetString());
-            break;
-        case DT_OBJECT:
-            *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
-            break;
-        default:
-            ARK_ASSERT_RET_VAL(0, false);
-            break;
-        }
 
-        return true;
+        return AFData2PBVariant(DataVar, variantData);
     }
 
     static bool TableCellToPBCell(const AFIDataList& DataList, const int nRow, const int nCol, AFMsg::PBCellData& xMsg)
@@ -243,29 +217,37 @@ public:
         xMsg.set_row(nRow);
         xMsg.set_data_type(DataList.GetType(nCol));
         AFMsg::VariantData* variantData = xMsg.mutable_variant_data();
+
         switch (DataList.GetType(nCol))
         {
         case DT_BOOLEAN:
             variantData->set_bool_value(DataList.Bool(nCol));
             break;
+
         case DT_INT:
             variantData->set_int_value(DataList.Int(nCol));
             break;
+
         case DT_INT64:
             variantData->set_int64_value(DataList.Int64(nCol));
             break;
+
         case DT_FLOAT:
             variantData->set_float_value(DataList.Float(nCol));
             break;
+
         case DT_DOUBLE:
             variantData->set_double_value(DataList.Double(nCol));
             break;
+
         case DT_STRING:
             variantData->set_str_value(DataList.String(nCol));
             break;
+
         case DT_OBJECT:
             *variantData->mutable_guid_value() = GUIDToPB(DataList.Object(nCol));
             break;
+
         default:
             ARK_ASSERT_RET_VAL(0, false);
             break;
@@ -278,6 +260,7 @@ protected:
     void OnReceiveBaseNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
         auto it = mxReceiveCallBack.find(nMsgID);
+
         if (mxReceiveCallBack.end() != it)
         {
             (*it->second)(xHead, nMsgID, msg, nLen, xClientID);

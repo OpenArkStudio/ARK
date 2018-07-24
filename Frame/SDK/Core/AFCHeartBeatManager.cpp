@@ -18,9 +18,8 @@
 *
 */
 
-#include "SDK/Core/Base/AFDateTime.hpp"
+#include "SDK/Core/AFDateTime.hpp"
 #include "AFCHeartBeatManager.h"
-
 
 AFCHeartBeatManager::~AFCHeartBeatManager()
 {
@@ -32,6 +31,7 @@ void AFCHeartBeatElement::DoHeartBeatEvent(int64_t nNowTime)
     nCount--;
     HEART_BEAT_FUNCTOR_PTR cb;
     bool bRet = First(cb);
+
     while (bRet)
     {
         (*cb)(self, strBeatName, nBeatTime, nCount);
@@ -75,6 +75,7 @@ void AFCHeartBeatManager::Update()
 {
     //millisecond
     int64_t nTime = AFDateTime::GetNowTime();
+
     for (std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = mTimeList.begin(); iter != mTimeList.end();)
     {
         if (iter->second->IsStop() && ProcessFinishHeartBeat(iter->second))
@@ -110,6 +111,7 @@ void AFCHeartBeatManager::Update()
 bool AFCHeartBeatManager::ProcessFinishHeartBeat(AFCHeartBeatElement* pTarget)
 {
     AFCHeartBeatElement* pElement = mHeartBeatElementMapEx.GetElement(pTarget->strBeatName);
+
     if (pElement == nullptr)
     {
         return false;
@@ -128,9 +130,11 @@ bool AFCHeartBeatManager::ProcessFinishHeartBeat()
 {
     std::string strHeartBeatName;
     bool bRet = mRemoveListEx.First(strHeartBeatName);
+
     while (bRet)
     {
         AFCHeartBeatElement* pHeartBeatEx = mHeartBeatElementMapEx.GetElement(strHeartBeatName);
+
         if (pHeartBeatEx == nullptr)
         {
             continue;
@@ -167,6 +171,7 @@ bool AFCHeartBeatManager::ProcessAddHeartBeat()
         if (mHeartBeatElementMapEx.GetElement(iter->strBeatName) == nullptr)
         {
             AFCHeartBeatElement* pHeartBeatEx = ARK_NEW AFCHeartBeatElement();
+
             if (pHeartBeatEx == nullptr)
             {
                 continue;

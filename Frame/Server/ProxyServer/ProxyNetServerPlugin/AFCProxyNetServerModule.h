@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFCConsistentHash.hpp"
 #include "SDK/Proto/AFProtoCPP.hpp"
+#include "SDK/Core/AFCConsistentHash.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFILogModule.h"
@@ -81,6 +81,7 @@ protected:
     {
         //在没有正式进入游戏之前，nPlayerID都是FD
         ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, TypeName);
+
         if (ChecSessionState(xMsg.game_id(), xClientID, xMsg.account()))
         {
             m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(xMsg.game_id(), nMsgID, msg, nLen, xClientID);

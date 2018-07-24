@@ -18,11 +18,11 @@
 *
 */
 
-#include "AFCPropertyTrailModule.h"
-#include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Core/Base/AFCDataList.h"
+#include "SDK/Core/AFCDataList.h"
 #include "SDK/Core/AFDataNode.h"
 #include "SDK/Core/AFDataTable.h"
+#include "SDK/Interface/AFIPluginManager.h"
+#include "AFCPropertyTrailModule.h"
 
 bool AFCPropertyTrailModule::PostInit()
 {
@@ -47,15 +47,18 @@ void AFCPropertyTrailModule::EndTrail(const AFGUID self)
 int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
 {
     ARK_SHARE_PTR<AFIEntity> xEntity = m_pKernelModule->GetEntity(self);
+
     if (nullptr == xEntity)
     {
         return -1;
     }
 
     ARK_SHARE_PTR<AFIDataNodeManager> xNodeManager = xEntity->GetNodeManager();
+
     if (nullptr != xNodeManager)
     {
         size_t nodeCount = xNodeManager->GetNodeCount();
+
         for (size_t i = 0; i < nodeCount; ++i)
         {
             AFDataNode* pNode = xNodeManager->GetNodeByIndex(i);
@@ -64,17 +67,21 @@ int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
     }
 
     ARK_SHARE_PTR<AFIDataTableManager> xTableManager = xEntity->GetTableManager();
+
     if (nullptr != xTableManager)
     {
         size_t tableCount = xTableManager->GetCount();
+
         for (size_t i = 0; i < tableCount; ++i)
         {
             AFDataTable* pTable = xTableManager->GetTableByIndex(i);
             size_t rowCount = pTable->GetRowCount();
+
             for (size_t j = 0; j < rowCount; ++j)
             {
                 AFCDataList xDataList;
                 bool ret = pTable->QueryRow(j, xDataList);
+
                 if (!ret)
                 {
                     continue;

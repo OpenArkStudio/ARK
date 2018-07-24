@@ -1,20 +1,21 @@
-![Server Architecture](https://raw.githubusercontent.com/ArkGame/ARK/master/Docs/asserts/imgs/ArkGameFrame.png)
+![Server Architecture](https://github.com/ArkGame/ARK/blob/master/Docs/asserts/imgs/arkgame.png?raw=true)
 
-[![GitHub version](https://badge.fury.io/gh/ArkGame%2FARK.svg)](https://badge.fury.io/gh/ArkGame%2FARK)
+![GitHub release](https://img.shields.io/github/release/ArkGame/ARK.svg?style=flat-square)
+[![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat-square)](https://github.com/ArkGame/ARK)
+[![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg?style=flat-square)](https://github.com/ArkGame/ARK)
+[![License](https://img.shields.io/github/license/ArkGame/ARK.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 ![GitHub stars](https://img.shields.io/github/stars/ArkGame/ARK.svg?style=flat-square&label=Stars)
 ![GitHub issues](https://img.shields.io/github/issues-raw/ArkGame/ARK.svg?style=flat-square)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ArkGame/ARK.svg?style=flat-square)
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg)](https://github.com/ArkGame/ARK)
-[![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat)](https://github.com/ArkGame/ARK)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ArkGame/ARK.svg?style=flat-square)  
 [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=ark&metric=alert_status)](https://sonarcloud.io/dashboard/index/ark)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/1916/badge)](https://bestpractices.coreinfrastructure.org/projects/1916)
-[![Gitter](https://img.shields.io/gitter/room/nwjs/nw.js.svg)](https://gitter.im/ArkGame/Lobby)
+[![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
+[![Gitter](https://img.shields.io/gitter/room/ArkGame/ARK.svg?style=flat-square)](https://gitter.im/ArkGame/Lobby)
 
-| Branch | Build Status |
-| - | - |
-| master | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=master)](https://travis-ci.org/ArkGame/ARK) |
-| develop | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=develop)](https://travis-ci.org/ArkGame/ARK) |
+| CI | Branch | Build Status |
+| - | - | - |
+| Travis CI | master | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=master)](https://travis-ci.org/ArkGame/ARK) |
+| Travis CI | develop | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=develop)](https://travis-ci.org/ArkGame/ARK) |
 
 **Copyright © [ARK Game](https://arkgame.net "ARK Game")**   
 Website: https://arkgame.net  
@@ -55,7 +56,7 @@ Please [create a new issue](https://github.com/ArkGame/ARK/issues) OR [visit our
 
 ### App Architecture:
 
-![App Architecture](https://raw.githubusercontent.com/ArkGame/ARK/master/Docs/asserts/imgs/AppArchitecture.png)
+![App Architecture](https://github.com/ArkGame/ARK/blob/master/Docs/asserts/imgs/AppArchitecture.png?raw=true)
 
 ## Get the Sources:
 

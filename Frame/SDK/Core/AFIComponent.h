@@ -20,8 +20,7 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFGUID.h"
+#include "SDK/Core/AFGUID.h"
 #include "SDK/Interface/AFIModule.h"
 
 class AFIComponent : public AFIModule
@@ -43,11 +42,13 @@ public:
     ARK_SHARE_PTR<T> CreateNewInstance()
     {
         ARK_SHARE_PTR<AFIComponent> pComponent = CreateNewInstance();
+
         if (nullptr != pComponent)
         {
             if (TIsDerived<T, AFIComponent>::Result)
             {
                 ARK_SHARE_PTR<T> pT = std::dynamic_pointer_cast<T>(pComponent);
+
                 if (nullptr != pT)
                 {
                     return pT;

@@ -18,9 +18,9 @@
 *
 */
 
+#include "SDK/Core/AFMisc.hpp"
 #include "AFCDataTableManager.h"
 #include "AFDataTable.h"
-#include "SDK/Core/Base/AFMisc.hpp"
 
 AFCDataTableManager::AFCDataTableManager(const AFGUID& guid)
     : self(guid)
@@ -67,6 +67,7 @@ bool AFCDataTableManager::Exist(const char* name, size_t& index) const
 bool AFCDataTableManager::GetTableData(const char* name, const int row, const int col, AFIData& value)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return NULL;
@@ -83,6 +84,7 @@ void AFCDataTableManager::OnEventHandler(const AFGUID& entity_id, const DATA_TAB
     }
 
     AFTableCallBack* pTableCallBack = mxTableCallbacks.GetElement(xEventData.strName.c_str());
+
     if (nullptr != pTableCallBack)
     {
         for (auto& iter : pTableCallBack->mxCallbackList)
@@ -106,6 +108,7 @@ bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name
     AFDataTable* pTable = ARK_NEW AFDataTable();
     pTable->SetName(table_name);
     pTable->SetColCount(col_type_list.GetCount());
+
     for (size_t i = 0; i < col_type_list.GetCount(); ++i)
     {
         pTable->SetColType(i, col_type_list.GetType(i));
@@ -119,6 +122,7 @@ bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name
 bool AFCDataTableManager::AddTableCallback(const char* table_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
 {
     AFTableCallBack* pCallBackList = mxTableCallbacks.GetElement(table_name);
+
     if (!pCallBackList)
     {
         pCallBackList = new AFTableCallBack();
@@ -159,6 +163,7 @@ AFDataTable* AFCDataTableManager::GetTableByIndex(size_t index)
 bool AFCDataTableManager::SetTableBool(const char* name, const int row, const int col, const bool value)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return false;
@@ -168,6 +173,7 @@ bool AFCDataTableManager::SetTableBool(const char* name, const int row, const in
     do
     {
         AFCData oldData;
+
         if (!GetTableData(name, row, col, oldData))
         {
             ARK_ASSERT_RET_VAL(0, false);
@@ -199,6 +205,7 @@ bool AFCDataTableManager::SetTableBool(const char* name, const int row, const in
 bool AFCDataTableManager::SetTableInt(const char* name, const int row, const int col, const int32_t value)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return false;
@@ -208,6 +215,7 @@ bool AFCDataTableManager::SetTableInt(const char* name, const int row, const int
     do
     {
         AFCData oldData;
+
         if (!GetTableData(name, row, col, oldData))
         {
             ARK_ASSERT_RET_VAL(0, false);
@@ -239,6 +247,7 @@ bool AFCDataTableManager::SetTableInt(const char* name, const int row, const int
 bool AFCDataTableManager::SetTableInt64(const char* name, const int row, const int col, const int64_t value)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return false;
@@ -248,6 +257,7 @@ bool AFCDataTableManager::SetTableInt64(const char* name, const int row, const i
     do
     {
         AFCData oldData;
+
         if (!GetTableData(name, row, col, oldData))
         {
             ARK_ASSERT_RET_VAL(0, false);
@@ -279,6 +289,7 @@ bool AFCDataTableManager::SetTableInt64(const char* name, const int row, const i
 bool AFCDataTableManager::SetTableFloat(const char* name, const int row, const int col, const float value)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return false;
@@ -288,6 +299,7 @@ bool AFCDataTableManager::SetTableFloat(const char* name, const int row, const i
     do
     {
         AFCData oldData;
+
         if (!GetTableData(name, row, col, oldData))
         {
             ARK_ASSERT_RET_VAL(0, false);
@@ -319,6 +331,7 @@ bool AFCDataTableManager::SetTableFloat(const char* name, const int row, const i
 bool AFCDataTableManager::SetTableDouble(const char* name, const int row, const int col, const double value)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return false;
@@ -328,6 +341,7 @@ bool AFCDataTableManager::SetTableDouble(const char* name, const int row, const 
     do
     {
         AFCData oldData;
+
         if (!GetTableData(name, row, col, oldData))
         {
             ARK_ASSERT_RET_VAL(0, false);
@@ -359,6 +373,7 @@ bool AFCDataTableManager::SetTableDouble(const char* name, const int row, const 
 bool AFCDataTableManager::SetTableString(const char* name, const int row, const int col, const char* value)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return false;
@@ -368,6 +383,7 @@ bool AFCDataTableManager::SetTableString(const char* name, const int row, const 
     do
     {
         AFCData oldData;
+
         if (!GetTableData(name, row, col, oldData))
         {
             ARK_ASSERT_RET_VAL(0, false);
@@ -399,6 +415,7 @@ bool AFCDataTableManager::SetTableString(const char* name, const int row, const 
 bool AFCDataTableManager::SetTableObject(const char* name, const int row, const int col, const AFGUID& value)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return false;
@@ -408,6 +425,7 @@ bool AFCDataTableManager::SetTableObject(const char* name, const int row, const 
     do
     {
         AFCData oldData;
+
         if (!GetTableData(name, row, col, oldData))
         {
             ARK_ASSERT_RET_VAL(0, false);
@@ -439,6 +457,7 @@ bool AFCDataTableManager::SetTableObject(const char* name, const int row, const 
 bool AFCDataTableManager::GetTableBool(const char* name, const int row, const int col)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return false;
@@ -450,6 +469,7 @@ bool AFCDataTableManager::GetTableBool(const char* name, const int row, const in
 int32_t AFCDataTableManager::GetTableInt(const char* name, const int row, const int col)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return NULL_INT;
@@ -461,6 +481,7 @@ int32_t AFCDataTableManager::GetTableInt(const char* name, const int row, const 
 int64_t AFCDataTableManager::GetTableInt64(const char* name, const int row, const int col)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return NULL_INT64;
@@ -472,6 +493,7 @@ int64_t AFCDataTableManager::GetTableInt64(const char* name, const int row, cons
 float AFCDataTableManager::GetTableFloat(const char* name, const int row, const int col)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return NULL_FLOAT;
@@ -483,6 +505,7 @@ float AFCDataTableManager::GetTableFloat(const char* name, const int row, const 
 double AFCDataTableManager::GetTableDouble(const char* name, const int row, const int col)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return NULL_DOUBLE;
@@ -494,6 +517,7 @@ double AFCDataTableManager::GetTableDouble(const char* name, const int row, cons
 const char* AFCDataTableManager::GetTableString(const char* name, const int row, const int col)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return NULL_STR.c_str();
@@ -505,6 +529,7 @@ const char* AFCDataTableManager::GetTableString(const char* name, const int row,
 const AFGUID AFCDataTableManager::GetTableObject(const char* name, const int row, const int col)
 {
     AFDataTable* pTable = GetTable(name);
+
     if (pTable == nullptr)
     {
         return NULL_GUID;

@@ -44,7 +44,7 @@ class async_log_helper
     };
 
     struct async_msg
-    {        
+    {
         level::level_enum level;
         log_clock::time_point time;
         size_t thread_id;
@@ -82,7 +82,7 @@ class async_log_helper
         }
 
         // copy into log_msg
-        void fill_log_msg(log_msg &msg, std::string* logger_name)
+        void fill_log_msg(log_msg &msg, std::string *logger_name)
         {
             msg.logger_name = logger_name;
             msg.level = level;
@@ -100,15 +100,11 @@ public:
 
     using clock = std::chrono::steady_clock;
 
-    async_log_helper(std::string logger_name,
-                     formatter_ptr formatter,
-                     std::vector<sink_ptr> sinks,
-                     size_t queue_size,
-                     const log_err_handler err_handler,
-                     const async_overflow_policy overflow_policy = async_overflow_policy::block_retry,
-                     std::function<void()> worker_warmup_cb = nullptr,
-                     const std::chrono::milliseconds &flush_interval_ms = std::chrono::milliseconds::zero(),
-                     std::function<void()> worker_teardown_cb = nullptr);
+    async_log_helper(std::string logger_name, formatter_ptr formatter, std::vector<sink_ptr> sinks, size_t queue_size,
+        const log_err_handler err_handler, const async_overflow_policy overflow_policy = async_overflow_policy::block_retry,
+        std::function<void()> worker_warmup_cb = nullptr,
+        const std::chrono::milliseconds &flush_interval_ms = std::chrono::milliseconds::zero(),
+        std::function<void()> worker_teardown_cb = nullptr);
 
     void log(const details::log_msg &msg);
 
@@ -125,7 +121,7 @@ public:
     void set_error_handler(spdlog::log_err_handler err_handler);
 
 private:
-	std::string _logger_name;
+    std::string _logger_name;
     formatter_ptr _formatter;
     std::vector<std::shared_ptr<sinks::sink>> _sinks;
 
@@ -175,17 +171,11 @@ private:
 ///////////////////////////////////////////////////////////////////////////////
 // async_sink class implementation
 ///////////////////////////////////////////////////////////////////////////////
-inline spdlog::details::async_log_helper::async_log_helper(std::string logger_name, 
-                                                           formatter_ptr formatter, 
-                                                           std::vector<sink_ptr> sinks,
-                                                           size_t queue_size,
-                                                           log_err_handler err_handler, 
-                                                           const async_overflow_policy overflow_policy,
-                                                           std::function<void()> worker_warmup_cb,
-                                                           const std::chrono::milliseconds &flush_interval_ms,
-                                                           std::function<void()> worker_teardown_cb)
-    : _logger_name(std::move(logger_name)) 
-	, _formatter(std::move(formatter))
+inline spdlog::details::async_log_helper::async_log_helper(std::string logger_name, formatter_ptr formatter, std::vector<sink_ptr> sinks,
+    size_t queue_size, log_err_handler err_handler, const async_overflow_policy overflow_policy, std::function<void()> worker_warmup_cb,
+    const std::chrono::milliseconds &flush_interval_ms, std::function<void()> worker_teardown_cb)
+    : _logger_name(std::move(logger_name))
+    , _formatter(std::move(formatter))
     , _sinks(std::move(sinks))
     , _q(queue_size)
     , _err_handler(std::move(err_handler))
@@ -250,14 +240,7 @@ inline void spdlog::details::async_log_helper::worker_loop()
         {
             active = process_next_msg();
         }
-        catch (const std::exception &ex)
-        {
-            _err_handler(ex.what());
-        }
-        catch (...)
-        {
-            _err_handler("Unknown exeption in async logger worker loop.");
-        }
+        SPDLOG_CATCH_AND_HANDLE
     }
     if (_worker_teardown_cb)
     {
@@ -295,7 +278,11 @@ inline bool spdlog::details::async_log_helper::process_next_msg()
         {
             if (s->should_log(incoming_log_msg.level))
             {
-                s->log(incoming_log_msg);
+                try
+                {
+                    s->log(incoming_log_msg);
+                }
+                SPDLOG_CATCH_AND_HANDLE
             }
         }
         handle_flush_interval();
@@ -333,9 +320,14 @@ inline void spdlog::details::async_log_helper::handle_flush_interval()
 // flush all sinks if _flush_interval_ms has expired. only called if queue is empty
 inline void spdlog::details::async_log_helper::flush_sinks()
 {
+
     for (auto &s : _sinks)
     {
-        s->flush();
+        try
+        {
+            s->flush();
+        }
+        SPDLOG_CATCH_AND_HANDLE
     }
     _last_flush = os::now();
 }

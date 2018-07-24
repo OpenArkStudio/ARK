@@ -20,16 +20,46 @@
 
 #include "AFCLogModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
+#include "spdlog/contrib/sinks/date_and_hour_file_sink.h"
 
 AFCLogModule::AFCLogModule(AFIPluginManager* p)
 {
     pPluginManager = p;
 
-    //open async mode
-    spdlog::set_async_mode(8 * 1024);
+    //Create spdlog
+    try
+    {
+        CreateLogger();
+    }
+    catch (std::system_error& error)
+    {
+        CONSOLE_LOG_NO_FILE << "Create logger failed, error = " << error.what() << std::endl;
+        ARK_ASSERT_NO_EFFECT(0);
+    }
+}
+
+bool AFCLogModule::Shut()
+{
+    spdlog::drop_all();
+    return true;
+}
+
+const std::shared_ptr<spdlog::async_logger>& AFCLogModule::GetLogger()
+{
+    return mxLogger;
+}
+
+void AFCLogModule::CreateLogger()
+{
     std::vector<spdlog::sink_ptr> sinks_vec;
-    std::string log_name = "../log/" + pPluginManager->AppName() + ".log";
-    auto daily_sink = std::make_shared<spdlog::sinks::daily_file_sink_mt>(log_name, 0, 0);
+    std::string log_name;
+#if ARK_PLATFORM == PLATFORM_WIN
+    log_name = ARK_FORMAT("..\\log\\{}.log", pPluginManager->AppName());
+#else
+    log_name = ARK_FORMAT("../log/{}.log", pPluginManager->AppName());
+#endif
+
+    auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #if ARK_PLATFORM == PLATFORM_WIN
     auto color_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
@@ -39,27 +69,102 @@ AFCLogModule::AFCLogModule(AFIPluginManager* p)
 
     sinks_vec.push_back(color_sink);
 #endif
-    sinks_vec.push_back(daily_sink);
+    sinks_vec.push_back(date_and_hour_sink);
 
-    mxLogger = std::make_shared<spdlog::logger>("", std::begin(sinks_vec), std::end(sinks_vec));
+    mxLogger = std::make_shared<spdlog::async_logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), 1024);
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
     mxLogger->set_level(spdlog::level::level_enum::trace);
-    mxLogger->set_pattern("%^[%Y%m%d %H:%M:%S.%e][pid:%P][tid:%t][%l]%v%$");
+    mxLogger->set_pattern("%^[%Y%m%d %H:%M:%S.%e][%l]%v%$");
 #else
-    mxLogger->set_pattern("[%Y%m%d %H:%M:%S.%e][pid:%P][tid:%t][%l]%v");
+    mxLogger->set_pattern("[%Y%m%d %H:%M:%S.%e][%l]%v");
 #endif
+
+    mxLogger->flush_on(spdlog::level::err);
 
     spdlog::register_logger(mxLogger);
 }
 
-bool AFCLogModule::Shut()
+//////////////////////////////////////////////////////////////////////////
+
+AFCDynamicLogModule::AFCDynamicLogModule(AFIPluginManager* p)
+{
+    pPluginManager = p;
+}
+
+bool AFCDynamicLogModule::Shut()
 {
     spdlog::drop_all();
     return true;
 }
 
-std::shared_ptr<spdlog::logger>& AFCLogModule::GetLogger()
+const std::shared_ptr<spdlog::async_logger>& AFCDynamicLogModule::GetLogger(const int id, const char* name)
 {
-    return mxLogger;
+    auto iter = _dynamic_loggers.find(std::make_pair(id, name));
+
+    if (iter != _dynamic_loggers.end())
+    {
+        return iter->second;
+    }
+    else
+    {
+        //Create spdlog
+        try
+        {
+            CreateLogger(id, name);
+        }
+        catch (std::system_error& error)
+        {
+            CONSOLE_LOG_NO_FILE << "Create logger failed, error = " << error.what() << std::endl;
+            ARK_ASSERT_NO_EFFECT(0);
+        }
+
+        //find twice
+        iter = _dynamic_loggers.find(std::make_pair(id, name));
+
+        if (iter != _dynamic_loggers.end())
+        {
+            return iter->second;
+        }
+        else
+        {
+            return _null_logger;
+        }
+    }
+}
+
+void AFCDynamicLogModule::CreateLogger(const int id, const char* name)
+{
+    std::vector<spdlog::sink_ptr> sinks_vec;
+    std::string log_name;
+#if ARK_PLATFORM == PLATFORM_WIN
+    log_name = fmt::format("..\\log\\{}\\{}.log", id, name);
+#else
+    log_name = fmt::format("../log/{}/{}.log", id, name);
+#endif
+
+    auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+#if ARK_PLATFORM == PLATFORM_WIN
+    auto color_sink = std::make_shared<spdlog::sinks::wincolor_stdout_sink_mt>();
+#else
+    auto color_sink = std::make_shared<spdlog::sinks::ansicolor_stdout_sink_mt>();
+#endif
+
+    sinks_vec.push_back(color_sink);
+#endif
+    sinks_vec.push_back(date_and_hour_sink);
+
+    auto dynamic_logger = std::make_shared<spdlog::async_logger>(name, std::begin(sinks_vec), std::end(sinks_vec), 1024);
+
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+    dynamic_logger->set_level(spdlog::level::level_enum::trace);
+    dynamic_logger->set_pattern("%^[%Y%m%d %H:%M:%S.%e][%l]%v%$");
+#else
+    dynamic_logger->set_pattern("[%Y%m%d %H:%M:%S.%e][%l]%v");
+#endif
+    dynamic_logger->flush_on(spdlog::level::err);
+
+    spdlog::register_logger(dynamic_logger);
+    _dynamic_loggers.insert(std::make_pair(std::make_pair(id, name), dynamic_logger));
 }

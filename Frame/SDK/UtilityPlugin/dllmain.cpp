@@ -18,7 +18,7 @@
 *
 */
 
-#include "SDK/Core/Base/AFPlatform.hpp"
+#include "SDK/Core/AFPlatform.hpp"
 
 #if ARK_PLATFORM == PLATFORM_WIN
 #pragma comment(lib, "Dbghelp.lib")

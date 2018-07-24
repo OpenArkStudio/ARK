@@ -53,6 +53,7 @@ int AFCNetServer::Start(const unsigned int nMaxClient, const std::string& strAdd
 size_t AFCNetServer::OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len)
 {
     auto pUD = brynet::net::cast<int64_t>(session->getUD());
+
     if (nullptr != pUD)
     {
         const AFTCPEntityPtr pEntity = (AFTCPEntityPtr) * pUD;
@@ -71,7 +72,7 @@ void AFCNetServer::OnAcceptConnectionInner(brynet::net::TcpSocket::PTR socket)
                           brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));
 }
 
-void AFCNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR & session)
+void AFCNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR& session)
 {
     session->setDataCallback(std::bind(&AFCNetServer::OnMessageInner, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
     session->setDisConnectCallback(std::bind(&AFCNetServer::OnClientDisConnectionInner, this, std::placeholders::_1));
@@ -86,6 +87,7 @@ void AFCNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR & 
 
         AFTCPEntityPtr pEntity = ARK_NEW AFTCPEntity(this, pMsg->xClientID, session);
         session->setUD(int64_t(pEntity));
+
         if (AddNetEntity(pMsg->xClientID, pEntity))
         {
             pEntity->mxNetMsgMQ.Push(pMsg);
@@ -93,9 +95,10 @@ void AFCNetServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR & 
     } while (0);
 }
 
-void AFCNetServer::OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session)
+void AFCNetServer::OnClientDisConnectionInner(const brynet::net::TCPSession::PTR& session)
 {
     auto pUD = brynet::net::cast<int64_t>(session->getUD());
+
     if (nullptr ==  pUD)
     {
         return;
@@ -116,9 +119,11 @@ void AFCNetServer::ProcessMsgLogicThread()
     do
     {
         AFScopeRdLock xGuard(mRWLock);
+
         for (std::map<AFGUID, AFTCPEntityPtr>::iterator iter = mmObject.begin(); iter != mmObject.end(); ++iter)
         {
             ProcessMsgLogicThread(iter->second);
+
             if (!iter->second->NeedRemove())
             {
                 continue;
@@ -139,9 +144,11 @@ void AFCNetServer::ProcessMsgLogicThread(AFTCPEntityPtr pEntity)
 {
     //Handle Msg
     size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
+
     for (size_t i = 0; i < nReceiveCount; ++i)
     {
         AFTCPMsg* pMsg(nullptr);
+
         if (!pEntity->mxNetMsgMQ.Pop(pMsg))
         {
             break;
@@ -162,15 +169,18 @@ void AFCNetServer::ProcessMsgLogicThread(AFTCPEntityPtr pEntity)
                 }
             }
             break;
+
         case CONNECTED:
             mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
             break;
+
         case DISCONNECTED:
             {
                 mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
                 pEntity->SetNeedRemove(true);
             }
             break;
+
         default:
             break;
         }
@@ -190,6 +200,7 @@ bool AFCNetServer::SendMsgToAllClient(const char* msg, const size_t nLen)
     for (auto it : mmObject)
     {
         AFTCPEntityPtr pNetObject = (AFTCPEntityPtr)it.second;
+
         if (pNetObject != nullptr && !pNetObject->NeedRemove())
         {
             pNetObject->GetSession()->send(msg, nLen);
@@ -204,6 +215,7 @@ bool AFCNetServer::SendMsg(const char* msg, const size_t nLen, const AFGUID& xCl
     AFScopeRdLock xGuard(mRWLock);
 
     AFTCPEntityPtr pNetObject = GetNetEntity(xClient);
+
     if (pNetObject == nullptr)
     {
         return false;
@@ -223,6 +235,7 @@ bool AFCNetServer::AddNetEntity(const AFGUID& xClientID, AFTCPEntityPtr pEntity)
 bool AFCNetServer::RemoveNetEntity(const AFGUID& xClientID)
 {
     AFTCPEntityPtr pEntity = GetNetEntity(xClientID);
+
     if (pEntity != nullptr)
     {
         ARK_DELETE(pEntity);
@@ -234,6 +247,7 @@ bool AFCNetServer::RemoveNetEntity(const AFGUID& xClientID)
 bool AFCNetServer::CloseNetEntity(const AFGUID& xClientID)
 {
     AFTCPEntityPtr pEntity = GetNetEntity(xClientID);
+
     if (pEntity != nullptr)
     {
         pEntity->GetSession()->postDisConnect();
@@ -251,6 +265,7 @@ bool AFCNetServer::DismantleNet(AFTCPEntityPtr pEntity)
     {
         AFCMsgHead xHead;
         int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
+
         if (nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
         {
             AFTCPMsg* pNetInfo = new AFTCPMsg(pEntity->GetSession());
@@ -296,6 +311,7 @@ bool AFCNetServer::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, co
     xHead.SetBodyLength(nLen);
 
     int nAllLen = EnCode(xHead, msg, nLen, strOutData);
+
     if (nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return SendMsg(strOutData.c_str(), strOutData.length(), xClientID);
@@ -314,6 +330,7 @@ bool AFCNetServer::SendMsgToAllClientWithOutHead(const uint16_t nMsgID, const ch
     xHead.SetPlayerID(xPlayerID);
 
     int nAllLen = EnCode(xHead, msg, nLen, strOutData);
+
     if (nAllLen == nLen + AFIMsgHead::ARK_MSG_HEAD_LENGTH)
     {
         return SendMsgToAllClient(strOutData.c_str(), strOutData.length());

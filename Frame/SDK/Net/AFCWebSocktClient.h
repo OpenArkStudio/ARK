@@ -21,8 +21,8 @@
 #pragma once
 
 #include "AFINet.h"
-#include "SDK/Core/Base/AFQueue.h"
-#include "SDK/Core/Base/AFRWLock.hpp"
+#include "SDK/Core/AFQueue.h"
+#include "SDK/Core/AFRWLock.hpp"
 #include <brynet/net/SocketLibFunction.h>
 #include <brynet/net/WrapTCPService.h>
 #include <brynet/net/Connector.h>
@@ -47,6 +47,7 @@ public:
         {
             m_pServer = std::make_shared<brynet::net::WrapTcpService>();
         }
+
         if (connector)
         {
             m_pConector = connector;
@@ -84,10 +85,10 @@ public:
     virtual bool IsServer();
     virtual bool Log(int severity, const char* msg);
 
-    void OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR & httpSession,
+    void OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR& httpSession,
                                   brynet::net::WebSocketFormat::WebSocketFrameType opcode,
-                                  const std::string & payload);
-    void OnHttpDisConnection(const brynet::net::HttpSession::PTR & httpSession);
+                                  const std::string& payload);
+    void OnHttpDisConnection(const brynet::net::HttpSession::PTR& httpSession);
     void OnHttpConnect(const brynet::net::HttpSession::PTR& httpSession);
 
 private:

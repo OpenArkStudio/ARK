@@ -48,6 +48,7 @@ bool AFCEventManager::Shut()
 bool AFCEventManager::AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb)
 {
     ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
+
     if (nullptr == pEventInfo)
     {
         pEventInfo = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR_PTR>>();
@@ -63,6 +64,7 @@ void AFCEventManager::Update()
 {
     int nEvent = 0;
     bool bRet = mRemoveEventListEx.First(nEvent);
+
     while (bRet)
     {
         mObjectEventInfoMapEx.RemoveElement(nEvent);
@@ -82,6 +84,7 @@ bool AFCEventManager::RemoveEventCallBack(const int nEventID)
 bool AFCEventManager::DoEvent(const int nEventID, const AFIDataList& valueList)
 {
     ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
+
     if (nullptr == pEventInfo)
     {
         return false;
@@ -89,6 +92,7 @@ bool AFCEventManager::DoEvent(const int nEventID, const AFIDataList& valueList)
 
     EVENT_PROCESS_FUNCTOR_PTR cb;
     bool bRet = pEventInfo->First(cb);
+
     while (bRet)
     {
         (*cb)(mSelf, nEventID,  valueList);

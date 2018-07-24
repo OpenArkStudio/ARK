@@ -20,8 +20,8 @@
 
 #pragma once
 
+#include "SDK/Core/AFNoncopyable.hpp"
 #include "AFIDataNodeManager.h"
-#include "SDK/Core/Base/AFNoncopyable.hpp"
 
 class AFCDataNodeManager : public AFIDataNodeManager, public AFNoncopyable
 {

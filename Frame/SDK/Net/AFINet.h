@@ -20,11 +20,10 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFPlatform.hpp"
-#include "SDK/Core/Base/AFMacros.hpp"
-#include "SDK/Core/Base/AFGUID.h"
-#include "SDK/Core/Base/AFLockFreeQueue.h"
-#include "SDK/Core/Base/AFBuffer.hpp"
+#include "SDK/Core/AFMacros.hpp"
+#include "SDK/Core/AFGUID.h"
+#include "SDK/Core/AFLockFreeQueue.h"
+#include "SDK/Core/AFBuffer.hpp"
 #include "brynet/net/WrapTCPService.h"
 #include "brynet/net/http/HttpService.h"
 
@@ -380,12 +379,14 @@ public:
     bool SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
     {
         std::string a = strIpPort;
+
         if (a.empty())
         {
             return false;
         }
 
         size_t index = a.rfind(':');
+
         if (index == std::string::npos)
         {
             return false;
@@ -399,6 +400,7 @@ public:
         port = std::atoi(&a[index + 1]);
 
         host = std::string(strIpPort, 0, index);
+
         if (host[0] == '[')
         {
             if (*host.rbegin() != ']')

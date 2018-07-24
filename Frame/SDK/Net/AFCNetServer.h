@@ -21,8 +21,8 @@
 #pragma once
 
 #include "AFINet.h"
-#include "SDK/Core/Base/AFQueue.h"
-#include "SDK/Core/Base/AFRWLock.hpp"
+#include "SDK/Core/AFQueue.h"
+#include "SDK/Core/AFRWLock.hpp"
 #include <brynet/net/SocketLibFunction.h>
 #include <brynet/net/EventLoop.h>
 #include <brynet/net/WrapTCPService.h>
@@ -90,8 +90,8 @@ public:
 
     //From ListenThread
     void OnAcceptConnectionInner(brynet::net::TcpSocket::PTR session);
-    void OnClientConnectionInner(const brynet::net::TCPSession::PTR & session);
-    void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR & session);
+    void OnClientConnectionInner(const brynet::net::TCPSession::PTR& session);
+    void OnClientDisConnectionInner(const brynet::net::TCPSession::PTR& session);
 
 private:
     bool SendMsgToAllClient(const char* msg, const size_t nLen);

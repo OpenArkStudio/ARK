@@ -20,17 +20,16 @@
 
 #pragma once
 
-#include "SDK/Core/Base/AFList.h"
-#include "SDK/Core/Base/AFDefine.h"
-#include "SDK/Core/Base/AFCDataList.h"
-#include "SDK/Core/Base/AFIData.h"
+#include "SDK/Core/AFList.h"
+#include "SDK/Core/AFDefine.h"
+#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/AFIData.h"
+#include "SDK/Core/AFMap.hpp"
 #include "AFIHeartBeatManager.h"
-#include "SDK/Core/Base/AFMap.hpp"
 
 class AFCHeartBeatManager : public AFIHeartBeatManager
 {
 public:
-
     AFCHeartBeatManager() = delete;
 
     explicit AFCHeartBeatManager(const AFGUID& self) : mSelf(self), mTimerIDIndex(0)
