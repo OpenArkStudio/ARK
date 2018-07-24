@@ -45,23 +45,23 @@ echo Starting master...
 cd ..
 cd world
 echo Starting world...
-./PluginLoader_d -d app_id=50 app_name=world_server cfg=Plugin.xml
+./PluginLoader_d -d app_id=100 app_name=world_server cfg=Plugin.xml
 
 
 cd ..
 cd login
 echo Starting login...
-./PluginLoader_d -d app_id=52 app_name=login_server cfg=Plugin.xml
+./PluginLoader_d -d app_id=102 app_name=login_server cfg=Plugin.xml
 
 cd ..
 cd proxy
 echo Starting proxy...
-./PluginLoader_d -d app_id=53 app_name=proxy_server cfg=Plugin.xml
+./PluginLoader_d -d app_id=103 app_name=proxy_server cfg=Plugin.xml
 
 cd ..
 cd game
 echo Starting game...
-./PluginLoader_d -d app_id=51 app_name=game_server cfg=Plugin.xml
+./PluginLoader_d -d app_id=101 app_name=game_server cfg=Plugin.xml
 
 echo All processes are launching...
 

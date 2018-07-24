@@ -49,24 +49,24 @@ choice /t 2 /d y /n >nul
 cd  ..
 cd  world
 echo Starting world...
-start "" PluginLoader_d.exe -x app_id=50 app_name=world_server cfg=Plugin.xml
+start "" PluginLoader_d.exe -x app_id=100 app_name=world_server cfg=Plugin.xml
 choice /t 5 /d y /n >nul
 
 cd  ..
 cd  login
 echo Starting login...
-start "" PluginLoader_d.exe -x app_id=52 app_name=login_server cfg=Plugin.xml
+start "" PluginLoader_d.exe -x app_id=102 app_name=login_server cfg=Plugin.xml
 choice /t 2 /d y /n >nul
 
 cd  ..
 cd  proxy
 echo Starting proxy...
-start "" PluginLoader_d.exe -x app_id=53 app_name=proxy_server cfg=Plugin.xml
+start "" PluginLoader_d.exe -x app_id=103 app_name=proxy_server cfg=Plugin.xml
 
 cd  ..
 cd  game
 echo Starting game...
-start "" PluginLoader_d.exe -x app_id=51 app_name=game_server cfg=Plugin.xml
+start "" PluginLoader_d.exe -x app_id=101 app_name=game_server cfg=Plugin.xml
 choice /t 4 /d y /n >nul
 
 echo All processes are launching...
