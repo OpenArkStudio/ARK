@@ -1,5 +1,4 @@
-![Server Architecture](https://raw.githubusercontent.com/ArkGame/ARK/master/Docs/asserts/imgs/ArkGameFrame.png)
-
+![Server Architecture](https://github.com/ArkGame/ARK/blob/master/Docs/asserts/imgs/arkgame.png?raw=true)
 
 ![GitHub release](https://img.shields.io/github/release/ArkGame/ARK.svg?style=flat-square)
 [![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat-square)](https://github.com/ArkGame/ARK)
@@ -13,10 +12,10 @@
 [![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 [![Gitter](https://img.shields.io/gitter/room/ArkGame/ARK.svg?style=flat-square)](https://gitter.im/ArkGame/Lobby)
 
-| Branch | Build Status |
-| - | - |
-| master | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=master)](https://travis-ci.org/ArkGame/ARK) |
-| develop | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=develop)](https://travis-ci.org/ArkGame/ARK) |
+| CI | Branch | Build Status |
+| - | - | - |
+| Travis CI | master | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=master)](https://travis-ci.org/ArkGame/ARK) |
+| Travis CI | develop | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=develop)](https://travis-ci.org/ArkGame/ARK) |
 
 **Copyright © [ARK Game](https://arkgame.net "ARK Game")**   
 Website: https://arkgame.net  
@@ -57,7 +56,7 @@ Please [create a new issue](https://github.com/ArkGame/ARK/issues) OR [visit our
 
 ### App Architecture:
 
-![App Architecture](https://raw.githubusercontent.com/ArkGame/ARK/master/Docs/asserts/imgs/AppArchitecture.png)
+![App Architecture](https://github.com/ArkGame/ARK/blob/master/Docs/asserts/imgs/AppArchitecture.png?raw=true)
 
 ## Get the Sources:
 

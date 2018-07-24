@@ -28,9 +28,15 @@ public:
     explicit AFCProcConfigModule(AFIPluginManager* p);
     virtual ~AFCProcConfigModule() = default;
 
+    virtual const std::string& GetProcName(const ARK_PROCESS_TYPE& type);
+    virtual const ARK_PROCESS_TYPE& GetProcType(const std::string& name);
+
+    virtual bool GetProcServerInfo(const ARK_PROCESS_TYPE& type, uint8_t inst_id, AFServerConfig& server_config);
+
 protected:
     bool LoadProcConfig();
+    uint16_t CalcProcPort(const ARK_PROCESS_TYPE& type, const uint8_t inst_id);
 
 private:
-
+    AFProcConfig mxProcConfig;
 };

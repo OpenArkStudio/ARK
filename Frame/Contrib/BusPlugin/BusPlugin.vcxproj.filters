@@ -6,11 +6,13 @@
     <ClCompile Include="AFCBusConfigModule.cpp" />
     <ClCompile Include="AFCBusModule.cpp" />
     <ClCompile Include="AFCProcModule.cpp" />
+    <ClCompile Include="AFCProcConfigModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFBusPlugin.h" />
     <ClInclude Include="AFCBusConfigModule.h" />
     <ClInclude Include="AFCBusModule.h" />
     <ClInclude Include="AFCProcModule.h" />
+    <ClInclude Include="AFCProcConfigModule.h" />
   </ItemGroup>
 </Project>

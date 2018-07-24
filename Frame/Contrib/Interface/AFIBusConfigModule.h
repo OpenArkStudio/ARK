@@ -21,30 +21,64 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
+#include "Server/Interface/AFApp.hpp"
 
 union AFBusAddr
 {
-    int _bus_id;
+    AFBusAddr() = default;
+
+    explicit AFBusAddr(const int id)
+    {
+        bus_id = id;
+    }
+
+    explicit AFBusAddr(const uint8_t c_id, const uint8_t z_id, const uint8_t p_id, const uint8_t i_id)
+    {
+        channel_id = c_id;
+        zone_id = z_id;
+        proc_id = p_id;
+        inst_id = i_id;
+    }
+
+    inline AFBusAddr& operator=(int rhs)
+    {
+        this->bus_id = rhs;
+        return *this;
+    }
+
+    int bus_id;
     struct
     {
-        uint8_t _channel_id;    //渠道id
-        uint8_t _zone_id;       //小区id
-        uint8_t _proc_id;       //进程id
-        uint8_t _inst_id;       //进程实例id
+        uint8_t channel_id;    //渠道id
+        uint8_t zone_id;       //小区id
+        uint8_t proc_id;       //进程id
+        uint8_t inst_id;       //进程实例id
     };
+};
+
+class AFBusRelation
+{
+public:
+    AFBusRelation() :
+        proc_type(ARK_PROC_NONE),
+        target_proc_type(ARK_PROC_NONE),
+        connection_type(ARK_CONNECTION_NONE)
+    {
+    }
+
+    ARK_PROCESS_TYPE proc_type;
+    ARK_PROCESS_TYPE target_proc_type;
+    ARK_CONNECTION_TYPE connection_type;
 };
 
 class AFIBusConfigModule : public AFIModule
 {
 public:
-    enum EConnectionType
-    {
-        EConnectionType_WAIT    = 0,//wait for high level server sync other service
-        EConnectionType_DIRECT  = 1,//connect target server directly
-    };
+    virtual bool GetBusRelation(const ARK_PROCESS_TYPE& type, const int& inst_id, std::string& host, int& port, const ARK_CONNECTION_TYPE& connect_type) = 0;
+    virtual bool GetBusServer(const ARK_PROCESS_TYPE& type, const int& inst_id, std::string& ip, int& port) = 0;
 
-    virtual bool GetBusRelation(const std::string& name, const int& id, std::string& server, int& port) = 0;
-    virtual bool GetBusServer(const std::string& name, const int& id, std::string& ip, int& port) = 0;
+    virtual const ARK_PROCESS_TYPE GetSelfProcType() = 0;
+    virtual const AFBusAddr GetSelfBusID() = 0;
 };
 
 //<!--

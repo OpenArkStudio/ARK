@@ -155,6 +155,7 @@ copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
     <ClCompile Include="AFBusPlugin.cpp" />
     <ClCompile Include="AFCBusConfigModule.cpp" />
     <ClCompile Include="AFCBusModule.cpp" />
+    <ClCompile Include="AFCProcConfigModule.cpp" />
     <ClCompile Include="AFCProcModule.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
@@ -169,6 +170,7 @@ copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
     <ClInclude Include="AFBusPlugin.h" />
     <ClInclude Include="AFCBusConfigModule.h" />
     <ClInclude Include="AFCBusModule.h" />
+    <ClInclude Include="AFCProcConfigModule.h" />
     <ClInclude Include="AFCProcModule.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

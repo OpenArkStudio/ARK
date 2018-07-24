@@ -21,6 +21,7 @@
 #pragma once
 
 #include "Contrib/Interface/AFIBusConfigModule.h"
+#include "Contrib/Interface/AFIProcConfigModule.h"
 
 class AFCBusConfigModule final : public AFIBusConfigModule
 {
@@ -30,8 +31,17 @@ public:
 
     virtual bool Init();
 
-    virtual bool GetBusRelation(const std::string& name, const int& id, std::string& server, int& port);
-    virtual bool GetBusServer(const std::string& name, const int& id, std::string& ip, int& port);
+    virtual bool GetBusRelation(const ARK_PROCESS_TYPE& target_type, const int& inst_id, std::string& host, int& port, ARK_CONNECTION_TYPE& connect_type);
+    virtual bool GetBusServer(std::string& ip, int& port);
+
+    virtual const ARK_PROCESS_TYPE GetSelfProcType();
+    virtual const AFBusAddr GetSelfBusID();
+
+protected:
+    bool LoadBusRelation();
 
 private:
+    std::map<ARK_PROCESS_TYPE, std::map<ARK_PROCESS_TYPE, ARK_CONNECTION_TYPE>> mxBusRelations;
+
+    AFIProcConfigModule* m_pProcConfigModule;
 };

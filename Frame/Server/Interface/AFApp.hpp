@@ -54,3 +54,10 @@ enum ARK_PROCESS_TYPE
 
     ARK_PROC_MAX            = 255,  //max of all processes
 };
+
+enum ARK_CONNECTION_TYPE
+{
+    ARK_CONNECTION_NONE     = 0,//none
+    ARK_CONNECTION_DIRECT   = 1,//connect target server directly
+    ARK_CONNECTION_WAIT     = 2,//wait for high level server sync other service
+};

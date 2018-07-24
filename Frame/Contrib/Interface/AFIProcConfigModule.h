@@ -21,10 +21,41 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
+#include "Server/Interface/AFApp.hpp"
+
+class AFHostConfig
+{
+public:
+    std::string private_ip;
+    std::vector<std::string> public_ips;
+};
+
+class AFServerConfig
+{
+public:
+    uint8_t inst_id;
+    int max_connection;
+    uint8_t thread_num;
+    std::string host;
+    uint16_t port;
+    //to add other fields
+};
+
+class AFProcConfig
+{
+public:
+    std::map<std::string, AFHostConfig> hosts;
+    std::map<std::string, ARK_PROCESS_TYPE> server_types;
+    std::map<ARK_PROCESS_TYPE, std::string> server_names;
+    std::map<ARK_PROCESS_TYPE, std::vector<AFServerConfig>> servers;
+};
 
 class AFIProcConfigModule : public AFIModule
 {
 public:
     virtual ~AFIProcConfigModule() = default;
 
+    virtual const std::string& GetProcName(const ARK_PROCESS_TYPE& type) = 0;
+    virtual const ARK_PROCESS_TYPE& GetProcType(const std::string& name) = 0;
+    virtual bool GetProcServerInfo(const ARK_PROCESS_TYPE& type, uint8_t inst_id, AFServerConfig& server_config) = 0;
 };
