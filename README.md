@@ -25,10 +25,10 @@ QQ群: [540961187](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a
 
 ##### Wanna get the newest features? Please switch to the develop branch.
 
-**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ARK/blob/master/PULL_REQUEST_TEMPLATE.md)</font>**.
+**<font color=red>If you wanna commit PR or report issue, please refer to [Contribution Guide](https://github.com/ArkGame/ARK/blob/master/.github/CONTRIBUTING.md)</font>**.
 
 ## ARK
-ARK is a lightweight, agility, scalable, distributed plugin framework written by C++，make it easier and faster to create your own game server, can be used to develop MMO RPG, ARPG, Round play, chess games. Inspired by UnrealEngine and Ogre.
+ARK is a lightweight, agility, scalable, distributed plugin framework written by C++，make it easier and faster to create your own game server, can be used to develop MMO RPG, Action RPG, Round play, chess games. Inspired by UnrealEngine and Ogre.
 
 ## Features
 
