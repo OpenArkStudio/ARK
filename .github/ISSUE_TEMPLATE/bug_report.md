@@ -1,15 +1,34 @@
 Please fill this template when you are creating an issue.
 
-### 1. Branch or tag or release
+## Branch or tag or release
 
-### 2. Arch(x86 or x64)
+- branch: [e.g. develop]
+- tag: [e.g. 0.8.0]
 
-### 3. OS Platform(Windows or linux with version)
+## Arc h(x86 or x64)
 
-### 4. Issue content
+- Arch: [e.g. amd64]
 
-### 5. Expected behavior
+## Desktop (Windows or linux with version)
 
-### 6. Actual behavior
+- OS: [e.g. Windows 10]
 
-### 7. Steps to reproduce the problem
+## To Reproduce
+1. do something
+2. do something
+3. ...
+
+## Expected behavior
+
+A clear and concise description of what you expected to happen.
+
+## Actual behavior
+
+A clear and concise description of what really happened.
+
+## Screenshots
+If you have screenshots, please upload in here.
+
+## Additional context
+
+Add any other context about the problem here.
