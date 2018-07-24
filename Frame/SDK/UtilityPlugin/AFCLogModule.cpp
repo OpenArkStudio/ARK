@@ -54,9 +54,9 @@ void AFCLogModule::CreateLogger()
     std::vector<spdlog::sink_ptr> sinks_vec;
     std::string log_name;
 #if ARK_PLATFORM == PLATFORM_WIN
-    log_name = ARK_FORMAT("..\\log\\{}.log", pPluginManager->AppName());
+    log_name = ARK_FORMAT("..\\binlog\\{}.log", pPluginManager->AppName());
 #else
-    log_name = ARK_FORMAT("../log/{}.log", pPluginManager->AppName());
+    log_name = ARK_FORMAT("../binlog/{}.log", pPluginManager->AppName());
 #endif
 
     auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
@@ -138,9 +138,9 @@ void AFCDynamicLogModule::CreateLogger(const int id, const char* name)
     std::vector<spdlog::sink_ptr> sinks_vec;
     std::string log_name;
 #if ARK_PLATFORM == PLATFORM_WIN
-    log_name = fmt::format("..\\log\\{}\\{}.log", id, name);
+    log_name = fmt::format("..\\binlog\\{}\\{}.log", id, name);
 #else
-    log_name = fmt::format("../log/{}/{}.log", id, name);
+    log_name = fmt::format("../binlog/{}/{}.log", id, name);
 #endif
 
     auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);

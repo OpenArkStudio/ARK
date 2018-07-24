@@ -1,0 +1,12 @@
+<XML>
+	<Plugin Name="AFKernelPlugin" Main="1"/>
+	<Plugin Name="AFUtilityPlugin" Main="1"/>
+	<Plugin Name="AFProxyLogicPlugin" Main="1"/>
+	<Plugin Name="AFProxyNetClientPlugin" Main="1"/>
+	<Plugin Name="AFProxyNetServerPlugin" Main="1"/>
+	
+	
+	<ActorDataModule Name="NFCDataProcessModule" />
+	<APPID Name="5" />
+    <ConfigPath Name="../" />
+</XML>

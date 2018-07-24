@@ -1,8 +1,0 @@
-<XML>
-	<Plugin Name="AFKernelPlugin" Main="1"/>
-	<Plugin Name="AFUtilityPlugin" Main="1"/>
-	<Plugin Name="Example2Plugin" Main="1"/>
-	
-	<APPID Name="222" />
-	<ConfigPath Name="../../../Server/" />
-</XML>

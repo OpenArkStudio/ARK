@@ -1,0 +1,9 @@
+<XML>
+	<Plugin Name="AFKernelPlugin" Main="1"/>
+	<Plugin Name="AFUtilityPlugin" Main="1"/>
+	<Plugin Name="AFMasterLogicPlugin" Main="1"/>
+	<Plugin Name="AFMasterNetServerPlugin" Main="1"/>
+	
+	<APPID Name="3" />
+    <ConfigPath Name="../" />
+</XML>

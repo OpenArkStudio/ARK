@@ -13,7 +13,7 @@ namespace FileProcessor
 {
     class Program
     {
-        static string strBasePath = "DataConfig/";
+        static string strBasePath = "resource/";
         static string strExcelPath = "Excel/";
         static string strStructPath = "Struct/Class/";
         static string strResPath = "Res/";

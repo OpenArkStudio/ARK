@@ -28,8 +28,8 @@ include_directories(
     ${ROOT_DIR}
     ${ROOT_DIR}/Dep
     ${ROOT_DIR}/Dep/protobuf/src
-    ${ROOT_DIR}/Frame
     ${ROOT_DIR}/Dep/brynet/src
+    ${ROOT_DIR}/Frame
 )
 
 if(UNIX)

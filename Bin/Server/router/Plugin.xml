@@ -1,0 +1,10 @@
+<XML>
+	<Plugin Name="AFKernelPlugin" Main="1"/>
+    <Plugin Name="AFUtilityPlugin" Main="1"/>
+    <Plugin Name="AFGameLogicPlugin" Main="1"/>
+    <Plugin Name="AFGameNetServerPlugin" Main="1"/>
+	<Plugin Name="AFGameNetClientPlugin" Main="1"/>
+	
+	<APPID Name="6" />
+    <ConfigPath Name="../" />
+</XML>

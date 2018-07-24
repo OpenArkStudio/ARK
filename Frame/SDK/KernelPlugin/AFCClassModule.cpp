@@ -39,7 +39,7 @@ bool AFCClassModule::Init()
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-    msConfigFileName = "DataConfig/Struct/LogicClass.xml";
+    msConfigFileName = "resource/Struct/LogicClass.xml";
     ARK_LOG_INFO("Using file [{}]", msConfigFileName);
 
     bool bRet = Load();

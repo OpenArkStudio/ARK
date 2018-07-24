@@ -78,3 +78,5 @@
 /Src/*.db
 /Frame/*.db
 /Frame/*
+/Dep/brynet
+/Dep/protobuf
