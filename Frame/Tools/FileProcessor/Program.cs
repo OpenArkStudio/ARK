@@ -14,13 +14,13 @@ namespace FileProcessor
     class Program
     {
         static string strBasePath = "resource/";
-        static string strExcelPath = "Excel/";
-        static string strStructPath = "Struct/Class/";
-        static string strResPath = "Res/";
-        static string strClientResPath = "Client/";
+        static string strExcelPath = "excel/";
+        static string strStructPath = "struct/class/";
+        static string strResPath = "res/";
+        static string strClientResPath = "client/";
         static string strToolBasePath = "../";
 
-        static string strLogiClassFile = "../Struct/LogicClass.xml";
+        static string strLogiClassFile = "../struct/LogicClass.xml";
 
         static string strCPPFile = "../proto/ARKDataDefine.hpp";
         static string strCSFile = "../proto/ARKDataDefine.cs";
