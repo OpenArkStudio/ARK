@@ -63,14 +63,12 @@ int AFCClassModule::ComputerType(const char* pstrTypeName, AFIData& var)
         var.SetBool(NULL_BOOLEAN);
         return var.GetType();
     }
-
-    if (0 == ARK_STRICMP(pstrTypeName, "int"))
+    else if (0 == ARK_STRICMP(pstrTypeName, "int"))
     {
         var.SetInt(NULL_INT);
         return var.GetType();
     }
-
-    if (0 == ARK_STRICMP(pstrTypeName, "int64"))
+    else if (0 == ARK_STRICMP(pstrTypeName, "int64"))
     {
         var.SetInt64(NULL_INT64);
         return var.GetType();
@@ -412,8 +410,7 @@ bool AFCClassModule::InitDataTableManager(const std::string& strClassName, ARK_S
         return false;
     }
 
-    int staticTableCount = pStaticClassTableManager->GetCount();
-
+    size_t staticTableCount = pStaticClassTableManager->GetCount();
     for (size_t i = 0; i < staticTableCount; ++i)
     {
         AFDataTable* pStaticTable = pStaticClassTableManager->GetTableByIndex(i);
