@@ -92,7 +92,7 @@ public:
         {
             for (auto it : iter.second)
             {
-                ARK_DELETE(it.second);
+                ARK_DEALLOC(it.second);
             }
         }
 

@@ -194,7 +194,7 @@ public:
 
         if (!pCron->Parse(cron_expression))
         {
-            ARK_DELETE(pCron);
+            ARK_DEALLOC(pCron);
             return false;
         }
 
