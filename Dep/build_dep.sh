@@ -17,7 +17,7 @@ fi
 git clone -b 3.5.x https://github.com/google/protobuf.git --depth 1
 cd protobuf/cmake
 mkdir build && cd build
-cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF ..
+cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -DCMAKE_BUILD_BUILD_TYPE=release -Dprotobuf_BUILD_TESTS=OFF ..
 make -j 8
 cp -R -f *.so* ../../../lib/Debug
 cp -R -f *.so* ../../../lib/Release
@@ -41,7 +41,7 @@ cd brynet
 chmod -R 755 *
 mkdir build
 cd build
-cmake -G "Unix Makefiles"  ..
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_BUILD_TYPE=release ..
 make -j 8
 cp -R -f lib/*.a ../../lib/Debug
 cp -R -f lib/*.a ../../lib/Release

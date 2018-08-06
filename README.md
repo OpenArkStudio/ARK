@@ -1,7 +1,7 @@
 ![Server Architecture](https://github.com/ArkGame/ARK/blob/master/Docs/asserts/imgs/arkgame.png?raw=true)
 
 ![GitHub release](https://img.shields.io/github/release/ArkGame/ARK.svg?style=flat-square)
-[![Platform](https://img.shields.io/badge/platform-Linux,%20Windows-green.svg?style=flat-square)](https://github.com/ArkGame/ARK)
+[![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows-green.svg?style=flat-square)](https://github.com/ArkGame/ARK)
 [![C++11](https://img.shields.io/badge/C++-11-4c7e9f.svg?style=flat-square)](https://github.com/ArkGame/ARK)
 [![License](https://img.shields.io/github/license/ArkGame/ARK.svg?colorB=f48041&style=flat-square)](https://opensource.org/licenses/Apache-2.0)
 ![GitHub stars](https://img.shields.io/github/stars/ArkGame/ARK.svg?style=flat-square&label=Stars)
@@ -20,7 +20,7 @@
 **Copyright © [ARK Game](https://arkgame.net "ARK Game")**   
 Website: https://arkgame.net  
 Github: https://github.com/ArkGame/ARK  
-Gitee(码云): https://gitee.com/ArkGame/ARK  
+Gitee: https://gitee.com/ArkGame/ARK  
 QQ群: [540961187](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 
 ##### Wanna get the newest features? Please switch to the develop branch.
