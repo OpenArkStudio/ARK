@@ -45,6 +45,7 @@ cd brynet
 chmod -R 755 *
 mkdir build && cd build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
+make -j 8
 cp -R -f lib/*.a ../../lib/Debug
 
 rm -rf ./*
