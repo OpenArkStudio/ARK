@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -39,7 +39,7 @@ bool AFCClassModule::Init()
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-    msConfigFileName = "resource/Struct/LogicClass.xml";
+    msConfigFileName = "resource/struct/LogicClass.xml";
     ARK_LOG_INFO("Using file [{}]", msConfigFileName);
 
     bool bRet = Load();
