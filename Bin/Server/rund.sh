@@ -30,10 +30,10 @@ cp -a ../../Bin/Comm/Debug/AFUtilityPlugin*d.so proxy/
 cp -a ../../Bin/Comm/Debug/AFUtilityPlugin*d.so game/
 
 echo Copy self dlls
-cp -a ../../Bin/Comm/Debug/AFLogin*d.so		master/
-cp -a ../../Bin/Comm/Debug/AFMaster*d.so 	world/
-cp -a ../../Bin/Comm/Debug/AFProxy*d.so		login/
-cp -a ../../Bin/Comm/Debug/AFWorld*d.so		proxy/
+cp -a ../../Bin/Comm/Debug/AFMaster*d.so 	master/
+cp -a ../../Bin/Comm/Debug/AFWorld*d.so		world/
+cp -a ../../Bin/Comm/Debug/AFLogin*d.so		login/
+cp -a ../../Bin/Comm/Debug/AFProxy*d.so		proxy/
 cp -a ../../Bin/Comm/Debug/AFGame*d.so		game/
 
 export LC_ALL="C"
