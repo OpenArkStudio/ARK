@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -316,9 +316,7 @@ bool ProcArgList(int argc, char* argv[])
 
     if (config.deamon)
     {
-        //Run as a daemon process
-        signal(SIGPIPE, SIG_IGN);
-        signal(SIGCHLD, SIG_IGN);
+        InitDaemon();
     }
 
 #endif
