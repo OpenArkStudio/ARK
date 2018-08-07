@@ -5,12 +5,6 @@ list(REMOVE_ITEM AFNet_SRC ${RemoveItems})
 
 add_library(AFNet STATIC ${AFNet_SRC})
 
-#if(UNIX)
-#    include_directories(${ROOT_DIR}/Dep/glog/src/)    
-#else()
-#    include_directories(${ROOT_DIR}/Dep/glog/src/windows)
-#endif()
-
 set_target_properties(AFNet PROPERTIES PREFIX "")
 set_target_properties(AFNet PROPERTIES OUTPUT_NAME_DEBUG "AFNet_d")
 set_target_properties(AFNet PROPERTIES
@@ -21,8 +15,8 @@ set_target_properties(AFNet PROPERTIES
 )
 
 if(UNIX)
-    target_link_libraries(AFNet protobuf brynet.so)
+    target_link_libraries(AFNet brynet.a)
 else()
-    target_link_libraries(AFNet protobuf brynet.so)
+    target_link_libraries(AFNet brynet)
     add_definitions(-D_LIB -DWIN32 -DWIN)
 endif()

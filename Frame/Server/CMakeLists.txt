@@ -1,26 +1,22 @@
 if(UNIX)
     add_definitions(
-        -DELPP_NO_DEFAULT_LOG_FILE)
+        -DPROTOBUF_USE_DLLS)
 else()
     add_definitions(
         -D_USRDLL
-        -D_LIB
-        -DELPP_NO_DEFAULT_LOG_FILE
+        -D_LIB=
         -DPROTOBUF_USE_DLLS)
 endif()
-
-if(unix)
-    include_directories(${ROOT_DIR}/Dep/glog/src/)    
-else()
-    include_directories(${ROOT_DIR}/Dep/glog/src/windows)
-endif()
-
 
 ########################################################################
 macro(LINK_SDK_MACRO project_name)
 add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFUtilityPlugin AFProto)
 if(UNIX)
-    target_link_libraries(${project_name} AFKernelPlugin AFUtilityPlugin AFCore AFNet AFProto protobuf brynet.so)
+	if(CMAKE_BUILD_TYPE MATCHES "Debug") 
+		target_link_libraries(${project_name} AFKernelPlugin AFUtilityPlugin AFCore AFNet AFProto protobufd brynet dl)
+	else
+		target_link_libraries(${project_name} AFKernelPlugin AFUtilityPlugin AFCore AFNet AFProto protobufd brynet dl)
+	endif
 else(UNIX)
     target_link_libraries(${project_name} 
         debug brynet.lib

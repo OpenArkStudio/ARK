@@ -1,10 +1,14 @@
 file(GLOB PluginLoader_SRC *.h *.hpp *.cpp *.cc *.c)
 
-add_definitions(-DELPP_NO_DEFAULT_LOG_FILE)
+
+add_definitions(
+    -D_CONSOLE
+    -DAF_DYNAMIC_PLUGIN)
+	
 add_executable(PluginLoader ${PluginLoader_SRC})
 
 if(UNIX)
-    target_link_libraries(PluginLoader AFCore AFNet)
+    target_link_libraries(PluginLoader AFCore AFNet pthread dl)
 else(UNIX)
     target_link_libraries(PluginLoader
         debug AFCore_d.lib
@@ -20,14 +24,3 @@ set_target_properties(PluginLoader PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR}
     LIBRARY_OUTPUT_DIRECTORY ${SDK_OUTPUT_DIR})
-
-if(UNIX)
-target_link_libraries(PluginLoader dl pthread)
-else()
-target_link_libraries(PluginLoader)
-endif()
-
-add_definitions(
-    -D_CONSOLE
-    -DAF_DYNAMIC_PLUGIN
-    -DELPP_NO_DEFAULT_LOG_FILE)
