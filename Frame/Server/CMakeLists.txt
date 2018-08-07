@@ -14,9 +14,9 @@ add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFUtilityPlugin AFP
 if(UNIX)
 	if(CMAKE_BUILD_TYPE MATCHES "Debug") 
 		target_link_libraries(${project_name} AFKernelPlugin AFUtilityPlugin AFCore AFNet AFProto protobufd brynet dl)
-	else
-		target_link_libraries(${project_name} AFKernelPlugin AFUtilityPlugin AFCore AFNet AFProto protobufd brynet dl)
-	endif
+	else()
+		target_link_libraries(${project_name} AFKernelPlugin AFUtilityPlugin AFCore AFNet AFProto protobuf brynet dl)
+	endif()
 else(UNIX)
     target_link_libraries(${project_name} 
         debug brynet.lib
