@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -50,10 +50,10 @@ union AFBusAddr
     int bus_id;
     struct
     {
-        uint8_t channel_id;    //ÇşµÀid
-        uint8_t zone_id;       //Ğ¡Çøid
-        uint8_t proc_id;       //½ø³Ìid
-        uint8_t inst_id;       //½ø³ÌÊµÀıid
+        uint8_t channel_id;    //æ¸ é“id
+        uint8_t zone_id;       //å°åŒºid
+        uint8_t proc_id;       //è¿›ç¨‹id
+        uint8_t inst_id;       //è¿›ç¨‹å®ä¾‹id
     };
 };
 
@@ -75,7 +75,7 @@ public:
 class AFIBusConfigModule : public AFIModule
 {
 public:
-    virtual bool GetBusRelation(const ARK_PROCESS_TYPE& target_type, const int& inst_id, ARK_CONNECTION_TYPE& connect_type, AFHostConfig& host_config) = 0;
+    virtual bool GetBusRelation(const ARK_PROCESS_TYPE& target_type, const uint8_t& inst_id, ARK_CONNECTION_TYPE& connect_type, AFHostConfig& host_config) = 0;
     virtual bool GetBusServer(const ARK_PROCESS_TYPE& type, const uint8_t inst_id, AFHostConfig& host_config) = 0;
 
     virtual const ARK_PROCESS_TYPE GetSelfProcType() = 0;
@@ -97,7 +97,7 @@ public:
 //
 //
 //    web tool->web server ====ws====> config_tool->config_agent  version
-//    ÍâÍø          ÄÚÍø                    ÔËÎ¬Íø         ÔËÎ¬Íø
+//    å¤–ç½‘          å†…ç½‘                    è¿ç»´ç½‘         è¿ç»´ç½‘
 //    ||
 //    ||==== > platform->project_idip
 //    game1 game.pid.9.1.1.1->yyyy

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -31,7 +31,7 @@ public:
 
     virtual bool Init();
 
-    virtual bool GetBusRelation(const ARK_PROCESS_TYPE& target_type, const int& inst_id, ARK_CONNECTION_TYPE& connect_type, AFHostConfig& host_config);
+    virtual bool GetBusRelation(const ARK_PROCESS_TYPE& target_type, const uint8_t& inst_id, ARK_CONNECTION_TYPE& connect_type, AFHostConfig& host_config);
     virtual bool GetBusServer(const ARK_PROCESS_TYPE& type, const uint8_t inst_id, AFHostConfig& host_config);
 
     virtual const ARK_PROCESS_TYPE GetSelfProcType();

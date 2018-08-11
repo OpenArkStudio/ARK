@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -36,6 +36,7 @@ public:
     {
         pPluginManager = p;
     }
+
     virtual bool Init();
     virtual bool Update();
     virtual bool PostInit();

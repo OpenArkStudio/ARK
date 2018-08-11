@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -105,6 +105,16 @@ bool AFCGameServerToWorldModule::PostInit()
     m_pNetClientModule->AddEventCallBack(this, &AFCGameServerToWorldModule::OnSocketWSEvent);
 
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCGameServerToWorldModule::OnObjectClassEvent);
+
+    //////////////////////////////////////////////////////////////////////////
+    //TODO:连接上层服务器
+    //if (!GetTargetBusRelation())
+    //{
+    //    return false;
+    //}
+
+    //AddServer
+    //////////////////////////////////////////////////////////////////////////
 
     // 连接world server
     ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -83,7 +83,7 @@ bool AFCBusConfigModule::LoadBusRelation()
     return true;
 }
 
-bool AFCBusConfigModule::GetBusRelation(const ARK_PROCESS_TYPE& target_type, const int& target_inst_id, ARK_CONNECTION_TYPE& connect_type, AFHostConfig& host_config)
+bool AFCBusConfigModule::GetBusRelation(const ARK_PROCESS_TYPE& target_type, const uint8_t& target_inst_id, ARK_CONNECTION_TYPE& connect_type, AFHostConfig& host_config)
 {
     const ARK_PROCESS_TYPE& type = GetSelfProcType();
     auto iter = mxBusRelations.find(type);
