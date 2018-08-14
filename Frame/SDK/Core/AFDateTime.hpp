@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -731,7 +731,7 @@ public:
     static int GetTimestamp()
     {
         AFDateTime now;
-        return now.GetTime();
+        return (int)now.GetTime();
     }
 
     static TimeDiff Resolution()

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -219,33 +219,7 @@ void AFCPluginManager::RemoveModule(const std::string& strModuleName)
 
 AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
 {
-    std::string strSubModuleName = strModuleName;
-
-#if ARK_PLATFORM == PLATFORM_WIN
-    std::size_t position = strSubModuleName.find(" ");
-
-    if (string::npos != position)
-    {
-        strSubModuleName = strSubModuleName.substr(position + 1, strSubModuleName.length());
-    }
-
-#else
-
-    for (int i = 0; i < strSubModuleName.length(); i++)
-    {
-        std::string s = strSubModuleName.substr(0, i + 1);
-        int n = atof(s.c_str());
-
-        if (strSubModuleName.length() == i + 1 + n)
-        {
-            strSubModuleName = strSubModuleName.substr(i + 1, strSubModuleName.length());
-            break;
-        }
-    }
-
-#endif
-
-    return mxModuleInstanceMap.GetElement(strSubModuleName);
+    return mxModuleInstanceMap.GetElement(strModuleName);
 }
 
 bool AFCPluginManager::PostInit()

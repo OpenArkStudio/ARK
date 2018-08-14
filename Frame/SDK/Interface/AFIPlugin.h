@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -30,15 +30,14 @@
     assert((std::is_base_of<AFIModule, classBaseName>::value));         \
     assert((std::is_base_of<classBaseName, className>::value));         \
     AFIModule* pRegisterModule##className = new className(pManager);    \
-    pRegisterModule##className->strName = (#className);                 \
-    pManager->AddModule(#classBaseName, pRegisterModule##className);    \
-    mxModules.AddElement(#classBaseName, pRegisterModule##className);
+    pRegisterModule##className->strName = typeid(classBaseName).name(); \
+    pManager->AddModule(typeid(classBaseName).name(), pRegisterModule##className);    \
+    mxModules.AddElement(typeid(classBaseName).name(), pRegisterModule##className);
 
 #define UNREGISTER_MODULE(pManager, classBaseName, className)           \
-    AFIModule* pUnRegisterModule##className =                           \
-    dynamic_cast<AFIModule*>(pManager->FindModule(#classBaseName));     \
-    pManager->RemoveModule(#classBaseName);                             \
-    mxModules.RemoveElement(#classBaseName);                            \
+    AFIModule* pUnRegisterModule##className = dynamic_cast<AFIModule*>(pManager->FindModule(typeid(classBaseName).name()));     \
+    pManager->RemoveModule(typeid(classBaseName).name());               \
+    mxModules.RemoveElement(typeid(classBaseName).name());              \
     delete pUnRegisterModule##className;                                \
     pUnRegisterModule##className = NULL;                                \
 
