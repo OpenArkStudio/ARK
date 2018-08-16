@@ -32,12 +32,17 @@
     AFIModule* pRegisterModule##className = new className(pManager);    \
     pRegisterModule##className->strName = typeid(classBaseName).name(); \
     pManager->AddModule(typeid(classBaseName).name(), pRegisterModule##className);    \
-    mxModules.AddElement(typeid(classBaseName).name(), pRegisterModule##className);
+    mxModules.AddElement(typeid(classBaseName).name(), pRegisterModule##className);	\
+	if((&className::Update != &AFIModule::Update))									\
+	{																				\
+		mxModulesUpdate.AddElement(typeid(classBaseName).name(), pRegisterModule##className);\
+	}
 
 #define UNREGISTER_MODULE(pManager, classBaseName, className)           \
     AFIModule* pUnRegisterModule##className = dynamic_cast<AFIModule*>(pManager->FindModule(typeid(classBaseName).name()));     \
     pManager->RemoveModule(typeid(classBaseName).name());               \
     mxModules.RemoveElement(typeid(classBaseName).name());              \
+    mxModulesUpdate.RemoveElement(typeid(classBaseName).name());		\
     delete pUnRegisterModule##className;                                \
     pUnRegisterModule##className = NULL;                                \
 
@@ -104,7 +109,7 @@ public:
 
     virtual bool Update()
     {
-        for (AFIModule* pModule = mxModules.First(); pModule != nullptr; pModule = mxModules.Next())
+        for (AFIModule* pModule = mxModulesUpdate.First(); pModule != nullptr; pModule = mxModulesUpdate.Next())
         {
             pModule->Update();
         }
@@ -138,5 +143,6 @@ public:
 
 protected:
     //All registered modules
-    AFMap<std::string, AFIModule> mxModules;
+	AFMap<std::string, AFIModule> mxModules;
+	AFMap<std::string, AFIModule> mxModulesUpdate;
 };
