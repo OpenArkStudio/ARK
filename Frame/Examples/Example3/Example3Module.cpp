@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -40,7 +40,7 @@ int Example3Module::OnEvent(const AFGUID& self, const int event, const AFIDataLi
 
 int Example3Module::OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const int64_t nTime, const int nCount)
 {
-    int64_t unNowTime = AFDateTime::GetTimestamp();
+    int64_t unNowTime = AFDateTime::GetNowTime();
     std::cout << "strHeartBeat: " << nTime << " Count: " << nCount << "  TimeDis: " << unNowTime - mLastTime << std::endl;
 
     mLastTime = unNowTime;

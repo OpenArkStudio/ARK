@@ -102,9 +102,29 @@ void TestRandom()
     }
 }
 
+void testtime()
+{
+    AFDateTime time;
+    for (int i = 0; i < 10; ++i)
+    {
+        std::cout << "111   GetTickCount64 = " << GetTickCount64() << std::endl;
+        time.update();
+        std::cout << "DateTime = " << time.GetMilliseconds() << std::endl;
+        std::cout << "222   GetTickCount64 = " << GetTickCount64() << std::endl;
+    }
+}
+
 bool Example1Module::PostInit()
 {
     std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
+
+    //testtime();
+
+    //std::cout << "333 GetTickCount64 = " << GetTickCount64() << std::endl;
+
+    //std::cout << "sleep1 GetTickCount64 = " << GetTickCount64() << std::endl;
+    //Sleep(200);
+    //std::cout << "sleep2 GetTickCount64 = " << GetTickCount64() << std::endl;
 
     m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
@@ -139,12 +159,12 @@ bool Example1Module::PostInit()
     //TestRandom();
     //////////////////////////////////////////////////////////////////////////
     //Test log
-    for (int i = 0; i < 1; ++i)
-    {
-        ARK_LOG_INFO("This is a test log");
-    }
+    //for (int i = 0; i < 1; ++i)
+    //{
+    //    ARK_LOG_INFO("This is a test log");
+    //}
 
-    ARK_DYNAMIC_LOG_DEBUG(1001, "game", "this is a dynamic log test");
+    //ARK_DYNAMIC_LOG_DEBUG(1001, "game", "this is a dynamic log test");
 
     //////////////////////////////////////////////////////////////////////////
     //test cron expression
@@ -162,10 +182,16 @@ bool Example1Module::PostInit()
     //}
     //////////////////////////////////////////////////////////////////////////
 
-    //std::cout << pPluginManager->GetNowTime() << std::endl;
+    std::cout << AFDateTime::GetNowTime() << std::endl;
 
-    //m_pTimerModule->AddSingleTimer("test", test_id, 10 * 1000/*ms*/, 2, this, &Example1Module::TestTimer);
+    m_pTimerModule->AddSingleTimer("test", test_id, 100/*ms*/, 10, this, &Example1Module::TestTimer);
 
+    return true;
+}
+
+bool Example1Module::Update()
+{
+    m_pTimerModule->Update();
     return true;
 }
 
@@ -183,7 +209,7 @@ bool Example1Module::Shut()
 
 void Example1Module::TestTimer(const std::string& name, const AFGUID& entity_id)
 {
-    std::cout << pPluginManager->GetNowTime() << std::endl;
+    std::cout << AFDateTime::GetNowTime() << std::endl;
     std::cout << "Test Timer: " << name << " id = " << entity_id.ToString() << std::endl;
 }
 

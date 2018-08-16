@@ -6,4 +6,10 @@
     <LocalDebuggerCommand>$(SolutionDir)..\Bin\Examples\Example1\PluginLoader_d.exe</LocalDebuggerCommand>
     <LocalDebuggerCommandArguments>-d -x cfg=Plugin.xml app_id=1 app_name="Example1"</LocalDebuggerCommandArguments>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommand>$(SolutionDir)..\Bin\Examples\Example1\PluginLoader.exe</LocalDebuggerCommand>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+    <LocalDebuggerCommandArguments>-d -x cfg=Plugin.xml app_id=1 app_name="Example1"</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\Examples\Example1\</LocalDebuggerWorkingDirectory>
+  </PropertyGroup>
 </Project>

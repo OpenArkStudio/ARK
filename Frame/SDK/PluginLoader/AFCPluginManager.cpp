@@ -35,7 +35,7 @@
 AFCPluginManager::AFCPluginManager() : AFIPluginManager()
 {
     mnAppID = 0;
-    mnInitTime = AFDateTime::GetTimestamp();
+    mnInitTime = AFDateTime::GetNowTime();
     mnNowTime = mnInitTime;
 
     mstrConfigPath = "";
@@ -254,7 +254,7 @@ bool AFCPluginManager::PreUpdate()
 
 bool AFCPluginManager::Update()
 {
-    mnNowTime = AFDateTime::GetTimestamp();
+    mnNowTime = AFDateTime::GetNowTime();
 
     for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
     {
