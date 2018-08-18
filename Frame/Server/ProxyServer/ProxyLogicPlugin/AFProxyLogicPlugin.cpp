@@ -41,13 +41,11 @@ const std::string AFProxyLogicPlugin::GetPluginName()
 
 void AFProxyLogicPlugin::Install()
 {
-
-    REGISTER_MODULE(pPluginManager, AFIProxyLogicModule, AFCProxyLogicModule)
-
+    RegisterModule<AFIProxyLogicModule, AFCProxyLogicModule>();
 }
 
 void AFProxyLogicPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIProxyLogicModule, AFCProxyLogicModule)
+    UnRegisterModule<AFIProxyLogicModule, AFCProxyLogicModule>();
 }
 

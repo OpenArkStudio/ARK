@@ -42,12 +42,11 @@ const std::string AFLoginLogicPlugin::GetPluginName()
 void AFLoginLogicPlugin::Install()
 {
 
-    REGISTER_MODULE(pPluginManager, AFILoginLogicModule, AFCLoginLogicModule)
-
+    RegisterModule< AFILoginLogicModule, AFCLoginLogicModule>();
 }
 
 void AFLoginLogicPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFILoginLogicModule, AFCLoginLogicModule)
+    UnRegisterModule<AFILoginLogicModule, AFCLoginLogicModule>();
 }
 

@@ -29,13 +29,13 @@ ARK_EXPORT void DllStartPlugin(AFIPluginManager* pPluginManager)    \
 {                                                                   \
     AFMemAlloc::InitPool();                                         \
     AFMemAlloc::Start();                                            \
-    CREATE_PLUGIN(pPluginManager, plugin_name)                      \
+    pPluginManager->Registered<plugin_name>();					\
 }
 
 #define ARK_DLL_PLUGIN_EXIT(plugin_name)                            \
 ARK_EXPORT void DllStopPlugin(AFIPluginManager* pPluginManager)     \
 {                                                                   \
-    DESTROY_PLUGIN(pPluginManager, plugin_name)                     \
+    pPluginManager->UnRegistered<plugin_name>();                      \
 }
 
 class AFIPluginManager : public AFIModule
@@ -67,6 +67,20 @@ public:
         ARK_ASSERT_NO_EFFECT(0);
         return nullptr;
     }
+
+
+	template<typename className>
+	void Registered()
+	{
+		AFIPlugin* pCreatePluginclassName = new className(this);
+		Registered(pCreatePluginclassName);
+	}
+
+	template<typename className>
+	void UnRegistered()
+	{
+		UnRegistered(FindPlugin(typeid(className).name()));
+	}
 
     virtual void Registered(AFIPlugin* plugin) = 0;
 

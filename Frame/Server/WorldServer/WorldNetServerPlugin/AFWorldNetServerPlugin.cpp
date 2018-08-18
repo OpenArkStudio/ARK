@@ -41,10 +41,10 @@ const std::string AFWorldNetServerPlugin::GetPluginName()
 
 void AFWorldNetServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFIWorldNetServerModule, AFCWorldNetServerModule)
+    RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
 }
 
 void AFWorldNetServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIWorldNetServerModule, AFCWorldNetServerModule)
+    UnRegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
 }

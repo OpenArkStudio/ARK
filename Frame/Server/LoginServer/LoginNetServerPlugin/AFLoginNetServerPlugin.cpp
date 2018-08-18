@@ -42,10 +42,10 @@ const std::string AFLoginNetServerPlugin::GetPluginName()
 
 void AFLoginNetServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFILoginNetServerModule, AFCLoginNetServerModule)
+    RegisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
 }
 
 void AFLoginNetServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFILoginNetServerModule, AFCLoginNetServerModule)
+    UnRegisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
 }

@@ -42,11 +42,10 @@ const std::string AFGameNetClientPlugin::GetPluginName()
 
 void AFGameNetClientPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFIGameServerToWorldModule, AFCGameServerToWorldModule)
-
+    RegisterModule<AFIGameServerToWorldModule, AFCGameServerToWorldModule>();
 }
 
 void AFGameNetClientPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIGameServerToWorldModule, AFCGameServerToWorldModule)
+    UnRegisterModule<AFIGameServerToWorldModule, AFCGameServerToWorldModule>();
 }

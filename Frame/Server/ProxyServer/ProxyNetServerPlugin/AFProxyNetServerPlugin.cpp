@@ -41,11 +41,10 @@ const std::string AFProxyNetServerPlugin::GetPluginName()
 
 void AFProxyNetServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFIProxyNetServerModule, AFCProxyNetServerModule)
-
+    RegisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
 }
 
 void AFProxyNetServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIProxyNetServerModule, AFCProxyNetServerModule)
+    UnRegisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
 }

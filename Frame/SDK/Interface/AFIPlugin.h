@@ -26,43 +26,7 @@
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-#define REGISTER_MODULE(pManager, classBaseName, className)             \
-    assert((std::is_base_of<AFIModule, classBaseName>::value));         \
-    assert((std::is_base_of<classBaseName, className>::value));         \
-    AFIModule* pRegisterModule##className = new className(pManager);    \
-    pRegisterModule##className->strName = typeid(classBaseName).name(); \
-    pManager->AddModule(typeid(classBaseName).name(), pRegisterModule##className);    \
-    mxModules.AddElement(typeid(classBaseName).name(), pRegisterModule##className);	\
-	if((&className::Update != &AFIModule::Update))									\
-	{																				\
-		mxModulesUpdate.AddElement(typeid(classBaseName).name(), pRegisterModule##className);\
-	}
-
-#define UNREGISTER_MODULE(pManager, classBaseName, className)           \
-    AFIModule* pUnRegisterModule##className = dynamic_cast<AFIModule*>(pManager->FindModule(typeid(classBaseName).name()));     \
-    pManager->RemoveModule(typeid(classBaseName).name());               \
-    mxModules.RemoveElement(typeid(classBaseName).name());              \
-    mxModulesUpdate.RemoveElement(typeid(classBaseName).name());		\
-    delete pUnRegisterModule##className;                                \
-    pUnRegisterModule##className = NULL;                                \
-
-
-#define CREATE_PLUGIN(pManager, className)                              \
-    AFIPlugin* pCreatePlugin##className = new className(pManager);      \
-    pManager->Registered(pCreatePlugin##className);
-
-#define DESTROY_PLUGIN(pManager, className) pManager->UnRegistered(pManager->FindPlugin((#className)));
-
-#define GET_CLASS_NAME(className) (#className);
-
-/*
-#define REGISTER_COMPONENT(pManager, className)  AFIComponent* pRegisterComponent##className= new className(pManager); \
-    pRegisterComponent##className->strName = (#className); \
-    pManager->AddComponent( (#className), pRegisterComponent##className );
-
-#define UNREGISTER_COMPONENT(pManager, className) AFIComponent* pRegisterComponent##className =  \
-        dynamic_cast<AFIComponent*>( pManager->FindComponent( (#className) ) ); pManager->RemoveComponent( (#className) ); delete pRegisterComponent##className;
-*/
+#define GET_CLASS_NAME(className) (typeid(className).name());
 
 class AFIPluginManager;
 
@@ -140,6 +104,32 @@ public:
     }
 
     virtual void Uninstall() = 0;
+
+	template<typename classBaseName, typename className>
+	void  RegisterModule()
+	{
+		assert((std::is_base_of<AFIModule, classBaseName>::value));         
+		assert((std::is_base_of<classBaseName, className>::value));     
+		AFIModule* pRegisterModuleclassName = new className(pPluginManager);
+		pRegisterModuleclassName->strName = typeid(classBaseName).name();
+		pPluginManager->AddModule(typeid(classBaseName).name(), pRegisterModuleclassName);
+		mxModules.AddElement(typeid(classBaseName).name(), pRegisterModuleclassName);
+		if ((&className::Update != &AFIModule::Update))
+		{
+			mxModulesUpdate.AddElement(typeid(classBaseName).name(), pRegisterModuleclassName);
+		}
+	}
+
+	template<typename classBaseName, typename className>
+	void  UnRegisterModule()
+	{
+		AFIModule* pUnRegisterModuleclassName = dynamic_cast<AFIModule*>(pPluginManager->FindModule(typeid(classBaseName).name()));
+		pPluginManager->RemoveModule(typeid(classBaseName).name());
+		mxModules.RemoveElement(typeid(classBaseName).name());
+		mxModulesUpdate.RemoveElement(typeid(classBaseName).name());
+		delete pUnRegisterModuleclassName;
+		pUnRegisterModuleclassName = NULL;
+	}
 
 protected:
     //All registered modules

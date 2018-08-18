@@ -41,10 +41,10 @@ const std::string Example3Plugin::GetPluginName()
 
 void Example3Plugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, Example3Module, Example3Module)
+    RegisterModule<Example3Module, Example3Module>();
 }
 
 void Example3Plugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, Example3Module, Example3Module)
+    UnRegisterModule<Example3Module, Example3Module>();
 }

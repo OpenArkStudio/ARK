@@ -43,12 +43,12 @@ const std::string AFBusPlugin::GetPluginName()
 
 void AFBusPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFIBusModule, AFCBusModule)
-    REGISTER_MODULE(pPluginManager, AFIProcModule, AFCProcModule)
+    RegisterModule<AFIBusModule, AFCBusModule>();
+    RegisterModule<AFIProcModule, AFCProcModule>();
 }
 
 void AFBusPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIProcModule, AFCProcModule)
-    UNREGISTER_MODULE(pPluginManager, AFIBusModule, AFCBusModule)
+    UnRegisterModule<AFIProcModule, AFCProcModule>();
+    UnRegisterModule<AFIBusModule, AFCBusModule>();
 }

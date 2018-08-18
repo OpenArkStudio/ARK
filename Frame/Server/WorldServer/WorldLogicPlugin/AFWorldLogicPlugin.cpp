@@ -42,11 +42,11 @@ const std::string AFWorldLogicPlugin::GetPluginName()
 void AFWorldLogicPlugin::Install()
 {
 
-    REGISTER_MODULE(pPluginManager, AFIWorldLogicModule, AFCWorldLogicModule)
+    RegisterModule<AFIWorldLogicModule, AFCWorldLogicModule>();
 }
 
 void AFWorldLogicPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIWorldLogicModule, AFCWorldLogicModule)
+    UnRegisterModule<AFIWorldLogicModule, AFCWorldLogicModule>();
 }
 

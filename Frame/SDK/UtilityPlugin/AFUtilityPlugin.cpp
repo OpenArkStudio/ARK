@@ -45,18 +45,18 @@ const std::string AFUtilityPlugin::GetPluginName()
 
 void AFUtilityPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFILogModule, AFCLogModule)
-    REGISTER_MODULE(pPluginManager, AFIDynamicLogModule, AFCDynamicLogModule)
-    REGISTER_MODULE(pPluginManager, AFIGUIDModule, AFCGUIDModule)
-    REGISTER_MODULE(pPluginManager, AFITimerModule, AFCTimerModule)
-    REGISTER_MODULE(pPluginManager, AFIScheduleModule, AFCScheduleModule)
+    RegisterModule<AFILogModule, AFCLogModule>();
+    RegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
+    RegisterModule<AFIGUIDModule, AFCGUIDModule>();
+    RegisterModule<AFITimerModule, AFCTimerModule>();
+    RegisterModule<AFIScheduleModule, AFCScheduleModule>();
 }
 
 void AFUtilityPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIScheduleModule, AFCScheduleModule)
-    UNREGISTER_MODULE(pPluginManager, AFITimerModule, AFCTimerModule)
-    UNREGISTER_MODULE(pPluginManager, AFIGUIDModule, AFCGUIDModule)
-    UNREGISTER_MODULE(pPluginManager, AFIDynamicLogModule, AFCDynamicLogModule)
-    UNREGISTER_MODULE(pPluginManager, AFILogModule, AFCLogModule)
+    UnRegisterModule<AFIScheduleModule, AFCScheduleModule>();
+    UnRegisterModule<AFITimerModule, AFCGUIDModule>();
+    UnRegisterModule<AFIGUIDModule, AFCGUIDModule>();
+    UnRegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
+    UnRegisterModule<AFILogModule, AFCLogModule>();
 }

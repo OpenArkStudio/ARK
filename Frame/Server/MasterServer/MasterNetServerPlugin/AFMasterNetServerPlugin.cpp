@@ -42,10 +42,10 @@ const std::string AFMasterNetServerPlugin::GetPluginName()
 
 void AFMasterNetServerPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFIMasterNetServerModule, AFCMasterNetServerModule)
+    RegisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
 }
 
 void AFMasterNetServerPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIMasterNetServerModule, AFCMasterNetServerModule)
+    UnRegisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
 }

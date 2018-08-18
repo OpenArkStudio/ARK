@@ -40,10 +40,10 @@ const std::string AFLoginNetClientPlugin::GetPluginName()
 
 void AFLoginNetClientPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFILoginToMasterModule, AFCLoginToMasterModule)
+    RegisterModule<AFILoginToMasterModule, AFCLoginToMasterModule>();
 }
 
 void AFLoginNetClientPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFILoginToMasterModule, AFCLoginToMasterModule)
+    UnRegisterModule<AFILoginToMasterModule, AFCLoginToMasterModule>();
 }

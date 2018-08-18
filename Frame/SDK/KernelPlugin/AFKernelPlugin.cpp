@@ -40,21 +40,21 @@ int AFKernelPlugin::GetPluginVersion()
 
 const std::string AFKernelPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFKernelPlugin)
+    return GET_CLASS_NAME(AFKernelPlugin);
 }
 
 void AFKernelPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFIClassModule, AFCClassModule)
-    REGISTER_MODULE(pPluginManager, AFIElementModule, AFCElementModule)
-    REGISTER_MODULE(pPluginManager, AFISceneModule, AFCSceneModule)
-    REGISTER_MODULE(pPluginManager, AFIKernelModule, AFCKernelModule)
+    RegisterModule< AFIClassModule, AFCClassModule>();
+    RegisterModule< AFIElementModule, AFCElementModule>();
+    RegisterModule< AFISceneModule, AFCSceneModule>();
+    RegisterModule< AFIKernelModule, AFCKernelModule>();
 }
 
 void AFKernelPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIKernelModule, AFCKernelModule)
-    UNREGISTER_MODULE(pPluginManager, AFISceneModule, AFCSceneModule)
-    UNREGISTER_MODULE(pPluginManager, AFIElementModule, AFCElementModule)
-    UNREGISTER_MODULE(pPluginManager, AFIClassModule, AFCClassModule)
+    UnRegisterModule<AFIKernelModule, AFCKernelModule>();
+    UnRegisterModule<AFISceneModule, AFCSceneModule>();
+    UnRegisterModule<AFIElementModule, AFCElementModule>();
+    UnRegisterModule<AFIClassModule, AFCClassModule>();
 }

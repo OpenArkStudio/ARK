@@ -43,12 +43,12 @@ const std::string AFProxyNetClientPlugin::GetPluginName()
 
 void AFProxyNetClientPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFIProxyServerToWorldModule, AFCProxyServerToWorldModule)
-    REGISTER_MODULE(pPluginManager, AFIProxyServerToGameModule, AFCProxyServerToGameModule)
+    RegisterModule<AFIProxyServerToWorldModule, AFCProxyServerToWorldModule>();
+    RegisterModule<AFIProxyServerToGameModule, AFCProxyServerToGameModule>();
 }
 
 void AFProxyNetClientPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIProxyServerToGameModule, AFCProxyServerToGameModule)
-    UNREGISTER_MODULE(pPluginManager, AFIProxyServerToWorldModule, AFCProxyServerToWorldModule)
+    UnRegisterModule<AFIProxyServerToGameModule, AFCProxyServerToGameModule>();
+    UnRegisterModule<AFIProxyServerToWorldModule, AFCProxyServerToWorldModule>();
 }

@@ -41,10 +41,10 @@ const std::string AFMasterLogicPlugin::GetPluginName()
 
 void AFMasterLogicPlugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, AFIMasterModule, AFCMasterModule)
+    RegisterModule<AFIMasterModule, AFCMasterModule>();
 }
 
 void AFMasterLogicPlugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, AFIMasterModule, AFCMasterModule)
+    UnRegisterModule<AFIMasterModule, AFCMasterModule>();
 }

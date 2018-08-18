@@ -40,10 +40,10 @@ const std::string Example1Plugin::GetPluginName()
 
 void Example1Plugin::Install()
 {
-    REGISTER_MODULE(pPluginManager, Example1Module, Example1Module)
+    RegisterModule<Example1Module, Example1Module>();
 }
 
 void Example1Plugin::Uninstall()
 {
-    UNREGISTER_MODULE(pPluginManager, Example1Module, Example1Module)
+    UnRegisterModule<Example1Module, Example1Module>();
 }
