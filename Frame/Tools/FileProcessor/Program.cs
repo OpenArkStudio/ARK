@@ -15,12 +15,12 @@ namespace FileProcessor
     {
         static string strBasePath = "resource/";
         static string strExcelPath = "excel/";
-        static string strStructPath = "struct/class/";
+        static string strSchemaPath = "schema/class/";
         static string strResPath = "res/";
         static string strClientResPath = "client/";
         static string strToolBasePath = "../";
 
-        static string strLogiClassFile = "../struct/LogicClass.xml";
+        static string strLogiClassFile = "../schema/LogicClass.xml";
 
         static string strCPPFile = "../proto/ARKDataDefine.hpp";
         static string strCSFile = "../proto/ARKDataDefine.cs";
@@ -105,9 +105,9 @@ namespace ARK
             csWriter.WriteLine(strCSHead);
         }
 
-        static void CreateStructFile()
+        static void CreateSchemaFile()
         {
-            Console.WriteLine("Start to generate struct files");
+            Console.WriteLine("Start to generate schema files");
 
             //generate proto file for C++ & C#
             CreateProtoFile();
@@ -125,16 +125,16 @@ namespace ARK
             root.AppendChild(classElement);
             classElement.SetAttribute("Id", "IObject");
             classElement.SetAttribute("Type", "TYPE_IOBJECT");
-            classElement.SetAttribute("Path", strBasePath + strStructPath + "IObject.xml");
+            classElement.SetAttribute("Path", strBasePath + strSchemaPath + "IObject.xml");
             classElement.SetAttribute("ResPath", strBasePath + strResPath + "IObject.xml");
             classElement.SetAttribute("Public", "0");
             classElement.SetAttribute("Desc", "IObject");
 
             // 提前把IObject跑一边
-            CreateStructXML(strToolBasePath + strExcelPath + "IObject.xlsx", "IObject");
+            CreateSchemaXML(strToolBasePath + strExcelPath + "IObject.xlsx", "IObject");
 
-            String[] xStructXLSXList = Directory.GetFiles(strToolBasePath + strExcelPath, "*", SearchOption.AllDirectories);
-            foreach (string file in xStructXLSXList)
+            String[] xSchemaXLSXList = Directory.GetFiles(strToolBasePath + strExcelPath, "*", SearchOption.AllDirectories);
+            foreach (string file in xSchemaXLSXList)
             {
                 //TODO:此处要考虑多个同名文件，但是归属不同人的表格
                 int nLastPoint = file.LastIndexOf(".") + 1;
@@ -162,7 +162,7 @@ namespace ARK
                 }
 
                 // 单个excel文件转为xml
-                if (!CreateStructXML(file, strFileName))
+                if (!CreateSchemaXML(file, strFileName))
                 {
                     Console.WriteLine("Create " + file + " failed, please check it!!!");
                     return;
@@ -174,7 +174,7 @@ namespace ARK
 
                 subClassElement.SetAttribute("Id", strFileName);
                 subClassElement.SetAttribute("Type", "TYPE_" + strFileName.ToUpper());
-                subClassElement.SetAttribute("Path", strBasePath + strStructPath + strFileName + ".xml");
+                subClassElement.SetAttribute("Path", strBasePath + strSchemaPath + strFileName + ".xml");
                 subClassElement.SetAttribute("ResPath", strBasePath + strResPath + strFileName + ".xml");
                 subClassElement.SetAttribute("Public", "0");
                 subClassElement.SetAttribute("Desc", strFileName);
@@ -189,7 +189,7 @@ namespace ARK
             xmlDoc.Save(strLogiClassFile);
         }
 
-        static bool CreateStructXML(string file, string strFileName)
+        static bool CreateSchemaXML(string file, string strFileName)
         {
             Console.WriteLine("Processing [" + file + "]");
 
@@ -206,21 +206,21 @@ namespace ARK
             }
 
             // 开始创建xml
-            XmlDocument structDoc = new XmlDocument();
+            XmlDocument schemaDoc = new XmlDocument();
             XmlDeclaration xmlDecl;
-            xmlDecl = structDoc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
-            structDoc.AppendChild(xmlDecl);
+            xmlDecl = schemaDoc.CreateXmlDeclaration("1.0", "UTF-8", "yes");
+            schemaDoc.AppendChild(xmlDecl);
 
             // 写入XML root标签
-            XmlElement root = structDoc.CreateElement("", "XML", "");
-            structDoc.AppendChild(root);
+            XmlElement root = schemaDoc.CreateElement("", "XML", "");
+            schemaDoc.AppendChild(root);
 
             // 写入Propertys标签
-            XmlElement dataNodes = structDoc.CreateElement("", "DataNodes", "");
+            XmlElement dataNodes = schemaDoc.CreateElement("", "DataNodes", "");
             root.AppendChild(dataNodes);
 
             // 写入Records标签
-            XmlElement dataTables = structDoc.CreateElement("", "DataTables", "");
+            XmlElement dataTables = schemaDoc.CreateElement("", "DataTables", "");
             root.AppendChild(dataTables);
 
             //cpp
@@ -265,7 +265,7 @@ namespace ARK
 
                             for (int col = headerRow.FirstCellNum + 1; col < headerRow.LastCellNum; ++col)
                             {
-                                var dataNode = structDoc.CreateElement("", "DataNode", "");
+                                var dataNode = schemaDoc.CreateElement("", "DataNode", "");
                                 dataNodes.AppendChild(dataNode);
 
                                 string strDataNodeName = headerRow.GetCell(col).StringCellValue;
@@ -404,7 +404,7 @@ namespace ARK
                                 int nExcelCols = Int32.Parse(strCol);
                                 int nRealCols = 0;
 
-                                XmlElement tableNode = structDoc.CreateElement("DataTable");
+                                XmlElement tableNode = schemaDoc.CreateElement("DataTable");
                                 dataTables.AppendChild(tableNode);
 
                                 tableNode.SetAttribute("Id", strTableName);
@@ -429,7 +429,7 @@ namespace ARK
                                     string strField = tableFieldRow.GetCell(nTableCol).StringCellValue;
                                     string strType = tableFieldTypeRow.GetCell(nTableCol).StringCellValue;
 
-                                    XmlElement colNode = structDoc.CreateElement("Col");
+                                    XmlElement colNode = schemaDoc.CreateElement("Col");
                                     tableNode.AppendChild(colNode);
 
                                     colNode.SetAttribute("Name", strField);
@@ -463,8 +463,8 @@ namespace ARK
             strCSInfo += "\t//DataTables\n" + strCSTableInfo + strCSEnumInfo + "\n}\n";
             csWriter.WriteLine(strCSInfo);
 
-            string strXMLFile = strToolBasePath + strStructPath + strFileName + ".xml";
-            structDoc.Save(strXMLFile);
+            string strXMLFile = strToolBasePath + strSchemaPath + strFileName + ".xml";
+            schemaDoc.Save(strXMLFile);
 
             return true;
         }
@@ -656,7 +656,7 @@ namespace ARK
         static void Main(string[] args)
         {
             var now = DateTime.Now;
-            CreateStructFile();
+            CreateSchemaFile();
             CreateResFile();
 
             var dis = DateTime.Now - now;

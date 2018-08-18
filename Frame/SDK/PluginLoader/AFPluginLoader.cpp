@@ -348,7 +348,7 @@ bool ProcArgList(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->SetAppID(config.app_id);
     AFCPluginManager::GetInstancePtr()->SetAppName(config.app_name);
 
-    std::string process_name = "[" + config.app_name + ":" + ARK_TO_STRING(config.app_id) + "]";
+    std::string process_name = config.app_name + ":" + ARK_TO_STRING(config.app_id);
     //Set process name
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTitle(process_name.c_str());

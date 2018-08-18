@@ -39,7 +39,7 @@ bool AFCClassModule::Init()
     m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-    msConfigFileName = "resource/struct/LogicClass.xml";
+    msConfigFileName = "resource/schema/LogicClass.xml";
     ARK_LOG_INFO("Using file [{}]", msConfigFileName);
 
     bool bRet = Load();
@@ -411,6 +411,7 @@ bool AFCClassModule::InitDataTableManager(const std::string& strClassName, ARK_S
     }
 
     size_t staticTableCount = pStaticClassTableManager->GetCount();
+
     for (size_t i = 0; i < staticTableCount; ++i)
     {
         AFDataTable* pStaticTable = pStaticClassTableManager->GetTableByIndex(i);

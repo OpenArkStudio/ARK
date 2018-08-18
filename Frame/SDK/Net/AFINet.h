@@ -444,9 +444,9 @@ public:
     AFNetMsg(const SessionPTR session_ptr) : nType(NONE), mxSession(session_ptr) {}
 
     NetEventType nType;
-    AFGUID xClientID;
+    AFGUID xClientID = {};
     SessionPTR mxSession;
-    std::string strMsg;
+    std::string strMsg = {};
     AFCMsgHead xHead;
 };
 
