@@ -108,8 +108,8 @@ public:
     template<typename classBaseName, typename className>
     void  RegisterModule()
     {
-        assert(std::is_base_of<AFIModule, classBaseName>::value);
-        assert(std::is_base_of<classBaseName, className>::value);
+        assert((std::is_base_of<AFIModule, classBaseName>::value));
+        assert((std::is_base_of<classBaseName, className>::value));
         AFIModule* pRegisterModuleclassName = new className(pPluginManager);
         pRegisterModuleclassName->strName = typeid(classBaseName).name();
         pPluginManager->AddModule(typeid(classBaseName).name(), pRegisterModuleclassName);
