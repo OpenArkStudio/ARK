@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -96,7 +96,7 @@ void AFCProxyServerToWorldModule::Register(const int nServerID)
             const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
             const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-            if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_PROXY && pPluginManager->AppID() == nSelfServerID)
+            if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_PROXY && pPluginManager->BusID() == nSelfServerID)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");

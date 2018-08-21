@@ -24,7 +24,7 @@
 #include "AFMacros.hpp"
 #include "AFArrayPod.hpp"
 #include "AFStringPod.hpp"
-#include "AFGUID.h"
+#include "AFGUID.hpp"
 
 //////////////////////////////////////////////////////////////////////////
 template<typename T>

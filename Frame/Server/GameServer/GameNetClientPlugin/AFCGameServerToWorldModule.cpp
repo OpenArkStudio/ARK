@@ -56,7 +56,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_GAME && pPluginManager->AppID() == nSelfServerID)
+        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_GAME && pPluginManager->BusID() == nSelfServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");

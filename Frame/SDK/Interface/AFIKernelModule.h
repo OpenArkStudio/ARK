@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Core/AFIEntity.h"
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Core/AFGUID.hpp"
 #include "AFIModule.h"
 
 class AFIKernelModule : public AFIModule

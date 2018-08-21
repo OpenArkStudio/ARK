@@ -20,8 +20,8 @@
 
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_print.hpp"
-#include "SDK/Core/AFIData.h"
-#include "SDK/Core/AFDataNode.h"
+#include "SDK/Core/AFIData.hpp"
+#include "SDK/Core/AFDataNode.hpp"
 #include "AFCClassModule.h"
 
 AFCClassModule::AFCClassModule(AFIPluginManager* p) : m_pElementModule(nullptr)

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -29,13 +29,13 @@ ARK_EXPORT void DllStartPlugin(AFIPluginManager* pPluginManager)    \
 {                                                                   \
     AFMemAlloc::InitPool();                                         \
     AFMemAlloc::Start();                                            \
-    pPluginManager->Registered<plugin_name>();					\
+    pPluginManager->Registered<plugin_name>();                      \
 }
 
 #define ARK_DLL_PLUGIN_EXIT(plugin_name)                            \
 ARK_EXPORT void DllStopPlugin(AFIPluginManager* pPluginManager)     \
 {                                                                   \
-    pPluginManager->UnRegistered<plugin_name>();                      \
+    pPluginManager->UnRegistered<plugin_name>();                    \
 }
 
 class AFIPluginManager : public AFIModule
@@ -69,18 +69,18 @@ public:
     }
 
 
-	template<typename className>
-	void Registered()
-	{
-		AFIPlugin* pCreatePluginclassName = new className(this);
-		Registered(pCreatePluginclassName);
-	}
+    template<typename className>
+    void Registered()
+    {
+        AFIPlugin* pCreatePluginclassName = new className(this);
+        Registered(pCreatePluginclassName);
+    }
 
-	template<typename className>
-	void UnRegistered()
-	{
-		UnRegistered(FindPlugin(typeid(className).name()));
-	}
+    template<typename className>
+    void UnRegistered()
+    {
+        UnRegistered(FindPlugin(typeid(className).name()));
+    }
 
     virtual void Registered(AFIPlugin* plugin) = 0;
 
@@ -94,12 +94,12 @@ public:
 
     virtual AFIModule* FindModule(const std::string& strModuleName) = 0;
 
-    virtual int AppID() const = 0;
+    virtual int BusID() const = 0;
     virtual const std::string& AppName() const = 0;
     virtual int64_t GetInitTime() const = 0;
     virtual int64_t GetNowTime() const = 0;
     virtual const std::string& GetConfigPath() const = 0;
     virtual void SetConfigName(const std::string& strFileName) = 0;
-    virtual void SetAppID(const int app_id) = 0;
+    virtual void SetBusID(const int app_id) = 0;
     virtual void SetAppName(const std::string& app_name) = 0;
 };

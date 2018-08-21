@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Core/AFGUID.hpp"
 #include "SDK/Core/AFString.hpp"
-#include "SDK/Core/AFIData.h"
+#include "SDK/Core/AFIData.hpp"
 
 class AFIDataList
 {
@@ -30,6 +30,8 @@ public:
     virtual ~AFIDataList() = default;
 
     virtual bool Concat(const AFIDataList& src) = 0;
+    virtual bool Split(const std::string& src, const std::string& split) = 0;
+
 
     virtual bool Append(const AFIData& data) = 0;
     virtual bool Append(const AFIDataList& src, size_t start, size_t count) = 0;

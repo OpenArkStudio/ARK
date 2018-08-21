@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "SDK/Core/AFList.h"
+#include "SDK/Core/AFList.hpp"
 #include "SDK/Core/AFMap.hpp"
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Core/AFGUID.hpp"
 #include "SDK/Core/AFIEntity.h"
 
 class AFCSceneGroupInfo

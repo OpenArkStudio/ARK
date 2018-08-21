@@ -21,6 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
+#include "SDK/Core/AFDefine.hpp"
 #include "Server/Interface/AFApp.hpp"
 #include "AFIProcConfigModule.h"
 

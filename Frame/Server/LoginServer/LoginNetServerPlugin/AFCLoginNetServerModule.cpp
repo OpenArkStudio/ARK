@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -65,7 +65,7 @@ bool AFCLoginNetServerModule::PostInit()
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_LOGIN && pPluginManager->AppID() == nServerID)
+        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_LOGIN && pPluginManager->BusID() == nServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -183,7 +183,7 @@ void AFCLoginNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, cons
 
     AFMsg::ReqConnectWorld xData;
     xData.set_world_id(xMsg.world_id());
-    xData.set_login_id(pPluginManager->AppID());
+    xData.set_login_id(pPluginManager->BusID());
     xData.mutable_sender()->CopyFrom(AFINetServerModule::GUIDToPB(pSession->mnClientID));
     xData.set_account(pSession->mstrAccout);
 

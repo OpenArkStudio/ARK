@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -21,7 +21,7 @@
 #include "AFCGameNetServerModule.h"
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Proto/ARKDataDefine.hpp"
-#include "SDK/Core/AFDataNode.h"
+#include "SDK/Core/AFDataNode.hpp"
 #include "Server/Interface/AFEventDefine.h"
 
 bool AFCGameNetServerModule::Init()
@@ -80,7 +80,7 @@ bool AFCGameNetServerModule::PostInit()
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_GAME && pPluginManager->AppID() == nServerID)
+        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_GAME && pPluginManager->BusID() == nServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -214,7 +214,7 @@ void AFCGameNetServerModule::OnClienEnterGameProcess(const AFIMsgHead& xHead, co
 
     pEntity->SetNodeInt("LoadPropertyFinish", 1);
     pEntity->SetNodeInt("GateID", nGateID);
-    pEntity->SetNodeInt("GameID", pPluginManager->AppID());
+    pEntity->SetNodeInt("GameID", pPluginManager->BusID());
 
     m_pKernelModule->DoEvent(pEntity->Self(), ARK::Player::ThisName(), ENTITY_EVT_ALL_FINISHED, AFCDataList());
 

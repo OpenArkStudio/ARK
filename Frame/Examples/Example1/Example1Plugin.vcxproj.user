@@ -4,7 +4,7 @@
     <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\Examples\Example1</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>$(SolutionDir)..\Bin\Examples\Example1\PluginLoader_d.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>-d -x cfg=Plugin.xml app_id=1 app_name="Example1"</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-d -x --busid=1.1.1.1 --name=example1 --plugin=Plugin.xml</LocalDebuggerCommandArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerCommand>$(SolutionDir)..\Bin\Examples\Example1\PluginLoader.exe</LocalDebuggerCommand>

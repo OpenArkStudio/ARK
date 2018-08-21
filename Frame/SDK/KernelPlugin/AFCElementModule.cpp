@@ -20,7 +20,7 @@
 
 #include "AFCElementModule.h"
 #include "AFCClassModule.h"
-#include "SDK/Core/AFDataNode.h"
+#include "SDK/Core/AFDataNode.hpp"
 
 AFCElementModule::AFCElementModule(AFIPluginManager* p)
     : m_pClassModule(nullptr)

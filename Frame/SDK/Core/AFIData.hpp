@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Core/AFPlatform.hpp"
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Core/AFGUID.hpp"
 
 enum AF_DATA_TYPE
 {

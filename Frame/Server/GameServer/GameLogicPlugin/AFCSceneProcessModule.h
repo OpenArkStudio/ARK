@@ -24,7 +24,7 @@
 #include "rapidxml/rapidxml_iterators.hpp"
 #include "rapidxml/rapidxml_print.hpp"
 #include "rapidxml/rapidxml_utils.hpp"
-#include "SDK/Core/AFList.h"
+#include "SDK/Core/AFList.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIElementModule.h"
 #include "SDK/Interface/AFIClassModule.h"

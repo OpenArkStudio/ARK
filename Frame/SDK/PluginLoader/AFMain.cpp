@@ -18,9 +18,11 @@
 *
 */
 
+#include "args/args.hxx"
 #include "AFCPluginManager.h"
 #include "SDK/Core/AFMacros.hpp"
 #include "SDK/Core/AFDateTime.hpp"
+#include "Server/Interface/AFIBusConfigModule.h"
 
 bool bExitApp = false;
 std::thread gBackThread;
@@ -91,17 +93,18 @@ void InitDaemon()
 #endif
 }
 
-void EchoArkLogo()
+void ArkPrintLogo()
 {
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 
-    CONSOLE_LOG_NO_FILE << "     _         _        ____  _             _ _       " << std::endl;
-    CONSOLE_LOG_NO_FILE << "    / \\   _ __| | __   / ___|| |_ _   _  __| (_) ___  " << std::endl;
-    CONSOLE_LOG_NO_FILE << "   / _ \\ | '__| |/ /   \\___ \\| __| | | |/ _` | |/ _ \\ " << std::endl;
-    CONSOLE_LOG_NO_FILE << "  / ___ \\| |  |   <     ___) | |_| |_| | (_| | | (_) |" << std::endl;
-    CONSOLE_LOG_NO_FILE << " /_/   \\_\\_|  |_|\\_\\   |____/ \\__|\\__,_|\\__,_|_|\\___/ " << std::endl;
+    CONSOLE_LOG_NO_FILE << "     _         _          ____                      " << std::endl;
+    CONSOLE_LOG_NO_FILE << "    / \\   _ __| | __     / ___| __ _ _ __ ___   ___ " << std::endl;
+    CONSOLE_LOG_NO_FILE << "   / _ \\ | '__| |/ /    | |  _ / _` | '_ ` _ \\ / _ \\" << std::endl;
+    CONSOLE_LOG_NO_FILE << "  / ___ \\| |  |   <     | |_| | (_| | | | | | |  __/" << std::endl;
+    CONSOLE_LOG_NO_FILE << " /_/   \\_\\_|  |_|\\_\\     \\____|\\__,_|_| |_| |_|\\___|" << std::endl;
+    CONSOLE_LOG_NO_FILE << "                                                    " << std::endl;
     CONSOLE_LOG_NO_FILE << std::endl;
     CONSOLE_LOG_NO_FILE << "COPYRIGHT (c) 2013-2018 Ark Studio" << std::endl;
     CONSOLE_LOG_NO_FILE << "All RIGHTS RESERVED." << std::endl;
@@ -111,19 +114,6 @@ void EchoArkLogo()
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
-}
-
-void Usage()
-{
-    CONSOLE_LOG_NO_FILE << "Ark PluginLoader usage:" << std::endl;
-    CONSOLE_LOG_NO_FILE << "./PluginLoader [options]" << std::endl;
-    CONSOLE_LOG_NO_FILE << "Option:" << std::endl;
-    CONSOLE_LOG_NO_FILE << "\t" << "-d, Run as daemon, just take effect in Linux" << std::endl;
-    CONSOLE_LOG_NO_FILE << "\t" << "-x, Remove close button, just take effect in Windows" << std::endl;
-    CONSOLE_LOG_NO_FILE << "\t" << "cfg=plugin.xml, plugin configuration files" << std::endl;
-    CONSOLE_LOG_NO_FILE << "\t" << "app_id=1, set application's id" << std::endl;
-    CONSOLE_LOG_NO_FILE << "\t" << "app_name=GameServer, set application's name" << std::endl;
-    CONSOLE_LOG_NO_FILE << "i.e. ./PluginLoader -d -x cfg=plugin.xml app_id=1 app_name=my_test" << std::endl;
 }
 
 void ThreadFunc()
@@ -140,10 +130,6 @@ void ThreadFunc()
         {
             bExitApp = true;
         }
-        else if (s == "help")
-        {
-            Usage();
-        }
     }
 }
 
@@ -151,15 +137,6 @@ void CreateBackThread()
 {
     gBackThread = std::thread(std::bind(&ThreadFunc));
 }
-
-struct ApplicationConfig
-{
-    bool deamon = true;                     //run as deamon, Linux
-    bool xbutton = true;                    //close X button in windows
-    std::string plugin_file = "Plugin.xml"; //config file
-    int app_id = 0;                         //app id
-    std::string app_name = "";              //app name
-};
 
 #if ARK_PLATFORM == PLATFORM_UNIX
 extern char** environ;
@@ -263,100 +240,104 @@ void setproctitle(const char* title, int argc, char** argv)
 
 #endif
 
-bool ProcArgList(int argc, char* argv[])
+bool ParseArgs(int argc, char* argv[])
 {
-    //Echo logo
-    EchoArkLogo();
-
-    //Analyse arg list
-    ApplicationConfig config;
-
-    for (int i = 0; i < argc; ++i)
+    args::ArgumentParser parser("Here is ARK plugin loader argument tools", "If you have any questions, please report an issue in GitHub.");
+    args::HelpFlag help(parser, "help", "Display the help menu", {'h', "help"});
+    args::ActionFlag xbutton(parser, "close", "Close [x] button in Windows", { 'x' }, [&]()
     {
-        std::string arg = argv[i];
-
-        if (arg == "-d")
-        {
-            config.deamon = true;
-        }
-        else if (arg == "-x")
-        {
-            config.xbutton = true;
-        }
-        else if (arg.find("cfg") != std::string::npos)
-        {
-            size_t pos = arg.find("=");
-
-            if (pos != std::string::npos)
-            {
-                config.plugin_file = arg.substr(pos + 1, arg.length() - pos - 1);
-            }
-        }
-        else if (arg.find("app_id") != std::string::npos)
-        {
-            size_t pos = arg.find("=");
-
-            if (pos != std::string::npos)
-            {
-                config.app_id = ARK_LEXICAL_CAST<int>(arg.substr(pos + 1, arg.length() - pos - 1));
-            }
-        }
-        else if (arg.find("app_name") != std::string::npos)
-        {
-            size_t pos = arg.find("=");
-
-            if (pos != std::string::npos)
-            {
-                config.app_name = arg.substr(pos + 1, arg.length() - pos - 1);
-            }
-        }
-    }
-
-#if ARK_PLATFORM == PLATFORM_UNIX
-
-    if (config.deamon)
-    {
-        InitDaemon();
-    }
-
-#endif
-
 #if ARK_PLATFORM == PLATFORM_WIN
-
-    if (config.xbutton)
-    {
         SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
         CloseXButton();
-    }
-
 #endif
+    });
 
-    if (config.app_id == 0)
+    args::ActionFlag daemon(parser, "daemon", "Run application as daemon", { 'd' }, [&]()
     {
-        CONSOLE_LOG << "parameter app_id is invalid, please check." << std::endl;
+#if ARK_PLATFORM == PLATFORM_UNIX
+        InitDaemon();
+#endif
+    });
+
+    args::ValueFlag<std::string> busid(parser, "busid", "Set application id(like IP address: 8.8.8.8)", { 'b', "busid" }, "8.8.8.8", args::Options::Required | args::Options::Single);
+    args::ValueFlag<std::string> name(parser, "name", "Set application name", { 'n', "name" }, "my-server", args::Options::Required | args::Options::Single);
+    args::ValueFlag<std::string> plugin_cfg(parser, "plugin config path", "Set application plugin config", { 'p', "plugin" }, "plugin.xml", args::Options::Required | args::Options::Single);
+
+    //start parse argument list
+    try
+    {
+        parser.ParseCLI(argc, argv);
+    }
+    catch (args::Help)
+    {
+        std::cerr << parser;
+        return false;
+    }
+    catch (args::ParseError e)
+    {
+        std::cerr << e.what() << std::endl;
+        std::cerr << parser;
+        return false;
+    }
+    catch (args::ValidationError e)
+    {
+        std::cerr << e.what() << std::endl;
+        std::cerr << parser;
         return false;
     }
 
-    if (config.app_name.empty())
+    //Set bus id
+    if (busid)
     {
-        CONSOLE_LOG << "parameter app_name is invalid, please check." << std::endl;
+        AFCDataList temp_bus_id;
+        if (!temp_bus_id.Split(busid.Get(), "."))
+        {
+            CONSOLE_LOG << "bus id is invalid, it likes 8.8.8.8" << std::endl;
+            return false;
+        }
+
+        AFBusAddr busaddr;
+        busaddr.channel_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(0));
+        busaddr.zone_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(1));
+        busaddr.proc_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(2));
+        busaddr.inst_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(3));
+
+        AFCPluginManager::GetInstancePtr()->SetBusID(busaddr.bus_id);
+    }
+    else
+    {
+        return false;
+    }
+
+    //Set app name
+    if (name)
+    {
+        AFCPluginManager::GetInstancePtr()->SetAppName(name.Get());
+
+        std::string process_name = name.Get() + "-" + busid.Get();
+        //Set process name
+#if ARK_PLATFORM == PLATFORM_WIN
+        SetConsoleTitle(process_name.c_str());
+#elif ARK_PLATFORM == PLATFORM_UNIX
+        setproctitle(process_name.c_str(), argc, argv);
+#endif
+    }
+    else
+    {
         return false;
     }
 
     //Set plugin file
-    AFCPluginManager::GetInstancePtr()->SetConfigName(config.plugin_file);
-    AFCPluginManager::GetInstancePtr()->SetAppID(config.app_id);
-    AFCPluginManager::GetInstancePtr()->SetAppName(config.app_name);
+    if (plugin_cfg)
+    {
+        AFCPluginManager::GetInstancePtr()->SetConfigName(plugin_cfg.Get());
+    }
+    else
+    {
+        return false;
+    }
 
-    std::string process_name = config.app_name + ":" + ARK_TO_STRING(config.app_id);
-    //Set process name
-#if ARK_PLATFORM == PLATFORM_WIN
-    SetConsoleTitle(process_name.c_str());
-#elif ARK_PLATFORM == PLATFORM_UNIX
-    setproctitle(process_name.c_str(), argc, argv);
-#endif
-
-    //Create back thread, for some cmd
+    //Create back thread, for some command
     CreateBackThread();
 
     return true;
@@ -372,6 +353,7 @@ void MainLoop()
     }
     __except (ApplicationCrashHandler(GetExceptionInformation()))
     {
+        //Do nothing for now.
     }
 
 #else
@@ -381,20 +363,13 @@ void MainLoop()
 
 int main(int argc, char* argv[])
 {
-    //arg list
-    //-d, Run as daemon, just take effect in Linux
-    //-x, Remove close button, just take effect in Windows
-    //cfg=plugin.xml, plugin configuration files
-    //app_id=1, set application's id
-    //app_name=GameServer, set application's name
-    if (!ProcArgList(argc, argv))
+    if (!ParseArgs(argc, argv))
     {
-        CONSOLE_LOG << "Application parameter is invalid, please check it..." << std::endl;
-        Usage();
-
-        std::this_thread::sleep_for(std::chrono::seconds(30));
-        return -1;
+        CONSOLE_LOG_NO_FILE << "Application parameter is invalid, please check it..." << std::endl;
+        return 0;
     }
+
+    ArkPrintLogo();
 
     AFCPluginManager::GetInstancePtr()->Init();
     AFCPluginManager::GetInstancePtr()->PostInit();

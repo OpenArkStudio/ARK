@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -21,7 +21,7 @@
 #pragma once
 
 #include "AFINet.h"
-#include "SDK/Core/AFQueue.h"
+#include "SDK/Core/AFQueue.hpp"
 #include "SDK/Core/AFRWLock.hpp"
 #include <brynet/net/SocketLibFunction.h>
 #include <brynet/net/WrapTCPService.h>

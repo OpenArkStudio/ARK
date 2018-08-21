@@ -58,7 +58,7 @@ int Example3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& 
 
         m_pKernelModule->AddHeartBeat(self, "OnHeartBeat", this, &Example3Module::OnHeartBeat, 1000, 1, true);
 
-        mLastTime = AFMisc::GetSystemTime();
+        mLastTime = AFDateTime::GetNowTime();
     }
 
     return 0;

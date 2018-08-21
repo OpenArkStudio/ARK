@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -72,7 +72,7 @@ const std::string& AFCProcModule::GetProcName(const ARK_PROCESS_TYPE& type)
     }
 }
 
-const ARK_PROCESS_TYPE& AFCProcModule::GetProcType(const std::string& proc_name)
+const ARK_PROCESS_TYPE AFCProcModule::GetProcType(const std::string& proc_name)
 {
     auto iter = mxProcTypes.find(proc_name);
     if (iter != mxProcTypes.end())

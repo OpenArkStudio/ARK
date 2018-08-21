@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -65,7 +65,7 @@ public:
 
     virtual AFIModule* FindModule(const std::string& strModuleName);
 
-    virtual int AppID() const;
+    virtual int BusID() const;
     virtual const std::string& AppName() const;
 
     virtual int64_t GetInitTime() const;
@@ -76,7 +76,7 @@ public:
 
     virtual void SetConfigName(const std::string& strFileName);
 
-    virtual void SetAppID(const int app_id);
+    virtual void SetBusID(const int app_id);
 
     virtual void SetAppName(const std::string& app_name);
 
@@ -89,7 +89,7 @@ protected:
     bool UnLoadStaticPlugin(const std::string& strPluginDLLName);
 
 private:
-    int mnAppID;
+    int mnBusID;
     int64_t mnInitTime;
     int64_t mnNowTime;
     std::string mstrConfigPath;

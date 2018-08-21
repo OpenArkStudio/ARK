@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Core/AFGUID.hpp"
 #include "SDK/Interface/AFIModule.h"
 
 class AFIComponent : public AFIModule

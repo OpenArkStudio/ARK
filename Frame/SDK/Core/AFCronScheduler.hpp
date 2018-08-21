@@ -21,7 +21,7 @@
 #pragma once
 
 #include "AFPlatform.hpp"
-#include "AFDefine.h"
+#include "AFDefine.hpp"
 #include "AFMemAlloc.hpp"
 #include "SDK/Core/Common/cronexpr.h"
 

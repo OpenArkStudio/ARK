@@ -34,7 +34,7 @@
 
 AFCPluginManager::AFCPluginManager() : AFIPluginManager()
 {
-    mnAppID = 0;
+    mnBusID = 0;
     mnInitTime = AFDateTime::GetNowTime();
     mnNowTime = mnInitTime;
 
@@ -155,9 +155,9 @@ AFIPlugin* AFCPluginManager::FindPlugin(const std::string& strPluginName)
     return mxPluginInstanceMap.GetElement(strPluginName);
 }
 
-inline int AFCPluginManager::AppID() const
+inline int AFCPluginManager::BusID() const
 {
-    return mnAppID;
+    return mnBusID;
 }
 
 const std::string& AFCPluginManager::AppName() const
@@ -195,9 +195,9 @@ void AFCPluginManager::SetConfigName(const std::string& strFileName)
     mstrConfigName = strFileName;
 }
 
-void AFCPluginManager::SetAppID(const int app_id)
+void AFCPluginManager::SetBusID(const int app_id)
 {
-    mnAppID = app_id;
+    mnBusID = app_id;
 }
 
 void AFCPluginManager::SetAppName(const std::string& app_name)

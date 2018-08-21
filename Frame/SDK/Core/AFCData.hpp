@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,7 +22,7 @@
 
 #include "SDK/Core/AFPlatform.hpp"
 #include "SDK/Core/AFCoreDef.hpp"
-#include "SDK/Core/AFIData.h"
+#include "SDK/Core/AFIData.hpp"
 #include "SDK/Core/AFMisc.hpp"
 #include "SDK/Core/AFMemAlloc.hpp"
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -18,8 +18,8 @@
 *
 */
 
-#include "SDK/Core/AFCDataList.h"
-#include "SDK/Core/AFDataNode.h"
+#include "SDK/Core/AFCDataList.hpp"
+#include "SDK/Core/AFDataNode.hpp"
 #include "SDK/Core/AFDataTable.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "AFCPropertyTrailModule.h"

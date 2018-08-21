@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "AFIData.h"
-#include "AFIDataList.h"
+#include "AFIData.hpp"
+#include "AFIDataList.hpp"
 #include "AFMisc.hpp"
 
 class AFDataListAlloc
@@ -198,6 +198,36 @@ public:
     virtual bool Concat(const AFIDataList& src)
     {
         InnerAppend(src, 0, src.GetCount());
+        return true;
+    }
+
+    virtual bool Split(const std::string& src, const std::string& split)
+    {
+        Clear();
+
+        std::string tmp(src);
+        if (tmp.empty())
+        {
+            return true;
+        }
+
+        std::string tmp_split(split);
+        std::string::size_type pos;
+        tmp += tmp_split;
+        std::string::size_type size = tmp.length();
+
+        for (std::string::size_type i = 0; i < size; ++i)
+        {
+            pos = int(tmp.find(tmp_split, i));
+            if (pos < size)
+            {
+                std::string sub = tmp.substr(i, pos - i);
+                AddString(sub.c_str());
+
+                i = pos + tmp_split.size() - 1;
+            }
+        }
+
         return true;
     }
 

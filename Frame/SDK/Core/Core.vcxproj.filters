@@ -9,45 +9,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCEventManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCHeartBeatManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIComponent.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIEventManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIHeartBeatManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCEntity.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIEntity.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFDataTable.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIDataTableManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIDataNodeManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCDataNodeManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCDataTableManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFDataNode.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="Common\cronexpr.h">
       <Filter>Common</Filter>
     </ClInclude>
@@ -69,10 +30,25 @@
     <ClInclude Include="AFCConsistentHash.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFCData.h">
+    <ClInclude Include="AFCData.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFCDataList.h">
+    <ClInclude Include="AFCDataList.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCDataNodeManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCDataTableManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCEntity.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCEventManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCHeartBeatManager.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFCoreDef.hpp">
@@ -81,28 +57,52 @@
     <ClInclude Include="AFCronScheduler.hpp">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="AFDataNode.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFDataTable.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="AFDateTime.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFDefine.h">
+    <ClInclude Include="AFDefine.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFGUID.h">
+    <ClInclude Include="AFGUID.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFHashmap.h">
+    <ClInclude Include="AFHashmap.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFIData.h">
+    <ClInclude Include="AFIComponent.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFIDataList.h">
+    <ClInclude Include="AFIData.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFList.h">
+    <ClInclude Include="AFIDataList.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFLockFreeQueue.h">
+    <ClInclude Include="AFIDataNodeManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIDataTableManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIEntity.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIEventManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFIHeartBeatManager.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFList.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFLockFreeQueue.hpp">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFMacros.hpp">
@@ -126,7 +126,7 @@
     <ClInclude Include="AFPlatform.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFQueue.h">
+    <ClInclude Include="AFQueue.hpp">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFRandom.hpp">
@@ -155,17 +155,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCHeartBeatManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AFCEventManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AFCEntity.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AFDataTable.cpp">
-      <Filter>Core</Filter>
+    <ClCompile Include="Common\cronexpr.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
     <ClCompile Include="AFCDataNodeManager.cpp">
       <Filter>Core</Filter>
@@ -173,8 +164,17 @@
     <ClCompile Include="AFCDataTableManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="Common\cronexpr.cpp">
-      <Filter>Common</Filter>
+    <ClCompile Include="AFCEntity.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCEventManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCHeartBeatManager.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFDataTable.cpp">
+      <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFMemAlloc.cpp">
       <Filter>Core</Filter>

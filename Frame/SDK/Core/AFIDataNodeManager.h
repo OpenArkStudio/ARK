@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,12 +20,12 @@
 
 #pragma once
 
-#include "SDK/Core/AFDefine.h"
-#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/AFDefine.hpp"
+#include "SDK/Core/AFCDataList.hpp"
 #include "SDK/Core/AFString.hpp"
 #include "SDK/Core/AFArrayPod.hpp"
 #include "SDK/Core/AFStringPod.hpp"
-#include "SDK/Core/AFCData.h"
+#include "SDK/Core/AFCData.hpp"
 
 class AFDataNode;
 

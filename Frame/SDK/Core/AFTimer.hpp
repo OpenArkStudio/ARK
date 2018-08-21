@@ -21,7 +21,7 @@
 #pragma once
 
 #include "AFPlatform.hpp"
-#include "AFDefine.h"
+#include "AFDefine.hpp"
 #include "AFSingleton.hpp"
 #include "AFDateTime.hpp"
 #include "AFMemAlloc.hpp"

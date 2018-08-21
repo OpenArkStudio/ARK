@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "SDK/Core/AFGUID.h"
-#include "SDK/Core/AFQueue.h"
-#include "SDK/Core/AFDataNode.h"
+#include "SDK/Core/AFGUID.hpp"
+#include "SDK/Core/AFQueue.hpp"
+#include "SDK/Core/AFDataNode.hpp"
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Net/AFCNetServer.h"

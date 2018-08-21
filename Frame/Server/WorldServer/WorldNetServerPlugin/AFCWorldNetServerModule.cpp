@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -21,7 +21,7 @@
 #include "AFCWorldNetServerModule.h"
 #include "AFWorldNetServerPlugin.h"
 #include "SDK/Proto/AFProtoCPP.hpp"
-#include "SDK/Core/AFDataNode.h"
+#include "SDK/Core/AFDataNode.hpp"
 
 bool AFCWorldNetServerModule::Init()
 {
@@ -63,7 +63,7 @@ bool AFCWorldNetServerModule::PostInit()
         const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_WORLD && pPluginManager->AppID() == nServerID)
+        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_WORLD && pPluginManager->BusID() == nServerID)
         {
             const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");

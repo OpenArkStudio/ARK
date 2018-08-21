@@ -20,9 +20,9 @@
 
 #pragma once
 
-#include "SDK/Core/AFList.h"
-#include "SDK/Core/AFDefine.h"
-#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/AFList.hpp"
+#include "SDK/Core/AFDefine.hpp"
+#include "SDK/Core/AFCDataList.hpp"
 #include "SDK/Core/AFVector3.hpp"
 #include "SDK/Core/AFDataTable.h"
 

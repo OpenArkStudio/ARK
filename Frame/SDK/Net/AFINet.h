@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -21,8 +21,8 @@
 #pragma once
 
 #include "SDK/Core/AFMacros.hpp"
-#include "SDK/Core/AFGUID.h"
-#include "SDK/Core/AFLockFreeQueue.h"
+#include "SDK/Core/AFGUID.hpp"
+#include "SDK/Core/AFLockFreeQueue.hpp"
 #include "SDK/Core/AFBuffer.hpp"
 #include "brynet/net/WrapTCPService.h"
 #include "brynet/net/http/HttpService.h"

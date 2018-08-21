@@ -1,8 +1,8 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2017 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@
 
 #pragma once
 
-#include "Contrib/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFIModule.h"
+#include "Server/Interface/AFApp.hpp"
 
-class AFCBusModule : public AFIBusModule
+class AFIProcModule : public AFIModule
 {
 public:
-    explicit AFCBusModule(AFIPluginManager* p);
-    virtual ~AFCBusModule();
+    virtual ~AFIProcModule() = default;
 
-private:
-
+    virtual const std::string& GetProcName(const ARK_PROCESS_TYPE& type) = 0;
+    virtual const ARK_PROCESS_TYPE GetProcType(const std::string& proc_name) = 0;
 };

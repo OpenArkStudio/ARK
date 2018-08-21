@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -18,7 +18,7 @@
 *
 */
 
-#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/AFCDataList.hpp"
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "AFCWorldToMasterModule.h"
 #include "AFWorldNetClientPlugin.h"
@@ -106,7 +106,7 @@ void AFCWorldToMasterModule::Register(const int nServerID)
             const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
             const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
 
-            if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_WORLD && pPluginManager->AppID() == nSelfServerID)
+            if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_WORLD && pPluginManager->BusID() == nSelfServerID)
             {
                 const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");

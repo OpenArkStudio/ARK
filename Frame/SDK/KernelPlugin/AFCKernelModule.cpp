@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -18,10 +18,10 @@
 *
 */
 
-#include "SDK/Core/AFDefine.h"
-#include "SDK/Core/AFGUID.h"
+#include "SDK/Core/AFDefine.hpp"
+#include "SDK/Core/AFGUID.hpp"
 #include "SDK/Core/AFCEntity.h"
-#include "SDK/Core/AFDataNode.h"
+#include "SDK/Core/AFDataNode.hpp"
 #include "SDK/Core/AFDataTable.h"
 #include "SDK/Proto/ARKDataDefine.hpp"
 #include "AFCKernelModule.h"

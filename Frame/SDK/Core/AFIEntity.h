@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/AFCDataList.hpp"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "AFDataTable.h"
 #include "AFIDataTableManager.h"

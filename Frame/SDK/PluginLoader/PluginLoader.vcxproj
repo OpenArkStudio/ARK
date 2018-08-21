@@ -136,7 +136,7 @@ copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
   <ItemGroup>
     <ClCompile Include="AFCDynLib.cpp" />
     <ClCompile Include="AFCPluginManager.cpp" />
-    <ClCompile Include="AFPluginLoader.cpp" />
+    <ClCompile Include="AFMain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

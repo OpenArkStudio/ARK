@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -21,10 +21,10 @@
 #pragma once
 
 #include "SDK/Core/AFPlatform.hpp"
-#include "SDK/Core/AFDefine.h"
-#include "SDK/Core/AFList.h"
+#include "SDK/Core/AFDefine.hpp"
+#include "SDK/Core/AFList.hpp"
 #include "SDK/Core/AFMap.hpp"
-#include "SDK/Core/AFIDataList.h"
+#include "SDK/Core/AFIDataList.hpp"
 
 class AFIEventManager
 {

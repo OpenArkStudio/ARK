@@ -10,6 +10,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AFBusPlugin.cpp" />
+    <ClCompile Include="AFCBusConfigModule.cpp" />
+    <ClCompile Include="AFCBusModule.cpp" />
+    <ClCompile Include="AFCProcConfigModule.cpp" />
+    <ClCompile Include="AFCProcModule.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFBusPlugin.h" />
+    <ClInclude Include="AFCBusConfigModule.h" />
+    <ClInclude Include="AFCBusModule.h" />
+    <ClInclude Include="AFCProcConfigModule.h" />
+    <ClInclude Include="AFCProcModule.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9D23DA22-6ECC-47CB-85F7-0BF440B88298}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -139,28 +154,6 @@ copy /Y $(SolutionDir)..\Bin\Comm\$(Configuration)\$(ProjectName).pdb $(Solution
       <TargetMachine>MachineX64</TargetMachine>
     </Lib>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="AFBusPlugin.cpp" />
-    <ClCompile Include="AFCBusConfigModule.cpp" />
-    <ClCompile Include="AFCBusModule.cpp" />
-    <ClCompile Include="AFCProcConfigModule.cpp" />
-    <ClCompile Include="AFCProcModule.cpp" />
-    <ClCompile Include="dllmain.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AFBusPlugin.h" />
-    <ClInclude Include="AFCBusConfigModule.h" />
-    <ClInclude Include="AFCBusModule.h" />
-    <ClInclude Include="AFCProcConfigModule.h" />
-    <ClInclude Include="AFCProcModule.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "Contrib/Interface/AFIBusConfigModule.h"
-#include "Contrib/Interface/AFIProcConfigModule.h"
+#include "Server/Interface/AFIBusConfigModule.h"
+#include "Server/Interface/AFIProcConfigModule.h"
 
 class AFCBusConfigModule final : public AFIBusConfigModule
 {

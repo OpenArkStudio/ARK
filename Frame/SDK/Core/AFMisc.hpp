@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -112,17 +112,6 @@ public:
         }
 
         return false;
-    }
-
-    static int64_t GetSystemTime()
-    {
-#if ARK_PLATFORM == PLATFORM_WIN
-        return ::GetTickCount64();
-#else
-        struct timeval tv;
-        gettimeofday(&tv, NULL);
-        return (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-#endif
     }
 
     static std::string ToLower(std::string s)

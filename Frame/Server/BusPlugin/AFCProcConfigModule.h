@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "Contrib/Interface/AFIProcConfigModule.h"
+#include "Server/Interface/AFIProcConfigModule.h"
 
 class AFCProcConfigModule final : public AFIProcConfigModule
 {
@@ -29,7 +29,7 @@ public:
     virtual ~AFCProcConfigModule() = default;
 
     virtual const std::string& GetProcName(const ARK_PROCESS_TYPE& type);
-    virtual const ARK_PROCESS_TYPE& GetProcType(const std::string& name);
+    virtual const ARK_PROCESS_TYPE GetProcType(const std::string& name);
 
     virtual bool GetProcServerInfo(const ARK_PROCESS_TYPE& type, uint8_t inst_id, AFServerConfig& server_config);
     virtual bool GetProcHostInfo(const ARK_PROCESS_TYPE& type, uint8_t inst_id, AFHostConfig& host_config);

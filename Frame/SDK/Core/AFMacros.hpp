@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -270,7 +270,7 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 
 #define ARK_TO_STRING(value) std::to_string(value)
 
-#define CONSOLE_LOG std::cout << __FILE__ << ":" << __LINE__ << " "
+#define CONSOLE_LOG std::cout << __FUNCTION__ << ":" << __LINE__ << " "
 #define CONSOLE_LOG_NO_FILE std::cout << ""
 
 #define ARK_FORMAT(my_fmt, ...)             fmt::format(my_fmt, ##__VA_ARGS__);

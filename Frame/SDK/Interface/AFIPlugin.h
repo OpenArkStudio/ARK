@@ -105,34 +105,34 @@ public:
 
     virtual void Uninstall() = 0;
 
-	template<typename classBaseName, typename className>
-	void  RegisterModule()
-	{
-		assert((std::is_base_of<AFIModule, classBaseName>::value));         
-		assert((std::is_base_of<classBaseName, className>::value));     
-		AFIModule* pRegisterModuleclassName = new className(pPluginManager);
-		pRegisterModuleclassName->strName = typeid(classBaseName).name();
-		pPluginManager->AddModule(typeid(classBaseName).name(), pRegisterModuleclassName);
-		mxModules.AddElement(typeid(classBaseName).name(), pRegisterModuleclassName);
-		if ((&className::Update != &AFIModule::Update))
-		{
-			mxModulesUpdate.AddElement(typeid(classBaseName).name(), pRegisterModuleclassName);
-		}
-	}
+    template<typename classBaseName, typename className>
+    void  RegisterModule()
+    {
+        assert(std::is_base_of<AFIModule, classBaseName>::value);
+        assert(std::is_base_of<classBaseName, className>::value);
+        AFIModule* pRegisterModuleclassName = new className(pPluginManager);
+        pRegisterModuleclassName->strName = typeid(classBaseName).name();
+        pPluginManager->AddModule(typeid(classBaseName).name(), pRegisterModuleclassName);
+        mxModules.AddElement(typeid(classBaseName).name(), pRegisterModuleclassName);
+        if ((&className::Update != &AFIModule::Update))
+        {
+            mxModulesUpdate.AddElement(typeid(classBaseName).name(), pRegisterModuleclassName);
+        }
+    }
 
-	template<typename classBaseName, typename className>
-	void  UnRegisterModule()
-	{
-		AFIModule* pUnRegisterModuleclassName = dynamic_cast<AFIModule*>(pPluginManager->FindModule(typeid(classBaseName).name()));
-		pPluginManager->RemoveModule(typeid(classBaseName).name());
-		mxModules.RemoveElement(typeid(classBaseName).name());
-		mxModulesUpdate.RemoveElement(typeid(classBaseName).name());
-		delete pUnRegisterModuleclassName;
-		pUnRegisterModuleclassName = NULL;
-	}
+    template<typename classBaseName, typename className>
+    void  UnRegisterModule()
+    {
+        AFIModule* pUnRegisterModuleclassName = dynamic_cast<AFIModule*>(pPluginManager->FindModule(typeid(classBaseName).name()));
+        pPluginManager->RemoveModule(typeid(classBaseName).name());
+        mxModules.RemoveElement(typeid(classBaseName).name());
+        mxModulesUpdate.RemoveElement(typeid(classBaseName).name());
+        delete pUnRegisterModuleclassName;
+        pUnRegisterModuleclassName = NULL;
+    }
 
 protected:
     //All registered modules
-	AFMap<std::string, AFIModule> mxModules;
-	AFMap<std::string, AFIModule> mxModulesUpdate;
+    AFMap<std::string, AFIModule> mxModules;
+    AFMap<std::string, AFIModule> mxModulesUpdate;
 };

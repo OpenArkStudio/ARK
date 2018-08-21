@@ -106,7 +106,7 @@ bool AFCBusConfigModule::GetBusServer(const ARK_PROCESS_TYPE& type, const uint8_
 const AFBusAddr AFCBusConfigModule::GetSelfBusID()
 {
     AFBusAddr bus_addr;
-    bus_addr.bus_id = pPluginManager->AppID();
+    bus_addr.bus_id = pPluginManager->BusID();
     return bus_addr;
 }
 

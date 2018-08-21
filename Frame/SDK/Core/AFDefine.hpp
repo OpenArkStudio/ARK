@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "SDK/Core/AFCData.h"
-#include "SDK/Core/AFCDataList.h"
+#include "SDK/Core/AFCData.hpp"
+#include "SDK/Core/AFCDataList.hpp"
 
 using  AFFeatureType = std::bitset<8>;
 
