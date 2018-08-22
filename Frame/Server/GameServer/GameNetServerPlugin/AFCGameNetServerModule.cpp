@@ -35,7 +35,7 @@ bool AFCGameNetServerModule::PostInit()
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
     m_pSceneProcessModule = pPluginManager->FindModule<AFISceneProcessModule>();
-    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
     m_pGameServerToWorldModule = pPluginManager->FindModule<AFIGameServerToWorldModule>();
@@ -77,16 +77,16 @@ bool AFCGameNetServerModule::PostInit()
 
     for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
-        const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
-        const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+        const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
+        const int nServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
         if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_GAME && pPluginManager->BusID() == nServerID)
         {
-            const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-            const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
-            const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-            const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
-            const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
+            const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
+            const int nMaxConnect = m_pConfigModule->GetNodeInt(strConfigName, "MaxOnline");
+            const int nCpus = m_pConfigModule->GetNodeInt(strConfigName, "CpuCount");
+            const std::string strServerName(m_pConfigModule->GetNodeString(strConfigName, "Name"));
+            const std::string strIP(m_pConfigModule->GetNodeString(strConfigName, "IP"));
 
             int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nServerID, nCpus);
 
@@ -771,6 +771,7 @@ int AFCGameNetServerModule::CommonClassDestoryEvent(const AFGUID& self)
 
     //如果是副本的怪，则不需要发送，因为会在离开副本的时候一次性一条消息发送
     OnEntityListLeave(valueBroadListNoSelf, AFCDataList() << self);
+    return 0;
 }
 
 int AFCGameNetServerModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)

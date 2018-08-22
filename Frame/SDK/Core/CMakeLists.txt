@@ -12,5 +12,3 @@ set_target_properties(AFCore PROPERTIES
 )
 
 target_link_libraries(AFCore)
-
-add_coverage(AFCore)

@@ -49,6 +49,6 @@ void AFProxyNetClientPlugin::Install()
 
 void AFProxyNetClientPlugin::Uninstall()
 {
-    UnRegisterModule<AFIProxyServerToGameModule, AFCProxyServerToGameModule>();
-    UnRegisterModule<AFIProxyServerToWorldModule, AFCProxyServerToWorldModule>();
+    DeregisterModule<AFIProxyServerToGameModule, AFCProxyServerToGameModule>();
+    DeregisterModule<AFIProxyServerToWorldModule, AFCProxyServerToWorldModule>();
 }

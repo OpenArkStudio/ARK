@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -45,5 +45,5 @@ void Example1Plugin::Install()
 
 void Example1Plugin::Uninstall()
 {
-    UnRegisterModule<Example1Module, Example1Module>();
+    DeregisterModule<Example1Module, Example1Module>();
 }

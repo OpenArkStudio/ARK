@@ -47,5 +47,5 @@ void AFLoginNetServerPlugin::Install()
 
 void AFLoginNetServerPlugin::Uninstall()
 {
-    UnRegisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
+    DeregisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
 }

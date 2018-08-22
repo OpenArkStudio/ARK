@@ -46,5 +46,5 @@ void AFMasterLogicPlugin::Install()
 
 void AFMasterLogicPlugin::Uninstall()
 {
-    UnRegisterModule<AFIMasterModule, AFCMasterModule>();
+    DeregisterModule<AFIMasterModule, AFCMasterModule>();
 }

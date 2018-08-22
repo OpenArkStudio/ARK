@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Proto/ARKDataDefine.hpp"
@@ -84,7 +84,7 @@ protected:
 private:
     AFIKernelModule* m_pKernelModule;
     AFIPropertyConfigModule* m_pPropertyConfigModule;
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFIClassModule* m_pClassModule;
     AFILevelModule* m_pLevelModule;
     std::map<std::string, int64_t> mNameToCol;

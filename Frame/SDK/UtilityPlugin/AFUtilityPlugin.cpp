@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -54,9 +54,9 @@ void AFUtilityPlugin::Install()
 
 void AFUtilityPlugin::Uninstall()
 {
-    UnRegisterModule<AFIScheduleModule, AFCScheduleModule>();
-    UnRegisterModule<AFITimerModule, AFCGUIDModule>();
-    UnRegisterModule<AFIGUIDModule, AFCGUIDModule>();
-    UnRegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
-    UnRegisterModule<AFILogModule, AFCLogModule>();
+    DeregisterModule<AFIScheduleModule, AFCScheduleModule>();
+    DeregisterModule<AFITimerModule, AFCGUIDModule>();
+    DeregisterModule<AFIGUIDModule, AFCGUIDModule>();
+    DeregisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
+    DeregisterModule<AFILogModule, AFCLogModule>();
 }

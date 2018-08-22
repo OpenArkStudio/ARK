@@ -94,7 +94,7 @@ bool Example3Module::PostInit()
     std::cout << typeid(Example3Module).name() << ", PostInit" << std::endl;
 
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
     ARK_LOG_INFO("Init finished...");

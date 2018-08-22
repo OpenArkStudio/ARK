@@ -21,8 +21,6 @@
 #include "AFKernelPlugin.h"
 #include "AFCKernelModule.h"
 #include "AFCSceneModule.h"
-#include "AFCClassModule.h"
-#include "AFCElementModule.h"
 
 #ifdef ARK_DYNAMIC_PLUGIN
 
@@ -45,16 +43,12 @@ const std::string AFKernelPlugin::GetPluginName()
 
 void AFKernelPlugin::Install()
 {
-    RegisterModule< AFIClassModule, AFCClassModule>();
-    RegisterModule< AFIElementModule, AFCElementModule>();
     RegisterModule< AFISceneModule, AFCSceneModule>();
     RegisterModule< AFIKernelModule, AFCKernelModule>();
 }
 
 void AFKernelPlugin::Uninstall()
 {
-    UnRegisterModule<AFIKernelModule, AFCKernelModule>();
-    UnRegisterModule<AFISceneModule, AFCSceneModule>();
-    UnRegisterModule<AFIElementModule, AFCElementModule>();
-    UnRegisterModule<AFIClassModule, AFCClassModule>();
+    DeregisterModule<AFIKernelModule, AFCKernelModule>();
+    DeregisterModule<AFISceneModule, AFCSceneModule>();
 }

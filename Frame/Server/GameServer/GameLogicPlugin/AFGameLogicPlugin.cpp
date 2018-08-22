@@ -56,11 +56,11 @@ void AFGameLogicPlugin::Install()
 
 void AFGameLogicPlugin::Uninstall()
 {
-    UnRegisterModule<AFIAccountModule, AFCAccountModule>();
-    UnRegisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
-    UnRegisterModule<AFILevelModule, AFCLevelModule>();
-    UnRegisterModule<AFIPropertyModule, AFCPropertyModule>();
-    UnRegisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
-    UnRegisterModule<AFIGameServerModule, AFCGameServerModule>();
+    DeregisterModule<AFIAccountModule, AFCAccountModule>();
+    DeregisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
+    DeregisterModule<AFILevelModule, AFCLevelModule>();
+    DeregisterModule<AFIPropertyModule, AFCPropertyModule>();
+    DeregisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
+    DeregisterModule<AFIGameServerModule, AFCGameServerModule>();
 }
 

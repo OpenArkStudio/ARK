@@ -49,6 +49,6 @@ void AFBusPlugin::Install()
 
 void AFBusPlugin::Uninstall()
 {
-    UnRegisterModule<AFIProcModule, AFCProcModule>();
-    UnRegisterModule<AFIBusModule, AFCBusModule>();
+    DeregisterModule<AFIProcModule, AFCProcModule>();
+    DeregisterModule<AFIBusModule, AFCBusModule>();
 }

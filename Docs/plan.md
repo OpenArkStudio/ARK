@@ -1,13 +1,13 @@
 ## ARK 计划 2018
 
-- [ ] 1.spdlog增加按照文件夹/大小/小时滚动的sink(*已经修改了一部分，还需要进一步修改成tlog的格式，binlog/1001/20180627/game1_hour.log*)
+- [x] 1.spdlog增加按照文件夹/大小/小时滚动的sink(*已经修改了一部分，还需要进一步修改成tlog的格式，binlog/1001/20180627/game1_hour.log*)
 - [ ] 2.Map, Layer,对应修改协议和Client的处理
 - [ ] 3.新架构修改
 - [ ] 4.增加连接关系的配置，不再通过程序中手动设置关系(bus_relation, server_settting, IP和port不用再指定了, 通过获取IP和动态生成port)
 - [ ] 5.增加logserver和logclient插件
-- [ ] 6.修改bin文件夹debug和release在一起，debug和release分开配置(方便配置是一套)
+- [x] 6.修改bin文件夹debug和release在一起，debug和release分开配置(方便配置是一套)
 - [ ] 7.增加运维工具(tcm & deploy)
-
+- [ ] 8.guid改为内部指针类型(降低其他非guid类型的内存占用)
 
 - [ ] 51.优化数据同步的流量,减小属性同步的体积(去掉`NodeName`和`TableName`类似的string同步)
 - [ ] 52.拓展DataTable的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，DataTable现有的二维结构是特定的，不方便做扩展

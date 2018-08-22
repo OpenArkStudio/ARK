@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -26,7 +26,7 @@
 #include "rapidxml/rapidxml_utils.hpp"
 #include "SDK/Core/AFList.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
@@ -62,10 +62,10 @@ protected:
     int OnEnterSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
     int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    void OnClienSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnClientSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 private:
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFIClassModule* m_pClassModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;

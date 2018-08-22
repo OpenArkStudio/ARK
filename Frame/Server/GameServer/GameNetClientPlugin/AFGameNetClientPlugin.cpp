@@ -47,5 +47,5 @@ void AFGameNetClientPlugin::Install()
 
 void AFGameNetClientPlugin::Uninstall()
 {
-    UnRegisterModule<AFIGameServerToWorldModule, AFCGameServerToWorldModule>();
+    DeregisterModule<AFIGameServerToWorldModule, AFCGameServerToWorldModule>();
 }

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -26,7 +26,7 @@
 bool AFCSceneProcessModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pGameServerNet_ServerModule = pPluginManager->FindModule<AFIGameNetServerModule>();
@@ -37,26 +37,23 @@ bool AFCSceneProcessModule::PostInit()
     //Init scene container
     ARK_SHARE_PTR<AFIClass> pLogicClass =  m_pClassModule->GetElement("Scene");
 
-    if (nullptr != pLogicClass)
+    if (nullptr == pLogicClass)
     {
-        AFList<std::string>& list = pLogicClass->GetConfigNameList();
+        return false;
+    }
 
-        std::string strData;
-        bool bRet = list.First(strData);
+    AFList<std::string>& list = pLogicClass->GetConfigNameList();
+    std::string strData;
+    for (bool bRet = list.First(strData); bRet; bRet = list.Next(strData))
+    {
+        int nSceneID = ARK_LEXICAL_CAST<int>(strData);
 
-        while (bRet)
+        if (!LoadSceneResource(nSceneID))
         {
-            int nSceneID = ARK_LEXICAL_CAST<int>(strData);
-
-            if (!LoadSceneResource(nSceneID))
-            {
-                return false;
-            }
-
-            m_pKernelModule->CreateScene(nSceneID);
-
-            bRet = list.Next(strData);
+            return false;
         }
+
+        m_pKernelModule->CreateScene(nSceneID);
     }
 
     return true;
@@ -66,24 +63,22 @@ bool AFCSceneProcessModule::CreateSceneObject(const int nSceneID, const int nGro
 {
     ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResource = mtSceneResourceConfig.GetElement(nSceneID);
 
-    if (nullptr != pSceneResource)
+    if (nullptr == pSceneResource)
     {
-        ARK_SHARE_PTR<SceneSeedResource> pResource = pSceneResource->First();
+        return false;
+    }
 
-        while (nullptr != pResource)
-        {
-            const std::string strClassName(m_pElementModule->GetNodeString(pResource->strConfigID, ARK::NPC::ClassName()));
+    for (ARK_SHARE_PTR<SceneSeedResource> pResource = pSceneResource->First(); nullptr != pResource; pResource = pSceneResource->Next())
+    {
+        const std::string strClassName(m_pConfigModule->GetNodeString(pResource->strConfigID, ARK::NPC::ClassName()));
 
-            AFCDataList arg;
-            arg << ARK::NPC::X() << pResource->fSeedX;
-            arg << ARK::NPC::Y() << pResource->fSeedY;
-            arg << ARK::NPC::Z() << pResource->fSeedZ;
-            arg << ARK::NPC::SeedID() << pResource->strSeedID;
+        AFCDataList arg;
+        arg << ARK::NPC::X() << pResource->fSeedX;
+        arg << ARK::NPC::Y() << pResource->fSeedY;
+        arg << ARK::NPC::Z() << pResource->fSeedZ;
+        arg << ARK::NPC::SeedID() << pResource->strSeedID;
 
-            m_pKernelModule->CreateEntity(NULL_GUID, nSceneID, nGroupID, strClassName, pResource->strConfigID, arg);
-
-            pResource = pSceneResource->Next();
-        }
+        m_pKernelModule->CreateEntity(AFGUID(nSceneID, nGroupID), nSceneID, nGroupID, strClassName, pResource->strConfigID, arg);
     }
 
     return true;
@@ -119,13 +114,13 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if (self != ident)
     {
-        ARK_LOG_ERROR("you are not you self, but you want to entry this scene, id  = {} scene_id = {}", ident.ToString(), nTargetScene);
+        ARK_LOG_ERROR("you are not you self, but you want to entry this scene, id = {} scene_id = {}", ident.ToString(), nTargetScene);
         return 1;
     }
 
     if (nNowSceneID == nTargetScene && nTargetGroupID == nNowGroupID)
     {
-        ARK_LOG_ERROR("In same scene and group but it not a clone scene, id  = {} scene_id = {}", ident.ToString(), nTargetScene);
+        ARK_LOG_ERROR("In same scene and group but it not a clone scene, id = {} scene_id = {}", ident.ToString(), nTargetScene);
         return 1;
     }
 
@@ -143,14 +138,14 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if (nNewGroupID <= 0)
     {
-        ARK_LOG_ERROR("CreateCloneScene failed, id  = {} scene_id  = {}=", ident.ToString(), nTargetScene);
+        ARK_LOG_ERROR("CreateCloneScene failed, id = {} scene_id  = {}=", ident.ToString(), nTargetScene);
         return 0;
     }
 
     //得到坐标
     Point3D xRelivePos;
     const std::string strSceneID = ARK_LEXICAL_CAST<std::string>(nTargetScene);
-    const std::string& strRelivePosList = m_pElementModule->GetNodeString(strSceneID, ARK::Scene::RelivePos());
+    const std::string& strRelivePosList = m_pConfigModule->GetNodeString(strSceneID, ARK::Scene::RelivePos());
 
     AFCDataList valueRelivePosList(strRelivePosList.c_str(), strRelivePosList.length(), ';');
 
@@ -168,7 +163,7 @@ int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEven
 
     if (!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos, 0.0F, var))
     {
-        ARK_LOG_ERROR("SwitchScene failed, id  = {} scene_id = {}", ident.ToString(), nTargetScene);
+        ARK_LOG_ERROR("SwitchScene failed, id = {} scene_id = {}", ident.ToString(), nTargetScene);
         return 0;
     }
 
@@ -195,7 +190,7 @@ int AFCSceneProcessModule::OnLeaveSceneEvent(const AFGUID& object, const int nEv
         if (GetCloneSceneType(nSceneID) == SCENE_TYPE_CLONE_SCENE)
         {
             m_pKernelModule->ReleaseGroupScene(nSceneID, nOldGroupID);
-            ARK_LOG_ERROR("DestroyCloneSceneGroup, id  = {} scene_id  = {} group_id = {}", object.ToString(), nSceneID, nOldGroupID);
+            ARK_LOG_ERROR("DestroyCloneSceneGroup, id = {} scene_id = {} group_id = {}", object.ToString(), nSceneID, nOldGroupID);
         }
     }
 
@@ -230,12 +225,10 @@ int AFCSceneProcessModule::OnObjectClassEvent(const AFGUID& self, const std::str
 
 E_SCENE_TYPE AFCSceneProcessModule::GetCloneSceneType(const int nSceneID)
 {
-    char szSceneIDName[MAX_PATH] = { 0 };
-    sprintf(szSceneIDName, "%d", nSceneID);
-
-    if (m_pElementModule->ExistElement(szSceneIDName))
+    std::string scene_id = ARK_TO_STRING(nSceneID);
+    if (m_pConfigModule->ExistConfig(scene_id))
     {
-        return (E_SCENE_TYPE)m_pElementModule->GetNodeInt(szSceneIDName, ARK::Scene::CanClone());
+        return (E_SCENE_TYPE)m_pConfigModule->GetNodeInt(scene_id, ARK::Scene::CanClone());
     }
 
     return SCENE_TYPE_ERROR;
@@ -261,7 +254,7 @@ bool AFCSceneProcessModule::ExitCloneGroup(const int nSceneID, const int& nGroup
 bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
 {
     std::string sceneIDName = ARK_TO_STRING(nSceneID);
-    const std::string strSceneFilePath(m_pElementModule->GetNodeString(sceneIDName, ARK::Scene::FilePath()));
+    const std::string strSceneFilePath(m_pConfigModule->GetNodeString(sceneIDName, ARK::Scene::FilePath()));
 
     //场景对应资源
     ARK_SHARE_PTR<AFMapEx<std::string, SceneSeedResource>> pSceneResourceMap = mtSceneResourceConfig.GetElement(nSceneID);
@@ -278,7 +271,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     }
 
     rapidxml::file<> xFileSource(strSceneFilePath.c_str());
-    rapidxml::xml_document<>  xFileDoc;
+    rapidxml::xml_document<> xFileDoc;
     xFileDoc.parse<0>(xFileSource.data());
 
     //资源文件列表
@@ -293,9 +286,9 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
         float fSeedY = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedY")->value());
         float fSeedZ = ARK_LEXICAL_CAST<float>(pSeedFileNode->first_attribute("SeedZ")->value());
 
-        if (!m_pElementModule->ExistElement(strConfigID))
+        if (!m_pConfigModule->ExistConfig(strConfigID))
         {
-            assert(0);
+            ARK_ASSERT_NO_EFFECT(0);
         }
 
         ARK_SHARE_PTR<SceneSeedResource> pSeedResource = pSceneResourceMap->GetElement(strSeedID);
@@ -317,7 +310,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     return true;
 }
 
-void AFCSceneProcessModule::OnClienSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCSceneProcessModule::OnClientSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //Will add by yourself
 }

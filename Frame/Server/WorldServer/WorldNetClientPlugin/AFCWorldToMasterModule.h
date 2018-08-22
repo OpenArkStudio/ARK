@@ -22,7 +22,7 @@
 
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "Server/Interface/AFIWorldToMasterModule.h"
 #include "Server/Interface/AFIWorldLogicModule.h"
@@ -65,7 +65,7 @@ protected:
 private:
 
     AFILogModule* m_pLogModule;
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFIClassModule* m_pClassModule;
     AFIWorldLogicModule* m_pWorldLogicModule;
     AFIWorldNetServerModule* m_pWorldNet_ServerModule;

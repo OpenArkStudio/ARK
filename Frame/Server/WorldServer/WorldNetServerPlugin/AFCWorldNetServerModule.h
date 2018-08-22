@@ -23,7 +23,7 @@
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "Server/Interface/AFIWorldToMasterModule.h"
 #include "Server/Interface/AFIWorldLogicModule.h"
@@ -102,7 +102,7 @@ private:
     AFMapEx<int, ServerData> mGameMap;
     AFMapEx<int, ServerData> mProxyMap;
 
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFIClassModule* m_pClassModule;
     AFIWorldLogicModule* m_pWorldLogicModule;
     AFIKernelModule* m_pKernelModule;

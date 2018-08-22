@@ -46,5 +46,5 @@ void AFWorldNetClientPlugin::Install()
 
 void AFWorldNetClientPlugin::Uninstall()
 {
-    UnRegisterModule<AFIWorldToMasterModule, AFCWorldToMasterModule>();
+    DeregisterModule<AFIWorldToMasterModule, AFCWorldToMasterModule>();
 }

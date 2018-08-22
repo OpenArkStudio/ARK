@@ -25,7 +25,7 @@
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "Server/Interface/AFINetServerModule.h"
 #include "Server/Interface/AFIProxyNetServerModule.h"
@@ -98,7 +98,7 @@ private:
     AFIProxyServerToGameModule* m_pProxyServerToGameModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFIClassModule* m_pClassModule;
     AFIGUIDModule* m_pUUIDModule;
     AFINetServerModule* m_pNetModule;

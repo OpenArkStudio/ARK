@@ -36,7 +36,7 @@ bool AFCLoginNetServerModule::PostInit()
     m_pLoginLogicModule = pPluginManager->FindModule<AFILoginLogicModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
-    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pLoginToMasterModule = pPluginManager->FindModule<AFILoginToMasterModule>();
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
 
@@ -62,15 +62,15 @@ bool AFCLoginNetServerModule::PostInit()
 
     for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
-        const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
-        const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+        const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
+        const int nServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
         if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_LOGIN && pPluginManager->BusID() == nServerID)
         {
-            const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-            const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
-            const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-            const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
+            const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
+            const int nMaxConnect = m_pConfigModule->GetNodeInt(strConfigName, "MaxOnline");
+            const int nCpus = m_pConfigModule->GetNodeInt(strConfigName, "CpuCount");
+            const std::string strIP(m_pConfigModule->GetNodeString(strConfigName, "IP"));
 
             m_pUUIDModule->SetGUIDMask(nServerID);
 

@@ -24,7 +24,7 @@
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Proto/ARKDataDefine.hpp"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "Server/Interface/AFILevelModule.h"
 #include "Server/Interface/AFIPropertyConfigModule.h"
 
@@ -45,5 +45,5 @@ private:
     AFIPropertyConfigModule* m_pPropertyConfigModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
 };

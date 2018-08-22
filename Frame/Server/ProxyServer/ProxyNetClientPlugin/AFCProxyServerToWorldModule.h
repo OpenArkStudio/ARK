@@ -24,7 +24,7 @@
 #include "SDK/Core/AFArrayMap.hpp"
 #include "SDK/Core/AFCHeartBeatManager.h"
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "Server/Interface/AFINetClientModule.hpp"
@@ -85,7 +85,7 @@ private:
     AFIProxyLogicModule* m_pProxyLogicModule;
     AFIKernelModule* m_pKernelModule;
     AFIProxyNetServerModule* m_pProxyServerNet_ServerModule;
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFIClassModule* m_pClassModule;
     AFIProxyServerToGameModule* m_pProxyServerToGameModule;
     AFINetClientModule* m_pNetClientModule;

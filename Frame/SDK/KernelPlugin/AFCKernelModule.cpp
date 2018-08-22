@@ -54,7 +54,7 @@ bool AFCKernelModule::Init()
 
     m_pSceneModule = pPluginManager->FindModule<AFISceneModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
-    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
 
@@ -162,7 +162,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
     pNodeManager->AddCommonCallBack(this, &AFCKernelModule::OnCommonNodeEvent);
     pTableManager->AddTableCommonCallback(this, &AFCKernelModule::OnCommonTableEvent);
 
-    ARK_SHARE_PTR<AFIDataNodeManager> pConfigNodeManager = m_pElementModule->GetNodeManager(strConfigIndex);
+    ARK_SHARE_PTR<AFIDataNodeManager> pConfigNodeManager = m_pConfigModule->GetNodeManager(strConfigIndex);
 
     if (pConfigNodeManager != nullptr)
     {

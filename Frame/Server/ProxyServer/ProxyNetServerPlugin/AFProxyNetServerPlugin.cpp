@@ -46,5 +46,5 @@ void AFProxyNetServerPlugin::Install()
 
 void AFProxyNetServerPlugin::Uninstall()
 {
-    UnRegisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
+    DeregisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
 }

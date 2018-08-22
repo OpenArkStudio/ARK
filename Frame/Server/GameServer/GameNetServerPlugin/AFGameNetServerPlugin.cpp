@@ -46,5 +46,5 @@ void AFGameNetServerPlugin::Install()
 
 void AFGameNetServerPlugin::Uninstall()
 {
-    UnRegisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
+    DeregisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
 }

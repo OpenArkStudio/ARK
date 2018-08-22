@@ -24,7 +24,7 @@
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "Server/Interface/AFINetServerModule.h"
 #include "Server/Interface/AFIMasterNetServerModule.h"
 
@@ -84,7 +84,7 @@ private:
     AFMapEx<int, ServerData> mLoginMap;
 
 
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFIClassModule* m_pClassModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;

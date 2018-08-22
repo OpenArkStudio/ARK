@@ -23,7 +23,7 @@
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "Server/Interface/AFINetServerModule.h"
@@ -77,7 +77,7 @@ private:
 
     AFILoginToMasterModule* m_pLoginToMasterModule;
     AFIClassModule* m_pClassModule;
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
     AFILoginLogicModule* m_pLoginLogicModule;

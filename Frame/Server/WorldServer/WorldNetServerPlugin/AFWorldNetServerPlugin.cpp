@@ -46,5 +46,5 @@ void AFWorldNetServerPlugin::Install()
 
 void AFWorldNetServerPlugin::Uninstall()
 {
-    UnRegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
+    DeregisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
 }

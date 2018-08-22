@@ -73,7 +73,7 @@ public:
 
     virtual bool Update()
     {
-        for (AFIModule* pModule = mxModulesUpdate.First(); pModule != nullptr; pModule = mxModulesUpdate.Next())
+        for (AFIModule* pModule = mxModulesUpdates.First(); pModule != nullptr; pModule = mxModulesUpdates.Next())
         {
             pModule->Update();
         }
@@ -110,29 +110,37 @@ public:
     {
         assert((std::is_base_of<AFIModule, classBaseName>::value));
         assert((std::is_base_of<classBaseName, className>::value));
-        AFIModule* pRegisterModuleclassName = new className(pPluginManager);
-        pRegisterModuleclassName->strName = typeid(classBaseName).name();
-        pPluginManager->AddModule(typeid(classBaseName).name(), pRegisterModuleclassName);
-        mxModules.AddElement(typeid(classBaseName).name(), pRegisterModuleclassName);
+        AFIModule* pRegModuleName = ARK_NEW className(pPluginManager);
+        pRegModuleName->strName = typeid(classBaseName).name();
+        pPluginManager->AddModule(typeid(classBaseName).name(), pRegModuleName);
+        mxModules.AddElement(typeid(classBaseName).name(), pRegModuleName);
+#if ARK_PLATFORM == PLATFORM_WIN
         if ((&className::Update != &AFIModule::Update))
+#else
+        AFIModule base;
+        bool (AFIModule::*mfp)() = &AFIModule::Update;
+        bool (className::*mfp)() = &className::Update;
+        bool* base_update_mfp = (bool*)(base.*mfp);
+        bool* derived_update_mfp = (bool*)(pRegModuleName->*mfp);
+        if (base_update_mfp == derived_update_mfp)
+#endif
         {
-            mxModulesUpdate.AddElement(typeid(classBaseName).name(), pRegisterModuleclassName);
+            mxModulesUpdates.AddElement(typeid(classBaseName).name(), pRegModuleName);
         }
     }
 
     template<typename classBaseName, typename className>
-    void  UnRegisterModule()
+    void  DeregisterModule()
     {
-        AFIModule* pUnRegisterModuleclassName = dynamic_cast<AFIModule*>(pPluginManager->FindModule(typeid(classBaseName).name()));
+        AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(pPluginManager->FindModule(typeid(classBaseName).name()));
         pPluginManager->RemoveModule(typeid(classBaseName).name());
         mxModules.RemoveElement(typeid(classBaseName).name());
-        mxModulesUpdate.RemoveElement(typeid(classBaseName).name());
-        delete pUnRegisterModuleclassName;
-        pUnRegisterModuleclassName = NULL;
+        mxModulesUpdates.RemoveElement(typeid(classBaseName).name());
+        ARK_DELETE(pDeregModuleName);
     }
 
 protected:
     //All registered modules
     AFMap<std::string, AFIModule> mxModules;
-    AFMap<std::string, AFIModule> mxModulesUpdate;
+    AFMap<std::string, AFIModule> mxModulesUpdates;
 };

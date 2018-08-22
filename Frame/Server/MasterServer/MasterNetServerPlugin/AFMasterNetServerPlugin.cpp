@@ -47,5 +47,5 @@ void AFMasterNetServerPlugin::Install()
 
 void AFMasterNetServerPlugin::Uninstall()
 {
-    UnRegisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
+    DeregisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
 }

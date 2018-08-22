@@ -187,7 +187,7 @@ bool AFCMasterNetServerModule::PostInit()
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
-    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
 
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCMasterNetServerModule::OnHeartBeat);
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_MTL_WORLD_REGISTERED, this, &AFCMasterNetServerModule::OnWorldRegisteredProcess);
@@ -214,16 +214,16 @@ bool AFCMasterNetServerModule::PostInit()
 
     for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
     {
-        const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
-        const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+        const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
+        const int nServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
         if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_MASTER && pPluginManager->BusID() == nServerID)
         {
-            const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-            const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
-            const int nCpus = m_pElementModule->GetNodeInt(strConfigName, "CpuCount");
-            const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
-            const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
+            const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
+            const int nMaxConnect = m_pConfigModule->GetNodeInt(strConfigName, "MaxOnline");
+            const int nCpus = m_pConfigModule->GetNodeInt(strConfigName, "CpuCount");
+            const std::string strServerName(m_pConfigModule->GetNodeString(strConfigName, "Name"));
+            const std::string strIP(m_pConfigModule->GetNodeString(strConfigName, "IP"));
 
             int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
 

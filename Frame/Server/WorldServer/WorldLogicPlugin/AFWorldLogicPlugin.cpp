@@ -47,6 +47,6 @@ void AFWorldLogicPlugin::Install()
 
 void AFWorldLogicPlugin::Uninstall()
 {
-    UnRegisterModule<AFIWorldLogicModule, AFCWorldLogicModule>();
+    DeregisterModule<AFIWorldLogicModule, AFCWorldLogicModule>();
 }
 

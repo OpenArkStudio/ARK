@@ -46,6 +46,6 @@ void AFProxyLogicPlugin::Install()
 
 void AFProxyLogicPlugin::Uninstall()
 {
-    UnRegisterModule<AFIProxyLogicModule, AFCProxyLogicModule>();
+    DeregisterModule<AFIProxyLogicModule, AFCProxyLogicModule>();
 }
 

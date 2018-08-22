@@ -25,7 +25,7 @@ bool AFCLevelModule::PostInit()
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pPropertyConfigModule = pPluginManager->FindModule<AFIPropertyConfigModule>();
-    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
 
     return true;
 }

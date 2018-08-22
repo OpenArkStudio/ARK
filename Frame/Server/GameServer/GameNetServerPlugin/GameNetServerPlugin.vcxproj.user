@@ -3,7 +3,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommand>$(SolutionDir)..\Bin\server\game\PluginLoader_d.exe</LocalDebuggerCommand>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-d -x cfg=Plugin.xml app_id=101 app_name="game_server"</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>-d -x --busid=1.1.101.1 --name=game_server --plugin=Plugin.xml </LocalDebuggerCommandArguments>
     <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\server\game\</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

@@ -47,6 +47,6 @@ void AFLoginLogicPlugin::Install()
 
 void AFLoginLogicPlugin::Uninstall()
 {
-    UnRegisterModule<AFILoginLogicModule, AFCLoginLogicModule>();
+    DeregisterModule<AFILoginLogicModule, AFCLoginLogicModule>();
 }
 

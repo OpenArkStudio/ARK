@@ -43,30 +43,30 @@ copy ..\\..\\Bin\\Comm\\Debug\\AFGame*d.dll		game\\ /Y
 
 cd  master
 echo Starting master...
-start "" PluginLoader_d.exe -x app_id=1 app_name=master_server cfg=Plugin.xml
+start "" PluginLoader_d.exe -x --busid=1.1.1.1 --name=master_server plugin=Plugin.xml
 choice /t 2 /d y /n >nul
 
 cd  ..
 cd  world
 echo Starting world...
-start "" PluginLoader_d.exe -x app_id=100 app_name=world_server cfg=Plugin.xml
+start "" PluginLoader_d.exe -x --busid=1.1.100.1 --name=world_server plugin=Plugin.xml
 choice /t 5 /d y /n >nul
 
 cd  ..
 cd  login
 echo Starting login...
-start "" PluginLoader_d.exe -x app_id=102 app_name=login_server cfg=Plugin.xml
+start "" PluginLoader_d.exe -x --busid=1.1.102.1 --name=login_server plugin=Plugin.xml
 choice /t 2 /d y /n >nul
 
 cd  ..
 cd  proxy
 echo Starting proxy...
-start "" PluginLoader_d.exe -x app_id=103 app_name=proxy_server cfg=Plugin.xml
+start "" PluginLoader_d.exe -x --busid=1.1.103.1 --name=proxy_server plugin=Plugin.xml
 
 cd  ..
 cd  game
 echo Starting game...
-start "" PluginLoader_d.exe -x app_id=101 app_name=game_server cfg=Plugin.xml
+start "" PluginLoader_d.exe -x --busid=1.1.101.1 --name=game_server plugin=Plugin.xml
 choice /t 4 /d y /n >nul
 
 echo All processes are launching...

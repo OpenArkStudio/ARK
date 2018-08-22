@@ -27,7 +27,7 @@
 bool AFCPropertyTrailModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 

@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFILogModule.h"
 
@@ -30,7 +30,7 @@ class Example3Module : public AFIModule
 public:
     Example3Module(AFIPluginManager* p): mLastTime(0)
         , m_pKernelModule(nullptr)
-        , m_pElementModule(nullptr)
+        , m_pConfigModule(nullptr)
     {
         pPluginManager = p;
     }
@@ -53,6 +53,6 @@ protected:
     int64_t mLastTime;
 protected:
     AFIKernelModule* m_pKernelModule;
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFILogModule* m_pLogModule;
 };

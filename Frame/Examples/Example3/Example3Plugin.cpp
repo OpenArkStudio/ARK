@@ -46,5 +46,5 @@ void Example3Plugin::Install()
 
 void Example3Plugin::Uninstall()
 {
-    UnRegisterModule<Example3Module, Example3Module>();
+    DeregisterModule<Example3Module, Example3Module>();
 }

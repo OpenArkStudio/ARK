@@ -20,6 +20,8 @@
 
 #pragma once
 
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Core/AFArrayMap.hpp"
 #include "SDK/Core/AFIEntity.h"
 #include "SDK/Core/AFCDataList.hpp"
 #include "SDK/Core/AFDataTable.h"
@@ -28,10 +30,8 @@
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFISceneModule.h"
-#include "SDK/Core/AFMap.hpp"
-#include "SDK/Core/AFArrayMap.hpp"
 
 class AFCKernelModule
     : public AFIKernelModule,
@@ -156,7 +156,7 @@ private:
     AFISceneModule* m_pSceneModule;
     AFILogModule* m_pLogModule;
     AFIClassModule* m_pClassModule;
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFIGUIDModule* m_pGUIDModule;
 
     AFArrayMap<std::string, int32_t> mInnerProperty;

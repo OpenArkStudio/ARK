@@ -25,23 +25,22 @@
 #include "SDK/Core/AFIDataNodeManager.h"
 #include "SDK/Core/AFIDataTableManager.h"
 
-class AFIElementModule
-    : public AFIModule
+class AFIConfigModule : public AFIModule
 {
 public:
     virtual bool Load() = 0;
     virtual bool Save() = 0;
     virtual bool Clear() = 0;
-    virtual bool ExistElement(const std::string& strConfigName) = 0;
-    virtual bool ExistElement(const std::string& strClassName, const std::string& strConfigName) = 0;
+    virtual bool ExistConfig(const std::string& strConfigName) = 0;
+    virtual bool ExistConfig(const std::string& strClassName, const std::string& strConfigName) = 0;
 
     virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strConfigName) = 0;
     virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strConfigName) = 0;
 
-    virtual bool GetNodeBool(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual int32_t GetNodeInt(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual int64_t GetNodeInt64(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual float GetNodeFloat(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual double GetNodeDouble(const std::string& strConfigName, const std::string& strPropertyName) = 0;
-    virtual const char* GetNodeString(const std::string& strConfigName, const std::string& strPropertyName) = 0;
+    virtual bool GetNodeBool(const std::string& strConfigName, const std::string& strNodeName) = 0;
+    virtual int32_t GetNodeInt(const std::string& strConfigName, const std::string& strNodeName) = 0;
+    virtual int64_t GetNodeInt64(const std::string& strConfigName, const std::string& strNodeName) = 0;
+    virtual float GetNodeFloat(const std::string& strConfigName, const std::string& strNodeName) = 0;
+    virtual double GetNodeDouble(const std::string& strConfigName, const std::string& strNodeName) = 0;
+    virtual const char* GetNodeString(const std::string& strConfigName, const std::string& strNodeName) = 0;
 };

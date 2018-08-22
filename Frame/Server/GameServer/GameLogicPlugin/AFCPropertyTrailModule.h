@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFILogModule.h"
@@ -54,7 +54,7 @@ protected:
 
 private:
     AFIKernelModule* m_pKernelModule;
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
     AFIClassModule* m_pClassModule;
     AFILogModule* m_pLogModule;
 };

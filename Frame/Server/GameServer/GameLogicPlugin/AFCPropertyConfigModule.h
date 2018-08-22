@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Proto/ARKDataDefine.hpp"
 #include "Server/Interface/AFIPropertyConfigModule.h"
 
@@ -48,5 +48,5 @@ private:
     AFMapEx<int, AFMapEx<int, std::string> > mhtCoefficienData;
 
     AFIClassModule* m_pClassModule;
-    AFIElementModule* m_pElementModule;
+    AFIConfigModule* m_pConfigModule;
 };

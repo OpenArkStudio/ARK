@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,7 +22,7 @@
 
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIElementModule.h"
+#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "Server/Interface/AFIAccountModule.h"
@@ -65,6 +65,6 @@ private:
     int mnRoleHallContainer;
 
     AFIKernelModule* m_pKernelModule;
-    AFIElementModule* m_pElementInfoModule;
+    AFIConfigModule* m_pElementInfoModule;
     AFIGUIDModule* m_pUUIDModule;
 };

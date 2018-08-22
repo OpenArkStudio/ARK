@@ -145,6 +145,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contrib", "Contrib", "{98C6
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFBusPlugin", "Server\BusPlugin\BusPlugin.vcxproj", "{9D23DA22-6ECC-47CB-85F7-0BF440B88298}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFConfigPlugin", "SDK\ConfigPlugin\ConfigPlugin.vcxproj", "{5D0350DE-66E6-42F0-B099-C7AFDEDC7D3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -255,6 +257,10 @@ Global
 		{9D23DA22-6ECC-47CB-85F7-0BF440B88298}.Debug|x64.Build.0 = Debug|x64
 		{9D23DA22-6ECC-47CB-85F7-0BF440B88298}.Release|x64.ActiveCfg = Release|x64
 		{9D23DA22-6ECC-47CB-85F7-0BF440B88298}.Release|x64.Build.0 = Release|x64
+		{5D0350DE-66E6-42F0-B099-C7AFDEDC7D3F}.Debug|x64.ActiveCfg = Debug|x64
+		{5D0350DE-66E6-42F0-B099-C7AFDEDC7D3F}.Debug|x64.Build.0 = Debug|x64
+		{5D0350DE-66E6-42F0-B099-C7AFDEDC7D3F}.Release|x64.ActiveCfg = Release|x64
+		{5D0350DE-66E6-42F0-B099-C7AFDEDC7D3F}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -296,6 +302,7 @@ Global
 		{D42DB002-A2EB-42F3-BFFE-327C8ADCED72} = {2EDDAD6B-1B81-4FE1-B2CA-1A166883EC11}
 		{02130585-320F-4534-976F-7F127681F82B} = {2EDDAD6B-1B81-4FE1-B2CA-1A166883EC11}
 		{9D23DA22-6ECC-47CB-85F7-0BF440B88298} = {98C63232-287B-44F1-85A0-871EC199665F}
+		{5D0350DE-66E6-42F0-B099-C7AFDEDC7D3F} = {410C8A08-63DC-45B2-ADB9-08CD991861F0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC0635D4-DDBA-4CFE-8273-5C4E51F2B97B}

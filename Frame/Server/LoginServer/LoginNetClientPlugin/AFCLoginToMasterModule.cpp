@@ -37,7 +37,7 @@ bool AFCLoginToMasterModule::PostInit()
     m_pLoginLogicModule = pPluginManager->FindModule<AFILoginLogicModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
-    m_pElementModule = pPluginManager->FindModule<AFIElementModule>();
+    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pLoginNet_ServerModule = pPluginManager->FindModule<AFILoginNetServerModule>();
 
     m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCLoginToMasterModule::OnSelectServerResultProcess);
@@ -54,14 +54,14 @@ bool AFCLoginToMasterModule::PostInit()
 
         for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
-            const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
-            const int nServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+            const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
+            const int nServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
             if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_MASTER)
             {
-                const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-                const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
-                const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
+                const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
+                const std::string strServerName(m_pConfigModule->GetNodeString(strConfigName, "Name"));
+                const std::string strIP(m_pConfigModule->GetNodeString(strConfigName, "IP"));
 
                 ConnectData xServerData;
 
@@ -95,15 +95,15 @@ void AFCLoginToMasterModule::Register(const int nServerID)
 
         for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
         {
-            const int nServerType = m_pElementModule->GetNodeInt(strConfigName, "Type");
-            const int nSelfServerID = m_pElementModule->GetNodeInt(strConfigName, "ServerID");
+            const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
+            const int nSelfServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
             if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_LOGIN && pPluginManager->BusID() == nSelfServerID)
             {
-                const int nPort = m_pElementModule->GetNodeInt(strConfigName, "Port");
-                const int nMaxConnect = m_pElementModule->GetNodeInt(strConfigName, "MaxOnline");
-                const std::string strServerName(m_pElementModule->GetNodeString(strConfigName, "Name"));
-                const std::string strIP(m_pElementModule->GetNodeString(strConfigName, "IP"));
+                const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
+                const int nMaxConnect = m_pConfigModule->GetNodeInt(strConfigName, "MaxOnline");
+                const std::string strServerName(m_pConfigModule->GetNodeString(strConfigName, "Name"));
+                const std::string strIP(m_pConfigModule->GetNodeString(strConfigName, "IP"));
 
                 AFMsg::ServerInfoReportList xMsg;
                 AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
