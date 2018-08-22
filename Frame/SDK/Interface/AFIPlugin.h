@@ -119,9 +119,9 @@ public:
 #else
         AFIModule base;
         bool (AFIModule::*mfp)() = &AFIModule::Update;
-        bool (className::*mfp)() = &className::Update;
+        bool (className::*child_mfp)() = &className::Update;
         bool* base_update_mfp = (bool*)(base.*mfp);
-        bool* derived_update_mfp = (bool*)(pRegModuleName->*mfp);
+        bool* derived_update_mfp = (bool*)(pRegModuleName->*child_mfp);
         if (base_update_mfp == derived_update_mfp)
 #endif
         {
