@@ -46,7 +46,7 @@ before_script:
 
 script:
   # make
-  - build-wrapper-linux-x86-64 --out-dir bw-output
+  - build-wrapper-linux-x86-64 --out-dir bw-output make -j 4
   - cd $TRAVIS_BUILD_DIR/Frame
   #If you need debug log, plase add -X parameters
   - sonar-scanner
