@@ -120,8 +120,8 @@ public:
         AFIModule base;
         bool (AFIModule::*mfp)() = &AFIModule::Update;
         bool (className::*child_mfp)() = &className::Update;
-        bool* base_update_mfp = (bool*)(base.*mfp);
-        bool* derived_update_mfp = (bool*)(pRegModuleName->*child_mfp);
+        void* base_update_mfp = (void*)(base.*mfp);
+        void* derived_update_mfp = (void*)(static_cast<className*>(pRegModuleName)->*child_mfp);
         if (base_update_mfp == derived_update_mfp)
 #endif
         {
