@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -30,6 +30,7 @@
 #include "Server/Interface/AFILoginToMasterModule.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
 #include "Server/Interface/AFILoginLogicModule.h"
+#include "Server/Interface/AFIProcConfigModule.h"
 
 class AFCLoginNetServerModule
     : public AFILoginNetServerModule
@@ -40,11 +41,8 @@ public:
         pPluginManager = p;
     }
 
-    virtual bool Init();
-    virtual bool Update();
-
-
     virtual bool PostInit();
+    virtual bool Update();
 
     virtual void LogReceive(const char* str) {/*log*/}
     virtual void LogSend(const char* str) {/*log*/}
@@ -52,6 +50,8 @@ public:
     virtual int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strKey);
 
 protected:
+    int StartServer();
+
     void OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
     void OnClientDisconnect(const AFGUID& xClientID);
@@ -83,4 +83,5 @@ private:
     AFILoginLogicModule* m_pLoginLogicModule;
     AFIGUIDModule* m_pUUIDModule;
     AFINetServerModule* m_pNetModule;
+    AFIProcConfigModule* m_pProcConfigModule;
 };

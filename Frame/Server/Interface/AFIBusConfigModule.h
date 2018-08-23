@@ -42,7 +42,7 @@ union AFBusAddr
         inst_id = i_id;
     }
 
-    inline AFBusAddr& operator=(int rhs)
+    inline AFBusAddr& operator=(const int rhs)
     {
         this->bus_id = rhs;
         return *this;

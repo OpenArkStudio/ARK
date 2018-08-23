@@ -99,13 +99,12 @@ public:
             m_pNet->Final();
         }
 
-        delete m_pNet;
-        m_pNet = NULL;
+        ARK_DELETE(m_pNet);
     }
 
     //as server
     template<class ClassNetServerType = AFCNetServer>
-    int Start(const unsigned int nMaxClient, const std::string strIP, const unsigned short nPort, const int nServerID, const int nCpuCount)
+    int Start(const int nServerID, const std::string strIP, const unsigned short nPort, const int nCpuCount, const unsigned int nMaxClient)
     {
         std::string strIPAndPort;
         std::string strPort;

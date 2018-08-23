@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -30,23 +30,20 @@ public:
     class GateBaseInfo
     {
     public:
-        GateBaseInfo() :
-            nActorID(0),
-            nGateID(0)
+        GateBaseInfo()
         {
 
         }
 
         GateBaseInfo(const int gateID, const AFGUID xIdent) :
-            nActorID(0),
             nGateID(gateID),
             xClientID(xIdent)
         {
         }
 
-        int nActorID;
-        int nGateID;
-        AFGUID xClientID;
+        int nActorID{0};
+        int nGateID{0};
+        AFGUID xClientID{0};
     };
 
     class GateServerInfo

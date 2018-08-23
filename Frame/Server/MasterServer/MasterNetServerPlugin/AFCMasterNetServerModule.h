@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -27,6 +27,7 @@
 #include "SDK/Interface/AFIConfigModule.h"
 #include "Server/Interface/AFINetServerModule.h"
 #include "Server/Interface/AFIMasterNetServerModule.h"
+#include "Server/Interface/AFIProcConfigModule.h"
 
 class AFCMasterNetServerModule : public AFIMasterNetServerModule
 {
@@ -37,8 +38,6 @@ public:
         mnLastLogTime = pPluginManager->GetNowTime();
     }
 
-    virtual bool Init();
-
     virtual bool PostInit();
     virtual bool Update();
 
@@ -46,6 +45,7 @@ public:
     virtual void LogSend(const char* str) {/*log*/}
 
 protected:
+    int StartServer();
     void OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
     //连接丢失,删2层(连接对象，帐号对象)
@@ -89,4 +89,5 @@ private:
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
     AFINetServerModule* m_pNetModule;
+    AFIProcConfigModule* m_pProcConfigModule;
 };

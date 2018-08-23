@@ -59,4 +59,6 @@ public:
     virtual const ARK_PROCESS_TYPE GetProcType(const std::string& name) = 0;
     virtual bool GetProcServerInfo(const ARK_PROCESS_TYPE& type, uint8_t inst_id, AFServerConfig& server_config) = 0;
     virtual bool GetProcHostInfo(const ARK_PROCESS_TYPE& type, uint8_t inst_id, AFHostConfig& host_config) = 0;
+
+    virtual bool GetProcServerInfo(const int bus_id, AFServerConfig& server_config) = 0;
 };

@@ -24,15 +24,10 @@
 #include "SDK/Core/AFDataNode.hpp"
 #include "Server/Interface/AFEventDefine.h"
 
-bool AFCGameNetServerModule::Init()
-{
-    m_pNetModule = ARK_NEW AFINetServerModule(pPluginManager);
-    return true;
-}
-
 bool AFCGameNetServerModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    m_pBusConfigModule = pPluginManager->FindModule<AFIBusConfigModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
     m_pSceneProcessModule = pPluginManager->FindModule<AFISceneProcessModule>();
     m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
@@ -40,6 +35,27 @@ bool AFCGameNetServerModule::PostInit()
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
     m_pGameServerToWorldModule = pPluginManager->FindModule<AFIGameServerToWorldModule>();
     m_AccountModule = pPluginManager->FindModule<AFIAccountModule>();
+    m_pProcConfigModule = pPluginManager->FindModule<AFIProcConfigModule>();
+
+    m_pKernelModule->RegCommonClassEvent(this, &AFCGameNetServerModule::OnCommonClassEvent);
+    m_pKernelModule->RegCommonDataNodeEvent(this, &AFCGameNetServerModule::OnCommonDataNodeEvent);
+    m_pKernelModule->RegCommonDataTableEvent(this, &AFCGameNetServerModule::OnCommonDataTableEvent);
+
+    m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCGameNetServerModule::OnEntityEvent);
+
+    int ret = StartServer();
+    if (ret != 0)
+    {
+        exit(0);
+        return false;
+    }
+
+    return true;
+}
+
+int AFCGameNetServerModule::StartServer()
+{
+    m_pNetModule = ARK_NEW AFINetServerModule(pPluginManager);
 
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameNetServerModule::OnRefreshProxyServerInfoProcess);
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameNetServerModule::OnProxyServerRegisteredProcess);
@@ -59,47 +75,24 @@ bool AFCGameNetServerModule::PostInit()
 
     m_pNetModule->AddEventCallBack(this, &AFCGameNetServerModule::OnSocketPSEvent);
 
-    m_pKernelModule->RegCommonClassEvent(this, &AFCGameNetServerModule::OnCommonClassEvent);
-    m_pKernelModule->RegCommonDataNodeEvent(this, &AFCGameNetServerModule::OnCommonDataNodeEvent);
-    m_pKernelModule->RegCommonDataTableEvent(this, &AFCGameNetServerModule::OnCommonDataTableEvent);
-
-    m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCGameNetServerModule::OnEntityEvent);
-
-    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-
-    if (nullptr == xLogicClass)
+    //Start TCP server
+    AFServerConfig serverConfig;
+    if (!m_pProcConfigModule->GetProcServerInfo(pPluginManager->BusID(), serverConfig))
     {
-        return false;
+        ARK_LOG_ERROR("Cannot get proce server info, bus id = {}", pPluginManager->BusID());
+        ARK_ASSERT_NO_EFFECT(0);
+        return -1;
     }
 
-    AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
-    std::string strConfigName;
-
-    for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    int nRet = m_pNetModule->Start(serverConfig.max_connection, "0.0.0.0", serverConfig.port, pPluginManager->BusID(), serverConfig.thread_num);
+    if (nRet < 0)
     {
-        const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
-        const int nServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
-
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_GAME && pPluginManager->BusID() == nServerID)
-        {
-            const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
-            const int nMaxConnect = m_pConfigModule->GetNodeInt(strConfigName, "MaxOnline");
-            const int nCpus = m_pConfigModule->GetNodeInt(strConfigName, "CpuCount");
-            const std::string strServerName(m_pConfigModule->GetNodeString(strConfigName, "Name"));
-            const std::string strIP(m_pConfigModule->GetNodeString(strConfigName, "IP"));
-
-            int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nServerID, nCpus);
-
-            if (nRet < 0)
-            {
-                ARK_LOG_ERROR("Cannot init server net, Port = {}", nPort);
-                ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
-                exit(0);
-            }
-        }
+        ARK_LOG_ERROR("Cannot start server net, Port = {}", serverConfig.port);
+        ARK_ASSERT_NO_EFFECT(0);
+        return -2;
     }
 
-    return true;
+    return 0;
 }
 
 bool AFCGameNetServerModule::Update()

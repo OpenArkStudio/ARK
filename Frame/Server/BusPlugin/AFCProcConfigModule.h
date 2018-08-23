@@ -34,6 +34,8 @@ public:
     virtual bool GetProcServerInfo(const ARK_PROCESS_TYPE& type, uint8_t inst_id, AFServerConfig& server_config);
     virtual bool GetProcHostInfo(const ARK_PROCESS_TYPE& type, uint8_t inst_id, AFHostConfig& host_config);
 
+    virtual bool GetProcServerInfo(const int bus_id, AFServerConfig& server_config);
+
 protected:
     bool LoadProcConfig();
     uint16_t CalcProcPort(const ARK_PROCESS_TYPE& type, const uint8_t inst_id);

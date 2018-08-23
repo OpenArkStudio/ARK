@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -39,9 +39,9 @@ public:
     }
 
     virtual bool Init();
-    virtual bool Shut();
-    virtual bool Update();
     virtual bool PostInit();
+    virtual bool Update();
+    virtual bool Shut();
 
 protected:
 

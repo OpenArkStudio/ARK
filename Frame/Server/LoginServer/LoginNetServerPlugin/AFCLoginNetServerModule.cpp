@@ -24,12 +24,6 @@
 const std::string PROPERTY_ACCOUNT = "Account";
 const std::string PROPERTY_VERIFIED = "Verified";
 
-bool AFCLoginNetServerModule::Init()
-{
-    m_pNetModule = ARK_NEW AFINetServerModule(pPluginManager);
-    return true;
-}
-
 bool AFCLoginNetServerModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
@@ -39,7 +33,21 @@ bool AFCLoginNetServerModule::PostInit()
     m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pLoginToMasterModule = pPluginManager->FindModule<AFILoginToMasterModule>();
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
+    m_pProcConfigModule = pPluginManager->FindModule<AFIProcConfigModule>();
 
+    int ret = StartServer();
+    if (ret != 0)
+    {
+        exit(0);
+        return false;
+    }
+
+    return true;
+}
+
+int AFCLoginNetServerModule::StartServer()
+{
+    m_pNetModule = ARK_NEW AFINetServerModule(pPluginManager);
 
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetServerModule::OnHeartBeat);
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetServerModule::OnLoginProcess);
@@ -50,42 +58,24 @@ bool AFCLoginNetServerModule::PostInit()
 
     m_pNetModule->AddEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
 
-    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-
-    if (nullptr == xLogicClass)
+    //Start TCP server
+    AFServerConfig serverConfig;
+    if (!m_pProcConfigModule->GetProcServerInfo(pPluginManager->BusID(), serverConfig))
     {
-        return false;
+        ARK_LOG_ERROR("Cannot get proce server info, bus id = {}", pPluginManager->BusID());
+        ARK_ASSERT_NO_EFFECT(0);
+        return -1;
     }
 
-    AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
-    std::string strConfigName;
-
-    for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    int nRet = m_pNetModule->Start(serverConfig.max_connection, "0.0.0.0", serverConfig.port, pPluginManager->BusID(), serverConfig.thread_num);
+    if (nRet < 0)
     {
-        const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
-        const int nServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
-
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_LOGIN && pPluginManager->BusID() == nServerID)
-        {
-            const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
-            const int nMaxConnect = m_pConfigModule->GetNodeInt(strConfigName, "MaxOnline");
-            const int nCpus = m_pConfigModule->GetNodeInt(strConfigName, "CpuCount");
-            const std::string strIP(m_pConfigModule->GetNodeString(strConfigName, "IP"));
-
-            m_pUUIDModule->SetGUIDMask(nServerID);
-
-            int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
-
-            if (nRet < 0)
-            {
-                ARK_LOG_ERROR("Cannot init server net, Port = {}", nPort);
-                ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
-                exit(0);
-            }
-        }
+        ARK_LOG_ERROR("Cannot init server net, Port = {}", serverConfig.port);
+        ARK_ASSERT_NO_EFFECT(0);
+        return -2;
     }
 
-    return true;
+    return 0;
 }
 
 int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strWorldKey)
@@ -252,6 +242,3 @@ void AFCLoginNetServerModule::InvalidMessage(const AFIMsgHead& xHead, const int 
 {
     ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);
 }
-
-
-

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -32,6 +32,7 @@
 #include "Server/Interface/AFIProxyServerToWorldModule.h"
 #include "Server/Interface/AFIProxyServerToGameModule.h"
 #include "Server/Interface/AFINetClientModule.hpp"
+#include "Server/Interface/AFIProcConfigModule.h"
 
 class AFCProxyNetServerModule : public AFIProxyNetServerModule
 {
@@ -41,11 +42,8 @@ public:
         pPluginManager = p;
     }
 
-    virtual bool Init();
-    virtual bool Shut();
-    virtual bool Update();
-
     virtual bool PostInit();
+    virtual bool Update();
 
     virtual int Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen);
     virtual int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer);
@@ -54,7 +52,7 @@ public:
     virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID);
 
 protected:
-
+    int StartServer();
     void OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nSeverID);
 
     //连接丢失,删2层(连接对象，帐号对象)
@@ -69,7 +67,6 @@ protected:
     void OnReqCreateRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnReqDelRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
     void OnReqEnterGameServer(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-
 
     //客户端的连接60秒删掉
     int HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFIDataList& var);
@@ -102,5 +99,5 @@ private:
     AFIClassModule* m_pClassModule;
     AFIGUIDModule* m_pUUIDModule;
     AFINetServerModule* m_pNetModule;
-
+    AFIProcConfigModule* m_pProcConfigModule;
 };

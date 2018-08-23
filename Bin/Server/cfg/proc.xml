@@ -15,8 +15,8 @@
     zone id = 1001
     then
 
-    master1 -> 0.0.1.1
-    master2 -> 0.0.1.2
+    master1 -> 1.0.1.1
+    master2 -> 1.0.1.2
 
     world -> 1.1.100.1
 

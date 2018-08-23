@@ -22,6 +22,7 @@
 #include "rapidxml/rapidxml_iterators.hpp"
 #include "RapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIPluginManager.h"
+#include "Server/Interface/AFIBusConfigModule.h"
 #include "AFCProcConfigModule.h"
 
 AFCProcConfigModule::AFCProcConfigModule(AFIPluginManager* p)
@@ -154,6 +155,12 @@ bool AFCProcConfigModule::GetProcServerInfo(const ARK_PROCESS_TYPE& type, uint8_
     }
 
     return false;
+}
+
+bool AFCProcConfigModule::GetProcServerInfo(const int bus_id, AFServerConfig& server_config)
+{
+    AFBusAddr bus_addr(bus_id);
+    return GetProcServerInfo((ARK_PROCESS_TYPE)bus_addr.proc_id, bus_addr.inst_id, server_config);
 }
 
 bool AFCProcConfigModule::GetProcHostInfo(const ARK_PROCESS_TYPE& type, uint8_t inst_id, AFHostConfig& host_config)

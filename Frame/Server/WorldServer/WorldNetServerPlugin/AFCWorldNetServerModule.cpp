@@ -23,12 +23,6 @@
 #include "SDK/Proto/AFProtoCPP.hpp"
 #include "SDK/Core/AFDataNode.hpp"
 
-bool AFCWorldNetServerModule::Init()
-{
-    m_pNetModule = ARK_NEW AFINetServerModule(pPluginManager);
-    return true;
-}
-
 bool AFCWorldNetServerModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
@@ -36,6 +30,21 @@ bool AFCWorldNetServerModule::PostInit()
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+    m_pProcConfigModule = pPluginManager->FindModule<AFIProcConfigModule>();
+
+    int ret = StartServer();
+    if (ret != 0)
+    {
+        exit(0);
+        return false;
+    }
+
+    return true;
+}
+
+int AFCWorldNetServerModule::StartServer()
+{
+    m_pNetModule = ARK_NEW AFINetServerModule(pPluginManager);
 
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
@@ -48,46 +57,24 @@ bool AFCWorldNetServerModule::PostInit()
 
     m_pNetModule->AddEventCallBack(this, &AFCWorldNetServerModule::OnSocketEvent);
 
-    ARK_SHARE_PTR<AFIClass> xLogicClass = m_pClassModule->GetElement("Server");
-
-    if (nullptr == xLogicClass)
+    //Start TCP server
+    AFServerConfig serverConfig;
+    if (!m_pProcConfigModule->GetProcServerInfo(pPluginManager->BusID(), serverConfig))
     {
-        return false;
+        ARK_LOG_ERROR("Cannot get proce server info, bus id = {}", pPluginManager->BusID());
+        ARK_ASSERT_NO_EFFECT(0);
+        return -1;
     }
 
-    AFList<std::string>& xNameList = xLogicClass->GetConfigNameList();
-    std::string strConfigName;
-
-    for (bool bRet = xNameList.First(strConfigName); bRet; bRet = xNameList.Next(strConfigName))
+    int nRet = m_pNetModule->Start(serverConfig.max_connection, "0.0.0.0", serverConfig.port, pPluginManager->BusID(), serverConfig.thread_num);
+    if (nRet < 0)
     {
-        const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
-        const int nServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
-
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_WORLD && pPluginManager->BusID() == nServerID)
-        {
-            const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
-            const int nMaxConnect = m_pConfigModule->GetNodeInt(strConfigName, "MaxOnline");
-            const int nCpus = m_pConfigModule->GetNodeInt(strConfigName, "CpuCount");
-            const std::string strServerName(m_pConfigModule->GetNodeString(strConfigName, "Name"));
-            const std::string strIP(m_pConfigModule->GetNodeString(strConfigName, "IP"));
-
-            int nRet = m_pNetModule->Start(nMaxConnect, strIP, nPort, nCpus, nServerID);
-
-            if (nRet < 0)
-            {
-                ARK_LOG_ERROR("Cannot init server net, Port = {}", nPort);
-                ARK_ASSERT(nRet, "Cannot init server net", __FILE__, __FUNCTION__);
-                exit(0);
-            }
-        }
+        ARK_LOG_ERROR("Cannot start server net, Port = {}", serverConfig.port);
+        ARK_ASSERT_NO_EFFECT(0);
+        return -2;
     }
 
-    return true;
-}
-
-bool AFCWorldNetServerModule::Shut()
-{
-    return true;
+    return 0;
 }
 
 bool AFCWorldNetServerModule::Update()

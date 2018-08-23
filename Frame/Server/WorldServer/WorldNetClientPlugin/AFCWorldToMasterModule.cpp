@@ -86,7 +86,6 @@ bool AFCWorldToMasterModule::PostInit()
     return true;
 }
 
-
 bool AFCWorldToMasterModule::Update()
 {
     return m_pNetClientModule->Update();

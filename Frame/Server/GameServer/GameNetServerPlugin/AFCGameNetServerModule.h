@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -32,21 +32,22 @@
 #include "Server/Interface/AFIGameNetServerModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
 #include "Server/Interface/AFIAccountModule.h"
+#include "Server/Interface/AFIBusConfigModule.h"
+#include "Server/Interface/AFIProcConfigModule.h"
 
-class AFCGameNetServerModule
-    : public AFIGameNetServerModule
+class AFCGameNetServerModule : public AFIGameNetServerModule
 {
 public:
     explicit AFCGameNetServerModule(AFIPluginManager* p)
     {
         pPluginManager = p;
     }
-    virtual bool Init();
+
     virtual bool Update();
 
     virtual bool PostInit();
 
-    virtual void LogReceive(const char* str) {/*Will add*/}
+    virtual void LogReceive(const char* str) {/*Will add*/ }
     virtual void LogSend(const char* str) {/*will add*/}
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self);
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self);
@@ -105,6 +106,8 @@ public:
     bool ProcessEnterGroup(const AFGUID& self, int nSceneID, int nNewGroupID);
 
 protected:
+    int StartServer();
+
     void CommonDataTableAddEvent(const AFGUID& self, const std::string& strTableName, int nRow, int nCol, const AFCDataList& valueBroadCaseList);
     void CommonDataTableDeleteEvent(const AFGUID& self, const std::string& strTableName, int nRow, const AFCDataList& valueBroadCaseList);
     void CommonDataTableSwapEvent(const AFGUID& self, const std::string& strTableName, int nRow, int target_row, const AFCDataList& valueBroadCaseList);
@@ -126,6 +129,8 @@ private:
     AFISceneProcessModule* m_pSceneProcessModule;
     AFIConfigModule* m_pConfigModule;
     AFINetServerModule* m_pNetModule;
+    AFIBusConfigModule* m_pBusConfigModule;
+    AFIProcConfigModule* m_pProcConfigModule;
     //////////////////////////////////////////////////////////////////////////
     AFIGameServerToWorldModule* m_pGameServerToWorldModule;
     AFIAccountModule* m_AccountModule;

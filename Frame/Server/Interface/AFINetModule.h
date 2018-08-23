@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -28,14 +28,11 @@
 
 class AFINetModule : public AFIModule
 {
-
 protected:
-    AFINetModule() {}
+    AFINetModule() = default;
 
 public:
-    virtual ~AFINetModule()
-    {
-    }
+    virtual ~AFINetModule() = default;
 
     template<typename BaseType>
     bool AddReceiveCallBack(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const uint32_t, const AFGUID&))
