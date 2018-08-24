@@ -17,16 +17,10 @@ fi
 git clone -b 3.5.x https://github.com/google/protobuf.git --depth 1
 cd protobuf/cmake
 mkdir build && cd build
-cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=debug -Dprotobuf_BUILD_TESTS=OFF ..
-make -j 8
-cp -R -f *.so* ../../../lib/Debug
-cp -R -f protoc ../../../lib/Debug
-
-rm -rf ./*
 cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=release -Dprotobuf_BUILD_TESTS=OFF ..
-make -j 8
-cp -R -f *.so* ../../../lib/Release
-cp -R -f protoc ../../../lib/Release
+make -j 4
+cp -R -f *.so* ../../../lib
+cp -R -f protoc ../../../lib
 
 cp -R -f *.so ../../../../Frame/SDK/Proto/proto-gen
 cp -R -f protoc ../../../../Frame/SDK/Proto/proto-gen
@@ -44,14 +38,9 @@ git clone -b master https://github.com/ArkGame/brynet.git --depth 1
 cd brynet
 chmod -R 755 *
 mkdir build && cd build
-cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
-make -j 8
-cp -R -f lib/*.a ../../lib/Debug
-
-rm -rf ./*
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=release ..
-make -j 8
-cp -R -f lib/*.a ../../lib/Release
+make -j 4
+cp -R -f lib/*.a ../../lib
 cd ../../
 
 ##################################################################
