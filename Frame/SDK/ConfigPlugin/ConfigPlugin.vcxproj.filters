@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="AFCClassModule.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFCConfigModule.cpp" />
+    <ClCompile Include="AFConfigPlugin.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFCClassModule.h" />
+    <ClInclude Include="AFCConfigModule.h" />
+    <ClInclude Include="AFConfigPlugin.h" />
+  </ItemGroup>
+</Project>
