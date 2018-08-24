@@ -8,31 +8,25 @@ MACRO(BUILD_PLUGIN_MACRO project_name)
     add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFUtilityPlugin AFProto)
     if(UNIX)
         #Set rpath
-        SET(CMAKE_INSTALL_RPATH "../../lib/")
+        SET(CMAKE_INSTALL_RPATH "../lib/")
         SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
         add_definitions(
             -DLIBPROTOC_EXPORTS
             -DPROTOBUF_USE_DLLS)
 
         target_link_libraries(${project_name} 
-            debug AFConfigPlugin_d    
-            debug AFKernelPlugin_d
-            debug AFUtilityPlugin_d
-            debug AFCore_d
             debug AFNet_d
             debug AFProto_d
-            debug protobufd
+            debug AFCore_d
+            debug protobuf
             debug brynet.a
             debug pthread
             debug dl
             
-            optimized AFConfigPlugin_d
-            optimized AFKernelPlugin_d
-            optimized AFUtilityPlugin_d
-            optimized AFCore_d
-            optimized AFNet_d
-            optimized AFProto_d
-            optimized protobufd
+            optimized AFCore
+            optimized AFNet
+            optimized AFProto
+            optimized protobuf
             optimized brynet.a
             optimized pthread
             optimized dl)
