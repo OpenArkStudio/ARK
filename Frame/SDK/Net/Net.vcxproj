@@ -27,7 +27,7 @@
     <ProjectGuid>{403EB74F-6AF5-4250-8DA5-9D3CBFB7E546}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AFNet</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
     <ProjectName>AFNet</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

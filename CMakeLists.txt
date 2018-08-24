@@ -73,7 +73,8 @@ if(UNIX)
     
 else()
     #windows
-    set(CMAKE_CXX_FLAGS "-D_X64 -D_WINDOWS /EHsc /std:c++latest /Zc:__cplusplus")
+    add_compile_options("/std:c++latest")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
     set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib ${ROOT_DIR}/Bin/Comm)
     set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/Comm)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)

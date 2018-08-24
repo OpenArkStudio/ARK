@@ -29,7 +29,7 @@
     <ProjectGuid>{9D23DA22-6ECC-47CB-85F7-0BF440B88298}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>AFKernelPlugin</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
     <ProjectName>AFBusPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
