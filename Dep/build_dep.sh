@@ -4,8 +4,7 @@ if [ -d "lib" ]; then
     rm -rf lib
 fi
 
-mkdir -p lib/Debug/
-mkdir -p lib/Release/
+mkdir -p lib
 
 #####################################################################
 echo "Building protobuf..."

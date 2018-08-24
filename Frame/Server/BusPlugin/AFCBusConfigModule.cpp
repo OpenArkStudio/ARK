@@ -20,7 +20,7 @@
 
 #include "rapidxml/rapidxml.hpp"
 #include "rapidxml/rapidxml_iterators.hpp"
-#include "RapidXML/rapidxml_utils.hpp"
+#include "rapidXML/rapidxml_utils.hpp"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "AFCBusConfigModule.h"
 
