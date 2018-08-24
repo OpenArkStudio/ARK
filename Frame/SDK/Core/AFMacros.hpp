@@ -237,15 +237,15 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 
 //cpp version
 #if (__cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1800))
-#define HAVE_LANG_CXX11 1
+#define ARK_HAVE_LANG_CXX11 1
 #endif
 
 #if (__cplusplus >= 201402L || (defined(_MSC_VER) && _MSC_VER >= 1900))
-#define HAVE_LANG_CXX14 1
+#define ARK_HAVE_LANG_CXX14 1
 #endif
 
 #if (__cplusplus >= 201703L || (defined(_MSC_VER) && _MSC_VER >= 1910))
-#define HAVE_LANG_CXX17 1
+#define ARK_HAVE_LANG_CXX17 1
 #endif
 
 #ifndef ARK_FUNCTION_LINE

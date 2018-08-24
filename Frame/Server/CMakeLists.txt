@@ -1,41 +1,78 @@
-if(UNIX)
-    add_definitions(
-        -DPROTOBUF_USE_DLLS)
-else()
-    add_definitions(
-        -D_USRDLL
-        -D_LIB=
-        -DPROTOBUF_USE_DLLS)
-endif()
 
-########################################################################
-macro(LINK_SDK_MACRO project_name)
-add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFUtilityPlugin AFProto)
-if(UNIX)
-	if(CMAKE_BUILD_TYPE MATCHES "Debug") 
-		target_link_libraries(${project_name} AFKernelPlugin AFUtilityPlugin AFCore AFNet AFProto protobufd brynet.a dl)
-	else()
-		target_link_libraries(${project_name} AFKernelPlugin AFUtilityPlugin AFCore AFNet AFProto protobuf brynet.a dl)
-	endif()
-else(UNIX)
-    target_link_libraries(${project_name} 
-        debug brynet.lib
-        debug AFCore_d.lib
-        debug AFNet_d.lib
-        debug AFKernelPlugin_d.lib
-        debug AFUtilityPlugin_d.lib
-        debug AFProto_d.lib 
-		debug brynet.lib 
-        
-        optimized brynet.lib
-        optimized AFCore.lib
-        optimized AFNet.lib
-        optimized AFKernelPlugin.lib
-        optimized AFUtilityPlugin.lib
-        optimized AFProto.lib)
-endif(UNIX)
-endmacro(LINK_SDK_MACRO project_name)
-########################################################################
+
+#Define server plugin building macro
+MACRO(BUILD_PLUGIN_MACRO project_name)
+    aux_source_directory(. PLUGIN_SRC)
+    add_library(${project_name} SHARED ${PLUGIN_SRC})
+
+    add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFUtilityPlugin AFProto)
+    if(UNIX)
+        #Set rpath
+        SET(CMAKE_INSTALL_RPATH "../../lib/")
+        SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+        add_definitions(
+            -DLIBPROTOC_EXPORTS
+            -DPROTOBUF_USE_DLLS)
+
+        target_link_libraries(${project_name} 
+            debug AFConfigPlugin_d    
+            debug AFKernelPlugin_d
+            debug AFUtilityPlugin_d
+            debug AFCore_d
+            debug AFNet_d
+            debug AFProto_d
+            debug protobufd
+            debug brynet.a
+            debug pthread
+            debug dl
+            
+            optimized AFConfigPlugin_d
+            optimized AFKernelPlugin_d
+            optimized AFUtilityPlugin_d
+            optimized AFCore_d
+            optimized AFNet_d
+            optimized AFProto_d
+            optimized protobufd
+            optimized brynet.a
+            optimized pthread
+            optimized dl)
+    else(UNIX)
+        add_definitions(
+            -D_USRDLL
+            -D_LIB
+            -DLIBPROTOC_EXPORTS
+            -DPROTOBUF_USE_DLLS)
+
+        target_link_libraries(${project_name} 
+            debug brynet.lib
+            debug AFCore_d.lib
+            debug AFNet_d.lib
+            debug AFConfigPlugin_d.lib
+            debug AFKernelPlugin_d.lib
+            debug AFUtilityPlugin_d.lib
+            debug AFProto_d.lib
+            
+            optimized brynet.lib
+            optimized AFCore.lib
+            optimized AFNet.lib
+            optimized AFConfigPlugin_d.lib
+            optimized AFKernelPlugin.lib
+            optimized AFUtilityPlugin.lib
+            optimized AFProto.lib)
+    endif(UNIX)
+
+    set_target_properties(${project_name} PROPERTIES PREFIX "")
+    set_target_properties(${project_name} PROPERTIES OUTPUT_NAME_DEBUG "${project_name}_d")
+    set_target_properties(${project_name} PROPERTIES
+        FOLDER "Server"
+        ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
+        RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
+        LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})
+ENDMACRO(BUILD_PLUGIN_MACRO project_name)
+
+###################################################################################################
+add_subdirectory(BusPlugin)
+
 add_subdirectory(GameServer/GameLogicPlugin)
 add_subdirectory(GameServer/GameNetClientPlugin)
 add_subdirectory(GameServer/GameNetServerPlugin)

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -56,7 +56,7 @@ size_t AFCNetServer::OnMessageInner(const brynet::net::TCPSession::PTR& session,
 
     if (nullptr != pUD)
     {
-        const AFTCPEntityPtr pEntity = (AFTCPEntityPtr) * pUD;
+        const AFTCPEntityPtr pEntity = AFTCPEntityPtr(*pUD);
         pEntity->AddBuff(buffer, len);
         DismantleNet(pEntity);
     }
