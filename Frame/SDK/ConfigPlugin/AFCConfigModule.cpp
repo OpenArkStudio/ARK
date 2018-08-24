@@ -408,7 +408,7 @@ bool AFCConfigModule::IsDigit(const std::string& str)
     if (*start == '-')
         ++start;
 
-    return (str.end() == std::find_if(start, str.end(), not1(ptr_fun(std::isdigit))));
+    return (str.end() == std::find_if(start, str.end(), std::not1(ptr_fun(isdigit))));
 }
 
 bool AFCConfigModule::Clear()
