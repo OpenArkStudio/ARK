@@ -1,5 +1,3 @@
-
-
 #Define server plugin building macro
 MACRO(BUILD_PLUGIN_MACRO project_name)
     aux_source_directory(. PLUGIN_SRC)

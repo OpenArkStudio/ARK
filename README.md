@@ -67,11 +67,13 @@ or
 svn checkout https://github.com/ArkGame/ARK
 
 ## Dependencies
-
-- [brynet](https://github.com/IronsDu/brynet) MIT
-- [spdlog](https://github.com/gabime/spdlog) MIT
-- [mysql++](https://tangentsoft.com/mysqlpp/home)
-- [google protobuf 3.5.x](https://github.com/google/protobuf)
+| Library | Version | License |
+| - | - | - |
+| [brynet](https://github.com/IronsDu/brynet) | Master | [MIT](https://github.com/IronsDu/brynet/blob/master/LICENSE) |
+| [spdlog](https://github.com/gabime/spdlog)  | 0.17.0 | [MIT](https://github.com/gabime/spdlog/blob/v1.x/LICENSE) |
+| [google protobuf](https://github.com/google/protobuf) | 3.5.x | [Google License](https://github.com/protocolbuffers/protobuf/blob/master/LICENSE) |
+| [args](https://github.com/Taywee/args) | 6.2.0 | [MIT](https://github.com/Taywee/args/blob/master/LICENSE) |
+| [rapidxml](http://rapidxml.sourceforge.net) | 1.13 | [LICENSE](http://rapidxml.sourceforge.net/license.txt) |
 
 ## Supported Compilers
 
