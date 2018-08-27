@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -24,7 +24,7 @@
 
 #pragma comment(lib, "Dbghelp.lib")
 #pragma comment(lib, "ws2_32")
-#pragma comment(lib, "brynet.lib")
+#pragma comment(lib, "brynetd.lib")
 
 #pragma warning(once:4251)
 

@@ -5,8 +5,6 @@ echo "Building dependencies..."
 if exist lib (rd lib /q /s)
 md lib
 cd lib
-md Debug
-md Release
 cd ../
 
 REM If your path is different with below, please change to your install path
@@ -25,10 +23,10 @@ cd build
 cmake -G "Visual Studio 15 Win64" -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF ..
 "%VS150COMNTOOLS%..\IDE\Devenv" protobuf.sln /build "Debug|x64"
 "%VS150COMNTOOLS%..\IDE\Devenv" protobuf.sln /build "Release|x64"
-copy Debug\*.dll ..\..\..\lib\Debug /Y
-copy Debug\*.lib ..\..\..\lib\Debug /Y
-copy Release\*.dll ..\..\..\lib\Release /Y
-copy Release\*.lib ..\..\..\lib\Release /Y
+copy Debug\*.dll ..\..\..\lib /Y
+copy Debug\*.lib ..\..\..\lib /Y
+copy Release\*.dll ..\..\..\lib /Y
+copy Release\*.lib ..\..\..\lib /Y
 
 copy Release\libprotobuf.dll ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
 copy Release\libprotoc.dll ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
@@ -47,8 +45,8 @@ cd build
 cmake -G "Visual Studio 15 Win64" ..
 "%VS150COMNTOOLS%..\IDE\Devenv" brynet.sln /build "Debug|x64" /project brynet.vcxproj
 "%VS150COMNTOOLS%..\IDE\Devenv" brynet.sln /build "Release|x64" /project brynet.vcxproj
-copy lib\Debug\*.lib ..\..\lib\Debug /Y
-copy lib\Release\*.lib ..\..\lib\Release /Y
+copy lib\Debug\*.lib ..\..\lib\ /Y
+copy lib\Release\*.lib ..\..\lib /Y
 
 cd ..\..\
 REM ####################################################################################################

@@ -36,7 +36,7 @@ if(UNIX)
     #linux
     if(CMAKE_BUILD_TYPE MATCHES "Debug")
         set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -fPIC")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O0 -Wall -g -ggdb -DDEBUG -fPIC")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O0 -Wall -g -ggdb -D_DEBUG -fPIC")
     else()
         set(CMAKE_BUILD_TYPE "Release")
         set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -fPIC")
@@ -44,8 +44,8 @@ if(UNIX)
     endif()
     set(LDFLAGS "$ENV{LDFLAGS} -stdlib=libc++")
     ADD_DEFINITIONS(-std=c++11)
-    set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib/ ${ROOT_DIR}/Bin/Comm/${CMAKE_BUILD_TYPE})
-    set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/Comm/${CMAKE_BUILD_TYPE})
+    set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib/ ${ROOT_DIR}/Bin/bin)
+    set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/bin/)
 
     set (CXX_FLAGS
         -g
@@ -75,8 +75,8 @@ else()
     #windows
     add_compile_options("/std:c++latest")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /EHsc")
-    set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib ${ROOT_DIR}/Bin/Comm)
-    set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/Comm)
+    set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib ${ROOT_DIR}/Bin/bin/)
+    set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/bin/)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 

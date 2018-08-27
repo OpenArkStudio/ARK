@@ -5,6 +5,7 @@
 - [ ] 3.新架构修改
 - [ ] 4.增加连接关系的配置，不再通过程序中手动设置关系(bus_relation, server_settting, IP和port不用再指定了, 通过获取IP和动态生成port), 网络地址修改为tcp://0.0.0.0:9001 wss://0.0.0.0:9001这样的URL
 - [ ] 5.增加logserver和logclient插件
+- [ ] 10.增加网络插件,这样可以将网络模块和业务逻辑模块拆分开(现在NetClient和NetServer还是跟业务关联太紧密了)
 - [x] 6.修改bin文件夹debug和release在一起，debug和release分开配置(方便配置是一套)
 - [ ] 7.增加运维工具(tcm & deploy)
 - [ ] 8.guid改为内部指针类型(降低其他非guid类型的内存占用)
