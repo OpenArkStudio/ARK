@@ -4,42 +4,42 @@ cd /d %~dp0
 
 echo Copy common dlls...
 
-copy ..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe master\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe world\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe login\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe proxy\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\PluginLoader_d.exe game\\ /Y
+copy ..\\..\\Bin\\bin\\PluginLoader_d.exe master\\ /Y
+copy ..\\..\\Bin\\bin\\PluginLoader_d.exe world\\ /Y
+copy ..\\..\\Bin\\bin\\PluginLoader_d.exe login\\ /Y
+copy ..\\..\\Bin\\bin\\PluginLoader_d.exe proxy\\ /Y
+copy ..\\..\\Bin\\bin\\PluginLoader_d.exe game\\ /Y
 
-copy ..\\..\\Dep\\lib\\Debug\\libproto*d.dll master\\ /Y
-copy ..\\..\\Dep\\lib\\Debug\\libproto*d.dll world\\ /Y
-copy ..\\..\\Dep\\lib\\Debug\\libproto*d.dll login\\ /Y
-copy ..\\..\\Dep\\lib\\Debug\\libproto*d.dll proxy\\ /Y
-copy ..\\..\\Dep\\lib\\Debug\\libproto*d.dll game\\ /Y
+copy ..\\..\\Dep\\lib\\libproto*d.dll master\\ /Y
+copy ..\\..\\Dep\\lib\\libproto*d.dll world\\ /Y
+copy ..\\..\\Dep\\lib\\libproto*d.dll login\\ /Y
+copy ..\\..\\Dep\\lib\\libproto*d.dll proxy\\ /Y
+copy ..\\..\\Dep\\lib\\libproto*d.dll game\\ /Y
 
-copy ..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll master\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll world\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll login\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll proxy\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFProto*d.dll game\\ /Y
+copy ..\\..\\Bin\\bin\\AFProto*_d.dll master\\ /Y
+copy ..\\..\\Bin\\bin\\AFProto*_d.dll world\\ /Y
+copy ..\\..\\Bin\\bin\\AFProto*_d.dll login\\ /Y
+copy ..\\..\\Bin\\bin\\AFProto*_d.dll proxy\\ /Y
+copy ..\\..\\Bin\\bin\\AFProto*_d.dll game\\ /Y
 
-copy ..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll master\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll world\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll login\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll proxy\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFKernelPlugin*d.dll game\\ /Y
+copy ..\\..\\Bin\\bin\\AFKernelPlugin*_d.dll master\\ /Y
+copy ..\\..\\Bin\\bin\\AFKernelPlugin*_d.dll world\\ /Y
+copy ..\\..\\Bin\\bin\\AFKernelPlugin*_d.dll login\\ /Y
+copy ..\\..\\Bin\\bin\\AFKernelPlugin*_d.dll proxy\\ /Y
+copy ..\\..\\Bin\\bin\\AFKernelPlugin*_d.dll game\\ /Y
 
-copy ..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll master\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll world\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll login\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll proxy\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFUtilityPlugin*d.dll game\\ /Y
+copy ..\\..\\Bin\\bin\\AFUtilityPlugin*_d.dll master\\ /Y
+copy ..\\..\\Bin\\bin\\AFUtilityPlugin*_d.dll world\\ /Y
+copy ..\\..\\Bin\\bin\\AFUtilityPlugin*_d.dll login\\ /Y
+copy ..\\..\\Bin\\bin\\AFUtilityPlugin*_d.dll proxy\\ /Y
+copy ..\\..\\Bin\\bin\\AFUtilityPlugin*_d.dll game\\ /Y
 
 echo Copy self dlls
-copy ..\\..\\Bin\\Comm\\Debug\\AFMaster*d.dll	master\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFWorld*d.dll	world\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFLogin*d.dll	login\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFProxy*d.dll	proxy\\ /Y
-copy ..\\..\\Bin\\Comm\\Debug\\AFGame*d.dll		game\\ /Y
+copy ..\\..\\Bin\\bin\\AFMaster*_d.dll	master\\ /Y
+copy ..\\..\\Bin\\bin\\AFWorld*_d.dll	world\\ /Y
+copy ..\\..\\Bin\\bin\\AFLogin*_d.dll	login\\ /Y
+copy ..\\..\\Bin\\bin\\AFProxy*_d.dll	proxy\\ /Y
+copy ..\\..\\Bin\\bin\\AFGame*_d.dll	game\\ /Y
 
 cd  master
 echo Starting master...
