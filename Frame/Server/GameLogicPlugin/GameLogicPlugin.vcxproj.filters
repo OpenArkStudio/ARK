@@ -10,6 +10,9 @@
     <Filter Include="LevelModule">
       <UniqueIdentifier>{aa533cce-b50a-4d4d-8afa-bb17e50e601b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NetModule">
+      <UniqueIdentifier>{96dee875-7df3-4ade-bf4d-0e2661a38162}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
@@ -31,6 +34,12 @@
     </ClCompile>
     <ClCompile Include="AFGameLogicPlugin.cpp" />
     <ClCompile Include="AFCAccountModule.cpp" />
+    <ClCompile Include="AFCGameNetServerModule.cpp">
+      <Filter>NetModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCGameServerToWorldModule.cpp">
+      <Filter>NetModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCGameServerModule.h" />
@@ -51,5 +60,11 @@
     </ClInclude>
     <ClInclude Include="AFGameLogicPlugin.h" />
     <ClInclude Include="AFCAccountModule.h" />
+    <ClInclude Include="AFCGameNetServerModule.h">
+      <Filter>NetModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCGameServerToWorldModule.h">
+      <Filter>NetModule</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

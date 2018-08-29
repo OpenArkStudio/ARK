@@ -1,4 +1,4 @@
-﻿/*
+/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -18,31 +18,24 @@
 *
 */
 
-#include "SDK/Core/AFPlatform.hpp"
+#pragma once
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
-#pragma comment(lib, "Dbghelp.lib")
-#pragma comment(lib, "ws2_32")
+class AFNetPlugin : public AFIPlugin
+{
+public:
+    explicit AFNetPlugin(AFIPluginManager* p)
+    {
+        pPluginManager = p;
+    }
 
-#pragma warning(once:4251)
+    virtual int GetPluginVersion();
 
-#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+    virtual const std::string GetPluginName();
 
-#pragma comment(lib, "libprotobufd.lib")
-#pragma comment(lib, "AFCore_d.lib")
-#pragma comment(lib, "AFProto_d.lib")
-#pragma comment(lib, "AFNet_d.lib")
-#pragma comment(lib, "brynetd.lib")
+    virtual void Install();
 
-#else
-
-#pragma comment(lib, "libprotobuf.lib")
-#pragma comment(lib, "AFCore.lib")
-#pragma comment(lib, "AFProto.lib")
-#pragma comment(lib, "AFNet.lib")
-#pragma comment(lib, "brynet.lib")
-
-#endif
-
-#endif
+    virtual void Uninstall();
+};

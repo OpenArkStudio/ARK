@@ -64,22 +64,9 @@ ENDMACRO(BUILD_PLUGIN_MACRO project_name)
 
 ###################################################################################################
 add_subdirectory(BusPlugin)
-
+add_subdirectory(NetPlugin)
 add_subdirectory(GameLogicPlugin)
-add_subdirectory(GameNetClientPlugin)
-add_subdirectory(GameNetServerPlugin)
-
 add_subdirectory(LoginLogicPlugin)
-add_subdirectory(LoginNetClientPlugin)
-add_subdirectory(LoginNetServerPlugin)
-
 add_subdirectory(ProxyLogicPlugin)
-add_subdirectory(ProxyNetClientPlugin)
-add_subdirectory(ProxyNetServerPlugin)
-
 add_subdirectory(WorldLogicPlugin)
-add_subdirectory(WorldNetClientPlugin)
-add_subdirectory(WorldNetServerPlugin)
-
 add_subdirectory(MasterLogicPlugin)
-add_subdirectory(MasterNetServerPlugin)

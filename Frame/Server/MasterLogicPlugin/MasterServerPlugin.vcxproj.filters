@@ -4,9 +4,20 @@
     <ClCompile Include="AFCMasterModule.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="AFMasterLogicPlugin.cpp" />
+    <ClCompile Include="AFCMasterNetServerModule.cpp">
+      <Filter>NetModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCMasterModule.h" />
     <ClInclude Include="AFMasterLogicPlugin.h" />
+    <ClInclude Include="AFCMasterNetServerModule.h">
+      <Filter>NetModule</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="NetModule">
+      <UniqueIdentifier>{89d011c3-1e51-40cf-8481-f0dffcfabc19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

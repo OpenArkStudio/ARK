@@ -364,4 +364,5 @@ protected:
 private:
     AFINet* m_pNet;
     int64_t nLastTime;
+    int64_t nServerID;
 };

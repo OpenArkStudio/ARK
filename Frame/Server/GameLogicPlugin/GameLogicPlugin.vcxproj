@@ -61,7 +61,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN;_DEBUG;_WINDOWS;_USRDLL;ELPP_NO_DEFAULT_LOG_FILE;PROTOBUF_USE_DLLS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\brynet\src\;$(SolutionDir)..\Dep\protobuf\src\;$(SolutionDir)..\Plugins\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\brynet\src\;$(SolutionDir)..\Dep\protobuf\src\;$(SolutionDir)..\Plugins\;$(SolutionDir)..\Frame\SDK\Proto</AdditionalIncludeDirectories>
       <BrowseInformation>false</BrowseInformation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -110,7 +110,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AFCAccountModule.cpp" />
+    <ClCompile Include="AFCGameNetServerModule.cpp" />
     <ClCompile Include="AFCGameServerModule.cpp" />
+    <ClCompile Include="AFCGameServerToWorldModule.cpp" />
     <ClCompile Include="AFCLevelModule.cpp" />
     <ClCompile Include="AFCPropertyConfigModule.cpp" />
     <ClCompile Include="AFCPropertyModule.cpp" />
@@ -128,7 +130,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCAccountModule.h" />
+    <ClInclude Include="AFCGameNetServerModule.h" />
     <ClInclude Include="AFCGameServerModule.h" />
+    <ClInclude Include="AFCGameServerToWorldModule.h" />
     <ClInclude Include="AFCLevelModule.h" />
     <ClInclude Include="AFCPropertyConfigModule.h" />
     <ClInclude Include="AFCPropertyModule.h" />

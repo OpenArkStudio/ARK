@@ -4,9 +4,26 @@
     <ClCompile Include="AFCLoginLogicModule.cpp" />
     <ClCompile Include="AFLoginLogicPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFCLoginNetServerModule.cpp">
+      <Filter>NetModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCLoginToMasterModule.cpp">
+      <Filter>NetModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCLoginLogicModule.h" />
     <ClInclude Include="AFLoginLogicPlugin.h" />
+    <ClInclude Include="AFCLoginNetServerModule.h">
+      <Filter>NetModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCLoginToMasterModule.h">
+      <Filter>NetModule</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="NetModule">
+      <UniqueIdentifier>{8ab78a0c-f028-4a70-bf61-f301b79a9fc5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

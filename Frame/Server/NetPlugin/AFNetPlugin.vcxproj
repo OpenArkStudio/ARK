@@ -10,25 +10,12 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="AFCWorldLogicModule.cpp" />
-    <ClCompile Include="AFCWorldNetServerModule.cpp" />
-    <ClCompile Include="AFCWorldToMasterModule.cpp" />
-    <ClCompile Include="AFWorldLogicPlugin.cpp" />
-    <ClCompile Include="dllmain.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AFCWorldLogicModule.h" />
-    <ClInclude Include="AFCWorldNetServerModule.h" />
-    <ClInclude Include="AFCWorldToMasterModule.h" />
-    <ClInclude Include="AFWorldLogicPlugin.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{45ABC2B9-730E-450F-BBE7-B9894BCDB0C6}</ProjectGuid>
+    <ProjectGuid>{75AD5475-3AA7-4A84-AC0A-620688C85E53}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>AFWorldLogicPlugin</RootNamespace>
+    <RootNamespace>AFNetPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>AFWorldLogicPlugin</ProjectName>
+    <ProjectName>AFNetPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -81,6 +68,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\bin\;$(SolutionDir)..\Dep\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDep>$(SolutionDir)..\Bin\Comm\$(Configuration)\libprotobuf_d.lib;%(AdditionalDep)</AdditionalDep>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -113,6 +103,24 @@
       </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AFCNetClientManagerModule.cpp" />
+    <ClCompile Include="AFCNetServerManagerModule.cpp" />
+    <ClCompile Include="AFNetPlugin.cpp" />
+    <ClCompile Include="dllmain.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeader>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFCNetClientManagerModule.h" />
+    <ClInclude Include="AFCNetServerManagerModule.h" />
+    <ClInclude Include="AFNetPlugin.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

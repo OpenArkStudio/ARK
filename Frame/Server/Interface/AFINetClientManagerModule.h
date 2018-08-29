@@ -1,8 +1,8 @@
-﻿/*
+/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2017 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,31 +18,16 @@
 *
 */
 
-#include "SDK/Core/AFPlatform.hpp"
+#pragma once
 
-#if ARK_PLATFORM == PLATFORM_WIN
+#include "SDK/Interface/AFIModule.h"
+#include "AFINetClientModule.hpp"
 
-#pragma comment(lib, "Dbghelp.lib")
-#pragma comment(lib, "ws2_32")
-
-#pragma warning(once:4251)
-
-#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-
-#pragma comment(lib, "libprotobufd.lib")
-#pragma comment(lib, "AFCore_d.lib")
-#pragma comment(lib, "AFProto_d.lib")
-#pragma comment(lib, "AFNet_d.lib")
-#pragma comment(lib, "brynetd.lib")
-
-#else
-
-#pragma comment(lib, "libprotobuf.lib")
-#pragma comment(lib, "AFCore.lib")
-#pragma comment(lib, "AFProto.lib")
-#pragma comment(lib, "AFNet.lib")
-#pragma comment(lib, "brynet.lib")
-
-#endif
-
-#endif
+class AFINetClientManagerModule
+    : public AFIModule
+{
+public:
+    virtual AFINetClientModule* CreateClusterClientModule(const size_t nClusterTypeID) = 0;
+    virtual bool RemoveClusterClientModule(const size_t nClusterTypeID) = 0;
+    virtual AFINetClientModule* GetClusterClientModule(const size_t nClusterTypeID) = 0;
+};

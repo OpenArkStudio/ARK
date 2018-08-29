@@ -12,11 +12,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCProxyLogicModule.cpp" />
+    <ClCompile Include="AFCProxyNetServerModule.cpp" />
+    <ClCompile Include="AFCProxyServerToGameModule.cpp" />
+    <ClCompile Include="AFCProxyServerToWorldModule.cpp" />
     <ClCompile Include="AFProxyLogicPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCProxyLogicModule.h" />
+    <ClInclude Include="AFCProxyNetServerModule.h" />
+    <ClInclude Include="AFCProxyServerToGameModule.h" />
+    <ClInclude Include="AFCProxyServerToWorldModule.h" />
     <ClInclude Include="AFProxyLogicPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

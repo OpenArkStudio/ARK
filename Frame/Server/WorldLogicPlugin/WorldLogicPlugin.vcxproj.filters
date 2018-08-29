@@ -4,9 +4,26 @@
     <ClCompile Include="AFCWorldLogicModule.cpp" />
     <ClCompile Include="AFWorldLogicPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFCWorldNetServerModule.cpp">
+      <Filter>NetModule</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCWorldToMasterModule.cpp">
+      <Filter>NetModule</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCWorldLogicModule.h" />
     <ClInclude Include="AFWorldLogicPlugin.h" />
+    <ClInclude Include="AFCWorldNetServerModule.h">
+      <Filter>NetModule</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCWorldToMasterModule.h">
+      <Filter>NetModule</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="NetModule">
+      <UniqueIdentifier>{7d38ba3a-0285-445a-9b20-1c29935054f4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
