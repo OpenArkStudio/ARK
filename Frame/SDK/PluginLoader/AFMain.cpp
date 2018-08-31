@@ -330,7 +330,7 @@ bool ParseArgs(int argc, char* argv[])
     //Set plugin file
     if (plugin_cfg)
     {
-        AFCPluginManager::GetInstancePtr()->SetConfigName(plugin_cfg.Get());
+        AFCPluginManager::GetInstancePtr()->SetPluginConf(plugin_cfg.Get());
     }
     else
     {

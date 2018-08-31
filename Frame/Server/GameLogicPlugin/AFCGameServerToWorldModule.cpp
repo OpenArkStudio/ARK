@@ -25,7 +25,6 @@
 
 bool AFCGameServerToWorldModule::Init()
 {
-
     m_pNetClientManagerModule = pPluginManager->FindModule<AFINetClientManagerModule>();
     m_pNetClientModule = m_pNetClientManagerModule->CreateClusterClientModule(ARK_PROCESS_TYPE::ARK_PROC_WORLD);
     ARK_ASSERT_RET_VAL(nullptr != m_pNetClientModule, false);

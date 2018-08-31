@@ -1,68 +1,39 @@
 echo Copy common dlls...
 
-cp -a ../../Bin/Comm/Release/PluginLoader master/
-cp -a ../../Bin/Comm/Release/PluginLoader world/
-cp -a ../../Bin/Comm/Release/PluginLoader login/
-cp -a ../../Bin/Comm/Release/PluginLoader proxy/
-cp -a ../../Bin/Comm/Release/PluginLoader game/
-
-cp -a ../../Dep/lib/Release/libproto*.so master/
-cp -a ../../Dep/lib/Release/libproto*.so world/
-cp -a ../../Dep/lib/Release/libproto*.so login/
-cp -a ../../Dep/lib/Release/libproto*.so proxy/
-cp -a ../../Dep/lib/Release/libproto*.so game/
-
-cp -a ../../Bin/Comm/Release/AFProto*.so master/
-cp -a ../../Bin/Comm/Release/AFProto*.so world/
-cp -a ../../Bin/Comm/Release/AFProto*.so login/
-cp -a ../../Bin/Comm/Release/AFProto*.so proxy/
-cp -a ../../Bin/Comm/Release/AFProto*.so game/
-
-cp -a ../../Bin/Comm/Release/AFKernelPlugin*.so master/
-cp -a ../../Bin/Comm/Release/AFKernelPlugin*.so world/
-cp -a ../../Bin/Comm/Release/AFKernelPlugin*.so login/
-cp -a ../../Bin/Comm/Release/AFKernelPlugin*.so proxy/
-cp -a ../../Bin/Comm/Release/AFKernelPlugin*.so game/
-
-cp -a ../../Bin/Comm/Release/AFUtilityPlugin*.so master/
-cp -a ../../Bin/Comm/Release/AFUtilityPlugin*.so world/
-cp -a ../../Bin/Comm/Release/AFUtilityPlugin*.so login/
-cp -a ../../Bin/Comm/Release/AFUtilityPlugin*.so proxy/
-cp -a ../../Bin/Comm/Release/AFUtilityPlugin*.so game/
-
-echo Copy self dlls
-cp -a ../../Bin/Comm/Release/AFMaster*.so	master/
-cp -a ../../Bin/Comm/Release/AFWorld*.so	world/
-cp -a ../../Bin/Comm/Release/AFLogin*.so	login/
-cp -a ../../Bin/Comm/Release/AFProxy*.so	proxy/
-cp -a ../../Bin/Comm/Release/AFGame*.so		game/
+cp -a bin/PluginLoader master/
+cp -a bin/PluginLoader world/
+cp -a bin/PluginLoader login/
+cp -a bin/PluginLoader proxy/
+cp -a bin/PluginLoader game/
 
 export LC_ALL="C"
 
+#The default zone is 1001
+
 cd master
 echo Starting master...
-./PluginLoader -d app_id=1 app_name=master_server cfg=Plugin.xml
+./PluginLoader -d --busid=1.0.1.1 --name=master_server --plugin=plugin.xml
 
 cd ..
 cd world
 echo Starting world...
-./PluginLoader -d app_id=100 app_name=world_server cfg=Plugin.xml
+./PluginLoader -d --busid=1.1.100.1 --name=world_server --plugin=plugin.xml
 
 cd ..
 cd login
 echo Starting login...
-./PluginLoader -d app_id=102 app_name=login_server cfg=Plugin.xml
+./PluginLoader -d --busid=1.1.102.1 --name=login_server --plugin=plugin.xml
 
 cd ..
 cd proxy
 echo Starting proxy...
-./PluginLoader -d app_id=103 app_name=proxy_server cfg=Plugin.xml
+./PluginLoader -d --busid=1.1.103.1 --name=proxy_server --plugin=plugin.xml
 
 cd ..
 cd game
 echo Starting game...
-./PluginLoader -d app_id=101 app_name=game_server cfg=Plugin.xml
+./PluginLoader -d --busid=1.1.101.1 --name=game_server --plugin=plugin.xml
 
 echo All processes are launching...
 
-ps ax | grep *Server
+ps ax | grep *_server

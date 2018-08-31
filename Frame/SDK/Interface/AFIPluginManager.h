@@ -29,22 +29,20 @@ ARK_EXPORT void DllStartPlugin(AFIPluginManager* pPluginManager)    \
 {                                                                   \
     AFMemAlloc::InitPool();                                         \
     AFMemAlloc::Start();                                            \
-    pPluginManager->Registered<plugin_name>();                      \
+    pPluginManager->Register<plugin_name>();                        \
 }
 
 #define ARK_DLL_PLUGIN_EXIT(plugin_name)                            \
 ARK_EXPORT void DllStopPlugin(AFIPluginManager* pPluginManager)     \
 {                                                                   \
-    pPluginManager->UnRegistered<plugin_name>();                    \
+    pPluginManager->Deregister<plugin_name>();                      \
 }
 
 class AFIPluginManager : public AFIModule
 {
 public:
-    AFIPluginManager()
-    {
-
-    }
+    AFIPluginManager() = default;
+    virtual ~AFIPluginManager() = default;
 
     template <typename T>
     T* FindModule()
@@ -68,38 +66,36 @@ public:
         return nullptr;
     }
 
-
-    template<typename className>
-    void Registered()
+    template<typename T>
+    void Register()
     {
-        AFIPlugin* pCreatePluginclassName = new className(this);
-        Registered(pCreatePluginclassName);
+        AFIPlugin* pCreatePluginclassName = new T(this);
+        Register(pCreatePluginclassName);
     }
 
-    template<typename className>
-    void UnRegistered()
+    template<typename T>
+    void Deregister()
     {
-        UnRegistered(FindPlugin(typeid(className).name()));
+        Deregister(FindPlugin(typeid(T).name()));
     }
 
-    virtual void Registered(AFIPlugin* plugin) = 0;
-
-    virtual void UnRegistered(AFIPlugin* plugin) = 0;
+    virtual void Register(AFIPlugin* plugin) = 0;
+    virtual void Deregister(AFIPlugin* plugin) = 0;
 
     virtual AFIPlugin* FindPlugin(const std::string& strPluginName) = 0;
 
     virtual void AddModule(const std::string& strModuleName, AFIModule* pModule) = 0;
-
     virtual void RemoveModule(const std::string& strModuleName) = 0;
-
     virtual AFIModule* FindModule(const std::string& strModuleName) = 0;
 
     virtual int BusID() const = 0;
-    virtual const std::string& AppName() const = 0;
-    virtual int64_t GetInitTime() const = 0;
-    virtual int64_t GetNowTime() const = 0;
-    virtual const std::string& GetConfigPath() const = 0;
-    virtual void SetConfigName(const std::string& strFileName) = 0;
     virtual void SetBusID(const int app_id) = 0;
+
+    virtual const std::string& AppName() const = 0;
     virtual void SetAppName(const std::string& app_name) = 0;
+
+    virtual int64_t GetNowTime() const = 0;
+    virtual const std::string& GetResPath() const = 0;
+
+    virtual void SetPluginConf(const std::string& strFileName) = 0;
 };

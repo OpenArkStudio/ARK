@@ -41,8 +41,8 @@ bool AFCClassModule::Init()
     m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-    msConfigFileName = "resource/schema/LogicClass.xml";
-    ARK_LOG_INFO("Using file [{}]", msConfigFileName);
+    mstrSchemaFile = "schema/LogicClass.xml";
+    ARK_LOG_INFO("Using file [{}]", mstrSchemaFile);
 
     bool bRet = Load();
     ARK_ASSERT_RET_VAL(bRet, false);
@@ -200,7 +200,7 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
     }
 
     //////////////////////////////////////////////////////////////////////////
-    std::string strFile = pPluginManager->GetConfigPath() + pstrClassFilePath;
+    std::string strFile = pPluginManager->GetResPath() + pstrClassFilePath;
     rapidxml::file<> fdoc(strFile.c_str());
     rapidxml::xml_document<> xDoc;
     xDoc.parse<0>(fdoc.data());
@@ -246,21 +246,18 @@ bool AFCClassModule::AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PT
     return true;
 }
 
-bool AFCClassModule::AddClass(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIClass> pClass)
+bool AFCClassModule::AddClass(const char* pstrSchemaFilePath, ARK_SHARE_PTR<AFIClass> pClass)
 {
-    ARK_SHARE_PTR<AFIClass> pParent = pClass->GetParent();
-
-    while (nullptr != pParent)
+    for (ARK_SHARE_PTR<AFIClass> pParent = pClass->GetParent(); nullptr != pParent; pParent = pParent->GetParent())
     {
         //inherited some properties form class of parent
         std::string strFileName;
-        pParent->First(strFileName);
 
-        while (!strFileName.empty())
+
+        for (bool ret = pParent->First(strFileName); ret && !strFileName.empty(); ret = pParent->Next(strFileName))
         {
             if (pClass->Find(strFileName))
             {
-                strFileName.clear();
                 continue;
             }
 
@@ -268,18 +265,13 @@ bool AFCClassModule::AddClass(const char* pstrClassFilePath, ARK_SHARE_PTR<AFICl
             {
                 pClass->Add(strFileName);
             }
-
-            strFileName.clear();
-            pParent->Next(strFileName);
         }
-
-        pParent = pParent->GetParent();
     }
 
     //////////////////////////////////////////////////////////////////////////
-    if (AddClassInclude(pstrClassFilePath, pClass))
+    if (AddClassInclude(pstrSchemaFilePath, pClass))
     {
-        pClass->Add(pstrClassFilePath);
+        pClass->Add(pstrSchemaFilePath);
     }
 
     return true;
@@ -296,7 +288,7 @@ bool AFCClassModule::AddClass(const std::string& strClassName, const std::string
         AddElement(strClassName, pChildClass);
 
         pChildClass->SetTypeName("");
-        pChildClass->SetInstancePath("");
+        pChildClass->SetResPath("");
 
         if (pParentClass)
         {
@@ -311,16 +303,16 @@ bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass
 {
     const char* pstrLogicClassName = attrNode->first_attribute("Id")->value();
     const char* pstrType = attrNode->first_attribute("Type")->value();
-    const char* pstrPath = attrNode->first_attribute("Path")->value();
-    const char* pstrInstancePath = attrNode->first_attribute("ResPath")->value();
+    const char* pstrSchemaPath = attrNode->first_attribute("Path")->value();
+    const char* pstrResPath = attrNode->first_attribute("ResPath")->value();
 
     ARK_SHARE_PTR<AFIClass> pClass = std::make_shared<AFCClass>(pstrLogicClassName);
     AddElement(pstrLogicClassName, pClass);
     pClass->SetParent(pParentClass);
     pClass->SetTypeName(pstrType);
-    pClass->SetInstancePath(pstrInstancePath);
+    pClass->SetResPath(pstrResPath);
 
-    if (!AddClass(pstrPath, pClass))
+    if (!AddClass(pstrSchemaPath, pClass))
     {
         return false;
     }
@@ -339,7 +331,7 @@ bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass
 
 bool AFCClassModule::Load()
 {
-    std::string strFile = pPluginManager->GetConfigPath() + msConfigFileName;
+    std::string strFile = pPluginManager->GetResPath() + mstrSchemaFile;
     rapidxml::file<> fdoc(strFile.c_str());
 
     rapidxml::xml_document<> xDoc;

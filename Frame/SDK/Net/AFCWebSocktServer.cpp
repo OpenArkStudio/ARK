@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -25,7 +25,7 @@ void AFCWebSocktServer::Update()
     ProcessMsgLogicThread();
 }
 
-int AFCWebSocktServer::Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)
+int AFCWebSocktServer::Start(const int nServerID, const std::string& strAddrPort, const int nThreadCount, const unsigned int nMaxClient)
 {
     std::string strHost;
     int port;
@@ -61,7 +61,6 @@ void AFCWebSocktServer::OnWebSockMessageCallBack(const brynet::net::HttpSession:
         brynet::net::WebSocketFormat::WebSocketFrameType opcode,
         const std::string& payload)
 {
-
     switch (opcode)
     {
     case brynet::net::WebSocketFormat::WebSocketFrameType::ERROR_FRAME:
@@ -151,7 +150,7 @@ void AFCWebSocktServer::OnHttpDisConnection(const brynet::net::HttpSession::PTR&
 
     if (xFind == mxNetEntities.end())
     {
-        return ;
+        return;
     }
 
     AFHttpMsg* pMsg = new AFHttpMsg(httpSession);

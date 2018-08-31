@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -21,13 +21,11 @@
 #include "AFBusPlugin.h"
 #include "AFCBusModule.h"
 #include "AFCProcModule.h"
-
-#ifdef ARK_DYNAMIC_PLUGIN
+#include "AFCBusConfigModule.h"
+#include "AFCProcConfigModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFBusPlugin)
 ARK_DLL_PLUGIN_EXIT(AFBusPlugin)
-
-#endif
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -45,10 +43,14 @@ void AFBusPlugin::Install()
 {
     RegisterModule<AFIBusModule, AFCBusModule>();
     RegisterModule<AFIProcModule, AFCProcModule>();
+    RegisterModule<AFIProcConfigModule, AFCProcConfigModule>();
+    RegisterModule<AFIBusConfigModule, AFCBusConfigModule>();
 }
 
 void AFBusPlugin::Uninstall()
 {
+    DeregisterModule<AFIBusConfigModule, AFCBusConfigModule>();
+    DeregisterModule<AFIProcConfigModule, AFCProcConfigModule>();
     DeregisterModule<AFIProcModule, AFCProcModule>();
     DeregisterModule<AFIBusModule, AFCBusModule>();
 }

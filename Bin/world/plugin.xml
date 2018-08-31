@@ -1,10 +1,10 @@
-<XML>
-	<Plugin Name="AFKernelPlugin" Main="1"/>
-	<Plugin Name="AFUtilityPlugin" Main="1"/>
-	<Plugin Name="AFWorldLogicPlugin" Main="1"/>
-	<Plugin Name="AFWorldNetClientPlugin" Main="1"/>
-	<Plugin Name="AFWorldNetServerPlugin" Main="1"/>
-	
-	<APPID Name="7" />
-    <ConfigPath Name="../" />
-</XML>
+<xml>
+	<plugins>
+		<plugin Name="AFKernelPlugin" />
+		<plugin Name="AFUtilityPlugin" />
+		<plugin Name="AFWorldLogicPlugin" />
+		<plugin Name="AFWorldNetClientPlugin" />
+		<plugin Name="AFWorldNetServerPlugin" />
+	</plugins>
+	<res path="../resource/" />
+</xml>

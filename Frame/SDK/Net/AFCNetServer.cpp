@@ -37,7 +37,7 @@ void AFCNetServer::Update()
     ProcessMsgLogicThread();
 }
 
-int AFCNetServer::Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount)
+int AFCNetServer::Start(const int nServerID, const std::string& strAddrPort, const int nThreadCount, const unsigned int nMaxClient)
 {
     std::string strHost;
     int port;
@@ -48,7 +48,6 @@ int AFCNetServer::Start(const unsigned int nMaxClient, const std::string& strAdd
     SetWorking(true);
     return 0;
 }
-
 
 size_t AFCNetServer::OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len)
 {

@@ -36,16 +36,13 @@ AFINetServerModule* AFCNetServerManagerModule::CreateServer(const size_t nServer
 
 bool AFCNetServerManagerModule::Update()
 {
-    bool bRet = mmServer.Begin();
-    while (bRet)
+    for (bool bRet = mmServer.Begin(); bRet; bRet = mmServer.Increase())
     {
         const auto& pServer = mmServer.GetCurrentData();
         if (pServer)
         {
             pServer->Update();
         }
-
-        bRet = mmServer.Increase();
     }
 
     return true;

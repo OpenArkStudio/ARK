@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -330,7 +330,7 @@ protected:
 
                     pServerData->eState = ConnectDataState::CONNECTING;
                     pServerData->mxNetModule = std::make_shared<AFCNetClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
-                    pServerData->mxNetModule->Start(pServerData->strIPAndPort, pServerData->nGameID);
+                    pServerData->mxNetModule->Start(pServerData->nGameID, pServerData->strIPAndPort);
                 }
                 break;
 
@@ -442,7 +442,7 @@ private:
 
                 xServerData->mxNetModule = std::make_shared<AFCNetClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
 
-                xServerData->mxNetModule->Start(xServerData->strIPAndPort, xServerData->nGameID);
+                xServerData->mxNetModule->Start(xServerData->nGameID, xServerData->strIPAndPort);
 
                 if (!mxServerMap.AddElement(xInfo.nGameID, xServerData))
                 {

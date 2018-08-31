@@ -104,14 +104,14 @@ public:
 
     //as server
     template<class ClassNetServerType = AFCNetServer>
-    int Start(const int nServerID, const std::string strIP, const unsigned short nPort, const int nCpuCount, const unsigned int nMaxClient)
+    int Start(const int nServerID, const std::string strIP, const unsigned short nPort, const int thread_count, const unsigned int nMaxClient)
     {
         std::string strIPAndPort;
         std::string strPort;
         AFMisc::ARK_TO_STR(strPort, nPort);
         strIPAndPort = strIP + ":" + strPort;
         m_pNet = ARK_NEW ClassNetServerType(this, &AFINetServerModule::OnReceiveNetPack, &AFINetServerModule::OnSocketNetEvent);
-        return m_pNet->Start(nMaxClient, strIPAndPort, nServerID, nCpuCount);
+        return m_pNet->Start(nServerID, strIPAndPort, thread_count, nMaxClient);
     }
 
     virtual bool Update()

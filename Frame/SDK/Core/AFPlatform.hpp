@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -93,6 +93,7 @@
 #include <arpa/inet.h>
 #include <signal.h>
 #include <sys/prctl.h>
+#include <dlfcn.h>
 
 #endif
 
@@ -190,9 +191,3 @@
 #endif // X64
 
 #define ARK_LITTLE_ENDIAN
-
-
-#ifndef ARK_DYNAMIC_PLUGIN
-#define ARK_DYNAMIC_PLUGIN
-#endif
-

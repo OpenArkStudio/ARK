@@ -30,73 +30,57 @@ class AFCPluginManager : public AFIPluginManager, public AFSingleton<AFCPluginMa
 {
 public:
     AFCPluginManager();
-    virtual ~AFCPluginManager();
 
-    virtual bool Init();
-
-    virtual bool PostInit();
-
-    virtual bool CheckConfig();
-
-    virtual bool PreUpdate();
-
-    virtual bool Update();
-
-    virtual bool PreShut();
-
-    virtual bool Shut();
+    bool Init() override;
+    bool PostInit() override;
+    bool CheckConfig() override;
+    bool PreUpdate() override;
+    bool Update() override;
+    bool PreShut() override;
+    bool Shut() override;
 
     //////////////////////////////////////////////////////////////////////////
 
-    virtual void Registered(AFIPlugin* pPlugin);
+    void Register(AFIPlugin* pPlugin) override;
+    void Deregister(AFIPlugin* pPlugin) override;
 
-    virtual void UnRegistered(AFIPlugin* pPlugin);
-
-    virtual bool StartReLoadState();
-
-    virtual bool EndReLoadState();
+    bool StartReLoadState() override;
+    bool EndReLoadState() override;
     //////////////////////////////////////////////////////////////////////////
 
-    virtual AFIPlugin* FindPlugin(const std::string& strPluginName);
+    AFIPlugin* FindPlugin(const std::string& strPluginName) override;
 
-    virtual void AddModule(const std::string& strModuleName, AFIModule* pModule);
+    void AddModule(const std::string& strModuleName, AFIModule* pModule) override;
+    void RemoveModule(const std::string& strModuleName) override;
+    virtual AFIModule* FindModule(const std::string& strModuleName) override;
 
-    virtual void RemoveModule(const std::string& strModuleName);
+    int BusID() const override;
+    virtual void SetBusID(const int app_id) override;
 
-    virtual AFIModule* FindModule(const std::string& strModuleName);
+    const std::string& AppName() const override;
+    void SetAppName(const std::string& app_name) override;
 
-    virtual int BusID() const;
-    virtual const std::string& AppName() const;
+    int64_t GetNowTime() const override;
 
-    virtual int64_t GetInitTime() const;
+    const std::string& GetResPath() const override;
 
-    virtual int64_t GetNowTime() const;
-
-    virtual const std::string& GetConfigPath() const;
-
-    virtual void SetConfigName(const std::string& strFileName);
-
-    virtual void SetBusID(const int app_id);
-
-    virtual void SetAppName(const std::string& app_name);
+    void SetPluginConf(const std::string& strFileName) override;
 
 protected:
-    bool LoadPluginConfig();
+    bool LoadPluginConf();
 
-    bool LoadStaticPlugin(const std::string& strPluginDLLName);
     bool LoadPluginLibrary(const std::string& strPluginDLLName);
     bool UnLoadPluginLibrary(const std::string& strPluginDLLName);
-    bool UnLoadStaticPlugin(const std::string& strPluginDLLName);
 
 private:
-    int mnBusID;
-    int64_t mnInitTime;
-    int64_t mnNowTime;
-    std::string mstrConfigPath;
-    std::string mstrConfigName;
-    std::string mstrAppName;
+    int mnBusID{0};
+    int64_t mnNowTime{0};
+    std::string mstrPluginPath{""};
+    std::string mstrResPath{""};
+    std::string mstrPluginConf{""};
+    std::string mstrAppName{""};
 
-    typedef void(*DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm/*, MemoryPool* pMalloc*/);
+    typedef void(*DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm);
     typedef void(*DLL_STOP_PLUGIN_FUNC)(AFIPluginManager* pm);
 
     std::map<std::string, bool> mxPluginNameMap;

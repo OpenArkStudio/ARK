@@ -34,45 +34,24 @@
 
 AFCPluginManager::AFCPluginManager() : AFIPluginManager()
 {
-    mnBusID = 0;
-    mnInitTime = AFDateTime::GetNowTime();
-    mnNowTime = mnInitTime;
-
-    mstrConfigPath = "";
-    mstrConfigName = "Plugin.xml";
-}
-
-AFCPluginManager::~AFCPluginManager()
-{
-
+    mnNowTime = AFDateTime::GetNowTime();
 }
 
 inline bool AFCPluginManager::Init()
 {
-    if (!LoadPluginConfig())
+    if (!LoadPluginConf())
     {
         return false;
     }
 
     for (auto it = mxPluginNameMap.begin(); it != mxPluginNameMap.end(); ++it)
     {
-#ifdef ARK_DYNAMIC_PLUGIN
         bool bRet = LoadPluginLibrary(it->first);
 
         if (!bRet)
         {
             return false;
         }
-
-#else
-        bool bRet = LoadStaticPlugin(it->first);
-
-        if (!bRet)
-        {
-            return false;
-        }
-
-#endif
     }
 
     for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
@@ -83,46 +62,53 @@ inline bool AFCPluginManager::Init()
     return true;
 }
 
-bool AFCPluginManager::LoadPluginConfig()
+bool AFCPluginManager::LoadPluginConf()
 {
-    rapidxml::file<> fdoc(mstrConfigName.c_str());
+    rapidxml::file<> fdoc(mstrPluginConf.c_str());
     rapidxml::xml_document<>  doc;
     doc.parse<0>(fdoc.data());
 
     rapidxml::xml_node<>* pRoot = doc.first_node();
-
-    for (rapidxml::xml_node<>* pPluginNode = pRoot->first_node("Plugin"); pPluginNode; pPluginNode = pPluginNode->next_sibling("Plugin"))
+    rapidxml::xml_node<>* pPluginsNode = pRoot->first_node("plugins");
+    if (pPluginsNode == nullptr)
     {
-        const char* strPluginName = pPluginNode->first_attribute("Name")->value();
-
-        mxPluginNameMap.insert(std::make_pair(strPluginName, true));
-    }
-
-    rapidxml::xml_node<>* pPluginConfigPathNode = pRoot->first_node("ConfigPath");
-
-    if (!pPluginConfigPathNode)
-    {
-        ARK_ASSERT(0, "There are no ConfigPath", __FILE__, __FUNCTION__);
         return false;
     }
 
-    if (pPluginConfigPathNode->first_attribute("Name") == nullptr)
+    if (pPluginsNode->first_attribute("path") == nullptr)
     {
         ARK_ASSERT(0, "There are no ConfigPath.Name", __FILE__, __FUNCTION__);
         return false;
     }
 
-    mstrConfigPath = pPluginConfigPathNode->first_attribute("Name")->value();
+    mstrPluginPath = pPluginsNode->first_attribute("path")->value();
+
+    for (rapidxml::xml_node<>* pPluginNode = pPluginsNode->first_node("plugin"); pPluginNode != nullptr; pPluginNode = pPluginNode->next_sibling("plugin"))
+    {
+        const char* strPluginName = pPluginNode->first_attribute("name")->value();
+        mxPluginNameMap.insert(std::make_pair(strPluginName, true));
+    }
+
+    rapidxml::xml_node<>* pResNode = pRoot->first_node("res");
+
+    if (!pResNode)
+    {
+        ARK_ASSERT(0, "There is no res node", __FILE__, __FUNCTION__);
+        return false;
+    }
+
+    if (pResNode->first_attribute("path") == nullptr)
+    {
+        ARK_ASSERT(0, "There is no res.path", __FILE__, __FUNCTION__);
+        return false;
+    }
+
+    mstrResPath = pResNode->first_attribute("path")->value();
 
     return true;
 }
 
-bool AFCPluginManager::LoadStaticPlugin(const std::string& strPluginDLLName)
-{
-    return false;
-}
-
-void AFCPluginManager::Registered(AFIPlugin* plugin)
+void AFCPluginManager::Register(AFIPlugin* plugin)
 {
     std::string strPluginName = plugin->GetPluginName();
 
@@ -137,7 +123,7 @@ void AFCPluginManager::Registered(AFIPlugin* plugin)
     }
 }
 
-void AFCPluginManager::UnRegistered(AFIPlugin* plugin)
+void AFCPluginManager::Deregister(AFIPlugin* plugin)
 {
     AFIPlugin* pPlugin = mxPluginInstanceMap.GetElement(plugin->GetPluginName());
 
@@ -145,8 +131,7 @@ void AFCPluginManager::UnRegistered(AFIPlugin* plugin)
     {
         pPlugin->Uninstall();
         mxPluginInstanceMap.RemoveElement(pPlugin->GetPluginName());
-        delete pPlugin;
-        plugin = NULL;
+        ARK_DELETE(pPlugin);
     }
 }
 
@@ -165,22 +150,17 @@ const std::string& AFCPluginManager::AppName() const
     return mstrAppName;
 }
 
-inline int64_t AFCPluginManager::GetInitTime() const
-{
-    return mnInitTime;
-}
-
 inline int64_t AFCPluginManager::GetNowTime() const
 {
     return mnNowTime;
 }
 
-inline const std::string& AFCPluginManager::GetConfigPath() const
+inline const std::string& AFCPluginManager::GetResPath() const
 {
-    return mstrConfigPath;
+    return mstrResPath;
 }
 
-void AFCPluginManager::SetConfigName(const std::string& strFileName)
+void AFCPluginManager::SetPluginConf(const std::string& strFileName)
 {
     if (strFileName.empty())
     {
@@ -192,7 +172,7 @@ void AFCPluginManager::SetConfigName(const std::string& strFileName)
         return;
     }
 
-    mstrConfigName = strFileName;
+    mstrPluginConf = strFileName;
 }
 
 void AFCPluginManager::SetBusID(const int app_id)
@@ -283,11 +263,7 @@ bool AFCPluginManager::Shut()
 
     for (auto it : mxPluginNameMap)
     {
-#ifdef ARK_DYNAMIC_PLUGIN
         UnLoadPluginLibrary(it.first);
-#else
-        UnLoadStaticPlugin(it.first);
-#endif
     }
 
     mxPluginInstanceMap.ClearAll();
@@ -305,15 +281,13 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
     }
 
     AFCDynLib* pLib = new AFCDynLib(strPluginDLLName);
-    bool bLoad = pLib->Load();
+    bool bLoad = pLib->Load(mstrPluginPath);
 
     if (bLoad)
     {
         mxPluginLibMap.AddElement(strPluginDLLName, pLib);
-
         DLL_START_PLUGIN_FUNC pFunc = (DLL_START_PLUGIN_FUNC)pLib->GetSymbol("DllStartPlugin");
-
-        if (!pFunc)
+        if (pFunc == nullptr)
         {
             CONSOLE_LOG << "Find function DllStartPlugin Failed in [" << pLib->GetName() << "]" << std::endl;
             assert(0);
@@ -328,17 +302,16 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
     {
 #if ARK_PLATFORM == PLATFORM_UNIX
         char* error = dlerror();
-
         if (error)
         {
-            CONSOLE_LOG << stderr << " Load shared lib[" << pLib->GetName() << "] failed, ErrorNo. = [" << error << "]" << std::endl;
+            CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNO = [" << error << "]" << std::endl;
             CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
             assert(0);
             return false;
         }
 
 #elif ARK_PLATFORM == PLATFORM_WIN
-        CONSOLE_LOG << stderr << " Load DLL[" << pLib->GetName() << "] failed, ErrorNo. = [" << GetLastError() << "]" << std::endl;
+        CONSOLE_LOG << stderr << " Load dynamic library[" << pLib->GetName() << "] failed, ErrorNO = [" << GetLastError() << "]" << std::endl;
         CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
         assert(0);
         return false;
@@ -349,15 +322,13 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
 {
     AFCDynLib* pDynLib = mxPluginLibMap.GetElement(strPluginDLLName);
-
     if (pDynLib == nullptr)
     {
         return false;
     }
 
     DLL_STOP_PLUGIN_FUNC pFunc = (DLL_STOP_PLUGIN_FUNC)pDynLib->GetSymbol("DllStopPlugin");
-
-    if (pFunc)
+    if (pFunc != nullptr)
     {
         pFunc(this);
     }
@@ -367,11 +338,6 @@ bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
     ARK_DELETE(pDynLib);
     mxPluginLibMap.RemoveElement(strPluginDLLName);
     return true;
-}
-
-bool AFCPluginManager::UnLoadStaticPlugin(const std::string& strPluginDLLName)
-{
-    return false;
 }
 
 bool AFCPluginManager::StartReLoadState()

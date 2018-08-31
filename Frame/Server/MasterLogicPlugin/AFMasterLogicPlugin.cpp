@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,13 +20,11 @@
 
 #include "AFCMasterModule.h"
 #include "AFMasterLogicPlugin.h"
-
-#ifdef ARK_DYNAMIC_PLUGIN
+#include "AFCMasterNetServerModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFMasterLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFMasterLogicPlugin)
 
-#endif
 //////////////////////////////////////////////////////////////////////////
 
 int AFMasterLogicPlugin::GetPluginVersion()
@@ -42,9 +40,11 @@ const std::string AFMasterLogicPlugin::GetPluginName()
 void AFMasterLogicPlugin::Install()
 {
     RegisterModule<AFIMasterModule, AFCMasterModule>();
+    RegisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
 }
 
 void AFMasterLogicPlugin::Uninstall()
 {
+    DeregisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
     DeregisterModule<AFIMasterModule, AFCMasterModule>();
 }

@@ -21,12 +21,10 @@
 #include "Example1Plugin.h"
 #include "Example1Module.h"
 
-#ifdef ARK_DYNAMIC_PLUGIN
-
 ARK_DLL_PLUGIN_ENTRY(Example1Plugin)
 ARK_DLL_PLUGIN_EXIT(Example1Plugin)
 
-#endif
+//////////////////////////////////////////////////////////////////////////
 
 int Example1Plugin::GetPluginVersion()
 {

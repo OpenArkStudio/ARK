@@ -1,67 +1,37 @@
 echo Copy common dlls...
-cp -a ../../Bin/Comm/Debug/PluginLoader_d master/
-cp -a ../../Bin/Comm/Debug/PluginLoader_d world/
-cp -a ../../Bin/Comm/Debug/PluginLoader_d login/
-cp -a ../../Bin/Comm/Debug/PluginLoader_d proxy/
-cp -a ../../Bin/Comm/Debug/PluginLoader_d game/
-
-cp -a ../../Dep/lib/Debug/libproto*d.so master/
-cp -a ../../Dep/lib/Debug/libproto*d.so world/
-cp -a ../../Dep/lib/Debug/libproto*d.so login/
-cp -a ../../Dep/lib/Debug/libproto*d.so proxy/
-cp -a ../../Dep/lib/Debug/libproto*d.so game/
-
-cp -a ../../Bin/Comm/Debug/AFProto*d.so master/
-cp -a ../../Bin/Comm/Debug/AFProto*d.so world/
-cp -a ../../Bin/Comm/Debug/AFProto*d.so login/
-cp -a ../../Bin/Comm/Debug/AFProto*d.so proxy/
-cp -a ../../Bin/Comm/Debug/AFProto*d.so game/
-
-cp -a ../../Bin/Comm/Debug/AFKernelPlugin*d.so master/
-cp -a ../../Bin/Comm/Debug/AFKernelPlugin*d.so world/
-cp -a ../../Bin/Comm/Debug/AFKernelPlugin*d.so login/
-cp -a ../../Bin/Comm/Debug/AFKernelPlugin*d.so proxy/
-cp -a ../../Bin/Comm/Debug/AFKernelPlugin*d.so game/
-
-cp -a ../../Bin/Comm/Debug/AFUtilityPlugin*d.so master/
-cp -a ../../Bin/Comm/Debug/AFUtilityPlugin*d.so world/
-cp -a ../../Bin/Comm/Debug/AFUtilityPlugin*d.so login/
-cp -a ../../Bin/Comm/Debug/AFUtilityPlugin*d.so proxy/
-cp -a ../../Bin/Comm/Debug/AFUtilityPlugin*d.so game/
-
-echo Copy self dlls
-cp -a ../../Bin/Comm/Debug/AFMaster*d.so 	master/
-cp -a ../../Bin/Comm/Debug/AFWorld*d.so		world/
-cp -a ../../Bin/Comm/Debug/AFLogin*d.so		login/
-cp -a ../../Bin/Comm/Debug/AFProxy*d.so		proxy/
-cp -a ../../Bin/Comm/Debug/AFGame*d.so		game/
+cp -a bin/PluginLoader_d master/
+cp -a bin/PluginLoader_d world/
+cp -a bin/PluginLoader_d login/
+cp -a bin/PluginLoader_d proxy/
+cp -a bin/PluginLoader_d game/
 
 export LC_ALL="C"
 
+#The default zone is 1001
+
 cd master
 echo Starting master...
-./PluginLoader_d -d app_id=1 app_name=master_server cfg=Plugin.xml
+./PluginLoader_d -d --busid=1.0.1.1 --name=master_server --plugin=plugin.xml
 
 cd ..
 cd world
 echo Starting world...
-./PluginLoader_d -d app_id=100 app_name=world_server cfg=Plugin.xml
-
+./PluginLoader_d -d --busid=1.1.100.1 --name=world_server --plugin=plugin.xml
 
 cd ..
 cd login
 echo Starting login...
-./PluginLoader_d -d app_id=102 app_name=login_server cfg=Plugin.xml
+./PluginLoader_d -d --busid=1.1.102.1 --name=login_server --plugin=plugin.xml
 
 cd ..
 cd proxy
 echo Starting proxy...
-./PluginLoader_d -d app_id=103 app_name=proxy_server cfg=Plugin.xml
+./PluginLoader_d -d --busid=1.1.103.1 --name=proxy_server --plugin=plugin.xml
 
 cd ..
 cd game
 echo Starting game...
-./PluginLoader_d -d app_id=101 app_name=game_server cfg=Plugin.xml
+./PluginLoader_d -d --busid=1.1.101.1 --name=game_server --plugin=plugin.xml
 
 echo All processes are launching...
 

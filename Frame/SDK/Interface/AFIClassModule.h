@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -44,8 +44,8 @@ public:
     virtual bool AddConfigName(std::string& strConfigName) = 0;
     virtual AFList<std::string>& GetConfigNameList() = 0;
 
-    virtual void SetInstancePath(const std::string& strPath) = 0;
-    virtual const std::string& GetInstancePath() = 0;
+    virtual void SetResPath(const std::string& strPath) = 0;
+    virtual const std::string& GetResPath() = 0;
 
     virtual bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
     virtual bool DoEvent(const AFGUID& objectID, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList) = 0;

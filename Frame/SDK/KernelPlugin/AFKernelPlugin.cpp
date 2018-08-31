@@ -22,12 +22,8 @@
 #include "AFCKernelModule.h"
 #include "AFCSceneModule.h"
 
-#ifdef ARK_DYNAMIC_PLUGIN
-
 ARK_DLL_PLUGIN_ENTRY(AFKernelPlugin)
 ARK_DLL_PLUGIN_EXIT(AFKernelPlugin)
-
-#endif
 
 //////////////////////////////////////////////////////////////////////////
 

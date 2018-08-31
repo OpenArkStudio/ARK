@@ -49,6 +49,7 @@ int AFCLoginNetServerModule::StartServer()
 {
     m_pNetModule = m_pNetServerManagerModule->CreateServer(pPluginManager->BusID());
     ARK_ASSERT_RET_VAL(nullptr != m_pNetModule, 0);
+
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetServerModule::OnHeartBeat);
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetServerModule::OnLoginProcess);
     m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetServerModule::OnLogOut);
@@ -67,7 +68,7 @@ int AFCLoginNetServerModule::StartServer()
         return -1;
     }
 
-    int nRet = m_pNetModule->Start(serverConfig.max_connection, "0.0.0.0", serverConfig.port, pPluginManager->BusID(), serverConfig.thread_num);
+    int nRet = m_pNetModule->Start(pPluginManager->BusID(), "0.0.0.0", serverConfig.port, serverConfig.thread_num, serverConfig.max_connection);
     if (nRet < 0)
     {
         ARK_LOG_ERROR("Cannot init server net, Port = {}", serverConfig.port);

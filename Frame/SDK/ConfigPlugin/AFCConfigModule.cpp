@@ -27,15 +27,8 @@
 #include "SDK/Core/AFDataNode.hpp"
 
 AFCConfigModule::AFCConfigModule(AFIPluginManager* p)
-    : m_pClassModule(nullptr)
-    , mbLoaded(false)
 {
     pPluginManager = p;
-}
-
-AFCConfigModule::~AFCConfigModule()
-{
-
 }
 
 bool AFCConfigModule::Init()
@@ -57,28 +50,25 @@ bool AFCConfigModule::Load()
         return false;
     }
 
-    ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->First();
-
-    while (nullptr != pLogicClass)
+    for (ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->First();  nullptr != pLogicClass; pLogicClass = m_pClassModule->Next())
     {
-        const std::string& strInstancePath = pLogicClass->GetInstancePath();
+        const std::string& strInstancePath = pLogicClass->GetResPath();
 
         if (strInstancePath.empty())
         {
-            pLogicClass = m_pClassModule->Next();
             continue;
         }
 
         //////////////////////////////////////////////////////////////////////////
         rapidxml::xml_document<> xDoc;
-        std::string strFile = pPluginManager->GetConfigPath() + strInstancePath;
+        std::string strFile = pPluginManager->GetResPath() + strInstancePath;
         rapidxml::file<> fdoc(strFile.c_str());
         xDoc.parse<0>(fdoc.data());
         //////////////////////////////////////////////////////////////////////////
         //support for unlimited layer class inherits
         rapidxml::xml_node<>* root = xDoc.first_node();
 
-        for (rapidxml::xml_node<>* attrNode = root->first_node(); attrNode; attrNode = attrNode->next_sibling())
+        for (rapidxml::xml_node<>* attrNode = root->first_node(); attrNode != nullptr; attrNode = attrNode->next_sibling())
         {
             if (!Load(attrNode, pLogicClass))
             {
@@ -87,7 +77,6 @@ bool AFCConfigModule::Load()
         }
 
         mbLoaded = true;
-        pLogicClass = m_pClassModule->Next();
     }
 
     return true;
@@ -408,10 +397,7 @@ bool AFCConfigModule::IsDigit(const std::string& str)
     if (*start == '-')
         ++start;
 
-    return (str.end() == std::find_if(start, str.end(), [](unsigned char c)
-    {
-        return std::isdigit(c);
-    }));
+    return (std::all_of(start, str.end(), std::isdigit));
 }
 
 bool AFCConfigModule::Clear()

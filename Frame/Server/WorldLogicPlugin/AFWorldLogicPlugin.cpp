@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,13 +20,12 @@
 
 #include "AFCWorldLogicModule.h"
 #include "AFWorldLogicPlugin.h"
-
-#ifdef ARK_DYNAMIC_PLUGIN
+#include "AFCWorldNetServerModule.h"
+#include "AFCWorldToMasterModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFWorldLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFWorldLogicPlugin)
 
-#endif
 //////////////////////////////////////////////////////////////////////////
 
 int AFWorldLogicPlugin::GetPluginVersion()
@@ -41,12 +40,14 @@ const std::string AFWorldLogicPlugin::GetPluginName()
 
 void AFWorldLogicPlugin::Install()
 {
-
     RegisterModule<AFIWorldLogicModule, AFCWorldLogicModule>();
+    RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
+    RegisterModule<AFIWorldToMasterModule, AFCWorldToMasterModule>();
 }
 
 void AFWorldLogicPlugin::Uninstall()
 {
+    RegisterModule<AFIWorldToMasterModule, AFCWorldToMasterModule>();
+    RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
     DeregisterModule<AFIWorldLogicModule, AFCWorldLogicModule>();
 }
-

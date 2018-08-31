@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,12 +22,8 @@
 #include "AFCNetServerManagerModule.h"
 #include "AFCNetClientManagerModule.h"
 
-#ifdef ARK_DYNAMIC_PLUGIN
-
 ARK_DLL_PLUGIN_ENTRY(AFNetPlugin)
 ARK_DLL_PLUGIN_EXIT(AFNetPlugin)
-
-#endif
 
 //////////////////////////////////////////////////////////////////////////
 

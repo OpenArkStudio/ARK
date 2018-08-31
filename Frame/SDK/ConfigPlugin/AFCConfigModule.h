@@ -62,7 +62,7 @@ class AFCConfigModule : public AFIConfigModule
 {
 public:
     explicit AFCConfigModule(AFIPluginManager* p);
-    virtual ~AFCConfigModule();
+    virtual ~AFCConfigModule() = default;
 
     virtual bool Init();
     virtual bool Shut();
@@ -91,7 +91,7 @@ protected:
     bool IsDigit(const std::string& str);
 
 private:
-    AFIClassModule* m_pClassModule;
-    bool mbLoaded;
+    AFIClassModule* m_pClassModule{nullptr};
+    bool mbLoaded{false};
     AFArrayMap<std::string, ElementConfigInfo> mxElementConfigMap;
 };

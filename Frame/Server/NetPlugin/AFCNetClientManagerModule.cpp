@@ -24,17 +24,13 @@
 
 bool AFCNetClientManagerModule::Update()
 {
-    bool bRet = mmCluster.Begin();
-
-    while (bRet)
+    for (bool bRet = mmCluster.Begin(); bRet; bRet = mmCluster.Increase())
     {
         const auto& pCluster = mmCluster.GetCurrentData();
         if (pCluster)
         {
             pCluster->Update();
         }
-
-        bRet = mmCluster.Increase();
     }
 
     return true;
@@ -43,8 +39,10 @@ bool AFCNetClientManagerModule::Update()
 AFINetClientModule* AFCNetClientManagerModule::CreateClusterClientModule(const size_t nClusterTypeID)
 {
     AFINetClientModule* pCluster = mmCluster.GetElement(nClusterTypeID);
-    if (!pCluster)
+    if (pCluster != nullptr)
     {
+        //Please check why create client and client is not null
+        ARK_ASSERT_RET_VAL(0, nullptr);
         return nullptr;
     }
 

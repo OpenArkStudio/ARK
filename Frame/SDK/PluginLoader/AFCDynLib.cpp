@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,10 +20,9 @@
 
 #include "AFCDynLib.h"
 
-bool AFCDynLib::Load()
+bool AFCDynLib::Load(std::string const& path)
 {
-    std::string strLibPath = "./";
-    strLibPath += mstrName;
+    std::string strLibPath = path + mstrName;
     mInst = (DYNLIB_HANDLE)DYNLIB_LOAD(strLibPath.c_str());
 
     return mInst != nullptr;
@@ -39,4 +38,3 @@ void* AFCDynLib::GetSymbol(const char* szProcName)
 {
     return (DYNLIB_HANDLE)DYNLIB_GETSYM(mInst, szProcName);
 }
-

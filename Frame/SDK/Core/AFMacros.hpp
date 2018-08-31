@@ -144,7 +144,15 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
 #define ARK_EXPORT extern "C" __declspec(dllexport)
 #define ARK_UNUSED
 
-#else
+#define DYNLIB_HANDLE hInstance
+#define DYNLIB_LOAD(a) LoadLibraryEx(a, NULL, LOAD_WITH_ALTERED_SEARCH_PATH)
+#define DYNLIB_GETSYM(a, b) GetProcAddress(a, b)
+#define DYNLIB_UNLOAD(a) FreeLibrary(a)
+
+struct HINSTANCE__;
+typedef struct HINSTANCE__* hInstance;
+
+#elif ARK_PLATFORM == PLATFORM_UNIX
 
 //Linux
 #define ARK_SPRINTF snprintf
@@ -160,6 +168,18 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
 
 #define ARK_EXPORT extern "C" __attribute ((visibility("default")))
 #define ARK_UNUSED __attribute__((unused))
+
+#define DYNLIB_HANDLE void*
+#define DYNLIB_LOAD(a) dlopen(a, RTLD_LAZY | RTLD_GLOBAL)
+#define DYNLIB_GETSYM(a, b) dlsym(a, b)
+#define DYNLIB_UNLOAD(a) dlclose(a)
+
+#elif ARK_PLATFORM == PLATFORM_APPLE
+
+#define DYNLIB_HANDLE void*
+#define DYNLIB_LOAD(a) mac_loadDylib(a)
+#define DYNLIB_GETSYM(a, b) dlsym(a, b)
+#define DYNLIB_UNLOAD(a) dlclose(a)
 
 #endif
 

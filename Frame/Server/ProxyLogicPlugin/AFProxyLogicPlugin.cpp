@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,13 +20,13 @@
 
 #include "AFProxyLogicPlugin.h"
 #include "AFCProxyLogicModule.h"
-
-#ifdef ARK_DYNAMIC_PLUGIN
+#include "AFCProxyNetServerModule.h"
+#include "AFCProxyServerToGameModule.h"
+#include "AFCProxyServerToWorldModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFProxyLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFProxyLogicPlugin)
 
-#endif
 //////////////////////////////////////////////////////////////////////////
 
 int AFProxyLogicPlugin::GetPluginVersion()
@@ -42,10 +42,15 @@ const std::string AFProxyLogicPlugin::GetPluginName()
 void AFProxyLogicPlugin::Install()
 {
     RegisterModule<AFIProxyLogicModule, AFCProxyLogicModule>();
+    RegisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
+    RegisterModule<AFIProxyServerToGameModule, AFCProxyServerToGameModule>();
+    RegisterModule<AFIProxyServerToWorldModule, AFCProxyServerToWorldModule>();
 }
 
 void AFProxyLogicPlugin::Uninstall()
 {
+    DeregisterModule<AFIProxyServerToGameModule, AFCProxyServerToGameModule>();
+    DeregisterModule<AFIProxyServerToWorldModule, AFCProxyServerToWorldModule>();
+    DeregisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
     DeregisterModule<AFIProxyLogicModule, AFCProxyLogicModule>();
 }
-

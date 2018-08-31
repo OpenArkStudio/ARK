@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -21,12 +21,9 @@
 #include "Example3Plugin.h"
 #include "Example3Module.h"
 
-#ifdef ARK_DYNAMIC_PLUGIN
-
 ARK_DLL_PLUGIN_ENTRY(Example3Plugin)
 ARK_DLL_PLUGIN_EXIT(Example3Plugin)
 
-#endif
 //////////////////////////////////////////////////////////////////////////
 
 int Example3Plugin::GetPluginVersion()

@@ -22,12 +22,8 @@
 #include "AFCClassModule.h"
 #include "AFCConfigModule.h"
 
-#ifdef ARK_DYNAMIC_PLUGIN
-
 ARK_DLL_PLUGIN_ENTRY(AFConfigPlugin)
 ARK_DLL_PLUGIN_EXIT(AFConfigPlugin)
-
-#endif
 
 //////////////////////////////////////////////////////////////////////////
 

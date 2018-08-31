@@ -69,7 +69,7 @@ public:
 
     virtual void Update();
 
-    virtual int Start(const unsigned int nMaxClient, const std::string& strAddrPort, const int nServerID, const int nThreadCount);
+    virtual int Start(const int nServerID, const std::string& strAddrPort, const int nThreadCount, const unsigned int nMaxClient);
     virtual bool Final() final;
     virtual bool IsServer()
     {

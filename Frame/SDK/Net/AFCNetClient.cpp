@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -96,7 +96,7 @@ void AFCNetClient::ProcessMsgLogicThread(AFTCPEntity* pEntity)
 }
 
 
-void AFCNetClient::Start(const std::string& strAddrPort, const int nServerID)
+void AFCNetClient::Start(const int nServerID, const std::string& strAddrPort)
 {
     mnServerID = nServerID;
     m_pServer->startWorkThread(1);

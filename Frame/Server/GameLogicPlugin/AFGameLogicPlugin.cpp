@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -25,13 +25,12 @@
 #include "AFCLevelModule.h"
 #include "AFCPropertyConfigModule.h"
 #include "AFCAccountModule.h"
-
-#ifdef ARK_DYNAMIC_PLUGIN
+#include "AFCGameNetServerModule.h"
+#include "AFCGameServerToWorldModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFGameLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFGameLogicPlugin)
 
-#endif
 //////////////////////////////////////////////////////////////////////////
 
 int AFGameLogicPlugin::GetPluginVersion()
@@ -46,16 +45,20 @@ const std::string AFGameLogicPlugin::GetPluginName()
 
 void AFGameLogicPlugin::Install()
 {
-    RegisterModule< AFIGameServerModule, AFCGameServerModule>();
-    RegisterModule< AFISceneProcessModule, AFCSceneProcessModule>();
-    RegisterModule< AFIPropertyModule, AFCPropertyModule>();
-    RegisterModule< AFILevelModule, AFCLevelModule>();
-    RegisterModule< AFIPropertyConfigModule, AFCPropertyConfigModule>();
-    RegisterModule< AFIAccountModule, AFCAccountModule>();
+    RegisterModule<AFIGameServerModule, AFCGameServerModule>();
+    RegisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
+    RegisterModule<AFIPropertyModule, AFCPropertyModule>();
+    RegisterModule<AFILevelModule, AFCLevelModule>();
+    RegisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
+    RegisterModule<AFIAccountModule, AFCAccountModule>();
+    RegisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
+    RegisterModule<AFIGameServerToWorldModule, AFCGameServerToWorldModule>();
 }
 
 void AFGameLogicPlugin::Uninstall()
 {
+    DeregisterModule<AFIGameServerToWorldModule, AFCGameServerToWorldModule>();
+    DeregisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
     DeregisterModule<AFIAccountModule, AFCAccountModule>();
     DeregisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
     DeregisterModule<AFILevelModule, AFCLevelModule>();
@@ -63,4 +66,3 @@ void AFGameLogicPlugin::Uninstall()
     DeregisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
     DeregisterModule<AFIGameServerModule, AFCGameServerModule>();
 }
-

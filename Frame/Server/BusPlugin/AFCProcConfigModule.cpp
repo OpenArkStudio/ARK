@@ -33,9 +33,9 @@ AFCProcConfigModule::AFCProcConfigModule(AFIPluginManager* p)
 
 bool AFCProcConfigModule::LoadProcConfig()
 {
-    std::string proc_file_path = "cfg/proc.xml";
+    std::string proc_file_path = "bus/proc.xml";
 
-    std::string proc_file = pPluginManager->GetConfigPath() + proc_file_path;
+    std::string proc_file = pPluginManager->GetResPath() + proc_file_path;
     rapidxml::file<> xFileSource(proc_file.c_str());
     rapidxml::xml_document<> xFileDoc;
     xFileDoc.parse<0>(xFileSource.data());
@@ -123,7 +123,7 @@ const ARK_PROCESS_TYPE AFCProcConfigModule::GetProcType(const std::string& name)
 
 uint16_t AFCProcConfigModule::CalcProcPort(const ARK_PROCESS_TYPE& type, const uint8_t inst_id)
 {
-    if (type <= ARK_PROC_WORLD_MAX)
+    if (type <= ARK_PROC_NONE || type >= ARK_PROC_WORLD_MAX)
     {
         ARK_ASSERT_NO_EFFECT(0);
         return 0;

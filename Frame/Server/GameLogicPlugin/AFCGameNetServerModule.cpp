@@ -85,7 +85,7 @@ int AFCGameNetServerModule::StartServer()
         return -1;
     }
 
-    int nRet = m_pNetModule->Start(serverConfig.max_connection, "0.0.0.0", serverConfig.port, pPluginManager->BusID(), serverConfig.thread_num);
+    int nRet = m_pNetModule->Start(pPluginManager->BusID(), "0.0.0.0", serverConfig.port, serverConfig.thread_num, serverConfig.max_connection);
     if (nRet < 0)
     {
         ARK_LOG_ERROR("Cannot start server net, Port = {}", serverConfig.port);

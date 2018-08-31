@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,13 +20,12 @@
 
 #include "AFLoginLogicPlugin.h"
 #include "AFCLoginLogicModule.h"
-
-#ifdef ARK_DYNAMIC_PLUGIN
+#include "AFCLoginNetServerModule.h"
+#include "AFCLoginToMasterModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFLoginLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFLoginLogicPlugin)
 
-#endif
 //////////////////////////////////////////////////////////////////////////
 
 int AFLoginLogicPlugin::GetPluginVersion()
@@ -41,12 +40,14 @@ const std::string AFLoginLogicPlugin::GetPluginName()
 
 void AFLoginLogicPlugin::Install()
 {
-
-    RegisterModule< AFILoginLogicModule, AFCLoginLogicModule>();
+    RegisterModule<AFILoginLogicModule, AFCLoginLogicModule>();
+    RegisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
+    RegisterModule<AFILoginToMasterModule, AFCLoginToMasterModule>();
 }
 
 void AFLoginLogicPlugin::Uninstall()
 {
+    DeregisterModule<AFILoginToMasterModule, AFCLoginToMasterModule>();
+    DeregisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
     DeregisterModule<AFILoginLogicModule, AFCLoginLogicModule>();
 }
-

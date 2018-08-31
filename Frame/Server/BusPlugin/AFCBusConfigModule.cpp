@@ -42,8 +42,8 @@ bool AFCBusConfigModule::Init()
 bool AFCBusConfigModule::LoadBusRelation()
 {
     //load bus relation files
-    std::string bus_file_path = "cfg/bus_relation.xml";
-    std::string bus_file = pPluginManager->GetConfigPath() + bus_file_path;
+    std::string bus_file_path = "bus/bus_relation.xml";
+    std::string bus_file = pPluginManager->GetResPath() + bus_file_path;
 
     rapidxml::file<> xFileSource(bus_file.c_str());
     rapidxml::xml_document<> xFileDoc;
@@ -55,8 +55,8 @@ bool AFCBusConfigModule::LoadBusRelation()
         ARK_ASSERT_NO_EFFECT(0);
         return false;
     }
-
-    for (rapidxml::xml_node<>* pRelationNode = pRoot->first_node("bus_relations"); pRelationNode != nullptr; pRelationNode = pRelationNode->next_sibling())
+    rapidxml::xml_node<>* pRelationNodes = pRoot->first_node("bus_relations");
+    for (rapidxml::xml_node<>* pRelationNode = pRelationNodes->first_node("bus_relations"); pRelationNode != nullptr; pRelationNode = pRelationNode->next_sibling())
     {
         std::string proc = pRelationNode->first_attribute("proc")->value();
         std::string target_proc = pRelationNode->first_attribute("target_proc")->value();

@@ -1,12 +1,12 @@
 ## ARK 计划 2018
 
-- [x] 1.spdlog增加按照文件夹/大小/小时滚动的sink(*已经修改了一部分，还需要进一步修改成tlog的格式，binlog/1001/20180627/game1_hour.log*)
+- [x] ~~1.spdlog增加按照文件夹/大小/小时滚动的sink(*已经修改了一部分，还需要进一步修改成tlog的格式，binlog/1001/20180627/game1_hour.log*)~~
 - [ ] 2.Map, Layer,对应修改协议和Client的处理
 - [ ] 3.新架构修改
 - [ ] 4.增加连接关系的配置，不再通过程序中手动设置关系(bus_relation, server_settting, IP和port不用再指定了, 通过获取IP和动态生成port), 网络地址修改为tcp://0.0.0.0:9001 wss://0.0.0.0:9001这样的URL
 - [ ] 5.增加logserver和logclient插件
-- [ ] 10.增加网络插件,这样可以将网络模块和业务逻辑模块拆分开(现在NetClient和NetServer还是跟业务关联太紧密了)
-- [x] 6.修改bin文件夹debug和release在一起，debug和release分开配置(方便配置是一套)
+- [x ] ~~10.增加网络插件,这样可以将网络模块和业务逻辑模块拆分开(现在NetClient和NetServer还是跟业务关联太紧密了)~~
+- [x] ~~6.修改bin文件夹debug和release在一起，debug和release分开配置(方便配置是一套)~~
 - [ ] 7.增加运维工具(tcm & deploy)
 - [ ] 8.guid改为内部指针类型(降低其他非guid类型的内存占用)
 - [ ] 9.修改进程启动优先链接logserver，如果logserver连不上，则直接不能启动，这样就可以从一开始就能打log了
@@ -24,7 +24,7 @@
   
 - [ ] 200.增加监控web页面(vue-admin)
 - [ ] 201.增加Deployment web工具
-- [ ] 202.增加consul来做服务发现和配置共享(待调研)  
+- [ ] 202.增加consul来做服务发现和配置共享(调研后不太适合现在的情况, 考虑etcd/zookeeper来做)  
   
 
 ## ARK Bug修改

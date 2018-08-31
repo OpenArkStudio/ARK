@@ -24,12 +24,8 @@
 #include "AFCTimerModule.h"
 #include "AFCScheduleModule.h"
 
-#ifdef ARK_DYNAMIC_PLUGIN
-
 ARK_DLL_PLUGIN_ENTRY(AFUtilityPlugin)
 ARK_DLL_PLUGIN_EXIT(AFUtilityPlugin)
-
-#endif
 
 //////////////////////////////////////////////////////////////////////////
 

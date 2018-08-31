@@ -34,11 +34,7 @@ class AFCClass : public AFIClass
 {
 public:
     explicit AFCClass(const std::string& strClassName) :
-        m_pParentClass(nullptr),
-        mstrType(NULL_STR),
-        mstrClassName(strClassName),
-        mstrClassInstancePath(NULL_STR)
-
+        mstrClassName(strClassName)
     {
         m_pNodeManager = std::make_shared<AFCDataNodeManager>(NULL_GUID);
         m_pTableManager = std::make_shared<AFCDataTableManager>(NULL_GUID);
@@ -114,24 +110,24 @@ public:
         return mxConfigList;
     }
 
-    void SetInstancePath(const std::string& strPath)
+    void SetResPath(const std::string& strPath)
     {
-        mstrClassInstancePath = strPath;
+        mstrClassResPath = strPath;
     }
 
-    const std::string& GetInstancePath()
+    const std::string& GetResPath()
     {
-        return mstrClassInstancePath;
+        return mstrClassResPath;
     }
 
 private:
     ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
     ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
 
-    ARK_SHARE_PTR<AFIClass> m_pParentClass;
-    std::string mstrType;
-    std::string mstrClassName;
-    std::string mstrClassInstancePath;
+    ARK_SHARE_PTR<AFIClass> m_pParentClass{nullptr};
+    std::string mstrType{};
+    std::string mstrClassName{};
+    std::string mstrClassResPath{};
 
     AFList<std::string> mxConfigList;
 
@@ -172,5 +168,5 @@ protected:
 private:
     AFIConfigModule* m_pConfigModule;
     AFILogModule* m_pLogModule;
-    std::string msConfigFileName;
+    std::string mstrSchemaFile;
 };
