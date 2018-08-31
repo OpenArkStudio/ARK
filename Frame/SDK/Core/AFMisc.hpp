@@ -146,6 +146,9 @@ public:
         if (*start == '-')
             ++start;
 
-        return (std::all_of(start, str.end(), isdigit));
+        return (std::all_of(start, str.end(), [](unsigned char c)
+        {
+            return isdigit(c);
+        }));
     }
 };

@@ -6,7 +6,7 @@ MACRO(BUILD_PLUGIN_MACRO project_name)
     add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFUtilityPlugin AFProto)
     if(UNIX)
         #Set rpath
-        SET(CMAKE_INSTALL_RPATH "../lib/,./")
+        SET(CMAKE_INSTALL_RPATH "../lib/" "./")
         SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
         add_definitions(
             -DLIBPROTOC_EXPORTS
