@@ -168,7 +168,7 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
 
         case DT_INT:
             {
-                if (!IsDigit(pstrConfigValue))
+                if (!AFMisc::IsDigit(pstrConfigValue))
                 {
                     ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
@@ -179,7 +179,7 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
 
         case DT_INT64:
             {
-                if (!IsDigit(pstrConfigValue))
+                if (!AFMisc::IsDigit(pstrConfigValue))
                 {
                     ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
                 }
@@ -384,20 +384,6 @@ bool AFCConfigModule::ExistConfig(const std::string& strClassName, const std::st
 
     const std::string strClass(pElementInfo->GetNodeManager()->GetNodeString("ClassName"));
     return (strClass == strClassName);
-}
-
-bool AFCConfigModule::IsDigit(const std::string& str)
-{
-    if (str.empty())
-    {
-        return false;
-    }
-
-    string::const_iterator start = str.begin();
-    if (*start == '-')
-        ++start;
-
-    return (std::all_of(start, str.end(), std::isdigit));
 }
 
 bool AFCConfigModule::Clear()

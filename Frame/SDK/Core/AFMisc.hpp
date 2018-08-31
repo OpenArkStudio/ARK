@@ -134,4 +134,18 @@ public:
 
         return s;
     }
+
+    static bool IsDigit(const std::string& str)
+    {
+        if (str.empty())
+        {
+            return false;
+        }
+
+        string::const_iterator start = str.begin();
+        if (*start == '-')
+            ++start;
+
+        return (std::all_of(start, str.end(), isdigit));
+    }
 };

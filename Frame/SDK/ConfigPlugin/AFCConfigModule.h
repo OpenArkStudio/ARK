@@ -86,9 +86,7 @@ public:
 
 protected:
     AFDataNode* GetNode(const std::string& strConfigName, const std::string& strDataNodeName);
-
     bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pLogicClass);
-    bool IsDigit(const std::string& str);
 
 private:
     AFIClassModule* m_pClassModule{nullptr};
