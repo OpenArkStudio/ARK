@@ -10,8 +10,9 @@ if(UNIX)
     SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
-add_dependencies(PluginLoader AFNet AFCore)
+
 add_executable(PluginLoader ${PluginLoader_SRC})
+add_dependencies(PluginLoader AFNet AFCore)
 
 if(UNIX)
     target_link_libraries(PluginLoader AFCore AFNet pthread dl)
