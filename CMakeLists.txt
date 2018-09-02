@@ -34,38 +34,19 @@ include_directories(
 
 if(UNIX)
     #linux
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -g -ggdb -fPIC")
     if(CMAKE_BUILD_TYPE MATCHES "Debug")
         set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -fPIC")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O0 -Wall -g -ggdb -D_DEBUG -fPIC")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -D_DEBUG ")
     else()
         set(CMAKE_BUILD_TYPE "Release")
         set(CMAKE_C_FLAGS  "${CMAKE_C_FLAGS} -fPIC")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2 -Wall -g -ggdb -DNDEBUG -fPIC")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2 -DNDEBUG")
     endif()
     set(LDFLAGS "$ENV{LDFLAGS} -stdlib=libc++")
-    ADD_DEFINITIONS(-std=c++11)
     set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib/ ${ROOT_DIR}/Bin/bin)
     set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/bin/)
-
-    set (CXX_FLAGS
-        -g
-        -w
-        #-Wall
-        #-Wno-unused-parameter
-        #-Wno-unused-function
-        #-Wunused-variable
-        #-Wunused-value
-        #-Wshadow
-        #-Wcast-qual
-        #-Wcast-align
-        #-Wwrite-strings
-        #-Wsign-compare
-        #-Winvalid-pch
-        -fms-extensions
-        #-Wfloat-equal
-        #-Wextra
-        -fPIC
-    )
+    add_definitions()(-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-strict-aliasing -Wno-pmf-conversions)
     
     if(ENABLE_COVERAGE)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
@@ -78,21 +59,21 @@ else()
     set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib ${ROOT_DIR}/Bin/bin/)
     set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/bin/)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-    SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
-    SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
-    SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
-    SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
-    SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
-    SET(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
+    set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG "${BIN_OUTPUT_DIR}")
+    set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE "${BIN_OUTPUT_DIR}")
 endif()
 
-string (REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 link_directories(${DEP_LIB_DIR})
 
 #log
 message("ROOT dir=${ROOT_DIR}")
 message("Bin Output dir=${BIN_OUTPUT_DIR}")
 message("DEP lib dir=${DEP_LIB_DIR}")
+message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 
 #codecov
 find_package(codecov)

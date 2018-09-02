@@ -2,8 +2,8 @@ file(GLOB AFProto_SRC *.h *.hpp *.cpp *.cc *.c cpp/*.h cpp/*.hpp cpp/*.cpp cpp/*
 
 if(UNIX)
     #Set rpath
-    SET(CMAKE_INSTALL_RPATH "./" "../lib/")
-    SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+    set(CMAKE_INSTALL_RPATH "./" "../lib/")
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
 add_library(AFProto SHARED ${AFProto_SRC})

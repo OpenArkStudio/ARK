@@ -1,13 +1,9 @@
 file(GLOB PluginLoader_SRC *.h *.hpp *.cpp *.cc *.c)
-
-add_definitions(
-    -D_CONSOLE
-    -DAF_DYNAMIC_PLUGIN)
     
 if(UNIX)
     #Set rpath
-    SET(CMAKE_INSTALL_RPATH "../bin" "../lib/")
-    SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+    set(CMAKE_INSTALL_RPATH "../bin" "../lib/")
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
 

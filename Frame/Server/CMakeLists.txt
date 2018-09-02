@@ -1,11 +1,11 @@
 #Define server plugin building macro
-MACRO(BUILD_PLUGIN_MACRO project_name)
+macro(BUILD_PLUGIN_MACRO project_name)
     aux_source_directory(. PLUGIN_SRC)
 
     if(UNIX)
         #Set rpath
-        SET(CMAKE_INSTALL_RPATH "./" "../lib/")
-        SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+        set(CMAKE_INSTALL_RPATH "./" "../lib/")
+        set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
     endif()
 
     add_library(${project_name} SHARED ${PLUGIN_SRC})
@@ -64,7 +64,7 @@ MACRO(BUILD_PLUGIN_MACRO project_name)
         ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
         RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
         LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})
-ENDMACRO(BUILD_PLUGIN_MACRO project_name)
+endmacro(BUILD_PLUGIN_MACRO project_name)
 
 ###################################################################################################
 add_subdirectory(BusPlugin)

@@ -274,7 +274,6 @@ bool AFCPluginManager::Shut()
 bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 {
     AFCDynLib* pDynLib = mxPluginLibMap.GetElement(strPluginDLLName);
-
     if (pDynLib != nullptr)
     {
         return false;
@@ -282,7 +281,6 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
 
     AFCDynLib* pLib = new AFCDynLib(strPluginDLLName);
     bool bLoad = pLib->Load(mstrPluginPath);
-
     if (bLoad)
     {
         mxPluginLibMap.AddElement(strPluginDLLName, pLib);
