@@ -10,24 +10,24 @@ MACRO(BUILD_PLUGIN_MACRO project_name)
 
     add_library(${project_name} SHARED ${PLUGIN_SRC})
 
-    add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFUtilityPlugin AFProto)
+    add_dependencies(${project_name} AFKernelPlugin AFUtilityPlugin AFProto AFNet AFCore)
     if(UNIX)
         add_definitions(
             -DLIBPROTOC_EXPORTS
             -DPROTOBUF_USE_DLLS)
 
         target_link_libraries(${project_name} 
-            debug AFNet_d.a
-            debug AFProto_d.so
-            debug AFCore_d.a
+            debug :AFNet_d.a
+            debug :AFProto_d.so
+            debug :AFCore_d.a
             debug protobuf
             debug brynet.a
             debug pthread
             debug dl
             
-            optimized AFNet.a
-            optimized AFProto.so
-			optimized AFCore.a
+            optimized :AFNet.a
+            optimized :AFProto.so
+			optimized :AFCore.a
             optimized protobuf
             optimized brynet.a
             optimized pthread

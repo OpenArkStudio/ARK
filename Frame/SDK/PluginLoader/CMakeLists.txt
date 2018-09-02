@@ -3,7 +3,14 @@ file(GLOB PluginLoader_SRC *.h *.hpp *.cpp *.cc *.c)
 add_definitions(
     -D_CONSOLE
     -DAF_DYNAMIC_PLUGIN)
-	
+    
+if(UNIX)
+    #Set rpath
+    SET(CMAKE_INSTALL_RPATH "../bin" "../lib/")
+    SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+endif()
+
+add_dependencies(PluginLoader AFNet AFCore)
 add_executable(PluginLoader ${PluginLoader_SRC})
 
 if(UNIX)
