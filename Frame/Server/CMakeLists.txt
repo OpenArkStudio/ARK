@@ -1,29 +1,33 @@
 #Define server plugin building macro
 MACRO(BUILD_PLUGIN_MACRO project_name)
     aux_source_directory(. PLUGIN_SRC)
+
+    if(UNIX)
+        #Set rpath
+        SET(CMAKE_INSTALL_RPATH "./" "../lib/")
+        SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+    endif()
+
     add_library(${project_name} SHARED ${PLUGIN_SRC})
 
     add_dependencies(${project_name} AFCore AFNet AFKernelPlugin AFUtilityPlugin AFProto)
     if(UNIX)
-        #Set rpath
-        SET(CMAKE_INSTALL_RPATH "../lib/" "./")
-        SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
         add_definitions(
             -DLIBPROTOC_EXPORTS
             -DPROTOBUF_USE_DLLS)
 
         target_link_libraries(${project_name} 
-            debug AFNet_d
-            debug AFProto_d
-            debug AFCore_d
+            debug AFNet_d.a
+            debug AFProto_d.so
+            debug AFCore_d.a
             debug protobuf
             debug brynet.a
             debug pthread
             debug dl
             
-            optimized AFCore
-            optimized AFNet
-            optimized AFProto
+            optimized AFNet.a
+            optimized AFProto.so
+			optimized AFCore.a
             optimized protobuf
             optimized brynet.a
             optimized pthread

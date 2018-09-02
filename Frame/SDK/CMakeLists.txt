@@ -2,7 +2,7 @@
 MACRO(BUILD_SDK_PLUGIN_MACRO project_name)
     if(UNIX)
         #Set rpath
-        SET(CMAKE_INSTALL_RPATH "../lib/" "./")
+        SET(CMAKE_INSTALL_RPATH "./" "../lib/")
         SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
     endif()
     
