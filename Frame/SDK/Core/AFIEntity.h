@@ -39,20 +39,6 @@ public:
     virtual const AFGUID& Self() = 0;
 
     template<typename BaseType>
-    bool AddNodeCallBack(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
-    {
-        DATA_NODE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return AddNodeCallBack(name, std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
-    }
-
-    template<typename BaseType>
-    bool AddTableCallBack(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
-    {
-        DATA_TABLE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return AddTableCallBack(name, std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
-    }
-
-    template<typename BaseType>
     bool AddHeartBeat(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const int64_t, const int), const int64_t nTime, const int nCount, const bool bForever)
     {
         HEART_BEAT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
@@ -104,7 +90,5 @@ public:
     virtual ARK_SHARE_PTR<AFIEventManager> GetEventManager() = 0;
 
 protected:
-    virtual bool AddNodeCallBack(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
-    virtual bool AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
     virtual bool AddHeartBeat(const std::string& name, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever) = 0;
 };

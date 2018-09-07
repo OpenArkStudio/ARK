@@ -22,7 +22,7 @@
 
 #include "SDK/Core/AFNoncopyable.hpp"
 #include "AFIDataNodeManager.h"
-
+class AFIClass;
 class AFCDataNodeManager : public AFIDataNodeManager, public AFNoncopyable
 {
 public:
@@ -34,8 +34,7 @@ public:
 
     virtual const AFGUID& Self() const;
 
-    virtual bool RegisterCallback(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
-    virtual bool RegisterCommonCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
+    virtual bool RegisterCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
 
     virtual size_t GetNodeCount();
     virtual AFDataNode* GetNodeByIndex(size_t index);
@@ -61,22 +60,12 @@ public:
 
 protected:
     bool FindIndex(const char* name, size_t& index);
-
     bool OnNodeCallback(const char* name, const AFIData& oldData, const AFIData& newData);
 
 private:
-    struct  AFNodeCallBack
-    {
-        std::vector<DATA_NODE_EVENT_FUNCTOR_PTR> mxCallBackList;
-    };
-
     ArrayPod<AFDataNode*, 1, CoreAlloc> mxNodes;
     StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
 
-    ArrayPod<AFNodeCallBack*, 1, CoreAlloc> mxNodeCBs;
-    StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxCallBackIndices;
-
-    std::vector<DATA_NODE_EVENT_FUNCTOR_PTR> mxCommonCallBackList;
-
     AFGUID mxSelf;
+    std::vector<DATA_NODE_EVENT_FUNCTOR_PTR> mxCallBackList;
 };

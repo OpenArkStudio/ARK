@@ -29,6 +29,7 @@
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFILogModule.h"
+#include "SDK/Core/AFDataNode.hpp"
 
 class AFCClass : public AFIClass
 {
@@ -42,25 +43,39 @@ public:
 
     virtual ~AFCClass()
     {
+        for (size_t i = 0; i < mxNodeCBs.size(); ++i)
+        {
+            delete mxNodeCBs[i];
+        }
+
+        mxNodeCBs.clear();
+        mxCallBackIndices.Clear();
+
+        for (size_t i = 0; i < mxTableCallbacks.GetCount(); ++i)
+        {
+            delete mxTableCallbacks[i];
+        }
+
+        mxTableCallbacks.Clear();
         ClearAll();
     }
 
-    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager()
+    ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager() override
     {
         return m_pNodeManager;
     }
 
-    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager()
+    ARK_SHARE_PTR<AFIDataTableManager> GetTableManager() override
     {
         return m_pTableManager;
     }
 
-    virtual bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR& cb)
+    bool AddClassCallBack(const CLASS_EVENT_FUNCTOR_PTR& cb) override
     {
         return mxClassEventInfo.Add(cb);
     }
 
-    virtual bool DoEvent(const AFGUID& objectID, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList)
+    bool DoEvent(const AFGUID& objectID, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList) override
     {
         CLASS_EVENT_FUNCTOR_PTR cb;
         bool bRet = mxClassEventInfo.First(cb);
@@ -73,6 +88,158 @@ public:
         }
 
         return true;
+    }
+
+    bool AddNodeCallBack(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override
+    {
+        size_t index(0);
+
+        if (!GetNodeManager()->GetNode(name.c_str()))
+        {
+            return false;
+        }
+
+        size_t indexCallback(0);
+
+        if (mxCallBackIndices.GetData(name.c_str(), indexCallback))
+        {
+            mxNodeCBs[indexCallback]->mxCallBackList.push_back(cb);
+        }
+        else
+        {
+            AFNodeCallBack* pNodeCB = new AFNodeCallBack();
+            pNodeCB->mxCallBackList.push_back(cb);
+            mxCallBackIndices.Add(name.c_str(), mxNodeCBs.size());
+            mxNodeCBs.push_back(pNodeCB);
+        }
+
+        return true;
+    }
+
+    bool AddCommonNodeCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override
+    {
+        mxCommonCallBackList.push_back(cb);
+        return true;
+    }
+
+    bool AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override
+    {
+        AFTableCallBack* pCallBackList = mxTableCallbacks.GetElement(name);
+
+        if (!pCallBackList)
+        {
+            pCallBackList = new AFTableCallBack();
+            mxTableCallbacks.AddElement(name, pCallBackList);
+        }
+
+        pCallBackList->mxCallbackList.push_back(cb);
+
+        return true;
+    }
+
+    int OnNodeCallback(const AFGUID& self, const std::string& name, const AFIData& oldData, const AFIData& newData)
+    {
+        size_t indexCallBack(0);
+        if (!mxCallBackIndices.GetData(name.c_str(), indexCallBack))
+        {
+            return false;
+        }
+
+        for (size_t i = 0; i < mxCommonCallBackList.size(); ++i)
+        {
+            (*mxCommonCallBackList[i])(self, name, oldData, newData);
+        }
+
+        for (size_t i = 0; i < mxNodeCBs[indexCallBack]->mxCallBackList.size(); ++i)
+        {
+            (*(mxNodeCBs[indexCallBack]->mxCallBackList[i]))(self, name, oldData, newData);
+        }
+
+        return true;
+    }
+
+    bool InitDataNodeManager(ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager) override
+    {
+        ARK_SHARE_PTR<AFIDataNodeManager> pStaticClassNodeManager = GetNodeManager();
+        if (!pStaticClassNodeManager)
+        {
+            return false;
+        }
+
+        size_t staticNodeCount = pStaticClassNodeManager->GetNodeCount();
+        for (size_t i = 0; i < staticNodeCount; ++i)
+        {
+            AFDataNode* pStaticConfigNode = pStaticClassNodeManager->GetNodeByIndex(i);
+
+            if (pStaticConfigNode == nullptr)
+            {
+                continue;
+            }
+
+            bool bRet = pNodeManager->AddNode(pStaticConfigNode->GetName(), pStaticConfigNode->GetValue(), pStaticConfigNode->GetFeature());
+
+            if (!bRet)
+            {
+                ARK_ASSERT_NO_EFFECT(0);
+            }
+        }
+
+        pNodeManager->RegisterCallback(this, &AFCClass::OnNodeCallback);
+        return true;
+    }
+
+    bool AddCommonTableCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override
+    {
+        mxTableCommonCallbacks.push_back(cb);
+        return true;
+    }
+
+    bool InitDataTableManager(ARK_SHARE_PTR<AFIDataTableManager> pTableManager) override
+    {
+        ARK_SHARE_PTR<AFIDataTableManager> pStaticClassTableManager = GetTableManager();
+        if (!pStaticClassTableManager)
+        {
+            return false;
+        }
+
+        size_t staticTableCount = pStaticClassTableManager->GetCount();
+
+        for (size_t i = 0; i < staticTableCount; ++i)
+        {
+            AFDataTable* pStaticTable = pStaticClassTableManager->GetTableByIndex(i);
+
+            if (pStaticTable == nullptr)
+            {
+                continue;
+            }
+
+            AFCDataList col_type_list;
+            pStaticTable->GetColTypeList(col_type_list);
+            pTableManager->AddTable(NULL_GUID, pStaticTable->GetName(), col_type_list, pStaticTable->GetFeature());
+        }
+
+        pTableManager->RegisterCallback(this, &AFCClass::OnEventHandler);
+        return true;
+    }
+
+    int OnEventHandler(const AFGUID& entity_id, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData)
+    {
+        for (auto& iter : mxTableCommonCallbacks)
+        {
+            (*iter)(entity_id, xEventData, oldData, newData);
+        }
+
+        AFTableCallBack* pTableCallBack = mxTableCallbacks.GetElement(xEventData.strName.c_str());
+
+        if (nullptr != pTableCallBack)
+        {
+            for (auto& iter : pTableCallBack->mxCallbackList)
+            {
+                (*iter)(entity_id, xEventData, oldData, newData);
+            }
+        }
+
+        return 0;
     }
 
     void SetParent(ARK_SHARE_PTR<AFIClass> pClass)
@@ -121,6 +288,17 @@ public:
     }
 
 private:
+    struct  AFNodeCallBack
+    {
+        std::vector<DATA_NODE_EVENT_FUNCTOR_PTR> mxCallBackList;
+    };
+
+    using TableCallbacks = std::vector<DATA_TABLE_EVENT_FUNCTOR_PTR>;
+    struct  AFTableCallBack
+    {
+        TableCallbacks mxCallbackList;
+    };
+
     ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
     ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
 
@@ -130,8 +308,13 @@ private:
     std::string mstrClassResPath{};
 
     AFList<std::string> mxConfigList;
-
     AFList<CLASS_EVENT_FUNCTOR_PTR> mxClassEventInfo;
+    ArrayPod<AFNodeCallBack*, 1, CoreAlloc> mxNodeCBs;
+    StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxCallBackIndices;
+    std::vector<DATA_NODE_EVENT_FUNCTOR_PTR> mxCommonCallBackList;
+
+    AFArrayMap<std::string, AFTableCallBack> mxTableCallbacks;
+    TableCallbacks mxTableCommonCallbacks;
 };
 
 class AFCClassModule : public AFIClassModule
@@ -148,6 +331,10 @@ public:
 
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
     virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList);
+    virtual bool AddNodeCallBack(const std::string& strClassName, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
+    virtual bool AddTableCallBack(const std::string& strClassName, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
+    virtual bool AddCommonNodeCallback(const std::string& strClassName, const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
+    virtual bool AddCommonTableCallback(const std::string& strClassName, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
 
     virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strClassName);
     virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strClassName);

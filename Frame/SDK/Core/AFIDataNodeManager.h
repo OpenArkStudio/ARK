@@ -35,16 +35,14 @@ public:
     virtual ~AFIDataNodeManager() = default;
     virtual void Clear() = 0;
     virtual const AFGUID& Self() const = 0;
-
     template<typename BaseType>
-    bool AddCommonCallBack(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
+    bool RegisterCallback(BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
         DATA_NODE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return RegisterCommonCallback(std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
+        return RegisterCallback(std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
     }
-    virtual bool RegisterCallback(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
-    virtual bool RegisterCommonCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
 
+    virtual bool RegisterCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
     virtual size_t GetNodeCount() = 0;
     virtual AFDataNode* GetNodeByIndex(size_t index) = 0;
     virtual AFDataNode* GetNode(const char* name) = 0;

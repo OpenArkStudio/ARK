@@ -27,7 +27,6 @@
 class AFCDataTableManager : public AFIDataTableManager
 {
 protected:
-    using TableCallbacks = std::vector<DATA_TABLE_EVENT_FUNCTOR_PTR>;
 
 public:
     AFCDataTableManager() = delete;
@@ -41,8 +40,7 @@ public:
     virtual bool Exist(const char* name, size_t& index) const;
 
     virtual bool AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const AFFeatureType feature);
-    virtual bool AddTableCallback(const char* table_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
-    virtual bool AddTableCommonCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
+    virtual bool RegisterCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
 
     virtual void Clear() final;
     virtual AFDataTable* GetTable(const char* name);
@@ -77,10 +75,6 @@ private:
     AFGUID self;
 
     AFArrayMap<std::string, AFDataTable> mxTables;
-    struct  AFTableCallBack
-    {
-        TableCallbacks mxCallbackList;
-    };
-    AFArrayMap<std::string, AFTableCallBack> mxTableCallbacks;
-    TableCallbacks mxTableCommonCallbacks;
+    std::vector<DATA_TABLE_EVENT_FUNCTOR_PTR> mxTablecallbacks;
+
 };

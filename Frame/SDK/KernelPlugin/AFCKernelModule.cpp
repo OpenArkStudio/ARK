@@ -159,8 +159,6 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
     m_pClassModule->InitDataNodeManager(strClassName, pNodeManager);
     m_pClassModule->InitDataTableManager(strClassName, pTableManager);
-    pNodeManager->AddCommonCallBack(this, &AFCKernelModule::OnCommonNodeEvent);
-    pTableManager->AddTableCommonCallback(this, &AFCKernelModule::OnCommonTableEvent);
 
     ARK_SHARE_PTR<AFIDataNodeManager> pConfigNodeManager = m_pConfigModule->GetNodeManager(strConfigIndex);
 
@@ -1024,20 +1022,6 @@ bool AFCKernelModule::LogInfo(const AFGUID& ident)
     return true;
 }
 
-int AFCKernelModule::OnCommonNodeEvent(const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar)
-{
-    if (IsContainer(self))
-    {
-        return 1;
-    }
-
-    for (auto it : mxCommonNodeCBList)
-    {
-        (*it)(self, name, oldVar, newVar);
-    }
-
-    return 0;
-}
 
 ARK_SHARE_PTR<AFIEntity> AFCKernelModule::GetEntity(const AFGUID& ident)
 {
@@ -1104,72 +1088,47 @@ bool AFCKernelModule::DestroySelf(const AFGUID& self)
     return true;
 }
 
-int AFCKernelModule::OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
-{
-    if (IsContainer(self))
-    {
-        return 1;
-    }
-
-    std::list<DATA_TABLE_EVENT_FUNCTOR_PTR>::iterator it = mxCommonTableCBList.begin();
-
-    for (auto it : mxCommonTableCBList)
-    {
-        (*it)(self, xEventData, oldVar, newVar);
-    }
-
-    return 0;
-}
-
-int AFCKernelModule::OnCommonClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
-{
-    if (IsContainer(self))
-    {
-        return 1;
-    }
-
-    for (auto it : mxCommonClassCBList)
-    {
-        (*it)(self, strClassName, eClassEvent, var);
-    }
-
-    return 0;
-}
-
 bool AFCKernelModule::RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb)
 {
-    mxCommonClassCBList.push_back(cb);
+    ARK_SHARE_PTR<AFIClass> pClass = m_pClassModule->First();
+    while (nullptr != pClass)
+    {
+        AddClassCallBack(pClass->GetClassName(), cb);
+        pClass = m_pClassModule->Next();
+    }
+
     return true;
 }
 
 bool AFCKernelModule::RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
 {
-    mxCommonNodeCBList.push_back(cb);
+    ARK_SHARE_PTR<AFIClass> pClass = m_pClassModule->First();
+
+    while (nullptr != pClass)
+    {
+        pClass->AddCommonNodeCallback(cb);
+        pClass = m_pClassModule->Next();
+    }
+
     return true;
 }
 
 bool AFCKernelModule::RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
 {
-    mxCommonTableCBList.push_back(cb);
+    ARK_SHARE_PTR<AFIClass> pClass = m_pClassModule->First();
+
+    while (nullptr != pClass)
+    {
+        pClass->AddCommonTableCallback(cb);
+        pClass = m_pClassModule->Next();
+    }
+
     return true;
 }
 
 bool AFCKernelModule::LogSelfInfo(const AFGUID& ident)
 {
     return false;
-}
-
-bool AFCKernelModule::PostInit()
-{
-    ARK_SHARE_PTR<AFIClass> pClass = m_pClassModule->First();
-
-    while (nullptr != pClass)
-    {
-        AFIKernelModule::AddClassCallBack(pClass->GetClassName(), this, &AFCKernelModule::OnCommonClassEvent);
-        pClass = m_pClassModule->Next();
-    }
-
-    return true;
 }
 
 bool AFCKernelModule::DestroyAll()

@@ -20,6 +20,8 @@
 
 #include "Example2Module.h"
 #include "SDK/Core/AFCEntity.h"
+#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIKernelModule.h"
 
 bool Example2Module::Init()
 {
@@ -35,6 +37,9 @@ int Example2Module::OnDataNodeCB(const AFGUID& self, const std::string& name, co
 
 bool Example2Module::PostInit()
 {
+    AFIKernelModule* pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+    AFIClassModule* pClassModule = pPluginManager->FindModule<AFIClassModule>();
+
     AFCDataList xData;
     xData.AddInt(111);
 
@@ -55,7 +60,7 @@ bool Example2Module::PostInit()
     std::cout << "DataNode - my_test2:" << nDataNode2 << std::endl;
 
     //Add a callback function for DataNode "my_test2"
-    pEntity->AddNodeCallBack("my_test2", this, &Example2Module::OnDataNodeCB);
+    pClassModule->AddNodeCallBack("Player", "ls", this, &Example2Module::OnDataNodeCB);
 
     //Set the DataNode "my_test2" value as 5678, then the function "Example2Module::OnDataNodeCB" will be called
     pEntity->SetNodeInt("my_test2", 5678);

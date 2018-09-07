@@ -70,23 +70,6 @@ bool AFCEntity::RemoveHeartBeat(const std::string& name)
     return GetHeartBeatManager()->RemoveHeartBeat(name);
 }
 
-bool AFCEntity::AddTableCallBack(const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
-{
-    ARK_SHARE_PTR<AFIDataTableManager> pTableManager = GetTableManager();
-
-    if (nullptr == pTableManager)
-    {
-        return false;
-    }
-
-    return pTableManager->AddTableCallback(name.c_str(), cb);
-}
-
-bool AFCEntity::AddNodeCallBack(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
-{
-    return GetNodeManager()->RegisterCallback(name, cb);
-}
-
 bool AFCEntity::CheckNodeExist(const std::string& name)
 {
     return (GetNodeManager()->GetNode(name.c_str()) != nullptr);

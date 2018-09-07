@@ -44,14 +44,7 @@ void AFCDataTableManager::ReleaseAll()
     {
         delete mxTables[i];
     }
-
-    for (size_t i = 0; i < mxTableCallbacks.GetCount(); ++i)
-    {
-        delete mxTableCallbacks[i];
-    }
-
     mxTables.Clear();
-    mxTableCallbacks.Clear();
 }
 
 bool AFCDataTableManager::Exist(const char* name) const
@@ -78,20 +71,16 @@ bool AFCDataTableManager::GetTableData(const char* name, const int row, const in
 
 void AFCDataTableManager::OnEventHandler(const AFGUID& entity_id, const DATA_TABLE_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData)
 {
-    for (auto& iter : mxTableCommonCallbacks)
+    for (auto& iter : mxTablecallbacks)
     {
         (*iter)(entity_id, xEventData, oldData, newData);
     }
+}
 
-    AFTableCallBack* pTableCallBack = mxTableCallbacks.GetElement(xEventData.strName.c_str());
-
-    if (nullptr != pTableCallBack)
-    {
-        for (auto& iter : pTableCallBack->mxCallbackList)
-        {
-            (*iter)(entity_id, xEventData, oldData, newData);
-        }
-    }
+bool AFCDataTableManager::RegisterCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+{
+    mxTablecallbacks.push_back(cb);
+    return true;
 }
 
 bool AFCDataTableManager::AddTableInternal(AFDataTable* pTable)
@@ -117,26 +106,6 @@ bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name
     pTable->SetFeature(feature);
 
     return AddTableInternal(pTable);
-}
-
-bool AFCDataTableManager::AddTableCallback(const char* table_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
-{
-    AFTableCallBack* pCallBackList = mxTableCallbacks.GetElement(table_name);
-
-    if (!pCallBackList)
-    {
-        pCallBackList = new AFTableCallBack();
-        mxTableCallbacks.AddElement(table_name, pCallBackList);
-    }
-
-    pCallBackList->mxCallbackList.push_back(cb);
-    return true;
-}
-
-bool AFCDataTableManager::AddTableCommonCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
-{
-    mxTableCommonCallbacks.push_back(cb);
-    return true;
 }
 
 void AFCDataTableManager::Clear()
@@ -184,7 +153,7 @@ bool AFCDataTableManager::SetTableBool(const char* name, const int row, const in
             return false;
         }
 
-        if (!mxTableCommonCallbacks.empty() || mxTableCallbacks.ExistElement(name))
+        if (!mxTablecallbacks.empty())
         {
             AFCData newData;
             newData.SetBool(value);
@@ -226,7 +195,7 @@ bool AFCDataTableManager::SetTableInt(const char* name, const int row, const int
             return false;
         }
 
-        if (!mxTableCommonCallbacks.empty() || mxTableCallbacks.ExistElement(name))
+        if (!mxTablecallbacks.empty())
         {
             AFCData newData;
             newData.SetInt(value);
@@ -268,7 +237,7 @@ bool AFCDataTableManager::SetTableInt64(const char* name, const int row, const i
             return false;
         }
 
-        if (!mxTableCommonCallbacks.empty() || mxTableCallbacks.ExistElement(name))
+        if (!mxTablecallbacks.empty())
         {
             AFCData newData;
             newData.SetInt64(value);
@@ -310,7 +279,7 @@ bool AFCDataTableManager::SetTableFloat(const char* name, const int row, const i
             return false;
         }
 
-        if (!mxTableCommonCallbacks.empty() || mxTableCallbacks.ExistElement(name))
+        if (!mxTablecallbacks.empty())
         {
             AFCData newData;
             newData.SetFloat(value);
@@ -352,7 +321,7 @@ bool AFCDataTableManager::SetTableDouble(const char* name, const int row, const 
             return false;
         }
 
-        if (!mxTableCommonCallbacks.empty() || mxTableCallbacks.ExistElement(name))
+        if (!mxTablecallbacks.empty())
         {
             AFCData newData;
             newData.SetDouble(value);
@@ -394,7 +363,7 @@ bool AFCDataTableManager::SetTableString(const char* name, const int row, const 
             return false;
         }
 
-        if (!mxTableCommonCallbacks.empty() || mxTableCallbacks.ExistElement(name))
+        if (!mxTablecallbacks.empty())
         {
             AFCData newData;
             newData.SetString(value);
@@ -436,7 +405,7 @@ bool AFCDataTableManager::SetTableObject(const char* name, const int row, const 
             return false;
         }
 
-        if (!mxTableCommonCallbacks.empty() || mxTableCallbacks.ExistElement(name))
+        if (!mxTablecallbacks.empty())
         {
             AFCData newData;
             newData.SetObject(value);

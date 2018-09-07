@@ -37,6 +37,8 @@ bool AFCPropertyModule::PostInit()
     m_pLevelModule = pPluginManager->FindModule<AFILevelModule>();
 
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCPropertyModule::OnObjectClassEvent);
+	m_pClassModule->AddNodeCallBack(ARK::Player::ThisName(), ARK::Player::Level(), this, &AFCPropertyModule::OnObjectLevelEvent);
+	m_pClassModule->AddTableCallBack(ARK::Player::ThisName(), ARK::Player::R_CommPropertyValue(), this, &AFCPropertyModule::OnPropertyTableEvent);
 
     return true;
 }
@@ -187,9 +189,6 @@ int AFCPropertyModule::OnObjectClassEvent(const AFGUID& self, const std::string&
                 }
             }
 
-            m_pKernelModule->AddNodeCallBack(self, ARK::Player::Level(), this, &AFCPropertyModule::OnObjectLevelEvent);
-
-            m_pKernelModule->AddTableCallBack(self, ARK::Player::R_CommPropertyValue(), this, &AFCPropertyModule::OnPropertyTableEvent);
         }
         else if (ARK_ENTITY_EVENT::ENTITY_EVT_EFFECT_DATA == eClassEvent)
         {
