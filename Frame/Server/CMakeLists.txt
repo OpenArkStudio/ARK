@@ -25,7 +25,7 @@ macro(BUILD_PLUGIN_MACRO project_name)
             debug dl
             
             optimized :AFProto.so
-	    optimized :AFCore.a
+	        optimized :AFCore.a
             optimized protobuf
             optimized brynet.a
             optimized pthread
