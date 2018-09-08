@@ -39,15 +39,8 @@ void AFCDataNodeManager::Clear()
         delete mxNodes[i];
     }
 
-    for (size_t i = 0; i < mxNodeCBs.size(); ++i)
-    {
-        delete mxNodeCBs[i];
-    }
-
     mxNodes.clear();
     mxIndices.Clear();
-    mxNodeCBs.clear();
-    mxCallBackIndices.Clear();
 }
 
 const AFGUID& AFCDataNodeManager::Self() const
@@ -55,35 +48,9 @@ const AFGUID& AFCDataNodeManager::Self() const
     return mxSelf;
 }
 
-bool AFCDataNodeManager::RegisterCallback(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
+bool AFCDataNodeManager::RegisterCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
 {
-    size_t index(0);
-
-    if (!FindIndex(name.c_str(), index))
-    {
-        return false;
-    }
-
-    size_t indexCallback(0);
-
-    if (mxCallBackIndices.GetData(name.c_str(), indexCallback))
-    {
-        mxNodeCBs[indexCallback]->mxCallBackList.push_back(cb);
-    }
-    else
-    {
-        AFNodeCallBack* pNodeCB = new AFNodeCallBack();
-        pNodeCB->mxCallBackList.push_back(cb);
-        mxCallBackIndices.Add(name.c_str(), mxNodeCBs.size());
-        mxNodeCBs.push_back(pNodeCB);
-    }
-
-    return true;
-}
-
-bool AFCDataNodeManager::RegisterCommonCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
-{
-    mxCommonCallBackList.push_back(cb);
+    mxCallBackList.push_back(cb);
     return true;
 }
 
@@ -123,21 +90,9 @@ bool AFCDataNodeManager::FindIndex(const char* name, size_t& index)
 
 bool AFCDataNodeManager::OnNodeCallback(const char* name, const AFIData& oldData, const AFIData& newData)
 {
-    size_t indexCallBack = 0;
-
-    if (!mxCallBackIndices.GetData(name, indexCallBack))
+    for (size_t i = 0; i < mxCallBackList.size(); ++i)
     {
-        return false;
-    }
-
-    for (size_t i = 0; i < mxCommonCallBackList.size(); ++i)
-    {
-        (*mxCommonCallBackList[i])(mxSelf, name, oldData, newData);
-    }
-
-    for (size_t i = 0; i < mxNodeCBs[indexCallBack]->mxCallBackList.size(); ++i)
-    {
-        (*(mxNodeCBs[indexCallBack]->mxCallBackList[i]))(mxSelf, name, oldData, newData);
+        (*mxCallBackList[i])(mxSelf, name, oldData, newData);
     }
 
     return true;

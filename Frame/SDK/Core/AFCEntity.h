@@ -85,8 +85,6 @@ public:
     virtual ARK_SHARE_PTR<AFIEventManager> GetEventManager();
 
 protected:
-    virtual bool AddNodeCallBack(const std::string& col, const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
-    virtual bool AddTableCallBack(const std::string& col, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
     virtual bool AddHeartBeat(const std::string& col, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever);
 
 private:

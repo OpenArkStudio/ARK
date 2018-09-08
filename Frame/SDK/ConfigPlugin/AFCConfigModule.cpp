@@ -115,18 +115,6 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
 
     if (pClassNodeManager != nullptr && pClassTableManager != nullptr)
     {
-        size_t nodeCount = pClassNodeManager->GetNodeCount();
-
-        for (size_t i = 0; i < nodeCount; ++i)
-        {
-            AFDataNode* pNode = pClassNodeManager->GetNodeByIndex(i);
-
-            if (pNode != nullptr)
-            {
-                pElementNodeManager->AddNode(pNode->name.c_str(), pNode->value, pNode->feature);
-            }
-        }
-
         //////////////////////////////////////////////////////////////////////////
         size_t tableCount = pClassTableManager->GetCount();
 
@@ -151,29 +139,24 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
         const char* pstrConfigName = pAttribute->name();
         const char* pstrConfigValue = pAttribute->value();
 
-        AFDataNode* pTmpNode = pElementNodeManager->GetNode(pstrConfigName);
+        AFDataNode TmpNode;
 
-        if (pTmpNode == nullptr)
-        {
-            continue;
-        }
-
-        const int eType = pTmpNode->GetType();
-
+		// null data don't add node;
+        const int eType = TmpNode.GetType();
         switch (eType)
         {
         case DT_BOOLEAN:
-            pTmpNode->value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
+            TmpNode.value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
             break;
 
         case DT_INT:
             {
                 if (!AFMisc::IsDigit(pstrConfigValue))
                 {
-                    ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
                 }
 
-                pTmpNode->value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
+                TmpNode.value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
             }
             break;
 
@@ -181,10 +164,10 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
             {
                 if (!AFMisc::IsDigit(pstrConfigValue))
                 {
-                    ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
                 }
 
-                pTmpNode->value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
+                TmpNode.value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
             }
             break;
 
@@ -192,10 +175,10 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
             {
                 if (strlen(pstrConfigValue) <= 0)
                 {
-                    ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
                 }
 
-                pTmpNode->value.SetFloat(ARK_LEXICAL_CAST<float>(pstrConfigValue));
+                TmpNode.value.SetFloat(ARK_LEXICAL_CAST<float>(pstrConfigValue));
             }
             break;
 
@@ -203,25 +186,25 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
             {
                 if (strlen(pstrConfigValue) <= 0)
                 {
-                    ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
                 }
 
-                pTmpNode->value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
+                TmpNode.value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
             }
             break;
 
         case DT_STRING:
-            pTmpNode->value.SetString(pstrConfigValue);
+            TmpNode.value.SetString(pstrConfigValue);
             break;
 
         case DT_OBJECT:
             {
                 if (strlen(pstrConfigValue) <= 0)
                 {
-                    ARK_ASSERT(0, pTmpNode->name.c_str(), __FILE__, __FUNCTION__);
+                    ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
                 }
 
-                pTmpNode->value.SetObject(NULL_GUID);
+                TmpNode.value.SetObject(NULL_GUID);
             }
             break;
 
@@ -229,6 +212,11 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
             ARK_ASSERT_NO_EFFECT(0);
             break;
         }
+
+		if (!TmpNode.GetValue().IsNullValue())
+		{
+			pElementNodeManager->AddNode(TmpNode.name.c_str(), TmpNode.value, TmpNode.feature);
+		}
     }
 
     pElementNodeManager->SetNodeString("ClassName", pLogicClass->GetClassName().c_str());

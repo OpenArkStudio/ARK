@@ -299,6 +299,54 @@ bool AFCClassModule::AddClass(const std::string& strClassName, const std::string
     return true;
 }
 
+bool AFCClassModule::AddNodeCallBack(const std::string& strClassName, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
+{
+    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+
+    if (nullptr == pClass)
+    {
+        return false;
+    }
+
+    return pClass->AddNodeCallBack(name, cb);
+}
+
+bool AFCClassModule::AddTableCallBack(const std::string& strClassName, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+{
+    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+
+    if (nullptr == pClass)
+    {
+        return false;
+    }
+
+    return pClass->AddTableCallBack(name, cb);
+}
+
+bool AFCClassModule::AddCommonNodeCallback(const std::string& strClassName, const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
+{
+    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+
+    if (nullptr == pClass)
+    {
+        return false;
+    }
+
+    return pClass->AddCommonNodeCallback(cb);
+}
+
+bool AFCClassModule::AddCommonTableCallback(const std::string& strClassName, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+{
+    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+
+    if (nullptr == pClass)
+    {
+        return false;
+    }
+
+    return pClass->AddCommonTableCallback(cb);
+}
+
 bool AFCClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pParentClass)
 {
     const char* pstrLogicClassName = attrNode->first_attribute("Id")->value();
@@ -365,61 +413,24 @@ ARK_SHARE_PTR<AFIDataTableManager> AFCClassModule::GetTableManager(const std::st
 
 bool AFCClassModule::InitDataNodeManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager)
 {
-    ARK_SHARE_PTR<AFIDataNodeManager> pStaticClassNodeManager = GetNodeManager(strClassName);
-
-    if (!pStaticClassNodeManager)
+    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+    if (!pClass)
     {
         return false;
     }
 
-    size_t staticNodeCount = pStaticClassNodeManager->GetNodeCount();
-
-    for (size_t i = 0; i < staticNodeCount; ++i)
-    {
-        AFDataNode* pStaticConfigNode = pStaticClassNodeManager->GetNodeByIndex(i);
-
-        if (pStaticConfigNode == nullptr)
-        {
-            continue;
-        }
-
-        bool bRet = pNodeManager->AddNode(pStaticConfigNode->GetName(), pStaticConfigNode->GetValue(), pStaticConfigNode->GetFeature());
-
-        if (!bRet)
-        {
-            ARK_ASSERT_NO_EFFECT(0);
-        }
-    }
-
-    return true;
+    return pClass->InitDataNodeManager(pNodeManager);
 }
 
 bool AFCClassModule::InitDataTableManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataTableManager> pTableManager)
 {
-    ARK_SHARE_PTR<AFIDataTableManager> pStaticClassTableManager = GetTableManager(strClassName);
-
-    if (!pStaticClassTableManager)
+    ARK_SHARE_PTR<AFIClass> pClass = GetElement(strClassName);
+    if (!pClass)
     {
         return false;
     }
 
-    size_t staticTableCount = pStaticClassTableManager->GetCount();
-
-    for (size_t i = 0; i < staticTableCount; ++i)
-    {
-        AFDataTable* pStaticTable = pStaticClassTableManager->GetTableByIndex(i);
-
-        if (pStaticTable == nullptr)
-        {
-            continue;
-        }
-
-        AFCDataList col_type_list;
-        pStaticTable->GetColTypeList(col_type_list);
-        pTableManager->AddTable(NULL_GUID, pStaticTable->GetName(), col_type_list, pStaticTable->GetFeature());
-    }
-
-    return true;
+    return pClass->InitDataTableManager(pTableManager);
 }
 
 bool AFCClassModule::Clear()

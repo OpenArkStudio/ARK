@@ -44,34 +44,6 @@ public:
     virtual bool RemoveHeartBeat(const AFGUID& self, const std::string& name) = 0;
 
     //////////////////////////////////////////////////////////////////////////
-
-    template<typename BaseType>
-    bool AddNodeCallBack(const AFGUID& self, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
-    {
-        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-
-        if (nullptr != pEntity)
-        {
-            return pEntity->AddNodeCallBack(name, pBase, handler);
-        }
-
-        return false;
-    }
-
-    template<typename BaseType>
-    bool AddTableCallBack(const AFGUID& self, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
-    {
-        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-
-        if (nullptr != pEntity)
-        {
-            return pEntity->AddTableCallBack(name, pBase, handler);
-        }
-
-        return false;
-    }
-
-    //////////////////////////////////////////////////////////////////////////
     template<typename BaseType>
     bool AddEventCallBack(const AFGUID& self, const int nEventID, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const int, const AFIDataList&))
     {

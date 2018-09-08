@@ -45,8 +45,6 @@ public:
     virtual bool Shut();
 
     virtual bool PreShut();
-    virtual bool PostInit();
-
     virtual bool Update();
 
     ///////////////////////////////////////////////////////////////////////
@@ -138,10 +136,6 @@ protected:
 
     virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb);
     virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
-
-    int OnCommonClassEvent(const AFGUID& self, const std::string& name, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
-    int OnCommonNodeEvent(const AFGUID& self, const std::string& name, const AFIData& oldVar, const AFIData& newVar);
-    int OnCommonTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
 private:
     std::list<AFGUID> mtDeleteSelfList;

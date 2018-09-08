@@ -117,30 +117,31 @@ bool Example3Module::PostInit()
         return false;
     }
 
-    AFCData xData;
-    pEntity->GetNodeManager()->AddNode("str_test", AFCData(DT_STRING, ""), 0);
-    pEntity->GetNodeManager()->AddNode("int_test", AFCData(DT_INT, 1), 0);
+    //to do
+    /*  AFCData xData;
+      pEntity->GetNodeManager()->AddNode("str_test", AFCData(DT_STRING, ""), 0);
+      pEntity->GetNodeManager()->AddNode("int_test", AFCData(DT_INT, 1), 0);
 
-    pEntity->AddNodeCallBack("str_test", this, &Example3Module::OnStrDataNodeCB);
-    pEntity->AddNodeCallBack("int_test", this, &Example3Module::OnIntDataNodeCB);
+      pEntity->AddNodeCallBack("str_test", this, &Example3Module::OnStrDataNodeCB);
+      pEntity->AddNodeCallBack("int_test", this, &Example3Module::OnIntDataNodeCB);
 
-    pEntity->SetNodeString("str_test", "hello World");
-    pEntity->SetNodeInt("int_test", 1111);
+      pEntity->SetNodeString("str_test", "hello World");
+      pEntity->SetNodeInt("int_test", 1111);
 
-    pEntity->AddTableCallBack(ARK::Player::R_PlayerFightHero(), this, &Example3Module::OnFightHeroTableCB);
+      pEntity->AddTableCallBack(ARK::Player::R_PlayerFightHero(), this, &Example3Module::OnFightHeroTableCB);
 
-    AFDataTable* pTable = m_pKernelModule->FindTable(pEntity->Self(), ARK::Player::R_PlayerFightHero());
-    int pos = 0;
+      AFDataTable* pTable = m_pKernelModule->FindTable(pEntity->Self(), ARK::Player::R_PlayerFightHero());
+      int pos = 0;
 
-    if (pTable != nullptr)
-    {
-        pTable->AddRow(-1, AFCDataList() << AFGUID(0, 1000) << 1);
+      if (pTable != nullptr)
+      {
+          pTable->AddRow(-1, AFCDataList() << AFGUID(0, 1000) << 1);
 
-        m_pKernelModule->SetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), 0, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos, 2);
-        pos = m_pKernelModule->GetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), 0, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos);
-    }
+          m_pKernelModule->SetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), 0, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos, 2);
+          pos = m_pKernelModule->GetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), 0, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos);
+      }
 
-    m_pKernelModule->DoEvent(pEntity->Self(), 11111111, AFCDataList() << "another_test" << int(200));
+      m_pKernelModule->DoEvent(pEntity->Self(), 11111111, AFCDataList() << "another_test" << int(200));*/
 
     return true;
 }
