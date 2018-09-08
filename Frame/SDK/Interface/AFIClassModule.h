@@ -51,10 +51,10 @@ public:
     virtual bool DoEvent(const AFGUID& objectID, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList) = 0;
 
     template<typename BaseType>
-    bool AddNodeCallBack(const std::string&strClassName, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
+    bool AddNodeCallBack(const std::string& strClassName, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
     {
         DATA_NODE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        return AddNodeCallBack(strClassName, std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor))；
+        return AddNodeCallBack(strClassName, std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
     }
 
     virtual bool AddNodeCallBack(const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) = 0;
