@@ -4,20 +4,19 @@ macro(BUILD_PLUGIN_MACRO project_name)
 
     if(UNIX)
         #Set rpath
-        set(CMAKE_INSTALL_RPATH "./" "../lib/")
+        set(CMAKE_INSTALL_RPATH "./lib/" "../lib/")
         set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
     endif()
 
     add_library(${project_name} SHARED ${PLUGIN_SRC})
 
-    add_dependencies(${project_name} AFKernelPlugin AFUtilityPlugin AFProto AFNet AFCore)
+    add_dependencies(${project_name} AFKernelPlugin AFUtilityPlugin AFProto AFCore)
     if(UNIX)
         add_definitions(
             -DLIBPROTOC_EXPORTS
             -DPROTOBUF_USE_DLLS)
 
         target_link_libraries(${project_name} 
-            debug :AFNet_d.a
             debug :AFProto_d.so
             debug :AFCore_d.a
             debug protobuf
@@ -25,9 +24,8 @@ macro(BUILD_PLUGIN_MACRO project_name)
             debug pthread
             debug dl
             
-            optimized :AFNet.a
             optimized :AFProto.so
-			optimized :AFCore.a
+	    optimized :AFCore.a
             optimized protobuf
             optimized brynet.a
             optimized pthread
@@ -42,7 +40,6 @@ macro(BUILD_PLUGIN_MACRO project_name)
         target_link_libraries(${project_name} 
             debug brynet.lib
             debug AFCore_d.lib
-            debug AFNet_d.lib
             debug AFConfigPlugin_d.lib
             debug AFKernelPlugin_d.lib
             debug AFUtilityPlugin_d.lib
@@ -50,7 +47,6 @@ macro(BUILD_PLUGIN_MACRO project_name)
             
             optimized brynet.lib
             optimized AFCore.lib
-            optimized AFNet.lib
             optimized AFConfigPlugin_d.lib
             optimized AFKernelPlugin.lib
             optimized AFUtilityPlugin.lib
@@ -67,8 +63,6 @@ macro(BUILD_PLUGIN_MACRO project_name)
 endmacro(BUILD_PLUGIN_MACRO project_name)
 
 ###################################################################################################
-add_subdirectory(BusPlugin)
-add_subdirectory(NetPlugin)
 add_subdirectory(GameLogicPlugin)
 add_subdirectory(LoginLogicPlugin)
 add_subdirectory(ProxyLogicPlugin)
