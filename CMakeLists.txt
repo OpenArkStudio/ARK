@@ -47,7 +47,7 @@ if(UNIX)
     set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib/ ${ROOT_DIR}/Bin/bin)
     set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/bin/)
     set(PLUGIN_OUTPUT_DIR ${ROOT_DIR}/Bin/lib)
-    add_definitions()(-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-strict-aliasing -Wno-pmf-conversions)
+    add_definitions(-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-strict-aliasing -Wno-pmf-conversions)
     
     if(ENABLE_COVERAGE)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 -fprofile-arcs -ftest-coverage")
