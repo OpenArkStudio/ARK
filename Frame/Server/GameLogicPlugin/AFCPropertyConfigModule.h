@@ -22,7 +22,7 @@
 
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
-#include "SDK/Proto/ARKDataDefine.hpp"
+#include "Common/AFDataDefine.hpp"
 #include "Server/Interface/AFIPropertyConfigModule.h"
 
 class AFCPropertyConfigModule

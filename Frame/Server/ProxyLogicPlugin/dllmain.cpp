@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -18,4 +18,4 @@
 *
 */
 
-#include "SDK/Interface/AFDLLHeader.h"
+#include "Common/AFDLLHeader.hpp"

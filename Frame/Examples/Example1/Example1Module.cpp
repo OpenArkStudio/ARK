@@ -28,7 +28,6 @@
 bool Example1Module::Init()
 {
     std::cout << typeid(Example1Module).name() << ", Init" << std::endl;
-
     return true;
 }
 

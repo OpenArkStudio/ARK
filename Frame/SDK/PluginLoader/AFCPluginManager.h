@@ -55,7 +55,7 @@ public:
     virtual AFIModule* FindModule(const std::string& strModuleName) override;
 
     int BusID() const override;
-    virtual void SetBusID(const int app_id) override;
+    void SetBusID(const int app_id) override;
 
     const std::string& AppName() const override;
     void SetAppName(const std::string& app_name) override;
@@ -66,6 +66,9 @@ public:
 
     void SetPluginConf(const std::string& strFileName) override;
 
+    void SetLogPath(const std::string& log_path) override;
+    const std::string& GetLogPath() const override;
+
 protected:
     bool LoadPluginConf();
 
@@ -73,12 +76,20 @@ protected:
     bool UnLoadPluginLibrary(const std::string& strPluginDLLName);
 
 private:
+    //Bus id
     int mnBusID{0};
+    //Current time(ms)
     int64_t mnNowTime{0};
-    std::string mstrPluginPath{""};
-    std::string mstrResPath{""};
-    std::string mstrPluginConf{""};
-    std::string mstrAppName{""};
+    //plugin so/dll file path
+    std::string mstrPluginPath{};
+    //Resource path
+    std::string mstrResPath{};
+    //app.plugin file path
+    std::string mstrPluginConfPath{};
+    //app name
+    std::string mstrAppName{};
+    //log output path
+    std::string mstrLogPath{};
 
     typedef void(*DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm);
     typedef void(*DLL_STOP_PLUGIN_FUNC)(AFIPluginManager* pm);

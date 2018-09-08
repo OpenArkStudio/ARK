@@ -64,7 +64,7 @@ inline bool AFCPluginManager::Init()
 
 bool AFCPluginManager::LoadPluginConf()
 {
-    rapidxml::file<> fdoc(mstrPluginConf.c_str());
+    rapidxml::file<> fdoc(mstrPluginConfPath.c_str());
     rapidxml::xml_document<>  doc;
     doc.parse<0>(fdoc.data());
 
@@ -172,7 +172,17 @@ void AFCPluginManager::SetPluginConf(const std::string& strFileName)
         return;
     }
 
-    mstrPluginConf = strFileName;
+    mstrPluginConfPath = strFileName;
+}
+
+void AFCPluginManager::SetLogPath(const std::string& log_path)
+{
+    mstrLogPath = log_path;
+}
+
+const std::string& AFCPluginManager::GetLogPath() const
+{
+    return mstrLogPath;
 }
 
 void AFCPluginManager::SetBusID(const int app_id)

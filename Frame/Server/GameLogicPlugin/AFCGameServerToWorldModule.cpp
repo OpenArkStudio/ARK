@@ -19,14 +19,14 @@
 */
 
 #include "AFCGameServerToWorldModule.h"
-#include "SDK/Proto/AFProtoCPP.hpp"
-#include "SDK/Proto/ARKDataDefine.hpp"
-#include "Server/Interface/AFINetClientModule.hpp"
+#include "Common/AFProtoCPP.hpp"
+#include "Common/AFDataDefine.hpp"
+#include "SDK/Interface/AFINetClientModule.hpp"
 
 bool AFCGameServerToWorldModule::Init()
 {
     m_pNetClientManagerModule = pPluginManager->FindModule<AFINetClientManagerModule>();
-    m_pNetClientModule = m_pNetClientManagerModule->CreateClusterClientModule(ARK_PROCESS_TYPE::ARK_PROC_WORLD);
+    m_pNetClientModule = m_pNetClientManagerModule->CreateClusterClientModule(ARK_APP_TYPE::ARK_APP_WORLD);
     ARK_ASSERT_RET_VAL(nullptr != m_pNetClientModule, false);
 
     return true;
@@ -50,7 +50,7 @@ void AFCGameServerToWorldModule::Register(const int nSeverID)
         const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
         const int nSelfServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_GAME && pPluginManager->BusID() == nSelfServerID)
+        if (nServerType == ARK_APP_TYPE::ARK_APP_GAME && pPluginManager->BusID() == nSelfServerID)
         {
             const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pConfigModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -95,7 +95,7 @@ bool AFCGameServerToWorldModule::PostInit()
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pGameServerNet_ServerModule = pPluginManager->FindModule<AFIGameNetServerModule>();
 
-    m_pNetClientModule->AddReceiveCallBack(this, &AFCGameServerToWorldModule::TransPBToProxy);
+    m_pNetClientModule->AddRecvCallback(this, &AFCGameServerToWorldModule::TransPBToProxy);
     m_pNetClientModule->AddEventCallBack(this, &AFCGameServerToWorldModule::OnSocketWSEvent);
 
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCGameServerToWorldModule::OnObjectClassEvent);
@@ -126,7 +126,7 @@ bool AFCGameServerToWorldModule::PostInit()
         const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_WORLD)
+        if (nServerType == ARK_APP_TYPE::ARK_APP_WORLD)
         {
             const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
             const std::string strServerName(m_pConfigModule->GetNodeString(strConfigName, "Name"));
@@ -135,7 +135,7 @@ bool AFCGameServerToWorldModule::PostInit()
             ConnectData xServerData;
 
             xServerData.nGameID = nServerID;
-            xServerData.eServerType = (ARK_PROCESS_TYPE)nServerType;
+            xServerData.eServerType = nServerType;
             xServerData.strIP = strIP;
             xServerData.nPort = nPort;
             xServerData.strName = strServerName;
@@ -178,7 +178,7 @@ void AFCGameServerToWorldModule::SendOnline(const AFGUID& self)
     AFMsg::RoleOnlineNotify xMsg;
 
     const AFGUID& xGuild = m_pKernelModule->GetNodeObject(self, "GuildID");
-    *xMsg.mutable_guild() = AFINetModule::GUIDToPB(xGuild);
+    *xMsg.mutable_guild() = AFIMsgModule::GUIDToPB(xGuild);
 
     m_pNetClientModule->SendSuitByPB(xGuild.nLow, AFMsg::EGMI_ACK_ONLINE_NOTIFY, xMsg, self);
 
@@ -189,7 +189,7 @@ void AFCGameServerToWorldModule::SendOffline(const AFGUID& self)
     AFMsg::RoleOfflineNotify xMsg;
 
     const AFGUID& xGuild = m_pKernelModule->GetNodeObject(self, "GuildID");
-    *xMsg.mutable_guild() = AFINetModule::GUIDToPB(xGuild);
+    *xMsg.mutable_guild() = AFIMsgModule::GUIDToPB(xGuild);
 
     m_pNetClientModule->SendSuitByPB(xGuild.nLow, AFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg, self);
 

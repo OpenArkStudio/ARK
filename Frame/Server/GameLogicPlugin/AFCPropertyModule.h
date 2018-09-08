@@ -24,7 +24,7 @@
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Proto/ARKDataDefine.hpp"
+#include "Common/AFDataDefine.hpp"
 #include "Server/Interface/AFIPropertyConfigModule.h"
 #include "Server/Interface/AFIPropertyModule.h"
 #include "Server/Interface/AFILevelModule.h"

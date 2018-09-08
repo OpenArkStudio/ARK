@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "AFINetClientModule.hpp"
+#include "SDK/Interface/AFINetClientModule.hpp"
 
 class AFIGameServerToWorldModule
     : public AFIModule

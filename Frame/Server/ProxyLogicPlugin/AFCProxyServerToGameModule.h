@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -21,18 +21,18 @@
 #pragma once
 
 #include <string>
-#include "SDK/Proto/AFProtoCPP.hpp"
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Core/AFCHeartBeatManager.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "Server/Interface/AFINetClientModule.hpp"
+#include "SDK/Interface/AFINetClientModule.hpp"
+#include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFINetClientManagerModule.h"
 #include "Server/Interface/AFIProxyServerToGameModule.h"
 #include "Server/Interface/AFIProxyNetServerModule.h"
 #include "Server/Interface/AFIProxyLogicModule.h"
-#include "Server/Interface/AFINetServerModule.h"
-#include "Server/Interface/AFINetClientManagerModule.h"
 
 class AFCProxyServerToGameModule : public AFIProxyServerToGameModule
 {

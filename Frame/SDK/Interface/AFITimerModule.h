@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -44,5 +44,5 @@ public:
 
 protected:
     virtual bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR_PTR cb) = 0;
-    virtual bool AddForeverTimer(const std::string& name, const AFGUID& entity_id, const int64_t interval_time, TIMER_FUNCTOR_PTR cb) = 0;
+    virtual bool AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR_PTR cb) = 0;
 };

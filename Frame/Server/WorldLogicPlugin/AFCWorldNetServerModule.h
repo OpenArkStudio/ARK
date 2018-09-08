@@ -20,18 +20,18 @@
 
 #pragma once
 
-#include "SDK/Proto/AFProtoCPP.hpp"
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFINetServerManagerModule.h"
 #include "Server/Interface/AFIWorldToMasterModule.h"
 #include "Server/Interface/AFIWorldLogicModule.h"
-#include "Server/Interface/AFINetServerModule.h"
 #include "Server/Interface/AFIWorldNetServerModule.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
-#include "Server/Interface/AFIProcConfigModule.h"
-#include "Server/Interface/AFINetServerManagerModule.h"
 
 class AFCWorldNetServerModule : public AFIWorldNetServerModule
 {
@@ -61,7 +61,7 @@ public:
     virtual int OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID);
 
     virtual ARK_SHARE_PTR<ServerData> GetSuitProxyForEnter();
-    virtual AFINetServerModule* GetNetModule();
+    virtual AFINetServer* GetNetServer();
 
     virtual int GetPlayerGameID(const AFGUID self);
 
@@ -102,12 +102,10 @@ private:
     AFMapEx<int, ServerData> mGameMap;
     AFMapEx<int, ServerData> mProxyMap;
 
-    AFIConfigModule* m_pConfigModule;
-    AFIClassModule* m_pClassModule;
-    AFIWorldLogicModule* m_pWorldLogicModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
-    AFINetServerModule* m_pNetModule;
-    AFIProcConfigModule* m_pProcConfigModule;
+    AFIBusModule* m_pBusModule;
     AFINetServerManagerModule* m_pNetServerManagerModule;
+
+    AFINetServer* m_pNetServer;
 };

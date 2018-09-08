@@ -20,21 +20,20 @@
 
 #pragma once
 
-#include "SDK/Proto/AFProtoCPP.hpp"
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIGUIDModule.h"
-#include "Server/Interface/AFINetServerModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFINetServerManagerModule.h"
 #include "Server/Interface/AFILoginToMasterModule.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
 #include "Server/Interface/AFILoginLogicModule.h"
-#include "Server/Interface/AFIProcConfigModule.h"
-#include "Server/Interface/AFINetServerManagerModule.h"
 
-class AFCLoginNetServerModule
-    : public AFILoginNetServerModule
+class AFCLoginNetServerModule : public AFILoginNetServerModule
 {
 public:
     explicit AFCLoginNetServerModule(AFIPluginManager* p)
@@ -82,7 +81,8 @@ private:
     AFILogModule* m_pLogModule;
     AFILoginLogicModule* m_pLoginLogicModule;
     AFIGUIDModule* m_pUUIDModule;
-    AFINetServerModule* m_pNetModule;
-    AFIProcConfigModule* m_pProcConfigModule;
+    AFIBusModule* m_pBusModule;
     AFINetServerManagerModule* m_pNetServerManagerModule;
+
+    AFINetServer* m_pNetServer;
 };

@@ -98,4 +98,7 @@ public:
     virtual const std::string& GetResPath() const = 0;
 
     virtual void SetPluginConf(const std::string& strFileName) = 0;
+
+    virtual void SetLogPath(const std::string& log_path) = 0;
+    virtual const std::string& GetLogPath() const = 0;
 };

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -52,13 +52,7 @@ const std::shared_ptr<spdlog::async_logger>& AFCLogModule::GetLogger()
 void AFCLogModule::CreateLogger()
 {
     std::vector<spdlog::sink_ptr> sinks_vec;
-    std::string log_name;
-#if ARK_PLATFORM == PLATFORM_WIN
-    log_name = ARK_FORMAT("..\\binlog\\{}.log", pPluginManager->AppName());
-#else
-    log_name = ARK_FORMAT("../binlog/{}.log", pPluginManager->AppName());
-#endif
-
+    std::string log_name = ARK_FORMAT("{}{}{}.log", pPluginManager->GetLogPath(), ark_folder_sep, pPluginManager->AppName());
     auto date_and_hour_sink = std::make_shared<spdlog::sinks::date_and_hour_file_sink_mt>(log_name);
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 #if ARK_PLATFORM == PLATFORM_WIN

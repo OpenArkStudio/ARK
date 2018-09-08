@@ -18,12 +18,11 @@ namespace FileProcessor
         static string strSchemaPath = "schema/class/";
         static string strResPath = "res/";
         static string strClientResPath = "client/";
-        static string strToolBasePath = "../";
 
-        static string strLogiClassFile = "../schema/LogicClass.xml";
+        static string strLogiClassFile = "schema/LogicClass.xml";
 
-        static string strCPPFile = "../proto/ARKDataDefine.hpp";
-        static string strCSFile = "../proto/ARKDataDefine.cs";
+        static string strCPPFile = "proto/AFDataDefine.hpp";
+        static string strCSFile = "proto/AFDataDefine.cs";
 
         static StreamWriter cppWriter;
         static StreamWriter csWriter;
@@ -33,17 +32,17 @@ namespace FileProcessor
 
         static void CreateProtoFile()
         {
-            if (File.Exists(strCPPFile))
+            if (File.Exists(strBasePath + strCPPFile))
             {
-                File.Delete(strCPPFile);
+                File.Delete(strBasePath + strCPPFile);
             }
 
-            if (File.Exists(strCSFile))
+            if (File.Exists(strBasePath + strCSFile))
             {
-                File.Delete(strCSFile);
+                File.Delete(strBasePath + strCSFile);
             }
 
-            cppWriter = new StreamWriter(strCPPFile);
+            cppWriter = new StreamWriter(strBasePath + strCPPFile);
 
             string strCPPHead = @"/*
 * This source file is part of ArkGameFrame
@@ -73,7 +72,7 @@ namespace ARK
 {";
             cppWriter.WriteLine(strCPPHead);
 
-            csWriter = new StreamWriter(strCSFile);
+            csWriter = new StreamWriter(strBasePath + strCSFile);
             string strCSHead = @"/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
@@ -131,9 +130,9 @@ namespace ARK
             classElement.SetAttribute("Desc", "IObject");
 
             // 提前把IObject跑一边
-            CreateSchemaXML(strToolBasePath + strExcelPath + "IObject.xlsx", "IObject");
+            CreateSchemaXML(strBasePath + strExcelPath + "IObject.xlsx", "IObject");
 
-            String[] xSchemaXLSXList = Directory.GetFiles(strToolBasePath + strExcelPath, "*", SearchOption.AllDirectories);
+            String[] xSchemaXLSXList = Directory.GetFiles(strBasePath + strExcelPath, "*", SearchOption.AllDirectories);
             foreach (string file in xSchemaXLSXList)
             {
                 //TODO:此处要考虑多个同名文件，但是归属不同人的表格
@@ -186,7 +185,7 @@ namespace ARK
             csWriter.WriteLine("}");
             csWriter.Close();
 
-            xmlDoc.Save(strLogiClassFile);
+            xmlDoc.Save(strBasePath + strLogiClassFile);
         }
 
         static bool CreateSchemaXML(string file, string strFileName)
@@ -463,7 +462,7 @@ namespace ARK
             strCSInfo += "\t//DataTables\n" + strCSTableInfo + strCSEnumInfo + "\n}\n";
             csWriter.WriteLine(strCSInfo);
 
-            string strXMLFile = strToolBasePath + strSchemaPath + strFileName + ".xml";
+            string strXMLFile = strBasePath + strSchemaPath + strFileName + ".xml";
             schemaDoc.Save(strXMLFile);
 
             return true;
@@ -473,7 +472,7 @@ namespace ARK
         {
             Console.WriteLine("Start to generate resource files");
             
-            String[] xIniXLSXList = Directory.GetFiles(strToolBasePath + strExcelPath, "*", SearchOption.AllDirectories);
+            String[] xIniXLSXList = Directory.GetFiles(strBasePath + strExcelPath, "*", SearchOption.AllDirectories);
             foreach (string file in xIniXLSXList)
             {
                 int nLastPoint = file.LastIndexOf(".") + 1;
@@ -531,7 +530,7 @@ namespace ARK
             XmlElement root = resDoc.CreateElement("", "XML", "");
             resDoc.AppendChild(root);
 
-            StreamWriter csvWriter = new StreamWriter(strToolBasePath + strClientResPath + strFileName + ".csv");
+            StreamWriter csvWriter = new StreamWriter(strBasePath + strClientResPath + strFileName + ".csv");
             string csvHeader = "";
             string csvContent = "";
 
@@ -645,7 +644,7 @@ namespace ARK
             }
 
             csvContent = csvContent.TrimEnd('\n');
-            resDoc.Save(strToolBasePath + strResPath + strFileName + ".xml");
+            resDoc.Save(strBasePath + strResPath + strFileName + ".xml");
             csvWriter.WriteLine(csvHeader.TrimEnd(','));
             csvWriter.Write(csvContent);
             csvWriter.Close();
@@ -655,6 +654,16 @@ namespace ARK
         
         static void Main(string[] args)
         {
+            if (args.Length != 1)
+            {
+                Console.WriteLine("Usage: FileProcessor.exe resource_path, expected the path of resource folder");
+                Console.WriteLine("Press any key to quit");
+                Console.ReadKey();
+                return;
+            }
+
+            strBasePath = args[0];
+
             var now = DateTime.Now;
             CreateSchemaFile();
             CreateResFile();

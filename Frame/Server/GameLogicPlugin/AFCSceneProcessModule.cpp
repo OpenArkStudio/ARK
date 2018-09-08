@@ -18,9 +18,9 @@
 *
 */
 
+#include "Common/AFEventDefine.hpp"
 #include "SDK/Core/AFDateTime.hpp"
-#include "SDK/Proto/ARKDataDefine.hpp"
-#include "Server/Interface/AFEventDefine.h"
+#include "Common/AFDataDefine.hpp"
 #include "AFCSceneProcessModule.h"
 
 bool AFCSceneProcessModule::PostInit()

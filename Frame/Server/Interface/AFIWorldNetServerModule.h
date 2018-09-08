@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,13 +20,13 @@
 
 #pragma once
 
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Proto/AFProtoCPP.hpp"
-#include "AFINetServerModule.h"
+
+class AFINetServer;
 
 class AFIWorldNetServerModule : public AFIModule
 {
-
 public:
     virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer = AFGUID()) = 0;
     virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData) = 0;
@@ -34,6 +34,6 @@ public:
     virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) = 0;
 
     virtual ARK_SHARE_PTR<ServerData> GetSuitProxyForEnter() = 0;
-    virtual AFINetServerModule* GetNetModule() = 0;
+    virtual AFINetServer* GetNetServer() = 0;
 
 };

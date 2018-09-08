@@ -19,7 +19,7 @@
 */
 
 #include "Example3Module.h"
-#include "SDK/Proto/ARKDataDefine.hpp"
+#include "Common/AFDataDefine.hpp"
 #include "SDK/Core/AFDateTime.hpp"
 
 bool Example3Module::Init()

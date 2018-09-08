@@ -20,21 +20,20 @@
 
 #pragma once
 
-#include "SDK/Proto/AFProtoCPP.hpp"
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFIGUIDModule.h"
+#include "SDK/Interface/AFINetServerManagerModule.h"
+#include "SDK/Interface/AFIBusModule.h"
 #include "Server/Interface/AFISceneProcessModule.h"
 #include "Server/Interface/AFIGameServerToWorldModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
 #include "Server/Interface/AFIAccountModule.h"
-#include "Server/Interface/AFIBusConfigModule.h"
-#include "Server/Interface/AFIProcConfigModule.h"
-#include "../Interface/AFINetServerManagerModule.h"
 
 class AFCGameNetServerModule : public AFIGameNetServerModule
 {
@@ -50,7 +49,7 @@ public:
     virtual void LogSend(const char* str) {/*will add*/}
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self);
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self);
-    virtual AFINetServerModule* GetNetModule();
+    virtual AFINetServer* GetNetServer();
 
     virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID);
     virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID);
@@ -127,11 +126,11 @@ private:
     AFILogModule* m_pLogModule;
     AFISceneProcessModule* m_pSceneProcessModule;
     AFIConfigModule* m_pConfigModule;
-    AFINetServerModule* m_pNetModule;
-    AFIBusConfigModule* m_pBusConfigModule;
-    AFIProcConfigModule* m_pProcConfigModule;
+    AFIBusModule* m_pBusModule;
     //////////////////////////////////////////////////////////////////////////
     AFINetServerManagerModule* m_pNetServerManagerModule;
     AFIGameServerToWorldModule* m_pGameServerToWorldModule;
     AFIAccountModule* m_AccountModule;
+
+    AFINetServer* m_pNetServer;
 };

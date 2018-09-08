@@ -20,15 +20,15 @@
 
 #pragma once
 
-#include "SDK/Proto/AFProtoCPP.hpp"
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
-#include "Server/Interface/AFINetServerModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFINetServerManagerModule.h"
 #include "Server/Interface/AFIMasterNetServerModule.h"
-#include "Server/Interface/AFIProcConfigModule.h"
-#include "Server/Interface/AFINetServerManagerModule.h"
 
 class AFCMasterNetServerModule : public AFIMasterNetServerModule
 {
@@ -84,12 +84,9 @@ private:
     AFMapEx<int, ServerData> mWorldMap;
     AFMapEx<int, ServerData> mLoginMap;
 
-
-    AFIConfigModule* m_pConfigModule;
-    AFIClassModule* m_pClassModule;
-    AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
-    AFINetServerModule* m_pNetModule;
-    AFIProcConfigModule* m_pProcConfigModule;
+    AFIBusModule* m_pBusModule;
     AFINetServerManagerModule* m_pNetServerManagerModule;
+
+    AFINetServer* m_pNetServer{ nullptr };
 };

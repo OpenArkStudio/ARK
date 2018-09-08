@@ -19,13 +19,14 @@
 */
 
 #include "AFCLoginToMasterModule.h"
-#include "SDK/Proto/AFProtoCPP.hpp"
+#include "Common/AFProtoCPP.hpp"
 
 bool AFCLoginToMasterModule::Init()
 {
     m_pNetClientManagerModule = pPluginManager->FindModule<AFINetClientManagerModule>();
-    m_pNetClientModule = m_pNetClientManagerModule->CreateClusterClientModule(ARK_PROCESS_TYPE::ARK_PROC_MASTER);
+    m_pNetClientModule = m_pNetClientManagerModule->CreateClusterClientModule(ARK_APP_TYPE::ARK_APP_MASTER);
     ARK_ASSERT_RET_VAL(nullptr != m_pNetClientModule, false);
+
     return true;
 }
 
@@ -38,8 +39,8 @@ bool AFCLoginToMasterModule::PostInit()
     m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pLoginNet_ServerModule = pPluginManager->FindModule<AFILoginNetServerModule>();
 
-    m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCLoginToMasterModule::OnSelectServerResultProcess);
-    m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_STS_NET_INFO, this, &AFCLoginToMasterModule::OnWorldInfoProcess);
+    m_pNetClientModule->AddRecvCallback(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCLoginToMasterModule::OnSelectServerResultProcess);
+    m_pNetClientModule->AddRecvCallback(AFMsg::EGMI_STS_NET_INFO, this, &AFCLoginToMasterModule::OnWorldInfoProcess);
 
     m_pNetClientModule->AddEventCallBack(this, &AFCLoginToMasterModule::OnSocketMSEvent);
 
@@ -55,7 +56,7 @@ bool AFCLoginToMasterModule::PostInit()
             const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
             const int nServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
-            if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_MASTER)
+            if (nServerType == ARK_APP_TYPE::ARK_APP_MASTER)
             {
                 const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
                 const std::string strServerName(m_pConfigModule->GetNodeString(strConfigName, "Name"));
@@ -64,7 +65,7 @@ bool AFCLoginToMasterModule::PostInit()
                 ConnectData xServerData;
 
                 xServerData.nGameID = nServerID;
-                xServerData.eServerType = (ARK_PROCESS_TYPE)nServerType;
+                xServerData.eServerType = nServerType;
                 xServerData.strIP = strIP;
                 xServerData.nPort = nPort;
                 xServerData.strName = strServerName;
@@ -91,7 +92,7 @@ void AFCLoginToMasterModule::Register(const int nServerID)
             const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
             const int nSelfServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
-            if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_LOGIN && pPluginManager->BusID() == nSelfServerID)
+            if (nServerType == ARK_APP_TYPE::ARK_APP_LOGIN && pPluginManager->BusID() == nSelfServerID)
             {
                 const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
                 const int nMaxConnect = m_pConfigModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -127,7 +128,7 @@ void AFCLoginToMasterModule::Register(const int nServerID)
 void AFCLoginToMasterModule::OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
-    m_pLoginNet_ServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), AFINetModule::PBToGUID(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_ip(), xMsg.world_port(), xMsg.world_key());
+    m_pLoginNet_ServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), AFIMsgModule::PBToGUID(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_ip(), xMsg.world_port(), xMsg.world_key());
 }
 
 void AFCLoginToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)

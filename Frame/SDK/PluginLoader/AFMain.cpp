@@ -22,7 +22,7 @@
 #include "AFCPluginManager.h"
 #include "SDK/Core/AFMacros.hpp"
 #include "SDK/Core/AFDateTime.hpp"
-#include "Server/Interface/AFIBusConfigModule.h"
+#include "SDK/Interface/AFIBusModule.h"
 
 bool bExitApp = false;
 std::thread gBackThread;
@@ -262,6 +262,8 @@ bool ParseArgs(int argc, char* argv[])
     args::ValueFlag<std::string> busid(parser, "busid", "Set application id(like IP address: 8.8.8.8)", { 'b', "busid" }, "8.8.8.8", args::Options::Required | args::Options::Single);
     args::ValueFlag<std::string> name(parser, "name", "Set application name", { 'n', "name" }, "my-server", args::Options::Required | args::Options::Single);
     args::ValueFlag<std::string> plugin_cfg(parser, "plugin config path", "Set application plugin config", { 'p', "plugin" }, "plugin.xml", args::Options::Required | args::Options::Single);
+    std::string default_log_path = ARK_FORMAT("..{}binlog", ark_folder_sep);
+    args::ValueFlag<std::string> logpath(parser, "logpath", "Set application log output path", { 'l', "logpath" }, default_log_path, args::Options::Required | args::Options::Single);
 
     //start parse argument list
     try
@@ -331,6 +333,15 @@ bool ParseArgs(int argc, char* argv[])
     if (plugin_cfg)
     {
         AFCPluginManager::GetInstancePtr()->SetPluginConf(plugin_cfg.Get());
+    }
+    else
+    {
+        return false;
+    }
+
+    if (logpath)
+    {
+        AFCPluginManager::GetInstancePtr()->SetLogPath(logpath.Get());
     }
     else
     {

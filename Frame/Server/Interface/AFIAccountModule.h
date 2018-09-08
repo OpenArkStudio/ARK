@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,8 +20,8 @@
 
 #pragma once
 
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Proto/AFProtoCPP.hpp"
 
 class AFIAccountModule
     : public AFIModule

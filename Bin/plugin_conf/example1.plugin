@@ -1,0 +1,8 @@
+<XML>
+	<plugins path="">
+		<plugin Name="AFUtilityPlugin" Main="1" />
+		<plugin Name="Example1Plugin" Main="1" />
+	</plugins>
+	<APPID Name="111" />
+	<ConfigPath Name="../../" />
+</XML>

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -33,16 +33,16 @@ public:
 
     virtual ~AFCTimerModule() = default;
 
-    virtual bool Init();
-    virtual bool PreShut();
-    virtual bool Update();
+    bool Init() override;
+    bool PreShut() override;
+    bool Update() override;
 
-    virtual bool RemoveTimer(const std::string& name);
-    virtual bool RemoveTimer(const std::string& name, const AFGUID& entity_id);
+    bool RemoveTimer(const std::string& name) override;
+    bool RemoveTimer(const std::string& name, const AFGUID& entity_id) override;
 
 protected:
-    virtual bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR_PTR cb);
-    virtual bool AddForeverTimer(const std::string& name, const AFGUID& entity_id, const int64_t interval_time, TIMER_FUNCTOR_PTR cb);
+    bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR_PTR cb) override;
+    bool AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR_PTR cb) override;
 
 private:
     std::shared_ptr<AFTimerManager> mxTimerManager;

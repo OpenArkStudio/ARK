@@ -26,7 +26,7 @@
 bool AFCProxyServerToGameModule::Init()
 {
     m_pNetClientManagerModule = pPluginManager->FindModule<AFINetClientManagerModule>();
-    m_pNetClientModule = m_pNetClientManagerModule->CreateClusterClientModule(ARK_PROCESS_TYPE::ARK_PROC_GAME);
+    m_pNetClientModule = m_pNetClientManagerModule->CreateClusterClientModule(ARK_APP_TYPE::ARK_APP_GAME);
 
     return true;
 }
@@ -49,9 +49,9 @@ bool AFCProxyServerToGameModule::PostInit()
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
 
-    m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_ACK_ENTER_GAME, this, &AFCProxyServerToGameModule::OnAckEnterGame);
-    m_pNetClientModule->AddReceiveCallBack(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyServerToGameModule::OnBrocastmsg);
-    m_pNetClientModule->AddReceiveCallBack(this, &AFCProxyServerToGameModule::Transpond);
+    m_pNetClientModule->AddRecvCallback(AFMsg::EGMI_ACK_ENTER_GAME, this, &AFCProxyServerToGameModule::OnAckEnterGame);
+    m_pNetClientModule->AddRecvCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyServerToGameModule::OnBrocastmsg);
+    m_pNetClientModule->AddRecvCallback(this, &AFCProxyServerToGameModule::Transpond);
 
     m_pNetClientModule->AddEventCallBack(this, &AFCProxyServerToGameModule::OnSocketGSEvent);
 
@@ -71,7 +71,7 @@ bool AFCProxyServerToGameModule::PostInit()
         const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
         const int nServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_GAME)
+        if (nServerType == ARK_APP_TYPE::ARK_APP_GAME)
         {
             const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
             const std::string strServerName(m_pConfigModule->GetNodeString(strConfigName, "Name"));
@@ -80,7 +80,7 @@ bool AFCProxyServerToGameModule::PostInit()
             ConnectData xServerData;
 
             xServerData.nGameID = nServerID;
-            xServerData.eServerType = (ARK_PROCESS_TYPE)nServerType;
+            xServerData.eServerType = (ARK_APP_TYPE)nServerType;
             xServerData.strIP = strIP;
             xServerData.nPort = nPort;
             xServerData.strName = strServerName;
@@ -127,7 +127,7 @@ void AFCProxyServerToGameModule::Register(const int nServerID)
         const int nServerType = m_pConfigModule->GetNodeInt(strConfigName, "Type");
         const int nSelfServerID = m_pConfigModule->GetNodeInt(strConfigName, "ServerID");
 
-        if (nServerType == ARK_PROCESS_TYPE::ARK_PROC_PROXY && pPluginManager->BusID() == nSelfServerID)
+        if (nServerType == ARK_APP_TYPE::ARK_APP_PROXY && pPluginManager->BusID() == nSelfServerID)
         {
             const int nPort = m_pConfigModule->GetNodeInt(strConfigName, "Port");
             const int nMaxConnect = m_pConfigModule->GetNodeInt(strConfigName, "MaxOnline");
@@ -165,8 +165,8 @@ void AFCProxyServerToGameModule::OnAckEnterGame(const AFIMsgHead& xHead, const i
 
     if (xMsg.event_code() == AFMsg::EGEC_ENTER_GAME_SUCCESS)
     {
-        const AFGUID& xClient = AFINetModule::PBToGUID(xMsg.event_client());
-        const AFGUID& xPlayer = AFINetModule::PBToGUID(xMsg.event_object());
+        const AFGUID& xClient = AFIMsgModule::PBToGUID(xMsg.event_client());
+        const AFGUID& xPlayer = AFIMsgModule::PBToGUID(xMsg.event_object());
 
         m_pProxyServerNet_ServerModule->EnterGameSuccessEvent(xClient, xPlayer);
     }
@@ -179,7 +179,7 @@ void AFCProxyServerToGameModule::OnBrocastmsg(const AFIMsgHead& xHead, const int
     for (int i = 0; i < xMsg.target_entity_list_size(); i++)
     {
         const AFMsg::PBGUID& tmpID = xMsg.target_entity_list(i);
-        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFINetModule::PBToGUID(tmpID), nPlayerID);
+        m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFIMsgModule::PBToGUID(tmpID), nPlayerID);
     }
 }
 

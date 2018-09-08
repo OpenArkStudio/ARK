@@ -20,20 +20,19 @@
 
 #pragma once
 
-#include "SDK/Proto/AFProtoCPP.hpp"
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Core/AFCConsistentHash.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIGUIDModule.h"
-#include "Server/Interface/AFINetServerModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFINetServerManagerModule.h"
 #include "Server/Interface/AFIProxyNetServerModule.h"
 #include "Server/Interface/AFIProxyServerToWorldModule.h"
 #include "Server/Interface/AFIProxyServerToGameModule.h"
-#include "Server/Interface/AFINetClientModule.hpp"
-#include "Server/Interface/AFIProcConfigModule.h"
-#include "Server/Interface/AFINetServerManagerModule.h"
 
 class AFCProxyNetServerModule : public AFIProxyNetServerModule
 {
@@ -80,13 +79,13 @@ protected:
         //在没有正式进入游戏之前，nPlayerID都是FD
         ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, TypeName);
 
-        if (ChecSessionState(xMsg.game_id(), xClientID, xMsg.account()))
+        if (CheckSessionState(xMsg.game_id(), xClientID, xMsg.account()))
         {
             m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(xMsg.game_id(), nMsgID, msg, nLen, xClientID);
         }
     }
 
-    bool ChecSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount);
+    bool CheckSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount);
 
 private:
     AFMapEx<AFGUID, SessionData> mmSessionData; //Player Client <--> SessionData
@@ -96,10 +95,8 @@ private:
     AFIProxyServerToGameModule* m_pProxyServerToGameModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIClassModule* m_pClassModule;
-    AFIGUIDModule* m_pUUIDModule;
-    AFINetServerModule* m_pNetModule;
-    AFIProcConfigModule* m_pProcConfigModule;
+    AFIBusModule* m_pBusModule;
     AFINetServerManagerModule* m_pNetServerManagerModule;
+
+    AFINetServer* m_pNetServer{ nullptr };
 };

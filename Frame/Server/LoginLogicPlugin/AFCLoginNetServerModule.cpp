@@ -30,10 +30,10 @@ bool AFCLoginNetServerModule::PostInit()
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
     m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pLoginToMasterModule = pPluginManager->FindModule<AFILoginToMasterModule>();
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
-    m_pProcConfigModule = pPluginManager->FindModule<AFIProcConfigModule>();
+    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
     m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
+    m_pLoginToMasterModule = pPluginManager->FindModule<AFILoginToMasterModule>();
 
     int ret = StartServer();
     if (ret != 0)
@@ -47,34 +47,30 @@ bool AFCLoginNetServerModule::PostInit()
 
 int AFCLoginNetServerModule::StartServer()
 {
-    m_pNetModule = m_pNetServerManagerModule->CreateServer(pPluginManager->BusID());
-    ARK_ASSERT_RET_VAL(nullptr != m_pNetModule, 0);
-
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetServerModule::OnHeartBeat);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetServerModule::OnLoginProcess);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetServerModule::OnLogOut);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetServerModule::OnSelectWorldProcess);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetServerModule::OnViewWorldProcess);
-    m_pNetModule->AddReceiveCallBack(this, &AFCLoginNetServerModule::InvalidMessage);
-
-    m_pNetModule->AddEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
-
-    //Start TCP server
-    AFServerConfig serverConfig;
-    if (!m_pProcConfigModule->GetProcServerInfo(pPluginManager->BusID(), serverConfig))
+    int ret = m_pNetServerManagerModule->CreateServer();
+    if (ret != 0)
     {
-        ARK_LOG_ERROR("Cannot get proce server info, bus id = {}", pPluginManager->BusID());
+        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
         ARK_ASSERT_NO_EFFECT(0);
-        return -1;
+        return ret;
     }
 
-    int nRet = m_pNetModule->Start(pPluginManager->BusID(), "0.0.0.0", serverConfig.port, serverConfig.thread_num, serverConfig.max_connection);
-    if (nRet < 0)
+    m_pNetServer = m_pNetServerManagerModule->GetSelfNetServer();
+    if (m_pNetServer == nullptr)
     {
-        ARK_LOG_ERROR("Cannot init server net, Port = {}", serverConfig.port);
-        ARK_ASSERT_NO_EFFECT(0);
-        return -2;
+        ret = -3;
+        ARK_LOG_ERROR("Cannot find server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
+        return ret;
     }
+
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetServerModule::OnHeartBeat);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetServerModule::OnLoginProcess);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetServerModule::OnLogOut);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetServerModule::OnSelectWorldProcess);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetServerModule::OnViewWorldProcess);
+    m_pNetServer->AddRecvCallback(this, &AFCLoginNetServerModule::InvalidMessage);
+
+    m_pNetServer->AddEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
 
     return 0;
 }
@@ -83,18 +79,18 @@ int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, con
 {
     ARK_SHARE_PTR<SessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
 
-    if (pSessionData)
+    if (pSessionData != nullptr)
     {
         AFMsg::AckConnectWorldResult xMsg;
         xMsg.set_world_id(nWorldID);
-        xMsg.mutable_sender()->CopyFrom(AFINetModule::GUIDToPB(xSenderID));
+        xMsg.mutable_sender()->CopyFrom(AFIMsgModule::GUIDToPB(xSenderID));
         xMsg.set_login_id(nLoginID);
         xMsg.set_account(strAccount);
         xMsg.set_world_ip(strWorldIP);
         xMsg.set_world_port(nWorldPort);
         xMsg.set_world_key(strWorldKey);
 
-        m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pSessionData->mnClientID, xSenderID);
+        m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pSessionData->mnClientID, xSenderID);
     }
 
     return 0;
@@ -133,7 +129,7 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
             AFMsg::AckEventResult xMsg;
             xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
 
-            m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, xClientID, nPlayerID);
+            m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, xClientID, nPlayerID);
             return;
         }
 
@@ -146,7 +142,7 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
         xData.set_parame2(xMsg.password());
         xData.set_parame3(xMsg.security_code());
 
-        m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
+        m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
         ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", xClientID.ToString().c_str(), xMsg.account().c_str());
     }
 }
@@ -170,7 +166,7 @@ void AFCLoginNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, cons
     AFMsg::ReqConnectWorld xData;
     xData.set_world_id(xMsg.world_id());
     xData.set_login_id(pPluginManager->BusID());
-    xData.mutable_sender()->CopyFrom(AFINetServerModule::GUIDToPB(pSession->mnClientID));
+    xData.mutable_sender()->CopyFrom(AFIMsgModule::GUIDToPB(pSession->mnClientID));
     xData.set_account(pSession->mstrAccout);
 
     m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData, xHead.GetPlayerID());//here has a problem to be solve
@@ -196,9 +192,8 @@ void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
     xData.set_type(AFMsg::RSLT_WORLD_SERVER);
 
     AFMapEx<int, AFMsg::ServerInfoReport>& xWorldMap = m_pLoginToMasterModule->GetWorldMap();
-    auto pWorldData = xWorldMap.First();
 
-    while (pWorldData)
+    for (auto pWorldData = xWorldMap.First(); pWorldData != nullptr; pWorldData = xWorldMap.Next())
     {
         AFMsg::ServerInfo* pServerInfo = xData.add_info();
 
@@ -206,12 +201,9 @@ void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
         pServerInfo->set_status(pWorldData->server_state());
         pServerInfo->set_server_id(pWorldData->server_id());
         pServerInfo->set_wait_count(0);
-
-        pWorldData = xWorldMap.Next();
     }
 
-
-    m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, AFGUID(0));
+    m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, AFGUID(0));
 }
 
 void AFCLoginNetServerModule::OnViewWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)

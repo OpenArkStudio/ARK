@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -25,10 +25,10 @@
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "Server/Interface/AFILoginLogicModule.h"
-#include "Server/Interface/AFINetServerModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFINetClientManagerModule.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
 #include "Server/Interface/AFILoginToMasterModule.h"
-#include "Server/Interface/AFINetClientManagerModule.h"
 
 class AFCLoginToMasterModule : public AFILoginToMasterModule
 {

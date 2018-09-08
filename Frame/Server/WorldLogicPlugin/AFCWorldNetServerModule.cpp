@@ -19,17 +19,14 @@
 */
 
 #include "AFCWorldNetServerModule.h"
-#include "SDK/Proto/AFProtoCPP.hpp"
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Core/AFDataNode.hpp"
 
 bool AFCWorldNetServerModule::PostInit()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pWorldLogicModule = pPluginManager->FindModule<AFIWorldLogicModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
-    m_pProcConfigModule = pPluginManager->FindModule<AFIProcConfigModule>();
+    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
     m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
 
     int ret = StartServer();
@@ -44,35 +41,32 @@ bool AFCWorldNetServerModule::PostInit()
 
 int AFCWorldNetServerModule::StartServer()
 {
-    m_pNetModule = m_pNetServerManagerModule->CreateServer(pPluginManager->BusID());
-    ARK_ASSERT_RET_VAL(nullptr != m_pNetModule, 0);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_GTW_GAME_REGISTERED, this, &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this, &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_GTW_GAME_REFRESH, this, &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetServerModule::OnOnlineProcess);
-    m_pNetModule->AddReceiveCallBack(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetServerModule::OnOfflineProcess);
-
-    m_pNetModule->AddEventCallBack(this, &AFCWorldNetServerModule::OnSocketEvent);
-
-    //Start TCP server
-    AFServerConfig serverConfig;
-    if (!m_pProcConfigModule->GetProcServerInfo(pPluginManager->BusID(), serverConfig))
+    int ret = m_pNetServerManagerModule->CreateServer();
+    if (ret != 0)
     {
-        ARK_LOG_ERROR("Cannot get proce server info, bus id = {}", pPluginManager->BusID());
+        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
         ARK_ASSERT_NO_EFFECT(0);
-        return -1;
+        return ret;
     }
 
-    int nRet = m_pNetModule->Start(pPluginManager->BusID(), "0.0.0.0", serverConfig.port, serverConfig.thread_num, serverConfig.max_connection);
-    if (nRet < 0)
+    m_pNetServer = m_pNetServerManagerModule->GetSelfNetServer();
+    if (m_pNetServer == nullptr)
     {
-        ARK_LOG_ERROR("Cannot start server net, Port = {}", serverConfig.port);
-        ARK_ASSERT_NO_EFFECT(0);
-        return -2;
+        ret = -3;
+        ARK_LOG_ERROR("Cannot find server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
+        return ret;
     }
+
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this, &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this, &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this, &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetServerModule::OnOnlineProcess);
+    m_pNetServer->AddRecvCallback(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetServerModule::OnOfflineProcess);
+
+    m_pNetServer->AddEventCallBack(this, &AFCWorldNetServerModule::OnSocketEvent);
 
     return 0;
 }
@@ -245,7 +239,7 @@ void AFCWorldNetServerModule::SynGameToProxy(const AFGUID& xClientID)
         pServerData = mGameMap.Next();
     }
 
-    m_pNetModule->SendMsgPB(AFMsg::EGameMsgID::EGMI_STS_NET_INFO, xData, xClientID, AFGUID(0));
+    m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_STS_NET_INFO, xData, xClientID, AFGUID(0));
 }
 
 void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
@@ -347,7 +341,7 @@ bool AFCWorldNetServerModule::SendMsgToGame(const int nGameID, const AFMsg::EGam
 
     if (nullptr != pData)
     {
-        m_pNetModule->SendMsgPB(eMsgID, xData, pData->xClient, nPlayer);
+        m_pNetServer->SendPBMsg(eMsgID, xData, pData->xClient, nPlayer);
     }
 
     return true;
@@ -400,7 +394,7 @@ int AFCWorldNetServerModule::OnObjectListEnter(const AFIDataList& self, const AF
         if (!identOld.IsNULL())
         {
             AFMsg::EntityEnterInfo* pEnter = xEntityEnterList.add_entity_list();
-            *(pEnter->mutable_object_guid()) = AFINetModule::GUIDToPB(identOld);
+            *(pEnter->mutable_object_guid()) = AFIMsgModule::GUIDToPB(identOld);
             pEnter->set_career_type(m_pKernelModule->GetNodeInt(identOld, "Job"));
             pEnter->set_player_state(m_pKernelModule->GetNodeInt(identOld, "State"));
             pEnter->set_config_id(m_pKernelModule->GetNodeString(identOld, "ConfigID"));
@@ -446,7 +440,7 @@ int AFCWorldNetServerModule::OnObjectListLeave(const AFIDataList& self, const AF
         if (!identOld.IsNULL())
         {
             AFMsg::PBGUID* pIdent = xEntityLeaveList.add_entity_list();
-            *pIdent = AFINetServerModule::GUIDToPB(argVar.Object(i));
+            *pIdent = AFIMsgModule::GUIDToPB(argVar.Object(i));
         }
     }
 
@@ -482,7 +476,7 @@ int AFCWorldNetServerModule::OnViewDataNodeEnter(const AFIDataList& argVar, cons
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
     AFFeatureType nFeature ;
     nFeature[AFDataNode::PF_PUBLIC] = 1;
-    m_pNetModule->NodeListToPB(self, pNodeManager, *xPublicMsg.add_multi_entity_data_node_list(), nFeature);
+    AFIMsgModule::NodeListToPB(self, pNodeManager, *xPublicMsg.add_multi_entity_data_node_list(), nFeature);
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -518,7 +512,7 @@ int AFCWorldNetServerModule::OnSelfDataNodeEnter(const AFGUID& self, const AFIDa
     ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
     AFFeatureType nFeature;
     nFeature[AFDataNode::PF_PRIVATE] = 1;
-    m_pNetModule->NodeListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
+    AFIMsgModule::NodeListToPB(self, pNodeManager, *xPrivateMsg.add_multi_entity_data_node_list(), nFeature);
 
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_NODE_ENTER, xPrivateMsg, self);
     return 0;
@@ -544,7 +538,7 @@ int AFCWorldNetServerModule::OnSelfDataTableEnter(const AFGUID& self, const AFID
     AFFeatureType nFeature;
     nFeature[AFDataNode::PF_PRIVATE] = 1;
     ARK_SHARE_PTR<AFIDataTableManager> pTableManager = pEntity->GetTableManager();
-    m_pNetModule->TableListToPB(self, pTableManager, *xPrivateMsg.add_multi_entity_data_table_list(), nFeature);
+    AFIMsgModule::TableListToPB(self, pTableManager, *xPrivateMsg.add_multi_entity_data_table_list(), nFeature);
     SendMsgToGame(nGameID, AFMsg::EGMI_ACK_ENTITY_DATA_TABLE_ENTER, xPrivateMsg, self);
     return 0;
 }
@@ -569,7 +563,7 @@ int AFCWorldNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, con
 
     AFFeatureType nFeature;
     nFeature[AFDataNode::PF_PUBLIC] = 1;
-    m_pNetModule->TableListToPB(self, pTableManager, *xPublicMsg.add_multi_entity_data_table_list(), nFeature);
+    AFIMsgModule::TableListToPB(self, pTableManager, *xPublicMsg.add_multi_entity_data_table_list(), nFeature);
 
     for (size_t i = 0; i < argVar.GetCount(); i++)
     {
@@ -590,9 +584,9 @@ ARK_SHARE_PTR<ServerData> AFCWorldNetServerModule::GetSuitProxyForEnter()
     return mProxyMap.First();
 }
 
-AFINetServerModule* AFCWorldNetServerModule::GetNetModule()
+AFINetServer* AFCWorldNetServerModule::GetNetServer()
 {
-    return m_pNetModule;
+    return m_pNetServer;
 }
 
 int AFCWorldNetServerModule::GetPlayerGameID(const AFGUID self)

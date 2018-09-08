@@ -20,16 +20,16 @@
 
 #pragma once
 
-#include "SDK/Proto/AFProtoCPP.hpp"
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "Server/Interface/AFINetClientModule.hpp"
+#include "SDK/Interface/AFINetClientModule.hpp"
+#include "SDK/Interface/AFINetClientManagerModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
 #include "Server/Interface/AFIGameServerToWorldModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
-#include "Server/Interface/AFINetClientManagerModule.h"
 
 class AFCGameServerToWorldModule : public AFIGameServerToWorldModule
 {

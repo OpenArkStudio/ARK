@@ -51,7 +51,7 @@
 #endif
 
 #define ARK_GUID_POWER 100000
-#define ARK_EPOCH 1288834974657L
+#define ARK_EPOCH 1533657600000L //2018/8/8 00:00:00
 
 //////////////////////////////////////////////////////////////////////////
 /* isaacs - added strlcpy implementation for systems that lack it. */
@@ -268,6 +268,16 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 #define ARK_HAVE_LANG_CXX17 1
 #endif
 
+#if defined(ARK_HAVE_LANG_CXX11) || defined(ARK_HAVE_LANG_CXX14) || !defined(ARK_HAVE_LANG_CXX17)
+#define ARK_NOEXCEPT noexcept
+#define ARK_CONSTEXPR constexpr
+#define ARK_FINAL final
+#else
+#define ARK_NOEXCEPT throw()
+#define ARK_CONSTEXPR
+#define ARK_FINAL
+#endif
+
 #ifndef ARK_FUNCTION_LINE
 #define ARK_FUNCTION_LINE __FUNCTION__, __LINE__
 #endif
@@ -296,6 +306,12 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 #define ARK_FORMAT(my_fmt, ...)             fmt::format(my_fmt, ##__VA_ARGS__);
 #define ARK_FORMAT_FUNCTION(my_fmt, ...)    fmt::format(std::string("[{}:{}]") + my_fmt, ARK_FUNCTION_LINE, ##__VA_ARGS__);
 
+// folder separator
+#if ARK_PLATFORM == PLATFORM_WIN
+ARK_CONSTEXPR static const char ark_folder_sep = '\\';
+#else
+ARK_CONSTEXPR static const char ark_folder_sep = '/';
+#endif
 
 //clear player data time
 #define CLEAR_HOUR 5

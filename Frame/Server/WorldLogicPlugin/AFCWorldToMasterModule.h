@@ -20,16 +20,16 @@
 
 #pragma once
 
-#include "SDK/Proto/AFProtoCPP.hpp"
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFINetClientModule.hpp"
+#include "SDK/Interface/AFINetClientManagerModule.h"
 #include "Server/Interface/AFIWorldToMasterModule.h"
 #include "Server/Interface/AFIWorldLogicModule.h"
-#include "Server/Interface/AFINetServerModule.h"
 #include "Server/Interface/AFIWorldNetServerModule.h"
-#include "Server/Interface/AFINetClientModule.hpp"
-#include "Server/Interface/AFINetClientManagerModule.h"
 
 class AFCWorldToMasterModule : public AFIWorldToMasterModule
 {
@@ -68,7 +68,7 @@ private:
     AFIConfigModule* m_pConfigModule;
     AFIClassModule* m_pClassModule;
     AFIWorldLogicModule* m_pWorldLogicModule;
-    AFIWorldNetServerModule* m_pWorldNet_ServerModule;
+    AFIWorldNetServerModule* m_pWorldNetServerModule;
     AFINetClientModule* m_pNetClientModule;
     AFINetClientManagerModule* m_pNetClientManagerModule;
 };

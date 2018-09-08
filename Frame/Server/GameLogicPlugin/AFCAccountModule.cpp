@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -19,7 +19,7 @@
 */
 
 #include "AFCAccountModule.h"
-#include "Server/Interface/AFINetServerModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
 
 bool AFCAccountModule::Init()
 {
@@ -46,7 +46,7 @@ bool AFCAccountModule::GetRoleList(const std::string& strAccount, AFMsg::AckRole
 bool AFCAccountModule::CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList)
 {
     AFMsg::RoleLiteInfo* pData = xAckRoleLiteInfoList.add_char_data();
-    pData->mutable_id()->CopyFrom(AFINetModule::GUIDToPB(m_pUUIDModule->CreateGUID()));
+    pData->mutable_id()->CopyFrom(AFIMsgModule::GUIDToPB(m_pUUIDModule->CreateGUID()));
 
     int nCareer = varList.Int(0);
     int sex = varList.Int(1);

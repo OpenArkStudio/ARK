@@ -18,4 +18,4 @@
 *
 */
 
-#include "SDK/Interface/AFDLLHeader.h"
+#include "Common/AFDLLHeader.hpp"

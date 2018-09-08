@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "AFINetServerModule.h"
+#include "SDK/Interface/AFINetServerManagerModule.h"
 
 class AFIGameNetServerModule : public AFIModule
 {
@@ -54,7 +54,7 @@ public:
         std::map<AFGUID, AFGUID> xRoleInfo;
     };
 
-    virtual AFINetServerModule* GetNetModule() = 0;
+    virtual AFINetServer* GetNetServer() = 0;
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self) = 0;
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self) = 0;
     virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID) = 0;

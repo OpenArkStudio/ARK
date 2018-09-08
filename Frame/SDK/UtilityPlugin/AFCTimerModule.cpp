@@ -56,7 +56,7 @@ bool AFCTimerModule::AddSingleTimer(const std::string& name, const AFGUID& entit
     return mxTimerManager->AddSingleTimer(name, entity_id, interval_time, count, cb);
 }
 
-bool AFCTimerModule::AddForeverTimer(const std::string& name, const AFGUID& entity_id, const int64_t interval_time, TIMER_FUNCTOR_PTR cb)
+bool AFCTimerModule::AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR_PTR cb)
 {
     return mxTimerManager->AddForverTimer(name, entity_id, interval_time, cb);
 }
