@@ -114,7 +114,7 @@ public:
     int FindString(size_t col, const char* key, size_t begin_row = 0);
     int FindObject(size_t col, const AFGUID& key, size_t begin_row = 0);
 
-    bool QueryRow(const int row, AFIDataList& varList);
+    bool QueryRow(const size_t row, AFIDataList& varList);
 
 protected:
     void ReleaseRow(RowData* row_data, size_t col_num);

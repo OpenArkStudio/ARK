@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -87,7 +87,7 @@ public:
     virtual float GetFloat() const = 0;
     virtual double GetDouble() const = 0;
     virtual const char* GetString() const = 0;
-    virtual AFGUID GetObject() const = 0;
+    virtual const AFGUID& GetObject() const = 0;
     virtual void* GetPointer() const = 0;
     virtual const void* GetUserData(size_t& size) const = 0;
     virtual void* GetRawUserData() const = 0;

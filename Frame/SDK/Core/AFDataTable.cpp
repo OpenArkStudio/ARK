@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -715,13 +715,13 @@ int AFDataTable::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 
     return -1;
 }
 
-bool AFDataTable::QueryRow(const int row, AFIDataList& varList)
+bool AFDataTable::QueryRow(const size_t row, AFIDataList& varList)
 {
     ARK_ASSERT_RET_VAL(row < mxRowDatas.size(), false);
 
     RowData* rowData = mxRowDatas[row];
 
-    for (int i = 0; i < mxColTypes.size(); ++i)
+    for (size_t i = 0; i < mxColTypes.size(); ++i)
     {
         RowData& subData = rowData[i];
 

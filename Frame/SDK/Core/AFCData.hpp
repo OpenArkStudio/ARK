@@ -419,7 +419,7 @@ public:
         return mstrValue;
     }
 
-    virtual AFGUID GetObject() const
+    virtual const AFGUID& GetObject() const
     {
         ARK_ASSERT_RET_VAL(mnType == DT_OBJECT, NULL_GUID);
         return mxGUID;
