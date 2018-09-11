@@ -7,5 +7,5 @@
 		<plugin name="AFNetPlugin" />
 		<plugin name="AFGameLogicPlugin" />
 	</plugins>
-	<res path="./resource/" />
+	<res path="../resource/" />
 </xml>

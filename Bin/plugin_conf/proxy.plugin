@@ -1,5 +1,5 @@
 <xml>
-	<plugins path="../bin/">
+	<plugins path="../lib/">
 		<plugin name="AFKernelPlugin" />
 		<plugin name="AFUtilityPlugin" />
 		<plugin name="AFProxyLogicPlugin" />

@@ -21,11 +21,7 @@
 #pragma once
 
 #include "Common/AFProtoCPP.hpp"
-#include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIConfigModule.h"
-#include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIGUIDModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFINetServerManagerModule.h"
@@ -75,12 +71,8 @@ private:
     AFMapEx<AFGUID, SessionData> mmClientSessionData;
 
     AFILoginToMasterModule* m_pLoginToMasterModule;
-    AFIClassModule* m_pClassModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
     AFILoginLogicModule* m_pLoginLogicModule;
-    AFIGUIDModule* m_pUUIDModule;
     AFIBusModule* m_pBusModule;
     AFINetServerManagerModule* m_pNetServerManagerModule;
 

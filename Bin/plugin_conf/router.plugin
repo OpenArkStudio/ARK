@@ -1,5 +1,5 @@
 <xml>
-	<plugins path="../bin/">
+	<plugins path="../lib/">
 		<plugin name="AFUtilityPlugin" />
 	</plugins>
 	<res path="../resource/" />

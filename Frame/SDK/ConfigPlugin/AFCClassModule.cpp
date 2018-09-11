@@ -42,7 +42,7 @@ bool AFCClassModule::Init()
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
     mstrSchemaFile = "schema/LogicClass.xml";
-    ARK_LOG_INFO("Using file [{}]", mstrSchemaFile);
+    ARK_LOG_INFO("Using file [{}{}]", pPluginManager->GetResPath(), mstrSchemaFile);
 
     bool bRet = Load();
     ARK_ASSERT_RET_VAL(bRet, false);

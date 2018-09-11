@@ -14,6 +14,8 @@
 - [ ] 12.关于背包类的table，整理或者交换，需要改成别的方式
 - [ ] 13.excel工具修改为https://github.com/davyxu/tabtoy
 - [ ] 14.所有的智能指针都用引用的方式传入
+- [ ] 15.定时log和心跳改为timer方式，不要再是用update和HeartBeat了
+- [ ] 16.kernel和config插件还是得合并为一个，因为kernel非常依赖config插件
 
 - [ ] 51.优化数据同步的流量,减小属性同步的体积(去掉`NodeName`和`TableName`类似的string同步, 上线先同步index和name的映射，后续全部用index下发，入库用name)
 - [ ] 52.拓展DataTable的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，DataTable现有的二维结构是特定的，不方便做扩展

@@ -1,39 +1,29 @@
-echo Copy common dlls...
-
-cp -a bin/PluginLoader master/
-cp -a bin/PluginLoader world/
-cp -a bin/PluginLoader login/
-cp -a bin/PluginLoader proxy/
-cp -a bin/PluginLoader game/
+cd bin
 
 export LC_ALL="C"
 
 #The default zone is 1001
 
-cd master
+channel_id=1
+zone_id=1
+
 echo Starting master...
-./PluginLoader -d --busid=1.0.1.1 --name=master_server --plugin=plugin.xml
+./Launcher -d --busid=${channel_id}.0.1.1 --name=master_server --plugin=../plugin_conf/master.plugin --logpath=../binlog
 
-cd ..
-cd world
 echo Starting world...
-./PluginLoader -d --busid=1.1.100.1 --name=world_server --plugin=plugin.xml
+./Launcher -d --busid=${channel_id}.${zone_id}.100.1 --name=world_server --plugin=../plugin_conf/world.plugin --logpath=../binlog
 
-cd ..
-cd login
 echo Starting login...
-./PluginLoader -d --busid=1.1.102.1 --name=login_server --plugin=plugin.xml
+./Launcher -d --busid=${channel_id}.${zone_id}.102.1 --name=login_server --plugin=../plugin_conf/login.plugin --logpath=../binlog
 
-cd ..
-cd proxy
 echo Starting proxy...
-./PluginLoader -d --busid=1.1.103.1 --name=proxy_server --plugin=plugin.xml
+./Launcher -d --busid=${channel_id}.${zone_id}.103.1 --name=proxy_server --plugin=../plugin_conf/proxy.plugin --logpath=../binlog
 
-cd ..
-cd game
 echo Starting game...
-./PluginLoader -d --busid=1.1.101.1 --name=game_server --plugin=plugin.xml
+./Launcher -d --busid=${channel_id}.${zone_id}.101.1 --name=game_server --plugin=../plugin_conf/game.plugin --logpath=../binlog
 
 echo All processes are launching...
 
-ps ax | grep *_server
+ps aux | grep *_server
+
+cd ../

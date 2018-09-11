@@ -1,6 +1,6 @@
 <xml>
-	<plugins>
-		<Plugin Name="AFUtilityPlugin" />
+	<plugins path="../lib/">
+		<plugin name="AFUtilityPlugin" />
 		<plugin name="AFBusPlugin" />
 		<plugin name="AFNetPlugin" />
 	</plugins>

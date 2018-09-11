@@ -3,8 +3,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LocalDebuggerCommand>$(SolutionDir)..\Bin\bin\Launcher_d.exe</LocalDebuggerCommand>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\</LocalDebuggerWorkingDirectory>
-    <LocalDebuggerCommandArguments>--busid=1.1.101.1 --name=game_server --plugin=plugin_conf\game.plugin --logpath=.\binlog</LocalDebuggerCommandArguments>
-    <LocalDebuggerEnvironment>PATH=$(SolutionDir)..\Bin\lib</LocalDebuggerEnvironment>
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\bin\</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommandArguments>--busid=1.1.101.1 --name=game_server --plugin=..\plugin_conf\game.plugin --logpath=..\binlog</LocalDebuggerCommandArguments>
+    <LocalDebuggerEnvironment>PATH=$(SolutionDir)..\Bin\lib\</LocalDebuggerEnvironment>
   </PropertyGroup>
 </Project>

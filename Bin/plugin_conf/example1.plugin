@@ -1,8 +1,7 @@
-<XML>
-	<plugins path="">
-		<plugin Name="AFUtilityPlugin" Main="1" />
-		<plugin Name="Example1Plugin" Main="1" />
+<xml>
+	<plugins path="../lib/">
+		<plugin name="AFUtilityPlugin" />
+		<plugin name="Example1Plugin" />
 	</plugins>
-	<APPID Name="111" />
-	<ConfigPath Name="../../" />
-</XML>
+	<res path="../resource" />
+</xml>

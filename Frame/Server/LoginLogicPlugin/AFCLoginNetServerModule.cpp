@@ -25,12 +25,8 @@ const std::string PROPERTY_VERIFIED = "Verified";
 
 bool AFCLoginNetServerModule::PostInit()
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pLoginLogicModule = pPluginManager->FindModule<AFILoginLogicModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
     m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
     m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
     m_pLoginToMasterModule = pPluginManager->FindModule<AFILoginToMasterModule>();

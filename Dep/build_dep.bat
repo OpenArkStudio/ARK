@@ -28,6 +28,8 @@ copy Debug\*.lib ..\..\..\lib /Y
 copy Release\*.dll ..\..\..\lib /Y
 copy Release\*.lib ..\..\..\lib /Y
 
+copy Release\libprotobufd.dll ..\..\..\..\Bin\lib /Y
+copy Release\libprotobuf.dll ..\..\..\..\Bin\lib /Y
 copy Release\libprotobuf.dll ..\..\..\..\Frame\SDK\ProtoPlugin\proto-gen /Y
 copy Release\libprotoc.dll ..\..\..\..\Frame\SDK\ProtoPlugin\proto-gen /Y
 copy Release\protoc.exe ..\..\..\..\Frame\SDK\ProtoPlugin\proto-gen /Y

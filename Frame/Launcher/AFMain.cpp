@@ -93,7 +93,7 @@ void InitDaemon()
 #endif
 }
 
-void ArkPrintLogo()
+void PrintLogo()
 {
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -380,7 +380,7 @@ int main(int argc, char* argv[])
         return 0;
     }
 
-    ArkPrintLogo();
+    PrintLogo();
 
     AFCPluginManager::GetInstancePtr()->Init();
     AFCPluginManager::GetInstancePtr()->PostInit();

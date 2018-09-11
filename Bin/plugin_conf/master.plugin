@@ -1,10 +1,9 @@
 <xml>
-	<plugins path="../bin/">
-		<Plugin Name="AFKernelPlugin" />
-		<Plugin Name="AFUtilityPlugin" />
+	<plugins path="../lib/">
+		<plugin name="AFUtilityPlugin" />
 		<plugin name="AFBusPlugin" />
 		<plugin name="AFNetPlugin" />
-		<Plugin Name="AFMasterLogicPlugin" />
+		<plugin name="AFMasterLogicPlugin" />
 	</plugins>
 	<res path="../resource/" />
 </xml>

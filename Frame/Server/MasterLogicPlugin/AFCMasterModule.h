@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,9 +20,7 @@
 
 #pragma once
 
-#include "SDK/Interface/AFIKernelModule.h"
 #include "Server/Interface/AFIMasterModule.h"
-#include "Server/Interface/AFIMasterNetServerModule.h"
 
 class AFCMasterModule : public AFIMasterModule
 {
@@ -32,8 +30,4 @@ public:
         pPluginManager = p;
     }
 
-    virtual bool Init();
-
-private:
-    AFIKernelModule* m_pKernelModule;
 };

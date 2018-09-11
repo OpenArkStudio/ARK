@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -19,10 +19,3 @@
 */
 
 #include "AFCMasterModule.h"
-
-bool AFCMasterModule::Init()
-{
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-
-    return true;
-}
