@@ -314,7 +314,7 @@ const char* AFCConfigModule::GetNodeString(const std::string& strConfigName, con
     }
     else
     {
-        return nullptr;
+        return NULL_STR.c_str();
     }
 }
 

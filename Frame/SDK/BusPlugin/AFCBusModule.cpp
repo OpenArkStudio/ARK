@@ -90,7 +90,11 @@ bool AFCBusModule::LoadProcConfig()
                 const std::string& real_host = GetHost(host_name);
                 ARK_ASSERT_RET_VAL(real_host != NULL_STR, false);
                 uint16_t port = CalcProcPort(proc_id, server_config.inst_id);
+#if ARK_PLATFORM == PLATFORM_WIN
+                server_config.private_url = protocol + "localhost:" + ARK_TO_STRING(port);
+#else
                 server_config.private_url = protocol + "0.0.0.0:" + ARK_TO_STRING(port);
+#endif
                 server_config.public_url = protocol + real_host + ":" + ARK_TO_STRING(port);
                 instances.emplace_back(server_config);
             }

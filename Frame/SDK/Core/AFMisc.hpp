@@ -23,7 +23,9 @@
 #include "AFMacros.hpp"
 
 #if ARK_PLATFORM == PLATFORM_WIN
-#include <ws2tcpip.h>
+#include <WS2tcpip.h>
+#include <winsock2.h>
+#pragma  comment(lib,"Ws2_32.lib")
 #else
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -167,8 +169,64 @@ public:
         return (inet_addr(host.c_str()) != INADDR_NONE);
     }
 
+#if ARK_PLATFORM == PLATFORM_WIN
+    static bool GetLocalIP(char* ip)
+    {
+        //2.获取主机名
+        char hostname[256];
+        int ret = gethostname(hostname, sizeof(hostname));
+        if (ret == SOCKET_ERROR)
+        {
+            return false;
+        }
+        //3.获取主机ip
+        HOSTENT* host = gethostbyname(hostname);
+        if (host == NULL)
+        {
+            return false;
+        }
+        //4.转化为char*并拷贝返回
+        strcpy(ip, inet_ntoa(*(in_addr*)*host->h_addr_list));
+        return true;
+    }
+#endif
+
+    static bool is_ipv4_address(const string& str)
+    {
+        struct sockaddr_in sa;
+        return inet_pton(AF_INET, str.c_str(), &(sa.sin_addr)) != 0;
+    }
+
+    static bool is_ipv6_address(const string& str)
+    {
+        struct sockaddr_in6 sa;
+        return inet_pton(AF_INET6, str.c_str(), &(sa.sin6_addr)) != 0;
+    }
+
     static bool GetHost(const std::string& host, bool& is_ip_v6, std::string& ip)
     {
+#if ARK_PLATFORM == PLATFORM_WIN
+        static WSADATA local_WSAData;
+        if (WSAStartup(MAKEWORD(2, 2), &local_WSAData) == 0)
+        {
+            static char local_ip[256] = { 0 };
+            memset(local_ip, 0x00, sizeof(local_ip));
+            if (GetLocalIP(local_ip))
+            {
+                ip = local_ip;
+                if (is_ipv4_address(ip))
+                {
+                    is_ip_v6 = false;
+                }
+                else if (is_ipv6_address(ip))
+                {
+                    is_ip_v6 = true;
+                }
+            }
+
+            WSACleanup();
+        }
+#else
         struct addrinfo hints, *answer, *curr;
 
         memset(&hints, 0, sizeof(struct addrinfo));
@@ -205,12 +263,12 @@ public:
                 }
                 break;
             default:
-                return false;
+                break;
             }
-
-            return true;
         }
 
-        return false;
+        freeaddrinfo(answer);
+#endif
+        return !ip.empty();
     }
 };
