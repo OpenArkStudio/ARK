@@ -180,19 +180,32 @@ public:
         char ip_v4[16] = { 0 };
         char ip_v6[128] = { 0 };
         int ret = getaddrinfo(host.c_str(), NULL, &hints, &answer);
+        if (ret != 0)
+        {
+            return false;
+        }
+
         for (curr = answer; curr != NULL; curr = curr->ai_next)
         {
-            if (curr->ai_protocol == IPPROTO_IPV6)
+            int pf_family = answer->ai_family;
+            switch (answer->ai_family)
             {
-                is_ip_v6 = true;
-                inet_ntop(AF_INET6, &(((struct sockaddr_in6*)(curr->ai_addr))->sin6_addr), ip_v6, sizeof(ip_v6));
-                ip = ip_v6;
-            }
-            else if (curr->ai_protocol == IPPROTO_IPV4)
-            {
-                is_ip_v6 = false;
-                inet_ntop(AF_INET, &(((struct sockaddr_in*)(curr->ai_addr))->sin_addr), ip_v4, sizeof(ip_v4));
-                ip = ip_v4;
+            case PF_INET:
+                {
+                    is_ip_v6 = false;
+                    inet_ntop(AF_INET, &(((struct sockaddr_in*)(curr->ai_addr))->sin_addr), ip_v4, sizeof(ip_v4));
+                    ip = ip_v4;
+                }
+                break;
+            case PF_INET6:
+                {
+                    is_ip_v6 = true;
+                    inet_ntop(AF_INET6, &(((struct sockaddr_in6*)(curr->ai_addr))->sin6_addr), ip_v6, sizeof(ip_v6));
+                    ip = ip_v6;
+                }
+                break;
+            default:
+                return false;
             }
 
             return true;
