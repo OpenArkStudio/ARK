@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="cpp\AFDefine.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFMsgURl.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFMsgBase.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFMsgMysql.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFMsgPreGame.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFMsgShare.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="AFCProtoModule.cpp" />
+    <ClCompile Include="AFProtoPlugin.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cpp\AFDefine.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFMsgURl.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFMsgBase.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFMsgMysql.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFMsgPreGame.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFMsgShare.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="AFCProtoModule.h" />
+    <ClInclude Include="AFProtoPlugin.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="cpp">
+      <UniqueIdentifier>{fd4ac2be-0b3c-4ce6-a6f8-4211fdce9b73}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

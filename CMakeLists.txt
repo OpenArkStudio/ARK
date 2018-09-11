@@ -82,6 +82,7 @@ message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
 find_package(codecov)
 ##################################################################
 message("Start to build all...")
+add_subdirectory(Frame/Launcher)
 add_subdirectory(Frame/SDK)
 add_subdirectory(Frame/Server)
 #add_subdirectory(Frame/Examples)

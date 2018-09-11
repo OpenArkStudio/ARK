@@ -1,5 +1,5 @@
 #Define sdk plugin building macro
-MACRO(BUILD_SDK_PLUGIN_MACRO project_name)
+macro(BUILD_SDK_PLUGIN_MACRO project_name)
     if(UNIX)
         #Set rpath
         SET(CMAKE_INSTALL_RPATH "./" "../lib/")
@@ -18,7 +18,7 @@ MACRO(BUILD_SDK_PLUGIN_MACRO project_name)
         LIBRARY_OUTPUT_DIRECTORY ${PLUGIN_OUTPUT_DIR}
     )
     target_link_libraries(${project_name} AFCore)
-ENDMACRO(BUILD_SDK_PLUGIN_MACRO project_name)
+endmacro(BUILD_SDK_PLUGIN_MACRO project_name)
 
 ###################################################################################################
 
@@ -27,6 +27,5 @@ add_subdirectory(KernelPlugin)
 add_subdirectory(ConfigPlugin)
 add_subdirectory(BusPlugin)
 add_subdirectory(NetPlugin)
-add_subdirectory(PluginLoader)
 add_subdirectory(ProtoPlugin)
 add_subdirectory(UtilityPlugin)

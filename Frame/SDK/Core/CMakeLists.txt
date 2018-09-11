@@ -1,6 +1,5 @@
 set(project_name AFCore)
-add_subdirectory(Common)
-aux_source_directory(. SDK_SRC)
+file(GLOB SDK_SRC *.h *.hpp *.cpp *.cc *.c Common/*.h Common/*.hpp Common/*.cpp)
 add_library(${project_name} STATIC ${SDK_SRC})
 
 set_target_properties(${project_name} PROPERTIES PREFIX "")
