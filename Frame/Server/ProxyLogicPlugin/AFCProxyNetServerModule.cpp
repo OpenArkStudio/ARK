@@ -86,7 +86,7 @@ int AFCProxyNetServerModule::HB_OnConnectCheckTime(const AFGUID& self, const std
 
 void AFCProxyNetServerModule::OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
-    ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
+    ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
     if (!pSessionData || pSessionData->mnLogicState <= 0 || pSessionData->mnGameID <= 0)
     {
@@ -112,7 +112,7 @@ void AFCProxyNetServerModule::OnConnectKeyProcess(const AFIMsgHead& xHead, const
     if (bRet)
     {
         //可以进入,设置标志，选单服,心跳延迟,进入gs创建角色和删除角色,这里只是转发
-        ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
+        ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
         if (pSessionData)
         {
@@ -149,7 +149,7 @@ void AFCProxyNetServerModule::OnSocketClientEvent(const NetEventType eEvent, con
 
 void AFCProxyNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 {
-    ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
+    ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
     if (pSessionData)
     {
@@ -177,7 +177,7 @@ void AFCProxyNetServerModule::OnSelectServerProcess(const AFIMsgHead& xHead, con
 
     if (pServerData && ConnectData::CONNECTED == pServerData->eState)
     {
-        ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
+        ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
         if (pSessionData)
         {
@@ -205,7 +205,7 @@ void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, co
         return;
     }
 
-    ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
+    ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
     if (pSessionData && pSessionData->mnLogicState > 0)
     {
@@ -237,7 +237,7 @@ void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, co
 
 int AFCProxyNetServerModule::Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen)
 {
-    ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xHead.GetPlayerID());
+    ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xHead.GetPlayerID());
 
     if (pSessionData)
     {
@@ -256,7 +256,7 @@ int AFCProxyNetServerModule::SendToPlayerClient(const int nMsgID, const char* ms
 
 void AFCProxyNetServerModule::OnClientConnected(const AFGUID& xClientID)
 {
-    ARK_SHARE_PTR<SessionData> pSessionData = std::make_shared<SessionData>();
+    ARK_SHARE_PTR<AFSessionData> pSessionData = std::make_shared<AFSessionData>();
 
     pSessionData->mnClientID = xClientID;
     mmSessionData.AddElement(xClientID, pSessionData);
@@ -285,7 +285,7 @@ void AFCProxyNetServerModule::OnReqEnterGameServer(const AFIMsgHead& xHead, cons
 
 int AFCProxyNetServerModule::EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID)
 {
-    ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
+    ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
     if (pSessionData)
     {
@@ -302,7 +302,7 @@ bool AFCProxyNetServerModule::CheckSessionState(const int64_t nGameID, const AFG
     if (pServerData && ConnectData::CONNECTED == pServerData->eState)
     {
         //数据匹配
-        ARK_SHARE_PTR<SessionData> pSessionData = mmSessionData.GetElement(xClientID);
+        ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
         if (pSessionData
                 && pSessionData->mnLogicState > 0

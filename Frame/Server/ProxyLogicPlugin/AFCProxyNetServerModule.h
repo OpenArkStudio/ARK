@@ -88,7 +88,7 @@ protected:
     bool CheckSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount);
 
 private:
-    AFMapEx<AFGUID, SessionData> mmSessionData; //Player Client <--> SessionData
+    AFMapEx<AFGUID, AFSessionData> mmSessionData; //Player Client <--> SessionData
     AFCConsistentHash mxConsistentHash;
 
     AFIProxyServerToWorldModule* m_pProxyToWorldModule;

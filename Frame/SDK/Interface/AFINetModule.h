@@ -118,37 +118,3 @@ private:
     std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
     std::list<NET_RECV_FUNCTOR_PTR> mxCallBackList;
 };
-
-#define ARK_MSG_PROCESS(xHead, nMsgID, msgData, nLen, msgType)                          \
-    AFGUID nPlayerID;                                                                   \
-    msgType xMsg;                                                                       \
-    if (!AFIMsgModule::RecvPB(xHead, msgData, nLen, xMsg, nPlayerID))                   \
-    {                                                                                   \
-        ARK_LOG_ERROR("Parse msg error, nMsgID = %d", nMsgID);                          \
-        return;                                                                         \
-    }                                                                                   \
-                                                                                        \
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(nPlayerID);           \
-    if (nullptr == pEntity)                                                                                                 \
-    {                                                                                                                       \
-        ARK_LOG_ERROR("FromClient Object do not Exist, nMsgID = %d player_id = %s", nMsgID, nPlayerID.ToString().c_str());  \
-        return;                                                                                                             \
-    }
-
-#define ARK_MSG_PROCESS_NO_OBJECT(xHead, msgData, nLen, msgType)                        \
-    AFGUID nPlayerID;                                                                   \
-    msgType xMsg;                                                                       \
-    if (!AFIMsgModule::RecvPB(xHead, msgData, nLen, xMsg, nPlayerID))                   \
-    {                                                                                   \
-        ARK_LOG_ERROR("Parse msg error, nMsgID = %d", nMsgID);                          \
-        return;                                                                         \
-    }
-
-#define  ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen)                     \
-    std::string strMsg;                                                         \
-    AFGUID nPlayerID;                                                           \
-    int nHasKey = 0;                                                            \
-    if (AFIMsgModule::RecvPB((xHead), (msg), (nLen), strMsg, nPlayerID))        \
-    {                                                                           \
-        nHasKey = nPlayerID.nLow;                                               \
-    }

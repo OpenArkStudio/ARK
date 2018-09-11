@@ -18,6 +18,9 @@
 *
 */
 
+#include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Interface/AFIMsgModule.h"
+#include "AFCTCPServer.h"
 #include "AFCNetServerManagerModule.h"
 
 AFCNetServer::AFCNetServer(AFIPluginManager* p)

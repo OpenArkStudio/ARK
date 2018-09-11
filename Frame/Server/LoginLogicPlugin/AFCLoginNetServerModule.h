@@ -68,7 +68,7 @@ protected:
     void SynWorldToClient(const AFGUID& xClientID);
 
 private:
-    AFMapEx<AFGUID, SessionData> mmClientSessionData;
+    AFMapEx<AFGUID, AFSessionData> mmClientSessionData;
 
     AFILoginToMasterModule* m_pLoginToMasterModule;
     AFILogModule* m_pLogModule;

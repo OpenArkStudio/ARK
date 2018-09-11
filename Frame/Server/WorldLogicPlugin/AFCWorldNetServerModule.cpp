@@ -85,11 +85,11 @@ void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const AFIMsgHead& xH
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        ARK_SHARE_PTR<ServerData> pServerData =  mGameMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<AFServerData> pServerData =  mGameMap.GetElement(xData.server_id());
 
         if (nullptr == pServerData)
         {
-            pServerData = std::make_shared<ServerData>();
+            pServerData = std::make_shared<AFServerData>();
             mGameMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -122,11 +122,11 @@ void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const AFIMsgHead& x
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
-        ARK_SHARE_PTR<ServerData> pServerData =  mGameMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<AFServerData> pServerData =  mGameMap.GetElement(xData.server_id());
 
         if (nullptr == pServerData)
         {
-            pServerData = std::make_shared<ServerData>();
+            pServerData = std::make_shared<AFServerData>();
             mGameMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -146,11 +146,11 @@ void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const AFIMsgHead& x
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
-        ARK_SHARE_PTR<ServerData> pServerData =  mProxyMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<AFServerData> pServerData =  mProxyMap.GetElement(xData.server_id());
 
         if (!pServerData)
         {
-            pServerData = std::make_shared<ServerData>();
+            pServerData = std::make_shared<AFServerData>();
             mProxyMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -181,11 +181,11 @@ void AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess(const AFIMsgHead& 
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        ARK_SHARE_PTR<ServerData> pServerData =  mProxyMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<AFServerData> pServerData =  mProxyMap.GetElement(xData.server_id());
 
         if (nullptr == pServerData)
         {
-            pServerData = std::make_shared<ServerData>();
+            pServerData = std::make_shared<AFServerData>();
             mGameMap.AddElement(xData.server_id(), pServerData);
         }
 
@@ -216,7 +216,7 @@ void AFCWorldNetServerModule::OnSocketEvent(const NetEventType eEvent, const AFG
 
 void AFCWorldNetServerModule::SynGameToProxy()
 {
-    ARK_SHARE_PTR<ServerData> pServerData =  mProxyMap.First();
+    ARK_SHARE_PTR<AFServerData> pServerData =  mProxyMap.First();
 
     while (nullptr != pServerData)
     {
@@ -229,7 +229,7 @@ void AFCWorldNetServerModule::SynGameToProxy(const AFGUID& xClientID)
 {
     AFMsg::ServerInfoReportList xData;
 
-    ARK_SHARE_PTR<ServerData> pServerData =  mGameMap.First();
+    ARK_SHARE_PTR<AFServerData> pServerData =  mGameMap.First();
 
     while (nullptr != pServerData)
     {
@@ -245,7 +245,7 @@ void AFCWorldNetServerModule::SynGameToProxy(const AFGUID& xClientID)
 void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 {
     //不管是game还是proxy都要找出来,替他反注册
-    ARK_SHARE_PTR<ServerData> pServerData =  mGameMap.First();
+    ARK_SHARE_PTR<AFServerData> pServerData =  mGameMap.First();
 
     while (nullptr != pServerData)
     {
@@ -296,7 +296,7 @@ void AFCWorldNetServerModule::LogGameServer()
     //////////////////////////////////////////////////////////////////////////
     ARK_LOG_INFO("Begin Log GameServer Info---------------------------");
 
-    for (ARK_SHARE_PTR<ServerData> pGameData = mGameMap.First(); pGameData != nullptr; pGameData = mGameMap.Next())
+    for (ARK_SHARE_PTR<AFServerData> pGameData = mGameMap.First(); pGameData != nullptr; pGameData = mGameMap.Next())
     {
         ARK_LOG_INFO("Type[{}] ID[{}] State[{}] IP[{}] xClient[{}]",
                      pGameData->pData->server_type(),
@@ -310,7 +310,7 @@ void AFCWorldNetServerModule::LogGameServer()
     //////////////////////////////////////////////////////////////////////////
     ARK_LOG_INFO("Begin Log ProxyServer Info---------------------------");
 
-    for (ARK_SHARE_PTR<ServerData> pGameData = mProxyMap.First(); pGameData != nullptr; pGameData = mProxyMap.Next())
+    for (ARK_SHARE_PTR<AFServerData> pGameData = mProxyMap.First(); pGameData != nullptr; pGameData = mProxyMap.Next())
     {
         ARK_LOG_INFO("Type[{}] ID[{}] State[{}] IP[{}] xClient[{}]",
                      pGameData->pData->server_type(),
@@ -337,7 +337,7 @@ void AFCWorldNetServerModule::OnOfflineProcess(const AFIMsgHead& xHead, const in
 
 bool AFCWorldNetServerModule::SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer)
 {
-    ARK_SHARE_PTR<ServerData> pData = mGameMap.GetElement(nGameID);
+    ARK_SHARE_PTR<AFServerData> pData = mGameMap.GetElement(nGameID);
 
     if (nullptr != pData)
     {
@@ -579,7 +579,7 @@ int AFCWorldNetServerModule::OnViewDataTableEnter(const AFIDataList& argVar, con
     return 0;
 }
 
-ARK_SHARE_PTR<ServerData> AFCWorldNetServerModule::GetSuitProxyForEnter()
+ARK_SHARE_PTR<AFServerData> AFCWorldNetServerModule::GetSuitProxyForEnter()
 {
     return mProxyMap.First();
 }

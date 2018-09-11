@@ -73,7 +73,7 @@ int AFCLoginNetServerModule::StartServer()
 
 int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldIP, const int nWorldPort, const std::string& strWorldKey)
 {
-    ARK_SHARE_PTR<SessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
+    ARK_SHARE_PTR<AFSessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
 
     if (pSessionData != nullptr)
     {
@@ -94,7 +94,7 @@ int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, con
 
 void AFCLoginNetServerModule::OnClientConnected(const AFGUID& xClientID)
 {
-    ARK_SHARE_PTR<SessionData> pSessionData = std::make_shared<SessionData>();
+    ARK_SHARE_PTR<AFSessionData> pSessionData = std::make_shared<AFSessionData>();
 
     pSessionData->mnClientID = xClientID;
     mmClientSessionData.AddElement(xClientID, pSessionData);
@@ -108,7 +108,7 @@ void AFCLoginNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
-    ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
+    ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(xClientID);
 
     if (pSession == nullptr)
     {
@@ -146,7 +146,7 @@ void AFCLoginNetServerModule::OnLoginProcess(const AFIMsgHead& xHead, const int 
 void AFCLoginNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
-    ARK_SHARE_PTR<SessionData> pSession = mmClientSessionData.GetElement(xClientID);
+    ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(xClientID);
 
     if (!pSession)
     {

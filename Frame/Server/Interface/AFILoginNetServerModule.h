@@ -21,7 +21,6 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Interface/AFINetServerModule.h"
 
 class AFILoginNetServerModule : public AFIModule
 {

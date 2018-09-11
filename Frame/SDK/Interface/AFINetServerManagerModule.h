@@ -20,8 +20,9 @@
 
 #pragma once
 
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIModule.h"
-#include "AFINetServerModule.h"
+#include "SDK/Interface/AFINet.h"
 
 class AFServerData
 {

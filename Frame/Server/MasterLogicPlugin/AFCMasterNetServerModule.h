@@ -21,13 +21,12 @@
 #pragma once
 
 #include "Common/AFProtoCPP.hpp"
-#include "SDK/Interface/AFIKernelModule.h"
+#include "SDK/Core/AFMap.hpp"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFINetServerManagerModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
 #include "Server/Interface/AFIMasterNetServerModule.h"
 
 class AFCMasterNetServerModule : public AFIMasterNetServerModule
@@ -81,8 +80,8 @@ private:
     int64_t mnLastLogTime;
 
     //serverid,data
-    AFMapEx<int, ServerData> mWorldMap;
-    AFMapEx<int, ServerData> mLoginMap;
+    AFMapEx<int, AFServerData> mWorldMap;
+    AFMapEx<int, AFServerData> mLoginMap;
 
     AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;

@@ -49,7 +49,7 @@ public:
     class GateServerInfo
     {
     public:
-        ServerData xServerData;
+        AFServerData xServerData;
         //此网关上所有的对象<角色ID,gate_FD>
         std::map<AFGUID, AFGUID> xRoleInfo;
     };

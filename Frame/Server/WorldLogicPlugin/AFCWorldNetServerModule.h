@@ -60,7 +60,7 @@ public:
     virtual int OnViewDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
     virtual int OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID);
 
-    virtual ARK_SHARE_PTR<ServerData> GetSuitProxyForEnter();
+    virtual ARK_SHARE_PTR<AFServerData> GetSuitProxyForEnter();
     virtual AFINetServer* GetNetServer();
 
     virtual int GetPlayerGameID(const AFGUID self);
@@ -99,8 +99,8 @@ private:
     int64_t mnLastCheckTime;
 
     //serverid,data
-    AFMapEx<int, ServerData> mGameMap;
-    AFMapEx<int, ServerData> mProxyMap;
+    AFMapEx<int, AFServerData> mGameMap;
+    AFMapEx<int, AFServerData> mProxyMap;
 
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;

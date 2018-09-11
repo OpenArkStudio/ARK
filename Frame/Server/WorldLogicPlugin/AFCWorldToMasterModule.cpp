@@ -143,7 +143,7 @@ void AFCWorldToMasterModule::OnSelectServerProcess(const AFIMsgHead& xHead, cons
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
 
-    ARK_SHARE_PTR<ServerData> xServerData = m_pWorldNetServerModule->GetSuitProxyForEnter();
+    ARK_SHARE_PTR<AFServerData> xServerData = m_pWorldNetServerModule->GetSuitProxyForEnter();
 
     if (xServerData)
     {
