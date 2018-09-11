@@ -43,10 +43,8 @@ public:
         pPluginManager = p;
     }
 
-    virtual bool PostInit();
+    bool Init() override;
 
-    virtual void LogReceive(const char* str) {/*Will add*/ }
-    virtual void LogSend(const char* str) {/*will add*/}
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self);
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self);
     virtual AFINetServer* GetNetServer();

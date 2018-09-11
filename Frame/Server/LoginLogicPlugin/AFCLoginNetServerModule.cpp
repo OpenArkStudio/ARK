@@ -20,10 +20,7 @@
 
 #include "AFCLoginNetServerModule.h"
 
-const std::string PROPERTY_ACCOUNT = "Account";
-const std::string PROPERTY_VERIFIED = "Verified";
-
-bool AFCLoginNetServerModule::PostInit()
+bool AFCLoginNetServerModule::Init()
 {
     m_pLoginLogicModule = pPluginManager->FindModule<AFILoginLogicModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();

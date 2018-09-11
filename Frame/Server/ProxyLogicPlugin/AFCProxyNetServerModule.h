@@ -42,7 +42,7 @@ public:
         pPluginManager = p;
     }
 
-    virtual bool PostInit();
+    bool Init() override;
     virtual bool Update();
 
     virtual int Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen);

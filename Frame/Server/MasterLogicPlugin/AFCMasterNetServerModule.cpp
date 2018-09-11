@@ -20,7 +20,7 @@
 
 #include "AFCMasterNetServerModule.h"
 
-bool AFCMasterNetServerModule::PostInit()
+bool AFCMasterNetServerModule::Init()
 {
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pBusModule = pPluginManager->FindModule<AFIBusModule>();

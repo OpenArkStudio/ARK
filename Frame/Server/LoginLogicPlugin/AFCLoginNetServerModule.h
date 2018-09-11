@@ -37,7 +37,7 @@ public:
         pPluginManager = p;
     }
 
-    virtual bool PostInit();
+    bool Init() override;
 
     virtual void LogReceive(const char* str) {/*log*/}
     virtual void LogSend(const char* str) {/*log*/}

@@ -22,7 +22,7 @@
 #include "Common/AFProtoCPP.hpp"
 #include "SDK/Core/AFDataNode.hpp"
 
-bool AFCWorldNetServerModule::PostInit()
+bool AFCWorldNetServerModule::Init()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();

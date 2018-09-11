@@ -38,7 +38,7 @@ public:
         mnLastLogTime = pPluginManager->GetNowTime();
     }
 
-    virtual bool PostInit();
+    bool Init() override;
     virtual bool Update();
 
     virtual void LogReceive(const char* str) {/*log*/}

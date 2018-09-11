@@ -24,7 +24,7 @@
 #include "SDK/Core/AFDataNode.hpp"
 #include "AFCGameNetServerModule.h"
 
-bool AFCGameNetServerModule::PostInit()
+bool AFCGameNetServerModule::Init()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();

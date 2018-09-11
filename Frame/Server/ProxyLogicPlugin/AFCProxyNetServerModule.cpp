@@ -21,7 +21,7 @@
 #include "AFCProxyNetServerModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 
-bool AFCProxyNetServerModule::PostInit()
+bool AFCProxyNetServerModule::Init()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pProxyToWorldModule = pPluginManager->FindModule<AFIProxyServerToWorldModule>();
