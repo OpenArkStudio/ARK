@@ -44,8 +44,8 @@ public:
     {
         SetWorking(false);
 
-        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
-        m_plistenThread = brynet::net::ListenThread::Create();
+        m_pTCPService = std::make_shared<brynet::net::WrapTcpService>();
+        m_pListenThread = brynet::net::ListenThread::Create();
     }
 
     template<typename BaseType>
@@ -59,8 +59,8 @@ public:
         mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         bWorking = false;
 
-        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
-        m_plistenThread = brynet::net::ListenThread::Create();
+        m_pTCPService = std::make_shared<brynet::net::WrapTcpService>();
+        m_pListenThread = brynet::net::ListenThread::Create();
     }
 
     virtual ~AFCWebSocktServer()
@@ -70,7 +70,7 @@ public:
 
     virtual void Update();
 
-    virtual int Start(const int nServerID, const std::string& strAddrPort, const int nThreadCount, const unsigned int nMaxClient);
+    virtual bool Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false);
     virtual bool Shutdown() final;
     virtual bool IsServer()
     {
@@ -120,8 +120,8 @@ private:
     NET_RECV_FUNCTOR mRecvCB{ nullptr };
     NET_EVENT_FUNCTOR mEventCB{ nullptr };
 
-    brynet::net::WrapTcpService::PTR m_pServer{ nullptr };
-    brynet::net::ListenThread::PTR m_plistenThread{ nullptr };
+    brynet::net::WrapTcpService::PTR m_pTCPService{ nullptr };
+    brynet::net::ListenThread::PTR m_pListenThread{ nullptr };
     std::atomic<std::uint64_t> nNextID{ 0 };
 };
 

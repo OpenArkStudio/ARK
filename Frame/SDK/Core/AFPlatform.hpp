@@ -58,6 +58,7 @@
 #include <future>
 #include <ctime>
 #include <bitset>
+#include <regex>
 
 #define NOMINMAX
 #if defined(__WIN32__) || defined(WIN32) || defined(_WIN32) || defined(__WIN64__) || defined(WIN64) || defined(_WIN64)
@@ -191,3 +192,11 @@
 #endif // X64
 
 #define ARK_LITTLE_ENDIAN
+
+#if ARK_PLATFORM == PLATFORM_WIN
+#pragma warning(disable:4251)
+#pragma warning(disable:4267)
+#pragma warning(disable:4305)
+#pragma warning(disable:4800)
+#pragma warning(disable:4996)
+#endif

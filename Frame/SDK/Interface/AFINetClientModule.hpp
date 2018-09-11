@@ -47,7 +47,7 @@ public:
     uint8_t eServerType{ ARK_APP_TYPE::ARK_APP_DEFAULT };
     std::string strIP{ "" };
     int nPort{ 0 };
-    std::string strIPAndPort{ "" };
+    std::string strIPAndPort{ "" }; //TODO:delete
     std::string strName{ "" };
     ConnectState eState{ DISCONNECT };
     int64_t mnLastActionTime{ 0 };
@@ -310,7 +310,7 @@ protected:
                     pServerData->eState = ConnectData::CONNECTING;
                     //TODO:修改为通过外部传入的内容来区分tcp http wss
                     pServerData->mxNetClientPtr = std::make_shared<AFCTCPClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
-                    pServerData->mxNetClientPtr->Start(pServerData->nGameID, pServerData->strIPAndPort);
+                    pServerData->mxNetClientPtr->Start(pServerData->nGameID, pServerData->strIP, pServerData->nPort, false);
                 }
                 break;
 
@@ -420,7 +420,7 @@ private:
 
                 xServerData->mxNetClientPtr = std::make_shared<AFCTCPClient>(this, &AFINetClientModule::OnReceiveNetPack, &AFINetClientModule::OnSocketNetEvent);
 
-                xServerData->mxNetClientPtr->Start(xServerData->nGameID, xServerData->strIPAndPort);
+                xServerData->mxNetClientPtr->Start(xServerData->nGameID, xServerData->strIP, xServerData->nPort);
 
                 if (!mxServerMap.AddElement(xInfo.nGameID, xServerData))
                 {

@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2017 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,9 +20,12 @@
 
 #pragma once
 
-#include "SDK/ProtoPlugin/cpp/AFDefine.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFMsgBase.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFMsgPreGame.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFMsgShare.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFMsgURl.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFMsgMysql.pb.h"
+#include "SDK/Interface/AFIModule.h"
+#include "google/protobuf/message.h"
+
+class AFIProtoModule : public AFIModule
+{
+public:
+    virtual bool PackPBMsg(const google::protobuf::Message* message, OUT std::string& msg) = 0;
+    virtual bool UnpackPBMsg(OUT google::protobuf::Message* message, const std::string& msg) = 0;
+};

@@ -36,20 +36,44 @@ AFCNetServer::~AFCNetServer()
 
 int AFCNetServer::Start(const int bus_id, const std::string& url, const uint8_t thread_count, const uint32_t max_connection)
 {
-    size_t tcp_pos = url.find_first_of("tcp://");
-    if (tcp_pos != std::string::npos)
+    std::regex reg("(tcp|udp|wss|http|https)://([^/ :]+):?([^/ ]*)");
+    std::cmatch what;
+    if (std::regex_match(url.c_str(), what, reg))
     {
-        m_pNet = ARK_NEW AFCTCPServer(this, &AFCNetServer::OnRecvNetPack, &AFCNetServer::OnSocketNetEvent);
-        return m_pNet->Start(bus_id, url, thread_count, max_connection);
-    }
+        string protocol = string(what[1].first, what[1].second);
+        string domain = string(what[2].first, what[2].second);
+        string port = string(what[3].first, what[3].second);
 
-    //TODO:will add websocket server and http(s) server
-    //size_t wss_pos = url.find_first_of("wss://");
-    //if (wss_pos != std::string::npos)
-    //{
-    //    m_pNet = ARK_NEW AFCWebSocktServer(this, &AFIMsgModule::OnReceiveNetPack, &AFIMsgModule::OnSocketNetEvent);
-    //    return m_pNet->Start(nServerID, url, thread_count, nMaxClient);
-    //}
+        bool is_ip_v6 = false;
+        std::string ip = {};
+        if (!AFMisc::GetHost(domain, is_ip_v6, ip))
+        {
+            return false;
+        }
+
+        if (protocol == "tcp")
+        {
+            m_pNet = ARK_NEW AFCTCPServer(this, &AFCNetServer::OnRecvNetPack, &AFCNetServer::OnSocketNetEvent);
+            return m_pNet->Start(bus_id, ip, ARK_LEXICAL_CAST<int>(port), thread_count, max_connection, is_ip_v6);
+        }
+        else if (protocol == "udp")
+        {
+            //for now, do not support udp server
+        }
+        else if (protocol == "wss")
+        {
+            //will add websocket server
+        }
+        else
+        {
+            //other protocol will be supported
+            return -1;
+        }
+    }
+    else
+    {
+        return -1;
+    }
 
     return -1;
 }

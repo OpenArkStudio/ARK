@@ -309,7 +309,7 @@ public:
         _ts = TimeVal(time * Resolution()) + tzd * AFTimespan::HOUR_MS;
     }
 
-    //Copy constructor.
+    //Copy constructor
     AFDateTime(const AFDateTime& other)
     {
         _ts = other._ts;
@@ -323,6 +323,7 @@ public:
     AFDateTime& operator = (const AFDateTime& other)
     {
         _ts = other._ts;
+        return *this;
     }
 
     AFDateTime& operator = (TimeVal& tv)

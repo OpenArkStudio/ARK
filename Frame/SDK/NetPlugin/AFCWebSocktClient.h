@@ -68,7 +68,7 @@ public:
     };
 
     virtual void Update();
-    virtual void Start(const int nServerID, const std::string& strAddrPort);
+    virtual bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false);
     virtual bool Shutdown() final;
     virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID = 0, const AFGUID& xPlayerID = 0);
 
@@ -100,7 +100,7 @@ protected:
 private:
     std::unique_ptr<AFHttpEntity> m_pClientEntity{ nullptr };
     std::string mstrIPPort{};
-    int mnServerID{ 0 };
+    int mnTargetBusID{ 0 };
     NET_RECV_FUNCTOR mRecvCB{ nullptr };
     NET_EVENT_FUNCTOR mEventCB{ nullptr };
     AFCReaderWriterLock mRWLock;

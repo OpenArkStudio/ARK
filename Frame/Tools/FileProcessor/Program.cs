@@ -124,8 +124,8 @@ namespace ARK
             root.AppendChild(classElement);
             classElement.SetAttribute("Id", "IObject");
             classElement.SetAttribute("Type", "TYPE_IOBJECT");
-            classElement.SetAttribute("Path", strBasePath + strSchemaPath + "IObject.xml");
-            classElement.SetAttribute("ResPath", strBasePath + strResPath + "IObject.xml");
+            classElement.SetAttribute("Path", strSchemaPath + "IObject.xml");
+            classElement.SetAttribute("ResPath", strResPath + "IObject.xml");
             classElement.SetAttribute("Public", "0");
             classElement.SetAttribute("Desc", "IObject");
 
@@ -173,8 +173,8 @@ namespace ARK
 
                 subClassElement.SetAttribute("Id", strFileName);
                 subClassElement.SetAttribute("Type", "TYPE_" + strFileName.ToUpper());
-                subClassElement.SetAttribute("Path", strBasePath + strSchemaPath + strFileName + ".xml");
-                subClassElement.SetAttribute("ResPath", strBasePath + strResPath + strFileName + ".xml");
+                subClassElement.SetAttribute("Path", strSchemaPath + strFileName + ".xml");
+                subClassElement.SetAttribute("ResPath", strResPath + strFileName + ".xml");
                 subClassElement.SetAttribute("Public", "0");
                 subClassElement.SetAttribute("Desc", strFileName);
             }

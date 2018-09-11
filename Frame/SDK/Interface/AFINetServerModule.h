@@ -104,7 +104,7 @@ public:
         if (tcp_pos != std::string::npos)
         {
             m_pNet = ARK_NEW AFCTCPServer(this, &AFINetServerModule::OnRecvNetPack, &AFINetServerModule::OnSocketNetEvent);
-            return m_pNet->Start(bus_id, url, thread_count, nMaxClient);
+            //return m_pNet->Start(bus_id, url, thread_count, nMaxClient);
         }
 
         //size_t wss_pos = url.find_first_of("wss://");

@@ -25,22 +25,18 @@ void AFCWebSocktServer::Update()
     ProcessMsgLogicThread();
 }
 
-int AFCWebSocktServer::Start(const int nServerID, const std::string& strAddrPort, const int nThreadCount, const unsigned int nMaxClient)
+bool AFCWebSocktServer::Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6/* = false*/)
 {
-    std::string strHost;
-    int port;
-    SplitHostPort(strAddrPort, strHost, port);
-    m_plistenThread->startListen(false, strHost, port, std::bind(&AFCWebSocktServer::OnAcceptConnectionInner, this, std::placeholders::_1));
-
-    m_pServer->startWorkThread(nThreadCount);
-    return 0;
+    m_pListenThread->startListen(ip_v6, ip, port, std::bind(&AFCWebSocktServer::OnAcceptConnectionInner, this, std::placeholders::_1));
+    m_pTCPService->startWorkThread(thread_num);
+    return true;
 }
 
 void AFCWebSocktServer::OnAcceptConnectionInner(brynet::net::TcpSocket::PTR socket)
 {
-    m_pServer->addSession(std::move(socket),
-                          brynet::net::AddSessionOption::WithEnterCallback(
-                              [this](const brynet::net::TCPSession::PTR & session)
+    m_pTCPService->addSession(std::move(socket),
+                              brynet::net::AddSessionOption::WithEnterCallback(
+                                  [this](const brynet::net::TCPSession::PTR & session)
     {
         brynet::net::HttpService::setup(session, std::bind(&AFCWebSocktServer::OnHttpConnect, this, std::placeholders::_1));
     }), brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));

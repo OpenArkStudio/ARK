@@ -43,7 +43,7 @@ public:
         , mnNextID(1)
     {
 
-        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+        m_pTCPService = std::make_shared<brynet::net::WrapTcpService>();
         m_plistenThread = brynet::net::ListenThread::Create();
     }
 
@@ -58,7 +58,7 @@ public:
         mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
         SetWorking(false);
 
-        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+        m_pTCPService = std::make_shared<brynet::net::WrapTcpService>();
         m_plistenThread = brynet::net::ListenThread::Create();
     }
 
@@ -69,7 +69,7 @@ public:
 
     virtual void Update();
 
-    virtual int Start(const int nServerID, const std::string& strAddrPort, const int nThreadCount, const unsigned int nMaxClient);
+    virtual bool Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false);
     virtual bool Shutdown() final;
     virtual bool IsServer()
     {
@@ -120,7 +120,7 @@ private:
     NET_RECV_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
 
-    brynet::net::WrapTcpService::PTR m_pServer;
+    brynet::net::WrapTcpService::PTR m_pTCPService;
     brynet::net::ListenThread::PTR m_plistenThread;
     std::atomic<std::int64_t> mnNextID;
 };

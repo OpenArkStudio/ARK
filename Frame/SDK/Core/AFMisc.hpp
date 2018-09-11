@@ -22,6 +22,14 @@
 
 #include "AFMacros.hpp"
 
+#if ARK_PLATFORM == PLATFORM_WIN
+#include <ws2tcpip.h>
+#else
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#endif
+
 class AFMisc
 {
 public:
@@ -150,5 +158,44 @@ public:
         {
             return isdigit(c);
         }));
+    }
+
+    static bool IsDomain(const std::string& host)
+    {
+        return (inet_addr(host.c_str()) != INADDR_NONE);
+    }
+
+    static bool GetHost(const std::string& host, bool& is_ip_v6, std::string& ip)
+    {
+        struct addrinfo hints, *answer, *curr;
+
+        memset(&hints, 0, sizeof(struct addrinfo));
+        hints.ai_family = AF_UNSPEC;
+        hints.ai_socktype = SOCK_STREAM;
+        hints.ai_flags = AI_CANONNAME;
+        hints.ai_protocol = 0;  /* any protocol */
+
+        char ip_v4[16] = { 0 };
+        char ip_v6[128] = { 0 };
+        int ret = getaddrinfo(host.c_str(), NULL, &hints, &answer);
+        for (curr = answer; curr != NULL; curr = curr->ai_next)
+        {
+            if (curr->ai_protocol == IPPROTO_IPV6)
+            {
+                is_ip_v6 = true;
+                inet_ntop(AF_INET6, &(((struct sockaddr_in6*)(curr->ai_addr))->sin6_addr), ip_v6, sizeof(ip_v6));
+                ip = ip_v6;
+            }
+            else if (curr->ai_protocol == IPPROTO_IPV4)
+            {
+                is_ip_v6 = false;
+                inet_ntop(AF_INET, &(((struct sockaddr_in*)(curr->ai_addr))->sin_addr), ip_v4, sizeof(ip_v4));
+                ip = ip_v4;
+            }
+
+            return true;
+        }
+
+        return false;
     }
 };

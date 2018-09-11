@@ -33,9 +33,7 @@ AFCBusModule::AFCBusModule(AFIPluginManager* p)
 
 bool AFCBusModule::LoadProcConfig()
 {
-    std::string proc_file_path = "bus/proc.xml";
-
-    std::string proc_file = pPluginManager->GetResPath() + proc_file_path;
+    std::string proc_file = ".\\bus_conf\\proc.xml";
     rapidxml::file<> xFileSource(proc_file.c_str());
     rapidxml::xml_document<> xFileDoc;
     xFileDoc.parse<0>(xFileSource.data());
@@ -109,8 +107,7 @@ bool AFCBusModule::LoadProcConfig()
 bool AFCBusModule::LoadBusRelation()
 {
     //load bus relation files
-    std::string bus_file_path = "bus/bus_relation.xml";
-    std::string bus_file = pPluginManager->GetResPath() + bus_file_path;
+    std::string bus_file = ".\\bus_conf\\bus_relation.xml";
 
     rapidxml::file<> xFileSource(bus_file.c_str());
     rapidxml::xml_document<> xFileDoc;

@@ -334,10 +334,14 @@ public:
 
     //need to call this function every frame to drive network library
     virtual void Update() = 0;
-    virtual void Start(const int nServerID, const std::string& strAddrPort) {/*Just a base class function*/}
-    virtual int Start(const int nServerID, const std::string& strAddrPort, const int nThreadCount, const unsigned int nMaxClient)
+    virtual bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false)
     {
-        return -1;
+        return false;
+    }
+    virtual bool Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false)
+    {
+        //base class
+        return false;
     }
 
     virtual bool Shutdown() = 0;
@@ -375,26 +379,26 @@ public:
 
     bool SplitHostPort(const std::string& strIpPort, std::string& host, int& port)
     {
-        std::string a = strIpPort;
+        std::string url = strIpPort;
 
-        if (a.empty())
+        if (url.empty())
         {
             return false;
         }
 
-        size_t index = a.rfind(':');
+        size_t index = url.rfind(':');
 
         if (index == std::string::npos)
         {
             return false;
         }
 
-        if (index == a.size() - 1)
+        if (index == url.size() - 1)
         {
             return false;
         }
 
-        port = std::atoi(&a[index + 1]);
+        port = std::atoi(&url[index + 1]);
 
         host = std::string(strIpPort, 0, index);
 

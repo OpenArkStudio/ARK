@@ -167,7 +167,7 @@ void AFCPluginManager::SetPluginConf(const std::string& strFileName)
         return;
     }
 
-    if (strFileName.find(".xml") == string::npos)
+    if (strFileName.find(".plugin") == string::npos)
     {
         return;
     }
@@ -312,14 +312,14 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
         char* error = dlerror();
         if (error)
         {
-            CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNO = [" << error << "]" << std::endl;
+            CONSOLE_LOG << stderr << " Load shared library[" << pLib->GetName() << "] failed, ErrorNo. = [" << error << "]" << std::endl;
             CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
             assert(0);
             return false;
         }
 
 #elif ARK_PLATFORM == PLATFORM_WIN
-        CONSOLE_LOG << stderr << " Load dynamic library[" << pLib->GetName() << "] failed, ErrorNO = [" << GetLastError() << "]" << std::endl;
+        CONSOLE_LOG << "Load dynamic library[" << pLib->GetName() << "] failed, ErrorNo. = [" << GetLastError() << "]" << std::endl;
         CONSOLE_LOG << "Load [" << pLib->GetName() << "] failed" << std::endl;
         assert(0);
         return false;

@@ -77,12 +77,12 @@ void AFCTCPClient::ProcessMsgLogicThread(AFTCPEntity* pEntity)
             break;
 
         case CONNECTED:
-            mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
+            mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnTargetBusID);
             break;
 
         case DISCONNECTED:
             {
-                mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
+                mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnTargetBusID);
                 pEntity->SetNeedRemove(true);
             }
             break;
@@ -96,32 +96,30 @@ void AFCTCPClient::ProcessMsgLogicThread(AFTCPEntity* pEntity)
 }
 
 
-void AFCTCPClient::Start(const int nServerID, const std::string& strAddrPort)
+bool AFCTCPClient::Start(const int target_busid, const std::string& ip, const int port, bool ip_v6/* = false*/)
 {
-    mnServerID = nServerID;
-    m_pServer->startWorkThread(1);
+    mnTargetBusID = target_busid;
+    m_pTCPService->startWorkThread(1);
     m_pConector->startWorkerThread();
 
-    std::string strIp;
-    int nPort(0);
-    const int nTimeOut(20);
-
-    SplitHostPort(strAddrPort, strIp, nPort);
-    brynet::net::TcpSocket::PTR SocketPtr = brynet::net::SyncConnectSocket(strIp, nPort, std::chrono::milliseconds(nTimeOut), m_pConector);
+    //TODO:为什么这里没有ipv6的设置
+    std::chrono::milliseconds time_out(5000);
+    brynet::net::TcpSocket::PTR SocketPtr = brynet::net::SyncConnectSocket(ip, port, std::chrono::milliseconds(time_out), m_pConector);
 
     if (SocketPtr == nullptr)
     {
-        return;
+        return false;
     }
 
     CONSOLE_LOG_NO_FILE << "connect success" << std::endl;
     SocketPtr->SocketNodelay();
     auto enterCallback = std::bind(&AFCTCPClient::OnClientConnectionInner, this, std::placeholders::_1);
 
-    m_pServer->addSession(std::move(SocketPtr),
-                          brynet::net::AddSessionOption::WithEnterCallback(enterCallback),
-                          brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));
+    m_pTCPService->addSession(std::move(SocketPtr),
+                              brynet::net::AddSessionOption::WithEnterCallback(enterCallback),
+                              brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));
     SetWorking(true);
+    return true;
 }
 
 bool AFCTCPClient::Shutdown()
@@ -132,7 +130,7 @@ bool AFCTCPClient::Shutdown()
     }
 
     m_pConector->stopWorkerThread();
-    m_pServer->stopWorkThread();
+    m_pTCPService->stopWorkThread();
     SetWorking(false);
     return true;
 }

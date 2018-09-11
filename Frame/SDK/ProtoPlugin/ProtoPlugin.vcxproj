@@ -11,21 +11,21 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B65A0FB2-E49B-4FE9-93F7-EAE6B8E51944}</ProjectGuid>
+    <ProjectGuid>{3D9DB426-BA46-450B-BBAC-DABB6B6D69DE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>AFPluginLoader</RootNamespace>
+    <RootNamespace>AFMessageDefine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>PluginLoader</ProjectName>
+    <ProjectName>AFProtoPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>MultiByte</CharacterSet>
     <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
@@ -42,73 +42,87 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\Temp\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <TargetName>$(ProjectName)_d</TargetName>
-    <OutDir>$(SolutionDir)..\Bin\bin\</OutDir>
-    <EmbedManifest>false</EmbedManifest>
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)..\Bin\bin\</OutDir>
+    <OutDir>$(SolutionDir)..\Temp\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_X64;_DEBUG;_CONSOLE;AF_DYNAMIC_PLUGIN;ELPP_NO_DEFAULT_LOG_FILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_X64;_DEBUG;_USRDLL;_LIB;PROTOBUF_USE_DLLS;LIBPROTOC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\protobuf\src</AdditionalIncludeDirectories>
       <BrowseInformation>false</BrowseInformation>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\bin\;$(SolutionDir)..\Dep\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <IgnoreSpecificDefaultLibraries>libcpmtd.lib;libcmtd.lib</IgnoreSpecificDefaultLibraries>
-      <AdditionalDep>%(AdditionalDep)</AdditionalDep>
+      <AdditionalDep>$(SolutionDir)..\Bin\Comm\$(Configuration)\libprotobuf_d.lib;%(AdditionalDep)</AdditionalDep>
+      <AdditionalDependencies>libprotobufd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\lib\;$(SolutionDir)..\Dep\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
-    <PostBuildEvent>
-      <Command>
-      </Command>
-    </PostBuildEvent>
+    <Lib>
+      <TargetMachine>MachineX64</TargetMachine>
+    </Lib>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
+    <PostBuildEvent>
+      <Command>xcopy /Y $(TargetPath) $(SolutionDir)..\Bin\lib
+xcopy /Y $(OutputPath)$(TargetName).lib $(SolutionDir)..\Bin\lib</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level1</WarningLevel>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_X64;NDEBUG;_CONSOLE;AF_DYNAMIC_PLUGIN;_WIN64;ELPP_NO_DEFAULT_LOG_FILE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <ExceptionHandling>Sync</ExceptionHandling>
+      <PreprocessorDefinitions>_X64;NDEBUG;_LIB;PROTOBUF_USE_DLLS;LIBPROTOC_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\protobuf\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\bin\;$(SolutionDir)..\Dep\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDep>$(SolutionDir)..\Bin\Comm\$(Configuration)\libprotobuf.lib;%(AdditionalDep)</AdditionalDep>
+      <AdditionalDependencies>libprotobuf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\lib\;$(SolutionDir)..\Dep\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy /Y $(TargetPath) $(SolutionDir)..\Bin\lib
+xcopy /Y $(OutputPath)$(ProjectName).lib $(SolutionDir)..\Bin\lib</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AFCDynLib.h" />
-    <ClInclude Include="AFCPluginManager.h" />
+    <ClInclude Include="AFCProtoModule.h" />
+    <ClInclude Include="AFProtoPlugin.h" />
+    <ClInclude Include="cpp\AFDefine.pb.h" />
+    <ClInclude Include="cpp\AFMsgBase.pb.h" />
+    <ClInclude Include="cpp\AFMsgMysql.pb.h" />
+    <ClInclude Include="cpp\AFMsgPreGame.pb.h" />
+    <ClInclude Include="cpp\AFMsgShare.pb.h" />
+    <ClInclude Include="cpp\AFMsgURl.pb.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCDynLib.cpp" />
-    <ClCompile Include="AFCPluginManager.cpp" />
-    <ClCompile Include="AFMain.cpp" />
+    <ClCompile Include="AFCProtoModule.cpp" />
+    <ClCompile Include="AFProtoPlugin.cpp" />
+    <ClCompile Include="cpp\AFDefine.pb.cc" />
+    <ClCompile Include="cpp\AFMsgBase.pb.cc" />
+    <ClCompile Include="cpp\AFMsgMysql.pb.cc" />
+    <ClCompile Include="cpp\AFMsgPreGame.pb.cc" />
+    <ClCompile Include="cpp\AFMsgShare.pb.cc" />
+    <ClCompile Include="cpp\AFMsgURl.pb.cc" />
+    <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

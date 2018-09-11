@@ -77,12 +77,12 @@ void AFCWebSocktClient::ProcessMsgLogicThread(AFHttpEntity* pEntity)
             break;
 
         case CONNECTED:
-            mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
+            mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnTargetBusID);
             break;
 
         case DISCONNECTED:
             {
-                mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
+                mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnTargetBusID);
                 pEntity->SetNeedRemove(true);
             }
             break;
@@ -95,16 +95,13 @@ void AFCWebSocktClient::ProcessMsgLogicThread(AFHttpEntity* pEntity)
     }
 }
 
-void AFCWebSocktClient::Start(const int nServerID, const std::string& strAddrPort)
+bool AFCWebSocktClient::Start(const int target_busid, const std::string& ip, const int port, bool ip_v6)
 {
-    mnServerID = nServerID;
+    mnTargetBusID = target_busid;
     m_pServer->startWorkThread(1);
 
-    std::string strIp = "127.0.0.1";
-    int nPort = 8001;
-
-    SplitHostPort(strAddrPort, strIp, nPort);
-    sock fd = brynet::net::base::Connect(false, strIp, nPort);
+    //TODO:为什么这里没有超时时间的设置
+    sock fd = brynet::net::base::Connect(ip_v6, ip, port);
     auto SocketPtr = brynet::net::TcpSocket::Create(fd, false);
     SocketPtr->SocketNodelay();
 
@@ -114,9 +111,9 @@ void AFCWebSocktClient::Start(const int nServerID, const std::string& strAddrPor
         brynet::net::HttpService::setup(session, std::bind(&AFCWebSocktClient::OnHttpConnect, this, std::placeholders::_1));
     };
 
-    m_pServer->addSession(std::move(SocketPtr),
-                          brynet::net::AddSessionOption::WithEnterCallback(enterCallback),
-                          brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));
+    return m_pServer->addSession(std::move(SocketPtr),
+                                 brynet::net::AddSessionOption::WithEnterCallback(enterCallback),
+                                 brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));
 }
 
 void AFCWebSocktClient::OnHttpConnect(const brynet::net::HttpSession::PTR& httpSession)

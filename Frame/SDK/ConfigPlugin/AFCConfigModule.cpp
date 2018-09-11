@@ -139,11 +139,16 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
         const char* pstrConfigName = pAttribute->name();
         const char* pstrConfigValue = pAttribute->value();
 
+        AFDataNode* pNode = pClassNodeManager->GetNode(pstrConfigName);
+        if (pNode == nullptr)
+        {
+            continue;
+        }
+
         AFDataNode TmpNode;
 
-		// null data don't add node;
-        const int eType = TmpNode.GetType();
-        switch (eType)
+        //don't need to add node if it's null data
+        switch (pNode->GetType())
         {
         case DT_BOOLEAN:
             TmpNode.value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
@@ -213,10 +218,10 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
             break;
         }
 
-		if (!TmpNode.GetValue().IsNullValue())
-		{
-			pElementNodeManager->AddNode(TmpNode.name.c_str(), TmpNode.value, TmpNode.feature);
-		}
+        if (!TmpNode.GetValue().IsNullValue())
+        {
+            pElementNodeManager->AddNode(TmpNode.name.c_str(), TmpNode.value, TmpNode.feature);
+        }
     }
 
     pElementNodeManager->SetNodeString("ClassName", pLogicClass->GetClassName().c_str());

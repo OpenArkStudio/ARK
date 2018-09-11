@@ -1,5 +1,5 @@
 <xml>
-	<plugins path="../bin/">
+	<plugins path="../lib/">
 		<plugin name="AFKernelPlugin" />
 		<plugin name="AFConfigPlugin" />
 		<plugin name="AFUtilityPlugin" />
@@ -7,5 +7,5 @@
 		<plugin name="AFNetPlugin" />
 		<plugin name="AFGameLogicPlugin" />
 	</plugins>
-	<res path="../resource/" />
+	<res path="./resource/" />
 </xml>

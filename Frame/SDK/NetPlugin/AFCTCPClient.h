@@ -36,11 +36,11 @@ public:
     {
         if (server)
         {
-            m_pServer = server;
+            m_pTCPService = server;
         }
         else
         {
-            m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+            m_pTCPService = std::make_shared<brynet::net::WrapTcpService>();
         }
 
         if (connector)
@@ -58,10 +58,10 @@ public:
     {
         mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
         mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-        mnServerID = 0;
+        mnTargetBusID = 0;
         nRecvSize = 0;
         nSendSize = 0;
-        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+        m_pTCPService = std::make_shared<brynet::net::WrapTcpService>();
         m_pConector = brynet::net::AsyncConnector::Create();
     }
 
@@ -71,7 +71,7 @@ public:
     }
 
     virtual void Update();
-    virtual void Start(const int nServerID, const std::string& strAddrPort);
+    virtual bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false);
     virtual bool Shutdown() final;
     virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID = 0, const AFGUID& xPlayerID = 0);
 
@@ -100,15 +100,15 @@ protected:
 
 private:
     std::unique_ptr<AFTCPEntity> m_pClientEntity{ nullptr };
-    std::string mstrIPPort{ "" };
-    int mnServerID{ 0 };
+    std::string mstrIPPort{};
+    int mnTargetBusID{ 0 };
     std::atomic<uint64_t> mnNextID{ 0 };
 
     NET_RECV_FUNCTOR mRecvCB;
     NET_EVENT_FUNCTOR mEventCB;
     AFCReaderWriterLock mRWLock;
 
-    brynet::net::WrapTcpService::PTR m_pServer{ nullptr };
+    brynet::net::WrapTcpService::PTR m_pTCPService{ nullptr };
     brynet::net::AsyncConnector::PTR m_pConector{ nullptr };
 };
 

@@ -33,16 +33,12 @@ void AFCTCPServer::Update()
     ProcessMsgLogicThread();
 }
 
-int AFCTCPServer::Start(const int nServerID, const std::string& strAddrPort, const int nThreadCount, const unsigned int nMaxClient)
+bool AFCTCPServer::Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6/* = false*/)
 {
-    std::string strHost;
-    int port;
-    SplitHostPort(strAddrPort, strHost, port);
-    m_plistenThread->startListen(false, strHost, port, std::bind(&AFCTCPServer::OnAcceptConnectionInner, this, std::placeholders::_1));
-
-    m_pServer->startWorkThread(nThreadCount);
+    m_plistenThread->startListen(ip_v6, ip, port, std::bind(&AFCTCPServer::OnAcceptConnectionInner, this, std::placeholders::_1));
+    m_pTCPService->startWorkThread(thread_num);
     SetWorking(true);
-    return 0;
+    return true;
 }
 
 size_t AFCTCPServer::OnMessageInner(const brynet::net::TCPSession::PTR& session, const char* buffer, size_t len)
@@ -62,9 +58,9 @@ size_t AFCTCPServer::OnMessageInner(const brynet::net::TCPSession::PTR& session,
 void AFCTCPServer::OnAcceptConnectionInner(brynet::net::TcpSocket::PTR socket)
 {
     socket->SocketNodelay();
-    m_pServer->addSession(std::move(socket),
-                          brynet::net::AddSessionOption::WithEnterCallback(std::bind(&AFCTCPServer::OnClientConnectionInner, this, std::placeholders::_1)),
-                          brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));
+    m_pTCPService->addSession(std::move(socket),
+                              brynet::net::AddSessionOption::WithEnterCallback(std::bind(&AFCTCPServer::OnClientConnectionInner, this, std::placeholders::_1)),
+                              brynet::net::AddSessionOption::WithMaxRecvBufferSize(1024 * 1024));
 }
 
 void AFCTCPServer::OnClientConnectionInner(const brynet::net::TCPSession::PTR& session)
