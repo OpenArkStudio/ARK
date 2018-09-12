@@ -125,7 +125,6 @@
     <ClInclude Include="AFCTCPServer.h" />
     <ClInclude Include="AFCWebSocktClient.h" />
     <ClInclude Include="AFCWebSocktServer.h" />
-    <ClInclude Include="AFINet.h" />
     <ClInclude Include="AFNetPlugin.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

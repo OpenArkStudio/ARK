@@ -1,1 +1,0 @@
-BUILD_SDK_PLUGIN_MACRO("AFConfigPlugin")

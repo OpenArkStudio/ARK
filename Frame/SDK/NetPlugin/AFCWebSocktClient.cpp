@@ -22,6 +22,32 @@
 #include <brynet/net/http/HttpFormat.h>
 #include "AFCWebSocktClient.h"
 
+AFCWebSocktClient::AFCWebSocktClient(brynet::net::WrapTcpService::PTR server /*= nullptr*/, brynet::net::AsyncConnector::PTR connector /*= nullptr*/)
+{
+    if (server != nullptr)
+    {
+        m_pServer = server;
+    }
+    else
+    {
+        m_pServer = std::make_shared<brynet::net::WrapTcpService>();
+    }
+
+    if (connector != nullptr)
+    {
+        m_pConector = connector;
+    }
+    else
+    {
+        m_pConector = brynet::net::AsyncConnector::Create();
+    }
+}
+
+AFCWebSocktClient::~AFCWebSocktClient()
+{
+    Shutdown();
+}
+
 void AFCWebSocktClient::Update()
 {
     ProcessMsgLogicThread();
@@ -251,11 +277,6 @@ bool AFCWebSocktClient::DismantleNet(AFHttpEntity* pEntity)
     return true;
 }
 
-void AFCWebSocktClient::log_cb(int severity, const char* msg)
-{
-    //Will add log
-}
-
 bool AFCWebSocktClient::IsServer()
 {
     return false;
@@ -263,10 +284,9 @@ bool AFCWebSocktClient::IsServer()
 
 bool AFCWebSocktClient::Log(int severity, const char* msg)
 {
-    log_cb(severity, msg);
+    //Will add log
     return true;
 }
-
 
 bool AFCWebSocktClient::SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
 {

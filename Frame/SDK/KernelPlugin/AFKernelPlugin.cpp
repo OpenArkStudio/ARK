@@ -20,6 +20,8 @@
 
 #include "AFKernelPlugin.h"
 #include "AFCKernelModule.h"
+#include "AFCClassModule.h"
+#include "AFCConfigModule.h"
 #include "AFCSceneModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFKernelPlugin)
@@ -39,12 +41,16 @@ const std::string AFKernelPlugin::GetPluginName()
 
 void AFKernelPlugin::Install()
 {
-    RegisterModule< AFISceneModule, AFCSceneModule>();
     RegisterModule< AFIKernelModule, AFCKernelModule>();
+    RegisterModule< AFIClassModule, AFCClassModule>();
+    RegisterModule< AFIConfigModule, AFCConfigModule>();
+    RegisterModule< AFISceneModule, AFCSceneModule>();
 }
 
 void AFKernelPlugin::Uninstall()
 {
-    DeregisterModule<AFIKernelModule, AFCKernelModule>();
     DeregisterModule<AFISceneModule, AFCSceneModule>();
+    DeregisterModule<AFIConfigModule, AFCConfigModule>();
+    DeregisterModule<AFIClassModule, AFCClassModule>();
+    DeregisterModule<AFIKernelModule, AFCKernelModule>();
 }

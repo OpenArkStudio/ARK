@@ -4,11 +4,15 @@
     <ClInclude Include="AFCKernelModule.h" />
     <ClInclude Include="AFCSceneModule.h" />
     <ClInclude Include="AFKernelPlugin.h" />
+    <ClInclude Include="AFCClassModule.h" />
+    <ClInclude Include="AFCConfigModule.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="AFCKernelModule.cpp" />
     <ClCompile Include="AFCSceneModule.cpp" />
     <ClCompile Include="AFKernelPlugin.cpp" />
+    <ClCompile Include="AFCClassModule.cpp" />
+    <ClCompile Include="AFCConfigModule.cpp" />
   </ItemGroup>
 </Project>

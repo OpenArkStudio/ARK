@@ -26,16 +26,11 @@
 class AFProtoPlugin : public AFIPlugin
 {
 public:
-    explicit AFProtoPlugin(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFProtoPlugin(AFIPluginManager* p);
 
-    virtual int GetPluginVersion();
+    int GetPluginVersion() override;
+    const std::string GetPluginName() override;
 
-    virtual const std::string GetPluginName();
-
-    virtual void Install();
-
-    virtual void Uninstall();
+    void Install() override;
+    void Uninstall() override;
 };

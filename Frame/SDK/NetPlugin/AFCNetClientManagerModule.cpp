@@ -20,6 +20,10 @@
 
 #include "AFCNetClientManagerModule.h"
 
+
+
+//////////////////////////////////////////////////////////////////////////
+
 bool AFCNetClientManagerModule::Update()
 {
     for (bool bRet = mmCluster.Begin(); bRet; bRet = mmCluster.Increase())

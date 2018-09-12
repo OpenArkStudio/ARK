@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -23,8 +23,7 @@
 #include "SDK/Interface/AFIModule.h"
 #include "AFINetClientModule.hpp"
 
-class AFINetClientManagerModule
-    : public AFIModule
+class AFINetClientManagerModule : public AFIModule
 {
 public:
     virtual AFINetClientModule* CreateClusterClientModule(const size_t nClusterTypeID) = 0;

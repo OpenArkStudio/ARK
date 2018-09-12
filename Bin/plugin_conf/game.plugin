@@ -1,7 +1,6 @@
 <xml>
 	<plugins path="../lib/">
 		<plugin name="AFKernelPlugin" />
-		<plugin name="AFConfigPlugin" />
 		<plugin name="AFUtilityPlugin" />
 		<plugin name="AFBusPlugin" />
 		<plugin name="AFNetPlugin" />

@@ -20,6 +20,19 @@
 
 #include "AFCWebSocktServer.h"
 
+AFCWebSocktServer::AFCWebSocktServer()
+{
+    SetWorking(false);
+
+    m_pTCPService = std::make_shared<brynet::net::WrapTcpService>();
+    m_pListenThread = brynet::net::ListenThread::Create();
+}
+
+AFCWebSocktServer::~AFCWebSocktServer()
+{
+    Shutdown();
+}
+
 void AFCWebSocktServer::Update()
 {
     ProcessMsgLogicThread();
@@ -239,6 +252,11 @@ bool AFCWebSocktServer::Shutdown()
     return true;
 }
 
+bool AFCWebSocktServer::IsServer()
+{
+    return true;
+}
+
 bool AFCWebSocktServer::SendMsgToAllClient(const char* msg, const size_t nLen)
 {
     auto frame = std::make_shared<std::string>();
@@ -313,6 +331,11 @@ bool AFCWebSocktServer::CloseNetEntity(const AFGUID& xClientID)
         pEntity->GetSession()->postShutdown();
     }
 
+    return true;
+}
+
+bool AFCWebSocktServer::Log(int severity, const char* msg)
+{
     return true;
 }
 

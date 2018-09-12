@@ -26,6 +26,11 @@ ARK_DLL_PLUGIN_EXIT(AFBusPlugin)
 
 //////////////////////////////////////////////////////////////////////////
 
+AFBusPlugin::AFBusPlugin(AFIPluginManager* p)
+{
+    pPluginManager = p;
+}
+
 int AFBusPlugin::GetPluginVersion()
 {
     return 0;

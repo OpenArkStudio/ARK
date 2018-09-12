@@ -24,6 +24,7 @@
 #include "SDK/Core/AFMemAlloc.hpp"
 
 class AFIPlugin;
+
 #define ARK_DLL_PLUGIN_ENTRY(plugin_name)                           \
 ARK_EXPORT void DllStartPlugin(AFIPluginManager* pPluginManager)    \
 {                                                                   \

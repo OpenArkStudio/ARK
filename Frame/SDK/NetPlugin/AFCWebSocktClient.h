@@ -32,26 +32,7 @@
 class AFCWebSocktClient : public AFINet
 {
 public:
-    AFCWebSocktClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr)
-    {
-        if (server)
-        {
-            m_pServer = server;
-        }
-        else
-        {
-            m_pServer = std::make_shared<brynet::net::WrapTcpService>();
-        }
-
-        if (connector)
-        {
-            m_pConector = connector;
-        }
-        else
-        {
-            m_pConector = brynet::net::AsyncConnector::Create();
-        }
-    }
+    AFCWebSocktClient(brynet::net::WrapTcpService::PTR server = nullptr, brynet::net::AsyncConnector::PTR connector = nullptr);
 
     template<typename BaseType>
     AFCWebSocktClient(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
@@ -62,28 +43,28 @@ public:
         m_pConector = brynet::net::AsyncConnector::Create();
     }
 
-    virtual ~AFCWebSocktClient()
+    ~AFCWebSocktClient() override;
+
+    void Update() override;
+    bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false) override;
+    bool Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false) override
     {
-        Shutdown();
-    };
+        return false;
+    }
 
-    virtual void Update();
-    virtual bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false);
-    virtual bool Shutdown() final;
-    virtual bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID = 0, const AFGUID& xPlayerID = 0);
+    bool Shutdown() override final;
+    bool SendMsgWithOutHead(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID = 0, const AFGUID& xPlayerID = 0) override;
+    bool CloseNetEntity(const AFGUID& xClient) override;
+    bool IsServer() override;
+    bool Log(int severity, const char* msg) override;
 
-    virtual bool CloseNetEntity(const AFGUID& xClient);
-
-    virtual bool IsServer();
-    virtual bool Log(int severity, const char* msg);
-
+protected:
     void OnWebSockMessageCallBack(const brynet::net::HttpSession::PTR& httpSession,
                                   brynet::net::WebSocketFormat::WebSocketFrameType opcode,
                                   const std::string& payload);
     void OnHttpDisConnection(const brynet::net::HttpSession::PTR& httpSession);
     void OnHttpConnect(const brynet::net::HttpSession::PTR& httpSession);
 
-private:
     bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient = 0);
 
     bool DismantleNet(AFHttpEntity* pEntity);
@@ -91,9 +72,6 @@ private:
     void ProcessMsgLogicThread(AFHttpEntity* pEntity);
     bool CloseSocketAll();
 
-    static void log_cb(int severity, const char* msg);
-
-protected:
     int DeCode(const char* strData, const size_t len, AFCMsgHead& xHead);
     int EnCode(const AFCMsgHead& xHead, const char* strData, const size_t len, std::string& strOutData);
 

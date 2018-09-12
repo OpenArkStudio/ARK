@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -31,11 +31,9 @@ public:
         pPluginManager = p;
     }
 
-    virtual int GetPluginVersion();
+    int GetPluginVersion() override;
+    const std::string GetPluginName() override;
 
-    virtual const std::string GetPluginName();
-
-    virtual void Install();
-
-    virtual void Uninstall();
+    void Install() override;
+    void Uninstall() override;
 };

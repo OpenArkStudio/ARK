@@ -28,6 +28,17 @@
 #include <arpa/inet.h>
 #endif
 
+AFCTCPServer::AFCTCPServer()
+{
+    m_pTCPService = std::make_shared<brynet::net::WrapTcpService>();
+    m_plistenThread = brynet::net::ListenThread::Create();
+}
+
+AFCTCPServer::~AFCTCPServer()
+{
+    Shutdown();
+}
+
 void AFCTCPServer::Update()
 {
     ProcessMsgLogicThread();
@@ -187,6 +198,11 @@ bool AFCTCPServer::Shutdown()
     return true;
 }
 
+bool AFCTCPServer::IsServer()
+{
+    return true;
+}
+
 bool AFCTCPServer::SendMsgToAllClient(const char* msg, const size_t nLen)
 {
     for (auto it : mmObject)
@@ -249,6 +265,12 @@ bool AFCTCPServer::CloseNetEntity(const AFGUID& xClientID)
     {
         return true;
     }
+}
+
+bool AFCTCPServer::Log(int severity, const char* msg)
+{
+    //will add msg log
+    return true;
 }
 
 bool AFCTCPServer::DismantleNet(AFTCPEntityPtr pEntity)

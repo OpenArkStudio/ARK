@@ -334,15 +334,8 @@ public:
 
     //need to call this function every frame to drive network library
     virtual void Update() = 0;
-    virtual bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false)
-    {
-        return false;
-    }
-    virtual bool Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false)
-    {
-        //base class
-        return false;
-    }
+    virtual bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false) = 0;
+    virtual bool Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false) = 0;
 
     virtual bool Shutdown() = 0;
 

@@ -21,6 +21,32 @@
 #include <brynet/net/SyncConnector.h>
 #include "AFCTCPClient.h"
 
+AFCTCPClient::AFCTCPClient(const brynet::net::WrapTcpService::PTR& server/* = nullptr*/, const brynet::net::AsyncConnector::PTR& connector/* = nullptr*/)
+{
+    if (server != nullptr)
+    {
+        m_pTCPService = server;
+    }
+    else
+    {
+        m_pTCPService = std::make_shared<brynet::net::WrapTcpService>();
+    }
+
+    if (connector != nullptr)
+    {
+        m_pConector = connector;
+    }
+    else
+    {
+        m_pConector = brynet::net::AsyncConnector::Create();
+    }
+}
+
+AFCTCPClient::~AFCTCPClient()
+{
+    Shutdown();
+}
+
 void AFCTCPClient::Update()
 {
     ProcessMsgLogicThread();
@@ -191,11 +217,6 @@ bool AFCTCPClient::DismantleNet(AFTCPEntity* pEntity)
     return true;
 }
 
-void AFCTCPClient::log_cb(int severity, const char* msg)
-{
-    //Will add log
-}
-
 bool AFCTCPClient::IsServer()
 {
     return false;
@@ -203,7 +224,7 @@ bool AFCTCPClient::IsServer()
 
 bool AFCTCPClient::Log(int severity, const char* msg)
 {
-    log_cb(severity, msg);
+    //Will add log
     return true;
 }
 
