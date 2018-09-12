@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -33,9 +33,5 @@ public:
         pPluginManager = p;
     }
 
-    virtual ~AFCSceneModule()
-    {
-    }
-
-    virtual bool Init();
+    ~AFCSceneModule() override = default;
 };

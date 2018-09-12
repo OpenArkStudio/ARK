@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -19,8 +19,3 @@
 */
 
 #include "AFCSceneModule.h"
-
-bool AFCSceneModule::Init()
-{
-    return true;
-}
