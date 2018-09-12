@@ -24,7 +24,6 @@ endmacro(BUILD_SDK_PLUGIN_MACRO project_name)
 
 add_subdirectory(Core)
 add_subdirectory(KernelPlugin)
-add_subdirectory(ConfigPlugin)
 add_subdirectory(BusPlugin)
 add_subdirectory(NetPlugin)
 add_subdirectory(ProtoPlugin)
