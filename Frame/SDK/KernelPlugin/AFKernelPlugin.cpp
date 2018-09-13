@@ -41,16 +41,16 @@ const std::string AFKernelPlugin::GetPluginName()
 
 void AFKernelPlugin::Install()
 {
-    RegisterModule< AFIKernelModule, AFCKernelModule>();
     RegisterModule< AFIClassModule, AFCClassModule>();
     RegisterModule< AFIConfigModule, AFCConfigModule>();
+    RegisterModule< AFIKernelModule, AFCKernelModule>();
     RegisterModule< AFISceneModule, AFCSceneModule>();
 }
 
 void AFKernelPlugin::Uninstall()
 {
     DeregisterModule<AFISceneModule, AFCSceneModule>();
+    DeregisterModule<AFIKernelModule, AFCKernelModule>();
     DeregisterModule<AFIConfigModule, AFCConfigModule>();
     DeregisterModule<AFIClassModule, AFCClassModule>();
-    DeregisterModule<AFIKernelModule, AFCKernelModule>();
 }

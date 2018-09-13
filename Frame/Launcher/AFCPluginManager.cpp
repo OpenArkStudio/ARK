@@ -44,9 +44,9 @@ inline bool AFCPluginManager::Init()
         return false;
     }
 
-    for (auto it = mxPluginNameMap.begin(); it != mxPluginNameMap.end(); ++it)
+    for (int i = 0; i < mxPluginNameMapVec.size(); i++)
     {
-        bool bRet = LoadPluginLibrary(it->first);
+        bool bRet = LoadPluginLibrary(mxPluginNameMapVec[i]);
 
         if (!bRet)
         {
@@ -54,9 +54,13 @@ inline bool AFCPluginManager::Init()
         }
     }
 
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
     {
-        pPlugin->Init();
+        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        if (pModule)
+        {
+            pModule->Init();
+        }
     }
 
     return true;
@@ -86,7 +90,10 @@ bool AFCPluginManager::LoadPluginConf()
     for (rapidxml::xml_node<>* pPluginNode = pPluginsNode->first_node("plugin"); pPluginNode != nullptr; pPluginNode = pPluginNode->next_sibling("plugin"))
     {
         const char* strPluginName = pPluginNode->first_attribute("name")->value();
-        mxPluginNameMap.insert(std::make_pair(strPluginName, true));
+        if (mxPluginNameMap.insert(std::make_pair(strPluginName, true)).second)
+        {
+            mxPluginNameMapVec.push_back(strPluginName);
+        }
     }
 
     rapidxml::xml_node<>* pResNode = pRoot->first_node("res");
@@ -199,12 +206,22 @@ void AFCPluginManager::AddModule(const std::string& strModuleName, AFIModule* pM
 {
     ARK_ASSERT_RET_NONE(FindModule(strModuleName) == nullptr);
 
-    mxModuleInstanceMap.AddElement(strModuleName, pModule);
+    if (mxModuleInstanceMap.AddElement(strModuleName, pModule))
+    {
+        mxModuleInstanceMapVec.push_back(pModule);
+    }
 }
 
 void AFCPluginManager::RemoveModule(const std::string& strModuleName)
 {
+    auto pModule  = mxModuleInstanceMap.GetElement(strModuleName);
     mxModuleInstanceMap.RemoveElement(strModuleName);
+
+    decltype(mxModuleInstanceMapVec)::iterator iter = std::find(mxModuleInstanceMapVec.begin(), mxModuleInstanceMapVec.end(), pModule);
+    if (iter != mxModuleInstanceMapVec.end())
+    {
+        mxModuleInstanceMapVec.erase(iter);
+    }
 }
 
 AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
@@ -214,9 +231,13 @@ AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
 
 bool AFCPluginManager::PostInit()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
     {
-        pPlugin->PostInit();
+        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        if (pModule)
+        {
+            pModule->PostInit();
+        }
     }
 
     return true;
@@ -224,9 +245,13 @@ bool AFCPluginManager::PostInit()
 
 bool AFCPluginManager::CheckConfig()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
     {
-        pPlugin->CheckConfig();
+        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        if (pModule)
+        {
+            pModule->CheckConfig();
+        }
     }
 
     return true;
@@ -234,9 +259,13 @@ bool AFCPluginManager::CheckConfig()
 
 bool AFCPluginManager::PreUpdate()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
     {
-        pPlugin->PreUpdate();
+        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        if (pModule)
+        {
+            pModule->PreUpdate();
+        }
     }
 
     return true;
@@ -246,9 +275,13 @@ bool AFCPluginManager::Update()
 {
     mnNowTime = AFDateTime::GetNowTime();
 
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
     {
-        pPlugin->Update();
+        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        if (pModule)
+        {
+            pModule->Update();
+        }
     }
 
     return true;
@@ -256,9 +289,15 @@ bool AFCPluginManager::Update()
 
 bool AFCPluginManager::PreShut()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    mnNowTime = AFDateTime::GetNowTime();
+
+    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
     {
-        pPlugin->PreShut();
+        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        if (pModule)
+        {
+            pModule->PreShut();
+        }
     }
 
     return true;
@@ -266,9 +305,13 @@ bool AFCPluginManager::PreShut()
 
 bool AFCPluginManager::Shut()
 {
-    for (AFIPlugin* pPlugin = mxPluginInstanceMap.First(); pPlugin != nullptr; pPlugin = mxPluginInstanceMap.Next())
+    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
     {
-        pPlugin->Shut();
+        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        if (pModule)
+        {
+            pModule->Shut();
+        }
     }
 
     for (auto it : mxPluginNameMap)

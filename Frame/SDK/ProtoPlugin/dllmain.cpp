@@ -18,4 +18,22 @@
 *
 */
 
-#include "Common/AFDLLHeader.hpp"
+
+#include "SDK/Core/AFPlatform.hpp"
+
+#if ARK_PLATFORM == PLATFORM_WIN
+
+#pragma comment(lib, "Dbghelp.lib")
+#pragma comment(lib, "ws2_32")
+
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+#pragma comment(lib, "libprotobufd.lib")
+#pragma comment(lib, "AFCore_d.lib")
+
+#else
+#pragma comment(lib, "libprotobuf.lib")
+#pragma comment(lib, "AFCore.lib")
+
+#endif
+
+#endif

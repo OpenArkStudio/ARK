@@ -115,6 +115,20 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
 
     if (pClassNodeManager != nullptr && pClassTableManager != nullptr)
     {
+        auto pBaseClass = m_pClassModule->GetElement("IObject");
+        if (nullptr != pBaseClass)
+        {
+            ARK_SHARE_PTR<AFIDataNodeManager> pBaseClassNodeManager = pBaseClass->GetNodeManager();
+            if (nullptr != pBaseClassNodeManager)
+            {
+                for (int i = 0; i < pBaseClassNodeManager->GetNodeCount(); i++)
+                {
+                    AFDataNode* pBaseClassNode = pBaseClassNodeManager->GetNodeByIndex(i);
+                    pElementNodeManager->AddNode(pBaseClassNode->name.c_str(), pBaseClassNode->value, pBaseClassNode->feature);
+                }
+            }
+        }
+
         //////////////////////////////////////////////////////////////////////////
         size_t tableCount = pClassTableManager->GetCount();
 
@@ -145,9 +159,10 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
             continue;
         }
 
-        AFDataNode TmpNode;
-
         //don't need to add node if it's null data
+        AFDataNode TmpNode;
+        TmpNode.name = pNode->name;
+        TmpNode.feature = pNode->feature;
         switch (pNode->GetType())
         {
         case DT_BOOLEAN:

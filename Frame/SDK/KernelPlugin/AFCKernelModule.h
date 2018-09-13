@@ -147,11 +147,11 @@ private:
     AFGUID mnCurExeEntity;
     int64_t nLastTime;
 
-    AFISceneModule* m_pSceneModule;
-    AFILogModule* m_pLogModule;
-    AFIClassModule* m_pClassModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIGUIDModule* m_pGUIDModule;
+    AFISceneModule* m_pSceneModule = nullptr;
+    AFILogModule* m_pLogModule = nullptr;
+    AFIClassModule* m_pClassModule = nullptr;
+    AFIConfigModule* m_pConfigModule = nullptr;
+    AFIGUIDModule* m_pGUIDModule = nullptr;
 
     AFArrayMap<std::string, int32_t> mInnerProperty;
 };
