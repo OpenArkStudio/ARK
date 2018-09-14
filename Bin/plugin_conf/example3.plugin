@@ -4,5 +4,5 @@
 		<plugin name="AFUtilityPlugin" />
 		<plugin name="Example3Plugin" />
 	</plugins>
-	<res path="../resource" />
+	<res path="../resource/" />
 </xml>

@@ -206,6 +206,13 @@ template<int x> struct ark_static_assert_test {};
         return val;                     \
     } while (0);
 
+#define ARK_ASSERT_RET_VAL_NO_EFFECT(exp_, val)   \
+    do                                  \
+    {                                   \
+        if ((exp_)) break;              \
+        return val;                     \
+    } while (0);
+
 #define ARK_ASSERT_BREAK(exp_)          \
     if (!(exp_))                        \
     {                                   \

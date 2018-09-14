@@ -100,17 +100,45 @@ bool AFDataTable::SetColType(size_t index, int type)
 int AFDataTable::GetColType(int col) const
 {
     assert(col < mxColTypes.size());
-
     return mxColTypes[col];
 }
 
-bool AFDataTable::AddRow()
+int AFDataTable::AddRow()
 {
     //default insert row
     size_t col_num = GetColCount();
     RowData* row_data = new RowData[col_num];
-    mxRowDatas.push_back(row_data);
-    return true;
+
+    size_t nIndex = FindEmptyRow();
+    mxRowDatas[nIndex] = row_data;
+    return nIndex;
+}
+
+int AFDataTable::AddRow(const AFIDataList& data)
+{
+    size_t nIndex = FindEmptyRow();
+    if (!AddRow(nIndex, data))
+    {
+        return -1;
+    }
+
+    return nIndex;
+}
+
+size_t AFDataTable::FindEmptyRow()
+{
+    for (size_t i = 0; i < GetRowCount(); ++i)
+    {
+        RowData* row_data = mxRowDatas[i];
+        if (row_data == nullptr)
+        {
+            return i;
+        }
+    }
+
+    size_t nPos = GetRowCount();
+    mxRowDatas.push_back(nullptr);
+    return nPos;
 }
 
 bool AFDataTable::AddRow(size_t row)
@@ -118,22 +146,25 @@ bool AFDataTable::AddRow(size_t row)
     size_t col_num = GetColCount();
     RowData* row_data = new RowData[col_num];
 
-    if (row >= GetRowCount())
+    while (GetRowCount() <= row)
     {
-        mxRowDatas.push_back(row_data);
-    }
-    else
-    {
-        mxRowDatas.insert(row, row_data);
+        mxRowDatas.push_back(nullptr);
     }
 
+    RowData* old_row_data = mxRowDatas[row];
+    if (nullptr != old_row_data)
+    {
+        delete row_data;
+        return false;
+    }
+
+    mxRowDatas[row] = row_data;
     return true;
 }
 
 bool AFDataTable::AddRow(size_t row, const AFIDataList& data)
 {
     size_t col_num = GetColCount();
-
     if (data.GetCount() != col_num)
     {
         ARK_ASSERT(0, "data size is not equal with col_num, please check your arg.", __FILE__, __FUNCTION__);
@@ -141,7 +172,6 @@ bool AFDataTable::AddRow(size_t row, const AFIDataList& data)
     }
 
     RowData* row_data = new RowData[col_num];
-
     for (size_t i = 0; i < data.GetCount(); ++i)
     {
         int type = GetColType(i);
@@ -185,15 +215,19 @@ bool AFDataTable::AddRow(size_t row, const AFIDataList& data)
         }
     }
 
-    if (row >= GetRowCount())
+    while (GetRowCount() <= row)
     {
-        mxRowDatas.push_back(row_data);
-    }
-    else
-    {
-        mxRowDatas.insert(row, row_data);
+        mxRowDatas.push_back(nullptr);
     }
 
+    RowData* old_row_data = mxRowDatas[row];
+    if (nullptr != old_row_data)
+    {
+        delete row_data;
+        return false;
+    }
+
+    mxRowDatas[row] = row_data;
     return true;
 }
 
@@ -202,7 +236,7 @@ bool AFDataTable::DeleteRow(size_t row)
     assert(row < mxRowDatas.size());
 
     ReleaseRow(mxRowDatas[row], mxColTypes.size());
-    mxRowDatas.remove(row);
+    mxRowDatas[row] = nullptr;
 
     return true;
 }
@@ -262,6 +296,22 @@ bool AFDataTable::IsSave() const
     return feature.test(TABLE_SAVE);
 }
 
+bool AFDataTable::IsUsed(size_t row)
+{
+    if ((row >= GetRowCount()))
+    {
+        return false;
+    }
+
+    RowData* row_data = mxRowDatas[row];
+    if (nullptr == row_data)
+    {
+        return false;
+    }
+
+    return true;
+}
+
 bool AFDataTable::SetValue(size_t row, size_t col, const AFIData& value)
 {
     if ((row >= GetRowCount()) || (col >= GetColCount()))
@@ -270,7 +320,7 @@ bool AFDataTable::SetValue(size_t row, size_t col, const AFIData& value)
     }
 
     RowData* row_data = mxRowDatas[row];
-
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
     row_data[col].Assign(value);
     return true;
 }
@@ -283,7 +333,7 @@ bool AFDataTable::SetBool(size_t row, size_t col, const bool value)
     }
 
     RowData* row_data = mxRowDatas[row];
-
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
     row_data[col].SetBool(value);
     return true;
 }
@@ -296,6 +346,7 @@ bool AFDataTable::SetInt(size_t row, size_t col, const int value)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
 
     row_data[col].SetInt(value);
     return true;
@@ -309,6 +360,7 @@ bool AFDataTable::SetInt64(size_t row, size_t col, const int64_t value)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
 
     row_data[col].SetInt64(value);
     return true;
@@ -322,7 +374,7 @@ bool AFDataTable::SetFloat(size_t row, size_t col, const float value)
     }
 
     RowData* row_data = mxRowDatas[row];
-
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
     row_data[col].SetFloat(value);
     return true;
 }
@@ -335,6 +387,7 @@ bool AFDataTable::SetDouble(size_t row, size_t col, const double value)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
 
     row_data[col].SetDouble(value);
     return true;
@@ -348,6 +401,7 @@ bool AFDataTable::SetString(size_t row, size_t col, const char* value)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
 
     row_data[col].SetString(value);
     return true;
@@ -361,6 +415,7 @@ bool AFDataTable::SetObject(size_t row, size_t col, const AFGUID& value)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
 
     row_data[col].SetObject(value);
     return true;
@@ -374,6 +429,7 @@ bool AFDataTable::GetValue(size_t row, size_t col, AFIData& value)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
 
     value.Assign(row_data[col]);
     return true;
@@ -387,6 +443,7 @@ bool AFDataTable::GetBool(size_t row, size_t col)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
     return row_data[col].GetBool();
 }
 
@@ -398,6 +455,7 @@ int AFDataTable::GetInt(size_t row, size_t col)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, 0);
     return row_data[col].GetInt();
 }
 
@@ -409,6 +467,7 @@ int64_t AFDataTable::GetInt64(size_t row, size_t col)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, 0);
     return row_data[col].GetInt64();
 }
 
@@ -420,6 +479,7 @@ float AFDataTable::GetFloat(size_t row, size_t col)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, 0);
     return row_data[col].GetFloat();
 }
 
@@ -431,6 +491,7 @@ double AFDataTable::GetDouble(size_t row, size_t col)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, 0);
     return row_data[col].GetDouble();
 }
 
@@ -442,6 +503,7 @@ const char* AFDataTable::GetString(size_t row, size_t col)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, NULL_STR.c_str());
     return row_data[col].GetString();
 }
 
@@ -453,6 +515,7 @@ const AFGUID& AFDataTable::GetObject(size_t row, size_t col)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, NULL_GUID);
     return row_data[col].GetObject();
 }
 
@@ -464,13 +527,13 @@ const char* AFDataTable::GetStringValue(size_t row, size_t col)
     }
 
     RowData* row_data = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, NULL_STR.c_str());
     return row_data[col].GetString();
 }
 
 bool AFDataTable::GetColTypeList(AFIDataList& col_type_list)
 {
     int col_count = GetColCount();
-
     for (int i = 0; i < col_count; ++i)
     {
         AFCData data;
@@ -534,7 +597,6 @@ int AFDataTable::FindBool(size_t col, const bool key, size_t begin_row /*= 0*/)
     }
 
     size_t row_num = GetRowCount();
-
     if (begin_row >= row_num)
     {
         return -1;
@@ -543,7 +605,7 @@ int AFDataTable::FindBool(size_t col, const bool key, size_t begin_row /*= 0*/)
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
-
+        ARK_ASSERT_CONTINUE(nullptr != row_data);
         if (row_data[col].GetBool() == key)
         {
             return i;
@@ -570,6 +632,7 @@ int AFDataTable::FindInt(size_t col, const int key, size_t begin_row /*= 0*/)
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+        ARK_ASSERT_CONTINUE(nullptr != row_data);
 
         if (row_data[col].GetInt() == key)
         {
@@ -588,7 +651,6 @@ int AFDataTable::FindInt64(size_t col, const int64_t key, size_t begin_row /*= 0
     }
 
     size_t row_num = GetRowCount();
-
     if (begin_row >= row_num)
     {
         return -1;
@@ -597,6 +659,7 @@ int AFDataTable::FindInt64(size_t col, const int64_t key, size_t begin_row /*= 0
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+        ARK_ASSERT_CONTINUE(nullptr != row_data);
 
         if (row_data[col].GetInt64() == key)
         {
@@ -615,7 +678,6 @@ int AFDataTable::FindFloat(size_t col, const float key, size_t begin_row /*= 0*/
     }
 
     size_t row_num = GetRowCount();
-
     if (begin_row >= row_num)
     {
         return -1;
@@ -624,6 +686,7 @@ int AFDataTable::FindFloat(size_t col, const float key, size_t begin_row /*= 0*/
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+        ARK_ASSERT_CONTINUE(nullptr != row_data);
 
         if (AFMisc::IsFloatEqual(row_data[col].GetFloat(), key))
         {
@@ -642,7 +705,6 @@ int AFDataTable::FindDouble(size_t col, const double key, size_t begin_row /*= 0
     }
 
     size_t row_num = GetRowCount();
-
     if (begin_row >= row_num)
     {
         return -1;
@@ -651,6 +713,7 @@ int AFDataTable::FindDouble(size_t col, const double key, size_t begin_row /*= 0
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+        ARK_ASSERT_CONTINUE(nullptr != row_data);
 
         if (AFMisc::IsDoubleEqual(row_data[col].GetDouble(), key))
         {
@@ -669,7 +732,6 @@ int AFDataTable::FindString(size_t col, const char* key, size_t begin_row /*= 0*
     }
 
     size_t row_num = GetRowCount();
-
     if (begin_row >= row_num)
     {
         return -1;
@@ -678,6 +740,7 @@ int AFDataTable::FindString(size_t col, const char* key, size_t begin_row /*= 0*
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+        ARK_ASSERT_CONTINUE(nullptr != row_data);
 
         if (ARK_STRICMP(row_data[col].GetString(), key) == 0)
         {
@@ -696,7 +759,6 @@ int AFDataTable::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 
     }
 
     size_t row_num = GetRowCount();
-
     if (begin_row >= row_num)
     {
         return -1;
@@ -705,6 +767,7 @@ int AFDataTable::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 
     for (size_t i = begin_row; i < row_num; ++i)
     {
         RowData* row_data = mxRowDatas[i];
+        ARK_ASSERT_CONTINUE(nullptr != row_data);
 
         if (row_data[col].GetObject() == key)
         {
@@ -717,9 +780,10 @@ int AFDataTable::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 
 
 bool AFDataTable::QueryRow(const size_t row, AFIDataList& varList)
 {
-    ARK_ASSERT_RET_VAL(row < mxRowDatas.size(), false);
+    ARK_ASSERT_RET_VAL_NO_EFFECT(row < mxRowDatas.size(), false);
 
     RowData* rowData = mxRowDatas[row];
+    ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != rowData, false);
 
     for (size_t i = 0; i < mxColTypes.size(); ++i)
     {

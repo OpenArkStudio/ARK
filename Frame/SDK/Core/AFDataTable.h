@@ -64,10 +64,12 @@ public:
     bool SetColType(size_t index, int type);
     int GetColType(int col) const;
 
-    bool AddRow();
+    int AddRow();
     bool AddRow(size_t row);
     bool AddRow(size_t row, const AFIDataList& data);
+    int AddRow(const AFIDataList& data);
 
+    size_t FindEmptyRow();
     bool DeleteRow(size_t row);
 
     void Clear();
@@ -83,6 +85,7 @@ public:
     bool IsRealTime() const;
     void SetSave();
     bool IsSave() const;
+    bool IsUsed(size_t row);
 
     bool SetValue(size_t row, size_t col, const AFIData& value);
     bool SetBool(size_t row, size_t col, const bool value);

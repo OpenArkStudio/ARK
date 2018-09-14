@@ -24,6 +24,7 @@
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIClassModule.h"
 
 class Example3Module : public AFIModule
 {
@@ -55,4 +56,5 @@ protected:
     AFIKernelModule* m_pKernelModule;
     AFIConfigModule* m_pConfigModule;
     AFILogModule* m_pLogModule;
+    AFIClassModule* m_pClassModule;
 };

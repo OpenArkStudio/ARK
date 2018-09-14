@@ -179,7 +179,7 @@ ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const
 
     DoEvent(ident, strClassName, ENTITY_EVT_PRE_LOAD_DATA, arg);
 
-    for (int i = 0; (i + 1) < (arg.GetCount() - 1); i += 2)
+    for (int i = 0; (i + 1) < arg.GetCount(); i += 2)
     {
         const std::string& strDataNodeName = arg.String(i);
 

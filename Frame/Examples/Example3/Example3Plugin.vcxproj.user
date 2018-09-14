@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommand>$(SolutionDir)..\Bin\Examples\Debug\Example3\PluginLoader_d.exe</LocalDebuggerCommand>
-    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\Examples\Debug\Example3</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommand>$(SolutionDir)..\Bin\bin\Launcher_d.exe</LocalDebuggerCommand>
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\bin\</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommandArguments>-d -x cfg=Plugin.xml app_id=3 app_name="Example3"</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--busid=1.1.103.1 --name=Example3 --plugin=..\plugin_conf\Example3.plugin --logpath=..\binlog</LocalDebuggerCommandArguments>
+    <LocalDebuggerEnvironment>PATH=$(SolutionDir)..\Bin\lib\</LocalDebuggerEnvironment>
   </PropertyGroup>
 </Project>
