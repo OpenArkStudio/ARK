@@ -8,14 +8,14 @@ cd lib
 cd ../
 
 REM If your path is different with below, please change to your install path
-set VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\
+set VS150COMNTOOLS=C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\Common7\Tools\
 echo "%VS150COMNTOOLS%..\IDE\Devenv"
 
 REM ######################################################################################################
 echo "Building protobuf..."
 
 if exist protobuf (rd protobuf /q /s)
-git clone -b 3.5.x https://github.com/google/protobuf.git --depth 1
+git clone -b 3.6.x https://github.com/google/protobuf.git --depth 1
 
 cd protobuf/cmake
 md build
@@ -28,7 +28,7 @@ copy Debug\*.lib ..\..\..\lib /Y
 copy Release\*.dll ..\..\..\lib /Y
 copy Release\*.lib ..\..\..\lib /Y
 
-copy Release\libprotobufd.dll ..\..\..\..\Bin\lib /Y
+copy Debug\libprotobufd.dll ..\..\..\..\Bin\lib /Y
 copy Release\libprotobuf.dll ..\..\..\..\Bin\lib /Y
 copy Release\libprotobuf.dll ..\..\..\..\Frame\SDK\ProtoPlugin\proto-gen /Y
 copy Release\libprotoc.dll ..\..\..\..\Frame\SDK\ProtoPlugin\proto-gen /Y
