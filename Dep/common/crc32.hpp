@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -25,7 +25,8 @@
 #include <stdio.h>
 #include <stdint.h>
 
-static uint32_t crcTable[256] = {
+static uint32_t crcTable[256] =
+{
     0x0, 0x77073096, 0xee0e612c, 0x990951ba, 0x76dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
     0xedb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988, 0x9b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91,
     0x1db71064, 0x6ab020f2, 0xf3b97148, 0x84be41de, 0x1adad47d, 0x6ddde4eb, 0xf4d4b551, 0x83d385c7,
@@ -63,7 +64,7 @@ static uint32_t crcTable[256] = {
 static uint32_t CRC32(char* c, int len)
 {
     register uint32_t crc;
-    char *e = c + len;
+    char* e = c + len;
 
     crc = 0xFFFFFFFF;
     while (c < e)
