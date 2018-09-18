@@ -65,8 +65,7 @@ public:
 
 protected:
     bool GetTableData(const char* name, const int row, const int col, AFIData& value);
-
-    void OnEventHandler(const AFGUID& entity_id, const DATA_TABLE_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData);
+    int OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData);
 
     bool AddTableInternal(AFDataTable* pTable);
     void ReleaseAll();

@@ -46,6 +46,7 @@ const static float NULL_FLOAT = 0.0f;
 const static double NULL_DOUBLE = 0.0;
 const static std::string NULL_STR = "";
 const static AFGUID NULL_GUID = AFGUID();
+const static void*  NULL_POINT = nullptr;
 
 class AFIData
 {
@@ -71,6 +72,138 @@ public:
     {
         *((size_t*)p) = size;
         memcpy((char*)p + sizeof(size_t), pData, size);
+    }
+
+    bool equal(const AFIData& src)
+    {
+        if (this->GetType() != src.GetType())
+        {
+            return false;
+        }
+
+        bool bRet = false;
+        switch (this->GetType())
+        {
+        case DT_BOOLEAN:
+            bRet = (GetBool() == src.GetBool());
+            break;
+
+        case DT_INT:
+            bRet = (GetInt() == src.GetInt());
+            break;
+
+        case DT_INT64:
+            bRet = (GetInt64() == src.GetInt64());
+            break;
+
+        case DT_FLOAT:
+            bRet = (GetFloat() == src.GetFloat());
+            break;
+
+        case DT_DOUBLE:
+            bRet = (GetDouble() == src.GetDouble());
+            break;
+
+        case DT_STRING:
+            break;
+
+        case DT_OBJECT:
+            bRet = (GetObject() == src.GetObject());
+            break;
+
+        case DT_POINTER:
+            bRet = (GetPointer() == src.GetPointer());
+            break;
+
+        case DT_USERDATA:
+            break;
+
+        default:
+            ARK_ASSERT_NO_EFFECT(0);
+            break;
+        }
+
+        return bRet;
+    }
+
+    bool equal(const bool value)
+    {
+        if (this->GetType() != DT_BOOLEAN)
+        {
+            return false;
+        }
+
+        return GetBool() == value;
+    }
+
+    bool equal(const int value)
+    {
+        if (this->GetType() != DT_INT)
+        {
+            return false;
+        }
+
+        return GetInt() == value;
+    }
+
+    bool equal(const  int64_t value)
+    {
+        if (this->GetType() != DT_INT64)
+        {
+            return false;
+        }
+
+        return GetInt64() == value;
+    }
+
+    bool equal(const float value)
+    {
+        if (this->GetType() != DT_FLOAT)
+        {
+            return false;
+        }
+
+        return GetFloat() == value;
+    }
+
+    bool equal(const double  value)
+    {
+        if (this->GetType() != DT_DOUBLE)
+        {
+            return false;
+        }
+
+        return GetDouble() == value;
+    }
+
+    bool equal(const char*  value)
+    {
+        if (this->GetType() != DT_STRING)
+        {
+            return false;
+        }
+
+        return GetString() == value;
+    }
+    bool equal(const AFGUID& value)
+    {
+        if (this->GetType() != DT_OBJECT)
+        {
+            return false;
+        }
+
+        return GetObject() == value;
+    }
+
+
+    bool equal(const void* value)
+    {
+        if (this->GetType() != DT_POINTER)
+        {
+            return false;
+        }
+
+        return GetPointer() == value;
     }
 
     virtual ~AFIData() = default;

@@ -118,14 +118,17 @@ public:
     int FindObject(size_t col, const AFGUID& key, size_t begin_row = 0);
 
     bool QueryRow(const size_t row, AFIDataList& varList);
+    bool RegisterCallback(const LITLE_DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
 
 protected:
     void ReleaseRow(RowData* row_data, size_t col_num);
     void ReleaseAll();
+    void OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData);
 
 private:
     DataTableName mstrName;                         //DataTable name
     AFFeatureType feature;                          //DataTable feature
     ArrayPod<int, 1, CoreAlloc> mxColTypes;        //DataTable column type array
     ArrayPod<RowData*, 1, CoreAlloc> mxRowDatas;   //DataTable data array
+    LITLE_DATA_TABLE_EVENT_FUNCTOR_PTR mxTablecallbacks = nullptr;// callback
 };

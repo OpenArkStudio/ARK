@@ -111,6 +111,15 @@ int AFDataTable::AddRow()
 
     size_t nIndex = FindEmptyRow();
     mxRowDatas[nIndex] = row_data;
+
+    DATA_TABLE_EVENT_DATA xTableEventData;
+    xTableEventData.nOpType = AFDataTable::TABLE_ADD;
+    xTableEventData.nRow = nIndex;
+    xTableEventData.nCol = 0;
+    xTableEventData.strName = mstrName;
+
+    OnEventHandler(xTableEventData, row_data[nIndex], AFCData(DT_BOOLEAN, false));
+
     return nIndex;
 }
 
@@ -159,6 +168,15 @@ bool AFDataTable::AddRow(size_t row)
     }
 
     mxRowDatas[row] = row_data;
+
+    DATA_TABLE_EVENT_DATA xTableEventData;
+    xTableEventData.nOpType = AFDataTable::TABLE_ADD;
+    xTableEventData.nRow = row;
+    xTableEventData.nCol = 0;
+    xTableEventData.strName = mstrName;
+
+    OnEventHandler(xTableEventData, row_data[row], AFCData(DT_BOOLEAN, false));
+
     return true;
 }
 
@@ -228,12 +246,28 @@ bool AFDataTable::AddRow(size_t row, const AFIDataList& data)
     }
 
     mxRowDatas[row] = row_data;
+
+    DATA_TABLE_EVENT_DATA xTableEventData;
+    xTableEventData.nOpType = AFDataTable::TABLE_ADD;
+    xTableEventData.nRow = row;
+    xTableEventData.nCol = 0;
+    xTableEventData.strName = mstrName;
+
+    OnEventHandler(xTableEventData, row_data[row], AFCData(DT_BOOLEAN, false));
     return true;
 }
 
 bool AFDataTable::DeleteRow(size_t row)
 {
     assert(row < mxRowDatas.size());
+
+    DATA_TABLE_EVENT_DATA xTableEventData;
+    xTableEventData.nOpType = AFDataTable::TABLE_ADD;
+    xTableEventData.nRow = row;
+    xTableEventData.nCol = 0;
+    xTableEventData.strName = mstrName;
+
+    OnEventHandler(xTableEventData, AFCData(DT_BOOLEAN, false), AFCData(DT_BOOLEAN, false));
 
     ReleaseRow(mxRowDatas[row], mxColTypes.size());
     mxRowDatas[row] = nullptr;
@@ -321,6 +355,18 @@ bool AFDataTable::SetValue(size_t row, size_t col, const AFIData& value)
 
     RowData* row_data = mxRowDatas[row];
     ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
+
+    if (!row_data[col].equal(value))
+    {
+        DATA_TABLE_EVENT_DATA xTableEventData;
+        xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
+        xTableEventData.nRow = row;
+        xTableEventData.nCol = col;
+        xTableEventData.strName = mstrName;
+
+        OnEventHandler(xTableEventData, row_data[col], value);
+    }
+
     row_data[col].Assign(value);
     return true;
 }
@@ -334,7 +380,20 @@ bool AFDataTable::SetBool(size_t row, size_t col, const bool value)
 
     RowData* row_data = mxRowDatas[row];
     ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
+
+    if (!row_data[col].equal(value))
+    {
+        DATA_TABLE_EVENT_DATA xTableEventData;
+        xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
+        xTableEventData.nRow = row;
+        xTableEventData.nCol = col;
+        xTableEventData.strName = mstrName;
+
+        OnEventHandler(xTableEventData, row_data[col], AFCData(DT_BOOLEAN, value));
+    }
+
     row_data[col].SetBool(value);
+
     return true;
 }
 
@@ -347,6 +406,17 @@ bool AFDataTable::SetInt(size_t row, size_t col, const int value)
 
     RowData* row_data = mxRowDatas[row];
     ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
+
+    if (!row_data[col].equal(value))
+    {
+        DATA_TABLE_EVENT_DATA xTableEventData;
+        xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
+        xTableEventData.nRow = row;
+        xTableEventData.nCol = col;
+        xTableEventData.strName = mstrName;
+
+        OnEventHandler(xTableEventData, row_data[col], AFCData(DT_INT, value));
+    }
 
     row_data[col].SetInt(value);
     return true;
@@ -361,6 +431,16 @@ bool AFDataTable::SetInt64(size_t row, size_t col, const int64_t value)
 
     RowData* row_data = mxRowDatas[row];
     ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
+    if (!row_data[col].equal(value))
+    {
+        DATA_TABLE_EVENT_DATA xTableEventData;
+        xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
+        xTableEventData.nRow = row;
+        xTableEventData.nCol = col;
+        xTableEventData.strName = mstrName;
+
+        OnEventHandler(xTableEventData, row_data[col], AFCData(DT_INT64, value));
+    }
 
     row_data[col].SetInt64(value);
     return true;
@@ -375,6 +455,16 @@ bool AFDataTable::SetFloat(size_t row, size_t col, const float value)
 
     RowData* row_data = mxRowDatas[row];
     ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
+    if (!row_data[col].equal(value))
+    {
+        DATA_TABLE_EVENT_DATA xTableEventData;
+        xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
+        xTableEventData.nRow = row;
+        xTableEventData.nCol = col;
+        xTableEventData.strName = mstrName;
+
+        OnEventHandler(xTableEventData, row_data[col], AFCData(DT_FLOAT, value));
+    }
     row_data[col].SetFloat(value);
     return true;
 }
@@ -388,6 +478,16 @@ bool AFDataTable::SetDouble(size_t row, size_t col, const double value)
 
     RowData* row_data = mxRowDatas[row];
     ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
+    if (!row_data[col].equal(value))
+    {
+        DATA_TABLE_EVENT_DATA xTableEventData;
+        xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
+        xTableEventData.nRow = row;
+        xTableEventData.nCol = col;
+        xTableEventData.strName = mstrName;
+
+        OnEventHandler(xTableEventData, row_data[col], AFCData(DT_DOUBLE, value));
+    }
 
     row_data[col].SetDouble(value);
     return true;
@@ -402,7 +502,16 @@ bool AFDataTable::SetString(size_t row, size_t col, const char* value)
 
     RowData* row_data = mxRowDatas[row];
     ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
+    if (!row_data[col].equal(value))
+    {
+        DATA_TABLE_EVENT_DATA xTableEventData;
+        xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
+        xTableEventData.nRow = row;
+        xTableEventData.nCol = col;
+        xTableEventData.strName = mstrName;
 
+        OnEventHandler(xTableEventData, row_data[col], AFCData(DT_STRING, value));
+    }
     row_data[col].SetString(value);
     return true;
 }
@@ -416,7 +525,16 @@ bool AFDataTable::SetObject(size_t row, size_t col, const AFGUID& value)
 
     RowData* row_data = mxRowDatas[row];
     ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
+    if (!row_data[col].equal(value))
+    {
+        DATA_TABLE_EVENT_DATA xTableEventData;
+        xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
+        xTableEventData.nRow = row;
+        xTableEventData.nCol = col;
+        xTableEventData.strName = mstrName;
 
+        OnEventHandler(xTableEventData, row_data[col], AFCData(DT_OBJECT, value));
+    }
     row_data[col].SetObject(value);
     return true;
 }
@@ -826,4 +944,18 @@ bool AFDataTable::QueryRow(const size_t row, AFIDataList& varList)
     }
 
     return true;
+}
+
+bool AFDataTable::RegisterCallback(const LITLE_DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
+{
+    mxTablecallbacks = cb;
+    return true;
+}
+
+void AFDataTable::OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData)
+{
+    if (nullptr != mxTablecallbacks)
+    {
+        (*mxTablecallbacks)(xEventData, oldData, newData);
+    }
 }
