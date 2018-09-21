@@ -30,9 +30,9 @@
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFINetServerManagerModule.h"
+#include "SDK/Interface/AFINetClientManagerModule.h"
 #include "Server/Interface/AFIProxyNetServerModule.h"
 #include "Server/Interface/AFIProxyServerToWorldModule.h"
-#include "Server/Interface/AFIProxyServerToGameModule.h"
 
 class AFCProxyNetServerModule : public AFIProxyNetServerModule
 {
@@ -45,7 +45,7 @@ public:
     bool Init() override;
     virtual bool Update();
 
-    virtual int Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen);
+    virtual int Transpond(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen);
     virtual int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer);
 
     //进入游戏成功
@@ -60,28 +60,29 @@ protected:
     //有连接
     void OnClientConnected(const AFGUID& xClientID);
 
-    void OnConnectKeyProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnReqServerListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnSelectServerProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnReqRoleListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnReqCreateRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnReqDelRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnReqEnterGameServer(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnConnectKeyProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqServerListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqRoleListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqCreateRoleProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqDelRoleProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnReqEnterGameServer(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     //客户端的连接60秒删掉
     int HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFIDataList& var);
     //////////////////////////////////////////////////////////////////////////
 
-    void OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnOtherMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    template<class TypeName> void CheckSessionTransMsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    template<class TypeName>
+    void CheckSessionTransMsg(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
         //在没有正式进入游戏之前，nPlayerID都是FD
         ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, TypeName);
 
         if (CheckSessionState(xMsg.game_id(), xClientID, xMsg.account()))
         {
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(xMsg.game_id(), nMsgID, msg, nLen, xClientID);
+            m_pMsgModule->SendSSMsg(xMsg.game_id(), nMsgID, msg, nLen, xClientID);
         }
     }
 
@@ -92,11 +93,11 @@ private:
     AFCConsistentHash mxConsistentHash;
 
     AFIProxyServerToWorldModule* m_pProxyToWorldModule;
-    AFIProxyServerToGameModule* m_pProxyServerToGameModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;
     AFINetServerManagerModule* m_pNetServerManagerModule;
-
-    AFINetServer* m_pNetServer{ nullptr };
+    AFINetClientManagerModule* m_pNetClientManagerModule;
+    AFIMsgModule* m_pMsgModule;
+    AFINetServerService* m_pNetServer{ nullptr };
 };

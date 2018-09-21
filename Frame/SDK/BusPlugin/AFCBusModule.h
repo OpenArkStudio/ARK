@@ -28,23 +28,25 @@ public:
     explicit AFCBusModule(AFIPluginManager* p);
     ~AFCBusModule() override = default;
 
-    const std::string& GetAppName(const uint8_t& proc_id) override;
+    const std::string& GetAppName(const uint8_t& app_type) override;
     const uint8_t GetAppType(const std::string& name) override;
 
     const AFServerConfig* GetAppServerInfo() override;
     const std::string& GetAppHost(const int bus_id) override;
 
-    bool GetDirectBusRelations(std::vector<std::string>& target_host_list, std::vector<uint16_t>& target_port_list) override;
+    bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) override;
     bool IsUndirectBusRelation(const int bus_id) override;
 
     const uint8_t GetSelfAppType() override;
     const int GetSelfBusID() override;
     const std::string GetSelfBusName() override;
 
+    const int CombineBusID(const uint8_t& app_type, const uint8_t& inst_id) override;
+
 protected:
     bool LoadProcConfig();
     bool LoadBusRelation();
-    uint16_t CalcProcPort(const uint8_t& proc_id, const uint8_t inst_id);
+    uint16_t CalcProcPort(const AFBusAddr& bus_addr);
 
     const AFServerConfig* GetAppServerInfo(const AFBusAddr& bus_addr);
     const std::string& GetHost(const std::string& host);

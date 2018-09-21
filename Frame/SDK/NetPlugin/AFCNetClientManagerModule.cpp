@@ -18,58 +18,83 @@
 *
 */
 
+#include "SDK/Core/AFDateTime.hpp"
 #include "AFCNetClientManagerModule.h"
+#include "AFCNetClientService.h"
 
+AFCNetClientManagerModule::AFCNetClientManagerModule(AFIPluginManager* p)
+{
+    pPluginManager = p;
+}
 
+bool AFCNetClientManagerModule::Init()
+{
+    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
+    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-//////////////////////////////////////////////////////////////////////////
+    return true;
+}
 
 bool AFCNetClientManagerModule::Update()
 {
-    for (bool bRet = mmCluster.Begin(); bRet; bRet = mmCluster.Increase())
+    for (bool bRet = _net_clients.Begin(); bRet; bRet = _net_clients.Increase())
     {
-        const auto& pCluster = mmCluster.GetCurrentData();
-        if (pCluster)
+        const auto& pCluster = _net_clients.GetCurrentData();
+        ARK_ASSERT_CONTINUE(pCluster != nullptr);
+
+        pCluster->Update();
+    }
+
+    return true;
+}
+
+bool AFCNetClientManagerModule::Shut()
+{
+    for (bool bRet = _net_clients.Begin(); bRet; bRet = _net_clients.Increase())
+    {
+        const AFINetClientService* pCluster = _net_clients.GetCurrentData();
+        ARK_DELETE(pCluster);
+    }
+
+    return true;
+}
+
+int AFCNetClientManagerModule::CreateClusterClients()
+{
+    std::vector<AFServerConfig> target_list;
+    if (m_pBusModule->GetDirectBusRelations(target_list))
+    {
+        return -1;
+    }
+
+    if (target_list.empty())
+    {
+        return -2;
+    }
+
+    for (auto& target : target_list)
+    {
+        uint8_t app_type = AFBusAddr(target.self_id).proc_id;
+        AFINetClientService* pClient = _net_clients.GetElement(app_type);
+        if (pClient == nullptr)
         {
-            pCluster->Update();
+            AFINetClientService* pClient = ARK_NEW AFCNetClientService(pPluginManager);
+            _net_clients.AddElement(app_type, pClient);
         }
+
+        pClient->StartClient(target.self_id, target.public_url);
     }
 
-    return true;
+    return 0;
 }
 
-AFINetClientModule* AFCNetClientManagerModule::CreateClusterClientModule(const size_t nClusterTypeID)
+AFINetClientService* AFCNetClientManagerModule::GetNetClientService(const uint8_t& app_type)
 {
-    AFINetClientModule* pCluster = mmCluster.GetElement(nClusterTypeID);
-    if (pCluster != nullptr)
-    {
-        //Please check why create client and client is not null
-        ARK_ASSERT_RET_VAL(0, nullptr);
-        return nullptr;
-    }
-
-    pCluster = ARK_NEW AFINetClientModule(pPluginManager);
-    pCluster->Init();
-
-    return pCluster;
+    return _net_clients.GetElement(app_type);
 }
 
-bool AFCNetClientManagerModule::RemoveClusterClientModule(const size_t nClusterTypeID)
+AFINetClientService* AFCNetClientManagerModule::GetNetClientServiceByBusID(const int bus_id)
 {
-    AFINetClientModule* pCluster = mmCluster.GetElement(nClusterTypeID);
-    if (!pCluster)
-    {
-        return false;
-    }
-
-    pCluster->Shut();
-    delete pCluster;
-
-    mmCluster.RemoveElement(nClusterTypeID);
-    return true;
-}
-
-AFINetClientModule* AFCNetClientManagerModule::GetClusterClientModule(const size_t nClusterTypeID)
-{
-    return mmCluster.GetElement(nClusterTypeID);
+    AFBusAddr addr(bus_id);
+    return GetNetClientService(addr.proc_id);
 }

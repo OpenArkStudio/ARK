@@ -77,91 +77,91 @@ bool AFCMasterNetServerModule::Update()
     return true;
 }
 
-void AFCMasterNetServerModule::OnWorldRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNetServerModule::OnWorldRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        ARK_SHARE_PTR<AFServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<AFServerData> pServerData =  mWorldMap.GetElement(xData.bus_id());
 
         if (nullptr == pServerData)
         {
             pServerData = std::make_shared<AFServerData>();
-            mWorldMap.AddElement(xData.server_id(), pServerData);
+            mWorldMap.AddElement(xData.bus_id(), pServerData);
         }
 
         pServerData->Init(xClientID, xData);
 
-        ARK_LOG_INFO("WorldRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
+        ARK_LOG_INFO("WorldRegistered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
     }
 
     SynWorldToLogin();
 }
 
-void AFCMasterNetServerModule::OnWorldUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNetServerModule::OnWorldUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        mWorldMap.RemoveElement(xData.server_id());
+        mWorldMap.RemoveElement(xData.bus_id());
 
-        ARK_LOG_INFO("WorldUnRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
+        ARK_LOG_INFO("WorldUnRegistered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
     }
 
     SynWorldToLogin();
 }
 
-void AFCMasterNetServerModule::OnRefreshWorldInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNetServerModule::OnRefreshWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        ARK_SHARE_PTR<AFServerData> pServerData =  mWorldMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<AFServerData> pServerData =  mWorldMap.GetElement(xData.bus_id());
 
         if (nullptr == pServerData)
         {
             pServerData = std::make_shared<AFServerData>();
-            mWorldMap.AddElement(xData.server_id(), pServerData);
+            mWorldMap.AddElement(xData.bus_id(), pServerData);
         }
 
         pServerData->Init(xClientID, xData);
 
-        ARK_LOG_INFO("RefreshWorldInfo, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
+        ARK_LOG_INFO("RefreshWorldInfo, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
     }
 
     SynWorldToLogin();
 }
 
-void AFCMasterNetServerModule::OnLoginRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNetServerModule::OnLoginRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        ARK_SHARE_PTR<AFServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<AFServerData> pServerData =  mLoginMap.GetElement(xData.bus_id());
 
         if (nullptr == pServerData)
         {
             pServerData = std::make_shared<AFServerData>();
-            mLoginMap.AddElement(xData.server_id(), pServerData);
+            mLoginMap.AddElement(xData.bus_id(), pServerData);
         }
 
         pServerData->Init(xClientID, xData);
 
-        ARK_LOG_INFO("LoginRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
+        ARK_LOG_INFO("LoginRegistered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
     }
 
     SynWorldToLogin();
 }
 
-void AFCMasterNetServerModule::OnLoginUnRegisteredProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNetServerModule::OnLoginUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -169,34 +169,34 @@ void AFCMasterNetServerModule::OnLoginUnRegisteredProcess(const AFIMsgHead& xHea
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
-        mLoginMap.RemoveElement(xData.server_id());
+        mLoginMap.RemoveElement(xData.bus_id());
 
-        ARK_LOG_INFO("LoginUnRegistered, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
+        ARK_LOG_INFO("LoginUnRegistered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
     }
 }
 
-void AFCMasterNetServerModule::OnRefreshLoginInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNetServerModule::OnRefreshLoginInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
     for (int i = 0; i < xMsg.server_list_size(); ++i)
     {
         const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        ARK_SHARE_PTR<AFServerData> pServerData =  mLoginMap.GetElement(xData.server_id());
+        ARK_SHARE_PTR<AFServerData> pServerData =  mLoginMap.GetElement(xData.bus_id());
 
         if (nullptr == pServerData)
         {
             pServerData = std::make_shared<AFServerData>();
-            mLoginMap.AddElement(xData.server_id(), pServerData);
+            mLoginMap.AddElement(xData.bus_id(), pServerData);
         }
 
         pServerData->Init(xClientID, xData);
 
-        ARK_LOG_INFO("RefreshLoginInfo, server_id[{}] server_name[{}]", xData.server_id(), xData.server_name());
+        ARK_LOG_INFO("RefreshLoginInfo, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
     }
 }
 
-void AFCMasterNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNetServerModule::OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
 
@@ -211,7 +211,7 @@ void AFCMasterNetServerModule::OnSelectWorldProcess(const AFIMsgHead& xHead, con
     m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xMsg, pServerData->xClient, nPlayerID);
 }
 
-void AFCMasterNetServerModule::OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNetServerModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
     ARK_SHARE_PTR<AFServerData> pServerData =  mLoginMap.GetElement(xMsg.login_id());
@@ -242,40 +242,31 @@ void AFCMasterNetServerModule::OnSocketEvent(const NetEventType eEvent, const AF
 void AFCMasterNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
 {
     //不管是login还是world都要找出来,替他反注册
-    ARK_SHARE_PTR<AFServerData> pServerData =  mWorldMap.First();
-
-    while (nullptr != pServerData)
+    for (ARK_SHARE_PTR<AFServerData> pServerData = mWorldMap.First(); nullptr != pServerData; pServerData = mWorldMap.Next())
     {
         if (xClientID == pServerData->xClient)
         {
-            pServerData->pData->set_server_state(AFMsg::EST_CRASH);
+            pServerData->xData.set_logic_status(AFMsg::EST_CRASH);
             pServerData->xClient = AFGUID(0);
 
             SynWorldToLogin();
             return;
         }
-
-        pServerData = mWorldMap.Next();
     }
 
     //////////////////////////////////////////////////////////////////////////
 
     int nServerID = 0;
-    pServerData =  mLoginMap.First();
-
-    while (nullptr != pServerData)
+    for (ARK_SHARE_PTR<AFServerData> pServerData = mLoginMap.First(); nullptr != pServerData; pServerData = mLoginMap.Next())
     {
         if (xClientID == pServerData->xClient)
         {
-            nServerID = pServerData->pData->server_id();
+            nServerID = pServerData->xData.bus_id();
             break;
         }
-
-        pServerData = mLoginMap.Next();
     }
 
     mLoginMap.RemoveElement(nServerID);
-
 }
 
 void AFCMasterNetServerModule::OnClientConnected(const AFGUID& xClientID)
@@ -287,20 +278,14 @@ void AFCMasterNetServerModule::SynWorldToLogin()
 {
     AFMsg::ServerInfoReportList xData;
 
-    ARK_SHARE_PTR<AFServerData> pServerData =  mWorldMap.First();
-
-    while (nullptr != pServerData)
+    for (ARK_SHARE_PTR<AFServerData> pServerData = mWorldMap.First(); nullptr != pServerData; pServerData = mWorldMap.Next())
     {
         AFMsg::ServerInfoReport* pData = xData.add_server_list();
-        *pData = *(pServerData->pData);
-
-        pServerData = mWorldMap.Next();
+        *pData = pServerData->xData;
     }
 
     //广播给所有loginserver
-
-
-    for (pServerData = mLoginMap.First(); nullptr != pServerData;  pServerData = mLoginMap.Next())
+    for (ARK_SHARE_PTR<AFServerData> pServerData = mLoginMap.First(); nullptr != pServerData; pServerData = mLoginMap.Next())
     {
         m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_STS_NET_INFO, xData, pServerData->xClient, AFGUID(0));
     }
@@ -317,40 +302,34 @@ void AFCMasterNetServerModule::LogGameServer()
 
     //////////////////////////////////////////////////////////////////////////
     ARK_LOG_INFO("Begin Log WorldServer Info---------------------------");
-
     for (ARK_SHARE_PTR<AFServerData> pGameData = mWorldMap.First(); pGameData != nullptr; pGameData = mWorldMap.Next())
     {
-        ARK_LOG_INFO("Type[{}] ID[{}] State[{}] IP[{}] xClient[{}]",
-                     pGameData->pData->server_type(),
-                     pGameData->pData->server_id(),
-                     AFMsg::EServerState_Name(pGameData->pData->server_state()),
-                     pGameData->pData->server_ip(),
+        ARK_LOG_INFO("ID[{}] State[{}] IP[{}] xClient[{}]",
+                     pGameData->xData.bus_id(),
+                     AFMsg::EServerState_Name(pGameData->xData.logic_status()),
+                     pGameData->xData.url(),
                      pGameData->xClient.nLow);
     }
-
     ARK_LOG_INFO("End Log WorldServer Info---------------------------");
     //////////////////////////////////////////////////////////////////////////
     ARK_LOG_INFO("Begin Log LoginServer Info---------------------------");
-
-    for (ARK_SHARE_PTR<AFServerData> pGameData = mLoginMap.First(); pGameData != nullptr; pGameData = mLoginMap.Next())
+    for (ARK_SHARE_PTR<AFServerData> pLoginData = mLoginMap.First(); pLoginData != nullptr; pLoginData = mLoginMap.Next())
     {
-        ARK_LOG_INFO("Type[{}] ID[{}] State[{}] IP[{}] xClient[{}]",
-                     pGameData->pData->server_type(),
-                     pGameData->pData->server_id(),
-                     AFMsg::EServerState_Name(pGameData->pData->server_state()).c_str(),
-                     pGameData->pData->server_ip().c_str(),
-                     pGameData->xClient.nLow);
+        ARK_LOG_INFO("ID[{}] State[{}] IP[{}] xClient[{}]",
+                     pLoginData->xData.bus_id(),
+                     AFMsg::EServerState_Name(pLoginData->xData.logic_status()),
+                     pLoginData->xData.url(),
+                     pLoginData->xClient.nLow);
     }
-
     ARK_LOG_INFO("End Log LoginServer Info---------------------------");
 }
 
-void AFCMasterNetServerModule::OnHeartBeat(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNetServerModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //do nothing
 }
 
-void AFCMasterNetServerModule::InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCMasterNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);
 }

@@ -27,7 +27,7 @@
 class AFIBusModule : public AFIModule
 {
 public:
-    virtual const std::string& GetAppName(const uint8_t& proc_id) = 0;
+    virtual const std::string& GetAppName(const uint8_t& app_type) = 0;
     virtual const uint8_t GetAppType(const std::string& name) = 0;
 
     //get a process info which act a server
@@ -37,10 +37,12 @@ public:
     virtual const std::string& GetAppHost(const int bus_id) = 0;
 
     //get bus relations of connecting directly
-    virtual bool GetDirectBusRelations(std::vector<std::string>& target_host_list, std::vector<uint16_t>& target_port_list) = 0;
+    virtual bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) = 0;
     virtual bool IsUndirectBusRelation(const int bus_id) = 0;
 
     virtual const uint8_t GetSelfAppType() = 0;
     virtual const int GetSelfBusID() = 0;
     virtual const std::string GetSelfBusName() = 0;
+
+    virtual const int CombineBusID(const uint8_t& app_type, const uint8_t& inst_id) = 0;
 };

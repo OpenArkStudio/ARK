@@ -32,8 +32,6 @@ class AFIModule
 {
 public:
     AFIModule()
-        : pPluginManager(NULL)
-        , mbReloading(false)
     {
     }
 
@@ -101,11 +99,16 @@ public:
         return mbReloading;
     }
 
+    template<typename T>
+    T* FindModule()
+    {
+        ARK_ASSERT_RET_VAL(pPluginManager != nullptr, nullptr);
+        return pPluginManager->FindModule<T>();
+    }
+
     std::string strName;
 
 protected:
-    AFIPluginManager* pPluginManager;
-
-private:
-    bool mbReloading;
+    AFIPluginManager* pPluginManager{ nullptr };
+    bool mbReloading{ false };
 };

@@ -62,7 +62,7 @@ protected:
     int OnEnterSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
     int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    void OnClientSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnClientSwapSceneProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 private:
     AFIConfigModule* m_pConfigModule;

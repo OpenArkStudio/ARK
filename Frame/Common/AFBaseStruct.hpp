@@ -20,8 +20,9 @@
 
 #pragma once
 
-#include "SDK/Core/AFPlatform.hpp"
 #include "Common/AFApp.hpp"
+#include "SDK/Core/AFPlatform.hpp"
+#include "SDK/Core/AFMacros.hpp"
 
 //bus address, like IP address, 8.8.8.8
 union AFBusAddr
@@ -78,12 +79,11 @@ public:
 class AFServerConfig
 {
 public:
-    uint8_t inst_id{ 0 };
+    int self_id{ 0 };
     int max_connection{ 0 };
     uint8_t thread_num{ 0 };
     std::string private_url{};
     std::string public_url{};
-    uint16_t port{ 0 };
     //to add other fields
 };
 

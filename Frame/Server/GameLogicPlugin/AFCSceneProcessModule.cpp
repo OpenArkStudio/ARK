@@ -310,7 +310,7 @@ bool AFCSceneProcessModule::LoadSceneResource(const int nSceneID)
     return true;
 }
 
-void AFCSceneProcessModule::OnClientSwapSceneProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCSceneProcessModule::OnClientSwapSceneProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //Will add by yourself
 }

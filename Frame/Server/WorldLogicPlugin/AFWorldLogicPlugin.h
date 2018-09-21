@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -27,16 +27,11 @@
 class AFWorldLogicPlugin : public AFIPlugin
 {
 public:
-    explicit AFWorldLogicPlugin(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFWorldLogicPlugin(AFIPluginManager* p);
 
-    virtual int GetPluginVersion();
+    int GetPluginVersion() override;
+    const std::string GetPluginName() override;
 
-    virtual const std::string GetPluginName();
-
-    virtual void Install();
-
-    virtual void Uninstall();
+    void Install() override;
+    void Uninstall() override;
 };

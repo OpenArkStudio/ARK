@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,18 +20,37 @@
 
 #pragma once
 
-#include "Common/AFApp.hpp"
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFINet.h"
-#include "SDK/Interface/AFIMsgModule.h"
-#include "SDK/Interface/AFIModule.h"
 
-class AFINetModule : public AFIModule
+class AFServerData
 {
-protected:
-    AFINetModule() = default;
-
 public:
-    virtual ~AFINetModule() = default;
+    void Init(const AFGUID& conn_id, const AFMsg::ServerInfoReport& data)
+    {
+        xClient = conn_id;
+        xData = data;
+    }
+
+    AFGUID xClient{ 0 };
+    AFMsg::ServerInfoReport xData;
+};
+
+class AFSessionData
+{
+public:
+    int32_t mnLogicState{ 0 };
+    int32_t mnGameID{ 0 };
+    AFGUID mnUserID{ 0 };
+    AFGUID mnClientID{ 0 };
+    AFGUID mnHashIdentID{ 0 };
+    std::string mstrAccout{};
+};
+
+class AFINetServerService
+{
+public:
+    virtual ~AFINetServerService() = default;
 
     template<typename BaseType>
     bool AddRecvCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
@@ -46,29 +65,9 @@ public:
     bool AddRecvCallback(BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
     {
         NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-        NET_PKG_RECV_FUNCTOR_PTR functorPtr = std::make_shared<NET_PKG_RECV_FUNCTOR>(functor);
+        NET_PKG_RECV_FUNCTOR_PTR functorPtr = std::make_shared < NET_PKG_RECV_FUNCTOR>(functor);
 
         return AddRecvCallback(functorPtr);
-    }
-
-    virtual bool AddRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb)
-    {
-        if (mxRecvCallBack.find(nMsgID) != mxRecvCallBack.end())
-        {
-            return false;
-        }
-        else
-        {
-            mxRecvCallBack.insert(std::make_pair(nMsgID, cb));
-            return true;
-        }
-    }
-
-    virtual bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb)
-    {
-        mxCallBackList.push_back(cb);
-
-        return true;
     }
 
     template<typename BaseType>
@@ -80,41 +79,16 @@ public:
         return AddEventCallBack(functorPtr);
     }
 
-    virtual bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb)
-    {
-        mxEventCallBackList.push_back(cb);
+    virtual int Start(const int bus_id, const std::string& url, const uint8_t thread_count, const uint32_t max_connection) = 0;
+    virtual bool Update() = 0;
 
-        return true;
-    }
+    virtual bool SendBroadcastMsg(const int nMsgID, const std::string& msg, const AFGUID& player_id) = 0;
+    virtual bool SendBroadcastPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& player_id) = 0;
+    virtual bool SendPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) = 0;
+    virtual bool SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) = 0;
+    virtual AFINet* GetNet() = 0;
 
-protected:
-    void OnRecvBaseNetPack(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-    {
-        auto it = mxRecvCallBack.find(nMsgID);
-
-        if (mxRecvCallBack.end() != it)
-        {
-            (*it->second)(xHead, nMsgID, msg, nLen, xClientID);
-        }
-        else
-        {
-            for (auto iter : mxCallBackList)
-            {
-                (*iter)(xHead, nMsgID, msg, nLen, xClientID);
-            }
-        }
-    }
-
-    void OnSocketBaseNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
-    {
-        for (auto it : mxEventCallBackList)
-        {
-            (*it)(eEvent, xClientID, nServerID);
-        }
-    }
-
-private:
-    std::map<int, NET_PKG_RECV_FUNCTOR_PTR> mxRecvCallBack;
-    std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
-    std::list<NET_PKG_RECV_FUNCTOR_PTR> mxCallBackList;
+    virtual bool AddRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+    virtual bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+    virtual bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
 };

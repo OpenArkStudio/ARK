@@ -33,14 +33,14 @@ class AFIMsgModule : public AFIModule
 public:
     virtual ~AFIMsgModule() = default;
 
-    static bool RecvPB(const AFIMsgHead& xHead, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
+    static bool RecvPB(const ARK_PKG_BASE_HEAD& xHead, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
     {
         strMsg.assign(msg, nLen);
         nPlayer = xHead.GetPlayerID();
         return true;
     }
 
-    static bool RecvPB(const AFIMsgHead& xHead, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, AFGUID& nPlayer)
+    static bool RecvPB(const ARK_PKG_BASE_HEAD& xHead, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, AFGUID& nPlayer)
     {
         if (!xData.ParseFromString(std::string(msg, nLen)))
         {
@@ -304,7 +304,13 @@ public:
         return true;
     }
 
-    //to add some send msg functions
+    virtual bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) = 0;
+    virtual bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) = 0;
+    virtual bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) = 0;
+
+    virtual bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& target_role_id = 0) = 0;
+    virtual bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) = 0;
+    virtual bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& target_role_id = 0) = 0;
 };
 
 #define ARK_MSG_PROCESS(xHead, nMsgID, msgData, nLen, msgType)                          \
@@ -317,10 +323,10 @@ public:
     }                                                                                   \
                                                                                         \
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(nPlayerID);           \
-    if (nullptr == pEntity)                                                                                                 \
-    {                                                                                                                       \
-        ARK_LOG_ERROR("FromClient Object do not Exist, nMsgID = %d player_id = %s", nMsgID, nPlayerID.ToString().c_str());  \
-        return;                                                                                                             \
+    if (nullptr == pEntity)                                                                                         \
+    {                                                                                                               \
+        ARK_LOG_ERROR("FromClient Object do not Exist, nMsgID = %d player_id = %s", nMsgID, nPlayerID.ToString());  \
+        return;                                                                                                     \
     }
 
 #define ARK_MSG_PROCESS_NO_OBJECT(xHead, msgData, nLen, msgType)                        \
@@ -338,5 +344,5 @@ public:
     int nHasKey = 0;                                                            \
     if (AFIMsgModule::RecvPB((xHead), (msg), (nLen), strMsg, nPlayerID))        \
     {                                                                           \
-        nHasKey = nPlayerID.nLow;                                               \
+        nHasKey = (int)nPlayerID.nLow;                                          \
     }

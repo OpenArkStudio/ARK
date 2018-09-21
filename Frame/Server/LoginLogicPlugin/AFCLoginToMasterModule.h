@@ -20,27 +20,22 @@
 
 #pragma once
 
-#include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIConfigModule.h"
-#include "Server/Interface/AFILoginLogicModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFINetClientManagerModule.h"
+#include "SDK/Interface/AFIBusModule.h"
+#include "sdk/Interface/AFIMsgModule.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
+#include "Server/Interface/AFILoginLogicModule.h"
 #include "Server/Interface/AFILoginToMasterModule.h"
 
 class AFCLoginToMasterModule : public AFILoginToMasterModule
 {
 public:
-    explicit AFCLoginToMasterModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFCLoginToMasterModule(AFIPluginManager* p);
 
-    virtual bool Init();
-
-    virtual bool PostInit();
+    bool Init() override;
+    bool PostInit() override;
 
     virtual void LogReceive(const char* str) {/*log*/}
     virtual void LogSend(const char* str) {/*log*/}
@@ -49,11 +44,13 @@ public:
     virtual AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap();
 
 protected:
+    int StartClient();
+
     void OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
     //////////////////////////////////////////////////////////////////////////
-    void OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnWorldInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     //////////////////////////////////////////////////////////////////////////
     void Register(const int nServerID);
@@ -62,11 +59,10 @@ private:
     AFMapEx<int, AFMsg::ServerInfoReport> mWorldMap;
 
     AFILoginLogicModule* m_pLoginLogicModule;
-    AFILoginNetServerModule* m_pLoginNet_ServerModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIKernelModule* m_pKernelModule;
-    AFIClassModule* m_pClassModule;
+    AFILoginNetServerModule* m_pLoginNetServerModule;
     AFILogModule* m_pLogModule;
     AFINetClientModule* m_pNetClientModule;
     AFINetClientManagerModule* m_pNetClientManagerModule;
+    AFIBusModule* m_pBusModule;
+    AFIMsgModule* m_pMsgModule;
 };

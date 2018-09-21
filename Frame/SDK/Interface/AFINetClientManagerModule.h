@@ -21,12 +21,14 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "AFINetClientModule.hpp"
+#include "AFINetClientService.h"
+
+//////////////////////////////////////////////////////////////////////////
 
 class AFINetClientManagerModule : public AFIModule
 {
 public:
-    virtual AFINetClientModule* CreateClusterClientModule(const size_t nClusterTypeID) = 0;
-    virtual bool RemoveClusterClientModule(const size_t nClusterTypeID) = 0;
-    virtual AFINetClientModule* GetClusterClientModule(const size_t nClusterTypeID) = 0;
+    virtual int CreateClusterClients() = 0;
+    virtual AFINetClientService* GetNetClientService(const uint8_t& app_type) = 0;
+    virtual AFINetClientService* GetNetClientServiceByBusID(const int bus_id) = 0;
 };

@@ -44,9 +44,9 @@ inline bool AFCPluginManager::Init()
         return false;
     }
 
-    for (int i = 0; i < mxPluginNameMapVec.size(); i++)
+    for (const auto& iter : mxPluginNameVec)
     {
-        bool bRet = LoadPluginLibrary(mxPluginNameMapVec[i]);
+        bool bRet = LoadPluginLibrary(iter);
 
         if (!bRet)
         {
@@ -54,9 +54,9 @@ inline bool AFCPluginManager::Init()
         }
     }
 
-    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
+    for (const auto& iter : mxModuleInstanceVec)
     {
-        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->Init();
@@ -92,7 +92,7 @@ bool AFCPluginManager::LoadPluginConf()
         const char* strPluginName = pPluginNode->first_attribute("name")->value();
         if (mxPluginNameMap.insert(std::make_pair(strPluginName, true)).second)
         {
-            mxPluginNameMapVec.push_back(strPluginName);
+            mxPluginNameVec.emplace_back(strPluginName);
         }
     }
 
@@ -208,7 +208,7 @@ void AFCPluginManager::AddModule(const std::string& strModuleName, AFIModule* pM
 
     if (mxModuleInstanceMap.AddElement(strModuleName, pModule))
     {
-        mxModuleInstanceMapVec.push_back(pModule);
+        mxModuleInstanceVec.push_back(pModule);
     }
 }
 
@@ -217,10 +217,10 @@ void AFCPluginManager::RemoveModule(const std::string& strModuleName)
     auto pModule  = mxModuleInstanceMap.GetElement(strModuleName);
     mxModuleInstanceMap.RemoveElement(strModuleName);
 
-    decltype(mxModuleInstanceMapVec)::iterator iter = std::find(mxModuleInstanceMapVec.begin(), mxModuleInstanceMapVec.end(), pModule);
-    if (iter != mxModuleInstanceMapVec.end())
+    auto iter = std::find(mxModuleInstanceVec.begin(), mxModuleInstanceVec.end(), pModule);
+    if (iter != mxModuleInstanceVec.end())
     {
-        mxModuleInstanceMapVec.erase(iter);
+        mxModuleInstanceVec.erase(iter);
     }
 }
 
@@ -231,9 +231,9 @@ AFIModule* AFCPluginManager::FindModule(const std::string& strModuleName)
 
 bool AFCPluginManager::PostInit()
 {
-    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
+    for (const auto& iter : mxModuleInstanceVec)
     {
-        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->PostInit();
@@ -245,9 +245,9 @@ bool AFCPluginManager::PostInit()
 
 bool AFCPluginManager::CheckConfig()
 {
-    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
+    for (const auto& iter : mxModuleInstanceVec)
     {
-        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->CheckConfig();
@@ -259,9 +259,9 @@ bool AFCPluginManager::CheckConfig()
 
 bool AFCPluginManager::PreUpdate()
 {
-    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
+    for (const auto& iter : mxModuleInstanceVec)
     {
-        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->PreUpdate();
@@ -275,9 +275,9 @@ bool AFCPluginManager::Update()
 {
     mnNowTime = AFDateTime::GetNowTime();
 
-    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
+    for (const auto& iter : mxModuleInstanceVec)
     {
-        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->Update();
@@ -291,9 +291,9 @@ bool AFCPluginManager::PreShut()
 {
     mnNowTime = AFDateTime::GetNowTime();
 
-    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
+    for (const auto& iter : mxModuleInstanceVec)
     {
-        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->PreShut();
@@ -305,9 +305,9 @@ bool AFCPluginManager::PreShut()
 
 bool AFCPluginManager::Shut()
 {
-    for (int i = 0; i < mxModuleInstanceMapVec.size(); i++)
+    for (const auto& iter : mxModuleInstanceVec)
     {
-        AFIModule* pModule = mxModuleInstanceMapVec[i];
+        AFIModule* pModule = iter;
         if (pModule)
         {
             pModule->Shut();

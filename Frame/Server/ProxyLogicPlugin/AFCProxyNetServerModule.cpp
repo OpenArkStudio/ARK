@@ -23,12 +23,13 @@
 
 bool AFCProxyNetServerModule::Init()
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pProxyToWorldModule = pPluginManager->FindModule<AFIProxyServerToWorldModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pProxyServerToGameModule = pPluginManager->FindModule<AFIProxyServerToGameModule>();
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
+    m_pKernelModule             = FindModule<AFIKernelModule>();
+    m_pProxyToWorldModule       = FindModule<AFIProxyServerToWorldModule>();
+    m_pLogModule                = FindModule<AFILogModule>();
+    m_pBusModule                = FindModule<AFIBusModule>();
+    m_pNetServerManagerModule   = FindModule<AFINetServerManagerModule>();
+    m_pNetClientManagerModule   = FindModule<AFINetClientManagerModule>();
+    m_pMsgModule                = FindModule<AFIMsgModule>();
 
     int ret = StartServer();
     if (ret != 0)
@@ -84,7 +85,7 @@ int AFCProxyNetServerModule::HB_OnConnectCheckTime(const AFGUID& self, const std
     return 0;
 }
 
-void AFCProxyNetServerModule::OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyNetServerModule::OnOtherMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
@@ -101,10 +102,10 @@ void AFCProxyNetServerModule::OnOtherMessage(const AFIMsgHead& xHead, const int 
         return;
     }
 
-    m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, nMsgID, msg, nLen, xHead.GetPlayerID());
+    m_pMsgModule->SendSSMsg(pSessionData->mnGameID, nMsgID, msg, nLen, xHead.GetPlayerID());
 }
 
-void AFCProxyNetServerModule::OnConnectKeyProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyNetServerModule::OnConnectKeyProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
     bool bRet = m_pProxyToWorldModule->VerifyConnectData(xMsg.account(), xMsg.security_code());
@@ -156,26 +157,19 @@ void AFCProxyNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
         if (pSessionData->mnGameID > 0 && !pSessionData->mnUserID.IsNULL())
         {
             AFMsg::ReqLeaveGameServer xData;
-            std::string strMsg;
-
-            if (!xData.SerializeToString(&strMsg))
-            {
-                return;
-            }
-
-            m_pProxyServerToGameModule->GetClusterModule()->SendByServerID(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, strMsg, pSessionData->mnUserID);
+            m_pMsgModule->SendParticularSSMsg(pSessionData->mnGameID, AFMsg::EGameMsgID::EGMI_REQ_LEAVE_GAME, xData, pSessionData->mnUserID);
         }
 
         mmSessionData.RemoveElement(xClientID);
     }
 }
 
-void AFCProxyNetServerModule::OnSelectServerProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyNetServerModule::OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqSelectServer);
-    ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(xMsg.world_id());
-
-    if (pServerData && ConnectData::CONNECTED == pServerData->eState)
+    AFINetClientService* pWorldNetService = m_pNetClientManagerModule->GetNetClientServiceByBusID(xMsg.world_id());
+    ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(xMsg.world_id());
+    if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->_net_state)
     {
         ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
@@ -196,7 +190,7 @@ void AFCProxyNetServerModule::OnSelectServerProcess(const AFIMsgHead& xHead, con
     m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xMsg, xClientID, nPlayerID);
 }
 
-void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyNetServerModule::OnReqServerListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqServerList);
 
@@ -213,35 +207,36 @@ void AFCProxyNetServerModule::OnReqServerListProcess(const AFIMsgHead& xHead, co
         AFMsg::AckServerList xData;
         xData.set_type(AFMsg::RSLT_GAMES_ERVER);
 
-        AFMapEx<int, ConnectData>& xServerList = m_pProxyServerToGameModule->GetClusterModule()->GetServerList();
-        auto pGameData = xServerList.First();
-
-        while (pGameData != nullptr)
+        AFINetClientService* pGameNetService = m_pNetClientManagerModule->GetNetClientService(ARK_APP_GAME);
+        if (pGameNetService == nullptr)
         {
-            if (ConnectData::CONNECTED == pGameData->eState)
+            return;
+        }
+
+        AFMapEx<int, AFConnectionData>& xServerList = pGameNetService->GetServerList();
+        for (auto pGameData = xServerList.First(); pGameData != nullptr; pGameData = xServerList.Next())
+        {
+            if (ConnectData::CONNECTED == pGameData->_net_state)
             {
                 AFMsg::ServerInfo* pServerInfo = xData.add_info();
 
-                pServerInfo->set_name(pGameData->strName);
                 pServerInfo->set_status(AFMsg::EServerState::EST_NARMAL);
-                pServerInfo->set_server_id(pGameData->nGameID);
+                pServerInfo->set_server_id(pGameData->_server_bus_id);
                 pServerInfo->set_wait_count(0);
             }
-
-            pGameData = xServerList.Next();
         }
 
         m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, nPlayerID);
     }
 }
 
-int AFCProxyNetServerModule::Transpond(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen)
+int AFCProxyNetServerModule::Transpond(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen)
 {
     ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xHead.GetPlayerID());
 
     if (pSessionData)
     {
-        m_pNetServer->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, pSessionData->mnClientID, xHead.GetPlayerID());
+        m_pNetServer->GetNet()->SendRawMsg(nMsgID, msg, nLen, pSessionData->mnClientID, xHead.GetPlayerID());
     }
 
     return true;
@@ -249,7 +244,7 @@ int AFCProxyNetServerModule::Transpond(const AFIMsgHead& xHead, const int nMsgID
 
 int AFCProxyNetServerModule::SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID&  nClientID, const AFGUID&  nPlayer)
 {
-    m_pNetServer->GetNet()->SendMsgWithOutHead(nMsgID, msg, nLen, nClientID, nPlayer);
+    m_pNetServer->GetNet()->SendRawMsg(nMsgID, msg, nLen, nClientID, nPlayer);
 
     return true;
 }
@@ -262,23 +257,23 @@ void AFCProxyNetServerModule::OnClientConnected(const AFGUID& xClientID)
     mmSessionData.AddElement(xClientID, pSessionData);
 }
 
-void AFCProxyNetServerModule::OnReqRoleListProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyNetServerModule::OnReqRoleListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     CheckSessionTransMsg<AFMsg::ReqRoleList>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
-void AFCProxyNetServerModule::OnReqCreateRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyNetServerModule::OnReqCreateRoleProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     //在没有正式进入游戏之前，nPlayerID都是FD
     CheckSessionTransMsg<AFMsg::ReqCreateRole>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
-void AFCProxyNetServerModule::OnReqDelRoleProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyNetServerModule::OnReqDelRoleProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     CheckSessionTransMsg<AFMsg::ReqDeleteRole>(xHead, nMsgID, msg, nLen, xClientID);
 }
 
-void AFCProxyNetServerModule::OnReqEnterGameServer(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCProxyNetServerModule::OnReqEnterGameServer(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     CheckSessionTransMsg<AFMsg::ReqEnterGameServer>(xHead, nMsgID, msg, nLen, xClientID);
 }
@@ -297,9 +292,9 @@ int AFCProxyNetServerModule::EnterGameSuccessEvent(const AFGUID xClientID, const
 
 bool AFCProxyNetServerModule::CheckSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount)
 {
-    ARK_SHARE_PTR<ConnectData> pServerData = m_pProxyServerToGameModule->GetClusterModule()->GetServerNetInfo(nGameID);
-
-    if (pServerData && ConnectData::CONNECTED == pServerData->eState)
+    AFINetClientService* pWorldNetService = m_pNetClientManagerModule->GetNetClientServiceByBusID(nGameID);
+    ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(nGameID);
+    if (pServerData != nullptr && ConnectData::CONNECTED == pServerData->_net_state)
     {
         //数据匹配
         ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);

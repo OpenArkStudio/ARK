@@ -20,94 +20,12 @@
 
 #pragma once
 
-#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Interface/AFINet.h"
-
-class AFServerData
-{
-public:
-    AFServerData()
-    {
-        pData = std::make_shared<AFMsg::ServerInfoReport>();
-    }
-
-    ~AFServerData() = default;
-
-    void Init(const AFGUID& xClientID, const AFMsg::ServerInfoReport& xData)
-    {
-        xClient = xClientID;
-        *(pData) = xData;
-    }
-
-    AFGUID xClient{ 0 };
-    ARK_SHARE_PTR<AFMsg::ServerInfoReport> pData{ nullptr };
-};
-
-class AFSessionData
-{
-public:
-    AFSessionData() = default;
-
-    int32_t mnLogicState{ 0 };
-    int32_t mnGameID{ 0 };
-    AFGUID mnUserID{ 0 };
-    AFGUID mnClientID{ 0 };
-    AFGUID mnHashIdentID{ 0 };
-    std::string mstrAccout{ "" };
-};
-
-class AFINetServer
-{
-public:
-    virtual ~AFINetServer() = default;
-
-    template<typename BaseType>
-    bool AddRecvCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const AFIMsgHead&, const int, const char*, const uint32_t, const AFGUID&))
-    {
-        NET_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-        NET_RECV_FUNCTOR_PTR functorPtr = std::make_shared<NET_RECV_FUNCTOR>(functor);
-
-        return AddRecvCallback(nMsgID, functorPtr);
-    }
-
-    template<typename BaseType>
-    bool AddRecvCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFIMsgHead&, const int, const char*, const uint32_t, const AFGUID&))
-    {
-        NET_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-        NET_RECV_FUNCTOR_PTR functorPtr = std::make_shared < NET_RECV_FUNCTOR>(functor);
-
-        return AddRecvCallback(functorPtr);
-    }
-
-    template<typename BaseType>
-    bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const int))
-    {
-        NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-        NET_EVENT_FUNCTOR_PTR functorPtr(new NET_EVENT_FUNCTOR(functor));
-
-        return AddEventCallBack(functorPtr);
-    }
-
-    virtual int Start(const int bus_id, const std::string& url, const uint8_t thread_count, const uint32_t max_connection) = 0;
-    virtual bool Update() = 0;
-
-    virtual bool SendBroadcastMsg(const int nMsgID, const std::string& msg, const AFGUID& player_id) = 0;
-    virtual bool SendBroadcastPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& player_id) = 0;
-    virtual bool SendPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) = 0;
-    virtual bool SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) = 0;
-    virtual AFINet* GetNet() = 0;
-
-    virtual bool AddRecvCallback(const int nMsgID, const NET_RECV_FUNCTOR_PTR& cb) = 0;
-    virtual bool AddRecvCallback(const NET_RECV_FUNCTOR_PTR& cb) = 0;
-    virtual bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
-};
-
-//////////////////////////////////////////////////////////////////////////
+#include "AFINetServerService.h"
 
 class AFINetServerManagerModule : public AFIModule
 {
 public:
     virtual int CreateServer() = 0;
-    virtual AFINetServer* GetSelfNetServer() = 0;
+    virtual AFINetServerService* GetSelfNetServer() = 0;
 };

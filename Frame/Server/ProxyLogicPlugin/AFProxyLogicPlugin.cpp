@@ -21,13 +21,17 @@
 #include "AFProxyLogicPlugin.h"
 #include "AFCProxyLogicModule.h"
 #include "AFCProxyNetServerModule.h"
-#include "AFCProxyServerToGameModule.h"
 #include "AFCProxyServerToWorldModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFProxyLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFProxyLogicPlugin)
 
 //////////////////////////////////////////////////////////////////////////
+
+AFProxyLogicPlugin::AFProxyLogicPlugin(AFIPluginManager* p)
+{
+    pPluginManager = p;
+}
 
 int AFProxyLogicPlugin::GetPluginVersion()
 {
@@ -43,13 +47,11 @@ void AFProxyLogicPlugin::Install()
 {
     RegisterModule<AFIProxyLogicModule, AFCProxyLogicModule>();
     RegisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
-    RegisterModule<AFIProxyServerToGameModule, AFCProxyServerToGameModule>();
     RegisterModule<AFIProxyServerToWorldModule, AFCProxyServerToWorldModule>();
 }
 
 void AFProxyLogicPlugin::Uninstall()
 {
-    DeregisterModule<AFIProxyServerToGameModule, AFCProxyServerToGameModule>();
     DeregisterModule<AFIProxyServerToWorldModule, AFCProxyServerToWorldModule>();
     DeregisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
     DeregisterModule<AFIProxyLogicModule, AFCProxyLogicModule>();

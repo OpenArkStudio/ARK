@@ -23,11 +23,6 @@
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFINetClientModule.hpp"
 
-class AFIGameServerToWorldModule
-    : public AFIModule
+class AFIGameServerToWorldModule : public AFIModule
 {
-
-public:
-    virtual void SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen) = 0;
-    virtual AFINetClientModule* GetClusterClientModule() = 0;
 };

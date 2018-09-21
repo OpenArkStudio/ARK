@@ -66,6 +66,9 @@ bool AFCBusModule::LoadProcConfig()
         return false;
     }
 
+    //self bus address
+    AFBusAddr self_bus_id(GetSelfBusID());
+
     for (rapidxml::xml_node<>* pServerNode = pServersNode->first_node(); pServerNode != nullptr; pServerNode = pServerNode->next_sibling())
     {
         std::string name = pServerNode->first_attribute("name")->value();
@@ -84,12 +87,13 @@ bool AFCBusModule::LoadProcConfig()
             for (uint8_t i = start; i <= end; ++i)
             {
                 AFServerConfig server_config;
-                server_config.inst_id = i;
+                AFBusAddr server_bus(self_bus_id.channel_id, self_bus_id.zone_id, proc_id, i);
+                server_config.self_id = server_bus.bus_id;
                 server_config.max_connection = max_connection;
                 server_config.thread_num = thread_num;
                 const std::string& real_host = GetHost(host_name);
                 ARK_ASSERT_RET_VAL(real_host != NULL_STR, false);
-                uint16_t port = CalcProcPort(proc_id, server_config.inst_id);
+                uint16_t port = CalcProcPort(server_bus);
 #if ARK_PLATFORM == PLATFORM_WIN
                 server_config.private_url = protocol + "localhost:" + ARK_TO_STRING(port);
 #else
@@ -152,9 +156,9 @@ bool AFCBusModule::LoadBusRelation()
     return true;
 }
 
-const std::string& AFCBusModule::GetAppName(const uint8_t& type)
+const std::string& AFCBusModule::GetAppName(const uint8_t& app_type)
 {
-    auto iter = mxProcConfig.proc_names.find(type);
+    auto iter = mxProcConfig.proc_names.find(app_type);
     return ((iter != mxProcConfig.proc_names.end()) ? iter->second : NULL_STR);
 }
 
@@ -164,21 +168,21 @@ const uint8_t AFCBusModule::GetAppType(const std::string& name)
     return ((iter != mxProcConfig.proc_types.end()) ? iter->second : ARK_APP_DEFAULT);
 }
 
-uint16_t AFCBusModule::CalcProcPort(const uint8_t& type, const uint8_t inst_id)
+uint16_t AFCBusModule::CalcProcPort(const AFBusAddr& bus_addr)
 {
-    if (type <= ARK_APP_DEFAULT || type >= ARK_APP_WORLD_MAX)
+    if (bus_addr.proc_id <= ARK_APP_DEFAULT || bus_addr.proc_id >= ARK_APP_WORLD_MAX)
     {
         ARK_ASSERT_NO_EFFECT(0);
         return 0;
     }
 
-    if (type > ARK_APP_DEFAULT && type < ARK_APP_CLUSTER_MAX)
+    if (bus_addr.proc_id > ARK_APP_DEFAULT && bus_addr.proc_id < ARK_APP_CLUSTER_MAX)
     {
-        return (10000 + type * 100 + inst_id);
+        return (10000 + bus_addr.proc_id * 100 + bus_addr.inst_id);
     }
     else
     {
-        return (20000 + type * 100 + inst_id);
+        return (20000 + bus_addr.proc_id * 100 + bus_addr.inst_id);
     }
 }
 
@@ -195,7 +199,8 @@ const AFServerConfig* AFCBusModule::GetAppServerInfo(const AFBusAddr& bus_addr)
     {
         for (auto& server : iter->second)
         {
-            if (server.inst_id == bus_addr.inst_id)
+            AFBusAddr server_bus(server.self_id);
+            if (server_bus.inst_id == bus_addr.inst_id)
             {
                 return &server;
             }
@@ -249,7 +254,7 @@ const uint8_t AFCBusModule::GetSelfAppType()
     return bus_id.proc_id;
 }
 
-bool AFCBusModule::GetDirectBusRelations(std::vector<std::string>& target_host_list, std::vector<uint16_t>& target_port_list)
+bool AFCBusModule::GetDirectBusRelations(std::vector<AFServerConfig>& target_list)
 {
     const uint8_t& app_type = GetSelfAppType();
     auto iter = mxBusRelations.find(app_type);
@@ -265,11 +270,7 @@ bool AFCBusModule::GetDirectBusRelations(std::vector<std::string>& target_host_l
 
             uint8_t target_proc_id = it.first;
             auto proc_conf_iter = mxProcConfig.instances.find(target_proc_id);
-            for (auto proc_conf_it : proc_conf_iter->second)
-            {
-                target_host_list.push_back(proc_conf_it.public_url);
-                target_port_list.push_back(proc_conf_it.port);
-            }
+            target_list.assign(proc_conf_iter->second.begin(), proc_conf_iter->second.end());
         }
 
         return true;
@@ -300,4 +301,13 @@ bool AFCBusModule::IsUndirectBusRelation(const int bus_id)
     {
         return false;
     }
+}
+
+const int AFCBusModule::CombineBusID(const uint8_t& app_type, const uint8_t& inst_id)
+{
+    ARK_ASSERT_RET_VAL(app_type > ARK_APP_DEFAULT && app_type < ARK_APP_MAX, 0);
+
+    int self_bus = GetSelfBusID();
+    AFBusAddr self_bus_addr(self_bus);
+    AFBusAddr target_bus_addr(self_bus_addr.channel_id, self_bus_addr.zone_id, app_type, inst_id);
 }

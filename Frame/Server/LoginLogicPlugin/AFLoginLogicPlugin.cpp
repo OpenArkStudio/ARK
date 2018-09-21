@@ -28,6 +28,11 @@ ARK_DLL_PLUGIN_EXIT(AFLoginLogicPlugin)
 
 //////////////////////////////////////////////////////////////////////////
 
+AFLoginLogicPlugin::AFLoginLogicPlugin(AFIPluginManager* p)
+{
+    pPluginManager = p;
+}
+
 int AFLoginLogicPlugin::GetPluginVersion()
 {
     return 0;

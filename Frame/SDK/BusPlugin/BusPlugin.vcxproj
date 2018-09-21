@@ -13,11 +13,13 @@
   <ItemGroup>
     <ClCompile Include="AFBusPlugin.cpp" />
     <ClCompile Include="AFCBusModule.cpp" />
+    <ClCompile Include="AFCMsgModule.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFBusPlugin.h" />
     <ClInclude Include="AFCBusModule.h" />
+    <ClInclude Include="AFCMsgModule.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9D23DA22-6ECC-47CB-85F7-0BF440B88298}</ProjectGuid>
@@ -73,6 +75,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\brynet\src\;$(SolutionDir)..\Dep\protobuf\src\;$(SolutionDir)..\Plugins\</AdditionalIncludeDirectories>
       <BrowseInformation>false</BrowseInformation>
       <SDLCheck>false</SDLCheck>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

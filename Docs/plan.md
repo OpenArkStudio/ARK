@@ -15,6 +15,7 @@
 - [ ] 11.增加dirty data layer, 当一个客户端请求处理完成后统一下发变化数据，不能有变有发，会导致小包太碎，并且浪费协议的head
 - [ ] 12.关于背包类的table，整理或者交换，需要改成别的方式
 - [ ] 13.excel工具修改为https://github.com/davyxu/tabtoy
+- [ ] 14.net plugin增加endpoint
 
 - [ ] 51.优化数据同步的流量,减小属性同步的体积(去掉`NodeName`和`TableName`类似的string同步, 上线先同步index和name的映射，后续全部用index下发，入库用name)
 - [ ] 52.拓展DataTable的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，DataTable现有的二维结构是特定的，不方便做扩展
@@ -26,7 +27,9 @@
 - [ ] 58.增加coroutine，参考libgo
 
 - [ ] 100.UE4 Demo
-  
+- [ ] 101.引入tcmalloc
+- [ ] 102.所有的基础数据结构向C#看齐
+
 - [ ] 200.增加监控web页面(vue-admin)
 - [ ] 201.增加Deployment web工具
 - [ ] 202.增加consul来做服务发现和配置共享(调研后不太适合现在的情况, 考虑etcd/zookeeper来做)  
@@ -34,14 +37,16 @@
 ## ARK的一些可能有问题的地方
 
 1. 网络插件那边，客户端和服务器的超时和IPV4/6不太一样，分别都有写TODO
-2. kernel和config插件还是得合并为一个，因为kernel非常依赖config插件
+2. ~~kernel和config插件还是得合并为一个，因为kernel非常依赖config插件~~
 3. 定时log和心跳改为timer方式，不要再是用update和HeartBeat了
 4. 所有的智能指针都用引用的方式传入
+5. 网络模块的处理现在还是有些混乱，AFINet在AFINetServer和AFINetClient中都有删除，而AFINet的子类析构函数中也有Shutdown
 
 ## ARK Bug修改
 
 1. ClearRow的时候后面的行号会变化，所以要考虑要么行号不变，只是置空，要么就得客户端来根据DeleteRow消息同步修改后续的row变化
 2. 现在的ConfigPlugin数据加载有问题
+3. AFMapEx的First Next返回值有问题
 
 -------------
 

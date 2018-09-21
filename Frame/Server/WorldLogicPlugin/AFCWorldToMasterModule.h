@@ -27,6 +27,8 @@
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFINetClientModule.hpp"
 #include "SDK/Interface/AFINetClientManagerModule.h"
+#include "SDK/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
 #include "Server/Interface/AFIWorldToMasterModule.h"
 #include "Server/Interface/AFIWorldLogicModule.h"
 #include "Server/Interface/AFIWorldNetServerModule.h"
@@ -34,16 +36,13 @@
 class AFCWorldToMasterModule : public AFIWorldToMasterModule
 {
 public:
-    explicit AFCWorldToMasterModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFCWorldToMasterModule(AFIPluginManager* p);
 
-    virtual bool Init();
-    virtual bool PostInit();
-    virtual bool Shut();
+    bool Init() override;
+    bool PostInit() override;
 
 protected:
+    int StartClient();
 
     void OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
@@ -55,20 +54,20 @@ protected:
     virtual void LogServerInfo(const std::string& strServerInfo);
 
 
-    void Register(const int nServerID);
+    void Register(const int bus_id);
     void RefreshWorldInfo();
 
-    void OnSelectServerProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnKickClientProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnKickClientProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    void InvalidMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 private:
 
     AFILogModule* m_pLogModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIClassModule* m_pClassModule;
     AFIWorldLogicModule* m_pWorldLogicModule;
     AFIWorldNetServerModule* m_pWorldNetServerModule;
     AFINetClientModule* m_pNetClientModule;
     AFINetClientManagerModule* m_pNetClientManagerModule;
+    AFIBusModule* m_pBusModule;
+    AFIMsgModule* m_pMsgModule;
 };

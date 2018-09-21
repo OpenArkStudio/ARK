@@ -63,7 +63,7 @@ static uint32_t crcTable[256] =
 
 static uint32_t CRC32(char* c, int len)
 {
-    register uint32_t crc;
+    uint32_t crc;
     char* e = c + len;
 
     crc = 0xFFFFFFFF;

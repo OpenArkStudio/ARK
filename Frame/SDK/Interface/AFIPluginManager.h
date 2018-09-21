@@ -49,22 +49,17 @@ public:
     T* FindModule()
     {
         AFIModule* pLogicModule = FindModule(typeid(T).name());
+        ARK_ASSERT_RET_VAL(pLogicModule != nullptr, nullptr);
 
-        if (pLogicModule)
+        if (!std::is_base_of<AFIModule, T>::value)
         {
-            if (!std::is_base_of<AFIModule, T>::value)
-            {
-                return nullptr;
-            }
-
-            T* pT = dynamic_cast<T*>(pLogicModule);
-            ARK_ASSERT_RET_VAL(pT != nullptr, nullptr);
-
-            return pT;
+            return nullptr;
         }
 
-        ARK_ASSERT_NO_EFFECT(0);
-        return nullptr;
+        T* pT = dynamic_cast<T*>(pLogicModule);
+        ARK_ASSERT_RET_VAL(pT != nullptr, nullptr);
+
+        return pT;
     }
 
     template<typename T>

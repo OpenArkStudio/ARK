@@ -102,7 +102,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AFCNetClientService.cpp" />
     <ClCompile Include="AFCNetClientManagerModule.cpp" />
+    <ClCompile Include="AFCNetServerService.cpp" />
     <ClCompile Include="AFCNetServerManagerModule.cpp" />
     <ClCompile Include="AFCTCPClient.cpp" />
     <ClCompile Include="AFCTCPServer.cpp" />
@@ -119,7 +121,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Interface\AFINetManagerModule.h" />
+    <ClInclude Include="..\Interface\AFINetServerService.h" />
+    <ClInclude Include="AFCNetClientService.h" />
     <ClInclude Include="AFCNetClientManagerModule.h" />
+    <ClInclude Include="AFCNetServerService.h" />
     <ClInclude Include="AFCNetServerManagerModule.h" />
     <ClInclude Include="AFCTCPClient.h" />
     <ClInclude Include="AFCTCPServer.h" />

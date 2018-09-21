@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,11 +20,10 @@
 
 #pragma once
 
-#include "SDK/Interface/AFIModule.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
+#include "SDK/Core/AFPlatform.hpp"
+#include "SDK/Core/AFMacros.hpp"
 
-class AFIProxyServerToGameModule : public  AFIModule
-{
-public:
-    virtual AFINetClientModule* GetClusterModule() = 0;
-};
+ARK_CONSTEXPR static const int ARK_TCP_RECV_BUFFER_SIZE = 10 * 1024 * 1024; //10M
+ARK_CONSTEXPR static const int ARK_HTTP_RECV_BUFFER_SIZE = 1024 * 1024; //1M
+
+ARK_CONSTEXPR static const std::chrono::seconds ARK_NET_HEART_TIME = std::chrono::seconds(30);//30s

@@ -5,9 +5,7 @@ package AFMsg;
 import "AFDefine.proto";
 import "AFMsgBase.proto";
 
-//ÕâÀïÖ÷ÒªÊÇÓëÓÎÏ·ÄÚÈİ¹ØÏµ²»ÊÇºÜ´óµÄĞ­Òé£¬±ÈÈçµÇÂ¼£¬´´½¨½ÇÉ«£¬Æ½Ì¨¿Û·ÑµÈ
-
-
+//è¿™é‡Œä¸»è¦æ˜¯ä¸æ¸¸æˆå†…å®¹å…³ç³»ä¸æ˜¯å¾ˆå¤§çš„åè®®ï¼Œæ¯”å¦‚ç™»å½•ï¼Œåˆ›å»ºè§’è‰²ï¼Œå¹³å°æ‰£è´¹ç­‰
 enum EServerState
 {
 	EST_CRASH = 0;
@@ -17,24 +15,21 @@ enum EServerState
 	EST_MAINTEN = 4;
 }
 
-message ServerInfoReport		//·şÎñÆ÷Ö®¼ä±¨¸æ·şÎñÆ÷×´Ì¬
+message ServerInfoReport		//æœåŠ¡å™¨ä¹‹é—´æŠ¥å‘ŠæœåŠ¡å™¨çŠ¶æ€
 {
-	int32   server_id = 1;
-	string  server_name = 2;
-	string  server_ip = 3;
-	int32   server_port = 4;
-	int32   server_max_online = 5;
-	int32   server_cur_count = 6;
-	EServerState   server_state = 7;
-	int32   server_type = 8;
+	int32   bus_id = 1;
+	string  url = 2;
+	int32   max_online = 3;
+	int32   cur_online = 4;
+	EServerState logic_status = 5; //logic status
 }
 
-message ServerInfoReportList		//·şÎñÆ÷Ö®¼ä±¨¸æ·şÎñÆ÷×´Ì¬
+message ServerInfoReportList		//æœåŠ¡å™¨ä¹‹é—´æŠ¥å‘ŠæœåŠ¡å™¨çŠ¶æ€
 {
 	repeated ServerInfoReport server_list = 1;
 }
 
-message AckEventResult		//·µ»ØÊÂ¼ş½á¹û(¶Ô»ò´íµÈÏêÏ¸)
+message AckEventResult		//è¿”å›äº‹ä»¶ç»“æœ(å¯¹æˆ–é”™ç­‰è¯¦ç»†)
 {
 	EGameEventCode event_code = 1;
 	PBGUID event_object 	= 2;//playerID
@@ -45,7 +40,7 @@ message AckEventResult		//·µ»ØÊÂ¼ş½á¹û(¶Ô»ò´íµÈÏêÏ¸)
 }
 
 ////////////////////////////////////////////////////
-message ReqAccountLogin		//ÏòÍø¹Ø(µÇÂ¼·şÎñÆ÷)ÉêÇëµÇÂ¼
+message ReqAccountLogin		//å‘ç½‘å…³(ç™»å½•æœåŠ¡å™¨)ç”³è¯·ç™»å½•
 { 
 	string 			account = 2;
 	string 			password = 3;
@@ -60,78 +55,76 @@ message ReqAccountLogin		//ÏòÍø¹Ø(µÇÂ¼·şÎñÆ÷)ÉêÇëµÇÂ¼
 	int32 			platform_type = 12;
 }
 
-message ReqAccountLogout		//ÏòÍø¹Ø(µÇÂ¼·şÎñÆ÷)ÉêÇëµÇ³ö
+message ReqAccountLogout		//å‘ç½‘å…³(ç™»å½•æœåŠ¡å™¨)ç”³è¯·ç™»å‡º
 { 
 	string 		account = 2;
 	string 		extra_info = 3;
 }
 
-message ServerInfo		//·şÎñÆ÷ĞÅÏ¢---Õâ¸öÊÇÃæÏòÍæ¼ÒµÄ
+message ServerInfo		//æœåŠ¡å™¨ä¿¡æ¯---è¿™ä¸ªæ˜¯é¢å‘ç©å®¶çš„
 {
-    int32  		server_id = 1;
-    string 			name = 2;
-	int32			wait_count = 3;
-	EServerState	status = 4;
+    int32  			server_id = 1;
+	int32			wait_count = 2;
+	EServerState	status = 3;
 }
 
-//ÇëÇó´óÊÀ½ç·şÎñÆ÷ÁĞ±í£¬ÇëÇóµ¥ÊÀ½çÓÎÏ··şÎñÆ÷ÁĞ±í
+//è¯·æ±‚å¤§ä¸–ç•ŒæœåŠ¡å™¨åˆ—è¡¨ï¼Œè¯·æ±‚å•ä¸–ç•Œæ¸¸æˆæœåŠ¡å™¨åˆ—è¡¨
 enum ReqServerListType
 {
 	RSLT_WORLD_SERVER = 0;
 	RSLT_GAMES_ERVER = 1;
 };
 
-message ReqServerList		//ÇëÇóÓÎÏ··şÎñÆ÷ÁĞ±í
+message ReqServerList		//è¯·æ±‚æ¸¸æˆæœåŠ¡å™¨åˆ—è¡¨
 {
 	ReqServerListType type = 1;
 }
 
-message AckServerList		//·şÎñÆ÷ĞÅÏ¢ÁĞ±í
+message AckServerList		//æœåŠ¡å™¨ä¿¡æ¯åˆ—è¡¨
 {
 	ReqServerListType type = 1;
 	repeated ServerInfo info = 2;
 }
 
-message ReqConnectWorld		//Íæ¼ÒÏëÁ¬µ½ÊÀ½ç·şÎñÆ÷,½øÓÎÏ·ÊÀ½ç--µÇÂ¼Í¨¹ıºóÑ¡ÊÀ½ç
+message ReqConnectWorld		//ç©å®¶æƒ³è¿åˆ°ä¸–ç•ŒæœåŠ¡å™¨,è¿›æ¸¸æˆä¸–ç•Œ--ç™»å½•é€šè¿‡åé€‰ä¸–ç•Œ
 {
-	int32   world_id = 1;//ÏëÈ¥µÄÊÀ½çID
-	string  account = 2;//Íæ¼ÒÕÊºÅ--¿Í»§¶È·¢ËÍÊ±¿ÉÒÔ²»Ìî--×ª·¢ĞèÌî
-	PBGUID  sender = 3;//Íæ¼ÒÁÙÊ±ID--¿Í»§¶È·¢ËÍÊ±¿ÉÒÔ²»Ìî--×ª·¢ĞèÌî
-	int32   login_id = 4;//µÇÂ¼·şÎñÆ÷ID--¿Í»§¶È·¢ËÍÊ±¿ÉÒÔ²»Ìî--×ª·¢ĞèÌî
+	int32   world_id = 1;//æƒ³å»çš„ä¸–ç•ŒID
+	string  account = 2;//ç©å®¶å¸å·--å®¢æˆ·åº¦å‘é€æ—¶å¯ä»¥ä¸å¡«--è½¬å‘éœ€å¡«
+	PBGUID  sender = 3;//ç©å®¶ä¸´æ—¶ID--å®¢æˆ·åº¦å‘é€æ—¶å¯ä»¥ä¸å¡«--è½¬å‘éœ€å¡«
+	int32   login_id = 4;//ç™»å½•æœåŠ¡å™¨ID--å®¢æˆ·åº¦å‘é€æ—¶å¯ä»¥ä¸å¡«--è½¬å‘éœ€å¡«
 }
 
-message AckConnectWorldResult		//·µ»ØÉêÇëµ½ÊÀ½ç·şÎñÆ÷µÄ½á¹û
+message AckConnectWorldResult		//è¿”å›ç”³è¯·åˆ°ä¸–ç•ŒæœåŠ¡å™¨çš„ç»“æœ
 {
-	int32   world_id = 1;//ÉêÇëÕßÏëÈ¥µÄÊÀ½çID
-	PBGUID  sender = 2;//ÉêÇëÕßÁÙÊ±ID
-	int32   login_id = 3;//ÉêÇëÕßËùÔÚµÄµÇÂ¼·şÎñÆ÷ID
-	string  account = 4;//ÉêÇëÕßµÄÕÊºÅ
-	string  world_ip = 5;//µÃµ½µÄÊÀ½ç·şÎñÆ÷·ÖÅäµÄÍø¹ØIP
-	int32  world_port = 6;//µÃµ½µÄÊÀ½ç·şÎñÆ÷·ÖÅäµÄ¶Ë¿Ú
-	string  world_key = 7;//µÃµ½µÄÎÕÊÖKEY
+	int32   world_id = 1;//ç”³è¯·è€…æƒ³å»çš„ä¸–ç•ŒID
+	PBGUID  sender = 2;//ç”³è¯·è€…ä¸´æ—¶ID
+	int32   login_id = 3;//ç”³è¯·è€…æ‰€åœ¨çš„ç™»å½•æœåŠ¡å™¨ID
+	string  account = 4;//ç”³è¯·è€…çš„å¸å·
+	string  world_url = 5;//å¾—åˆ°çš„ä¸–ç•ŒæœåŠ¡å™¨åˆ†é…çš„ç½‘å…³IP
+	string  world_key = 7;//å¾—åˆ°çš„æ¡æ‰‹KEY
 }
 
-message ReqSelectServer		//Íæ¼ÒÏëÑ¡Ôñµ¥·şÎñÆ÷
+message ReqSelectServer		//ç©å®¶æƒ³é€‰æ‹©å•æœåŠ¡å™¨
 {
-	int32   world_id = 1;//ÏëÈ¥µÄ·şÎñÆ÷ID
+	int32   world_id = 1;//æƒ³å»çš„æœåŠ¡å™¨ID
 }
 
-message ReqKickFromWorld		//Íæ¼ÒÏëÍË³öÓÎÏ·ÊÀ½ç
+message ReqKickFromWorld		//ç©å®¶æƒ³é€€å‡ºæ¸¸æˆä¸–ç•Œ
 {
 	int32   world_id = 1;
-	string   account = 2;//ÕÊºÅ
+	string   account = 2;//å¸å·
 }
 
-//¼ÌĞøµÇÂ¼½ø´óÊÀ½çÍø¹Ø
+//ç»§ç»­ç™»å½•è¿›å¤§ä¸–ç•Œç½‘å…³
 
 ////////////////////////////////////////////
-message ReqRoleList		//ÇëÇóµÃµ½½ÇÉ«ÁĞ±í
+message ReqRoleList		//è¯·æ±‚å¾—åˆ°è§’è‰²åˆ—è¡¨
 {
 	int32   game_id = 1;
 	string   account = 2;	
 }
 
-message RoleLiteInfo		//½ÇÉ«»ù´¡ĞÅÏ¢
+message RoleLiteInfo		//è§’è‰²åŸºç¡€ä¿¡æ¯
 {
 	PBGUID 		id = 1;
 	int32 		career = 2;
@@ -147,12 +140,12 @@ message RoleLiteInfo		//½ÇÉ«»ù´¡ĞÅÏ¢
 	string		view_record = 12;
 }
 
-message AckRoleLiteInfoList		//½ÇÉ«»ù´¡ĞÅÏ¢ÁĞ±í
+message AckRoleLiteInfoList		//è§’è‰²åŸºç¡€ä¿¡æ¯åˆ—è¡¨
 {
 	repeated RoleLiteInfo char_data = 1;
 }
 
-message ReqCreateRole		//´´½¨½ÇÉ«
+message ReqCreateRole		//åˆ›å»ºè§’è‰²
 {
 	string 		account = 1;
 	int32 		career = 2;
@@ -162,31 +155,31 @@ message ReqCreateRole		//´´½¨½ÇÉ«
     int32 		game_id = 6;
 }
 
-message ReqDeleteRole		//É¾³ı½ÇÉ«
+message ReqDeleteRole		//åˆ é™¤è§’è‰²
 {
 	string 	account = 1;
     string	name = 2;
 	int32 	game_id = 3;
 }
 
-message ReqRecoverRole		//»Ö¸´½ÇÉ«
+message ReqRecoverRole		//æ¢å¤è§’è‰²
 {
 	string 	account = 1;
     string	name = 2;
 	int32 	game_id = 3;
 }
 
-message ServerHeartBeat // ĞÄÌø
+message ServerHeartBeat // å¿ƒè·³
 {
-	int32 count = 1; // ÊıÁ¿£¬ÔİÊ±Ã»ÓÃµ½£¬ÒÔºó¿ÉÒÔÓÃÀ´×ö½ÇÉ«ÊıÁ¿±¨¸æµÈ
+	int32 count = 1; // æ•°é‡ï¼Œæš‚æ—¶æ²¡ç”¨åˆ°ï¼Œä»¥åå¯ä»¥ç”¨æ¥åšè§’è‰²æ•°é‡æŠ¥å‘Šç­‰
 }
 
-message RoleOnlineNotify // Íæ¼ÒÉÏÏßÍ¨Öª
+message RoleOnlineNotify // ç©å®¶ä¸Šçº¿é€šçŸ¥
 {
-	PBGUID guild = 1; // ¹«»áID
+	PBGUID guild = 1; // å…¬ä¼šID
 }
 
-message RoleOfflineNotify // Íæ¼ÒÏÂÏßÍ¨Öª
+message RoleOfflineNotify // ç©å®¶ä¸‹çº¿é€šçŸ¥
 {
-	PBGUID guild = 1; // ¹«»áID
+	PBGUID guild = 1; // å…¬ä¼šID
 }

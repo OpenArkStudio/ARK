@@ -25,8 +25,9 @@
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
+#include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFINetClientManagerModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
 #include "Server/Interface/AFIGameServerToWorldModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
@@ -34,23 +35,19 @@
 class AFCGameServerToWorldModule : public AFIGameServerToWorldModule
 {
 public:
-    explicit AFCGameServerToWorldModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFCGameServerToWorldModule(AFIPluginManager* p);
 
-    virtual bool Init();
-    virtual bool PostInit();
-
-    virtual void SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen);
-    virtual AFINetClientModule* GetClusterClientModule();
+    bool Init() override;
+    bool PostInit() override;
 
 protected:
+    int StartClient();
+
     void OnSocketWSEvent(const NetEventType e, const AFGUID& xClientID, const int nServerID);
 
     void Register(const int nSeverID);
     void RefreshWorldInfo();
-    void TransPBToProxy(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void TransPBToProxy(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
 
@@ -62,7 +59,8 @@ private:
     AFIKernelModule* m_pKernelModule;
     AFIClassModule* m_pClassModule;
     AFIConfigModule* m_pConfigModule;
-    AFINetClientModule* m_pNetClientModule;
+    AFIBusModule* m_pBusModule;
     AFINetClientManagerModule* m_pNetClientManagerModule;
-    AFIGameNetServerModule* m_pGameServerNet_ServerModule;
+    AFIGameNetServerModule* m_pGameNetServerModule;
+    AFIMsgModule* m_pMsgModule;
 };

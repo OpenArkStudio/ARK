@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -27,15 +27,11 @@
 class AFProxyLogicPlugin : public AFIPlugin
 {
 public:
-    explicit AFProxyLogicPlugin(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
-    virtual int GetPluginVersion();
+    explicit AFProxyLogicPlugin(AFIPluginManager* p);
 
-    virtual const std::string GetPluginName();
+    int GetPluginVersion() override;
+    const std::string GetPluginName() override;
 
-    virtual void Install();
-
-    virtual void Uninstall();
+    void Install() override;
+    void Uninstall() override;
 };

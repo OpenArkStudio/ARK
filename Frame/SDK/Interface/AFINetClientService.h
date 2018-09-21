@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,18 +20,40 @@
 
 #pragma once
 
-#include "Common/AFApp.hpp"
-#include "SDK/Interface/AFINet.h"
-#include "SDK/Interface/AFIMsgModule.h"
-#include "SDK/Interface/AFIModule.h"
+#include "Common/AFProtoCPP.hpp"
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Core/AFCConsistentHash.hpp"
+#include "SDK/Core/AFNoncopyable.hpp"
+#include "AFINet.h"
 
-class AFINetModule : public AFIModule
+class AFConnectionData
 {
-protected:
-    AFINetModule() = default;
-
 public:
-    virtual ~AFINetModule() = default;
+    enum ConnectState
+    {
+        DISCONNECT,
+        CONNECTING,
+        CONNECTED,
+        RECONNECT,
+    };
+
+    AFConnectionData() = default;
+
+    int _server_bus_id{ 0 };
+    std::string _protocol{};
+    std::string _ip{};
+    uint16_t _port{ 0 };
+    bool _is_ip_v6{ false };
+    AFINet* _net_client_ptr{ nullptr };
+
+    ConnectState _net_state{ DISCONNECT }; //net state
+    int64_t _last_active_time{ 0 };
+};
+
+class AFINetClientService : public AFNoncopyable
+{
+public:
+    virtual ~AFINetClientService() = default;
 
     template<typename BaseType>
     bool AddRecvCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
@@ -51,26 +73,6 @@ public:
         return AddRecvCallback(functorPtr);
     }
 
-    virtual bool AddRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb)
-    {
-        if (mxRecvCallBack.find(nMsgID) != mxRecvCallBack.end())
-        {
-            return false;
-        }
-        else
-        {
-            mxRecvCallBack.insert(std::make_pair(nMsgID, cb));
-            return true;
-        }
-    }
-
-    virtual bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb)
-    {
-        mxCallBackList.push_back(cb);
-
-        return true;
-    }
-
     template<typename BaseType>
     bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const int))
     {
@@ -80,41 +82,16 @@ public:
         return AddEventCallBack(functorPtr);
     }
 
-    virtual bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb)
-    {
-        mxEventCallBackList.push_back(cb);
+    virtual int StartClient(const int& target_bus_id, const std::string& url) = 0;
+    virtual void Update() = 0;
+    virtual void Shutdown() = 0;
 
-        return true;
-    }
+    virtual const ARK_SHARE_PTR<AFConnectionData>& GetServerNetInfo(const int nServerID) = 0;
+    virtual AFMapEx<int, AFConnectionData>& GetServerList() = 0;
 
-protected:
-    void OnRecvBaseNetPack(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-    {
-        auto it = mxRecvCallBack.find(nMsgID);
+    virtual bool AddRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+    virtual bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+    virtual bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
 
-        if (mxRecvCallBack.end() != it)
-        {
-            (*it->second)(xHead, nMsgID, msg, nLen, xClientID);
-        }
-        else
-        {
-            for (auto iter : mxCallBackList)
-            {
-                (*iter)(xHead, nMsgID, msg, nLen, xClientID);
-            }
-        }
-    }
-
-    void OnSocketBaseNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
-    {
-        for (auto it : mxEventCallBackList)
-        {
-            (*it)(eEvent, xClientID, nServerID);
-        }
-    }
-
-private:
-    std::map<int, NET_PKG_RECV_FUNCTOR_PTR> mxRecvCallBack;
-    std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
-    std::list<NET_PKG_RECV_FUNCTOR_PTR> mxCallBackList;
+    virtual void SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID) = 0;
 };

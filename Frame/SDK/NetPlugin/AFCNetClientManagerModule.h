@@ -20,23 +20,33 @@
 
 #pragma once
 
-#include "SDK/Interface/AFINetClientModule.hpp"
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Core/AFCConsistentHash.hpp"
+#include "SDK/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFINetClientManagerModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
+#include "Common/AFProtoCPP.hpp"
 
 class AFCNetClientManagerModule : public AFINetClientManagerModule
 {
 public:
-    explicit AFCNetClientManagerModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFCNetClientManagerModule(AFIPluginManager* p);
+    ~AFCNetClientManagerModule() override = default;
 
-    virtual bool Update();
+    bool Init() override;
+    bool Update() override;
+    bool Shut() override;
 
-    virtual AFINetClientModule* CreateClusterClientModule(const size_t nClusterTypeID);
-    virtual bool RemoveClusterClientModule(const size_t nClusterTypeID);
-    virtual AFINetClientModule* GetClusterClientModule(const size_t nClusterTypeID);
+    //create directly cluster client(connecting server directly)
+    int CreateClusterClients() override;
+
+    AFINetClientService* GetNetClientService(const uint8_t& app_type) override;
+    AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
 
 private:
-    AFMap<size_t, AFINetClientModule > mmCluster;
+    AFIBusModule* m_pBusModule;
+    AFILogModule* m_pLogModule;
+
+    AFMap<uint8_t, AFINetClientService> _net_clients;
 };

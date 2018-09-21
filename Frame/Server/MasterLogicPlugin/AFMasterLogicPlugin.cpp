@@ -27,6 +27,11 @@ ARK_DLL_PLUGIN_EXIT(AFMasterLogicPlugin)
 
 //////////////////////////////////////////////////////////////////////////
 
+AFMasterLogicPlugin::AFMasterLogicPlugin(AFIPluginManager* p)
+{
+    pPluginManager = p;
+}
+
 int AFMasterLogicPlugin::GetPluginVersion()
 {
     return 0;

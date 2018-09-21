@@ -33,6 +33,11 @@ ARK_DLL_PLUGIN_EXIT(AFGameLogicPlugin)
 
 //////////////////////////////////////////////////////////////////////////
 
+AFGameLogicPlugin::AFGameLogicPlugin(AFIPluginManager* p)
+{
+    pPluginManager = p;
+}
+
 int AFGameLogicPlugin::GetPluginVersion()
 {
     return 0;

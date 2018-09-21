@@ -157,7 +157,7 @@ public:
             return mNullPtr;
         }
     }
-    virtual const PTRTYPE&  Next(T& name)
+    virtual const PTRTYPE& Next(T& name)
     {
         if (mxObjectCurIter == mxObjectList.end())
         {
@@ -210,7 +210,7 @@ public:
         return false;
     }
 
-    const PTRTYPE& GetCurrentData()
+    PTRTYPE& GetCurrentData()
     {
         if (mxObjectCurIter != mxObjectList.end())
         {
@@ -229,11 +229,11 @@ private:
 };
 
 template <typename T, typename TD>
-class AFMapEx: public AFMapBase<T, TD, true >
+class AFMapEx: public AFMapBase<T, TD, true>
 {
 };
 
 template <typename T, typename TD>
-class AFMap: public AFMapBase<T, TD, false >
+class AFMap: public AFMapBase<T, TD, false>
 {
 };

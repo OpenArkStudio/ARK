@@ -23,8 +23,7 @@
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFINetClientModule.hpp"
 
-class AFIProxyServerToWorldModule
-    : public  AFIModule
+class AFIProxyServerToWorldModule : public  AFIModule
 {
 public:
     virtual AFINetClientModule* GetClusterModule() = 0;

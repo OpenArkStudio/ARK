@@ -113,7 +113,7 @@ public:
 
             if (pNetModule != nullptr)
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, msg, nLen, 0, nPlayerID);
+                pNetModule->SendRawMsg(nMsgID, msg, nLen, 0, nPlayerID);
             }
         }
     }
@@ -128,7 +128,7 @@ public:
 
             if (pNetModule != nullptr)
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.size(), 0, nPlayerID);
+                pNetModule->SendRawMsg(nMsgID, strData.data(), strData.size(), 0, nPlayerID);
             }
 
             pServer = mxServerMap.Next();
@@ -152,7 +152,7 @@ public:
 
             if (pNetModule.get())
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
+                pNetModule->SendRawMsg(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
             }
         }
     }
@@ -173,7 +173,7 @@ public:
 
             if (pNetModule != nullptr)
             {
-                pNetModule->SendMsgWithOutHead(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
+                pNetModule->SendRawMsg(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
             }
         }
     }
@@ -468,7 +468,7 @@ private:
     }
 
 protected:
-    void OnReceiveNetPack(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID)
+    void OnReceiveNetPack(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID)
     {
         OnRecvBaseNetPack(xHead, nMsgID, msg, nLen, xClientID);
     }

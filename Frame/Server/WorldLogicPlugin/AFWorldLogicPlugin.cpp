@@ -28,6 +28,11 @@ ARK_DLL_PLUGIN_EXIT(AFWorldLogicPlugin)
 
 //////////////////////////////////////////////////////////////////////////
 
+AFWorldLogicPlugin::AFWorldLogicPlugin(AFIPluginManager* p)
+{
+    pPluginManager = p;
+}
+
 int AFWorldLogicPlugin::GetPluginVersion()
 {
     return 0;

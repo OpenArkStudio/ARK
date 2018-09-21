@@ -95,9 +95,9 @@ private:
     typedef void(*DLL_STOP_PLUGIN_FUNC)(AFIPluginManager* pm);
 
     std::map<std::string, bool> mxPluginNameMap;
-    std::vector<std::string> mxPluginNameMapVec; // order
+    std::vector<std::string> mxPluginNameVec; // order
     AFMap<std::string, AFCDynLib> mxPluginLibMap;
     AFMap<std::string, AFIPlugin> mxPluginInstanceMap;
     AFMap<std::string, AFIModule> mxModuleInstanceMap;
-    std::vector<AFIModule*> mxModuleInstanceMapVec; // order
+    std::vector<AFIModule*> mxModuleInstanceVec; // order
 };

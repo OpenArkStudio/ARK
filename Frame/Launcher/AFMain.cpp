@@ -106,10 +106,11 @@ void PrintLogo()
     CONSOLE_LOG_NO_FILE << " /_/   \\_\\_|  |_|\\_\\     \\____|\\__,_|_| |_| |_|\\___|" << std::endl;
     CONSOLE_LOG_NO_FILE << "                                                    " << std::endl;
     CONSOLE_LOG_NO_FILE << std::endl;
-    CONSOLE_LOG_NO_FILE << "COPYRIGHT (c) 2013-2018 Ark Studio" << std::endl;
-    CONSOLE_LOG_NO_FILE << "All RIGHTS RESERVED." << std::endl;
-    CONSOLE_LOG_NO_FILE << "HTTPS://ARKGAME.NET" << std::endl;
-    CONSOLE_LOG_NO_FILE << "********************************************" << std::endl;
+    CONSOLE_LOG_NO_FILE << "Copyright 2018 (c) Ark Studio. All Rights Reserved." << std::endl;
+    CONSOLE_LOG_NO_FILE << "Website: https://arkgame.net" << std::endl;
+    CONSOLE_LOG_NO_FILE << "Github:  https://github.com/ArkGame" << std::endl;
+    CONSOLE_LOG_NO_FILE << "***********************************************************" << std::endl;
+    CONSOLE_LOG_NO_FILE << std::endl;
 
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);

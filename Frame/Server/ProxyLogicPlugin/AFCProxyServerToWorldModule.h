@@ -30,7 +30,8 @@
 #include "SDK/Interface/AFINetClientModule.hpp"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFINetClientManagerModule.h"
-#include "Server/Interface/AFIProxyServerToGameModule.h"
+#include "SDK/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
 #include "Server/Interface/AFIProxyServerToWorldModule.h"
 #include "Server/Interface/AFIProxyNetServerModule.h"
 #include "Server/Interface/AFIProxyLogicModule.h"
@@ -43,28 +44,26 @@ public:
         pPluginManager = p;
     }
 
-    virtual bool Init();
-    virtual bool PostInit();
-
-    virtual void LogReceive(const char* str) {/*log*/}
-    virtual void LogSend(const char* str) {/*log*/}
+    bool Init() override;
+    bool PostInit() override;
 
     virtual AFINetClientModule* GetClusterModule();
     virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey);
 
 protected:
-
+    int StartClient();
     void OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
     void Register(const int nServerID);
 
-    void OnSelectServerResultProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnServerInfoProcess(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     void LogServerInfo(const std::string& strServerInfo);
 
-    void OnOtherMessage(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnBrocastmsg(const AFIMsgHead& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnOtherMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnBrocastmsg(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnAckEnterGame(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     class ClientConnectData
     {
@@ -73,8 +72,8 @@ protected:
         {
         }
 
-        std::string strAccount{ "" };
-        std::string strConnectKey{ "" };
+        std::string strAccount{};
+        std::string strConnectKey{};
     };
 
     AFMapEx<std::string, ClientConnectData> mxWantToConnectMap;
@@ -82,11 +81,9 @@ protected:
 private:
     AFILogModule* m_pLogModule;
     AFIProxyLogicModule* m_pProxyLogicModule;
-    AFIKernelModule* m_pKernelModule;
     AFIProxyNetServerModule* m_pProxyServerNet_ServerModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIClassModule* m_pClassModule;
-    AFIProxyServerToGameModule* m_pProxyServerToGameModule;
     AFINetClientModule* m_pNetClientModule;
     AFINetClientManagerModule* m_pNetClientManagerModule;
+    AFIMsgModule* m_pMsgModule;
+    AFIBusModule* m_pBusModule;
 };

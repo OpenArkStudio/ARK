@@ -4,9 +4,11 @@
     <ClCompile Include="AFBusPlugin.cpp" />
     <ClCompile Include="AFCBusModule.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="AFCMsgModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFBusPlugin.h" />
     <ClInclude Include="AFCBusModule.h" />
+    <ClInclude Include="AFCMsgModule.h" />
   </ItemGroup>
 </Project>
