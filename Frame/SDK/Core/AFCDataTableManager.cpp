@@ -69,12 +69,14 @@ bool AFCDataTableManager::GetTableData(const char* name, const int row, const in
     return pTable->GetValue(row, col, value);
 }
 
-void AFCDataTableManager::OnEventHandler(const AFGUID& entity_id, const DATA_TABLE_EVENT_DATA& xEventData, const AFCData& oldData, const AFCData& newData)
+int AFCDataTableManager::OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData)
 {
     for (auto& iter : mxTablecallbacks)
     {
-        (*iter)(entity_id, xEventData, oldData, newData);
+        (*iter)(self, xEventData, oldData, newData);
     }
+
+    return 0;
 }
 
 bool AFCDataTableManager::RegisterCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
@@ -87,6 +89,9 @@ bool AFCDataTableManager::AddTableInternal(AFDataTable* pTable)
 {
     assert(pTable != nullptr);
 
+    LITLE_DATA_TABLE_EVENT_FUNCTOR functor = std::bind(&AFCDataTableManager::OnEventHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    pTable->RegisterCallback(std::make_shared<LITLE_DATA_TABLE_EVENT_FUNCTOR>(functor));
+
     return mxTables.AddElement(pTable->GetName(), pTable);
 }
 
@@ -98,13 +103,14 @@ bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name
     pTable->SetName(table_name);
     pTable->SetColCount(col_type_list.GetCount());
 
+    LITLE_DATA_TABLE_EVENT_FUNCTOR functor = std::bind(&AFCDataTableManager::OnEventHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    pTable->RegisterCallback(std::make_shared<LITLE_DATA_TABLE_EVENT_FUNCTOR>(functor));
     for (size_t i = 0; i < col_type_list.GetCount(); ++i)
     {
         pTable->SetColType(i, col_type_list.GetType(i));
     }
 
     pTable->SetFeature(feature);
-
     return AddTableInternal(pTable);
 }
 
@@ -138,36 +144,6 @@ bool AFCDataTableManager::SetTableBool(const char* name, const int row, const in
         return false;
     }
 
-    //callback
-    do
-    {
-        AFCData oldData;
-
-        if (!GetTableData(name, row, col, oldData))
-        {
-            ARK_ASSERT_RET_VAL(0, false);
-        }
-
-        if (oldData.GetBool() == value)
-        {
-            return false;
-        }
-
-        if (!mxTablecallbacks.empty())
-        {
-            AFCData newData;
-            newData.SetBool(value);
-
-            DATA_TABLE_EVENT_DATA xTableEventData;
-            xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
-            xTableEventData.nRow = row;
-            xTableEventData.nCol = col;
-            xTableEventData.strName = name;
-
-            OnEventHandler(self, xTableEventData, oldData, newData);
-        }
-    } while (0);
-
     return pTable->SetBool(row, col, value);
 }
 
@@ -179,36 +155,6 @@ bool AFCDataTableManager::SetTableInt(const char* name, const int row, const int
     {
         return false;
     }
-
-    //callback
-    do
-    {
-        AFCData oldData;
-
-        if (!GetTableData(name, row, col, oldData))
-        {
-            ARK_ASSERT_RET_VAL(0, false);
-        }
-
-        if (oldData.GetInt() == value)
-        {
-            return false;
-        }
-
-        if (!mxTablecallbacks.empty())
-        {
-            AFCData newData;
-            newData.SetInt(value);
-
-            DATA_TABLE_EVENT_DATA xTableEventData;
-            xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
-            xTableEventData.nRow = row;
-            xTableEventData.nCol = col;
-            xTableEventData.strName = name;
-
-            OnEventHandler(self, xTableEventData, oldData, newData);
-        }
-    } while (0);
 
     return pTable->SetInt(row, col, value);
 }
@@ -222,36 +168,6 @@ bool AFCDataTableManager::SetTableInt64(const char* name, const int row, const i
         return false;
     }
 
-    //callback
-    do
-    {
-        AFCData oldData;
-
-        if (!GetTableData(name, row, col, oldData))
-        {
-            ARK_ASSERT_RET_VAL(0, false);
-        }
-
-        if (oldData.GetInt64() == value)
-        {
-            return false;
-        }
-
-        if (!mxTablecallbacks.empty())
-        {
-            AFCData newData;
-            newData.SetInt64(value);
-
-            DATA_TABLE_EVENT_DATA xTableEventData;
-            xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
-            xTableEventData.nRow = row;
-            xTableEventData.nCol = col;
-            xTableEventData.strName = name;
-
-            OnEventHandler(self, xTableEventData, oldData, newData);
-        }
-    } while (0);
-
     return pTable->SetInt64(row, col, value);
 }
 
@@ -263,36 +179,6 @@ bool AFCDataTableManager::SetTableFloat(const char* name, const int row, const i
     {
         return false;
     }
-
-    //callback
-    do
-    {
-        AFCData oldData;
-
-        if (!GetTableData(name, row, col, oldData))
-        {
-            ARK_ASSERT_RET_VAL(0, false);
-        }
-
-        if (AFMisc::IsFloatEqual(oldData.GetFloat(), value))
-        {
-            return false;
-        }
-
-        if (!mxTablecallbacks.empty())
-        {
-            AFCData newData;
-            newData.SetFloat(value);
-
-            DATA_TABLE_EVENT_DATA xTableEventData;
-            xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
-            xTableEventData.nRow = row;
-            xTableEventData.nCol = col;
-            xTableEventData.strName = name;
-
-            OnEventHandler(self, xTableEventData, oldData, newData);
-        }
-    } while (0);
 
     return pTable->SetFloat(row, col, value);
 }
@@ -306,36 +192,6 @@ bool AFCDataTableManager::SetTableDouble(const char* name, const int row, const 
         return false;
     }
 
-    //callback
-    do
-    {
-        AFCData oldData;
-
-        if (!GetTableData(name, row, col, oldData))
-        {
-            ARK_ASSERT_RET_VAL(0, false);
-        }
-
-        if (AFMisc::IsDoubleEqual(oldData.GetDouble(), value))
-        {
-            return false;
-        }
-
-        if (!mxTablecallbacks.empty())
-        {
-            AFCData newData;
-            newData.SetDouble(value);
-
-            DATA_TABLE_EVENT_DATA xTableEventData;
-            xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
-            xTableEventData.nRow = row;
-            xTableEventData.nCol = col;
-            xTableEventData.strName = name;
-
-            OnEventHandler(self, xTableEventData, oldData, newData);
-        }
-    } while (0);
-
     return pTable->SetDouble(row, col, value);
 }
 
@@ -348,36 +204,6 @@ bool AFCDataTableManager::SetTableString(const char* name, const int row, const 
         return false;
     }
 
-    //callback
-    do
-    {
-        AFCData oldData;
-
-        if (!GetTableData(name, row, col, oldData))
-        {
-            ARK_ASSERT_RET_VAL(0, false);
-        }
-
-        if (ARK_STRICMP(oldData.GetString(), value) == 0)
-        {
-            return false;
-        }
-
-        if (!mxTablecallbacks.empty())
-        {
-            AFCData newData;
-            newData.SetString(value);
-
-            DATA_TABLE_EVENT_DATA xTableEventData;
-            xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
-            xTableEventData.nRow = row;
-            xTableEventData.nCol = col;
-            xTableEventData.strName = name;
-
-            OnEventHandler(self, xTableEventData, oldData, newData);
-        }
-    } while (0);
-
     return pTable->SetString(row, col, value);
 }
 
@@ -389,36 +215,6 @@ bool AFCDataTableManager::SetTableObject(const char* name, const int row, const 
     {
         return false;
     }
-
-    //callback
-    do
-    {
-        AFCData oldData;
-
-        if (!GetTableData(name, row, col, oldData))
-        {
-            ARK_ASSERT_RET_VAL(0, false);
-        }
-
-        if (oldData.GetObject() == value)
-        {
-            return false;
-        }
-
-        if (!mxTablecallbacks.empty())
-        {
-            AFCData newData;
-            newData.SetObject(value);
-
-            DATA_TABLE_EVENT_DATA xTableEventData;
-            xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
-            xTableEventData.nRow = row;
-            xTableEventData.nCol = col;
-            xTableEventData.strName = name;
-
-            OnEventHandler(self, xTableEventData, oldData, newData);
-        }
-    } while (0);
 
     return pTable->SetObject(row, col, value);
 }
