@@ -31,11 +31,8 @@ class AFIPluginManager;
 class AFIModule
 {
 public:
-    AFIModule()
-    {
-    }
-
-    virtual ~AFIModule() {}
+    AFIModule() = default;
+    virtual ~AFIModule() = default;
 
     virtual bool Init()
     {
@@ -97,13 +94,6 @@ public:
     bool Loading() const
     {
         return mbReloading;
-    }
-
-    template<typename T>
-    T* FindModule()
-    {
-        ARK_ASSERT_RET_VAL(pPluginManager != nullptr, nullptr);
-        return pPluginManager->FindModule<T>();
     }
 
     std::string strName;

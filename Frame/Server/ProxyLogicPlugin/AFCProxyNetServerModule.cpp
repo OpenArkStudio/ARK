@@ -23,13 +23,13 @@
 
 bool AFCProxyNetServerModule::Init()
 {
-    m_pKernelModule             = FindModule<AFIKernelModule>();
-    m_pProxyToWorldModule       = FindModule<AFIProxyServerToWorldModule>();
-    m_pLogModule                = FindModule<AFILogModule>();
-    m_pBusModule                = FindModule<AFIBusModule>();
-    m_pNetServerManagerModule   = FindModule<AFINetServerManagerModule>();
-    m_pNetClientManagerModule   = FindModule<AFINetClientManagerModule>();
-    m_pMsgModule                = FindModule<AFIMsgModule>();
+    m_pKernelModule             = pPluginManager->FindModule<AFIKernelModule>();
+    m_pProxyToWorldModule       = pPluginManager->FindModule<AFIProxyServerToWorldModule>();
+    m_pLogModule                = pPluginManager->FindModule<AFILogModule>();
+    m_pBusModule                = pPluginManager->FindModule<AFIBusModule>();
+    m_pNetServerManagerModule   = pPluginManager->FindModule<AFINetServerManagerModule>();
+    m_pNetClientManagerModule   = pPluginManager->FindModule<AFINetClientManagerModule>();
+    m_pMsgModule                = pPluginManager->FindModule<AFIMsgModule>();
 
     int ret = StartServer();
     if (ret != 0)

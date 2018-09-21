@@ -15,7 +15,7 @@ REM ############################################################################
 echo "Building protobuf..."
 
 if exist protobuf (rd protobuf /q /s)
-git clone -b 3.6.x https://github.com/google/protobuf.git --depth 1
+git clone https://github.com/protocolbuffers/protobuf.git --depth 1
 
 cd protobuf/cmake
 md build

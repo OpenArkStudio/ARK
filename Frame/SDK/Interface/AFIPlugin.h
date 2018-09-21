@@ -40,11 +40,12 @@ public:
     virtual void Uninstall() = 0;
 
     template<typename classBaseName, typename className>
-    void  RegisterModule()
+    void RegisterModule()
     {
         assert((std::is_base_of<AFIModule, classBaseName>::value));
         assert((std::is_base_of<classBaseName, className>::value));
-        AFIModule* pRegModuleName = ARK_NEW className(pPluginManager);
+        AFIModule* pRegModuleName = ARK_NEW className(pPluginManager); //TODO:remove
+        pRegModuleName->SetPluginManager(pPluginManager);
         pRegModuleName->strName = typeid(classBaseName).name();
         pPluginManager->AddModule(typeid(classBaseName).name(), pRegModuleName);
         mxModules.AddElement(typeid(classBaseName).name(), pRegModuleName);
@@ -64,7 +65,7 @@ public:
     }
 
     template<typename classBaseName, typename className>
-    void  DeregisterModule()
+    void DeregisterModule()
     {
         AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(pPluginManager->FindModule(typeid(classBaseName).name()));
         pPluginManager->RemoveModule(typeid(classBaseName).name());

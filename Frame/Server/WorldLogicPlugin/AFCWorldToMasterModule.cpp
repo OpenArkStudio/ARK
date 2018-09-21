@@ -32,10 +32,10 @@ AFCWorldToMasterModule::AFCWorldToMasterModule(AFIPluginManager* p)
 
 bool AFCWorldToMasterModule::Init()
 {
-    m_pWorldLogicModule         = FindModule<AFIWorldLogicModule>();
-    m_pLogModule                = FindModule<AFILogModule>();
-    m_pWorldNetServerModule     = FindModule<AFIWorldNetServerModule>();
-    m_pNetClientManagerModule   = FindModule<AFINetClientManagerModule>();
+    m_pWorldLogicModule         = pPluginManager->FindModule<AFIWorldLogicModule>();
+    m_pLogModule                = pPluginManager->FindModule<AFILogModule>();
+    m_pWorldNetServerModule     = pPluginManager->FindModule<AFIWorldNetServerModule>();
+    m_pNetClientManagerModule   = pPluginManager->FindModule<AFINetClientManagerModule>();
 
     return true;
 }

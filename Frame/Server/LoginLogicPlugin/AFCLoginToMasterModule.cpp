@@ -28,12 +28,12 @@ AFCLoginToMasterModule::AFCLoginToMasterModule(AFIPluginManager* p)
 
 bool AFCLoginToMasterModule::Init()
 {
-    m_pLoginLogicModule         = FindModule<AFILoginLogicModule>();
-    m_pLogModule                = FindModule<AFILogModule>();
-    m_pLoginNetServerModule     = FindModule<AFILoginNetServerModule>();
-    m_pNetClientManagerModule   = FindModule<AFINetClientManagerModule>();
-    m_pBusModule                = FindModule<AFIBusModule>();
-    m_pMsgModule                = FindModule<AFIMsgModule>();
+    m_pLoginLogicModule         = pPluginManager->FindModule<AFILoginLogicModule>();
+    m_pLogModule                = pPluginManager->FindModule<AFILogModule>();
+    m_pLoginNetServerModule     = pPluginManager->FindModule<AFILoginNetServerModule>();
+    m_pNetClientManagerModule   = pPluginManager->FindModule<AFINetClientManagerModule>();
+    m_pBusModule                = pPluginManager->FindModule<AFIBusModule>();
+    m_pMsgModule                = pPluginManager->FindModule<AFIMsgModule>();
 
     return true;
 }
