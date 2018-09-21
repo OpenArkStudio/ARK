@@ -24,7 +24,7 @@
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFINetClientManagerModule.h"
 #include "SDK/Interface/AFIBusModule.h"
-#include "sdk/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
 #include "Server/Interface/AFILoginLogicModule.h"
 #include "Server/Interface/AFILoginToMasterModule.h"

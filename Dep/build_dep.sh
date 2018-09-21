@@ -18,12 +18,11 @@ cd protobuf/cmake
 mkdir build && cd build
 cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=release -Dprotobuf_BUILD_TESTS=OFF ..
 make -j 4
-cp -R -f *.so* ../../../lib
-cp -R -f protoc ../../../lib
+cp -a *.so* ../../../lib
 
-cp -R -f *.so ../../../../Bin/lib
-cp -R -f *.so ../../../../Frame/SDK/ProtoPlugin/proto-gen
-cp -R -f protoc ../../../../Frame/SDK/ProtoPlugin/proto-gen
+cp -a *.so ../../../../Bin/lib
+cp -a *.so ../../../../Frame/SDK/ProtoPlugin/proto-gen
+cp -a protoc* ../../../../Frame/SDK/ProtoPlugin/proto-gen
 
 cd ../../../
 
