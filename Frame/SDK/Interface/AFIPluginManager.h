@@ -22,8 +22,6 @@
 
 #include "AFIModule.h"
 
-class AFIPlugin;
-
 #define ARK_DLL_PLUGIN_ENTRY(plugin_name)                           \
 ARK_EXPORT void DllEntryPlugin(AFIPluginManager* pPluginManager)    \
 {                                                                   \
@@ -35,6 +33,8 @@ ARK_EXPORT void DllExitPlugin(AFIPluginManager* pPluginManager)     \
 {                                                                   \
     pPluginManager->Deregister<plugin_name>();                      \
 }
+
+class AFIPlugin;
 
 class AFIPluginManager : public AFIModule
 {
@@ -63,7 +63,6 @@ public:
     void Register()
     {
         AFIPlugin* pNewPlugin = ARK_NEW PLUGIN_TYPE();
-        pNewPlugin->SetPluginManager(this);
         Register(pNewPlugin);
     }
 

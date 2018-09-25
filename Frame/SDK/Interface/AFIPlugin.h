@@ -28,8 +28,6 @@
 
 #define GET_CLASS_NAME(className) (typeid(className).name());
 
-class AFIPluginManager;
-
 class AFIPlugin : public AFIModule
 {
 public:

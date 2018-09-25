@@ -121,6 +121,7 @@ void AFCPluginManager::Register(AFIPlugin* plugin)
 
     if (!FindPlugin(strPluginName))
     {
+        plugin->SetPluginManager(this);
         mxPluginInstanceMap.AddElement(strPluginName, plugin);
         plugin->Install();
     }
