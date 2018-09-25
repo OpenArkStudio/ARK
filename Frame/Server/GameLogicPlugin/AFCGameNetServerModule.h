@@ -29,6 +29,7 @@
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "SDK/Interface/AFINetServerManagerModule.h"
 #include "SDK/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
 #include "Server/Interface/AFISceneProcessModule.h"
 #include "Server/Interface/AFIGameServerToWorldModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"

@@ -20,11 +20,13 @@
 
 #pragma once
 
+#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
-#include "SDK/Interface/AFINetClientManagerModule.h"
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFINetClientManagerModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
 #include "Server/Interface/AFILoginLogicModule.h"
 #include "Server/Interface/AFILoginToMasterModule.h"
@@ -40,7 +42,6 @@ public:
     virtual void LogReceive(const char* str) {/*log*/}
     virtual void LogSend(const char* str) {/*log*/}
 
-    virtual AFINetClientModule* GetClusterModule();
     virtual AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap();
 
 protected:
@@ -61,7 +62,6 @@ private:
     AFILoginLogicModule* m_pLoginLogicModule;
     AFILoginNetServerModule* m_pLoginNetServerModule;
     AFILogModule* m_pLogModule;
-    AFINetClientModule* m_pNetClientModule;
     AFINetClientManagerModule* m_pNetClientManagerModule;
     AFIBusModule* m_pBusModule;
     AFIMsgModule* m_pMsgModule;

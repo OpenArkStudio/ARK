@@ -21,11 +21,9 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
 
 class AFIProxyServerToWorldModule : public  AFIModule
 {
 public:
-    virtual AFINetClientModule* GetClusterModule() = 0;
     virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) = 0;
 };

@@ -21,12 +21,11 @@
 #pragma once
 
 #include "Common/AFProtoCPP.hpp"
+#include "SDK/Core/AFMap.hpp"
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
 
 class AFILoginToMasterModule : public AFIModule
 {
 public:
-    virtual AFINetClientModule* GetClusterModule() = 0;
     virtual AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap() = 0;
 };

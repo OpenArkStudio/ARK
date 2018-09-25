@@ -27,7 +27,6 @@
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFINetClientManagerModule.h"
 #include "SDK/Interface/AFIBusModule.h"
@@ -47,7 +46,6 @@ public:
     bool Init() override;
     bool PostInit() override;
 
-    virtual AFINetClientModule* GetClusterModule();
     virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey);
 
 protected:
@@ -82,7 +80,6 @@ private:
     AFILogModule* m_pLogModule;
     AFIProxyLogicModule* m_pProxyLogicModule;
     AFIProxyNetServerModule* m_pProxyServerNet_ServerModule;
-    AFINetClientModule* m_pNetClientModule;
     AFINetClientManagerModule* m_pNetClientManagerModule;
     AFIMsgModule* m_pMsgModule;
     AFIBusModule* m_pBusModule;

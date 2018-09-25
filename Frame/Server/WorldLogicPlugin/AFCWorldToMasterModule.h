@@ -25,10 +25,11 @@
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
-#include "SDK/Interface/AFINetClientManagerModule.h"
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFINetClientManagerModule.h"
+#include "SDK/Interface/AFINetServerManagerModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
 #include "Server/Interface/AFIWorldToMasterModule.h"
 #include "Server/Interface/AFIWorldLogicModule.h"
 #include "Server/Interface/AFIWorldNetServerModule.h"
@@ -66,7 +67,6 @@ private:
     AFILogModule* m_pLogModule;
     AFIWorldLogicModule* m_pWorldLogicModule;
     AFIWorldNetServerModule* m_pWorldNetServerModule;
-    AFINetClientModule* m_pNetClientModule;
     AFINetClientManagerModule* m_pNetClientManagerModule;
     AFIBusModule* m_pBusModule;
     AFIMsgModule* m_pMsgModule;

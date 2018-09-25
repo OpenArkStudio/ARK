@@ -19,7 +19,6 @@
 */
 
 #include "AFCLoginToMasterModule.h"
-#include "Common/AFProtoCPP.hpp"
 
 AFCLoginToMasterModule::AFCLoginToMasterModule(AFIPluginManager* p)
 {
@@ -136,11 +135,6 @@ void AFCLoginToMasterModule::OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, 
     }
 
     ARK_LOG_INFO("WorldInfo size = {}", xMsg.server_list_size());
-}
-
-AFINetClientModule* AFCLoginToMasterModule::GetClusterModule()
-{
-    return m_pNetClientModule;
 }
 
 AFMapEx<int, AFMsg::ServerInfoReport>& AFCLoginToMasterModule::GetWorldMap()

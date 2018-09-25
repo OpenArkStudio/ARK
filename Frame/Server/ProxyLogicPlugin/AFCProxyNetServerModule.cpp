@@ -216,7 +216,7 @@ void AFCProxyNetServerModule::OnReqServerListProcess(const ARK_PKG_BASE_HEAD& xH
         AFMapEx<int, AFConnectionData>& xServerList = pGameNetService->GetServerList();
         for (auto pGameData = xServerList.First(); pGameData != nullptr; pGameData = xServerList.Next())
         {
-            if (ConnectData::CONNECTED == pGameData->_net_state)
+            if (AFConnectionData::CONNECTED == pGameData->_net_state)
             {
                 AFMsg::ServerInfo* pServerInfo = xData.add_info();
 
@@ -294,7 +294,7 @@ bool AFCProxyNetServerModule::CheckSessionState(const int64_t nGameID, const AFG
 {
     AFINetClientService* pWorldNetService = m_pNetClientManagerModule->GetNetClientServiceByBusID(nGameID);
     ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(nGameID);
-    if (pServerData != nullptr && ConnectData::CONNECTED == pServerData->_net_state)
+    if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->_net_state)
     {
         //数据匹配
         ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);

@@ -21,7 +21,6 @@
 #pragma once
 
 #include "SDK/Interface/AFIModule.h"
-#include "SDK/Interface/AFINetClientModule.hpp"
 
 class AFIWorldToMasterModule : public  AFIModule
 {

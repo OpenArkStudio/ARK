@@ -18,11 +18,6 @@
 *
 */
 
-
-#include "Common/AFProtoCPP.hpp"
-#include "SDK/Core/AFCDataList.hpp"
-#include "SDK/Interface/AFINetClientModule.hpp"
-#include "SDK/Interface/AFINetServerManagerModule.h"
 #include "AFCWorldToMasterModule.h"
 
 AFCWorldToMasterModule::AFCWorldToMasterModule(AFIPluginManager* p)
@@ -64,11 +59,11 @@ int AFCWorldToMasterModule::StartClient()
         return -1;
     }
 
-    m_pNetClientModule->AddRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCWorldToMasterModule::OnSelectServerProcess);
-    m_pNetClientModule->AddRecvCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this, &AFCWorldToMasterModule::OnKickClientProcess);
-    m_pNetClientModule->AddRecvCallback(this, &AFCWorldToMasterModule::InvalidMessage);
+    pNetClientWorld->AddRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCWorldToMasterModule::OnSelectServerProcess);
+    pNetClientWorld->AddRecvCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this, &AFCWorldToMasterModule::OnKickClientProcess);
+    pNetClientWorld->AddRecvCallback(this, &AFCWorldToMasterModule::InvalidMessage);
 
-    m_pNetClientModule->AddEventCallBack(this, &AFCWorldToMasterModule::OnSocketMSEvent);
+    pNetClientWorld->AddEventCallBack(this, &AFCWorldToMasterModule::OnSocketMSEvent);
 
 }
 
@@ -125,7 +120,8 @@ void AFCWorldToMasterModule::OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHea
 
         m_pWorldNetServerModule->GetNetServer()->SendPBMsg(AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xServerData->xClient, nPlayerID);
 
-        m_pNetClientModule->SendSuitByPB(xMsg.account(), AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xHead.GetPlayerID());
+        //TODO:will fix this
+        //m_pNetClientModule->SendSuitByPB(xMsg.account(), AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xHead.GetPlayerID());
     }
 
 }

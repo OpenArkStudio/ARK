@@ -76,6 +76,8 @@ int AFCProxyServerToWorldModule::StartClient()
     pNetClientGame->AddRecvCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyServerToWorldModule::OnBrocastmsg);
     pNetClientGame->AddRecvCallback(this, &AFCProxyServerToWorldModule::OnOtherMessage);
     pNetClientGame->AddEventCallBack(this, &AFCProxyServerToWorldModule::OnSocketWSEvent);
+
+    return 0;
 }
 
 void AFCProxyServerToWorldModule::OnServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
@@ -154,11 +156,6 @@ void AFCProxyServerToWorldModule::OnSelectServerResultProcess(const ARK_PKG_BASE
     pConnectData->strAccount = xMsg.account();
     pConnectData->strConnectKey = xMsg.world_key();
     mxWantToConnectMap.AddElement(pConnectData->strAccount, pConnectData);
-}
-
-AFINetClientModule* AFCProxyServerToWorldModule::GetClusterModule()
-{
-    return m_pNetClientModule;
 }
 
 bool AFCProxyServerToWorldModule::VerifyConnectData(const std::string& strAccount, const std::string& strKey)
