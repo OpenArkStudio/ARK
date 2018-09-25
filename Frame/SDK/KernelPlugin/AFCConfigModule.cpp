@@ -99,7 +99,7 @@ bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClas
         return false;
     }
 
-    ElementConfigInfo* pElementInfo = ARK_NEW ElementConfigInfo();
+    ElementConfigInfo* pElementInfo = ARK_NEW(ElementConfigInfo);
     mxElementConfigMap.AddElement(strConfigID, pElementInfo);
 
     //can find all config id by class name

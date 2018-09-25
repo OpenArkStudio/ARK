@@ -140,8 +140,6 @@
     <ClInclude Include="AFLockFreeQueue.hpp" />
     <ClInclude Include="AFMacros.hpp" />
     <ClInclude Include="AFMap.hpp" />
-    <ClInclude Include="AFMemAlloc.hpp" />
-    <ClInclude Include="AFMemPool.hpp" />
     <ClInclude Include="AFMisc.hpp" />
     <ClInclude Include="AFNoncopyable.hpp" />
     <ClInclude Include="AFPlatform.hpp" />
@@ -163,7 +161,6 @@
     <ClCompile Include="AFCEventManager.cpp" />
     <ClCompile Include="AFCHeartBeatManager.cpp" />
     <ClCompile Include="AFDataTable.cpp" />
-    <ClCompile Include="AFMemAlloc.cpp" />
     <ClCompile Include="Common\cronexpr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

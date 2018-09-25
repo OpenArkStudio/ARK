@@ -297,12 +297,21 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 #define ARK_NEW new(nothrow) //when new failed, return NULL
 #endif
 
+#ifndef ARK_NEW_ARRAY
+#define ARK_NEW_ARRAY(T, size) new(nothrow) T[size];
+#endif
+
+#ifndef ARK_NEW_ARRAY_RET
+#define ARK_NEW_ARRAY_RET(T, size) do { return new(nothrow) T[size]; } while(false);
+#endif//!ARK_NEW_ARRAY_RET
+
+
 #ifndef ARK_DELETE
-#define ARK_DELETE(p) if (p!= nullptr) { delete p; p = nullptr; }
+#define ARK_DELETE(p) do { if (p!= nullptr) { delete p; p = nullptr; } } while(false);
 #endif
 
 #ifndef ARK_DELETE_ARRAY
-#define ARK_DELETE_ARRAY(p) if (p != nullptr) { delete[] p; p = nullptr; }
+#define ARK_DELETE_ARRAY(T, p) do { if (p != nullptr) { T* t_ptr = static_cast<T*>(p); delete[] t_ptr; t_ptr = nullptr; } } while(false);
 #endif
 
 #define ARK_TO_STRING(value) std::to_string(value)

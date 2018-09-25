@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -129,9 +129,7 @@ bool AFCHeartBeatManager::ProcessFinishHeartBeat(AFCHeartBeatElement* pTarget)
 bool AFCHeartBeatManager::ProcessFinishHeartBeat()
 {
     std::string strHeartBeatName;
-    bool bRet = mRemoveListEx.First(strHeartBeatName);
-
-    while (bRet)
+    for (bool bRet = mRemoveListEx.First(strHeartBeatName); bRet; bRet = mRemoveListEx.Next(strHeartBeatName))
     {
         AFCHeartBeatElement* pHeartBeatEx = mHeartBeatElementMapEx.GetElement(strHeartBeatName);
 
@@ -140,13 +138,13 @@ bool AFCHeartBeatManager::ProcessFinishHeartBeat()
             continue;
         }
 
-        typedef std::pair<std::multimap<int64_t, AFCHeartBeatElement*>::iterator, std::multimap<int64_t, AFCHeartBeatElement*>::iterator > Range;
-        Range xRange = mTimeList.equal_range(pHeartBeatEx->nNextTriggerTime);
-
+        auto xRange = mTimeList.equal_range(pHeartBeatEx->nNextTriggerTime);
         for (std::multimap<int64_t, AFCHeartBeatElement*>::iterator iter = xRange.first; iter != xRange.second;)
         {
             if (iter->second->id == pHeartBeatEx->id)
             {
+                AFCHeartBeatElement* pHeartBeatEx = iter->second;
+                ARK_DELETE(pHeartBeatEx);
                 iter = mTimeList.erase(iter);
             }
             else
@@ -156,7 +154,6 @@ bool AFCHeartBeatManager::ProcessFinishHeartBeat()
         }
 
         mHeartBeatElementMapEx.RemoveElement(strHeartBeatName);
-        bRet = mRemoveListEx.Next(strHeartBeatName);
     }
 
     mRemoveListEx.ClearAll();
@@ -166,18 +163,17 @@ bool AFCHeartBeatManager::ProcessFinishHeartBeat()
 
 bool AFCHeartBeatManager::ProcessAddHeartBeat()
 {
-    for (std::list<AFCHeartBeatElement>::iterator iter = mAddListEx.begin(); iter != mAddListEx.end(); ++iter)
+    for (auto& iter : mAddListEx)
     {
-        if (mHeartBeatElementMapEx.GetElement(iter->strBeatName) == nullptr)
+        if (mHeartBeatElementMapEx.GetElement(iter.strBeatName) == nullptr)
         {
             AFCHeartBeatElement* pHeartBeatEx = ARK_NEW AFCHeartBeatElement();
-
             if (pHeartBeatEx == nullptr)
             {
                 continue;
             }
 
-            *pHeartBeatEx = *iter;
+            *pHeartBeatEx = iter;
             mHeartBeatElementMapEx.AddElement(pHeartBeatEx->strBeatName, pHeartBeatEx);
             mTimeList.insert(std::make_pair(pHeartBeatEx->nNextTriggerTime, pHeartBeatEx));
         }

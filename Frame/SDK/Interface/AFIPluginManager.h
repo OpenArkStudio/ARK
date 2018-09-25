@@ -21,15 +21,12 @@
 #pragma once
 
 #include "AFIModule.h"
-#include "SDK/Core/AFMemAlloc.hpp"
 
 class AFIPlugin;
 
 #define ARK_DLL_PLUGIN_ENTRY(plugin_name)                           \
 ARK_EXPORT void DllStartPlugin(AFIPluginManager* pPluginManager)    \
 {                                                                   \
-    AFMemAlloc::InitPool();                                         \
-    AFMemAlloc::Start();                                            \
     pPluginManager->Register<plugin_name>();                        \
 }
 

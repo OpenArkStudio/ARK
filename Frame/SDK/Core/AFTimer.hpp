@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -24,7 +24,6 @@
 #include "AFDefine.hpp"
 #include "AFSingleton.hpp"
 #include "AFDateTime.hpp"
-#include "AFMemAlloc.hpp"
 
 enum AFTimerEnum
 {
@@ -92,7 +91,7 @@ public:
         {
             for (auto it : iter.second)
             {
-                ARK_DEALLOC(it.second);
+                ARK_DELETE(it.second);
             }
         }
 
@@ -102,7 +101,7 @@ public:
 
     bool AddForverTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, TIMER_FUNCTOR_PTR callback)
     {
-        AFTimerData* data = (AFTimerData*)ARK_ALLOC(sizeof(AFTimerData));
+        AFTimerData* data = ARK_NEW AFTimerData();
         memset(data, 0, sizeof(AFTimerData));
         ARK_STRNCPY(data->name, name.c_str(), (name.length() > 16) ? 16 : name.length());
         data->type = TIMER_TYPE_FOREVER;
@@ -115,7 +114,7 @@ public:
 
     bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, uint32_t interval_time, uint32_t count, TIMER_FUNCTOR_PTR callback)
     {
-        AFTimerData* data = (AFTimerData*)ARK_ALLOC(sizeof(AFTimerData));
+        AFTimerData* data = ARK_NEW AFTimerData();
         memset(data, 0, sizeof(AFTimerData));
         ARK_STRNCPY(data->name, name.c_str(), (name.length() > 16) ? 16 : name.length());
         data->type = TIMER_TYPE_COUNT_LIMIT;
@@ -235,7 +234,7 @@ protected:
         {
             AFTimerData* data = it.second;
             RemoveSlotTimer(data);
-            ARK_DEALLOC(data);
+            ARK_DELETE(data);
         }
 
         iter->second.clear();
@@ -261,7 +260,7 @@ protected:
 
         AFTimerData* data = it->second;
         RemoveSlotTimer(data);
-        ARK_DEALLOC(data);
+        ARK_DELETE(data);
 
         iter->second.erase(it);
 

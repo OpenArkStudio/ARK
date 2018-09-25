@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,7 +22,6 @@
 
 #include "AFPlatform.hpp"
 #include "AFDefine.hpp"
-#include "AFMemAlloc.hpp"
 #include "SDK/Core/Common/cronexpr.h"
 
 class AFCronSheduler;
@@ -151,7 +150,7 @@ public:
 
                 if (pCron->delete_flag)
                 {
-                    ARK_DEALLOC(pCron);
+                    ARK_DELETE(pCron);
                     iter = mxCronList.erase(iter);
                 }
                 else
@@ -189,12 +188,12 @@ public:
 
     bool AddCron(int cron_id, int user_arg, const char* cron_expression, int64_t now, SCHEDULER_FUNCTOR_PTR cb)
     {
-        AFCronData* pCron = (AFCronData*)ARK_ALLOC(sizeof(AFCronData));
+        AFCronData* pCron = ARK_NEW AFCronData();
         memset(pCron, 0, sizeof(*pCron));
 
         if (!pCron->Parse(cron_expression))
         {
-            ARK_DEALLOC(pCron);
+            ARK_DELETE(pCron);
             return false;
         }
 
@@ -230,7 +229,7 @@ public:
     {
         for (auto it : mxCronList)
         {
-            ARK_DEALLOC(it);
+            ARK_DELETE(it);
         }
 
         mxCronList.clear();

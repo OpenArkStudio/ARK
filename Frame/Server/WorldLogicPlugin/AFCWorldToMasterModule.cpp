@@ -65,6 +65,7 @@ int AFCWorldToMasterModule::StartClient()
 
     pNetClientWorld->AddEventCallBack(this, &AFCWorldToMasterModule::OnSocketMSEvent);
 
+    return 0;
 }
 
 void AFCWorldToMasterModule::Register(const int bus_id)

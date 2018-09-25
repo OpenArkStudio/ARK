@@ -111,12 +111,6 @@
     <ClInclude Include="AFMap.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFMemAlloc.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFMemPool.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="AFMisc.hpp">
       <Filter>Core</Filter>
     </ClInclude>
@@ -174,9 +168,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFDataTable.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AFMemAlloc.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

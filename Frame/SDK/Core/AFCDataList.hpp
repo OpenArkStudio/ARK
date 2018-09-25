@@ -32,14 +32,12 @@ public:
 
     void* Alloc(size_t size)
     {
-        void* ptr = ARK_ALLOC(size);
-        memset(ptr, 0, size);
-        return ptr;
+        ARK_NEW_ARRAY_RET(char, size);
     }
 
     void Free(void* ptr, size_t size)
     {
-        ARK_DEALLOC(ptr);
+        ARK_DELETE_ARRAY(char, ptr);
     }
 
     void Swap(AFDataListAlloc& src)

@@ -23,6 +23,7 @@
 #include "SDK/Core/AFGUID.hpp"
 #include "SDK/Core/AFString.hpp"
 #include "SDK/Core/AFIData.hpp"
+#include "SDK/Core/AFMisc.hpp"
 
 class AFIDataList
 {
