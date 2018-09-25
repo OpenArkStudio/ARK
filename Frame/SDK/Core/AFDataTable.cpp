@@ -163,7 +163,7 @@ bool AFDataTable::AddRow(size_t row)
     RowData* old_row_data = mxRowDatas[row];
     if (nullptr != old_row_data)
     {
-        delete row_data;
+        delete[] row_data;
         return false;
     }
 
@@ -241,7 +241,7 @@ bool AFDataTable::AddRow(size_t row, const AFIDataList& data)
     RowData* old_row_data = mxRowDatas[row];
     if (nullptr != old_row_data)
     {
-        delete row_data;
+        delete[] row_data;
         return false;
     }
 

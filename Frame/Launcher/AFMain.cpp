@@ -276,13 +276,13 @@ bool ParseArgs(int argc, char* argv[])
         std::cerr << parser;
         return false;
     }
-    catch (args::ParseError e)
+    catch (args::ParseError& e)
     {
         std::cerr << e.what() << std::endl;
         std::cerr << parser;
         return false;
     }
-    catch (args::ValidationError e)
+    catch (args::ValidationError& e)
     {
         std::cerr << e.what() << std::endl;
         std::cerr << parser;
