@@ -22,11 +22,10 @@
 
 bool AFCLoginNetServerModule::Init()
 {
-    m_pLoginLogicModule = pPluginManager->FindModule<AFILoginLogicModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
     m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
-    m_pLoginToMasterModule = pPluginManager->FindModule<AFILoginToMasterModule>();
+    m_pLoginNetClientModule = pPluginManager->FindModule<AFILoginNetClientModule>();
 
     int ret = StartServer();
     if (ret != 0)
@@ -113,7 +112,8 @@ void AFCLoginNetServerModule::OnLoginProcess(const ARK_PKG_BASE_HEAD& xHead, con
 
     if (pSession->mnLogicState == 0)
     {
-        int nState = m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());
+        //TODO:will add login process function
+        int nState = 0;// m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());
 
         if (0 != nState)
         {
@@ -184,7 +184,7 @@ void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
     AFMsg::AckServerList xData;
     xData.set_type(AFMsg::RSLT_WORLD_SERVER);
 
-    AFMapEx<int, AFMsg::ServerInfoReport>& xWorldMap = m_pLoginToMasterModule->GetWorldMap();
+    AFMapEx<int, AFMsg::ServerInfoReport>& xWorldMap = m_pLoginNetClientModule->GetWorldMap();
 
     for (auto pWorldData = xWorldMap.First(); pWorldData != nullptr; pWorldData = xWorldMap.Next())
     {

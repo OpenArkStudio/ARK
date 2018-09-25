@@ -22,11 +22,6 @@
 #include "AFCNetServerManagerModule.h"
 #include "AFCNetServerService.h"
 
-AFCNetServerManagerModule::AFCNetServerManagerModule(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
 bool AFCNetServerManagerModule::Init()
 {
     m_pBusModule = pPluginManager->FindModule<AFIBusModule>();

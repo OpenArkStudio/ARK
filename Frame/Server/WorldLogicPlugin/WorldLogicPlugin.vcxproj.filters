@@ -1,23 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="AFCWorldLogicModule.cpp" />
     <ClCompile Include="AFWorldLogicPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="AFCWorldNetServerModule.cpp">
       <Filter>NetModule</Filter>
     </ClCompile>
-    <ClCompile Include="AFCWorldToMasterModule.cpp">
+    <ClCompile Include="AFCWorldNetClientModule.cpp">
       <Filter>NetModule</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCWorldLogicModule.h" />
     <ClInclude Include="AFWorldLogicPlugin.h" />
     <ClInclude Include="AFCWorldNetServerModule.h">
       <Filter>NetModule</Filter>
     </ClInclude>
-    <ClInclude Include="AFCWorldToMasterModule.h">
+    <ClInclude Include="AFCWorldNetClientModule.h">
       <Filter>NetModule</Filter>
     </ClInclude>
   </ItemGroup>

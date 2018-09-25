@@ -26,9 +26,10 @@
 class AFUtilityPlugin : public AFIPlugin
 {
 public:
-    explicit AFUtilityPlugin(AFIPluginManager* p);
+    explicit AFUtilityPlugin() = default;
 
     int GetPluginVersion() override;
+
     const std::string GetPluginName() override;
 
     void Install() override;

@@ -27,9 +27,10 @@
 class AFProxyLogicPlugin : public AFIPlugin
 {
 public:
-    explicit AFProxyLogicPlugin(AFIPluginManager* p);
+    explicit AFProxyLogicPlugin() = default;
 
     int GetPluginVersion() override;
+
     const std::string GetPluginName() override;
 
     void Install() override;

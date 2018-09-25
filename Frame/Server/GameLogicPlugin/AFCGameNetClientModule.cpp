@@ -20,14 +20,9 @@
 
 #include "Common/AFProtoCPP.hpp"
 #include "Common/AFDataDefine.hpp"
-#include "AFCGameServerToWorldModule.h"
+#include "AFCGameNetClientModule.h"
 
-AFCGameServerToWorldModule::AFCGameServerToWorldModule(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
-bool AFCGameServerToWorldModule::Init()
+bool AFCGameNetClientModule::Init()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
@@ -38,18 +33,18 @@ bool AFCGameServerToWorldModule::Init()
     m_pNetClientManagerModule = pPluginManager->FindModule<AFINetClientManagerModule>();
     m_pMsgModule = pPluginManager->FindModule<AFIMsgModule>();
 
-    m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCGameServerToWorldModule::OnObjectClassEvent);
+    m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCGameNetClientModule::OnObjectClassEvent);
 
     return true;
 }
 
-bool AFCGameServerToWorldModule::PostInit()
+bool AFCGameNetClientModule::PostInit()
 {
     int ret = StartClient();
     return (ret == 0);
 }
 
-int AFCGameServerToWorldModule::StartClient()
+int AFCGameNetClientModule::StartClient()
 {
     //创建所有与对端链接的client
     int ret = m_pNetClientManagerModule->CreateClusterClients();
@@ -67,13 +62,13 @@ int AFCGameServerToWorldModule::StartClient()
         return -1;
     }
 
-    pNetClient->AddRecvCallback(this, &AFCGameServerToWorldModule::TransPBToProxy);
-    pNetClient->AddEventCallBack(this, &AFCGameServerToWorldModule::OnSocketWSEvent);
+    pNetClient->AddRecvCallback(this, &AFCGameNetClientModule::TransPBToProxy);
+    pNetClient->AddEventCallBack(this, &AFCGameNetClientModule::OnSocketWSEvent);
 
     return 0;
 }
 
-void AFCGameServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
+void AFCGameNetClientModule::OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
     if (eEvent == CONNECTED)
     {
@@ -82,7 +77,7 @@ void AFCGameServerToWorldModule::OnSocketWSEvent(const NetEventType eEvent, cons
     }
 }
 
-int AFCGameServerToWorldModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
+int AFCGameNetClientModule::OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var)
 {
     if (strClassName == ARK::Player::ThisName())
     {
@@ -99,7 +94,7 @@ int AFCGameServerToWorldModule::OnObjectClassEvent(const AFGUID& self, const std
     return 0;
 }
 
-void AFCGameServerToWorldModule::Register(const int bus_id)
+void AFCGameNetClientModule::Register(const int bus_id)
 {
     AFINetClientService* pNetClient = m_pNetClientManagerModule->GetNetClientServiceByBusID(bus_id);
     if (pNetClient == nullptr)
@@ -130,12 +125,12 @@ void AFCGameServerToWorldModule::Register(const int bus_id)
     ARK_LOG_INFO("Register self server_id = {}", pData->bus_id());
 }
 
-void AFCGameServerToWorldModule::RefreshWorldInfo()
+void AFCGameNetClientModule::RefreshWorldInfo()
 {
     //do nothing for now
 }
 
-void AFCGameServerToWorldModule::SendOnline(const AFGUID& self)
+void AFCGameNetClientModule::SendOnline(const AFGUID& self)
 {
     AFMsg::RoleOnlineNotify xMsg;
 
@@ -146,7 +141,7 @@ void AFCGameServerToWorldModule::SendOnline(const AFGUID& self)
     m_pMsgModule->SendSuitSSMsg(ARK_APP_WORLD, xGuild.nLow, AFMsg::EGMI_ACK_ONLINE_NOTIFY, xMsg, self);
 }
 
-void AFCGameServerToWorldModule::SendOffline(const AFGUID& self)
+void AFCGameNetClientModule::SendOffline(const AFGUID& self)
 {
     AFMsg::RoleOfflineNotify xMsg;
 
@@ -157,7 +152,7 @@ void AFCGameServerToWorldModule::SendOffline(const AFGUID& self)
     m_pMsgModule->SendSuitSSMsg(ARK_APP_WORLD, xGuild.nLow, AFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg, self);
 }
 
-void AFCGameServerToWorldModule::TransPBToProxy(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCGameNetClientModule::TransPBToProxy(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen);
     m_pGameNetServerModule->SendMsgPBToGate(nMsgID, strMsg, nPlayerID);

@@ -26,12 +26,8 @@
 #include "Common/AFDataDefine.hpp"
 #include "AFCKernelModule.h"
 
-AFCKernelModule::AFCKernelModule(AFIPluginManager* p)
+AFCKernelModule::AFCKernelModule()
 {
-    pPluginManager = p;
-
-    nLastTime = pPluginManager->GetNowTime();
-
     mInnerProperty.AddElement(ARK::IObject::ConfigID(), ARK_NEW int32_t(0));
     mInnerProperty.AddElement(ARK::IObject::ClassName(), ARK_NEW int32_t(0));
     mInnerProperty.AddElement(ARK::IObject::SceneID(), ARK_NEW int32_t(0));
@@ -42,7 +38,8 @@ AFCKernelModule::~AFCKernelModule()
 {
     for (size_t i = 0; i < mInnerProperty.GetCount(); ++i)
     {
-        delete mInnerProperty[i];
+        int32_t* pInnerProperty = mInnerProperty[i];
+        ARK_DELETE(pInnerProperty);
     }
 
     ClearAll();
@@ -70,7 +67,7 @@ bool AFCKernelModule::Update()
 {
     mnCurExeEntity = NULL_GUID;
 
-    if (mtDeleteSelfList.size() > 0)
+    if (!mtDeleteSelfList.empty())
     {
         for (auto it : mtDeleteSelfList)
         {
@@ -80,15 +77,11 @@ bool AFCKernelModule::Update()
         mtDeleteSelfList.clear();
     }
 
-    ARK_SHARE_PTR<AFIEntity> pEntity = First();
-
-    while (pEntity)
+    for (ARK_SHARE_PTR<AFIEntity> pEntity = First(); pEntity != nullptr; pEntity = Next())
     {
         mnCurExeEntity = pEntity->Self();
         pEntity->Update();
         mnCurExeEntity = NULL_GUID;
-
-        pEntity = Next();
     }
 
     return true;

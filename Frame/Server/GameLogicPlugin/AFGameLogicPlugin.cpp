@@ -19,25 +19,18 @@
 */
 
 #include "AFGameLogicPlugin.h"
-#include "AFCGameServerModule.h"
 #include "AFCSceneProcessModule.h"
 #include "AFCPropertyModule.h"
 #include "AFCLevelModule.h"
 #include "AFCPropertyConfigModule.h"
 #include "AFCAccountModule.h"
 #include "AFCGameNetServerModule.h"
-#include "AFCGameServerToWorldModule.h"
+#include "AFCGameNetClientModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFGameLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFGameLogicPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-
-AFGameLogicPlugin::AFGameLogicPlugin(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
 int AFGameLogicPlugin::GetPluginVersion()
 {
     return 0;
@@ -50,24 +43,22 @@ const std::string AFGameLogicPlugin::GetPluginName()
 
 void AFGameLogicPlugin::Install()
 {
-    RegisterModule<AFIGameServerModule, AFCGameServerModule>();
     RegisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
     RegisterModule<AFIPropertyModule, AFCPropertyModule>();
     RegisterModule<AFILevelModule, AFCLevelModule>();
     RegisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
     RegisterModule<AFIAccountModule, AFCAccountModule>();
     RegisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
-    RegisterModule<AFIGameServerToWorldModule, AFCGameServerToWorldModule>();
+    RegisterModule<AFIGameNetClientModule, AFCGameNetClientModule>();
 }
 
 void AFGameLogicPlugin::Uninstall()
 {
-    DeregisterModule<AFIGameServerToWorldModule, AFCGameServerToWorldModule>();
+    DeregisterModule<AFIGameNetClientModule, AFCGameNetClientModule>();
     DeregisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
     DeregisterModule<AFIAccountModule, AFCAccountModule>();
     DeregisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
     DeregisterModule<AFILevelModule, AFCLevelModule>();
     DeregisterModule<AFIPropertyModule, AFCPropertyModule>();
     DeregisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
-    DeregisterModule<AFIGameServerModule, AFCGameServerModule>();
 }

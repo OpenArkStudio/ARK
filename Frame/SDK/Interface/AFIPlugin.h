@@ -44,7 +44,7 @@ public:
     {
         assert((std::is_base_of<AFIModule, classBaseName>::value));
         assert((std::is_base_of<classBaseName, className>::value));
-        AFIModule* pRegModuleName = ARK_NEW className(pPluginManager);
+        AFIModule* pRegModuleName = ARK_NEW className();
         pRegModuleName->SetPluginManager(pPluginManager);
         pRegModuleName->strName = typeid(classBaseName).name();
         pPluginManager->AddModule(typeid(classBaseName).name(), pRegModuleName);

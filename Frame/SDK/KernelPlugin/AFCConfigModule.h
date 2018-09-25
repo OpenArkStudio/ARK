@@ -61,28 +61,27 @@ private:
 class AFCConfigModule : public AFIConfigModule
 {
 public:
-    explicit AFCConfigModule(AFIPluginManager* p);
-    virtual ~AFCConfigModule() = default;
+    explicit AFCConfigModule() = default;
 
-    virtual bool Init();
-    virtual bool Shut();
+    bool Init() override;
+    bool Shut() override;
 
-    virtual bool Load();
-    virtual bool Save();
-    virtual bool Clear();
+    bool Load() override;
+    bool Save() override;
+    bool Clear() override;
 
-    virtual bool ExistConfig(const std::string& strConfigName);
-    virtual bool ExistConfig(const std::string& strClassName, const std::string& strConfigName);
+    bool ExistConfig(const std::string& strConfigName) override;
+    bool ExistConfig(const std::string& strClassName, const std::string& strConfigName) override;
 
-    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strConfigName);
-    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strConfigName);
+    ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strConfigName) override;
+    ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strConfigName) override;
 
-    virtual bool GetNodeBool(const std::string& strConfigName, const std::string& strDataNodeName);
-    virtual int32_t GetNodeInt(const std::string& strConfigName, const std::string& strDataNodeName);
-    virtual int64_t GetNodeInt64(const std::string& strConfigName, const std::string& strDataNodeName);
-    virtual float GetNodeFloat(const std::string& strConfigName, const std::string& strDataNodeName);
-    virtual double GetNodeDouble(const std::string& strConfigName, const std::string& strDataNodeName);
-    virtual const char* GetNodeString(const std::string& strConfigName, const std::string& strDataNodeName);
+    bool GetNodeBool(const std::string& strConfigName, const std::string& strDataNodeName) override;
+    int32_t GetNodeInt(const std::string& strConfigName, const std::string& strDataNodeName) override;
+    int64_t GetNodeInt64(const std::string& strConfigName, const std::string& strDataNodeName) override;
+    float GetNodeFloat(const std::string& strConfigName, const std::string& strDataNodeName) override;
+    double GetNodeDouble(const std::string& strConfigName, const std::string& strDataNodeName) override;
+    const char* GetNodeString(const std::string& strConfigName, const std::string& strDataNodeName) override;
 
 protected:
     AFDataNode* GetNode(const std::string& strConfigName, const std::string& strDataNodeName);

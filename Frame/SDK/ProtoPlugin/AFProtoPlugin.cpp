@@ -25,12 +25,6 @@ ARK_DLL_PLUGIN_ENTRY(AFProtoPlugin)
 ARK_DLL_PLUGIN_EXIT(AFProtoPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-
-AFProtoPlugin::AFProtoPlugin(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
 int AFProtoPlugin::GetPluginVersion()
 {
     return 0;

@@ -26,11 +26,6 @@
 #include "AFCClassModule.h"
 #include "SDK/Core/AFDataNode.hpp"
 
-AFCConfigModule::AFCConfigModule(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
 bool AFCConfigModule::Init()
 {
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();

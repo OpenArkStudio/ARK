@@ -26,11 +26,6 @@
 #include "SDK/Core/AFDataNode.hpp"
 #include "AFCClassModule.h"
 
-AFCClassModule::AFCClassModule(AFIPluginManager* p) : m_pConfigModule(nullptr)
-{
-    pPluginManager = p;
-}
-
 AFCClassModule::~AFCClassModule()
 {
     ClearAll();

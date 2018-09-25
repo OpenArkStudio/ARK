@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,8 +22,7 @@
 
 #include "SDK/Interface/AFIModule.h"
 
-class AFIBusModule : public AFIModule
+class AFIWorldNetClientModule : public  AFIModule
 {
-public:
 
 };

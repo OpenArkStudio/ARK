@@ -26,9 +26,10 @@
 class AFMasterLogicPlugin : public AFIPlugin
 {
 public:
-    explicit AFMasterLogicPlugin(AFIPluginManager* p);
+    explicit AFMasterLogicPlugin() = default;
 
     int GetPluginVersion() override;
+
     const std::string GetPluginName() override;
 
     void Install() override;

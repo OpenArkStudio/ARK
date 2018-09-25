@@ -25,13 +25,13 @@
 class AFIPlugin;
 
 #define ARK_DLL_PLUGIN_ENTRY(plugin_name)                           \
-ARK_EXPORT void DllStartPlugin(AFIPluginManager* pPluginManager)    \
+ARK_EXPORT void DllEntryPlugin(AFIPluginManager* pPluginManager)    \
 {                                                                   \
     pPluginManager->Register<plugin_name>();                        \
 }
 
 #define ARK_DLL_PLUGIN_EXIT(plugin_name)                            \
-ARK_EXPORT void DllStopPlugin(AFIPluginManager* pPluginManager)     \
+ARK_EXPORT void DllExitPlugin(AFIPluginManager* pPluginManager)     \
 {                                                                   \
     pPluginManager->Deregister<plugin_name>();                      \
 }
@@ -59,17 +59,18 @@ public:
         return pT;
     }
 
-    template<typename T>
+    template<typename PLUGIN_TYPE>
     void Register()
     {
-        AFIPlugin* pCreatePluginclassName = new T(this);
-        Register(pCreatePluginclassName);
+        AFIPlugin* pNewPlugin = ARK_NEW PLUGIN_TYPE();
+        pNewPlugin->SetPluginManager(this);
+        Register(pNewPlugin);
     }
 
-    template<typename T>
+    template<typename PLUGIN_TYPE>
     void Deregister()
     {
-        Deregister(FindPlugin(typeid(T).name()));
+        Deregister(FindPlugin(typeid(PLUGIN_TYPE).name()));
     }
 
     virtual void Register(AFIPlugin* plugin) = 0;

@@ -24,14 +24,8 @@
 #include "SDK/Core/AFGUID.hpp"
 #include "SDK/Interface/AFISceneModule.h"
 
-class AFCSceneModule
-    : public AFISceneModule
+class AFCSceneModule : public AFISceneModule
 {
 public:
-    explicit AFCSceneModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
-
-    ~AFCSceneModule() override = default;
+    explicit AFCSceneModule() = default;
 };

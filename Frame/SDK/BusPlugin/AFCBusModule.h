@@ -25,8 +25,7 @@
 class AFCBusModule final : public AFIBusModule
 {
 public:
-    explicit AFCBusModule(AFIPluginManager* p);
-    ~AFCBusModule() override = default;
+    explicit AFCBusModule();
 
     const std::string& GetAppName(const uint8_t& app_type) override;
     const uint8_t GetAppType(const std::string& name) override;

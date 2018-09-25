@@ -18,21 +18,14 @@
 *
 */
 
-#include "AFCWorldLogicModule.h"
 #include "AFWorldLogicPlugin.h"
 #include "AFCWorldNetServerModule.h"
-#include "AFCWorldToMasterModule.h"
+#include "AFCWorldNetClientModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFWorldLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFWorldLogicPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-
-AFWorldLogicPlugin::AFWorldLogicPlugin(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
 int AFWorldLogicPlugin::GetPluginVersion()
 {
     return 0;
@@ -45,14 +38,12 @@ const std::string AFWorldLogicPlugin::GetPluginName()
 
 void AFWorldLogicPlugin::Install()
 {
-    RegisterModule<AFIWorldLogicModule, AFCWorldLogicModule>();
     RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
-    RegisterModule<AFIWorldToMasterModule, AFCWorldToMasterModule>();
+    RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
 }
 
 void AFWorldLogicPlugin::Uninstall()
 {
-    RegisterModule<AFIWorldToMasterModule, AFCWorldToMasterModule>();
+    RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
     RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
-    DeregisterModule<AFIWorldLogicModule, AFCWorldLogicModule>();
 }

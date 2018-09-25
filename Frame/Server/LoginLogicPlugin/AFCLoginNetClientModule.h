@@ -21,53 +21,43 @@
 #pragma once
 
 #include "Common/AFProtoCPP.hpp"
-#include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFINetClientManagerModule.h"
-#include "SDK/Interface/AFINetServerManagerModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "Server/Interface/AFIWorldToMasterModule.h"
-#include "Server/Interface/AFIWorldLogicModule.h"
-#include "Server/Interface/AFIWorldNetServerModule.h"
+#include "Server/Interface/AFILoginNetServerModule.h"
+#include "Server/Interface/AFILoginNetClientModule.h"
 
-class AFCWorldToMasterModule : public AFIWorldToMasterModule
+class AFCLoginNetClientModule : public AFILoginNetClientModule
 {
 public:
-    explicit AFCWorldToMasterModule(AFIPluginManager* p);
+    explicit AFCLoginNetClientModule() = default;
 
     bool Init() override;
     bool PostInit() override;
+
+    AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap() override;
 
 protected:
     int StartClient();
 
     void OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
-    //连接丢失,删2层(连接对象，帐号对象)
-    void OnClientDisconnect(const AFGUID& xClientID);
-    //有连接
-    void OnClientConnected(const AFGUID& xClientID);
+    //////////////////////////////////////////////////////////////////////////
+    void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    void OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    virtual void LogServerInfo(const std::string& strServerInfo);
+    //////////////////////////////////////////////////////////////////////////
+    void Register(const int nServerID);
 
-
-    void Register(const int bus_id);
-    void RefreshWorldInfo();
-
-    void OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnKickClientProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-
-    void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 private:
+    AFMapEx<int, AFMsg::ServerInfoReport> mWorldMap;
 
     AFILogModule* m_pLogModule;
-    AFIWorldLogicModule* m_pWorldLogicModule;
-    AFIWorldNetServerModule* m_pWorldNetServerModule;
-    AFINetClientManagerModule* m_pNetClientManagerModule;
     AFIBusModule* m_pBusModule;
     AFIMsgModule* m_pMsgModule;
+    AFINetClientManagerModule* m_pNetClientManagerModule;
+    AFILoginNetServerModule* m_pLoginNetServerModule;
 };

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -28,25 +28,22 @@ class IdWorkerThreadUnsafe;
 class IdWorkerThreadSafe;
 }
 
-
-class AFCGUIDModule
-    : public AFIGUIDModule
+class AFCGUIDModule : public AFIGUIDModule
 {
 public:
-    explicit AFCGUIDModule(AFIPluginManager* p);
-    virtual ~AFCGUIDModule() = default;
+    explicit AFCGUIDModule() = default;
 
-    virtual bool Init();
-    virtual bool PreShut();
+    bool Init() override;
+    bool PreShut() override;
 
-    virtual void SetGUIDMask(uint64_t mask);
-    virtual AFGUID CreateGUID();
+    void SetGUIDMask(uint64_t mask) override;
+    AFGUID CreateGUID() override;
 
 private:
     uint64_t mnMask; //area_id * 100000 + server_id
 #ifdef AF_THREAD_SAFE
-    guid_module::IdWorkerThreadSafe* m_pIDWoker;
+    guid_module::IdWorkerThreadSafe* m_pIDWoker { nullptr };
 #else
-    guid_module::IdWorkerThreadUnsafe* m_pIDWoker;
+    guid_module::IdWorkerThreadUnsafe* m_pIDWoker { nullptr };
 #endif // AF_THREAD_SAFE
 };

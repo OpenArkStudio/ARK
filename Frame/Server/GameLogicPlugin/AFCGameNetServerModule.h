@@ -31,7 +31,7 @@
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "Server/Interface/AFISceneProcessModule.h"
-#include "Server/Interface/AFIGameServerToWorldModule.h"
+#include "Server/Interface/AFIGameNetClientModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
 #include "Server/Interface/AFIAccountModule.h"
@@ -39,10 +39,7 @@
 class AFCGameNetServerModule : public AFIGameNetServerModule
 {
 public:
-    explicit AFCGameNetServerModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFCGameNetServerModule() = default;
 
     bool Init() override;
 
@@ -128,7 +125,7 @@ private:
     AFIBusModule* m_pBusModule;
     //////////////////////////////////////////////////////////////////////////
     AFINetServerManagerModule* m_pNetServerManagerModule;
-    AFIGameServerToWorldModule* m_pGameServerToWorldModule;
+    AFIGameNetClientModule* m_pGameNetClientModule;
     AFIAccountModule* m_AccountModule;
 
     AFINetServerService* m_pNetServerService;

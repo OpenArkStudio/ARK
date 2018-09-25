@@ -19,20 +19,13 @@
 */
 
 #include "AFLoginLogicPlugin.h"
-#include "AFCLoginLogicModule.h"
 #include "AFCLoginNetServerModule.h"
-#include "AFCLoginToMasterModule.h"
+#include "AFCLoginNetClientModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFLoginLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFLoginLogicPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-
-AFLoginLogicPlugin::AFLoginLogicPlugin(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
 int AFLoginLogicPlugin::GetPluginVersion()
 {
     return 0;
@@ -45,14 +38,12 @@ const std::string AFLoginLogicPlugin::GetPluginName()
 
 void AFLoginLogicPlugin::Install()
 {
-    RegisterModule<AFILoginLogicModule, AFCLoginLogicModule>();
     RegisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
-    RegisterModule<AFILoginToMasterModule, AFCLoginToMasterModule>();
+    RegisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
 }
 
 void AFLoginLogicPlugin::Uninstall()
 {
-    DeregisterModule<AFILoginToMasterModule, AFCLoginToMasterModule>();
+    DeregisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
     DeregisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
-    DeregisterModule<AFILoginLogicModule, AFCLoginLogicModule>();
 }

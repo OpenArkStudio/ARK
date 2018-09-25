@@ -25,8 +25,7 @@
 class AFCProtoModule final : public AFIProtoModule
 {
 public:
-    explicit AFCProtoModule(AFIPluginManager* p);
-    virtual ~AFCProtoModule() = default;
+    explicit AFCProtoModule() = default;
 
     bool PackPBMsg(const google::protobuf::Message* message, OUT std::string& msg) override;
     bool UnpackPBMsg(OUT google::protobuf::Message* message, const std::string& msg) override;

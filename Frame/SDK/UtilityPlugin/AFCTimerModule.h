@@ -26,12 +26,7 @@
 class AFCTimerModule : public AFITimerModule
 {
 public:
-    explicit AFCTimerModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
-
-    virtual ~AFCTimerModule() = default;
+    explicit AFCTimerModule() = default;
 
     bool Init() override;
     bool PreShut() override;
@@ -45,5 +40,5 @@ protected:
     bool AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR_PTR cb) override;
 
 private:
-    std::shared_ptr<AFTimerManager> mxTimerManager;
+    std::shared_ptr<AFTimerManager> mxTimerManager{ nullptr };
 };

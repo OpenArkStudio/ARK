@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,11 +20,6 @@
 
 #include "AFCScheduleModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-
-AFCScheduleModule::AFCScheduleModule(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
 
 bool AFCScheduleModule::Init()
 {

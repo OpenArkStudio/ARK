@@ -32,7 +32,7 @@ bool AFCGameNetServerModule::Init()
     m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
-    m_pGameServerToWorldModule = pPluginManager->FindModule<AFIGameServerToWorldModule>();
+    m_pGameNetClientModule = pPluginManager->FindModule<AFIGameNetClientModule>();
     m_AccountModule = pPluginManager->FindModule<AFIAccountModule>();
     m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
     m_pBusModule = pPluginManager->FindModule<AFIBusModule>();

@@ -90,12 +90,6 @@ private:
 
 //////////////////////////////////////////////////////////////////////////
 
-AFCGUIDModule::AFCGUIDModule(AFIPluginManager* p)
-{
-    m_pIDWoker = NULL;
-    pPluginManager = p;
-}
-
 bool AFCGUIDModule::Init()
 {
 #ifdef AF_THREAD_SAFE

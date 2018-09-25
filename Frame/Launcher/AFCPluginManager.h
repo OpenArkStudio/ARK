@@ -73,7 +73,7 @@ protected:
     bool LoadPluginConf();
 
     bool LoadPluginLibrary(const std::string& strPluginDLLName);
-    bool UnLoadPluginLibrary(const std::string& strPluginDLLName);
+    bool UnloadPluginLibrary(const std::string& plugin_name);
 
 private:
     //Bus id
@@ -91,8 +91,8 @@ private:
     //log output path
     std::string mstrLogPath{};
 
-    typedef void(*DLL_START_PLUGIN_FUNC)(AFIPluginManager* pm);
-    typedef void(*DLL_STOP_PLUGIN_FUNC)(AFIPluginManager* pm);
+    typedef void(*DLL_ENTRY_PLUGIN_FUNC)(AFIPluginManager* pm);
+    typedef void(*DLL_EXIT_PLUGIN_FUNC)(AFIPluginManager* pm);
 
     std::map<std::string, bool> mxPluginNameMap;
     std::vector<std::string> mxPluginNameVec; // order

@@ -18,9 +18,9 @@
 *
 */
 
-#include "AFCWorldNetServerModule.h"
 #include "Common/AFProtoCPP.hpp"
 #include "SDK/Core/AFDataNode.hpp"
+#include "AFCWorldNetServerModule.h"
 
 bool AFCWorldNetServerModule::Init()
 {

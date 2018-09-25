@@ -1,8 +1,8 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2017 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,16 +18,14 @@
 *
 */
 
-#include "AFGameLogicPlugin.h"
-#include "AFCGameServerModule.h"
+#pragma once
 
-bool AFCGameServerModule::Init()
+#include "Common/AFProtoCPP.hpp"
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Interface/AFIModule.h"
+
+class AFILoginNetClientModule : public AFIModule
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
-    m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
-
-    m_pUUIDModule->SetGUIDMask(1);
-
-    return true;
-}
+public:
+    virtual AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap() = 0;
+};

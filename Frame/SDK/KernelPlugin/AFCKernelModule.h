@@ -33,109 +33,108 @@
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFISceneModule.h"
 
-class AFCKernelModule
-    : public AFIKernelModule,
-      public AFMapEx<AFGUID, AFIEntity> //TODO:put data as a separate data
+class AFCKernelModule : public AFIKernelModule, public AFMapEx<AFGUID, AFIEntity> //TODO:put data as a separate data
 {
 public:
-    explicit AFCKernelModule(AFIPluginManager* p);
-    virtual ~AFCKernelModule();
+    explicit AFCKernelModule();
+    ~AFCKernelModule() override;
 
-    virtual bool Init();
-    virtual bool Shut();
+    bool Init() override;
+    bool Shut() override;
 
-    virtual bool PreShut();
-    virtual bool Update();
+    bool PreShut() override;
+    bool Update() override;
 
     ///////////////////////////////////////////////////////////////////////
 
-    virtual bool FindHeartBeat(const AFGUID& self, const std::string& name);
-    virtual bool RemoveHeartBeat(const AFGUID& self, const std::string& name);
+    bool FindHeartBeat(const AFGUID& self, const std::string& name) override;
+    bool RemoveHeartBeat(const AFGUID& self, const std::string& name) override;
 
-    virtual bool IsContainer(const AFGUID& self);
-    virtual bool ExistContainer(const int nSceneID);
+    bool IsContainer(const AFGUID& self) override;
+    bool ExistContainer(const int nSceneID) override;
 
-    virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& ident);
-    virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg);
+    ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& ident) override;
+    ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg) override;
 
-    virtual bool DestroyAll();
-    virtual bool DestroySelf(const AFGUID& self);
-    virtual bool DestroyEntity(const AFGUID& self);
-
-    //////////////////////////////////////////////////////////////////////////
-    virtual bool FindNode(const AFGUID& self, const std::string& name);
-
-    virtual bool SetNodeBool(const AFGUID& self, const std::string& name, const bool value);
-    virtual bool SetNodeInt(const AFGUID& self, const std::string& name, const int32_t value);
-    virtual bool SetNodeInt64(const AFGUID& self, const std::string& name, const int64_t value);
-    virtual bool SetNodeFloat(const AFGUID& self, const std::string& name, const float value);
-    virtual bool SetNodeDouble(const AFGUID& self, const std::string& name, const double value);
-    virtual bool SetNodeString(const AFGUID& self, const std::string& name, const std::string& value);
-    virtual bool SetNodeObject(const AFGUID& self, const std::string& name, const AFGUID& value);
-
-    virtual bool GetNodeBool(const AFGUID& self, const std::string& name);
-    virtual int32_t GetNodeInt(const AFGUID& self, const std::string& name);
-    virtual int64_t GetNodeInt64(const AFGUID& self, const std::string& name);
-    virtual float GetNodeFloat(const AFGUID& self, const std::string& name);
-    virtual double GetNodeDouble(const AFGUID& self, const std::string& name);
-    virtual const char* GetNodeString(const AFGUID& self, const std::string& name);
-    virtual const AFGUID GetNodeObject(const AFGUID& self, const std::string& name);
-    //////////////////////////////////////////////////////////////////////////
-    virtual AFDataTable* FindTable(const AFGUID& self, const std::string& name);
-    virtual bool ClearTable(const AFGUID& self, const std::string& name);
-
-    virtual bool SetTableBool(const AFGUID& self, const std::string& name, const int row, const int col, const bool value);
-    virtual bool SetTableInt(const AFGUID& self, const std::string& name, const int row, const int col, const int32_t value);
-    virtual bool SetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col, const int64_t value);
-    virtual bool SetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col, const float value);
-    virtual bool SetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col, const double value);
-    virtual bool SetTableString(const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value);
-    virtual bool SetTableObject(const AFGUID& self, const std::string& name, const int row, const int col, const AFGUID& value);
-
-    virtual bool GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col);
-    virtual int32_t GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col);
-    virtual int64_t GetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col);
-    virtual float GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col);
-    virtual double GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col);
-    virtual const char* GetTableString(const AFGUID& self, const std::string& name, const int row, const int col);
-    virtual const AFGUID GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col);
+    bool DestroyAll() override;
+    bool DestroyEntity(const AFGUID& self) override;
 
     //////////////////////////////////////////////////////////////////////////
-    virtual bool SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const Point3D& pos, const float fOrient, const AFIDataList& arg);
+    bool FindNode(const AFGUID& self, const std::string& name) override;
 
-    virtual bool CreateScene(const int nSceneID);
-    virtual bool DestroyScene(const int nSceneID);
+    bool SetNodeBool(const AFGUID& self, const std::string& name, const bool value) override;
+    bool SetNodeInt(const AFGUID& self, const std::string& name, const int32_t value) override;
+    bool SetNodeInt64(const AFGUID& self, const std::string& name, const int64_t value) override;
+    bool SetNodeFloat(const AFGUID& self, const std::string& name, const float value) override;
+    bool SetNodeDouble(const AFGUID& self, const std::string& name, const double value) override;
+    bool SetNodeString(const AFGUID& self, const std::string& name, const std::string& value) override;
+    bool SetNodeObject(const AFGUID& self, const std::string& name, const AFGUID& value) override;
 
-    virtual int GetOnLineCount();
-    virtual int GetMaxOnLineCount();
-    virtual int GetSceneOnLineCount(const int nSceneID);
-    virtual int GetSceneOnLineCount(const int nSceneID, const int nGroupID);
-
-    virtual int GetSceneOnLineList(const int nSceneID, AFIDataList& var);
-
-    virtual int RequestGroupScene(const int nSceneID);
-    virtual bool ReleaseGroupScene(const int nSceneID, const int nGroupID);
-    virtual bool ExitGroupScene(const int nSceneID, const int nGroupID);
-
-    virtual bool GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list);
-    virtual int GetEntityByDataNode(const int nSceneID, const std::string& strNodeName, const AFIDataList& valueArgArg, AFIDataList& list);
+    bool GetNodeBool(const AFGUID& self, const std::string& name) override;
+    int32_t GetNodeInt(const AFGUID& self, const std::string& name) override;
+    int64_t GetNodeInt64(const AFGUID& self, const std::string& name) override;
+    float GetNodeFloat(const AFGUID& self, const std::string& name) override;
+    double GetNodeDouble(const AFGUID& self, const std::string& name) override;
+    const char* GetNodeString(const AFGUID& self, const std::string& name) override;
+    const AFGUID GetNodeObject(const AFGUID& self, const std::string& name) override;
     //////////////////////////////////////////////////////////////////////////
-    virtual bool LogStack();
-    virtual bool LogInfo(const AFGUID& ident);
-    virtual bool LogSelfInfo(const AFGUID& ident);
+    AFDataTable* FindTable(const AFGUID& self, const std::string& name) override;
+    bool ClearTable(const AFGUID& self, const std::string& name) override;
+
+    bool SetTableBool(const AFGUID& self, const std::string& name, const int row, const int col, const bool value) override;
+    bool SetTableInt(const AFGUID& self, const std::string& name, const int row, const int col, const int32_t value) override;
+    bool SetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col, const int64_t value) override;
+    bool SetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col, const float value) override;
+    bool SetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col, const double value) override;
+    bool SetTableString(const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value) override;
+    bool SetTableObject(const AFGUID& self, const std::string& name, const int row, const int col, const AFGUID& value) override;
+
+    bool GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col) override;
+    int32_t GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col) override;
+    int64_t GetTableInt64(const AFGUID& self, const std::string& name, const int row, const int col) override;
+    float GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col) override;
+    double GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col) override;
+    const char* GetTableString(const AFGUID& self, const std::string& name, const int row, const int col) override;
+    const AFGUID GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col) override;
+
+    //////////////////////////////////////////////////////////////////////////
+    bool SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const Point3D& pos, const float fOrient, const AFIDataList& arg) override;
+
+    bool CreateScene(const int nSceneID) override;
+    bool DestroyScene(const int nSceneID) override;
+
+    int GetOnLineCount() override;
+    int GetMaxOnLineCount() override;
+    int GetSceneOnLineCount(const int nSceneID) override;
+    int GetSceneOnLineCount(const int nSceneID, const int nGroupID) override;
+
+    int GetSceneOnLineList(const int nSceneID, AFIDataList& var) override;
+
+    int RequestGroupScene(const int nSceneID) override;
+    bool ReleaseGroupScene(const int nSceneID, const int nGroupID) override;
+    bool ExitGroupScene(const int nSceneID, const int nGroupID) override;
+
+    bool GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list) override;
+    int GetEntityByDataNode(const int nSceneID, const std::string& strNodeName, const AFIDataList& valueArgArg, AFIDataList& list) override;
+    //////////////////////////////////////////////////////////////////////////
+    bool LogStack();
+    bool LogInfo(const AFGUID& ident) override;
+    bool LogSelfInfo(const AFGUID& ident);
 
     //////////////////////////////////////////////////////////////////////////
 
-    virtual bool DoEvent(const AFGUID& self, const std::string& strClassName, ARK_ENTITY_EVENT eEvent, const AFIDataList& valueList);
-    virtual bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList);
+    bool DoEvent(const AFGUID& self, const std::string& strClassName, ARK_ENTITY_EVENT eEvent, const AFIDataList& valueList) override;
+    bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList) override;
 
 protected:
-    virtual bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb);
-    virtual bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
-    virtual bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
+    bool DestroySelf(const AFGUID& self);
 
-    virtual bool AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb);
-    virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
+    bool RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb) override;
+    bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override;
+    bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override;
+
+    bool AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb) override;
+    bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) override;
 
 private:
     std::list<AFGUID> mtDeleteSelfList;
@@ -145,7 +144,6 @@ private:
     std::list<DATA_TABLE_EVENT_FUNCTOR_PTR> mxCommonTableCBList;
 
     AFGUID mnCurExeEntity;
-    int64_t nLastTime;
 
     AFISceneModule* m_pSceneModule = nullptr;
     AFILogModule* m_pLogModule = nullptr;

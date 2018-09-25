@@ -29,16 +29,13 @@
 class Example1Module : public AFIModule
 {
 public:
-    Example1Module(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit Example1Module() = default;
 
-    virtual bool Init();
-    virtual bool PostInit();
-    virtual bool Update();
-    virtual bool PreShut();
-    virtual bool Shut();
+    bool Init() override;
+    bool PostInit() override;
+    bool Update() override;
+    bool PreShut() override;
+    bool Shut() override;
 
 protected:
     void TestTimer(const std::string& name, const AFGUID& entity_id);

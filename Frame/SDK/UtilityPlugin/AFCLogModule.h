@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -25,12 +25,11 @@
 class AFCLogModule : public AFILogModule
 {
 public:
-    explicit AFCLogModule(AFIPluginManager* p);
-    virtual ~AFCLogModule() = default;
+    explicit AFCLogModule();
 
-    virtual bool Shut();
+    bool Shut() override;
 
-    virtual const std::shared_ptr<spdlog::async_logger>& GetLogger();
+    const std::shared_ptr<spdlog::async_logger>& GetLogger() override;
 
 protected:
     void CreateLogger();
@@ -42,11 +41,11 @@ private:
 class AFCDynamicLogModule : public AFIDynamicLogModule
 {
 public:
-    explicit AFCDynamicLogModule(AFIPluginManager* p);
-    virtual ~AFCDynamicLogModule() = default;
-    virtual bool Shut();
+    explicit AFCDynamicLogModule() = default;
 
-    virtual const std::shared_ptr<spdlog::async_logger>& GetLogger(const int id, const char* name);
+    bool Shut() override;
+
+    const std::shared_ptr<spdlog::async_logger>& GetLogger(const int id, const char* name) override;
 
 protected:
     void CreateLogger(const int id, const char* name);

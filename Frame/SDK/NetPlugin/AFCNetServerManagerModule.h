@@ -29,7 +29,7 @@
 class AFCNetServerManagerModule : public AFINetServerManagerModule
 {
 public:
-    explicit AFCNetServerManagerModule(AFIPluginManager* p);
+    explicit AFCNetServerManagerModule() = default;
 
     bool Init() override;
     bool Update() override;

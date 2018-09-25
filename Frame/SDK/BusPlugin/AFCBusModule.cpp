@@ -24,9 +24,8 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "AFCBusModule.h"
 
-AFCBusModule::AFCBusModule(AFIPluginManager* p)
+AFCBusModule::AFCBusModule()
 {
-    pPluginManager = p;
     LoadProcConfig();
     LoadBusRelation();
 }
@@ -310,4 +309,5 @@ const int AFCBusModule::CombineBusID(const uint8_t& app_type, const uint8_t& ins
     int self_bus = GetSelfBusID();
     AFBusAddr self_bus_addr(self_bus);
     AFBusAddr target_bus_addr(self_bus_addr.channel_id, self_bus_addr.zone_id, app_type, inst_id);
+    return target_bus_addr.bus_id;
 }

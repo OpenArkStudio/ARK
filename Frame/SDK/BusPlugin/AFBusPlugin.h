@@ -26,11 +26,13 @@
 class AFBusPlugin : public AFIPlugin
 {
 public:
-    explicit AFBusPlugin(AFIPluginManager* p);
+    explicit AFBusPlugin() = default;
 
     int GetPluginVersion() override;
+
     const std::string GetPluginName() override;
 
     void Install() override;
+
     void Uninstall() override;
 };

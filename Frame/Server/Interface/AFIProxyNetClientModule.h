@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2017 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,25 +20,10 @@
 
 #pragma once
 
-#include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIGUIDModule.h"
-#include "Server/Interface/AFIGameServerModule.h"
+#include "SDK/Interface/AFIModule.h"
 
-class AFCGameServerModule : public AFIGameServerModule
+class AFIProxyNetClientModule : public  AFIModule
 {
 public:
-    explicit AFCGameServerModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
-
-    virtual ~AFCGameServerModule() = default;
-
-    virtual bool Init();
-
-private:
-    AFIGUIDModule* m_pUUIDModule;
-    AFIClassModule* m_pClassModule;
-    AFIKernelModule* m_pKernelModule;
+    virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) = 0;
 };

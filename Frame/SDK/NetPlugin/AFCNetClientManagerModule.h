@@ -31,8 +31,7 @@
 class AFCNetClientManagerModule : public AFINetClientManagerModule
 {
 public:
-    explicit AFCNetClientManagerModule(AFIPluginManager* p);
-    ~AFCNetClientManagerModule() override = default;
+    explicit AFCNetClientManagerModule() = default;
 
     bool Init() override;
     bool Update() override;

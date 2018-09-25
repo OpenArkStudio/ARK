@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -25,19 +25,15 @@
 #include "Common/AFDataDefine.hpp"
 #include "Server/Interface/AFIPropertyConfigModule.h"
 
-class AFCPropertyConfigModule
-    : public AFIPropertyConfigModule
+class AFCPropertyConfigModule : public AFIPropertyConfigModule
 {
 public:
-    explicit AFCPropertyConfigModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
-    virtual ~AFCPropertyConfigModule() = default;
-    virtual bool PostInit();
+    explicit AFCPropertyConfigModule() = default;
 
-    virtual int CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty);
-    virtual bool LegalLevel(const int nJob, const int nLevel);
+    bool PostInit() override;
+
+    int CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty) override;
+    bool LegalLevel(const int nJob, const int nLevel) override;
 
 protected:
     void Load();

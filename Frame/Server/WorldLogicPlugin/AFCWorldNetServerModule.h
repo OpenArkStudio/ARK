@@ -28,25 +28,18 @@
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFINetServerManagerModule.h"
-#include "Server/Interface/AFIWorldToMasterModule.h"
-#include "Server/Interface/AFIWorldLogicModule.h"
 #include "Server/Interface/AFIWorldNetServerModule.h"
-#include "Server/Interface/AFILoginNetServerModule.h"
 
 class AFCWorldNetServerModule : public AFIWorldNetServerModule
 {
 public:
-    explicit AFCWorldNetServerModule(AFIPluginManager* p)
+    explicit AFCWorldNetServerModule()
     {
-        pPluginManager = p;
         mnLastCheckTime = pPluginManager->GetNowTime();
     }
 
     bool Init() override;
-    virtual bool Update();
-
-    virtual void LogReceive(const char* str) {/*log*/ }
-    virtual void LogSend(const char* str) {/*log*/}
+    bool Update() override;
 
     virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer = AFGUID());
     virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID,  const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData);

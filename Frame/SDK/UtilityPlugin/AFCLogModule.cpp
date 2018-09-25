@@ -22,10 +22,8 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "spdlog/contrib/sinks/date_and_hour_file_sink.h"
 
-AFCLogModule::AFCLogModule(AFIPluginManager* p)
+AFCLogModule::AFCLogModule()
 {
-    pPluginManager = p;
-
     //Create spdlog
     try
     {
@@ -80,11 +78,6 @@ void AFCLogModule::CreateLogger()
 }
 
 //////////////////////////////////////////////////////////////////////////
-
-AFCDynamicLogModule::AFCDynamicLogModule(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
 
 bool AFCDynamicLogModule::Shut()
 {

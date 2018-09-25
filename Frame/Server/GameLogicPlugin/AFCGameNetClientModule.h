@@ -29,13 +29,13 @@
 #include "SDK/Interface/AFINetClientManagerModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
-#include "Server/Interface/AFIGameServerToWorldModule.h"
+#include "Server/Interface/AFIGameNetClientModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
 
-class AFCGameServerToWorldModule : public AFIGameServerToWorldModule
+class AFCGameNetClientModule : public AFIGameNetClientModule
 {
 public:
-    explicit AFCGameServerToWorldModule(AFIPluginManager* p);
+    explicit AFCGameNetClientModule() = default;
 
     bool Init() override;
     bool PostInit() override;

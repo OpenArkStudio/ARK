@@ -28,12 +28,6 @@ ARK_DLL_PLUGIN_ENTRY(AFUtilityPlugin)
 ARK_DLL_PLUGIN_EXIT(AFUtilityPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-
-AFUtilityPlugin::AFUtilityPlugin(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
 int AFUtilityPlugin::GetPluginVersion()
 {
     return 0;

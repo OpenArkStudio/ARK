@@ -316,7 +316,7 @@ bool AFCPluginManager::Shut()
 
     for (auto it : mxPluginNameMap)
     {
-        UnLoadPluginLibrary(it.first);
+        UnloadPluginLibrary(it.first);
     }
 
     mxPluginInstanceMap.ClearAll();
@@ -324,23 +324,23 @@ bool AFCPluginManager::Shut()
     return true;
 }
 
-bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
+bool AFCPluginManager::LoadPluginLibrary(const std::string& plugin_name)
 {
-    AFCDynLib* pDynLib = mxPluginLibMap.GetElement(strPluginDLLName);
+    AFCDynLib* pDynLib = mxPluginLibMap.GetElement(plugin_name);
     if (pDynLib != nullptr)
     {
         return false;
     }
 
-    AFCDynLib* pLib = new AFCDynLib(strPluginDLLName);
+    AFCDynLib* pLib = ARK_NEW AFCDynLib(plugin_name);
     bool bLoad = pLib->Load(mstrPluginPath);
     if (bLoad)
     {
-        mxPluginLibMap.AddElement(strPluginDLLName, pLib);
-        DLL_START_PLUGIN_FUNC pFunc = (DLL_START_PLUGIN_FUNC)pLib->GetSymbol("DllStartPlugin");
+        mxPluginLibMap.AddElement(plugin_name, pLib);
+        DLL_ENTRY_PLUGIN_FUNC pFunc = (DLL_ENTRY_PLUGIN_FUNC)pLib->GetSymbol("DllEntryPlugin");
         if (pFunc == nullptr)
         {
-            CONSOLE_LOG << "Find function DllStartPlugin Failed in [" << pLib->GetName() << "]" << std::endl;
+            CONSOLE_LOG << "Find function DllEntryPlugin Failed in [" << pLib->GetName() << "]" << std::endl;
             assert(0);
             return false;
         }
@@ -370,15 +370,15 @@ bool AFCPluginManager::LoadPluginLibrary(const std::string& strPluginDLLName)
     }
 }
 
-bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
+bool AFCPluginManager::UnloadPluginLibrary(const std::string& plugin_name)
 {
-    AFCDynLib* pDynLib = mxPluginLibMap.GetElement(strPluginDLLName);
+    AFCDynLib* pDynLib = mxPluginLibMap.GetElement(plugin_name);
     if (pDynLib == nullptr)
     {
         return false;
     }
 
-    DLL_STOP_PLUGIN_FUNC pFunc = (DLL_STOP_PLUGIN_FUNC)pDynLib->GetSymbol("DllStopPlugin");
+    DLL_EXIT_PLUGIN_FUNC pFunc = (DLL_EXIT_PLUGIN_FUNC)pDynLib->GetSymbol("DllExitPlugin");
     if (pFunc != nullptr)
     {
         pFunc(this);
@@ -387,7 +387,7 @@ bool AFCPluginManager::UnLoadPluginLibrary(const std::string& strPluginDLLName)
     pDynLib->UnLoad();
 
     ARK_DELETE(pDynLib);
-    mxPluginLibMap.RemoveElement(strPluginDLLName);
+    mxPluginLibMap.RemoveElement(plugin_name);
     return true;
 }
 

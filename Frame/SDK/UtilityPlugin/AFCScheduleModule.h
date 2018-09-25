@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -26,19 +26,17 @@
 class AFCScheduleModule : public AFIScheduleModule
 {
 public:
-    explicit AFCScheduleModule(AFIPluginManager* p);
+    explicit AFCScheduleModule() = default;
 
-    virtual ~AFCScheduleModule() = default;
+    bool Init() override;
+    bool PreShut() override;
+    bool Update() override;
 
-    virtual bool Init();
-    virtual bool PreShut();
-    virtual bool Update();
-
-    virtual bool RemoveSchedule(const int cron_id);
+    bool RemoveSchedule(const int cron_id) override;
 
 protected:
-    virtual bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR_PTR cb);
+    bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR_PTR cb) override;
 
 private:
-    std::shared_ptr<AFCronSheduler> mxCronSheduler;
+    std::shared_ptr<AFCronSheduler> mxCronSheduler{nullptr};
 };

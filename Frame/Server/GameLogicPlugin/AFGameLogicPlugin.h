@@ -26,9 +26,10 @@
 class AFGameLogicPlugin : public AFIPlugin
 {
 public:
-    explicit AFGameLogicPlugin(AFIPluginManager* p);
+    explicit AFGameLogicPlugin() = default;
 
     int GetPluginVersion() override;
+
     const std::string GetPluginName() override;
 
     void Install() override;

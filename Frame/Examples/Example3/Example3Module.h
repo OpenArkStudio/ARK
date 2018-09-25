@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -29,17 +29,12 @@
 class Example3Module : public AFIModule
 {
 public:
-    Example3Module(AFIPluginManager* p): mLastTime(0)
-        , m_pKernelModule(nullptr)
-        , m_pConfigModule(nullptr)
-    {
-        pPluginManager = p;
-    }
+    explicit Example3Module() = default;
 
-    virtual bool Init();
-    virtual bool PostInit();
-    virtual bool PreShut();
-    virtual bool Shut();
+    bool Init() override;
+    bool PostInit() override;
+    bool PreShut() override;
+    bool Shut() override;
 
 protected:
     int OnEvent(const AFGUID& self, const int event, const AFIDataList& arg);
@@ -51,7 +46,8 @@ protected:
     int OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const int64_t nTime, const int nCount);
 
 protected:
-    int64_t mLastTime;
+    int64_t mLastTime{ 0 };
+
 protected:
     AFIKernelModule* m_pKernelModule;
     AFIConfigModule* m_pConfigModule;

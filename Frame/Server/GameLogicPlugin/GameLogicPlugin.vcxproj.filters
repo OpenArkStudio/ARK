@@ -16,7 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="AFCGameServerModule.cpp" />
     <ClCompile Include="AFCPropertyConfigModule.cpp">
       <Filter>PropertyModule</Filter>
     </ClCompile>
@@ -37,12 +36,11 @@
     <ClCompile Include="AFCGameNetServerModule.cpp">
       <Filter>NetModule</Filter>
     </ClCompile>
-    <ClCompile Include="AFCGameServerToWorldModule.cpp">
+    <ClCompile Include="AFCGameNetClientModule.cpp">
       <Filter>NetModule</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCGameServerModule.h" />
     <ClInclude Include="AFCPropertyConfigModule.h">
       <Filter>PropertyModule</Filter>
     </ClInclude>
@@ -63,7 +61,7 @@
     <ClInclude Include="AFCGameNetServerModule.h">
       <Filter>NetModule</Filter>
     </ClInclude>
-    <ClInclude Include="AFCGameServerToWorldModule.h">
+    <ClInclude Include="AFCGameNetClientModule.h">
       <Filter>NetModule</Filter>
     </ClInclude>
   </ItemGroup>

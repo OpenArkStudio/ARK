@@ -19,20 +19,13 @@
 */
 
 #include "AFProxyLogicPlugin.h"
-#include "AFCProxyLogicModule.h"
 #include "AFCProxyNetServerModule.h"
-#include "AFCProxyServerToWorldModule.h"
+#include "AFCProxyNetClientModule.h"
 
 ARK_DLL_PLUGIN_ENTRY(AFProxyLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFProxyLogicPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-
-AFProxyLogicPlugin::AFProxyLogicPlugin(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
 int AFProxyLogicPlugin::GetPluginVersion()
 {
     return 0;
@@ -45,14 +38,12 @@ const std::string AFProxyLogicPlugin::GetPluginName()
 
 void AFProxyLogicPlugin::Install()
 {
-    RegisterModule<AFIProxyLogicModule, AFCProxyLogicModule>();
     RegisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
-    RegisterModule<AFIProxyServerToWorldModule, AFCProxyServerToWorldModule>();
+    RegisterModule<AFIProxyNetClientModule, AFCProxyNetClientModule>();
 }
 
 void AFProxyLogicPlugin::Uninstall()
 {
-    DeregisterModule<AFIProxyServerToWorldModule, AFCProxyServerToWorldModule>();
+    DeregisterModule<AFIProxyNetClientModule, AFCProxyNetClientModule>();
     DeregisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
-    DeregisterModule<AFIProxyLogicModule, AFCProxyLogicModule>();
 }

@@ -25,5 +25,6 @@
 class AFILoginNetServerModule : public AFIModule
 {
 public:
+    virtual ~AFILoginNetServerModule() = default;
     virtual int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldURL, const std::string& strKey) = 0;
 };

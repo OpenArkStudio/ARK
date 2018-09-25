@@ -32,17 +32,13 @@
 class AFCMasterNetServerModule : public AFIMasterNetServerModule
 {
 public:
-    explicit AFCMasterNetServerModule(AFIPluginManager* p)
+    explicit AFCMasterNetServerModule()
     {
-        pPluginManager = p;
         mnLastLogTime = pPluginManager->GetNowTime();
     }
 
     bool Init() override;
     bool Update() override;
-
-    virtual void LogReceive(const char* str) {/*log*/}
-    virtual void LogSend(const char* str) {/*log*/}
 
 protected:
     int StartServer();

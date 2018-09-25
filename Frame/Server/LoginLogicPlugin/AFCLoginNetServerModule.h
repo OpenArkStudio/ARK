@@ -26,22 +26,15 @@
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFINetServerManagerModule.h"
-#include "Server/Interface/AFILoginToMasterModule.h"
+#include "Server/Interface/AFILoginNetClientModule.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
-#include "Server/Interface/AFILoginLogicModule.h"
 
 class AFCLoginNetServerModule : public AFILoginNetServerModule
 {
 public:
-    explicit AFCLoginNetServerModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFCLoginNetServerModule() = default;
 
     bool Init() override;
-
-    virtual void LogReceive(const char* str) {/*log*/}
-    virtual void LogSend(const char* str) {/*log*/}
 
     int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldURL, const std::string& strKey) override;
 
@@ -71,9 +64,8 @@ protected:
 private:
     AFMapEx<AFGUID, AFSessionData> mmClientSessionData;
 
-    AFILoginToMasterModule* m_pLoginToMasterModule;
+    AFILoginNetClientModule* m_pLoginNetClientModule;
     AFILogModule* m_pLogModule;
-    AFILoginLogicModule* m_pLoginLogicModule;
     AFIBusModule* m_pBusModule;
     AFINetServerManagerModule* m_pNetServerManagerModule;
 

@@ -26,12 +26,10 @@
 class AFNetPlugin : public AFIPlugin
 {
 public:
-    explicit AFNetPlugin(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFNetPlugin() = default;
 
     int GetPluginVersion() override;
+
     const std::string GetPluginName() override;
 
     void Install() override;

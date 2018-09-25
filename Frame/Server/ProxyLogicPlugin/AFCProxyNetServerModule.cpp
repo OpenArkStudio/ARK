@@ -24,7 +24,7 @@
 bool AFCProxyNetServerModule::Init()
 {
     m_pKernelModule             = pPluginManager->FindModule<AFIKernelModule>();
-    m_pProxyToWorldModule       = pPluginManager->FindModule<AFIProxyServerToWorldModule>();
+    m_pProxyNetClientModule     = pPluginManager->FindModule<AFIProxyNetClientModule>();
     m_pLogModule                = pPluginManager->FindModule<AFILogModule>();
     m_pBusModule                = pPluginManager->FindModule<AFIBusModule>();
     m_pNetServerManagerModule   = pPluginManager->FindModule<AFINetServerManagerModule>();
@@ -108,7 +108,7 @@ void AFCProxyNetServerModule::OnOtherMessage(const ARK_PKG_BASE_HEAD& xHead, con
 void AFCProxyNetServerModule::OnConnectKeyProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
-    bool bRet = m_pProxyToWorldModule->VerifyConnectData(xMsg.account(), xMsg.security_code());
+    bool bRet = m_pProxyNetClientModule->VerifyConnectData(xMsg.account(), xMsg.security_code());
 
     if (bRet)
     {

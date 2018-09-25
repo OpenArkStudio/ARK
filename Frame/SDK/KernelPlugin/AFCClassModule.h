@@ -78,13 +78,9 @@ public:
     bool DoEvent(const AFGUID& objectID, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList) override
     {
         CLASS_EVENT_FUNCTOR_PTR cb;
-        bool bRet = mxClassEventInfo.First(cb);
-
-        while (bRet)
+        for (bool bRet = mxClassEventInfo.First(cb); bRet; bRet = mxClassEventInfo.Next(cb))
         {
             (*cb)(objectID, mstrClassName, eClassEvent,  valueList);
-
-            bRet = mxClassEventInfo.Next(cb);
         }
 
         return true;
@@ -99,7 +95,7 @@ public:
             return false;
         }
 
-        size_t indexCallback(0);
+        size_t indexCallback{ 0 };
 
         if (mxCallBackIndices.GetData(name.c_str(), indexCallback))
         {
@@ -145,14 +141,14 @@ public:
             return false;
         }
 
-        for (size_t i = 0; i < mxCommonCallBackList.size(); ++i)
+        for (auto& iter : mxCommonCallBackList)
         {
-            (*mxCommonCallBackList[i])(self, name, oldData, newData);
+            (*iter)(self, name, oldData, newData);
         }
 
-        for (size_t i = 0; i < mxNodeCBs[indexCallBack]->mxCallBackList.size(); ++i)
+        for (auto& iter : mxNodeCBs[indexCallBack]->mxCallBackList)
         {
-            (*(mxNodeCBs[indexCallBack]->mxCallBackList[i]))(self, name, oldData, newData);
+            (*iter)(self, name, oldData, newData);
         }
 
         return true;
@@ -242,47 +238,47 @@ public:
         return 0;
     }
 
-    void SetParent(ARK_SHARE_PTR<AFIClass> pClass)
+    void SetParent(ARK_SHARE_PTR<AFIClass> pClass) override
     {
         m_pParentClass = pClass;
     }
 
-    ARK_SHARE_PTR<AFIClass> GetParent()
+    ARK_SHARE_PTR<AFIClass> GetParent() override
     {
         return m_pParentClass;
     }
 
-    void SetTypeName(const char* strType)
+    void SetTypeName(const char* strType) override
     {
         mstrType = strType;
     }
 
-    const std::string& GetTypeName()
+    const std::string& GetTypeName() override
     {
         return mstrType;
     }
 
-    const std::string& GetClassName()
+    const std::string& GetClassName() override
     {
         return mstrClassName;
     }
 
-    bool AddConfigName(std::string& strConfigName)
+    bool AddConfigName(std::string& strConfigName) override
     {
         return mxConfigList.Add(strConfigName);
     }
 
-    AFList<std::string>& GetConfigNameList()
+    AFList<std::string>& GetConfigNameList() override
     {
         return mxConfigList;
     }
 
-    void SetResPath(const std::string& strPath)
+    void SetResPath(const std::string& strPath) override
     {
         mstrClassResPath = strPath;
     }
 
-    const std::string& GetResPath()
+    const std::string& GetResPath() override
     {
         return mstrClassResPath;
     }
@@ -320,27 +316,27 @@ private:
 class AFCClassModule : public AFIClassModule
 {
 public:
-    explicit AFCClassModule(AFIPluginManager* p);
-    virtual ~AFCClassModule();
+    explicit AFCClassModule() = default;
+    ~AFCClassModule() override;
 
-    virtual bool Init();
-    virtual bool Shut();
+    bool Init() override;
+    bool Shut() override;
 
-    virtual bool Load();
-    virtual bool Clear();
+    bool Load() override;
+    bool Clear() override;
 
-    virtual bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb);
-    virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList);
-    virtual bool AddNodeCallBack(const std::string& strClassName, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
-    virtual bool AddTableCallBack(const std::string& strClassName, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
-    virtual bool AddCommonNodeCallback(const std::string& strClassName, const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
-    virtual bool AddCommonTableCallback(const std::string& strClassName, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
+    bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) override;
+    bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList) override;
+    bool AddNodeCallBack(const std::string& strClassName, const std::string& name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override;
+    bool AddTableCallBack(const std::string& strClassName, const std::string& name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override;
+    bool AddCommonNodeCallback(const std::string& strClassName, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override;
+    bool AddCommonTableCallback(const std::string& strClassName, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override;
 
-    virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strClassName);
-    virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strClassName);
-    virtual bool InitDataNodeManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager);
-    virtual bool InitDataTableManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataTableManager> pTableManager);
-    virtual bool AddClass(const std::string& strClassName, const std::string& strParentName);
+    ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strClassName) override;
+    ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strClassName) override;
+    bool InitDataNodeManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager) override;
+    bool InitDataTableManager(const std::string& strClassName, ARK_SHARE_PTR<AFIDataTableManager> pTableManager) override;
+    bool AddClass(const std::string& strClassName, const std::string& strParentName);
 
 protected:
     virtual int ComputerType(const char* pstrTypeName, AFIData& var);
@@ -355,5 +351,5 @@ protected:
 private:
     AFIConfigModule* m_pConfigModule;
     AFILogModule* m_pLogModule;
-    std::string mstrSchemaFile;
+    std::string mstrSchemaFile{};
 };

@@ -26,9 +26,10 @@
 class AFProtoPlugin : public AFIPlugin
 {
 public:
-    explicit AFProtoPlugin(AFIPluginManager* p);
+    explicit AFProtoPlugin() = default;
 
     int GetPluginVersion() override;
+
     const std::string GetPluginName() override;
 
     void Install() override;

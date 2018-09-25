@@ -31,7 +31,6 @@
 #include "SDK/Interface/AFIClassModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "Server/Interface/AFIGameServerConfigModule.h"
 #include "Server/Interface/AFISceneProcessModule.h"
 #include "Server/Interface/AFIPropertyModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
@@ -39,14 +38,9 @@
 class AFCSceneProcessModule : public AFISceneProcessModule
 {
 public:
-    explicit AFCSceneProcessModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFCSceneProcessModule() = default;
 
-    virtual ~AFCSceneProcessModule() = default;
-
-    virtual bool PostInit();
+    bool PostInit() override;
 
     virtual E_SCENE_TYPE GetCloneSceneType(const int nSceneID);
     virtual bool IsCloneScene(const int nSceneID);

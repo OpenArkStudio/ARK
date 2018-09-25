@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -31,15 +31,12 @@
 class AFCLevelModule : public AFILevelModule
 {
 public:
-    explicit AFCLevelModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
-    virtual ~AFCLevelModule() = default;
+    explicit AFCLevelModule() = default;
+    ~AFCLevelModule() override = default;
 
-    virtual bool PostInit();
+    bool PostInit() override;
 
-    virtual int AddExp(const AFGUID& self, const int nExp);
+    int AddExp(const AFGUID& self, const int nExp) override;
 
 private:
     AFIPropertyConfigModule* m_pPropertyConfigModule;

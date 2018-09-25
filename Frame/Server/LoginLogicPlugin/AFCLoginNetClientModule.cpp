@@ -18,32 +18,26 @@
 *
 */
 
-#include "AFCLoginToMasterModule.h"
+#include "AFCLoginNetClientModule.h"
 
-AFCLoginToMasterModule::AFCLoginToMasterModule(AFIPluginManager* p)
+bool AFCLoginNetClientModule::Init()
 {
-    pPluginManager = p;
-}
-
-bool AFCLoginToMasterModule::Init()
-{
-    m_pLoginLogicModule         = pPluginManager->FindModule<AFILoginLogicModule>();
     m_pLogModule                = pPluginManager->FindModule<AFILogModule>();
-    m_pLoginNetServerModule     = pPluginManager->FindModule<AFILoginNetServerModule>();
-    m_pNetClientManagerModule   = pPluginManager->FindModule<AFINetClientManagerModule>();
     m_pBusModule                = pPluginManager->FindModule<AFIBusModule>();
     m_pMsgModule                = pPluginManager->FindModule<AFIMsgModule>();
+    m_pLoginNetServerModule     = pPluginManager->FindModule<AFILoginNetServerModule>();
+    m_pNetClientManagerModule   = pPluginManager->FindModule<AFINetClientManagerModule>();
 
     return true;
 }
 
-bool AFCLoginToMasterModule::PostInit()
+bool AFCLoginNetClientModule::PostInit()
 {
     int ret = StartClient();
     return (ret == 0);
 }
 
-int AFCLoginToMasterModule::StartClient()
+int AFCLoginNetClientModule::StartClient()
 {
     //创建所有与对端链接的client
     int ret = m_pNetClientManagerModule->CreateClusterClients();
@@ -61,12 +55,12 @@ int AFCLoginToMasterModule::StartClient()
         return -1;
     }
 
-    pNetClient->AddEventCallBack(this, &AFCLoginToMasterModule::OnSocketMSEvent);
+    pNetClient->AddEventCallBack(this, &AFCLoginNetClientModule::OnSocketMSEvent);
 
     return 0;
 }
 
-void AFCLoginToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
+void AFCLoginNetClientModule::OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
     if (eEvent == DISCONNECTED)
     {
@@ -79,7 +73,7 @@ void AFCLoginToMasterModule::OnSocketMSEvent(const NetEventType eEvent, const AF
     }
 }
 
-void AFCLoginToMasterModule::Register(const int bus_id)
+void AFCLoginNetClientModule::Register(const int bus_id)
 {
     AFINetClientService* pNetClient = m_pNetClientManagerModule->GetNetClientServiceByBusID(bus_id);
     if (pNetClient == nullptr)
@@ -108,13 +102,13 @@ void AFCLoginToMasterModule::Register(const int bus_id)
     ARK_LOG_INFO("Register self server_id = {}", pData->bus_id());
 }
 
-void AFCLoginToMasterModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNetClientModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
     m_pLoginNetServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), AFIMsgModule::PBToGUID(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_url(), xMsg.world_key());
 }
 
-void AFCLoginToMasterModule::OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+void AFCLoginNetClientModule::OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
 {
     ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -137,7 +131,7 @@ void AFCLoginToMasterModule::OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, 
     ARK_LOG_INFO("WorldInfo size = {}", xMsg.server_list_size());
 }
 
-AFMapEx<int, AFMsg::ServerInfoReport>& AFCLoginToMasterModule::GetWorldMap()
+AFMapEx<int, AFMsg::ServerInfoReport>& AFCLoginNetClientModule::GetWorldMap()
 {
     return mWorldMap;
 }

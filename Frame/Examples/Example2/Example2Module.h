@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -26,15 +26,12 @@
 class Example2Module : public AFIModule
 {
 public:
-    Example2Module(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit Example2Module() = default;
 
-    virtual bool Init();
-    virtual bool PostInit();
-    virtual bool PreShut();
-    virtual bool Shut();
+    bool Init() override;
+    bool PostInit() override;
+    bool PreShut() override;
+    bool Shut() override;
 
 protected:
     int OnDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);

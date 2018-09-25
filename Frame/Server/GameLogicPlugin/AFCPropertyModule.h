@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -32,11 +32,7 @@
 class AFCPropertyModule : public AFIPropertyModule
 {
 public:
-    explicit AFCPropertyModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
-    virtual ~AFCPropertyModule() = default;
+    explicit AFCPropertyModule() = default;
 
     virtual bool Init();
     virtual bool PostInit();

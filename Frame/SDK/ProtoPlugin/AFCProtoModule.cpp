@@ -20,11 +20,6 @@
 
 #include "AFCProtoModule.h"
 
-AFCProtoModule::AFCProtoModule(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
 bool AFCProtoModule::PackPBMsg(const google::protobuf::Message* message, OUT std::string& msg)
 {
     ARK_ASSERT_RET_VAL(message != nullptr, false);

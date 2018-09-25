@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -37,8 +37,8 @@ bool AFCPropertyModule::PostInit()
     m_pLevelModule = pPluginManager->FindModule<AFILevelModule>();
 
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCPropertyModule::OnObjectClassEvent);
-	m_pClassModule->AddNodeCallBack(ARK::Player::ThisName(), ARK::Player::Level(), this, &AFCPropertyModule::OnObjectLevelEvent);
-	m_pClassModule->AddTableCallBack(ARK::Player::ThisName(), ARK::Player::R_CommPropertyValue(), this, &AFCPropertyModule::OnPropertyTableEvent);
+    m_pClassModule->AddNodeCallBack(ARK::Player::ThisName(), ARK::Player::Level(), this, &AFCPropertyModule::OnObjectLevelEvent);
+    m_pClassModule->AddTableCallBack(ARK::Player::ThisName(), ARK::Player::R_CommPropertyValue(), this, &AFCPropertyModule::OnPropertyTableEvent);
 
     return true;
 }

@@ -18,7 +18,6 @@
 *
 */
 
-#include "AFCMasterModule.h"
 #include "AFMasterLogicPlugin.h"
 #include "AFCMasterNetServerModule.h"
 
@@ -26,12 +25,6 @@ ARK_DLL_PLUGIN_ENTRY(AFMasterLogicPlugin)
 ARK_DLL_PLUGIN_EXIT(AFMasterLogicPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-
-AFMasterLogicPlugin::AFMasterLogicPlugin(AFIPluginManager* p)
-{
-    pPluginManager = p;
-}
-
 int AFMasterLogicPlugin::GetPluginVersion()
 {
     return 0;
@@ -44,12 +37,10 @@ const std::string AFMasterLogicPlugin::GetPluginName()
 
 void AFMasterLogicPlugin::Install()
 {
-    RegisterModule<AFIMasterModule, AFCMasterModule>();
     RegisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
 }
 
 void AFMasterLogicPlugin::Uninstall()
 {
     DeregisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
-    DeregisterModule<AFIMasterModule, AFCMasterModule>();
 }

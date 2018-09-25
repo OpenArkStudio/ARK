@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -32,13 +32,9 @@
 class AFCPropertyTrailModule : public AFIPropertyTrailModule
 {
 public:
-    explicit AFCPropertyTrailModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
-    virtual ~AFCPropertyTrailModule() = default;
+    explicit AFCPropertyTrailModule() = default;
 
-    virtual bool PostInit();
+    bool PostInit() override;
 
     virtual void StartTrail(const AFGUID self);
     virtual void EndTrail(const AFGUID self);

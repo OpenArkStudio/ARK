@@ -32,15 +32,12 @@
 #include "SDK/Interface/AFINetServerManagerModule.h"
 #include "SDK/Interface/AFINetClientManagerModule.h"
 #include "Server/Interface/AFIProxyNetServerModule.h"
-#include "Server/Interface/AFIProxyServerToWorldModule.h"
+#include "Server/Interface/AFIProxyNetClientModule.h"
 
 class AFCProxyNetServerModule : public AFIProxyNetServerModule
 {
 public:
-    explicit AFCProxyNetServerModule(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+    explicit AFCProxyNetServerModule() = default;
 
     bool Init() override;
     virtual bool Update();
@@ -92,12 +89,12 @@ private:
     AFMapEx<AFGUID, AFSessionData> mmSessionData; //Player Client <--> SessionData
     AFCConsistentHash mxConsistentHash;
 
-    AFIProxyServerToWorldModule* m_pProxyToWorldModule;
     AFIKernelModule* m_pKernelModule;
     AFILogModule* m_pLogModule;
     AFIBusModule* m_pBusModule;
     AFINetServerManagerModule* m_pNetServerManagerModule;
     AFINetClientManagerModule* m_pNetClientManagerModule;
     AFIMsgModule* m_pMsgModule;
+    AFIProxyNetClientModule* m_pProxyNetClientModule;
     AFINetServerService* m_pNetServer{ nullptr };
 };
