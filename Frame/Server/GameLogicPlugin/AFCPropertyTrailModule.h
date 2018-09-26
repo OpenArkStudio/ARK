@@ -34,7 +34,7 @@ class AFCPropertyTrailModule : public AFIPropertyTrailModule
 public:
     explicit AFCPropertyTrailModule() = default;
 
-    bool PostInit() override;
+    bool Init() override;
 
     virtual void StartTrail(const AFGUID self);
     virtual void EndTrail(const AFGUID self);

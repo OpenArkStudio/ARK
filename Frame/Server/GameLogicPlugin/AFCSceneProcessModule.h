@@ -40,6 +40,7 @@ class AFCSceneProcessModule : public AFISceneProcessModule
 public:
     explicit AFCSceneProcessModule() = default;
 
+    bool Init() override;
     bool PostInit() override;
 
     virtual E_SCENE_TYPE GetCloneSceneType(const int nSceneID);

@@ -23,7 +23,7 @@
 #include "Common/AFDataDefine.hpp"
 #include "AFCSceneProcessModule.h"
 
-bool AFCSceneProcessModule::PostInit()
+bool AFCSceneProcessModule::Init()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
@@ -32,8 +32,12 @@ bool AFCSceneProcessModule::PostInit()
     m_pGameServerNet_ServerModule = pPluginManager->FindModule<AFIGameNetServerModule>();
 
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCSceneProcessModule::OnObjectClassEvent);
-    //////////////////////////////////////////////////////////////////////////
 
+    return true;
+}
+
+bool AFCSceneProcessModule::PostInit()
+{
     //Init scene container
     ARK_SHARE_PTR<AFIClass> pLogicClass =  m_pClassModule->GetElement("Scene");
 

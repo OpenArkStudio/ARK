@@ -30,6 +30,7 @@ class AFCPropertyConfigModule : public AFIPropertyConfigModule
 public:
     explicit AFCPropertyConfigModule() = default;
 
+    bool Init() override;
     bool PostInit() override;
 
     int CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty) override;

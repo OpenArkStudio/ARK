@@ -32,9 +32,8 @@ class AFCLevelModule : public AFILevelModule
 {
 public:
     explicit AFCLevelModule() = default;
-    ~AFCLevelModule() override = default;
 
-    bool PostInit() override;
+    bool Init() override;
 
     int AddExp(const AFGUID& self, const int nExp) override;
 

@@ -23,13 +23,6 @@
 
 bool AFCPropertyModule::Init()
 {
-    //to do
-    //init mNameToCol mColToName
-    return true;
-}
-
-bool AFCPropertyModule::PostInit()
-{
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();

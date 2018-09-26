@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,7 +20,7 @@
 
 #include "AFCLevelModule.h"
 
-bool AFCLevelModule::PostInit()
+bool AFCLevelModule::Init()
 {
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pLogModule = pPluginManager->FindModule<AFILogModule>();

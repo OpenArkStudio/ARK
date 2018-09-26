@@ -50,15 +50,6 @@ protected:
     int OnAcountDisConnectEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
 private:
-
-    //新建立的连接对象，等待他们自己发验证KEY，KEY验证后删掉
-    //-1
-    int mnConnectContainer;
-
-    //选人大厅容器
-    //-3
-    int mnRoleHallContainer;
-
     AFIKernelModule* m_pKernelModule;
     AFIConfigModule* m_pElementInfoModule;
     AFIGUIDModule* m_pUUIDModule;

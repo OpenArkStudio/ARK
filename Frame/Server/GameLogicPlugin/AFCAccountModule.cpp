@@ -23,9 +23,6 @@
 
 bool AFCAccountModule::Init()
 {
-    mnRoleHallContainer = -3;
-    mnConnectContainer = -1;
-
     m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
     m_pElementInfoModule = pPluginManager->FindModule<AFIConfigModule>();
     m_pUUIDModule = pPluginManager->FindModule<AFIGUIDModule>();

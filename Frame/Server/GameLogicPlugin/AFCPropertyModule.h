@@ -34,8 +34,7 @@ class AFCPropertyModule : public AFIPropertyModule
 public:
     explicit AFCPropertyModule() = default;
 
-    virtual bool Init();
-    virtual bool PostInit();
+    bool Init() override;
 
     virtual int RefreshBaseProperty(const AFGUID& self);
 

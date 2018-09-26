@@ -105,8 +105,7 @@ bool AFCGUIDModule::PreShut()
 {
     if (m_pIDWoker != nullptr)
     {
-        delete m_pIDWoker;
-        m_pIDWoker = NULL;
+        ARK_DELETE(m_pIDWoker);
     }
 
     return true;

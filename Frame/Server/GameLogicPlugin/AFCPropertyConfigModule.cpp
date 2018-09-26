@@ -21,13 +21,17 @@
 #include "AFCPropertyConfigModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-bool AFCPropertyConfigModule::PostInit()
+bool AFCPropertyConfigModule::Init()
 {
     m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
     m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
 
-    Load();
+    return true;
+}
 
+bool AFCPropertyConfigModule::PostInit()
+{
+    Load();
     return true;
 }
 
