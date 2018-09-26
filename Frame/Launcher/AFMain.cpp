@@ -19,13 +19,13 @@
 */
 
 #include "args/args.hxx"
-#include "AFCPluginManager.h"
+#include "Common/AFBaseStruct.hpp"
 #include "SDK/Core/AFMacros.hpp"
 #include "SDK/Core/AFDateTime.hpp"
-#include "SDK/Interface/AFIBusModule.h"
+#include "AFCPluginManager.h"
 
-bool bExitApp = false;
-std::thread gBackThread;
+bool g_exit_loop = false;
+std::thread g_cmd_thread;
 
 #if ARK_PLATFORM == PLATFORM_WIN
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
@@ -119,7 +119,7 @@ void PrintLogo()
 
 void ThreadFunc()
 {
-    while (!bExitApp)
+    while (!g_exit_loop)
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
@@ -129,14 +129,14 @@ void ThreadFunc()
 
         if (s == "exit")
         {
-            bExitApp = true;
+            g_exit_loop = true;
         }
     }
 }
 
 void CreateBackThread()
 {
-    gBackThread = std::thread(std::bind(&ThreadFunc));
+    g_cmd_thread = std::thread(std::bind(&ThreadFunc));
 }
 
 #if ARK_PLATFORM == PLATFORM_UNIX
@@ -388,13 +388,13 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->CheckConfig();
     AFCPluginManager::GetInstancePtr()->PreUpdate();
 
-    while (!bExitApp)
+    while (!g_exit_loop)
     {
         while (true)
         {
             std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
-            if (bExitApp)
+            if (g_exit_loop)
             {
                 break;
             }
@@ -406,7 +406,7 @@ int main(int argc, char* argv[])
     AFCPluginManager::GetInstancePtr()->PreShut();
     AFCPluginManager::GetInstancePtr()->Shut();
 
-    gBackThread.join();
+    g_cmd_thread.join();
 
     return 0;
 }

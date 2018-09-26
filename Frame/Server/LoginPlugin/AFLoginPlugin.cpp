@@ -18,32 +18,32 @@
 *
 */
 
-#include "AFWorldLogicPlugin.h"
-#include "AFCWorldNetServerModule.h"
-#include "AFCWorldNetClientModule.h"
+#include "AFLoginPlugin.h"
+#include "AFCLoginNetServerModule.h"
+#include "AFCLoginNetClientModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFWorldLogicPlugin)
-ARK_DLL_PLUGIN_EXIT(AFWorldLogicPlugin)
+ARK_DLL_PLUGIN_ENTRY(AFLoginPlugin)
+ARK_DLL_PLUGIN_EXIT(AFLoginPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-int AFWorldLogicPlugin::GetPluginVersion()
+int AFLoginPlugin::GetPluginVersion()
 {
     return 0;
 }
 
-const std::string AFWorldLogicPlugin::GetPluginName()
+const std::string AFLoginPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFWorldLogicPlugin);
+    return GET_CLASS_NAME(AFLoginPlugin);
 }
 
-void AFWorldLogicPlugin::Install()
+void AFLoginPlugin::Install()
 {
-    RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
-    RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
+    RegisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
+    RegisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
 }
 
-void AFWorldLogicPlugin::Uninstall()
+void AFLoginPlugin::Uninstall()
 {
-    RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
-    RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
+    DeregisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
+    DeregisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
 }

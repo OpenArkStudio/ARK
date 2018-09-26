@@ -57,7 +57,7 @@ bool AFCNetClientManagerModule::Shut()
 int AFCNetClientManagerModule::CreateClusterClients()
 {
     std::vector<AFServerConfig> target_list;
-    if (m_pBusModule->GetDirectBusRelations(target_list))
+    if (!m_pBusModule->GetDirectBusRelations(target_list))
     {
         return -1;
     }
@@ -73,7 +73,7 @@ int AFCNetClientManagerModule::CreateClusterClients()
         AFINetClientService* pClient = _net_clients.GetElement(app_type);
         if (pClient == nullptr)
         {
-            AFINetClientService* pClient = ARK_NEW AFCNetClientService(pPluginManager);
+            pClient = ARK_NEW AFCNetClientService(pPluginManager);
             _net_clients.AddElement(app_type, pClient);
         }
 

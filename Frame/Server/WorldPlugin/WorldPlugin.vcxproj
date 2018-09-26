@@ -10,12 +10,23 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AFCWorldNetServerModule.cpp" />
+    <ClCompile Include="AFCWorldNetClientModule.cpp" />
+    <ClCompile Include="AFWorldPlugin.cpp" />
+    <ClCompile Include="dllmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AFCWorldNetServerModule.h" />
+    <ClInclude Include="AFCWorldNetClientModule.h" />
+    <ClInclude Include="AFWorldPlugin.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{EB9FDC0A-7CFD-4E42-8442-9A9D40511162}</ProjectGuid>
+    <ProjectGuid>{45ABC2B9-730E-450F-BBE7-B9894BCDB0C6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>AFGameServerPlugin</RootNamespace>
+    <RootNamespace>AFWorldPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>AFGameLogicPlugin</ProjectName>
+    <ProjectName>AFWorldPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -51,7 +62,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\Temp\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
     <EmbedManifest>false</EmbedManifest>
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
@@ -61,7 +71,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN;_DEBUG;_WINDOWS;_USRDLL;ELPP_NO_DEFAULT_LOG_FILE;PROTOBUF_USE_DLLS</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\brynet\src\;$(SolutionDir)..\Dep\protobuf\src\;$(SolutionDir)..\Plugins\;$(SolutionDir)..\Frame\SDK\Proto</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)..\Dep\;$(SolutionDir)..\Dep\brynet\src\;$(SolutionDir)..\Dep\protobuf\src\;$(SolutionDir)..\Plugins\</AdditionalIncludeDirectories>
       <BrowseInformation>false</BrowseInformation>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
@@ -69,14 +79,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\lib\;$(SolutionDir)..\Dep\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /Y $(TargetPath) $(SolutionDir)..\Bin\lib</Command>
     </PostBuildEvent>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
@@ -102,40 +108,7 @@
     <PostBuildEvent>
       <Command>xcopy /Y $(TargetPath) $(SolutionDir)..\Bin\lib</Command>
     </PostBuildEvent>
-    <Lib>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Lib>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="AFCAccountModule.cpp" />
-    <ClCompile Include="AFCGameNetClientModule.cpp" />
-    <ClCompile Include="AFCGameNetServerModule.cpp" />
-    <ClCompile Include="AFCLevelModule.cpp" />
-    <ClCompile Include="AFCPropertyConfigModule.cpp" />
-    <ClCompile Include="AFCPropertyModule.cpp" />
-    <ClCompile Include="AFCPropertyTrailModule.cpp" />
-    <ClCompile Include="AFCSceneProcessModule.cpp" />
-    <ClCompile Include="AFGameLogicPlugin.cpp" />
-    <ClCompile Include="dllmain.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </PrecompiledHeader>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </PrecompiledHeader>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AFCAccountModule.h" />
-    <ClInclude Include="AFCGameNetClientModule.h" />
-    <ClInclude Include="AFCGameNetServerModule.h" />
-    <ClInclude Include="AFCLevelModule.h" />
-    <ClInclude Include="AFCPropertyConfigModule.h" />
-    <ClInclude Include="AFCPropertyModule.h" />
-    <ClInclude Include="AFCPropertyTrailModule.h" />
-    <ClInclude Include="AFCSceneProcessModule.h" />
-    <ClInclude Include="AFGameLogicPlugin.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

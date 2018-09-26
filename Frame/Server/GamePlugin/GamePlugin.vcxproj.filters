@@ -31,7 +31,7 @@
     <ClCompile Include="AFCLevelModule.cpp">
       <Filter>LevelModule</Filter>
     </ClCompile>
-    <ClCompile Include="AFGameLogicPlugin.cpp" />
+    <ClCompile Include="AFGamePlugin.cpp" />
     <ClCompile Include="AFCAccountModule.cpp" />
     <ClCompile Include="AFCGameNetServerModule.cpp">
       <Filter>NetModule</Filter>
@@ -56,7 +56,7 @@
     <ClInclude Include="AFCLevelModule.h">
       <Filter>LevelModule</Filter>
     </ClInclude>
-    <ClInclude Include="AFGameLogicPlugin.h" />
+    <ClInclude Include="AFGamePlugin.h" />
     <ClInclude Include="AFCAccountModule.h" />
     <ClInclude Include="AFCGameNetServerModule.h">
       <Filter>NetModule</Filter>

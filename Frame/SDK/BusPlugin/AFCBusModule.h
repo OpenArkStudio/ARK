@@ -25,7 +25,8 @@
 class AFCBusModule final : public AFIBusModule
 {
 public:
-    explicit AFCBusModule();
+    explicit AFCBusModule() = default;
+    bool Init() override;
 
     const std::string& GetAppName(const uint8_t& app_type) override;
     const uint8_t GetAppType(const std::string& name) override;
@@ -49,7 +50,6 @@ protected:
 
     const AFServerConfig* GetAppServerInfo(const AFBusAddr& bus_addr);
     const std::string& GetHost(const std::string& host);
-
 private:
     AFProcConfig mxProcConfig;
     std::map<uint8_t, std::map<uint8_t, bool>> mxBusRelations;

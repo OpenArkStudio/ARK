@@ -18,32 +18,29 @@
 *
 */
 
-#include "AFProxyLogicPlugin.h"
-#include "AFCProxyNetServerModule.h"
-#include "AFCProxyNetClientModule.h"
+#include "AFMasterPlugin.h"
+#include "AFCMasterNetServerModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFProxyLogicPlugin)
-ARK_DLL_PLUGIN_EXIT(AFProxyLogicPlugin)
+ARK_DLL_PLUGIN_ENTRY(AFMasterPlugin)
+ARK_DLL_PLUGIN_EXIT(AFMasterPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-int AFProxyLogicPlugin::GetPluginVersion()
+int AFMasterPlugin::GetPluginVersion()
 {
     return 0;
 }
 
-const std::string AFProxyLogicPlugin::GetPluginName()
+const std::string AFMasterPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFProxyLogicPlugin)
+    return GET_CLASS_NAME(AFMasterPlugin)
 }
 
-void AFProxyLogicPlugin::Install()
+void AFMasterPlugin::Install()
 {
-    RegisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
-    RegisterModule<AFIProxyNetClientModule, AFCProxyNetClientModule>();
+    RegisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
 }
 
-void AFProxyLogicPlugin::Uninstall()
+void AFMasterPlugin::Uninstall()
 {
-    DeregisterModule<AFIProxyNetClientModule, AFCProxyNetClientModule>();
-    DeregisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
+    DeregisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
 }

@@ -24,10 +24,19 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "AFCBusModule.h"
 
-AFCBusModule::AFCBusModule()
+bool AFCBusModule::Init()
 {
-    LoadProcConfig();
-    LoadBusRelation();
+    if (!LoadProcConfig())
+    {
+        return false;
+    }
+
+    if (!LoadBusRelation())
+    {
+        return false;
+    }
+
+    return true;
 }
 
 bool AFCBusModule::LoadProcConfig()
@@ -128,11 +137,11 @@ bool AFCBusModule::LoadBusRelation()
     }
 
     rapidxml::xml_node<>* pRelationNodes = pRoot->first_node("bus_relations");
-    for (rapidxml::xml_node<>* pRelationNode = pRelationNodes->first_node("bus_relations"); pRelationNode != nullptr; pRelationNode = pRelationNode->next_sibling())
+    for (rapidxml::xml_node<>* pRelationNode = pRelationNodes->first_node("relation"); pRelationNode != nullptr; pRelationNode = pRelationNode->next_sibling())
     {
         std::string proc = pRelationNode->first_attribute("proc")->value();
         std::string target_proc = pRelationNode->first_attribute("target_proc")->value();
-        bool connection_type = ARK_LEXICAL_CAST<bool>(pRelationNode->first_attribute("target_proc")->value());
+        bool connection_type = ARK_LEXICAL_CAST<int>(pRelationNode->first_attribute("connect_type")->value());
 
         const uint8_t& proc_type = GetAppType(proc);
         const uint8_t& target_proc_type = GetAppType(target_proc);

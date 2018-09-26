@@ -20,18 +20,7 @@
 
 #pragma once
 
-#include "SDK/Interface/AFIPlugin.h"
-#include "SDK/Interface/AFIPluginManager.h"
-
-class AFMasterLogicPlugin : public AFIPlugin
+enum AFErrorCode
 {
-public:
-    explicit AFMasterLogicPlugin() = default;
-
-    int GetPluginVersion() override;
-
-    const std::string GetPluginName() override;
-
-    void Install() override;
-    void Uninstall() override;
+    //will add error code
 };

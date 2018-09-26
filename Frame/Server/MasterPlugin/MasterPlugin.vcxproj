@@ -11,22 +11,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCWorldNetServerModule.cpp" />
-    <ClCompile Include="AFCWorldNetClientModule.cpp" />
-    <ClCompile Include="AFWorldLogicPlugin.cpp" />
+    <ClCompile Include="AFCMasterNetServerModule.cpp" />
+    <ClCompile Include="AFMasterPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCWorldNetServerModule.h" />
-    <ClInclude Include="AFCWorldNetClientModule.h" />
-    <ClInclude Include="AFWorldLogicPlugin.h" />
+    <ClInclude Include="AFCMasterNetServerModule.h" />
+    <ClInclude Include="AFMasterPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{45ABC2B9-730E-450F-BBE7-B9894BCDB0C6}</ProjectGuid>
+    <ProjectGuid>{CB93108B-ED0C-4AB3-A349-8637E6807ED5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>AFWorldLogicPlugin</RootNamespace>
+    <RootNamespace>AFMasterServerPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>AFWorldLogicPlugin</ProjectName>
+    <ProjectName>AFMasterPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">

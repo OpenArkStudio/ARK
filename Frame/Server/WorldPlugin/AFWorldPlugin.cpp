@@ -18,32 +18,32 @@
 *
 */
 
-#include "AFBusPlugin.h"
-#include "AFCBusModule.h"
-#include "AFCMsgModule.h"
+#include "AFWorldPlugin.h"
+#include "AFCWorldNetServerModule.h"
+#include "AFCWorldNetClientModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFBusPlugin)
-ARK_DLL_PLUGIN_EXIT(AFBusPlugin)
+ARK_DLL_PLUGIN_ENTRY(AFWorldPlugin)
+ARK_DLL_PLUGIN_EXIT(AFWorldPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-int AFBusPlugin::GetPluginVersion()
+int AFWorldPlugin::GetPluginVersion()
 {
     return 0;
 }
 
-const std::string AFBusPlugin::GetPluginName()
+const std::string AFWorldPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFBusPlugin)
+    return GET_CLASS_NAME(AFWorldPlugin);
 }
 
-void AFBusPlugin::Install()
+void AFWorldPlugin::Install()
 {
-    RegisterModule<AFIBusModule, AFCBusModule>();
-    RegisterModule<AFIMsgModule, AFCMsgModule>();
+    RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
+    RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
 }
 
-void AFBusPlugin::Uninstall()
+void AFWorldPlugin::Uninstall()
 {
-    DeregisterModule<AFIMsgModule, AFCMsgModule>();
-    DeregisterModule<AFIBusModule, AFCBusModule>();
+    RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
+    RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
 }

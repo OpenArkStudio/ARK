@@ -34,15 +34,15 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example2Plugin", "Examples\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Example3Plugin", "Examples\Example3\Example3Plugin.vcxproj", "{40285E86-2B3A-4BA2-99D8-8D3F07A4909A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFGameLogicPlugin", "Server\GameLogicPlugin\GameLogicPlugin.vcxproj", "{EB9FDC0A-7CFD-4E42-8442-9A9D40511162}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFGamePlugin", "Server\GamePlugin\GamePlugin.vcxproj", "{EB9FDC0A-7CFD-4E42-8442-9A9D40511162}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFLoginLogicPlugin", "Server\LoginLogicPlugin\LoginLogicPlugin.vcxproj", "{DF5C4125-681C-42D3-8763-ECD78385888C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFLoginPlugin", "Server\LoginPlugin\LoginPlugin.vcxproj", "{DF5C4125-681C-42D3-8763-ECD78385888C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFMasterLogicPlugin", "Server\MasterLogicPlugin\MasterServerPlugin.vcxproj", "{CB93108B-ED0C-4AB3-A349-8637E6807ED5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFMasterPlugin", "Server\MasterPlugin\MasterPlugin.vcxproj", "{CB93108B-ED0C-4AB3-A349-8637E6807ED5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFProxyLogicPlugin", "Server\ProxyLogicPlugin\ProxyLogicPlugin.vcxproj", "{F7184B09-1086-4ECF-A833-4088389468B1}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFProxyPlugin", "Server\ProxyPlugin\ProxyPlugin.vcxproj", "{F7184B09-1086-4ECF-A833-4088389468B1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFWorldLogicPlugin", "Server\WorldLogicPlugin\WorldLogicPlugin.vcxproj", "{45ABC2B9-730E-450F-BBE7-B9894BCDB0C6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFWorldPlugin", "Server\WorldPlugin\WorldPlugin.vcxproj", "{45ABC2B9-730E-450F-BBE7-B9894BCDB0C6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFNetPlugin", "SDK\NetPlugin\AFNetPlugin.vcxproj", "{75AD5475-3AA7-4A84-AC0A-620688C85E53}"
 EndProject

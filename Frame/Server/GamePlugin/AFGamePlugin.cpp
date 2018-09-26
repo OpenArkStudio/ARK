@@ -18,7 +18,7 @@
 *
 */
 
-#include "AFGameLogicPlugin.h"
+#include "AFGamePlugin.h"
 #include "AFCSceneProcessModule.h"
 #include "AFCPropertyModule.h"
 #include "AFCLevelModule.h"
@@ -27,21 +27,21 @@
 #include "AFCGameNetServerModule.h"
 #include "AFCGameNetClientModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFGameLogicPlugin)
-ARK_DLL_PLUGIN_EXIT(AFGameLogicPlugin)
+ARK_DLL_PLUGIN_ENTRY(AFGamePlugin)
+ARK_DLL_PLUGIN_EXIT(AFGamePlugin)
 
 //////////////////////////////////////////////////////////////////////////
-int AFGameLogicPlugin::GetPluginVersion()
+int AFGamePlugin::GetPluginVersion()
 {
     return 0;
 }
 
-const std::string AFGameLogicPlugin::GetPluginName()
+const std::string AFGamePlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFGameLogicPlugin)
+    return GET_CLASS_NAME(AFGamePlugin)
 }
 
-void AFGameLogicPlugin::Install()
+void AFGamePlugin::Install()
 {
     RegisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
     RegisterModule<AFIPropertyModule, AFCPropertyModule>();
@@ -52,7 +52,7 @@ void AFGameLogicPlugin::Install()
     RegisterModule<AFIGameNetClientModule, AFCGameNetClientModule>();
 }
 
-void AFGameLogicPlugin::Uninstall()
+void AFGamePlugin::Uninstall()
 {
     DeregisterModule<AFIGameNetClientModule, AFCGameNetClientModule>();
     DeregisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();

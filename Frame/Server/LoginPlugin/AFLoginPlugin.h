@@ -18,29 +18,20 @@
 *
 */
 
-#include "AFMasterLogicPlugin.h"
-#include "AFCMasterNetServerModule.h"
+#pragma once
 
-ARK_DLL_PLUGIN_ENTRY(AFMasterLogicPlugin)
-ARK_DLL_PLUGIN_EXIT(AFMasterLogicPlugin)
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
-//////////////////////////////////////////////////////////////////////////
-int AFMasterLogicPlugin::GetPluginVersion()
+class AFLoginPlugin : public AFIPlugin
 {
-    return 0;
-}
+public:
+    explicit AFLoginPlugin() = default;
 
-const std::string AFMasterLogicPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFMasterLogicPlugin)
-}
+    int GetPluginVersion() override;
 
-void AFMasterLogicPlugin::Install()
-{
-    RegisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
-}
+    const std::string GetPluginName() override;
 
-void AFMasterLogicPlugin::Uninstall()
-{
-    DeregisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
-}
+    void Install() override;
+    void Uninstall() override;
+};

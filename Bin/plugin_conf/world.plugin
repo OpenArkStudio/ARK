@@ -2,7 +2,7 @@
 	<plugins path="../lib/">
 		<plugin name="AFKernelPlugin" />
 		<plugin name="AFUtilityPlugin" />
-		<plugin name="AFWorldLogicPlugin" />
+		<plugin name="AFWorldPlugin" />
 		<plugin name="AFWorldNetClientPlugin" />
 		<plugin name="AFWorldNetServerPlugin" />
 	</plugins>

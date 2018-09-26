@@ -18,7 +18,7 @@
 *
 */
 
-#include <brynet/net/SyncConnector.h>
+#include "Common/AFBaseStruct.hpp"
 #include "AFCTCPClient.h"
 
 AFCTCPClient::AFCTCPClient(const brynet::net::TcpService::PTR& service/* = nullptr*/, const brynet::net::AsyncConnector::PTR& connector/* = nullptr*/)
@@ -42,9 +42,10 @@ void AFCTCPClient::Update()
 
 bool AFCTCPClient::Start(const int target_busid, const std::string& ip, const int port, bool ip_v6/* = false*/)
 {
-    brynet::net::base::InitSocket();
+    m_pTcpService->startWorkerThread(1);
+    m_pConnector->startWorkerThread();
 
-    m_pConnector->asyncConnect(ip, port, std::chrono::seconds(10), [ = ](brynet::net::TcpSocket::PTR socket)
+    m_pConnector->asyncConnect(ip, port, ARK_CONNECT_TIMEOUT, [ = ](brynet::net::TcpSocket::PTR socket)
     {
         AFCTCPClient* pTcpClient = this;
         socket->SocketNodelay();
@@ -104,14 +105,12 @@ bool AFCTCPClient::Start(const int target_busid, const std::string& ip, const in
                                      brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE));
     }, [ = ]()
     {
-        std::string error = ARK_FORMAT("connect failed, target_bus_id:{} ip:{} port:{}", target_busid, ip, port);
+        std::string bus_id = AFBusAddr(target_busid).ToString();
+        std::string error = ARK_FORMAT("connect failed, target_bus_id:{} ip:{} port:{}", bus_id, ip, port);
         CONSOLE_LOG_NO_FILE << error << std::endl;
     });
 
     mnTargetBusID = target_busid;
-
-    m_pTcpService->startWorkerThread(1);
-    m_pConnector->startWorkerThread();
     SetWorking(true);
     return true;
 }

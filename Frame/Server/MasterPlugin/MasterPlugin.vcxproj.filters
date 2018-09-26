@@ -2,13 +2,13 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="AFMasterLogicPlugin.cpp" />
+    <ClCompile Include="AFMasterPlugin.cpp" />
     <ClCompile Include="AFCMasterNetServerModule.cpp">
       <Filter>NetModule</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFMasterLogicPlugin.h" />
+    <ClInclude Include="AFMasterPlugin.h" />
     <ClInclude Include="AFCMasterNetServerModule.h">
       <Filter>NetModule</Filter>
     </ClInclude>

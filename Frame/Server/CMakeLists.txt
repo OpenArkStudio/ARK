@@ -63,8 +63,8 @@ macro(BUILD_PLUGIN_MACRO project_name)
 endmacro(BUILD_PLUGIN_MACRO project_name)
 
 ###################################################################################################
-add_subdirectory(GameLogicPlugin)
-add_subdirectory(LoginLogicPlugin)
-add_subdirectory(ProxyLogicPlugin)
-add_subdirectory(WorldLogicPlugin)
-add_subdirectory(MasterLogicPlugin)
+add_subdirectory(GamePlugin)
+add_subdirectory(LoginPlugin)
+add_subdirectory(ProxyPlugin)
+add_subdirectory(WorldPlugin)
+add_subdirectory(MasterPlugin)

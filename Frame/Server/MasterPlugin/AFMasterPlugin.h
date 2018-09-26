@@ -23,10 +23,10 @@
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-class AFGameLogicPlugin : public AFIPlugin
+class AFMasterPlugin : public AFIPlugin
 {
 public:
-    explicit AFGameLogicPlugin() = default;
+    explicit AFMasterPlugin() = default;
 
     int GetPluginVersion() override;
 

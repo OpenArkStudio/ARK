@@ -18,32 +18,32 @@
 *
 */
 
-#include "AFLoginLogicPlugin.h"
-#include "AFCLoginNetServerModule.h"
-#include "AFCLoginNetClientModule.h"
+#include "AFProxyPlugin.h"
+#include "AFCProxyNetServerModule.h"
+#include "AFCProxyNetClientModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFLoginLogicPlugin)
-ARK_DLL_PLUGIN_EXIT(AFLoginLogicPlugin)
+ARK_DLL_PLUGIN_ENTRY(AFProxyPlugin)
+ARK_DLL_PLUGIN_EXIT(AFProxyPlugin)
 
 //////////////////////////////////////////////////////////////////////////
-int AFLoginLogicPlugin::GetPluginVersion()
+int AFProxyPlugin::GetPluginVersion()
 {
     return 0;
 }
 
-const std::string AFLoginLogicPlugin::GetPluginName()
+const std::string AFProxyPlugin::GetPluginName()
 {
-    return GET_CLASS_NAME(AFLoginLogicPlugin);
+    return GET_CLASS_NAME(AFProxyPlugin)
 }
 
-void AFLoginLogicPlugin::Install()
+void AFProxyPlugin::Install()
 {
-    RegisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
-    RegisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
+    RegisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
+    RegisterModule<AFIProxyNetClientModule, AFCProxyNetClientModule>();
 }
 
-void AFLoginLogicPlugin::Uninstall()
+void AFProxyPlugin::Uninstall()
 {
-    DeregisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
-    DeregisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
+    DeregisterModule<AFIProxyNetClientModule, AFCProxyNetClientModule>();
+    DeregisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
 }

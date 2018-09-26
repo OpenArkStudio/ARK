@@ -22,7 +22,7 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "spdlog/contrib/sinks/date_and_hour_file_sink.h"
 
-AFCLogModule::AFCLogModule()
+bool AFCLogModule::Init()
 {
     //Create spdlog
     try
@@ -32,8 +32,10 @@ AFCLogModule::AFCLogModule()
     catch (std::system_error& error)
     {
         CONSOLE_LOG_NO_FILE << "Create logger failed, error = " << error.what() << std::endl;
-        ARK_ASSERT_NO_EFFECT(0);
+        ARK_ASSERT_RET_VAL(0, false);
     }
+
+    return true;
 }
 
 bool AFCLogModule::Shut()

@@ -20,14 +20,14 @@
 
 #pragma once
 
-#include "SDK/Core/AFPlatform.hpp"
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-class AFWorldLogicPlugin : public AFIPlugin
+
+class AFProxyPlugin : public AFIPlugin
 {
 public:
-    explicit AFWorldLogicPlugin() = default;
+    explicit AFProxyPlugin() = default;
 
     int GetPluginVersion() override;
 

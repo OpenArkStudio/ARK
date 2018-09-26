@@ -11,22 +11,22 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCProxyNetServerModule.cpp" />
-    <ClCompile Include="AFCProxyNetClientModule.cpp" />
-    <ClCompile Include="AFProxyLogicPlugin.cpp" />
+    <ClCompile Include="AFCLoginNetClientModule.cpp" />
+    <ClCompile Include="AFCLoginNetServerModule.cpp" />
+    <ClCompile Include="AFLoginPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCProxyNetServerModule.h" />
-    <ClInclude Include="AFCProxyNetClientModule.h" />
-    <ClInclude Include="AFProxyLogicPlugin.h" />
+    <ClInclude Include="AFCLoginNetClientModule.h" />
+    <ClInclude Include="AFCLoginNetServerModule.h" />
+    <ClInclude Include="AFLoginPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{F7184B09-1086-4ECF-A833-4088389468B1}</ProjectGuid>
+    <ProjectGuid>{DF5C4125-681C-42D3-8763-ECD78385888C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>AFProxyPlugin</RootNamespace>
-    <ProjectName>AFProxyLogicPlugin</ProjectName>
+    <RootNamespace>AFLoginPlugin</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <ProjectName>AFLoginPlugin</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -62,7 +62,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\Temp\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
-    <EmbedManifest>false</EmbedManifest>
     <IntDir>$(SolutionDir)..\Temp\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -80,6 +79,9 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)..\Bin\lib\;$(SolutionDir)..\Dep\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <ProjectReference>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
     <PostBuildEvent>
       <Command>xcopy /Y $(TargetPath) $(SolutionDir)..\Bin\lib</Command>
     </PostBuildEvent>

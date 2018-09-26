@@ -25,8 +25,9 @@
 class AFCLogModule : public AFILogModule
 {
 public:
-    explicit AFCLogModule();
+    explicit AFCLogModule() = default;
 
+    bool Init() override;
     bool Shut() override;
 
     const std::shared_ptr<spdlog::async_logger>& GetLogger() override;
