@@ -143,10 +143,17 @@ void AFCNetClientService::ProcessUpdate()
                     ARK_DELETE(connection_data->_net_client_ptr);
                 }
 
-                connection_data->_net_state = AFConnectionData::CONNECTING;
                 //based on protocol to create a new client
                 connection_data->_net_client_ptr = CreateNet(connection_data->_protocol);
-                connection_data->_net_client_ptr->Start(connection_data->_server_bus_id, connection_data->_ip, connection_data->_port, connection_data->_is_ip_v6);
+                bool ret = connection_data->_net_client_ptr->Start(connection_data->_server_bus_id, connection_data->_ip, connection_data->_port, connection_data->_is_ip_v6);
+                if (!ret)
+                {
+                    connection_data->_net_state = AFConnectionData::RECONNECT;
+                }
+                else
+                {
+                    connection_data->_net_state = AFConnectionData::CONNECTING;
+                }
             }
             break;
         default:
@@ -284,12 +291,19 @@ void AFCNetClientService::ProcessAddNetConnect()
             target_connection_data = std::make_shared<AFConnectionData>();
 
             *target_connection_data = connection_data;
-            target_connection_data->_net_state = AFConnectionData::CONNECTING;
             target_connection_data->_last_active_time = mpPluginManager->GetNowTime();
 
             //based on protocol to create a new client
             target_connection_data->_net_client_ptr = CreateNet(target_connection_data->_protocol);
-            target_connection_data->_net_client_ptr->Start(target_connection_data->_server_bus_id, target_connection_data->_ip, target_connection_data->_port);
+            int ret = target_connection_data->_net_client_ptr->Start(target_connection_data->_server_bus_id, target_connection_data->_ip, target_connection_data->_port);
+            if (!ret)
+            {
+                target_connection_data->_net_state = AFConnectionData::RECONNECT;
+            }
+            else
+            {
+                target_connection_data->_net_state = AFConnectionData::CONNECTING;
+            }
 
             if (!mxTargetServerMap.AddElement(target_connection_data->_server_bus_id, target_connection_data))
             {

@@ -26,6 +26,7 @@
 #include <brynet/net/SocketLibFunction.h>
 #include <brynet/net/TCPService.h>
 #include <brynet/net/Connector.h>
+#include <brynet/net/SyncConnector.h>
 
 #pragma pack(push, 1)
 

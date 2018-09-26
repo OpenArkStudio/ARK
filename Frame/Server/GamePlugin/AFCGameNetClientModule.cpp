@@ -70,10 +70,18 @@ int AFCGameNetClientModule::StartClient()
 
 void AFCGameNetClientModule::OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
 {
-    if (eEvent == CONNECTED)
+    AFBusAddr bus_addr(nServerID);
+    switch (eEvent)
     {
-        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
+    case CONNECTED:
+        ARK_LOG_INFO("Connected success, conn_id = {}, bus_id = {}", xClientID.ToString(), bus_addr.ToString());
         Register(nServerID);
+        break;
+    case DISCONNECTED:
+        ARK_LOG_ERROR("Connected failed, conn_id = {}, bus_id = {}, try to reconnect...", xClientID.ToString(), bus_addr.ToString())
+        break;
+    default:
+        break;
     }
 }
 

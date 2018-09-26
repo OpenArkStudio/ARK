@@ -45,70 +45,133 @@ bool AFCTCPClient::Start(const int target_busid, const std::string& ip, const in
     m_pTcpService->startWorkerThread(1);
     m_pConnector->startWorkerThread();
 
-    m_pConnector->asyncConnect(ip, port, ARK_CONNECT_TIMEOUT, [ = ](brynet::net::TcpSocket::PTR socket)
+    brynet::net::TcpSocket::PTR socket = brynet::net::SyncConnectSocket(ip, port, ARK_CONNECT_TIMEOUT, m_pConnector);
+    if (socket == nullptr)
+    {
+        return false;
+    }
+
+    socket->SocketNodelay();
+    auto OnEnterCallback = [ = ](const brynet::net::DataSocket::PTR & session)
     {
         AFCTCPClient* pTcpClient = this;
-        socket->SocketNodelay();
-        auto OnEnterCallback = [pTcpClient](const brynet::net::DataSocket::PTR & session)
+        AFTCPMsg* pMsg = new AFTCPMsg(session);
+        pMsg->xClientID.nLow = (++pTcpClient->mnNextID);
+        session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
+        pMsg->nType = CONNECTED;
+
+        do
         {
+            AFScopeWrLock xGuard(pTcpClient->mRWLock);
+
+            AFTCPEntity* pEntity = new AFTCPEntity(pTcpClient, pMsg->xClientID, session);
+            pTcpClient->m_pClientEntity.reset(pEntity);
+            pEntity->mxNetMsgMQ.Push(pMsg);
+        } while (false);
+
+        //data cb
+        session->setDataCallback([pTcpClient, session](const char* buffer, size_t len)
+        {
+            const auto ud = brynet::net::cast<int64_t>(session->getUD());
+            AFGUID xClient(0, *ud);
+
+            AFScopeRdLock xGuard(pTcpClient->mRWLock);
+
+            if (pTcpClient->m_pClientEntity->GetClientID() == xClient)
+            {
+                pTcpClient->m_pClientEntity->AddBuff(buffer, len);
+                pTcpClient->DismantleNet(pTcpClient->m_pClientEntity.get());
+            }
+
+            return len;
+        });
+
+        //disconnect cb
+        session->setDisConnectCallback([pTcpClient](const brynet::net::DataSocket::PTR & session)
+        {
+            const auto ud = brynet::net::cast<int64_t>(session->getUD());
+            AFGUID xClient(0, *ud);
+
             AFTCPMsg* pMsg = new AFTCPMsg(session);
-            pMsg->xClientID.nLow = (++pTcpClient->mnNextID);
-            session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
-            pMsg->nType = CONNECTED;
+            pMsg->xClientID = xClient;
+            pMsg->nType = DISCONNECTED;
 
             do
             {
                 AFScopeWrLock xGuard(pTcpClient->mRWLock);
-
-                AFTCPEntity* pEntity = new AFTCPEntity(pTcpClient, pMsg->xClientID, session);
-                pTcpClient->m_pClientEntity.reset(pEntity);
-                pEntity->mxNetMsgMQ.Push(pMsg);
+                pTcpClient->m_pClientEntity->mxNetMsgMQ.Push(pMsg);
             } while (false);
+        });
+    };
 
-            //data cb
-            session->setDataCallback([pTcpClient, session](const char* buffer, size_t len)
-            {
-                const auto ud = brynet::net::cast<int64_t>(session->getUD());
-                AFGUID xClient(0, *ud);
+    m_pTcpService->addDataSocket(std::move(socket),
+                                 brynet::net::TcpService::AddSocketOption::WithEnterCallback(OnEnterCallback),
+                                 brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE));
+    //////////////////////////////////////////////////////////////////////////
+    //m_pConnector->asyncConnect(ip, port, ARK_CONNECT_TIMEOUT, [ = ](brynet::net::TcpSocket::PTR socket)
+    //{
+    //    AFCTCPClient* pTcpClient = this;
+    //    socket->SocketNodelay();
+    //    auto OnEnterCallback = [pTcpClient](const brynet::net::DataSocket::PTR & session)
+    //    {
+    //        AFTCPMsg* pMsg = new AFTCPMsg(session);
+    //        pMsg->xClientID.nLow = (++pTcpClient->mnNextID);
+    //        session->setUD(static_cast<int64_t>(pMsg->xClientID.nLow));
+    //        pMsg->nType = CONNECTED;
 
-                AFScopeRdLock xGuard(pTcpClient->mRWLock);
+    //        do
+    //        {
+    //            AFScopeWrLock xGuard(pTcpClient->mRWLock);
 
-                if (pTcpClient->m_pClientEntity->GetClientID() == xClient)
-                {
-                    pTcpClient->m_pClientEntity->AddBuff(buffer, len);
-                    pTcpClient->DismantleNet(pTcpClient->m_pClientEntity.get());
-                }
+    //            AFTCPEntity* pEntity = new AFTCPEntity(pTcpClient, pMsg->xClientID, session);
+    //            pTcpClient->m_pClientEntity.reset(pEntity);
+    //            pEntity->mxNetMsgMQ.Push(pMsg);
+    //        } while (false);
 
-                return len;
-            });
+    //        //data cb
+    //        session->setDataCallback([pTcpClient, session](const char* buffer, size_t len)
+    //        {
+    //            const auto ud = brynet::net::cast<int64_t>(session->getUD());
+    //            AFGUID xClient(0, *ud);
 
-            //disconnect cb
-            session->setDisConnectCallback([pTcpClient](const brynet::net::DataSocket::PTR & session)
-            {
-                const auto ud = brynet::net::cast<int64_t>(session->getUD());
-                AFGUID xClient(0, *ud);
+    //            AFScopeRdLock xGuard(pTcpClient->mRWLock);
 
-                AFTCPMsg* pMsg = new AFTCPMsg(session);
-                pMsg->xClientID = xClient;
-                pMsg->nType = DISCONNECTED;
+    //            if (pTcpClient->m_pClientEntity->GetClientID() == xClient)
+    //            {
+    //                pTcpClient->m_pClientEntity->AddBuff(buffer, len);
+    //                pTcpClient->DismantleNet(pTcpClient->m_pClientEntity.get());
+    //            }
 
-                do
-                {
-                    AFScopeWrLock xGuard(pTcpClient->mRWLock);
-                    pTcpClient->m_pClientEntity->mxNetMsgMQ.Push(pMsg);
-                } while (false);
-            });
-        };
+    //            return len;
+    //        });
 
-        m_pTcpService->addDataSocket(std::move(socket),
-                                     brynet::net::TcpService::AddSocketOption::WithEnterCallback(OnEnterCallback),
-                                     brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE));
-    }, [ = ]()
-    {
-        std::string bus_id = AFBusAddr(target_busid).ToString();
-        std::string error = ARK_FORMAT("connect failed, target_bus_id:{} ip:{} port:{}", bus_id, ip, port);
-        CONSOLE_LOG_NO_FILE << error << std::endl;
-    });
+    //        //disconnect cb
+    //        session->setDisConnectCallback([pTcpClient](const brynet::net::DataSocket::PTR & session)
+    //        {
+    //            const auto ud = brynet::net::cast<int64_t>(session->getUD());
+    //            AFGUID xClient(0, *ud);
+
+    //            AFTCPMsg* pMsg = new AFTCPMsg(session);
+    //            pMsg->xClientID = xClient;
+    //            pMsg->nType = DISCONNECTED;
+
+    //            do
+    //            {
+    //                AFScopeWrLock xGuard(pTcpClient->mRWLock);
+    //                pTcpClient->m_pClientEntity->mxNetMsgMQ.Push(pMsg);
+    //            } while (false);
+    //        });
+    //    };
+
+    //    m_pTcpService->addDataSocket(std::move(socket),
+    //                                 brynet::net::TcpService::AddSocketOption::WithEnterCallback(OnEnterCallback),
+    //                                 brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE));
+    //}, [ = ]()
+    //{
+    //    std::string bus_id = AFBusAddr(target_busid).ToString();
+    //    std::string error = ARK_FORMAT("connect failed, target_bus_id:{} ip:{} port:{}", bus_id, ip, port);
+    //    CONSOLE_LOG_NO_FILE << error << std::endl;
+    //});
 
     mnTargetBusID = target_busid;
     SetWorking(true);
