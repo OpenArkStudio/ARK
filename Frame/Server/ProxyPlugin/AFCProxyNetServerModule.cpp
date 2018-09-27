@@ -31,6 +31,12 @@ bool AFCProxyNetServerModule::Init()
     m_pNetClientManagerModule   = pPluginManager->FindModule<AFINetClientManagerModule>();
     m_pMsgModule                = pPluginManager->FindModule<AFIMsgModule>();
 
+    return true;
+}
+
+bool AFCProxyNetServerModule::PostInit()
+{
+
     int ret = StartServer();
     if (ret != 0)
     {

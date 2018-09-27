@@ -35,6 +35,7 @@ public:
     explicit AFCLoginNetServerModule() = default;
 
     bool Init() override;
+    bool PostInit() override;
 
     int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldURL, const std::string& strKey) override;
 

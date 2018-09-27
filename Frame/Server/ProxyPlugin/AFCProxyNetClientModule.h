@@ -40,7 +40,7 @@ public:
     explicit AFCProxyNetClientModule() = default;
 
     bool Init() override;
-    bool PostInit() override;
+    bool PreUpdate() override;
 
     bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) override;
 

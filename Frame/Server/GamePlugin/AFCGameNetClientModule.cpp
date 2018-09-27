@@ -38,7 +38,7 @@ bool AFCGameNetClientModule::Init()
     return true;
 }
 
-bool AFCGameNetClientModule::PostInit()
+bool AFCGameNetClientModule::PreUpdate()
 {
     int ret = StartClient();
     return (ret == 0);

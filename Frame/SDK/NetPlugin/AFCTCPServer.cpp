@@ -49,7 +49,6 @@ void AFCTCPServer::Update()
 
 bool AFCTCPServer::Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6/* = false*/)
 {
-
     m_pTcpService->startWorkerThread(thread_num);
     mnServerID = busid;
 
@@ -107,7 +106,7 @@ bool AFCTCPServer::Start(const int busid, const std::string& ip, const int port,
                 pEntity->mxNetMsgMQ.Push(pMsg);
             });
 
-            session->setHeartBeat(ARK_NET_HEART_TIME);
+            //session->setHeartBeat(ARK_NET_HEART_TIME);
         };
 
         m_pTcpService->addDataSocket(std::move(socket),

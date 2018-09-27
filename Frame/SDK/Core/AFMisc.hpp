@@ -209,23 +209,25 @@ public:
         static WSADATA local_WSAData;
         if (WSAStartup(MAKEWORD(2, 2), &local_WSAData) == 0)
         {
-            static char local_ip[256] = { 0 };
-            memset(local_ip, 0x00, sizeof(local_ip));
-            if (GetLocalIP(local_ip))
-            {
-                ip = local_ip;
-                if (is_ipv4_address(ip))
-                {
-                    is_ip_v6 = false;
-                }
-                else if (is_ipv6_address(ip))
-                {
-                    is_ip_v6 = true;
-                }
-            }
-
-            WSACleanup();
+            return false;
         }
+
+        static char local_ip[256] = { 0 };
+        memset(local_ip, 0x00, sizeof(local_ip));
+        if (GetLocalIP(local_ip))
+        {
+            ip = local_ip;
+            if (is_ipv4_address(ip))
+            {
+                is_ip_v6 = false;
+            }
+            else
+            {
+                is_ip_v6 = true;
+            }
+        }
+
+        WSACleanup();
 #else
         struct addrinfo hints, *answer, *curr;
 

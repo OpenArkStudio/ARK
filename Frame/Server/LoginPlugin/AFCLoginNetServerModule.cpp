@@ -27,6 +27,11 @@ bool AFCLoginNetServerModule::Init()
     m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
     m_pLoginNetClientModule = pPluginManager->FindModule<AFILoginNetClientModule>();
 
+    return true;
+}
+
+bool AFCLoginNetServerModule::PostInit()
+{
     int ret = StartServer();
     if (ret != 0)
     {

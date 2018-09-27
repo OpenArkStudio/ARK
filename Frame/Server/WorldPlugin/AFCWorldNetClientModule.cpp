@@ -31,7 +31,7 @@ bool AFCWorldNetClientModule::Init()
     return true;
 }
 
-bool AFCWorldNetClientModule::PostInit()
+bool AFCWorldNetClientModule::PreUpdate()
 {
     int ret = StartClient();
     return (ret == 0);

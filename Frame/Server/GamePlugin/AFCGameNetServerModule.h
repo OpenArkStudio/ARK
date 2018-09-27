@@ -42,6 +42,7 @@ public:
     explicit AFCGameNetServerModule() = default;
 
     bool Init() override;
+    bool PostInit() override;
 
     virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self);
     virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self);

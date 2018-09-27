@@ -44,6 +44,11 @@ bool AFCGameNetServerModule::Init()
 
     m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &AFCGameNetServerModule::OnEntityEvent);
 
+    return true;
+}
+
+bool AFCGameNetServerModule::PostInit()
+{
     int ret = StartServer();
     if (ret != 0)
     {

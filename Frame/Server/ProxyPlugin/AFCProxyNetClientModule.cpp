@@ -33,7 +33,7 @@ bool AFCProxyNetClientModule::Init()
     return true;
 }
 
-bool AFCProxyNetClientModule::PostInit()
+bool AFCProxyNetClientModule::PreUpdate()
 {
     int ret = StartClient();
     return (ret == 0);

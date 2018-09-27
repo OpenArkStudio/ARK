@@ -31,7 +31,7 @@ bool AFCLoginNetClientModule::Init()
     return true;
 }
 
-bool AFCLoginNetClientModule::PostInit()
+bool AFCLoginNetClientModule::PreUpdate()
 {
     int ret = StartClient();
     return (ret == 0);

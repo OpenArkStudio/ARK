@@ -26,6 +26,11 @@ bool AFCMasterNetServerModule::Init()
     m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
     m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
 
+    return true;
+}
+
+bool AFCMasterNetServerModule::PostInit()
+{
     int ret = StartServer();
     if (ret != 0)
     {

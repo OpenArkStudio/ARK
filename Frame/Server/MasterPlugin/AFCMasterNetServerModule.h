@@ -38,6 +38,8 @@ public:
     }
 
     bool Init() override;
+    bool PostInit() override;
+
     bool Update() override;
 
 protected:

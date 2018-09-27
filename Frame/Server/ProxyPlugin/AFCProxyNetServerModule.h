@@ -40,7 +40,9 @@ public:
     explicit AFCProxyNetServerModule() = default;
 
     bool Init() override;
-    virtual bool Update();
+    bool PostInit() override;
+
+    bool Update() override;
 
     virtual int Transpond(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen);
     virtual int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer);

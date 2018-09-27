@@ -39,7 +39,7 @@ public:
     explicit AFCWorldNetClientModule() = default;
 
     bool Init() override;
-    bool PostInit() override;
+    bool PreUpdate() override;
 
 protected:
     int StartClient();

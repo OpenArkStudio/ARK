@@ -39,6 +39,7 @@ public:
     }
 
     bool Init() override;
+    bool PostInit() override;
     bool Update() override;
 
     virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer = AFGUID());

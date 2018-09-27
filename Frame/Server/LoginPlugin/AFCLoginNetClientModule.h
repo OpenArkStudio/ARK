@@ -36,7 +36,7 @@ public:
     explicit AFCLoginNetClientModule() = default;
 
     bool Init() override;
-    bool PostInit() override;
+    bool PreUpdate() override;
 
     AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap() override;
 
