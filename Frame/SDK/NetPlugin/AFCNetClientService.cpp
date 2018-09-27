@@ -2,9 +2,8 @@
 #include "AFCTCPClient.h"
 #include "AFCNetClientService.h"
 
-AFCNetClientService::AFCNetClientService(AFIPluginManager* p)
+AFCNetClientService::AFCNetClientService(AFIPluginManager* p): mpPluginManager(p)
 {
-    mpPluginManager = p;
 }
 
 AFCNetClientService::~AFCNetClientService()
