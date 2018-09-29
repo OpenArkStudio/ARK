@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -24,56 +24,61 @@
 #include "SDK/Core/AFArrayMap.hpp"
 #include "AFIDataTableManager.h"
 
-class AFCDataTableManager : public AFIDataTableManager
+namespace ark
 {
-protected:
 
-public:
-    AFCDataTableManager() = delete;
+    class AFCDataTableManager : public AFIDataTableManager
+    {
+    protected:
 
-    explicit AFCDataTableManager(const AFGUID& guid);
-    virtual ~AFCDataTableManager();
+    public:
+        AFCDataTableManager() = delete;
 
-    virtual const AFGUID& Self();
+        explicit AFCDataTableManager(const AFGUID& guid);
+        virtual ~AFCDataTableManager();
 
-    virtual bool Exist(const char* name) const;
-    virtual bool Exist(const char* name, size_t& index) const;
+        virtual const AFGUID& Self();
 
-    virtual bool AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const AFFeatureType feature);
-    virtual bool RegisterCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
+        virtual bool Exist(const char* name) const;
+        virtual bool Exist(const char* name, size_t& index) const;
 
-    virtual void Clear() final;
-    virtual AFDataTable* GetTable(const char* name);
-    virtual size_t GetCount() const;
-    virtual AFDataTable* GetTableByIndex(size_t index);
+        virtual bool AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const AFFeatureType feature);
+        virtual bool RegisterCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
 
-    virtual bool SetTableBool(const char* name, const int row, const int col, const bool value);
-    virtual bool SetTableInt(const char* name, const int row, const int col, const int32_t value);
-    virtual bool SetTableInt64(const char* name, const int row, const int col, const int64_t value);
-    virtual bool SetTableFloat(const char* name, const int row, const int col, const float value);
-    virtual bool SetTableDouble(const char* name, const int row, const int col, const double value);
-    virtual bool SetTableString(const char* name, const int row, const int col, const char* value);
-    virtual bool SetTableObject(const char* name, const int row, const int col, const AFGUID& value);
+        virtual void Clear() final;
+        virtual AFDataTable* GetTable(const char* name);
+        virtual size_t GetCount() const;
+        virtual AFDataTable* GetTableByIndex(size_t index);
 
-    virtual bool GetTableBool(const char* name, const int row, const int col);
-    virtual int32_t GetTableInt(const char* name, const int row, const int col);
-    virtual int64_t GetTableInt64(const char* name, const int row, const int col);
-    virtual float GetTableFloat(const char* name, const int row, const int col);
-    virtual double GetTableDouble(const char* name, const int row, const int col);
-    virtual const char* GetTableString(const char* name, const int row, const int col);
-    virtual const AFGUID GetTableObject(const char* name, const int row, const int col);
+        virtual bool SetTableBool(const char* name, const int row, const int col, const bool value);
+        virtual bool SetTableInt(const char* name, const int row, const int col, const int32_t value);
+        virtual bool SetTableInt64(const char* name, const int row, const int col, const int64_t value);
+        virtual bool SetTableFloat(const char* name, const int row, const int col, const float value);
+        virtual bool SetTableDouble(const char* name, const int row, const int col, const double value);
+        virtual bool SetTableString(const char* name, const int row, const int col, const char* value);
+        virtual bool SetTableObject(const char* name, const int row, const int col, const AFGUID& value);
 
-protected:
-    bool GetTableData(const char* name, const int row, const int col, AFIData& value);
-    int OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData);
+        virtual bool GetTableBool(const char* name, const int row, const int col);
+        virtual int32_t GetTableInt(const char* name, const int row, const int col);
+        virtual int64_t GetTableInt64(const char* name, const int row, const int col);
+        virtual float GetTableFloat(const char* name, const int row, const int col);
+        virtual double GetTableDouble(const char* name, const int row, const int col);
+        virtual const char* GetTableString(const char* name, const int row, const int col);
+        virtual const AFGUID GetTableObject(const char* name, const int row, const int col);
 
-    bool AddTableInternal(AFDataTable* pTable);
-    void ReleaseAll();
+    protected:
+        bool GetTableData(const char* name, const int row, const int col, AFIData& value);
+        int OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData);
 
-private:
-    AFGUID self;
+        bool AddTableInternal(AFDataTable* pTable);
+        void ReleaseAll();
 
-    AFArrayMap<std::string, AFDataTable> mxTables;
-    std::vector<DATA_TABLE_EVENT_FUNCTOR_PTR> mxTablecallbacks;
+    private:
+        AFGUID self;
 
-};
+        AFArrayMap<std::string, AFDataTable> mxTables;
+        std::vector<DATA_TABLE_EVENT_FUNCTOR_PTR> mxTablecallbacks;
+
+    };
+
+}

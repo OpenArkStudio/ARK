@@ -22,108 +22,113 @@
 
 #include "SDK/Core/AFMacros.hpp"
 
-class AFGUID
+namespace ark
 {
-public:
-    uint64_t nHigh;
-    uint64_t nLow;
 
-    AFGUID() = default;
-
-    AFGUID(uint64_t value) : nHigh(0), nLow(value)
+    class AFGUID
     {
-    }
+    public:
+        uint64_t nHigh;
+        uint64_t nLow;
 
-    AFGUID(uint64_t high, uint64_t low) : nHigh(high), nLow(low)
-    {
-    }
+        AFGUID() = default;
 
-    bool IsNULL()
-    {
-        return (0 == nHigh) && (0 == nLow);
-    }
-
-    bool IsNULL() const
-    {
-        return (0 == nHigh) && (0 == nLow);
-    }
-
-    AFGUID& operator=(const int& rhs)
-    {
-        nHigh = 0;
-        nLow = rhs;
-        return *this;
-    }
-
-    AFGUID& operator=(const int64_t& rhs)
-    {
-        nHigh = 0;
-        nLow = rhs;
-        return *this;
-    }
-
-    AFGUID& operator=(const AFGUID& rhs)
-    {
-        nHigh = rhs.nHigh;
-        nLow = rhs.nLow;
-        return *this;
-    }
-
-    bool operator==(const AFGUID& rhs) const
-    {
-        return (this->nHigh == rhs.nHigh) && (this->nLow == rhs.nLow);
-    }
-
-    bool operator!=(const AFGUID& rhs) const
-    {
-        return !(*this == rhs);
-    }
-
-    bool operator<(const AFGUID& rhs) const
-    {
-        if (this->nHigh == rhs.nHigh)
+        AFGUID(uint64_t value) : nHigh(0), nLow(value)
         {
-            return this->nLow < rhs.nLow;
         }
 
-        return this->nHigh < rhs.nHigh;
-    }
-
-    std::string ToString() const
-    {
-        return ARK_LEXICAL_CAST<std::string>(nHigh) + "-" + ARK_LEXICAL_CAST<std::string>(nLow);
-    }
-
-    bool FromString(const std::string& strID)
-    {
-        size_t nStrLength = strID.length();
-        size_t nPos = strID.find('-');
-
-        if (nPos == std::string::npos)
+        AFGUID(uint64_t high, uint64_t low) : nHigh(high), nLow(low)
         {
-            return false;
         }
 
-        std::string strHigh = strID.substr(0, nPos);
-        std::string strLow = "";
-
-        if ((nPos + 1) < nStrLength)
+        bool IsNULL()
         {
-            strLow = strID.substr(nPos + 1, nStrLength - nPos);
+            return (0 == nHigh) && (0 == nLow);
         }
 
-        try
+        bool IsNULL() const
         {
-            nHigh = ARK_LEXICAL_CAST<uint64_t>(strHigh);
-            nLow = ARK_LEXICAL_CAST<uint64_t>(strLow);
+            return (0 == nHigh) && (0 == nLow);
+        }
 
-            return true;
-        }
-        catch (std::system_error& ex)
+        AFGUID& operator=(const int& rhs)
         {
-            CONSOLE_LOG_NO_FILE << "AFGUID from string failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
-            ARK_ASSERT_NO_EFFECT(0);
-            return false;
+            nHigh = 0;
+            nLow = rhs;
+            return *this;
         }
-    }
-};
+
+        AFGUID& operator=(const int64_t& rhs)
+        {
+            nHigh = 0;
+            nLow = rhs;
+            return *this;
+        }
+
+        AFGUID& operator=(const AFGUID& rhs)
+        {
+            nHigh = rhs.nHigh;
+            nLow = rhs.nLow;
+            return *this;
+        }
+
+        bool operator==(const AFGUID& rhs) const
+        {
+            return (this->nHigh == rhs.nHigh) && (this->nLow == rhs.nLow);
+        }
+
+        bool operator!=(const AFGUID& rhs) const
+        {
+            return !(*this == rhs);
+        }
+
+        bool operator<(const AFGUID& rhs) const
+        {
+            if (this->nHigh == rhs.nHigh)
+            {
+                return this->nLow < rhs.nLow;
+            }
+
+            return this->nHigh < rhs.nHigh;
+        }
+
+        std::string ToString() const
+        {
+            return ARK_LEXICAL_CAST<std::string>(nHigh) + "-" + ARK_LEXICAL_CAST<std::string>(nLow);
+        }
+
+        bool FromString(const std::string& strID)
+        {
+            size_t nStrLength = strID.length();
+            size_t nPos = strID.find('-');
+
+            if (nPos == std::string::npos)
+            {
+                return false;
+            }
+
+            std::string strHigh = strID.substr(0, nPos);
+            std::string strLow = "";
+
+            if ((nPos + 1) < nStrLength)
+            {
+                strLow = strID.substr(nPos + 1, nStrLength - nPos);
+            }
+
+            try
+            {
+                nHigh = ARK_LEXICAL_CAST<uint64_t>(strHigh);
+                nLow = ARK_LEXICAL_CAST<uint64_t>(strLow);
+
+                return true;
+            }
+            catch (std::system_error& ex)
+            {
+                CONSOLE_LOG_NO_FILE << "AFGUID from string failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+                ARK_ASSERT_NO_EFFECT(0);
+                return false;
+            }
+        }
+    };
+
+}

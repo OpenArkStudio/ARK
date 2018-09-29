@@ -25,25 +25,30 @@
 #include "Common/AFDataDefine.hpp"
 #include "Server/Interface/AFIPropertyConfigModule.h"
 
-class AFCPropertyConfigModule : public AFIPropertyConfigModule
+namespace ark
 {
-public:
-    explicit AFCPropertyConfigModule() = default;
 
-    bool Init() override;
-    bool PostInit() override;
+    class AFCPropertyConfigModule : public AFIPropertyConfigModule
+    {
+    public:
+        explicit AFCPropertyConfigModule() = default;
 
-    int CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty) override;
-    bool LegalLevel(const int nJob, const int nLevel) override;
+        bool Init() override;
+        bool PostInit() override;
 
-protected:
-    void Load();
+        int CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty) override;
+        bool LegalLevel(const int nJob, const int nLevel) override;
 
-private:
-    //
-    //diffent job, diffrent PropertyID[Level->EffectData]
-    AFMapEx<int, AFMapEx<int, std::string> > mhtCoefficienData;
+    protected:
+        void Load();
 
-    AFIClassModule* m_pClassModule;
-    AFIConfigModule* m_pConfigModule;
-};
+    private:
+        //
+        //diffent job, diffrent PropertyID[Level->EffectData]
+        AFMapEx<int, AFMapEx<int, std::string> > mhtCoefficienData;
+
+        AFIClassModule* m_pClassModule;
+        AFIConfigModule* m_pConfigModule;
+    };
+
+}

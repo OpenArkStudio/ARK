@@ -23,17 +23,22 @@
 #include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIModule.h"
 
-class AFINetServer;
-
-class AFIWorldNetServerModule : public AFIModule
+namespace ark
 {
-public:
-    virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer = AFGUID()) = 0;
-    virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData) = 0;
-    virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar) = 0;
-    virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) = 0;
 
-    virtual ARK_SHARE_PTR<AFServerData> GetSuitProxyForEnter() = 0;
-    virtual AFINetServerService* GetNetServer() = 0;
+    class AFINetServer;
 
-};
+    class AFIWorldNetServerModule : public AFIModule
+    {
+    public:
+        virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer = AFGUID()) = 0;
+        virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData) = 0;
+        virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar) = 0;
+        virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar) = 0;
+
+        virtual ARK_SHARE_PTR<AFServerData> GetSuitProxyForEnter() = 0;
+        virtual AFINetServerService* GetNetServer() = 0;
+
+    };
+
+}

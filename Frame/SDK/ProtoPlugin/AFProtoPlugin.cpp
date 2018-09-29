@@ -21,26 +21,31 @@
 #include "AFProtoPlugin.h"
 #include "AFCProtoModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFProtoPlugin)
-ARK_DLL_PLUGIN_EXIT(AFProtoPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFProtoPlugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
 
-const std::string AFProtoPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFProtoPlugin)
-}
+    ARK_DLL_PLUGIN_ENTRY(AFProtoPlugin)
+    ARK_DLL_PLUGIN_EXIT(AFProtoPlugin)
 
-void AFProtoPlugin::Install()
-{
-    RegisterModule<AFIProtoModule, AFCProtoModule>();
-}
+    //////////////////////////////////////////////////////////////////////////
+    int AFProtoPlugin::GetPluginVersion()
+    {
+        return 0;
+    }
 
-void AFProtoPlugin::Uninstall()
-{
-    DeregisterModule<AFIProtoModule, AFCProtoModule>();
+    const std::string AFProtoPlugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(AFProtoPlugin)
+    }
+
+    void AFProtoPlugin::Install()
+    {
+        RegisterModule<AFIProtoModule, AFCProtoModule>();
+    }
+
+    void AFProtoPlugin::Uninstall()
+    {
+        DeregisterModule<AFIProtoModule, AFCProtoModule>();
+    }
+
 }

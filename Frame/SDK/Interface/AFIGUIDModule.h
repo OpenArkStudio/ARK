@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,11 +22,15 @@
 
 #include "AFIModule.h"
 
-class AFIGUIDModule : public AFIModule
+namespace ark
 {
-public:
-    //You need to call this function first then you can call CreateGUID, please follow this order
-    virtual void SetGUIDMask(uint64_t mask) = 0;
-    virtual AFGUID CreateGUID() = 0;
-};
 
+    class AFIGUIDModule : public AFIModule
+    {
+    public:
+        //You need to call this function first then you can call CreateGUID, please follow this order
+        virtual void SetGUIDMask(uint64_t mask) = 0;
+        virtual AFGUID CreateGUID() = 0;
+    };
+
+}

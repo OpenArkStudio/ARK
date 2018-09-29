@@ -20,210 +20,215 @@
 
 #include "AFCLoginNetServerModule.h"
 
-bool AFCLoginNetServerModule::Init()
+namespace ark
 {
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
-    m_pLoginNetClientModule = pPluginManager->FindModule<AFILoginNetClientModule>();
 
-    return true;
-}
-
-bool AFCLoginNetServerModule::PostInit()
-{
-    int ret = StartServer();
-    if (ret != 0)
+    bool AFCLoginNetServerModule::Init()
     {
-        exit(0);
-        return false;
+        m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+        m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
+        m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
+        m_pLoginNetClientModule = pPluginManager->FindModule<AFILoginNetClientModule>();
+
+        return true;
     }
 
-    return true;
-}
-
-int AFCLoginNetServerModule::StartServer()
-{
-    int ret = m_pNetServerManagerModule->CreateServer();
-    if (ret != 0)
+    bool AFCLoginNetServerModule::PostInit()
     {
-        ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        ARK_ASSERT_NO_EFFECT(0);
-        return ret;
-    }
-
-    m_pNetServer = m_pNetServerManagerModule->GetSelfNetServer();
-    if (m_pNetServer == nullptr)
-    {
-        ret = -3;
-        ARK_LOG_ERROR("Cannot find server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
-        return ret;
-    }
-
-    m_pNetServer->AddRecvCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetServerModule::OnHeartBeat);
-    m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetServerModule::OnLoginProcess);
-    m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetServerModule::OnLogOut);
-    m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetServerModule::OnSelectWorldProcess);
-    m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetServerModule::OnViewWorldProcess);
-    m_pNetServer->AddRecvCallback(this, &AFCLoginNetServerModule::InvalidMessage);
-
-    m_pNetServer->AddEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
-
-    return 0;
-}
-
-int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldURL, const std::string& strWorldKey)
-{
-    ARK_SHARE_PTR<AFSessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
-
-    if (pSessionData != nullptr)
-    {
-        AFMsg::AckConnectWorldResult xMsg;
-        xMsg.set_world_id(nWorldID);
-        xMsg.mutable_sender()->CopyFrom(AFIMsgModule::GUIDToPB(xSenderID));
-        xMsg.set_login_id(nLoginID);
-        xMsg.set_account(strAccount);
-        xMsg.set_world_url(strWorldURL);
-        xMsg.set_world_key(strWorldKey);
-
-        m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pSessionData->mnClientID, xSenderID);
-    }
-
-    return 0;
-}
-
-void AFCLoginNetServerModule::OnClientConnected(const AFGUID& xClientID)
-{
-    ARK_SHARE_PTR<AFSessionData> pSessionData = std::make_shared<AFSessionData>();
-
-    pSessionData->mnClientID = xClientID;
-    mmClientSessionData.AddElement(xClientID, pSessionData);
-}
-
-void AFCLoginNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
-{
-    mmClientSessionData.RemoveElement(xClientID);
-}
-
-void AFCLoginNetServerModule::OnLoginProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-{
-    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
-    ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(xClientID);
-
-    if (pSession == nullptr)
-    {
-        return;
-    }
-
-    if (pSession->mnLogicState == 0)
-    {
-        //TODO:will add login process function
-        int nState = 0;// m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());
-
-        if (0 != nState)
+        int ret = StartServer();
+        if (ret != 0)
         {
-            ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", xClientID.ToString().c_str(), xMsg.account().c_str(), xMsg.password().c_str());
-            AFMsg::AckEventResult xMsg;
-            xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
+            exit(0);
+            return false;
+        }
 
-            m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, xClientID, nPlayerID);
+        return true;
+    }
+
+    int AFCLoginNetServerModule::StartServer()
+    {
+        int ret = m_pNetServerManagerModule->CreateServer();
+        if (ret != 0)
+        {
+            ARK_LOG_ERROR("Cannot start server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
+            ARK_ASSERT_NO_EFFECT(0);
+            return ret;
+        }
+
+        m_pNetServer = m_pNetServerManagerModule->GetSelfNetServer();
+        if (m_pNetServer == nullptr)
+        {
+            ret = -3;
+            ARK_LOG_ERROR("Cannot find server net, busid = {}, error = {}", m_pBusModule->GetSelfBusName(), ret);
+            return ret;
+        }
+
+        m_pNetServer->AddRecvCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetServerModule::OnHeartBeat);
+        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetServerModule::OnLoginProcess);
+        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetServerModule::OnLogOut);
+        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetServerModule::OnSelectWorldProcess);
+        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetServerModule::OnViewWorldProcess);
+        m_pNetServer->AddRecvCallback(this, &AFCLoginNetServerModule::InvalidMessage);
+
+        m_pNetServer->AddEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
+
+        return 0;
+    }
+
+    int AFCLoginNetServerModule::OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldURL, const std::string& strWorldKey)
+    {
+        ARK_SHARE_PTR<AFSessionData> pSessionData = mmClientSessionData.GetElement(xSenderID);
+
+        if (pSessionData != nullptr)
+        {
+            AFMsg::AckConnectWorldResult xMsg;
+            xMsg.set_world_id(nWorldID);
+            xMsg.mutable_sender()->CopyFrom(AFIMsgModule::GUIDToPB(xSenderID));
+            xMsg.set_login_id(nLoginID);
+            xMsg.set_account(strAccount);
+            xMsg.set_world_url(strWorldURL);
+            xMsg.set_world_key(strWorldKey);
+
+            m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pSessionData->mnClientID, xSenderID);
+        }
+
+        return 0;
+    }
+
+    void AFCLoginNetServerModule::OnClientConnected(const AFGUID& xClientID)
+    {
+        ARK_SHARE_PTR<AFSessionData> pSessionData = std::make_shared<AFSessionData>();
+
+        pSessionData->mnClientID = xClientID;
+        mmClientSessionData.AddElement(xClientID, pSessionData);
+    }
+
+    void AFCLoginNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
+    {
+        mmClientSessionData.RemoveElement(xClientID);
+    }
+
+    void AFCLoginNetServerModule::OnLoginProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    {
+        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
+        ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(xClientID);
+
+        if (pSession == nullptr)
+        {
             return;
         }
 
-        pSession->mnLogicState = 1;
-        pSession->mstrAccout = xMsg.account();
+        if (pSession->mnLogicState == 0)
+        {
+            //TODO:will add login process function
+            int nState = 0;// m_pLoginLogicModule->OnLoginProcess(pSession->mnClientID, xMsg.account(), xMsg.password());
 
-        AFMsg::AckEventResult xData;
-        xData.set_event_code(AFMsg::EGEC_ACCOUNT_SUCCESS);
-        xData.set_parame1(xMsg.account());
-        xData.set_parame2(xMsg.password());
-        xData.set_parame3(xMsg.security_code());
+            if (0 != nState)
+            {
+                ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", xClientID.ToString().c_str(), xMsg.account().c_str(), xMsg.password().c_str());
+                AFMsg::AckEventResult xMsg;
+                xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
 
-        m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
-        ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", xClientID.ToString().c_str(), xMsg.account().c_str());
+                m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, xClientID, nPlayerID);
+                return;
+            }
+
+            pSession->mnLogicState = 1;
+            pSession->mstrAccout = xMsg.account();
+
+            AFMsg::AckEventResult xData;
+            xData.set_event_code(AFMsg::EGEC_ACCOUNT_SUCCESS);
+            xData.set_parame1(xMsg.account());
+            xData.set_parame2(xMsg.password());
+            xData.set_parame3(xMsg.security_code());
+
+            m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
+            ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", xClientID.ToString().c_str(), xMsg.account().c_str());
+        }
     }
-}
 
-void AFCLoginNetServerModule::OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-{
-    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
-    ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(xClientID);
-
-    if (!pSession)
+    void AFCLoginNetServerModule::OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        return;
+        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
+        ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(xClientID);
+
+        if (!pSession)
+        {
+            return;
+        }
+
+        //没登录过
+        if (pSession->mnLogicState <= 0)
+        {
+            return;
+        }
+
+        AFMsg::ReqConnectWorld xData;
+        xData.set_world_id(xMsg.world_id());
+        xData.set_login_id(pPluginManager->BusID());
+        xData.mutable_sender()->CopyFrom(AFIMsgModule::GUIDToPB(pSession->mnClientID));
+        xData.set_account(pSession->mstrAccout);
+
+        //TODO:will fix this
+        //m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData, xHead.GetPlayerID());//here has a problem to be solve
     }
 
-    //没登录过
-    if (pSession->mnLogicState <= 0)
+    void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
     {
-        return;
+        if (eEvent == DISCONNECTED)
+        {
+            ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
+            OnClientDisconnect(xClientID);
+        }
+        else  if (eEvent == CONNECTED)
+        {
+            ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
+            OnClientConnected(xClientID);
+        }
     }
 
-    AFMsg::ReqConnectWorld xData;
-    xData.set_world_id(xMsg.world_id());
-    xData.set_login_id(pPluginManager->BusID());
-    xData.mutable_sender()->CopyFrom(AFIMsgModule::GUIDToPB(pSession->mnClientID));
-    xData.set_account(pSession->mstrAccout);
-
-    //TODO:will fix this
-    //m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData, xHead.GetPlayerID());//here has a problem to be solve
-}
-
-void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
-{
-    if (eEvent == DISCONNECTED)
+    void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
     {
-        ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
-        OnClientDisconnect(xClientID);
+        AFMsg::AckServerList xData;
+        xData.set_type(AFMsg::RSLT_WORLD_SERVER);
+
+        AFMapEx<int, AFMsg::ServerInfoReport>& xWorldMap = m_pLoginNetClientModule->GetWorldMap();
+
+        for (auto pWorldData = xWorldMap.First(); pWorldData != nullptr; pWorldData = xWorldMap.Next())
+        {
+            AFMsg::ServerInfo* pServerInfo = xData.add_info();
+
+            pServerInfo->set_server_id(pWorldData->bus_id());
+            pServerInfo->set_status(pWorldData->logic_status());
+            pServerInfo->set_wait_count(0);
+        }
+
+        m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, AFGUID(0));
     }
-    else  if (eEvent == CONNECTED)
+
+    void AFCLoginNetServerModule::OnViewWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
-        OnClientConnected(xClientID);
+        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqServerList);
+
+        if (xMsg.type() == AFMsg::RSLT_WORLD_SERVER)
+        {
+            SynWorldToClient(xClientID);
+        }
     }
-}
 
-void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
-{
-    AFMsg::AckServerList xData;
-    xData.set_type(AFMsg::RSLT_WORLD_SERVER);
-
-    AFMapEx<int, AFMsg::ServerInfoReport>& xWorldMap = m_pLoginNetClientModule->GetWorldMap();
-
-    for (auto pWorldData = xWorldMap.First(); pWorldData != nullptr; pWorldData = xWorldMap.Next())
+    void AFCLoginNetServerModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        AFMsg::ServerInfo* pServerInfo = xData.add_info();
-
-        pServerInfo->set_server_id(pWorldData->bus_id());
-        pServerInfo->set_status(pWorldData->logic_status());
-        pServerInfo->set_wait_count(0);
+        //do nothing
     }
 
-    m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, AFGUID(0));
-}
-
-void AFCLoginNetServerModule::OnViewWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-{
-    ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqServerList);
-
-    if (xMsg.type() == AFMsg::RSLT_WORLD_SERVER)
+    void AFCLoginNetServerModule::OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        SynWorldToClient(xClientID);
+        //do nothing
     }
-}
 
-void AFCLoginNetServerModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-{
-    //do nothing
-}
+    void AFCLoginNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    {
+        ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);
+    }
 
-void AFCLoginNetServerModule::OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-{
-    //do nothing
-}
-
-void AFCLoginNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-{
-    ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);
 }

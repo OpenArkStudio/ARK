@@ -25,80 +25,83 @@
 #include "SDK/Core/AFCDataList.hpp"
 #include "SDK/Core/AFVector3.hpp"
 #include "SDK/Core/AFDataTable.h"
-
-class AFIPluginManager;
-
-class AFIModule
+namespace ark
 {
-public:
-    AFIModule() = default;
-    virtual ~AFIModule() = default;
+    class AFIPluginManager;
 
-    virtual bool Init()
+    class AFIModule
     {
-        return true;
-    }
+    public:
+        AFIModule() = default;
+        virtual ~AFIModule() = default;
 
-    virtual bool PostInit()
-    {
-        return true;
-    }
+        virtual bool Init()
+        {
+            return true;
+        }
 
-    virtual bool CheckConfig()
-    {
-        return true;
-    }
+        virtual bool PostInit()
+        {
+            return true;
+        }
 
-    virtual bool PreUpdate()
-    {
-        return true;
-    }
+        virtual bool CheckConfig()
+        {
+            return true;
+        }
 
-    virtual bool Update()
-    {
-        return true;
-    }
+        virtual bool PreUpdate()
+        {
+            return true;
+        }
 
-    virtual bool PreShut()
-    {
-        return true;
-    }
+        virtual bool Update()
+        {
+            return true;
+        }
 
-    virtual bool Shut()
-    {
-        return true;
-    }
+        virtual bool PreShut()
+        {
+            return true;
+        }
 
-    virtual bool StartReLoadState()
-    {
-        mbReloading = true;
-        return true;
-    }
+        virtual bool Shut()
+        {
+            return true;
+        }
 
-    virtual bool EndReLoadState()
-    {
-        mbReloading = false;
-        return true;
-    }
+        virtual bool StartReLoadState()
+        {
+            mbReloading = true;
+            return true;
+        }
 
-    virtual AFIPluginManager* GetPluginManager() const final
-    {
-        return pPluginManager;
-    }
+        virtual bool EndReLoadState()
+        {
+            mbReloading = false;
+            return true;
+        }
 
-    void SetPluginManager(AFIPluginManager* p)
-    {
-        pPluginManager = p;
-    }
+        virtual AFIPluginManager* GetPluginManager() const final
+        {
+            return pPluginManager;
+        }
 
-    bool Loading() const
-    {
-        return mbReloading;
-    }
+        void SetPluginManager(AFIPluginManager* p)
+        {
+            pPluginManager = p;
+        }
 
-    std::string strName;
+        bool Loading() const
+        {
+            return mbReloading;
+        }
 
-protected:
-    AFIPluginManager* pPluginManager{ nullptr };
-    bool mbReloading{ false };
-};
+        std::string strName;
+
+    protected:
+        AFIPluginManager* pPluginManager{ nullptr };
+        bool mbReloading{ false };
+    };
+
+}

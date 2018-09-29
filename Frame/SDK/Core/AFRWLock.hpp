@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -23,143 +23,147 @@
 #include "SDK/Core/AFPlatform.hpp"
 #include "SDK/Core/AFNoncopyable.hpp"
 
+namespace ark
+{
+
 #if ARK_PLATFORM == PLATFORM_WIN
 
-class AFCReaderWriterLock : public AFNoncopyable
-{
-public:
-    explicit AFCReaderWriterLock()
+    class AFCReaderWriterLock : public AFNoncopyable
     {
-        m_Readers = 0;
-        InitializeCriticalSection(&m_Writer);
-        InitializeCriticalSection(&m_ReaderCount);
-        m_ClearReadersEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
-
-    }
-
-    ~AFCReaderWriterLock()
-    {
-        WaitForSingleObject(m_ClearReadersEvent, INFINITE);
-        CloseHandle(m_ClearReadersEvent);
-        DeleteCriticalSection(&m_Writer);
-        DeleteCriticalSection(&m_ReaderCount);
-    }
-
-    /*Read, reset events */
-    void ReaderLock(void)
-    {
-        EnterCriticalSection(&m_Writer);
-        EnterCriticalSection(&m_ReaderCount);
-
-        if (++m_Readers == 1)
+    public:
+        explicit AFCReaderWriterLock()
         {
-            ::ResetEvent(m_ClearReadersEvent);
+            m_Readers = 0;
+            InitializeCriticalSection(&m_Writer);
+            InitializeCriticalSection(&m_ReaderCount);
+            m_ClearReadersEvent = CreateEvent(NULL, TRUE, TRUE, NULL);
+
         }
 
-        LeaveCriticalSection(&m_ReaderCount);
-        LeaveCriticalSection(&m_Writer);
-    }
-
-    void ReaderUnlock(void)
-    {
-        EnterCriticalSection(&m_ReaderCount);
-
-        if (--m_Readers == 0)
+        ~AFCReaderWriterLock()
         {
-            ::SetEvent(m_ClearReadersEvent);
+            WaitForSingleObject(m_ClearReadersEvent, INFINITE);
+            CloseHandle(m_ClearReadersEvent);
+            DeleteCriticalSection(&m_Writer);
+            DeleteCriticalSection(&m_ReaderCount);
         }
 
-        LeaveCriticalSection(&m_ReaderCount);
-    }
+        /*Read, reset events */
+        void ReaderLock(void)
+        {
+            EnterCriticalSection(&m_Writer);
+            EnterCriticalSection(&m_ReaderCount);
 
-    void WriterLock(void)
-    {
-        EnterCriticalSection(&m_Writer);
-        WaitForSingleObject(m_ClearReadersEvent, INFINITE);
-    }
+            if (++m_Readers == 1)
+            {
+                ::ResetEvent(m_ClearReadersEvent);
+            }
 
-    void WriterUnLock(void)
-    {
-        LeaveCriticalSection(&m_Writer);
-    }
+            LeaveCriticalSection(&m_ReaderCount);
+            LeaveCriticalSection(&m_Writer);
+        }
 
-private:
-    CRITICAL_SECTION m_Writer;
-    CRITICAL_SECTION m_ReaderCount;
-    int m_Readers;
-    HANDLE m_ClearReadersEvent;
-};
+        void ReaderUnlock(void)
+        {
+            EnterCriticalSection(&m_ReaderCount);
+
+            if (--m_Readers == 0)
+            {
+                ::SetEvent(m_ClearReadersEvent);
+            }
+
+            LeaveCriticalSection(&m_ReaderCount);
+        }
+
+        void WriterLock(void)
+        {
+            EnterCriticalSection(&m_Writer);
+            WaitForSingleObject(m_ClearReadersEvent, INFINITE);
+        }
+
+        void WriterUnLock(void)
+        {
+            LeaveCriticalSection(&m_Writer);
+        }
+
+    private:
+        CRITICAL_SECTION m_Writer;
+        CRITICAL_SECTION m_ReaderCount;
+        int m_Readers;
+        HANDLE m_ClearReadersEvent;
+    };
 
 #else
 
-class AFCReaderWriterLock : public AFNoncopyable
-{
-public:
-
-    AFCReaderWriterLock()
+    class AFCReaderWriterLock : public AFNoncopyable
     {
-        ::pthread_rwlock_init(&rwlock, NULL);
-    }
+    public:
 
-    ~AFCReaderWriterLock()
-    {
-        ::pthread_rwlock_destroy(&rwlock);
-    }
+        AFCReaderWriterLock()
+        {
+            ::pthread_rwlock_init(&rwlock, NULL);
+        }
 
-    void ReaderLock()
-    {
-        ::pthread_rwlock_rdlock(&rwlock);
-    }
+        ~AFCReaderWriterLock()
+        {
+            ::pthread_rwlock_destroy(&rwlock);
+        }
 
-    void ReaderUnlock(void)
-    {
-        ::pthread_rwlock_unlock(&rwlock);
-    }
+        void ReaderLock()
+        {
+            ::pthread_rwlock_rdlock(&rwlock);
+        }
 
-    void WriterLock(void)
-    {
-        ::pthread_rwlock_wrlock(&rwlock);
-    }
+        void ReaderUnlock(void)
+        {
+            ::pthread_rwlock_unlock(&rwlock);
+        }
 
-    void WriterUnLock(void)
-    {
-        ::pthread_rwlock_unlock(&rwlock);
-    }
+        void WriterLock(void)
+        {
+            ::pthread_rwlock_wrlock(&rwlock);
+        }
 
-private:
-    pthread_rwlock_t rwlock;
-};
+        void WriterUnLock(void)
+        {
+            ::pthread_rwlock_unlock(&rwlock);
+        }
+
+    private:
+        pthread_rwlock_t rwlock;
+    };
 #endif
 
-class AFScopeRdLock : public AFNoncopyable
-{
-public:
-    explicit AFScopeRdLock(AFCReaderWriterLock& lock) : rwlock(lock)
+    class AFScopeRdLock : public AFNoncopyable
     {
-        rwlock.ReaderLock();
-    }
+    public:
+        explicit AFScopeRdLock(AFCReaderWriterLock& lock) : rwlock(lock)
+        {
+            rwlock.ReaderLock();
+        }
 
-    ~AFScopeRdLock()
+        ~AFScopeRdLock()
+        {
+            rwlock.ReaderUnlock();
+        }
+    private:
+        AFCReaderWriterLock& rwlock;
+    };
+
+    class AFScopeWrLock : public AFNoncopyable
     {
-        rwlock.ReaderUnlock();
-    }
-private:
-    AFCReaderWriterLock& rwlock;
-};
+    public:
+        explicit AFScopeWrLock(AFCReaderWriterLock& lock) : rwlock(lock)
+        {
+            rwlock.WriterLock();
+        }
 
-class AFScopeWrLock : public AFNoncopyable
-{
-public:
-    explicit AFScopeWrLock(AFCReaderWriterLock& lock) : rwlock(lock)
-    {
-        rwlock.WriterLock();
-    }
+        ~AFScopeWrLock()
+        {
+            rwlock.WriterUnLock();
+        }
+    private:
+        AFCReaderWriterLock& rwlock;
+    };
 
-    ~AFScopeWrLock()
-    {
-        rwlock.WriterUnLock();
-    }
-private:
-    AFCReaderWriterLock& rwlock;
-};
-
+}

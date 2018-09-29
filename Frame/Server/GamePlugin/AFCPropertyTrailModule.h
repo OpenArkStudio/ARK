@@ -29,28 +29,33 @@
 #include "Server/Interface/AFIPropertyConfigModule.h"
 #include "Server/Interface/AFIPropertyTrailModule.h"
 
-class AFCPropertyTrailModule : public AFIPropertyTrailModule
+namespace ark
 {
-public:
-    explicit AFCPropertyTrailModule() = default;
 
-    bool Init() override;
+    class AFCPropertyTrailModule : public AFIPropertyTrailModule
+    {
+    public:
+        explicit AFCPropertyTrailModule() = default;
 
-    virtual void StartTrail(const AFGUID self);
-    virtual void EndTrail(const AFGUID self);
+        bool Init() override;
 
-protected:
+        virtual void StartTrail(const AFGUID self);
+        virtual void EndTrail(const AFGUID self);
 
-    int LogObjectData(const AFGUID& self);
-    int TrailObjectData(const AFGUID& self);
+    protected:
 
-    int OnObjectPropertyEvent(const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar);
+        int LogObjectData(const AFGUID& self);
+        int TrailObjectData(const AFGUID& self);
 
-    int OnEntityTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
+        int OnObjectPropertyEvent(const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar);
 
-private:
-    AFIKernelModule* m_pKernelModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIClassModule* m_pClassModule;
-    AFILogModule* m_pLogModule;
-};
+        int OnEntityTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
+
+    private:
+        AFIKernelModule* m_pKernelModule;
+        AFIConfigModule* m_pConfigModule;
+        AFIClassModule* m_pClassModule;
+        AFILogModule* m_pLogModule;
+    };
+
+}

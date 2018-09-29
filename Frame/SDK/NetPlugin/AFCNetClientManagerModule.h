@@ -28,24 +28,29 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "Common/AFProtoCPP.hpp"
 
-class AFCNetClientManagerModule : public AFINetClientManagerModule
+namespace ark
 {
-public:
-    explicit AFCNetClientManagerModule() = default;
 
-    bool Init() override;
-    bool Update() override;
-    bool Shut() override;
+    class AFCNetClientManagerModule : public AFINetClientManagerModule
+    {
+    public:
+        explicit AFCNetClientManagerModule() = default;
 
-    //create directly cluster client(connecting server directly)
-    int CreateClusterClients() override;
+        bool Init() override;
+        bool Update() override;
+        bool Shut() override;
 
-    AFINetClientService* GetNetClientService(const uint8_t& app_type) override;
-    AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
+        //create directly cluster client(connecting server directly)
+        int CreateClusterClients() override;
 
-private:
-    AFIBusModule* m_pBusModule;
-    AFILogModule* m_pLogModule;
+        AFINetClientService* GetNetClientService(const uint8_t& app_type) override;
+        AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
 
-    AFMap<uint8_t, AFINetClientService> _net_clients;
-};
+    private:
+        AFIBusModule* m_pBusModule;
+        AFILogModule* m_pLogModule;
+
+        AFMap<uint8_t, AFINetClientService> _net_clients;
+    };
+
+}

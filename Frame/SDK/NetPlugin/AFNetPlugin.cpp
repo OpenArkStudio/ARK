@@ -22,29 +22,34 @@
 #include "AFCNetServerManagerModule.h"
 #include "AFCNetClientManagerModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFNetPlugin)
-ARK_DLL_PLUGIN_EXIT(AFNetPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-
-int AFNetPlugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
 
-const std::string AFNetPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFNetPlugin)
-}
+    ARK_DLL_PLUGIN_ENTRY(AFNetPlugin)
+    ARK_DLL_PLUGIN_EXIT(AFNetPlugin)
 
-void AFNetPlugin::Install()
-{
-    RegisterModule<AFINetServerManagerModule, AFCNetServerManagerModule>();
-    RegisterModule<AFINetClientManagerModule, AFCNetClientManagerModule>();
-}
+    //////////////////////////////////////////////////////////////////////////
 
-void AFNetPlugin::Uninstall()
-{
-    DeregisterModule<AFINetClientManagerModule, AFCNetClientManagerModule>();
-    DeregisterModule<AFINetServerManagerModule, AFCNetServerManagerModule>();
+    int AFNetPlugin::GetPluginVersion()
+    {
+        return 0;
+    }
+
+    const std::string AFNetPlugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(AFNetPlugin)
+    }
+
+    void AFNetPlugin::Install()
+    {
+        RegisterModule<AFINetServerManagerModule, AFCNetServerManagerModule>();
+        RegisterModule<AFINetClientManagerModule, AFCNetClientManagerModule>();
+    }
+
+    void AFNetPlugin::Uninstall()
+    {
+        DeregisterModule<AFINetClientManagerModule, AFCNetClientManagerModule>();
+        DeregisterModule<AFINetServerManagerModule, AFCNetServerManagerModule>();
+    }
+
 }

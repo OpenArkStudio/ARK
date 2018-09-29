@@ -22,7 +22,12 @@
 
 #include "SDK/Interface/AFIModule.h"
 
-class AFIGameNetClientModule : public AFIModule
+namespace ark
 {
 
-};
+    class AFIGameNetClientModule : public AFIModule
+    {
+
+    };
+
+}

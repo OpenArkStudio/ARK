@@ -22,28 +22,33 @@
 #include "AFCWorldNetServerModule.h"
 #include "AFCWorldNetClientModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFWorldPlugin)
-ARK_DLL_PLUGIN_EXIT(AFWorldPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFWorldPlugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
 
-const std::string AFWorldPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFWorldPlugin);
-}
+    ARK_DLL_PLUGIN_ENTRY(AFWorldPlugin)
+    ARK_DLL_PLUGIN_EXIT(AFWorldPlugin)
 
-void AFWorldPlugin::Install()
-{
-    RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
-    RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
-}
+    //////////////////////////////////////////////////////////////////////////
+    int AFWorldPlugin::GetPluginVersion()
+    {
+        return 0;
+    }
 
-void AFWorldPlugin::Uninstall()
-{
-    RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
-    RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
+    const std::string AFWorldPlugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(AFWorldPlugin);
+    }
+
+    void AFWorldPlugin::Install()
+    {
+        RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
+        RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
+    }
+
+    void AFWorldPlugin::Uninstall()
+    {
+        RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
+        RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
+    }
+
 }

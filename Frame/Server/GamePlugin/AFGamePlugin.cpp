@@ -27,38 +27,43 @@
 #include "AFCGameNetServerModule.h"
 #include "AFCGameNetClientModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFGamePlugin)
-ARK_DLL_PLUGIN_EXIT(AFGamePlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFGamePlugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
 
-const std::string AFGamePlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFGamePlugin)
-}
+    ARK_DLL_PLUGIN_ENTRY(AFGamePlugin)
+    ARK_DLL_PLUGIN_EXIT(AFGamePlugin)
 
-void AFGamePlugin::Install()
-{
-    RegisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
-    RegisterModule<AFIPropertyModule, AFCPropertyModule>();
-    RegisterModule<AFILevelModule, AFCLevelModule>();
-    RegisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
-    RegisterModule<AFIAccountModule, AFCAccountModule>();
-    RegisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
-    RegisterModule<AFIGameNetClientModule, AFCGameNetClientModule>();
-}
+    //////////////////////////////////////////////////////////////////////////
+    int AFGamePlugin::GetPluginVersion()
+    {
+        return 0;
+    }
 
-void AFGamePlugin::Uninstall()
-{
-    DeregisterModule<AFIGameNetClientModule, AFCGameNetClientModule>();
-    DeregisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
-    DeregisterModule<AFIAccountModule, AFCAccountModule>();
-    DeregisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
-    DeregisterModule<AFILevelModule, AFCLevelModule>();
-    DeregisterModule<AFIPropertyModule, AFCPropertyModule>();
-    DeregisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
+    const std::string AFGamePlugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(AFGamePlugin)
+    }
+
+    void AFGamePlugin::Install()
+    {
+        RegisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
+        RegisterModule<AFIPropertyModule, AFCPropertyModule>();
+        RegisterModule<AFILevelModule, AFCLevelModule>();
+        RegisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
+        RegisterModule<AFIAccountModule, AFCAccountModule>();
+        RegisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
+        RegisterModule<AFIGameNetClientModule, AFCGameNetClientModule>();
+    }
+
+    void AFGamePlugin::Uninstall()
+    {
+        DeregisterModule<AFIGameNetClientModule, AFCGameNetClientModule>();
+        DeregisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
+        DeregisterModule<AFIAccountModule, AFCAccountModule>();
+        DeregisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
+        DeregisterModule<AFILevelModule, AFCLevelModule>();
+        DeregisterModule<AFIPropertyModule, AFCPropertyModule>();
+        DeregisterModule<AFISceneProcessModule, AFCSceneProcessModule>();
+    }
+
 }

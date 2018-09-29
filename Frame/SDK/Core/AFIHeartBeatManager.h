@@ -24,61 +24,66 @@
 #include "SDK/Core/AFDefine.hpp"
 #include "SDK/Core/AFCDataList.hpp"
 
-class  AFCHeartBeatElement : public AFList<HEART_BEAT_FUNCTOR_PTR>
+namespace ark
 {
-public:
-    bool operator==(const AFCHeartBeatElement& src)
+
+    class  AFCHeartBeatElement : public AFList<HEART_BEAT_FUNCTOR_PTR>
     {
-        if (strBeatName == src.strBeatName)
+    public:
+        bool operator==(const AFCHeartBeatElement& src)
         {
-            return true;
+            if (strBeatName == src.strBeatName)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        return false;
-    }
+        AFCHeartBeatElement() noexcept
+        {
 
-    AFCHeartBeatElement() noexcept
+        }
+
+        virtual ~AFCHeartBeatElement()
+        {
+        }
+
+        void DoHeartBeatEvent(int64_t nNowTime);
+        bool CheckTime(int64_t nNowTime);
+        bool IsStop()
+        {
+            return bStop;
+        }
+
+        AFGUID self = 0;
+        uint64_t id = 0;
+        int64_t nBeatTime = 0;
+        int64_t nNextTriggerTime = 0;//next trigger time, millisecond
+        int nCount = 0;
+        bool bStop = false;
+        bool bForever = false;
+        std::string strBeatName = NULL_STR;
+    };
+
+    class AFIHeartBeatManager
     {
+    public:
+        virtual ~AFIHeartBeatManager() = default;
+        virtual AFGUID Self() = 0;
+        virtual void Update() = 0;
+        virtual bool Exist(const std::string& strHeartBeatName) = 0;
 
-    }
+        virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever = false) = 0;
+        virtual bool RemoveHeartBeat(const std::string& strHeartBeatName) = 0;
 
-    virtual ~AFCHeartBeatElement()
-    {
-    }
+        template<typename BaseType>
+        bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const int64_t, const int), const int64_t nTime, const int nCount, const bool bForever = false)
+        {
+            HEART_BEAT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+            HEART_BEAT_FUNCTOR_PTR functorPtr = std::make_shared<HEART_BEAT_FUNCTOR>(functor);
+            return AddHeartBeat(self, strHeartBeatName, functorPtr, nTime, nCount, bForever);
+        }
+    };
 
-    void DoHeartBeatEvent(int64_t nNowTime);
-    bool CheckTime(int64_t nNowTime);
-    bool IsStop()
-    {
-        return bStop;
-    }
-
-    AFGUID self = 0;
-    uint64_t id = 0;
-    int64_t nBeatTime = 0;
-    int64_t nNextTriggerTime = 0;//next trigger time, millisecond
-    int nCount = 0;
-    bool bStop = false;
-    bool bForever = false;
-    std::string strBeatName = NULL_STR;
-};
-
-class AFIHeartBeatManager
-{
-public:
-    virtual ~AFIHeartBeatManager() = default;
-    virtual AFGUID Self() = 0;
-    virtual void Update() = 0;
-    virtual bool Exist(const std::string& strHeartBeatName) = 0;
-
-    virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever = false) = 0;
-    virtual bool RemoveHeartBeat(const std::string& strHeartBeatName) = 0;
-
-    template<typename BaseType>
-    bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const int64_t, const int), const int64_t nTime, const int nCount, const bool bForever = false)
-    {
-        HEART_BEAT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-        HEART_BEAT_FUNCTOR_PTR functorPtr = std::make_shared<HEART_BEAT_FUNCTOR>(functor);
-        return AddHeartBeat(self, strHeartBeatName, functorPtr, nTime, nCount,  bForever);
-    }
-};
+}

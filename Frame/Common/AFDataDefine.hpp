@@ -22,8 +22,9 @@
 
 #include <string>
 
-namespace ARK
+namespace ark
 {
+
 class IObject
 {
 public:
@@ -1151,5 +1152,6 @@ public:
 	//DataTables
 
 };
+
 
 }

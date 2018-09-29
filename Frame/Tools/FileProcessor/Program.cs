@@ -68,8 +68,9 @@ namespace FileProcessor
 
 #include <string>
 
-namespace ARK
-{";
+namespace ark
+{
+";
             cppWriter.WriteLine(strCPPHead);
 
             csWriter = new StreamWriter(strBasePath + strCSFile);
@@ -99,8 +100,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace ARK
-{";
+namespace ark
+{
+";
             csWriter.WriteLine(strCSHead);
         }
 
@@ -179,10 +181,10 @@ namespace ARK
                 subClassElement.SetAttribute("Desc", strFileName);
             }
 
-            cppWriter.WriteLine("}");
+            cppWriter.WriteLine("\n}");
             cppWriter.Close();
 
-            csWriter.WriteLine("}");
+            csWriter.WriteLine("\n}");
             csWriter.Close();
 
             xmlDoc.Save(strBasePath + strLogiClassFile);

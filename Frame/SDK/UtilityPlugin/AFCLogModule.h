@@ -22,39 +22,44 @@
 
 #include "SDK/Interface/AFILogModule.h"
 
-class AFCLogModule : public AFILogModule
+namespace ark
 {
-public:
-    explicit AFCLogModule() = default;
 
-    bool Init() override;
-    bool Shut() override;
+    class AFCLogModule : public AFILogModule
+    {
+    public:
+        explicit AFCLogModule() = default;
 
-    const std::shared_ptr<spdlog::async_logger>& GetLogger() override;
+        bool Init() override;
+        bool Shut() override;
 
-protected:
-    void CreateLogger();
+        const std::shared_ptr<spdlog::async_logger>& GetLogger() override;
 
-private:
-    std::shared_ptr<spdlog::async_logger> mxLogger;
-};
+    protected:
+        void CreateLogger();
 
-class AFCDynamicLogModule : public AFIDynamicLogModule
-{
-public:
-    explicit AFCDynamicLogModule() = default;
+    private:
+        std::shared_ptr<spdlog::async_logger> mxLogger;
+    };
 
-    bool Shut() override;
+    class AFCDynamicLogModule : public AFIDynamicLogModule
+    {
+    public:
+        explicit AFCDynamicLogModule() = default;
 
-    const std::shared_ptr<spdlog::async_logger>& GetLogger(const int id, const char* name) override;
+        bool Shut() override;
 
-protected:
-    void CreateLogger(const int id, const char* name);
+        const std::shared_ptr<spdlog::async_logger>& GetLogger(const int id, const char* name) override;
 
-private:
-    using dynamic_log_key = std::pair<int, const char*>;
-    using dynamic_log_container = std::map<dynamic_log_key, std::shared_ptr<spdlog::async_logger>>;
+    protected:
+        void CreateLogger(const int id, const char* name);
 
-    dynamic_log_container _dynamic_loggers;
-    const std::shared_ptr<spdlog::async_logger>& _null_logger = nullptr;
-};
+    private:
+        using dynamic_log_key = std::pair<int, const char*>;
+        using dynamic_log_container = std::map<dynamic_log_key, std::shared_ptr<spdlog::async_logger>>;
+
+        dynamic_log_container _dynamic_loggers;
+        const std::shared_ptr<spdlog::async_logger>& _null_logger = nullptr;
+    };
+
+}

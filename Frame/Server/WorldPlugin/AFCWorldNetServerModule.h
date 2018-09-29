@@ -30,76 +30,81 @@
 #include "SDK/Interface/AFINetServerManagerModule.h"
 #include "Server/Interface/AFIWorldNetServerModule.h"
 
-class AFCWorldNetServerModule : public AFIWorldNetServerModule
+namespace ark
 {
-public:
-    explicit AFCWorldNetServerModule()
+
+    class AFCWorldNetServerModule : public AFIWorldNetServerModule
     {
-        mnLastCheckTime = pPluginManager->GetNowTime();
-    }
+    public:
+        explicit AFCWorldNetServerModule()
+        {
+            mnLastCheckTime = pPluginManager->GetNowTime();
+        }
 
-    bool Init() override;
-    bool PostInit() override;
-    bool Update() override;
+        bool Init() override;
+        bool PostInit() override;
+        bool Update() override;
 
-    virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer = AFGUID());
-    virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID,  const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData);
-    virtual bool SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer);
+        virtual bool SendMsgToGame(const int nGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer = AFGUID());
+        virtual bool SendMsgToGame(const AFIDataList& argObjectVar, const AFIDataList& argGameID, const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData);
+        virtual bool SendMsgToPlayer(const AFMsg::EGameMsgID eMsgID, google::protobuf::Message& xData, const AFGUID nPlayer);
 
-    virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar);
-    virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar);
+        virtual int OnObjectListEnter(const AFIDataList& self, const AFIDataList& argVar);
+        virtual int OnObjectListLeave(const AFIDataList& self, const AFIDataList& argVar);
 
-    virtual int OnViewDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    virtual int OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList& argGameID);
-    virtual int OnViewDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
-    virtual int OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID);
+        virtual int OnViewDataNodeEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
+        virtual int OnSelfDataNodeEnter(const AFGUID& self, const AFIDataList& argGameID);
+        virtual int OnViewDataTableEnter(const AFIDataList& argVar, const AFIDataList& argGameID, const AFGUID& self);
+        virtual int OnSelfDataTableEnter(const AFGUID& self, const AFIDataList& argGameID);
 
-    virtual ARK_SHARE_PTR<AFServerData> GetSuitProxyForEnter();
-    virtual AFINetServerService* GetNetServer();
+        virtual ARK_SHARE_PTR<AFServerData> GetSuitProxyForEnter();
+        virtual AFINetServerService* GetNetServer();
 
-    virtual int GetPlayerGameID(const AFGUID self);
+        virtual int GetPlayerGameID(const AFGUID self);
 
-protected:
-    int StartServer();
-    void OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+    protected:
+        int StartServer();
+        void OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
-    //连接丢失,删2层(连接对象，帐号对象)
-    void OnClientDisconnect(const AFGUID& xClientID);
-    //有连接
-    void OnClientConnected(const AFGUID& xClientID);
+        //连接丢失,删2层(连接对象，帐号对象)
+        void OnClientDisconnect(const AFGUID& xClientID);
+        //有连接
+        void OnClientConnected(const AFGUID& xClientID);
 
-    void OnGameServerRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnGameServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnRefreshGameServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnGameServerRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnGameServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnRefreshGameServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    void OnProxyServerRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnProxyServerRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    int OnLeaveGameProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    //////////////////////////////////////////////////////////////////////////
+        int OnLeaveGameProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        //////////////////////////////////////////////////////////////////////////
 
-    void SynGameToProxy();
-    void SynGameToProxy(const AFGUID& xClientID);
+        void SynGameToProxy();
+        void SynGameToProxy(const AFGUID& xClientID);
 
-    //////////////////////////////////////////////////////////////////////////
-    void LogGameServer();
+        //////////////////////////////////////////////////////////////////////////
+        void LogGameServer();
 
-    void OnOnlineProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnOfflineProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnOnlineProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnOfflineProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
 
-private:
-    int64_t mnLastCheckTime;
+    private:
+        int64_t mnLastCheckTime;
 
-    //serverid,data
-    AFMapEx<int, AFServerData> mGameMap;
-    AFMapEx<int, AFServerData> mProxyMap;
+        //serverid,data
+        AFMapEx<int, AFServerData> mGameMap;
+        AFMapEx<int, AFServerData> mProxyMap;
 
-    AFIKernelModule* m_pKernelModule;
-    AFILogModule* m_pLogModule;
-    AFIBusModule* m_pBusModule;
-    AFINetServerManagerModule* m_pNetServerManagerModule;
+        AFIKernelModule* m_pKernelModule;
+        AFILogModule* m_pLogModule;
+        AFIBusModule* m_pBusModule;
+        AFINetServerManagerModule* m_pNetServerManagerModule;
 
-    AFINetServerService* m_pNetServer;
-};
+        AFINetServerService* m_pNetServer;
+    };
+
+}

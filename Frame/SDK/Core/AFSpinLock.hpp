@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,32 +22,37 @@
 
 #include "AFPlatform.hpp"
 
-class AFSpinLock
+namespace ark
 {
-public:
-    AFSpinLock() : _atomic_lock(false) {}
-    AFSpinLock(AFSpinLock const&) = default;
-    AFSpinLock(AFSpinLock&&) = default;
-    AFSpinLock& operator=(AFSpinLock const&) = default;
-    AFSpinLock& operator=(AFSpinLock&&) = default;
 
-    ~AFSpinLock(void) = default;
-
-    inline void lock()
+    class AFSpinLock
     {
-        while (_atomic_lock.exchange(true));
-    }
+    public:
+        AFSpinLock() : _atomic_lock(false) {}
+        AFSpinLock(AFSpinLock const&) = default;
+        AFSpinLock(AFSpinLock&&) = default;
+        AFSpinLock& operator=(AFSpinLock const&) = default;
+        AFSpinLock& operator=(AFSpinLock&&) = default;
 
-    inline void unlock()
-    {
-        _atomic_lock = false;
-    }
+        ~AFSpinLock(void) = default;
 
-    inline bool isLocked() const
-    {
-        return _atomic_lock;
-    }
+        inline void lock()
+        {
+            while (_atomic_lock.exchange(true));
+        }
 
-private:
-    std::atomic_bool _atomic_lock;
-};
+        inline void unlock()
+        {
+            _atomic_lock = false;
+        }
+
+        inline bool isLocked() const
+        {
+            return _atomic_lock;
+        }
+
+    private:
+        std::atomic_bool _atomic_lock;
+    };
+
+}

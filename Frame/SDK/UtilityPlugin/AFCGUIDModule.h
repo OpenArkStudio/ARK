@@ -22,28 +22,33 @@
 
 #include "SDK/Interface/AFIGUIDModule.h"
 
-namespace guid_module
+namespace ark
 {
-class IdWorkerThreadUnsafe;
-class IdWorkerThreadSafe;
-}
 
-class AFCGUIDModule : public AFIGUIDModule
-{
-public:
-    explicit AFCGUIDModule() = default;
+    namespace guid_module
+    {
+        class IdWorkerThreadUnsafe;
+        class IdWorkerThreadSafe;
+    }
 
-    bool Init() override;
-    bool PreShut() override;
+    class AFCGUIDModule : public AFIGUIDModule
+    {
+    public:
+        explicit AFCGUIDModule() = default;
 
-    void SetGUIDMask(uint64_t mask) override;
-    AFGUID CreateGUID() override;
+        bool Init() override;
+        bool PreShut() override;
 
-private:
-    uint64_t mnMask; //area_id * 100000 + server_id
+        void SetGUIDMask(uint64_t mask) override;
+        AFGUID CreateGUID() override;
+
+    private:
+        uint64_t mnMask; //area_id * 100000 + server_id
 #ifdef AF_THREAD_SAFE
-    guid_module::IdWorkerThreadSafe* m_pIDWoker { nullptr };
+        guid_module::IdWorkerThreadSafe* m_pIDWoker { nullptr };
 #else
-    guid_module::IdWorkerThreadUnsafe* m_pIDWoker { nullptr };
+        guid_module::IdWorkerThreadUnsafe* m_pIDWoker { nullptr };
 #endif // AF_THREAD_SAFE
-};
+    };
+
+}

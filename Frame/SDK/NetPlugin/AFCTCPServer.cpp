@@ -28,364 +28,368 @@
 #include <arpa/inet.h>
 #endif
 
-AFCTCPServer::AFCTCPServer()
+namespace ark
 {
-    brynet::net::base::InitSocket();
 
-    m_pTcpService = brynet::net::TcpService::Create();
-    m_pListenThread = brynet::net::ListenThread::Create();
-}
-
-AFCTCPServer::~AFCTCPServer()
-{
-    Shutdown();
-    brynet::net::base::DestroySocket();
-}
-
-void AFCTCPServer::Update()
-{
-    ProcessMsgLogicThread();
-}
-
-bool AFCTCPServer::Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6/* = false*/)
-{
-    m_pTcpService->startWorkerThread(thread_num);
-    mnServerID = busid;
-
-    m_pListenThread->startListen(ip_v6, ip, port, [ = ](brynet::net::TcpSocket::PTR socket)
+    AFCTCPServer::AFCTCPServer()
     {
-        AFCTCPServer* pTcpServer = this;
-        socket->SocketNodelay();
-        auto OnEnterCallback = [pTcpServer](const brynet::net::DataSocket::PTR & session)
+        brynet::net::base::InitSocket();
+        m_pTcpService = brynet::net::TcpService::Create();
+        m_pListenThread = brynet::net::ListenThread::Create();
+    }
+
+    AFCTCPServer::~AFCTCPServer()
+    {
+        Shutdown();
+        brynet::net::base::DestroySocket();
+    }
+
+    void AFCTCPServer::Update()
+    {
+        ProcessMsgLogicThread();
+    }
+
+    bool AFCTCPServer::Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6/* = false*/)
+    {
+        m_pTcpService->startWorkerThread(thread_num);
+        mnServerID = busid;
+
+        m_pListenThread->startListen(ip_v6, ip, port, [ = ](brynet::net::TcpSocket::PTR socket)
         {
-            AFTCPMsg* pMsg = new AFTCPMsg(session);
-            pMsg->xClientID.nLow = pTcpServer->mnNextID++;
-            pMsg->nType = CONNECTED;
-
-            do
+            AFCTCPServer* pTcpServer = this;
+            socket->SocketNodelay();
+            auto OnEnterCallback = [pTcpServer](const brynet::net::DataSocket::PTR & session)
             {
-                AFScopeWrLock xGuard(pTcpServer->mRWLock);
-
-                AFTCPEntityPtr pEntity = ARK_NEW AFTCPEntity(pTcpServer, pMsg->xClientID, session);
-                session->setUD(int64_t(pEntity));
-
-                if (pTcpServer->AddNetEntity(pMsg->xClientID, pEntity))
-                {
-                    pEntity->mxNetMsgMQ.Push(pMsg);
-                }
-            } while (false);
-
-            session->setDataCallback([pTcpServer, session](const char* buffer, size_t len)
-            {
-                auto pUD = brynet::net::cast<int64_t>(session->getUD());
-
-                if (nullptr != pUD)
-                {
-                    const AFTCPEntityPtr pEntity = AFTCPEntityPtr(*pUD);
-                    pEntity->AddBuff(buffer, len);
-                    pTcpServer->DismantleNet(pEntity);
-                }
-
-                return len;
-            });
-
-            session->setDisConnectCallback([](const brynet::net::DataSocket::PTR & session)
-            {
-                auto pUD = brynet::net::cast<int64_t>(session->getUD());
-
-                if (nullptr == pUD)
-                {
-                    return;
-                }
-
-                const AFTCPEntityPtr pEntity = AFTCPEntityPtr(*pUD);
                 AFTCPMsg* pMsg = new AFTCPMsg(session);
-                pMsg->xClientID = pEntity->GetClientID();
-                pMsg->nType = DISCONNECTED;
+                pMsg->xClientID.nLow = pTcpServer->mnNextID++;
+                pMsg->nType = CONNECTED;
 
-                pEntity->mxNetMsgMQ.Push(pMsg);
-            });
+                do
+                {
+                    AFScopeWrLock xGuard(pTcpServer->mRWLock);
 
-            //session->setHeartBeat(ARK_NET_HEART_TIME);
-        };
+                    AFTCPEntityPtr pEntity = ARK_NEW AFTCPEntity(pTcpServer, pMsg->xClientID, session);
+                    session->setUD(int64_t(pEntity));
 
-        m_pTcpService->addDataSocket(std::move(socket),
-                                     brynet::net::TcpService::AddSocketOption::WithEnterCallback(OnEnterCallback),
-                                     brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE));
-    });
+                    if (pTcpServer->AddNetEntity(pMsg->xClientID, pEntity))
+                    {
+                        pEntity->mxNetMsgMQ.Push(pMsg);
+                    }
+                } while (false);
 
-    SetWorking(true);
-    return true;
-}
+                session->setDataCallback([pTcpServer, session](const char* buffer, size_t len)
+                {
+                    auto pUD = brynet::net::cast<int64_t>(session->getUD());
 
-void AFCTCPServer::ProcessMsgLogicThread()
-{
-    std::list<AFGUID> xNeedRemoveList;
+                    if (nullptr != pUD)
+                    {
+                        const AFTCPEntityPtr pEntity = AFTCPEntityPtr(*pUD);
+                        pEntity->AddBuff(buffer, len);
+                        pTcpServer->DismantleNet(pEntity);
+                    }
 
-    do
+                    return len;
+                });
+
+                session->setDisConnectCallback([](const brynet::net::DataSocket::PTR & session)
+                {
+                    auto pUD = brynet::net::cast<int64_t>(session->getUD());
+
+                    if (nullptr == pUD)
+                    {
+                        return;
+                    }
+
+                    const AFTCPEntityPtr pEntity = AFTCPEntityPtr(*pUD);
+                    AFTCPMsg* pMsg = new AFTCPMsg(session);
+                    pMsg->xClientID = pEntity->GetClientID();
+                    pMsg->nType = DISCONNECTED;
+
+                    pEntity->mxNetMsgMQ.Push(pMsg);
+                });
+
+                //session->setHeartBeat(ARK_NET_HEART_TIME);
+            };
+
+            m_pTcpService->addDataSocket(std::move(socket),
+                                         brynet::net::TcpService::AddSocketOption::WithEnterCallback(OnEnterCallback),
+                                         brynet::net::TcpService::AddSocketOption::WithMaxRecvBufferSize(ARK_TCP_RECV_BUFFER_SIZE));
+        });
+
+        SetWorking(true);
+        return true;
+    }
+
+    void AFCTCPServer::ProcessMsgLogicThread()
     {
-        AFScopeRdLock xGuard(mRWLock);
+        std::list<AFGUID> xNeedRemoveList;
 
-        for (std::map<AFGUID, AFTCPEntityPtr>::iterator iter = mmObject.begin(); iter != mmObject.end(); ++iter)
+        do
         {
-            ProcessMsgLogicThread(iter->second);
+            AFScopeRdLock xGuard(mRWLock);
 
-            if (!iter->second->NeedRemove())
+            for (std::map<AFGUID, AFTCPEntityPtr>::iterator iter = mmObject.begin(); iter != mmObject.end(); ++iter)
+            {
+                ProcessMsgLogicThread(iter->second);
+
+                if (!iter->second->NeedRemove())
+                {
+                    continue;
+                }
+
+                xNeedRemoveList.push_back(iter->second->GetClientID());
+            }
+        } while (false);
+
+        for (auto iter : xNeedRemoveList)
+        {
+            AFScopeWrLock xGuard(mRWLock);
+            RemoveNetEntity(iter);
+        }
+    }
+
+    void AFCTCPServer::ProcessMsgLogicThread(AFTCPEntityPtr pEntity)
+    {
+        //Handle Msg
+        size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
+
+        for (size_t i = 0; i < nReceiveCount && i < 100; ++i)
+        {
+            AFTCPMsg* pMsg(nullptr);
+
+            if (!pEntity->mxNetMsgMQ.Pop(pMsg))
+            {
+                break;
+            }
+
+            if (pMsg == nullptr)
             {
                 continue;
             }
 
-            xNeedRemoveList.push_back(iter->second->GetClientID());
-        }
-    } while (false);
-
-    for (auto iter : xNeedRemoveList)
-    {
-        AFScopeWrLock xGuard(mRWLock);
-        RemoveNetEntity(iter);
-    }
-}
-
-void AFCTCPServer::ProcessMsgLogicThread(AFTCPEntityPtr pEntity)
-{
-    //Handle Msg
-    size_t nReceiveCount = pEntity->mxNetMsgMQ.Count();
-
-    for (size_t i = 0; i < nReceiveCount && i < 100; ++i)
-    {
-        AFTCPMsg* pMsg(nullptr);
-
-        if (!pEntity->mxNetMsgMQ.Pop(pMsg))
-        {
-            break;
-        }
-
-        if (pMsg == nullptr)
-        {
-            continue;
-        }
-
-        switch (pMsg->nType)
-        {
-        case RECVDATA:
+            switch (pMsg->nType)
             {
-                if (mRecvCB)
+            case RECVDATA:
                 {
-                    mRecvCB(pMsg->xHead, pMsg->xHead.GetMsgID(), pMsg->strMsg.c_str(), pMsg->strMsg.size(), pEntity->GetClientID());
+                    if (mRecvCB)
+                    {
+                        mRecvCB(pMsg->xHead, pMsg->xHead.GetMsgID(), pMsg->strMsg.c_str(), pMsg->strMsg.size(), pEntity->GetClientID());
+                    }
                 }
-            }
-            break;
+                break;
 
-        case CONNECTED:
-            mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
-            break;
-
-        case DISCONNECTED:
-            {
+            case CONNECTED:
                 mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
-                pEntity->SetNeedRemove(true);
+                break;
+
+            case DISCONNECTED:
+                {
+                    mEventCB((NetEventType)pMsg->nType, pMsg->xClientID, mnServerID);
+                    pEntity->SetNeedRemove(true);
+                }
+                break;
+
+            default:
+                break;
             }
-            break;
 
-        default:
-            break;
-        }
-
-        ARK_DELETE(pMsg);
-    }
-}
-
-bool AFCTCPServer::Shutdown()
-{
-    SetWorking(false);
-    return true;
-}
-
-bool AFCTCPServer::IsServer()
-{
-    return true;
-}
-
-bool AFCTCPServer::SendMsgToAllClient(const char* msg, const size_t nLen)
-{
-    for (auto it : mmObject)
-    {
-        AFTCPEntityPtr pNetObject = (AFTCPEntityPtr)it.second;
-
-        if (pNetObject != nullptr && !pNetObject->NeedRemove())
-        {
-            pNetObject->GetSession()->send(msg, nLen);
+            ARK_DELETE(pMsg);
         }
     }
 
-    return true;
-}
-
-bool AFCTCPServer::SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient)
-{
-    AFScopeRdLock xGuard(mRWLock);
-
-    AFTCPEntityPtr pNetObject = GetNetEntity(xClient);
-
-    if (pNetObject == nullptr)
+    bool AFCTCPServer::Shutdown()
     {
-        return false;
-    }
-    else
-    {
-        pNetObject->GetSession()->send(msg, nLen);
+        SetWorking(false);
         return true;
     }
-}
 
-bool AFCTCPServer::AddNetEntity(const AFGUID& xClientID, AFTCPEntityPtr pEntity)
-{
-    return mmObject.insert(std::make_pair(xClientID, pEntity)).second;
-}
-
-bool AFCTCPServer::RemoveNetEntity(const AFGUID& xClientID)
-{
-    AFTCPEntityPtr pEntity = GetNetEntity(xClientID);
-
-    if (pEntity != nullptr)
-    {
-        ARK_DELETE(pEntity);
-    }
-
-    return mmObject.erase(xClientID);
-}
-
-bool AFCTCPServer::CloseNetEntity(const AFGUID& xClientID)
-{
-    AFTCPEntityPtr pEntity = GetNetEntity(xClientID);
-
-    if (pEntity != nullptr)
-    {
-        pEntity->GetSession()->postDisConnect();
-        return true;
-    }
-    else
+    bool AFCTCPServer::IsServer()
     {
         return true;
     }
-}
 
-bool AFCTCPServer::Log(int severity, const char* msg)
-{
-    //will add msg log
-    return true;
-}
-
-bool AFCTCPServer::DismantleNet(AFTCPEntityPtr pEntity)
-{
-    while (pEntity->GetBuffLen() >= ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+    bool AFCTCPServer::SendMsgToAllClient(const char* msg, const size_t nLen)
     {
-        ARK_PKG_CS_HEAD xHead;
-        int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
-
-        if (nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
+        for (auto it : mmObject)
         {
-            AFTCPMsg* pNetInfo = new AFTCPMsg(pEntity->GetSession());
-            pNetInfo->xHead = xHead;
-            pNetInfo->nType = RECVDATA;
-            pNetInfo->strMsg.append(pEntity->GetBuff() + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH, nMsgBodyLength);
-            pEntity->mxNetMsgMQ.Push(pNetInfo);
-            pEntity->RemoveBuff(nMsgBodyLength + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH);
+            AFTCPEntityPtr pNetObject = (AFTCPEntityPtr)it.second;
+
+            if (pNetObject != nullptr && !pNetObject->NeedRemove())
+            {
+                pNetObject->GetSession()->send(msg, nLen);
+            }
+        }
+
+        return true;
+    }
+
+    bool AFCTCPServer::SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient)
+    {
+        AFScopeRdLock xGuard(mRWLock);
+
+        AFTCPEntityPtr pNetObject = GetNetEntity(xClient);
+
+        if (pNetObject == nullptr)
+        {
+            return false;
         }
         else
         {
-            break;
+            pNetObject->GetSession()->send(msg, nLen);
+            return true;
         }
     }
 
-    return true;
-}
-
-bool AFCTCPServer::CloseSocketAll()
-{
-    for (auto it : mmObject)
+    bool AFCTCPServer::AddNetEntity(const AFGUID& xClientID, AFTCPEntityPtr pEntity)
     {
-        it.second->GetSession()->postDisConnect();
-        ARK_DELETE(it.second);
+        return mmObject.insert(std::make_pair(xClientID, pEntity)).second;
     }
 
-    mmObject.clear();
-    return true;
-}
-
-AFCTCPServer::AFTCPEntityPtr AFCTCPServer::GetNetEntity(const AFGUID& xClientID)
-{
-    auto it = mmObject.find(xClientID);
-    return (it != mmObject.end() ? it->second : nullptr);
-}
-
-bool AFCTCPServer::SendRawMsg(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
-{
-    std::string strOutData;
-    ARK_PKG_CS_HEAD xHead;
-    xHead.SetMsgID(nMsgID);
-    xHead.SetPlayerID(xPlayerID);
-    xHead.SetBodyLength(nLen);
-
-    int nAllLen = EnCode(xHead, msg, nLen, strOutData);
-
-    if (nAllLen == nLen + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+    bool AFCTCPServer::RemoveNetEntity(const AFGUID& xClientID)
     {
-        return SendMsg(strOutData.c_str(), strOutData.length(), xClientID);
-    }
-    else
-    {
-        return false;
-    }
-}
+        AFTCPEntityPtr pEntity = GetNetEntity(xClientID);
 
-bool AFCTCPServer::SendRawMsgToAllClient(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID)
-{
-    std::string strOutData;
-    ARK_PKG_CS_HEAD xHead;
-    xHead.SetMsgID(nMsgID);
-    xHead.SetPlayerID(xPlayerID);
+        if (pEntity != nullptr)
+        {
+            ARK_DELETE(pEntity);
+        }
 
-    int nAllLen = EnCode(xHead, msg, nLen, strOutData);
-
-    if (nAllLen == nLen + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
-    {
-        return SendMsgToAllClient(strOutData.c_str(), strOutData.length());
-    }
-    else
-    {
-        return false;
-    }
-}
-
-int AFCTCPServer::EnCode(const ARK_PKG_CS_HEAD& xHead, const char* strData, const size_t len, std::string& strOutData)
-{
-    char szHead[ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH] = { 0 };
-    xHead.EnCode(szHead);
-
-    strOutData.clear();
-    strOutData.append(szHead, ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH);
-    strOutData.append(strData, len);
-
-    return xHead.GetBodyLength() + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH;
-}
-
-int AFCTCPServer::DeCode(const char* strData, const size_t len, ARK_PKG_CS_HEAD& xHead)
-{
-    if (len < ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
-    {
-        return -1;
+        return mmObject.erase(xClientID);
     }
 
-    if (ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH != xHead.DeCode(strData))
+    bool AFCTCPServer::CloseNetEntity(const AFGUID& xClientID)
     {
-        return -2;
+        AFTCPEntityPtr pEntity = GetNetEntity(xClientID);
+
+        if (pEntity != nullptr)
+        {
+            pEntity->GetSession()->postDisConnect();
+            return true;
+        }
+        else
+        {
+            return true;
+        }
     }
 
-    if (xHead.GetBodyLength() > (len - ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH))
+    bool AFCTCPServer::Log(int severity, const char* msg)
     {
-        return -3;
+        //will add msg log
+        return true;
     }
 
-    return xHead.GetBodyLength();
+    bool AFCTCPServer::DismantleNet(AFTCPEntityPtr pEntity)
+    {
+        while (pEntity->GetBuffLen() >= ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+        {
+            ARK_PKG_CS_HEAD xHead;
+            int nMsgBodyLength = DeCode(pEntity->GetBuff(), pEntity->GetBuffLen(), xHead);
+
+            if (nMsgBodyLength >= 0 && xHead.GetMsgID() > 0)
+            {
+                AFTCPMsg* pNetInfo = new AFTCPMsg(pEntity->GetSession());
+                pNetInfo->xHead = xHead;
+                pNetInfo->nType = RECVDATA;
+                pNetInfo->strMsg.append(pEntity->GetBuff() + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH, nMsgBodyLength);
+                pEntity->mxNetMsgMQ.Push(pNetInfo);
+                pEntity->RemoveBuff(nMsgBodyLength + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH);
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return true;
+    }
+
+    bool AFCTCPServer::CloseSocketAll()
+    {
+        for (auto it : mmObject)
+        {
+            it.second->GetSession()->postDisConnect();
+            ARK_DELETE(it.second);
+        }
+
+        mmObject.clear();
+        return true;
+    }
+
+    AFCTCPServer::AFTCPEntityPtr AFCTCPServer::GetNetEntity(const AFGUID& xClientID)
+    {
+        auto it = mmObject.find(xClientID);
+        return (it != mmObject.end() ? it->second : nullptr);
+    }
+
+    bool AFCTCPServer::SendRawMsg(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
+    {
+        std::string strOutData;
+        ARK_PKG_CS_HEAD xHead;
+        xHead.SetMsgID(nMsgID);
+        xHead.SetPlayerID(xPlayerID);
+        xHead.SetBodyLength(nLen);
+
+        int nAllLen = EnCode(xHead, msg, nLen, strOutData);
+
+        if (nAllLen == nLen + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+        {
+            return SendMsg(strOutData.c_str(), strOutData.length(), xClientID);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    bool AFCTCPServer::SendRawMsgToAllClient(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID)
+    {
+        std::string strOutData;
+        ARK_PKG_CS_HEAD xHead;
+        xHead.SetMsgID(nMsgID);
+        xHead.SetPlayerID(xPlayerID);
+
+        int nAllLen = EnCode(xHead, msg, nLen, strOutData);
+
+        if (nAllLen == nLen + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+        {
+            return SendMsgToAllClient(strOutData.c_str(), strOutData.length());
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    int AFCTCPServer::EnCode(const ARK_PKG_CS_HEAD& xHead, const char* strData, const size_t len, std::string& strOutData)
+    {
+        char szHead[ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH] = { 0 };
+        xHead.EnCode(szHead);
+
+        strOutData.clear();
+        strOutData.append(szHead, ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH);
+        strOutData.append(strData, len);
+
+        return xHead.GetBodyLength() + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH;
+    }
+
+    int AFCTCPServer::DeCode(const char* strData, const size_t len, ARK_PKG_CS_HEAD& xHead)
+    {
+        if (len < ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+        {
+            return -1;
+        }
+
+        if (ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH != xHead.DeCode(strData))
+        {
+            return -2;
+        }
+
+        if (xHead.GetBodyLength() > (len - ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH))
+        {
+            return -3;
+        }
+
+        return xHead.GetBodyLength();
+    }
+
 }

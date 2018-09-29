@@ -33,69 +33,75 @@
 
 #pragma pack(push, 1)
 
-class AFCWebSocktServer : public AFINet
+namespace ark
 {
-public:
-    AFCWebSocktServer();
 
-    template<typename BaseType>
-    AFCWebSocktServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const ARK_PKG_BASE_HEAD& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
+    class AFCWebSocktServer : public AFINet
     {
-        mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-        mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+    public:
+        AFCWebSocktServer();
 
-        m_pTcpService = brynet::net::TcpService::Create();
-        m_pListenThread = brynet::net::ListenThread::Create();
-    }
+        template<typename BaseType>
+        AFCWebSocktServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const ARK_PKG_BASE_HEAD& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
+        {
+            mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
+            mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
 
-    ~AFCWebSocktServer() override;
+            brynet::net::base::InitSocket();
+            m_pTcpService = brynet::net::TcpService::Create();
+            m_pListenThread = brynet::net::ListenThread::Create();
+        }
 
-    void Update() override;
+        ~AFCWebSocktServer() override;
 
-    //Just for pure virtual function
-    bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false) override
-    {
-        return false;
-    }
+        void Update() override;
 
-    bool Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false) override;
-    bool Shutdown() override final;
-    bool IsServer() override;
+        //Just for pure virtual function
+        bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false) override
+        {
+            return false;
+        }
 
-    bool SendRawMsg(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID) override;
-    bool SendRawMsgToAllClient(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID) override;
+        bool Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false) override;
+        bool Shutdown() override final;
+        bool IsServer() override;
 
-    bool CloseNetEntity(const AFGUID& xClientID) override;
-    bool Log(int severity, const char* msg) override;
+        bool SendRawMsg(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID) override;
+        bool SendRawMsgToAllClient(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID) override;
 
-protected:
-    bool SendMsgToAllClient(const char* msg, const size_t nLen);
-    bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient);
-    bool AddNetEntity(const AFGUID& xClientID, AFHttpEntity* pEntity);
-    bool RemoveNetEntity(const AFGUID& xClientID);
-    AFHttpEntity* GetNetEntity(const AFGUID& xClientID);
+        bool CloseNetEntity(const AFGUID& xClientID) override;
+        bool Log(int severity, const char* msg) override;
 
-    void ProcessMsgLogicThread();
-    void ProcessMsgLogicThread(AFHttpEntity* pEntity);
-    bool CloseSocketAll();
-    bool DismantleNet(AFHttpEntity* pEntity);
+    protected:
+        bool SendMsgToAllClient(const char* msg, const size_t nLen);
+        bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient);
+        bool AddNetEntity(const AFGUID& xClientID, AFHttpEntity* pEntity);
+        bool RemoveNetEntity(const AFGUID& xClientID);
+        AFHttpEntity* GetNetEntity(const AFGUID& xClientID);
 
-    int DeCode(const char* strData, const size_t len, ARK_PKG_CS_HEAD& xHead);
-    int EnCode(const ARK_PKG_CS_HEAD& xHead, const char* strData, const size_t len, std::string& strOutData);
+        void ProcessMsgLogicThread();
+        void ProcessMsgLogicThread(AFHttpEntity* pEntity);
+        bool CloseSocketAll();
+        bool DismantleNet(AFHttpEntity* pEntity);
 
-private:
-    std::map<AFGUID, AFHttpEntity*> mxNetEntities;
-    AFCReaderWriterLock mRWLock;
-    int mnMaxConnect{ 0 };
-    int mnThreadNum{ 0 };
-    int mnServerID{ 0 };
+        int DeCode(const char* strData, const size_t len, ARK_PKG_CS_HEAD& xHead);
+        int EnCode(const ARK_PKG_CS_HEAD& xHead, const char* strData, const size_t len, std::string& strOutData);
 
-    NET_PKG_RECV_FUNCTOR mRecvCB{ nullptr };
-    NET_EVENT_FUNCTOR mEventCB{ nullptr };
+    private:
+        std::map<AFGUID, AFHttpEntity*> mxNetEntities;
+        AFCReaderWriterLock mRWLock;
+        int mnMaxConnect{ 0 };
+        int mnThreadNum{ 0 };
+        int mnServerID{ 0 };
 
-    brynet::net::TcpService::PTR m_pTcpService{ nullptr };
-    brynet::net::ListenThread::PTR m_pListenThread{ nullptr };
-    std::atomic<std::uint64_t> nNextID{ 1 };
-};
+        NET_PKG_RECV_FUNCTOR mRecvCB{ nullptr };
+        NET_EVENT_FUNCTOR mEventCB{ nullptr };
+
+        brynet::net::TcpService::PTR m_pTcpService{ nullptr };
+        brynet::net::ListenThread::PTR m_pListenThread{ nullptr };
+        std::atomic<std::uint64_t> nNextID{ 1 };
+    };
+
+}
 
 #pragma pack(pop)

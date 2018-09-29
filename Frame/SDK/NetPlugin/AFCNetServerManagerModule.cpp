@@ -22,67 +22,76 @@
 #include "AFCNetServerManagerModule.h"
 #include "AFCNetServerService.h"
 
-bool AFCNetServerManagerModule::Init()
+namespace ark
 {
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-    return true;
-}
-
-int AFCNetServerManagerModule::CreateServer()
-{
-    const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
-    if (server_config == nullptr)
+    bool AFCNetServerManagerModule::Init()
     {
-        ARK_LOG_ERROR("Cannot get process server info, bus id = {}", AFBusAddr(m_pBusModule->GetSelfBusID()).ToString());
-        ARK_ASSERT_NO_EFFECT(0);
-        return -1;
+        m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
+        m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+
+        return true;
     }
 
-    AFINetServerService* pServer = ARK_NEW AFCNetServerService();
-    _net_servers.AddElement(m_pBusModule->GetSelfBusID(), pServer);
-
-    int nRet = pServer->Start(m_pBusModule->GetSelfBusID(), server_config->private_url, server_config->thread_num, server_config->max_connection);
-    if (nRet < 0)
+    int AFCNetServerManagerModule::CreateServer()
     {
-        ARK_LOG_ERROR("Cannot start server net, url = {}", server_config->private_url);
-        ARK_ASSERT_NO_EFFECT(0);
-        return -2;
-    }
-
-    return 0;
-}
-
-AFINetServerService* AFCNetServerManagerModule::GetSelfNetServer()
-{
-    return _net_servers.GetElement(m_pBusModule->GetSelfBusID());
-}
-
-bool AFCNetServerManagerModule::Update()
-{
-    for (bool bRet = _net_servers.Begin(); bRet; bRet = _net_servers.Increase())
-    {
-        const auto& pServer = _net_servers.GetCurrentData();
-        if (pServer != nullptr)
+        const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
+        if (server_config == nullptr)
         {
-            pServer->Update();
+            ARK_LOG_ERROR("Cannot get process server info, bus id = {}", AFBusAddr(m_pBusModule->GetSelfBusID()).ToString());
+            ARK_ASSERT_NO_EFFECT(0);
+            return -1;
         }
-    }
 
-    return true;
-}
+        AFINetServerService* pServer = ARK_NEW AFCNetServerService();
+        _net_servers.AddElement(m_pBusModule->GetSelfBusID(), pServer);
 
-bool AFCNetServerManagerModule::Shut()
-{
-    for (bool bRet = _net_servers.Begin(); bRet; bRet = _net_servers.Increase())
-    {
-        const auto* pServer = _net_servers.GetCurrentData();
-        if (pServer != nullptr)
+        int nRet = pServer->Start(m_pBusModule->GetSelfBusID(), server_config->local_ep_, server_config->thread_num, server_config->max_connection);
+        if (nRet)
         {
-            ARK_DELETE(pServer);
+            ARK_LOG_INFO("Start net server successful, url = {}", server_config->local_ep_.to_string());
         }
+        else
+        {
+            ARK_LOG_ERROR("Cannot start server net, url = {}", server_config->local_ep_.to_string());
+            ARK_ASSERT_NO_EFFECT(0);
+            return -2;
+        }
+
+        return 0;
     }
 
-    return true;
+    AFINetServerService* AFCNetServerManagerModule::GetSelfNetServer()
+    {
+        return _net_servers.GetElement(m_pBusModule->GetSelfBusID());
+    }
+
+    bool AFCNetServerManagerModule::Update()
+    {
+        for (bool bRet = _net_servers.Begin(); bRet; bRet = _net_servers.Increase())
+        {
+            const auto& pServer = _net_servers.GetCurrentData();
+            if (pServer != nullptr)
+            {
+                pServer->Update();
+            }
+        }
+
+        return true;
+    }
+
+    bool AFCNetServerManagerModule::Shut()
+    {
+        for (bool bRet = _net_servers.Begin(); bRet; bRet = _net_servers.Increase())
+        {
+            const auto* pServer = _net_servers.GetCurrentData();
+            if (pServer != nullptr)
+            {
+                ARK_DELETE(pServer);
+            }
+        }
+
+        return true;
+    }
+
 }

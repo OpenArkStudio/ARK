@@ -21,42 +21,47 @@
 #include "AFCTimerModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-bool AFCTimerModule::Init()
+namespace ark
 {
-    mxTimerManager = std::make_shared<AFTimerManager>();
-    mxTimerManager->Init(pPluginManager->GetNowTime());
 
-    return true;
-}
+    bool AFCTimerModule::Init()
+    {
+        mxTimerManager = std::make_shared<AFTimerManager>();
+        mxTimerManager->Init(pPluginManager->GetNowTime());
 
-bool AFCTimerModule::PreShut()
-{
-    mxTimerManager->Shut();
-    return true;
-}
+        return true;
+    }
 
-bool AFCTimerModule::Update()
-{
-    mxTimerManager->Update(pPluginManager->GetNowTime());
-    return true;
-}
+    bool AFCTimerModule::PreShut()
+    {
+        mxTimerManager->Shut();
+        return true;
+    }
 
-bool AFCTimerModule::RemoveTimer(const std::string& name)
-{
-    return mxTimerManager->RemoveTimer(name);
-}
+    bool AFCTimerModule::Update()
+    {
+        mxTimerManager->Update(pPluginManager->GetNowTime());
+        return true;
+    }
 
-bool AFCTimerModule::RemoveTimer(const std::string& name, const AFGUID& entity_id)
-{
-    return mxTimerManager->RemoveTimer(name, entity_id);
-}
+    bool AFCTimerModule::RemoveTimer(const std::string& name)
+    {
+        return mxTimerManager->RemoveTimer(name);
+    }
 
-bool AFCTimerModule::AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR_PTR cb)
-{
-    return mxTimerManager->AddSingleTimer(name, entity_id, interval_time, count, cb);
-}
+    bool AFCTimerModule::RemoveTimer(const std::string& name, const AFGUID& entity_id)
+    {
+        return mxTimerManager->RemoveTimer(name, entity_id);
+    }
 
-bool AFCTimerModule::AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR_PTR cb)
-{
-    return mxTimerManager->AddForverTimer(name, entity_id, interval_time, cb);
+    bool AFCTimerModule::AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR_PTR cb)
+    {
+        return mxTimerManager->AddSingleTimer(name, entity_id, interval_time, count, cb);
+    }
+
+    bool AFCTimerModule::AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR_PTR cb)
+    {
+        return mxTimerManager->AddForverTimer(name, entity_id, interval_time, cb);
+    }
+
 }

@@ -24,8 +24,13 @@
 #include "SDK/Core/AFMap.hpp"
 #include "SDK/Interface/AFIModule.h"
 
-class AFILoginNetClientModule : public AFIModule
+namespace ark
 {
-public:
-    virtual AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap() = 0;
-};
+
+    class AFILoginNetClientModule : public AFIModule
+    {
+    public:
+        virtual AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap() = 0;
+    };
+
+}

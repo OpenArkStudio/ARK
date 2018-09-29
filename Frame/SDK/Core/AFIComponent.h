@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -23,87 +23,92 @@
 #include "SDK/Core/AFGUID.hpp"
 #include "SDK/Interface/AFIModule.h"
 
-class AFIComponent : public AFIModule
+namespace ark
 {
-public:
 
-    AFIComponent() = delete;
-    AFIComponent(AFGUID self, const std::string& strName)
+    class AFIComponent : public AFIModule
     {
-        mbHasInit = false;
-        mbEnable = true;
-        mSelf = self;
-        mstrName = strName;
-    }
+    public:
 
-    virtual ~AFIComponent() = default;
-
-    template <typename T>
-    ARK_SHARE_PTR<T> CreateNewInstance()
-    {
-        ARK_SHARE_PTR<AFIComponent> pComponent = CreateNewInstance();
-
-        if (nullptr != pComponent)
+        AFIComponent() = delete;
+        AFIComponent(AFGUID self, const std::string& strName)
         {
-            if (TIsDerived<T, AFIComponent>::Result)
-            {
-                ARK_SHARE_PTR<T> pT = std::dynamic_pointer_cast<T>(pComponent);
-
-                if (nullptr != pT)
-                {
-                    return pT;
-                }
-            }
+            mbHasInit = false;
+            mbEnable = true;
+            mSelf = self;
+            mstrName = strName;
         }
 
-        return ARK_SHARE_PTR<T>();
-    }
+        virtual ~AFIComponent() = default;
 
-    virtual bool SetEnable(const bool bEnable)
-    {
-        return mbEnable;
-    }
+        template <typename T>
+        ARK_SHARE_PTR<T> CreateNewInstance()
+        {
+            ARK_SHARE_PTR<AFIComponent> pComponent = CreateNewInstance();
 
-    virtual bool Enable()
-    {
-        return mbEnable;
-    }
+            if (nullptr != pComponent)
+            {
+                if (TIsDerived<T, AFIComponent>::Result)
+                {
+                    ARK_SHARE_PTR<T> pT = std::dynamic_pointer_cast<T>(pComponent);
 
-    virtual bool SetHasInit(const bool bEnable)
-    {
-        mbHasInit = bEnable;
-        return mbHasInit;
-    }
+                    if (nullptr != pT)
+                    {
+                        return pT;
+                    }
+                }
+            }
 
-    virtual bool HasInit()
-    {
-        return mbHasInit;
-    }
+            return ARK_SHARE_PTR<T>();
+        }
 
-    virtual AFGUID Self()
-    {
-        return NULL_GUID;
-    }
+        virtual bool SetEnable(const bool bEnable)
+        {
+            return mbEnable;
+        }
 
-    virtual const std::string& GetComponentName() const
-    {
-        return mstrName;
-    }
+        virtual bool Enable()
+        {
+            return mbEnable;
+        }
 
-    virtual int OnASyncEvent(const AFGUID& self, const int event, std::string& arg)
-    {
-        return 0;
-    }
+        virtual bool SetHasInit(const bool bEnable)
+        {
+            mbHasInit = bEnable;
+            return mbHasInit;
+        }
 
-protected:
-    virtual ARK_SHARE_PTR<AFIComponent> CreateNewInstance()
-    {
-        return nullptr;
+        virtual bool HasInit()
+        {
+            return mbHasInit;
+        }
+
+        virtual AFGUID Self()
+        {
+            return NULL_GUID;
+        }
+
+        virtual const std::string& GetComponentName() const
+        {
+            return mstrName;
+        }
+
+        virtual int OnASyncEvent(const AFGUID& self, const int event, std::string& arg)
+        {
+            return 0;
+        }
+
+    protected:
+        virtual ARK_SHARE_PTR<AFIComponent> CreateNewInstance()
+        {
+            return nullptr;
+        };
+
+    private:
+        bool mbEnable;
+        bool mbHasInit;
+        AFGUID mSelf;
+        std::string mstrName;
     };
 
-private:
-    bool mbEnable;
-    bool mbHasInit;
-    AFGUID mSelf;
-    std::string mstrName;
-};
+}

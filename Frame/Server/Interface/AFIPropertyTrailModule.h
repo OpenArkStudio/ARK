@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,11 +22,14 @@
 
 #include "SDK/Interface/AFIModule.h"
 
-class AFIPropertyTrailModule : public AFIModule
+namespace ark
 {
-public:
-    virtual void StartTrail(const AFGUID self) = 0;
-    virtual void EndTrail(const AFGUID self) = 0;
-};
 
+    class AFIPropertyTrailModule : public AFIModule
+    {
+    public:
+        virtual void StartTrail(const AFGUID self) = 0;
+        virtual void EndTrail(const AFGUID self) = 0;
+    };
 
+}

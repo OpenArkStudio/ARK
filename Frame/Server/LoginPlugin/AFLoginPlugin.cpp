@@ -22,28 +22,33 @@
 #include "AFCLoginNetServerModule.h"
 #include "AFCLoginNetClientModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFLoginPlugin)
-ARK_DLL_PLUGIN_EXIT(AFLoginPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFLoginPlugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
 
-const std::string AFLoginPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFLoginPlugin);
-}
+    ARK_DLL_PLUGIN_ENTRY(AFLoginPlugin)
+    ARK_DLL_PLUGIN_EXIT(AFLoginPlugin)
 
-void AFLoginPlugin::Install()
-{
-    RegisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
-    RegisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
-}
+    //////////////////////////////////////////////////////////////////////////
+    int AFLoginPlugin::GetPluginVersion()
+    {
+        return 0;
+    }
 
-void AFLoginPlugin::Uninstall()
-{
-    DeregisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
-    DeregisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
+    const std::string AFLoginPlugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(AFLoginPlugin);
+    }
+
+    void AFLoginPlugin::Install()
+    {
+        RegisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
+        RegisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
+    }
+
+    void AFLoginPlugin::Uninstall()
+    {
+        DeregisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
+        DeregisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
+    }
+
 }

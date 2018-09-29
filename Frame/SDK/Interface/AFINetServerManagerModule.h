@@ -23,9 +23,14 @@
 #include "SDK/Interface/AFIModule.h"
 #include "AFINetServerService.h"
 
-class AFINetServerManagerModule : public AFIModule
+namespace ark
 {
-public:
-    virtual int CreateServer() = 0;
-    virtual AFINetServerService* GetSelfNetServer() = 0;
-};
+
+    class AFINetServerManagerModule : public AFIModule
+    {
+    public:
+        virtual int CreateServer() = 0;
+        virtual AFINetServerService* GetSelfNetServer() = 0;
+    };
+
+}

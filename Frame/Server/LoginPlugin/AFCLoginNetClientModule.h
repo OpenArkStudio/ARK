@@ -30,34 +30,39 @@
 #include "Server/Interface/AFILoginNetServerModule.h"
 #include "Server/Interface/AFILoginNetClientModule.h"
 
-class AFCLoginNetClientModule : public AFILoginNetClientModule
+namespace ark
 {
-public:
-    explicit AFCLoginNetClientModule() = default;
 
-    bool Init() override;
-    bool PreUpdate() override;
+    class AFCLoginNetClientModule : public AFILoginNetClientModule
+    {
+    public:
+        explicit AFCLoginNetClientModule() = default;
 
-    AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap() override;
+        bool Init() override;
+        bool PreUpdate() override;
 
-protected:
-    int StartClient();
+        AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap() override;
 
-    void OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+    protected:
+        int StartClient();
 
-    //////////////////////////////////////////////////////////////////////////
-    void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
-    //////////////////////////////////////////////////////////////////////////
-    void Register(const int nServerID);
+        //////////////////////////////////////////////////////////////////////////
+        void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-private:
-    AFMapEx<int, AFMsg::ServerInfoReport> mWorldMap;
+        //////////////////////////////////////////////////////////////////////////
+        void Register(const int nServerID);
 
-    AFILogModule* m_pLogModule;
-    AFIBusModule* m_pBusModule;
-    AFIMsgModule* m_pMsgModule;
-    AFINetClientManagerModule* m_pNetClientManagerModule;
-    AFILoginNetServerModule* m_pLoginNetServerModule;
-};
+    private:
+        AFMapEx<int, AFMsg::ServerInfoReport> mWorldMap;
+
+        AFILogModule* m_pLogModule;
+        AFIBusModule* m_pBusModule;
+        AFIMsgModule* m_pMsgModule;
+        AFINetClientManagerModule* m_pNetClientManagerModule;
+        AFILoginNetServerModule* m_pLoginNetServerModule;
+    };
+
+}

@@ -20,14 +20,19 @@
 
 #include "AFCProtoModule.h"
 
-bool AFCProtoModule::PackPBMsg(const google::protobuf::Message* message, OUT std::string& msg)
+namespace ark
 {
-    ARK_ASSERT_RET_VAL(message != nullptr, false);
-    return message->SerializeToString(&msg);
-}
 
-bool AFCProtoModule::UnpackPBMsg(OUT google::protobuf::Message* message, const std::string& msg)
-{
-    ARK_ASSERT_RET_VAL(message != nullptr, false);
-    return message->ParseFromString(msg);
+    bool AFCProtoModule::PackPBMsg(const google::protobuf::Message* message, OUT std::string& msg)
+    {
+        ARK_ASSERT_RET_VAL(message != nullptr, false);
+        return message->SerializeToString(&msg);
+    }
+
+    bool AFCProtoModule::UnpackPBMsg(OUT google::protobuf::Message* message, const std::string& msg)
+    {
+        ARK_ASSERT_RET_VAL(message != nullptr, false);
+        return message->ParseFromString(msg);
+    }
+
 }

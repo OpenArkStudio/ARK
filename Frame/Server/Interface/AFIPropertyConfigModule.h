@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,10 +22,14 @@
 
 #include "SDK/Interface/AFIModule.h"
 
-class AFIPropertyConfigModule : public AFIModule
+namespace ark
 {
-public:
-    virtual int CalculateBaseValue(const int nJob,  const int nLevel, const std::string& strProperty) = 0;
-    virtual bool LegalLevel(const int nJob, const int nLevel) = 0;
-};
 
+    class AFIPropertyConfigModule : public AFIModule
+    {
+    public:
+        virtual int CalculateBaseValue(const int nJob, const int nLevel, const std::string& strProperty) = 0;
+        virtual bool LegalLevel(const int nJob, const int nLevel) = 0;
+    };
+
+}

@@ -25,53 +25,58 @@
 
 using  AFFeatureType = std::bitset<8>;
 
-enum ARK_ENTITY_EVENT
+namespace ark
 {
-    ENTITY_EVT_NONE                 = 0,
-    ENTITY_EVT_DESTROY,
-    ENTITY_EVT_PRE_DESTROY,
-    ENTITY_EVT_PRE_LOAD_DATA,
-    ENTITY_EVT_LOAD_DATA,
-    ENTITY_EVT_PRE_EFFECT_DATA,
-    ENTITY_EVT_EFFECT_DATA,
-    ENTITY_EVT_POST_EFFECT_DATA,
-    ENTITY_EVT_DATA_FINISHED,
-    ENTITY_EVT_ALL_FINISHED,        //Call it by yourself when create entity finished
-};
 
-class DATA_TABLE_EVENT_DATA
-{
-public:
-    DATA_TABLE_EVENT_DATA() :
-        nOpType(ENTITY_EVT_NONE),
-        nRow(-1),
-        nCol(-1),
-        strName(NULL_STR.c_str())
+    enum ARK_ENTITY_EVENT
     {
-    }
+        ENTITY_EVT_NONE = 0,
+        ENTITY_EVT_DESTROY,
+        ENTITY_EVT_PRE_DESTROY,
+        ENTITY_EVT_PRE_LOAD_DATA,
+        ENTITY_EVT_LOAD_DATA,
+        ENTITY_EVT_PRE_EFFECT_DATA,
+        ENTITY_EVT_EFFECT_DATA,
+        ENTITY_EVT_POST_EFFECT_DATA,
+        ENTITY_EVT_DATA_FINISHED,
+        ENTITY_EVT_ALL_FINISHED,        //Call it by yourself when create entity finished
+    };
 
-    uint8_t nOpType;
-    int16_t nRow;
-    int16_t nCol;
-    DataTableName strName;
-};
+    class DATA_TABLE_EVENT_DATA
+    {
+    public:
+        DATA_TABLE_EVENT_DATA() :
+            nOpType(ENTITY_EVT_NONE),
+            nRow(-1),
+            nCol(-1),
+            strName(NULL_STR.c_str())
+        {
+        }
 
-using HEART_BEAT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const int64_t, const int)>;
-using MODULE_HEART_BEAT_FUNCTOR = std::function<void()>;
-using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
-using DATA_TABLE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
-using LITLE_DATA_TABLE_EVENT_FUNCTOR = std::function<int(const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
-using CLASS_EVENT_FUNCTOR = std::function<bool(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&)>;
-using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const AFIDataList&)>;
-using TIMER_FUNCTOR = std::function<void(const std::string&, const AFGUID&)>;
-using SCHEDULER_FUNCTOR = std::function<bool(const int, const int)>;
+        uint8_t nOpType;
+        int16_t nRow;
+        int16_t nCol;
+        DataTableName strName;
+    };
 
-using HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<HEART_BEAT_FUNCTOR>;
-using MODULE_HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR>;
-using DATA_NODE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<DATA_NODE_EVENT_FUNCTOR>;
-using DATA_TABLE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<DATA_TABLE_EVENT_FUNCTOR>;
-using LITLE_DATA_TABLE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<LITLE_DATA_TABLE_EVENT_FUNCTOR>;
-using CLASS_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<CLASS_EVENT_FUNCTOR>;
-using EVENT_PROCESS_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_PROCESS_FUNCTOR>;
-using TIMER_FUNCTOR_PTR = ARK_SHARE_PTR<TIMER_FUNCTOR>;
-using SCHEDULER_FUNCTOR_PTR = ARK_SHARE_PTR<SCHEDULER_FUNCTOR>;
+    using HEART_BEAT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const int64_t, const int)>;
+    using MODULE_HEART_BEAT_FUNCTOR = std::function<void()>;
+    using DATA_NODE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const std::string&, const AFIData&, const AFIData&)>;
+    using DATA_TABLE_EVENT_FUNCTOR = std::function<int(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
+    using LITLE_DATA_TABLE_EVENT_FUNCTOR = std::function<int(const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&)>;
+    using CLASS_EVENT_FUNCTOR = std::function<bool(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&)>;
+    using EVENT_PROCESS_FUNCTOR = std::function<int(const AFGUID&, const int, const AFIDataList&)>;
+    using TIMER_FUNCTOR = std::function<void(const std::string&, const AFGUID&)>;
+    using SCHEDULER_FUNCTOR = std::function<bool(const int, const int)>;
+
+    using HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<HEART_BEAT_FUNCTOR>;
+    using MODULE_HEART_BEAT_FUNCTOR_PTR = ARK_SHARE_PTR<MODULE_HEART_BEAT_FUNCTOR>;
+    using DATA_NODE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<DATA_NODE_EVENT_FUNCTOR>;
+    using DATA_TABLE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<DATA_TABLE_EVENT_FUNCTOR>;
+    using LITLE_DATA_TABLE_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<LITLE_DATA_TABLE_EVENT_FUNCTOR>;
+    using CLASS_EVENT_FUNCTOR_PTR = ARK_SHARE_PTR<CLASS_EVENT_FUNCTOR>;
+    using EVENT_PROCESS_FUNCTOR_PTR = ARK_SHARE_PTR<EVENT_PROCESS_FUNCTOR>;
+    using TIMER_FUNCTOR_PTR = ARK_SHARE_PTR<TIMER_FUNCTOR>;
+    using SCHEDULER_FUNCTOR_PTR = ARK_SHARE_PTR<SCHEDULER_FUNCTOR>;
+
+}

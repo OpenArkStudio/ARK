@@ -126,6 +126,7 @@
     <ClInclude Include="AFDataTable.h" />
     <ClInclude Include="AFDateTime.hpp" />
     <ClInclude Include="AFDefine.hpp" />
+    <ClInclude Include="AFError.hpp" />
     <ClInclude Include="AFGUID.hpp" />
     <ClInclude Include="AFHashmap.hpp" />
     <ClInclude Include="AFIComponent.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="AFRandom.hpp" />
     <ClInclude Include="AFRWLock.hpp" />
     <ClInclude Include="AFSingleton.hpp" />
+    <ClInclude Include="AFSocketFunc.hpp" />
     <ClInclude Include="AFSpinLock.hpp" />
     <ClInclude Include="AFString.hpp" />
     <ClInclude Include="AFStringPod.hpp" />
@@ -161,6 +163,8 @@
     <ClCompile Include="AFCEventManager.cpp" />
     <ClCompile Include="AFCHeartBeatManager.cpp" />
     <ClCompile Include="AFDataTable.cpp" />
+    <ClCompile Include="AFError.cpp" />
+    <ClCompile Include="AFSocketFunc.cpp" />
     <ClCompile Include="Common\cronexpr.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

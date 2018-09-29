@@ -22,11 +22,16 @@
 
 #include "SDK/Interface/AFIProtoModule.h"
 
-class AFCProtoModule final : public AFIProtoModule
+namespace ark
 {
-public:
-    explicit AFCProtoModule() = default;
 
-    bool PackPBMsg(const google::protobuf::Message* message, OUT std::string& msg) override;
-    bool UnpackPBMsg(OUT google::protobuf::Message* message, const std::string& msg) override;
-};
+    class AFCProtoModule final : public AFIProtoModule
+    {
+    public:
+        explicit AFCProtoModule() = default;
+
+        bool PackPBMsg(const google::protobuf::Message* message, OUT std::string& msg) override;
+        bool UnpackPBMsg(OUT google::protobuf::Message* message, const std::string& msg) override;
+    };
+
+}

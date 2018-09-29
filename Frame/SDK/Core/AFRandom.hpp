@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,126 +22,131 @@
 
 #include "AFPlatform.hpp"
 
-class AFRandom
+namespace ark
 {
-public:
-    AFRandom() : _seed(0), _get_count(0)
+
+    class AFRandom
     {
-    }
-
-    ~AFRandom() {}
-
-    //--------------------------------------------------------------------
-    // ÉèÖÃËæ»úÊıÖÖ×Ó
-    void SetSeed(uint32_t seed)
-    {
-        _seed = seed;
-        _get_count = 0;
-    }
-
-    uint32_t GetSeed()
-    {
-        return _seed;
-    }
-
-    //--------------------------------------------------------------------
-    // Éú³ÉÒ»¸öËæ»úÊı
-    inline uint32_t Random()
-    {
-        unsigned int next = _seed;
-        unsigned int result = 0;
-
-        next *= 1103515245;
-        next += 12345;
-        result = (unsigned int)(next >> 16) % 2048;
-
-        next *= 1103515245;
-        next += 12345;
-        result <<= 10;
-        result ^= (unsigned int)(next >> 16) % 1024;
-
-        next *= 1103515245;
-        next += 12345;
-        result <<= 10;
-        result ^= (unsigned int)(next >> 16) % 1024;
-
-        _seed = next;
-
-        _get_count++;
-
-        //reset
-        if (_get_count >= (std::numeric_limits<int>::max() - 1))
+    public:
+        AFRandom() : _seed(0), _get_count(0)
         {
+        }
+
+        ~AFRandom() {}
+
+        //--------------------------------------------------------------------
+        // è®¾ç½®éšæœºæ•°ç§å­
+        void SetSeed(uint32_t seed)
+        {
+            _seed = seed;
             _get_count = 0;
         }
 
-        return result;
-    }
-
-    //--------------------------------------------------------------------
-    //Éú³ÉÒ»¸ö[0, max_range - 1]Ö®¼äµÄËæ»úÊı
-    uint32_t Random(uint32_t max_range)
-    {
-        if (max_range == 0)
+        uint32_t GetSeed()
         {
-            return 0;
+            return _seed;
         }
 
-        return Random() % max_range;
-    }
-
-    //Éú³ÉÒ»¸ö[min_range, max_range - 1]Ö®¼äµÄËæ»úÊı
-    unsigned int Random(uint32_t min_range, uint32_t max_range)
-    {
-        uint32_t min = 0;
-        uint32_t max = 0;
-
-        if (min_range <= max_range)
+        //--------------------------------------------------------------------
+        // ç”Ÿæˆä¸€ä¸ªéšæœºæ•°
+        inline uint32_t Random()
         {
-            min = min_range;
-            max = max_range;
-        }
-        else
-        {
-            min = max_range;
-            max = min_range;
-        }
+            unsigned int next = _seed;
+            unsigned int result = 0;
 
-        if (min == max)
-        {
-            return max;
-        }
+            next *= 1103515245;
+            next += 12345;
+            result = (unsigned int)(next >> 16) % 2048;
 
-        return Random(max - min) + min;
-    }
+            next *= 1103515245;
+            next += 12345;
+            result <<= 10;
+            result ^= (unsigned int)(next >> 16) % 1024;
 
-    // Éú³ÉÒ»¸ö[min_range, max_range - 1]Ö®¼äµÄËæ»úÊı
-    int Random(int min_range, int max_range)
-    {
-        if (min_range == max_range)
-        {
-            return min_range;
-        }
-        else if (min_range > max_range)
-        {
-            std::swap(min_range, max_range);
-            //int iMinSwap = min_range;
-            //min_range = max_range;
-            //max_range = iMinSwap;
+            next *= 1103515245;
+            next += 12345;
+            result <<= 10;
+            result ^= (unsigned int)(next >> 16) % 1024;
+
+            _seed = next;
+
+            _get_count++;
+
+            //reset
+            if (_get_count >= (std::numeric_limits<int>::max() - 1))
+            {
+                _get_count = 0;
+            }
+
+            return result;
         }
 
-        int range = max_range - min_range;
-        int rand_result = Random((uint32_t)range);
+        //--------------------------------------------------------------------
+        //ç”Ÿæˆä¸€ä¸ª[0, max_range - 1]ä¹‹é—´çš„éšæœºæ•°
+        uint32_t Random(uint32_t max_range)
+        {
+            if (max_range == 0)
+            {
+                return 0;
+            }
 
-        return rand_result + min_range;
-    }
+            return Random() % max_range;
+        }
 
-    int GetRandomCount()
-    {
-        return _get_count;
-    }
+        //ç”Ÿæˆä¸€ä¸ª[min_range, max_range - 1]ä¹‹é—´çš„éšæœºæ•°
+        unsigned int Random(uint32_t min_range, uint32_t max_range)
+        {
+            uint32_t min = 0;
+            uint32_t max = 0;
 
-private:
-    uint32_t _seed;
-    int _get_count;
-};
+            if (min_range <= max_range)
+            {
+                min = min_range;
+                max = max_range;
+            }
+            else
+            {
+                min = max_range;
+                max = min_range;
+            }
+
+            if (min == max)
+            {
+                return max;
+            }
+
+            return Random(max - min) + min;
+        }
+
+        // ç”Ÿæˆä¸€ä¸ª[min_range, max_range - 1]ä¹‹é—´çš„éšæœºæ•°
+        int Random(int min_range, int max_range)
+        {
+            if (min_range == max_range)
+            {
+                return min_range;
+            }
+            else if (min_range > max_range)
+            {
+                std::swap(min_range, max_range);
+                //int iMinSwap = min_range;
+                //min_range = max_range;
+                //max_range = iMinSwap;
+            }
+
+            int range = max_range - min_range;
+            int rand_result = Random((uint32_t)range);
+
+            return rand_result + min_range;
+        }
+
+        int GetRandomCount()
+        {
+            return _get_count;
+        }
+
+    private:
+        uint32_t _seed;
+        int _get_count;
+    };
+
+}

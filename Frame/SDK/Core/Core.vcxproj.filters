@@ -147,6 +147,12 @@
     <ClInclude Include="AFVector3.hpp">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="AFSocketFunc.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFError.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\cronexpr.cpp">
@@ -168,6 +174,12 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFDataTable.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFSocketFunc.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="AFError.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>

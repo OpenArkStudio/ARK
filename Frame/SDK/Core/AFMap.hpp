@@ -22,218 +22,223 @@
 
 #include "SDK/Core/AFMacros.hpp"
 
-template <typename TD, bool NEEDSMART>
-struct MapSmartPtrType
+namespace ark
 {
-    typedef TD* VALUE;
-};
 
-template <typename TD>
-struct MapSmartPtrType<TD, true>
-{
-    typedef ARK_SHARE_PTR<TD> VALUE;
-};
-
-template <typename TD>
-struct MapSmartPtrType<TD, false>
-{
-    typedef TD* VALUE;
-};
-
-template <typename T, typename TD, bool NEEDSMART>
-class AFMapBase
-{
-public:
-    typedef typename MapSmartPtrType<TD, NEEDSMART>::VALUE PTRTYPE;
-    typedef std::map<T, PTRTYPE > MAP_DATA;
-    AFMapBase()
+    template <typename TD, bool NEEDSMART>
+    struct MapSmartPtrType
     {
-        mNullPtr = nullptr;
-    }
+        typedef TD* VALUE;
+    };
 
-    virtual ~AFMapBase() = default;
-
-    virtual bool AddElement(const T& name, const PTRTYPE data)
+    template <typename TD>
+    struct MapSmartPtrType<TD, true>
     {
-        typename MAP_DATA::iterator iter = mxObjectList.find(name);
+        typedef ARK_SHARE_PTR<TD> VALUE;
+    };
 
-        if (iter == mxObjectList.end())
+    template <typename TD>
+    struct MapSmartPtrType<TD, false>
+    {
+        typedef TD* VALUE;
+    };
+
+    template <typename T, typename TD, bool NEEDSMART>
+    class AFMapBase
+    {
+    public:
+        typedef typename MapSmartPtrType<TD, NEEDSMART>::VALUE PTRTYPE;
+        typedef std::map<T, PTRTYPE > MAP_DATA;
+        AFMapBase()
         {
-            mxObjectList.insert(typename MAP_DATA::value_type(name, data));
+            mNullPtr = nullptr;
+        }
+
+        virtual ~AFMapBase() = default;
+
+        virtual bool AddElement(const T& name, const PTRTYPE data)
+        {
+            typename MAP_DATA::iterator iter = mxObjectList.find(name);
+
+            if (iter == mxObjectList.end())
+            {
+                mxObjectList.insert(typename MAP_DATA::value_type(name, data));
+                return true;
+            }
+
+            return false;
+        }
+
+        virtual bool SetElement(const T& name, const PTRTYPE data)
+        {
+            mxObjectList[name] = data;
             return true;
         }
 
-        return false;
-    }
-
-    virtual bool SetElement(const T& name, const PTRTYPE data)
-    {
-        mxObjectList[name] = data;
-        return true;
-    }
-
-    virtual bool RemoveElement(const T& name)
-    {
-        typename MAP_DATA::iterator iter = mxObjectList.find(name);
-
-        if (iter != mxObjectList.end())
+        virtual bool RemoveElement(const T& name)
         {
-            mxObjectList.erase(iter);
+            typename MAP_DATA::iterator iter = mxObjectList.find(name);
 
-            return true;
+            if (iter != mxObjectList.end())
+            {
+                mxObjectList.erase(iter);
+
+                return true;
+            }
+
+            return false;
         }
 
-        return false;
-    }
-
-    virtual const PTRTYPE& GetElement(const T& name)
-    {
-        typename MAP_DATA::iterator iter = mxObjectList.find(name);
-
-        if (iter != mxObjectList.end())
+        virtual const PTRTYPE& GetElement(const T& name)
         {
-            return iter->second;
-        }
-        else
-        {
-            return mNullPtr;
-        }
-    }
+            typename MAP_DATA::iterator iter = mxObjectList.find(name);
 
-    virtual const PTRTYPE& First()
-    {
-        if (mxObjectList.size() <= 0)
-        {
-            return mNullPtr;
+            if (iter != mxObjectList.end())
+            {
+                return iter->second;
+            }
+            else
+            {
+                return mNullPtr;
+            }
         }
 
-        mxObjectCurIter = mxObjectList.begin();
+        virtual const PTRTYPE& First()
+        {
+            if (mxObjectList.size() <= 0)
+            {
+                return mNullPtr;
+            }
 
-        if (mxObjectCurIter != mxObjectList.end())
-        {
-            return mxObjectCurIter->second;
-        }
-        else
-        {
-            return mNullPtr;
-        }
-    }
+            mxObjectCurIter = mxObjectList.begin();
 
-    virtual const PTRTYPE&  Next()
-    {
-        if (mxObjectCurIter == mxObjectList.end())
-        {
-            return mNullPtr;
-        }
-
-        ++mxObjectCurIter;
-
-        if (mxObjectCurIter != mxObjectList.end())
-        {
-            return mxObjectCurIter->second;
-        }
-        else
-        {
-            return mNullPtr;
-        }
-    }
-
-    virtual const PTRTYPE& First(T& name)
-    {
-        if (mxObjectList.size() <= 0)
-        {
-            return mNullPtr;
+            if (mxObjectCurIter != mxObjectList.end())
+            {
+                return mxObjectCurIter->second;
+            }
+            else
+            {
+                return mNullPtr;
+            }
         }
 
-        mxObjectCurIter = mxObjectList.begin();
-
-        if (mxObjectCurIter != mxObjectList.end())
+        virtual const PTRTYPE&  Next()
         {
-            name = mxObjectCurIter->first;
-            return mxObjectCurIter->second;
-        }
-        else
-        {
-            return mNullPtr;
-        }
-    }
-    virtual const PTRTYPE& Next(T& name)
-    {
-        if (mxObjectCurIter == mxObjectList.end())
-        {
-            return mNullPtr;
-        }
+            if (mxObjectCurIter == mxObjectList.end())
+            {
+                return mNullPtr;
+            }
 
-        mxObjectCurIter++;
-
-        if (mxObjectCurIter != mxObjectList.end())
-        {
-            name = mxObjectCurIter->first;
-            return mxObjectCurIter->second;
-        }
-        else
-        {
-            return mNullPtr;
-        }
-    }
-
-    int GetCount()
-    {
-        return (int)mxObjectList.size();
-    }
-
-    bool ClearAll()
-    {
-        mxObjectList.clear();
-        return true;
-    }
-
-    bool Begin()
-    {
-        mxObjectCurIter = mxObjectList.begin();
-
-        return mxObjectCurIter != mxObjectList.end();
-    }
-
-    bool Increase()
-    {
-        if (mxObjectCurIter != mxObjectList.end())
-        {
             ++mxObjectCurIter;
 
             if (mxObjectCurIter != mxObjectList.end())
             {
-                return true;
+                return mxObjectCurIter->second;
+            }
+            else
+            {
+                return mNullPtr;
             }
         }
 
-        return false;
-    }
+        virtual const PTRTYPE& First(T& name)
+        {
+            if (mxObjectList.size() <= 0)
+            {
+                return mNullPtr;
+            }
 
-    PTRTYPE& GetCurrentData()
+            mxObjectCurIter = mxObjectList.begin();
+
+            if (mxObjectCurIter != mxObjectList.end())
+            {
+                name = mxObjectCurIter->first;
+                return mxObjectCurIter->second;
+            }
+            else
+            {
+                return mNullPtr;
+            }
+        }
+        virtual const PTRTYPE& Next(T& name)
+        {
+            if (mxObjectCurIter == mxObjectList.end())
+            {
+                return mNullPtr;
+            }
+
+            mxObjectCurIter++;
+
+            if (mxObjectCurIter != mxObjectList.end())
+            {
+                name = mxObjectCurIter->first;
+                return mxObjectCurIter->second;
+            }
+            else
+            {
+                return mNullPtr;
+            }
+        }
+
+        int GetCount()
+        {
+            return (int)mxObjectList.size();
+        }
+
+        bool ClearAll()
+        {
+            mxObjectList.clear();
+            return true;
+        }
+
+        bool Begin()
+        {
+            mxObjectCurIter = mxObjectList.begin();
+
+            return mxObjectCurIter != mxObjectList.end();
+        }
+
+        bool Increase()
+        {
+            if (mxObjectCurIter != mxObjectList.end())
+            {
+                ++mxObjectCurIter;
+
+                if (mxObjectCurIter != mxObjectList.end())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        PTRTYPE& GetCurrentData()
+        {
+            if (mxObjectCurIter != mxObjectList.end())
+            {
+                return mxObjectCurIter->second;
+            }
+            else
+            {
+                return mNullPtr;
+            }
+        }
+
+    private:
+        MAP_DATA mxObjectList;
+        typename MAP_DATA::iterator mxObjectCurIter;
+        PTRTYPE mNullPtr;
+    };
+
+    template <typename T, typename TD>
+    class AFMapEx : public AFMapBase<T, TD, true>
     {
-        if (mxObjectCurIter != mxObjectList.end())
-        {
-            return mxObjectCurIter->second;
-        }
-        else
-        {
-            return mNullPtr;
-        }
-    }
+    };
 
-private:
-    MAP_DATA mxObjectList;
-    typename MAP_DATA::iterator mxObjectCurIter;
-    PTRTYPE mNullPtr;
-};
+    template <typename T, typename TD>
+    class AFMap : public AFMapBase<T, TD, false>
+    {
+    };
 
-template <typename T, typename TD>
-class AFMapEx: public AFMapBase<T, TD, true>
-{
-};
-
-template <typename T, typename TD>
-class AFMap: public AFMapBase<T, TD, false>
-{
-};
+}

@@ -24,8 +24,13 @@
 #include "SDK/Core/AFGUID.hpp"
 #include "SDK/Interface/AFISceneModule.h"
 
-class AFCSceneModule : public AFISceneModule
+namespace ark
 {
-public:
-    explicit AFCSceneModule() = default;
-};
+
+    class AFCSceneModule : public AFISceneModule
+    {
+    public:
+        explicit AFCSceneModule() = default;
+    };
+
+}

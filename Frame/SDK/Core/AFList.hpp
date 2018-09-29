@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,122 +22,127 @@
 
 #include "SDK/Core/AFPlatform.hpp"
 
-template <typename T>
-class AFList
+namespace ark
 {
-public:
-    virtual ~AFList() = default;
-    bool Add(const T& id);
-    bool Find(const T& id);
-    bool Remove(const T& id);
-    bool ClearAll();
 
-    bool First(T& id);
-    bool Next(T& id);
-    bool Get(const int32_t index, T& id);
-    int Count();
-
-private:
-    using TList = std::list<T>;
-    TList mtObjConfigList;
-    typename std::list<T>::iterator mCurIter;
-};
-
-template<typename T>
-bool AFList<T>::Add(const T& id)
-{
-    mtObjConfigList.push_back(id);
-    return true;
-}
-
-template<typename T>
-bool AFList<T>::Remove(const T& id)
-{
-    if (Find(id))
+    template <typename T>
+    class AFList
     {
-        mtObjConfigList.remove(id);
+    public:
+        virtual ~AFList() = default;
+        bool Add(const T& id);
+        bool Find(const T& id);
+        bool Remove(const T& id);
+        bool ClearAll();
+
+        bool First(T& id);
+        bool Next(T& id);
+        bool Get(const int32_t index, T& id);
+        int Count();
+
+    private:
+        using TList = std::list<T>;
+        TList mtObjConfigList;
+        typename std::list<T>::iterator mCurIter;
+    };
+
+    template<typename T>
+    bool AFList<T>::Add(const T& id)
+    {
+        mtObjConfigList.push_back(id);
         return true;
     }
 
-    return false;
-}
-
-template < typename T >
-bool AFList<T>::ClearAll()
-{
-    mtObjConfigList.clear();
-    return true;
-}
-
-template < typename T >
-bool AFList<T>::First(T& id)
-{
-    if (mtObjConfigList.size() <= 0)
+    template<typename T>
+    bool AFList<T>::Remove(const T& id)
     {
+        if (Find(id))
+        {
+            mtObjConfigList.remove(id);
+            return true;
+        }
+
         return false;
     }
 
-    mCurIter = mtObjConfigList.begin();
-
-    if (mCurIter != mtObjConfigList.end())
+    template < typename T >
+    bool AFList<T>::ClearAll()
     {
-        id = *mCurIter;
+        mtObjConfigList.clear();
         return true;
     }
 
-    return false;
-}
-
-template < typename T >
-bool AFList<T>::Next(T& id)
-{
-    if (mCurIter == mtObjConfigList.end())
+    template < typename T >
+    bool AFList<T>::First(T& id)
     {
+        if (mtObjConfigList.size() <= 0)
+        {
+            return false;
+        }
+
+        mCurIter = mtObjConfigList.begin();
+
+        if (mCurIter != mtObjConfigList.end())
+        {
+            id = *mCurIter;
+            return true;
+        }
+
         return false;
     }
 
-    ++mCurIter;
-
-    if (mCurIter != mtObjConfigList.end())
+    template < typename T >
+    bool AFList<T>::Next(T& id)
     {
-        id = *mCurIter;
-        return true;
-    }
+        if (mCurIter == mtObjConfigList.end())
+        {
+            return false;
+        }
 
-    return false;
-}
+        ++mCurIter;
 
-template < typename T >
-bool AFList<T>::Find(const T& id)
-{
-    auto it = std::find(mtObjConfigList.begin(), mtObjConfigList.end(), id);
+        if (mCurIter != mtObjConfigList.end())
+        {
+            id = *mCurIter;
+            return true;
+        }
 
-    if (it != mtObjConfigList.end())
-    {
-        return true;
-    }
-
-    return false;
-}
-
-template < typename T >
-bool AFList<T>::Get(const int32_t index, T& id)
-{
-    if (index >= mtObjConfigList.size())
-    {
         return false;
     }
 
-    auto it = this->mtObjConfigList.begin();
-    std::advance(it, index);
+    template < typename T >
+    bool AFList<T>::Find(const T& id)
+    {
+        auto it = std::find(mtObjConfigList.begin(), mtObjConfigList.end(), id);
 
-    id = *it;
+        if (it != mtObjConfigList.end())
+        {
+            return true;
+        }
 
-    return true;
-}
+        return false;
+    }
 
-template < typename T >
-int AFList<T>::Count()
-{
-    return (int)(mtObjConfigList.size());
+    template < typename T >
+    bool AFList<T>::Get(const int32_t index, T& id)
+    {
+        if (index >= mtObjConfigList.size())
+        {
+            return false;
+        }
+
+        auto it = this->mtObjConfigList.begin();
+        std::advance(it, index);
+
+        id = *it;
+
+        return true;
+    }
+
+    template < typename T >
+    int AFList<T>::Count()
+    {
+        return (int)(mtObjConfigList.size());
+    }
+
 }

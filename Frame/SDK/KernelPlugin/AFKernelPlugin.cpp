@@ -24,33 +24,38 @@
 #include "AFCConfigModule.h"
 #include "AFCSceneModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFKernelPlugin)
-ARK_DLL_PLUGIN_EXIT(AFKernelPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-
-int AFKernelPlugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
 
-const std::string AFKernelPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFKernelPlugin);
-}
+    ARK_DLL_PLUGIN_ENTRY(AFKernelPlugin)
+    ARK_DLL_PLUGIN_EXIT(AFKernelPlugin)
 
-void AFKernelPlugin::Install()
-{
-    RegisterModule< AFIClassModule, AFCClassModule>();
-    RegisterModule< AFIConfigModule, AFCConfigModule>();
-    RegisterModule< AFIKernelModule, AFCKernelModule>();
-    RegisterModule< AFISceneModule, AFCSceneModule>();
-}
+    //////////////////////////////////////////////////////////////////////////
 
-void AFKernelPlugin::Uninstall()
-{
-    DeregisterModule<AFISceneModule, AFCSceneModule>();
-    DeregisterModule<AFIKernelModule, AFCKernelModule>();
-    DeregisterModule<AFIConfigModule, AFCConfigModule>();
-    DeregisterModule<AFIClassModule, AFCClassModule>();
+    int AFKernelPlugin::GetPluginVersion()
+    {
+        return 0;
+    }
+
+    const std::string AFKernelPlugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(AFKernelPlugin);
+    }
+
+    void AFKernelPlugin::Install()
+    {
+        RegisterModule< AFIClassModule, AFCClassModule>();
+        RegisterModule< AFIConfigModule, AFCConfigModule>();
+        RegisterModule< AFIKernelModule, AFCKernelModule>();
+        RegisterModule< AFISceneModule, AFCSceneModule>();
+    }
+
+    void AFKernelPlugin::Uninstall()
+    {
+        DeregisterModule<AFISceneModule, AFCSceneModule>();
+        DeregisterModule<AFIKernelModule, AFCKernelModule>();
+        DeregisterModule<AFIConfigModule, AFCConfigModule>();
+        DeregisterModule<AFIClassModule, AFCClassModule>();
+    }
+
 }

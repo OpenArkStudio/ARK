@@ -24,31 +24,36 @@
 #include "SDK/Core/AFCDataList.hpp"
 #include "AFIEventManager.h"
 
-class AFCEventManager : public AFIEventManager
+namespace ark
 {
-public:
-    AFCEventManager() = delete;
 
-    explicit AFCEventManager(AFGUID self);
-    virtual ~AFCEventManager();
+    class AFCEventManager : public AFIEventManager
+    {
+    public:
+        AFCEventManager() = delete;
 
-    virtual bool Init();
-    virtual bool Shut();
+        explicit AFCEventManager(AFGUID self);
+        virtual ~AFCEventManager();
 
-    virtual void Update();
+        virtual bool Init();
+        virtual bool Shut();
 
-    virtual bool RemoveEventCallBack(const int nEventID);
+        virtual void Update();
 
-    virtual bool DoEvent(const int nEventID, const AFIDataList& valueList);
+        virtual bool RemoveEventCallBack(const int nEventID);
 
-    virtual bool AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb);
+        virtual bool DoEvent(const int nEventID, const AFIDataList& valueList);
 
-protected:
-    virtual bool HasEventCallBack(const int nEventID);
+        virtual bool AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb);
 
-private:
-    AFGUID mSelf;
+    protected:
+        virtual bool HasEventCallBack(const int nEventID);
 
-    AFList<int> mRemoveEventListEx;
-    AFMapEx<int, AFList<EVENT_PROCESS_FUNCTOR_PTR>> mObjectEventInfoMapEx;
-};
+    private:
+        AFGUID mSelf;
+
+        AFList<int> mRemoveEventListEx;
+        AFMapEx<int, AFList<EVENT_PROCESS_FUNCTOR_PTR>> mObjectEventInfoMapEx;
+    };
+
+}

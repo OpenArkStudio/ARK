@@ -26,373 +26,378 @@
 #include "AFCClassModule.h"
 #include "SDK/Core/AFDataNode.hpp"
 
-bool AFCConfigModule::Init()
+namespace ark
 {
-    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
 
-    return Load();
-}
-
-bool AFCConfigModule::Shut()
-{
-    return Clear();
-}
-
-bool AFCConfigModule::Load()
-{
-    if (mbLoaded)
+    bool AFCConfigModule::Init()
     {
-        return false;
+        m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+
+        return Load();
     }
 
-    for (ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->First();  nullptr != pLogicClass; pLogicClass = m_pClassModule->Next())
+    bool AFCConfigModule::Shut()
     {
-        const std::string& strInstancePath = pLogicClass->GetResPath();
+        return Clear();
+    }
 
-        if (strInstancePath.empty())
+    bool AFCConfigModule::Load()
+    {
+        if (mbLoaded)
         {
-            continue;
+            return false;
         }
 
-        //////////////////////////////////////////////////////////////////////////
-        rapidxml::xml_document<> xDoc;
-        std::string strFile = pPluginManager->GetResPath() + strInstancePath;
-        rapidxml::file<> fdoc(strFile.c_str());
-        xDoc.parse<0>(fdoc.data());
-        //////////////////////////////////////////////////////////////////////////
-        //support for unlimited layer class inherits
-        rapidxml::xml_node<>* root = xDoc.first_node();
-
-        for (rapidxml::xml_node<>* attrNode = root->first_node(); attrNode != nullptr; attrNode = attrNode->next_sibling())
+        for (ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->First(); nullptr != pLogicClass; pLogicClass = m_pClassModule->Next())
         {
-            if (!Load(attrNode, pLogicClass))
-            {
-                return false;
-            }
-        }
+            const std::string& strInstancePath = pLogicClass->GetResPath();
 
-        mbLoaded = true;
-    }
-
-    return true;
-}
-
-bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pLogicClass)
-{
-    //attrNode is the node of a object
-    std::string strConfigID = attrNode->first_attribute("Id")->value();
-
-    if (strConfigID.empty())
-    {
-        ARK_ASSERT(0, strConfigID, __FILE__, __FUNCTION__);
-        return false;
-    }
-
-    if (ExistConfig(strConfigID))
-    {
-        ARK_ASSERT(0, strConfigID, __FILE__, __FUNCTION__);
-        return false;
-    }
-
-    ElementConfigInfo* pElementInfo = ARK_NEW(ElementConfigInfo);
-    mxElementConfigMap.AddElement(strConfigID, pElementInfo);
-
-    //can find all config id by class name
-    pLogicClass->AddConfigName(strConfigID);
-
-    ARK_SHARE_PTR<AFIDataNodeManager> pElementNodeManager = pElementInfo->GetNodeManager();
-    ARK_SHARE_PTR<AFIDataTableManager> pElementTableManager = pElementInfo->GetTableManager();
-
-    //1.add DataNode
-    //2.set the default value of them
-    ARK_SHARE_PTR<AFIDataNodeManager> pClassNodeManager = pLogicClass->GetNodeManager();
-    ARK_SHARE_PTR<AFIDataTableManager> pClassTableManager = pLogicClass->GetTableManager();
-
-    if (pClassNodeManager != nullptr && pClassTableManager != nullptr)
-    {
-        auto pBaseClass = m_pClassModule->GetElement("IObject");
-        if (nullptr != pBaseClass)
-        {
-            ARK_SHARE_PTR<AFIDataNodeManager> pBaseClassNodeManager = pBaseClass->GetNodeManager();
-            if (nullptr != pBaseClassNodeManager)
-            {
-                for (int i = 0; i < pBaseClassNodeManager->GetNodeCount(); i++)
-                {
-                    AFDataNode* pBaseClassNode = pBaseClassNodeManager->GetNodeByIndex(i);
-                    pElementNodeManager->AddNode(pBaseClassNode->name.c_str(), pBaseClassNode->value, pBaseClassNode->feature);
-                }
-            }
-        }
-
-        //////////////////////////////////////////////////////////////////////////
-        size_t tableCount = pClassTableManager->GetCount();
-
-        for (size_t i = 0; i < tableCount; ++i)
-        {
-            AFDataTable* pTable = pClassTableManager->GetTableByIndex(i);
-
-            if (pTable != nullptr)
+            if (strInstancePath.empty())
             {
                 continue;
             }
 
-            AFCDataList col_type_list;
-            pTable->GetColTypeList(col_type_list);
-            pElementTableManager->AddTable(NULL_GUID, pTable->GetName(), col_type_list, pTable->GetFeature());
+            //////////////////////////////////////////////////////////////////////////
+            rapidxml::xml_document<> xDoc;
+            std::string strFile = pPluginManager->GetResPath() + strInstancePath;
+            rapidxml::file<> fdoc(strFile.c_str());
+            xDoc.parse<0>(fdoc.data());
+            //////////////////////////////////////////////////////////////////////////
+            //support for unlimited layer class inherits
+            rapidxml::xml_node<>* root = xDoc.first_node();
+
+            for (rapidxml::xml_node<>* attrNode = root->first_node(); attrNode != nullptr; attrNode = attrNode->next_sibling())
+            {
+                if (!Load(attrNode, pLogicClass))
+                {
+                    return false;
+                }
+            }
+
+            mbLoaded = true;
         }
+
+        return true;
     }
 
-    //3.set the config value to them
-    for (rapidxml::xml_attribute<>* pAttribute = attrNode->first_attribute(); pAttribute; pAttribute = pAttribute->next_attribute())
+    bool AFCConfigModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pLogicClass)
     {
-        const char* pstrConfigName = pAttribute->name();
-        const char* pstrConfigValue = pAttribute->value();
+        //attrNode is the node of a object
+        std::string strConfigID = attrNode->first_attribute("Id")->value();
 
-        AFDataNode* pNode = pClassNodeManager->GetNode(pstrConfigName);
-        if (pNode == nullptr)
+        if (strConfigID.empty())
         {
-            continue;
+            ARK_ASSERT(0, strConfigID, __FILE__, __FUNCTION__);
+            return false;
         }
 
-        //don't need to add node if it's null data
-        AFDataNode TmpNode;
-        TmpNode.name = pNode->name;
-        TmpNode.feature = pNode->feature;
-        switch (pNode->GetType())
+        if (ExistConfig(strConfigID))
         {
-        case DT_BOOLEAN:
-            TmpNode.value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
-            break;
-
-        case DT_INT:
-            {
-                if (!AFMisc::IsDigit(pstrConfigValue))
-                {
-                    ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
-                }
-
-                TmpNode.value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
-            }
-            break;
-
-        case DT_INT64:
-            {
-                if (!AFMisc::IsDigit(pstrConfigValue))
-                {
-                    ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
-                }
-
-                TmpNode.value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
-            }
-            break;
-
-        case DT_FLOAT:
-            {
-                if (strlen(pstrConfigValue) <= 0)
-                {
-                    ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
-                }
-
-                TmpNode.value.SetFloat(ARK_LEXICAL_CAST<float>(pstrConfigValue));
-            }
-            break;
-
-        case DT_DOUBLE:
-            {
-                if (strlen(pstrConfigValue) <= 0)
-                {
-                    ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
-                }
-
-                TmpNode.value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
-            }
-            break;
-
-        case DT_STRING:
-            TmpNode.value.SetString(pstrConfigValue);
-            break;
-
-        case DT_OBJECT:
-            {
-                if (strlen(pstrConfigValue) <= 0)
-                {
-                    ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
-                }
-
-                TmpNode.value.SetObject(NULL_GUID);
-            }
-            break;
-
-        default:
-            ARK_ASSERT_NO_EFFECT(0);
-            break;
+            ARK_ASSERT(0, strConfigID, __FILE__, __FUNCTION__);
+            return false;
         }
 
-        if (!TmpNode.GetValue().IsNullValue())
+        ElementConfigInfo* pElementInfo = ARK_NEW(ElementConfigInfo);
+        mxElementConfigMap.AddElement(strConfigID, pElementInfo);
+
+        //can find all config id by class name
+        pLogicClass->AddConfigName(strConfigID);
+
+        ARK_SHARE_PTR<AFIDataNodeManager> pElementNodeManager = pElementInfo->GetNodeManager();
+        ARK_SHARE_PTR<AFIDataTableManager> pElementTableManager = pElementInfo->GetTableManager();
+
+        //1.add DataNode
+        //2.set the default value of them
+        ARK_SHARE_PTR<AFIDataNodeManager> pClassNodeManager = pLogicClass->GetNodeManager();
+        ARK_SHARE_PTR<AFIDataTableManager> pClassTableManager = pLogicClass->GetTableManager();
+
+        if (pClassNodeManager != nullptr && pClassTableManager != nullptr)
         {
-            pElementNodeManager->AddNode(TmpNode.name.c_str(), TmpNode.value, TmpNode.feature);
+            auto pBaseClass = m_pClassModule->GetElement("IObject");
+            if (nullptr != pBaseClass)
+            {
+                ARK_SHARE_PTR<AFIDataNodeManager> pBaseClassNodeManager = pBaseClass->GetNodeManager();
+                if (nullptr != pBaseClassNodeManager)
+                {
+                    for (int i = 0; i < pBaseClassNodeManager->GetNodeCount(); i++)
+                    {
+                        AFDataNode* pBaseClassNode = pBaseClassNodeManager->GetNodeByIndex(i);
+                        pElementNodeManager->AddNode(pBaseClassNode->name.c_str(), pBaseClassNode->value, pBaseClassNode->feature);
+                    }
+                }
+            }
+
+            //////////////////////////////////////////////////////////////////////////
+            size_t tableCount = pClassTableManager->GetCount();
+
+            for (size_t i = 0; i < tableCount; ++i)
+            {
+                AFDataTable* pTable = pClassTableManager->GetTableByIndex(i);
+
+                if (pTable != nullptr)
+                {
+                    continue;
+                }
+
+                AFCDataList col_type_list;
+                pTable->GetColTypeList(col_type_list);
+                pElementTableManager->AddTable(NULL_GUID, pTable->GetName(), col_type_list, pTable->GetFeature());
+            }
+        }
+
+        //3.set the config value to them
+        for (rapidxml::xml_attribute<>* pAttribute = attrNode->first_attribute(); pAttribute; pAttribute = pAttribute->next_attribute())
+        {
+            const char* pstrConfigName = pAttribute->name();
+            const char* pstrConfigValue = pAttribute->value();
+
+            AFDataNode* pNode = pClassNodeManager->GetNode(pstrConfigName);
+            if (pNode == nullptr)
+            {
+                continue;
+            }
+
+            //don't need to add node if it's null data
+            AFDataNode TmpNode;
+            TmpNode.name = pNode->name;
+            TmpNode.feature = pNode->feature;
+            switch (pNode->GetType())
+            {
+            case DT_BOOLEAN:
+                TmpNode.value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
+                break;
+
+            case DT_INT:
+                {
+                    if (!AFMisc::IsDigit(pstrConfigValue))
+                    {
+                        ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
+                    }
+
+                    TmpNode.value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
+                }
+                break;
+
+            case DT_INT64:
+                {
+                    if (!AFMisc::IsDigit(pstrConfigValue))
+                    {
+                        ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
+                    }
+
+                    TmpNode.value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
+                }
+                break;
+
+            case DT_FLOAT:
+                {
+                    if (strlen(pstrConfigValue) <= 0)
+                    {
+                        ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
+                    }
+
+                    TmpNode.value.SetFloat(ARK_LEXICAL_CAST<float>(pstrConfigValue));
+                }
+                break;
+
+            case DT_DOUBLE:
+                {
+                    if (strlen(pstrConfigValue) <= 0)
+                    {
+                        ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
+                    }
+
+                    TmpNode.value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
+                }
+                break;
+
+            case DT_STRING:
+                TmpNode.value.SetString(pstrConfigValue);
+                break;
+
+            case DT_OBJECT:
+                {
+                    if (strlen(pstrConfigValue) <= 0)
+                    {
+                        ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
+                    }
+
+                    TmpNode.value.SetObject(NULL_GUID);
+                }
+                break;
+
+            default:
+                ARK_ASSERT_NO_EFFECT(0);
+                break;
+            }
+
+            if (!TmpNode.GetValue().IsNullValue())
+            {
+                pElementNodeManager->AddNode(TmpNode.name.c_str(), TmpNode.value, TmpNode.feature);
+            }
+        }
+
+        pElementNodeManager->SetNodeString("ClassName", pLogicClass->GetClassName().c_str());
+
+        return true;
+    }
+
+    bool AFCConfigModule::Save()
+    {
+        return true;
+    }
+
+    bool AFCConfigModule::GetNodeBool(const std::string& strConfigName, const std::string& strDataNodeName)
+    {
+        AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+
+        if (pNode != nullptr)
+        {
+            return pNode->value.GetBool();
+        }
+        else
+        {
+            return NULL_BOOLEAN;
         }
     }
 
-    pElementNodeManager->SetNodeString("ClassName", pLogicClass->GetClassName().c_str());
-
-    return true;
-}
-
-bool AFCConfigModule::Save()
-{
-    return true;
-}
-
-bool AFCConfigModule::GetNodeBool(const std::string& strConfigName, const std::string& strDataNodeName)
-{
-    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-
-    if (pNode != nullptr)
+    int32_t AFCConfigModule::GetNodeInt(const std::string& strConfigName, const std::string& strDataNodeName)
     {
-        return pNode->value.GetBool();
-    }
-    else
-    {
-        return NULL_BOOLEAN;
-    }
-}
+        AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
 
-int32_t AFCConfigModule::GetNodeInt(const std::string& strConfigName, const std::string& strDataNodeName)
-{
-    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-
-    if (pNode != nullptr)
-    {
-        return pNode->value.GetInt();
-    }
-    else
-    {
-        return NULL_INT;
-    }
-}
-
-int64_t AFCConfigModule::GetNodeInt64(const std::string& strConfigName, const std::string& strDataNodeName)
-{
-    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-
-    if (pNode != nullptr)
-    {
-        return pNode->value.GetInt64();
-    }
-    else
-    {
-        return NULL_INT64;
-    }
-}
-
-float AFCConfigModule::GetNodeFloat(const std::string& strConfigName, const std::string& strDataNodeName)
-{
-    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-
-    if (pNode != nullptr)
-    {
-        return pNode->value.GetFloat();
-    }
-    else
-    {
-        return NULL_FLOAT;
-    }
-}
-
-double AFCConfigModule::GetNodeDouble(const std::string& strConfigName, const std::string& strDataNodeName)
-{
-    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-
-    if (pNode != nullptr)
-    {
-        return pNode->value.GetDouble();
-    }
-    else
-    {
-        return NULL_DOUBLE;
-    }
-}
-
-const char* AFCConfigModule::GetNodeString(const std::string& strConfigName, const std::string& strDataNodeName)
-{
-    AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
-
-    if (pNode != nullptr)
-    {
-        return pNode->value.GetString();
-    }
-    else
-    {
-        return NULL_STR.c_str();
-    }
-}
-
-AFDataNode* AFCConfigModule::GetNode(const std::string& strConfigName, const std::string& strDataNodeName)
-{
-    ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-
-    if (pElementInfo != nullptr)
-    {
-        return pElementInfo->GetNodeManager()->GetNode(strDataNodeName.c_str());
-    }
-    else
-    {
-        return nullptr;
-    }
-}
-
-ARK_SHARE_PTR<AFIDataNodeManager> AFCConfigModule::GetNodeManager(const std::string& strConfigName)
-{
-    ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-
-    if (pElementInfo != nullptr)
-    {
-        return pElementInfo->GetNodeManager();
-    }
-    else
-    {
-        return nullptr;
-    }
-}
-
-ARK_SHARE_PTR<AFIDataTableManager> AFCConfigModule::GetTableManager(const std::string& strConfigName)
-{
-    ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-
-    if (pElementInfo != nullptr)
-    {
-        return pElementInfo->GetTableManager();
-    }
-    else
-    {
-        return nullptr;
-    }
-}
-
-bool AFCConfigModule::ExistConfig(const std::string& strConfigName)
-{
-    ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-    return (pElementInfo != nullptr);
-}
-
-bool AFCConfigModule::ExistConfig(const std::string& strClassName, const std::string& strConfigName)
-{
-    ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
-
-    if (pElementInfo == nullptr)
-    {
-        return false;
+        if (pNode != nullptr)
+        {
+            return pNode->value.GetInt();
+        }
+        else
+        {
+            return NULL_INT;
+        }
     }
 
-    const std::string strClass(pElementInfo->GetNodeManager()->GetNodeString("ClassName"));
-    return (strClass == strClassName);
-}
+    int64_t AFCConfigModule::GetNodeInt64(const std::string& strConfigName, const std::string& strDataNodeName)
+    {
+        AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
 
-bool AFCConfigModule::Clear()
-{
-    mxElementConfigMap.Clear();
+        if (pNode != nullptr)
+        {
+            return pNode->value.GetInt64();
+        }
+        else
+        {
+            return NULL_INT64;
+        }
+    }
 
-    mbLoaded = false;
-    return true;
+    float AFCConfigModule::GetNodeFloat(const std::string& strConfigName, const std::string& strDataNodeName)
+    {
+        AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+
+        if (pNode != nullptr)
+        {
+            return pNode->value.GetFloat();
+        }
+        else
+        {
+            return NULL_FLOAT;
+        }
+    }
+
+    double AFCConfigModule::GetNodeDouble(const std::string& strConfigName, const std::string& strDataNodeName)
+    {
+        AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+
+        if (pNode != nullptr)
+        {
+            return pNode->value.GetDouble();
+        }
+        else
+        {
+            return NULL_DOUBLE;
+        }
+    }
+
+    const char* AFCConfigModule::GetNodeString(const std::string& strConfigName, const std::string& strDataNodeName)
+    {
+        AFDataNode* pNode = GetNode(strConfigName, strDataNodeName);
+
+        if (pNode != nullptr)
+        {
+            return pNode->value.GetString();
+        }
+        else
+        {
+            return NULL_STR.c_str();
+        }
+    }
+
+    AFDataNode* AFCConfigModule::GetNode(const std::string& strConfigName, const std::string& strDataNodeName)
+    {
+        ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+
+        if (pElementInfo != nullptr)
+        {
+            return pElementInfo->GetNodeManager()->GetNode(strDataNodeName.c_str());
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+
+    ARK_SHARE_PTR<AFIDataNodeManager> AFCConfigModule::GetNodeManager(const std::string& strConfigName)
+    {
+        ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+
+        if (pElementInfo != nullptr)
+        {
+            return pElementInfo->GetNodeManager();
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+
+    ARK_SHARE_PTR<AFIDataTableManager> AFCConfigModule::GetTableManager(const std::string& strConfigName)
+    {
+        ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+
+        if (pElementInfo != nullptr)
+        {
+            return pElementInfo->GetTableManager();
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+
+    bool AFCConfigModule::ExistConfig(const std::string& strConfigName)
+    {
+        ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+        return (pElementInfo != nullptr);
+    }
+
+    bool AFCConfigModule::ExistConfig(const std::string& strClassName, const std::string& strConfigName)
+    {
+        ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(strConfigName);
+
+        if (pElementInfo == nullptr)
+        {
+            return false;
+        }
+
+        const std::string strClass(pElementInfo->GetNodeManager()->GetNodeString("ClassName"));
+        return (strClass == strClassName);
+    }
+
+    bool AFCConfigModule::Clear()
+    {
+        mxElementConfigMap.Clear();
+
+        mbLoaded = false;
+        return true;
+    }
+
 }

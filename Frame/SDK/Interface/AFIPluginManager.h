@@ -22,6 +22,9 @@
 
 #include "AFIModule.h"
 
+namespace ark
+{
+
 #define ARK_DLL_PLUGIN_ENTRY(plugin_name)                           \
 ARK_EXPORT void DllEntryPlugin(AFIPluginManager* pPluginManager)    \
 {                                                                   \
@@ -34,64 +37,66 @@ ARK_EXPORT void DllExitPlugin(AFIPluginManager* pPluginManager)     \
     pPluginManager->Deregister<plugin_name>();                      \
 }
 
-class AFIPlugin;
+    class AFIPlugin;
 
-class AFIPluginManager : public AFIModule
-{
-public:
-    AFIPluginManager() = default;
-    virtual ~AFIPluginManager() = default;
-
-    template <typename T>
-    T* FindModule()
+    class AFIPluginManager : public AFIModule
     {
-        AFIModule* pLogicModule = FindModule(typeid(T).name());
-        ARK_ASSERT_RET_VAL(pLogicModule != nullptr, nullptr);
+    public:
+        AFIPluginManager() = default;
+        virtual ~AFIPluginManager() = default;
 
-        if (!std::is_base_of<AFIModule, T>::value)
+        template <typename T>
+        T* FindModule()
         {
-            return nullptr;
+            AFIModule* pLogicModule = FindModule(typeid(T).name());
+            ARK_ASSERT_RET_VAL(pLogicModule != nullptr, nullptr);
+
+            if (!std::is_base_of<AFIModule, T>::value)
+            {
+                return nullptr;
+            }
+
+            T* pT = dynamic_cast<T*>(pLogicModule);
+            ARK_ASSERT_RET_VAL(pT != nullptr, nullptr);
+
+            return pT;
         }
 
-        T* pT = dynamic_cast<T*>(pLogicModule);
-        ARK_ASSERT_RET_VAL(pT != nullptr, nullptr);
+        template<typename PLUGIN_TYPE>
+        void Register()
+        {
+            AFIPlugin* pNewPlugin = ARK_NEW PLUGIN_TYPE();
+            Register(pNewPlugin);
+        }
 
-        return pT;
-    }
+        template<typename PLUGIN_TYPE>
+        void Deregister()
+        {
+            Deregister(FindPlugin(typeid(PLUGIN_TYPE).name()));
+        }
 
-    template<typename PLUGIN_TYPE>
-    void Register()
-    {
-        AFIPlugin* pNewPlugin = ARK_NEW PLUGIN_TYPE();
-        Register(pNewPlugin);
-    }
+        virtual void Register(AFIPlugin* plugin) = 0;
+        virtual void Deregister(AFIPlugin* plugin) = 0;
 
-    template<typename PLUGIN_TYPE>
-    void Deregister()
-    {
-        Deregister(FindPlugin(typeid(PLUGIN_TYPE).name()));
-    }
+        virtual AFIPlugin* FindPlugin(const std::string& strPluginName) = 0;
 
-    virtual void Register(AFIPlugin* plugin) = 0;
-    virtual void Deregister(AFIPlugin* plugin) = 0;
+        virtual void AddModule(const std::string& strModuleName, AFIModule* pModule) = 0;
+        virtual void RemoveModule(const std::string& strModuleName) = 0;
+        virtual AFIModule* FindModule(const std::string& strModuleName) = 0;
 
-    virtual AFIPlugin* FindPlugin(const std::string& strPluginName) = 0;
+        virtual int BusID() const = 0;
+        virtual void SetBusID(const int app_id) = 0;
 
-    virtual void AddModule(const std::string& strModuleName, AFIModule* pModule) = 0;
-    virtual void RemoveModule(const std::string& strModuleName) = 0;
-    virtual AFIModule* FindModule(const std::string& strModuleName) = 0;
+        virtual const std::string& AppName() const = 0;
+        virtual void SetAppName(const std::string& app_name) = 0;
 
-    virtual int BusID() const = 0;
-    virtual void SetBusID(const int app_id) = 0;
+        virtual int64_t GetNowTime() const = 0;
+        virtual const std::string& GetResPath() const = 0;
 
-    virtual const std::string& AppName() const = 0;
-    virtual void SetAppName(const std::string& app_name) = 0;
+        virtual void SetPluginConf(const std::string& strFileName) = 0;
 
-    virtual int64_t GetNowTime() const = 0;
-    virtual const std::string& GetResPath() const = 0;
+        virtual void SetLogPath(const std::string& log_path) = 0;
+        virtual const std::string& GetLogPath() const = 0;
+    };
 
-    virtual void SetPluginConf(const std::string& strFileName) = 0;
-
-    virtual void SetLogPath(const std::string& log_path) = 0;
-    virtual const std::string& GetLogPath() const = 0;
-};
+}

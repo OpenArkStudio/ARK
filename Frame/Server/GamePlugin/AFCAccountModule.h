@@ -27,30 +27,35 @@
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "Server/Interface/AFIAccountModule.h"
 
-class AFCAccountModule : public AFIAccountModule
+namespace ark
 {
-public:
-    explicit AFCAccountModule() = default;
 
-    bool Init() override;
+    class AFCAccountModule : public AFIAccountModule
+    {
+    public:
+        explicit AFCAccountModule() = default;
 
-    virtual bool GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
-    virtual bool CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList);
-    virtual bool DeleteRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
+        bool Init() override;
 
-protected:
-    int OnLoadRoleBeginEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
+        virtual bool GetRoleList(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
+        virtual bool CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList);
+        virtual bool DeleteRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList);
 
-    int OnLoadRoleFinalEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
+    protected:
+        int OnLoadRoleBeginEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    int OnCreateRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
+        int OnLoadRoleFinalEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    int OnDeleteRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
+        int OnCreateRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-    int OnAcountDisConnectEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
+        int OnDeleteRoleEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-private:
-    AFIKernelModule* m_pKernelModule;
-    AFIConfigModule* m_pElementInfoModule;
-    AFIGUIDModule* m_pUUIDModule;
-};
+        int OnAcountDisConnectEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
+
+    private:
+        AFIKernelModule* m_pKernelModule;
+        AFIConfigModule* m_pElementInfoModule;
+        AFIGUIDModule* m_pUUIDModule;
+    };
+
+}

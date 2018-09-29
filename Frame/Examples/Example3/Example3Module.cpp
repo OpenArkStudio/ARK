@@ -81,7 +81,7 @@ int Example3Module::OnStrDataNodeCB(const AFGUID& self, const std::string& strNo
 
 int Example3Module::OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_EVENT_DATA& table_data, const AFIData& old_data, const AFIData& new_data)
 {
-    if (table_data.nCol == ARK::Player::PlayerFightHero::PlayerFightHero_FightPos)
+    if (table_data.nCol == ark::Player::PlayerFightHero::PlayerFightHero_FightPos)
     {
         std::cout << "OnFightHeroTableCB, table_name = " << table_data.strName.c_str() << " old_data = " << old_data.GetInt() << " new_data = " << new_data.GetInt();
     }
@@ -104,14 +104,14 @@ bool Example3Module::PostInit()
     m_pKernelModule->CreateScene(1);
 
     //Add Class callback
-    m_pKernelModule->AddClassCallBack(ARK::Player::ThisName(), this, &Example3Module::OnClassCallBackEvent);
-    m_pClassModule->AddTableCallBack(ARK::Player::ThisName(), ARK::Player::R_PlayerFightHero(), this, &Example3Module::OnFightHeroTableCB);
+    m_pKernelModule->AddClassCallBack(ark::Player::ThisName(), this, &Example3Module::OnClassCallBackEvent);
+    m_pClassModule->AddTableCallBack(ark::Player::ThisName(), ark::Player::R_PlayerFightHero(), this, &Example3Module::OnFightHeroTableCB);
     //Create Entity
     //Entity GUID is (0, 10)
     //SceneID = 1
     //GroupID = 0
-    //Class Name = ARK::Player::ThisName()
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(AFGUID(0, 10), 1, 0, ARK::Player::ThisName(), "", AFCDataList());
+    //Class Name = ark::Player::ThisName()
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(AFGUID(0, 10), 1, 0, ark::Player::ThisName(), "", AFCDataList());
 
     if (nullptr == pEntity)
     {
@@ -128,10 +128,10 @@ bool Example3Module::PostInit()
 
          pEntity->SetNodeString("str_test", "hello World");
          pEntity->SetNodeInt("int_test", 1111);
-    pEntity->AddTableCallBack(ARK::Player::R_PlayerFightHero(), this, &Example3Module::OnFightHeroTableCB);
+    pEntity->AddTableCallBack(ark::Player::R_PlayerFightHero(), this, &Example3Module::OnFightHeroTableCB);
     */
 
-    AFDataTable* pTable = m_pKernelModule->FindTable(pEntity->Self(), ARK::Player::R_PlayerFightHero());
+    AFDataTable* pTable = m_pKernelModule->FindTable(pEntity->Self(), ark::Player::R_PlayerFightHero());
     int pos = 0;
     if (pTable != nullptr)
     {
@@ -141,19 +141,19 @@ bool Example3Module::PostInit()
             nRow = pTable->AddRow(AFCDataList() << AFGUID(0, 1000) << 1);
         }
 
-        m_pKernelModule->SetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), nRow, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos, 2);
-        pos = m_pKernelModule->GetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), nRow, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos);
+        m_pKernelModule->SetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), nRow, ark::Player::PlayerFightHero::PlayerFightHero_FightPos, 2);
+        pos = m_pKernelModule->GetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), nRow, ark::Player::PlayerFightHero::PlayerFightHero_FightPos);
 
         for (int i = 0; i < 5; ++i)
         {
-            m_pKernelModule->SetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), i, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos, i);
-            pos = m_pKernelModule->GetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), i, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos);
+            m_pKernelModule->SetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), i, ark::Player::PlayerFightHero::PlayerFightHero_FightPos, i);
+            pos = m_pKernelModule->GetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), i, ark::Player::PlayerFightHero::PlayerFightHero_FightPos);
         }
 
         for (int i = 0; i < 6; ++i)
         {
             pTable->DeleteRow(i);
-            pos = m_pKernelModule->GetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), i, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos);
+            pos = m_pKernelModule->GetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), i, ark::Player::PlayerFightHero::PlayerFightHero_FightPos);
         }
 
         for (int i = 0; i < 5; ++i)
@@ -163,8 +163,8 @@ bool Example3Module::PostInit()
 
         for (int i = 0; i < 5; ++i)
         {
-            m_pKernelModule->SetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), i, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos, i);
-            pos = m_pKernelModule->GetTableInt(pEntity->Self(), ARK::Player::R_PlayerFightHero(), i, ARK::Player::PlayerFightHero::PlayerFightHero_FightPos);
+            m_pKernelModule->SetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), i, ark::Player::PlayerFightHero::PlayerFightHero_FightPos, i);
+            pos = m_pKernelModule->GetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), i, ark::Player::PlayerFightHero::PlayerFightHero_FightPos);
         }
     }
 

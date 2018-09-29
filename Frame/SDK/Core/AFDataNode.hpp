@@ -27,68 +27,73 @@
 #include "SDK/Core/AFStringPod.hpp"
 #include "SDK/Core/AFCData.hpp"
 
-class AFDataNode
+namespace ark
 {
-public:
-    enum DATA_NODE_FEATURE
+
+    class AFDataNode
     {
-        PF_PUBLIC = 0, //send to others
-        PF_PRIVATE = 1, //send to self
-        PF_REAL_TIME = 2, //send real-time when changed
-        PF_SAVE = 3, //if need save to database
+    public:
+        enum DATA_NODE_FEATURE
+        {
+            PF_PUBLIC = 0, //send to others
+            PF_PRIVATE = 1, //send to self
+            PF_REAL_TIME = 2, //send real-time when changed
+            PF_SAVE = 3, //if need save to database
+        };
+
+        DataNodeName name = ""; //DataNode name, max = 16 bytes
+        AFCData value;          //DataNode value
+        AFFeatureType feature; //DataNode feature
+
+        bool IsPublic() const
+        {
+            return feature.test(PF_PUBLIC);
+        }
+
+        bool IsPrivate() const
+        {
+            return feature.test(PF_PRIVATE);
+        }
+
+        bool IsRealTime() const
+        {
+            return feature.test(PF_REAL_TIME);
+        }
+
+        bool IsSave() const
+        {
+            return feature.test(PF_SAVE);
+        }
+
+        bool Changed() const
+        {
+            return !(value.IsNullValue());
+        }
+
+        const char* GetName()
+        {
+            return name.c_str();
+        }
+
+        const AFIData& GetValue()
+        {
+            return value;
+        }
+
+        int GetType()
+        {
+            return value.GetType();
+        }
+
+        const AFFeatureType& GetFeature()
+        {
+            return feature;
+        }
+
+        std::string ToString()
+        {
+            return value.ToString();
+        }
     };
 
-    DataNodeName name = ""; //DataNode name, max = 16 bytes
-    AFCData value;          //DataNode value
-    AFFeatureType feature; //DataNode feature
-
-    bool IsPublic() const
-    {
-        return feature.test(PF_PUBLIC);
-    }
-
-    bool IsPrivate() const
-    {
-        return feature.test(PF_PRIVATE);
-    }
-
-    bool IsRealTime() const
-    {
-        return feature.test(PF_REAL_TIME);
-    }
-
-    bool IsSave() const
-    {
-        return feature.test(PF_SAVE);
-    }
-
-    bool Changed() const
-    {
-        return !(value.IsNullValue());
-    }
-
-    const char* GetName()
-    {
-        return name.c_str();
-    }
-
-    const AFIData& GetValue()
-    {
-        return value;
-    }
-
-    int GetType()
-    {
-        return value.GetType();
-    }
-
-    const AFFeatureType& GetFeature()
-    {
-        return feature;
-    }
-
-    std::string ToString()
-    {
-        return value.ToString();
-    }
-};
+}

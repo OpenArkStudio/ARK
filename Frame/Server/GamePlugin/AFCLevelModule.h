@@ -28,18 +28,23 @@
 #include "Server/Interface/AFILevelModule.h"
 #include "Server/Interface/AFIPropertyConfigModule.h"
 
-class AFCLevelModule : public AFILevelModule
+namespace ark
 {
-public:
-    explicit AFCLevelModule() = default;
 
-    bool Init() override;
+    class AFCLevelModule : public AFILevelModule
+    {
+    public:
+        explicit AFCLevelModule() = default;
 
-    int AddExp(const AFGUID& self, const int nExp) override;
+        bool Init() override;
 
-private:
-    AFIPropertyConfigModule* m_pPropertyConfigModule;
-    AFIKernelModule* m_pKernelModule;
-    AFILogModule* m_pLogModule;
-    AFIConfigModule* m_pConfigModule;
-};
+        int AddExp(const AFGUID& self, const int nExp) override;
+
+    private:
+        AFIPropertyConfigModule* m_pPropertyConfigModule;
+        AFIKernelModule* m_pKernelModule;
+        AFILogModule* m_pLogModule;
+        AFIConfigModule* m_pConfigModule;
+    };
+
+}

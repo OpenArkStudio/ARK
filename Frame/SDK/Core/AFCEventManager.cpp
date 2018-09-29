@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,91 +20,95 @@
 
 #include "AFCEventManager.h"
 
-AFCEventManager::AFCEventManager(AFGUID self) : mSelf(self)
+namespace ark
 {
 
-}
-
-AFCEventManager::~AFCEventManager()
-{
-    mRemoveEventListEx.ClearAll();
-
-    mObjectEventInfoMapEx.ClearAll();
-}
-
-bool AFCEventManager::Init()
-{
-    return true;
-}
-
-bool AFCEventManager::Shut()
-{
-    mRemoveEventListEx.ClearAll();
-    mObjectEventInfoMapEx.ClearAll();
-
-    return true;
-}
-
-bool AFCEventManager::AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb)
-{
-    ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-
-    if (nullptr == pEventInfo)
+    AFCEventManager::AFCEventManager(AFGUID self) : mSelf(self)
     {
-        pEventInfo = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR_PTR>>();
-        mObjectEventInfoMapEx.AddElement(nEventID, pEventInfo);
+
     }
 
-    pEventInfo->Add(cb);
-
-    return true;
-}
-
-void AFCEventManager::Update()
-{
-    int nEvent = 0;
-    bool bRet = mRemoveEventListEx.First(nEvent);
-
-    while (bRet)
+    AFCEventManager::~AFCEventManager()
     {
-        mObjectEventInfoMapEx.RemoveElement(nEvent);
+        mRemoveEventListEx.ClearAll();
 
-        bRet = mRemoveEventListEx.Next(nEvent);
+        mObjectEventInfoMapEx.ClearAll();
     }
 
-    mRemoveEventListEx.ClearAll();
-}
-
-bool AFCEventManager::RemoveEventCallBack(const int nEventID)
-{
-    mRemoveEventListEx.Add(nEventID);
-    return true;
-}
-
-bool AFCEventManager::DoEvent(const int nEventID, const AFIDataList& valueList)
-{
-    ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-
-    if (nullptr == pEventInfo)
+    bool AFCEventManager::Init()
     {
-        return false;
+        return true;
     }
 
-    EVENT_PROCESS_FUNCTOR_PTR cb;
-    bool bRet = pEventInfo->First(cb);
-
-    while (bRet)
+    bool AFCEventManager::Shut()
     {
-        (*cb)(mSelf, nEventID,  valueList);
+        mRemoveEventListEx.ClearAll();
+        mObjectEventInfoMapEx.ClearAll();
 
-        bRet = pEventInfo->Next(cb);
+        return true;
     }
 
-    return true;
-}
+    bool AFCEventManager::AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb)
+    {
+        ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
 
-bool AFCEventManager::HasEventCallBack(const int nEventID)
-{
-    ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-    return nullptr != pEventInfo;
+        if (nullptr == pEventInfo)
+        {
+            pEventInfo = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR_PTR>>();
+            mObjectEventInfoMapEx.AddElement(nEventID, pEventInfo);
+        }
+
+        pEventInfo->Add(cb);
+
+        return true;
+    }
+
+    void AFCEventManager::Update()
+    {
+        int nEvent = 0;
+        bool bRet = mRemoveEventListEx.First(nEvent);
+
+        while (bRet)
+        {
+            mObjectEventInfoMapEx.RemoveElement(nEvent);
+
+            bRet = mRemoveEventListEx.Next(nEvent);
+        }
+
+        mRemoveEventListEx.ClearAll();
+    }
+
+    bool AFCEventManager::RemoveEventCallBack(const int nEventID)
+    {
+        mRemoveEventListEx.Add(nEventID);
+        return true;
+    }
+
+    bool AFCEventManager::DoEvent(const int nEventID, const AFIDataList& valueList)
+    {
+        ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
+
+        if (nullptr == pEventInfo)
+        {
+            return false;
+        }
+
+        EVENT_PROCESS_FUNCTOR_PTR cb;
+        bool bRet = pEventInfo->First(cb);
+
+        while (bRet)
+        {
+            (*cb)(mSelf, nEventID, valueList);
+
+            bRet = pEventInfo->Next(cb);
+        }
+
+        return true;
+    }
+
+    bool AFCEventManager::HasEventCallBack(const int nEventID)
+    {
+        ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
+        return nullptr != pEventInfo;
+    }
 }

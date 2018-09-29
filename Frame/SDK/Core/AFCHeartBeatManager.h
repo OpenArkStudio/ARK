@@ -27,40 +27,44 @@
 #include "SDK/Core/AFMap.hpp"
 #include "AFIHeartBeatManager.h"
 
-class AFCHeartBeatManager : public AFIHeartBeatManager
+namespace ark
 {
-public:
-    AFCHeartBeatManager() = delete;
 
-    explicit AFCHeartBeatManager(const AFGUID& self) : mSelf(self), mTimerIDIndex(0)
+    class AFCHeartBeatManager : public AFIHeartBeatManager
     {
+    public:
+        AFCHeartBeatManager() = delete;
 
-    }
+        explicit AFCHeartBeatManager(const AFGUID& self) : mSelf(self), mTimerIDIndex(0)
+        {
 
-    virtual ~AFCHeartBeatManager();
+        }
 
-    virtual AFGUID Self();
+        virtual ~AFCHeartBeatManager();
 
-    virtual void Update();
+        virtual AFGUID Self();
 
-    virtual bool Exist(const std::string& strHeartBeatName);
+        virtual void Update();
 
-    virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever = false);
-    virtual bool RemoveHeartBeat(const std::string& strHeartBeatName);
+        virtual bool Exist(const std::string& strHeartBeatName);
 
-protected:
-    bool ProcessFinishHeartBeat(AFCHeartBeatElement* pTarget);
-    bool ProcessFinishHeartBeat();
-    bool ProcessAddHeartBeat();
+        virtual bool AddHeartBeat(const AFGUID self, const std::string& strHeartBeatName, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever = false);
+        virtual bool RemoveHeartBeat(const std::string& strHeartBeatName);
 
-private:
-    AFGUID mSelf;
+    protected:
+        bool ProcessFinishHeartBeat(AFCHeartBeatElement* pTarget);
+        bool ProcessFinishHeartBeat();
+        bool ProcessAddHeartBeat();
 
-    AFList<std::string> mRemoveListEx;
-    std::list<AFCHeartBeatElement> mAddListEx;
-    AFMap<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
+    private:
+        AFGUID mSelf;
 
-    std::multimap<int64_t, AFCHeartBeatElement*> mTimeList;
-    uint64_t mTimerIDIndex;
-};
+        AFList<std::string> mRemoveListEx;
+        std::list<AFCHeartBeatElement> mAddListEx;
+        AFMap<std::string, AFCHeartBeatElement> mHeartBeatElementMapEx;
 
+        std::multimap<int64_t, AFCHeartBeatElement*> mTimeList;
+        uint64_t mTimerIDIndex;
+    };
+
+}

@@ -23,9 +23,14 @@
 #include "SDK/Interface/AFIModule.h"
 #include "google/protobuf/message.h"
 
-class AFIProtoModule : public AFIModule
+namespace ark
 {
-public:
-    virtual bool PackPBMsg(const google::protobuf::Message* message, OUT std::string& msg) = 0;
-    virtual bool UnpackPBMsg(OUT google::protobuf::Message* message, const std::string& msg) = 0;
-};
+
+    class AFIProtoModule : public AFIModule
+    {
+    public:
+        virtual bool PackPBMsg(const google::protobuf::Message* message, OUT std::string& msg) = 0;
+        virtual bool UnpackPBMsg(OUT google::protobuf::Message* message, const std::string& msg) = 0;
+    };
+
+}

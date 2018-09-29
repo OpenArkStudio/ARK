@@ -22,43 +22,48 @@
 
 #include "SDK/Core/AFMacros.hpp"
 
-class AFCDynLib
+namespace ark
 {
-public:
-    explicit AFCDynLib(const std::string& strName) :
-        mstrName(strName)
+
+    class AFCDynLib
     {
+    public:
+        explicit AFCDynLib(const std::string& strName) :
+            mstrName(strName)
+        {
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-        mstrName.append("_d");
+            mstrName.append("_d");
 #endif
 
 #if ARK_PLATFORM == PLATFORM_WIN
-        mstrName.append(".dll");
+            mstrName.append(".dll");
 #elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == AF_PLATFORM_ANDROID
-        mstrName.append(".so");
+            mstrName.append(".so");
 #elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == AF_PLATFORM_APPLE_IOS
-        mstrName.append(".so");
+            mstrName.append(".so");
 #endif
 
-        CONSOLE_LOG << "LoadPlugin: " << mstrName << std::endl;
-    }
+            CONSOLE_LOG << "LoadPlugin: " << mstrName << std::endl;
+        }
 
-    ~AFCDynLib() = default;
+        ~AFCDynLib() = default;
 
-    bool Load(std::string const& path);
-    bool UnLoad();
+        bool Load(std::string const& path);
+        bool UnLoad();
 
-    //Get the name of the library
-    const std::string& GetName(void) const
-    {
-        return mstrName;
-    }
+        //Get the name of the library
+        const std::string& GetName(void) const
+        {
+            return mstrName;
+        }
 
-    void* GetSymbol(const char* szProcName);
+        void* GetSymbol(const char* szProcName);
 
-private:
-    std::string mstrName;
-    bool mbMain;
+    private:
+        std::string mstrName;
+        bool mbMain;
 
-    DYNLIB_HANDLE mInst;
-};
+        DYNLIB_HANDLE mInst;
+    };
+
+}

@@ -29,59 +29,64 @@
 #include "Server/Interface/AFIPropertyModule.h"
 #include "Server/Interface/AFILevelModule.h"
 
-class AFCPropertyModule : public AFIPropertyModule
+namespace ark
 {
-public:
-    explicit AFCPropertyModule() = default;
 
-    bool Init() override;
+    class AFCPropertyModule : public AFIPropertyModule
+    {
+    public:
+        explicit AFCPropertyModule() = default;
 
-    virtual int RefreshBaseProperty(const AFGUID& self);
+        bool Init() override;
 
-    virtual int GetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType);
-    virtual int SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue);
+        virtual int RefreshBaseProperty(const AFGUID& self);
 
-    virtual int AddPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue);
-    virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue);
+        virtual int GetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType);
+        virtual int SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue);
 
-    virtual bool FullHPMP(const AFGUID& self);
-    virtual bool AddHP(const AFGUID& self, const int64_t& nValue);
-    virtual bool ConsumeHP(const AFGUID& self, const int64_t& nValue);
-    virtual bool EnoughHP(const AFGUID& self, const int64_t& nValue);
+        virtual int AddPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue);
+        virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue);
 
-    virtual bool AddMP(const AFGUID& self, const int64_t& nValue);
-    virtual bool ConsumeMP(const AFGUID& self, const int64_t& nValue);
-    virtual bool EnoughMP(const AFGUID& self, const int64_t& nValue);
+        virtual bool FullHPMP(const AFGUID& self);
+        virtual bool AddHP(const AFGUID& self, const int64_t& nValue);
+        virtual bool ConsumeHP(const AFGUID& self, const int64_t& nValue);
+        virtual bool EnoughHP(const AFGUID& self, const int64_t& nValue);
 
-    virtual bool FullSP(const AFGUID& self);
-    virtual bool AddSP(const AFGUID& self, const int64_t& nValue);
-    virtual bool ConsumeSP(const AFGUID& self, const int64_t& nValue);
-    virtual bool EnoughSP(const AFGUID& self, const int64_t& nValue);
+        virtual bool AddMP(const AFGUID& self, const int64_t& nValue);
+        virtual bool ConsumeMP(const AFGUID& self, const int64_t& nValue);
+        virtual bool EnoughMP(const AFGUID& self, const int64_t& nValue);
 
-    virtual bool AddMoney(const AFGUID& self, const int64_t& nValue);
-    virtual bool ConsumeMoney(const AFGUID& self, const int64_t& nValue);
-    virtual bool EnoughMoney(const AFGUID& self, const int64_t& nValue);
+        virtual bool FullSP(const AFGUID& self);
+        virtual bool AddSP(const AFGUID& self, const int64_t& nValue);
+        virtual bool ConsumeSP(const AFGUID& self, const int64_t& nValue);
+        virtual bool EnoughSP(const AFGUID& self, const int64_t& nValue);
 
-    virtual bool AddDiamond(const AFGUID& self, const int64_t& nValue);
-    virtual bool ConsumeDiamond(const AFGUID& self, const int64_t& nValue);
-    virtual bool EnoughDiamond(const AFGUID& self, const int64_t& nValue);
+        virtual bool AddMoney(const AFGUID& self, const int64_t& nValue);
+        virtual bool ConsumeMoney(const AFGUID& self, const int64_t& nValue);
+        virtual bool EnoughMoney(const AFGUID& self, const int64_t& nValue);
 
-protected:
-    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
+        virtual bool AddDiamond(const AFGUID& self, const int64_t& nValue);
+        virtual bool ConsumeDiamond(const AFGUID& self, const int64_t& nValue);
+        virtual bool EnoughDiamond(const AFGUID& self, const int64_t& nValue);
 
-    int OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
+    protected:
+        int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
 
-    int OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
+        int OnObjectLevelEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
 
-    const std::string& ColToPropertyName(const int64_t nCol);
-    int64_t PropertyNameToCol(const std::string& strClassName);
+        int OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
-private:
-    AFIKernelModule* m_pKernelModule;
-    AFIPropertyConfigModule* m_pPropertyConfigModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIClassModule* m_pClassModule;
-    AFILevelModule* m_pLevelModule;
-    std::map<std::string, int64_t> mNameToCol;
-    std::vector<std::string> mColToName;
-};
+        const std::string& ColToPropertyName(const int nCol);
+        int64_t PropertyNameToCol(const std::string& strClassName);
+
+    private:
+        AFIKernelModule* m_pKernelModule;
+        AFIPropertyConfigModule* m_pPropertyConfigModule;
+        AFIConfigModule* m_pConfigModule;
+        AFIClassModule* m_pClassModule;
+        AFILevelModule* m_pLevelModule;
+        std::map<std::string, int> mNameToCol;
+        std::vector<std::string> mColToName;
+    };
+
+}

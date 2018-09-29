@@ -32,35 +32,40 @@
 #include "Server/Interface/AFIGameNetClientModule.h"
 #include "Server/Interface/AFIGameNetServerModule.h"
 
-class AFCGameNetClientModule : public AFIGameNetClientModule
+namespace ark
 {
-public:
-    explicit AFCGameNetClientModule() = default;
 
-    bool Init() override;
-    bool PreUpdate() override;
+    class AFCGameNetClientModule : public AFIGameNetClientModule
+    {
+    public:
+        explicit AFCGameNetClientModule() = default;
 
-protected:
-    int StartClient();
+        bool Init() override;
+        bool PreUpdate() override;
 
-    void OnSocketWSEvent(const NetEventType e, const AFGUID& xClientID, const int nServerID);
+    protected:
+        int StartClient();
 
-    void Register(const int nSeverID);
-    void RefreshWorldInfo();
-    void TransPBToProxy(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnSocketWSEvent(const NetEventType e, const AFGUID& xClientID, const int nServerID);
 
-    int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
+        void Register(const int nSeverID);
+        void RefreshWorldInfo();
+        void TransPBToProxy(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    void SendOnline(const AFGUID& self);
-    void SendOffline(const AFGUID& self);
+        int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
 
-private:
-    AFILogModule* m_pLogModule;
-    AFIKernelModule* m_pKernelModule;
-    AFIClassModule* m_pClassModule;
-    AFIConfigModule* m_pConfigModule;
-    AFIBusModule* m_pBusModule;
-    AFINetClientManagerModule* m_pNetClientManagerModule;
-    AFIGameNetServerModule* m_pGameNetServerModule;
-    AFIMsgModule* m_pMsgModule;
-};
+        void SendOnline(const AFGUID& self);
+        void SendOffline(const AFGUID& self);
+
+    private:
+        AFILogModule* m_pLogModule;
+        AFIKernelModule* m_pKernelModule;
+        AFIClassModule* m_pClassModule;
+        AFIConfigModule* m_pConfigModule;
+        AFIBusModule* m_pBusModule;
+        AFINetClientManagerModule* m_pNetClientManagerModule;
+        AFIGameNetServerModule* m_pGameNetServerModule;
+        AFIMsgModule* m_pMsgModule;
+    };
+
+}

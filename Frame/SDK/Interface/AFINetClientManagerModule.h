@@ -23,12 +23,15 @@
 #include "SDK/Interface/AFIModule.h"
 #include "AFINetClientService.h"
 
-//////////////////////////////////////////////////////////////////////////
-
-class AFINetClientManagerModule : public AFIModule
+namespace ark
 {
-public:
-    virtual int CreateClusterClients() = 0;
-    virtual AFINetClientService* GetNetClientService(const uint8_t& app_type) = 0;
-    virtual AFINetClientService* GetNetClientServiceByBusID(const int bus_id) = 0;
-};
+
+    class AFINetClientManagerModule : public AFIModule
+    {
+    public:
+        virtual int CreateClusterClients() = 0;
+        virtual AFINetClientService* GetNetClientService(const uint8_t& app_type) = 0;
+        virtual AFINetClientService* GetNetClientServiceByBusID(const int bus_id) = 0;
+    };
+
+}

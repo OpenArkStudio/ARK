@@ -34,69 +34,74 @@
 #include "Server/Interface/AFIProxyNetServerModule.h"
 #include "Server/Interface/AFIProxyNetClientModule.h"
 
-class AFCProxyNetServerModule : public AFIProxyNetServerModule
+namespace ark
 {
-public:
-    explicit AFCProxyNetServerModule() = default;
 
-    bool Init() override;
-    bool PostInit() override;
-
-    bool Update() override;
-
-    virtual int Transpond(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen);
-    virtual int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer);
-
-    //进入游戏成功
-    virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID);
-
-protected:
-    int StartServer();
-    void OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nSeverID);
-
-    //连接丢失,删2层(连接对象，帐号对象)
-    void OnClientDisconnect(const AFGUID& xClientID);
-    //有连接
-    void OnClientConnected(const AFGUID& xClientID);
-
-    void OnConnectKeyProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnReqServerListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnReqRoleListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnReqCreateRoleProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnReqDelRoleProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnReqEnterGameServer(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-
-    //客户端的连接60秒删掉
-    int HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFIDataList& var);
-    //////////////////////////////////////////////////////////////////////////
-
-    void OnOtherMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-
-    template<class TypeName>
-    void CheckSessionTransMsg(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    class AFCProxyNetServerModule : public AFIProxyNetServerModule
     {
-        //在没有正式进入游戏之前，nPlayerID都是FD
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, TypeName);
+    public:
+        explicit AFCProxyNetServerModule() = default;
 
-        if (CheckSessionState(xMsg.game_id(), xClientID, xMsg.account()))
+        bool Init() override;
+        bool PostInit() override;
+
+        bool Update() override;
+
+        virtual int Transpond(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen);
+        virtual int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer);
+
+        //进入游戏成功
+        virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID);
+
+    protected:
+        int StartServer();
+        void OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nSeverID);
+
+        //连接丢失,删2层(连接对象，帐号对象)
+        void OnClientDisconnect(const AFGUID& xClientID);
+        //有连接
+        void OnClientConnected(const AFGUID& xClientID);
+
+        void OnConnectKeyProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnReqServerListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnReqRoleListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnReqCreateRoleProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnReqDelRoleProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnReqEnterGameServer(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+
+        //客户端的连接60秒删掉
+        int HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFIDataList& var);
+        //////////////////////////////////////////////////////////////////////////
+
+        void OnOtherMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+
+        template<class TypeName>
+        void CheckSessionTransMsg(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
         {
-            m_pMsgModule->SendSSMsg(xMsg.game_id(), nMsgID, msg, nLen, xClientID);
+            //在没有正式进入游戏之前，nPlayerID都是FD
+            ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, TypeName);
+
+            if (CheckSessionState(xMsg.game_id(), xClientID, xMsg.account()))
+            {
+                m_pMsgModule->SendSSMsg(xMsg.game_id(), nMsgID, msg, nLen, xClientID);
+            }
         }
-    }
 
-    bool CheckSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount);
+        bool CheckSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount);
 
-private:
-    AFMapEx<AFGUID, AFSessionData> mmSessionData; //Player Client <--> SessionData
-    AFCConsistentHash mxConsistentHash;
+    private:
+        AFMapEx<AFGUID, AFSessionData> mmSessionData; //Player Client <--> SessionData
+        AFCConsistentHash mxConsistentHash;
 
-    AFIKernelModule* m_pKernelModule;
-    AFILogModule* m_pLogModule;
-    AFIBusModule* m_pBusModule;
-    AFINetServerManagerModule* m_pNetServerManagerModule;
-    AFINetClientManagerModule* m_pNetClientManagerModule;
-    AFIMsgModule* m_pMsgModule;
-    AFIProxyNetClientModule* m_pProxyNetClientModule;
-    AFINetServerService* m_pNetServer{ nullptr };
-};
+        AFIKernelModule* m_pKernelModule;
+        AFILogModule* m_pLogModule;
+        AFIBusModule* m_pBusModule;
+        AFINetServerManagerModule* m_pNetServerManagerModule;
+        AFINetClientManagerModule* m_pNetClientManagerModule;
+        AFIMsgModule* m_pMsgModule;
+        AFIProxyNetClientModule* m_pProxyNetClientModule;
+        AFINetServerService* m_pNetServer{ nullptr };
+    };
+
+}

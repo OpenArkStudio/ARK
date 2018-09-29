@@ -22,74 +22,83 @@
 #include "AFCNetClientManagerModule.h"
 #include "AFCNetClientService.h"
 
-bool AFCNetClientManagerModule::Init()
+namespace ark
 {
-    m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-    return true;
-}
-
-bool AFCNetClientManagerModule::Update()
-{
-    for (bool bRet = _net_clients.Begin(); bRet; bRet = _net_clients.Increase())
+    bool AFCNetClientManagerModule::Init()
     {
-        const auto& pCluster = _net_clients.GetCurrentData();
-        ARK_ASSERT_CONTINUE(pCluster != nullptr);
+        m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
+        m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-        pCluster->Update();
+        return true;
     }
 
-    return true;
-}
-
-bool AFCNetClientManagerModule::Shut()
-{
-    for (bool bRet = _net_clients.Begin(); bRet; bRet = _net_clients.Increase())
+    bool AFCNetClientManagerModule::Update()
     {
-        const AFINetClientService* pCluster = _net_clients.GetCurrentData();
-        ARK_DELETE(pCluster);
-    }
-
-    return true;
-}
-
-int AFCNetClientManagerModule::CreateClusterClients()
-{
-    std::vector<AFServerConfig> target_list;
-    if (!m_pBusModule->GetDirectBusRelations(target_list))
-    {
-        return -1;
-    }
-
-    if (target_list.empty())
-    {
-        return -2;
-    }
-
-    for (auto& target : target_list)
-    {
-        uint8_t app_type = AFBusAddr(target.self_id).proc_id;
-        AFINetClientService* pClient = _net_clients.GetElement(app_type);
-        if (pClient == nullptr)
+        for (bool bRet = _net_clients.Begin(); bRet; bRet = _net_clients.Increase())
         {
-            pClient = ARK_NEW AFCNetClientService(pPluginManager);
-            _net_clients.AddElement(app_type, pClient);
+            const auto& pCluster = _net_clients.GetCurrentData();
+            ARK_ASSERT_CONTINUE(pCluster != nullptr);
+
+            pCluster->Update();
         }
 
-        pClient->StartClient(target.self_id, target.public_url);
+        return true;
     }
 
-    return 0;
-}
+    bool AFCNetClientManagerModule::Shut()
+    {
+        for (bool bRet = _net_clients.Begin(); bRet; bRet = _net_clients.Increase())
+        {
+            const AFINetClientService* pCluster = _net_clients.GetCurrentData();
+            ARK_DELETE(pCluster);
+        }
 
-AFINetClientService* AFCNetClientManagerModule::GetNetClientService(const uint8_t& app_type)
-{
-    return _net_clients.GetElement(app_type);
-}
+        return true;
+    }
 
-AFINetClientService* AFCNetClientManagerModule::GetNetClientServiceByBusID(const int bus_id)
-{
-    AFBusAddr addr(bus_id);
-    return GetNetClientService(addr.proc_id);
+    int AFCNetClientManagerModule::CreateClusterClients()
+    {
+        std::vector<AFServerConfig> target_list;
+        if (!m_pBusModule->GetDirectBusRelations(target_list))
+        {
+            return -1;
+        }
+
+        if (target_list.empty())
+        {
+            return -2;
+        }
+
+        for (auto& target : target_list)
+        {
+            uint8_t app_type = AFBusAddr(target.self_id).proc_id;
+            AFINetClientService* pClient = _net_clients.GetElement(app_type);
+            if (pClient == nullptr)
+            {
+                pClient = ARK_NEW AFCNetClientService(pPluginManager);
+                _net_clients.AddElement(app_type, pClient);
+            }
+
+            bool ret = pClient->StartClient(target.self_id, target.public_ep_);
+            if (!ret)
+            {
+                ARK_LOG_ERROR("start net client failed, self_bus_id = {} target_url={}", m_pBusModule->GetSelfBusName(), target.public_ep_.to_string());
+            }
+        }
+
+        return 0;
+    }
+
+    AFINetClientService* AFCNetClientManagerModule::GetNetClientService(const uint8_t& app_type)
+    {
+        return _net_clients.GetElement(app_type);
+    }
+
+    AFINetClientService* AFCNetClientManagerModule::GetNetClientServiceByBusID(const int bus_id)
+    {
+        AFBusAddr addr(bus_id);
+        return GetNetClientService(addr.proc_id);
+    }
+
 }

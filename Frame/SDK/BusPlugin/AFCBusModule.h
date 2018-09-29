@@ -22,35 +22,40 @@
 
 #include "SDK/Interface/AFIBusModule.h"
 
-class AFCBusModule final : public AFIBusModule
+namespace ark
 {
-public:
-    explicit AFCBusModule() = default;
-    bool Init() override;
 
-    const std::string& GetAppName(const uint8_t& app_type) override;
-    const uint8_t GetAppType(const std::string& name) override;
+    class AFCBusModule final : public AFIBusModule
+    {
+    public:
+        explicit AFCBusModule() = default;
+        bool Init() override;
 
-    const AFServerConfig* GetAppServerInfo() override;
-    const std::string& GetAppHost(const int bus_id) override;
+        const std::string& GetAppName(const uint8_t& app_type) override;
+        const uint8_t GetAppType(const std::string& name) override;
 
-    bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) override;
-    bool IsUndirectBusRelation(const int bus_id) override;
+        const AFServerConfig* GetAppServerInfo() override;
+        const std::string GetAppHost(const int bus_id) override;
 
-    const uint8_t GetSelfAppType() override;
-    const int GetSelfBusID() override;
-    const std::string GetSelfBusName() override;
+        bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) override;
+        bool IsUndirectBusRelation(const int bus_id) override;
 
-    const int CombineBusID(const uint8_t& app_type, const uint8_t& inst_id) override;
+        const uint8_t GetSelfAppType() override;
+        const int GetSelfBusID() override;
+        const std::string GetSelfBusName() override;
 
-protected:
-    bool LoadProcConfig();
-    bool LoadBusRelation();
-    uint16_t CalcProcPort(const AFBusAddr& bus_addr);
+        const int CombineBusID(const uint8_t& app_type, const uint8_t& inst_id) override;
 
-    const AFServerConfig* GetAppServerInfo(const AFBusAddr& bus_addr);
-    const std::string& GetHost(const std::string& host);
-private:
-    AFProcConfig mxProcConfig;
-    std::map<uint8_t, std::map<uint8_t, bool>> mxBusRelations;
-};
+    protected:
+        bool LoadProcConfig();
+        bool LoadBusRelation();
+        uint16_t CalcProcPort(const AFBusAddr& bus_addr);
+
+        const AFServerConfig* GetAppServerInfo(const AFBusAddr& bus_addr);
+        const std::string& GetHost(const std::string& host);
+    private:
+        AFProcConfig mxProcConfig;
+        std::map<uint8_t, std::map<uint8_t, bool>> mxBusRelations;
+    };
+
+}

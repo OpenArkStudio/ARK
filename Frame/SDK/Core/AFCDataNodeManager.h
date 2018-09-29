@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,50 +22,56 @@
 
 #include "SDK/Core/AFNoncopyable.hpp"
 #include "AFIDataNodeManager.h"
-class AFIClass;
-class AFCDataNodeManager : public AFIDataNodeManager, public AFNoncopyable
+
+namespace ark
 {
-public:
-    AFCDataNodeManager() = delete;
 
-    explicit AFCDataNodeManager(const AFGUID& self);
-    virtual ~AFCDataNodeManager();
-    virtual void Clear() final;
+    class AFIClass;
+    class AFCDataNodeManager : public AFIDataNodeManager, public AFNoncopyable
+    {
+    public:
+        AFCDataNodeManager() = delete;
 
-    virtual const AFGUID& Self() const;
+        explicit AFCDataNodeManager(const AFGUID& self);
+        virtual ~AFCDataNodeManager();
+        virtual void Clear() final;
 
-    virtual bool RegisterCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
+        virtual const AFGUID& Self() const;
 
-    virtual size_t GetNodeCount();
-    virtual AFDataNode* GetNodeByIndex(size_t index);
-    virtual AFDataNode* GetNode(const char* name);
-    virtual bool AddNode(const char* name, const AFIData& value, const AFFeatureType feature);
-    virtual bool SetNode(const char* name, const AFIData& value);
+        virtual bool RegisterCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
 
-    virtual bool SetNodeBool(const char* name, const bool value);
-    virtual bool SetNodeInt(const char* name, const int32_t value);
-    virtual bool SetNodeInt64(const char* name, const int64_t value);
-    virtual bool SetNodeFloat(const char* name, const float value);
-    virtual bool SetNodeDouble(const char* name, const double value);
-    virtual bool SetNodeString(const char* name, const std::string& value);
-    virtual bool SetNodeObject(const char* name, const AFGUID& value);
+        virtual size_t GetNodeCount();
+        virtual AFDataNode* GetNodeByIndex(size_t index);
+        virtual AFDataNode* GetNode(const char* name);
+        virtual bool AddNode(const char* name, const AFIData& value, const AFFeatureType feature);
+        virtual bool SetNode(const char* name, const AFIData& value);
 
-    virtual bool GetNodeBool(const char* name);
-    virtual int32_t GetNodeInt(const char* name);
-    virtual int64_t GetNodeInt64(const char* name);
-    virtual float GetNodeFloat(const char* name);
-    virtual double GetNodeDouble(const char* name);
-    virtual const char* GetNodeString(const char* name);
-    virtual const AFGUID GetNodeObject(const char* name);
+        virtual bool SetNodeBool(const char* name, const bool value);
+        virtual bool SetNodeInt(const char* name, const int32_t value);
+        virtual bool SetNodeInt64(const char* name, const int64_t value);
+        virtual bool SetNodeFloat(const char* name, const float value);
+        virtual bool SetNodeDouble(const char* name, const double value);
+        virtual bool SetNodeString(const char* name, const std::string& value);
+        virtual bool SetNodeObject(const char* name, const AFGUID& value);
 
-protected:
-    bool FindIndex(const char* name, size_t& index);
-    bool OnNodeCallback(const char* name, const AFIData& oldData, const AFIData& newData);
+        virtual bool GetNodeBool(const char* name);
+        virtual int32_t GetNodeInt(const char* name);
+        virtual int64_t GetNodeInt64(const char* name);
+        virtual float GetNodeFloat(const char* name);
+        virtual double GetNodeDouble(const char* name);
+        virtual const char* GetNodeString(const char* name);
+        virtual const AFGUID GetNodeObject(const char* name);
 
-private:
-    ArrayPod<AFDataNode*, 1, CoreAlloc> mxNodes;
-    StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
+    protected:
+        bool FindIndex(const char* name, size_t& index);
+        bool OnNodeCallback(const char* name, const AFIData& oldData, const AFIData& newData);
 
-    AFGUID mxSelf;
-    std::vector<DATA_NODE_EVENT_FUNCTOR_PTR> mxCallBackList;
-};
+    private:
+        ArrayPod<AFDataNode*, 1, CoreAlloc> mxNodes;
+        StringPod<char, size_t, StringTraits<char>, CoreAlloc> mxIndices;
+
+        AFGUID mxSelf;
+        std::vector<DATA_NODE_EVENT_FUNCTOR_PTR> mxCallBackList;
+    };
+
+}

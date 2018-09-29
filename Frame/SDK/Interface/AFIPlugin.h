@@ -26,54 +26,59 @@
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
+namespace ark
+{
+
 #define GET_CLASS_NAME(className) (typeid(className).name());
 
-class AFIPlugin : public AFIModule
-{
-public:
-    virtual int GetPluginVersion() = 0;
-    virtual const std::string GetPluginName() = 0;
-
-    virtual void Install() = 0;
-    virtual void Uninstall() = 0;
-
-    template<typename classBaseName, typename className>
-    void RegisterModule()
+    class AFIPlugin : public AFIModule
     {
-        assert((std::is_base_of<AFIModule, classBaseName>::value));
-        assert((std::is_base_of<classBaseName, className>::value));
-        AFIModule* pRegModuleName = ARK_NEW className();
-        pRegModuleName->SetPluginManager(pPluginManager);
-        pRegModuleName->strName = typeid(classBaseName).name();
-        pPluginManager->AddModule(typeid(classBaseName).name(), pRegModuleName);
-        mxModules.AddElement(typeid(classBaseName).name(), pRegModuleName);
-#if ARK_PLATFORM == PLATFORM_WIN
-        if ((&className::Update != &AFIModule::Update))
-#else
-        AFIModule base;
-        bool (AFIModule::*mfp)() = &AFIModule::Update;
-        bool (className::*child_mfp)() = &className::Update;
-        void* base_update_mfp = (void*)(base.*mfp);
-        void* derived_update_mfp = (void*)(static_cast<className*>(pRegModuleName)->*child_mfp);
-        if (base_update_mfp == derived_update_mfp)
-#endif
+    public:
+        virtual int GetPluginVersion() = 0;
+        virtual const std::string GetPluginName() = 0;
+
+        virtual void Install() = 0;
+        virtual void Uninstall() = 0;
+
+        template<typename classBaseName, typename className>
+        void RegisterModule()
         {
-            mxModulesUpdates.AddElement(typeid(classBaseName).name(), pRegModuleName);
+            assert((std::is_base_of<AFIModule, classBaseName>::value));
+            assert((std::is_base_of<classBaseName, className>::value));
+            AFIModule* pRegModuleName = ARK_NEW className();
+            pRegModuleName->SetPluginManager(pPluginManager);
+            pRegModuleName->strName = typeid(classBaseName).name();
+            pPluginManager->AddModule(typeid(classBaseName).name(), pRegModuleName);
+            mxModules.AddElement(typeid(classBaseName).name(), pRegModuleName);
+#if ARK_PLATFORM == PLATFORM_WIN
+            if ((&className::Update != &AFIModule::Update))
+#else
+            AFIModule base;
+            bool (AFIModule::*mfp)() = &AFIModule::Update;
+            bool (className::*child_mfp)() = &className::Update;
+            void* base_update_mfp = (void*)(base.*mfp);
+            void* derived_update_mfp = (void*)(static_cast<className*>(pRegModuleName)->*child_mfp);
+            if (base_update_mfp == derived_update_mfp)
+#endif
+            {
+                mxModulesUpdates.AddElement(typeid(classBaseName).name(), pRegModuleName);
+            }
         }
-    }
 
-    template<typename classBaseName, typename className>
-    void DeregisterModule()
-    {
-        AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(pPluginManager->FindModule(typeid(classBaseName).name()));
-        pPluginManager->RemoveModule(typeid(classBaseName).name());
-        mxModules.RemoveElement(typeid(classBaseName).name());
-        mxModulesUpdates.RemoveElement(typeid(classBaseName).name());
-        ARK_DELETE(pDeregModuleName);
-    }
+        template<typename classBaseName, typename className>
+        void DeregisterModule()
+        {
+            AFIModule* pDeregModuleName = dynamic_cast<AFIModule*>(pPluginManager->FindModule(typeid(classBaseName).name()));
+            pPluginManager->RemoveModule(typeid(classBaseName).name());
+            mxModules.RemoveElement(typeid(classBaseName).name());
+            mxModulesUpdates.RemoveElement(typeid(classBaseName).name());
+            ARK_DELETE(pDeregModuleName);
+        }
 
-protected:
-    //All registered modules
-    AFMap<std::string, AFIModule> mxModules;
-    AFMap<std::string, AFIModule> mxModulesUpdates;
-};
+    protected:
+        //All registered modules
+        AFMap<std::string, AFIModule> mxModules;
+        AFMap<std::string, AFIModule> mxModulesUpdates;
+    };
+
+}

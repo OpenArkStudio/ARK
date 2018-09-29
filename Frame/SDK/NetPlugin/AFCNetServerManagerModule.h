@@ -26,21 +26,26 @@
 #include "SDK/Interface/AFINetServerManagerModule.h"
 #include "SDK/Interface/AFINetServerService.h"
 
-class AFCNetServerManagerModule : public AFINetServerManagerModule
+namespace ark
 {
-public:
-    explicit AFCNetServerManagerModule() = default;
 
-    bool Init() override;
-    bool Update() override;
-    bool Shut() override;
+    class AFCNetServerManagerModule : public AFINetServerManagerModule
+    {
+    public:
+        explicit AFCNetServerManagerModule() = default;
 
-    int CreateServer() override;
-    AFINetServerService* GetSelfNetServer() override;
+        bool Init() override;
+        bool Update() override;
+        bool Shut() override;
 
-private:
-    AFMap<int, AFINetServerService> _net_servers;
+        int CreateServer() override;
+        AFINetServerService* GetSelfNetServer() override;
 
-    AFIBusModule* m_pBusModule;
-    AFILogModule* m_pLogModule;
-};
+    private:
+        AFMap<int, AFINetServerService> _net_servers;
+
+        AFIBusModule* m_pBusModule;
+        AFILogModule* m_pLogModule;
+    };
+
+}

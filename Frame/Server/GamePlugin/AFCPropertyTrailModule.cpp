@@ -24,95 +24,99 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "AFCPropertyTrailModule.h"
 
-bool AFCPropertyTrailModule::Init()
+namespace ark
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-    m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
-    return true;
-}
-
-void AFCPropertyTrailModule::StartTrail(const AFGUID self)
-{
-    LogObjectData(self);
-}
-
-void AFCPropertyTrailModule::EndTrail(const AFGUID self)
-{
-    //Will complete this
-}
-
-int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
-{
-    ARK_SHARE_PTR<AFIEntity> xEntity = m_pKernelModule->GetEntity(self);
-
-    if (nullptr == xEntity)
+    bool AFCPropertyTrailModule::Init()
     {
-        return -1;
+        m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+        m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
+        m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+        m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+
+        return true;
     }
 
-    ARK_SHARE_PTR<AFIDataNodeManager> xNodeManager = xEntity->GetNodeManager();
-
-    if (nullptr != xNodeManager)
+    void AFCPropertyTrailModule::StartTrail(const AFGUID self)
     {
-        size_t nodeCount = xNodeManager->GetNodeCount();
+        LogObjectData(self);
+    }
 
-        for (size_t i = 0; i < nodeCount; ++i)
+    void AFCPropertyTrailModule::EndTrail(const AFGUID self)
+    {
+        //Will complete this
+    }
+
+    int AFCPropertyTrailModule::LogObjectData(const AFGUID& self)
+    {
+        ARK_SHARE_PTR<AFIEntity> xEntity = m_pKernelModule->GetEntity(self);
+
+        if (nullptr == xEntity)
         {
-            AFDataNode* pNode = xNodeManager->GetNodeByIndex(i);
-            ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self.ToString(), pNode->GetName(), pNode->ToString());
+            return -1;
         }
-    }
 
-    ARK_SHARE_PTR<AFIDataTableManager> xTableManager = xEntity->GetTableManager();
+        ARK_SHARE_PTR<AFIDataNodeManager> xNodeManager = xEntity->GetNodeManager();
 
-    if (nullptr != xTableManager)
-    {
-        size_t tableCount = xTableManager->GetCount();
-
-        for (size_t i = 0; i < tableCount; ++i)
+        if (nullptr != xNodeManager)
         {
-            AFDataTable* pTable = xTableManager->GetTableByIndex(i);
-            size_t rowCount = pTable->GetRowCount();
+            size_t nodeCount = xNodeManager->GetNodeCount();
 
-            for (size_t j = 0; j < rowCount; ++j)
+            for (size_t i = 0; i < nodeCount; ++i)
             {
-                AFCDataList xDataList;
-                bool ret = pTable->QueryRow(j, xDataList);
+                AFDataNode* pNode = xNodeManager->GetNodeByIndex(i);
+                ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self.ToString(), pNode->GetName(), pNode->ToString());
+            }
+        }
 
-                if (!ret)
-                {
-                    continue;
-                }
+        ARK_SHARE_PTR<AFIDataTableManager> xTableManager = xEntity->GetTableManager();
 
-                for (size_t k = 0; k < xDataList.GetCount(); ++k)
+        if (nullptr != xTableManager)
+        {
+            size_t tableCount = xTableManager->GetCount();
+
+            for (size_t i = 0; i < tableCount; ++i)
+            {
+                AFDataTable* pTable = xTableManager->GetTableByIndex(i);
+                size_t rowCount = pTable->GetRowCount();
+
+                for (size_t j = 0; j < rowCount; ++j)
                 {
-                    ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self.ToString(), pTable->GetName(), j, k, xDataList.ToString(k));
+                    AFCDataList xDataList;
+                    bool ret = pTable->QueryRow(j, xDataList);
+
+                    if (!ret)
+                    {
+                        continue;
+                    }
+
+                    for (size_t k = 0; k < xDataList.GetCount(); ++k)
+                    {
+                        ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self.ToString(), pTable->GetName(), j, k, xDataList.ToString(k));
+                    }
                 }
             }
         }
+
+        return 0;
     }
 
-    return 0;
-}
+    int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar)
+    {
+        ARK_LOG_INFO("Trace id[{}] Name[{}] Old[{}] New[{}]", self.ToString(), nodeName, oldVar.GetString(), newVar.GetString());
+        return 0;
+    }
 
-int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar)
-{
-    ARK_LOG_INFO("Trace id[{}] Name[{}] Old[{}] New[{}]", self.ToString(), nodeName, oldVar.GetString(), newVar.GetString());
-    return 0;
-}
+    int AFCPropertyTrailModule::OnEntityTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
+    {
+        //will add
+        return 0;
+    }
 
-int AFCPropertyTrailModule::OnEntityTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar)
-{
-    //will add
-    return 0;
-}
+    int AFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
+    {
+        //will add
+        return 0;
+    }
 
-int AFCPropertyTrailModule::TrailObjectData(const AFGUID& self)
-{
-    //will add
-    return 0;
 }
-

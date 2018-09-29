@@ -22,7 +22,12 @@
 
 #include "SDK/Interface/AFIModule.h"
 
-class AFIWorldNetClientModule : public  AFIModule
+namespace ark
 {
 
-};
+    class AFIWorldNetClientModule : public  AFIModule
+    {
+
+    };
+
+}

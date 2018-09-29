@@ -23,20 +23,25 @@
 #include "SDK/Core/AFCronScheduler.hpp"
 #include "SDK/Interface/AFIScheduleModule.h"
 
-class AFCScheduleModule : public AFIScheduleModule
+namespace ark
 {
-public:
-    explicit AFCScheduleModule() = default;
 
-    bool Init() override;
-    bool PreShut() override;
-    bool Update() override;
+    class AFCScheduleModule : public AFIScheduleModule
+    {
+    public:
+        explicit AFCScheduleModule() = default;
 
-    bool RemoveSchedule(const int cron_id) override;
+        bool Init() override;
+        bool PreShut() override;
+        bool Update() override;
 
-protected:
-    bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR_PTR cb) override;
+        bool RemoveSchedule(const int cron_id) override;
 
-private:
-    std::shared_ptr<AFCronSheduler> mxCronSheduler{nullptr};
-};
+    protected:
+        bool AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR_PTR cb) override;
+
+    private:
+        std::shared_ptr<AFCronSheduler> mxCronSheduler{ nullptr };
+    };
+
+}

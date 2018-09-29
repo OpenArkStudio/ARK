@@ -29,61 +29,66 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "Server/Interface/AFIMasterNetServerModule.h"
 
-class AFCMasterNetServerModule : public AFIMasterNetServerModule
+namespace ark
 {
-public:
-    explicit AFCMasterNetServerModule()
+
+    class AFCMasterNetServerModule : public AFIMasterNetServerModule
     {
-        mnLastLogTime = pPluginManager->GetNowTime();
-    }
+    public:
+        explicit AFCMasterNetServerModule()
+        {
+            mnLastLogTime = pPluginManager->GetNowTime();
+        }
 
-    bool Init() override;
-    bool PostInit() override;
+        bool Init() override;
+        bool PostInit() override;
 
-    bool Update() override;
+        bool Update() override;
 
-protected:
-    int StartServer();
-    void OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+    protected:
+        int StartServer();
+        void OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
-    //连接丢失,删2层(连接对象，帐号对象)
-    void OnClientDisconnect(const AFGUID& xClientID);
-    //有连接
-    void OnClientConnected(const AFGUID& xClientID);
+        //连接丢失,删2层(连接对象，帐号对象)
+        void OnClientDisconnect(const AFGUID& xClientID);
+        //有连接
+        void OnClientConnected(const AFGUID& xClientID);
 
-    //世界服务器注册，刷新信息
-    void OnWorldRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnWorldUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnRefreshWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        //世界服务器注册，刷新信息
+        void OnWorldRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnWorldUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnRefreshWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    //////////////////////////////////////////////////////////////////////////
-    //登录服务器注册，刷新信息
-    void OnLoginRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnLoginUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnRefreshLoginInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        //////////////////////////////////////////////////////////////////////////
+        //登录服务器注册，刷新信息
+        void OnLoginRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnLoginUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnRefreshLoginInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    //选择世界服务器消息
-    void OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        //选择世界服务器消息
+        void OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    //////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////
 
-    void SynWorldToLogin();
-    void LogGameServer();
+        void SynWorldToLogin();
+        void LogGameServer();
 
-    void OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-private:
-    int64_t mnLastLogTime;
+    private:
+        int64_t mnLastLogTime;
 
-    //serverid,data
-    AFMapEx<int, AFServerData> mWorldMap;
-    AFMapEx<int, AFServerData> mLoginMap;
+        //serverid,data
+        AFMapEx<int, AFServerData> mWorldMap;
+        AFMapEx<int, AFServerData> mLoginMap;
 
-    AFILogModule* m_pLogModule;
-    AFIBusModule* m_pBusModule;
-    AFINetServerManagerModule* m_pNetServerManagerModule;
+        AFILogModule* m_pLogModule;
+        AFIBusModule* m_pBusModule;
+        AFINetServerManagerModule* m_pNetServerManagerModule;
 
-    AFINetServerService* m_pNetServer{ nullptr };
-};
+        AFINetServerService* m_pNetServer{ nullptr };
+    };
+
+}

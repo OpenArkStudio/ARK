@@ -29,46 +29,51 @@
 #include "Server/Interface/AFILoginNetClientModule.h"
 #include "Server/Interface/AFILoginNetServerModule.h"
 
-class AFCLoginNetServerModule : public AFILoginNetServerModule
+namespace ark
 {
-public:
-    explicit AFCLoginNetServerModule() = default;
 
-    bool Init() override;
-    bool PostInit() override;
+    class AFCLoginNetServerModule : public AFILoginNetServerModule
+    {
+    public:
+        explicit AFCLoginNetServerModule() = default;
 
-    int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldURL, const std::string& strKey) override;
+        bool Init() override;
+        bool PostInit() override;
 
-protected:
-    int StartServer();
+        int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldURL, const std::string& strKey) override;
 
-    void OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+    protected:
+        int StartServer();
 
-    void OnClientDisconnect(const AFGUID& xClientID);
-    void OnClientConnected(const AFGUID& xClientID);
+        void OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
-    //登入
-    void OnLoginProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnClientDisconnect(const AFGUID& xClientID);
+        void OnClientConnected(const AFGUID& xClientID);
 
-    //选择大世界
-    void OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        //登入
+        void OnLoginProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    //申请查看世界列表
-    void OnViewWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        //选择大世界
+        void OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    void OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        //申请查看世界列表
+        void OnViewWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    void SynWorldToClient(const AFGUID& xClientID);
+        void OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-private:
-    AFMapEx<AFGUID, AFSessionData> mmClientSessionData;
+        void SynWorldToClient(const AFGUID& xClientID);
 
-    AFILoginNetClientModule* m_pLoginNetClientModule;
-    AFILogModule* m_pLogModule;
-    AFIBusModule* m_pBusModule;
-    AFINetServerManagerModule* m_pNetServerManagerModule;
+    private:
+        AFMapEx<AFGUID, AFSessionData> mmClientSessionData;
 
-    AFINetServerService* m_pNetServer;
-};
+        AFILoginNetClientModule* m_pLoginNetClientModule;
+        AFILogModule* m_pLogModule;
+        AFIBusModule* m_pBusModule;
+        AFINetServerManagerModule* m_pNetServerManagerModule;
+
+        AFINetServerService* m_pNetServer;
+    };
+
+}

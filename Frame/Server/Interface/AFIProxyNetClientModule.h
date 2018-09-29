@@ -22,8 +22,13 @@
 
 #include "SDK/Interface/AFIModule.h"
 
-class AFIProxyNetClientModule : public  AFIModule
+namespace ark
 {
-public:
-    virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) = 0;
-};
+
+    class AFIProxyNetClientModule : public  AFIModule
+    {
+    public:
+        virtual bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) = 0;
+    };
+
+}

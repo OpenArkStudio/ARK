@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -23,34 +23,39 @@
 #include "SDK/Core/AFPlatform.hpp"
 #include "common/readerwriterqueue.h"
 
-template<typename T>
-class AFLockFreeQueue
+namespace ark
 {
-public:
-    AFLockFreeQueue()
-    {
-    }
 
-    virtual ~AFLockFreeQueue()
+    template<typename T>
+    class AFLockFreeQueue
     {
-    }
+    public:
+        AFLockFreeQueue()
+        {
+        }
 
-    bool Push(const T& object)
-    {
-        return mList.enqueue(object);
-    }
+        virtual ~AFLockFreeQueue()
+        {
+        }
 
-    bool Pop(T& object)
-    {
-        //return mList.wait_dequeue_timed(object, std::chrono::milliseconds(5));
-        return mList.try_dequeue(object);
-    }
+        bool Push(const T& object)
+        {
+            return mList.enqueue(object);
+        }
 
-    size_t Count()
-    {
-        return mList.size_approx();
-    }
+        bool Pop(T& object)
+        {
+            //return mList.wait_dequeue_timed(object, std::chrono::milliseconds(5));
+            return mList.try_dequeue(object);
+        }
 
-private:
-    moodycamel::BlockingReaderWriterQueue<T> mList;
-};
+        size_t Count()
+        {
+            return mList.size_approx();
+        }
+
+    private:
+        moodycamel::BlockingReaderWriterQueue<T> mList;
+    };
+
+}

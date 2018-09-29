@@ -25,21 +25,26 @@
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 
-class AFCMsgModule : public AFIMsgModule
+namespace ark
 {
-public:
-    explicit AFCMsgModule() = default;
 
-    bool Init() override;
+    class AFCMsgModule : public AFIMsgModule
+    {
+    public:
+        explicit AFCMsgModule() = default;
 
-    bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) override;
-    bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) override;
-    bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) override;
+        bool Init() override;
 
-    bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& target_role_id = 0) override;
-    bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) override;
-    bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& target_role_id = 0) override;
+        bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) override;
+        bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) override;
+        bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) override;
 
-private:
-    AFIBusModule* m_pBusModule;
-};
+        bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& target_role_id = 0) override;
+        bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& target_role_id = 0) override;
+        bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& target_role_id = 0) override;
+
+    private:
+        AFIBusModule* m_pBusModule;
+    };
+
+}

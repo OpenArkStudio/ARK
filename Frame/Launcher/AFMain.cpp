@@ -18,11 +18,13 @@
 *
 */
 
-#include "args/args.hxx"
+#include <args/args.hxx>
 #include "Common/AFBaseStruct.hpp"
 #include "SDK/Core/AFMacros.hpp"
 #include "SDK/Core/AFDateTime.hpp"
 #include "AFCPluginManager.h"
+
+using namespace ark;
 
 bool g_exit_loop = false;
 std::thread g_cmd_thread;
@@ -125,8 +127,7 @@ void ThreadFunc()
 
         std::string s;
         std::cin >> s;
-        std::transform(s.begin(), s.end(), s.begin(), ::tolower);
-
+        s = AFMisc::ToLower(s);
         if (s == "exit")
         {
             g_exit_loop = true;
@@ -243,7 +244,7 @@ void setproctitle(const char* title, int argc, char** argv)
 
 bool ParseArgs(int argc, char* argv[])
 {
-    args::ArgumentParser parser("Here is ARK plugin loader argument tools", "If you have any questions, please report an issue in GitHub.");
+    args::ArgumentParser parser("Here is ark plugin loader argument tools", "If you have any questions, please report an issue in GitHub.");
     args::HelpFlag help(parser, "help", "Display the help menu", {'h', "help"});
     args::ActionFlag xbutton(parser, "close", "Close [x] button in Windows", { 'x' }, [&]()
     {
@@ -375,6 +376,13 @@ void MainLoop()
 
 int main(int argc, char* argv[])
 {
+    //std::error_code ec;
+    //AFEndpoint ep = AFEndpoint::from_string("tcp://127.0.0.1:8080", ec);
+    //if (!ec)
+    //{
+    //    return -1;
+    //}
+
     if (!ParseArgs(argc, argv))
     {
         CONSOLE_LOG_NO_FILE << "Application parameter is invalid, please check it..." << std::endl;

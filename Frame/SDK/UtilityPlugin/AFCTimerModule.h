@@ -23,22 +23,27 @@
 #include "SDK/Core/AFTimer.hpp"
 #include "SDK/Interface/AFITimerModule.h"
 
-class AFCTimerModule : public AFITimerModule
+namespace ark
 {
-public:
-    explicit AFCTimerModule() = default;
 
-    bool Init() override;
-    bool PreShut() override;
-    bool Update() override;
+    class AFCTimerModule : public AFITimerModule
+    {
+    public:
+        explicit AFCTimerModule() = default;
 
-    bool RemoveTimer(const std::string& name) override;
-    bool RemoveTimer(const std::string& name, const AFGUID& entity_id) override;
+        bool Init() override;
+        bool PreShut() override;
+        bool Update() override;
 
-protected:
-    bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR_PTR cb) override;
-    bool AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR_PTR cb) override;
+        bool RemoveTimer(const std::string& name) override;
+        bool RemoveTimer(const std::string& name, const AFGUID& entity_id) override;
 
-private:
-    std::shared_ptr<AFTimerManager> mxTimerManager{ nullptr };
-};
+    protected:
+        bool AddSingleTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, const uint32_t count, TIMER_FUNCTOR_PTR cb) override;
+        bool AddForeverTimer(const std::string& name, const AFGUID& entity_id, const uint32_t interval_time, TIMER_FUNCTOR_PTR cb) override;
+
+    private:
+        std::shared_ptr<AFTimerManager> mxTimerManager{ nullptr };
+    };
+
+}

@@ -21,26 +21,31 @@
 #include "AFMasterPlugin.h"
 #include "AFCMasterNetServerModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFMasterPlugin)
-ARK_DLL_PLUGIN_EXIT(AFMasterPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFMasterPlugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
 
-const std::string AFMasterPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFMasterPlugin)
-}
+    ARK_DLL_PLUGIN_ENTRY(AFMasterPlugin)
+    ARK_DLL_PLUGIN_EXIT(AFMasterPlugin)
 
-void AFMasterPlugin::Install()
-{
-    RegisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
-}
+    //////////////////////////////////////////////////////////////////////////
+    int AFMasterPlugin::GetPluginVersion()
+    {
+        return 0;
+    }
 
-void AFMasterPlugin::Uninstall()
-{
-    DeregisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
+    const std::string AFMasterPlugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(AFMasterPlugin)
+    }
+
+    void AFMasterPlugin::Install()
+    {
+        RegisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
+    }
+
+    void AFMasterPlugin::Uninstall()
+    {
+        DeregisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
+    }
+
 }

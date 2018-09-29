@@ -22,28 +22,33 @@
 #include "AFCProxyNetServerModule.h"
 #include "AFCProxyNetClientModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFProxyPlugin)
-ARK_DLL_PLUGIN_EXIT(AFProxyPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFProxyPlugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
 
-const std::string AFProxyPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFProxyPlugin)
-}
+    ARK_DLL_PLUGIN_ENTRY(AFProxyPlugin)
+    ARK_DLL_PLUGIN_EXIT(AFProxyPlugin)
 
-void AFProxyPlugin::Install()
-{
-    RegisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
-    RegisterModule<AFIProxyNetClientModule, AFCProxyNetClientModule>();
-}
+    //////////////////////////////////////////////////////////////////////////
+    int AFProxyPlugin::GetPluginVersion()
+    {
+        return 0;
+    }
 
-void AFProxyPlugin::Uninstall()
-{
-    DeregisterModule<AFIProxyNetClientModule, AFCProxyNetClientModule>();
-    DeregisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
+    const std::string AFProxyPlugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(AFProxyPlugin)
+    }
+
+    void AFProxyPlugin::Install()
+    {
+        RegisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
+        RegisterModule<AFIProxyNetClientModule, AFCProxyNetClientModule>();
+    }
+
+    void AFProxyPlugin::Uninstall()
+    {
+        DeregisterModule<AFIProxyNetClientModule, AFCProxyNetClientModule>();
+        DeregisterModule<AFIProxyNetServerModule, AFCProxyNetServerModule>();
+    }
+
 }

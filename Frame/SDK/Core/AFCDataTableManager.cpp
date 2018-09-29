@@ -22,283 +22,288 @@
 #include "AFCDataTableManager.h"
 #include "AFDataTable.h"
 
-AFCDataTableManager::AFCDataTableManager(const AFGUID& guid)
-    : self(guid)
+namespace ark
 {
 
-}
-
-AFCDataTableManager::~AFCDataTableManager()
-{
-    ReleaseAll();
-}
-
-const AFGUID& AFCDataTableManager::Self()
-{
-    return self;
-}
-
-void AFCDataTableManager::ReleaseAll()
-{
-    for (size_t i = 0; i < mxTables.GetCount(); ++i)
+    AFCDataTableManager::AFCDataTableManager(const AFGUID& guid)
+        : self(guid)
     {
-        delete mxTables[i];
-    }
-    mxTables.Clear();
-}
 
-bool AFCDataTableManager::Exist(const char* name) const
-{
-    return mxTables.ExistElement(name);
-}
-
-bool AFCDataTableManager::Exist(const char* name, size_t& index) const
-{
-    return mxTables.ExistElement(name, index);
-}
-
-bool AFCDataTableManager::GetTableData(const char* name, const int row, const int col, AFIData& value)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
-    {
-        return NULL;
     }
 
-    return pTable->GetValue(row, col, value);
-}
-
-int AFCDataTableManager::OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData)
-{
-    for (auto& iter : mxTablecallbacks)
+    AFCDataTableManager::~AFCDataTableManager()
     {
-        (*iter)(self, xEventData, oldData, newData);
+        ReleaseAll();
     }
 
-    return 0;
-}
-
-bool AFCDataTableManager::RegisterCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
-{
-    mxTablecallbacks.push_back(cb);
-    return true;
-}
-
-bool AFCDataTableManager::AddTableInternal(AFDataTable* pTable)
-{
-    assert(pTable != nullptr);
-
-    LITLE_DATA_TABLE_EVENT_FUNCTOR functor = std::bind(&AFCDataTableManager::OnEventHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    pTable->RegisterCallback(std::make_shared<LITLE_DATA_TABLE_EVENT_FUNCTOR>(functor));
-
-    return mxTables.AddElement(pTable->GetName(), pTable);
-}
-
-bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const AFFeatureType feature)
-{
-    ARK_ASSERT(table_name != nullptr && sizeof(table_name) > 0, "Table name is invalid", __FILE__, __FUNCTION__);
-
-    AFDataTable* pTable = ARK_NEW AFDataTable();
-    pTable->SetName(table_name);
-    pTable->SetColCount(col_type_list.GetCount());
-
-    LITLE_DATA_TABLE_EVENT_FUNCTOR functor = std::bind(&AFCDataTableManager::OnEventHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-    pTable->RegisterCallback(std::make_shared<LITLE_DATA_TABLE_EVENT_FUNCTOR>(functor));
-    for (size_t i = 0; i < col_type_list.GetCount(); ++i)
+    const AFGUID& AFCDataTableManager::Self()
     {
-        pTable->SetColType(i, col_type_list.GetType(i));
+        return self;
     }
 
-    pTable->SetFeature(feature);
-    return AddTableInternal(pTable);
-}
-
-void AFCDataTableManager::Clear()
-{
-    ReleaseAll();
-}
-
-AFDataTable* AFCDataTableManager::GetTable(const char* name)
-{
-    return mxTables.GetElement(name);
-}
-
-size_t AFCDataTableManager::GetCount() const
-{
-    return mxTables.GetCount();
-}
-
-AFDataTable* AFCDataTableManager::GetTableByIndex(size_t index)
-{
-    ARK_ASSERT_RET_VAL(index < GetCount(), NULL);
-    return mxTables[index];
-}
-
-bool AFCDataTableManager::SetTableBool(const char* name, const int row, const int col, const bool value)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    void AFCDataTableManager::ReleaseAll()
     {
-        return false;
+        for (size_t i = 0; i < mxTables.GetCount(); ++i)
+        {
+            delete mxTables[i];
+        }
+        mxTables.Clear();
     }
 
-    return pTable->SetBool(row, col, value);
-}
-
-bool AFCDataTableManager::SetTableInt(const char* name, const int row, const int col, const int32_t value)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    bool AFCDataTableManager::Exist(const char* name) const
     {
-        return false;
+        return mxTables.ExistElement(name);
     }
 
-    return pTable->SetInt(row, col, value);
-}
-
-bool AFCDataTableManager::SetTableInt64(const char* name, const int row, const int col, const int64_t value)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    bool AFCDataTableManager::Exist(const char* name, size_t& index) const
     {
-        return false;
+        return mxTables.ExistElement(name, index);
     }
 
-    return pTable->SetInt64(row, col, value);
-}
-
-bool AFCDataTableManager::SetTableFloat(const char* name, const int row, const int col, const float value)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    bool AFCDataTableManager::GetTableData(const char* name, const int row, const int col, AFIData& value)
     {
-        return false;
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return NULL;
+        }
+
+        return pTable->GetValue(row, col, value);
     }
 
-    return pTable->SetFloat(row, col, value);
-}
-
-bool AFCDataTableManager::SetTableDouble(const char* name, const int row, const int col, const double value)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    int AFCDataTableManager::OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData)
     {
-        return false;
+        for (auto& iter : mxTablecallbacks)
+        {
+            (*iter)(self, xEventData, oldData, newData);
+        }
+
+        return 0;
     }
 
-    return pTable->SetDouble(row, col, value);
-}
-
-bool AFCDataTableManager::SetTableString(const char* name, const int row, const int col, const char* value)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    bool AFCDataTableManager::RegisterCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
     {
-        return false;
+        mxTablecallbacks.push_back(cb);
+        return true;
     }
 
-    return pTable->SetString(row, col, value);
-}
-
-bool AFCDataTableManager::SetTableObject(const char* name, const int row, const int col, const AFGUID& value)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    bool AFCDataTableManager::AddTableInternal(AFDataTable* pTable)
     {
-        return false;
+        assert(pTable != nullptr);
+
+        LITLE_DATA_TABLE_EVENT_FUNCTOR functor = std::bind(&AFCDataTableManager::OnEventHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        pTable->RegisterCallback(std::make_shared<LITLE_DATA_TABLE_EVENT_FUNCTOR>(functor));
+
+        return mxTables.AddElement(pTable->GetName(), pTable);
     }
 
-    return pTable->SetObject(row, col, value);
-}
-
-bool AFCDataTableManager::GetTableBool(const char* name, const int row, const int col)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    bool AFCDataTableManager::AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const AFFeatureType feature)
     {
-        return false;
+        ARK_ASSERT(table_name != nullptr && sizeof(table_name) > 0, "Table name is invalid", __FILE__, __FUNCTION__);
+
+        AFDataTable* pTable = ARK_NEW AFDataTable();
+        pTable->SetName(table_name);
+        pTable->SetColCount(col_type_list.GetCount());
+
+        LITLE_DATA_TABLE_EVENT_FUNCTOR functor = std::bind(&AFCDataTableManager::OnEventHandler, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+        pTable->RegisterCallback(std::make_shared<LITLE_DATA_TABLE_EVENT_FUNCTOR>(functor));
+        for (size_t i = 0; i < col_type_list.GetCount(); ++i)
+        {
+            pTable->SetColType(i, col_type_list.GetType(i));
+        }
+
+        pTable->SetFeature(feature);
+        return AddTableInternal(pTable);
     }
 
-    return pTable->GetBool(row, col);
-}
-
-int32_t AFCDataTableManager::GetTableInt(const char* name, const int row, const int col)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    void AFCDataTableManager::Clear()
     {
-        return NULL_INT;
+        ReleaseAll();
     }
 
-    return pTable->GetInt(row, col);
-}
-
-int64_t AFCDataTableManager::GetTableInt64(const char* name, const int row, const int col)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    AFDataTable* AFCDataTableManager::GetTable(const char* name)
     {
-        return NULL_INT64;
+        return mxTables.GetElement(name);
     }
 
-    return pTable->GetInt64(row, col);
-}
-
-float AFCDataTableManager::GetTableFloat(const char* name, const int row, const int col)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    size_t AFCDataTableManager::GetCount() const
     {
-        return NULL_FLOAT;
+        return mxTables.GetCount();
     }
 
-    return pTable->GetFloat(row, col);
-}
-
-double AFCDataTableManager::GetTableDouble(const char* name, const int row, const int col)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    AFDataTable* AFCDataTableManager::GetTableByIndex(size_t index)
     {
-        return NULL_DOUBLE;
+        ARK_ASSERT_RET_VAL(index < GetCount(), NULL);
+        return mxTables[index];
     }
 
-    return pTable->GetDouble(row, col);
-}
-
-const char* AFCDataTableManager::GetTableString(const char* name, const int row, const int col)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    bool AFCDataTableManager::SetTableBool(const char* name, const int row, const int col, const bool value)
     {
-        return NULL_STR.c_str();
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return false;
+        }
+
+        return pTable->SetBool(row, col, value);
     }
 
-    return pTable->GetString(row, col);
-}
-
-const AFGUID AFCDataTableManager::GetTableObject(const char* name, const int row, const int col)
-{
-    AFDataTable* pTable = GetTable(name);
-
-    if (pTable == nullptr)
+    bool AFCDataTableManager::SetTableInt(const char* name, const int row, const int col, const int32_t value)
     {
-        return NULL_GUID;
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return false;
+        }
+
+        return pTable->SetInt(row, col, value);
     }
 
-    return pTable->GetObject(row, col);
+    bool AFCDataTableManager::SetTableInt64(const char* name, const int row, const int col, const int64_t value)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return false;
+        }
+
+        return pTable->SetInt64(row, col, value);
+    }
+
+    bool AFCDataTableManager::SetTableFloat(const char* name, const int row, const int col, const float value)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return false;
+        }
+
+        return pTable->SetFloat(row, col, value);
+    }
+
+    bool AFCDataTableManager::SetTableDouble(const char* name, const int row, const int col, const double value)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return false;
+        }
+
+        return pTable->SetDouble(row, col, value);
+    }
+
+    bool AFCDataTableManager::SetTableString(const char* name, const int row, const int col, const char* value)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return false;
+        }
+
+        return pTable->SetString(row, col, value);
+    }
+
+    bool AFCDataTableManager::SetTableObject(const char* name, const int row, const int col, const AFGUID& value)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return false;
+        }
+
+        return pTable->SetObject(row, col, value);
+    }
+
+    bool AFCDataTableManager::GetTableBool(const char* name, const int row, const int col)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return false;
+        }
+
+        return pTable->GetBool(row, col);
+    }
+
+    int32_t AFCDataTableManager::GetTableInt(const char* name, const int row, const int col)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return NULL_INT;
+        }
+
+        return pTable->GetInt(row, col);
+    }
+
+    int64_t AFCDataTableManager::GetTableInt64(const char* name, const int row, const int col)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return NULL_INT64;
+        }
+
+        return pTable->GetInt64(row, col);
+    }
+
+    float AFCDataTableManager::GetTableFloat(const char* name, const int row, const int col)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return NULL_FLOAT;
+        }
+
+        return pTable->GetFloat(row, col);
+    }
+
+    double AFCDataTableManager::GetTableDouble(const char* name, const int row, const int col)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return NULL_DOUBLE;
+        }
+
+        return pTable->GetDouble(row, col);
+    }
+
+    const char* AFCDataTableManager::GetTableString(const char* name, const int row, const int col)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return NULL_STR.c_str();
+        }
+
+        return pTable->GetString(row, col);
+    }
+
+    const AFGUID AFCDataTableManager::GetTableObject(const char* name, const int row, const int col)
+    {
+        AFDataTable* pTable = GetTable(name);
+
+        if (pTable == nullptr)
+        {
+            return NULL_GUID;
+        }
+
+        return pTable->GetObject(row, col);
+    }
+
 }

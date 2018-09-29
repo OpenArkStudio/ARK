@@ -24,25 +24,30 @@
 #include "Common/AFBaseStruct.hpp"
 #include "SDK/Interface/AFIModule.h"
 
-class AFIBusModule : public AFIModule
+namespace ark
 {
-public:
-    virtual const std::string& GetAppName(const uint8_t& app_type) = 0;
-    virtual const uint8_t GetAppType(const std::string& name) = 0;
 
-    //get a process info which act a server
-    virtual const AFServerConfig* GetAppServerInfo() = 0;
+    class AFIBusModule : public AFIModule
+    {
+    public:
+        virtual const std::string& GetAppName(const uint8_t& app_type) = 0;
+        virtual const uint8_t GetAppType(const std::string& name) = 0;
 
-    //get the host and port of a process
-    virtual const std::string& GetAppHost(const int bus_id) = 0;
+        //get a process info which act a server
+        virtual const AFServerConfig* GetAppServerInfo() = 0;
 
-    //get bus relations of connecting directly
-    virtual bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) = 0;
-    virtual bool IsUndirectBusRelation(const int bus_id) = 0;
+        //get the host and port of a process
+        virtual const std::string GetAppHost(const int bus_id) = 0;
 
-    virtual const uint8_t GetSelfAppType() = 0;
-    virtual const int GetSelfBusID() = 0;
-    virtual const std::string GetSelfBusName() = 0;
+        //get bus relations of connecting directly
+        virtual bool GetDirectBusRelations(std::vector<AFServerConfig>& target_list) = 0;
+        virtual bool IsUndirectBusRelation(const int bus_id) = 0;
 
-    virtual const int CombineBusID(const uint8_t& app_type, const uint8_t& inst_id) = 0;
-};
+        virtual const uint8_t GetSelfAppType() = 0;
+        virtual const int GetSelfBusID() = 0;
+        virtual const std::string GetSelfBusName() = 0;
+
+        virtual const int CombineBusID(const uint8_t& app_type, const uint8_t& inst_id) = 0;
+    };
+
+}

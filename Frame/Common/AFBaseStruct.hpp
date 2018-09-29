@@ -23,6 +23,11 @@
 #include "Common/AFApp.hpp"
 #include "SDK/Core/AFPlatform.hpp"
 #include "SDK/Core/AFMacros.hpp"
+#include "SDK/Core/AFMisc.hpp"
+#include "SDK/Core/AFSocketFunc.hpp"
+
+namespace ark
+{
 
 //bus address, like IP address, 8.8.8.8
 union AFBusAddr
@@ -82,8 +87,8 @@ public:
     int self_id{ 0 };
     int max_connection{ 0 };
     uint8_t thread_num{ 0 };
-    std::string private_url{};
-    std::string public_url{};
+    AFEndpoint local_ep_;
+    AFEndpoint public_ep_;
     //to add other fields
 };
 
@@ -95,3 +100,5 @@ public:
     std::map<uint8_t, std::string> proc_names;  //proc_id -> proc_name
     std::map<uint8_t, std::vector<AFServerConfig>> instances;//proc_id -> proc_instances
 };
+
+}

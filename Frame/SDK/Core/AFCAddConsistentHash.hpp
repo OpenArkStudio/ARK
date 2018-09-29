@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -23,52 +23,56 @@
 #include "AFPlatform.hpp"
 #include "AFCConsistentHash.hpp"
 
-class AFCAddConsistentHash : public AFCConsistentHash
+namespace ark
 {
-public:
 
-    AFCAddConsistentHash()
+    class AFCAddConsistentHash : public AFCConsistentHash
     {
-    }
+    public:
 
-    virtual ~AFCAddConsistentHash()
-    {
-    }
-
-public:
-
-    void AddCandidateMachine(const int nServerID)
-    {
-        std::list<AFCMachineNode> xNodeList;
-
-        if (GetNodeList(xNodeList))
+        AFCAddConsistentHash()
         {
-            return;
         }
 
-        //鎶婃墍鏈夌殑鐪熷疄涓绘満浣滀负澶囦唤
-        AFCMachineNode xNode;
-        xNode.nMachineID = nServerID;
-        xNode.strIP = "";
-        xNode.nPort = 0;
-        xNode.bCandidate = true;
-
-        for (std::list<AFCMachineNode>::iterator it = xNodeList.begin(); it != xNodeList.end(); ++it)
+        virtual ~AFCAddConsistentHash()
         {
-            AFIVirtualNode&  xRealNode = *it;
+        }
 
-            if (!xRealNode.Candidate())
+    public:
+
+        void AddCandidateMachine(const int nServerID)
+        {
+            std::list<AFCMachineNode> xNodeList;
+
+            if (GetNodeList(xNodeList))
             {
-                xNode.xRealMachine.push_back(xRealNode);
+                return;
             }
+
+            //鎶婃墍鏈夌殑鐪熷疄涓绘満浣滀负澶囦唤
+            AFCMachineNode xNode;
+            xNode.nMachineID = nServerID;
+            xNode.strIP = "";
+            xNode.nPort = 0;
+            xNode.bCandidate = true;
+
+            for (auto& it : xNodeList)
+            {
+                AFIVirtualNode&  xRealNode = it;
+                if (!xRealNode.Candidate())
+                {
+                    xNode.xRealMachine.push_back(xRealNode);
+                }
+            }
+
+            Insert(xNode);
         }
 
-        Insert(xNode);
-    }
+        void IntanceCandidateMachine()
+        {
 
-    void IntanceCandidateMachine()
-    {
+        }
 
-    }
+    };
 
-};
+}

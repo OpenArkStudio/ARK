@@ -25,118 +25,123 @@
 #include "SDK/Core/AFGUID.hpp"
 #include "SDK/Core/AFIEntity.h"
 
-class AFCSceneGroupInfo
+namespace ark
 {
-public:
-    explicit AFCSceneGroupInfo(int nGroupID) :
-        mnGroupID(nGroupID)
+
+    class AFCSceneGroupInfo
     {
-
-    }
-
-    virtual ~AFCSceneGroupInfo()
-    {
-    }
-
-    bool Update()
-    {
-        return true;
-    }
-
-    AFMapEx<AFGUID, int> mxPlayerList;
-    AFMapEx<AFGUID, int> mxOtherList;
-    int mnGroupID;
-};
-
-// all group in this scene
-class AFCSceneInfo : public AFMapEx<int, AFCSceneGroupInfo>
-{
-public:
-    explicit AFCSceneInfo() :
-        mnGroupIndex(0),
-        mnWidth(512)
-    {
-    }
-
-    explicit AFCSceneInfo(int nWidth) :
-        mnGroupIndex(0),
-        mnWidth(nWidth)
-    {
-    }
-
-    virtual ~AFCSceneInfo()
-    {
-        ClearAll();
-    }
-
-    int NewGroupID()
-    {
-        return ++mnGroupIndex;
-    }
-
-    int GetWidth()
-    {
-        return mnWidth;
-    }
-
-    bool AddObjectToGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
-    {
-        ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
-
-        if (pInfo == nullptr)
+    public:
+        explicit AFCSceneGroupInfo(int nGroupID) :
+            mnGroupID(nGroupID)
         {
-            return false;
+
         }
-        else
+
+        virtual ~AFCSceneGroupInfo()
         {
-            if (bPlayer)
+        }
+
+        bool Update()
+        {
+            return true;
+        }
+
+        AFMapEx<AFGUID, int> mxPlayerList;
+        AFMapEx<AFGUID, int> mxOtherList;
+        int mnGroupID;
+    };
+
+    // all group in this scene
+    class AFCSceneInfo : public AFMapEx<int, AFCSceneGroupInfo>
+    {
+    public:
+        explicit AFCSceneInfo() :
+            mnGroupIndex(0),
+            mnWidth(512)
+        {
+        }
+
+        explicit AFCSceneInfo(int nWidth) :
+            mnGroupIndex(0),
+            mnWidth(nWidth)
+        {
+        }
+
+        virtual ~AFCSceneInfo()
+        {
+            ClearAll();
+        }
+
+        int NewGroupID()
+        {
+            return ++mnGroupIndex;
+        }
+
+        int GetWidth()
+        {
+            return mnWidth;
+        }
+
+        bool AddObjectToGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
+        {
+            ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
+
+            if (pInfo == nullptr)
             {
-                return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); //TODO:Map.second mean nothing
+                return false;
             }
             else
             {
-                return pInfo->mxOtherList.AddElement(ident, ARK_SHARE_PTR<int>()); //TODO:Map.second mean nothing
+                if (bPlayer)
+                {
+                    return pInfo->mxPlayerList.AddElement(ident, ARK_SHARE_PTR<int>()); //TODO:Map.second mean nothing
+                }
+                else
+                {
+                    return pInfo->mxOtherList.AddElement(ident, ARK_SHARE_PTR<int>()); //TODO:Map.second mean nothing
+                }
             }
         }
-    }
 
-    bool RemoveObjectFromGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
-    {
-        ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
+        bool RemoveObjectFromGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
+        {
+            ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
 
-        if (nullptr == pInfo)
-        {
-            return false;
-        }
-        else
-        {
-            if (bPlayer)
+            if (nullptr == pInfo)
             {
-                return pInfo->mxPlayerList.RemoveElement(ident);
+                return false;
             }
             else
             {
-                return pInfo->mxOtherList.RemoveElement(ident);
+                if (bPlayer)
+                {
+                    return pInfo->mxPlayerList.RemoveElement(ident);
+                }
+                else
+                {
+                    return pInfo->mxOtherList.RemoveElement(ident);
+                }
             }
         }
-    }
 
-    bool Update()
+        bool Update()
+        {
+            return true;
+        }
+
+    private:
+        int mnGroupIndex;
+        int mnSceneID;
+        int mnWidth;
+    };
+
+    class AFISceneModule : public AFIModule, public AFMapEx<int, AFCSceneInfo>
     {
-        return true;
-    }
+    public:
+        virtual ~AFISceneModule()
+        {
+            ClearAll();
+        }
+    };
 
-private:
-    int mnGroupIndex;
-    int mnSceneID;
-    int mnWidth;
-};
-
-class AFISceneModule : public AFIModule, public AFMapEx<int, AFCSceneInfo>
-{
-public:
-    virtual ~AFISceneModule()
-    {
-        ClearAll();
-    }
-};
+}

@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,9 +22,14 @@
 
 #include "SDK/Interface/AFIModule.h"
 
-class AFILevelModule : public AFIModule
+namespace ark
 {
-public:
-    virtual int AddExp(const AFGUID& self, const int nExp) = 0;
 
-};
+    class AFILevelModule : public AFIModule
+    {
+    public:
+        virtual int AddExp(const AFGUID& self, const int nExp) = 0;
+
+    };
+
+}

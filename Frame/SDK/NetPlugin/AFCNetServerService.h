@@ -22,34 +22,39 @@
 
 #include "SDK/Interface/AFINetServerService.h"
 
-class AFCNetServerService : public AFINetServerService
+namespace ark
 {
-public:
-    AFCNetServerService() = default;
-    virtual ~AFCNetServerService();
 
-    int Start(const int bus_id, const std::string& url, const uint8_t thread_count, const uint32_t max_connection) override;
-    bool Update() override;
+    class AFCNetServerService : public AFINetServerService
+    {
+    public:
+        AFCNetServerService() = default;
+        virtual ~AFCNetServerService();
 
-    bool SendBroadcastMsg(const int msg_id, const std::string& msg, const AFGUID& player_id) override;
-    bool SendBroadcastPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& player_id) override;
-    bool SendPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
-    bool SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
-    AFINet* GetNet() override;
+        bool Start(const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) override;
+        bool Update() override;
 
-    bool AddRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
-    bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
-    bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) override;
+        bool SendBroadcastMsg(const int msg_id, const std::string& msg, const AFGUID& player_id) override;
+        bool SendBroadcastPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& player_id) override;
+        bool SendPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
+        bool SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
+        AFINet* GetNet() override;
 
-protected:
-    void OnRecvNetPack(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID);
+        bool AddRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
+        bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
+        bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) override;
 
-    void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID);
+    protected:
+        void OnRecvNetPack(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID);
 
-private:
-    AFINet* m_pNet{ nullptr };
+        void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID);
 
-    std::map<int, NET_PKG_RECV_FUNCTOR_PTR> mxRecvCallBack;
-    std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
-    std::list<NET_PKG_RECV_FUNCTOR_PTR> mxCallBackList;
-};
+    private:
+        AFINet* m_pNet{ nullptr };
+
+        std::map<int, NET_PKG_RECV_FUNCTOR_PTR> mxRecvCallBack;
+        std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
+        std::list<NET_PKG_RECV_FUNCTOR_PTR> mxCallBackList;
+    };
+
+}

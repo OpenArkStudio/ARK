@@ -26,78 +26,83 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "AFCDynLib.h"
 
-class AFCPluginManager : public AFIPluginManager, public AFSingleton<AFCPluginManager>
+namespace ark
 {
-public:
-    AFCPluginManager();
 
-    bool Init() override;
-    bool PostInit() override;
-    bool CheckConfig() override;
-    bool PreUpdate() override;
-    bool Update() override;
-    bool PreShut() override;
-    bool Shut() override;
+    class AFCPluginManager : public AFIPluginManager, public AFSingleton<AFCPluginManager>
+    {
+    public:
+        AFCPluginManager();
 
-    //////////////////////////////////////////////////////////////////////////
+        bool Init() override;
+        bool PostInit() override;
+        bool CheckConfig() override;
+        bool PreUpdate() override;
+        bool Update() override;
+        bool PreShut() override;
+        bool Shut() override;
 
-    void Register(AFIPlugin* pPlugin) override;
-    void Deregister(AFIPlugin* pPlugin) override;
+        //////////////////////////////////////////////////////////////////////////
 
-    bool StartReLoadState() override;
-    bool EndReLoadState() override;
-    //////////////////////////////////////////////////////////////////////////
+        void Register(AFIPlugin* pPlugin) override;
+        void Deregister(AFIPlugin* pPlugin) override;
 
-    AFIPlugin* FindPlugin(const std::string& strPluginName) override;
+        bool StartReLoadState() override;
+        bool EndReLoadState() override;
+        //////////////////////////////////////////////////////////////////////////
 
-    void AddModule(const std::string& strModuleName, AFIModule* pModule) override;
-    void RemoveModule(const std::string& strModuleName) override;
-    virtual AFIModule* FindModule(const std::string& strModuleName) override;
+        AFIPlugin* FindPlugin(const std::string& strPluginName) override;
 
-    int BusID() const override;
-    void SetBusID(const int app_id) override;
+        void AddModule(const std::string& strModuleName, AFIModule* pModule) override;
+        void RemoveModule(const std::string& strModuleName) override;
+        virtual AFIModule* FindModule(const std::string& strModuleName) override;
 
-    const std::string& AppName() const override;
-    void SetAppName(const std::string& app_name) override;
+        int BusID() const override;
+        void SetBusID(const int app_id) override;
 
-    int64_t GetNowTime() const override;
+        const std::string& AppName() const override;
+        void SetAppName(const std::string& app_name) override;
 
-    const std::string& GetResPath() const override;
+        int64_t GetNowTime() const override;
 
-    void SetPluginConf(const std::string& strFileName) override;
+        const std::string& GetResPath() const override;
 
-    void SetLogPath(const std::string& log_path) override;
-    const std::string& GetLogPath() const override;
+        void SetPluginConf(const std::string& strFileName) override;
 
-protected:
-    bool LoadPluginConf();
+        void SetLogPath(const std::string& log_path) override;
+        const std::string& GetLogPath() const override;
 
-    bool LoadPluginLibrary(const std::string& strPluginDLLName);
-    bool UnloadPluginLibrary(const std::string& plugin_name);
+    protected:
+        bool LoadPluginConf();
 
-private:
-    //Bus id
-    int mnBusID{0};
-    //Current time(ms)
-    int64_t mnNowTime{0};
-    //plugin so/dll file path
-    std::string mstrPluginPath{};
-    //Resource path
-    std::string mstrResPath{};
-    //app.plugin file path
-    std::string mstrPluginConfPath{};
-    //app name
-    std::string mstrAppName{};
-    //log output path
-    std::string mstrLogPath{};
+        bool LoadPluginLibrary(const std::string& strPluginDLLName);
+        bool UnloadPluginLibrary(const std::string& plugin_name);
 
-    typedef void(*DLL_ENTRY_PLUGIN_FUNC)(AFIPluginManager* pm);
-    typedef void(*DLL_EXIT_PLUGIN_FUNC)(AFIPluginManager* pm);
+    private:
+        //Bus id
+        int mnBusID{ 0 };
+        //Current time(ms)
+        int64_t mnNowTime{ 0 };
+        //plugin so/dll file path
+        std::string mstrPluginPath{};
+        //Resource path
+        std::string mstrResPath{};
+        //app.plugin file path
+        std::string mstrPluginConfPath{};
+        //app name
+        std::string mstrAppName{};
+        //log output path
+        std::string mstrLogPath{};
 
-    std::map<std::string, bool> mxPluginNameMap;
-    std::vector<std::string> mxPluginNameVec; // order
-    AFMap<std::string, AFCDynLib> mxPluginLibMap;
-    AFMap<std::string, AFIPlugin> mxPluginInstanceMap;
-    AFMap<std::string, AFIModule> mxModuleInstanceMap;
-    std::vector<AFIModule*> mxModuleInstanceVec; // order
-};
+        typedef void(*DLL_ENTRY_PLUGIN_FUNC)(AFIPluginManager* pm);
+        typedef void(*DLL_EXIT_PLUGIN_FUNC)(AFIPluginManager* pm);
+
+        std::map<std::string, bool> mxPluginNameMap;
+        std::vector<std::string> mxPluginNameVec; // order
+        AFMap<std::string, AFCDynLib> mxPluginLibMap;
+        AFMap<std::string, AFIPlugin> mxPluginInstanceMap;
+        AFMap<std::string, AFIModule> mxModuleInstanceMap;
+        std::vector<AFIModule*> mxModuleInstanceVec; // order
+    };
+
+}

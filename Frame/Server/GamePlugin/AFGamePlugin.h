@@ -23,15 +23,20 @@
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-class AFGamePlugin : public AFIPlugin
+namespace ark
 {
-public:
-    explicit AFGamePlugin() = default;
 
-    int GetPluginVersion() override;
+    class AFGamePlugin : public AFIPlugin
+    {
+    public:
+        explicit AFGamePlugin() = default;
 
-    const std::string GetPluginName() override;
+        int GetPluginVersion() override;
 
-    void Install() override;
-    void Uninstall() override;
-};
+        const std::string GetPluginName() override;
+
+        void Install() override;
+        void Uninstall() override;
+    };
+
+}

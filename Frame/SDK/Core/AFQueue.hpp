@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -23,80 +23,84 @@
 #include "SDK/Core/AFPlatform.hpp"
 #include "SDK/Core/AFNoncopyable.hpp"
 
-class AFLock : public AFNoncopyable
+namespace ark
 {
-public:
-    explicit AFLock()
+
+    class AFLock : public AFNoncopyable
     {
-        flag.clear();
-    }
-
-    ~AFLock()
-    {
-    }
-
-    void lock()
-    {
-        while (flag.test_and_set(std::memory_order_acquire));
-    }
-
-    void unlock()
-    {
-        flag.clear(std::memory_order_release);
-    }
-
-private:
-    mutable std::atomic_flag flag;
-};
-
-template<typename T>
-class AFQueue : public AFLock
-{
-public:
-    AFQueue()
-    {
-    }
-
-    virtual ~AFQueue()
-    {
-    }
-
-    bool Push(const T& object)
-    {
-        lock();
-
-        mList.push_back(object);
-
-        unlock();
-
-        return true;
-    }
-
-    bool Pop(T& object)
-    {
-        lock();
-
-        if (mList.empty())
+    public:
+        explicit AFLock()
         {
-            unlock();
-
-            return false;
+            flag.clear();
         }
 
-        object = mList.front();
-        mList.pop_front();
+        ~AFLock()
+        {
+        }
 
-        unlock();
+        void lock()
+        {
+            while (flag.test_and_set(std::memory_order_acquire));
+        }
 
-        return true;
-    }
+        void unlock()
+        {
+            flag.clear(std::memory_order_release);
+        }
 
-    int Count()
+    private:
+        mutable std::atomic_flag flag;
+    };
+
+    template<typename T>
+    class AFQueue : public AFLock
     {
-        return mList.size();
-    }
+    public:
+        AFQueue()
+        {
+        }
 
-private:
-    std::list<T> mList;
-};
+        virtual ~AFQueue()
+        {
+        }
 
+        bool Push(const T& object)
+        {
+            lock();
+
+            mList.push_back(object);
+
+            unlock();
+
+            return true;
+        }
+
+        bool Pop(T& object)
+        {
+            lock();
+
+            if (mList.empty())
+            {
+                unlock();
+
+                return false;
+            }
+
+            object = mList.front();
+            mList.pop_front();
+
+            unlock();
+
+            return true;
+        }
+
+        int Count()
+        {
+            return mList.size();
+        }
+
+    private:
+        std::list<T> mList;
+    };
+
+}

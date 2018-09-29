@@ -33,39 +33,44 @@
 #include "Server/Interface/AFIWorldNetClientModule.h"
 #include "Server/Interface/AFIWorldNetServerModule.h"
 
-class AFCWorldNetClientModule : public AFIWorldNetClientModule
+namespace ark
 {
-public:
-    explicit AFCWorldNetClientModule() = default;
 
-    bool Init() override;
-    bool PreUpdate() override;
+    class AFCWorldNetClientModule : public AFIWorldNetClientModule
+    {
+    public:
+        explicit AFCWorldNetClientModule() = default;
 
-protected:
-    int StartClient();
+        bool Init() override;
+        bool PreUpdate() override;
 
-    void OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+    protected:
+        int StartClient();
 
-    //连接丢失,删2层(连接对象，帐号对象)
-    void OnClientDisconnect(const AFGUID& xClientID);
-    //有连接
-    void OnClientConnected(const AFGUID& xClientID);
+        void OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
 
-    virtual void LogServerInfo(const std::string& strServerInfo);
+        //连接丢失,删2层(连接对象，帐号对象)
+        void OnClientDisconnect(const AFGUID& xClientID);
+        //有连接
+        void OnClientConnected(const AFGUID& xClientID);
+
+        virtual void LogServerInfo(const std::string& strServerInfo);
 
 
-    void Register(const int bus_id);
-    void RefreshWorldInfo();
+        void Register(const int bus_id);
+        void RefreshWorldInfo();
 
-    void OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-    void OnKickClientProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnKickClientProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-    void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-private:
+        void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+    private:
 
-    AFILogModule* m_pLogModule;
-    AFIBusModule* m_pBusModule;
-    AFIMsgModule* m_pMsgModule;
-    AFIWorldNetServerModule* m_pWorldNetServerModule;
-    AFINetClientManagerModule* m_pNetClientManagerModule;
-};
+        AFILogModule* m_pLogModule;
+        AFIBusModule* m_pBusModule;
+        AFIMsgModule* m_pMsgModule;
+        AFIWorldNetServerModule* m_pWorldNetServerModule;
+        AFINetClientManagerModule* m_pNetClientManagerModule;
+    };
+
+}

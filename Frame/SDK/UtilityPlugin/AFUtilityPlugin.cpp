@@ -24,34 +24,39 @@
 #include "AFCTimerModule.h"
 #include "AFCScheduleModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFUtilityPlugin)
-ARK_DLL_PLUGIN_EXIT(AFUtilityPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFUtilityPlugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
 
-const std::string AFUtilityPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFUtilityPlugin)
-}
+    ARK_DLL_PLUGIN_ENTRY(AFUtilityPlugin)
+    ARK_DLL_PLUGIN_EXIT(AFUtilityPlugin)
 
-void AFUtilityPlugin::Install()
-{
-    RegisterModule<AFILogModule, AFCLogModule>();
-    RegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
-    RegisterModule<AFIGUIDModule, AFCGUIDModule>();
-    RegisterModule<AFITimerModule, AFCTimerModule>();
-    RegisterModule<AFIScheduleModule, AFCScheduleModule>();
-}
+    //////////////////////////////////////////////////////////////////////////
+    int AFUtilityPlugin::GetPluginVersion()
+    {
+        return 0;
+    }
 
-void AFUtilityPlugin::Uninstall()
-{
-    DeregisterModule<AFIScheduleModule, AFCScheduleModule>();
-    DeregisterModule<AFITimerModule, AFCGUIDModule>();
-    DeregisterModule<AFIGUIDModule, AFCGUIDModule>();
-    DeregisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
-    DeregisterModule<AFILogModule, AFCLogModule>();
+    const std::string AFUtilityPlugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(AFUtilityPlugin)
+    }
+
+    void AFUtilityPlugin::Install()
+    {
+        RegisterModule<AFILogModule, AFCLogModule>();
+        RegisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
+        RegisterModule<AFIGUIDModule, AFCGUIDModule>();
+        RegisterModule<AFITimerModule, AFCTimerModule>();
+        RegisterModule<AFIScheduleModule, AFCScheduleModule>();
+    }
+
+    void AFUtilityPlugin::Uninstall()
+    {
+        DeregisterModule<AFIScheduleModule, AFCScheduleModule>();
+        DeregisterModule<AFITimerModule, AFCGUIDModule>();
+        DeregisterModule<AFIGUIDModule, AFCGUIDModule>();
+        DeregisterModule<AFIDynamicLogModule, AFCDynamicLogModule>();
+        DeregisterModule<AFILogModule, AFCLogModule>();
+    }
+
 }

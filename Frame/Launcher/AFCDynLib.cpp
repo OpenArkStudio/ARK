@@ -20,21 +20,26 @@
 
 #include "AFCDynLib.h"
 
-bool AFCDynLib::Load(std::string const& path)
+namespace ark
 {
-    std::string strLibPath = path + mstrName;
-    mInst = (DYNLIB_HANDLE)DYNLIB_LOAD(strLibPath.c_str());
 
-    return mInst != nullptr;
-}
+    bool AFCDynLib::Load(std::string const& path)
+    {
+        std::string strLibPath = path + mstrName;
+        mInst = (DYNLIB_HANDLE)DYNLIB_LOAD(strLibPath.c_str());
 
-bool AFCDynLib::UnLoad()
-{
-    DYNLIB_UNLOAD(mInst);
-    return true;
-}
+        return mInst != nullptr;
+    }
 
-void* AFCDynLib::GetSymbol(const char* szProcName)
-{
-    return (DYNLIB_HANDLE)DYNLIB_GETSYM(mInst, szProcName);
+    bool AFCDynLib::UnLoad()
+    {
+        DYNLIB_UNLOAD(mInst);
+        return true;
+    }
+
+    void* AFCDynLib::GetSymbol(const char* szProcName)
+    {
+        return (DYNLIB_HANDLE)DYNLIB_GETSYM(mInst, szProcName);
+    }
+
 }

@@ -23,41 +23,46 @@
 #include "SDK/Interface/AFIModule.h"
 #include "SDK/Interface/AFINetServerManagerModule.h"
 
-class AFIGameNetServerModule : public AFIModule
+namespace ark
 {
-public:
-    //要管理当前所有的对象所在的actor,gateid,fd等
-    class GateBaseInfo
+
+    class AFIGameNetServerModule : public AFIModule
     {
     public:
-        GateBaseInfo()
+        //要管理当前所有的对象所在的actor,gateid,fd等
+        class GateBaseInfo
         {
+        public:
+            GateBaseInfo()
+            {
 
-        }
+            }
 
-        GateBaseInfo(const int gateID, const AFGUID xIdent) :
-            nGateID(gateID),
-            xClientID(xIdent)
+            GateBaseInfo(const int gateID, const AFGUID xIdent) :
+                nGateID(gateID),
+                xClientID(xIdent)
+            {
+            }
+
+            int nActorID{ 0 };
+            int nGateID{ 0 };
+            AFGUID xClientID{ 0 };
+        };
+
+        class GateServerInfo
         {
-        }
+        public:
+            AFServerData xServerData;
+            //此网关上所有的对象<角色ID,gate_FD>
+            std::map<AFGUID, AFGUID> xRoleInfo;
+        };
 
-        int nActorID{0};
-        int nGateID{0};
-        AFGUID xClientID{0};
+        virtual AFINetServerService* GetNetServerService() = 0;
+        virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self) = 0;
+        virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self) = 0;
+        virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID) = 0;
+        virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID) = 0;
+        virtual ARK_SHARE_PTR<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID) = 0;
     };
 
-    class GateServerInfo
-    {
-    public:
-        AFServerData xServerData;
-        //此网关上所有的对象<角色ID,gate_FD>
-        std::map<AFGUID, AFGUID> xRoleInfo;
-    };
-
-    virtual AFINetServerService* GetNetServerService() = 0;
-    virtual void SendMsgPBToGate(const uint16_t nMsgID, google::protobuf::Message& xMsg, const AFGUID& self) = 0;
-    virtual void SendMsgPBToGate(const uint16_t nMsgID, const std::string& strMsg, const AFGUID& self) = 0;
-    virtual bool AddPlayerGateInfo(const AFGUID& nRoleID, const AFGUID& nClientID, const int nGateID) = 0;
-    virtual bool RemovePlayerGateInfo(const AFGUID& nRoleID) = 0;
-    virtual ARK_SHARE_PTR<GateBaseInfo> GetPlayerGateInfo(const AFGUID& nRoleID) = 0;
-};
+}

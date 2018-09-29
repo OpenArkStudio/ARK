@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,178 +20,183 @@
 
 #pragma once
 
-class AFBuffer
+namespace ark
 {
-public:
-    ~AFBuffer()
+
+    class AFBuffer
     {
-        if (mData != nullptr)
+    public:
+        ~AFBuffer()
         {
-            free(mData);
-            mData = nullptr;
-        }
-    }
-
-    explicit AFBuffer(size_t nBufferSize = 1024 * 512) : mData(nullptr), mnDataSize(0), mWritePos(0), mnReadPos(0)
-    {
-        if ((mData = (char*)malloc(sizeof(char) * nBufferSize)) != NULL)
-        {
-            mnDataSize = nBufferSize;
-            mnReadPos = 0;
-            mWritePos = 0;
-        }
-    }
-
-    bool write(const char* data, size_t len)
-    {
-        bool write_ret = true;
-
-        if (getwritevalidcount() >= len)
-        {
-            memcpy(getwriteptr(), data, len);
-            addwritepos(len);
-        }
-        else
-        {
-            size_t left_len = mnDataSize - getlength();
-
-            if (left_len >= len)
+            if (mData != nullptr)
             {
-                AdjusttoHead();
-                write(data, len);
+                free(mData);
+                mData = nullptr;
+            }
+        }
+
+        explicit AFBuffer(size_t nBufferSize = 1024 * 512) : mData(nullptr), mnDataSize(0), mWritePos(0), mnReadPos(0)
+        {
+            if ((mData = (char*)malloc(sizeof(char) * nBufferSize)) != NULL)
+            {
+                mnDataSize = nBufferSize;
+                mnReadPos = 0;
+                mWritePos = 0;
+            }
+        }
+
+        bool write(const char* data, size_t len)
+        {
+            bool write_ret = true;
+
+            if (getwritevalidcount() >= len)
+            {
+                memcpy(getwriteptr(), data, len);
+                addwritepos(len);
             }
             else
             {
-                size_t needLen = len - left_len;
+                size_t left_len = mnDataSize - getlength();
 
-                if (needLen > 0)
+                if (left_len >= len)
                 {
-                    grow(needLen);
+                    AdjusttoHead();
                     write(data, len);
                 }
                 else
                 {
-                    write_ret = false;
+                    size_t needLen = len - left_len;
+
+                    if (needLen > 0)
+                    {
+                        grow(needLen);
+                        write(data, len);
+                    }
+                    else
+                    {
+                        write_ret = false;
+                    }
                 }
+            }
+
+            return write_ret;
+        }
+
+        size_t getlength()
+        {
+            return mWritePos - mnReadPos;
+        }
+
+        char* getdata()
+        {
+            if (mnReadPos < mnDataSize)
+            {
+                return mData + mnReadPos;
+            }
+            else
+            {
+                return nullptr;
             }
         }
 
-        return write_ret;
-    }
-
-    size_t getlength()
-    {
-        return mWritePos - mnReadPos;
-    }
-
-    char* getdata()
-    {
-        if (mnReadPos < mnDataSize)
+        void removedata(size_t value)
         {
-            return mData + mnReadPos;
-        }
-        else
-        {
-            return nullptr;
-        }
-    }
+            size_t temp = mnReadPos + value;
 
-    void removedata(size_t value)
-    {
-        size_t temp = mnReadPos + value;
-
-        if (temp <= mnDataSize)
-        {
-            mnReadPos = temp;
-        }
-    }
-
-private:
-    void AdjusttoHead()
-    {
-        size_t len = 0;
-
-        if (mnReadPos <= 0)
-        {
-            return;
+            if (temp <= mnDataSize)
+            {
+                mnReadPos = temp;
+            }
         }
 
-        len = getlength();
-
-        if (len > 0)
+    private:
+        void AdjusttoHead()
         {
-            memmove(mData, mData + mnReadPos, len);
+            size_t len = 0;
+
+            if (mnReadPos <= 0)
+            {
+                return;
+            }
+
+            len = getlength();
+
+            if (len > 0)
+            {
+                memmove(mData, mData + mnReadPos, len);
+            }
+
+            mnReadPos = 0;
+            mWritePos = len;
         }
 
-        mnReadPos = 0;
-        mWritePos = len;
-    }
+        //Remove unused function
+        //void init()
+        //{
+        //    mnReadPos = 0;
+        //    mWritePos = 0;
+        //}
 
-    //Remove unused function
-    //void init()
-    //{
-    //    mnReadPos = 0;
-    //    mWritePos = 0;
-    //}
-
-    size_t getwritepos()
-    {
-        return mWritePos;
-    }
-
-    //Remove unused function
-    //size_t getreadpos()
-    //{
-    //    return mnReadPos;
-    //}
-
-    void addwritepos(size_t value)
-    {
-        size_t temp = mWritePos + value;
-
-        if (temp <= mnDataSize)
+        size_t getwritepos()
         {
-            mWritePos = temp;
+            return mWritePos;
         }
-    }
 
-    size_t getwritevalidcount()
-    {
-        return mnDataSize - mWritePos;
-    }
+        //Remove unused function
+        //size_t getreadpos()
+        //{
+        //    return mnReadPos;
+        //}
 
-    //Remove unused function
-    //size_t getsize()
-    //{
-    //    return mnDataSize;
-    //}
-
-    char* getwriteptr()
-    {
-        if (mWritePos < mnDataSize)
+        void addwritepos(size_t value)
         {
-            return mData + mWritePos;
+            size_t temp = mWritePos + value;
+
+            if (temp <= mnDataSize)
+            {
+                mWritePos = temp;
+            }
         }
-        else
+
+        size_t getwritevalidcount()
         {
-            return nullptr;
+            return mnDataSize - mWritePos;
         }
-    }
 
-    void grow(size_t len)
-    {
-        size_t n = mnDataSize + len;
-        char* d = new char[n];
+        //Remove unused function
+        //size_t getsize()
+        //{
+        //    return mnDataSize;
+        //}
 
-        memcpy(d, mData, getwritepos());
-        mnDataSize = n;
-        delete[] mData;
-        mData = d;
-    }
+        char* getwriteptr()
+        {
+            if (mWritePos < mnDataSize)
+            {
+                return mData + mWritePos;
+            }
+            else
+            {
+                return nullptr;
+            }
+        }
 
-    char*   mData;
-    size_t mnDataSize;
+        void grow(size_t len)
+        {
+            size_t n = mnDataSize + len;
+            char* d = new char[n];
 
-    size_t mWritePos;
-    size_t mnReadPos;
-};
+            memcpy(d, mData, getwritepos());
+            mnDataSize = n;
+            delete[] mData;
+            mData = d;
+        }
+
+        char*   mData;
+        size_t mnDataSize;
+
+        size_t mWritePos;
+        size_t mnReadPos;
+    };
+
+}

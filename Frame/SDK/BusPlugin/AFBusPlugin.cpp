@@ -22,28 +22,32 @@
 #include "AFCBusModule.h"
 #include "AFCMsgModule.h"
 
-ARK_DLL_PLUGIN_ENTRY(AFBusPlugin)
-ARK_DLL_PLUGIN_EXIT(AFBusPlugin)
-
-//////////////////////////////////////////////////////////////////////////
-int AFBusPlugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
+    ARK_DLL_PLUGIN_ENTRY(AFBusPlugin)
+    ARK_DLL_PLUGIN_EXIT(AFBusPlugin)
 
-const std::string AFBusPlugin::GetPluginName()
-{
-    return GET_CLASS_NAME(AFBusPlugin)
-}
+    //////////////////////////////////////////////////////////////////////////
+    int AFBusPlugin::GetPluginVersion()
+    {
+        return 0;
+    }
 
-void AFBusPlugin::Install()
-{
-    RegisterModule<AFIBusModule, AFCBusModule>();
-    RegisterModule<AFIMsgModule, AFCMsgModule>();
-}
+    const std::string AFBusPlugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(AFBusPlugin)
+    }
 
-void AFBusPlugin::Uninstall()
-{
-    DeregisterModule<AFIMsgModule, AFCMsgModule>();
-    DeregisterModule<AFIBusModule, AFCBusModule>();
+    void AFBusPlugin::Install()
+    {
+        RegisterModule<AFIBusModule, AFCBusModule>();
+        RegisterModule<AFIMsgModule, AFCMsgModule>();
+    }
+
+    void AFBusPlugin::Uninstall()
+    {
+        DeregisterModule<AFIMsgModule, AFCMsgModule>();
+        DeregisterModule<AFIBusModule, AFCBusModule>();
+    }
+
 }

@@ -20,7 +20,12 @@
 
 #pragma once
 
-enum AFErrorCode
+namespace ark
 {
-    //will add error code
-};
+
+    enum AFErrorCode
+    {
+        //will add error code
+    };
+
+}

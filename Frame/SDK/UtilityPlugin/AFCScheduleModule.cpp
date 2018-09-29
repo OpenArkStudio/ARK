@@ -21,30 +21,35 @@
 #include "AFCScheduleModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-bool AFCScheduleModule::Init()
+namespace ark
 {
-    mxCronSheduler = std::make_shared<AFCronSheduler>();
-    return true;
-}
 
-bool AFCScheduleModule::PreShut()
-{
-    mxCronSheduler->Clear();
-    return true;
-}
+    bool AFCScheduleModule::Init()
+    {
+        mxCronSheduler = std::make_shared<AFCronSheduler>();
+        return true;
+    }
 
-bool AFCScheduleModule::Update()
-{
-    mxCronSheduler->Update(pPluginManager->GetNowTime());
-    return true;
-}
+    bool AFCScheduleModule::PreShut()
+    {
+        mxCronSheduler->Clear();
+        return true;
+    }
 
-bool AFCScheduleModule::AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR_PTR cb)
-{
-    return mxCronSheduler->AddCron(id, user_arg, cron_expression, pPluginManager->GetNowTime(), cb);
-}
+    bool AFCScheduleModule::Update()
+    {
+        mxCronSheduler->Update(pPluginManager->GetNowTime());
+        return true;
+    }
 
-bool AFCScheduleModule::RemoveSchedule(const int cron_id)
-{
-    return (mxCronSheduler->RemoveCron(cron_id) > 0);
+    bool AFCScheduleModule::AddSchedule(const int id, const int user_arg, const char* cron_expression, SCHEDULER_FUNCTOR_PTR cb)
+    {
+        return mxCronSheduler->AddCron(id, user_arg, cron_expression, pPluginManager->GetNowTime(), cb);
+    }
+
+    bool AFCScheduleModule::RemoveSchedule(const int cron_id)
+    {
+        return (mxCronSheduler->RemoveCron(cron_id) > 0);
+    }
+
 }

@@ -21,107 +21,112 @@
 #include "AFCGUIDModule.h"
 #include "SDK/Core/AFDateTime.hpp"
 
-namespace guid_module
+namespace ark
 {
-//refer:https://github.com/nebula-im/snowflake4cxx
 
-uint64_t WaitUntilNextMillis(uint64_t last_timestamp)
-{
-    uint64_t timestamp = AFDateTime::GetNowTime();
-
-    while (timestamp <= last_timestamp)
+    namespace guid_module
     {
-        timestamp = AFDateTime::GetNowTime();
-    }
+        //refer:https://github.com/nebula-im/snowflake4cxx
 
-    return timestamp;
-}
-
-class IdWorkerThreadUnsafe
-{
-public:
-    IdWorkerThreadUnsafe() = default;
-
-    uint64_t GetNextID()
-    {
-        uint64_t timestamp = AFDateTime::GetNowTime();
-
-        //in current microsecond
-        if (last_timestamp_ == timestamp)
+        uint64_t WaitUntilNextMillis(uint64_t last_timestamp)
         {
-            sequence_ = (sequence_ + 1) & 0xFFFF;
+            uint64_t timestamp = AFDateTime::GetNowTime();
 
-            if (sequence_ == 0)
+            while (timestamp <= last_timestamp)
             {
-                timestamp = WaitUntilNextMillis(last_timestamp_);
+                timestamp = AFDateTime::GetNowTime();
             }
+
+            return timestamp;
         }
-        else
+
+        class IdWorkerThreadUnsafe
         {
-            sequence_ = 0;
-        }
+        public:
+            IdWorkerThreadUnsafe() = default;
 
-        last_timestamp_ = timestamp;
-        return ((timestamp - ARK_EPOCH) * ARK_GUID_POWER + sequence_);
+            uint64_t GetNextID()
+            {
+                uint64_t timestamp = AFDateTime::GetNowTime();
+
+                //in current microsecond
+                if (last_timestamp_ == timestamp)
+                {
+                    sequence_ = (sequence_ + 1) & 0xFFFF;
+
+                    if (sequence_ == 0)
+                    {
+                        timestamp = WaitUntilNextMillis(last_timestamp_);
+                    }
+                }
+                else
+                {
+                    sequence_ = 0;
+                }
+
+                last_timestamp_ = timestamp;
+                return ((timestamp - ARK_EPOCH) * ARK_GUID_POWER + sequence_);
+            }
+
+        private:
+            uint64_t last_timestamp_{ 0 };
+            uint32_t sequence_{ 0 };
+        };
+
+        class IdWorkerThreadSafe
+        {
+        public:
+            IdWorkerThreadSafe() = default;
+
+            uint64_t GetNextID()
+            {
+                std::lock_guard<std::mutex> g(lock_);
+                return id_worker_.GetNextID();
+            }
+
+        private:
+            IdWorkerThreadUnsafe id_worker_;
+            mutable std::mutex lock_;
+        };
+
     }
 
-private:
-    uint64_t last_timestamp_{ 0 };
-    uint32_t sequence_{ 0 };
-};
+    //////////////////////////////////////////////////////////////////////////
 
-class IdWorkerThreadSafe
-{
-public:
-    IdWorkerThreadSafe() = default;
-
-    uint64_t GetNextID()
+    bool AFCGUIDModule::Init()
     {
-        std::lock_guard<std::mutex> g(lock_);
-        return id_worker_.GetNextID();
-    }
-
-private:
-    IdWorkerThreadUnsafe id_worker_;
-    mutable std::mutex lock_;
-};
-
-}
-
-//////////////////////////////////////////////////////////////////////////
-
-bool AFCGUIDModule::Init()
-{
 #ifdef AF_THREAD_SAFE
-    m_pIDWoker = new guid_module::IdWorkerThreadSafe();
+        m_pIDWoker = new guid_module::IdWorkerThreadSafe();
 #else
-    m_pIDWoker = new guid_module::IdWorkerThreadUnsafe();
+        m_pIDWoker = new guid_module::IdWorkerThreadUnsafe();
 #endif // AF_THREAD_SAFE
 
-    return true;
-}
-
-bool AFCGUIDModule::PreShut()
-{
-    if (m_pIDWoker != nullptr)
-    {
-        ARK_DELETE(m_pIDWoker);
+        return true;
     }
 
-    return true;
-}
+    bool AFCGUIDModule::PreShut()
+    {
+        if (m_pIDWoker != nullptr)
+        {
+            ARK_DELETE(m_pIDWoker);
+        }
 
-void AFCGUIDModule::SetGUIDMask(uint64_t mask)
-{
-    mnMask = mask;
-}
+        return true;
+    }
 
-AFGUID AFCGUIDModule::CreateGUID()
-{
-    ARK_ASSERT_RET_VAL(m_pIDWoker != nullptr, NULL_GUID);
+    void AFCGUIDModule::SetGUIDMask(uint64_t mask)
+    {
+        mnMask = mask;
+    }
 
-    uint64_t nLow = m_pIDWoker->GetNextID();
-    AFGUID newGUID(mnMask, nLow);
+    AFGUID AFCGUIDModule::CreateGUID()
+    {
+        ARK_ASSERT_RET_VAL(m_pIDWoker != nullptr, NULL_GUID);
 
-    return newGUID;
+        uint64_t nLow = m_pIDWoker->GetNextID();
+        AFGUID newGUID(mnMask, nLow);
+
+        return newGUID;
+    }
+
 }

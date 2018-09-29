@@ -20,48 +20,52 @@
 
 #include "AFCLevelModule.h"
 
-bool AFCLevelModule::Init()
+namespace ark
 {
-    m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pPropertyConfigModule = pPluginManager->FindModule<AFIPropertyConfigModule>();
-    m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
 
-    return true;
-}
-
-int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
-{
-    int eJobType = m_pKernelModule->GetNodeInt(self, ARK::Player::Job());
-    int nCurExp = m_pKernelModule->GetNodeInt(self, ARK::Player::EXP());
-    int nLevel = m_pKernelModule->GetNodeInt(self, ARK::Player::Level());
-    int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ARK::Player::MAXEXP());
-
-    nCurExp += nExp;
-
-    int nRemainExp = nCurExp - nMaxExp;
-
-    while (nRemainExp >= 0)
+    bool AFCLevelModule::Init()
     {
-        //升级
-        nLevel++;
-        //防止越级BUG
-        m_pKernelModule->SetNodeInt(self, ARK::Player::Level(), nLevel);
+        m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
+        m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+        m_pPropertyConfigModule = pPluginManager->FindModule<AFIPropertyConfigModule>();
+        m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
 
-        nCurExp = nRemainExp;
-
-        nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ARK::Player::MAXEXP());
-
-        if (nMaxExp <= 0)
-        {
-            break;
-        }
-
-        nRemainExp -= nMaxExp;
+        return true;
     }
 
-    m_pKernelModule->SetNodeInt(self, ARK::Player::EXP(), nCurExp);
+    int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
+    {
+        int eJobType = m_pKernelModule->GetNodeInt(self, ark::Player::Job());
+        int nCurExp = m_pKernelModule->GetNodeInt(self, ark::Player::EXP());
+        int nLevel = m_pKernelModule->GetNodeInt(self, ark::Player::Level());
+        int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::MAXEXP());
 
-    return 0;
+        nCurExp += nExp;
+
+        int nRemainExp = nCurExp - nMaxExp;
+
+        while (nRemainExp >= 0)
+        {
+            //升级
+            nLevel++;
+            //防止越级BUG
+            m_pKernelModule->SetNodeInt(self, ark::Player::Level(), nLevel);
+
+            nCurExp = nRemainExp;
+
+            nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::MAXEXP());
+
+            if (nMaxExp <= 0)
+            {
+                break;
+            }
+
+            nRemainExp -= nMaxExp;
+        }
+
+        m_pKernelModule->SetNodeInt(self, ark::Player::EXP(), nCurExp);
+
+        return 0;
+    }
+
 }
-

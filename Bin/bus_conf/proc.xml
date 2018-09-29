@@ -33,36 +33,36 @@
 	-->
 	<servers>
 		<!-- cluster -->
-		<server name="master" proc_id="1" protocol="tcp://" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
+		<server name="master" proc_id="1" protocol="tcp" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
 			<proc start="1" end="1" host="test1_x64" />
 		</server>
-		<server name="dir" proc_id="2" protocol="tcp://" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
+		<server name="dir" proc_id="2" protocol="tcp" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
 			<proc start="1" end="1" host="test2_x64" />
 		</server>
-		<server name="log" proc_id="3" protocol="tcp://" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
+		<server name="log" proc_id="3" protocol="tcp" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
 			<proc start="1" end="1" host="test2_x64" />
 		</server>
-		<server name="router" proc_id="4" protocol="tcp://" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
+		<server name="router" proc_id="4" protocol="tcp" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
 			<proc start="1" end="1" host="test2_x64" />
 		</server>
 		<!-- world -->
-		<server name="world" proc_id="100" protocol="tcp://" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
+		<server name="world" proc_id="100" protocol="tcp" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
 			<proc start="1" end="1" host="test2_x64" />
 		</server>
-		<server name="game" proc_id="101" protocol="tcp://" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
+		<server name="game" proc_id="101" protocol="tcp" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
 			<proc start="1" end="3" host="test1_x64" />
 			<!-- 1.1.101.1 - 1.1.101.3 -> 192.168.10.1 -->
 			<proc start="4" end="6" host="test2_x64" />
 			<!-- 1.1.101.4 - 1.1.101.6 -> 192.168.10.2 -->
 		</server>
-		<server name="login" proc_id="102" protocol="tcp://" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
+		<server name="login" proc_id="102" protocol="tcp" max_connection="5000" thread_num="2" work_path="" cfg_path="" args="">
 			<proc start="1" end="1" host="test2_x64" />
 		</server>
-		<server name="proxy" proc_id="103" protocol="tcp://" max_connection="5000" thread_num="4" work_path="" cfg_path="" args="">
+		<server name="proxy" proc_id="103" protocol="tcp" max_connection="5000" thread_num="4" work_path="" cfg_path="" args="">
 			<proc start="1" end="3" host="test1_x64" />
 			<proc start="4" end="6" host="test2_x64" />
 		</server>
-		<server name="db" proc_id="104" protocol="tcp://" max_connection="5000" thread_num="4" work_path="" cfg_path="" args="">
+		<server name="db" proc_id="104" protocol="tcp" max_connection="5000" thread_num="4" work_path="" cfg_path="" args="">
 			<proc start="1" end="1" host="test2_x64" />
 		</server>
 	</servers>

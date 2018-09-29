@@ -23,309 +23,314 @@
 #include "AFPlatform.hpp"
 #include "AFMacros.hpp"
 
-class ArrayPodAlloc
+namespace ark
 {
-public:
-    ArrayPodAlloc() = default;
-    ~ArrayPodAlloc() = default;
 
-    void* Alloc(size_t size)
+    class ArrayPodAlloc
     {
-        ARK_NEW_ARRAY_RET(char, size);
-    }
+    public:
+        ArrayPodAlloc() = default;
+        ~ArrayPodAlloc() = default;
 
-    void Free(void* ptr, size_t size)
+        void* Alloc(size_t size)
+        {
+            ARK_NEW_ARRAY_RET(char, size);
+        }
+
+        void Free(void* ptr, size_t size)
+        {
+            ARK_DELETE_ARRAY(char, ptr);
+        }
+
+        void Swap(ArrayPodAlloc& src)
+        {
+            //do nothing
+        }
+    };
+
+    //predeclared
+    template<typename TYPE, size_t SIZE, typename ALLOC = ArrayPodAlloc>
+    class ArrayPod;
+
+    template<typename TYPE, size_t SIZE, typename ALLOC>
+    class ArrayPod
     {
-        ARK_DELETE_ARRAY(char, ptr);
-    }
+    public:
+        using self_t = ArrayPod<TYPE, SIZE, ALLOC>;
 
-    void Swap(ArrayPodAlloc& src)
-    {
-        //do nothing
-    }
-};
-
-//predeclared
-template<typename TYPE, size_t SIZE, typename ALLOC = ArrayPodAlloc>
-class ArrayPod;
-
-template<typename TYPE, size_t SIZE, typename ALLOC>
-class ArrayPod
-{
-public:
-    using self_t = ArrayPod<TYPE, SIZE, ALLOC>;
-
-    ArrayPod() noexcept
-    {
-        mpData = mxStack;
-        mnCapacity = SIZE;
-        mnSize = 0;
-    }
-
-    ArrayPod(const self_t& src)
-    {
-        mnSize = src.mnSize;
-
-        if (mnSize <= SIZE)
+        ArrayPod() noexcept
         {
             mpData = mxStack;
             mnCapacity = SIZE;
-        }
-        else
-        {
-            mnCapacity = src.mnCapacity;
-            mpData = (TYPE*)mxAlloc.Alloc(mnCapacity * sizeof(TYPE));
+            mnSize = 0;
         }
 
-        memcpy(mpData, src.mpData, mnSize * sizeof(TYPE));
-    }
-
-    ~ArrayPod()
-    {
-        if (mnCapacity > SIZE)
+        ArrayPod(const self_t& src)
         {
-            mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
-        }
-    }
+            mnSize = src.mnSize;
 
-    self_t& operator=(const self_t& rhs)
-    {
-        self_t tmp(rhs);
-        swap(tmp);
-        return *this;
-    }
+            if (mnSize <= SIZE)
+            {
+                mpData = mxStack;
+                mnCapacity = SIZE;
+            }
+            else
+            {
+                mnCapacity = src.mnCapacity;
+                mpData = (TYPE*)mxAlloc.Alloc(mnCapacity * sizeof(TYPE));
+            }
 
-    void swap(self_t& src)
-    {
-        size_t tmp_size = src.mnSize;
-        size_t tmp_capacity = src.mnCapacity;
-        TYPE* tmp_data = src.mpData;
-        TYPE tmp_stack[SIZE];
-
-        if (tmp_capacity <= SIZE)
-        {
-            memcpy(tmp_stack, src.mxStack, tmp_size * sizeof(TYPE));
+            memcpy(mpData, src.mpData, mnSize * sizeof(TYPE));
         }
 
-        src.mnSize = this->mnSize;
-        src.mnCapacity = this->mnCapacity;
-
-        if (this->mnCapacity <= SIZE)
+        ~ArrayPod()
         {
-            memcpy(src.mxStack, this->mxStack, mnSize * sizeof(TYPE));
-            src.mpData = src.mxStack;
-        }
-        else
-        {
-            src.mpData = this->mpData;
-        }
-
-        //////////////////////////////////////////////////////////////////////////
-        this->mnSize = tmp_size;
-        this->mnCapacity = tmp_capacity;
-
-        if (tmp_capacity <= SIZE)
-        {
-            memcpy(this->mxStack, tmp_stack, tmp_size * sizeof(TYPE));
-            this->mpData = this->mxStack;
-        }
-        else
-        {
-            this->mpData = tmp_data;
-        }
-
-        this->mxAlloc.Swap(src.mxAlloc);
-    }
-
-    bool empty()
-    {
-        return (mnSize == 0);
-    }
-
-    size_t size() const
-    {
-        return mnSize;
-    }
-
-    const TYPE* data() const
-    {
-        return mpData;
-    }
-
-    void push_back(const TYPE& data)
-    {
-        if (mnSize == mnCapacity)
-        {
-            size_t new_size = mnSize * 2;
-            TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE));
-
             if (mnCapacity > SIZE)
             {
                 mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
             }
-
-            mpData = p;
-            mnCapacity = new_size;
         }
 
-        mpData[mnSize++] = data;
-    }
-
-    void pop_back()
-    {
-        assert(mnSize > 0);
-        --mnSize;
-    }
-
-    TYPE& back()
-    {
-        assert(mnSize > 0);
-        return mpData[mnSize - 1];
-    }
-
-    const TYPE& back() const
-    {
-        assert(mnSize > 0);
-        return mpData[mnSize - 1];
-    }
-
-    TYPE& operator[](size_t index)
-    {
-        assert(index < mnSize);
-        return mpData[index];
-    }
-
-    const TYPE& operator[](size_t index) const
-    {
-        assert(index < mnSize);
-        return mpData[index];
-    }
-
-    void reserve(size_t size)
-    {
-        if (size > mnCapacity)
+        self_t& operator=(const self_t& rhs)
         {
-            TYPE* p = (TYPE*)mxAlloc.Alloc(size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE));
-
-            if (mnCapacity > SIZE)
-            {
-                mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
-            }
-
-            mpData = p;
-            mnCapacity = size;
+            self_t tmp(rhs);
+            swap(tmp);
+            return *this;
         }
-    }
 
-    void resize(size_t size)
-    {
-        if (size > mnCapacity)
+        void swap(self_t& src)
         {
-            size_t new_size = mnCapacity * 2;
+            size_t tmp_size = src.mnSize;
+            size_t tmp_capacity = src.mnCapacity;
+            TYPE* tmp_data = src.mpData;
+            TYPE tmp_stack[SIZE];
 
-            if (new_size < size)
+            if (tmp_capacity <= SIZE)
             {
-                new_size = size;
+                memcpy(tmp_stack, src.mxStack, tmp_size * sizeof(TYPE));
             }
 
-            TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE));
+            src.mnSize = this->mnSize;
+            src.mnCapacity = this->mnCapacity;
 
-            if (mnCapacity > SIZE)
+            if (this->mnCapacity <= SIZE)
             {
-                mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
+                memcpy(src.mxStack, this->mxStack, mnSize * sizeof(TYPE));
+                src.mpData = src.mxStack;
+            }
+            else
+            {
+                src.mpData = this->mpData;
             }
 
-            mpData = p;
-            mnCapacity = new_size;
+            //////////////////////////////////////////////////////////////////////////
+            this->mnSize = tmp_size;
+            this->mnCapacity = tmp_capacity;
+
+            if (tmp_capacity <= SIZE)
+            {
+                memcpy(this->mxStack, tmp_stack, tmp_size * sizeof(TYPE));
+                this->mpData = this->mxStack;
+            }
+            else
+            {
+                this->mpData = tmp_data;
+            }
+
+            this->mxAlloc.Swap(src.mxAlloc);
         }
 
-        mnSize = size;
-    }
-
-    void resize(size_t size, const TYPE& value)
-    {
-        if (size > mnCapacity)
+        bool empty()
         {
-            size_t new_size = mnCapacity * 2;
-
-            if (new_size < size)
-            {
-                new_size = size;
-            }
-
-            TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
-            memcpy(p, mpData, mnSize * sizeof(TYPE));
-
-            if (mnCapacity > SIZE)
-            {
-                mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
-            }
-
-            mpData = p;
-            mnCapacity = new_size;
+            return (mnSize == 0);
         }
 
-        if (size > mnSize)
+        size_t size() const
         {
-            for (size_t i = mnSize; i < size; ++i)
+            return mnSize;
+        }
+
+        const TYPE* data() const
+        {
+            return mpData;
+        }
+
+        void push_back(const TYPE& data)
+        {
+            if (mnSize == mnCapacity)
             {
-                mpData[i] = value;
+                size_t new_size = mnSize * 2;
+                TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
+                memcpy(p, mpData, mnSize * sizeof(TYPE));
+
+                if (mnCapacity > SIZE)
+                {
+                    mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
+                }
+
+                mpData = p;
+                mnCapacity = new_size;
+            }
+
+            mpData[mnSize++] = data;
+        }
+
+        void pop_back()
+        {
+            assert(mnSize > 0);
+            --mnSize;
+        }
+
+        TYPE& back()
+        {
+            assert(mnSize > 0);
+            return mpData[mnSize - 1];
+        }
+
+        const TYPE& back() const
+        {
+            assert(mnSize > 0);
+            return mpData[mnSize - 1];
+        }
+
+        TYPE& operator[](size_t index)
+        {
+            assert(index < mnSize);
+            return mpData[index];
+        }
+
+        const TYPE& operator[](size_t index) const
+        {
+            assert(index < mnSize);
+            return mpData[index];
+        }
+
+        void reserve(size_t size)
+        {
+            if (size > mnCapacity)
+            {
+                TYPE* p = (TYPE*)mxAlloc.Alloc(size * sizeof(TYPE));
+                memcpy(p, mpData, mnSize * sizeof(TYPE));
+
+                if (mnCapacity > SIZE)
+                {
+                    mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
+                }
+
+                mpData = p;
+                mnCapacity = size;
             }
         }
 
-        mnSize = size;
-    }
-
-    void insert(size_t index, const TYPE& data)
-    {
-        assert(index <= mnSize);
-
-        resize(mnSize + 1);
-        TYPE* p = mpData + index;
-        memmove(p + 1, p, (mnSize - index - 1) * sizeof(TYPE));
-        *p = data;
-    }
-
-    void remove(size_t index)
-    {
-        assert(index <= mnSize);
-
-        TYPE* p = mpData + index;
-        memmove(p, p + 1, (mnSize - index - 1) * sizeof(TYPE));
-        --mnSize;
-    }
-
-    void remove_some(size_t start, size_t count)
-    {
-        assert((start <= mnSize) && ((start + count) <= mnSize));
-        TYPE* p = mpData + start;
-        memmove(p, p + count, (mnSize - start - count) * sizeof(TYPE));
-        mnSize -= count;
-    }
-
-    void clear()
-    {
-        mnSize = 0;
-    }
-
-    size_t get_mem_usage() const
-    {
-        size_t size = sizeof(self_t);
-
-        if (mnCapacity > size)
+        void resize(size_t size)
         {
-            size += mnCapacity * sizeof(TYPE);
+            if (size > mnCapacity)
+            {
+                size_t new_size = mnCapacity * 2;
+
+                if (new_size < size)
+                {
+                    new_size = size;
+                }
+
+                TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
+                memcpy(p, mpData, mnSize * sizeof(TYPE));
+
+                if (mnCapacity > SIZE)
+                {
+                    mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
+                }
+
+                mpData = p;
+                mnCapacity = new_size;
+            }
+
+            mnSize = size;
         }
 
-        return size;
-    }
-private:
-    ALLOC mxAlloc;
-    TYPE mxStack[SIZE];
-    TYPE* mpData;
-    size_t mnCapacity;
-    size_t mnSize;
-};
+        void resize(size_t size, const TYPE& value)
+        {
+            if (size > mnCapacity)
+            {
+                size_t new_size = mnCapacity * 2;
+
+                if (new_size < size)
+                {
+                    new_size = size;
+                }
+
+                TYPE* p = (TYPE*)mxAlloc.Alloc(new_size * sizeof(TYPE));
+                memcpy(p, mpData, mnSize * sizeof(TYPE));
+
+                if (mnCapacity > SIZE)
+                {
+                    mxAlloc.Free(mpData, mnCapacity * sizeof(TYPE));
+                }
+
+                mpData = p;
+                mnCapacity = new_size;
+            }
+
+            if (size > mnSize)
+            {
+                for (size_t i = mnSize; i < size; ++i)
+                {
+                    mpData[i] = value;
+                }
+            }
+
+            mnSize = size;
+        }
+
+        void insert(size_t index, const TYPE& data)
+        {
+            assert(index <= mnSize);
+
+            resize(mnSize + 1);
+            TYPE* p = mpData + index;
+            memmove(p + 1, p, (mnSize - index - 1) * sizeof(TYPE));
+            *p = data;
+        }
+
+        void remove(size_t index)
+        {
+            assert(index <= mnSize);
+
+            TYPE* p = mpData + index;
+            memmove(p, p + 1, (mnSize - index - 1) * sizeof(TYPE));
+            --mnSize;
+        }
+
+        void remove_some(size_t start, size_t count)
+        {
+            assert((start <= mnSize) && ((start + count) <= mnSize));
+            TYPE* p = mpData + start;
+            memmove(p, p + count, (mnSize - start - count) * sizeof(TYPE));
+            mnSize -= count;
+        }
+
+        void clear()
+        {
+            mnSize = 0;
+        }
+
+        size_t get_mem_usage() const
+        {
+            size_t size = sizeof(self_t);
+
+            if (mnCapacity > size)
+            {
+                size += mnCapacity * sizeof(TYPE);
+            }
+
+            return size;
+        }
+    private:
+        ALLOC mxAlloc;
+        TYPE mxStack[SIZE];
+        TYPE* mpData;
+        size_t mnCapacity;
+        size_t mnSize;
+    };
+
+}

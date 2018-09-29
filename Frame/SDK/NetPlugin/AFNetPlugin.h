@@ -23,15 +23,20 @@
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-class AFNetPlugin : public AFIPlugin
+namespace ark
 {
-public:
-    explicit AFNetPlugin() = default;
 
-    int GetPluginVersion() override;
+    class AFNetPlugin : public AFIPlugin
+    {
+    public:
+        explicit AFNetPlugin() = default;
 
-    const std::string GetPluginName() override;
+        int GetPluginVersion() override;
 
-    void Install() override;
-    void Uninstall() override;
-};
+        const std::string GetPluginName() override;
+
+        void Install() override;
+        void Uninstall() override;
+    };
+
+}

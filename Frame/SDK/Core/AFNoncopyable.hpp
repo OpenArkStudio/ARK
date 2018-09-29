@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -20,12 +20,17 @@
 
 #pragma once
 
-class AFNoncopyable
+namespace ark
 {
-public:
-    AFNoncopyable() = default;
-    AFNoncopyable(const AFNoncopyable&) = delete;
-    AFNoncopyable& operator=(const AFNoncopyable&) = delete;
-    AFNoncopyable(AFNoncopyable&&) = delete;
-    AFNoncopyable& operator=(AFNoncopyable&&) = delete;
-};
+
+    class AFNoncopyable
+    {
+    public:
+        AFNoncopyable() = default;
+        AFNoncopyable(const AFNoncopyable&) = delete;
+        AFNoncopyable& operator=(const AFNoncopyable&) = delete;
+        AFNoncopyable(AFNoncopyable&&) = delete;
+        AFNoncopyable& operator=(AFNoncopyable&&) = delete;
+    };
+
+}

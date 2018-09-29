@@ -1,4 +1,4 @@
-/*
+﻿/*
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
@@ -22,7 +22,12 @@
 
 #include "SDK/Interface/AFIModule.h"
 
-class AFIWorldGuildEctypeModule : public AFIModule
+namespace ark
 {
 
-};
+    class AFIWorldGuildEctypeModule : public AFIModule
+    {
+
+    };
+
+}
