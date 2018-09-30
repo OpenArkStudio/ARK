@@ -368,6 +368,8 @@ namespace ark
             return false;
 #endif // ARK_PLATFORM
         }
+
+        return true;
     }
 
     bool AFCPluginManager::UnloadPluginLibrary(const std::string& plugin_name)
