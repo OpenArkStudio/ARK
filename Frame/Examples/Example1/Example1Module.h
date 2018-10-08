@@ -26,23 +26,28 @@
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIScheduleModule.h"
 
-class Example1Module : public AFIModule
+namespace ark
 {
-public:
-    explicit Example1Module() = default;
 
-    bool Init() override;
-    bool PostInit() override;
-    bool Update() override;
-    bool PreShut() override;
-    bool Shut() override;
+    class Example1Module : public AFIModule
+    {
+    public:
+        explicit Example1Module() = default;
 
-protected:
-    void TestTimer(const std::string& name, const AFGUID& entity_id);
-    bool TestSchduler(const int id, const int arg);
-protected:
-    AFITimerModule* m_pTimerModule;
-    AFILogModule* m_pLogModule;
-    AFIDynamicLogModule* m_pDynamicLogModule;
-    AFIScheduleModule* m_pScheduleModule;
-};
+        bool Init() override;
+        bool PostInit() override;
+        bool Update() override;
+        bool PreShut() override;
+        bool Shut() override;
+
+    protected:
+        void TestTimer(const std::string& name, const AFGUID& entity_id);
+        bool TestSchduler(const int id, const int arg);
+    protected:
+        AFITimerModule* m_pTimerModule;
+        AFILogModule* m_pLogModule;
+        AFIDynamicLogModule* m_pDynamicLogModule;
+        AFIScheduleModule* m_pScheduleModule;
+    };
+
+}

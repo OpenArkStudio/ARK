@@ -25,196 +25,201 @@
 #include "SDK/Core/Common/cronexpr.h"
 #include "Example1Module.h"
 
-bool Example1Module::Init()
+namespace ark
 {
-    std::cout << typeid(Example1Module).name() << ", Init" << std::endl;
-    return true;
-}
 
-void TestDateTime()
-{
-    AFDateTime now;
-    std::cout << now.ToString() << std::endl;
-    std::cout << now.GetYear() << "/" << now.GetMonth() << "/" << now.GetDay() << " " << now.GetHour() << ":" << now.GetMinute() << ":" << now.GetSecond() << std::endl;
-    std::cout << now.GetTime() << std::endl;
-
-    AFDateTime now2(now.GetYear(), now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
-    ARK_ASSERT_NO_EFFECT(now.GetTime() == now2.GetTime());
-}
-
-void TestRandom()
-{
-    AFRandom rand;
-    rand.SetSeed(AFDateTime::GetTimestamp());
-
-    int rand_array[10] = { 0 };
-
-    for (int i = 0; i < 100000; ++i)
+    bool Example1Module::Init()
     {
-        uint32_t my_rand = rand.Random(0, 100000);
+        std::cout << typeid(Example1Module).name() << ", Init" << std::endl;
+        return true;
+    }
 
-        if (my_rand <= 10000)
+    void TestDateTime()
+    {
+        AFDateTime now;
+        std::cout << now.ToString() << std::endl;
+        std::cout << now.GetYear() << "/" << now.GetMonth() << "/" << now.GetDay() << " " << now.GetHour() << ":" << now.GetMinute() << ":" << now.GetSecond() << std::endl;
+        std::cout << now.GetTime() << std::endl;
+
+        AFDateTime now2(now.GetYear(), now.GetMonth(), now.GetDay(), now.GetHour(), now.GetMinute(), now.GetSecond());
+        ARK_ASSERT_NO_EFFECT(now.GetTime() == now2.GetTime());
+    }
+
+    void TestRandom()
+    {
+        AFRandom rand;
+        rand.SetSeed(AFDateTime::GetTimestamp());
+
+        int rand_array[10] = { 0 };
+
+        for (int i = 0; i < 100000; ++i)
         {
-            rand_array[0]++;
+            uint32_t my_rand = rand.Random(0, 100000);
+
+            if (my_rand <= 10000)
+            {
+                rand_array[0]++;
+            }
+            else if (my_rand > 10000 && my_rand <= 20000)
+            {
+                rand_array[1]++;
+            }
+            else if (my_rand > 20000 && my_rand <= 30000)
+            {
+                rand_array[2]++;
+            }
+            else if (my_rand > 30000 && my_rand <= 40000)
+            {
+                rand_array[3]++;
+            }
+            else if (my_rand > 40000 && my_rand <= 50000)
+            {
+                rand_array[4]++;
+            }
+            else if (my_rand > 50000 && my_rand <= 60000)
+            {
+                rand_array[5]++;
+            }
+            else if (my_rand > 60000 && my_rand <= 70000)
+            {
+                rand_array[6]++;
+            }
+            else if (my_rand > 70000 && my_rand <= 80000)
+            {
+                rand_array[7]++;
+            }
+            else if (my_rand > 80000 && my_rand <= 90000)
+            {
+                rand_array[8]++;
+            }
+            else
+            {
+                rand_array[9]++;
+            }
         }
-        else if (my_rand > 10000 && my_rand <= 20000)
+
+        for (int i = 0; i < ARRAY_LENTGH(rand_array); ++i)
         {
-            rand_array[1]++;
-        }
-        else if (my_rand > 20000 && my_rand <= 30000)
-        {
-            rand_array[2]++;
-        }
-        else if (my_rand > 30000 && my_rand <= 40000)
-        {
-            rand_array[3]++;
-        }
-        else if (my_rand > 40000 && my_rand <= 50000)
-        {
-            rand_array[4]++;
-        }
-        else if (my_rand > 50000 && my_rand <= 60000)
-        {
-            rand_array[5]++;
-        }
-        else if (my_rand > 60000 && my_rand <= 70000)
-        {
-            rand_array[6]++;
-        }
-        else if (my_rand > 70000 && my_rand <= 80000)
-        {
-            rand_array[7]++;
-        }
-        else if (my_rand > 80000 && my_rand <= 90000)
-        {
-            rand_array[8]++;
-        }
-        else
-        {
-            rand_array[9]++;
+            std::cout << rand_array[i] << " int range [" << i * 10000 << ", " << (i + 1) * 10000 << "]" << std::endl;
         }
     }
 
-    for (int i = 0; i < ARRAY_LENTGH(rand_array); ++i)
+    void testtime()
     {
-        std::cout << rand_array[i] << " int range [" << i * 10000 << ", " << (i + 1) * 10000 << "]" << std::endl;
+        AFDateTime time;
+        for (int i = 0; i < 10; ++i)
+        {
+            std::cout << "111   GetTickCount64 = " << GetTickCount64() << std::endl;
+            time.update();
+            std::cout << "DateTime = " << time.GetMilliseconds() << std::endl;
+            std::cout << "222   GetTickCount64 = " << GetTickCount64() << std::endl;
+        }
     }
-}
 
-void testtime()
-{
-    AFDateTime time;
-    for (int i = 0; i < 10; ++i)
+    bool Example1Module::PostInit()
     {
-        std::cout << "111   GetTickCount64 = " << GetTickCount64() << std::endl;
-        time.update();
-        std::cout << "DateTime = " << time.GetMilliseconds() << std::endl;
-        std::cout << "222   GetTickCount64 = " << GetTickCount64() << std::endl;
+        std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
+
+        //testtime();
+
+        //std::cout << "333 GetTickCount64 = " << GetTickCount64() << std::endl;
+
+        //std::cout << "sleep1 GetTickCount64 = " << GetTickCount64() << std::endl;
+        //Sleep(200);
+        //std::cout << "sleep2 GetTickCount64 = " << GetTickCount64() << std::endl;
+
+        m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
+        m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+        m_pDynamicLogModule = pPluginManager->FindModule<AFIDynamicLogModule>();
+        m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
+
+        ARK_ASSERT_RET_VAL(m_pTimerModule != nullptr, false);
+        ARK_ASSERT_RET_VAL(m_pLogModule != nullptr, false);
+        ARK_ASSERT_RET_VAL(m_pDynamicLogModule != nullptr, false);
+        ARK_ASSERT_RET_VAL(m_pScheduleModule != nullptr, false);
+
+        AFGUID test_id = AFGUID(0, 1);
+
+        //test GUID type
+        AFCData guid_data1(DT_OBJECT, AFGUID(0, 1));
+        AFCData guid_data2(DT_OBJECT, AFGUID(1, 0));
+        guid_data1 = guid_data2;
+        AFGUID guid = guid_data1.GetObject();
+
+
+        //test string type
+        AFCData data1(DT_STRING, "test1");
+        AFCData data2(DT_STRING, "test2");
+        data1 = data2;
+        const char* str1 = data1.GetString();
+
+        //////////////////////////////////////////////////////////////////////////
+        //Test AFDateTime
+        //TestDateTime();
+        //////////////////////////////////////////////////////////////////////////
+        //Test Random
+        //TestRandom();
+        //////////////////////////////////////////////////////////////////////////
+        //Test log
+        //for (int i = 0; i < 1; ++i)
+        //{
+        //    ARK_LOG_INFO("This is a test log");
+        //}
+
+        //ARK_DYNAMIC_LOG_DEBUG(1001, "game", "this is a dynamic log test");
+
+        //////////////////////////////////////////////////////////////////////////
+        //test cron expression
+        //const char* err_msg = NULL;
+        //cron_expr* test_cron = cron_parse_expr("0 0 0 * * *", &err_msg);
+        //time_t now;
+        //time(&now);
+        //std::cout << "Current time is " << now << std::endl;
+        //time_t next = cron_next(test_cron, (time_t)now);
+        //std::cout << "Next cron time is " << next << std::endl;
+        //bool result = m_pScheduleModule->AddSchedule(1, 0, "0 * * * * *", this, &Example1Module::TestSchduler);
+        //if (!result)
+        //{
+        //    std::cout << "add schedule failed" << std::endl;
+        //}
+        //////////////////////////////////////////////////////////////////////////
+
+        std::cout << AFDateTime::GetNowTime() << std::endl;
+
+        m_pTimerModule->AddSingleTimer("test", test_id, 100/*ms*/, 10, this, &Example1Module::TestTimer);
+
+        return true;
     }
-}
 
-bool Example1Module::PostInit()
-{
-    std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
+    bool Example1Module::Update()
+    {
+        m_pTimerModule->Update();
+        return true;
+    }
 
-    //testtime();
+    bool Example1Module::PreShut()
+    {
+        std::cout << typeid(Example1Module).name() << ", PreShut" << std::endl;
+        return true;
+    }
 
-    //std::cout << "333 GetTickCount64 = " << GetTickCount64() << std::endl;
+    bool Example1Module::Shut()
+    {
+        std::cout << typeid(Example1Module).name() << ", Shut" << std::endl;
+        return true;
+    }
 
-    //std::cout << "sleep1 GetTickCount64 = " << GetTickCount64() << std::endl;
-    //Sleep(200);
-    //std::cout << "sleep2 GetTickCount64 = " << GetTickCount64() << std::endl;
+    void Example1Module::TestTimer(const std::string& name, const AFGUID& entity_id)
+    {
+        std::cout << AFDateTime::GetNowTime() << std::endl;
+        std::cout << "Test Timer: " << name << " id = " << entity_id.ToString() << std::endl;
+    }
 
-    m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
-    m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-    m_pDynamicLogModule = pPluginManager->FindModule<AFIDynamicLogModule>();
-    m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
+    bool Example1Module::TestSchduler(const int id, const int arg)
+    {
+        std::cout << pPluginManager->GetNowTime() << std::endl;
+        std::cout << "Test Scheduler: id = " << id << ", arg = " << arg << std::endl;
+        return true;
+    }
 
-    ARK_ASSERT_RET_VAL(m_pTimerModule != nullptr, false);
-    ARK_ASSERT_RET_VAL(m_pLogModule != nullptr, false);
-    ARK_ASSERT_RET_VAL(m_pDynamicLogModule != nullptr, false);
-    ARK_ASSERT_RET_VAL(m_pScheduleModule != nullptr, false);
-
-    AFGUID test_id = AFGUID(0, 1);
-
-    //test GUID type
-    AFCData guid_data1(DT_OBJECT, AFGUID(0, 1));
-    AFCData guid_data2(DT_OBJECT, AFGUID(1, 0));
-    guid_data1 = guid_data2;
-    AFGUID guid = guid_data1.GetObject();
-
-
-    //test string type
-    AFCData data1(DT_STRING, "test1");
-    AFCData data2(DT_STRING, "test2");
-    data1 = data2;
-    const char* str1 = data1.GetString();
-
-    //////////////////////////////////////////////////////////////////////////
-    //Test AFDateTime
-    //TestDateTime();
-    //////////////////////////////////////////////////////////////////////////
-    //Test Random
-    //TestRandom();
-    //////////////////////////////////////////////////////////////////////////
-    //Test log
-    //for (int i = 0; i < 1; ++i)
-    //{
-    //    ARK_LOG_INFO("This is a test log");
-    //}
-
-    //ARK_DYNAMIC_LOG_DEBUG(1001, "game", "this is a dynamic log test");
-
-    //////////////////////////////////////////////////////////////////////////
-    //test cron expression
-    //const char* err_msg = NULL;
-    //cron_expr* test_cron = cron_parse_expr("0 0 0 * * *", &err_msg);
-    //time_t now;
-    //time(&now);
-    //std::cout << "Current time is " << now << std::endl;
-    //time_t next = cron_next(test_cron, (time_t)now);
-    //std::cout << "Next cron time is " << next << std::endl;
-    //bool result = m_pScheduleModule->AddSchedule(1, 0, "0 * * * * *", this, &Example1Module::TestSchduler);
-    //if (!result)
-    //{
-    //    std::cout << "add schedule failed" << std::endl;
-    //}
-    //////////////////////////////////////////////////////////////////////////
-
-    std::cout << AFDateTime::GetNowTime() << std::endl;
-
-    m_pTimerModule->AddSingleTimer("test", test_id, 100/*ms*/, 10, this, &Example1Module::TestTimer);
-
-    return true;
-}
-
-bool Example1Module::Update()
-{
-    m_pTimerModule->Update();
-    return true;
-}
-
-bool Example1Module::PreShut()
-{
-    std::cout << typeid(Example1Module).name() << ", PreShut" << std::endl;
-    return true;
-}
-
-bool Example1Module::Shut()
-{
-    std::cout << typeid(Example1Module).name() << ", Shut" << std::endl;
-    return true;
-}
-
-void Example1Module::TestTimer(const std::string& name, const AFGUID& entity_id)
-{
-    std::cout << AFDateTime::GetNowTime() << std::endl;
-    std::cout << "Test Timer: " << name << " id = " << entity_id.ToString() << std::endl;
-}
-
-bool Example1Module::TestSchduler(const int id, const int arg)
-{
-    std::cout << pPluginManager->GetNowTime() << std::endl;
-    std::cout << "Test Scheduler: id = " << id << ", arg = " << arg << std::endl;
-    return true;
 }

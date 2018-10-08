@@ -26,31 +26,36 @@
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIClassModule.h"
 
-class Example3Module : public AFIModule
+namespace ark
 {
-public:
-    explicit Example3Module() = default;
 
-    bool Init() override;
-    bool PostInit() override;
-    bool PreShut() override;
-    bool Shut() override;
+    class Example3Module : public AFIModule
+    {
+    public:
+        explicit Example3Module() = default;
 
-protected:
-    int OnEvent(const AFGUID& self, const int event, const AFIDataList& arg);
-    int OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT event, const AFIDataList& arg);
-    int OnIntDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
-    int OnStrDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
+        bool Init() override;
+        bool PostInit() override;
+        bool PreShut() override;
+        bool Shut() override;
 
-    int OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_EVENT_DATA& table_data, const AFIData& old_data, const AFIData& new_data);
-    int OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const int64_t nTime, const int nCount);
+    protected:
+        int OnEvent(const AFGUID& self, const int event, const AFIDataList& arg);
+        int OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT event, const AFIDataList& arg);
+        int OnIntDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
+        int OnStrDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
 
-protected:
-    int64_t mLastTime{ 0 };
+        int OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_EVENT_DATA& table_data, const AFIData& old_data, const AFIData& new_data);
+        int OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const int64_t nTime, const int nCount);
 
-protected:
-    AFIKernelModule* m_pKernelModule;
-    AFIConfigModule* m_pConfigModule;
-    AFILogModule* m_pLogModule;
-    AFIClassModule* m_pClassModule;
-};
+    protected:
+        int64_t mLastTime{ 0 };
+
+    protected:
+        AFIKernelModule* m_pKernelModule;
+        AFIConfigModule* m_pConfigModule;
+        AFILogModule* m_pLogModule;
+        AFIClassModule* m_pClassModule;
+    };
+
+}

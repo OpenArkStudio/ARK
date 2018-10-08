@@ -21,27 +21,32 @@
 #include "Example2Plugin.h"
 #include "Example2Module.h"
 
-ARK_DLL_PLUGIN_ENTRY(Example2Plugin)
-ARK_DLL_PLUGIN_EXIT(Example2Plugin)
-
-//////////////////////////////////////////////////////////////////////////
-
-int Example2Plugin::GetPluginVersion()
+namespace ark
 {
-    return 0;
-}
 
-const std::string Example2Plugin::GetPluginName()
-{
-    return GET_CLASS_NAME(Example2Plugin)
-}
+    ARK_DLL_PLUGIN_ENTRY(Example2Plugin)
+    ARK_DLL_PLUGIN_EXIT(Example2Plugin)
 
-void Example2Plugin::Install()
-{
-    RegisterModule<Example2Module, Example2Module>();
-}
+    //////////////////////////////////////////////////////////////////////////
 
-void Example2Plugin::Uninstall()
-{
-    DeregisterModule<Example2Module, Example2Module>();
+    int Example2Plugin::GetPluginVersion()
+    {
+        return 0;
+    }
+
+    const std::string Example2Plugin::GetPluginName()
+    {
+        return GET_CLASS_NAME(Example2Plugin)
+    }
+
+    void Example2Plugin::Install()
+    {
+        RegisterModule<Example2Module, Example2Module>();
+    }
+
+    void Example2Plugin::Uninstall()
+    {
+        DeregisterModule<Example2Module, Example2Module>();
+    }
+
 }

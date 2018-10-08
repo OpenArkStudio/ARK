@@ -23,16 +23,21 @@
 #include "SDK/Interface/AFIPlugin.h"
 #include "SDK/Interface/AFIPluginManager.h"
 
-class Example2Module : public AFIModule
+namespace ark
 {
-public:
-    explicit Example2Module() = default;
 
-    bool Init() override;
-    bool PostInit() override;
-    bool PreShut() override;
-    bool Shut() override;
+    class Example2Module : public AFIModule
+    {
+    public:
+        explicit Example2Module() = default;
 
-protected:
-    int OnDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
-};
+        bool Init() override;
+        bool PostInit() override;
+        bool PreShut() override;
+        bool Shut() override;
+
+    protected:
+        int OnDataNodeCB(const AFGUID& self, const std::string& strProperty, const AFIData& oldVarList, const AFIData& newVarList);
+    };
+
+}
