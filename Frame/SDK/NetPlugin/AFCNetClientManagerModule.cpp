@@ -35,9 +35,9 @@ namespace ark
 
     bool AFCNetClientManagerModule::Update()
     {
-        for (bool bRet = _net_clients.Begin(); bRet; bRet = _net_clients.Increase())
+        for (bool bRet = net_clients_.Begin(); bRet; bRet = net_clients_.Increase())
         {
-            const auto& pCluster = _net_clients.GetCurrentData();
+            const auto& pCluster = net_clients_.GetCurrentData();
             ARK_ASSERT_CONTINUE(pCluster != nullptr);
 
             pCluster->Update();
@@ -48,9 +48,9 @@ namespace ark
 
     bool AFCNetClientManagerModule::Shut()
     {
-        for (bool bRet = _net_clients.Begin(); bRet; bRet = _net_clients.Increase())
+        for (bool bRet = net_clients_.Begin(); bRet; bRet = net_clients_.Increase())
         {
-            const AFINetClientService* pCluster = _net_clients.GetCurrentData();
+            const AFINetClientService* pCluster = net_clients_.GetCurrentData();
             ARK_DELETE(pCluster);
         }
 
@@ -67,23 +67,23 @@ namespace ark
 
         if (target_list.empty())
         {
-            return -2;
+            return 0;
         }
 
         for (auto& target : target_list)
         {
             uint8_t app_type = AFBusAddr(target.self_id).proc_id;
-            AFINetClientService* pClient = _net_clients.GetElement(app_type);
+            AFINetClientService* pClient = net_clients_.GetElement(app_type);
             if (pClient == nullptr)
             {
                 pClient = ARK_NEW AFCNetClientService(pPluginManager);
-                _net_clients.AddElement(app_type, pClient);
+                net_clients_.AddElement(app_type, pClient);
             }
 
             bool ret = pClient->StartClient(target.self_id, target.public_ep_);
             if (!ret)
             {
-                ARK_LOG_ERROR("start net client failed, self_bus_id = {} target_url={}", m_pBusModule->GetSelfBusName(), target.public_ep_.to_string());
+                ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), target.public_ep_.to_string());
             }
         }
 
@@ -92,13 +92,42 @@ namespace ark
 
     AFINetClientService* AFCNetClientManagerModule::GetNetClientService(const uint8_t& app_type)
     {
-        return _net_clients.GetElement(app_type);
+        return net_clients_.GetElement(app_type);
     }
 
     AFINetClientService* AFCNetClientManagerModule::GetNetClientServiceByBusID(const int bus_id)
     {
         AFBusAddr addr(bus_id);
         return GetNetClientService(addr.proc_id);
+    }
+
+    bool AFCNetClientManagerModule::AddNetConnectionBus(const int server_bus_id, AFINet* net_client_ptr)
+    {
+        if (server_bus_id <= 0 || net_client_ptr == nullptr)
+        {
+            return false;
+        }
+
+        int self_bus_id = m_pBusModule->GetSelfBusID();
+        AFGUID bus_relation_id(self_bus_id, server_bus_id);
+        return net_bus_relations_.AddElement(bus_relation_id, net_client_ptr);
+    }
+
+    bool AFCNetClientManagerModule::RemoveNetConnectionBus(const int server_bus_id)
+    {
+        if (server_bus_id <= 0)
+        {
+            return false;
+        }
+
+        int self_bus_id = m_pBusModule->GetSelfBusID();
+        AFGUID bus_relation_id(self_bus_id, server_bus_id);
+        return net_bus_relations_.RemoveElement(bus_relation_id);
+    }
+
+    AFINet* AFCNetClientManagerModule::GetNetConnectionBus(const int src_bus, const int target_bus)
+    {
+        return net_bus_relations_.GetElement(AFGUID(src_bus, target_bus));
     }
 
 }

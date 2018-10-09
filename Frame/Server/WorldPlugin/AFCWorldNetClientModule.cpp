@@ -55,7 +55,7 @@ namespace ark
         AFINetClientService* pNetClientWorld = m_pNetClientManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
         if (pNetClientWorld == nullptr)
         {
-            return -1;
+            return 0;
         }
 
         pNetClientWorld->AddRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCWorldNetClientModule::OnSelectServerProcess);

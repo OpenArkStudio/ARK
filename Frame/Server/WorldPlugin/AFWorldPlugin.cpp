@@ -47,8 +47,8 @@ namespace ark
 
     void AFWorldPlugin::Uninstall()
     {
-        RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
-        RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
+        DeregisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
+        DeregisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
     }
 
 }

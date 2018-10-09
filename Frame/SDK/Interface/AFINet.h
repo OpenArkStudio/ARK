@@ -44,9 +44,7 @@ namespace ark
         {
         }
 
-        virtual ~AFBaseNetEntity()
-        {
-        }
+        virtual ~AFBaseNetEntity() = default;
 
         int AddBuff(const char* str, size_t nLen)
         {
@@ -131,34 +129,29 @@ namespace ark
         virtual bool Shutdown() = 0;
 
         //send a message with out msg-head[auto add msg-head in this function]
-        virtual bool SendRawMsg(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID) = 0;
+        virtual bool SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_id) = 0;
 
         //send a message to all client[need to add msg-head for this message by yourself]
-        virtual bool SendMsgToAllClient(const char* msg, const uint32_t nLen, const AFGUID& xPlayerID)
+        virtual bool SendMsgToAllClient(const char* msg, const uint32_t msg_len, const AFGUID& actor_id)
         {
             return false;
         }
 
         //send a message with out msg-head to all client[auto add msg-head in this function]
-        virtual bool SendRawMsgToAllClient(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID)
+        virtual bool SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_id)
         {
             return false;
         }
 
-        virtual bool CloseNetEntity(const AFGUID& xClientID) = 0;
+        virtual bool CloseNetEntity(const AFGUID& conn_id) = 0;
 
         virtual bool IsServer() = 0;
 
         virtual bool Log(int severity, const char* msg) = 0;
 
-        bool IsStop()
+        bool IsWorking() const
         {
-            return !bWorking;
-        }
-
-        virtual bool StopAfter(double dTime)
-        {
-            return false;
+            return bWorking;
         }
 
         void SetWorking(bool value)
@@ -196,13 +189,13 @@ namespace ark
     class AFNetEntity : public AFBaseNetEntity
     {
     public:
-        AFNetEntity(AFINet* pNet, const AFGUID& xClientID, const SessionPTR session) : AFBaseNetEntity(pNet, xClientID), mxSession(session)
+        AFNetEntity(AFINet* pNet, const AFGUID& xClientID, const SessionPTR session) :
+            AFBaseNetEntity(pNet, xClientID),
+            mxSession(session)
         {
         }
 
-        virtual ~AFNetEntity()
-        {
-        }
+        virtual ~AFNetEntity() = default;
 
         const SessionPTR& GetSession()
         {

@@ -38,7 +38,7 @@ namespace ark
     public:
         explicit AFCWorldNetServerModule()
         {
-            mnLastCheckTime = pPluginManager->GetNowTime();
+
         }
 
         bool Init() override;

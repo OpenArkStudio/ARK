@@ -47,7 +47,7 @@ namespace ark
         AFEndpoint endpoint_;
         AFINet* net_client_ptr_{ nullptr };
 
-        ConnectState _net_state{ DISCONNECT }; //net state
+        ConnectState net_state_{ DISCONNECT }; //net state
         int64_t _last_active_time{ 0 };
     };
 

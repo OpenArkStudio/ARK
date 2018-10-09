@@ -1,9 +1,16 @@
 ﻿#include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFINetServerManagerModule.h"
+#include "SDK/Interface/AFIPluginManager.h"
 #include "AFCTCPServer.h"
 #include "AFCNetServerService.h"
 
 namespace ark
 {
+
+    AFCNetServerService::AFCNetServerService(AFIPluginManager* p) :
+        m_pPluginManager(p)
+    {
+    }
 
     AFCNetServerService::~AFCNetServerService()
     {
@@ -127,22 +134,19 @@ namespace ark
     bool AFCNetServerService::AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb)
     {
         mxCallBackList.push_back(cb);
-
         return true;
     }
 
     bool AFCNetServerService::AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb)
     {
         mxEventCallBackList.push_back(cb);
-
         return true;
     }
 
     void AFCNetServerService::OnRecvNetPack(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID)
     {
         auto it = mxRecvCallBack.find(nMsgID);
-
-        if (mxRecvCallBack.end() != it)
+        if (it != mxRecvCallBack.end())
         {
             (*it->second)(xHead, nMsgID, msg, nLen, xClientID);
         }
@@ -157,6 +161,26 @@ namespace ark
 
     void AFCNetServerService::OnSocketNetEvent(const NetEventType event, const AFGUID& connect_id, int bus_id)
     {
+        AFINetServerManagerModule* net_server_manager_module = m_pPluginManager->FindModule<AFINetServerManagerModule>();
+        if (net_server_manager_module != nullptr)
+        {
+            switch (event)
+            {
+            case CONNECTED:
+                net_server_manager_module->AddNetConnectionBus(bus_id, this->GetNet());
+                break;
+            case DISCONNECTED:
+                net_server_manager_module->RemoveNetConnectionBus(bus_id);
+                break;
+            default:
+                break;
+            }
+        }
+        else
+        {
+            ARK_ASSERT_NO_EFFECT(net_server_manager_module != nullptr);
+        }
+
         for (const auto& it : mxEventCallBackList)
         {
             (*it)(event, connect_id, bus_id);

@@ -41,8 +41,13 @@ namespace ark
         int CreateServer() override;
         AFINetServerService* GetSelfNetServer() override;
 
+        bool AddNetConnectionBus(int client_bus_id, AFINet* net_server_ptr) override;
+        bool RemoveNetConnectionBus(int client_bus_id) override;
+        AFINet* GetNetConnectionBus(int src_bus, int target_bus) override;
+
     private:
-        AFMap<int, AFINetServerService> _net_servers;
+        AFMap<int, AFINetServerService> net_servers_;
+        AFMap<AFGUID, AFINet> net_bus_relations_;
 
         AFIBusModule* m_pBusModule;
         AFILogModule* m_pLogModule;

@@ -1,10 +1,12 @@
 ﻿#include "SDK/Core/AFDateTime.hpp"
+#include "SDK/Interface/AFINetClientManagerModule.h"
 #include "AFCTCPClient.h"
 #include "AFCNetClientService.h"
 
 namespace ark
 {
-    AFCNetClientService::AFCNetClientService(AFIPluginManager* p) : mpPluginManager(p)
+
+    AFCNetClientService::AFCNetClientService(AFIPluginManager* p) : m_pPluginManager(p)
     {
     }
 
@@ -75,12 +77,12 @@ namespace ark
         {
             ARK_SHARE_PTR<AFConnectionData>& connection_data = mxTargetServerMap.GetCurrentData();
 
-            switch (connection_data->_net_state)
+            switch (connection_data->net_state_)
             {
             case AFConnectionData::DISCONNECT:
                 {
                     //TODO:这里不应该释放_net_client_ptr
-                    connection_data->_net_state = AFConnectionData::RECONNECT;
+                    connection_data->net_state_ = AFConnectionData::RECONNECT;
                     if (connection_data->net_client_ptr_ != nullptr)
                     {
                         connection_data->net_client_ptr_->Shutdown();
@@ -109,7 +111,7 @@ namespace ark
             case AFConnectionData::RECONNECT:
                 {
                     //计算时间
-                    if ((connection_data->_last_active_time + 30 * AFTimespan::SECOND_MS) >= mpPluginManager->GetNowTime())
+                    if ((connection_data->_last_active_time + 30 * AFTimespan::SECOND_MS) >= m_pPluginManager->GetNowTime())
                     {
                         break;
                     }
@@ -125,11 +127,11 @@ namespace ark
                     bool ret = connection_data->net_client_ptr_->Start(connection_data->server_bus_id_, connection_data->endpoint_.ip(), connection_data->endpoint_.port(), connection_data->endpoint_.is_v6());
                     if (!ret)
                     {
-                        connection_data->_net_state = AFConnectionData::RECONNECT;
+                        connection_data->net_state_ = AFConnectionData::RECONNECT;
                     }
                     else
                     {
-                        connection_data->_net_state = AFConnectionData::CONNECTING;
+                        connection_data->net_state_ = AFConnectionData::CONNECTING;
                     }
                 }
                 break;
@@ -164,10 +166,8 @@ namespace ark
         for (bool bRet = mxTargetServerMap.Begin(); bRet; bRet = mxTargetServerMap.Increase())
         {
             const auto& pServerData = mxTargetServerMap.GetCurrentData();
-            std::ostringstream stream;
-            stream << "TargetBusID: " << pServerData->server_bus_id_ << " State: " << pServerData->_net_state << " url: " << pServerData->endpoint_.to_string();
-
-            LogServerInfo(stream.str());
+            std::string info = ARK_FORMAT("TargetBusID={} State={} url={}", pServerData->server_bus_id_, pServerData->net_state_, pServerData->endpoint_.to_string());
+            LogServerInfo(info);
         }
 
         LogServerInfo("This is a client, end to print Server Info----------------------------------");
@@ -175,12 +175,12 @@ namespace ark
 
     void AFCNetClientService::KeepAlive(ARK_SHARE_PTR<AFConnectionData>& pServerData)
     {
-        if ((pServerData->_last_active_time + 10) > mpPluginManager->GetNowTime())
+        if ((pServerData->_last_active_time + 10) > m_pPluginManager->GetNowTime())
         {
             return;
         }
 
-        pServerData->_last_active_time = mpPluginManager->GetNowTime();
+        pServerData->_last_active_time = m_pPluginManager->GetNowTime();
 
         KeepReport(pServerData);
         LogServerInfo();
@@ -228,21 +228,41 @@ namespace ark
         if (pServerInfo != nullptr)
         {
             AddServerWeightData(pServerInfo);
-            pServerInfo->_net_state = AFConnectionData::CONNECTED;
+            pServerInfo->net_state_ = AFConnectionData::CONNECTED;
+
+            AFINetClientManagerModule* net_client_manager_module = m_pPluginManager->FindModule<AFINetClientManagerModule>();
+            if (net_client_manager_module != nullptr)
+            {
+                net_client_manager_module->AddNetConnectionBus(nServerID, pServerInfo->net_client_ptr_);
+            }
+            else
+            {
+                ARK_ASSERT_NO_EFFECT(net_client_manager_module != nullptr);
+            }
         }
 
         return 0;
     }
 
-    int AFCNetClientService::OnDisConnected(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
+    int AFCNetClientService::OnDisConnected(const NetEventType eEvent, const AFGUID& conn_id, const int bus_id)
     {
-        ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(nServerID);
+        ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(bus_id);
 
         if (pServerInfo != nullptr)
         {
             RemoveServerWeightData(pServerInfo);
-            pServerInfo->_net_state = AFConnectionData::DISCONNECT;
-            pServerInfo->_last_active_time = mpPluginManager->GetNowTime();
+            pServerInfo->net_state_ = AFConnectionData::DISCONNECT;
+            pServerInfo->_last_active_time = m_pPluginManager->GetNowTime();
+
+            AFINetClientManagerModule* net_client_manager_module = m_pPluginManager->FindModule<AFINetClientManagerModule>();
+            if (net_client_manager_module != nullptr)
+            {
+                net_client_manager_module->RemoveNetConnectionBus(bus_id);
+            }
+            else
+            {
+                ARK_ASSERT_NO_EFFECT(net_client_manager_module != nullptr);
+            }
         }
 
         return 0;
@@ -260,18 +280,18 @@ namespace ark
                 target_connection_data = std::make_shared<AFConnectionData>();
 
                 *target_connection_data = connection_data;
-                target_connection_data->_last_active_time = mpPluginManager->GetNowTime();
+                target_connection_data->_last_active_time = m_pPluginManager->GetNowTime();
 
                 //based on protocol to create a new client
                 target_connection_data->net_client_ptr_ = CreateNet(target_connection_data->endpoint_.proto());
                 int ret = target_connection_data->net_client_ptr_->Start(target_connection_data->server_bus_id_, target_connection_data->endpoint_.ip(), target_connection_data->endpoint_.port());
                 if (!ret)
                 {
-                    target_connection_data->_net_state = AFConnectionData::RECONNECT;
+                    target_connection_data->net_state_ = AFConnectionData::RECONNECT;
                 }
                 else
                 {
-                    target_connection_data->_net_state = AFConnectionData::CONNECTING;
+                    target_connection_data->net_state_ = AFConnectionData::CONNECTING;
                 }
 
                 if (!mxTargetServerMap.AddElement(target_connection_data->server_bus_id_, target_connection_data))
@@ -301,20 +321,26 @@ namespace ark
         }
     }
 
-    void AFCNetClientService::OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID)
+    void AFCNetClientService::OnSocketNetEvent(const NetEventType eEvent, const AFGUID& conn_id, int bus_id)
     {
-        if (eEvent == CONNECTED)
+
+        switch (eEvent)
         {
-            OnConnected(eEvent, xClientID, nServerID);
-        }
-        else
-        {
-            OnDisConnected(eEvent, xClientID, nServerID);
+        case CONNECTED:
+            //Add net client service in manager module
+            OnConnected(eEvent, conn_id, bus_id);
+            break;
+        case DISCONNECTED:
+            //Remove net client service in manager module
+            OnDisConnected(eEvent, conn_id, bus_id);
+            break;
+        default:
+            break;
         }
 
         for (const auto& it : mxEventCallBackList)
         {
-            (*it)(eEvent, xClientID, nServerID);
+            (*it)(eEvent, conn_id, bus_id);
         }
     }
 

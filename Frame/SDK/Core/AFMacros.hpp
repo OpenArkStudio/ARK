@@ -139,7 +139,7 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
             MessageBox(0, TEXT(strInfo.c_str()), TEXT("Error_"#exp_), MB_RETRYCANCEL | MB_ICONERROR); \
         }                                           \
         assert(exp_);                               \
-    } while (0);
+    } while (false);
 
 #define ARK_EXPORT extern "C" __declspec(dllexport)
 #define ARK_UNUSED
@@ -204,14 +204,14 @@ template<int x> struct ark_static_assert_test {};
         if ((exp_)) break;              \
         assert(exp_);                   \
         return val;                     \
-    } while (0);
+    } while (false);
 
 #define ARK_ASSERT_RET_VAL_NO_EFFECT(exp_, val)   \
     do                                  \
     {                                   \
         if ((exp_)) break;              \
         return val;                     \
-    } while (0);
+    } while (false);
 
 #define ARK_ASSERT_BREAK(exp_)          \
     if (!(exp_))                        \
@@ -235,14 +235,14 @@ template<int x> struct ark_static_assert_test {};
         if ((exp_)) break;              \
         assert(exp_);                   \
         return;                         \
-    } while (0);
+    } while (false);
 
 #define ARK_ASSERT_NO_EFFECT(exp_)      \
     do                                  \
     {                                   \
         if (exp_) break;                \
         assert(exp_);                   \
-    } while(0)
+    } while(false)
 
 
 #if defined(USE_BOOST)

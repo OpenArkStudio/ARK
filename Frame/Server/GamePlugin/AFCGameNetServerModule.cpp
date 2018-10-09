@@ -131,8 +131,6 @@ namespace ark
                 nServerID = pServerData->xServerData.xData.bus_id();
                 break;
             }
-
-
         }
 
         mProxyMap.RemoveElement(nServerID);

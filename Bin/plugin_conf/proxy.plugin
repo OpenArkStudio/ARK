@@ -2,9 +2,9 @@
 	<plugins path="../lib/">
 		<plugin name="AFKernelPlugin" />
 		<plugin name="AFUtilityPlugin" />
+		<plugin name="AFBusPlugin" />
+		<plugin name="AFNetPlugin" />
 		<plugin name="AFProxyPlugin" />
-		<plugin name="AFProxyNetClientPlugin" />
-		<plugin name="AFProxyNetServerPlugin" />
 	</plugins>
 	<res path="../resource/" />
 </xml>

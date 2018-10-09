@@ -33,6 +33,34 @@ namespace ark
         return true;
     }
 
+    bool AFCNetServerManagerModule::Update()
+    {
+        for (bool bRet = net_servers_.Begin(); bRet; bRet = net_servers_.Increase())
+        {
+            const auto& pServer = net_servers_.GetCurrentData();
+            if (pServer != nullptr)
+            {
+                pServer->Update();
+            }
+        }
+
+        return true;
+    }
+
+    bool AFCNetServerManagerModule::Shut()
+    {
+        for (bool bRet = net_servers_.Begin(); bRet; bRet = net_servers_.Increase())
+        {
+            const auto* pServer = net_servers_.GetCurrentData();
+            if (pServer != nullptr)
+            {
+                ARK_DELETE(pServer);
+            }
+        }
+
+        return true;
+    }
+
     int AFCNetServerManagerModule::CreateServer()
     {
         const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
@@ -43,8 +71,8 @@ namespace ark
             return -1;
         }
 
-        AFINetServerService* pServer = ARK_NEW AFCNetServerService();
-        _net_servers.AddElement(m_pBusModule->GetSelfBusID(), pServer);
+        AFINetServerService* pServer = ARK_NEW AFCNetServerService(pPluginManager);
+        net_servers_.AddElement(m_pBusModule->GetSelfBusID(), pServer);
 
         int nRet = pServer->Start(m_pBusModule->GetSelfBusID(), server_config->local_ep_, server_config->thread_num, server_config->max_connection);
         if (nRet)
@@ -63,35 +91,36 @@ namespace ark
 
     AFINetServerService* AFCNetServerManagerModule::GetSelfNetServer()
     {
-        return _net_servers.GetElement(m_pBusModule->GetSelfBusID());
+        return net_servers_.GetElement(m_pBusModule->GetSelfBusID());
     }
 
-    bool AFCNetServerManagerModule::Update()
+    bool AFCNetServerManagerModule::AddNetConnectionBus(int client_bus_id, AFINet* net_server_ptr)
     {
-        for (bool bRet = _net_servers.Begin(); bRet; bRet = _net_servers.Increase())
+        if (client_bus_id <= 0 || net_server_ptr == nullptr)
         {
-            const auto& pServer = _net_servers.GetCurrentData();
-            if (pServer != nullptr)
-            {
-                pServer->Update();
-            }
+            return false;
         }
 
-        return true;
+        int self_bus_id = m_pBusModule->GetSelfBusID();
+        AFGUID bus_relation_id(self_bus_id, client_bus_id);
+        return net_bus_relations_.AddElement(bus_relation_id, net_server_ptr);
     }
 
-    bool AFCNetServerManagerModule::Shut()
+    bool AFCNetServerManagerModule::RemoveNetConnectionBus(int client_bus_id)
     {
-        for (bool bRet = _net_servers.Begin(); bRet; bRet = _net_servers.Increase())
+        if (client_bus_id <= 0)
         {
-            const auto* pServer = _net_servers.GetCurrentData();
-            if (pServer != nullptr)
-            {
-                ARK_DELETE(pServer);
-            }
+            return false;
         }
 
-        return true;
+        int self_bus_id = m_pBusModule->GetSelfBusID();
+        AFGUID bus_relation_id(self_bus_id, client_bus_id);
+        return net_bus_relations_.RemoveElement(bus_relation_id);
+    }
+
+    AFINet* AFCNetServerManagerModule::GetNetConnectionBus(int src_bus, int target_bus)
+    {
+        return net_bus_relations_.GetElement(AFGUID(src_bus, target_bus));
     }
 
 }

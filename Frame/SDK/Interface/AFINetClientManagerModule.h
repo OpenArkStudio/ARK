@@ -32,6 +32,10 @@ namespace ark
         virtual int CreateClusterClients() = 0;
         virtual AFINetClientService* GetNetClientService(const uint8_t& app_type) = 0;
         virtual AFINetClientService* GetNetClientServiceByBusID(const int bus_id) = 0;
+
+        virtual bool AddNetConnectionBus(const int bus_id, AFINet* net_client_ptr) = 0;
+        virtual bool RemoveNetConnectionBus(const int bus_id) = 0;
+        virtual AFINet* GetNetConnectionBus(const int src_bus, const int target_bus) = 0;
     };
 
 }

@@ -31,6 +31,10 @@ namespace ark
     public:
         virtual int CreateServer() = 0;
         virtual AFINetServerService* GetSelfNetServer() = 0;
+
+        virtual bool AddNetConnectionBus(int client_bus_id, AFINet* net_server_ptr) = 0;
+        virtual bool RemoveNetConnectionBus(int client_bus_id) = 0;
+        virtual AFINet* GetNetConnectionBus(int src_bus, int target_bus) = 0;
     };
 
 }

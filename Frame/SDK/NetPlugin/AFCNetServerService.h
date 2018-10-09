@@ -28,7 +28,7 @@ namespace ark
     class AFCNetServerService : public AFINetServerService
     {
     public:
-        AFCNetServerService() = default;
+        explicit AFCNetServerService(AFIPluginManager* p);
         virtual ~AFCNetServerService();
 
         bool Start(const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) override;
@@ -50,6 +50,8 @@ namespace ark
         void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID);
 
     private:
+        AFIPluginManager* m_pPluginManager;
+
         AFINet* m_pNet{ nullptr };
 
         std::map<int, NET_PKG_RECV_FUNCTOR_PTR> mxRecvCallBack;

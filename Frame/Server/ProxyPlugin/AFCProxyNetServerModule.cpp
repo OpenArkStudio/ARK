@@ -178,7 +178,7 @@ namespace ark
         ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqSelectServer);
         AFINetClientService* pWorldNetService = m_pNetClientManagerModule->GetNetClientServiceByBusID(xMsg.world_id());
         ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(xMsg.world_id());
-        if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->_net_state)
+        if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->net_state_)
         {
             ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
@@ -225,7 +225,7 @@ namespace ark
             AFMapEx<int, AFConnectionData>& xServerList = pGameNetService->GetServerList();
             for (auto pGameData = xServerList.First(); pGameData != nullptr; pGameData = xServerList.Next())
             {
-                if (AFConnectionData::CONNECTED == pGameData->_net_state)
+                if (AFConnectionData::CONNECTED == pGameData->net_state_)
                 {
                     AFMsg::ServerInfo* pServerInfo = xData.add_info();
 
@@ -303,7 +303,7 @@ namespace ark
     {
         AFINetClientService* pWorldNetService = m_pNetClientManagerModule->GetNetClientServiceByBusID(nGameID);
         ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(nGameID);
-        if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->_net_state)
+        if (pServerData != nullptr && AFConnectionData::CONNECTED == pServerData->net_state_)
         {
             //数据匹配
             ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);

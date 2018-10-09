@@ -90,7 +90,7 @@ namespace ark
         void RemoveServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo);
 
     private:
-        AFIPluginManager* mpPluginManager;
+        AFIPluginManager* m_pPluginManager;
 
         AFMapEx<int, AFConnectionData> mxTargetServerMap;
         AFCConsistentHash mxConsistentHash;

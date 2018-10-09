@@ -27,6 +27,8 @@ namespace ark
 
     bool AFCWorldNetServerModule::Init()
     {
+        mnLastCheckTime = pPluginManager->GetNowTime();
+
         m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
         m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
@@ -212,7 +214,7 @@ namespace ark
     {
         if (eEvent == DISCONNECTED)
         {
-            ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
+            ARK_LOG_ERROR("Connection closed, id = {}", xClientID.ToString());
             OnClientDisconnect(xClientID);
         }
         else  if (eEvent == CONNECTED)

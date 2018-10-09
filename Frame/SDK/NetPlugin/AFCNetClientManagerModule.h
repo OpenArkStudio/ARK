@@ -46,11 +46,16 @@ namespace ark
         AFINetClientService* GetNetClientService(const uint8_t& app_type) override;
         AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
 
+        bool AddNetConnectionBus(const int bus_id, AFINet* net_client_ptr) override;
+        bool RemoveNetConnectionBus(const int bus_id) override;
+        AFINet* GetNetConnectionBus(const int src_bus, const int target_bus) override;
+
     private:
         AFIBusModule* m_pBusModule;
         AFILogModule* m_pLogModule;
 
-        AFMap<uint8_t, AFINetClientService> _net_clients;
+        AFMap<uint8_t, AFINetClientService> net_clients_;
+        AFMap<AFGUID, AFINet> net_bus_relations_;
     };
 
 }
