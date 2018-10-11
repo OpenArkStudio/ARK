@@ -82,7 +82,8 @@ void CloseXButton()
 void InitDaemon()
 {
 #if ARK_PLATFORM == PLATFORM_UNIX
-    daemon(1, 0);
+    int ret = daemon(1, 1);
+    ARK_ASSERT_NO_EFFECT(ret == 0);
 
     // ignore signals
     signal(SIGINT, SIG_IGN);

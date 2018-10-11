@@ -265,22 +265,23 @@ namespace ark
         return true;
     }
 
-    bool AFCWebSocktClient::SendRawMsg(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID)
+    bool AFCWebSocktClient::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id/* = 0*/, const AFGUID& actor_id/* = 0*/)
     {
-        std::string strOutData;
-        ARK_PKG_CS_HEAD xHead;
-        xHead.SetMsgID(nMsgID);
-        xHead.SetUID(xPlayerID);
-        xHead.SetBodyLength(nLen);
+        ARK_PKG_CS_HEAD head;
+        head.SetMsgID(msg_id);
+        head.SetUID(actor_id);
+        head.SetBodyLength(msg_len);
 
-        int nAllLen = EnCode(xHead, msg, nLen, strOutData);
-
-        if (nAllLen == nLen + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+        std::string out_data;
+        int whole_len = EnCode(head, msg, msg_len, out_data);
+        if (whole_len == msg_len + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
         {
-            return SendMsg(strOutData.c_str(), strOutData.length(), xClientID);
+            return SendMsg(out_data.c_str(), out_data.length(), conn_id);
         }
-
-        return false;
+        else
+        {
+            return false;
+        }
     }
 
     int AFCWebSocktClient::EnCode(const ARK_PKG_CS_HEAD& head, const char* msg, const size_t len, OUT std::string& out_data)

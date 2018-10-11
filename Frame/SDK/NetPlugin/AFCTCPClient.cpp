@@ -262,11 +262,11 @@ namespace ark
         return true;
     }
 
-    bool AFCTCPClient::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id/* = 0*/, const AFGUID& actor_rid/* = 0*/)
+    bool AFCTCPClient::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id/* = 0*/, const AFGUID& actor_id/* = 0*/)
     {
         ARK_PKG_CS_HEAD head;
         head.SetMsgID(msg_id);
-        head.SetUID(actor_rid);
+        head.SetUID(actor_id);
         head.SetBodyLength(msg_len);
 
         std::string out_data;
