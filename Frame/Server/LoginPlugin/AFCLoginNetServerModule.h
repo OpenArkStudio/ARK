@@ -45,7 +45,7 @@ namespace ark
     protected:
         int StartServer();
 
-        void OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+        void OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip,  int bus_id);
 
         void OnClientDisconnect(const AFGUID& xClientID);
         void OnClientConnected(const AFGUID& xClientID);

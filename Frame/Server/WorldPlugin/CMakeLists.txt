@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO("AFWorldLogicPlugin")
+BUILD_PLUGIN_MACRO("AFWorldPlugin")

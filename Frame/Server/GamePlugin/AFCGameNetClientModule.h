@@ -46,7 +46,7 @@ namespace ark
     protected:
         int StartClient();
 
-        void OnSocketWSEvent(const NetEventType e, const AFGUID& xClientID, const int nServerID);
+        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
         void Register(const int nSeverID);
         void RefreshWorldInfo();

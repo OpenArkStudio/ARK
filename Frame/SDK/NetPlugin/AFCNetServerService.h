@@ -45,9 +45,9 @@ namespace ark
         bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) override;
 
     protected:
-        void OnRecvNetPack(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID);
+        void OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id);
 
-        void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID);
+        void OnSocketNetEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
     private:
         AFIPluginManager* m_pPluginManager;

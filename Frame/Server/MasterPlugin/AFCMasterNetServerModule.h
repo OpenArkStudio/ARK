@@ -47,7 +47,7 @@ namespace ark
 
     protected:
         int StartServer();
-        void OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
         //连接丢失,删2层(连接对象，帐号对象)
         void OnClientDisconnect(const AFGUID& xClientID);

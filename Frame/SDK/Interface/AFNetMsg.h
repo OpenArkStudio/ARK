@@ -49,8 +49,8 @@ namespace ark
         virtual uint32_t GetBodyLength() const = 0;
         virtual void SetBodyLength(size_t nLength) = 0;
 
-        virtual const AFGUID& GetPlayerID() const = 0;
-        virtual void SetPlayerID(const AFGUID& xPlayerID) = 0;
+        virtual const AFGUID& GetUID() const = 0;
+        virtual void SetUID(const AFGUID& xPlayerID) = 0;
 
         int64_t ARK_HTONLL(const int64_t nData) const
         {
@@ -130,22 +130,22 @@ namespace ark
         {
             uint32_t offset(0);
 
-            uint16_t nMsgID = ARK_HTONS(munMsgID);
-            memcpy(buffer + offset, (void*)(&nMsgID), sizeof(munMsgID));
-            offset += sizeof(munMsgID);
+            uint16_t msg_id = ARK_HTONS(msg_id_);
+            memcpy(buffer + offset, (void*)(&msg_id), sizeof(msg_id_));
+            offset += sizeof(msg_id_);
 
-            uint32_t nPackSize = munSize + ARK_CS_HEADER_LENGTH;
-            uint32_t nSize = ARK_HTONL(nPackSize);
-            memcpy(buffer + offset, (void*)(&nSize), sizeof(munSize));
-            offset += sizeof(munSize);
+            uint32_t pack_size = msg_len_ + ARK_CS_HEADER_LENGTH;
+            uint32_t size = ARK_HTONL(pack_size);
+            memcpy(buffer + offset, (void*)(&size), sizeof(msg_len_));
+            offset += sizeof(msg_len_);
 
-            uint64_t nHightData = ARK_HTONLL(mxPlayerID.nHigh);
-            memcpy(buffer + offset, (void*)(&nHightData), sizeof(nHightData));
-            offset += sizeof(nHightData);
+            uint64_t high_value = ARK_HTONLL(uid_.nHigh);
+            memcpy(buffer + offset, (void*)(&high_value), sizeof(high_value));
+            offset += sizeof(high_value);
 
-            uint64_t nLowData = ARK_HTONLL(mxPlayerID.nLow);
-            memcpy(buffer + offset, (void*)(&nLowData), sizeof(nLowData));
-            offset += sizeof(nLowData);
+            uint64_t low_value = ARK_HTONLL(uid_.nLow);
+            memcpy(buffer + offset, (void*)(&low_value), sizeof(low_value));
+            offset += sizeof(low_value);
 
             if (offset != ARK_CS_HEADER_LENGTH)
             {
@@ -160,26 +160,26 @@ namespace ark
         {
             uint32_t offset(0);
 
-            uint16_t nMsgID(0);
-            memcpy(&nMsgID, buffer + offset, sizeof(munMsgID));
-            munMsgID = ARK_NTOHS(nMsgID);
-            offset += sizeof(munMsgID);
+            uint16_t msg_id(0);
+            memcpy(&msg_id, buffer + offset, sizeof(msg_id_));
+            msg_id_ = ARK_NTOHS(msg_id);
+            offset += sizeof(msg_id_);
 
-            uint32_t nPackSize(0);
-            memcpy(&nPackSize, buffer + offset, sizeof(munSize));
-            munSize = ARK_NTOHL(nPackSize) - ARK_CS_HEADER_LENGTH;
-            offset += sizeof(munSize);
+            uint32_t pack_size(0);
+            memcpy(&pack_size, buffer + offset, sizeof(msg_len_));
+            msg_len_ = ARK_NTOHL(pack_size) - ARK_CS_HEADER_LENGTH;
+            offset += sizeof(msg_len_);
 
 
-            uint64_t nHighData(0);
-            memcpy(&nHighData, buffer + offset, sizeof(nHighData));
-            mxPlayerID.nHigh = ARK_NTOHLL(nHighData);
-            offset += sizeof(nHighData);
+            uint64_t high_value(0);
+            memcpy(&high_value, buffer + offset, sizeof(high_value));
+            uid_.nHigh = ARK_NTOHLL(high_value);
+            offset += sizeof(high_value);
 
-            uint64_t nLowData(0);
-            memcpy(&nLowData, buffer + offset, sizeof(nLowData));
-            mxPlayerID.nLow = ARK_NTOHLL(nLowData);
-            offset += sizeof(nLowData);
+            uint64_t low_value(0);
+            memcpy(&low_value, buffer + offset, sizeof(low_value));
+            uid_.nLow = ARK_NTOHLL(low_value);
+            offset += sizeof(low_value);
 
             if (offset != ARK_CS_HEADER_LENGTH)
             {
@@ -191,38 +191,38 @@ namespace ark
 
         uint16_t GetMsgID() const override
         {
-            return munMsgID;
+            return msg_id_;
         }
 
         void SetMsgID(uint16_t nMsgID) override
         {
-            munMsgID = nMsgID;
+            msg_id_ = nMsgID;
         }
 
         uint32_t GetBodyLength() const override
         {
-            return munSize;
+            return msg_len_;
         }
 
         void SetBodyLength(size_t nLength) override
         {
-            munSize = (uint32_t)nLength;
+            msg_len_ = (uint32_t)nLength;
         }
 
-        const AFGUID& GetPlayerID() const override
+        const AFGUID& GetUID() const override
         {
-            return mxPlayerID;
+            return uid_;
         }
 
-        void SetPlayerID(const AFGUID& xPlayerID) override
+        void SetUID(const AFGUID& uid) override
         {
-            mxPlayerID = xPlayerID;
+            uid_ = uid;
         }
 
     private:
-        uint32_t munSize{ 0 };
-        uint16_t munMsgID{ 0 };
-        AFGUID mxPlayerID{ 0 };
+        uint32_t msg_len_{ 0 };
+        uint16_t msg_id_{ 0 };
+        AFGUID uid_{ 0 }; //进游戏前是conn_id, 进入游戏后是actor_rid
         //TODO:打包拆小包时候用到 child count
     };
 
@@ -232,12 +232,12 @@ namespace ark
     public:
     protected:
     private:
-        uint32_t _msg_size{ 0 };
-        uint16_t _msg_id{ 0 };
-        AFGUID _player_id{ 0 };
-        int32_t _bus_from{ 0 };
-        int32_t _bus_to{ 0 };
-        uint8_t _child_pkg_count{ 0 };
+        uint32_t msg_len_{ 0 };
+        uint16_t msg_id_{ 0 };
+        AFGUID actor_id_{ 0 };
+        int32_t bus_src_{ 0 };
+        int32_t bus_dst_{ 0 };
+        uint8_t child_pkg_count_{ 0 };
     };
 
     enum NetEventType
@@ -248,10 +248,10 @@ namespace ark
         RECVDATA = 3,
     };
 
-    typedef std::function<void(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID)> NET_PKG_RECV_FUNCTOR;
+    typedef std::function<void(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)> NET_PKG_RECV_FUNCTOR;
     typedef std::shared_ptr<NET_PKG_RECV_FUNCTOR> NET_PKG_RECV_FUNCTOR_PTR;
 
-    typedef std::function<void(const NetEventType nEvent, const AFGUID& nClientID, const int nServerID)> NET_EVENT_FUNCTOR;
+    typedef std::function<void(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)> NET_EVENT_FUNCTOR;
     typedef std::shared_ptr<NET_EVENT_FUNCTOR> NET_EVENT_FUNCTOR_PTR;
 
 }

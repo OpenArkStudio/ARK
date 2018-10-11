@@ -49,7 +49,7 @@ namespace ark
 
     protected:
         int StartClient();
-        void OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
         void Register(const int nServerID);
 

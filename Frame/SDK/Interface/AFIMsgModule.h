@@ -39,7 +39,7 @@ namespace ark
         static bool RecvPB(const ARK_PKG_BASE_HEAD& xHead, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
         {
             strMsg.assign(msg, nLen);
-            nPlayer = xHead.GetPlayerID();
+            nPlayer = xHead.GetUID();
             return true;
         }
 
@@ -50,8 +50,7 @@ namespace ark
                 return false;
             }
 
-            nPlayer = xHead.GetPlayerID();
-
+            nPlayer = xHead.GetUID();
             return true;
         }
 
@@ -321,14 +320,14 @@ namespace ark
     msgType xMsg;                                                                       \
     if (!AFIMsgModule::RecvPB(xHead, msgData, nLen, xMsg, nPlayerID))                   \
     {                                                                                   \
-        ARK_LOG_ERROR("Parse msg error, nMsgID = %d", nMsgID);                          \
+        ARK_LOG_ERROR("Parse msg error, msg_id = {}", nMsgID);                          \
         return;                                                                         \
     }                                                                                   \
                                                                                         \
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(nPlayerID);           \
     if (nullptr == pEntity)                                                                                         \
     {                                                                                                               \
-        ARK_LOG_ERROR("FromClient Object do not Exist, nMsgID = %d player_id = %s", nMsgID, nPlayerID.ToString());  \
+        ARK_LOG_ERROR("FromClient Object do not Exist, msg_id = {} player_id = {}", nMsgID, nPlayerID.ToString());  \
         return;                                                                                                     \
     }
 
@@ -337,7 +336,7 @@ namespace ark
     msgType xMsg;                                                                       \
     if (!AFIMsgModule::RecvPB(xHead, msgData, nLen, xMsg, nPlayerID))                   \
     {                                                                                   \
-        ARK_LOG_ERROR("Parse msg error, nMsgID = %d", nMsgID);                          \
+        ARK_LOG_ERROR("Parse msg error, msg_id = {}", nMsgID);                          \
         return;                                                                         \
     }
 

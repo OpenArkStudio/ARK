@@ -77,7 +77,7 @@ namespace ark
         m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCProxyNetServerModule::OnReqEnterGameServer);
         m_pNetServer->AddRecvCallback(this, &AFCProxyNetServerModule::OnOtherMessage);
 
-        m_pNetServer->AddEventCallBack(this, &AFCProxyNetServerModule::OnSocketClientEvent);
+        m_pNetServer->AddEventCallBack(this, &AFCProxyNetServerModule::OnSocketEvent);
 
         return 0;
     }
@@ -104,14 +104,14 @@ namespace ark
             return;
         }
 
-        if (pSessionData->mnUserID != xHead.GetPlayerID())
+        if (pSessionData->mnUserID != xHead.GetUID())
         {
             //when after entergame xHead.GetPlayerID() is really palyerID
-            ARK_LOG_ERROR("xHead.GetPlayerID() is not really palyerID, id = {}", xHead.GetPlayerID().ToString());
+            ARK_LOG_ERROR("xHead.GetPlayerID() is not really palyerID, id = {}", xHead.GetUID().ToString());
             return;
         }
 
-        m_pMsgModule->SendSSMsg(pSessionData->mnGameID, nMsgID, msg, nLen, xHead.GetPlayerID());
+        m_pMsgModule->SendSSMsg(pSessionData->mnGameID, nMsgID, msg, nLen, xHead.GetUID());
     }
 
     void AFCProxyNetServerModule::OnConnectKeyProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
@@ -143,17 +143,24 @@ namespace ark
         }
     }
 
-    void AFCProxyNetServerModule::OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nSeverID)
+    void AFCProxyNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
     {
-        if (eEvent == DISCONNECTED)
+        switch (event)
         {
-            ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
-            OnClientDisconnect(xClientID);
-        }
-        else if (eEvent == CONNECTED)
-        {
-            ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
-            OnClientConnected(xClientID);
+        case CONNECTED:
+            {
+                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+                OnClientConnected(conn_id);
+            }
+            break;
+        case DISCONNECTED:
+            {
+                ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+                OnClientDisconnect(conn_id);
+            }
+            break;
+        default:
+            break;
         }
     }
 
@@ -241,11 +248,11 @@ namespace ark
 
     int AFCProxyNetServerModule::Transpond(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen)
     {
-        ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xHead.GetPlayerID());
+        ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xHead.GetUID());
 
         if (pSessionData)
         {
-            m_pNetServer->GetNet()->SendRawMsg(nMsgID, msg, nLen, pSessionData->mnClientID, xHead.GetPlayerID());
+            m_pNetServer->GetNet()->SendRawMsg(nMsgID, msg, nLen, pSessionData->mnClientID, xHead.GetUID());
         }
 
         return true;

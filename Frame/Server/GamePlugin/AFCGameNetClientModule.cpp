@@ -66,22 +66,22 @@ namespace ark
         }
 
         pNetClient->AddRecvCallback(this, &AFCGameNetClientModule::TransPBToProxy);
-        pNetClient->AddEventCallBack(this, &AFCGameNetClientModule::OnSocketWSEvent);
+        pNetClient->AddEventCallBack(this, &AFCGameNetClientModule::OnSocketEvent);
 
         return 0;
     }
 
-    void AFCGameNetClientModule::OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
+    void AFCGameNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
     {
-        AFBusAddr bus_addr(nServerID);
-        switch (eEvent)
+        AFBusAddr bus_addr(bus_id);
+        switch (event)
         {
         case CONNECTED:
-            ARK_LOG_INFO("Connected success, conn_id = {}, bus_id = {}", xClientID.ToString(), bus_addr.ToString());
-            Register(nServerID);
+            ARK_LOG_INFO("Connected success, conn_id = {}, bus_id = {}", conn_id.ToString(), bus_addr.ToString());
+            Register(bus_id);
             break;
         case DISCONNECTED:
-            ARK_LOG_ERROR("Connected failed, conn_id = {}, bus_id = {}, try to reconnect...", xClientID.ToString(), bus_addr.ToString())
+            ARK_LOG_ERROR("Connected failed, conn_id = {}, bus_id = {}, try to reconnect...", conn_id.ToString(), bus_addr.ToString())
             break;
         default:
             break;

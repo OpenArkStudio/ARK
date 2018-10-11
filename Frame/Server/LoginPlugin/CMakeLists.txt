@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO("AFLoginLogicPlugin")
+BUILD_PLUGIN_MACRO("AFLoginPlugin")

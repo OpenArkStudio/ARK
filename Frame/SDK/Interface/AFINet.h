@@ -37,10 +37,10 @@ namespace ark
     class AFBaseNetEntity
     {
     public:
-        AFBaseNetEntity(AFINet* pNet, const AFGUID& xClientID) :
-            mnClientID(xClientID),
-            m_pNet(pNet),
-            bNeedRemove(false)
+        AFBaseNetEntity(AFINet* net_ptr, const AFGUID& conn_id) :
+            conn_id_(conn_id),
+            net_ptr_(net_ptr),
+            need_remove_(false)
         {
         }
 
@@ -48,71 +48,71 @@ namespace ark
 
         int AddBuff(const char* str, size_t nLen)
         {
-            mstrBuff.write(str, nLen);
-            return (int)mstrBuff.getlength();
+            buffer_.write(str, nLen);
+            return (int)buffer_.getlength();
         }
 
         size_t RemoveBuff(size_t nLen)
         {
-            if (nLen > mstrBuff.getlength())
+            if (nLen > buffer_.getlength())
             {
                 return 0;
             }
 
-            mstrBuff.removedata(nLen);
+            buffer_.removedata(nLen);
 
-            return mstrBuff.getlength();
+            return buffer_.getlength();
         }
 
         const char* GetBuff()
         {
-            return mstrBuff.getdata();
+            return buffer_.getdata();
         }
 
         size_t GetBuffLen()
         {
-            return mstrBuff.getlength();
+            return buffer_.getlength();
         }
 
         AFINet* GetNet()
         {
-            return m_pNet;
+            return net_ptr_;
         }
         bool NeedRemove()
         {
-            return bNeedRemove;
+            return need_remove_;
         }
         void SetNeedRemove(bool b)
         {
-            bNeedRemove = b;
+            need_remove_ = b;
         }
         const std::string& GetAccount() const
         {
-            return mstrUserData;
+            return user_data_;
         }
 
         void SetAccount(const std::string& strData)
         {
-            mstrUserData = strData;
+            user_data_ = strData;
         }
 
-        const AFGUID& GetClientID()
+        const AFGUID& GetConnID()
         {
-            return mnClientID;
+            return conn_id_;
         }
 
-        void SetClientID(const AFGUID& xClientID)
+        void SetConnID(const AFGUID& conn_id)
         {
-            mnClientID = xClientID;
+            conn_id_ = conn_id;
         }
 
     private:
-        AFBuffer mstrBuff;
-        std::string mstrUserData;
-        AFGUID mnClientID;//temporary client id
+        AFBuffer buffer_;
+        std::string user_data_;
+        AFGUID conn_id_;//temporary client id
 
-        AFINet* m_pNet;
-        mutable bool bNeedRemove;
+        AFINet* net_ptr_;
+        mutable bool need_remove_;
     };
 
     class AFINet
@@ -123,7 +123,7 @@ namespace ark
 
         //need to call this function every frame to drive network library
         virtual void Update() = 0;
-        virtual bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false) = 0;
+        virtual bool Start(const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) = 0;
         virtual bool Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false) = 0;
 
         virtual bool Shutdown() = 0;
@@ -151,20 +151,20 @@ namespace ark
 
         bool IsWorking() const
         {
-            return bWorking;
+            return working_;
         }
 
         void SetWorking(bool value)
         {
-            bWorking = value;
+            working_ = value;
         }
 
     private:
-        bool bWorking{ false };
+        bool working_{ false };
 
     public:
-        size_t nRecvSize{ 0 };
-        size_t nSendSize{ 0 };
+        size_t recv_size_{ 0 };
+        size_t send_size_{ 0 };
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -173,13 +173,13 @@ namespace ark
     class AFNetMsg
     {
     public:
-        AFNetMsg(const SessionPTR session_ptr) : mxSession(session_ptr) {}
+        AFNetMsg(const SessionPTR session_ptr) : session_(session_ptr) {}
 
-        NetEventType nType{ NONE };
-        AFGUID xClientID{ 0 };
-        SessionPTR mxSession{ nullptr };
-        std::string strMsg{};
-        ARK_PKG_CS_HEAD xHead;
+        NetEventType event_{ NONE };
+        AFGUID conn_id_{ 0 };
+        SessionPTR session_{ nullptr };
+        std::string msg_data_{};
+        ARK_PKG_CS_HEAD head_;
     };
 
     using AFTCPMsg = AFNetMsg<brynet::net::DataSocket::PTR>;
@@ -189,9 +189,9 @@ namespace ark
     class AFNetEntity : public AFBaseNetEntity
     {
     public:
-        AFNetEntity(AFINet* pNet, const AFGUID& xClientID, const SessionPTR session) :
-            AFBaseNetEntity(pNet, xClientID),
-            mxSession(session)
+        AFNetEntity(AFINet* net_ptr, const AFGUID& conn_id, const SessionPTR session) :
+            AFBaseNetEntity(net_ptr, conn_id),
+            session_(session)
         {
         }
 
@@ -199,14 +199,13 @@ namespace ark
 
         const SessionPTR& GetSession()
         {
-            return mxSession;
+            return session_;
         }
 
-        AFGUID xHttpClientID;
-        AFLockFreeQueue<AFNetMsg<SessionPTR>*> mxNetMsgMQ;
+        AFLockFreeQueue<AFNetMsg<SessionPTR>*> msg_queue_;
 
     private:
-        const SessionPTR mxSession;
+        const SessionPTR session_;
     };
 
     using AFTCPEntity = AFNetEntity<brynet::net::DataSocket::PTR>;

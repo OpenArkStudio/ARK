@@ -62,7 +62,7 @@ namespace ark
         pNetClientWorld->AddRecvCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this, &AFCWorldNetClientModule::OnKickClientProcess);
         pNetClientWorld->AddRecvCallback(this, &AFCWorldNetClientModule::InvalidMessage);
 
-        pNetClientWorld->AddEventCallBack(this, &AFCWorldNetClientModule::OnSocketMSEvent);
+        pNetClientWorld->AddEventCallBack(this, &AFCWorldNetClientModule::OnSocketEvent);
 
         return 0;
     }
@@ -136,16 +136,21 @@ namespace ark
         ARK_LOG_ERROR("invalid msg id = {}", nMsgID);
     }
 
-    void AFCWorldNetClientModule::OnSocketMSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
+    void AFCWorldNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
     {
-        if (eEvent == DISCONNECTED)
+        switch (event)
         {
-            ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
-        }
-        else if (eEvent == CONNECTED)
-        {
-            ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
-            Register(nServerID);
+        case CONNECTED:
+            {
+                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+                Register(bus_id);
+            }
+            break;
+        case DISCONNECTED:
+            ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+            break;
+        default:
+            break;
         }
     }
 

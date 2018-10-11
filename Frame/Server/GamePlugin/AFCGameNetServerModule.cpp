@@ -96,37 +96,38 @@ namespace ark
         m_pNetServerService->AddRecvCallback(AFMsg::EGEC_REQ_LEAVE_CHATGROUP, this, &AFCGameNetServerModule::OnTransWorld);
         m_pNetServerService->AddRecvCallback(AFMsg::EGEC_REQ_SUBSCRIPTION_CHATGROUP, this, &AFCGameNetServerModule::OnTransWorld);
 
-        m_pNetServerService->AddEventCallBack(this, &AFCGameNetServerModule::OnSocketPSEvent);
+        m_pNetServerService->AddEventCallBack(this, &AFCGameNetServerModule::OnSocketEvent);
 
         return 0;
     }
 
-    void AFCGameNetServerModule::OnSocketPSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
+    void AFCGameNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
     {
-        switch (eEvent)
+        switch (event)
         {
-        case DISCONNECTED:
-            {
-                ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
-                OnClientDisconnect(xClientID);
-            }
-            break;
         case CONNECTED:
             {
-                ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
-                OnClientConnected(xClientID);
+                ARK_LOG_INFO("Connected success, id = {}, ip = {}", conn_id.ToString(), ip);
+                OnClientConnected(conn_id);
             }
+            break;
+        case DISCONNECTED:
+            {
+                ARK_LOG_INFO("Connection closed, id = {}, ip = {}", conn_id.ToString(), ip);
+                OnClientDisconnect(conn_id);
+            }
+            break;
         default:
             break;
         }
     }
 
-    void AFCGameNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnClientDisconnect(const AFGUID& conn_id)
     {
         int nServerID = 0;
         for (ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.First(); nullptr != pServerData; pServerData = mProxyMap.Next())
         {
-            if (xClientID == pServerData->xServerData.xClient)
+            if (conn_id == pServerData->xServerData.xClient)
             {
                 nServerID = pServerData->xServerData.xData.bus_id();
                 break;
@@ -136,7 +137,7 @@ namespace ark
         mProxyMap.RemoveElement(nServerID);
     }
 
-    void AFCGameNetServerModule::OnClientConnected(const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnClientConnected(const AFGUID& conn_id)
     {
         //do something
     }

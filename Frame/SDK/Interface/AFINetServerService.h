@@ -60,27 +60,21 @@ namespace ark
         bool AddRecvCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
         {
             NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-            NET_PKG_RECV_FUNCTOR_PTR functorPtr = std::make_shared<NET_PKG_RECV_FUNCTOR>(functor);
-
-            return AddRecvCallback(nMsgID, functorPtr);
+            return AddRecvCallback(nMsgID, std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
         }
 
         template<typename BaseType>
         bool AddRecvCallback(BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
         {
             NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-            NET_PKG_RECV_FUNCTOR_PTR functorPtr = std::make_shared < NET_PKG_RECV_FUNCTOR>(functor);
-
-            return AddRecvCallback(functorPtr);
+            return AddRecvCallback(std::make_shared < NET_PKG_RECV_FUNCTOR>(functor));
         }
 
         template<typename BaseType>
-        bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const int))
+        bool AddEventCallBack(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const std::string&, const int))
         {
-            NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
-            NET_EVENT_FUNCTOR_PTR functorPtr(new NET_EVENT_FUNCTOR(functor));
-
-            return AddEventCallBack(functorPtr);
+            NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+            return AddEventCallBack(std::make_shared<NET_EVENT_FUNCTOR>(functor));
         }
 
         virtual bool Start(const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) = 0;

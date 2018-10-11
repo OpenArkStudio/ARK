@@ -143,23 +143,23 @@ namespace ark
         return true;
     }
 
-    void AFCNetServerService::OnRecvNetPack(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID)
+    void AFCNetServerService::OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id)
     {
-        auto it = mxRecvCallBack.find(nMsgID);
+        auto it = mxRecvCallBack.find(msg_id);
         if (it != mxRecvCallBack.end())
         {
-            (*it->second)(xHead, nMsgID, msg, nLen, xClientID);
+            (*it->second)(head, msg_id, msg, msg_len, conn_id);
         }
         else
         {
             for (const auto& iter : mxCallBackList)
             {
-                (*iter)(xHead, nMsgID, msg, nLen, xClientID);
+                (*iter)(head, msg_id, msg, msg_len, conn_id);
             }
         }
     }
 
-    void AFCNetServerService::OnSocketNetEvent(const NetEventType event, const AFGUID& connect_id, int bus_id)
+    void AFCNetServerService::OnSocketNetEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
     {
         AFINetServerManagerModule* net_server_manager_module = m_pPluginManager->FindModule<AFINetServerManagerModule>();
         if (net_server_manager_module != nullptr)
@@ -183,7 +183,7 @@ namespace ark
 
         for (const auto& it : mxEventCallBackList)
         {
-            (*it)(event, connect_id, bus_id);
+            (*it)(event, conn_id, ip, bus_id);
         }
     }
 

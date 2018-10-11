@@ -22,47 +22,42 @@
 
 #include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFILogModule.h"
-#include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFINetClientManagerModule.h"
+#include "SDK/Interface/AFINetServerManagerModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "Server/Interface/AFILoginNetServerModule.h"
-#include "Server/Interface/AFILoginNetClientModule.h"
+#include "Server/Interface/AFIDirNetClientModule.h"
+#include "Server/Interface/AFIDirNetServerModule.h"
 
 namespace ark
 {
 
-    class AFCLoginNetClientModule : public AFILoginNetClientModule
+    class AFCDirNetClientModule : public AFIDirNetClientModule
     {
     public:
-        explicit AFCLoginNetClientModule() = default;
+        explicit AFCDirNetClientModule() = default;
 
         bool Init() override;
         bool PreUpdate() override;
 
-        AFMapEx<int, AFMsg::ServerInfoReport>& GetWorldMap() override;
-
     protected:
         int StartClient();
 
+        void Register(const int bus_id);
         void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
-        //////////////////////////////////////////////////////////////////////////
-        void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnClientConnected(const AFGUID& xClientID);
+        void OnClientDisconnect(const AFGUID& xClientID);
 
-        //////////////////////////////////////////////////////////////////////////
-        void Register(const int nServerID);
+        void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     private:
-        AFMapEx<int, AFMsg::ServerInfoReport> mWorldMap;
-
         AFILogModule* m_pLogModule;
         AFIBusModule* m_pBusModule;
         AFIMsgModule* m_pMsgModule;
+        AFIDirNetServerModule* m_pDirNetServerModule;
         AFINetClientManagerModule* m_pNetClientManagerModule;
-        AFILoginNetServerModule* m_pLoginNetServerModule;
     };
 
 }

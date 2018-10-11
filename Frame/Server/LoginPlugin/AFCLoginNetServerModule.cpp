@@ -173,17 +173,24 @@ namespace ark
         //m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData, xHead.GetPlayerID());//here has a problem to be solve
     }
 
-    void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
+    void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
     {
-        if (eEvent == DISCONNECTED)
+        switch (event)
         {
-            ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString().c_str());
-            OnClientDisconnect(xClientID);
-        }
-        else  if (eEvent == CONNECTED)
-        {
-            ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString().c_str());
-            OnClientConnected(xClientID);
+        case CONNECTED:
+            {
+                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+                OnClientConnected(conn_id);
+            }
+            break;
+        case DISCONNECTED:
+            {
+                ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+                OnClientDisconnect(conn_id);
+            }
+            break;
+        default:
+            break;
         }
     }
 

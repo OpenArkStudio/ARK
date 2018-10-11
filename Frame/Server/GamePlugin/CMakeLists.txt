@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO("AFGameLogicPlugin")
+BUILD_PLUGIN_MACRO("AFGamePlugin")

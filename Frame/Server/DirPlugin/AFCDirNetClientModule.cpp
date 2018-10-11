@@ -18,29 +18,29 @@
 *
 */
 
-#include "AFCLoginNetClientModule.h"
+#include "AFCDirNetClientModule.h"
 
 namespace ark
 {
 
-    bool AFCLoginNetClientModule::Init()
+    bool AFCDirNetClientModule::Init()
     {
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
         m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
         m_pMsgModule = pPluginManager->FindModule<AFIMsgModule>();
-        m_pLoginNetServerModule = pPluginManager->FindModule<AFILoginNetServerModule>();
+        m_pDirNetServerModule = pPluginManager->FindModule<AFIDirNetServerModule>();
         m_pNetClientManagerModule = pPluginManager->FindModule<AFINetClientManagerModule>();
 
         return true;
     }
 
-    bool AFCLoginNetClientModule::PreUpdate()
+    bool AFCDirNetClientModule::PreUpdate()
     {
         int ret = StartClient();
         return (ret == 0);
     }
 
-    int AFCLoginNetClientModule::StartClient()
+    int AFCDirNetClientModule::StartClient()
     {
         //创建所有与对端链接的client
         int ret = m_pNetClientManagerModule->CreateClusterClients();
@@ -51,37 +51,20 @@ namespace ark
             return ret;
         }
 
-        //if need to add a member
-        AFINetClientService* pNetClient = m_pNetClientManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
-        if (pNetClient == nullptr)
+        AFINetClientService* pNetClientWorld = m_pNetClientManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_MASTER);
+        if (pNetClientWorld == nullptr)
         {
-            return -1;
+            return 0;
         }
 
-        pNetClient->AddEventCallBack(this, &AFCLoginNetClientModule::OnSocketEvent);
+        pNetClientWorld->AddRecvCallback(this, &AFCDirNetClientModule::InvalidMessage);
+
+        pNetClientWorld->AddEventCallBack(this, &AFCDirNetClientModule::OnSocketEvent);
 
         return 0;
     }
 
-    void AFCLoginNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
-    {
-        switch (event)
-        {
-        case CONNECTED:
-            {
-                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
-                Register(bus_id);
-            }
-            break;
-        case DISCONNECTED:
-            ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
-            break;
-        default:
-            break;
-        }
-    }
-
-    void AFCLoginNetClientModule::Register(const int bus_id)
+    void AFCDirNetClientModule::Register(const int bus_id)
     {
         AFINetClientService* pNetClient = m_pNetClientManagerModule->GetNetClientServiceByBusID(bus_id);
         if (pNetClient == nullptr)
@@ -110,38 +93,37 @@ namespace ark
         ARK_LOG_INFO("Register self server_id = {}", pData->bus_id());
     }
 
-    void AFCLoginNetClientModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCDirNetClientModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
-        m_pLoginNetServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), AFIMsgModule::PBToGUID(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_url(), xMsg.world_key());
+        ARK_LOG_ERROR("invalid msg id = {}", nMsgID);
     }
 
-    void AFCLoginNetClientModule::OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCDirNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
-
-        for (int i = 0; i < xMsg.server_list_size(); ++i)
+        switch (event)
         {
-            const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-
-            ARK_SHARE_PTR<AFMsg::ServerInfoReport> pServerData = mWorldMap.GetElement(xData.bus_id());
-
-            if (nullptr == pServerData)
+        case CONNECTED:
             {
-                pServerData = std::make_shared<AFMsg::ServerInfoReport>();
-                *pServerData = xData;
-
-                mWorldMap.AddElement(xData.bus_id(), pServerData);
+                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+                Register(bus_id);
             }
-
+            break;
+        case DISCONNECTED:
+            ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+            break;
+        default:
+            break;
         }
-
-        ARK_LOG_INFO("WorldInfo size = {}", xMsg.server_list_size());
     }
 
-    AFMapEx<int, AFMsg::ServerInfoReport>& AFCLoginNetClientModule::GetWorldMap()
+    void AFCDirNetClientModule::OnClientDisconnect(const AFGUID& xClientID)
     {
-        return mWorldMap;
+        //do something
+    }
+
+    void AFCDirNetClientModule::OnClientConnected(const AFGUID& xClientID)
+    {
+        //do something
     }
 
 }

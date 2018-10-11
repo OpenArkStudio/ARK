@@ -64,7 +64,7 @@ namespace ark
         pNetClientWorld->AddRecvCallback(AFMsg::EGMI_STS_NET_INFO, this, &AFCProxyNetClientModule::OnServerInfoProcess);
         pNetClientWorld->AddRecvCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetClientModule::OnBrocastmsg);
         pNetClientWorld->AddRecvCallback(this, &AFCProxyNetClientModule::OnOtherMessage);
-        pNetClientWorld->AddEventCallBack(this, &AFCProxyNetClientModule::OnSocketWSEvent);
+        pNetClientWorld->AddEventCallBack(this, &AFCProxyNetClientModule::OnSocketEvent);
 
 
         AFINetClientService* pNetClientGame = m_pNetClientManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_GAME);
@@ -76,7 +76,7 @@ namespace ark
         pNetClientGame->AddRecvCallback(AFMsg::EGMI_ACK_ENTER_GAME, this, &AFCProxyNetClientModule::OnAckEnterGame);
         pNetClientGame->AddRecvCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetClientModule::OnBrocastmsg);
         pNetClientGame->AddRecvCallback(this, &AFCProxyNetClientModule::OnOtherMessage);
-        pNetClientGame->AddEventCallBack(this, &AFCProxyNetClientModule::OnSocketWSEvent);
+        pNetClientGame->AddEventCallBack(this, &AFCProxyNetClientModule::OnSocketEvent);
 
         return 0;
     }
@@ -100,16 +100,21 @@ namespace ark
         }
     }
 
-    void AFCProxyNetClientModule::OnSocketWSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
+    void AFCProxyNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
     {
-        if (eEvent == DISCONNECTED)
+        switch (event)
         {
-            ARK_LOG_INFO("Connection closed, id = {}", xClientID.ToString());
-        }
-        else if (eEvent == CONNECTED)
-        {
-            ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
-            Register(nServerID);
+        case CONNECTED:
+            {
+                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+                Register(bus_id);
+            }
+            break;
+        case DISCONNECTED:
+            ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+            break;
+        default:
+            break;
         }
     }
 

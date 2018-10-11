@@ -66,7 +66,7 @@ namespace ark
         virtual int OnEntityListEnter(const AFIDataList& self, const AFIDataList& argVar);
         virtual int OnEntityListLeave(const AFIDataList& self, const AFIDataList& argVar);
 
-        void OnSocketPSEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
         void OnClientDisconnect(const AFGUID& xClientID);
         void OnClientConnected(const AFGUID& xClientID);
 

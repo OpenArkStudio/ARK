@@ -72,11 +72,11 @@ namespace ark
 
         AFINet* CreateNet(const proto_type proto);
 
-        int OnConnected(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
-        int OnDisConnected(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID);
+        int OnConnected(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id);
+        int OnDisConnected(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id);
 
-        void OnRecvNetPack(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID);
-        void OnSocketNetEvent(const NetEventType eEvent, const AFGUID& xClientID, int nServerID);
+        void OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id);
+        void OnSocketNetEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id);
 
         void KeepReport(ARK_SHARE_PTR<AFConnectionData>& connection_data) {/*Will add*/ }
         void LogServerInfo(const std::string& strServerInfo) {/*Will add*/ }

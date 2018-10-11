@@ -1,1 +1,1 @@
-BUILD_PLUGIN_MACRO("AFProxyLogicPlugin")
+BUILD_PLUGIN_MACRO("AFProxyPlugin")

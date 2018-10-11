@@ -210,17 +210,24 @@ namespace ark
         return 0;
     }
 
-    void AFCWorldNetServerModule::OnSocketEvent(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
+    void AFCWorldNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
     {
-        if (eEvent == DISCONNECTED)
+        switch (event)
         {
-            ARK_LOG_ERROR("Connection closed, id = {}", xClientID.ToString());
-            OnClientDisconnect(xClientID);
-        }
-        else  if (eEvent == CONNECTED)
-        {
-            ARK_LOG_INFO("Connected success, id = {}", xClientID.ToString());
-            OnClientConnected(xClientID);
+        case CONNECTED:
+            {
+                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+                OnClientConnected(conn_id);
+            }
+            break;
+        case DISCONNECTED:
+            {
+                ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+                OnClientDisconnect(conn_id);
+            }
+            break;
+        default:
+            break;
         }
     }
 

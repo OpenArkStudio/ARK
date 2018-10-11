@@ -39,17 +39,19 @@ namespace ark
     class AFCWebSocktServer : public AFINet
     {
     public:
+        using AFHttpEntityPtr = AFHttpEntity*;
+
         AFCWebSocktServer();
 
         template<typename BaseType>
-        AFCWebSocktServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const ARK_PKG_BASE_HEAD& xHead, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const int))
+        AFCWebSocktServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const ARK_PKG_BASE_HEAD&, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const std::string&, int))
         {
-            mRecvCB = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-            mEventCB = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);
+            net_recv_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
+            net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
 
             brynet::net::base::InitSocket();
-            m_pTcpService = brynet::net::TcpService::Create();
-            m_pListenThread = brynet::net::ListenThread::Create();
+            tcp_service_ptr_ = brynet::net::TcpService::Create();
+            listen_thread_ptr_ = brynet::net::ListenThread::Create();
         }
 
         ~AFCWebSocktServer() override;
@@ -57,7 +59,7 @@ namespace ark
         void Update() override;
 
         //Just for pure virtual function
-        bool Start(const int target_busid, const std::string& ip, const int port, bool ip_v6 = false) override
+        bool Start(const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) override
         {
             return false;
         }
@@ -66,40 +68,40 @@ namespace ark
         bool Shutdown() override final;
         bool IsServer() override;
 
-        bool SendRawMsg(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID, const AFGUID& xPlayerID) override;
-        bool SendRawMsgToAllClient(const uint16_t nMsgID, const char* msg, const size_t nLen, const AFGUID& xPlayerID) override;
+        bool SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_rid) override;
+        bool SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_rid) override;
 
-        bool CloseNetEntity(const AFGUID& xClientID) override;
+        bool CloseNetEntity(const AFGUID& conn_id) override;
         bool Log(int severity, const char* msg) override;
 
     protected:
-        bool SendMsgToAllClient(const char* msg, const size_t nLen);
-        bool SendMsg(const char* msg, const size_t nLen, const AFGUID& xClient);
-        bool AddNetEntity(const AFGUID& xClientID, AFHttpEntity* pEntity);
-        bool RemoveNetEntity(const AFGUID& xClientID);
-        AFHttpEntity* GetNetEntity(const AFGUID& xClientID);
+        bool SendMsgToAllClient(const char* msg, const size_t msg_len);
+        bool SendMsg(const char* msg, const size_t msg_len, const AFGUID& conn_id);
+        bool AddNetEntity(const AFGUID& conn_id, AFHttpEntityPtr entity_ptr);
+        bool RemoveNetEntity(const AFGUID& conn_id);
+        AFHttpEntityPtr GetNetEntity(const AFGUID& conn_id);
 
         void ProcessMsgLogicThread();
-        void ProcessMsgLogicThread(AFHttpEntity* pEntity);
+        void ProcessMsgLogicThread(AFHttpEntityPtr entity_ptr);
         bool CloseSocketAll();
-        bool DismantleNet(AFHttpEntity* pEntity);
+        bool DismantleNet(AFHttpEntityPtr entity_ptr);
 
-        int DeCode(const char* strData, const size_t len, ARK_PKG_CS_HEAD& xHead);
-        int EnCode(const ARK_PKG_CS_HEAD& xHead, const char* strData, const size_t len, std::string& strOutData);
+        int EnCode(const ARK_PKG_CS_HEAD& head, const char* msg, const size_t len, OUT std::string& out_data);
+        int DeCode(const char* data, const size_t len, ARK_PKG_CS_HEAD& head);
 
     private:
-        std::map<AFGUID, AFHttpEntity*> mxNetEntities;
-        AFCReaderWriterLock mRWLock;
-        int mnMaxConnect{ 0 };
-        int mnThreadNum{ 0 };
-        int mnServerID{ 0 };
+        std::map<AFGUID, AFHttpEntityPtr> net_entities_;
+        AFCReaderWriterLock rw_lock_;
+        int max_connection_{ 0 };
+        int thread_num_{ 0 };
+        int bus_id_{ 0 };
 
-        NET_PKG_RECV_FUNCTOR mRecvCB{ nullptr };
-        NET_EVENT_FUNCTOR mEventCB{ nullptr };
+        NET_PKG_RECV_FUNCTOR net_recv_cb_{ nullptr };
+        NET_EVENT_FUNCTOR net_event_cb_{ nullptr };
 
-        brynet::net::TcpService::PTR m_pTcpService{ nullptr };
-        brynet::net::ListenThread::PTR m_pListenThread{ nullptr };
-        std::atomic<std::uint64_t> nNextID{ 1 };
+        brynet::net::TcpService::PTR tcp_service_ptr_{ nullptr };
+        brynet::net::ListenThread::PTR listen_thread_ptr_{ nullptr };
+        std::atomic<std::uint64_t> next_conn_id_{ 1 };
     };
 
 }

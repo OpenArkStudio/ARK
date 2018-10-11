@@ -221,9 +221,9 @@ namespace ark
         }
     }
 
-    int AFCNetClientService::OnConnected(const NetEventType eEvent, const AFGUID& xClientID, const int nServerID)
+    int AFCNetClientService::OnConnected(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
     {
-        ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(nServerID);
+        ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(bus_id);
 
         if (pServerInfo != nullptr)
         {
@@ -233,7 +233,7 @@ namespace ark
             AFINetClientManagerModule* net_client_manager_module = m_pPluginManager->FindModule<AFINetClientManagerModule>();
             if (net_client_manager_module != nullptr)
             {
-                net_client_manager_module->AddNetConnectionBus(nServerID, pServerInfo->net_client_ptr_);
+                net_client_manager_module->AddNetConnectionBus(bus_id, pServerInfo->net_client_ptr_);
             }
             else
             {
@@ -244,7 +244,7 @@ namespace ark
         return 0;
     }
 
-    int AFCNetClientService::OnDisConnected(const NetEventType eEvent, const AFGUID& conn_id, const int bus_id)
+    int AFCNetClientService::OnDisConnected(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
     {
         ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(bus_id);
 
@@ -304,35 +304,34 @@ namespace ark
         _tmp_nets.clear();
     }
 
-    void AFCNetClientService::OnRecvNetPack(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const size_t nLen, const AFGUID& xClientID)
+    void AFCNetClientService::OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id)
     {
-        auto it = mxRecvCallBack.find(nMsgID);
+        auto it = mxRecvCallBack.find(msg_id);
 
         if (mxRecvCallBack.end() != it)
         {
-            (*it->second)(xHead, nMsgID, msg, nLen, xClientID);
+            (*it->second)(head, msg_id, msg, msg_len, conn_id);
         }
         else
         {
             for (const auto& iter : mxCallBackList)
             {
-                (*iter)(xHead, nMsgID, msg, nLen, xClientID);
+                (*iter)(head, msg_id, msg, msg_len, conn_id);
             }
         }
     }
 
-    void AFCNetClientService::OnSocketNetEvent(const NetEventType eEvent, const AFGUID& conn_id, int bus_id)
+    void AFCNetClientService::OnSocketNetEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
     {
-
-        switch (eEvent)
+        switch (event)
         {
         case CONNECTED:
             //Add net client service in manager module
-            OnConnected(eEvent, conn_id, bus_id);
+            OnConnected(event, conn_id, ip, bus_id);
             break;
         case DISCONNECTED:
             //Remove net client service in manager module
-            OnDisConnected(eEvent, conn_id, bus_id);
+            OnDisConnected(event, conn_id, ip, bus_id);
             break;
         default:
             break;
@@ -340,7 +339,7 @@ namespace ark
 
         for (const auto& it : mxEventCallBackList)
         {
-            (*it)(eEvent, conn_id, bus_id);
+            (*it)(event, conn_id, ip, bus_id);
         }
     }
 
