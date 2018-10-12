@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame and authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,20 +18,4 @@
 *
 */
 
-#pragma once
-
-#include "Common/AFProtoCPP.hpp"
-#include "SDK/Interface/AFIModule.h"
-
-namespace ark
-{
-
-    class AFINetServerService;
-
-    class AFIDirNetServerModule : public AFIModule
-    {
-    public:
-        virtual AFINetServerService* GetNetServer() = 0;
-    };
-
-}
+#include "Common/AFDLLHeader.hpp"

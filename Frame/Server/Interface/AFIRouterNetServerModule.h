@@ -28,7 +28,7 @@ namespace ark
 
     class AFINetServerService;
 
-    class AFIDirNetServerModule : public AFIModule
+    class AFIRouterNetServerModule : public AFIModule
     {
     public:
         virtual AFINetServerService* GetNetServer() = 0;

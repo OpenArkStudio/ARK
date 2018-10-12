@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,18 +20,24 @@
 
 #pragma once
 
-#include "Common/AFProtoCPP.hpp"
-#include "SDK/Interface/AFIModule.h"
+#include "SDK/Core/AFPlatform.hpp"
+#include "SDK/Interface/AFIPlugin.h"
+#include "SDK/Interface/AFIPluginManager.h"
 
 namespace ark
 {
 
-    class AFINetServerService;
-
-    class AFIDirNetServerModule : public AFIModule
+    class AFRouterPlugin : public AFIPlugin
     {
     public:
-        virtual AFINetServerService* GetNetServer() = 0;
+        explicit AFRouterPlugin() = default;
+
+        int GetPluginVersion() override;
+
+        const std::string GetPluginName() override;
+
+        void Install() override;
+        void Uninstall() override;
     };
 
 }

@@ -20,18 +20,14 @@
 
 #pragma once
 
-#include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIModule.h"
 
 namespace ark
 {
 
-    class AFINetServerService;
-
-    class AFIDirNetServerModule : public AFIModule
+    class AFIRouterNetClientModule : public  AFIModule
     {
-    public:
-        virtual AFINetServerService* GetNetServer() = 0;
+
     };
 
 }

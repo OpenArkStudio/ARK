@@ -52,6 +52,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Launcher", "Launcher\Launch
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFDirPlugin", "Server\DirPlugin\DirPlugin.vcxproj", "{59BA1529-803F-49F7-8D87-1A50322BD563}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AFRouterPlugin", "Server\RouterPlugin\RouterPlugin.vcxproj", "{A226E332-B18C-48F1-A582-2325973F0DF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -130,6 +132,10 @@ Global
 		{59BA1529-803F-49F7-8D87-1A50322BD563}.Debug|x64.Build.0 = Debug|x64
 		{59BA1529-803F-49F7-8D87-1A50322BD563}.Release|x64.ActiveCfg = Release|x64
 		{59BA1529-803F-49F7-8D87-1A50322BD563}.Release|x64.Build.0 = Release|x64
+		{A226E332-B18C-48F1-A582-2325973F0DF2}.Debug|x64.ActiveCfg = Debug|x64
+		{A226E332-B18C-48F1-A582-2325973F0DF2}.Debug|x64.Build.0 = Debug|x64
+		{A226E332-B18C-48F1-A582-2325973F0DF2}.Release|x64.ActiveCfg = Release|x64
+		{A226E332-B18C-48F1-A582-2325973F0DF2}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -153,6 +159,7 @@ Global
 		{9D23DA22-6ECC-47CB-85F7-0BF440B88298} = {410C8A08-63DC-45B2-ADB9-08CD991861F0}
 		{B65A0FB2-E49B-4FE9-93F7-EAE6B8E51944} = {07081D27-3DDB-4054-BAC4-4B5F8F95EA13}
 		{59BA1529-803F-49F7-8D87-1A50322BD563} = {2EDDAD6B-1B81-4FE1-B2CA-1A166883EC11}
+		{A226E332-B18C-48F1-A582-2325973F0DF2} = {2EDDAD6B-1B81-4FE1-B2CA-1A166883EC11}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FC0635D4-DDBA-4CFE-8273-5C4E51F2B97B}
