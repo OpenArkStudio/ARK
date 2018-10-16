@@ -63,41 +63,42 @@ namespace ark
         pNetClientWorld->AddRecvCallback(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyNetClientModule::OnSelectServerResultProcess);
         pNetClientWorld->AddRecvCallback(AFMsg::EGMI_STS_NET_INFO, this, &AFCProxyNetClientModule::OnServerInfoProcess);
         pNetClientWorld->AddRecvCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetClientModule::OnBrocastmsg);
+        pNetClientWorld->AddRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, this, &AFCProxyNetClientModule::OnRecvServerNotify);
         pNetClientWorld->AddRecvCallback(this, &AFCProxyNetClientModule::OnOtherMessage);
         pNetClientWorld->AddEventCallBack(this, &AFCProxyNetClientModule::OnSocketEvent);
 
 
-        AFINetClientService* pNetClientGame = m_pNetClientManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_GAME);
-        if (pNetClientGame == nullptr)
-        {
-            return -1;
-        }
+        //AFINetClientService* pNetClientGame = m_pNetClientManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_GAME);
+        //if (pNetClientGame == nullptr)
+        //{
+        //    return -1;
+        //}
 
-        pNetClientGame->AddRecvCallback(AFMsg::EGMI_ACK_ENTER_GAME, this, &AFCProxyNetClientModule::OnAckEnterGame);
-        pNetClientGame->AddRecvCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetClientModule::OnBrocastmsg);
-        pNetClientGame->AddRecvCallback(this, &AFCProxyNetClientModule::OnOtherMessage);
-        pNetClientGame->AddEventCallBack(this, &AFCProxyNetClientModule::OnSocketEvent);
+        //pNetClientGame->AddRecvCallback(AFMsg::EGMI_ACK_ENTER_GAME, this, &AFCProxyNetClientModule::OnAckEnterGame);
+        //pNetClientGame->AddRecvCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetClientModule::OnBrocastmsg);
+        //pNetClientGame->AddRecvCallback(this, &AFCProxyNetClientModule::OnOtherMessage);
+        //pNetClientGame->AddEventCallBack(this, &AFCProxyNetClientModule::OnSocketEvent);
 
         return 0;
     }
 
     void AFCProxyNetClientModule::OnServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+        //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
-        for (int i = 0; i < xMsg.server_list_size(); ++i)
-        {
-            const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+        //for (int i = 0; i < xMsg.server_list_size(); ++i)
+        //{
+        //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
-            //TODO:修改为url
-            //AFConnectionData xServerData;
-            //xServerData._server_bus_id = xData.bus_id();
-            //xServerData._protocol = xData.protocol();
-            //xServerData._ip = xData.ip();
-            //xServerData._is_ip_v6 = xData.ip_v6();
+        //    //TODO:修改为url
+        //    //AFConnectionData xServerData;
+        //    //xServerData._server_bus_id = xData.bus_id();
+        //    //xServerData._protocol = xData.protocol();
+        //    //xServerData._ip = xData.ip();
+        //    //xServerData._is_ip_v6 = xData.ip_v6();
 
-            //m_pNetClientManagerModule->AddDynamicNetClientService(xServerData);
-        }
+        //    //m_pNetClientManagerModule->AddDynamicNetClientService(xServerData);
+        //}
     }
 
     void AFCProxyNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
@@ -134,34 +135,33 @@ namespace ark
             return;
         }
 
-        AFMsg::ServerInfoReportList xMsg;
-        AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
+        AFMsg::msg_ss_server_report msg;
 
-        pData->set_bus_id(server_config->self_id);
-        pData->set_cur_online(0);
-        pData->set_url(server_config->public_ep_.to_string());
-        pData->set_max_online(server_config->max_connection);
-        pData->set_logic_status(AFMsg::EST_NARMAL);
+        msg.set_bus_id(server_config->self_id);
+        msg.set_cur_online(0);
+        msg.set_url(server_config->public_ep_.to_string());
+        msg.set_max_online(server_config->max_connection);
+        msg.set_logic_status(AFMsg::E_ST_NARMAL);
 
-        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg);
-        ARK_LOG_INFO("Register self server_id = {}", pData->bus_id());
+        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg);
+        ARK_LOG_INFO("Register self server_id = {}, target_id = {}", server_config->self_id, bus_id);
     }
 
     void AFCProxyNetClientModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
-        ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.GetElement(xMsg.account());
+        //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
+        //ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.GetElement(xMsg.account());
 
-        if (pConnectData != nullptr)
-        {
-            pConnectData->strConnectKey = xMsg.world_key();
-            return;
-        }
+        //if (pConnectData != nullptr)
+        //{
+        //    pConnectData->strConnectKey = xMsg.world_key();
+        //    return;
+        //}
 
-        pConnectData = std::make_shared<ClientConnectData>();
-        pConnectData->strAccount = xMsg.account();
-        pConnectData->strConnectKey = xMsg.world_key();
-        mxWantToConnectMap.AddElement(pConnectData->strAccount, pConnectData);
+        //pConnectData = std::make_shared<ClientConnectData>();
+        //pConnectData->strAccount = xMsg.account();
+        //pConnectData->strConnectKey = xMsg.world_key();
+        //mxWantToConnectMap.AddElement(pConnectData->strAccount, pConnectData);
     }
 
     bool AFCProxyNetClientModule::VerifyConnectData(const std::string& strAccount, const std::string& strKey)
@@ -189,26 +189,56 @@ namespace ark
 
     void AFCProxyNetClientModule::OnBrocastmsg(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::BrocastMsg);
+        //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::BrocastMsg);
 
-        for (int i = 0; i < xMsg.target_entity_list_size(); i++)
-        {
-            const AFMsg::PBGUID& xPlayerClientID = xMsg.target_entity_list(i);
-            m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFIMsgModule::PBToGUID(xPlayerClientID), nPlayerID);
-        }
+        //for (int i = 0; i < xMsg.target_entity_list_size(); i++)
+        //{
+        //    const AFMsg::PBGUID& xPlayerClientID = xMsg.target_entity_list(i);
+        //    m_pProxyServerNet_ServerModule->SendToPlayerClient(xMsg.msg_id(), xMsg.msg_data().c_str(), xMsg.msg_data().size(), AFIMsgModule::PBToGUID(xPlayerClientID), nPlayerID);
+        //}
     }
 
     void AFCProxyNetClientModule::OnAckEnterGame(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckEventResult);
+        //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::AckEventResult);
 
-        if (xMsg.event_code() == AFMsg::EGEC_ENTER_GAME_SUCCESS)
+        //if (xMsg.event_code() == AFMsg::EGEC_ENTER_GAME_SUCCESS)
+        //{
+        //    const AFGUID& xClient = AFIMsgModule::PBToGUID(xMsg.event_client());
+        //    const AFGUID& xPlayer = AFIMsgModule::PBToGUID(xMsg.event_object());
+
+        //    m_pProxyServerNet_ServerModule->EnterGameSuccessEvent(xClient, xPlayer);
+        //}
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    void AFCProxyNetClientModule::OnRecvServerNotify(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    {
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_notify);
+        for (int i = 0; i < x_msg.server_list_size(); ++i)
         {
-            const AFGUID& xClient = AFIMsgModule::PBToGUID(xMsg.event_client());
-            const AFGUID& xPlayer = AFIMsgModule::PBToGUID(xMsg.event_object());
+            const AFMsg::msg_ss_server_report& report = x_msg.server_list(i);
 
-            m_pProxyServerNet_ServerModule->EnterGameSuccessEvent(xClient, xPlayer);
+            //Create single cluster client with busid and url
+            m_pNetClientManagerModule->CreateClusterClient(report.bus_id(), report.url());
+
+            AFBusAddr bus_addr(report.bus_id());
+            //管理为三个数值，channel zone proc
+            bus_addr.inst_id = 0;
+            auto iter = proxy_server_infos_.find(bus_addr.bus_id);
+            if (iter != proxy_server_infos_.end())
+            {
+                iter->second.insert(std::make_pair(report.bus_id(), report));
+            }
+            else
+            {
+                std::map<int, AFMsg::msg_ss_server_report> others;
+                others.insert(std::make_pair(report.bus_id(), report));
+                proxy_server_infos_.insert(std::make_pair(bus_addr.bus_id, others));
+            }
         }
+
+        //save all other servers
     }
 
 }

@@ -101,9 +101,9 @@ namespace ark
         //Will add
     }
 
-    void AFCWorldNetClientModule::OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCWorldNetClientModule::OnSelectServerProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqConnectWorld);
 
         ARK_SHARE_PTR<AFServerData> xServerData = m_pWorldNetServerModule->GetSuitProxyForEnter();
 
@@ -111,14 +111,14 @@ namespace ark
         {
             AFMsg::AckConnectWorldResult xData;
 
-            xData.set_world_id(xMsg.world_id());
-            xData.mutable_sender()->CopyFrom(xMsg.sender());
-            xData.set_login_id(xMsg.login_id());
-            xData.set_account(xMsg.account());
-            xData.set_world_url(xServerData->xData.url());
-            xData.set_world_key(xMsg.account());
+            xData.set_world_id(x_msg.world_id());
+            xData.mutable_sender()->CopyFrom(x_msg.sender());
+            xData.set_login_id(x_msg.login_id());
+            xData.set_account(x_msg.account());
+            xData.set_world_url(xServerData->server_info_.url());
+            xData.set_world_key(x_msg.account());
 
-            m_pWorldNetServerModule->GetNetServer()->SendPBMsg(AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xServerData->xClient, nPlayerID);
+            m_pWorldNetServerModule->GetNetServer()->SendPBMsg(AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xServerData->conn_id_, actor_id);
 
             //TODO:will fix this
             //m_pNetClientModule->SendSuitByPB(xMsg.account(), AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xHead.GetPlayerID());
@@ -126,14 +126,15 @@ namespace ark
 
     }
 
-    void AFCWorldNetClientModule::OnKickClientProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCWorldNetClientModule::OnKickClientProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqKickFromWorld);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqKickFromWorld);
+        //TODO
     }
 
-    void AFCWorldNetClientModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCWorldNetClientModule::InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_LOG_ERROR("invalid msg id = {}", nMsgID);
+        ARK_LOG_ERROR("invalid msg id = {}", msg_id);
     }
 
     void AFCWorldNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)

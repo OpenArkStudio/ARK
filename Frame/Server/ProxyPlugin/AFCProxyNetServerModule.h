@@ -79,13 +79,13 @@ namespace ark
         template<class TypeName>
         void CheckSessionTransMsg(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
         {
-            //在没有正式进入游戏之前，nPlayerID都是FD
-            ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, TypeName);
+            ////在没有正式进入游戏之前，nPlayerID都是FD
+            //ARK_PROCESS_MSG(xHead, msg, nLen, TypeName);
 
-            if (CheckSessionState(xMsg.game_id(), xClientID, xMsg.account()))
-            {
-                m_pMsgModule->SendSSMsg(xMsg.game_id(), nMsgID, msg, nLen, xClientID);
-            }
+            //if (CheckSessionState(xMsg.game_id(), xClientID, xMsg.account()))
+            //{
+            //    m_pMsgModule->SendSSMsg(xMsg.game_id(), nMsgID, msg, nLen, xClientID);
+            //}
         }
 
         bool CheckSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount);

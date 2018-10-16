@@ -1,0 +1,40 @@
+syntax = "proto3";
+package AFMsg;
+
+
+enum e_ss_common_msg_id
+{
+    E_SS_MSG_ID_DEFAULT         = 0;
+    //start
+    //E_SS_MSG_ID_COMMON_START    = 100;
+
+    //Please add your msg in the range
+    E_SS_MSG_ID_SERVER_REPORT   = 101; //ss之间注册
+    E_SS_MSG_ID_SERVER_NOTIFY   = 102; //ss之间注册后广播给相关服务器
+
+    //E_SS_MSG_ID_COMMON_END      = 500;
+    //end
+}
+
+enum e_ss_server_state
+{
+	E_ST_CRASH   = 0;
+	E_ST_NARMAL  = 1;
+	E_ST_BUSY    = 2;
+	E_ST_FIRE    = 3;
+	E_ST_MAINTEN = 4;
+}
+
+message msg_ss_server_report
+{
+	int32   bus_id = 1;
+	string  url = 2;
+	int32   max_online = 3;
+	int32   cur_online = 4;
+	e_ss_server_state logic_status = 5;
+}
+
+message msg_ss_server_notify
+{
+    repeated msg_ss_server_report server_list = 1;
+}

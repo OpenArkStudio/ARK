@@ -4,13 +4,13 @@ package AFMsg;
 
 //import "AFDefine.proto";
 
-message PBGUID		//»ù´¡½á¹¹£¬²»Ö±½Ó·¢ËÍ
+message PBGUID		//åŸºç¡€ç»“æ„ï¼Œä¸ç›´æ¥å‘é€
 { 
     int64 high = 1;
     int64 low = 2;
 }
 
-message Point3D		//»ù´¡½á¹¹£¬²»Ö±½Ó·¢ËÍ
+message Point3D		//åŸºç¡€ç»“æ„ï¼Œä¸ç›´æ¥å‘é€
 {
     float      x = 1;
     float      y = 2;
@@ -48,7 +48,7 @@ message PBCellData
     VariantData variant_data    = 4;
 }
 
-message PBData		//»ù´¡½á¹¹£¬²»Ö±½Ó·¢ËÍ
+message PBData		//åŸºç¡€ç»“æ„ï¼Œä¸ç›´æ¥å‘é€
 {
     int32 data_type = 1;
     VariantData variant_data = 2;
@@ -59,7 +59,7 @@ message PBDataList
 	repeated PBData data_list = 1;
 }                                  
 
-//TableÌí¼Ó»ù´¡ĞĞ½á¹¹£¬²»Ö±½Ó·¢ËÍ
+//Tableæ·»åŠ åŸºç¡€è¡Œç»“æ„ï¼Œä¸ç›´æ¥å‘é€
 message DataTableAddRow		
 {
 	int32 row = 1;
@@ -73,40 +73,40 @@ message EntityDataTableBase
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//¸öÈËÍæ¼ÒÈ«²¿ÊôĞÔÁĞ±í£¬¿ÉÖ±½Ó·¢ËÍ--Í³Ò»·¢,Îª½ÚÔ¼°ü
+//ä¸ªäººç©å®¶å…¨éƒ¨å±æ€§åˆ—è¡¨ï¼Œå¯ç›´æ¥å‘é€--ç»Ÿä¸€å‘,ä¸ºèŠ‚çº¦åŒ…
 message EntityDataNodeList
 {
 	PBGUID entity_id = 1;
 	repeated PBNodeData data_node_list = 2;
 }
 
-//¶àÈËÍæ¼ÒÈ«²¿ÊôĞÔÁĞ±í£¬¿ÉÖ±½Ó·¢ËÍ--Í³Ò»·¢,Îª½ÚÔ¼°ü
+//å¤šäººç©å®¶å…¨éƒ¨å±æ€§åˆ—è¡¨ï¼Œå¯ç›´æ¥å‘é€--ç»Ÿä¸€å‘,ä¸ºèŠ‚çº¦åŒ…
 message MultiEntityDataNodeList		
 {
     repeated EntityDataNodeList multi_entity_data_node_list = 1;
 }
 
-//¸öÈËÍæ¼ÒÈ«²¿±íÊı¾İ£¬¿ÉÖ±½Ó·¢ËÍ--Í³Ò»·¢,Îª½ÚÔ¼°ü
+//ä¸ªäººç©å®¶å…¨éƒ¨è¡¨æ•°æ®ï¼Œå¯ç›´æ¥å‘é€--ç»Ÿä¸€å‘,ä¸ºèŠ‚çº¦åŒ…
 message EntityDataTableList		
 {
 	PBGUID entity_id = 1;
 	repeated EntityDataTableBase data_table_list = 2;
 }
 
-//¶àÈËÍæ¼ÒÈ«²¿±íÊı¾İ£¬¿ÉÖ±½Ó·¢ËÍ--Í³Ò»·¢,Îª½ÚÔ¼°ü
+//å¤šäººç©å®¶å…¨éƒ¨è¡¨æ•°æ®ï¼Œå¯ç›´æ¥å‘é€--ç»Ÿä¸€å‘,ä¸ºèŠ‚çº¦åŒ…
 message MultiEntityDataTableList		
 {
     repeated EntityDataTableList multi_entity_data_table_list = 1;
 }
 
 //======================TO DELETE
-//¸öÈËÍæ¼Òµ¥ÀàĞÍÊôĞÔÊı¾İ£¬¿ÉÖ±½Ó·¢ËÍ---±ä»¯Ê±
+//ä¸ªäººç©å®¶å•ç±»å‹å±æ€§æ•°æ®ï¼Œå¯ç›´æ¥å‘é€---å˜åŒ–æ—¶
 message EntityDataNode		
 {
 	PBGUID entity_id = 1;
     repeated PBNodeData	data_node_list = 2;
 } 
-//¸öÈËÍæ¼Òµ¥±íÊôĞÔÊı¾İ£¬¿ÉÖ±½Ó·¢ËÍ---±ä»¯Ê±
+//ä¸ªäººç©å®¶å•è¡¨å±æ€§æ•°æ®ï¼Œå¯ç›´æ¥å‘é€---å˜åŒ–æ—¶
 message EntityDataTable
 {
 	PBGUID entity_id = 1;
@@ -114,7 +114,7 @@ message EntityDataTable
     repeated PBCellData table_cell_list = 3;
 }
 
-//¸öÈËÍæ¼Òµ¥ÀàĞÍÊôĞÔÊı¾İ£¬¿ÉÖ±½Ó·¢ËÍ---±ä»¯Ê±
+//ä¸ªäººç©å®¶å•ç±»å‹å±æ€§æ•°æ®ï¼Œå¯ç›´æ¥å‘é€---å˜åŒ–æ—¶
 message EntityDataTableSwap		
 {
 	PBGUID entity_id = 1;
@@ -175,14 +175,14 @@ message Position
 	float  z = 3;
 }
 
-message ReqCommand		//GMÃüÁî
+message ReqCommand		//GMå‘½ä»¤
 {
 	enum EGameCommandType
 	{
-		EGCT_MODIY_DATA_NODE    = 0;//ĞŞ¸ÄNODE[node_name,value]
-		EGCT_MODIY_ITEM			= 1;//µÃµ½ÎïÆ·[item_id,count]
-		EGCT_CREATE_ENTITY		= 2;//´´½¨¶ÔÏó[entity_index,count]
-		EGCT_ADD_ROLE_EXP		= 3;//Ôö¼Ó¾­Ñé
+		EGCT_MODIY_DATA_NODE    = 0;//ä¿®æ”¹NODE[node_name,value]
+		EGCT_MODIY_ITEM			= 1;//å¾—åˆ°ç‰©å“[item_id,count]
+		EGCT_CREATE_ENTITY		= 2;//åˆ›å»ºå¯¹è±¡[entity_index,count]
+		EGCT_ADD_ROLE_EXP		= 3;//å¢åŠ ç»éªŒ
 	}
 	PBGUID control_id = 1;
 	EGameCommandType command_id = 2;

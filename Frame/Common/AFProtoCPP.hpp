@@ -26,3 +26,4 @@
 #include "SDK/ProtoPlugin/cpp/AFMsgShare.pb.h"
 #include "SDK/ProtoPlugin/cpp/AFMsgURl.pb.h"
 #include "SDK/ProtoPlugin/cpp/AFMsgMysql.pb.h"
+#include "SDK/ProtoPlugin/cpp/AFSSMsg.pb.h"

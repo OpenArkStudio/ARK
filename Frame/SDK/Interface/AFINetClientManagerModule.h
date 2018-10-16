@@ -30,6 +30,8 @@ namespace ark
     {
     public:
         virtual int CreateClusterClients() = 0;
+        virtual int CreateClusterClient(const int bus_id, const std::string& url) = 0;
+
         virtual AFINetClientService* GetNetClientService(const uint8_t& app_type) = 0;
         virtual AFINetClientService* GetNetClientServiceByBusID(const int bus_id) = 0;
 

@@ -121,19 +121,16 @@ namespace ark
             return;
         }
 
-        AFMsg::ServerInfoReportList xMsg;
-        AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
+        AFMsg::msg_ss_server_report msg;
 
-        pData->set_bus_id(server_config->self_id);
-        pData->set_cur_online(0);
-        pData->set_url(server_config->public_ep_.to_string());
-        pData->set_max_online(server_config->max_connection);
-        pData->set_logic_status(AFMsg::EST_NARMAL);
+        msg.set_bus_id(server_config->self_id);
+        msg.set_cur_online(0);
+        msg.set_url(server_config->public_ep_.to_string());
+        msg.set_max_online(server_config->max_connection);
+        msg.set_logic_status(AFMsg::E_ST_NARMAL);
 
-        //pNetClient->SendToServerByPB(nSeverID, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg, 0);
-
-        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg);
-        ARK_LOG_INFO("Register self server_id = {}", pData->bus_id());
+        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg);
+        ARK_LOG_INFO("Register self server_id = {}, target_id = {}", server_config->self_id, bus_id);
     }
 
     void AFCGameNetClientModule::RefreshWorldInfo()
@@ -165,8 +162,8 @@ namespace ark
 
     void AFCGameNetClientModule::TransPBToProxy(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
-        ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen);
-        m_pGameNetServerModule->SendMsgPBToGate(nMsgID, strMsg, nPlayerID);
+        ARK_PROCESS_ACTOR_STRING_MSG(xHead, msg, nLen);
+        m_pGameNetServerModule->SendMsgPBToGate(nMsgID, msg_data, actor_id);
     }
 
 }

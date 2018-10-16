@@ -62,6 +62,9 @@ namespace ark
         void OnBrocastmsg(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
         void OnAckEnterGame(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
+        //////////////////////////////////////////////////////////////////////////
+        void OnRecvServerNotify(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+
         class ClientConnectData
         {
         public:
@@ -81,6 +84,9 @@ namespace ark
         AFIBusModule* m_pBusModule;
         AFIProxyNetServerModule* m_pProxyServerNet_ServerModule;
         AFINetClientManagerModule* m_pNetClientManagerModule;
+
+
+        std::map<int, std::map<int, AFMsg::msg_ss_server_report>> proxy_server_infos_; //map<busid-without-inst, map<bus_id, msg_ss_server_report>>
     };
 
 }

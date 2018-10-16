@@ -30,14 +30,14 @@ namespace ark
     class AFServerData
     {
     public:
-        void Init(const AFGUID& conn_id, const AFMsg::ServerInfoReport& data)
+        void Init(const AFGUID& conn_id, const AFMsg::msg_ss_server_report& data)
         {
-            xClient = conn_id;
-            xData = data;
+            conn_id_ = conn_id;
+            server_info_ = data;
         }
 
-        AFGUID xClient{ 0 };
-        AFMsg::ServerInfoReport xData;
+        AFGUID conn_id_{ 0 };
+        AFMsg::msg_ss_server_report server_info_;
     };
 
     class AFSessionData

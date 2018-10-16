@@ -186,14 +186,14 @@ namespace ark
 
         std::cout << AFDateTime::GetNowTime() << std::endl;
 
-        m_pTimerModule->AddSingleTimer("test", test_id, 100/*ms*/, 10, this, &Example1Module::TestTimer);
+        m_pTimerModule->AddSingleTimer("test", test_id, 2000/*ms*/, 10, this, &Example1Module::TestTimer);
 
         return true;
     }
 
     bool Example1Module::Update()
     {
-        m_pTimerModule->Update();
+        //m_pTimerModule->Update();
         return true;
     }
 

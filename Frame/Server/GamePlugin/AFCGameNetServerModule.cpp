@@ -127,9 +127,9 @@ namespace ark
         int nServerID = 0;
         for (ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.First(); nullptr != pServerData; pServerData = mProxyMap.Next())
         {
-            if (conn_id == pServerData->xServerData.xClient)
+            if (conn_id == pServerData->xServerData.conn_id_)
             {
-                nServerID = pServerData->xServerData.xData.bus_id();
+                nServerID = pServerData->xServerData.server_info_.bus_id();
                 break;
             }
         }
@@ -142,12 +142,12 @@ namespace ark
         //do something
     }
 
-    void AFCGameNetServerModule::OnClienEnterGameProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnClienEnterGameProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
         //Before enter game, PlayerID means gate fd
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqEnterGameServer);
-        const AFGUID& nGateClientID = nPlayerID;
-        AFGUID nRoleID = AFIMsgModule::PBToGUID(xMsg.id());
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqEnterGameServer);
+        const AFGUID& nGateClientID = actor_id;
+        AFGUID nRoleID = AFIMsgModule::PBToGUID(x_msg.id());
 
         if (m_pKernelModule->GetEntity(nRoleID))
         {
@@ -163,14 +163,14 @@ namespace ark
             ARK_LOG_ERROR("RemovePlayerGateInfo fail, id = {}", nRoleID.ToString());
         }
 
-        ARK_SHARE_PTR<AFCGameNetServerModule::GateServerInfo> pGateServereinfo = GetGateServerInfoByClientID(xClientID);
+        ARK_SHARE_PTR<AFCGameNetServerModule::GateServerInfo> pGateServereinfo = GetGateServerInfoByClientID(conn_id);
 
         if (nullptr == pGateServereinfo)
         {
             return;
         }
 
-        int nGateID = pGateServereinfo->xServerData.xData.bus_id();
+        int nGateID = pGateServereinfo->xServerData.server_info_.bus_id();
         if (nGateID <= 0)
         {
             return;
@@ -185,7 +185,7 @@ namespace ark
         int nSceneID = 1;
         AFCDataList var;
         var.AddString("Name");
-        var.AddString(xMsg.name().c_str());
+        var.AddString(x_msg.name().c_str());
 
         var.AddString("GateID");
         var.AddInt(nGateID);
@@ -217,23 +217,23 @@ namespace ark
         m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
     }
 
-    void AFCGameNetServerModule::OnClientLeaveGameProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnClientLeaveGameProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqLeaveGameServer);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqLeaveGameServer);
 
-        if (nPlayerID.IsNULL())
+        if (actor_id.IsNULL())
         {
             return;
         }
 
-        if (m_pKernelModule->GetEntity(nPlayerID))
+        if (m_pKernelModule->GetEntity(actor_id))
         {
-            m_pKernelModule->DestroyEntity(nPlayerID);
+            m_pKernelModule->DestroyEntity(actor_id);
         }
 
-        if (!RemovePlayerGateInfo(nPlayerID))
+        if (!RemovePlayerGateInfo(actor_id))
         {
-            ARK_LOG_ERROR("RemovePlayerGateInfo failed, id = {}", nPlayerID.ToString());
+            ARK_LOG_ERROR("RemovePlayerGateInfo failed, id = {}", actor_id.ToString());
         }
     }
 
@@ -1063,75 +1063,75 @@ namespace ark
         return 0;
     }
 
-    void AFCGameNetServerModule::OnReqiureRoleListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnReqiureRoleListProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
         //fd
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqRoleList);
-        const AFGUID& nGateClientID = nPlayerID;
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqRoleList);
+        const AFGUID& nGateClientID = actor_id;
         AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
 
-        if (!m_AccountModule->GetRoleList(xMsg.account(), xAckRoleLiteInfoList))
+        if (!m_AccountModule->GetRoleList(x_msg.account(), xAckRoleLiteInfoList))
         {
             ARK_LOG_ERROR("Get role list failed, player_id = {}", nGateClientID.ToString());
         }
 
-        m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
+        m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, nGateClientID);
     }
 
-    void AFCGameNetServerModule::OnCreateRoleGameProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnCreateRoleGameProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqCreateRole);
-        const AFGUID& nGateClientID = nPlayerID;
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqCreateRole);
+        const AFGUID& nGateClientID = actor_id;
 
         AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
         AFCDataList varList;
-        varList.AddInt(xMsg.career());
-        varList.AddInt(xMsg.sex());
-        varList.AddInt(xMsg.race());
-        varList.AddString(xMsg.noob_name().c_str());
-        varList.AddInt(xMsg.game_id());
+        varList.AddInt(x_msg.career());
+        varList.AddInt(x_msg.sex());
+        varList.AddInt(x_msg.race());
+        varList.AddString(x_msg.noob_name().c_str());
+        varList.AddInt(x_msg.game_id());
 
-        if (!m_AccountModule->CreateRole(xMsg.account(), xAckRoleLiteInfoList, varList))
+        if (!m_AccountModule->CreateRole(x_msg.account(), xAckRoleLiteInfoList, varList))
         {
             ARK_LOG_ERROR("create role failed, player_id = {}", nGateClientID.ToString());
         }
 
-        m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nGateClientID);
+        m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, nGateClientID);
     }
 
-    void AFCGameNetServerModule::OnDeleteRoleGameProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnDeleteRoleGameProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqDeleteRole);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqDeleteRole);
 
         AFMsg::AckRoleLiteInfoList xAckRoleLiteInfoList;
 
-        if (!m_AccountModule->DeleteRole(xMsg.account(), xAckRoleLiteInfoList))
+        if (!m_AccountModule->DeleteRole(x_msg.account(), xAckRoleLiteInfoList))
         {
-            ARK_LOG_ERROR("delete role failed, player_id = {}", nPlayerID.ToString());
+            ARK_LOG_ERROR("delete role failed, player_id = {}", actor_id.ToString());
         }
 
-        m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, xClientID, nPlayerID);
+        m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, actor_id);
     }
 
-    void AFCGameNetServerModule::OnClienSwapSceneProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnClienSwapSceneProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS(xHead, nMsgID, msg, nLen, AFMsg::ReqAckSwapScene);
+        ARK_PROCESS_ACTOR_MSG(head, msg_id, msg, msg_len, AFMsg::ReqAckSwapScene);
 
         AFCDataList varEntry;
         varEntry << pEntity->Self();
         varEntry << int32_t(0);
-        varEntry << xMsg.scene_id();
+        varEntry << x_msg.scene_id();
         varEntry << int32_t(-1) ;
         m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
     }
 
-    void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnProxyServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
-        for (int i = 0; i < xMsg.server_list_size(); ++i)
+        for (int i = 0; i < x_msg.server_list_size(); ++i)
         {
-            const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+            const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
             ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.bus_id());
 
             if (nullptr == pServerData)
@@ -1140,32 +1140,32 @@ namespace ark
                 mProxyMap.AddElement(xData.bus_id(), pServerData);
             }
 
-            pServerData->xServerData.xClient = xClientID;
-            pServerData->xServerData.xData = xData;
+            //pServerData->xServerData.conn_id_ = conn_id;
+            //pServerData->xServerData.server_info_ = xData;
 
-            ARK_LOG_INFO("Proxy Registered, server_id = {}", xData.bus_id());
+            //ARK_LOG_INFO("Proxy Registered, server_id = {}", xData.bus_id());
         }
     }
 
-    void AFCGameNetServerModule::OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
-        for (int i = 0; i < xMsg.server_list_size(); ++i)
+        for (int i = 0; i < x_msg.server_list_size(); ++i)
         {
-            const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+            const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
             mProxyMap.RemoveElement(xData.bus_id());
             ARK_LOG_INFO("Proxy UnRegistered, server_id = {}", xData.bus_id());
         }
     }
 
-    void AFCGameNetServerModule::OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
-        for (int i = 0; i < xMsg.server_list_size(); ++i)
+        for (int i = 0; i < x_msg.server_list_size(); ++i)
         {
-            const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+            const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
             ARK_SHARE_PTR<GateServerInfo> pServerData = mProxyMap.GetElement(xData.bus_id());
 
             if (nullptr == pServerData)
@@ -1174,10 +1174,10 @@ namespace ark
                 mProxyMap.AddElement(xData.bus_id(), pServerData);
             }
 
-            pServerData->xServerData.xClient = xClientID;
-            pServerData->xServerData.xData = xData;
+            //pServerData->xServerData.conn_id_ = conn_id;
+            //pServerData->xServerData.server_info_ = xData;
 
-            ARK_LOG_INFO("Proxy Registered, server_id  = {}", xData.bus_id());
+            //ARK_LOG_INFO("Proxy Registered, server_id  = {}", xData.bus_id());
         }
     }
 
@@ -1194,7 +1194,7 @@ namespace ark
 
         if (nullptr != pProxyData)
         {
-            m_pNetServerService->SendPBMsg(nMsgID, xMsg, pProxyData->xServerData.xClient, pData->xClientID);
+            m_pNetServerService->SendPBMsg(nMsgID, xMsg, pProxyData->xServerData.conn_id_, pData->xClientID);
         }
     }
 
@@ -1211,7 +1211,7 @@ namespace ark
 
         if (nullptr != pProxyData)
         {
-            m_pNetServerService->SendMsg(nMsgID, strMsg, pProxyData->xServerData.xClient, pData->xClientID);
+            m_pNetServerService->SendMsg(nMsgID, strMsg, pProxyData->xServerData.conn_id_, pData->xClientID);
         }
     }
 
@@ -1249,7 +1249,7 @@ namespace ark
             return false;
         }
 
-        if (!pServerData->xRoleInfo.insert(std::make_pair(nRoleID, pServerData->xServerData.xClient)).second)
+        if (!pServerData->xRoleInfo.insert(std::make_pair(nRoleID, pServerData->xServerData.conn_id_)).second)
         {
             return false;
         }
@@ -1302,9 +1302,9 @@ namespace ark
 
         while (nullptr != pServerData)
         {
-            if (nClientID == pServerData->xServerData.xClient)
+            if (nClientID == pServerData->xServerData.conn_id_)
             {
-                nGateID = pServerData->xServerData.xData.bus_id();
+                nGateID = pServerData->xServerData.server_info_.bus_id();
                 break;
             }
 
@@ -1319,9 +1319,9 @@ namespace ark
         return pServerData;
     }
 
-    void AFCGameNetServerModule::OnTransWorld(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetServerModule::OnTransWorld(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen);
+        ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len);
         //m_pGameServerToWorldModule->SendBySuit(nHasKey, nMsgID, msg, nLen);
 
         //TODO:transfer to world

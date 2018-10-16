@@ -106,22 +106,36 @@ xcopy /Y $(OutputPath)$(ProjectName).lib $(SolutionDir)..\Bin\lib</Command>
   <ItemGroup>
     <ClInclude Include="AFCProtoModule.h" />
     <ClInclude Include="AFProtoPlugin.h" />
+    <ClInclude Include="cpp\AFCommonCSMsg.pb.h" />
+    <ClInclude Include="cpp\AFCommonMsg.pb.h" />
+    <ClInclude Include="cpp\AFCommonSSMsg.pb.h" />
+    <ClInclude Include="cpp\AFCSMsg.pb.h" />
     <ClInclude Include="cpp\AFDefine.pb.h" />
+    <ClInclude Include="cpp\AFErrorCode.pb.h" />
+    <ClInclude Include="cpp\AFEventCode.pb.h" />
     <ClInclude Include="cpp\AFMsgBase.pb.h" />
     <ClInclude Include="cpp\AFMsgMysql.pb.h" />
     <ClInclude Include="cpp\AFMsgPreGame.pb.h" />
     <ClInclude Include="cpp\AFMsgShare.pb.h" />
     <ClInclude Include="cpp\AFMsgURl.pb.h" />
+    <ClInclude Include="cpp\AFSSMsg.pb.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AFCProtoModule.cpp" />
     <ClCompile Include="AFProtoPlugin.cpp" />
+    <ClCompile Include="cpp\AFCommonCSMsg.pb.cc" />
+    <ClCompile Include="cpp\AFCommonMsg.pb.cc" />
+    <ClCompile Include="cpp\AFCommonSSMsg.pb.cc" />
+    <ClCompile Include="cpp\AFCSMsg.pb.cc" />
     <ClCompile Include="cpp\AFDefine.pb.cc" />
+    <ClCompile Include="cpp\AFErrorCode.pb.cc" />
+    <ClCompile Include="cpp\AFEventCode.pb.cc" />
     <ClCompile Include="cpp\AFMsgBase.pb.cc" />
     <ClCompile Include="cpp\AFMsgMysql.pb.cc" />
     <ClCompile Include="cpp\AFMsgPreGame.pb.cc" />
     <ClCompile Include="cpp\AFMsgShare.pb.cc" />
     <ClCompile Include="cpp\AFMsgURl.pb.cc" />
+    <ClCompile Include="cpp\AFSSMsg.pb.cc" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

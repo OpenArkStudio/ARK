@@ -315,38 +315,38 @@ namespace ark
         virtual bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& actor_id = 0) = 0;
     };
 
-#define ARK_MSG_PROCESS(xHead, nMsgID, msgData, nLen, msgType)                          \
-    AFGUID nPlayerID;                                                                   \
-    msgType xMsg;                                                                       \
-    if (!AFIMsgModule::RecvPB(xHead, msgData, nLen, xMsg, nPlayerID))                   \
-    {                                                                                   \
-        ARK_LOG_ERROR("Parse msg error, msg_id = {}", nMsgID);                          \
-        return;                                                                         \
-    }                                                                                   \
-                                                                                        \
-    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(nPlayerID);           \
-    if (nullptr == pEntity)                                                                                         \
-    {                                                                                                               \
-        ARK_LOG_ERROR("FromClient Object do not Exist, msg_id = {} player_id = {}", nMsgID, nPlayerID.ToString());  \
-        return;                                                                                                     \
+#define ARK_PROCESS_ACTOR_MSG(head, msg_id, msg, msg_len, pb_msg)                   \
+    AFGUID actor_id;                                                                \
+    pb_msg x_msg;                                                                   \
+    if (!AFIMsgModule::RecvPB(head, msg, msg_len, x_msg, actor_id))                 \
+    {                                                                               \
+        ARK_LOG_ERROR("Parse msg error, msg_id = {}", msg_id);                      \
+        return;                                                                     \
+    }                                                                               \
+                                                                                    \
+    ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(actor_id);        \
+    if (nullptr == pEntity)                                                                                             \
+    {                                                                                                                   \
+        ARK_LOG_ERROR("FromClient actor_entity do not Exist, msg_id = {} player_id = {}", msg_id, actor_id.ToString()); \
+        return;                                                                                                         \
     }
 
-#define ARK_MSG_PROCESS_NO_OBJECT(xHead, msgData, nLen, msgType)                        \
-    AFGUID nPlayerID;                                                                   \
-    msgType xMsg;                                                                       \
-    if (!AFIMsgModule::RecvPB(xHead, msgData, nLen, xMsg, nPlayerID))                   \
-    {                                                                                   \
-        ARK_LOG_ERROR("Parse msg error, msg_id = {}", nMsgID);                          \
-        return;                                                                         \
-    }
-
-#define  ARK_MSG_PROCESS_NO_OBJECT_STRING(xHead, msg, nLen)                     \
-    std::string strMsg;                                                         \
-    AFGUID nPlayerID;                                                           \
-    int nHasKey = 0;                                                            \
-    if (AFIMsgModule::RecvPB((xHead), (msg), (nLen), strMsg, nPlayerID))        \
+#define ARK_PROCESS_MSG(head, msg, msg_len, pb_msg)                             \
+    AFGUID actor_id;                                                            \
+    pb_msg x_msg;                                                               \
+    if (!AFIMsgModule::RecvPB(head, msg, msg_len, x_msg, actor_id))             \
     {                                                                           \
-        nHasKey = (int)nPlayerID.nLow;                                          \
+        ARK_LOG_ERROR("Parse msg error, msg_id = {}", msg_id);                  \
+        return;                                                                 \
+    }
+
+#define  ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len)                       \
+    std::string msg_data;                                                       \
+    AFGUID actor_id;                                                            \
+    int has_key = 0;                                                            \
+    if (AFIMsgModule::RecvPB(head, msg, msg_len, msg_data, actor_id))           \
+    {                                                                           \
+        has_key = (int)actor_id.nLow;                                           \
     }
 
 }

@@ -22,6 +22,27 @@
     <ClCompile Include="AFCProtoModule.cpp" />
     <ClCompile Include="AFProtoPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="cpp\AFCommonCSMsg.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFCommonMsg.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFCommonSSMsg.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFCSMsg.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFErrorCode.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFEventCode.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="cpp\AFSSMsg.pb.cc">
+      <Filter>cpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpp\AFDefine.pb.h">
@@ -44,6 +65,27 @@
     </ClInclude>
     <ClInclude Include="AFCProtoModule.h" />
     <ClInclude Include="AFProtoPlugin.h" />
+    <ClInclude Include="cpp\AFCommonCSMsg.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFCommonMsg.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFCommonSSMsg.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFCSMsg.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFErrorCode.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFEventCode.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="cpp\AFSSMsg.pb.h">
+      <Filter>cpp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="cpp">

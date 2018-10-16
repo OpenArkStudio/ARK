@@ -108,10 +108,10 @@ namespace ark
         mmClientSessionData.RemoveElement(xClientID);
     }
 
-    void AFCLoginNetServerModule::OnLoginProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCLoginNetServerModule::OnLoginProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqAccountLogin);
-        ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(xClientID);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqAccountLogin);
+        ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(conn_id);
 
         if (pSession == nullptr)
         {
@@ -125,32 +125,32 @@ namespace ark
 
             if (0 != nState)
             {
-                ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", xClientID.ToString().c_str(), xMsg.account().c_str(), xMsg.password().c_str());
+                ARK_LOG_ERROR("Check password failed, id = {} account = {} password = {}", conn_id.ToString(), x_msg.account(), x_msg.password());
                 AFMsg::AckEventResult xMsg;
                 xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
 
-                m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, xClientID, nPlayerID);
+                m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, conn_id, actor_id);
                 return;
             }
 
             pSession->mnLogicState = 1;
-            pSession->mstrAccout = xMsg.account();
+            pSession->mstrAccout = x_msg.account();
 
             AFMsg::AckEventResult xData;
             xData.set_event_code(AFMsg::EGEC_ACCOUNT_SUCCESS);
-            xData.set_parame1(xMsg.account());
-            xData.set_parame2(xMsg.password());
-            xData.set_parame3(xMsg.security_code());
+            xData.set_parame1(x_msg.account());
+            xData.set_parame2(x_msg.password());
+            xData.set_parame3(x_msg.security_code());
 
-            m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, xClientID, nPlayerID);
-            ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", xClientID.ToString().c_str(), xMsg.account().c_str());
+            m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, conn_id, actor_id);
+            ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", conn_id.ToString(), x_msg.account());
         }
     }
 
-    void AFCLoginNetServerModule::OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCLoginNetServerModule::OnSelectWorldProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqConnectWorld);
-        ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(xClientID);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqConnectWorld);
+        ARK_SHARE_PTR<AFSessionData> pSession = mmClientSessionData.GetElement(conn_id);
 
         if (!pSession)
         {
@@ -164,7 +164,7 @@ namespace ark
         }
 
         AFMsg::ReqConnectWorld xData;
-        xData.set_world_id(xMsg.world_id());
+        xData.set_world_id(x_msg.world_id());
         xData.set_login_id(pPluginManager->BusID());
         xData.mutable_sender()->CopyFrom(AFIMsgModule::GUIDToPB(pSession->mnClientID));
         xData.set_account(pSession->mstrAccout);
@@ -213,13 +213,13 @@ namespace ark
         m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, AFGUID(0));
     }
 
-    void AFCLoginNetServerModule::OnViewWorldProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCLoginNetServerModule::OnViewWorldProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ReqServerList);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqServerList);
 
-        if (xMsg.type() == AFMsg::RSLT_WORLD_SERVER)
+        if (x_msg.type() == AFMsg::RSLT_WORLD_SERVER)
         {
-            SynWorldToClient(xClientID);
+            SynWorldToClient(conn_id);
         }
     }
 

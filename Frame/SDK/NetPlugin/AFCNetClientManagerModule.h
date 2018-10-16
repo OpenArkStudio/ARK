@@ -42,6 +42,7 @@ namespace ark
 
         //create directly cluster client(connecting server directly)
         int CreateClusterClients() override;
+        int CreateClusterClient(const int bus_id, const std::string& url) override;
 
         AFINetClientService* GetNetClientService(const uint8_t& app_type) override;
         AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;

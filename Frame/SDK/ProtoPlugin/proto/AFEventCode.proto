@@ -1,0 +1,59 @@
+syntax = "proto3";
+package AFMsg;
+
+
+//所有的网络逻辑事件枚举都在这里 
+enum E_EVENT_CODE
+{
+	EVC_SUCCESS								    = 0;        // 操作成功
+	EVC_UNKOWN_ERROR							= 1;		// 未知错误
+	EVC_ACCOUNT_EXIST							= 2;        // 注册时账号在数据库中已存在
+	EVC_ACCOUNTPWD_INVALID						= 3;        // 账号不存在或者密码错误
+	EVC_ACCOUNT_USING							= 4;        // 账号正在使用
+	EVC_ACCOUNT_LOCKED							= 5;        // 账号已封停
+	EVC_ACCOUNT_SUCCESS						    = 6;        // 账号登录成功
+	EVC_VERIFY_KEY_SUCCESS						= 7;        // 账号KEY验证成功
+	EVC_VERIFY_KEY_FAIL						    = 8;        // 账号KEY验证失败
+	EVC_SELECTSERVER_SUCCESS					= 9;        // 选择单服成功
+	EVC_SELECTSERVER_FAIL						= 10;       // 选择单服失败
+
+	EVC_CHARACTER_EXIST						    = 110;       // 创建角色时角色名重复
+	EVC_SVRZONEID_INVALID						= 111;       // 创建角色时游戏区代码无效
+	EVC_CHARACTER_NUMOUT						= 112;       // 创建角色时角色个数超出设定值(一个账号最多建4个角色)
+	EVC_CHARACTER_INVALID						= 113;       // 角色名无效（非法角色名）
+	EVC_CHARACTER_NOTEXIST						= 114;       // 角色不存在
+	EVC_CHARACTER_USING						    = 115;       // 角色已在游戏中
+	EVC_CHARACTER_LOCKED						= 116;       // 角色已封停
+	EVC_ZONE_OVERLOAD							= 117;       // 场景人数已满(领地XXX; 过于拥挤)
+	EVC_NOT_ONLINE								= 118;       // 玩家不在线
+	EVC_ALREAY_IN_TEAM							= 119;       // 玩家已经在队伍中了
+	EVC_INVALID_TEAM_INVITE					    = 120;       // 无效的组队邀请
+	EVC_TEAM_FULL								= 121;       // 队伍人数已满
+	EVC_MAIL_UPDATE_ERROR						= 122;       // 更新邮件状态时出错
+	EVC_MAIL_TONAME_INVALID					    = 123;       // 邮件时收件人不存在
+	EVC_MAIL_DELETE_ERROR						= 124;       // 删除邮件失败
+	EVC_MAIL_TOWNAME_EQUAL						= 125;       // 不能自己给自己发邮件
+	EVC_LACK_MONEY								= 126;       // 金钱不足
+	EVC_FULL_PACKAGE							= 127;       // 背包已满
+	EVC_INVALID_ITEM							= 128;       // 无效的道具
+	EVC_INVALID_CONSIGNMENT					    = 129;       // 无效的寄售ID
+	EVC_NOT_ENOUGH_VIP							= 130;       // VIP点数不够
+	EVC_NEED_LEVEL								= 131;       // 等级不够
+	EVC_MAX_FRIEND_LIST						    = 132;       // 好友列表已满
+	EVC_MAX_ENEMY_LIST							= 133;       // 敌人列表已满
+	EVC_MAX_GANGS_LSIT							= 134;       // 帮会人数达上限
+	EVC_LIMITS_TO_RIGHTS						= 135;       // 需要权限
+	EVC_INVALID_GANGS_NAME						= 136;       // 无效的帮会名称
+	EVC_REPEAT_ENTER_GANGS						= 137;       // 角色已经是帮会成员了;不能再加入帮会了
+	EVC_INVALID_GANGSMEMBER					    = 138;       // 角色不是指定帮会成员
+	EVC_MASTER_LEAVE_GANGS						= 139;       // 会长不能离开帮会
+	EVC_GANGS_TITLE_OUTOF						= 140;       // 指定帮会职务的人类超过该职务的最大数量
+	EVC_ENTER_GATEWAY_FAILD					    = 141;       // 无效的传送请求(传送门实际不存在;没有到达触发传送的条件等)
+	EVC_NO_SERVER4ZONE							= 142;       // 还没有指派服务器管理该场景; 请稍等(游戏世界还处于混沌中...)
+	EVC_INVALID_SKILL							= 143;       // 无效的技能
+	EVC_ENTER_GAME_SUCCESS						= 144;		 // 进入游戏成功
+	
+	EVC_CREATE_GUILD_SUCCESS					= 200;		 // 创建公会成功
+	EVC_JOIN_GUILD_SUCCESS						= 201;		 // 加入公会成功
+	EVC_LEAVE_GUILD_SUCCESS					    = 202;		 // 离开公会成功
+}

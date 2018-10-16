@@ -22,12 +22,12 @@
 
 #include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIClassModule.h"
-#include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFINetServerManagerModule.h"
+#include "SDK/Interface/AFITimerModule.h"
 #include "Server/Interface/AFIWorldNetServerModule.h"
 
 namespace ark
@@ -91,8 +91,14 @@ namespace ark
         void OnOnlineProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
         void OnOfflineProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
+        //////////////////////////////////////////////////////////////////////////
+        void OnServerReport(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        void SyncAllServer(int bus_id, const AFGUID& conn_id);
 
     private:
+        AFMapEx<int, AFServerData> reg_servers_;
+
+
         int64_t mnLastCheckTime;
 
         //serverid,data
@@ -102,7 +108,9 @@ namespace ark
         AFIKernelModule* m_pKernelModule;
         AFILogModule* m_pLogModule;
         AFIBusModule* m_pBusModule;
+        AFIMsgModule* m_pMsgModule;
         AFINetServerManagerModule* m_pNetServerManagerModule;
+        AFITimerModule* m_pTimerModule;
 
         AFINetServerService* m_pNetServer;
     };

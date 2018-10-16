@@ -110,19 +110,19 @@ namespace ark
         ARK_LOG_INFO("Register self server_id = {}", pData->bus_id());
     }
 
-    void AFCLoginNetClientModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCLoginNetClientModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
-        m_pLoginNetServerModule->OnSelectWorldResultsProcess(xMsg.world_id(), AFIMsgModule::PBToGUID(xMsg.sender()), xMsg.login_id(), xMsg.account(), xMsg.world_url(), xMsg.world_key());
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::AckConnectWorldResult);
+        m_pLoginNetServerModule->OnSelectWorldResultsProcess(x_msg.world_id(), AFIMsgModule::PBToGUID(x_msg.sender()), x_msg.login_id(), x_msg.account(), x_msg.world_url(), x_msg.world_key());
     }
 
-    void AFCLoginNetClientModule::OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCLoginNetClientModule::OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_MSG_PROCESS_NO_OBJECT(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
-        for (int i = 0; i < xMsg.server_list_size(); ++i)
+        for (int i = 0; i < x_msg.server_list_size(); ++i)
         {
-            const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+            const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
 
             ARK_SHARE_PTR<AFMsg::ServerInfoReport> pServerData = mWorldMap.GetElement(xData.bus_id());
 
@@ -136,7 +136,7 @@ namespace ark
 
         }
 
-        ARK_LOG_INFO("WorldInfo size = {}", xMsg.server_list_size());
+        ARK_LOG_INFO("WorldInfo size = {}", x_msg.server_list_size());
     }
 
     AFMapEx<int, AFMsg::ServerInfoReport>& AFCLoginNetClientModule::GetWorldMap()

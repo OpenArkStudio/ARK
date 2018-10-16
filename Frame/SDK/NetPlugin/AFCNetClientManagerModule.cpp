@@ -90,6 +90,34 @@ namespace ark
         return 0;
     }
 
+    int AFCNetClientManagerModule::CreateClusterClient(const int bus_id, const std::string& url)
+    {
+        if (!m_pBusModule->IsUndirectBusRelation(bus_id))
+        {
+            return 0;
+        }
+
+        uint8_t app_type = AFBusAddr(bus_id).proc_id;
+        AFINetClientService* pClient = net_clients_.GetElement(app_type);
+        if (pClient == nullptr)
+        {
+            pClient = ARK_NEW AFCNetClientService(pPluginManager);
+            net_clients_.AddElement(app_type, pClient);
+        }
+
+        std::error_code ec;
+        AFEndpoint target_ep = AFEndpoint::from_string(url, ec);
+        bool ret = pClient->StartClient(bus_id, target_ep);
+        if (!ret)
+        {
+            ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), url);
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
     AFINetClientService* AFCNetClientManagerModule::GetNetClientService(const uint8_t& app_type)
     {
         return net_clients_.GetElement(app_type);

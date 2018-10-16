@@ -50,7 +50,9 @@ namespace ark
         void OnClientConnected(const AFGUID& xClientID);
         void OnClientDisconnect(const AFGUID& xClientID);
 
-        void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+
+        void OnRecvServerNotify(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        void InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
 
     private:
         AFILogModule* m_pLogModule;
@@ -58,6 +60,8 @@ namespace ark
         AFIMsgModule* m_pMsgModule;
         AFIDirNetServerModule* m_pDirNetServerModule;
         AFINetClientManagerModule* m_pNetClientManagerModule;
+
+        std::map<std::pair<uint8_t, uint8_t>, std::map<int, AFMsg::msg_ss_server_report>> proxy_server_infos_; //<<channel, zone>, <bus_id, msg_ss_server_report>>
     };
 
 }
