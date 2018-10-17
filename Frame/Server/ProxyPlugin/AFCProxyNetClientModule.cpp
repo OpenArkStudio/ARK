@@ -63,7 +63,7 @@ namespace ark
         pNetClientWorld->AddRecvCallback(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyNetClientModule::OnSelectServerResultProcess);
         pNetClientWorld->AddRecvCallback(AFMsg::EGMI_STS_NET_INFO, this, &AFCProxyNetClientModule::OnServerInfoProcess);
         pNetClientWorld->AddRecvCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetClientModule::OnBrocastmsg);
-        pNetClientWorld->AddRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, this, &AFCProxyNetClientModule::OnRecvServerNotify);
+        //pNetClientWorld->AddRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, this, &AFCProxyNetClientModule::OnRecvServerNotify);
         pNetClientWorld->AddRecvCallback(this, &AFCProxyNetClientModule::OnOtherMessage);
         pNetClientWorld->AddEventCallBack(this, &AFCProxyNetClientModule::OnSocketEvent);
 
@@ -212,33 +212,33 @@ namespace ark
     }
 
     //////////////////////////////////////////////////////////////////////////
-    void AFCProxyNetClientModule::OnRecvServerNotify(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_notify);
-        for (int i = 0; i < x_msg.server_list_size(); ++i)
-        {
-            const AFMsg::msg_ss_server_report& report = x_msg.server_list(i);
+    //void AFCProxyNetClientModule::OnRecvServerNotify(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_notify);
+    //    for (int i = 0; i < x_msg.server_list_size(); ++i)
+    //    {
+    //        const AFMsg::msg_ss_server_report& report = x_msg.server_list(i);
 
-            //Create single cluster client with busid and url
-            m_pNetClientManagerModule->CreateClusterClient(report.bus_id(), report.url());
+    //        //Create single cluster client with busid and url
+    //        m_pNetClientManagerModule->CreateClusterClient(report.bus_id(), report.url());
 
-            AFBusAddr bus_addr(report.bus_id());
-            //管理为三个数值，channel zone proc
-            bus_addr.inst_id = 0;
-            auto iter = proxy_server_infos_.find(bus_addr.bus_id);
-            if (iter != proxy_server_infos_.end())
-            {
-                iter->second.insert(std::make_pair(report.bus_id(), report));
-            }
-            else
-            {
-                std::map<int, AFMsg::msg_ss_server_report> others;
-                others.insert(std::make_pair(report.bus_id(), report));
-                proxy_server_infos_.insert(std::make_pair(bus_addr.bus_id, others));
-            }
-        }
+    //        AFBusAddr bus_addr(report.bus_id());
+    //        //管理为三个数值，channel zone proc
+    //        bus_addr.inst_id = 0;
+    //        auto iter = proxy_server_infos_.find(bus_addr.bus_id);
+    //        if (iter != proxy_server_infos_.end())
+    //        {
+    //            iter->second.insert(std::make_pair(report.bus_id(), report));
+    //        }
+    //        else
+    //        {
+    //            std::map<int, AFMsg::msg_ss_server_report> others;
+    //            others.insert(std::make_pair(report.bus_id(), report));
+    //            proxy_server_infos_.insert(std::make_pair(bus_addr.bus_id, others));
+    //        }
+    //    }
 
-        //save all other servers
-    }
+    //    //save all other servers
+    //}
 
 }

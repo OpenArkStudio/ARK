@@ -1,5 +1,4 @@
 ﻿#include "SDK/Core/AFDateTime.hpp"
-#include "SDK/Interface/AFINetClientManagerModule.h"
 #include "AFCTCPClient.h"
 #include "AFCNetClientService.h"
 
@@ -8,6 +7,15 @@ namespace ark
 
     AFCNetClientService::AFCNetClientService(AFIPluginManager* p) : m_pPluginManager(p)
     {
+        m_pNetClientManagerModule = m_pPluginManager->FindModule<AFINetClientManagerModule>();
+        m_pBusModule = m_pPluginManager->FindModule<AFIBusModule>();
+        m_pMsgModule = m_pPluginManager->FindModule<AFIMsgModule>();
+        m_pLogModule = m_pPluginManager->FindModule<AFILogModule>();
+
+        ARK_ASSERT_RET_NONE(m_pNetClientManagerModule != nullptr &&
+                            m_pBusModule != nullptr &&
+                            m_pMsgModule != nullptr &&
+                            m_pLogModule != nullptr);
     }
 
     AFCNetClientService::~AFCNetClientService()
@@ -28,7 +36,7 @@ namespace ark
     void AFCNetClientService::Update()
     {
         ProcessUpdate();
-        ProcessAddNetConnect();
+        ProcessAddNewNetClient();
     }
 
     void AFCNetClientService::Shutdown()
@@ -230,18 +238,34 @@ namespace ark
             AddServerWeightData(pServerInfo);
             pServerInfo->net_state_ = AFConnectionData::CONNECTED;
 
-            AFINetClientManagerModule* net_client_manager_module = m_pPluginManager->FindModule<AFINetClientManagerModule>();
-            if (net_client_manager_module != nullptr)
-            {
-                net_client_manager_module->AddNetConnectionBus(bus_id, pServerInfo->net_client_ptr_);
-            }
-            else
-            {
-                ARK_ASSERT_NO_EFFECT(net_client_manager_module != nullptr);
-            }
+            //add server-bus-id -> client-bus-id
+            m_pNetClientManagerModule->AddNetConnectionBus(bus_id, pServerInfo->net_client_ptr_);
+            //register to this server
+            RegisterToServer(bus_id);
         }
 
         return 0;
+    }
+
+    void AFCNetClientService::RegisterToServer(const int bus_id)
+    {
+        const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
+        if (server_config == nullptr)
+        {
+            ARK_ASSERT_NO_EFFECT(0);
+            return;
+        }
+
+        AFMsg::msg_ss_server_report msg;
+
+        msg.set_bus_id(server_config->self_id);
+        msg.set_cur_online(0);
+        msg.set_url(server_config->public_ep_.to_string());
+        msg.set_max_online(server_config->max_connection);
+        msg.set_logic_status(AFMsg::E_ST_NARMAL);
+
+        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg);
+        ARK_LOG_INFO("Register self server_id = {}, target_id = {}", server_config->self_id, bus_id);
     }
 
     int AFCNetClientService::OnDisConnected(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
@@ -268,7 +292,7 @@ namespace ark
         return 0;
     }
 
-    void AFCNetClientService::ProcessAddNetConnect()
+    void AFCNetClientService::ProcessAddNewNetClient()
     {
         for (auto& iter : _tmp_nets)
         {
@@ -294,10 +318,8 @@ namespace ark
                     target_connection_data->net_state_ = AFConnectionData::CONNECTING;
                 }
 
-                if (!mxTargetServerMap.AddElement(target_connection_data->server_bus_id_, target_connection_data))
-                {
-                    //add log
-                }
+                mxTargetServerMap.AddElement(target_connection_data->server_bus_id_, target_connection_data);
+                AFINetClientService::AddRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, this, &AFCNetClientService::OnServerNotify);
             }
         }
 
@@ -326,11 +348,9 @@ namespace ark
         switch (event)
         {
         case CONNECTED:
-            //Add net client service in manager module
             OnConnected(event, conn_id, ip, bus_id);
             break;
         case DISCONNECTED:
-            //Remove net client service in manager module
             OnDisConnected(event, conn_id, ip, bus_id);
             break;
         default:
@@ -474,6 +494,38 @@ namespace ark
     AFMapEx<int, AFConnectionData>& AFCNetClientService::GetServerList()
     {
         return mxTargetServerMap;
+    }
+
+    void AFCNetClientService::OnServerNotify(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    {
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_notify);
+        for (int i = 0; i < x_msg.server_list_size(); ++i)
+        {
+            const AFMsg::msg_ss_server_report& report = x_msg.server_list(i);
+            if (!m_pBusModule->IsUndirectBusRelation(report.bus_id()))
+            {
+                continue;
+            }
+
+            //Create single cluster client with bus id and url
+            m_pNetClientManagerModule->CreateClusterClient(report.bus_id(), report.url());
+
+            //管理为三个数值，channel zone proc
+            AFBusAddr bus_addr(report.bus_id());
+            bus_addr.inst_id = 0;//前三个数值相同表示同一个区
+
+            auto iter = reg_servers_.find(bus_addr.bus_id);
+            if (iter != reg_servers_.end())
+            {
+                iter->second.insert(std::make_pair(report.bus_id(), report));
+            }
+            else
+            {
+                std::map<int, AFMsg::msg_ss_server_report> others;
+                others.insert(std::make_pair(report.bus_id(), report));
+                reg_servers_.insert(std::make_pair(bus_addr.bus_id, others));
+            }
+        }
     }
 
 }

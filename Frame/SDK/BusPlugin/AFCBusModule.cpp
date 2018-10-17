@@ -287,6 +287,11 @@ namespace ark
 
     bool AFCBusModule::IsUndirectBusRelation(const int bus_id)
     {
+        if (bus_id == GetSelfBusID())
+        {
+            return false;
+        }
+
         const uint8_t& app_type = GetSelfAppType();
         auto iter = mxBusRelations.find(app_type);
         if (iter != mxBusRelations.end())

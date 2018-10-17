@@ -114,8 +114,10 @@ namespace ark
         }
         else
         {
-            return 0;
+            return ret;
         }
+
+        return 0;
     }
 
     AFINetClientService* AFCNetClientManagerModule::GetNetClientService(const uint8_t& app_type)

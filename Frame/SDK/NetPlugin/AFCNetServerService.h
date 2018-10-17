@@ -20,6 +20,10 @@
 
 #pragma once
 
+#include "SDK/Core/AFMap.hpp"
+#include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFINetServerManagerModule.h"
 #include "SDK/Interface/AFINetServerService.h"
 
 namespace ark
@@ -46,17 +50,24 @@ namespace ark
 
     protected:
         void OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id);
-
         void OnSocketNetEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
+
+        void OnClientRegister(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        void SyncToAllClient(const int bus_id, const AFGUID& conn_id);
 
     private:
         AFIPluginManager* m_pPluginManager;
+        AFINetServerManagerModule* m_pNetServerManagerModule;
+        AFILogModule* m_pLogModule;
+        AFIMsgModule* m_pMsgModule;
 
         AFINet* m_pNet{ nullptr };
 
         std::map<int, NET_PKG_RECV_FUNCTOR_PTR> mxRecvCallBack;
         std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
         std::list<NET_PKG_RECV_FUNCTOR_PTR> mxCallBackList;
+
+        AFMapEx<int, AFServerData> reg_clients_;
     };
 
 }

@@ -10,6 +10,12 @@ namespace ark
     AFCNetServerService::AFCNetServerService(AFIPluginManager* p) :
         m_pPluginManager(p)
     {
+        m_pNetServerManagerModule = m_pPluginManager->FindModule<AFINetServerManagerModule>();
+        m_pLogModule = m_pPluginManager->FindModule<AFILogModule>();
+        m_pMsgModule = m_pPluginManager->FindModule<AFIMsgModule>();
+
+        ARK_ASSERT_NO_EFFECT(m_pNetServerManagerModule != nullptr &&
+                             m_pLogModule != nullptr);
     }
 
     AFCNetServerService::~AFCNetServerService()
@@ -22,10 +28,13 @@ namespace ark
 
     bool AFCNetServerService::Start(const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection)
     {
+        bool ret = false;
         if (ep.proto() == proto_type::tcp)
         {
             m_pNet = ARK_NEW AFCTCPServer(this, &AFCNetServerService::OnRecvNetPack, &AFCNetServerService::OnSocketNetEvent);
-            return m_pNet->Start(bus_id, ep.ip(), ep.port(), thread_count, max_connection, ep.is_v6());
+            ret = m_pNet->Start(bus_id, ep.ip(), ep.port(), thread_count, max_connection, ep.is_v6());
+
+            AFINetServerService::AddRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCNetServerService::OnClientRegister);
         }
         else if (ep.proto() == proto_type::udp)
         {
@@ -41,7 +50,7 @@ namespace ark
             return false;
         }
 
-        return false;
+        return ret;
     }
 
     bool AFCNetServerService::Update()
@@ -161,24 +170,16 @@ namespace ark
 
     void AFCNetServerService::OnSocketNetEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
     {
-        AFINetServerManagerModule* net_server_manager_module = m_pPluginManager->FindModule<AFINetServerManagerModule>();
-        if (net_server_manager_module != nullptr)
+        switch (event)
         {
-            switch (event)
-            {
-            case CONNECTED:
-                net_server_manager_module->AddNetConnectionBus(bus_id, this->GetNet());
-                break;
-            case DISCONNECTED:
-                net_server_manager_module->RemoveNetConnectionBus(bus_id);
-                break;
-            default:
-                break;
-            }
-        }
-        else
-        {
-            ARK_ASSERT_NO_EFFECT(net_server_manager_module != nullptr);
+        case CONNECTED:
+            //ARK_LOG_INFO("Client={} connect server={}", );
+            break;
+        case DISCONNECTED:
+            m_pNetServerManagerModule->RemoveNetConnectionBus(bus_id);
+            break;
+        default:
+            break;
         }
 
         for (const auto& it : mxEventCallBackList)
@@ -187,4 +188,36 @@ namespace ark
         }
     }
 
+    void AFCNetServerService::OnClientRegister(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    {
+        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_report);
+
+        //Add server_bus_id -> client_bus_id relationship with net
+        m_pNetServerManagerModule->AddNetConnectionBus(x_msg.bus_id(), m_pNet);
+        //////////////////////////////////////////////////////////////////////////
+        ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_clients_.GetElement(x_msg.bus_id());
+        if (nullptr == server_data_ptr)
+        {
+            server_data_ptr = std::make_shared<AFServerData>();
+            reg_clients_.AddElement(x_msg.bus_id(), server_data_ptr);
+        }
+
+        server_data_ptr->Init(conn_id, x_msg);
+        //////////////////////////////////////////////////////////////////////////
+
+        SyncToAllClient(x_msg.bus_id(), conn_id);
+    }
+
+    void AFCNetServerService::SyncToAllClient(const int bus_id, const AFGUID& conn_id)
+    {
+        AFMsg::msg_ss_server_notify msg;
+        for (bool ret = reg_clients_.Begin(); ret; ret = reg_clients_.Increase())
+        {
+            auto& server_data = reg_clients_.GetCurrentData();
+            AFMsg::msg_ss_server_report* report = msg.add_server_list();
+            *report = server_data->server_info_;
+        }
+
+        m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg);
+    }
 }

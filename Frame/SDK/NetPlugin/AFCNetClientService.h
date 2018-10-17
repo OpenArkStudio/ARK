@@ -24,6 +24,10 @@
 #include "SDK/Core/AFCConsistentHash.hpp"
 #include "SDK/Interface/AFINetClientService.h"
 #include "SDK/Interface/AFIPluginManager.h"
+#include "SDK/Interface/AFINetClientManagerModule.h"
+#include "SDK/Interface/AFIBusModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFILogModule.h"
 
 namespace ark
 {
@@ -66,12 +70,14 @@ namespace ark
         const ARK_SHARE_PTR<AFConnectionData>& GetServerNetInfo(const int nServerID) override;
         AFMapEx<int, AFConnectionData>& GetServerList() override;
 
+
     protected:
         void ProcessUpdate();
-        void ProcessAddNetConnect();
+        void ProcessAddNewNetClient();
 
         AFINet* CreateNet(const proto_type proto);
 
+        void RegisterToServer(const int bus_id);
         int OnConnected(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id);
         int OnDisConnected(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id);
 
@@ -89,8 +95,15 @@ namespace ark
 
         void RemoveServerWeightData(ARK_SHARE_PTR<AFConnectionData>& xInfo);
 
+        //recv other server infos
+        void OnServerNotify(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+
     private:
         AFIPluginManager* m_pPluginManager;
+        AFINetClientManagerModule* m_pNetClientManagerModule;
+        AFIBusModule* m_pBusModule;
+        AFIMsgModule* m_pMsgModule;
+        AFILogModule* m_pLogModule;
 
         AFMapEx<int, AFConnectionData> mxTargetServerMap;
         AFCConsistentHash mxConsistentHash;
@@ -100,6 +113,8 @@ namespace ark
         std::map<int, NET_PKG_RECV_FUNCTOR_PTR> mxRecvCallBack;
         std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
         std::list<NET_PKG_RECV_FUNCTOR_PTR> mxCallBackList;
+
+        std::map<int, std::map<int, AFMsg::msg_ss_server_report>> reg_servers_;
     };
 
 }

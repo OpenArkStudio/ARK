@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommand>$(SolutionDir)..\Bin\Server\Debug\AFProxyServer\PluginLoader_d.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommand>$(SolutionDir)..\Bin\bin\Launcher_d.exe</LocalDebuggerCommand>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\Server\Debug\AFProxyServer\</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\bin\</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommandArguments>-x --busid=1.1.103.1 --name=proxy_server --plugin=../plugin_conf/proxy.plugin --logpath=../binlog</LocalDebuggerCommandArguments>
+    <LocalDebuggerEnvironment>PATH=$(SolutionDir)..\Bin\lib\</LocalDebuggerEnvironment>
   </PropertyGroup>
 </Project>
