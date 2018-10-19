@@ -32,20 +32,31 @@ namespace ark
         return SendSSMsg(bus_id, msg_id, msg, actor_id);
     }
 
-    bool AFCMsgModule::SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id)
+    //////////////////////////////////////////////////////////////////////////
+
+    bool AFCMsgModule::SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id, const AFGUID& actor_id/* = 0*/)
     {
         std::string msg_data;
         ARK_ASSERT_RET_VAL(msg.SerializeToString(&msg_data), false);
 
-        return SendSSMsg(m_pBusModule->GetSelfBusID(), target_bus, msg_id, msg_data.c_str(), msg_data.length(), actor_id);
+        int src_bus = m_pBusModule->GetSelfBusID();
+#if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
+        ARK_LOG_DEBUG("Send msg log, src={} dst={}, msg_id={} msg_len={} msg_data=\n{}",
+                      AFMisc::Bus2Str(src_bus),
+                      AFMisc::Bus2Str(target_bus),
+                      msg_id,
+                      msg_data.length(),
+                      msg.DebugString());
+#endif
+        return SendSSMsg(src_bus, target_bus, msg_id, msg_data.c_str(), msg_data.length(), conn_id, actor_id);
     }
 
-    bool AFCMsgModule::SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& actor_id /*= 0*/)
+    bool AFCMsgModule::SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id /*= 0*/)
     {
-        return SendSSMsg(m_pBusModule->GetSelfBusID(), target_bus, msg_id, msg, msg_len, actor_id);
+        return SendSSMsg(m_pBusModule->GetSelfBusID(), target_bus, msg_id, msg, msg_len, conn_id, actor_id);
     }
 
-    bool AFCMsgModule::SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id/* = 0*/, const AFGUID& actor_id/* = 0*/)
+    bool AFCMsgModule::SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id/* = 0*/)
     {
         AFINet* client_service_ptr = m_pNetClientManagerModule->GetNetConnectionBus(src_bus, target_bus);
         if (client_service_ptr != nullptr)

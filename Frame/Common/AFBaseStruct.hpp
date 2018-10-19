@@ -23,7 +23,6 @@
 #include "Common/AFApp.hpp"
 #include "SDK/Core/AFPlatform.hpp"
 #include "SDK/Core/AFMacros.hpp"
-#include "SDK/Core/AFMisc.hpp"
 #include "SDK/Core/AFSocketFunc.hpp"
 
 namespace ark

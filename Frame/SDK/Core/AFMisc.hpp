@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "Common/AFBaseStruct.hpp"
 #include "AFMacros.hpp"
 
 namespace ark
@@ -135,6 +136,12 @@ namespace ark
             {
                 return isdigit(c);
             }));
+        }
+
+        static std::string Bus2Str(int bus_id)
+        {
+            AFBusAddr bus_addr(bus_id);
+            return bus_addr.ToString();
         }
     };
 

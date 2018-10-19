@@ -40,9 +40,9 @@ namespace ark
         bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id = 0) override;
         bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id = 0) override;
 
-        bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id = 0, const AFGUID& actor_id = 0) override;
-        bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id = 0) override;
-        bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& actor_id = 0) override;
+        bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
+        bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
+        bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
 
     private:
         AFIBusModule* m_pBusModule;

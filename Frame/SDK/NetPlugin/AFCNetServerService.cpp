@@ -221,6 +221,6 @@ namespace ark
             *report = server_data->server_info_;
         }
 
-        m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg);
+        m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg, conn_id);
     }
 }

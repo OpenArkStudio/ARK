@@ -50,13 +50,11 @@ namespace ark
         //void OnClientDisconnect(int bus_id, const AFGUID& xClientID);
 
         //////////////////////////////////////////////////////////////////////////
-        void OnTimerLogServer(const std::string& name, const AFGUID& id);
+        //void OnTimerLogServer(const std::string& name, const AFGUID& id);
 
-        void OnServerReport(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
-        void SyncAllProxyToDir(int bus_id, const AFGUID& conn_id);
+        //void OnServerReport(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        //void SyncAllProxyToDir(int bus_id, const AFGUID& conn_id);
         //////////////////////////////////////////////////////////////////////////
-
-
 
         ////世界服务器注册，刷新信息
         //void OnWorldRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
@@ -81,7 +79,7 @@ namespace ark
         //void InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
 
     private:
-        AFMapEx<int, AFServerData> reg_servers_;
+        //AFMapEx<int, AFServerData> reg_servers_;
 
         AFILogModule* m_pLogModule;
         AFIBusModule* m_pBusModule;

@@ -32,7 +32,7 @@ namespace ark
         m_pMsgModule = pPluginManager->FindModule<AFIMsgModule>();
 
         //log timer
-        m_pTimerModule->AddForeverTimer("master-sub-server-timer", pPluginManager->BusID(), 30 * 1000, this, &AFCMasterNetServerModule::OnTimerLogServer);
+        //m_pTimerModule->AddForeverTimer("master-sub-server-timer", pPluginManager->BusID(), 30 * 1000, this, &AFCMasterNetServerModule::OnTimerLogServer);
 
         return true;
     }
@@ -294,55 +294,55 @@ namespace ark
     //}
 
     //////////////////////////////////////////////////////////////////////////
-    void AFCMasterNetServerModule::OnTimerLogServer(const std::string& name, const AFGUID& id)
-    {
-        ARK_LOG_INFO("---------------------------Start to log all registered server---------------------------");
-        for (bool ret = reg_servers_.Begin(); ret; ret = reg_servers_.Increase())
-        {
-            auto& server_data = reg_servers_.GetCurrentData();
-            ARK_LOG_INFO("bus[{}] state[{}] url[{}] conn_id[{}]",
-                         server_data->server_info_.bus_id(),
-                         AFMsg::e_ss_server_state_Name(server_data->server_info_.logic_status()),
-                         server_data->conn_id_.nLow);
-        }
-        ARK_LOG_INFO("---------------------------End to log all registered server---------------------------");
-    }
+    //void AFCMasterNetServerModule::OnTimerLogServer(const std::string& name, const AFGUID& id)
+    //{
+    //    ARK_LOG_INFO("---------------------------Start to log all registered server---------------------------");
+    //    for (bool ret = reg_servers_.Begin(); ret; ret = reg_servers_.Increase())
+    //    {
+    //        auto& server_data = reg_servers_.GetCurrentData();
+    //        ARK_LOG_INFO("bus[{}] state[{}] url[{}] conn_id[{}]",
+    //                     server_data->server_info_.bus_id(),
+    //                     AFMsg::e_ss_server_state_Name(server_data->server_info_.logic_status()),
+    //                     server_data->conn_id_.nLow);
+    //    }
+    //    ARK_LOG_INFO("---------------------------End to log all registered server---------------------------");
+    //}
     //////////////////////////////////////////////////////////////////////////
-    void AFCMasterNetServerModule::OnServerReport(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_report);
-        ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_servers_.GetElement(x_msg.bus_id());
-        if (nullptr == server_data_ptr)
-        {
-            server_data_ptr = std::make_shared<AFServerData>();
-            reg_servers_.AddElement(x_msg.bus_id(), server_data_ptr);
-        }
+    //void AFCMasterNetServerModule::OnServerReport(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_report);
+    //    ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_servers_.GetElement(x_msg.bus_id());
+    //    if (nullptr == server_data_ptr)
+    //    {
+    //        server_data_ptr = std::make_shared<AFServerData>();
+    //        reg_servers_.AddElement(x_msg.bus_id(), server_data_ptr);
+    //    }
 
-        server_data_ptr->Init(conn_id, x_msg);
+    //    server_data_ptr->Init(conn_id, x_msg);
 
-        ARK_LOG_INFO("Server Registered, server_id[{}] server_url[{}]", x_msg.bus_id(), x_msg.url());
+    //    ARK_LOG_INFO("Server Registered, server_id[{}] server_url[{}]", x_msg.bus_id(), x_msg.url());
 
-        SyncAllProxyToDir(x_msg.bus_id(), conn_id);
-    }
+    //    SyncAllProxyToDir(x_msg.bus_id(), conn_id);
+    //}
 
-    void AFCMasterNetServerModule::SyncAllProxyToDir(int bus_id, const AFGUID& conn_id)
-    {
-        AFMsg::msg_ss_server_notify msg;
-        for (bool ret = reg_servers_.Begin(); ret; ret = reg_servers_.Increase())
-        {
-            auto& server_data = reg_servers_.GetCurrentData();
-            AFBusAddr bus_addr(server_data->server_info_.bus_id());
-            //只发proxy-server到dir，以供client连接
-            if (bus_addr.proc_id != ARK_APP_PROXY)
-            {
-                continue;
-            }
+    //void AFCMasterNetServerModule::SyncAllProxyToDir(int bus_id, const AFGUID& conn_id)
+    //{
+    //    AFMsg::msg_ss_server_notify msg;
+    //    for (bool ret = reg_servers_.Begin(); ret; ret = reg_servers_.Increase())
+    //    {
+    //        auto& server_data = reg_servers_.GetCurrentData();
+    //        AFBusAddr bus_addr(server_data->server_info_.bus_id());
+    //        //只发proxy-server到dir，以供client连接
+    //        if (bus_addr.proc_id != ARK_APP_PROXY)
+    //        {
+    //            continue;
+    //        }
 
-            AFMsg::msg_ss_server_report* report = msg.add_server_list();
-            *report = server_data->server_info_;
-        }
+    //        AFMsg::msg_ss_server_report* report = msg.add_server_list();
+    //        *report = server_data->server_info_;
+    //    }
 
-        m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg);
-    }
+    //    m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg);
+    //}
 
 }
