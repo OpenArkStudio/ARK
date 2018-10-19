@@ -35,24 +35,25 @@ namespace ark
 
     bool AFCNetClientManagerModule::Update()
     {
-        for (bool bRet = net_clients_.Begin(); bRet; bRet = net_clients_.Increase())
+        net_clients_.DoEveryElement([ & ](AFMap<uint8_t, AFINetClientService>::PTRTYPE & pData)
         {
-            const auto& pCluster = net_clients_.GetCurrentData();
-            ARK_ASSERT_CONTINUE(pCluster != nullptr);
-
-            pCluster->Update();
-        }
+            if (pData)
+            {
+                pData->Update();
+            }
+            return true;
+        });
 
         return true;
     }
 
     bool AFCNetClientManagerModule::Shut()
     {
-        for (bool bRet = net_clients_.Begin(); bRet; bRet = net_clients_.Increase())
+        net_clients_.DoEveryElement([ & ](AFMap<uint8_t, AFINetClientService>::PTRTYPE & pData)
         {
-            const AFINetClientService* pCluster = net_clients_.GetCurrentData();
-            ARK_DELETE(pCluster);
-        }
+            ARK_DELETE(pData);
+            return true;
+        });
 
         return true;
     }

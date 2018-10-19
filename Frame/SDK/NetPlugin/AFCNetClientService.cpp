@@ -79,10 +79,8 @@ namespace ark
 
     void AFCNetClientService::ProcessUpdate()
     {
-        for (bool bRet = mxTargetServerMap.Begin(); bRet; bRet = mxTargetServerMap.Increase())
+        mxTargetServerMap.DoEveryElement([ & ](AFMapEx<int, AFConnectionData>::PTRTYPE & connection_data)
         {
-            ARK_SHARE_PTR<AFConnectionData>& connection_data = mxTargetServerMap.GetCurrentData();
-
             switch (connection_data->net_state_)
             {
             case AFConnectionData::DISCONNECT:
@@ -146,7 +144,8 @@ namespace ark
             default:
                 break;
             }
-        }
+            return true;
+        });
     }
 
     AFINet* AFCNetClientService::CreateNet(const proto_type proto)
@@ -171,12 +170,16 @@ namespace ark
     void AFCNetClientService::LogServerInfo()
     {
         LogServerInfo("This is a client, begin to print Server Info----------------------------------");
-        for (bool bRet = mxTargetServerMap.Begin(); bRet; bRet = mxTargetServerMap.Increase())
+
+        mxTargetServerMap.DoEveryElement([ = ](AFMapEx<int, AFConnectionData>::PTRTYPE & pServerData)
         {
-            const auto& pServerData = mxTargetServerMap.GetCurrentData();
-            std::string info = ARK_FORMAT("TargetBusID={} State={} url={}", pServerData->server_bus_id_, pServerData->net_state_, pServerData->endpoint_.to_string());
-            LogServerInfo(info);
-        }
+            if (pServerData)
+            {
+                std::string info = ARK_FORMAT("TargetBusID={} State={} url={}", pServerData->server_bus_id_, pServerData->net_state_, pServerData->endpoint_.to_string());
+                LogServerInfo(info);
+            }
+            return true;
+        });
 
         LogServerInfo("This is a client, end to print Server Info----------------------------------");
     }

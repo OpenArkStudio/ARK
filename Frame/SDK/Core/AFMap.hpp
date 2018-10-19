@@ -49,6 +49,7 @@ namespace ark
     public:
         typedef typename MapSmartPtrType<TD, NEEDSMART>::VALUE PTRTYPE;
         typedef std::map<T, PTRTYPE > MAP_DATA;
+        typedef std::function<bool (PTRTYPE&) > MAP_CALLBACK;
         AFMapBase()
         {
             mNullPtr = nullptr;
@@ -191,38 +192,17 @@ namespace ark
             return true;
         }
 
-        bool Begin()
+        bool DoEveryElement(const MAP_CALLBACK& callback)
         {
-            mxObjectCurIter = mxObjectList.begin();
-
-            return mxObjectCurIter != mxObjectList.end();
-        }
-
-        bool Increase()
-        {
-            if (mxObjectCurIter != mxObjectList.end())
+            for (auto iter = mxObjectList.begin();  iter != mxObjectList.end(); ++iter)
             {
-                ++mxObjectCurIter;
-
-                if (mxObjectCurIter != mxObjectList.end())
+                if (!callback(iter->second))
                 {
-                    return true;
+                    return false;
                 }
             }
 
-            return false;
-        }
-
-        PTRTYPE& GetCurrentData()
-        {
-            if (mxObjectCurIter != mxObjectList.end())
-            {
-                return mxObjectCurIter->second;
-            }
-            else
-            {
-                return mNullPtr;
-            }
+            return true;
         }
 
     private:

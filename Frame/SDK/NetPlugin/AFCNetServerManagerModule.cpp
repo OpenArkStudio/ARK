@@ -35,28 +35,28 @@ namespace ark
 
     bool AFCNetServerManagerModule::Update()
     {
-        for (bool bRet = net_servers_.Begin(); bRet; bRet = net_servers_.Increase())
+        net_servers_.DoEveryElement([ & ](AFMap<int, AFINetServerService>::PTRTYPE & pServerData)
         {
-            const auto& pServer = net_servers_.GetCurrentData();
-            if (pServer != nullptr)
+            if (pServerData)
             {
-                pServer->Update();
+                pServerData->Update();
             }
-        }
+            return true;
+        });
 
         return true;
     }
 
     bool AFCNetServerManagerModule::Shut()
     {
-        for (bool bRet = net_servers_.Begin(); bRet; bRet = net_servers_.Increase())
+        net_servers_.DoEveryElement([ = ](AFMap<int, AFINetServerService>::PTRTYPE & pServerData)
         {
-            const auto* pServer = net_servers_.GetCurrentData();
-            if (pServer != nullptr)
+            if (pServerData)
             {
-                ARK_DELETE(pServer);
+                ARK_DELETE(pServerData);
             }
-        }
+            return true;
+        });
 
         return true;
     }

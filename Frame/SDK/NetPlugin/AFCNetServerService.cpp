@@ -214,12 +214,13 @@ namespace ark
     void AFCNetServerService::SyncToAllClient(const int bus_id, const AFGUID& conn_id)
     {
         AFMsg::msg_ss_server_notify msg;
-        for (bool ret = reg_clients_.Begin(); ret; ret = reg_clients_.Increase())
+
+        reg_clients_.DoEveryElement([&](AFMapEx<int, AFServerData>::PTRTYPE & server_data)
         {
-            auto& server_data = reg_clients_.GetCurrentData();
             AFMsg::msg_ss_server_report* report = msg.add_server_list();
             *report = server_data->server_info_;
-        }
+            return true;
+        });
 
         m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg, conn_id);
     }
