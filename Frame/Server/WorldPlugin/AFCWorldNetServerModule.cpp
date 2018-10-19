@@ -69,18 +69,18 @@ namespace ark
             return ret;
         }
 
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this, &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this, &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this, &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetServerModule::OnOnlineProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetServerModule::OnOfflineProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this, &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this, &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this, &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetServerModule::OnOnlineProcess);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetServerModule::OnOfflineProcess);
         //////////////////////////////////////////////////////////////////////////
         //m_pNetServer->AddRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCWorldNetServerModule::OnServerReport);
 
-        m_pNetServer->AddEventCallBack(this, &AFCWorldNetServerModule::OnSocketEvent);
+        //m_pNetServer->AddNetEventCallBack(this, &AFCWorldNetServerModule::OnSocketEvent);
 
         return 0;
     }
@@ -92,148 +92,148 @@ namespace ark
         return true;
     }
 
-    void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
+    //void AFCWorldNetServerModule::OnGameServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
-        //for (int i = 0; i < x_msg.server_list_size(); ++i)
-        //{
-        //    const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
-        //    ARK_SHARE_PTR<AFServerData> pServerData = mGameMap.GetElement(xData.bus_id());
+    //    //for (int i = 0; i < x_msg.server_list_size(); ++i)
+    //    //{
+    //    //    const AFMsg::ServerInfoReport& xData = x_msg.server_list(i);
+    //    //    ARK_SHARE_PTR<AFServerData> pServerData = mGameMap.GetElement(xData.bus_id());
 
-        //    if (nullptr == pServerData)
-        //    {
-        //        pServerData = std::make_shared<AFServerData>();
-        //        mGameMap.AddElement(xData.bus_id(), pServerData);
-        //    }
+    //    //    if (nullptr == pServerData)
+    //    //    {
+    //    //        pServerData = std::make_shared<AFServerData>();
+    //    //        mGameMap.AddElement(xData.bus_id(), pServerData);
+    //    //    }
 
-        //    pServerData->Init(conn_id, xData);
+    //    //    pServerData->Init(conn_id, xData);
 
-        //    ARK_LOG_INFO("GameServerRegistered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
-        //}
+    //    //    ARK_LOG_INFO("GameServerRegistered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
+    //    //}
 
-        //SynGameToProxy();
-    }
+    //    //SynGameToProxy();
+    //}
 
-    void AFCWorldNetServerModule::OnGameServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+    //void AFCWorldNetServerModule::OnGameServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
-        //for (int i = 0; i < xMsg.server_list_size(); ++i)
-        //{
-        //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        //    mGameMap.RemoveElement(xData.bus_id());
+    //    //for (int i = 0; i < xMsg.server_list_size(); ++i)
+    //    //{
+    //    //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+    //    //    mGameMap.RemoveElement(xData.bus_id());
 
-        //    ARK_LOG_INFO("GameServer unregistered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
-        //}
-    }
+    //    //    ARK_LOG_INFO("GameServer unregistered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
+    //    //}
+    //}
 
-    void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+    //void AFCWorldNetServerModule::OnRefreshGameServerInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
-        //for (int i = 0; i < xMsg.server_list_size(); ++i)
-        //{
-        //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+    //    //for (int i = 0; i < xMsg.server_list_size(); ++i)
+    //    //{
+    //    //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
-        //    ARK_SHARE_PTR<AFServerData> pServerData = mGameMap.GetElement(xData.bus_id());
+    //    //    ARK_SHARE_PTR<AFServerData> pServerData = mGameMap.GetElement(xData.bus_id());
 
-        //    if (nullptr == pServerData)
-        //    {
-        //        pServerData = std::make_shared<AFServerData>();
-        //        mGameMap.AddElement(xData.bus_id(), pServerData);
-        //    }
+    //    //    if (nullptr == pServerData)
+    //    //    {
+    //    //        pServerData = std::make_shared<AFServerData>();
+    //    //        mGameMap.AddElement(xData.bus_id(), pServerData);
+    //    //    }
 
-        //    pServerData->Init(xClientID, xData);
+    //    //    pServerData->Init(xClientID, xData);
 
-        //    ARK_LOG_INFO("GameServer refersh, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
-        //}
+    //    //    ARK_LOG_INFO("GameServer refersh, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
+    //    //}
 
-        //SynGameToProxy();
-    }
+    //    //SynGameToProxy();
+    //}
 
-    void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+    //void AFCWorldNetServerModule::OnProxyServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
-        //for (int i = 0; i < xMsg.server_list_size(); ++i)
-        //{
-        //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+    //    //for (int i = 0; i < xMsg.server_list_size(); ++i)
+    //    //{
+    //    //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
-        //    ARK_SHARE_PTR<AFServerData> pServerData = mProxyMap.GetElement(xData.bus_id());
+    //    //    ARK_SHARE_PTR<AFServerData> pServerData = mProxyMap.GetElement(xData.bus_id());
 
-        //    if (!pServerData)
-        //    {
-        //        pServerData = std::make_shared<AFServerData>();
-        //        mProxyMap.AddElement(xData.bus_id(), pServerData);
-        //    }
+    //    //    if (!pServerData)
+    //    //    {
+    //    //        pServerData = std::make_shared<AFServerData>();
+    //    //        mProxyMap.AddElement(xData.bus_id(), pServerData);
+    //    //    }
 
-        //    pServerData->Init(xClientID, xData);
+    //    //    pServerData->Init(xClientID, xData);
 
-        //    ARK_LOG_INFO("Proxy Registered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
-        //    SynGameToProxy(xClientID);
-        //}
-    }
+    //    //    ARK_LOG_INFO("Proxy Registered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
+    //    //    SynGameToProxy(xClientID);
+    //    //}
+    //}
 
-    void AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+    //void AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
-        //for (int i = 0; i < xMsg.server_list_size(); ++i)
-        //{
-        //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+    //    //for (int i = 0; i < xMsg.server_list_size(); ++i)
+    //    //{
+    //    //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
 
-        //    mGameMap.RemoveElement(xData.bus_id());
-        //    ARK_LOG_INFO("Proxy UnRegistered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
-        //}
-    }
+    //    //    mGameMap.RemoveElement(xData.bus_id());
+    //    //    ARK_LOG_INFO("Proxy UnRegistered, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
+    //    //}
+    //}
 
-    void AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
+    //void AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
-        //for (int i = 0; i < xMsg.server_list_size(); ++i)
-        //{
-        //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
-        //    ARK_SHARE_PTR<AFServerData> pServerData = mProxyMap.GetElement(xData.bus_id());
+    //    //for (int i = 0; i < xMsg.server_list_size(); ++i)
+    //    //{
+    //    //    const AFMsg::ServerInfoReport& xData = xMsg.server_list(i);
+    //    //    ARK_SHARE_PTR<AFServerData> pServerData = mProxyMap.GetElement(xData.bus_id());
 
-        //    if (nullptr == pServerData)
-        //    {
-        //        pServerData = std::make_shared<AFServerData>();
-        //        mGameMap.AddElement(xData.bus_id(), pServerData);
-        //    }
+    //    //    if (nullptr == pServerData)
+    //    //    {
+    //    //        pServerData = std::make_shared<AFServerData>();
+    //    //        mGameMap.AddElement(xData.bus_id(), pServerData);
+    //    //    }
 
-        //    pServerData->Init(xClientID, xData);
-        //    ARK_LOG_INFO("Proxy refresh, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
-        //    SynGameToProxy(xClientID);
-        //}
-    }
+    //    //    pServerData->Init(xClientID, xData);
+    //    //    ARK_LOG_INFO("Proxy refresh, server_id[{}] server_url[{}]", xData.bus_id(), xData.url());
+    //    //    SynGameToProxy(xClientID);
+    //    //}
+    //}
 
     int AFCWorldNetServerModule::OnLeaveGameProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
         return 0;
     }
 
-    void AFCWorldNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
-    {
-        switch (event)
-        {
-        case CONNECTED:
-            {
-                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
-                OnClientConnected(conn_id);
-            }
-            break;
-        case DISCONNECTED:
-            {
-                ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
-                OnClientDisconnect(conn_id);
-            }
-            break;
-        default:
-            break;
-        }
-    }
+    //void AFCWorldNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
+    //{
+    //    switch (event)
+    //    {
+    //    case CONNECTED:
+    //        {
+    //            ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+    //            OnClientConnected(conn_id);
+    //        }
+    //        break;
+    //    case DISCONNECTED:
+    //        {
+    //            ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+    //            OnClientDisconnect(conn_id);
+    //        }
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 
     void AFCWorldNetServerModule::SynGameToProxy()
     {
@@ -263,38 +263,38 @@ namespace ark
         //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_STS_NET_INFO, xData, xClientID, AFGUID(0));
     }
 
-    void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
-    {
-        ////不管是game还是proxy都要找出来,替他反注册
-        //for (ARK_SHARE_PTR<AFServerData> pServerData = mGameMap.First(); nullptr != pServerData; pServerData = mGameMap.Next())
-        //{
-        //    if (xClientID == pServerData->xClient)
-        //    {
-        //        pServerData->xData.set_logic_status(AFMsg::EST_CRASH);
-        //        pServerData->xClient = 0;
+    //void AFCWorldNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
+    //{
+    //    ////不管是game还是proxy都要找出来,替他反注册
+    //    //for (ARK_SHARE_PTR<AFServerData> pServerData = mGameMap.First(); nullptr != pServerData; pServerData = mGameMap.Next())
+    //    //{
+    //    //    if (xClientID == pServerData->xClient)
+    //    //    {
+    //    //        pServerData->xData.set_logic_status(AFMsg::EST_CRASH);
+    //    //        pServerData->xClient = 0;
 
-        //        SynGameToProxy();
-        //        return;
-        //    }
-        //}
-        ////////////////////////////////////////////////////////////////////////////
-        //int nServerID = 0;
-        //for (ARK_SHARE_PTR<AFServerData> pServerData = mProxyMap.First(); pServerData != nullptr; pServerData = mProxyMap.Next())
-        //{
-        //    if (xClientID == pServerData->xClient)
-        //    {
-        //        nServerID = pServerData->xData.bus_id();
-        //        break;
-        //    }
-        //}
+    //    //        SynGameToProxy();
+    //    //        return;
+    //    //    }
+    //    //}
+    //    ////////////////////////////////////////////////////////////////////////////
+    //    //int nServerID = 0;
+    //    //for (ARK_SHARE_PTR<AFServerData> pServerData = mProxyMap.First(); pServerData != nullptr; pServerData = mProxyMap.Next())
+    //    //{
+    //    //    if (xClientID == pServerData->xClient)
+    //    //    {
+    //    //        nServerID = pServerData->xData.bus_id();
+    //    //        break;
+    //    //    }
+    //    //}
 
-        //mProxyMap.RemoveElement(nServerID);
-    }
+    //    //mProxyMap.RemoveElement(nServerID);
+    //}
 
-    void AFCWorldNetServerModule::OnClientConnected(const AFGUID& xClientID)
-    {
-        //log
-    }
+    //void AFCWorldNetServerModule::OnClientConnected(const AFGUID& xClientID)
+    //{
+    //    //log
+    //}
 
     void AFCWorldNetServerModule::LogGameServer()
     {

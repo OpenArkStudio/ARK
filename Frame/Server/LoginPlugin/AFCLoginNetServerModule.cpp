@@ -63,14 +63,14 @@ namespace ark
             return ret;
         }
 
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetServerModule::OnHeartBeat);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetServerModule::OnLoginProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetServerModule::OnLogOut);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetServerModule::OnSelectWorldProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetServerModule::OnViewWorldProcess);
-        m_pNetServer->AddRecvCallback(this, &AFCLoginNetServerModule::InvalidMessage);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetServerModule::OnHeartBeat);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetServerModule::OnLoginProcess);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetServerModule::OnLogOut);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetServerModule::OnSelectWorldProcess);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetServerModule::OnViewWorldProcess);
+        //m_pNetServer->AddNetRecvCallback(this, &AFCLoginNetServerModule::InvalidMessage);
 
-        m_pNetServer->AddEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
+        //m_pNetServer->AddNetEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
 
         return 0;
     }
@@ -89,24 +89,24 @@ namespace ark
             xMsg.set_world_url(strWorldURL);
             xMsg.set_world_key(strWorldKey);
 
-            m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pSessionData->mnClientID, xSenderID);
+            //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_CONNECT_WORLD, xMsg, pSessionData->mnClientID, xSenderID);
         }
 
         return 0;
     }
 
-    void AFCLoginNetServerModule::OnClientConnected(const AFGUID& xClientID)
-    {
-        ARK_SHARE_PTR<AFSessionData> pSessionData = std::make_shared<AFSessionData>();
+    //void AFCLoginNetServerModule::OnClientConnected(const AFGUID& xClientID)
+    //{
+    //    ARK_SHARE_PTR<AFSessionData> pSessionData = std::make_shared<AFSessionData>();
 
-        pSessionData->mnClientID = xClientID;
-        mmClientSessionData.AddElement(xClientID, pSessionData);
-    }
+    //    pSessionData->mnClientID = xClientID;
+    //    mmClientSessionData.AddElement(xClientID, pSessionData);
+    //}
 
-    void AFCLoginNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
-    {
-        mmClientSessionData.RemoveElement(xClientID);
-    }
+    //void AFCLoginNetServerModule::OnClientDisconnect(const AFGUID& xClientID)
+    //{
+    //    mmClientSessionData.RemoveElement(xClientID);
+    //}
 
     void AFCLoginNetServerModule::OnLoginProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
@@ -129,7 +129,7 @@ namespace ark
                 AFMsg::AckEventResult xMsg;
                 xMsg.set_event_code(AFMsg::EGEC_ACCOUNTPWD_INVALID);
 
-                m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, conn_id, actor_id);
+                //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xMsg, conn_id, actor_id);
                 return;
             }
 
@@ -142,7 +142,7 @@ namespace ark
             xData.set_parame2(x_msg.password());
             xData.set_parame3(x_msg.security_code());
 
-            m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, conn_id, actor_id);
+            //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_LOGIN, xData, conn_id, actor_id);
             ARK_LOG_INFO("In same scene and group but it not a clone scene, id = {} account = {}", conn_id.ToString(), x_msg.account());
         }
     }
@@ -173,26 +173,26 @@ namespace ark
         //m_pLoginToMasterModule->GetClusterModule()->SendSuitByPB(pSession->mstrAccout, AFMsg::EGameMsgID::EGMI_REQ_CONNECT_WORLD, xData, xHead.GetPlayerID());//here has a problem to be solve
     }
 
-    void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
-    {
-        switch (event)
-        {
-        case CONNECTED:
-            {
-                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
-                OnClientConnected(conn_id);
-            }
-            break;
-        case DISCONNECTED:
-            {
-                ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
-                OnClientDisconnect(conn_id);
-            }
-            break;
-        default:
-            break;
-        }
-    }
+    //void AFCLoginNetServerModule::OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
+    //{
+    //    switch (event)
+    //    {
+    //    case CONNECTED:
+    //        {
+    //            ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+    //            OnClientConnected(conn_id);
+    //        }
+    //        break;
+    //    case DISCONNECTED:
+    //        {
+    //            ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+    //            OnClientDisconnect(conn_id);
+    //        }
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 
     void AFCLoginNetServerModule::SynWorldToClient(const AFGUID& xClientID)
     {
@@ -210,7 +210,7 @@ namespace ark
             pServerInfo->set_wait_count(0);
         }
 
-        m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, AFGUID(0));
+        //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_WORLD_LIST, xData, xClientID, AFGUID(0));
     }
 
     void AFCLoginNetServerModule::OnViewWorldProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
@@ -233,9 +233,9 @@ namespace ark
         //do nothing
     }
 
-    void AFCLoginNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-    {
-        ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);
-    }
+    //void AFCLoginNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    //{
+    //    ARK_LOG_ERROR("Invalid msg id = {}", nMsgID);
+    //}
 
 }

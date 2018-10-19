@@ -58,43 +58,43 @@ namespace ark
             return 0;
         }
 
-        pNetClientWorld->AddRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCWorldNetClientModule::OnSelectServerProcess);
-        pNetClientWorld->AddRecvCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this, &AFCWorldNetClientModule::OnKickClientProcess);
-        pNetClientWorld->AddRecvCallback(this, &AFCWorldNetClientModule::InvalidMessage);
+        //pNetClientWorld->AddNetRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCWorldNetClientModule::OnSelectServerProcess);
+        //pNetClientWorld->AddNetRecvCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this, &AFCWorldNetClientModule::OnKickClientProcess);
+        //pNetClientWorld->AddNetRecvCallback(this, &AFCWorldNetClientModule::InvalidMessage);
 
-        pNetClientWorld->AddEventCallBack(this, &AFCWorldNetClientModule::OnSocketEvent);
+        //pNetClientWorld->AddNetEventCallBack(this, &AFCWorldNetClientModule::OnSocketEvent);
 
         return 0;
     }
 
-    void AFCWorldNetClientModule::Register(const int bus_id)
-    {
-        AFINetClientService* pNetClient = m_pNetClientManagerModule->GetNetClientServiceByBusID(bus_id);
-        if (pNetClient == nullptr)
-        {
-            ARK_ASSERT_NO_EFFECT(0);
-            return;
-        }
+    //void AFCWorldNetClientModule::Register(const int bus_id)
+    //{
+    //    AFINetClientService* pNetClient = m_pNetClientManagerModule->GetNetClientServiceByBusID(bus_id);
+    //    if (pNetClient == nullptr)
+    //    {
+    //        ARK_ASSERT_NO_EFFECT(0);
+    //        return;
+    //    }
 
-        const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
-        if (server_config == nullptr)
-        {
-            ARK_ASSERT_NO_EFFECT(0);
-            return;
-        }
+    //    const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
+    //    if (server_config == nullptr)
+    //    {
+    //        ARK_ASSERT_NO_EFFECT(0);
+    //        return;
+    //    }
 
-        AFMsg::ServerInfoReportList xMsg;
-        AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
+    //    AFMsg::ServerInfoReportList xMsg;
+    //    AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
 
-        pData->set_bus_id(server_config->self_id);
-        pData->set_cur_online(0);
-        pData->set_url(server_config->public_ep_.to_string());
-        pData->set_max_online(server_config->max_connection);
-        pData->set_logic_status(AFMsg::EST_NARMAL);
+    //    pData->set_bus_id(server_config->self_id);
+    //    pData->set_cur_online(0);
+    //    pData->set_url(server_config->public_ep_.to_string());
+    //    pData->set_max_online(server_config->max_connection);
+    //    pData->set_logic_status(AFMsg::EST_NARMAL);
 
-        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg);
-        ARK_LOG_INFO("Register self server_id = {}", pData->bus_id());
-    }
+    //    m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg);
+    //    ARK_LOG_INFO("Register self server_id = {}", pData->bus_id());
+    //}
 
     void AFCWorldNetClientModule::RefreshWorldInfo()
     {
@@ -118,7 +118,7 @@ namespace ark
             xData.set_world_url(xServerData->server_info_.url());
             xData.set_world_key(x_msg.account());
 
-            m_pWorldNetServerModule->GetNetServer()->SendPBMsg(AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xServerData->conn_id_, actor_id);
+            //m_pWorldNetServerModule->GetNetServer()->SendPBMsg(AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xServerData->conn_id_, actor_id);
 
             //TODO:will fix this
             //m_pNetClientModule->SendSuitByPB(xMsg.account(), AFMsg::EGMI_ACK_CONNECT_WORLD, xData, xHead.GetPlayerID());
@@ -132,38 +132,38 @@ namespace ark
         //TODO
     }
 
-    void AFCWorldNetClientModule::InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        ARK_LOG_ERROR("invalid msg id = {}", msg_id);
-    }
+    //void AFCWorldNetClientModule::InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    ARK_LOG_ERROR("invalid msg id = {}", msg_id);
+    //}
 
-    void AFCWorldNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
-    {
-        switch (event)
-        {
-        case CONNECTED:
-            {
-                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
-                Register(bus_id);
-            }
-            break;
-        case DISCONNECTED:
-            ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
-            break;
-        default:
-            break;
-        }
-    }
+    //void AFCWorldNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
+    //{
+    //    switch (event)
+    //    {
+    //    case CONNECTED:
+    //        {
+    //            ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+    //            Register(bus_id);
+    //        }
+    //        break;
+    //    case DISCONNECTED:
+    //        ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 
-    void AFCWorldNetClientModule::OnClientDisconnect(const AFGUID& xClientID)
-    {
-        //do something
-    }
+    //void AFCWorldNetClientModule::OnClientDisconnect(const AFGUID& xClientID)
+    //{
+    //    //do something
+    //}
 
-    void AFCWorldNetClientModule::OnClientConnected(const AFGUID& xClientID)
-    {
-        //do something
-    }
+    //void AFCWorldNetClientModule::OnClientConnected(const AFGUID& xClientID)
+    //{
+    //    //do something
+    //}
 
     void AFCWorldNetClientModule::LogServerInfo(const std::string& strServerInfo)
     {

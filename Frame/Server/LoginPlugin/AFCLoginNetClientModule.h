@@ -46,14 +46,14 @@ namespace ark
     protected:
         int StartClient();
 
-        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
+        //void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
         //////////////////////////////////////////////////////////////////////////
         void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
         void OnWorldInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
 
         //////////////////////////////////////////////////////////////////////////
-        void Register(const int nServerID);
+        //void Register(const int nServerID);
 
     private:
         AFMapEx<int, AFMsg::ServerInfoReport> mWorldMap;

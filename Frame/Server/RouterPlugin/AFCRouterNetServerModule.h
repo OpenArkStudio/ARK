@@ -42,11 +42,10 @@ namespace ark
 
     protected:
         int StartServer();
-        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
+        //void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
-
-        void OnClientConnected(const AFGUID& conn_id);
-        void OnClientDisconnect(const AFGUID& conn_id);
+        //void OnClientConnected(const AFGUID& conn_id);
+        //void OnClientDisconnect(const AFGUID& conn_id);
 
     private:
         AFILogModule* m_pLogModule;

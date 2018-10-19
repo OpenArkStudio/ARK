@@ -67,55 +67,55 @@ namespace ark
             return ret;
         }
 
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCMasterNetServerModule::OnHeartBeat);
-        //m_pNetServer->AddRecvCallback(AFMsg::EGMI_MTL_WORLD_REGISTERED, this, &AFCMasterNetServerModule::OnWorldRegisteredProcess);
-        //m_pNetServer->AddRecvCallback(AFMsg::EGMI_MTL_WORLD_UNREGISTERED, this, &AFCMasterNetServerModule::OnWorldUnRegisteredProcess);
-        //m_pNetServer->AddRecvCallback(AFMsg::EGMI_MTL_WORLD_REFRESH, this, &AFCMasterNetServerModule::OnRefreshWorldInfoProcess);
-        //m_pNetServer->AddRecvCallback(AFMsg::EGMI_LTM_LOGIN_REGISTERED, this, &AFCMasterNetServerModule::OnLoginRegisteredProcess);
-        //m_pNetServer->AddRecvCallback(AFMsg::EGMI_LTM_LOGIN_UNREGISTERED, this, &AFCMasterNetServerModule::OnLoginUnRegisteredProcess);
-        //m_pNetServer->AddRecvCallback(AFMsg::EGMI_LTM_LOGIN_REFRESH, this, &AFCMasterNetServerModule::OnRefreshLoginInfoProcess);
-        //m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCMasterNetServerModule::OnSelectWorldProcess);
-        //m_pNetServer->AddRecvCallback(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCMasterNetServerModule::OnSelectServerResultProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCMasterNetServerModule::OnHeartBeat);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_MTL_WORLD_REGISTERED, this, &AFCMasterNetServerModule::OnWorldRegisteredProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_MTL_WORLD_UNREGISTERED, this, &AFCMasterNetServerModule::OnWorldUnRegisteredProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_MTL_WORLD_REFRESH, this, &AFCMasterNetServerModule::OnRefreshWorldInfoProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_LTM_LOGIN_REGISTERED, this, &AFCMasterNetServerModule::OnLoginRegisteredProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_LTM_LOGIN_UNREGISTERED, this, &AFCMasterNetServerModule::OnLoginUnRegisteredProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_LTM_LOGIN_REFRESH, this, &AFCMasterNetServerModule::OnRefreshLoginInfoProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCMasterNetServerModule::OnSelectWorldProcess);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCMasterNetServerModule::OnSelectServerResultProcess);
 
-        m_pNetServer->AddRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCMasterNetServerModule::OnServerReport);
+        //m_pNetServer->AddNetRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCMasterNetServerModule::OnServerReport);
 
-        m_pNetServer->AddRecvCallback(this, &AFCMasterNetServerModule::InvalidMessage);
+        //m_pNetServer->AddNetRecvCallback(this, &AFCMasterNetServerModule::InvalidMessage);
 
-        m_pNetServer->AddEventCallBack(this, &AFCMasterNetServerModule::OnSocketEvent);
+        //m_pNetServer->AddEventCallBack(this, &AFCMasterNetServerModule::OnSocketEvent);
 
         return 0;
     }
 
-    void AFCMasterNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
-    {
-        switch (event)
-        {
-        case CONNECTED:
-            {
-                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
-                OnClientConnected(conn_id);
-            }
-            break;
-        case DISCONNECTED:
-            {
-                ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
-                OnClientDisconnect(bus_id, conn_id);
-            }
-            break;
-        default:
-            break;
-        }
-    }
+    //void AFCMasterNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
+    //{
+    //    switch (event)
+    //    {
+    //    case CONNECTED:
+    //        {
+    //            ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+    //            OnClientConnected(conn_id);
+    //        }
+    //        break;
+    //    case DISCONNECTED:
+    //        {
+    //            ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+    //            OnClientDisconnect(bus_id, conn_id);
+    //        }
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 
-    void AFCMasterNetServerModule::OnClientConnected(const AFGUID& conn_id)
-    {
-        //连接上来啥都不做
-    }
+    //void AFCMasterNetServerModule::OnClientConnected(const AFGUID& conn_id)
+    //{
+    //    //连接上来啥都不做
+    //}
 
-    void AFCMasterNetServerModule::OnClientDisconnect(int bus_id, const AFGUID& conn_id)
-    {
-        reg_servers_.RemoveElement(bus_id);
-    }
+    //void AFCMasterNetServerModule::OnClientDisconnect(int bus_id, const AFGUID& conn_id)
+    //{
+    //    reg_servers_.RemoveElement(bus_id);
+    //}
 
     //void AFCMasterNetServerModule::OnWorldRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     //{
@@ -283,15 +283,15 @@ namespace ark
     //    }
     //}
 
-    void AFCMasterNetServerModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        //do nothing
-    }
+    //void AFCMasterNetServerModule::OnHeartBeat(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    //do nothing
+    //}
 
-    void AFCMasterNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
-    {
-        ARK_LOG_ERROR("Invalid msg id = {}", msg_id);
-    }
+    //void AFCMasterNetServerModule::InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    //{
+    //    ARK_LOG_ERROR("Invalid msg id = {}", msg_id);
+    //}
 
     //////////////////////////////////////////////////////////////////////////
     void AFCMasterNetServerModule::OnTimerLogServer(const std::string& name, const AFGUID& id)

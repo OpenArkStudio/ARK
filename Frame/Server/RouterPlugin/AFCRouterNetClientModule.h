@@ -44,13 +44,13 @@ namespace ark
     protected:
         int StartClient();
 
-        void Register(const int bus_id);
-        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
+        //void Register(const int bus_id);
+        //void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
-        void OnClientConnected(const AFGUID& xClientID);
-        void OnClientDisconnect(const AFGUID& xClientID);
+        //void OnClientConnected(const AFGUID& xClientID);
+        //void OnClientDisconnect(const AFGUID& xClientID);
 
-        void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        //void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
     private:
         AFILogModule* m_pLogModule;

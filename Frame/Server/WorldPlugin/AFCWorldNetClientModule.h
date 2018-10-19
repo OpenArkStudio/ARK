@@ -47,22 +47,22 @@ namespace ark
     protected:
         int StartClient();
 
-        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
+        //void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
-        //连接丢失,删2层(连接对象，帐号对象)
-        void OnClientDisconnect(const AFGUID& xClientID);
-        //有连接
-        void OnClientConnected(const AFGUID& xClientID);
+        ////连接丢失,删2层(连接对象，帐号对象)
+        //void OnClientDisconnect(const AFGUID& xClientID);
+        ////有连接
+        //void OnClientConnected(const AFGUID& xClientID);
 
         virtual void LogServerInfo(const std::string& strServerInfo);
 
-        void Register(const int bus_id);
+        //void Register(const int bus_id);
         void RefreshWorldInfo();
 
         void OnSelectServerProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
         void OnKickClientProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
 
-        void InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        //void InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
 
     private:
         AFILogModule* m_pLogModule;

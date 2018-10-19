@@ -56,72 +56,72 @@ namespace ark
             return 0;
         }
 
-        pNetClientWorld->AddRecvCallback(this, &AFCRouterNetClientModule::InvalidMessage);
-        pNetClientWorld->AddEventCallBack(this, &AFCRouterNetClientModule::OnSocketEvent);
+        //pNetClientWorld->AddNetRecvCallback(this, &AFCRouterNetClientModule::InvalidMessage);
+        //pNetClientWorld->AddNetEventCallBack(this, &AFCRouterNetClientModule::OnSocketEvent);
 
         return 0;
     }
 
-    void AFCRouterNetClientModule::Register(const int bus_id)
-    {
-        AFINetClientService* pNetClient = m_pNetClientManagerModule->GetNetClientServiceByBusID(bus_id);
-        if (pNetClient == nullptr)
-        {
-            ARK_ASSERT_NO_EFFECT(0);
-            return;
-        }
+    //void AFCRouterNetClientModule::Register(const int bus_id)
+    //{
+    //    AFINetClientService* pNetClient = m_pNetClientManagerModule->GetNetClientServiceByBusID(bus_id);
+    //    if (pNetClient == nullptr)
+    //    {
+    //        ARK_ASSERT_NO_EFFECT(0);
+    //        return;
+    //    }
 
-        const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
-        if (server_config == nullptr)
-        {
-            ARK_ASSERT_NO_EFFECT(0);
-            return;
-        }
+    //    const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
+    //    if (server_config == nullptr)
+    //    {
+    //        ARK_ASSERT_NO_EFFECT(0);
+    //        return;
+    //    }
 
-        AFMsg::ServerInfoReportList xMsg;
-        AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
+    //    AFMsg::ServerInfoReportList xMsg;
+    //    AFMsg::ServerInfoReport* pData = xMsg.add_server_list();
 
-        pData->set_bus_id(server_config->self_id);
-        pData->set_cur_online(0);
-        pData->set_url(server_config->public_ep_.to_string());
-        pData->set_max_online(server_config->max_connection);
-        pData->set_logic_status(AFMsg::EST_NARMAL);
+    //    pData->set_bus_id(server_config->self_id);
+    //    pData->set_cur_online(0);
+    //    pData->set_url(server_config->public_ep_.to_string());
+    //    pData->set_max_online(server_config->max_connection);
+    //    pData->set_logic_status(AFMsg::EST_NARMAL);
 
-        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg);
-        ARK_LOG_INFO("Register self server_id = {}", pData->bus_id());
-    }
+    //    m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::EGameMsgID::EGMI_GTW_GAME_REGISTERED, xMsg);
+    //    ARK_LOG_INFO("Register self server_id = {}", pData->bus_id());
+    //}
 
-    void AFCRouterNetClientModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-    {
-        ARK_LOG_ERROR("invalid msg id = {}", nMsgID);
-    }
+    //void AFCRouterNetClientModule::InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    //{
+    //    ARK_LOG_ERROR("invalid msg id = {}", nMsgID);
+    //}
 
-    void AFCRouterNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
-    {
-        switch (event)
-        {
-        case CONNECTED:
-            {
-                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
-                Register(bus_id);
-            }
-            break;
-        case DISCONNECTED:
-            ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
-            break;
-        default:
-            break;
-        }
-    }
+    //void AFCRouterNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
+    //{
+    //    switch (event)
+    //    {
+    //    case CONNECTED:
+    //        {
+    //            ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+    //            Register(bus_id);
+    //        }
+    //        break;
+    //    case DISCONNECTED:
+    //        ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 
-    void AFCRouterNetClientModule::OnClientDisconnect(const AFGUID& xClientID)
-    {
-        //do something
-    }
+    //void AFCRouterNetClientModule::OnClientDisconnect(const AFGUID& xClientID)
+    //{
+    //    //do something
+    //}
 
-    void AFCRouterNetClientModule::OnClientConnected(const AFGUID& xClientID)
-    {
-        //do something
-    }
+    //void AFCRouterNetClientModule::OnClientConnected(const AFGUID& xClientID)
+    //{
+    //    //do something
+    //}
 
 }

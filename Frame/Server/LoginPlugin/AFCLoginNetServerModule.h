@@ -45,10 +45,10 @@ namespace ark
     protected:
         int StartServer();
 
-        void OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip,  int bus_id);
+        //void OnSocketClientEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip,  int bus_id);
 
-        void OnClientDisconnect(const AFGUID& xClientID);
-        void OnClientConnected(const AFGUID& xClientID);
+        //void OnClientDisconnect(const AFGUID& xClientID);
+        //void OnClientConnected(const AFGUID& xClientID);
 
         //登入
         void OnLoginProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
@@ -61,7 +61,7 @@ namespace ark
 
         void OnHeartBeat(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
         void OnLogOut(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        //void InvalidMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
         void SynWorldToClient(const AFGUID& xClientID);
 

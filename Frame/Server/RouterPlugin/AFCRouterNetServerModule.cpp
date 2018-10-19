@@ -65,35 +65,35 @@ namespace ark
 
         //m_pNetServer->AddRecvCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
 
-        m_pNetServer->AddEventCallBack(this, &AFCRouterNetServerModule::OnSocketEvent);
+        //m_pNetServer->AddNetEventCallBack(this, &AFCRouterNetServerModule::OnSocketEvent);
 
         return 0;
     }
 
-    void AFCRouterNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
-    {
-        switch (event)
-        {
-        case CONNECTED:
-            OnClientConnected(conn_id);
-            break;
-        case DISCONNECTED:
-            OnClientDisconnect(conn_id);
-            break;
-        default:
-            break;
-        }
-    }
+    //void AFCRouterNetServerModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
+    //{
+    //    switch (event)
+    //    {
+    //    case CONNECTED:
+    //        OnClientConnected(conn_id);
+    //        break;
+    //    case DISCONNECTED:
+    //        OnClientDisconnect(conn_id);
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 
-    void AFCRouterNetServerModule::OnClientConnected(const AFGUID& conn_id)
-    {
-        ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
-    }
+    //void AFCRouterNetServerModule::OnClientConnected(const AFGUID& conn_id)
+    //{
+    //    ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+    //}
 
-    void AFCRouterNetServerModule::OnClientDisconnect(const AFGUID& conn_id)
-    {
-        ARK_LOG_ERROR("Connection closed, id = {}", conn_id.ToString());
-    }
+    //void AFCRouterNetServerModule::OnClientDisconnect(const AFGUID& conn_id)
+    //{
+    //    ARK_LOG_ERROR("Connection closed, id = {}", conn_id.ToString());
+    //}
 
     AFINetServerService* AFCRouterNetServerModule::GetNetServer()
     {

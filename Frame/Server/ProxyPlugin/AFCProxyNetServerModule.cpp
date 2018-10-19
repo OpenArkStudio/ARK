@@ -68,16 +68,16 @@ namespace ark
             return ret;
         }
 
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_CONNECT_KEY, this, &AFCProxyNetServerModule::OnConnectKeyProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCProxyNetServerModule::OnReqServerListProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_SELECT_SERVER, this, &AFCProxyNetServerModule::OnSelectServerProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCProxyNetServerModule::OnReqRoleListProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCProxyNetServerModule::OnReqCreateRoleProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCProxyNetServerModule::OnReqDelRoleProcess);
-        m_pNetServer->AddRecvCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCProxyNetServerModule::OnReqEnterGameServer);
-        m_pNetServer->AddRecvCallback(this, &AFCProxyNetServerModule::OnOtherMessage);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_CONNECT_KEY, this, &AFCProxyNetServerModule::OnConnectKeyProcess);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCProxyNetServerModule::OnReqServerListProcess);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_SELECT_SERVER, this, &AFCProxyNetServerModule::OnSelectServerProcess);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCProxyNetServerModule::OnReqRoleListProcess);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCProxyNetServerModule::OnReqCreateRoleProcess);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCProxyNetServerModule::OnReqDelRoleProcess);
+        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCProxyNetServerModule::OnReqEnterGameServer);
+        //m_pNetServer->AddNetRecvCallback(this, &AFCProxyNetServerModule::OnTransMessage);
 
-        m_pNetServer->AddEventCallBack(this, &AFCProxyNetServerModule::OnSocketEvent);
+        //m_pNetServer->AddNetEventCallBack(this, &AFCProxyNetServerModule::OnSocketEvent);
 
         return 0;
     }
@@ -94,25 +94,25 @@ namespace ark
         return 0;
     }
 
-    void AFCProxyNetServerModule::OnOtherMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
-    {
-        ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
+    //void AFCProxyNetServerModule::OnTransMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    //{
+    //    ARK_SHARE_PTR<AFSessionData> pSessionData = mmSessionData.GetElement(xClientID);
 
-        if (!pSessionData || pSessionData->mnLogicState <= 0 || pSessionData->mnGameID <= 0)
-        {
-            //state error
-            return;
-        }
+    //    if (!pSessionData || pSessionData->mnLogicState <= 0 || pSessionData->mnGameID <= 0)
+    //    {
+    //        //state error
+    //        return;
+    //    }
 
-        if (pSessionData->mnUserID != xHead.GetUID())
-        {
-            //when after entergame xHead.GetPlayerID() is really palyerID
-            ARK_LOG_ERROR("xHead.GetPlayerID() is not really palyerID, id = {}", xHead.GetUID().ToString());
-            return;
-        }
+    //    if (pSessionData->mnUserID != xHead.GetUID())
+    //    {
+    //        //when after entergame xHead.GetPlayerID() is really palyerID
+    //        ARK_LOG_ERROR("xHead.GetPlayerID() is not really palyerID, id = {}", xHead.GetUID().ToString());
+    //        return;
+    //    }
 
-        m_pMsgModule->SendSSMsg(pSessionData->mnGameID, nMsgID, msg, nLen, xHead.GetUID());
-    }
+    //    m_pMsgModule->SendSSMsg(pSessionData->mnGameID, nMsgID, msg, nLen, xHead.GetUID());
+    //}
 
     void AFCProxyNetServerModule::OnConnectKeyProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {

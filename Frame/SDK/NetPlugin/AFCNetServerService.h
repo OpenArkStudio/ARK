@@ -38,15 +38,15 @@ namespace ark
         bool Start(const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) override;
         bool Update() override;
 
-        bool SendBroadcastMsg(const int msg_id, const std::string& msg, const AFGUID& player_id) override;
-        bool SendBroadcastPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& player_id) override;
-        bool SendPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
-        bool SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
+        //bool SendBroadcastMsg(const int msg_id, const std::string& msg, const AFGUID& player_id) override;
+        //bool SendBroadcastPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& player_id) override;
+        //bool SendPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
+        //bool SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
         AFINet* GetNet() override;
 
-        bool AddRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
-        bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
-        bool AddEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) override;
+        bool AddNetRecvCallback(const int msg_id, const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
+        //bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
+        bool AddNetEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) override;
 
     protected:
         void OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id);
@@ -63,9 +63,9 @@ namespace ark
 
         AFINet* m_pNet{ nullptr };
 
-        std::map<int, NET_PKG_RECV_FUNCTOR_PTR> mxRecvCallBack;
-        std::list<NET_EVENT_FUNCTOR_PTR> mxEventCallBackList;
-        std::list<NET_PKG_RECV_FUNCTOR_PTR> mxCallBackList;
+        std::map<int, NET_PKG_RECV_FUNCTOR_PTR> net_recv_callbacks_;
+        std::list<NET_EVENT_FUNCTOR_PTR> net_event_callbacks_;
+        //std::list<NET_PKG_RECV_FUNCTOR_PTR> mxCallBackList;
 
         AFMapEx<int, AFServerData> reg_clients_;
     };

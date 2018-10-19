@@ -44,10 +44,10 @@ namespace ark
 
     protected:
         int StartServer();
-        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
+        //void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
-        void OnClientConnected(const AFGUID& xClientID);
-        void OnClientDisconnect(int bus_id, const AFGUID& xClientID);
+        //void OnClientConnected(const AFGUID& xClientID);
+        //void OnClientDisconnect(int bus_id, const AFGUID& xClientID);
 
         //////////////////////////////////////////////////////////////////////////
         void OnTimerLogServer(const std::string& name, const AFGUID& id);
@@ -77,8 +77,8 @@ namespace ark
 
         //void SynWorldToLogin();
 
-        void OnHeartBeat(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
-        void InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        //void OnHeartBeat(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        //void InvalidMessage(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
 
     private:
         AFMapEx<int, AFServerData> reg_servers_;

@@ -49,9 +49,9 @@ namespace ark
 
     protected:
         int StartClient();
-        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
+        //void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
 
-        void Register(const int nServerID);
+        //void Register(const int nServerID);
 
         void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
         void OnServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
@@ -84,7 +84,6 @@ namespace ark
         AFIBusModule* m_pBusModule;
         AFIProxyNetServerModule* m_pProxyServerNet_ServerModule;
         AFINetClientManagerModule* m_pNetClientManagerModule;
-
 
         //std::map<int, std::map<int, AFMsg::msg_ss_server_report>> proxy_server_infos_; //map<busid-without-inst, map<bus_id, msg_ss_server_report>>
     };

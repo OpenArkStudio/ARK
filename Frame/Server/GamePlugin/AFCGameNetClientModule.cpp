@@ -65,8 +65,12 @@ namespace ark
             return -1;
         }
 
-        pNetClient->AddRecvCallback(this, &AFCGameNetClientModule::TransPBToProxy);
-        pNetClient->AddEventCallBack(this, &AFCGameNetClientModule::OnSocketEvent);
+        //TODO:will add a transfer callback
+        //pNetClient->AddNetRecvCallback(this, &AFCGameNetClientModule::TransPBToProxy);
+
+
+
+        //pNetClient->AddNetEventCallBack(this, &AFCGameNetClientModule::OnSocketEvent);
 
         return 0;
     }
@@ -160,10 +164,10 @@ namespace ark
         m_pMsgModule->SendSuitSSMsg(ARK_APP_WORLD, xGuild.nLow, AFMsg::EGMI_ACK_OFFLINE_NOTIFY, xMsg, self);
     }
 
-    void AFCGameNetClientModule::TransPBToProxy(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+    void AFCGameNetClientModule::TransPBToProxy(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
     {
-        ARK_PROCESS_ACTOR_STRING_MSG(xHead, msg, nLen);
-        m_pGameNetServerModule->SendMsgPBToGate(nMsgID, msg_data, actor_id);
+        ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len);
+        m_pGameNetServerModule->SendMsgPBToGate(msg_id, msg_data, actor_id);
     }
 
 }

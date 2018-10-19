@@ -60,12 +60,12 @@ namespace ark
             return -1;
         }
 
-        pNetClientWorld->AddRecvCallback(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyNetClientModule::OnSelectServerResultProcess);
-        pNetClientWorld->AddRecvCallback(AFMsg::EGMI_STS_NET_INFO, this, &AFCProxyNetClientModule::OnServerInfoProcess);
-        pNetClientWorld->AddRecvCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetClientModule::OnBrocastmsg);
+        pNetClientWorld->AddNetRecvCallback(AFMsg::EGMI_ACK_CONNECT_WORLD, this, &AFCProxyNetClientModule::OnSelectServerResultProcess);
+        pNetClientWorld->AddNetRecvCallback(AFMsg::EGMI_STS_NET_INFO, this, &AFCProxyNetClientModule::OnServerInfoProcess);
+        pNetClientWorld->AddNetRecvCallback(AFMsg::EGMI_GTG_BROCASTMSG, this, &AFCProxyNetClientModule::OnBrocastmsg);
         //pNetClientWorld->AddRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, this, &AFCProxyNetClientModule::OnRecvServerNotify);
-        pNetClientWorld->AddRecvCallback(this, &AFCProxyNetClientModule::OnOtherMessage);
-        pNetClientWorld->AddEventCallBack(this, &AFCProxyNetClientModule::OnSocketEvent);
+        //pNetClientWorld->AddNetRecvCallback(this, &AFCProxyNetClientModule::OnOtherMessage);
+        //pNetClientWorld->AddEventCallBack(this, &AFCProxyNetClientModule::OnSocketEvent);
 
 
         //AFINetClientService* pNetClientGame = m_pNetClientManagerModule->GetNetClientService(ARK_APP_TYPE::ARK_APP_GAME);
@@ -101,51 +101,51 @@ namespace ark
         //}
     }
 
-    void AFCProxyNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
-    {
-        switch (event)
-        {
-        case CONNECTED:
-            {
-                ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
-                Register(bus_id);
-            }
-            break;
-        case DISCONNECTED:
-            ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
-            break;
-        default:
-            break;
-        }
-    }
+    //void AFCProxyNetClientModule::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
+    //{
+    //    switch (event)
+    //    {
+    //    case CONNECTED:
+    //        {
+    //            ARK_LOG_INFO("Connected success, id = {}", conn_id.ToString());
+    //            Register(bus_id);
+    //        }
+    //        break;
+    //    case DISCONNECTED:
+    //        ARK_LOG_INFO("Connection closed, id = {}", conn_id.ToString());
+    //        break;
+    //    default:
+    //        break;
+    //    }
+    //}
 
-    void AFCProxyNetClientModule::Register(const int bus_id)
-    {
-        AFINetClientService* pNetClient = m_pNetClientManagerModule->GetNetClientServiceByBusID(bus_id);
-        if (pNetClient == nullptr)
-        {
-            ARK_ASSERT_NO_EFFECT(0);
-            return;
-        }
+    //void AFCProxyNetClientModule::Register(const int bus_id)
+    //{
+    //    AFINetClientService* pNetClient = m_pNetClientManagerModule->GetNetClientServiceByBusID(bus_id);
+    //    if (pNetClient == nullptr)
+    //    {
+    //        ARK_ASSERT_NO_EFFECT(0);
+    //        return;
+    //    }
 
-        const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
-        if (server_config == nullptr)
-        {
-            ARK_ASSERT_NO_EFFECT(0);
-            return;
-        }
+    //    const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
+    //    if (server_config == nullptr)
+    //    {
+    //        ARK_ASSERT_NO_EFFECT(0);
+    //        return;
+    //    }
 
-        AFMsg::msg_ss_server_report msg;
+    //    AFMsg::msg_ss_server_report msg;
 
-        msg.set_bus_id(server_config->self_id);
-        msg.set_cur_online(0);
-        msg.set_url(server_config->public_ep_.to_string());
-        msg.set_max_online(server_config->max_connection);
-        msg.set_logic_status(AFMsg::E_ST_NARMAL);
+    //    msg.set_bus_id(server_config->self_id);
+    //    msg.set_cur_online(0);
+    //    msg.set_url(server_config->public_ep_.to_string());
+    //    msg.set_max_online(server_config->max_connection);
+    //    msg.set_logic_status(AFMsg::E_ST_NARMAL);
 
-        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg);
-        ARK_LOG_INFO("Register self server_id = {}, target_id = {}", server_config->self_id, bus_id);
-    }
+    //    m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg);
+    //    ARK_LOG_INFO("Register self server_id = {}, target_id = {}", server_config->self_id, bus_id);
+    //}
 
     void AFCProxyNetClientModule::OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
     {
