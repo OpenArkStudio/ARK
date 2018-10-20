@@ -32,7 +32,7 @@ namespace ark
         m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
         m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-        m_pGameServerNet_ServerModule = pPluginManager->FindModule<AFIGameNetServerModule>();
+        m_pGameNetModule = pPluginManager->FindModule<AFIGameNetModule>();
 
         m_pKernelModule->AddClassCallBack(ark::Player::ThisName(), this, &AFCSceneProcessModule::OnObjectClassEvent);
 

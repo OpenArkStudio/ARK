@@ -103,9 +103,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AFCNetClientService.cpp" />
-    <ClCompile Include="AFCNetClientManagerModule.cpp" />
     <ClCompile Include="AFCNetServerService.cpp" />
-    <ClCompile Include="AFCNetServerManagerModule.cpp" />
+    <ClCompile Include="AFCNetServiceManagerModule.cpp" />
     <ClCompile Include="AFCTCPClient.cpp" />
     <ClCompile Include="AFCTCPServer.cpp" />
     <ClCompile Include="AFCWebSocktClient.cpp" />
@@ -122,9 +121,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCNetClientService.h" />
-    <ClInclude Include="AFCNetClientManagerModule.h" />
     <ClInclude Include="AFCNetServerService.h" />
-    <ClInclude Include="AFCNetServerManagerModule.h" />
+    <ClInclude Include="AFCNetServiceManagerModule.h" />
     <ClInclude Include="AFCTCPClient.h" />
     <ClInclude Include="AFCTCPServer.h" />
     <ClInclude Include="AFCWebSocktClient.h" />

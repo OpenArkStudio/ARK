@@ -20,11 +20,10 @@
 
 #pragma once
 
-#include "SDK/Interface/AFINetClientManagerModule.h"
-#include "SDK/Interface/AFINetServerManagerModule.h"
+#include "SDK/Interface/AFINetServiceManagerModule.h"
 #include "SDK/Interface/AFIBusModule.h"
-#include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIMsgModule.h"
 
 namespace ark
 {
@@ -45,9 +44,8 @@ namespace ark
         bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
 
     private:
+        AFINetServiceManagerModule* m_pNetServiceManagerModule;
         AFIBusModule* m_pBusModule;
-        AFINetClientManagerModule* m_pNetClientManagerModule;
-        AFINetServerManagerModule* m_pNetServerManagerModule;
         AFILogModule* m_pLogModule;
     };
 

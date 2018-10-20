@@ -19,8 +19,7 @@
 */
 
 #include "AFWorldPlugin.h"
-#include "AFCWorldNetServerModule.h"
-#include "AFCWorldNetClientModule.h"
+#include "AFCWorldNetModule.h"
 
 namespace ark
 {
@@ -41,14 +40,12 @@ namespace ark
 
     void AFWorldPlugin::Install()
     {
-        RegisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
-        RegisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
+        RegisterModule<AFIWorldNetModule, AFCWorldNetModule>();
     }
 
     void AFWorldPlugin::Uninstall()
     {
-        DeregisterModule<AFIWorldNetClientModule, AFCWorldNetClientModule>();
-        DeregisterModule<AFIWorldNetServerModule, AFCWorldNetServerModule>();
+        DeregisterModule<AFIWorldNetModule, AFCWorldNetModule>();
     }
 
 }

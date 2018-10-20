@@ -3,25 +3,10 @@
   <ItemGroup>
     <ClCompile Include="AFWorldPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="AFCWorldNetServerModule.cpp">
-      <Filter>NetModule</Filter>
-    </ClCompile>
-    <ClCompile Include="AFCWorldNetClientModule.cpp">
-      <Filter>NetModule</Filter>
-    </ClCompile>
+    <ClCompile Include="AFCWorldNetModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFWorldPlugin.h" />
-    <ClInclude Include="AFCWorldNetServerModule.h">
-      <Filter>NetModule</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCWorldNetClientModule.h">
-      <Filter>NetModule</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="NetModule">
-      <UniqueIdentifier>{7d38ba3a-0285-445a-9b20-1c29935054f4}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="AFCWorldNetModule.h" />
   </ItemGroup>
 </Project>

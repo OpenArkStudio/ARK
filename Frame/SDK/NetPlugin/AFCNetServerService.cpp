@@ -1,6 +1,4 @@
-﻿#include "SDK/Interface/AFIMsgModule.h"
-#include "SDK/Interface/AFINetServerManagerModule.h"
-#include "SDK/Interface/AFIPluginManager.h"
+﻿#include "SDK/Interface/AFIPluginManager.h"
 #include "AFCTCPServer.h"
 #include "AFCNetServerService.h"
 
@@ -10,12 +8,13 @@ namespace ark
     AFCNetServerService::AFCNetServerService(AFIPluginManager* p) :
         m_pPluginManager(p)
     {
-        m_pNetServerManagerModule = m_pPluginManager->FindModule<AFINetServerManagerModule>();
+        m_pNetServiceManagerModule = m_pPluginManager->FindModule<AFINetServiceManagerModule>();
         m_pLogModule = m_pPluginManager->FindModule<AFILogModule>();
         m_pMsgModule = m_pPluginManager->FindModule<AFIMsgModule>();
 
-        ARK_ASSERT_NO_EFFECT(m_pNetServerManagerModule != nullptr &&
-                             m_pLogModule != nullptr);
+        ARK_ASSERT_NO_EFFECT(m_pNetServiceManagerModule != nullptr &&
+                             m_pLogModule != nullptr &&
+                             m_pMsgModule != nullptr);
     }
 
     AFCNetServerService::~AFCNetServerService()
@@ -179,7 +178,7 @@ namespace ark
             break;
         case DISCONNECTED:
             ARK_LOG_INFO("Disconnected server = {} succenssfully, ip = {}, conn_id = {}", AFBusAddr(bus_id).ToString(), ip, conn_id.ToString());
-            m_pNetServerManagerModule->RemoveNetConnectionBus(bus_id);
+            m_pNetServiceManagerModule->RemoveNetConnectionBus(bus_id);
             break;
         default:
             break;
@@ -196,7 +195,7 @@ namespace ark
         ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_report);
 
         //Add server_bus_id -> client_bus_id relationship with net
-        m_pNetServerManagerModule->AddNetConnectionBus(x_msg.bus_id(), m_pNet);
+        m_pNetServiceManagerModule->AddNetConnectionBus(x_msg.bus_id(), m_pNet);
         //////////////////////////////////////////////////////////////////////////
         ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_clients_.GetElement(x_msg.bus_id());
         if (nullptr == server_data_ptr)

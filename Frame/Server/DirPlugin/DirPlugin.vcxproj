@@ -11,14 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCDirNetServerModule.cpp" />
-    <ClCompile Include="AFCDirNetClientModule.cpp" />
+    <ClCompile Include="AFCDirNetModule.cpp" />
     <ClCompile Include="AFDirPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCDirNetServerModule.h" />
-    <ClInclude Include="AFCDirNetClientModule.h" />
+    <ClInclude Include="AFCDirNetModule.h" />
     <ClInclude Include="AFDirPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

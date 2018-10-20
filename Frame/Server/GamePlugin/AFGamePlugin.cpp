@@ -24,8 +24,7 @@
 #include "AFCLevelModule.h"
 #include "AFCPropertyConfigModule.h"
 #include "AFCAccountModule.h"
-#include "AFCGameNetServerModule.h"
-#include "AFCGameNetClientModule.h"
+#include "AFCGameNetModule.h"
 
 namespace ark
 {
@@ -51,14 +50,12 @@ namespace ark
         RegisterModule<AFILevelModule, AFCLevelModule>();
         RegisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
         RegisterModule<AFIAccountModule, AFCAccountModule>();
-        RegisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
-        RegisterModule<AFIGameNetClientModule, AFCGameNetClientModule>();
+        RegisterModule<AFCGameNetModule, AFCGameNetModule>();
     }
 
     void AFGamePlugin::Uninstall()
     {
-        DeregisterModule<AFIGameNetClientModule, AFCGameNetClientModule>();
-        DeregisterModule<AFIGameNetServerModule, AFCGameNetServerModule>();
+        DeregisterModule<AFCGameNetModule, AFCGameNetModule>();
         DeregisterModule<AFIAccountModule, AFCAccountModule>();
         DeregisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
         DeregisterModule<AFILevelModule, AFCLevelModule>();

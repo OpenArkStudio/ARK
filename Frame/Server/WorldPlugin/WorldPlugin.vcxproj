@@ -11,14 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCWorldNetServerModule.cpp" />
-    <ClCompile Include="AFCWorldNetClientModule.cpp" />
+    <ClCompile Include="AFCWorldNetModule.cpp" />
     <ClCompile Include="AFWorldPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCWorldNetServerModule.h" />
-    <ClInclude Include="AFCWorldNetClientModule.h" />
+    <ClInclude Include="AFCWorldNetModule.h" />
     <ClInclude Include="AFWorldPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -11,14 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCLoginNetClientModule.cpp" />
-    <ClCompile Include="AFCLoginNetServerModule.cpp" />
+    <ClCompile Include="AFCLoginNetModule.cpp" />
     <ClCompile Include="AFLoginPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCLoginNetClientModule.h" />
-    <ClInclude Include="AFCLoginNetServerModule.h" />
+    <ClInclude Include="AFCLoginNetModule.h" />
     <ClInclude Include="AFLoginPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

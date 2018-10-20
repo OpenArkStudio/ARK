@@ -19,8 +19,7 @@
 */
 
 #include "AFLoginPlugin.h"
-#include "AFCLoginNetServerModule.h"
-#include "AFCLoginNetClientModule.h"
+#include "AFCLoginNetModule.h"
 
 namespace ark
 {
@@ -41,14 +40,12 @@ namespace ark
 
     void AFLoginPlugin::Install()
     {
-        RegisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
-        RegisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
+        RegisterModule<AFILoginNetModule, AFCLoginNetModule>();
     }
 
     void AFLoginPlugin::Uninstall()
     {
-        DeregisterModule<AFILoginNetClientModule, AFCLoginNetClientModule>();
-        DeregisterModule<AFILoginNetServerModule, AFCLoginNetServerModule>();
+        DeregisterModule<AFILoginNetModule, AFCLoginNetModule>();
     }
 
 }

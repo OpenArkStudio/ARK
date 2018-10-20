@@ -7,8 +7,7 @@ namespace ark
     bool AFCMsgModule::Init()
     {
         m_pBusModule = pPluginManager->FindModule<AFIBusModule>();
-        m_pNetClientManagerModule = pPluginManager->FindModule<AFINetClientManagerModule>();
-        m_pNetServerManagerModule = pPluginManager->FindModule<AFINetServerManagerModule>();
+        m_pNetServiceManagerModule = pPluginManager->FindModule<AFINetServiceManagerModule>();
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
         return true;
@@ -58,16 +57,10 @@ namespace ark
 
     bool AFCMsgModule::SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id/* = 0*/)
     {
-        AFINet* client_service_ptr = m_pNetClientManagerModule->GetNetConnectionBus(src_bus, target_bus);
-        if (client_service_ptr != nullptr)
+        AFINet* net_ptr = m_pNetServiceManagerModule->GetNetConnectionBus(src_bus, target_bus);
+        if (net_ptr != nullptr)
         {
-            return client_service_ptr->SendRawMsg(msg_id, msg, msg_len, conn_id, actor_id);
-        }
-
-        AFINet* server_service_ptr = m_pNetServerManagerModule->GetNetConnectionBus(src_bus, target_bus);
-        if (server_service_ptr != nullptr)
-        {
-            return server_service_ptr->SendRawMsg(msg_id, msg, msg_len, conn_id, actor_id);
+            return net_ptr->SendRawMsg(msg_id, msg, msg_len, conn_id, actor_id);
         }
 
         ARK_LOG_ERROR("send ss msg error, src_bus={} target_bus={} msg_id={} conn_id={} target_role_id={}", src_bus, target_bus, msg_id, conn_id.ToString(), actor_id.ToString());

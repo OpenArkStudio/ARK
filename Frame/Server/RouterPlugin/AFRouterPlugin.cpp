@@ -19,8 +19,7 @@
 */
 
 #include "AFRouterPlugin.h"
-#include "AFCRouterNetServerModule.h"
-#include "AFCRouterNetClientModule.h"
+#include "AFCRouterNetModule.h"
 
 namespace ark
 {
@@ -41,14 +40,12 @@ namespace ark
 
     void AFRouterPlugin::Install()
     {
-        RegisterModule<AFIRouterNetServerModule, AFCRouterNetServerModule>();
-        RegisterModule<AFIRouterNetClientModule, AFCRouterNetClientModule>();
+        RegisterModule<AFIRouterNetModule, AFCRouterNetModule>();
     }
 
     void AFRouterPlugin::Uninstall()
     {
-        DeregisterModule<AFIRouterNetClientModule, AFCRouterNetClientModule>();
-        DeregisterModule<AFIRouterNetServerModule, AFCRouterNetServerModule>();
+        DeregisterModule<AFIRouterNetModule, AFCRouterNetModule>();
     }
 
 }

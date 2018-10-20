@@ -7,12 +7,12 @@ namespace ark
 
     AFCNetClientService::AFCNetClientService(AFIPluginManager* p) : m_pPluginManager(p)
     {
-        m_pNetClientManagerModule = m_pPluginManager->FindModule<AFINetClientManagerModule>();
+        m_pNetServiceManagerModule = m_pPluginManager->FindModule<AFINetServiceManagerModule>();
         m_pBusModule = m_pPluginManager->FindModule<AFIBusModule>();
         m_pMsgModule = m_pPluginManager->FindModule<AFIMsgModule>();
         m_pLogModule = m_pPluginManager->FindModule<AFILogModule>();
 
-        ARK_ASSERT_RET_NONE(m_pNetClientManagerModule != nullptr &&
+        ARK_ASSERT_RET_NONE(m_pNetServiceManagerModule != nullptr &&
                             m_pBusModule != nullptr &&
                             m_pMsgModule != nullptr &&
                             m_pLogModule != nullptr);
@@ -244,7 +244,7 @@ namespace ark
             pServerInfo->net_state_ = AFConnectionData::CONNECTED;
 
             //add server-bus-id -> client-bus-id
-            m_pNetClientManagerModule->AddNetConnectionBus(bus_id, pServerInfo->net_client_ptr_);
+            m_pNetServiceManagerModule->AddNetConnectionBus(bus_id, pServerInfo->net_client_ptr_);
             //register to this server
             RegisterToServer(bus_id);
         }
@@ -284,16 +284,8 @@ namespace ark
             RemoveServerWeightData(pServerInfo);
             pServerInfo->net_state_ = AFConnectionData::DISCONNECT;
             pServerInfo->last_active_time_ = m_pPluginManager->GetNowTime();
-
-            AFINetClientManagerModule* net_client_manager_module = m_pPluginManager->FindModule<AFINetClientManagerModule>();
-            if (net_client_manager_module != nullptr)
-            {
-                net_client_manager_module->RemoveNetConnectionBus(bus_id);
-            }
-            else
-            {
-                ARK_ASSERT_NO_EFFECT(net_client_manager_module != nullptr);
-            }
+            //remove net bus
+            m_pNetServiceManagerModule->RemoveNetConnectionBus(bus_id);
         }
 
         return 0;
@@ -516,7 +508,7 @@ namespace ark
             }
 
             //Create single cluster client with bus id and url
-            m_pNetClientManagerModule->CreateClusterClient(report.bus_id(), report.url());
+            m_pNetServiceManagerModule->CreateClusterClient(report.bus_id(), report.url());
 
             //管理为三个数值，channel zone proc
             AFBusAddr bus_addr(report.bus_id());

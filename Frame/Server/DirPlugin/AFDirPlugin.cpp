@@ -19,8 +19,7 @@
 */
 
 #include "AFDirPlugin.h"
-#include "AFCDirNetServerModule.h"
-#include "AFCDirNetClientModule.h"
+#include "AFCDirNetModule.h"
 
 namespace ark
 {
@@ -41,14 +40,12 @@ namespace ark
 
     void AFDirPlugin::Install()
     {
-        RegisterModule<AFIDirNetServerModule, AFCDirNetServerModule>();
-        RegisterModule<AFIDirNetClientModule, AFCDirNetClientModule>();
+        RegisterModule<AFIDirNetModule, AFCDirNetModule>();
     }
 
     void AFDirPlugin::Uninstall()
     {
-        DeregisterModule<AFIDirNetClientModule, AFCDirNetClientModule>();
-        DeregisterModule<AFIDirNetServerModule, AFCDirNetServerModule>();
+        DeregisterModule<AFIDirNetModule, AFCDirNetModule>();
     }
 
 }

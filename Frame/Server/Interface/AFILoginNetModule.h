@@ -2,7 +2,7 @@
 * This source file is part of ArkGameFrame
 * For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2017 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -18,34 +18,19 @@
 *
 */
 
-#include "AFProxyPlugin.h"
-#include "AFCProxyNetModule.h"
+#pragma once
+
+#include "SDK/Interface/AFIModule.h"
+#include "Common/AFProtoCPP.hpp"
+#include "SDK/Core/AFMap.hpp"
 
 namespace ark
 {
 
-    ARK_DLL_PLUGIN_ENTRY(AFProxyPlugin)
-    ARK_DLL_PLUGIN_EXIT(AFProxyPlugin)
-
-    //////////////////////////////////////////////////////////////////////////
-    int AFProxyPlugin::GetPluginVersion()
+    class AFILoginNetModule : public AFIModule
     {
-        return 0;
-    }
-
-    const std::string AFProxyPlugin::GetPluginName()
-    {
-        return GET_CLASS_NAME(AFProxyPlugin)
-    }
-
-    void AFProxyPlugin::Install()
-    {
-        RegisterModule<AFIProxyNetModule, AFCProxyNetModule>();
-    }
-
-    void AFProxyPlugin::Uninstall()
-    {
-        DeregisterModule<AFIProxyNetModule, AFCProxyNetModule>();
-    }
+    public:
+        //virtual int OnSelectWorldResultsProcess(const int nWorldID, const AFGUID xSenderID, const int nLoginID, const std::string& strAccount, const std::string& strWorldURL, const std::string& strKey) = 0;
+    };
 
 }

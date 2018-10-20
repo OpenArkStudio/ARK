@@ -33,7 +33,7 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "Server/Interface/AFISceneProcessModule.h"
 #include "Server/Interface/AFIPropertyModule.h"
-#include "Server/Interface/AFIGameNetServerModule.h"
+#include "Server/Interface/AFIGameNetModule.h"
 
 namespace ark
 {
@@ -67,7 +67,7 @@ namespace ark
         AFIClassModule* m_pClassModule;
         AFIKernelModule* m_pKernelModule;
         AFILogModule* m_pLogModule;
-        AFIGameNetServerModule* m_pGameServerNet_ServerModule;
+        AFIGameNetModule* m_pGameNetModule;
         //////////////////////////////////////////////////////////////////////////
         struct SceneSeedResource
         {

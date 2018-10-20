@@ -19,7 +19,7 @@
 */
 
 #include "AFMasterPlugin.h"
-#include "AFCMasterNetServerModule.h"
+#include "AFCMasterNetModule.h"
 
 namespace ark
 {
@@ -40,12 +40,12 @@ namespace ark
 
     void AFMasterPlugin::Install()
     {
-        RegisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
+        RegisterModule<AFIMasterNetModule, AFCMasterNetModule>();
     }
 
     void AFMasterPlugin::Uninstall()
     {
-        DeregisterModule<AFIMasterNetServerModule, AFCMasterNetServerModule>();
+        DeregisterModule<AFIMasterNetModule, AFCMasterNetModule>();
     }
 
 }

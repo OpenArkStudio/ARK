@@ -11,12 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCMasterNetServerModule.cpp" />
+    <ClCompile Include="AFCMasterNetModule.cpp" />
     <ClCompile Include="AFMasterPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCMasterNetServerModule.h" />
+    <ClInclude Include="AFCMasterNetModule.h" />
     <ClInclude Include="AFMasterPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

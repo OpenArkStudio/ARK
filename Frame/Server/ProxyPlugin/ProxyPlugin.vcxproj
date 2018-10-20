@@ -11,14 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCProxyNetServerModule.cpp" />
-    <ClCompile Include="AFCProxyNetClientModule.cpp" />
+    <ClCompile Include="AFCProxyNetModule.cpp" />
     <ClCompile Include="AFProxyPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCProxyNetServerModule.h" />
-    <ClInclude Include="AFCProxyNetClientModule.h" />
+    <ClInclude Include="AFCProxyNetModule.h" />
     <ClInclude Include="AFProxyPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -23,7 +23,7 @@
 #include "SDK/Core/AFMap.hpp"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
-#include "SDK/Interface/AFINetServerManagerModule.h"
+#include "SDK/Interface/AFINetServiceManagerModule.h"
 #include "SDK/Interface/AFINetServerService.h"
 
 namespace ark
@@ -57,7 +57,7 @@ namespace ark
 
     private:
         AFIPluginManager* m_pPluginManager;
-        AFINetServerManagerModule* m_pNetServerManagerModule;
+        AFINetServiceManagerModule* m_pNetServiceManagerModule;
         AFILogModule* m_pLogModule;
         AFIMsgModule* m_pMsgModule;
 

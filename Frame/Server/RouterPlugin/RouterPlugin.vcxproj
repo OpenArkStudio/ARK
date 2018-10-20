@@ -11,14 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCRouterNetServerModule.cpp" />
-    <ClCompile Include="AFCRouterNetClientModule.cpp" />
+    <ClCompile Include="AFCRouterNetModule.cpp" />
     <ClCompile Include="AFRouterPlugin.cpp" />
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AFCRouterNetServerModule.h" />
-    <ClInclude Include="AFCRouterNetClientModule.h" />
+    <ClInclude Include="AFCRouterNetModule.h" />
     <ClInclude Include="AFRouterPlugin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

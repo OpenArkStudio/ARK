@@ -108,8 +108,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AFCAccountModule.cpp" />
-    <ClCompile Include="AFCGameNetClientModule.cpp" />
-    <ClCompile Include="AFCGameNetServerModule.cpp" />
+    <ClCompile Include="AFCGameNetModule.cpp" />
     <ClCompile Include="AFCLevelModule.cpp" />
     <ClCompile Include="AFCPropertyConfigModule.cpp" />
     <ClCompile Include="AFCPropertyModule.cpp" />
@@ -127,8 +126,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AFCAccountModule.h" />
-    <ClInclude Include="AFCGameNetClientModule.h" />
-    <ClInclude Include="AFCGameNetServerModule.h" />
+    <ClInclude Include="AFCGameNetModule.h" />
     <ClInclude Include="AFCLevelModule.h" />
     <ClInclude Include="AFCPropertyConfigModule.h" />
     <ClInclude Include="AFCPropertyModule.h" />

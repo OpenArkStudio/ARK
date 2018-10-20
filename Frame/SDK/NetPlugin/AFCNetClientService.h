@@ -24,7 +24,7 @@
 #include "SDK/Core/AFCConsistentHash.hpp"
 #include "SDK/Interface/AFINetClientService.h"
 #include "SDK/Interface/AFIPluginManager.h"
-#include "SDK/Interface/AFINetClientManagerModule.h"
+#include "SDK/Interface/AFINetServiceManagerModule.h"
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
 #include "SDK/Interface/AFILogModule.h"
@@ -99,7 +99,7 @@ namespace ark
 
     private:
         AFIPluginManager* m_pPluginManager;
-        AFINetClientManagerModule* m_pNetClientManagerModule;
+        AFINetServiceManagerModule* m_pNetServiceManagerModule;
         AFIBusModule* m_pBusModule;
         AFIMsgModule* m_pMsgModule;
         AFILogModule* m_pLogModule;
