@@ -35,36 +35,36 @@ namespace ark
         AFCDataTableManager() = delete;
 
         explicit AFCDataTableManager(const AFGUID& guid);
-        virtual ~AFCDataTableManager();
+        ~AFCDataTableManager() override;
 
-        virtual const AFGUID& Self();
+        const AFGUID& Self() override;
 
-        virtual bool Exist(const char* name) const;
-        virtual bool Exist(const char* name, size_t& index) const;
+        bool Exist(const char* name) const override;
+        bool Exist(const char* name, size_t& index) const override;
 
-        virtual bool AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const AFFeatureType feature);
-        virtual bool RegisterCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
+        bool AddTable(const AFGUID& self_id, const char* table_name, const AFIDataList& col_type_list, const AFFeatureType feature) override;
+        bool RegisterCallback(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override;
 
-        virtual void Clear() final;
-        virtual AFDataTable* GetTable(const char* name);
-        virtual size_t GetCount() const;
-        virtual AFDataTable* GetTableByIndex(size_t index);
+        void Clear() final override;
+        AFDataTable* GetTable(const char* name) override;
+        size_t GetCount() const override;
+        AFDataTable* GetTableByIndex(size_t index) override;
 
-        virtual bool SetTableBool(const char* name, const int row, const int col, const bool value);
-        virtual bool SetTableInt(const char* name, const int row, const int col, const int32_t value);
-        virtual bool SetTableInt64(const char* name, const int row, const int col, const int64_t value);
-        virtual bool SetTableFloat(const char* name, const int row, const int col, const float value);
-        virtual bool SetTableDouble(const char* name, const int row, const int col, const double value);
-        virtual bool SetTableString(const char* name, const int row, const int col, const char* value);
-        virtual bool SetTableObject(const char* name, const int row, const int col, const AFGUID& value);
+        bool SetTableBool(const char* name, const int row, const int col, const bool value) override;
+        bool SetTableInt(const char* name, const int row, const int col, const int32_t value) override;
+        bool SetTableInt64(const char* name, const int row, const int col, const int64_t value) override;
+        bool SetTableFloat(const char* name, const int row, const int col, const float value) override;
+        bool SetTableDouble(const char* name, const int row, const int col, const double value) override;
+        bool SetTableString(const char* name, const int row, const int col, const char* value) override;
+        bool SetTableObject(const char* name, const int row, const int col, const AFGUID& value) override;
 
-        virtual bool GetTableBool(const char* name, const int row, const int col);
-        virtual int32_t GetTableInt(const char* name, const int row, const int col);
-        virtual int64_t GetTableInt64(const char* name, const int row, const int col);
-        virtual float GetTableFloat(const char* name, const int row, const int col);
-        virtual double GetTableDouble(const char* name, const int row, const int col);
-        virtual const char* GetTableString(const char* name, const int row, const int col);
-        virtual const AFGUID GetTableObject(const char* name, const int row, const int col);
+        bool GetTableBool(const char* name, const int row, const int col) override;
+        int32_t GetTableInt(const char* name, const int row, const int col) override;
+        int64_t GetTableInt64(const char* name, const int row, const int col) override;
+        float GetTableFloat(const char* name, const int row, const int col) override;
+        double GetTableDouble(const char* name, const int row, const int col) override;
+        const char* GetTableString(const char* name, const int row, const int col) override;
+        const AFGUID GetTableObject(const char* name, const int row, const int col) override;
 
     protected:
         bool GetTableData(const char* name, const int row, const int col, AFIData& value);

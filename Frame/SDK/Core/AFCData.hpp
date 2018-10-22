@@ -299,12 +299,12 @@ namespace ark
         }
         //////////////////////////////////////////////////////////////////////////
 
-        virtual int GetType() const
+        int GetType() const override
         {
             return mnType;
         }
 
-        virtual void SetDefaultValue(int type)
+        void SetDefaultValue(int type) override
         {
             switch (type)
             {
@@ -342,7 +342,7 @@ namespace ark
             }
         }
 
-        virtual bool IsNullValue() const
+        bool IsNullValue() const override
         {
             switch (GetType())
             {
@@ -383,157 +383,157 @@ namespace ark
         }
 
         //Get data
-        virtual bool GetBool() const
+        bool GetBool() const override
         {
             ARK_ASSERT_RET_VAL(mnType == DT_BOOLEAN, NULL_BOOLEAN);
             return mbValue;
         }
 
-        virtual int GetInt() const
+        int GetInt() const override
         {
             ARK_ASSERT_RET_VAL(mnType == DT_INT, NULL_INT);
             return mnValue;
         }
 
-        virtual int64_t GetInt64() const
+        int64_t GetInt64() const override
         {
             ARK_ASSERT_RET_VAL(mnType == DT_INT64, NULL_INT64);
             return mn64Value;
         }
 
-        virtual float GetFloat() const
+        float GetFloat() const override
         {
             ARK_ASSERT_RET_VAL(mnType == DT_FLOAT, NULL_FLOAT);
             return mfValue;
         }
 
-        virtual double GetDouble() const
+        double GetDouble() const override
         {
             ARK_ASSERT_RET_VAL(mnType == DT_DOUBLE, NULL_DOUBLE);
             return mdValue;
         }
 
-        virtual const char* GetString() const
+        const char* GetString() const override
         {
             ARK_ASSERT_RET_VAL(mnType == DT_STRING, NULL_STR.c_str());
             return mstrValue;
         }
 
-        virtual const AFGUID& GetObject() const
+        const AFGUID& GetObject() const override
         {
             ARK_ASSERT_RET_VAL(mnType == DT_OBJECT, NULL_GUID);
             return mxGUID;
         }
 
-        virtual void* GetPointer() const
+        void* GetPointer() const override
         {
-            ARK_ASSERT_RET_VAL(mnType == DT_POINTER, NULL);
+            ARK_ASSERT_RET_VAL(mnType == DT_POINTER, nullptr);
             return mpVaule;
         }
 
-        virtual const void* GetUserData(size_t& size) const
+        const void* GetUserData(size_t& size) const override
         {
             assert(mnType == DT_USERDATA);
 
             if (mnType != DT_USERDATA)
             {
                 size = 0;
-                return NULL;
+                return nullptr;
             }
 
             size = AFIData::GetUserDataSize(mpUserData);
             return AFIData::GetUserData(mpUserData);
         }
 
-        virtual void* GetRawUserData() const
+        void* GetRawUserData() const override
         {
-            ARK_ASSERT_RET_VAL(mnType == DT_USERDATA, NULL);
+            ARK_ASSERT_RET_VAL(mnType == DT_USERDATA, nullptr);
             return mpUserData;
         }
 
         //Set data
-        virtual void SetUnknown()
+        void SetUnknown() override
         {
             Release();
             mnType = DT_UNKNOWN;
             mn64Value = 0;
         }
 
-        virtual void SetBool(bool value)
+        void SetBool(bool value) override
         {
             Release();
             mnType = DT_BOOLEAN;
             mbValue = value;
         }
 
-        virtual void SetInt(int value)
+        void SetInt(int value) override
         {
             Release();
             mnType = DT_INT;
             mnValue = value;
         }
 
-        virtual void SetInt64(int64_t value)
+        void SetInt64(int64_t value) override
         {
             Release();
             mnType = DT_INT64;
             mn64Value = value;
         }
 
-        virtual void SetFloat(float value)
+        void SetFloat(float value) override
         {
             Release();
             mnType = DT_FLOAT;
             mfValue = value;
         }
 
-        virtual void SetDouble(double value)
+        void SetDouble(double value) override
         {
             Release();
             mnType = DT_DOUBLE;
             mdValue = value;
         }
 
-        virtual void SetString(const char* value)
+        void SetString(const char* value) override
         {
             Release();
             mnType = DT_STRING;
             InnerSetString(value);
         }
 
-        virtual void SetObject(const AFGUID& value)
+        void SetObject(const AFGUID& value) override
         {
             Release();
             mnType = DT_OBJECT;
             mxGUID = value;
         }
 
-        virtual void SetPointer(void* value)
+        void SetPointer(void* value) override
         {
             Release();
             mnType = DT_POINTER;
             mpVaule = value;
         }
 
-        virtual void SetUserData(const void* value, size_t size)
+        void SetUserData(const void* value, size_t size) override
         {
             Release();
             mnType = DT_USERDATA;
             InnerSetUserData(value, size);
         }
 
-        virtual void SetRawUserData(void* value)
+        void SetRawUserData(void* value) override
         {
             SetUserData(AFIData::GetUserData(value), AFIData::GetUserDataSize(value));
         }
 
-        virtual void Assign(const AFIData& src)
+        void Assign(const AFIData& src) override
         {
             self_t tmp(src);
             Swap(tmp);
         }
 
-        virtual size_t GetMemUsage() const
+        size_t GetMemUsage() const override
         {
             size_t size = sizeof(self_t);
 
@@ -564,7 +564,7 @@ namespace ark
             return size;
         }
 
-        virtual std::string ToString()
+        std::string ToString() override
         {
             switch (GetType())
             {

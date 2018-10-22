@@ -37,21 +37,6 @@ namespace ark
         m_pEventManager = std::make_shared<AFCEventManager>(mSelf);
     }
 
-    AFCEntity::~AFCEntity()
-    {
-
-    }
-
-    bool AFCEntity::Init()
-    {
-        return true;
-    }
-
-    bool AFCEntity::Shut()
-    {
-        return true;
-    }
-
     void AFCEntity::Update()
     {
         GetHeartBeatManager()->Update();
@@ -224,22 +209,22 @@ namespace ark
         return GetTableManager()->GetTableObject(name.c_str(), row, col);
     }
 
-    ARK_SHARE_PTR<AFIDataNodeManager> AFCEntity::GetNodeManager()
+    ARK_SHARE_PTR<AFIDataNodeManager>& AFCEntity::GetNodeManager()
     {
         return m_pNodeManager;
     }
 
-    ARK_SHARE_PTR<AFIDataTableManager> AFCEntity::GetTableManager()
+    ARK_SHARE_PTR<AFIDataTableManager>& AFCEntity::GetTableManager()
     {
         return m_pTableManager;
     }
 
-    ARK_SHARE_PTR<AFIHeartBeatManager> AFCEntity::GetHeartBeatManager()
+    ARK_SHARE_PTR<AFIHeartBeatManager>& AFCEntity::GetHeartBeatManager()
     {
         return m_pHeartBeatManager;
     }
 
-    ARK_SHARE_PTR<AFIEventManager> AFCEntity::GetEventManager()
+    ARK_SHARE_PTR<AFIEventManager>& AFCEntity::GetEventManager()
     {
         return m_pEventManager;
     }

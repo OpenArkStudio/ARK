@@ -570,7 +570,7 @@ namespace ark
                 node = node->next;
             }
 
-            return NULL;
+            return nullptr;
         }
 
         void Expand()

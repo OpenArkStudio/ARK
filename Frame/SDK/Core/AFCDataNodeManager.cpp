@@ -39,7 +39,7 @@ namespace ark
     {
         for (size_t i = 0; i < mxNodes.size(); ++i)
         {
-            delete mxNodes[i];
+            ARK_DELETE(mxNodes[i]);
         }
 
         mxNodes.clear();

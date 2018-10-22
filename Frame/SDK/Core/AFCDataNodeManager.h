@@ -33,34 +33,34 @@ namespace ark
         AFCDataNodeManager() = delete;
 
         explicit AFCDataNodeManager(const AFGUID& self);
-        virtual ~AFCDataNodeManager();
-        virtual void Clear() final;
+        ~AFCDataNodeManager() override;
+        void Clear() final override;
 
-        virtual const AFGUID& Self() const;
+        const AFGUID& Self() const override;
 
-        virtual bool RegisterCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb);
+        bool RegisterCallback(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override;
 
-        virtual size_t GetNodeCount();
-        virtual AFDataNode* GetNodeByIndex(size_t index);
-        virtual AFDataNode* GetNode(const char* name);
-        virtual bool AddNode(const char* name, const AFIData& value, const AFFeatureType feature);
-        virtual bool SetNode(const char* name, const AFIData& value);
+        size_t GetNodeCount() override;
+        AFDataNode* GetNodeByIndex(size_t index) override;
+        AFDataNode* GetNode(const char* name) override;
+        bool AddNode(const char* name, const AFIData& value, const AFFeatureType feature) override;
+        bool SetNode(const char* name, const AFIData& value) override;
 
-        virtual bool SetNodeBool(const char* name, const bool value);
-        virtual bool SetNodeInt(const char* name, const int32_t value);
-        virtual bool SetNodeInt64(const char* name, const int64_t value);
-        virtual bool SetNodeFloat(const char* name, const float value);
-        virtual bool SetNodeDouble(const char* name, const double value);
-        virtual bool SetNodeString(const char* name, const std::string& value);
-        virtual bool SetNodeObject(const char* name, const AFGUID& value);
+        bool SetNodeBool(const char* name, const bool value) override;
+        bool SetNodeInt(const char* name, const int32_t value) override;
+        bool SetNodeInt64(const char* name, const int64_t value) override;
+        bool SetNodeFloat(const char* name, const float value) override;
+        bool SetNodeDouble(const char* name, const double value) override;
+        bool SetNodeString(const char* name, const std::string& value) override;
+        bool SetNodeObject(const char* name, const AFGUID& value) override;
 
-        virtual bool GetNodeBool(const char* name);
-        virtual int32_t GetNodeInt(const char* name);
-        virtual int64_t GetNodeInt64(const char* name);
-        virtual float GetNodeFloat(const char* name);
-        virtual double GetNodeDouble(const char* name);
-        virtual const char* GetNodeString(const char* name);
-        virtual const AFGUID GetNodeObject(const char* name);
+        bool GetNodeBool(const char* name) override;
+        int32_t GetNodeInt(const char* name) override;
+        int64_t GetNodeInt64(const char* name) override;
+        float GetNodeFloat(const char* name) override;
+        double GetNodeDouble(const char* name) override;
+        const char* GetNodeString(const char* name) override;
+        const AFGUID GetNodeObject(const char* name) override;
 
     protected:
         bool FindIndex(const char* name, size_t& index);

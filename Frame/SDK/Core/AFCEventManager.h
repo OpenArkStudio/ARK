@@ -33,21 +33,19 @@ namespace ark
         AFCEventManager() = delete;
 
         explicit AFCEventManager(AFGUID self);
-        virtual ~AFCEventManager();
+        ~AFCEventManager() override;
 
-        virtual bool Init();
-        virtual bool Shut();
+        void Update() override;
 
-        virtual void Update();
+        bool AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb) override;
+        bool RemoveEventCallBack(const int nEventID) override;
 
-        virtual bool RemoveEventCallBack(const int nEventID);
-
-        virtual bool DoEvent(const int nEventID, const AFIDataList& valueList);
-
-        virtual bool AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb);
+        bool DoEvent(const int nEventID, const AFIDataList& valueList) override;
 
     protected:
-        virtual bool HasEventCallBack(const int nEventID);
+        bool HasEventCallBack(const int nEventID) override;
+
+        bool Shut();
 
     private:
         AFGUID mSelf;

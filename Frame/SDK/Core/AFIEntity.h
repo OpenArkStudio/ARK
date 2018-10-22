@@ -87,10 +87,10 @@ namespace ark
         virtual const char* GetTableString(const std::string& name, const int row, const int col) = 0;
         virtual const AFGUID GetTableObject(const std::string& name, const int row, const int col) = 0;
 
-        virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager() = 0;
-        virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager() = 0;
-        virtual ARK_SHARE_PTR<AFIHeartBeatManager> GetHeartBeatManager() = 0;
-        virtual ARK_SHARE_PTR<AFIEventManager> GetEventManager() = 0;
+        virtual ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager() = 0;
+        virtual ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager() = 0;
+        virtual ARK_SHARE_PTR<AFIHeartBeatManager>& GetHeartBeatManager() = 0;
+        virtual ARK_SHARE_PTR<AFIEventManager>& GetEventManager() = 0;
 
     protected:
         virtual bool AddHeartBeat(const std::string& name, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever) = 0;

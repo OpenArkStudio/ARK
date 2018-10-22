@@ -30,14 +30,7 @@ namespace ark
 
     AFCEventManager::~AFCEventManager()
     {
-        mRemoveEventListEx.ClearAll();
-
-        mObjectEventInfoMapEx.ClearAll();
-    }
-
-    bool AFCEventManager::Init()
-    {
-        return true;
+        Shut();
     }
 
     bool AFCEventManager::Shut()
@@ -51,28 +44,21 @@ namespace ark
     bool AFCEventManager::AddEventCallBack(const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb)
     {
         ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-
-        if (nullptr == pEventInfo)
+        if (pEventInfo == nullptr)
         {
             pEventInfo = std::make_shared<AFList<EVENT_PROCESS_FUNCTOR_PTR>>();
             mObjectEventInfoMapEx.AddElement(nEventID, pEventInfo);
         }
 
-        pEventInfo->Add(cb);
-
-        return true;
+        return pEventInfo->Add(cb);
     }
 
     void AFCEventManager::Update()
     {
         int nEvent = 0;
-        bool bRet = mRemoveEventListEx.First(nEvent);
-
-        while (bRet)
+        for (bool bRet = mRemoveEventListEx.First(nEvent); bRet; bRet = mRemoveEventListEx.Next(nEvent))
         {
             mObjectEventInfoMapEx.RemoveElement(nEvent);
-
-            bRet = mRemoveEventListEx.Next(nEvent);
         }
 
         mRemoveEventListEx.ClearAll();
@@ -88,19 +74,15 @@ namespace ark
     {
         ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
 
-        if (nullptr == pEventInfo)
+        if (pEventInfo == nullptr)
         {
             return false;
         }
 
         EVENT_PROCESS_FUNCTOR_PTR cb;
-        bool bRet = pEventInfo->First(cb);
-
-        while (bRet)
+        for (bool bRet = pEventInfo->First(cb); bRet; bRet = pEventInfo->Next(cb))
         {
             (*cb)(mSelf, nEventID, valueList);
-
-            bRet = pEventInfo->Next(cb);
         }
 
         return true;
@@ -109,6 +91,6 @@ namespace ark
     bool AFCEventManager::HasEventCallBack(const int nEventID)
     {
         ARK_SHARE_PTR<AFList<EVENT_PROCESS_FUNCTOR_PTR>> pEventInfo = mObjectEventInfoMapEx.GetElement(nEventID);
-        return nullptr != pEventInfo;
+        return pEventInfo != nullptr;
     }
 }

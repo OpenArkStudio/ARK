@@ -196,13 +196,13 @@ namespace ark
             }
         }
 
-        virtual bool Concat(const AFIDataList& src)
+        bool Concat(const AFIDataList& src) override
         {
             InnerAppend(src, 0, src.GetCount());
             return true;
         }
 
-        virtual bool Split(const std::string& src, const std::string& split)
+        bool Split(const std::string& src, const std::string& split) override
         {
             Clear();
 
@@ -232,13 +232,13 @@ namespace ark
             return true;
         }
 
-        virtual bool Append(const AFIData& data)
+        bool Append(const AFIData& data) override
         {
             InnerAppend(data);
             return true;
         }
 
-        virtual bool Append(const AFIDataList& src, size_t start, size_t count)
+        bool Append(const AFIDataList& src, size_t start, size_t count) override
         {
             if (start >= src.GetCount())
             {
@@ -256,23 +256,23 @@ namespace ark
             return true;
         }
 
-        virtual void Clear()
+        void Clear() override
         {
             mnDataUsed = 0;
             mnBufferUsed = 0;
         }
 
-        virtual bool Empty() const
+        bool Empty() const override
         {
             return (0 == mnDataUsed);
         }
 
-        virtual size_t GetCount() const
+        size_t GetCount() const override
         {
             return mnDataUsed;
         }
 
-        virtual int GetType(size_t index) const
+        int GetType(size_t index) const override
         {
             if (index >= mnDataUsed)
             {
@@ -283,7 +283,7 @@ namespace ark
         }
 
         //add data
-        virtual bool AddBool(bool value)
+        bool AddBool(bool value) override
         {
             dynamic_data_t* p = AddDynamicData();
             p->nType = DT_BOOLEAN;
@@ -291,7 +291,7 @@ namespace ark
             return true;
         }
 
-        virtual bool AddInt(int value)
+        bool AddInt(int value) override
         {
             dynamic_data_t* p = AddDynamicData();
             p->nType = DT_INT;
@@ -299,7 +299,7 @@ namespace ark
             return true;
         }
 
-        virtual bool AddInt64(int64_t value)
+        bool AddInt64(int64_t value) override
         {
             dynamic_data_t* p = AddDynamicData();
             p->nType = DT_INT64;
@@ -307,7 +307,7 @@ namespace ark
             return true;
         }
 
-        virtual bool AddFloat(float value)
+        bool AddFloat(float value) override
         {
             dynamic_data_t* p = AddDynamicData();
             p->nType = DT_FLOAT;
@@ -315,7 +315,7 @@ namespace ark
             return true;
         }
 
-        virtual bool AddDouble(double value)
+        bool AddDouble(double value) override
         {
             dynamic_data_t* p = AddDynamicData();
             p->nType = DT_DOUBLE;
@@ -323,7 +323,7 @@ namespace ark
             return true;
         }
 
-        virtual bool AddString(const char* value)
+        bool AddString(const char* value) override
         {
             assert(value != nullptr);
             dynamic_data_t* p = AddDynamicData();
@@ -337,7 +337,7 @@ namespace ark
             return true;
         }
 
-        virtual bool AddString(const char* value, const int nLength)
+        bool AddString(const char* value, const int nLength) override
         {
             if (nLength <= 0)
             {
@@ -369,7 +369,7 @@ namespace ark
             return true;
         }
 
-        virtual bool AddObject(const AFGUID& value)
+        bool AddObject(const AFGUID& value) override
         {
             dynamic_data_t* p = AddDynamicData();
             p->nType = DT_OBJECT;
@@ -377,7 +377,7 @@ namespace ark
             return true;
         }
 
-        virtual bool AddPointer(void* value)
+        bool AddPointer(void* value) override
         {
             dynamic_data_t* p = AddDynamicData();
             p->nType = DT_POINTER;
@@ -385,7 +385,7 @@ namespace ark
             return true;
         }
 
-        virtual bool AddUserData(const void* pData, size_t size)
+        bool AddUserData(const void* pData, size_t size) override
         {
             assert(pData != nullptr);
 
@@ -400,13 +400,13 @@ namespace ark
             return true;
         }
 
-        virtual bool AddRawUserData(void* value)
+        bool AddRawUserData(void* value) override
         {
             return AddUserData(AFIData::GetUserData(value), AFIData::GetUserDataSize(value));
         }
 
         //get data
-        virtual bool Bool(size_t index) const
+        bool Bool(size_t index) const override
         {
             if (index > mnDataUsed)
             {
@@ -423,7 +423,7 @@ namespace ark
             }
         }
 
-        virtual int Int(size_t index) const
+        int Int(size_t index) const override
         {
             if (index > mnDataUsed)
             {
@@ -440,7 +440,7 @@ namespace ark
             }
         }
 
-        virtual int64_t Int64(size_t index) const
+        int64_t Int64(size_t index) const override
         {
             if (index > mnDataUsed)
             {
@@ -457,7 +457,7 @@ namespace ark
             }
         }
 
-        virtual float Float(size_t index) const
+        float Float(size_t index) const override
         {
             if (index > mnDataUsed)
             {
@@ -474,7 +474,7 @@ namespace ark
             }
         }
 
-        virtual double Double(size_t index) const
+        double Double(size_t index) const override
         {
             if (index > mnDataUsed)
             {
@@ -491,7 +491,7 @@ namespace ark
             }
         }
 
-        virtual const char* String(size_t index) const
+        const char* String(size_t index) const override
         {
             if (index > mnDataUsed)
             {
@@ -508,7 +508,7 @@ namespace ark
             }
         }
 
-        virtual AFGUID Object(size_t index) const
+        AFGUID Object(size_t index) const override
         {
             if (index > mnDataUsed)
             {
@@ -525,11 +525,11 @@ namespace ark
             }
         }
 
-        virtual void* Pointer(size_t index) const
+        void* Pointer(size_t index) const override
         {
             if (index > mnDataUsed)
             {
-                return NULL;
+                return nullptr;
             }
 
             if (mpData[index].nType == DT_POINTER)
@@ -538,16 +538,16 @@ namespace ark
             }
             else
             {
-                return NULL;
+                return nullptr;
             }
         }
 
-        virtual const void* UserData(size_t index, size_t& size) const
+        const void* UserData(size_t index, size_t& size) const override
         {
             if (index > mnDataUsed)
             {
                 size = 0;
-                return NULL;
+                return nullptr;
             }
 
             if (mpData[index].nType == DT_USERDATA)
@@ -559,15 +559,15 @@ namespace ark
             else
             {
                 size = 0;
-                return NULL;
+                return nullptr;
             }
         }
 
-        virtual void* RawUserData(size_t index) const
+        void* RawUserData(size_t index) const override
         {
             if (index > mnDataUsed)
             {
-                return NULL;
+                return nullptr;
             }
 
             if (mpData[index].nType == DT_USERDATA)
@@ -576,11 +576,11 @@ namespace ark
             }
             else
             {
-                return NULL;
+                return nullptr;
             }
         }
 
-        virtual bool SetBool(size_t index, bool value)
+        bool SetBool(size_t index, bool value) override
         {
             if (index >= mnDataUsed)
             {

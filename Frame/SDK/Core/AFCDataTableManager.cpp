@@ -63,13 +63,7 @@ namespace ark
     bool AFCDataTableManager::GetTableData(const char* name, const int row, const int col, AFIData& value)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return NULL;
-        }
-
-        return pTable->GetValue(row, col, value);
+        return ((pTable != nullptr) ? pTable->GetValue(row, col, value) : false);
     }
 
     int AFCDataTableManager::OnEventHandler(const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldData, const AFIData& newData)
@@ -134,176 +128,92 @@ namespace ark
 
     AFDataTable* AFCDataTableManager::GetTableByIndex(size_t index)
     {
-        ARK_ASSERT_RET_VAL(index < GetCount(), NULL);
+        ARK_ASSERT_RET_VAL(index < GetCount(), nullptr);
         return mxTables[index];
     }
 
     bool AFCDataTableManager::SetTableBool(const char* name, const int row, const int col, const bool value)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return false;
-        }
-
-        return pTable->SetBool(row, col, value);
+        return ((pTable == nullptr) ? false : pTable->SetBool(row, col, value));
     }
 
     bool AFCDataTableManager::SetTableInt(const char* name, const int row, const int col, const int32_t value)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return false;
-        }
-
-        return pTable->SetInt(row, col, value);
+        return ((pTable == nullptr) ? false : pTable->SetInt(row, col, value));
     }
 
     bool AFCDataTableManager::SetTableInt64(const char* name, const int row, const int col, const int64_t value)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return false;
-        }
-
-        return pTable->SetInt64(row, col, value);
+        return ((pTable == nullptr) ? false : pTable->SetInt64(row, col, value));
     }
 
     bool AFCDataTableManager::SetTableFloat(const char* name, const int row, const int col, const float value)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return false;
-        }
-
-        return pTable->SetFloat(row, col, value);
+        return ((pTable == nullptr) ? false : pTable->SetFloat(row, col, value));
     }
 
     bool AFCDataTableManager::SetTableDouble(const char* name, const int row, const int col, const double value)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return false;
-        }
-
-        return pTable->SetDouble(row, col, value);
+        return ((pTable == nullptr) ? false : pTable->SetDouble(row, col, value));
     }
 
     bool AFCDataTableManager::SetTableString(const char* name, const int row, const int col, const char* value)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return false;
-        }
-
-        return pTable->SetString(row, col, value);
+        return ((pTable == nullptr) ? false : pTable->SetString(row, col, value));
     }
 
     bool AFCDataTableManager::SetTableObject(const char* name, const int row, const int col, const AFGUID& value)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return false;
-        }
-
-        return pTable->SetObject(row, col, value);
+        return ((pTable == nullptr) ? false : pTable->SetObject(row, col, value));
     }
 
     bool AFCDataTableManager::GetTableBool(const char* name, const int row, const int col)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return false;
-        }
-
-        return pTable->GetBool(row, col);
+        return ((pTable == nullptr) ? false : pTable->GetBool(row, col));
     }
 
     int32_t AFCDataTableManager::GetTableInt(const char* name, const int row, const int col)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return NULL_INT;
-        }
-
-        return pTable->GetInt(row, col);
+        return ((pTable == nullptr) ? NULL_INT : pTable->GetInt(row, col));
     }
 
     int64_t AFCDataTableManager::GetTableInt64(const char* name, const int row, const int col)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return NULL_INT64;
-        }
-
-        return pTable->GetInt64(row, col);
+        return ((pTable == nullptr) ? NULL_INT64 : pTable->GetInt64(row, col));
     }
 
     float AFCDataTableManager::GetTableFloat(const char* name, const int row, const int col)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return NULL_FLOAT;
-        }
-
-        return pTable->GetFloat(row, col);
+        return ((pTable == nullptr) ? NULL_FLOAT : pTable->GetFloat(row, col));
     }
 
     double AFCDataTableManager::GetTableDouble(const char* name, const int row, const int col)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return NULL_DOUBLE;
-        }
-
-        return pTable->GetDouble(row, col);
+        return ((pTable == nullptr) ? NULL_DOUBLE : pTable->GetDouble(row, col));
     }
 
     const char* AFCDataTableManager::GetTableString(const char* name, const int row, const int col)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return NULL_STR.c_str();
-        }
-
-        return pTable->GetString(row, col);
+        return ((pTable == nullptr) ? NULL_STR.c_str() : pTable->GetString(row, col));
     }
 
     const AFGUID AFCDataTableManager::GetTableObject(const char* name, const int row, const int col)
     {
         AFDataTable* pTable = GetTable(name);
-
-        if (pTable == nullptr)
-        {
-            return NULL_GUID;
-        }
-
-        return pTable->GetObject(row, col);
+        return ((pTable == nullptr) ? NULL_GUID : pTable->GetObject(row, col));
     }
 
 }
