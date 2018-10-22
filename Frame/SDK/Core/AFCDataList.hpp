@@ -580,7 +580,7 @@ namespace ark
             }
         }
 
-        bool SetBool(size_t index, bool value) override
+        virtual bool SetBool(size_t index, bool value)
         {
             if (index >= mnDataUsed)
             {
