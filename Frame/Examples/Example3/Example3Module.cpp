@@ -123,19 +123,15 @@ namespace ark
 
         //to do
         AFCData xData;
-        /*     pEntity->GetNodeManager()->AddNode("str_test", AFCData(DT_STRING, ""), 0);
-             pEntity->GetNodeManager()->AddNode("int_test", AFCData(DT_INT, 1), 0);
+        m_pClassModule->AddNodeCallBack(ark::Player::ThisName(), ark::Player::Gold(), this, &Example3Module::OnIntDataNodeCB);
+        m_pClassModule->AddNodeCallBack(ark::Player::ThisName(), ark::Player::ShowName(), this, &Example3Module::OnStrDataNodeCB);
+        m_pClassModule->AddTableCallBack(ark::Player::ThisName(), ark::Player::R_PlayerFightHero(), this, &Example3Module::OnFightHeroTableCB);
+        m_pKernelModule->AddClassCallBack(ark::Player::ThisName(), this, &Example3Module::OnClassCallBackEvent);
 
-             pEntity->AddNodeCallBack("str_test", this, &Example3Module::OnStrDataNodeCB);
-             pEntity->AddNodeCallBack("int_test", this, &Example3Module::OnIntDataNodeCB);
-
-             pEntity->SetNodeString("str_test", "hello World");
-             pEntity->SetNodeInt("int_test", 1111);
-        pEntity->AddTableCallBack(ark::Player::R_PlayerFightHero(), this, &Example3Module::OnFightHeroTableCB);
-        */
+        pEntity->SetNodeInt(ark::Player::Gold(), 11);
+        pEntity->SetNodeString(ark::Player::ShowName(), "test");
 
         AFDataTable* pTable = m_pKernelModule->FindTable(pEntity->Self(), ark::Player::R_PlayerFightHero());
-        int pos = 0;
         if (pTable != nullptr)
         {
             int nRow = pTable->AddRow(AFCDataList() << AFGUID(0, 1000) << 1);
@@ -145,7 +141,7 @@ namespace ark
             }
 
             m_pKernelModule->SetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), nRow, ark::Player::PlayerFightHero::PlayerFightHero_FightPos, 2);
-            pos = m_pKernelModule->GetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), nRow, ark::Player::PlayerFightHero::PlayerFightHero_FightPos);
+            int pos = m_pKernelModule->GetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), nRow, ark::Player::PlayerFightHero::PlayerFightHero_FightPos);
 
             for (int i = 0; i < 5; ++i)
             {

@@ -90,37 +90,31 @@ namespace ark
         template<typename BaseType>
         bool AddClassCallBack(const std::string& strClassName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const ARK_ENTITY_EVENT, const AFIDataList&))
         {
-            CLASS_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            CLASS_EVENT_FUNCTOR_PTR functorPtr(new CLASS_EVENT_FUNCTOR(functor));
-            return AddClassCallBack(strClassName, functorPtr);
+            return AddClassCallBack(strClassName, std::make_shared<CLASS_EVENT_FUNCTOR>(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4)));
         }
 
         template<typename BaseType>
         bool AddNodeCallBack(const std::string& strClassName, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
         {
-            DATA_NODE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return AddNodeCallBack(strClassName, name, std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
+            return AddNodeCallBack(strClassName, name, std::make_shared<DATA_NODE_EVENT_FUNCTOR>(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4)));
         }
 
         template<typename BaseType>
         bool AddTableCallBack(const std::string& strClassName, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
         {
-            DATA_TABLE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return AddTableCallBack(strClassName, name, std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
+            return AddTableCallBack(strClassName, name, std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4)));
         }
 
         template<typename BaseType>
         bool AddCommonNodeCallback(const std::string& strClassName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const AFIData&, const AFIData&))
         {
-            DATA_NODE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return AddCommonNodeCallback(strClassName, std::make_shared<DATA_NODE_EVENT_FUNCTOR>(functor));
+            return AddCommonNodeCallback(strClassName, std::make_shared<DATA_NODE_EVENT_FUNCTOR>(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4)));
         }
 
         template<typename BaseType>
         bool AddCommonTableCallback(const std::string& strClassName, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const DATA_TABLE_EVENT_DATA&, const AFIData&, const AFIData&))
         {
-            DATA_TABLE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return AddCommonTableCallback(strClassName, std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
+            return AddCommonTableCallback(strClassName, std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4)));
         }
 
         virtual bool DoEvent(const AFGUID& objectID, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& valueList) = 0;
