@@ -44,9 +44,9 @@ namespace ark
         //bool SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
         AFINet* GetNet() override;
 
-        bool AddNetRecvCallback(const int msg_id, const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
-        //bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
-        bool AddNetEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) override;
+        bool RegMsgCallback(const int msg_id, const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
+        bool RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
+        bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) override;
 
     protected:
         void OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id);
@@ -63,9 +63,9 @@ namespace ark
 
         AFINet* m_pNet{ nullptr };
 
-        std::map<int, NET_PKG_RECV_FUNCTOR_PTR> net_recv_callbacks_;
+        std::map<int, NET_PKG_RECV_FUNCTOR_PTR> net_msg_callbacks_;
         std::list<NET_EVENT_FUNCTOR_PTR> net_event_callbacks_;
-        //std::list<NET_PKG_RECV_FUNCTOR_PTR> mxCallBackList;
+        std::list<NET_PKG_RECV_FUNCTOR_PTR> net_forward_msg_callbacks_;
 
         AFMapEx<int, AFServerData> reg_clients_;
     };

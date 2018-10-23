@@ -25,7 +25,7 @@ namespace ark
         return SendSSMsg(suit_bus_id, msg_id, msg, actor_id);
     }
 
-    bool AFCMsgModule::SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id/* = 0*/)
+    bool AFCMsgModule::SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id, const AFGUID& actor_id/* = 0*/)
     {
         std::string msg_data = msg.SerializeAsString();
         return SendSSMsg(bus_id, msg_id, msg, actor_id);
@@ -40,9 +40,10 @@ namespace ark
 
         int src_bus = m_pBusModule->GetSelfBusID();
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-        ARK_LOG_DEBUG("Send msg log, src={} dst={}, msg_id={} msg_len={} msg_data=\n{}",
+        ARK_LOG_DEBUG("Send msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data=\n{}",
                       AFMisc::Bus2Str(src_bus),
                       AFMisc::Bus2Str(target_bus),
+                      msg.GetTypeName(),
                       msg_id,
                       msg_data.length(),
                       msg.DebugString());

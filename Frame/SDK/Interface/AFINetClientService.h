@@ -57,21 +57,21 @@ namespace ark
         virtual ~AFINetClientService() = default;
 
         template<typename BaseType>
-        bool AddNetRecvCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
+        bool RegMsgCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
         {
             NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-            return AddNetRecvCallback(nMsgID, std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
+            return RegMsgCallback(nMsgID, std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
         }
 
-        //template<typename BaseType>
-        //bool AddRecvCallback(BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
-        //{
-        //    NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-        //    return AddRecvCallback(std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
-        //}
+        template<typename BaseType>
+        bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
+        {
+            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
+            return RegForwardMsgCallback(std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
+        }
 
         template<typename BaseType>
-        bool AddNetEventCallBack(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const std::string&, const int))
+        bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const std::string&, const int))
         {
             NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
             return AddNetEventCallBack(std::make_shared<NET_EVENT_FUNCTOR>(functor));
@@ -84,9 +84,9 @@ namespace ark
         virtual const ARK_SHARE_PTR<AFConnectionData>& GetServerNetInfo(const int nServerID) = 0;
         virtual AFMapEx<int, AFConnectionData>& GetServerList() = 0;
 
-        virtual bool AddNetRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
-        //virtual bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
-        virtual bool AddNetEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegMsgCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
 
         //virtual void SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID) = 0;
     };

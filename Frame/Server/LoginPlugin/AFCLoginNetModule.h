@@ -69,7 +69,7 @@ namespace ark
         //void SynWorldToClient(const AFGUID& xClientID);
 
     private:
-        AFMapEx<AFGUID, AFSessionData> mmClientSessionData;
+        AFMapEx<AFGUID, AFClientConnectionData> mmClientSessionData;
 
         AFILogModule* m_pLogModule;
         AFIBusModule* m_pBusModule;

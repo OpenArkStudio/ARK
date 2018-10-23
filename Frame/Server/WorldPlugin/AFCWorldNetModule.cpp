@@ -68,14 +68,14 @@ namespace ark
             return ret;
         }
 
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this, &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this, &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this, &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
-        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetModule::OnOnlineProcess);
-        m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetModule::OnOfflineProcess);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCWorldNetServerModule::OnRefreshProxyServerInfoProcess);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCWorldNetServerModule::OnProxyServerRegisteredProcess);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCWorldNetServerModule::OnProxyServerUnRegisteredProcess);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REGISTERED, this, &AFCWorldNetServerModule::OnGameServerRegisteredProcess);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_UNREGISTERED, this, &AFCWorldNetServerModule::OnGameServerUnRegisteredProcess);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_GTW_GAME_REFRESH, this, &AFCWorldNetServerModule::OnRefreshGameServerInfoProcess);
+        m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_ONLINE_NOTIFY, this, &AFCWorldNetModule::OnOnlineProcess);
+        m_pNetServer->RegMsgCallback(AFMsg::EGMI_ACK_OFFLINE_NOTIFY, this, &AFCWorldNetModule::OnOfflineProcess);
 
         return 0;
     }
@@ -104,9 +104,9 @@ namespace ark
             return 0;
         }
 
-        //pNetClientWorld->AddNetRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCWorldNetClientModule::OnSelectServerProcess);
-        //pNetClientWorld->AddNetRecvCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this, &AFCWorldNetClientModule::OnKickClientProcess);
-        //pNetClientWorld->AddNetRecvCallback(this, &AFCWorldNetClientModule::InvalidMessage);
+        //pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCWorldNetClientModule::OnSelectServerProcess);
+        //pNetClientWorld->RegMsgCallback(AFMsg::EGMI_REQ_KICK_CLIENT_INWORLD, this, &AFCWorldNetClientModule::OnKickClientProcess);
+        //pNetClientWorld->RegMsgCallback(this, &AFCWorldNetClientModule::InvalidMessage);
 
         //pNetClientWorld->AddNetEventCallBack(this, &AFCWorldNetClientModule::OnSocketEvent);
 

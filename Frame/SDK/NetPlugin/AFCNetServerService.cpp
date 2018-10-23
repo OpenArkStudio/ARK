@@ -33,7 +33,7 @@ namespace ark
             m_pNet = ARK_NEW AFCTCPServer(this, &AFCNetServerService::OnRecvNetPack, &AFCNetServerService::OnSocketNetEvent);
             ret = m_pNet->Start(bus_id, ep.ip(), ep.port(), thread_count, max_connection, ep.is_v6());
 
-            AFINetServerService::AddNetRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCNetServerService::OnClientRegister);
+            AFINetServerService::RegMsgCallback(AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCNetServerService::OnClientRegister);
         }
         else if (ep.proto() == proto_type::udp)
         {
@@ -126,26 +126,26 @@ namespace ark
         return m_pNet;
     }
 
-    bool AFCNetServerService::AddNetRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb)
+    bool AFCNetServerService::RegMsgCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb)
     {
-        if (net_recv_callbacks_.find(nMsgID) != net_recv_callbacks_.end())
+        if (net_msg_callbacks_.find(nMsgID) != net_msg_callbacks_.end())
         {
             return false;
         }
         else
         {
-            net_recv_callbacks_.insert(std::make_pair(nMsgID, cb));
+            net_msg_callbacks_.insert(std::make_pair(nMsgID, cb));
             return true;
         }
     }
 
-    //bool AFCNetServerService::AddNetRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb)
-    //{
-    //    mxCallBackList.push_back(cb);
-    //    return true;
-    //}
+    bool AFCNetServerService::RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb)
+    {
+        net_forward_msg_callbacks_.push_back(cb);
+        return true;
+    }
 
-    bool AFCNetServerService::AddNetEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb)
+    bool AFCNetServerService::RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb)
     {
         net_event_callbacks_.push_back(cb);
         return true;
@@ -153,13 +153,15 @@ namespace ark
 
     void AFCNetServerService::OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id)
     {
-        auto it = net_recv_callbacks_.find(msg_id);
-        if (it != net_recv_callbacks_.end())
+        auto it = net_msg_callbacks_.find(msg_id);
+        if (it != net_msg_callbacks_.end())
         {
             (*it->second)(head, msg_id, msg, msg_len, conn_id);
         }
         else
         {
+            //TODO:forward to other server process
+
             ARK_LOG_ERROR("Invalid message, id = {}", msg_id);
 
             //for (const auto& iter : mxCallBackList)

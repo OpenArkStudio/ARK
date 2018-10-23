@@ -47,9 +47,9 @@ namespace ark
         void Update() override;
         void Shutdown() override;
 
-        bool AddNetRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
-        //bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
-        bool AddNetEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) override;
+        bool RegMsgCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
+        bool RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
+        bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) override;
 
         ////////////////////////////////////////////////////////////////////////////////
         //void SendByServerID(const int nServerID, const int nMsgID, const std::string& strData, const AFGUID& nPlayerID);
@@ -76,7 +76,7 @@ namespace ark
 
         AFINet* CreateNet(const proto_type proto);
 
-        void RegisterToServer(const int bus_id);
+        void RegisterToServer(const AFGUID& conn_id, const int bus_id);
         int OnConnect(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id);
         int OnDisconnect(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id);
 
@@ -104,14 +104,16 @@ namespace ark
         AFIMsgModule* m_pMsgModule;
         AFILogModule* m_pLogModule;
 
-        AFMapEx<int, AFConnectionData> mxTargetServerMap;
+        AFMapEx<int, AFConnectionData> target_servers_;
         AFCConsistentHash mxConsistentHash;
 
         std::list<AFConnectionData> _tmp_nets;
 
-        std::map<int, NET_PKG_RECV_FUNCTOR_PTR> mxRecvCallBack;
+        std::map<int, NET_PKG_RECV_FUNCTOR_PTR> net_msg_callbacks_;
         std::list<NET_EVENT_FUNCTOR_PTR> net_event_callbacks_;
-        //std::list<NET_PKG_RECV_FUNCTOR_PTR> mxCallBackList;
+
+        //forward to other processes
+        std::list<NET_PKG_RECV_FUNCTOR_PTR> net_msg_forward_callbacks_;
 
         std::map<int, std::map<int, AFMsg::msg_ss_server_report>> reg_servers_;
     };

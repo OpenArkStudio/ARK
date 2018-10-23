@@ -109,7 +109,7 @@ namespace ark
         AFMapEx<std::string, ClientConnectData> mxWantToConnectMap;
 
     private:
-        AFMapEx<AFGUID, AFSessionData> mmSessionData; //Player Client <--> SessionData
+        AFMapEx<AFGUID, AFClientConnectionData> client_connections_; //net_conn_id <--> SessionData
         AFCConsistentHash mxConsistentHash;
 
         AFILogModule* m_pLogModule;

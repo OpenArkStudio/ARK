@@ -40,15 +40,15 @@ namespace ark
         AFMsg::msg_ss_server_report server_info_;
     };
 
-    class AFSessionData
+    class AFClientConnectionData
     {
     public:
-        int32_t mnLogicState{ 0 };
-        int32_t mnGameID{ 0 };
-        AFGUID mnUserID{ 0 };
-        AFGUID mnClientID{ 0 };
-        AFGUID mnHashIdentID{ 0 };
-        std::string mstrAccout{};
+        int32_t logic_state_{ 0 };
+        int32_t game_id_{ 0 };
+        AFGUID actor_id_{ 0 };
+        AFGUID conn_id_{ 0 };
+        //AFGUID mnHashIdentID{ 0 };
+        std::string account_{};
     };
 
     class AFINetServerService
@@ -57,24 +57,24 @@ namespace ark
         virtual ~AFINetServerService() = default;
 
         template<typename BaseType>
-        bool AddNetRecvCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
+        bool RegMsgCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
         {
             NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-            return AddNetRecvCallback(nMsgID, std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
+            return RegMsgCallback(nMsgID, std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
         }
 
-        //template<typename BaseType>
-        //bool AddRecvCallback(BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
-        //{
-        //    NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-        //    return AddRecvCallback(std::make_shared < NET_PKG_RECV_FUNCTOR>(functor));
-        //}
+        template<typename BaseType>
+        bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
+        {
+            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
+            return RegForwardMsgCallback(std::make_shared < NET_PKG_RECV_FUNCTOR>(functor));
+        }
 
         template<typename BaseType>
-        bool AddNetEventCallBack(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const std::string&, const int))
+        bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const std::string&, const int))
         {
             NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return AddNetEventCallBack(std::make_shared<NET_EVENT_FUNCTOR>(functor));
+            return RegNetEventCallback(std::make_shared<NET_EVENT_FUNCTOR>(functor));
         }
 
         virtual bool Start(const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) = 0;
@@ -86,9 +86,9 @@ namespace ark
         //virtual bool SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) = 0;
         virtual AFINet* GetNet() = 0;
 
-        virtual bool AddNetRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
-        //virtual bool AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
-        virtual bool AddNetEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegMsgCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
     };
 
 }

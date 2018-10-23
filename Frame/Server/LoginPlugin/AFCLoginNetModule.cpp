@@ -62,12 +62,12 @@ namespace ark
             return ret;
         }
 
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetModule::OnHeartBeat);
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetModule::OnLoginProcess);
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetModule::OnLogOut);
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetModule::OnSelectWorldProcess);
-        //m_pNetServer->AddNetRecvCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetModule::OnViewWorldProcess);
-        //m_pNetServer->AddNetRecvCallback(this, &AFCLoginNetServerModule::InvalidMessage);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_STS_HEART_BEAT, this, &AFCLoginNetModule::OnHeartBeat);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_LOGIN, this, &AFCLoginNetModule::OnLoginProcess);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_LOGOUT, this, &AFCLoginNetModule::OnLogOut);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_CONNECT_WORLD, this, &AFCLoginNetModule::OnSelectWorldProcess);
+        //m_pNetServer->RegMsgCallback(AFMsg::EGMI_REQ_WORLD_LIST, this, &AFCLoginNetModule::OnViewWorldProcess);
+        //m_pNetServer->RegMsgCallback(this, &AFCLoginNetServerModule::InvalidMessage);
 
         //m_pNetServer->AddNetEventCallBack(this, &AFCLoginNetServerModule::OnSocketClientEvent);
 

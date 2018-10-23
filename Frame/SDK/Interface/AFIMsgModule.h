@@ -36,6 +36,15 @@ namespace ark
     public:
         virtual ~AFIMsgModule() = default;
 
+        virtual bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
+        virtual bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
+        virtual bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
+
+        virtual bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
+        virtual bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
+        virtual bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
+
+
         static bool RecvPB(const ARK_PKG_BASE_HEAD& xHead, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
         {
             strMsg.assign(msg, nLen);
@@ -305,14 +314,6 @@ namespace ark
 
             return true;
         }
-
-        virtual bool SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
-        virtual bool SendSuitSSMsg(const uint8_t app_type, const uint32_t& hash_value, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
-        virtual bool SendParticularSSMsg(const int bus_id, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id = 0) = 0;
-
-        virtual bool SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
-        virtual bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
-        virtual bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
     };
 
 #define ARK_PROCESS_ACTOR_MSG(head, msg_id, msg, msg_len, pb_msg)                   \
@@ -323,6 +324,14 @@ namespace ark
         ARK_LOG_ERROR("Parse msg error, msg_id = {}", msg_id);                      \
         return;                                                                     \
     }                                                                               \
+                                                                                    \
+    ARK_LOG_DEBUG("Recv msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data=\n{}", \
+        "",                                                                         \
+        "",                                                                         \
+        x_msg.GetTypeName(),                                                        \
+        msg_id,                                                                     \
+        msg_len,                                                                    \
+        x_msg.DebugString());                                                       \
                                                                                     \
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(actor_id);        \
     if (nullptr == pEntity)                                                                                             \
@@ -338,7 +347,15 @@ namespace ark
     {                                                                           \
         ARK_LOG_ERROR("Parse msg error, msg_id = {}", msg_id);                  \
         return;                                                                 \
-    }
+    }                                                                           \
+                                                                                \
+    ARK_LOG_DEBUG("Recv msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data=\n{}", \
+        "",                                                                         \
+        "",                                                                         \
+        x_msg.GetTypeName(),                                                        \
+        msg_id,                                                                     \
+        msg_len,                                                                    \
+        x_msg.DebugString());
 
 #define  ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len)                       \
     std::string msg_data;                                                       \

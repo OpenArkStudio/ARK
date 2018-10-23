@@ -43,7 +43,7 @@ namespace ark
     {
         int id = 0;
 
-        for (auto connection_data = mxTargetServerMap.First(id); connection_data != nullptr; connection_data = mxTargetServerMap.Next(id))
+        for (auto connection_data = target_servers_.First(id); connection_data != nullptr; connection_data = target_servers_.Next(id))
         {
             if (connection_data->net_client_ptr_ != nullptr)
             {
@@ -52,26 +52,26 @@ namespace ark
         }
     }
 
-    bool AFCNetClientService::AddNetRecvCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb)
+    bool AFCNetClientService::RegMsgCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb)
     {
-        if (mxRecvCallBack.find(nMsgID) != mxRecvCallBack.end())
+        if (net_msg_callbacks_.find(nMsgID) != net_msg_callbacks_.end())
         {
             return false;
         }
         else
         {
-            mxRecvCallBack.insert(std::make_pair(nMsgID, cb));
+            net_msg_callbacks_.insert(std::make_pair(nMsgID, cb));
             return true;
         }
     }
 
-    //bool AFCNetClientService::AddRecvCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb)
-    //{
-    //    mxCallBackList.push_back(cb);
-    //    return true;
-    //}
+    bool AFCNetClientService::RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb)
+    {
+        net_msg_forward_callbacks_.push_back(cb);
+        return true;
+    }
 
-    bool AFCNetClientService::AddNetEventCallBack(const NET_EVENT_FUNCTOR_PTR& cb)
+    bool AFCNetClientService::RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb)
     {
         net_event_callbacks_.push_back(cb);
         return true;
@@ -79,7 +79,7 @@ namespace ark
 
     void AFCNetClientService::ProcessUpdate()
     {
-        mxTargetServerMap.DoEveryElement([ & ](AFMapEx<int, AFConnectionData>::PTRTYPE & connection_data)
+        target_servers_.DoEveryElement([ & ](AFMapEx<int, AFConnectionData>::PTRTYPE & connection_data)
         {
             switch (connection_data->net_state_)
             {
@@ -171,7 +171,7 @@ namespace ark
     {
         LogServerInfo("This is a client, begin to print Server Info----------------------------------");
 
-        mxTargetServerMap.DoEveryElement([ = ](AFMapEx<int, AFConnectionData>::PTRTYPE & pServerData)
+        target_servers_.DoEveryElement([ = ](AFMapEx<int, AFConnectionData>::PTRTYPE & pServerData)
         {
             if (pServerData)
             {
@@ -246,13 +246,13 @@ namespace ark
             //add server-bus-id -> client-bus-id
             m_pNetServiceManagerModule->AddNetConnectionBus(bus_id, pServerInfo->net_client_ptr_);
             //register to this server
-            RegisterToServer(bus_id);
+            RegisterToServer(conn_id, bus_id);
         }
 
         return 0;
     }
 
-    void AFCNetClientService::RegisterToServer(const int bus_id)
+    void AFCNetClientService::RegisterToServer(const AFGUID& conn_id, const int bus_id)
     {
         const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
         if (server_config == nullptr)
@@ -269,7 +269,7 @@ namespace ark
         msg.set_max_online(server_config->max_connection);
         msg.set_logic_status(AFMsg::E_ST_NARMAL);
 
-        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg);
+        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg, conn_id);
         ARK_LOG_INFO("Register self server_id = {}, target_id = {}", server_config->self_id, bus_id);
     }
 
@@ -296,7 +296,7 @@ namespace ark
         for (auto& iter : _tmp_nets)
         {
             const AFConnectionData& connection_data = iter;
-            ARK_SHARE_PTR<AFConnectionData> target_connection_data = mxTargetServerMap.GetElement(connection_data.server_bus_id_);
+            ARK_SHARE_PTR<AFConnectionData> target_connection_data = target_servers_.GetElement(connection_data.server_bus_id_);
             if (nullptr == target_connection_data)
             {
                 //正常，添加新服务器
@@ -317,8 +317,8 @@ namespace ark
                     target_connection_data->net_state_ = AFConnectionData::CONNECTING;
                 }
 
-                mxTargetServerMap.AddElement(target_connection_data->server_bus_id_, target_connection_data);
-                AFINetClientService::AddNetRecvCallback(AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, this, &AFCNetClientService::OnServerNotify);
+                target_servers_.AddElement(target_connection_data->server_bus_id_, target_connection_data);
+                AFINetClientService::RegMsgCallback(AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, this, &AFCNetClientService::OnServerNotify);
             }
         }
 
@@ -327,14 +327,16 @@ namespace ark
 
     void AFCNetClientService::OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id)
     {
-        auto it = mxRecvCallBack.find(msg_id);
+        auto it = net_msg_callbacks_.find(msg_id);
 
-        if (mxRecvCallBack.end() != it)
+        if (net_msg_callbacks_.end() != it)
         {
             (*it->second)(head, msg_id, msg, msg_len, conn_id);
         }
         else
         {
+            //TODO:forward to other server process
+
             ARK_LOG_ERROR("Invalid message, id = {}", msg_id);
             //for (const auto& iter : mxCallBackList)
             //{
@@ -488,12 +490,12 @@ namespace ark
 
     const ARK_SHARE_PTR<AFConnectionData>& AFCNetClientService::GetServerNetInfo(const int nServerID)
     {
-        return mxTargetServerMap.GetElement(nServerID);
+        return target_servers_.GetElement(nServerID);
     }
 
     AFMapEx<int, AFConnectionData>& AFCNetClientService::GetServerList()
     {
-        return mxTargetServerMap;
+        return target_servers_;
     }
 
     void AFCNetClientService::OnServerNotify(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)

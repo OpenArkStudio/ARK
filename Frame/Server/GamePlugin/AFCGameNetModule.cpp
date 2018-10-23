@@ -79,21 +79,21 @@ namespace ark
             return ret;
         }
 
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameNetModule::OnRefreshProxyServerInfoProcess);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameNetModule::OnProxyServerRegisteredProcess);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCGameNetModule::OnProxyServerUnRegisteredProcess);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCGameNetModule::OnClienEnterGameProcess);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_REQ_LEAVE_GAME, this, &AFCGameNetModule::OnClientLeaveGameProcess);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCGameNetModule::OnReqiureRoleListProcess);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCGameNetModule::OnCreateRoleGameProcess);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCGameNetModule::OnDeleteRoleGameProcess);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_REQ_RECOVER_ROLE, this, &AFCGameNetModule::OnClienSwapSceneProcess);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_REQ_SWAP_SCENE, this, &AFCGameNetModule::OnClienSwapSceneProcess);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGMI_REQ_SEARCH_GUILD, this, &AFCGameNetModule::OnTransWorld);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGEC_REQ_CREATE_CHATGROUP, this, &AFCGameNetModule::OnTransWorld);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGEC_REQ_JOIN_CHATGROUP, this, &AFCGameNetModule::OnTransWorld);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGEC_REQ_LEAVE_CHATGROUP, this, &AFCGameNetModule::OnTransWorld);
-        m_pNetServerService->AddNetRecvCallback(AFMsg::EGEC_REQ_SUBSCRIPTION_CHATGROUP, this, &AFCGameNetModule::OnTransWorld);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REFRESH, this, &AFCGameNetModule::OnRefreshProxyServerInfoProcess);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_REGISTERED, this, &AFCGameNetModule::OnProxyServerRegisteredProcess);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_PTWG_PROXY_UNREGISTERED, this, &AFCGameNetModule::OnProxyServerUnRegisteredProcess);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_ENTER_GAME, this, &AFCGameNetModule::OnClienEnterGameProcess);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_LEAVE_GAME, this, &AFCGameNetModule::OnClientLeaveGameProcess);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_ROLE_LIST, this, &AFCGameNetModule::OnReqiureRoleListProcess);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_CREATE_ROLE, this, &AFCGameNetModule::OnCreateRoleGameProcess);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_DELETE_ROLE, this, &AFCGameNetModule::OnDeleteRoleGameProcess);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_RECOVER_ROLE, this, &AFCGameNetModule::OnClienSwapSceneProcess);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_SWAP_SCENE, this, &AFCGameNetModule::OnClienSwapSceneProcess);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGMI_REQ_SEARCH_GUILD, this, &AFCGameNetModule::OnTransWorld);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGEC_REQ_CREATE_CHATGROUP, this, &AFCGameNetModule::OnTransWorld);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGEC_REQ_JOIN_CHATGROUP, this, &AFCGameNetModule::OnTransWorld);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGEC_REQ_LEAVE_CHATGROUP, this, &AFCGameNetModule::OnTransWorld);
+        m_pNetServerService->RegMsgCallback(AFMsg::EGEC_REQ_SUBSCRIPTION_CHATGROUP, this, &AFCGameNetModule::OnTransWorld);
 
         //m_pNetServerService->AddEventCallBack(this, &AFCGameNetServerModule::OnSocketEvent);
 
@@ -125,7 +125,7 @@ namespace ark
         }
 
         //TODO:will add a transfer callback
-        //pNetClient->AddNetRecvCallback(this, &AFCGameNetClientModule::TransPBToProxy);
+        //pNetClient->RegMsgCallback(this, &AFCGameNetClientModule::TransPBToProxy);
 
         return 0;
     }

@@ -337,7 +337,7 @@ namespace ark
             return true;
         }
 
-        bool AddString(const char* value, const int nLength) override
+        virtual bool AddString(const char* value, const int nLength)
         {
             if (nLength <= 0)
             {
