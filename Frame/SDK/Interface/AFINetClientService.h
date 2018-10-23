@@ -74,7 +74,7 @@ namespace ark
         bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const std::string&, const int))
         {
             NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return AddNetEventCallBack(std::make_shared<NET_EVENT_FUNCTOR>(functor));
+            return RegNetEventCallback(std::make_shared<NET_EVENT_FUNCTOR>(functor));
         }
 
         virtual bool StartClient(const int& target_bus_id, const AFEndpoint& endpoint) = 0;

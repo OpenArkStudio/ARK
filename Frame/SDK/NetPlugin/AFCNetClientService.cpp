@@ -5,7 +5,8 @@
 namespace ark
 {
 
-    AFCNetClientService::AFCNetClientService(AFIPluginManager* p) : m_pPluginManager(p)
+    AFCNetClientService::AFCNetClientService(AFIPluginManager* p) :
+        m_pPluginManager(p)
     {
         m_pNetServiceManagerModule = m_pPluginManager->FindModule<AFINetServiceManagerModule>();
         m_pBusModule = m_pPluginManager->FindModule<AFIBusModule>();
