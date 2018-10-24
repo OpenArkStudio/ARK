@@ -52,14 +52,16 @@ ARK is a lightweight, agility, scalable, distributed plugin framework written in
 
 Please [create a new issue](https://github.com/ArkGame/ARK/issues) OR [visit our community](https://arkgame.net/questions) to ask a question.
 
+### Changelog
+[Changelog](https://github.com/ArkGame/ARK/blob/master/CHANGELOG.md)
 
 ## Architecture
 
-### App Architecture:
+### App Architecture
 
 ![App Architecture](https://github.com/ArkGame/ARK/blob/master/Docs/asserts/imgs/AppArchitecture.png?raw=true)
 
-## Get the Sources:
+## Get the Sources
 
 git clone https://github.com/ArkGame/ARK.git
 
@@ -85,14 +87,14 @@ svn checkout https://github.com/ArkGame/ARK
 
 ### Windows
 
-##### Prerequisites:
+##### Prerequisites
 
 - Windows 7 or later
 - Visual Studio 2017
 - Git
 - CMake
 
-##### Step:
+##### Step
 Using Visual Studio 2017
 1. Pull all source
 2. Run command line 
@@ -128,7 +130,7 @@ cmake -G "Visual Studio 15 Win64" ..
 
 ### linux
 
-##### Prerequisites:
+##### Prerequisites
 
 - g++ 4.8+ (need C++ 11)
 - Git
