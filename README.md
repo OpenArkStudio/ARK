@@ -49,7 +49,7 @@ ARK is a lightweight, agility, scalable, distributed plugin framework written in
 - Customization service for business customer
 
 ### Changelog
-[Changelog](https://github.com/ArkGame/ARK/blob/master/CHANGELOG.md)
+[Changelog](https://github.com/ArkGame/ARK/blob/master/Docs/CHANGELOG.md)
 
 ### FAQ
 
@@ -63,7 +63,7 @@ Please [create a new issue](https://github.com/ArkGame/ARK/issues) OR [visit our
 
 ## Dependencies, Build and Install
 
-[Dep & Build](https://github.com/ArkGame/ARK/blob/master/BUILD.md)
+[Dep & Build](https://github.com/ArkGame/ARK/blob/master/Docs/BUILD.md)
 
 ## Documents
 
