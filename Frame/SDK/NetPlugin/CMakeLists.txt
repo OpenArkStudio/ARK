@@ -1,1 +1,1 @@
-BUILD_SDK_PLUGIN_MACRO("AFNetPlugin")
+BUILD_SDK_PLUGIN_MACRO_EX("AFNetPlugin" protobuf)
