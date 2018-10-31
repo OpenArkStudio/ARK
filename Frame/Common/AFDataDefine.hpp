@@ -917,29 +917,6 @@ public:
 
 };
 
-class Server
-{
-public:
-	//Class name
-	static const std::string& ThisName(){ static std::string xServer = "Server"; return xServer; }
-	//IObject
-	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
-	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
-	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
-	//DataNodes
-	static const std::string& ServerID() { static std::string xServerID = "ServerID"; return xServerID; } //int
-	static const std::string& Name() { static std::string xName = "Name"; return xName; } //string
-	static const std::string& MaxOnline() { static std::string xMaxOnline = "MaxOnline"; return xMaxOnline; } //int
-	static const std::string& CpuCount() { static std::string xCpuCount = "CpuCount"; return xCpuCount; } //int
-	static const std::string& IP() { static std::string xIP = "IP"; return xIP; } //string
-	static const std::string& Port() { static std::string xPort = "Port"; return xPort; } //int
-	static const std::string& Type() { static std::string xType = "Type"; return xType; } //int
-	//DataTables
-
-};
-
 class Shop
 {
 public:
@@ -1030,30 +1007,6 @@ public:
 	static const std::string& SKILL8() { static std::string xSKILL8 = "SKILL8"; return xSKILL8; } //string
 	static const std::string& SKILL9() { static std::string xSKILL9 = "SKILL9"; return xSKILL9; } //string
 	static const std::string& SKILL10() { static std::string xSKILL10 = "SKILL10"; return xSKILL10; } //string
-	//DataTables
-
-};
-
-class SqlServer
-{
-public:
-	//Class name
-	static const std::string& ThisName(){ static std::string xSqlServer = "SqlServer"; return xSqlServer; }
-	//IObject
-	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
-	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
-	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
-	//DataNodes
-	static const std::string& ServerID() { static std::string xServerID = "ServerID"; return xServerID; } //int
-	static const std::string& IP() { static std::string xIP = "IP"; return xIP; } //string
-	static const std::string& Port() { static std::string xPort = "Port"; return xPort; } //int
-	static const std::string& SqlIP() { static std::string xSqlIP = "SqlIP"; return xSqlIP; } //string
-	static const std::string& SqlPort() { static std::string xSqlPort = "SqlPort"; return xSqlPort; } //int
-	static const std::string& SqlUser() { static std::string xSqlUser = "SqlUser"; return xSqlUser; } //string
-	static const std::string& SqlPwd() { static std::string xSqlPwd = "SqlPwd"; return xSqlPwd; } //string
-	static const std::string& SqlName() { static std::string xSqlName = "SqlName"; return xSqlName; } //string
 	//DataTables
 
 };

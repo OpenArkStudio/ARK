@@ -50,12 +50,12 @@ namespace ark
         RegisterModule<AFILevelModule, AFCLevelModule>();
         RegisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
         RegisterModule<AFIAccountModule, AFCAccountModule>();
-        RegisterModule<AFCGameNetModule, AFCGameNetModule>();
+        RegisterModule<AFIGameNetModule, AFCGameNetModule>();
     }
 
     void AFGamePlugin::Uninstall()
     {
-        DeregisterModule<AFCGameNetModule, AFCGameNetModule>();
+        DeregisterModule<AFIGameNetModule, AFCGameNetModule>();
         DeregisterModule<AFIAccountModule, AFCAccountModule>();
         DeregisterModule<AFIPropertyConfigModule, AFCPropertyConfigModule>();
         DeregisterModule<AFILevelModule, AFCLevelModule>();
