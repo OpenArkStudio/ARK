@@ -20,8 +20,8 @@ cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=rel
 make -j 4
 cp -a *.so* ../../../lib
 
-cp -a *.so ../../../../Bin/lib
-cp -a *.so ../../../../Frame/SDK/ProtoPlugin/proto-gen
+cp -a *.so* ../../../../Bin/lib
+cp -a *.so* ../../../../Frame/SDK/ProtoPlugin/proto-gen
 cp -a protoc* ../../../../Frame/SDK/ProtoPlugin/proto-gen
 
 cd ../../../
