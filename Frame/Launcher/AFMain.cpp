@@ -82,7 +82,7 @@ void CloseXButton()
 void InitDaemon()
 {
 #if ARK_PLATFORM == PLATFORM_UNIX
-    int ret = daemon(1, 1);
+    int ret = daemon(1, 0);
     ARK_ASSERT_NO_EFFECT(ret == 0);
 
     // ignore signals
@@ -324,7 +324,7 @@ bool ParseArgs(int argc, char* argv[])
 #if ARK_PLATFORM == PLATFORM_WIN
         SetConsoleTitle(process_name.c_str());
 #elif ARK_PLATFORM == PLATFORM_UNIX
-        setproctitle(process_name.c_str(), argc, argv);
+        //setproctitle(process_name.c_str(), argc, argv);
 #endif
     }
     else
