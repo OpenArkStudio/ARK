@@ -100,7 +100,7 @@ namespace ark
         return true;
     }
 
-    int AFDataTable::GetColType(int col) const
+    int AFDataTable::GetColType(size_t col) const
     {
         assert(col < mxColTypes.size());
         return mxColTypes[col];

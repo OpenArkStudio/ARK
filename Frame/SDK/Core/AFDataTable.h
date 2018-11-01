@@ -65,7 +65,7 @@ namespace ark
         size_t GetColCount() const;
 
         bool SetColType(size_t index, int type);
-        int GetColType(int col) const;
+        int GetColType(size_t col) const;
 
         int AddRow();
         bool AddRow(size_t row);

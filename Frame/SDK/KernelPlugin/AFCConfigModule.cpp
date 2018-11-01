@@ -119,7 +119,7 @@ namespace ark
                 ARK_SHARE_PTR<AFIDataNodeManager> pBaseClassNodeManager = pBaseClass->GetNodeManager();
                 if (nullptr != pBaseClassNodeManager)
                 {
-                    for (int i = 0; i < pBaseClassNodeManager->GetNodeCount(); i++)
+                    for (size_t i = 0; i < pBaseClassNodeManager->GetNodeCount(); ++i)
                     {
                         AFDataNode* pBaseClassNode = pBaseClassNodeManager->GetNodeByIndex(i);
                         pElementNodeManager->AddNode(pBaseClassNode->name.c_str(), pBaseClassNode->value, pBaseClassNode->feature);

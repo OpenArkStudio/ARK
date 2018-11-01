@@ -360,10 +360,10 @@ namespace ark
 #define  ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len)                       \
     std::string msg_data;                                                       \
     AFGUID actor_id;                                                            \
-    int has_key = 0;                                                            \
-    if (AFIMsgModule::RecvPB(head, msg, msg_len, msg_data, actor_id))           \
+    if (!AFIMsgModule::RecvPB(head, msg, msg_len, msg_data, actor_id))          \
     {                                                                           \
-        has_key = (int)actor_id.nLow;                                           \
+        ARK_LOG_ERROR("Parse msg error, msg_id = {}", msg_id);                  \
+        return;                                                                 \
     }
 
 }

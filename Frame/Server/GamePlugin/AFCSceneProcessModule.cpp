@@ -168,7 +168,7 @@ namespace ark
 
         m_pKernelModule->DoEvent(self, AFED_ON_OBJECT_ENTER_SCENE_BEFORE, xSceneResult);
 
-        if (!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos, 0.0F, var))
+        if (!m_pKernelModule->SwitchScene(self, nTargetScene, nNewGroupID, xRelivePos, 0.0f, var))
         {
             ARK_LOG_ERROR("SwitchScene failed, id = {} scene_id = {}", ident.ToString(), nTargetScene);
             return 0;

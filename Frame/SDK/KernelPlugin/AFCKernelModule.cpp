@@ -175,7 +175,7 @@ namespace ark
 
         DoEvent(ident, strClassName, ENTITY_EVT_PRE_LOAD_DATA, arg);
 
-        for (int i = 0; (i + 1) < arg.GetCount(); i += 2)
+        for (size_t i = 0; (i + 1) < arg.GetCount(); i += 2)
         {
             const std::string& strDataNodeName = arg.String(i);
 
@@ -898,7 +898,7 @@ namespace ark
 
         if (GetGroupEntityList(nSceneID, nGroupID, listObject))
         {
-            for (int i = 0; i < listObject.GetCount(); ++i)
+            for (size_t i = 0; i < listObject.GetCount(); ++i)
             {
                 AFGUID ident = listObject.Object(i);
 

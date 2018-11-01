@@ -45,31 +45,31 @@ namespace ark
 
         virtual int RefreshBaseProperty(const AFGUID& self) = 0;
         virtual int GetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType) = 0;
-        virtual int SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue) = 0;
-        virtual int AddPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue) = 0;
-        virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int nValue) = 0;
+        virtual int SetPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int32_t nValue) = 0;
+        virtual int AddPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int32_t nValue) = 0;
+        virtual int SubPropertyValue(const AFGUID& self, const std::string& strPropertyName, const ArkPropertyGroup eGroupType, const int32_t nValue) = 0;
 
         virtual bool FullHPMP(const AFGUID& self) = 0;
-        virtual bool AddHP(const AFGUID& self, const int64_t& nValue) = 0;
-        virtual bool ConsumeHP(const AFGUID& self, const int64_t& nValue) = 0;
-        virtual bool EnoughHP(const AFGUID& self, const int64_t& nValue) = 0;
+        virtual bool AddHP(const AFGUID& self, const int32_t& nValue) = 0;
+        virtual bool ConsumeHP(const AFGUID& self, const int32_t& nValue) = 0;
+        virtual bool EnoughHP(const AFGUID& self, const int32_t& nValue) = 0;
 
-        virtual bool AddMP(const AFGUID& self, const int64_t& nValue) = 0;
-        virtual bool ConsumeMP(const AFGUID& self, const int64_t& nValue) = 0;
-        virtual bool EnoughMP(const AFGUID& self, const int64_t& nValue) = 0;
+        virtual bool AddMP(const AFGUID& self, const int32_t& nValue) = 0;
+        virtual bool ConsumeMP(const AFGUID& self, const int32_t& nValue) = 0;
+        virtual bool EnoughMP(const AFGUID& self, const int32_t& nValue) = 0;
 
         virtual bool FullSP(const AFGUID& self) = 0;
-        virtual bool AddSP(const AFGUID& self, const int64_t& nValue) = 0;
-        virtual bool ConsumeSP(const AFGUID& self, const int64_t& nValue) = 0;
-        virtual bool EnoughSP(const AFGUID& self, const int64_t& nValue) = 0;
+        virtual bool AddSP(const AFGUID& self, const int32_t& nValue) = 0;
+        virtual bool ConsumeSP(const AFGUID& self, const int32_t& nValue) = 0;
+        virtual bool EnoughSP(const AFGUID& self, const int32_t& nValue) = 0;
 
-        virtual bool AddMoney(const AFGUID& self, const int64_t& nValue) = 0;
-        virtual bool ConsumeMoney(const AFGUID& self, const int64_t& nValue) = 0;
-        virtual bool EnoughMoney(const AFGUID& self, const int64_t& nValue) = 0;
+        virtual bool AddMoney(const AFGUID& self, const int32_t& nValue) = 0;
+        virtual bool ConsumeMoney(const AFGUID& self, const int32_t& nValue) = 0;
+        virtual bool EnoughMoney(const AFGUID& self, const int32_t& nValue) = 0;
 
-        virtual bool AddDiamond(const AFGUID& self, const int64_t& nValue) = 0;
-        virtual bool ConsumeDiamond(const AFGUID& self, const int64_t& nValue) = 0;
-        virtual bool EnoughDiamond(const AFGUID& self, const int64_t& nValue) = 0;
+        virtual bool AddDiamond(const AFGUID& self, const int32_t& nValue) = 0;
+        virtual bool ConsumeDiamond(const AFGUID& self, const int32_t& nValue) = 0;
+        virtual bool EnoughDiamond(const AFGUID& self, const int32_t& nValue) = 0;
     };
 
 }

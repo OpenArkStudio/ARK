@@ -270,7 +270,7 @@ namespace ark
         head.SetBodyLength(msg_len);
 
         std::string out_data;
-        int whole_len = EnCode(head, msg, msg_len, out_data);
+        size_t whole_len = EnCode(head, msg, msg_len, out_data);
         if (whole_len == msg_len + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
         {
             return SendMsg(out_data.c_str(), out_data.length(), conn_id);
