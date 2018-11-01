@@ -3,6 +3,7 @@
 		<plugin name="AFKernelPlugin" />
 		<plugin name="AFUtilityPlugin" />
 		<plugin name="AFBusPlugin" />
+                <plugin name="AFProtoPlugin" />
 		<plugin name="AFNetPlugin" />
 		<plugin name="AFGamePlugin" />
 	</plugins>
