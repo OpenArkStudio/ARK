@@ -57,9 +57,9 @@ macro(BUILD_PLUGIN_MACRO project_name)
     set_target_properties(${project_name} PROPERTIES OUTPUT_NAME_DEBUG "${project_name}_d")
     set_target_properties(${project_name} PROPERTIES
         FOLDER "Server"
-        ARCHIVE_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
-        RUNTIME_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR}
-        LIBRARY_OUTPUT_DIRECTORY ${BIN_OUTPUT_DIR})
+        ARCHIVE_OUTPUT_DIRECTORY ${PLUGIN_OUTPUT_DIR}
+        RUNTIME_OUTPUT_DIRECTORY ${PLUGIN_OUTPUT_DIR}
+        LIBRARY_OUTPUT_DIRECTORY ${PLUGIN_OUTPUT_DIR})
 endmacro(BUILD_PLUGIN_MACRO project_name)
 
 ###################################################################################################
