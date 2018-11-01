@@ -19,8 +19,8 @@ svn checkout https://github.com/ArkGame/ARK
 
 ## Supported Compilers
 
-- GCC >= 4.8 (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
-- MSVC >= VS2015 update 3 (**<font color=red>Recommend VS2017</font>. Tested in Win7/10**)
+- GCC 4.9+ (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
+- MSVC VS2015up3+ (**<font color=red>Recommend VS2017</font>. Tested in Win7/10**)
 
 ## Build and Install
 
