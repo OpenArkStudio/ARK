@@ -15,5 +15,8 @@ set_target_properties(${project_name} PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY ${LIB_OUTPUT_DIR}
     RUNTIME_OUTPUT_DIRECTORY ${LIB_OUTPUT_DIR}
     LIBRARY_OUTPUT_DIRECTORY ${LIB_OUTPUT_DIR})
-
-target_link_libraries(${project_name} AFCore debug libprotobufd optimized libprotobuf)
+if(UNIX)
+    target_link_libraries(${project_name})
+else(UNIX)
+    target_link_libraries(${project_name} AFCore debug libprotobufd optimized libprotobuf)
+endif(UNIX)

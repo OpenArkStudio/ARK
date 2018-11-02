@@ -46,7 +46,7 @@ if(UNIX)
     set(LDFLAGS "$ENV{LDFLAGS} -stdlib=libc++")
     set(DEP_LIB_DIR ${ROOT_DIR}/Dep/lib/ ${ROOT_DIR}/Bin/lib/)
     set(BIN_OUTPUT_DIR ${ROOT_DIR}/Bin/bin/)
-    set(PLUGIN_OUTPUT_DIR ${ROOT_DIR}/Bin/lib)
+    set(LIB_OUTPUT_DIR ${ROOT_DIR}/Bin/lib)
     add_definitions(-Wno-unused-variable -Wno-unused-parameter -Wno-unused-function -Wno-strict-aliasing -Wno-pmf-conversions)
     
     if(ENABLE_COVERAGE)

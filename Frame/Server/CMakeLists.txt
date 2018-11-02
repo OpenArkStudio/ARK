@@ -13,10 +13,6 @@ macro(BUILD_PLUGIN_MACRO project_name)
     add_dependencies(${project_name} AFProto AFCore)
 
     if(UNIX)
-        add_definitions(
-            -DLIBPROTOC_EXPORTS
-            -DPROTOBUF_USE_DLLS)
-
         target_link_libraries(${project_name} 
             debug :AFProto_d.a
             debug :AFCore_d.a
@@ -26,7 +22,7 @@ macro(BUILD_PLUGIN_MACRO project_name)
             debug dl
             
             optimized :AFProto_d.so
-	        optimized :AFCore.a
+            optimized :AFCore.a
             optimized protobuf
             optimized brynet.a
             optimized pthread

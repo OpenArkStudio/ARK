@@ -16,12 +16,12 @@ fi
 git clone https://github.com/protocolbuffers/protobuf.git --depth 1
 cd protobuf/cmake
 mkdir build && cd build
-cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=OFF -DCMAKE_BUILD_TYPE=release -Dprotobuf_BUILD_TESTS=OFF ..
+cmake -G "Unix Makefiles" -Dprotobuf_BUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=release -Dprotobuf_BUILD_TESTS=OFF ..
 make -j 4
-cp -a *.lib* ../../../lib
+cp -a *.so* ../../../lib
 
-#cp -a *.so* ../../../../Bin/lib
-#cp -a *.so* ../../../../Frame/SDK/ProtoPlugin/proto-gen
+cp -a *.so* ../../../../Bin/lib
+cp -a *.so* ../../../../Frame/SDK/Proto/proto-gen
 cp -a protoc* ../../../../Frame/SDK/Proto/proto-gen
 
 cd ../../../

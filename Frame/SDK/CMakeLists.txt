@@ -2,12 +2,12 @@
 macro(BUILD_SDK_PLUGIN_MACRO project_name dep_libs)
     if(UNIX)
         #Set rpath
-        SET(CMAKE_INSTALL_RPATH "./" "../bin/" "../lib/")
+        SET(CMAKE_INSTALL_RPATH "./lib/" "../lib/")
         SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
     endif(UNIX)
 
     set(new_dep_libs ${dep_libs} ${ARGN})
-
+    
     aux_source_directory(. SDK_SRC)
     add_library(${project_name} SHARED ${SDK_SRC})
     add_dependencies(${project_name} ${new_dep_libs})
