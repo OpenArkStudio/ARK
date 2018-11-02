@@ -28,16 +28,18 @@
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
 
 #pragma comment(lib, "brynetd.lib")
+#pragma comment(lib, "libprotobuf-lited.lib")
 #pragma comment(lib, "libprotobufd.lib")
 #pragma comment(lib, "AFCore_d.lib")
-#pragma comment(lib, "AFProtoPlugin_d.lib") //just for linking
+#pragma comment(lib, "AFProto_d.lib")
 
 #else
 
 #pragma comment(lib, "brynet.lib")
+#pragma comment(lib, "libprotobuf-lite.lib")
 #pragma comment(lib, "libprotobuf.lib")
 #pragma comment(lib, "AFCore.lib")
-#pragma comment(lib, "AFProtoPlugin.lib")
+#pragma comment(lib, "AFProto.lib")
 
 #endif
 

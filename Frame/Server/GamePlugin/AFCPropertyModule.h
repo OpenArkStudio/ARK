@@ -76,7 +76,7 @@ namespace ark
 
         int OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
-        const std::string& ColToPropertyName(const int nCol);
+        const std::string& ColToPropertyName(const size_t nCol);
         int64_t PropertyNameToCol(const std::string& strClassName);
 
     private:

@@ -20,7 +20,7 @@ git clone https://github.com/protocolbuffers/protobuf.git --depth 1
 cd protobuf/cmake
 md build
 cd build
-cmake -G "Visual Studio 15 Win64" -Dprotobuf_BUILD_SHARED_LIBS=ON -Dprotobuf_BUILD_TESTS=OFF ..
+cmake -G "Visual Studio 15 Win64" -Dprotobuf_BUILD_SHARED_LIBS=OFF -Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_MSVC_STATIC_RUNTIME=OFF ..
 "%VS150COMNTOOLS%..\IDE\Devenv" protobuf.sln /build "Debug|x64"
 "%VS150COMNTOOLS%..\IDE\Devenv" protobuf.sln /build "Release|x64"
 copy Debug\*.dll ..\..\..\lib /Y
@@ -32,7 +32,7 @@ copy Debug\libprotobufd.dll ..\..\..\..\Bin\lib /Y
 copy Release\libprotobuf.dll ..\..\..\..\Bin\lib /Y
 copy Release\libprotobuf.dll ..\..\..\..\Frame\SDK\ProtoPlugin\proto-gen /Y
 copy Release\libprotoc.dll ..\..\..\..\Frame\SDK\ProtoPlugin\proto-gen /Y
-copy Release\protoc.exe ..\..\..\..\Frame\SDK\ProtoPlugin\proto-gen /Y
+copy Release\protoc.exe ..\..\..\..\Frame\SDK\Proto\proto-gen /Y
 
 cd ..\..\..\
 
@@ -54,7 +54,7 @@ cd ..\..\
 REM ####################################################################################################
 REM generate pb files
 echo "generate proto files..."
-cd ..\Frame\SDK\ProtoPlugin
+cd ..\Frame\SDK\Proto
 gen-proto.bat
 cd ..\..\..\
 

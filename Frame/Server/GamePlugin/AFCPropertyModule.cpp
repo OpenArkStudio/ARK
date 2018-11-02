@@ -136,7 +136,7 @@ namespace ark
         int nAllValue = 0;
         AFDataTable* pTable = m_pKernelModule->FindTable(self, ark::Player::R_CommPropertyValue());
 
-        for (int i = 0; i < (int)(AFIPropertyModule::APG_ALL) && i < pTable->GetRowCount(); i++)
+        for (size_t i = 0; i < (size_t)(AFIPropertyModule::APG_ALL) && i < pTable->GetRowCount(); ++i)
         {
             int nValue = pTable->GetInt(i, nCol);
             nAllValue += nValue;
@@ -147,9 +147,9 @@ namespace ark
         return 0;
     }
 
-    const std::string& AFCPropertyModule::ColToPropertyName(const int nCol)
+    const std::string& AFCPropertyModule::ColToPropertyName(const size_t nCol)
     {
-        if (nCol > mColToName.size() || nCol < 0)
+        if (nCol > mColToName.size())
         {
             return NULL_STR;
         }
@@ -219,7 +219,7 @@ namespace ark
         int eJobType = m_pKernelModule->GetNodeInt(self, ark::Player::Job());
         int nLevel = m_pKernelModule->GetNodeInt(self, ark::Player::Level());
 
-        for (int i = 0; i < pTable->GetColCount(); ++i)
+        for (size_t i = 0; i < pTable->GetColCount(); ++i)
         {
             const std::string& strPropertyName = ColToPropertyName(i);
             int nValue = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, strPropertyName);

@@ -20,10 +20,10 @@
 
 #pragma once
 
-#include "SDK/ProtoPlugin/cpp/AFDefine.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFMsgBase.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFMsgPreGame.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFMsgShare.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFMsgURl.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFMsgMysql.pb.h"
-#include "SDK/ProtoPlugin/cpp/AFSSMsg.pb.h"
+#include "SDK/Proto/cpp/AFDefine.pb.h"
+#include "SDK/Proto/cpp/AFMsgBase.pb.h"
+#include "SDK/Proto/cpp/AFMsgPreGame.pb.h"
+#include "SDK/Proto/cpp/AFMsgShare.pb.h"
+#include "SDK/Proto/cpp/AFMsgURl.pb.h"
+#include "SDK/Proto/cpp/AFMsgMysql.pb.h"
+#include "SDK/Proto/cpp/AFSSMsg.pb.h"

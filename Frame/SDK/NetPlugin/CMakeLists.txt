@@ -1,1 +1,1 @@
-BUILD_SDK_PLUGIN_MACRO_EX("AFNetPlugin" brynet  protobuf)
+BUILD_SDK_PLUGIN_MACRO("AFNetPlugin" AFProto AFCore)

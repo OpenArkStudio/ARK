@@ -71,7 +71,7 @@ cmake -G "Visual Studio 15 Win64" ..
 
 ##### Prerequisites
 
-- g++ 4.8+ (need C++ 11)
+- g++ 4.9+ (need C++ 11 and std::regex)
 - Git
 - CMake 3.0+
 - libtool
@@ -85,11 +85,11 @@ cd Dep
 ./build_dep.sh
 cd ../
 mkdir build && cd build
-cmake -G "Unix Makefiles" ..
+cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
 make
 ```
 > Note
-> - If you need build debug, please add `-DCMAKE_BUILD_TYPE="Debug"` in cmake command.
+> - If you need build release version, please add `-DCMAKE_BUILD_TYPE=release` in cmake command.
 > - To accelerate building, you can use `make -j` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
 3. Run `ARK\Bin\resource\tool\gen-config.sh` to generate configuration files(*Cuz our Tools is written by C#, so please generate your configuration in Windows, we plan to use .Net Core to create a new version in Linux*)
 4. Run the binary file by `Bin/rund.sh`

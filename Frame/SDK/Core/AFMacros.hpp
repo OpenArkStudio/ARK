@@ -257,10 +257,10 @@ template< typename TD>
 using ARK_SHARE_PTR = std::shared_ptr<TD>;
 #endif
 
-//Google Protobuffer use dll
-#ifndef PROTOBUF_USE_DLLS
-#define PROTOBUF_USE_DLLS
-#endif
+////Google Protobuffer use dll
+//#ifndef PROTOBUF_USE_DLLS
+//#define PROTOBUF_USE_DLLS
+//#endif
 
 //cpp version
 #if (__cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1800))

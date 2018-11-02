@@ -394,7 +394,7 @@ namespace ark
         head.SetMsgID(msg_id);
         head.SetUID(actor_rid);
 
-        int whole_len = EnCode(head, msg, msg_len, out_data);
+        size_t whole_len = EnCode(head, msg, msg_len, out_data);
         if (whole_len == msg_len + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
         {
             return SendMsgToAllClient(out_data.c_str(), out_data.length());
