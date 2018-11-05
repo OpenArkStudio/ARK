@@ -179,7 +179,7 @@ namespace ark
             ARK_LOG_INFO("Connected server = {} succenssfully, ip = {}, conn_id = {}", AFBusAddr(bus_id).ToString(), ip, conn_id.ToString());
             break;
         case DISCONNECTED:
-            ARK_LOG_INFO("Disconnected server = {} succenssfully, ip = {}, conn_id = {}", AFBusAddr(bus_id).ToString(), ip, conn_id.ToString());
+            ARK_LOG_ERROR("Disconnected server = {} succenssfully, ip = {}, conn_id = {}", AFBusAddr(bus_id).ToString(), ip, conn_id.ToString());
             m_pNetServiceManagerModule->RemoveNetConnectionBus(bus_id);
             break;
         default:

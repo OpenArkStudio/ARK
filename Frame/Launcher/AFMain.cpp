@@ -319,7 +319,7 @@ bool ParseArgs(int argc, char* argv[])
     {
         AFCPluginManager::GetInstancePtr()->SetAppName(name.Get());
 
-        std::string process_name = name.Get() + "-" + busid.Get();
+        std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFCPluginManager::GetInstancePtr()->BusID());
         //Set process name
 #if ARK_PLATFORM == PLATFORM_WIN
         SetConsoleTitle(process_name.c_str());

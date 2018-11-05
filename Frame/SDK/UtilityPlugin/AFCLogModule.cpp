@@ -49,7 +49,7 @@ namespace ark
 
     const std::shared_ptr<spdlog::async_logger>& AFCLogModule::GetLogger()
     {
-        return mxLogger;
+        return logger_;
     }
 
     void AFCLogModule::CreateLogger()
@@ -68,18 +68,18 @@ namespace ark
 #endif
         sinks_vec.push_back(date_and_hour_sink);
 
-        mxLogger = std::make_shared<spdlog::async_logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), 1024);
+        logger_ = std::make_shared<spdlog::async_logger>(pPluginManager->AppName(), std::begin(sinks_vec), std::end(sinks_vec), 1024);
 
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-        mxLogger->set_level(spdlog::level::level_enum::trace);
-        mxLogger->set_pattern("%^[%Y%m%d %H:%M:%S.%e][%l]%v%$");
+        logger_->set_level(spdlog::level::level_enum::trace);
+        logger_->set_pattern("%^[%Y%m%d %H:%M:%S.%e][%l]%v%$");
 #else
-        mxLogger->set_pattern("[%Y%m%d %H:%M:%S.%e][%l]%v");
+        logger_->set_pattern("[%Y%m%d %H:%M:%S.%e][%l]%v");
 #endif
+        //flush when level >= trace
+        logger_->flush_on(spdlog::level::trace);
 
-        mxLogger->flush_on(spdlog::level::err);
-
-        spdlog::register_logger(mxLogger);
+        spdlog::register_logger(logger_);
     }
 
     //////////////////////////////////////////////////////////////////////////

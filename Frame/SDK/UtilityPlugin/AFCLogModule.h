@@ -39,7 +39,7 @@ namespace ark
         void CreateLogger();
 
     private:
-        std::shared_ptr<spdlog::async_logger> mxLogger;
+        std::shared_ptr<spdlog::async_logger> logger_;
     };
 
     class AFCDynamicLogModule : public AFIDynamicLogModule

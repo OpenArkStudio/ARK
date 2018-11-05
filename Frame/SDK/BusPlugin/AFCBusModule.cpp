@@ -152,7 +152,7 @@ namespace ark
             auto iter = mxBusRelations.find(proc_type);
             if (iter != mxBusRelations.end())
             {
-                auto target_process = iter->second;
+                auto& target_process = iter->second;
                 target_process.insert(std::make_pair(target_proc_type, connection_type));
             }
             else
@@ -292,13 +292,14 @@ namespace ark
             return false;
         }
 
+        AFBusAddr target_bus(bus_id);
         const uint8_t& app_type = GetSelfAppType();
         auto iter = mxBusRelations.find(app_type);
         if (iter != mxBusRelations.end())
         {
             for (auto it : iter->second)
             {
-                if (it.first == bus_id && !it.second)
+                if (it.first == target_bus.proc_id && !it.second)
                 {
                     return true;
                 }
