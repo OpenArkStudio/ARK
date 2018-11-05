@@ -1,4 +1,4 @@
-set(project_name "BusPlugin")
+set(project_name "AFBusPlugin")
 
 if(UNIX)
     #Set rpath

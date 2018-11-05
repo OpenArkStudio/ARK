@@ -1,4 +1,4 @@
-set(project_name "NetPlugin")
+set(project_name "AFNetPlugin")
 
 if(UNIX)
     #Set rpath
