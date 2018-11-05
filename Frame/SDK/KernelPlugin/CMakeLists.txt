@@ -1,1 +1,1 @@
-BUILD_SDK_PLUGIN_MACRO("AFKernelPlugin" AFProto AFCore)
+BUILD_SDK_PLUGIN_MACRO("AFKernelPlugin" AFCore)

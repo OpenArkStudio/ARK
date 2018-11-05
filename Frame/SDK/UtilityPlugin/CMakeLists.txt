@@ -1,1 +1,1 @@
-BUILD_SDK_PLUGIN_MACRO("AFUtilityPlugin" AFProto AFCore)
+BUILD_SDK_PLUGIN_MACRO("AFUtilityPlugin" AFCore)
