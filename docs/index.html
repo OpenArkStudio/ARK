@@ -30,16 +30,27 @@
         '/zh-cn/(.*)': 'https://raw.githubusercontent.com/ArkGame/ARK/master/docs/$1',
         '/en/(.*)': 'https://raw.githubusercontent.com/ArkGame/ARK/master/docs/en/$1'
       },
-      notFoundPage: '_404.html',
       auto2top: true,
-      basePath: '/docs/',
-      executeScript: true,
-      loadNavbar: true,
-      loadSidebar: true,
       coverpage: true,
-      name: 'ARK',
-      subMaxLevel: 2,
+      executeScript: true,
+      loadSidebar: true,
+      loadNavbar: true,
       mergeNavbar: true,
+      maxLevel: 4,
+      subMaxLevel: 2,
+      ga: 'UA-106147152-1',
+      name: 'ARK',
+      search: {
+        noData: {
+          '/': '没有结果!',
+          '/en/': 'No results!'
+        },
+        paths: 'auto',
+        placeholder: {
+          '/': '搜索',
+          '/zh-cn/': 'Search'
+        }
+      },
       formatUpdated: '{MM}/{DD} {HH}:{mm}',
     }
   </script>
