@@ -35,11 +35,13 @@
       executeScript: true,
       loadSidebar: true,
       loadNavbar: true,
-      mergeNavbar: true,
       maxLevel: 4,
-      subMaxLevel: 2,
-      ga: 'UA-106147152-1',
       name: 'ARK',
+      repo: 'ArkGame/ARK',
+      search: {
+        paths: 'auto',
+      },
+      subMaxLevel: 2,
       search: {
         noData: {
           '/': '没有结果!',
@@ -48,10 +50,10 @@
         paths: 'auto',
         placeholder: {
           '/': '搜索',
-          '/zh-cn/': 'Search'
+          '/en/': 'Search'
         }
       },
-      formatUpdated: '{MM}/{DD} {HH}:{mm}',
+      formatUpdated: '{MM}/{DD} {HH}:{mm}'
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
