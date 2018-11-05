@@ -1,4 +1,4 @@
-![Server Architecture](https://github.com/ArkGame/ARK/raw/master/docs/asserts/imgs/arkgame.png)
+![logo](https://github.com/ArkGame/ARK/raw/master/docs/_images/logo.png)
 
 ![GitHub release](https://img.shields.io/github/release/ArkGame/ARK.svg?style=flat-square)
 [![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows-green.svg?style=flat-square)](https://github.com/ArkGame/ARK)
@@ -59,7 +59,7 @@ Please [create a new issue](https://github.com/ArkGame/ARK/issues) to ask a ques
 
 ### App Architecture
 
-![App Architecture](https://github.com/ArkGame/ARK/blob/master/docs/asserts/imgs/AppArchitecture.png?raw=true)
+![App Architecture](https://github.com/ArkGame/ARK/blob/master/docs/_images/app-architecture.png?raw=true)
 
 ## Dependencies, Build and Install
 
