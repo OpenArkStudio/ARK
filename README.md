@@ -1,4 +1,4 @@
-![Server Architecture](https://github.com/ArkGame/ARK/blob/master/Docs/asserts/imgs/arkgame.png?raw=true)
+![Server Architecture](https://github.com/ArkGame/ARK/raw/master/docs/asserts/imgs/arkgame.png)
 
 ![GitHub release](https://img.shields.io/github/release/ArkGame/ARK.svg?style=flat-square)
 [![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows-green.svg?style=flat-square)](https://github.com/ArkGame/ARK)
@@ -49,7 +49,7 @@ ARK is a lightweight, agility, scalable, distributed plugin framework written in
 - Customization service for business customer
 
 ### Changelog
-[Changelog](https://github.com/ArkGame/ARK/blob/master/Docs/CHANGELOG.md)
+[Changelog](https://github.com/ArkGame/ARK/blob/master/docs/CHANGELOG.md)
 
 ### FAQ
 
@@ -59,17 +59,17 @@ Please [create a new issue](https://github.com/ArkGame/ARK/issues) to ask a ques
 
 ### App Architecture
 
-![App Architecture](https://github.com/ArkGame/ARK/blob/master/Docs/asserts/imgs/AppArchitecture.png?raw=true)
+![App Architecture](https://github.com/ArkGame/ARK/blob/master/docs/asserts/imgs/AppArchitecture.png?raw=true)
 
 ## Dependencies, Build and Install
 
-[Dep & Build](https://github.com/ArkGame/ARK/blob/master/Docs/BUILD.md)
+[Dep & Build](https://github.com/ArkGame/ARK/blob/master/docs/BUILD.md)
 
 ## Documents
 
-[English](https://github.com/ArkGame/ARK/blob/master/Docs/doc_EN.md)
+[English](https://github.com/ArkGame/ARK/blob/master/docs/doc_EN.md)
 
-[Mandarin](https://github.com/ArkGame/ARK/blob/master/Docs/doc_ZH.md)
+[Mandarin](https://github.com/ArkGame/ARK/blob/master/docs/doc_ZH.md)
 
 ## Examples
 
@@ -77,7 +77,7 @@ Please see `Frame/Examples`.
 
 ## Plan
 
-View our [lastest plan](https://github.com/ArkGame/ARK/blob/master/Docs/plan.md)
+View our [lastest plan](https://github.com/ArkGame/ARK/blob/master/docs/plan.md)
 
 ## Unity3D client
 
