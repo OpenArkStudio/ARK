@@ -1,8 +1,0 @@
-syntax = "proto3";
-package AFMsg;
-
-enum e_error_code_id
-{
-    E_EC_DEFAULT_ID = 0;
-    //TO ADD
-}

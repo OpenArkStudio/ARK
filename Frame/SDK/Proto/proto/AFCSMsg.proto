@@ -1,6 +1,0 @@
-syntax = "proto3";
-package AFMsg;
-
-//Import all ss proto files in here.
-import "AFEventCode.proto";
-import "AFErrorCode.proto";
