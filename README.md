@@ -34,16 +34,16 @@ ARK is a lightweight, agility, scalable, distributed plugin framework written in
 ## Features
 
 - Flexible apps, plugins, and modules
-- High availability architectures
 - The general abstract data system
 - Interface-oriented and data-oriented programming(IOP & DOP)
 - Event-driven and data-driven
-- High concurrency and performance of the network
+- Data & procedure tracing
+- Use Excel as configuration files, easier for the designers
+- Lower training and education costs
 - Based on C++ standard, easy to handle and learn
 - Cross-platform (Include Windows and Linux)
-- Less downtime and higher availability
-- Lower training and education costs
-- Use Excel as configuration files, easier for the game designer
+- High availability architectures
+- High concurrency and performance of the network
 - With existed simple Unity3D client for rapid development
 - Plentiful plugins(DB, script, HTTP, WebSocket, etc.)
 - Customization service for business customer
@@ -71,9 +71,3 @@ Our team has always specialized in the agile development and try to help differe
 [PSS](https://github.com/freeeyes/PSS)
 - Author: freeeyes
 - Description: 基于插件的跨平台网络服务器框架
-
-----------
-
-#### The relationship with NF
-
-This branch come from [NF](https://github.com/ketoo/NoahGameFrame), we used to be the **CORE DEVELOPERS** of NF. We create **ARK** because some different design philosophies, through our new ideas and modifications, now this project is a fresh project which has many different features.
