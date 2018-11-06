@@ -1,4 +1,4 @@
-# Dependencies, Build and Install
+# Quick start
 
 ## Get the Sources
 
@@ -9,6 +9,7 @@ or
 svn checkout https://github.com/ArkGame/ARK
 
 ## Dependencies
+
 | Library | Version | License |
 | - | - | - |
 | [brynet](https://github.com/IronsDu/brynet) | Master | [MIT](https://github.com/IronsDu/brynet/blob/master/LICENSE) |
@@ -34,22 +35,28 @@ svn checkout https://github.com/ArkGame/ARK
 - CMake
 
 ##### Step
+
 Using Visual Studio 2017
+
 1. Pull all source
 2. Run command line 
+
 ```batch
 cd path/to/ARK
 cd Dep
 build_dep.bat
 ```
+
 3. Open the solution: `Frame/ARK.sln`
 4. Build the solution`ARK.sln`
 5. Run `ARK\Bin\resource\tool\gen-config.bat` to generate configuration files
 6. Run the binary file by `Bin/rund.bat`
 
 Using CMake
+
 1. Pull all source
 2. Run command line
+
 ```batch
 cd path/to/ARK
 cd Dep
@@ -59,13 +66,13 @@ md build
 cd build
 cmake -G "Visual Studio 15 Win64" ..
 ```
+
 4. Start `ARK.sln`
 5. Run `ARK\Bin\resource\tool\gen-config.bat` to generate configuration files
 6. Run the binary file by `Bin/rund.bat`
 
-> Note
-> - If you are using VS2017, please change `%VS150COMNTOOLS%` in `Dep/build_dep.bat` to `YOUR-COMPILER-PATH`.
-> - If you DO NOT install **Win10 SDK**, please use **CMake** to create new solution.
+!> If you are using VS2017, please change `%VS150COMNTOOLS%` in `Dep/build_dep.bat` to `YOUR-COMPILER-PATH`.</br>
+If you DO NOT install **Win10 SDK**, please use **CMake** to create new solution.
 
 ### linux
 
@@ -78,8 +85,10 @@ cmake -G "Visual Studio 15 Win64" ..
 - automake
 
 Using CMake
+
 1. pull all source
 2. Use bash
+
 ```shell
 cd Dep
 ./build_dep.sh
@@ -88,8 +97,12 @@ mkdir build && cd build
 cmake -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=debug ..
 make
 ```
-> Note
-> - If you need build release version, please add `-DCMAKE_BUILD_TYPE=release` in cmake command.
-> - To accelerate building, you can use `make -j` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
-3. Run `ARK\Bin\resource\tool\gen-config.sh` to generate configuration files(*Cuz our Tools is written by C#, so please generate your configuration in Windows, we plan to use .Net Core to create a new version in Linux*)
+
+!> If you need build release version, please add `-DCMAKE_BUILD_TYPE=release` in cmake command.</br>
+To accelerate the building speed, you can use `make -j` to run multiple complication jobs simultaneously. However, that may exhaust the memory.
+
+3. Run `ARK\Bin\resource\tool\gen-config.sh` to generate configuration files
+
+!> *Cuz our Tools is written by C#, so please generate your configuration in Windows, then transfer to Linux. we plan to use .Net Core to create a new version in Linux.*
+
 4. Run the binary file by `Bin/rund.sh`

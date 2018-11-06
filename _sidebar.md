@@ -1,28 +1,25 @@
 - Getting started
 
-  - [Quick start](quickstart.md)
-  - [Writing more pages](more-pages.md)
-  - [Custom navbar](custom-navbar.md)
-  - [Cover page](cover.md)
+  - [Quick start](quick-start.md)
+  - [Concepts](concept.md)
+  - [Create a new module](create-new-module.md)
+  - [Create a new plugin](create-new-plugin.md)
 
-- Customization
+- Intermediate
 
-  - [Configuration](configuration.md)
-  - [Themes](themes.md)
-  - [List of Plugins](plugins.md)
-  - [Write a Plugin](write-a-plugin.md)
-  - [Markdown configuration](markdown.md)
-  - [Language highlighting](language-highlight.md)
+  - [Kernel plugin](kernel-plugin.md)
+  - [Data management](data-management.md)
+  - [App architecture](app-architecture.md)
 
-- Guide
+- Advance
 
-  - [Deploy](deploy.md)
-  - [Helpers](helpers.md)
-  - [Vue compatibility](vue.md)
-  - [CDN](cdn.md)
-  - [Offline Mode(PWA)](pwa.md)
-  - [Server-Side Rendering(SSR)](ssr.md)
-  - [Embed Files](embed-files.md)
+  - [Server architecture](server-architecture.md)
+  
+- Others
 
-- [Awesome docsify](awesome.md)
+  - [Benchmark](benchmark.md)
+
+- [Tools](tools.md)
+- [FAQ](faq.md)
 - [Changelog](changelog.md)
+- [Plan](plan.md)

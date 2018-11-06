@@ -6,7 +6,7 @@
   <link rel="icon" href="_images/favicon.ico">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="keywords" content="server,plugin,module,game,network,linux,windows,perfermance">
-  <meta name="description" content="A magical documentation generator.">
+  <meta name="description" content="A lightweight, agility, scalable, distributed plugin framework.">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css" title="vue">
   <style>
@@ -19,45 +19,35 @@
   <div id="app">Loading ...</div>
   <script>
     window.$docsify = {
+      nameLink: [
+        '/zh-cn/',
+        '/'
+      ],
       name: 'ARK',
       repo: 'ArkGame/ARK',
       coverpage: [
-        '/',
-        '/en-us/',
-        '/zh-cn/'
+        '/zh-cn/',
+        '/'
       ],
       loadSidebar: true,
       loadNavbar: true,
       mergeNavbar: true,
+      autoHeader: true,
       auto2top: true,
       maxLevel: 4,
       subMaxLevel: 2,
       formatUpdated: '{MM}/{DD} {HH}:{mm}',
+
       search: {
         noData: {
-          '/': 'No results!',
-          '/en-us/': 'No results!',
-          '/zh-cn/': '没有结果!'
+          '/zh-cn/': '没有结果!',
+          '/': 'No results!'
         },
         paths: 'auto',
         placeholder: {
-          '/': 'Search',
-          '/en-us/': 'Search',
-          '/zh-cn/': '搜索'
+          '/zh-cn/': '搜索',
+          '/': 'Search'
         }
-      },
-      nameLink: {
-        '/': '/en-us/',
-        '/en-us/': '/en-us/',
-        '/zh-cn/': '/zh-cn/'
-      },
-
-      alias: {
-        '/.*/_navbar.md': '/en-us/_navbar.md',
-        '/.*/_sidebar.md': '/en-us/_sidebar.md',
-        '/.*/_coverpage.md': 'en-us/_coverpage.md',
-        '/en-us/(.*)': '/en-us/$1',
-        '/zh-cn/(.*)': '/zh-cn/$1'
       },
 
       plugins: [
@@ -65,8 +55,9 @@
           var footer = [
             '<hr/>',
             '<footer>',
-            '<span><a href="https://github.com/ArkGame">ArkGame</a> &copy;2018.</span>',
-            '<span>Proudly published with <a href="https://github.com/QingWei-Li/docsify" target="_blank">docsify</a>.</span>',
+            '<span><a href="https://github.com/ArkGame">ArkGame</a> &copy; 2018. </span>',
+            'Please feel free to use and contribute to the development.',
+            '<p><span>Published with <a href="https://github.com/QingWei-Li/docsify" target="_blank">docsify</a>.</span></p>',
             '</footer>'
           ].join('')
 

@@ -1,4 +1,4 @@
-# KernelPlugin介绍
+# Kernel plugin
 
 该插件是`ARK框架`中的核心插件, 主要用来管理Entity对象和进程配置数据, 其中主要包含四个模块,
 
@@ -141,5 +141,3 @@ int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
     return 0;
 }
 ```
-
-## 待补充

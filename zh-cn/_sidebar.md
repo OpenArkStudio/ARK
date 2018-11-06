@@ -1,28 +1,23 @@
-- Getting started
+- 入门
 
-  - [Quick start](quickstart.md)
-  - [Writing more pages](more-pages.md)
-  - [Custom navbar](custom-navbar.md)
-  - [Cover page](cover.md)
+  - [快速开始](/zh-cn/quick-start.md)
+  - [名词解释](/zh-cn/concept.md)
+  - [开发一个新模块](/zh-cn/create-new-module.md)
+  - [开发一个新插件](/zh-cn/create-new-plugin.md)
 
-- Customization
+- 进阶
+  - [Kernel插件](/zh-cn/kernel-plugin.md)
+  - [数据管理](/zh-cn/data-management.md)
+  - [应用架构](/zh-cn/app-architecture.md)
+  
+- 高级
 
-  - [Configuration](configuration.md)
-  - [Themes](themes.md)
-  - [List of Plugins](plugins.md)
-  - [Write a Plugin](write-a-plugin.md)
-  - [Markdown configuration](markdown.md)
-  - [Language highlighting](language-highlight.md)
+  - [服务器架构](/zh-cn/server-architecture.md)
 
-- Guide
+- 其他
+  - [压力测试](/zh-cn/benchmark.md)
 
-  - [Deploy](deploy.md)
-  - [Helpers](helpers.md)
-  - [Vue compatibility](vue.md)
-  - [CDN](cdn.md)
-  - [Offline Mode(PWA)](pwa.md)
-  - [Server-Side Rendering(SSR)](ssr.md)
-  - [Embed Files](embed-files.md)
-
-- [Awesome docsify](awesome.md)
-- [Changelog](changelog.md)
+- [工具介绍](/zh-cn/tools.md)
+- [常见问题](/zh-cn/faq.md)
+- [更新记录](/zh-cn/changelog.md)
+- [计划](/zh-cn/plan.md)

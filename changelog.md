@@ -1,6 +1,6 @@
-# ARK changelogs
+# changelogs
 
-### version 0.9
+## version 0.9
 
 - Fix `HeartBeatManager` remove mistake(Thanks @sks)
 - Add `DateTime`
@@ -19,7 +19,7 @@
 - Optimise - Don't load DataNode in AFConfigModule when the node value is the default
 - Add AFCMsgModule(not finished yet)
 
-### version 0.8
+## version 0.8
 
 - Replace `evpp` with `brynet` for reducing dependence
 - Add `AFCronScheduleModule`, using `cron` syntax
@@ -32,7 +32,7 @@
 - Fix GUID bug
 - Fix some known bugs
 
-### version 0.7
+## version 0.7
 
 - Restructure log module
 - Update to VS2017 as default IDE in windows
@@ -45,7 +45,7 @@
 - Fix tools, config id can be a number
 - Rename Example files
 
-### version 0.6
+## version 0.6
 
 - Change Mem allocation
 - Add Timer Module(Using time wheel)
@@ -54,7 +54,7 @@
 - Add launch parameters for launching multi-processes
 - Use `std::is_base_of` to instead self derived class check
 
-### version 0.5
+## version 0.5
 
 - Fix some memory bugs
 - Add memory pool and allocation
@@ -62,19 +62,19 @@
 - Restructure file directories
 - Add a new file processing tool
 
-### version 0.4
+## version 0.4
 
 - Unified concept, Property -> DataNode Record -> DataTable
 - Unified configurations
 - Update Google.Protobuffer 3.x
 - Fix some bugs
 
-### version 0.3
+## version 0.3
 
 - Fix msg head bugs
 - Rename some files
 
-### version 0.2
+## version 0.2
 
 - Modify base data structure
 - Modify the performance of the network
@@ -83,6 +83,6 @@
 - Modify the compiling way of **Dep**
 - Modify GUID to 128 bits
 
-### version 0.1
+## version 0.1
 
 - First release
