@@ -27,6 +27,11 @@
         '/en-us/',
         '/zh-cn/'
       ],
+      coverpage: [
+        '/',
+        '/en-us/',
+        '/zh-cn/'
+      ],
       loadSidebar: true,
       loadNavbar: true,
       mergeNavbar: true,
@@ -52,10 +57,10 @@
       },
 
       alias: {
-        '.*?/changelog': 'https://raw.githubusercontent.com/ArkGame/ARK/master/docs/CHANGELOG.md',
-        '/.*/_navbar.md': '/_navbar.md',
-        '/(.*)': 'https://raw.githubusercontent.com/ArkGame/ARK/master/docs/$1',
-        '/en-us/(.*)': '/en-us/$1'
+        '/.*/_navbar.md': '/en-us/_navbar.md',
+        '/.*/_sidebar.md': '/en-us/_sidebar.md',
+        '/en-us/(.*)': '/en-us/$1',
+        '/zh-cn/(.*)': '/zh-cn/$1'
       },
 
       plugins: [
@@ -78,7 +83,6 @@
   <script src="//unpkg.com/docsify"></script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
-  <script src="//unpkg.com/docsify/lib/plugins/ga.min.js"></script>
   <script src="//unpkg.com/prismjs/components/prism-bash.min.js"></script>
   <script src="//unpkg.com/prismjs/components/prism-markdown.min.js"></script>
   <script src="//unpkg.com/prismjs/components/prism-batch.min.js"></script>
