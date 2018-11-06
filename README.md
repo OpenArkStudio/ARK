@@ -1,4 +1,4 @@
-![logo](https://github.com/ArkGame/ARK/raw/master/docs/_images/logo.png)
+![logo](https://github.com/ArkGame/ARK/raw/gh-pages/_images/logo.png)
 
 ![GitHub release](https://img.shields.io/github/release/ArkGame/ARK.svg?style=flat-square)
 [![Platform](https://img.shields.io/badge/Platform-Linux,%20Windows-green.svg?style=flat-square)](https://github.com/ArkGame/ARK)
@@ -48,36 +48,9 @@ ARK is a lightweight, agility, scalable, distributed plugin framework written in
 - Plentiful plugins(DB, script, HTTP, WebSocket, etc.)
 - Customization service for business customer
 
-### Changelog
-[Changelog](https://github.com/ArkGame/ARK/blob/master/docs/CHANGELOG.md)
+## Document
 
-### FAQ
-
-Please [create a new issue](https://github.com/ArkGame/ARK/issues) to ask a question.
-
-## Architecture
-
-### App Architecture
-
-![App Architecture](https://github.com/ArkGame/ARK/blob/master/docs/_images/app-architecture.png?raw=true)
-
-## Dependencies, Build and Install
-
-[Dep & Build](https://github.com/ArkGame/ARK/blob/master/docs/BUILD.md)
-
-## Documents
-
-[English](https://github.com/ArkGame/ARK/blob/master/docs/doc_EN.md)
-
-[Mandarin](https://github.com/ArkGame/ARK/blob/master/docs/doc_ZH.md)
-
-## Examples
-
-Please see `Frame/Examples`.
-
-## Plan
-
-View our [lastest plan](https://github.com/ArkGame/ARK/blob/master/docs/plan.md)
+Please visit doc website: [Document](http://docs.arkgame.net/ARK/)
 
 ## Unity3D client
 
