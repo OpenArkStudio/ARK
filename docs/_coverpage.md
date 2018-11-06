@@ -15,17 +15,8 @@
 [![QQ Group](https://img.shields.io/badge/Chat%20on-QQ%20Group-orange.svg?longCache=true&style=flat-square)](https://shang.qq.com/wpa/qunwpa?idkey=1b8394bd9a42ba46606200a44911c1c6161235a38aecce95158ca646c2bafd81)
 [![Join the chat in Discord: https://discord.gg/GmyBbcv](https://img.shields.io/badge/Discord-Chat-brightgreen.svg?style=flat-square)](https://discord.gg/GmyBbcv)
 
-| CI | Branch | Build Status |
-| - | - | - |
-| Travis CI | master | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=master)](https://travis-ci.org/ArkGame/ARK) |
-| Travis CI | develop | [![Build Status](https://travis-ci.org/ArkGame/ARK.svg?branch=develop)](https://travis-ci.org/ArkGame/ARK) |
 
-
-<p align="center">
-
-> A lightweight, agility, scalable, distributed plugin framework written in C++,  
-> make it easier and faster to create your own game server,  
-> can be used to develop MMO RPG, Action RPG, Round play, chess games.
+> A lightweight, agility, scalable, distributed plugin framework written in C++.
 
 - Flexible apps, plugins, and modules
 - High availability architectures
@@ -39,7 +30,5 @@
 - Lower training and education costs
 - Use Excel as configuration files, easier for the game designer
 
-</p>
-
-[GitHub](https://github.com/ArkGame/)
+[GitHub](https://github.com/ArkGame/ARK)
 [Getting Started](#ARK)
