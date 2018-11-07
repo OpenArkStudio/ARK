@@ -55,7 +55,7 @@ REM ############################################################################
 REM generate pb files
 echo "generate proto files..."
 cd ..\Frame\SDK\Proto
-gen-proto.bat
+call gen-proto.bat
 cd ..\..\..\
 
 pause
