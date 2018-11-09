@@ -2,6 +2,7 @@
 
   - [Quick start](quick-start.md)
   - [Concepts](concept.md)
+  - [Directory Structure](directory-structure.md)
   - [Create a new module](create-new-module.md)
   - [Create a new plugin](create-new-plugin.md)
 
