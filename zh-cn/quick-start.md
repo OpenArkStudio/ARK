@@ -17,7 +17,7 @@ svn checkout https://github.com/ArkGame/ARK
 | [args](https://github.com/Taywee/args) | 6.2.0 | [MIT](https://github.com/Taywee/args/blob/master/LICENSE) |
 | [rapidxml](http://rapidxml.sourceforge.net) | 1.13 | [LICENSE](http://rapidxml.sourceforge.net/license.txt) |
 
-## 支持的编译期
+## 支持的编译器
 
 - GCC 4.9+ (**<font color=red>Recommend</font>. Tested in Ubuntu 15.04**)
 - MSVC VS2015up3+ (**<font color=red>Recommend VS2017</font>. Tested in Win7/10**)
