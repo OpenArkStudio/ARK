@@ -16,8 +16,6 @@
 - [ ] 12.关于背包类的table，整理或者交换，需要改成别的方式
 - [ ] 13.excel工具修改为https://github.com/davyxu/tabtoy
 - [x] 14.net plugin增加endpoint
-
-
 - [ ] 51.优化数据同步的流量,减小属性同步的体积(去掉`NodeName`和`TableName`类似的string同步, 上线先同步index和name的映射，后续全部用index下发，入库用name)
 - [ ] 52.拓展DataTable的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，DataTable现有的二维结构是特定的，不方便做扩展
 - [ ] 53.文档逐步补齐，概念介绍、设计理念、服务器架构、使用例子
@@ -26,11 +24,9 @@
 - [ ] 56.脚本模块使用SWIG
 - [ ] 57.考虑使用ECS，全部对象Entity化，通过GUID来确定属于哪个分组的哪个位置，能快速定位和查找(通过守望先锋、ET、[ECS-unity](https://github.com/sschmid/Entitas-CSharp)，具体还要再调研)
 - [ ] 58.增加coroutine，参考libgo
-
 - [ ] 100.UE4 Demo
 - [ ] 101.引入tcmalloc
 - [ ] 102.所有的基础数据结构向C#看齐
-
 - [ ] 200.增加监控web页面(vue-admin)
 - [ ] 201.增加Deployment web工具
 - [ ] 202.增加consul来做服务发现和配置共享(调研后不太适合现在的情况, 考虑etcd/zookeeper来做)  
@@ -48,11 +44,3 @@
 1. ClearRow的时候后面的行号会变化，所以要考虑要么行号不变，只是置空，要么就得客户端来根据DeleteRow消息同步修改后续的row变化
 2. 现在的ConfigPlugin数据加载有问题
 3. AFMapEx的First Next返回值有问题
-
--------------
-
-Some note:
-
-1. https://www.zhihu.com/question/61169850
-2. https://www.zhihu.com/question/23748804/answer/201347615
-3. Message.DebugString()

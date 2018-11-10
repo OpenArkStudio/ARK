@@ -3,6 +3,7 @@
   - [快速开始](/zh-cn/quick-start.md)
   - [名词解释](/zh-cn/concept.md)
   - [目录结构](/zh-cn/directory-structure.md)
+  - [编码规范](/zh-cn/coding-guide.md)
   - [开发一个新模块](/zh-cn/create-new-module.md)
   - [开发一个新插件](/zh-cn/create-new-plugin.md)
 
