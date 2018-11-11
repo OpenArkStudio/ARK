@@ -14,6 +14,7 @@
   - [Kernel plugin](kernel-plugin.md)
   - [Net plugin](net-plugin.md)
   - [Bus plugin](bus-plugin.md)
+  - [Launcher](launcher.md)
 
 - Advance
 

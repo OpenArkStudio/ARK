@@ -15,6 +15,7 @@
   - [Kernel插件](/zh-cn/kernel-plugin.md)
   - [Net插件](/zh-cn/net-plugin.md)
   - [Bus插件](/zh-cn/bus-plugin.md)
+  - [Launcher](/zh-cn/launcher.md)
 
 - 高级
 
