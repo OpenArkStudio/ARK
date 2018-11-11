@@ -314,7 +314,7 @@ namespace ark
 
         size_t find_last_of(TYPE value)
         {
-            for (size_t i = mnSize - 1; i >= 0; --i)
+            for (int i = int(mnSize - 1); i >= 0; --i)
             {
                 if (mpData[i] == value)
                 {

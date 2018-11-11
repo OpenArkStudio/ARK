@@ -25,6 +25,7 @@
 #include "SDK/Core/AFCDataList.hpp"
 #include "SDK/Core/AFVector3.hpp"
 #include "SDK/Core/AFDataTable.h"
+
 namespace ark
 {
     class AFIPluginManager;
@@ -87,7 +88,7 @@ namespace ark
             return pPluginManager;
         }
 
-        void SetPluginManager(AFIPluginManager* p)
+        void SetPluginManager( AFIPluginManager* p )
         {
             pPluginManager = p;
         }

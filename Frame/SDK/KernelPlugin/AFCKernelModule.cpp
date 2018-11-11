@@ -165,8 +165,7 @@ namespace ark
             for (size_t i = 0; i < configNodeCount; ++i)
             {
                 AFDataNode* pConfigNode = pConfigNodeManager->GetNodeByIndex(i);
-
-                if (pConfigNode != nullptr || pConfigNode->Changed())
+                if (pConfigNode != nullptr && pConfigNode->Changed())
                 {
                     pNodeManager->SetNode(pConfigNode->GetName(), pConfigNode->GetValue());
                 }
@@ -178,11 +177,9 @@ namespace ark
         for (size_t i = 0; (i + 1) < arg.GetCount(); i += 2)
         {
             const std::string& strDataNodeName = arg.String(i);
-
             if (!mInnerProperty.ExistElement(strDataNodeName))
             {
                 AFDataNode* pArgNode = pNodeManager->GetNode(strDataNodeName.c_str());
-
                 if (pArgNode != nullptr)
                 {
                     arg.ToAFIData(i + 1, pArgNode->value);
@@ -1041,29 +1038,24 @@ namespace ark
     {
         AFCDataList varObjectList;
         GetSceneOnLineList(nSceneID, varObjectList);
-        int nWorldCount = varObjectList.GetCount();
-
-        for (int i = 0; i < nWorldCount; i++)
+        int entity_count = varObjectList.GetCount();
+        for (int i = 0; i < entity_count; i++)
         {
             AFGUID ident = varObjectList.Object(i);
-
             ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(ident);
-
-            if (nullptr == pEntity)
+            if (pEntity == nullptr)
             {
                 continue;
             }
 
             ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager = pEntity->GetNodeManager();
-
-            if (pNodeManager)
+            if (pNodeManager == nullptr)
             {
                 continue;
             }
 
             AFDataNode* pDataNode = pNodeManager->GetNode(name.c_str());
-
-            if (nullptr != pDataNode && list.Equal(0, pDataNode->value))
+            if (pDataNode != nullptr && valueArg.Equal(0, pDataNode->value))
             {
                 list.AddObject(ident);
             }

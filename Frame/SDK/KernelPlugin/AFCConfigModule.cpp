@@ -129,12 +129,10 @@ namespace ark
 
             //////////////////////////////////////////////////////////////////////////
             size_t tableCount = pClassTableManager->GetCount();
-
             for (size_t i = 0; i < tableCount; ++i)
             {
                 AFDataTable* pTable = pClassTableManager->GetTableByIndex(i);
-
-                if (pTable != nullptr)
+                if (pTable == nullptr)
                 {
                     continue;
                 }
