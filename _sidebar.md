@@ -8,9 +8,12 @@
 
 - Intermediate
 
-  - [Kernel plugin](kernel-plugin.md)
   - [Data management](data-management.md)
+  - [Data driven](data-driven.md)
   - [App architecture](app-architecture.md)
+  - [Kernel plugin](kernel-plugin.md)
+  - [Net plugin](net-plugin.md)
+  - [Bus plugin](bus-plugin.md)
 
 - Advance
 

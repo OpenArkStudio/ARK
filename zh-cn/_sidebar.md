@@ -8,10 +8,14 @@
   - [开发一个新插件](/zh-cn/create-new-plugin.md)
 
 - 进阶
-  - [Kernel插件](/zh-cn/kernel-plugin.md)
+
   - [数据管理](/zh-cn/data-management.md)
+  - [数据驱动](/zh-cn/data-driven.md)
   - [应用架构](/zh-cn/app-architecture.md)
-  
+  - [Kernel插件](/zh-cn/kernel-plugin.md)
+  - [Net插件](/zh-cn/net-plugin.md)
+  - [Bus插件](/zh-cn/bus-plugin.md)
+
 - 高级
 
   - [服务器架构](/zh-cn/server-architecture.md)

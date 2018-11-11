@@ -9,6 +9,8 @@
   <meta name="description" content="A lightweight, agility, scalable, distributed plugin framework.">
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css" title="vue">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.css">
+  <script src="//cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   <style>
     nav.app-nav li ul {
       min-width: 100px;
@@ -18,6 +20,9 @@
 <body>
   <div id="app">Loading ...</div>
   <script>
+    var num = 0;
+    mermaid.initialize({ startOnLoad: false });
+    
     window.$docsify = {
       nameLink: [
         '/zh-cn/',
@@ -65,7 +70,20 @@
             return html + footer
           })
         }
-      ]
+      ],
+      
+      markdown: {
+        renderer: {
+          code: function(code, lang) {
+            if (lang === "mermaid") {
+              return (
+                '<div class="mermaid">' + mermaid.render('mermaid-svg-' + num++, code) + "</div>"
+              );
+            }
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      }
     }
   </script>
   <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
