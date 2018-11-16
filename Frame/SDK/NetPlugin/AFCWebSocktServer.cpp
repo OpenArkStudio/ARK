@@ -368,16 +368,16 @@ namespace ark
         return (it != net_entities_.end() ? it->second : nullptr);
     }
 
-    bool AFCWebSocktServer::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_rid)
+    bool AFCWebSocktServer::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_id)
     {
-        ARK_PKG_CS_HEAD head;
-        head.SetMsgID(msg_id);
-        head.SetUID(actor_rid);
-        head.SetBodyLength(msg_len);
+        AFCSMsgHead head;
+        head.set_msg_id(msg_id);
+        head.set_uid(actor_id);
+        head.set_body_length(msg_len);
 
         std::string out_data;
         size_t whole_len = EnCode(head, msg, msg_len, out_data);
-        if (whole_len == msg_len + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+        if (whole_len == msg_len + GetHeadLength())
         {
             return SendMsg(out_data.c_str(), out_data.length(), conn_id);
         }
@@ -387,15 +387,16 @@ namespace ark
         }
     }
 
-    bool AFCWebSocktServer::SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_rid)
+    bool AFCWebSocktServer::SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_id)
     {
-        std::string out_data;
-        ARK_PKG_CS_HEAD head;
-        head.SetMsgID(msg_id);
-        head.SetUID(actor_rid);
+        AFCSMsgHead head;
+        head.set_msg_id(msg_id);
+        head.set_uid(actor_id);
+        head.set_body_length(msg_len);
 
+        std::string out_data;
         size_t whole_len = EnCode(head, msg, msg_len, out_data);
-        if (whole_len == msg_len + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+        if (whole_len == msg_len + GetHeadLength())
         {
             return SendMsgToAllClient(out_data.c_str(), out_data.length());
         }
@@ -403,38 +404,6 @@ namespace ark
         {
             return false;
         }
-    }
-
-    int AFCWebSocktServer::EnCode(const ARK_PKG_CS_HEAD& head, const char* msg, const size_t len, OUT std::string& out_data)
-    {
-        char head_string[ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH] = { 0 };
-        head.EnCode(head_string);
-
-        out_data.clear();
-        out_data.append(head_string, ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH);
-        out_data.append(msg, len);
-
-        return head.GetBodyLength() + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH;
-    }
-
-    int AFCWebSocktServer::DeCode(const char* data, const size_t len, ARK_PKG_CS_HEAD& head)
-    {
-        if (len < ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
-        {
-            return -1;
-        }
-
-        if (ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH != head.DeCode(data))
-        {
-            return -2;
-        }
-
-        if (head.GetBodyLength() > (len - ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH))
-        {
-            return -3;
-        }
-
-        return head.GetBodyLength();
     }
 
 }

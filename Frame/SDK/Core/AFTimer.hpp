@@ -131,11 +131,13 @@ namespace ark
 
         bool RemoveTimer(const std::string& name)
         {
+            //TODO:remove registered timer
             return RemoveTimerData(name);
         }
 
         bool RemoveTimer(const std::string& name, const AFGUID& entity_id)
         {
+            //TODO:remove registered timer
             return RemoveTimerData(name, entity_id);
         }
 

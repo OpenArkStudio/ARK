@@ -161,19 +161,19 @@ namespace ark
 
     bool AFCTCPClient::DismantleNet(AFTCPEntityPtr entity_ptr)
     {
-        while (entity_ptr->GetBuffLen() >= ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+        while (entity_ptr->GetBuffLen() >= GetHeadLength())
         {
-            ARK_PKG_CS_HEAD head;
+            AFCSMsgHead head;
             int msg_body_len = DeCode(entity_ptr->GetBuff(), entity_ptr->GetBuffLen(), head);
 
-            if (msg_body_len >= 0 && head.GetMsgID() > 0)
+            if (msg_body_len >= 0 && head.msg_id() > 0)
             {
                 AFTCPMsg* pMsg = ARK_NEW AFTCPMsg(entity_ptr->GetSession());
                 pMsg->head_ = head;
-                pMsg->event_ = RECVDATA;
-                pMsg->msg_data_.append(entity_ptr->GetBuff() + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH, msg_body_len);
+                pMsg->event_ = RECV_DATA;
+                pMsg->msg_data_.append(entity_ptr->GetBuff() + GetHeadLength(), msg_body_len);
                 entity_ptr->msg_queue_.Push(pMsg);
-                entity_ptr->RemoveBuff(msg_body_len + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH);
+                entity_ptr->RemoveBuff(msg_body_len + GetHeadLength());
             }
             else
             {
@@ -225,11 +225,11 @@ namespace ark
 
             switch (pMsg->event_)
             {
-            case RECVDATA:
+            case RECV_DATA:
                 {
                     if (net_recv_cb_)
                     {
-                        net_recv_cb_(pMsg->head_, pMsg->head_.GetMsgID(), pMsg->msg_data_.c_str(), pMsg->msg_data_.size(), entity_ptr->GetConnID());
+                        net_recv_cb_(pMsg->head_, pMsg->head_.msg_id(), pMsg->msg_data_.c_str(), pMsg->msg_data_.size(), entity_ptr->GetConnID());
                     }
                 }
                 break;
@@ -264,14 +264,14 @@ namespace ark
 
     bool AFCTCPClient::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id/* = 0*/, const AFGUID& actor_id/* = 0*/)
     {
-        ARK_PKG_CS_HEAD head;
-        head.SetMsgID(msg_id);
-        head.SetUID(actor_id);
-        head.SetBodyLength(msg_len);
+        AFCSMsgHead head;
+        head.set_msg_id(msg_id);
+        head.set_uid(actor_id);
+        head.set_body_length(msg_len);
 
         std::string out_data;
         size_t whole_len = EnCode(head, msg, msg_len, out_data);
-        if (whole_len == msg_len + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
+        if (whole_len == msg_len + GetHeadLength())
         {
             return SendMsg(out_data.c_str(), out_data.length(), conn_id);
         }
@@ -279,38 +279,6 @@ namespace ark
         {
             return false;
         }
-    }
-
-    int AFCTCPClient::EnCode(const ARK_PKG_CS_HEAD& head, const char* msg, const size_t len, OUT std::string& out_data)
-    {
-        char head_string[ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH] = { 0 };
-        head.EnCode(head_string);
-
-        out_data.clear();
-        out_data.append(head_string, ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH);
-        out_data.append(msg, len);
-
-        return head.GetBodyLength() + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH;
-    }
-
-    int AFCTCPClient::DeCode(const char* data, const size_t len, ARK_PKG_CS_HEAD& head)
-    {
-        if (len < ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
-        {
-            return -1;
-        }
-
-        if (ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH != head.DeCode(data))
-        {
-            return -2;
-        }
-
-        if (head.GetBodyLength() > (len - ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH))
-        {
-            return -3;
-        }
-
-        return head.GetBodyLength();
     }
 
 }

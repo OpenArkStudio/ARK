@@ -26,69 +26,35 @@
 namespace ark
 {
 
-    template <class Derived>
+    template<typename T>
     class AFSingleton
     {
     public:
-        static inline Derived& GetInstance()
+        static T* get()
         {
-            return *GetInstancePtr();
+            std::call_once(once_, &AFSingleton<T>::Init);
+            return instance_;
         }
 
-        static inline Derived* GetInstancePtr()
+        static void ShutDown()
         {
-            static Derived* instancePointer = CreateInstance();
-            return instancePointer;
+            delete instance_;
+            instance_ = nullptr;
         }
-
-    protected:
-        using Access = AFSingleton<Derived>;
-
-        AFSingleton(void) = default;
-        AFSingleton(AFSingleton const&) = default;
-        AFSingleton(AFSingleton&&) = default;
-        AFSingleton& operator=(AFSingleton const&) = default;
-        AFSingleton& operator=(AFSingleton&&) = default;
-        virtual ~AFSingleton(void) = default;
-
     private:
-        static Derived* InstancePointer;
-        static AFSpinLock Lock;
-
-        static inline Derived* CreateInstance()
+        static void Init()
         {
-            if (AFSingleton::InstancePointer == nullptr)
-            {
-                std::lock_guard<decltype(AFSingleton::Lock)> lock(AFSingleton::Lock);
-
-                if (AFSingleton::InstancePointer == nullptr)
-                {
-                    void* data = static_cast<void*>(GetData());
-                    new (data) Derived();
-                    AFSingleton::InstancePointer = reinterpret_cast<Derived*>(data);
-                    std::atexit(&AFSingleton::DestroyInstance);
-                }
-            }
-
-            return AFSingleton::InstancePointer;
+            instance_ = new T();
         }
 
-        static inline void DestroyInstance(void)
-        {
-            reinterpret_cast<Derived*>(GetData())->~Derived();
-        }
-
-        static inline unsigned char* GetData(void)
-        {
-            static unsigned char data[sizeof(Derived)];
-            return data;
-        }
+        static std::once_flag once_;
+        static T* instance_;
     };
 
-    template <class Derived>
-    Derived* AFSingleton<Derived>::InstancePointer = nullptr;
+    template<typename T>
+    std::once_flag AFSingleton<T>::once_;
 
-    template <class Derived>
-    AFSpinLock AFSingleton<Derived>::Lock;
+    template<typename T>
+    T* AFSingleton<T>::instance_ = nullptr;
 
 }

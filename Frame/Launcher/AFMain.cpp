@@ -54,8 +54,11 @@ void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* 
 long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
     AFDateTime now;
-    tm* ptm = now.GetLocalTime();
-    std::string dump_name = ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFCPluginManager::GetInstancePtr()->AppName(), ptm->tm_year + 1900, ptm->tm_mon + 1, ptm->tm_mday, ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
+    std::string dump_name = ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp",
+                                       AFCPluginManager::get()->AppName(),
+                                       now.GetYear(), now.GetMonth(), now.GetDay(),
+                                       now.GetHour(), now.GetMinute(), now.GetSecond());
+
     CreateDumpFile(dump_name.c_str(), pException);
 
     FatalAppExit(-1, dump_name.c_str());
@@ -307,7 +310,7 @@ bool ParseArgs(int argc, char* argv[])
         busaddr.proc_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(2));
         busaddr.inst_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(3));
 
-        AFCPluginManager::GetInstancePtr()->SetBusID(busaddr.bus_id);
+        AFCPluginManager::get()->SetBusID(busaddr.bus_id);
     }
     else
     {
@@ -317,9 +320,9 @@ bool ParseArgs(int argc, char* argv[])
     //Set app name
     if (name)
     {
-        AFCPluginManager::GetInstancePtr()->SetAppName(name.Get());
+        AFCPluginManager::get()->SetAppName(name.Get());
 
-        std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFCPluginManager::GetInstancePtr()->BusID());
+        std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFCPluginManager::get()->BusID());
         //Set process name
 #if ARK_PLATFORM == PLATFORM_WIN
         SetConsoleTitle(process_name.c_str());
@@ -335,7 +338,7 @@ bool ParseArgs(int argc, char* argv[])
     //Set plugin file
     if (plugin_cfg)
     {
-        AFCPluginManager::GetInstancePtr()->SetPluginConf(plugin_cfg.Get());
+        AFCPluginManager::get()->SetPluginConf(plugin_cfg.Get());
     }
     else
     {
@@ -344,7 +347,7 @@ bool ParseArgs(int argc, char* argv[])
 
     if (logpath)
     {
-        AFCPluginManager::GetInstancePtr()->SetLogPath(logpath.Get());
+        AFCPluginManager::get()->SetLogPath(logpath.Get());
     }
     else
     {
@@ -363,7 +366,7 @@ void MainLoop()
 
     __try
     {
-        AFCPluginManager::GetInstancePtr()->Update();
+        AFCPluginManager::get()->Update();
     }
     __except (ApplicationCrashHandler(GetExceptionInformation()))
     {
@@ -377,13 +380,6 @@ void MainLoop()
 
 int main(int argc, char* argv[])
 {
-    //std::error_code ec;
-    //AFEndpoint ep = AFEndpoint::from_string("tcp://127.0.0.1:8080", ec);
-    //if (!ec)
-    //{
-    //    return -1;
-    //}
-
     if (!ParseArgs(argc, argv))
     {
         CONSOLE_LOG_NO_FILE << "Application parameter is invalid, please check it..." << std::endl;
@@ -392,10 +388,10 @@ int main(int argc, char* argv[])
 
     PrintLogo();
 
-    AFCPluginManager::GetInstancePtr()->Init();
-    AFCPluginManager::GetInstancePtr()->PostInit();
-    AFCPluginManager::GetInstancePtr()->CheckConfig();
-    AFCPluginManager::GetInstancePtr()->PreUpdate();
+    AFCPluginManager::get()->Init();
+    AFCPluginManager::get()->PostInit();
+    AFCPluginManager::get()->CheckConfig();
+    AFCPluginManager::get()->PreUpdate();
 
     while (!g_exit_loop)
     {
@@ -412,8 +408,8 @@ int main(int argc, char* argv[])
         }
     }
 
-    AFCPluginManager::GetInstancePtr()->PreShut();
-    AFCPluginManager::GetInstancePtr()->Shut();
+    AFCPluginManager::get()->PreShut();
+    AFCPluginManager::get()->Shut();
 
     g_cmd_thread.join();
 

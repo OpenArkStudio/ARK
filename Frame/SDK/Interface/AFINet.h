@@ -26,8 +26,7 @@
 #include "SDK/Core/AFGUID.hpp"
 #include "SDK/Core/AFLockFreeQueue.hpp"
 #include "SDK/Core/AFBuffer.hpp"
-#include "SDK/Interface/AFNetMsg.h"
-#include "SDK/Interface/AFNetDefine.h"
+#include "AFNetPacket.h"
 
 namespace ark
 {
@@ -37,7 +36,7 @@ namespace ark
     class AFBaseNetEntity
     {
     public:
-        AFBaseNetEntity(AFINet* net_ptr, const AFGUID& conn_id) :
+        AFBaseNetEntity(AFINet* net_ptr, const int64_t& conn_id) :
             conn_id_(conn_id),
             net_ptr_(net_ptr),
             need_remove_(false)
@@ -101,7 +100,7 @@ namespace ark
             return conn_id_;
         }
 
-        void SetConnID(const AFGUID& conn_id)
+        void SetConnID(const int64_t& conn_id)
         {
             conn_id_ = conn_id;
         }
@@ -109,7 +108,7 @@ namespace ark
     private:
         AFBuffer buffer_;
         std::string user_data_;
-        AFGUID conn_id_;//temporary client id
+        int64_t conn_id_;//temporary client id
 
         AFINet* net_ptr_;
         mutable bool need_remove_;
@@ -159,12 +158,57 @@ namespace ark
             working_ = value;
         }
 
+        AFHeadLength GetHeadLength()
+        {
+            return head_len_;
+        }
+
+        void SetHeadLength(AFHeadLength len)
+        {
+            head_len_ = len;
+        }
+
+    protected:
+
+        int EnCode(const AFIMsgHead& head, const char* msg, const size_t len, OUT std::string& out_data)
+        {
+            char head_string[AFHeadLength::CS_HEAD_LENGTH] = { 0 };
+            head.encode(head_string);
+
+            out_data.clear();
+            out_data.append(head_string, GetHeadLength());
+            out_data.append(msg, len);
+
+            return head.body_length() + GetHeadLength();
+        }
+
+        int DeCode(const char* data, const size_t len, AFIMsgHead& head)
+        {
+            if (len < GetHeadLength())
+            {
+                return -1;
+            }
+
+            if (GetHeadLength() != head.decode(data))
+            {
+                return -2;
+            }
+
+            if (head.body_length() > (len - GetHeadLength()))
+            {
+                return -3;
+            }
+
+            return head.body_length();
+        }
+
     private:
         bool working_{ false };
+        AFHeadLength head_len_{ AFHeadLength::SS_HEAD_LENGTH };
 
     public:
-        size_t recv_size_{ 0 };
-        size_t send_size_{ 0 };
+        size_t statistic_recv_size_{ 0 };
+        size_t statistic_send_size_{ 0 };
     };
 
     //////////////////////////////////////////////////////////////////////////
@@ -175,11 +219,11 @@ namespace ark
     public:
         AFNetMsg(const SessionPTR session_ptr) : session_(session_ptr) {}
 
-        NetEventType event_{ NONE };
+        AFNetEvent event_{ NONE };
         AFGUID conn_id_{ 0 };
         SessionPTR session_{ nullptr };
         std::string msg_data_{};
-        ARK_PKG_CS_HEAD head_;
+        AFIMsgHead head_;
     };
 
     using AFTCPMsg = AFNetMsg<brynet::net::DataSocket::PTR>;

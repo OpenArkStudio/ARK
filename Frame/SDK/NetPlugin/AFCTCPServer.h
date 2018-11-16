@@ -20,13 +20,13 @@
 
 #pragma once
 
-#include "SDK/Interface/AFINet.h"
-#include "SDK/Core/AFQueue.hpp"
-#include "SDK/Core/AFRWLock.hpp"
 #include <brynet/net/SocketLibFunction.h>
 #include <brynet/net/TCPService.h>
 #include <brynet/net/ListenThread.h>
 #include <brynet/net/Socket.h>
+#include "SDK/Interface/AFINet.h"
+#include "SDK/Core/AFQueue.hpp"
+#include "SDK/Core/AFRWLock.hpp"
 
 #pragma pack(push, 1)
 
@@ -41,11 +41,13 @@ namespace ark
         AFCTCPServer();
 
         template<typename BaseType>
-        AFCTCPServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const ARK_PKG_BASE_HEAD&, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const std::string&, const int))
+        AFCTCPServer(AFHeadLength head_length, BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead&, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const std::string&, const int))
         {
             net_recv_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
             net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
             SetWorking(false);
+
+            SetHeadLength(head_length);
 
             brynet::net::base::InitSocket();
 
@@ -67,8 +69,8 @@ namespace ark
         bool Shutdown() override final;
         bool IsServer() override;
 
-        bool SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_rid) override;
-        bool SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_rid) override;
+        bool SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_id) override;
+        bool SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_id) override;
 
         bool CloseNetEntity(const AFGUID& conn_id) override;
         bool Log(int severity, const char* msg) override;
@@ -84,9 +86,6 @@ namespace ark
         void ProcessMsgLogicThread(AFTCPEntityPtr entity_ptr);
         bool CloseSocketAll();
         bool DismantleNet(AFTCPEntityPtr entity_ptr);
-
-        int EnCode(const ARK_PKG_CS_HEAD& head, const char* msg, const size_t len, OUT std::string& out_data);
-        int DeCode(const char* data, const size_t len, ARK_PKG_CS_HEAD& head);
 
     private:
         std::map<AFGUID, AFTCPEntityPtr> net_entities_;

@@ -44,10 +44,12 @@ namespace ark
         AFCWebSocktServer();
 
         template<typename BaseType>
-        AFCWebSocktServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const ARK_PKG_BASE_HEAD&, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const std::string&, int))
+        AFCWebSocktServer(AFHeadLength head_len, BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead&, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const std::string&, int))
         {
             net_recv_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
             net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+
+            SetHeadLength(head_len);
 
             brynet::net::base::InitSocket();
             tcp_service_ptr_ = brynet::net::TcpService::Create();
@@ -85,9 +87,6 @@ namespace ark
         void ProcessMsgLogicThread(AFHttpEntityPtr entity_ptr);
         bool CloseSocketAll();
         bool DismantleNet(AFHttpEntityPtr entity_ptr);
-
-        int EnCode(const ARK_PKG_CS_HEAD& head, const char* msg, const size_t len, OUT std::string& out_data);
-        int DeCode(const char* data, const size_t len, ARK_PKG_CS_HEAD& head);
 
     private:
         std::map<AFGUID, AFHttpEntityPtr> net_entities_;
