@@ -53,7 +53,7 @@ namespace ark
         mtDeleteSelfList.clear();
 
         m_pSceneModule = pPluginManager->FindModule<AFISceneModule>();
-        m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+        m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
         m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
         m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
@@ -1078,7 +1078,7 @@ namespace ark
 
     bool AFCKernelModule::RegCommonClassEvent(const CLASS_EVENT_FUNCTOR_PTR& cb)
     {
-        ARK_SHARE_PTR<AFIClass> pClass = m_pClassModule->First();
+        ARK_SHARE_PTR<AFIMetaClass> pClass = m_pClassModule->First();
         while (nullptr != pClass)
         {
             AddClassCallBack(pClass->GetClassName(), cb);
@@ -1090,7 +1090,7 @@ namespace ark
 
     bool AFCKernelModule::RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb)
     {
-        ARK_SHARE_PTR<AFIClass> pClass = m_pClassModule->First();
+        ARK_SHARE_PTR<AFIMetaClass> pClass = m_pClassModule->First();
 
         while (nullptr != pClass)
         {
@@ -1103,7 +1103,7 @@ namespace ark
 
     bool AFCKernelModule::RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb)
     {
-        ARK_SHARE_PTR<AFIClass> pClass = m_pClassModule->First();
+        ARK_SHARE_PTR<AFIMetaClass> pClass = m_pClassModule->First();
 
         while (nullptr != pClass)
         {

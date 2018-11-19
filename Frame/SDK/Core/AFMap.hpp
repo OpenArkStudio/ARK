@@ -66,8 +66,10 @@ namespace ark
                 mxObjectList.insert(typename MAP_DATA::value_type(name, data));
                 return true;
             }
-
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
         virtual bool SetElement(const T& name, const PTRTYPE data)
@@ -86,11 +88,13 @@ namespace ark
 
                 return true;
             }
-
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
-        virtual const PTRTYPE& GetElement(const T& name)
+        virtual PTRTYPE& GetElement(const T& name)
         {
             typename MAP_DATA::iterator iter = mxObjectList.find(name);
 

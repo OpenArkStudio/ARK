@@ -29,7 +29,7 @@
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIMetaClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFISceneModule.h"
 
@@ -150,7 +150,7 @@ namespace ark
 
         AFISceneModule* m_pSceneModule = nullptr;
         AFILogModule* m_pLogModule = nullptr;
-        AFIClassModule* m_pClassModule = nullptr;
+        AFIMetaClassModule* m_pClassModule = nullptr;
         AFIConfigModule* m_pConfigModule = nullptr;
         AFIGUIDModule* m_pGUIDModule = nullptr;
 

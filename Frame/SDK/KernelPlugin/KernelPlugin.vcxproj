@@ -110,16 +110,16 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AFCClassModule.h" />
     <ClInclude Include="AFCConfigModule.h" />
     <ClInclude Include="AFCKernelModule.h" />
+    <ClInclude Include="AFCMetaClassModule.h" />
     <ClInclude Include="AFCSceneModule.h" />
     <ClInclude Include="AFKernelPlugin.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCClassModule.cpp" />
     <ClCompile Include="AFCConfigModule.cpp" />
     <ClCompile Include="AFCKernelModule.cpp" />
+    <ClCompile Include="AFCMetaClassModule.cpp" />
     <ClCompile Include="AFCSceneModule.cpp" />
     <ClCompile Include="AFKernelPlugin.cpp" />
     <ClCompile Include="dllmain.cpp">

@@ -20,7 +20,7 @@
 
 #include "AFKernelPlugin.h"
 #include "AFCKernelModule.h"
-#include "AFCClassModule.h"
+#include "AFCMetaClassModule.h"
 #include "AFCConfigModule.h"
 #include "AFCSceneModule.h"
 
@@ -44,7 +44,7 @@ namespace ark
 
     void AFKernelPlugin::Install()
     {
-        RegisterModule< AFIClassModule, AFCClassModule>();
+        RegisterModule< AFIMetaClassModule, AFCMetaClassModule>();
         RegisterModule< AFIConfigModule, AFCConfigModule>();
         RegisterModule< AFIKernelModule, AFCKernelModule>();
         RegisterModule< AFISceneModule, AFCSceneModule>();
@@ -55,7 +55,7 @@ namespace ark
         DeregisterModule<AFISceneModule, AFCSceneModule>();
         DeregisterModule<AFIKernelModule, AFCKernelModule>();
         DeregisterModule<AFIConfigModule, AFCConfigModule>();
-        DeregisterModule<AFIClassModule, AFCClassModule>();
+        DeregisterModule<AFIMetaClassModule, AFCMetaClassModule>();
     }
 
 }

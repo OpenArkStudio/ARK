@@ -25,8 +25,7 @@
 #include "SDK/Core/AFArrayMap.hpp"
 #include "SDK/Core/AFCDataNodeManager.h"
 #include "SDK/Core/AFCDataTableManager.h"
-#include "SDK/Interface/AFIConfigModule.h"
-#include "SDK/Interface/AFIClassModule.h"
+#include "AFCMetaClassModule.h"
 
 namespace ark
 {
@@ -46,12 +45,12 @@ namespace ark
         {
         }
 
-        ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager()
+        ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager()
         {
             return m_pNodeManager;
         }
 
-        ARK_SHARE_PTR<AFIDataTableManager> GetTableManager()
+        ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager()
         {
             return m_pTableManager;
         }
@@ -73,25 +72,25 @@ namespace ark
         bool Save() override;
         bool Clear() override;
 
-        bool ExistConfig(const std::string& strConfigName) override;
-        bool ExistConfig(const std::string& strClassName, const std::string& strConfigName) override;
+        bool ExistConfig(const std::string& config_id) override;
+        bool ExistConfig(const std::string& class_name, const std::string& config_id) override;
 
-        ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& strConfigName) override;
-        ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& strConfigName) override;
+        ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager(const std::string& config_id) override;
+        ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager(const std::string& config_id) override;
 
-        bool GetNodeBool(const std::string& strConfigName, const std::string& strDataNodeName) override;
-        int32_t GetNodeInt(const std::string& strConfigName, const std::string& strDataNodeName) override;
-        int64_t GetNodeInt64(const std::string& strConfigName, const std::string& strDataNodeName) override;
-        float GetNodeFloat(const std::string& strConfigName, const std::string& strDataNodeName) override;
-        double GetNodeDouble(const std::string& strConfigName, const std::string& strDataNodeName) override;
-        const char* GetNodeString(const std::string& strConfigName, const std::string& strDataNodeName) override;
+        bool GetNodeBool(const std::string& config_id, const std::string& node_name) override;
+        int32_t GetNodeInt(const std::string& config_id, const std::string& node_name) override;
+        int64_t GetNodeInt64(const std::string& config_id, const std::string& node_name) override;
+        float GetNodeFloat(const std::string& config_id, const std::string& node_name) override;
+        double GetNodeDouble(const std::string& config_id, const std::string& node_name) override;
+        const char* GetNodeString(const std::string& config_id, const std::string& node_name) override;
 
     protected:
-        AFDataNode* GetNode(const std::string& strConfigName, const std::string& strDataNodeName);
-        bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIClass> pLogicClass);
+        AFDataNode* GetNode(const std::string& config_id, const std::string& node_name);
+        bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass> pLogicClass);
 
     private:
-        AFIClassModule* m_pClassModule{ nullptr };
+        AFIMetaClassModule* m_pClassModule{ nullptr };
         bool mbLoaded{ false };
         AFArrayMap<std::string, ElementConfigInfo> mxElementConfigMap;
     };
