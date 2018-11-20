@@ -286,13 +286,13 @@ namespace ark
         return ((pElementInfo != nullptr) ? pElementInfo->GetNodeManager()->GetNode(node_name.c_str()) : nullptr);
     }
 
-    ARK_SHARE_PTR<AFIDataNodeManager>& AFCConfigModule::GetNodeManager(const std::string& config_id)
+    ARK_SHARE_PTR<AFIDataNodeManager> AFCConfigModule::GetNodeManager(const std::string& config_id)
     {
         ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(config_id);
         return ((pElementInfo != nullptr) ? pElementInfo->GetNodeManager() : nullptr); //warning
     }
 
-    ARK_SHARE_PTR<AFIDataTableManager>& AFCConfigModule::GetTableManager(const std::string& config_id)
+    ARK_SHARE_PTR<AFIDataTableManager> AFCConfigModule::GetTableManager(const std::string& config_id)
     {
         ElementConfigInfo* pElementInfo = mxElementConfigMap.GetElement(config_id);
         return ((pElementInfo != nullptr) ? pElementInfo->GetTableManager() : nullptr); //warning

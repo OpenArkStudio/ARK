@@ -124,8 +124,8 @@ namespace ark
         virtual bool AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) = 0;
 
         virtual bool AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR& cb) = 0;
-        virtual ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager(const std::string& class_name) = 0;
-        virtual ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager(const std::string& class_name) = 0;
+        virtual ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& class_name) = 0;
+        virtual ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& class_name) = 0;
         virtual bool InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager) = 0;
         virtual bool InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager) = 0;
     };

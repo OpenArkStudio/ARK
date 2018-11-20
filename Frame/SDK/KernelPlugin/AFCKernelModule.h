@@ -31,32 +31,27 @@
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIMetaClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
-#include "SDK/Interface/AFISceneModule.h"
+#include "SDK/Interface/AFIMapModule.h"
 
 namespace ark
 {
 
-    class AFCKernelModule : public AFIKernelModule, public AFMapEx<AFGUID, AFIEntity> //TODO:put data as a separate data
+    class AFCKernelModule : public AFIKernelModule
     {
     public:
         explicit AFCKernelModule();
         ~AFCKernelModule() override;
 
         bool Init() override;
-        bool Shut() override;
-
-        bool PreShut() override;
         bool Update() override;
+        bool PreShut() override;
 
         ///////////////////////////////////////////////////////////////////////
 
         bool FindHeartBeat(const AFGUID& self, const std::string& name) override;
         bool RemoveHeartBeat(const AFGUID& self, const std::string& name) override;
 
-        bool IsContainer(const AFGUID& self) override;
-        bool ExistContainer(const int nSceneID) override;
-
-        ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& ident) override;
+        ARK_SHARE_PTR<AFIEntity>& GetEntity(const AFGUID& self) override;
         ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg) override;
 
         bool DestroyAll() override;
@@ -101,33 +96,12 @@ namespace ark
         const AFGUID GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col) override;
 
         //////////////////////////////////////////////////////////////////////////
-        bool SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const Point3D& pos, const float fOrient, const AFIDataList& arg) override;
-
-        bool CreateScene(const int nSceneID) override;
-        bool DestroyScene(const int nSceneID) override;
-
-        int GetOnLineCount() override;
-        int GetMaxOnLineCount() override;
-        int GetSceneOnLineCount(const int nSceneID) override;
-        int GetSceneOnLineCount(const int nSceneID, const int nGroupID) override;
-
-        int GetSceneOnLineList(const int nSceneID, AFIDataList& var) override;
-
-        int RequestGroupScene(const int nSceneID) override;
-        bool ReleaseGroupScene(const int nSceneID, const int nGroupID) override;
-        bool ExitGroupScene(const int nSceneID, const int nGroupID) override;
-
-        bool GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list) override;
-        int GetEntityByDataNode(const int nSceneID, const std::string& strNodeName, const AFIDataList& valueArgArg, AFIDataList& list) override;
-        //////////////////////////////////////////////////////////////////////////
-        bool LogStack();
-        bool LogInfo(const AFGUID& ident) override;
-        bool LogSelfInfo(const AFGUID& ident);
-
+        bool LogInfo(const AFGUID& id) override;
+        bool LogSelfInfo(const AFGUID& id);
         //////////////////////////////////////////////////////////////////////////
 
-        bool DoEvent(const AFGUID& self, const std::string& strClassName, ARK_ENTITY_EVENT eEvent, const AFIDataList& valueList) override;
-        bool DoEvent(const AFGUID& self, const int nEventID, const AFIDataList& valueList) override;
+        bool DoEvent(const AFGUID& self, const std::string& class_name, ARK_ENTITY_EVENT class_event, const AFIDataList& args) override;
+        bool DoEvent(const AFGUID& self, const int event_id, const AFIDataList& args) override;
 
     protected:
         bool DestroySelf(const AFGUID& self);
@@ -136,25 +110,26 @@ namespace ark
         bool RegCommonDataNodeEvent(const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override;
         bool RegCommonDataTableEvent(const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override;
 
-        bool AddEventCallBack(const AFGUID& self, const int nEventID, const EVENT_PROCESS_FUNCTOR_PTR& cb) override;
-        bool AddClassCallBack(const std::string& strClassName, const CLASS_EVENT_FUNCTOR_PTR& cb) override;
+        bool AddEventCallBack(const AFGUID& self, const int event_id, const EVENT_PROCESS_FUNCTOR_PTR& cb) override;
+        bool AddClassCallBack(const std::string& class_name, const CLASS_EVENT_FUNCTOR_PTR& cb) override;
 
     private:
-        std::list<AFGUID> mtDeleteSelfList;
+        std::list<AFGUID> delete_list_;
         //////////////////////////////////////////////////////////////////////////
-        std::list<CLASS_EVENT_FUNCTOR_PTR> mxCommonClassCBList;
-        std::list<DATA_NODE_EVENT_FUNCTOR_PTR> mxCommonNodeCBList;
-        std::list<DATA_TABLE_EVENT_FUNCTOR_PTR> mxCommonTableCBList;
+        std::list<CLASS_EVENT_FUNCTOR_PTR> common_class_callbacks_;
+        std::list<DATA_NODE_EVENT_FUNCTOR_PTR> common_data_node_callbacks_;
+        std::list<DATA_TABLE_EVENT_FUNCTOR_PTR> common_data_table_callbacks_;
 
-        AFGUID mnCurExeEntity;
+        AFGUID cur_exec_entity_;
 
-        AFISceneModule* m_pSceneModule = nullptr;
+        AFIMapModule* m_pMapModule = nullptr;
         AFILogModule* m_pLogModule = nullptr;
         AFIMetaClassModule* m_pClassModule = nullptr;
         AFIConfigModule* m_pConfigModule = nullptr;
         AFIGUIDModule* m_pGUIDModule = nullptr;
 
         AFArrayMap<std::string, int32_t> mInnerProperty;
+        AFMapEx<AFGUID, AFIEntity> entities_;
     };
 
 }

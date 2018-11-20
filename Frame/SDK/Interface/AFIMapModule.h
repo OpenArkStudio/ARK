@@ -28,16 +28,17 @@
 namespace ark
 {
 
-    class AFCSceneGroupInfo
+    //Map instance
+    class AFMapInstance
     {
     public:
-        explicit AFCSceneGroupInfo(int nGroupID) :
+        explicit AFMapInstance(int nGroupID) :
             mnGroupID(nGroupID)
         {
 
         }
 
-        virtual ~AFCSceneGroupInfo()
+        virtual ~AFMapInstance()
         {
         }
 
@@ -51,40 +52,40 @@ namespace ark
         int mnGroupID;
     };
 
-    // all group in this scene
-    class AFCSceneInfo : public AFMapEx<int, AFCSceneGroupInfo>
+    //All instance in this map
+    class AFMapInfo : public AFMapEx<int, AFMapInstance>
     {
     public:
-        explicit AFCSceneInfo() :
-            mnGroupIndex(0),
-            mnWidth(512)
+        explicit AFMapInfo() :
+            instance_id_(0),
+            width_(512)
         {
         }
 
-        explicit AFCSceneInfo(int nWidth) :
-            mnGroupIndex(0),
-            mnWidth(nWidth)
+        explicit AFMapInfo(int width) :
+            instance_id_(0),
+            width_(width)
         {
         }
 
-        virtual ~AFCSceneInfo()
+        virtual ~AFMapInfo()
         {
             ClearAll();
         }
 
-        int NewGroupID()
+        int CreateInstanceID()
         {
-            return ++mnGroupIndex;
+            return ++instance_id_;
         }
 
         int GetWidth()
         {
-            return mnWidth;
+            return width_;
         }
 
-        bool AddObjectToGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
+        bool AddEntityToInstance(const int nGroupID, const AFGUID& ident, bool bPlayer)
         {
-            ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
+            ARK_SHARE_PTR<AFMapInstance> pInfo = GetElement(nGroupID);
 
             if (pInfo == nullptr)
             {
@@ -103,9 +104,9 @@ namespace ark
             }
         }
 
-        bool RemoveObjectFromGroup(const int nGroupID, const AFGUID& ident, bool bPlayer)
+        bool RemoveEntityFromInstance(const int nGroupID, const AFGUID& ident, bool bPlayer)
         {
-            ARK_SHARE_PTR<AFCSceneGroupInfo> pInfo = GetElement(nGroupID);
+            ARK_SHARE_PTR<AFMapInstance> pInfo = GetElement(nGroupID);
 
             if (nullptr == pInfo)
             {
@@ -130,18 +131,38 @@ namespace ark
         }
 
     private:
-        int mnGroupIndex;
-        int mnSceneID;
-        int mnWidth;
+        int instance_id_;
+        int map_id_;
+        int width_; //will separate the grid
     };
 
-    class AFISceneModule : public AFIModule, public AFMapEx<int, AFCSceneInfo>
+    class AFIMapModule : public AFIModule
     {
     public:
-        virtual ~AFISceneModule()
-        {
-            ClearAll();
-        }
+        virtual ~AFIMapModule() = default;
+
+        virtual ARK_SHARE_PTR<AFMapInfo>& GetMapInfo(const int map_id) = 0;
+
+        virtual bool IsInMapInstance(const AFGUID& self) = 0;
+        virtual bool ExistMap(const int nContainerIndex) = 0;
+
+        virtual bool SwitchMap(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const Point3D& pos, const float fOrient, const AFIDataList& arg) = 0;
+
+        virtual bool CreateMap(const int nSceneID) = 0;
+        virtual bool DestroyMap(const int nSceneID) = 0;
+
+        virtual int GetOnlineCount() = 0;
+        virtual int GetMaxOnlineCount() = 0;
+        virtual int GetMapOnlineCount(const int nSceneID) = 0;
+        virtual int GetMapOnlineCount(const int nSceneID, const int nGroupID) = 0;
+        virtual int GetMapOnlineList(const int nSceneID, AFIDataList& var) = 0;
+
+        virtual int CreateMapInstance(const int nSceneID) = 0;
+        virtual bool ReleaseMapInstance(const int nSceneID, const int nGroupID) = 0;
+        virtual bool ExitMapInstance(const int nSceneID, const int nGroupID) = 0;
+
+        virtual bool GetInstEntityList(const int nSceneID, const int nGroupID, AFIDataList& list) = 0;
+        virtual int GetEntityByDataNode(const int nSceneID, const std::string& strPropertyName, const AFIDataList& valueArg, AFIDataList& list) = 0;
     };
 
 }

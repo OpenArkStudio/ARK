@@ -393,13 +393,13 @@ namespace ark
         return true;
     }
 
-    ARK_SHARE_PTR<AFIDataNodeManager>& AFCMetaClassModule::GetNodeManager(const std::string& class_name)
+    ARK_SHARE_PTR<AFIDataNodeManager> AFCMetaClassModule::GetNodeManager(const std::string& class_name)
     {
         ARK_SHARE_PTR<AFIMetaClass> pClass = GetElement(class_name);
         return ((pClass != nullptr) ? pClass->GetNodeManager() : nullptr);
     }
 
-    ARK_SHARE_PTR<AFIDataTableManager>& AFCMetaClassModule::GetTableManager(const std::string& class_name)
+    ARK_SHARE_PTR<AFIDataTableManager> AFCMetaClassModule::GetTableManager(const std::string& class_name)
     {
         ARK_SHARE_PTR<AFIMetaClass> pClass = GetElement(class_name);
         return ((pClass != nullptr) ? pClass->GetTableManager() : nullptr);

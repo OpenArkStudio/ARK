@@ -85,13 +85,9 @@ namespace ark
             DATA_TABLE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
             return RegCommonDataTableEvent(std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
         }
-
         /////////////////////////////////////////////////////////////////
-        virtual bool IsContainer(const AFGUID& self) = 0;
-        virtual bool ExistContainer(const int nContainerIndex) = 0;
-
-        virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& ident) = 0;
-        virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg) = 0;
+        virtual ARK_SHARE_PTR<AFIEntity>& GetEntity(const AFGUID& self) = 0;
+        virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id, const std::string& class_name, const std::string& config_index, const AFIDataList& args) = 0;
 
         virtual bool DestroyEntity(const AFGUID& self) = 0;
         virtual bool DestroyAll() = 0;
@@ -134,24 +130,6 @@ namespace ark
         virtual const AFGUID GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
 
         //////////////////////////////////////////////////////////////////////////
-        virtual bool SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const Point3D& pos, const float fOrient, const AFIDataList& arg) = 0;
-
-        virtual bool CreateScene(const int nSceneID) = 0;
-        virtual bool DestroyScene(const int nSceneID) = 0;
-
-        virtual int GetOnLineCount() = 0;
-        virtual int GetMaxOnLineCount() = 0;
-        virtual int GetSceneOnLineCount(const int nSceneID) = 0;
-        virtual int GetSceneOnLineCount(const int nSceneID, const int nGroupID) = 0;
-        virtual int GetSceneOnLineList(const int nSceneID, AFIDataList& var) = 0;
-
-        virtual int RequestGroupScene(const int nSceneID) = 0;
-        virtual bool ReleaseGroupScene(const int nSceneID, const int nGroupID) = 0;
-        virtual bool ExitGroupScene(const int nSceneID, const int nGroupID) = 0;
-
-        virtual bool GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list) = 0;
-        virtual int GetEntityByDataNode(const int nSceneID, const std::string& strPropertyName, const AFIDataList& valueArg, AFIDataList& list) = 0;
-
         virtual bool LogInfo(const AFGUID& ident) = 0;
 
     protected:

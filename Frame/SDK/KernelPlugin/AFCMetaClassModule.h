@@ -335,8 +335,8 @@ namespace ark
         bool AddCommonNodeCallback(const std::string& class_name, const DATA_NODE_EVENT_FUNCTOR_PTR& cb) override;
         bool AddCommonTableCallback(const std::string& class_name, const DATA_TABLE_EVENT_FUNCTOR_PTR& cb) override;
 
-        ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager(const std::string& class_name) override;
-        ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager(const std::string& class_name) override;
+        ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& class_name) override;
+        ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& class_name) override;
         bool InitDataNodeManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataNodeManager>& pNodeManager) override;
         bool InitDataTableManager(const std::string& class_name, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager) override;
         bool AddClass(const std::string& class_name, const std::string& parent_name);

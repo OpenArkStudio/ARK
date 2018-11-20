@@ -75,8 +75,8 @@ namespace ark
         bool ExistConfig(const std::string& config_id) override;
         bool ExistConfig(const std::string& class_name, const std::string& config_id) override;
 
-        ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager(const std::string& config_id) override;
-        ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager(const std::string& config_id) override;
+        ARK_SHARE_PTR<AFIDataNodeManager> GetNodeManager(const std::string& config_id) override;
+        ARK_SHARE_PTR<AFIDataTableManager> GetTableManager(const std::string& config_id) override;
 
         bool GetNodeBool(const std::string& config_id, const std::string& node_name) override;
         int32_t GetNodeInt(const std::string& config_id, const std::string& node_name) override;

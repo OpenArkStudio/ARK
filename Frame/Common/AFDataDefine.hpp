@@ -34,8 +34,8 @@ public:
 	//DataNodes
 	static const std::string& Id() { static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName() { static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID() { static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID() { static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID() { static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID() { static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID() { static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataTables
 
@@ -49,8 +49,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& EffectType() { static std::string xEffectType = "EffectType"; return xEffectType; } //int
@@ -74,8 +74,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& Name() { static std::string xName = "Name"; return xName; } //string
@@ -110,8 +110,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& VIPEXP() { static std::string xVIPEXP = "VIPEXP"; return xVIPEXP; } //int
@@ -133,8 +133,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& CostMoney() { static std::string xCostMoney = "CostMoney"; return xCostMoney; } //int
@@ -153,8 +153,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& ShowName() { static std::string xShowName = "ShowName"; return xShowName; } //string
@@ -176,8 +176,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& SUCKBLOOD() { static std::string xSUCKBLOOD = "SUCKBLOOD"; return xSUCKBLOOD; } //int
@@ -221,8 +221,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& Sex() { static std::string xSex = "Sex"; return xSex; } //int
@@ -255,8 +255,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& Name() { static std::string xName = "Name"; return xName; } //string
@@ -389,8 +389,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& ConditionPlayerLevel() { static std::string xConditionPlayerLevel = "ConditionPlayerLevel"; return xConditionPlayerLevel; } //int
@@ -411,8 +411,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& Job() { static std::string xJob = "Job"; return xJob; } //int
@@ -442,8 +442,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& GuildID() { static std::string xGuildID = "GuildID"; return xGuildID; } //object
@@ -459,8 +459,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& Job() { static std::string xJob = "Job"; return xJob; } //int
@@ -480,8 +480,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& ItemType() { static std::string xItemType = "ItemType"; return xItemType; } //int
@@ -517,8 +517,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& English() { static std::string xEnglish = "English"; return xEnglish; } //string
@@ -535,8 +535,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& MaxCount() { static std::string xMaxCount = "MaxCount"; return xMaxCount; } //int
@@ -573,8 +573,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& SeedID() { static std::string xSeedID = "SeedID"; return xSeedID; } //string
@@ -648,8 +648,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& Name() { static std::string xName = "Name"; return xName; } //string
@@ -894,8 +894,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& SceneName() { static std::string xSceneName = "SceneName"; return xSceneName; } //string
@@ -925,8 +925,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& Type() { static std::string xType = "Type"; return xType; } //int
@@ -948,8 +948,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& SkillType() { static std::string xSkillType = "SkillType"; return xSkillType; } //int
@@ -989,8 +989,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& NORMALATTACK1() { static std::string xNORMALATTACK1 = "NORMALATTACK1"; return xNORMALATTACK1; } //string
@@ -1019,8 +1019,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& Atlas_ResID() { static std::string xAtlas_ResID = "Atlas_ResID"; return xAtlas_ResID; } //string
@@ -1036,8 +1036,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& EFT_INFO() { static std::string xEFT_INFO = "EFT_INFO"; return xEFT_INFO; } //int
@@ -1066,8 +1066,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& ShowName() { static std::string xShowName = "ShowName"; return xShowName; } //string
@@ -1089,8 +1089,8 @@ public:
 	//IObject
 	static const std::string& Id(){ static std::string xId = "Id"; return xId; } //string
 	static const std::string& ClassName(){ static std::string xClassName = "ClassName"; return xClassName; } //string
-	static const std::string& SceneID(){ static std::string xSceneID = "SceneID"; return xSceneID; } //int
-	static const std::string& GroupID(){ static std::string xGroupID = "GroupID"; return xGroupID; } //int
+	static const std::string& MapID(){ static std::string xMapID = "MapID"; return xMapID; } //int
+	static const std::string& InstanceID(){ static std::string xInstanceID = "InstanceID"; return xInstanceID; } //int
 	static const std::string& ConfigID(){ static std::string xConfigID = "ConfigID"; return xConfigID; } //string
 	//DataNodes
 	static const std::string& Type() { static std::string xType = "Type"; return xType; } //int

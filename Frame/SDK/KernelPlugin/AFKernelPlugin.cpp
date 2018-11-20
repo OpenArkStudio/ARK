@@ -22,7 +22,7 @@
 #include "AFCKernelModule.h"
 #include "AFCMetaClassModule.h"
 #include "AFCConfigModule.h"
-#include "AFCSceneModule.h"
+#include "AFCMapModule.h"
 
 namespace ark
 {
@@ -44,15 +44,15 @@ namespace ark
 
     void AFKernelPlugin::Install()
     {
-        RegisterModule< AFIMetaClassModule, AFCMetaClassModule>();
-        RegisterModule< AFIConfigModule, AFCConfigModule>();
-        RegisterModule< AFIKernelModule, AFCKernelModule>();
-        RegisterModule< AFISceneModule, AFCSceneModule>();
+        RegisterModule<AFIMetaClassModule, AFCMetaClassModule>();
+        RegisterModule<AFIConfigModule, AFCConfigModule>();
+        RegisterModule<AFIKernelModule, AFCKernelModule>();
+        RegisterModule<AFIMapModule, AFCMapModule>();
     }
 
     void AFKernelPlugin::Uninstall()
     {
-        DeregisterModule<AFISceneModule, AFCSceneModule>();
+        DeregisterModule<AFIMapModule, AFCMapModule>();
         DeregisterModule<AFIKernelModule, AFCKernelModule>();
         DeregisterModule<AFIConfigModule, AFCConfigModule>();
         DeregisterModule<AFIMetaClassModule, AFCMetaClassModule>();

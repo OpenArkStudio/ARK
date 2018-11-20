@@ -108,7 +108,7 @@ namespace ark
             }
         }
 
-        virtual const PTRTYPE& First()
+        virtual PTRTYPE& First()
         {
             if (mxObjectList.size() <= 0)
             {
@@ -127,7 +127,7 @@ namespace ark
             }
         }
 
-        virtual const PTRTYPE&  Next()
+        virtual PTRTYPE& Next()
         {
             if (mxObjectCurIter == mxObjectList.end())
             {
@@ -146,7 +146,7 @@ namespace ark
             }
         }
 
-        virtual const PTRTYPE& First(T& name)
+        virtual PTRTYPE& First(T& name)
         {
             if (mxObjectList.size() <= 0)
             {
@@ -165,7 +165,7 @@ namespace ark
                 return mNullPtr;
             }
         }
-        virtual const PTRTYPE& Next(T& name)
+        virtual PTRTYPE& Next(T& name)
         {
             if (mxObjectCurIter == mxObjectList.end())
             {
