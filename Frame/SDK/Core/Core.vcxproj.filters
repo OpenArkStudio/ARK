@@ -69,9 +69,6 @@
     <ClInclude Include="AFDefine.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFGUID.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="AFHashmap.hpp">
       <Filter>Core</Filter>
     </ClInclude>
@@ -151,6 +148,9 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFError.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="AFUidGenerator.hpp">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

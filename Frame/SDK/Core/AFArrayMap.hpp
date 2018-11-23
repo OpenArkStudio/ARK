@@ -24,7 +24,7 @@
 #include "AFMacros.hpp"
 #include "AFArrayPod.hpp"
 #include "AFStringPod.hpp"
-#include "AFGUID.hpp"
+//#include "AFGUID.hpp"
 
 namespace ark
 {
@@ -47,15 +47,6 @@ namespace ark
     bool CheckBuildinType(const T& t)
     {
         return IsBuildinType<T>::YES ? true : false;
-
-        //if (IsBuildinType<T>::YES)
-        //{
-        //    std::cout << typename(T)  << " is BuildIn type" << std::endl;
-        //}
-        //else
-        //{
-        //    std::cout << typename(T) << " is BuildIn type" << std::endl;
-        //}
     }
 
     MAKE_BUILDIN_TYPE(uint16_t)
@@ -64,7 +55,7 @@ namespace ark
     MAKE_BUILDIN_TYPE(int16_t)
     MAKE_BUILDIN_TYPE(int32_t)
     MAKE_BUILDIN_TYPE(int64_t)
-    MAKE_BUILDIN_TYPE(AFGUID)
+    //MAKE_BUILDIN_TYPE(AFGUID)
 
     //////////////////////////////////////////////////////////////////////////
 

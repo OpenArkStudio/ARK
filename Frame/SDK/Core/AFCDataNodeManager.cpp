@@ -126,31 +126,21 @@ namespace ark
         case DT_BOOLEAN:
             return SetNodeBool(name, value.GetBool());
             break;
-
         case DT_INT:
             return SetNodeInt(name, value.GetInt());
             break;
-
         case DT_INT64:
             return SetNodeInt64(name, value.GetInt64());
             break;
-
         case DT_FLOAT:
             return SetNodeFloat(name, value.GetFloat());
             break;
-
         case DT_DOUBLE:
             return SetNodeDouble(name, value.GetDouble());
             break;
-
         case DT_STRING:
             return SetNodeString(name, value.GetString());
             break;
-
-        case DT_OBJECT:
-            return SetNodeObject(name, value.GetObject());
-            break;
-
         default:
             ARK_ASSERT_NO_EFFECT(0);
             break;
@@ -309,31 +299,6 @@ namespace ark
         return true;
     }
 
-    bool AFCDataNodeManager::SetNodeObject(const char* name, const AFGUID& value)
-    {
-        size_t index;
-
-        if (!FindIndex(name, index))
-        {
-            return false;
-        }
-
-        //old value
-        AFCData oldData;
-        AFGUID oldValue = mxNodes[index]->value.GetObject();
-        oldData.SetObject(oldValue);
-
-        mxNodes[index]->value.SetObject(value);
-
-        if (oldValue != value)
-        {
-            //DataNode callbacks
-            OnNodeCallback(name, oldData, mxNodes[index]->value);
-        }
-
-        return true;
-    }
-
     bool AFCDataNodeManager::GetNodeBool(const char* name)
     {
         size_t index;
@@ -404,18 +369,6 @@ namespace ark
         }
 
         return mxNodes[index]->value.GetString();
-    }
-
-    const AFGUID AFCDataNodeManager::GetNodeObject(const char* name)
-    {
-        size_t index;
-
-        if (!FindIndex(name, index))
-        {
-            return NULL_GUID;
-        }
-
-        return mxNodes[index]->value.GetObject();
     }
 
 }

@@ -20,85 +20,17 @@
 
 #include "AFCGUIDModule.h"
 #include "SDK/Core/AFDateTime.hpp"
+#include "SDK/Interface/AFIPluginManager.h"
 
 namespace ark
 {
 
-    namespace guid_module
-    {
-        //refer:https://github.com/nebula-im/snowflake4cxx
-
-        uint64_t WaitUntilNextMillis(uint64_t last_timestamp)
-        {
-            uint64_t timestamp = AFDateTime::GetNowTime();
-
-            while (timestamp <= last_timestamp)
-            {
-                timestamp = AFDateTime::GetNowTime();
-            }
-
-            return timestamp;
-        }
-
-        class IdWorkerThreadUnsafe
-        {
-        public:
-            IdWorkerThreadUnsafe() = default;
-
-            uint64_t GetNextID()
-            {
-                uint64_t timestamp = AFDateTime::GetNowTime();
-
-                //in current microsecond
-                if (last_timestamp_ == timestamp)
-                {
-                    sequence_ = (sequence_ + 1) & 0xFFFF;
-
-                    if (sequence_ == 0)
-                    {
-                        timestamp = WaitUntilNextMillis(last_timestamp_);
-                    }
-                }
-                else
-                {
-                    sequence_ = 0;
-                }
-
-                last_timestamp_ = timestamp;
-                return ((timestamp - ARK_EPOCH) * ARK_GUID_POWER + sequence_);
-            }
-
-        private:
-            uint64_t last_timestamp_{ 0 };
-            uint32_t sequence_{ 0 };
-        };
-
-        class IdWorkerThreadSafe
-        {
-        public:
-            IdWorkerThreadSafe() = default;
-
-            uint64_t GetNextID()
-            {
-                std::lock_guard<std::mutex> g(lock_);
-                return id_worker_.GetNextID();
-            }
-
-        private:
-            IdWorkerThreadUnsafe id_worker_;
-            mutable std::mutex lock_;
-        };
-
-    }
-
-    //////////////////////////////////////////////////////////////////////////
-
     bool AFCGUIDModule::Init()
     {
 #ifdef AF_THREAD_SAFE
-        m_pIDWoker = new guid_module::IdWorkerThreadSafe();
+        uid_generator_ = ARK_NEW AFUidGeneratorThreadSafe();
 #else
-        m_pIDWoker = new guid_module::IdWorkerThreadUnsafe();
+        uid_generator_ = ARK_NEW AFUidGenerator();
 #endif // AF_THREAD_SAFE
 
         return true;
@@ -106,27 +38,22 @@ namespace ark
 
     bool AFCGUIDModule::PreShut()
     {
-        if (m_pIDWoker != nullptr)
-        {
-            ARK_DELETE(m_pIDWoker);
-        }
-
+        ARK_DELETE(uid_generator_);
         return true;
-    }
-
-    void AFCGUIDModule::SetGUIDMask(uint64_t mask)
-    {
-        mnMask = mask;
     }
 
     AFGUID AFCGUIDModule::CreateGUID()
     {
-        ARK_ASSERT_RET_VAL(m_pIDWoker != nullptr, NULL_GUID);
+        ARK_ASSERT_RET_VAL(uid_generator_ != nullptr, NULL_GUID);
 
-        uint64_t nLow = m_pIDWoker->GetNextID();
-        AFGUID newGUID(mnMask, nLow);
+        AFBusAddr bus_addr(pPluginManager->BusID());
+        int64_t id = int64_t(bus_addr.zone_id) << (2 * 8) | int64_t(bus_addr.proc_id) << (1 * 8) | int64_t(bus_addr.inst_id) << (0 * 8);
+        return uid_generator_->GetUID(id);
+    }
 
-        return newGUID;
+    std::string AFCGUIDModule::ParseUID(const AFGUID& id)
+    {
+        return uid_generator_->ParseUID(id);
     }
 
 }

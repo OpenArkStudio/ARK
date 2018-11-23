@@ -19,7 +19,6 @@
 */
 
 #include "SDK/Core/AFDefine.hpp"
-#include "SDK/Core/AFGUID.hpp"
 #include "SDK/Core/AFCEntity.h"
 #include "SDK/Core/AFDataNode.hpp"
 #include "SDK/Core/AFDataTable.h"
@@ -100,7 +99,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -115,7 +114,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -137,7 +136,7 @@ namespace ark
             return nullptr;
         }
 
-        if (entity_id.IsNULL())
+        if (entity_id == NULL_GUID)
         {
             entity_id = m_pGUIDModule->CreateGUID();
         }
@@ -145,7 +144,7 @@ namespace ark
         //Check if the entity exists
         if (GetEntity(entity_id) != nullptr)
         {
-            ARK_LOG_ERROR("The entity has existed, id = {}", entity_id.ToString());
+            ARK_LOG_ERROR("The entity has existed, id = {}", entity_id);
             return nullptr;
         }
 
@@ -227,7 +226,7 @@ namespace ark
 
     bool AFCKernelModule::DestroyEntity(const AFGUID& self)
     {
-        if (self == cur_exec_entity_ && !self.IsNULL())
+        if (self == cur_exec_entity_ && self != NULL_GUID)
         {
             return DestroySelf(self);
         }
@@ -249,7 +248,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find this map, entity_id={} map={} inst={}", self.ToString(), map_id, inst_id);
+            ARK_LOG_ERROR("Cannot find this map, entity_id={} map={} inst={}", self, map_id, inst_id);
             return false;
         }
     }
@@ -263,7 +262,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -277,7 +276,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -291,7 +290,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -305,7 +304,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -319,7 +318,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -333,7 +332,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -347,21 +346,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
-            return false;
-        }
-    }
-
-    bool AFCKernelModule::SetNodeObject(const AFGUID& self, const std::string& name, const AFGUID& value)
-    {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
-        if (pEntity != nullptr)
-        {
-            return pEntity->SetNodeObject(name, value);
-        }
-        else
-        {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -375,7 +360,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_BOOLEAN;
         }
     }
@@ -389,7 +374,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_INT;
         }
     }
@@ -403,7 +388,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_INT64;
         }
     }
@@ -417,7 +402,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_FLOAT;
         }
     }
@@ -431,7 +416,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_DOUBLE;
         }
     }
@@ -445,22 +430,8 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return nullptr;
-        }
-    }
-
-    const AFGUID AFCKernelModule::GetNodeObject(const AFGUID& self, const std::string& name)
-    {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
-        if (pEntity != nullptr)
-        {
-            return pEntity->GetNodeObject(name);
-        }
-        else
-        {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
-            return NULL_GUID;
         }
     }
 
@@ -473,7 +444,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return nullptr;
         }
     }
@@ -488,7 +459,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -500,7 +471,7 @@ namespace ark
         {
             if (!pEntity->SetTableBool(name, row, col, value))
             {
-                ARK_LOG_ERROR("error for row or col, id = {}", self.ToString());
+                ARK_LOG_ERROR("error for row or col, id = {}", self);
                 return false;
             }
 
@@ -508,7 +479,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -520,7 +491,7 @@ namespace ark
         {
             if (!pEntity->SetTableInt(name, row, col, value))
             {
-                ARK_LOG_ERROR("error for row or col, id = {}", self.ToString());
+                ARK_LOG_ERROR("error for row or col, id = {}", self);
                 return false;
             }
 
@@ -528,7 +499,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -540,7 +511,7 @@ namespace ark
         {
             if (!pEntity->SetTableInt64(name, row, col, value))
             {
-                ARK_LOG_ERROR("error for row or col, id = {}", self.ToString());
+                ARK_LOG_ERROR("error for row or col, id = {}", self);
                 return false;
             }
 
@@ -548,7 +519,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -560,7 +531,7 @@ namespace ark
         {
             if (!pEntity->SetTableFloat(name, row, col, value))
             {
-                ARK_LOG_ERROR("error for row or col, id = {}", self.ToString());
+                ARK_LOG_ERROR("error for row or col, id = {}", self);
                 return false;
             }
 
@@ -568,7 +539,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -580,7 +551,7 @@ namespace ark
         {
             if (!pEntity->SetTableDouble(name, row, col, value))
             {
-                ARK_LOG_ERROR("error for row or col, id = {}", self.ToString());
+                ARK_LOG_ERROR("error for row or col, id = {}", self);
                 return false;
             }
 
@@ -588,7 +559,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -600,7 +571,7 @@ namespace ark
         {
             if (!pEntity->SetTableString(name, row, col, value))
             {
-                ARK_LOG_ERROR("error for row or col, id = {}", self.ToString());
+                ARK_LOG_ERROR("error for row or col, id = {}", self);
                 return false;
             }
 
@@ -608,27 +579,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
-            return false;
-        }
-    }
-
-    bool AFCKernelModule::SetTableObject(const AFGUID& self, const std::string& name, const int row, const int col, const AFGUID& value)
-    {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
-        if (pEntity != nullptr)
-        {
-            if (!pEntity->SetTableObject(name, row, col, value))
-            {
-                ARK_LOG_ERROR("error for row or col, id = {}", self.ToString());
-                return false;
-            }
-
-            return true;
-        }
-        else
-        {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -642,7 +593,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_BOOLEAN;
         }
     }
@@ -656,7 +607,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_INT;
         }
     }
@@ -670,7 +621,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_INT64;
         }
     }
@@ -684,7 +635,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_FLOAT;
         }
     }
@@ -698,7 +649,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_DOUBLE;
         }
     }
@@ -712,22 +663,8 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return NULL_STR.c_str();
-        }
-    }
-
-    const AFGUID AFCKernelModule::GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col)
-    {
-        ARK_SHARE_PTR<AFIEntity>& pEntity = GetEntity(self);
-        if (pEntity != nullptr)
-        {
-            return pEntity->GetTableObject(name, row, col);
-        }
-        else
-        {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
-            return NULL_GUID;
         }
     }
 
@@ -794,7 +731,7 @@ namespace ark
         ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(id);
         if (pEntity != nullptr)
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", id.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", id);
             return false;
         }
 
@@ -802,19 +739,19 @@ namespace ark
         {
             int map_id = GetNodeInt(id, IObject::MapID());
 
-            ARK_LOG_INFO("----------child object list-------- , id = {} mapid = {}", id.ToString(), map_id);
+            ARK_LOG_INFO("----------child object list-------- , id = {} mapid = {}", id, map_id);
             AFCDataList entity_list;
             int online_count = m_pMapModule->GetMapOnlineList(map_id, entity_list);
             for (int i = 0; i < online_count; ++i)
             {
-                AFGUID target_entity_id = entity_list.Object(i);
-                ARK_LOG_INFO("id = {} mapid = {}", target_entity_id.ToString(), map_id);
+                AFGUID target_entity_id = entity_list.Int64(i);
+                ARK_LOG_INFO("id = {} mapid = {}", target_entity_id, map_id);
             }
         }
         else
         {
-            ARK_LOG_INFO("---------printf object start--------, id = {}", id.ToString());
-            ARK_LOG_INFO("---------printf object end--------", id.ToString());
+            ARK_LOG_INFO("---------print object start--------, id = {}", id);
+            ARK_LOG_INFO("---------print object end--------, id = {}", id);
         }
 
         return true;

@@ -154,82 +154,65 @@ namespace ark
             }
 
             //don't need to add node if it's null data
-            AFDataNode TmpNode;
-            TmpNode.name = pNode->name;
-            TmpNode.feature = pNode->feature;
+            AFDataNode tmp_node;
+            tmp_node.name = pNode->name;
+            tmp_node.feature = pNode->feature;
             switch (pNode->GetType())
             {
             case DT_BOOLEAN:
-                TmpNode.value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
+                tmp_node.value.SetBool(ARK_LEXICAL_CAST<bool>(pstrConfigValue));
                 break;
-
             case DT_INT:
                 {
                     if (!AFMisc::IsDigit(pstrConfigValue))
                     {
-                        ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
+                        ARK_ASSERT(0, tmp_node.name.c_str(), __FILE__, __FUNCTION__);
                     }
 
-                    TmpNode.value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
+                    tmp_node.value.SetInt(ARK_LEXICAL_CAST<int32_t>(pstrConfigValue));
                 }
                 break;
-
             case DT_INT64:
                 {
                     if (!AFMisc::IsDigit(pstrConfigValue))
                     {
-                        ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
+                        ARK_ASSERT(0, tmp_node.name.c_str(), __FILE__, __FUNCTION__);
                     }
 
-                    TmpNode.value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
+                    tmp_node.value.SetInt64(ARK_LEXICAL_CAST<int64_t>(pstrConfigValue));
                 }
                 break;
-
             case DT_FLOAT:
                 {
                     if (strlen(pstrConfigValue) <= 0)
                     {
-                        ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
+                        ARK_ASSERT(0, tmp_node.name.c_str(), __FILE__, __FUNCTION__);
                     }
 
-                    TmpNode.value.SetFloat(ARK_LEXICAL_CAST<float>(pstrConfigValue));
+                    tmp_node.value.SetFloat(ARK_LEXICAL_CAST<float>(pstrConfigValue));
                 }
                 break;
-
             case DT_DOUBLE:
                 {
                     if (strlen(pstrConfigValue) <= 0)
                     {
-                        ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
+                        ARK_ASSERT(0, tmp_node.name.c_str(), __FILE__, __FUNCTION__);
                     }
 
-                    TmpNode.value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
+                    tmp_node.value.SetDouble(ARK_LEXICAL_CAST<double>(pstrConfigValue));
                 }
                 break;
-
             case DT_STRING:
-                TmpNode.value.SetString(pstrConfigValue);
+                tmp_node.value.SetString(pstrConfigValue);
                 break;
-
-            case DT_OBJECT:
-                {
-                    if (strlen(pstrConfigValue) <= 0)
-                    {
-                        ARK_ASSERT(0, TmpNode.name.c_str(), __FILE__, __FUNCTION__);
-                    }
-
-                    TmpNode.value.SetObject(NULL_GUID);
-                }
-                break;
-
             default:
                 ARK_ASSERT_NO_EFFECT(0);
                 break;
             }
 
-            if (!TmpNode.GetValue().IsNullValue())
+            if (!tmp_node.GetValue().IsNullValue())
             {
-                pElementNodeManager->AddNode(TmpNode.name.c_str(), TmpNode.value, TmpNode.feature);
+                pElementNodeManager->AddNode(tmp_node.name.c_str(), tmp_node.value, tmp_node.feature);
             }
         }
 

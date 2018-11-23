@@ -58,7 +58,6 @@ namespace ark
         virtual bool SetNodeFloat(const char* name, const float value) = 0;
         virtual bool SetNodeDouble(const char* name, const double value) = 0;
         virtual bool SetNodeString(const char* name, const std::string& value) = 0;
-        virtual bool SetNodeObject(const char* name, const AFGUID& value) = 0;
 
         virtual bool GetNodeBool(const char* name) = 0;
         virtual int32_t GetNodeInt(const char* name) = 0;
@@ -66,7 +65,6 @@ namespace ark
         virtual float GetNodeFloat(const char* name) = 0;
         virtual double GetNodeDouble(const char* name) = 0;
         virtual const char* GetNodeString(const char* name) = 0;
-        virtual const AFGUID GetNodeObject(const char* name) = 0;
     };
 
 }

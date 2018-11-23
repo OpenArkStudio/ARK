@@ -127,7 +127,6 @@
     <ClInclude Include="AFDateTime.hpp" />
     <ClInclude Include="AFDefine.hpp" />
     <ClInclude Include="AFError.hpp" />
-    <ClInclude Include="AFGUID.hpp" />
     <ClInclude Include="AFHashmap.hpp" />
     <ClInclude Include="AFIComponent.h" />
     <ClInclude Include="AFIData.hpp" />
@@ -153,6 +152,7 @@
     <ClInclude Include="AFString.hpp" />
     <ClInclude Include="AFStringPod.hpp" />
     <ClInclude Include="AFTimer.hpp" />
+    <ClInclude Include="AFUidGenerator.hpp" />
     <ClInclude Include="AFVector3.hpp" />
     <ClInclude Include="Common\cronexpr.h" />
   </ItemGroup>

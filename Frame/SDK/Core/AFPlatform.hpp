@@ -201,3 +201,8 @@
 #pragma warning(disable:4996)
 #pragma warning(disable:)
 #endif
+
+namespace ark
+{
+    using AFGUID = int64_t;
+}

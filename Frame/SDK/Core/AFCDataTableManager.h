@@ -56,7 +56,6 @@ namespace ark
         bool SetTableFloat(const char* name, const int row, const int col, const float value) override;
         bool SetTableDouble(const char* name, const int row, const int col, const double value) override;
         bool SetTableString(const char* name, const int row, const int col, const char* value) override;
-        bool SetTableObject(const char* name, const int row, const int col, const AFGUID& value) override;
 
         bool GetTableBool(const char* name, const int row, const int col) override;
         int32_t GetTableInt(const char* name, const int row, const int col) override;
@@ -64,7 +63,6 @@ namespace ark
         float GetTableFloat(const char* name, const int row, const int col) override;
         double GetTableDouble(const char* name, const int row, const int col) override;
         const char* GetTableString(const char* name, const int row, const int col) override;
-        const AFGUID GetTableObject(const char* name, const int row, const int col) override;
 
     protected:
         bool GetTableData(const char* name, const int row, const int col, AFIData& value);

@@ -420,17 +420,17 @@ namespace ark
             return *this;
         }
 
-        AFDateTime  operator + (const AFTimespan& span) const
+        AFDateTime operator + (const AFTimespan& span) const
         {
             return *this + span.totalMilliseconds();
         }
 
-        AFDateTime  operator - (const AFTimespan& span) const
+        AFDateTime operator - (const AFTimespan& span) const
         {
             return *this - span.totalMilliseconds();
         }
 
-        TimeDiff     operator - (const AFDateTime& ts) const
+        TimeDiff operator - (const AFDateTime& ts) const
         {
             return _ts - ts._ts;
         }

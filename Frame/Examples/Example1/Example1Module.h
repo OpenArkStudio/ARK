@@ -25,6 +25,7 @@
 #include "SDK/Interface/AFITimerModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIScheduleModule.h"
+#include "SDK/Interface/AFIGUIDModule.h"
 
 namespace ark
 {
@@ -46,6 +47,7 @@ namespace ark
     protected:
         AFITimerModule* m_pTimerModule;
         AFILogModule* m_pLogModule;
+        AFIGUIDModule* m_pGUIDModule;
         AFIDynamicLogModule* m_pDynamicLogModule;
         AFIScheduleModule* m_pScheduleModule;
     };

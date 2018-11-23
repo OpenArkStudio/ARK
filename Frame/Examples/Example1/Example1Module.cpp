@@ -31,6 +31,13 @@ namespace ark
     bool Example1Module::Init()
     {
         std::cout << typeid(Example1Module).name() << ", Init" << std::endl;
+
+        m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
+        m_pLogModule = pPluginManager->FindModule<AFILogModule>();
+        m_pGUIDModule = pPluginManager->FindModule<AFIGUIDModule>();
+        m_pDynamicLogModule = pPluginManager->FindModule<AFIDynamicLogModule>();
+        m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
+
         return true;
     }
 
@@ -120,31 +127,20 @@ namespace ark
     {
         std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
 
-        //testtime();
+        //////////////////////////////////////////////////////////////////////////
+        //Test guid
+        AFGUID id = m_pGUIDModule->CreateGUID();
+        std::cout << m_pGUIDModule->ParseUID(id) << std::endl;
 
-        //std::cout << "333 GetTickCount64 = " << GetTickCount64() << std::endl;
-
-        //std::cout << "sleep1 GetTickCount64 = " << GetTickCount64() << std::endl;
-        //Sleep(200);
-        //std::cout << "sleep2 GetTickCount64 = " << GetTickCount64() << std::endl;
-
-        m_pTimerModule = pPluginManager->FindModule<AFITimerModule>();
-        m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-        m_pDynamicLogModule = pPluginManager->FindModule<AFIDynamicLogModule>();
-        m_pScheduleModule = pPluginManager->FindModule<AFIScheduleModule>();
-
-        ARK_ASSERT_RET_VAL(m_pTimerModule != nullptr, false);
-        ARK_ASSERT_RET_VAL(m_pLogModule != nullptr, false);
-        ARK_ASSERT_RET_VAL(m_pDynamicLogModule != nullptr, false);
-        ARK_ASSERT_RET_VAL(m_pScheduleModule != nullptr, false);
-
-        AFGUID test_id = AFGUID(0, 1);
+        //////////////////////////////////////////////////////////////////////////
+        //Test basic data
+        AFGUID test_id = AFGUID(1);
 
         //test GUID type
-        AFCData guid_data1(DT_OBJECT, AFGUID(0, 1));
-        AFCData guid_data2(DT_OBJECT, AFGUID(1, 0));
+        AFCData guid_data1(DT_INT64, AFGUID(1));
+        AFCData guid_data2(DT_INT64, AFGUID(0));
         guid_data1 = guid_data2;
-        AFGUID guid = guid_data1.GetObject();
+        AFGUID guid = guid_data1.GetInt64();
 
 
         //test string type
@@ -212,7 +208,7 @@ namespace ark
     void Example1Module::TestTimer(const std::string& name, const AFGUID& entity_id)
     {
         std::cout << AFDateTime::GetNowTime() << std::endl;
-        std::cout << "Test Timer: " << name << " id = " << entity_id.ToString() << std::endl;
+        std::cout << "Test Timer: " << name << " id = " << entity_id << std::endl;
     }
 
     bool Example1Module::TestSchduler(const int id, const int arg)

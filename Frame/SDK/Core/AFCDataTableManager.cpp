@@ -168,12 +168,6 @@ namespace ark
         return ((pTable == nullptr) ? false : pTable->SetString(row, col, value));
     }
 
-    bool AFCDataTableManager::SetTableObject(const char* name, const int row, const int col, const AFGUID& value)
-    {
-        AFDataTable* pTable = GetTable(name);
-        return ((pTable == nullptr) ? false : pTable->SetObject(row, col, value));
-    }
-
     bool AFCDataTableManager::GetTableBool(const char* name, const int row, const int col)
     {
         AFDataTable* pTable = GetTable(name);
@@ -208,12 +202,6 @@ namespace ark
     {
         AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? NULL_STR.c_str() : pTable->GetString(row, col));
-    }
-
-    const AFGUID AFCDataTableManager::GetTableObject(const char* name, const int row, const int col)
-    {
-        AFDataTable* pTable = GetTable(name);
-        return ((pTable == nullptr) ? NULL_GUID : pTable->GetObject(row, col));
     }
 
 }

@@ -58,16 +58,16 @@ namespace ark
         auto OnEnterCallback = [ = ](const brynet::net::DataSocket::PTR & session)
         {
             AFCTCPClient* pTcpClient = this;
-            AFTCPMsg* pMsg = new AFTCPMsg(session);
+            AFTCPMsg* pMsg = ARK_NEW AFTCPMsg(GetHeadLength(), session);
             pMsg->conn_id_.nLow = pTcpClient->conn_id_++;
             session->setUD(static_cast<int64_t>(pMsg->conn_id_.nLow));
             pMsg->event_ = CONNECTED;
 
             do
             {
-                AFScopeWrLock xGuard(pTcpClient->rw_lock_);
+                AFScopeWLock xGuard(pTcpClient->rw_lock_);
 
-                AFTCPEntity* pEntity = new AFTCPEntity(pTcpClient, pMsg->conn_id_, session);
+                AFTCPEntityPtr pEntity = ARK_NEW AFTCPEntity(pTcpClient, pMsg->conn_id_, session);
                 pTcpClient->client_entity_ptr_.reset(pEntity);
                 pEntity->msg_queue_.Push(pMsg);
             } while (false);
@@ -76,11 +76,9 @@ namespace ark
             session->setDataCallback([pTcpClient, session](const char* buffer, size_t len)
             {
                 const auto ud = brynet::net::cast<int64_t>(session->getUD());
-                AFGUID xClient(0, *ud);
 
-                AFScopeRdLock xGuard(pTcpClient->rw_lock_);
-
-                if (pTcpClient->client_entity_ptr_->GetConnID() == xClient)
+                AFScopeRLock xGuard(pTcpClient->rw_lock_);
+                if (pTcpClient->client_entity_ptr_->GetConnID() == *ud)
                 {
                     pTcpClient->client_entity_ptr_->AddBuff(buffer, len);
                     pTcpClient->DismantleNet(pTcpClient->client_entity_ptr_.get());
@@ -95,13 +93,13 @@ namespace ark
                 const auto ud = brynet::net::cast<int64_t>(session->getUD());
                 AFGUID conn_id(0, *ud);
 
-                AFTCPMsg* pMsg = new AFTCPMsg(session);
+                AFTCPMsg* pMsg = ARK_NEW AFTCPMsg(pTcpClient->GetHeadLength(), session);
                 pMsg->conn_id_ = conn_id;
                 pMsg->event_ = DISCONNECTED;
 
                 do
                 {
-                    AFScopeWrLock xGuard(pTcpClient->rw_lock_);
+                    AFScopeWLock xGuard(pTcpClient->rw_lock_);
                     pTcpClient->client_entity_ptr_->msg_queue_.Push(pMsg);
                 } while (false);
             });
@@ -188,13 +186,13 @@ namespace ark
     {
         do
         {
-            AFScopeRdLock xGuard(rw_lock_);
+            AFScopeRLock xGuard(rw_lock_);
             ProcessMsgLogicThread(client_entity_ptr_.get());
         } while (false);
 
         if (client_entity_ptr_ != nullptr && client_entity_ptr_->NeedRemove())
         {
-            AFScopeWrLock xGuard(rw_lock_);
+            AFScopeWLock xGuard(rw_lock_);
             client_entity_ptr_.reset(nullptr);
         }
 

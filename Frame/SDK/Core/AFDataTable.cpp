@@ -202,31 +202,21 @@ namespace ark
             case DT_BOOLEAN:
                 row_data[i].SetBool(data.Bool(i));
                 break;
-
             case DT_INT:
                 row_data[i].SetInt(data.Int(i));
                 break;
-
             case DT_INT64:
                 row_data[i].SetInt64(data.Int64(i));
                 break;
-
             case DT_FLOAT:
                 row_data[i].SetFloat(data.Float(i));
                 break;
-
             case DT_DOUBLE:
                 row_data[i].SetDouble(data.Double(i));
                 break;
-
             case DT_STRING:
                 row_data[i].SetString(data.String(i));
                 break;
-
-            case DT_OBJECT:
-                row_data[i].SetObject(data.Object(i));
-                break;
-
             default:
                 {
                     ReleaseRow(row_data, col_num);
@@ -519,29 +509,6 @@ namespace ark
         return true;
     }
 
-    bool AFDataTable::SetObject(size_t row, size_t col, const AFGUID& value)
-    {
-        if ((row >= GetRowCount()) || (col >= GetColCount()))
-        {
-            return false;
-        }
-
-        RowData* row_data = mxRowDatas[row];
-        ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, false);
-        if (!row_data[col].equal(value))
-        {
-            DATA_TABLE_EVENT_DATA xTableEventData;
-            xTableEventData.nOpType = AFDataTable::TABLE_UPDATE;
-            xTableEventData.nRow = row;
-            xTableEventData.nCol = col;
-            xTableEventData.strName = mstrName;
-
-            OnEventHandler(xTableEventData, row_data[col], AFCData(DT_OBJECT, value));
-        }
-        row_data[col].SetObject(value);
-        return true;
-    }
-
     bool AFDataTable::GetValue(size_t row, size_t col, AFIData& value)
     {
         if ((row >= GetRowCount()) || (col >= GetColCount()))
@@ -628,18 +595,6 @@ namespace ark
         return row_data[col].GetString();
     }
 
-    const AFGUID& AFDataTable::GetObject(size_t row, size_t col)
-    {
-        if ((row >= GetRowCount()) || (col >= GetColCount()))
-        {
-            return NULL_GUID;
-        }
-
-        RowData* row_data = mxRowDatas[row];
-        ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, NULL_GUID);
-        return row_data[col].GetObject();
-    }
-
     const char* AFDataTable::GetStringValue(size_t row, size_t col)
     {
         if ((row >= GetRowCount()) || (col >= GetColCount()))
@@ -678,32 +633,23 @@ namespace ark
         case DT_BOOLEAN:
             return FindBool(col, key.GetBool(), begin_row);
             break;
-
         case DT_INT:
             return FindInt(col, key.GetInt(), begin_row);
             break;
-
         case DT_INT64:
             return FindInt64(col, key.GetInt64(), begin_row);
             break;
-
         case DT_FLOAT:
             return FindFloat(col, key.GetFloat(), begin_row);
             break;
-
         case DT_DOUBLE:
             return FindDouble(col, key.GetDouble(), begin_row);
             break;
-
         case DT_STRING:
             return FindString(col, key.GetString(), begin_row);
             break;
-
-        case DT_OBJECT:
-            return FindObject(col, key.GetObject(), begin_row);
-            break;
-
         default:
+            ARK_ASSERT_NO_EFFECT(false);
             break;
         }
 
@@ -872,33 +818,6 @@ namespace ark
         return -1;
     }
 
-    int AFDataTable::FindObject(size_t col, const AFGUID& key, size_t begin_row /*= 0*/)
-    {
-        if (col >= GetColCount())
-        {
-            return -1;
-        }
-
-        size_t row_num = GetRowCount();
-        if (begin_row >= row_num)
-        {
-            return -1;
-        }
-
-        for (size_t i = begin_row; i < row_num; ++i)
-        {
-            RowData* row_data = mxRowDatas[i];
-            ARK_ASSERT_CONTINUE(nullptr != row_data);
-
-            if (row_data[col].GetObject() == key)
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
     bool AFDataTable::QueryRow(const size_t row, AFIDataList& varList)
     {
         ARK_ASSERT_RET_VAL_NO_EFFECT(row < mxRowDatas.size(), false);
@@ -915,33 +834,23 @@ namespace ark
             case DT_BOOLEAN:
                 varList.AddBool(subData.GetBool());
                 break;
-
             case DT_INT:
                 varList.AddInt(subData.GetInt());
                 break;
-
             case DT_INT64:
                 varList.AddInt64(subData.GetInt64());
                 break;
-
             case DT_FLOAT:
                 varList.AddFloat(subData.GetFloat());
                 break;
-
             case DT_DOUBLE:
                 varList.AddDouble(subData.GetDouble());
                 break;
-
             case DT_STRING:
                 varList.AddString(subData.GetString());
                 break;
-
-            case DT_OBJECT:
-                varList.AddObject(subData.GetObject());
-                break;
-
             default:
-                return false;
+                ARK_ASSERT_NO_EFFECT(false);
                 break;
             }
         }

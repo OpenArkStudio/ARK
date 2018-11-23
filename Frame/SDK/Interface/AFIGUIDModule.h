@@ -28,9 +28,8 @@ namespace ark
     class AFIGUIDModule : public AFIModule
     {
     public:
-        //You need to call this function first then you can call CreateGUID, please follow this order
-        virtual void SetGUIDMask(uint64_t mask) = 0;
         virtual AFGUID CreateGUID() = 0;
+        virtual std::string ParseUID(const AFGUID& id) = 0;
     };
 
 }

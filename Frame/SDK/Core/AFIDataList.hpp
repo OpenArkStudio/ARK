@@ -20,7 +20,6 @@
 
 #pragma once
 
-#include "SDK/Core/AFGUID.hpp"
 #include "SDK/Core/AFString.hpp"
 #include "SDK/Core/AFIData.hpp"
 #include "SDK/Core/AFMisc.hpp"
@@ -55,7 +54,6 @@ namespace ark
         virtual bool AddFloat(float value) = 0;
         virtual bool AddDouble(double value) = 0;
         virtual bool AddString(const char* value) = 0;
-        virtual bool AddObject(const AFGUID& value) = 0;
         virtual bool AddPointer(void* value) = 0;
         virtual bool AddUserData(const void* pData, size_t size) = 0;
         virtual bool AddRawUserData(void* value) = 0;
@@ -67,7 +65,6 @@ namespace ark
         virtual float Float(size_t index) const = 0;
         virtual double Double(size_t index) const = 0;
         virtual const char* String(size_t index) const = 0;
-        virtual AFGUID Object(size_t index) const = 0;
         virtual void* Pointer(size_t index) const = 0;
         virtual const void* UserData(size_t index, size_t& size) const = 0;
         virtual void* RawUserData(size_t index) const = 0;
@@ -118,32 +115,23 @@ namespace ark
             case DT_BOOLEAN:
                 xData.SetBool(Bool(index));
                 break;
-
             case DT_INT:
                 xData.SetInt(Int(index));
                 break;
-
             case DT_INT64:
                 xData.SetInt64(Int64(index));
                 break;
-
             case DT_FLOAT:
                 xData.SetFloat(Float(index));
                 break;
-
             case DT_DOUBLE:
                 xData.SetDouble(Double(index));
                 break;
-
             case DT_STRING:
                 xData.SetString(String(index));
                 break;
-
-            case DT_OBJECT:
-                xData.SetObject(Object(index));
-                break;
-
             default:
+                ARK_ASSERT_RET_VAL(0, false);
                 break;
             }
 
@@ -162,32 +150,23 @@ namespace ark
             case DT_BOOLEAN:
                 return xData.GetBool() == Bool(index);
                 break;
-
             case DT_INT:
                 return xData.GetInt() == Int(index);
                 break;
-
             case DT_INT64:
                 return xData.GetInt64() == Int64(index);
                 break;
-
             case DT_FLOAT:
                 return AFMisc::IsZeroFloat(xData.GetFloat() - Float(index));
                 break;
-
             case DT_DOUBLE:
                 return AFMisc::IsZeroDouble(xData.GetDouble() - Double(index));
                 break;
-
             case DT_STRING:
                 return std::string(xData.GetString()) == std::string(String(index));
                 break;
-
-            case DT_OBJECT:
-                return xData.GetObject() == Object(index);
-                break;
-
             default:
+                ARK_ASSERT_RET_VAL(0, false);
                 break;
             }
 
@@ -287,13 +266,6 @@ namespace ark
         inline AFIDataList& operator<<(const AFString<char, 128>& value)
         {
             bool bRet = AddString(value.c_str());
-            ARK_ASSERT_NO_EFFECT(bRet);
-            return *this;
-        }
-
-        inline AFIDataList& operator<<(const AFGUID& value)
-        {
-            bool bRet = AddObject(value);
             ARK_ASSERT_NO_EFFECT(bRet);
             return *this;
         }

@@ -53,16 +53,16 @@ namespace ark
             {
                 brynet::net::HttpService::setup(session, [pWSServer](const brynet::net::HttpSession::PTR & httpSession)
                 {
-                    AFHttpMsg* pMsg = new AFHttpMsg(httpSession);
-                    pMsg->conn_id_.nLow = pWSServer->next_conn_id_++;
+                    AFHttpMsg* pMsg = ARK_NEW AFHttpMsg(pWSServer->GetHeadLength(), httpSession);
+                    pMsg->conn_id_ = pWSServer->next_conn_id_++;
                     httpSession->setUD(static_cast<int64_t>(pMsg->conn_id_.nLow));
                     pMsg->event_ = CONNECTED;
 
                     do
                     {
-                        AFScopeWrLock xGuard(pWSServer->rw_lock_);
+                        AFScopeWLock xGuard(pWSServer->rw_lock_);
 
-                        AFHttpEntity* pEntity = new AFHttpEntity(pWSServer, pMsg->conn_id_, httpSession);
+                        AFHttpEntity* pEntity = ARK_NEW AFHttpEntity(pWSServer, pMsg->conn_id_, httpSession);
 
                         if (pWSServer->AddNetEntity(pMsg->conn_id_, pEntity))
                         {
@@ -106,10 +106,10 @@ namespace ark
                         }
 
                         const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
-                        AFGUID xClient(0, *ud);
+                        int64_t conn_id = *ud;
 
-                        AFScopeRdLock xGuard(pWSServer->rw_lock_);
-                        auto xFind = pWSServer->net_entities_.find(xClient);
+                        AFScopeRLock xGuard(pWSServer->rw_lock_);
+                        auto xFind = pWSServer->net_entities_.find(conn_id);
                         if (xFind == pWSServer->net_entities_.end())
                         {
                             return;
@@ -133,17 +133,16 @@ namespace ark
                     httpSession->setCloseCallback([pWSServer](const brynet::net::HttpSession::PTR & httpSession)
                     {
                         const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
-                        AFGUID conn_id(0, 0);
-                        conn_id.nLow = *ud;
-                        AFScopeWrLock xGuard(pWSServer->rw_lock_);
+                        int64_t conn_id = *ud;
+                        AFScopeWLock xGuard(pWSServer->rw_lock_);
 
-                        auto xFind = pWSServer->net_entities_.find(conn_id);
+                        auto& xFind = pWSServer->net_entities_.find(conn_id);
                         if (xFind == pWSServer->net_entities_.end())
                         {
                             return;
                         }
 
-                        AFHttpMsg* pMsg = ARK_NEW AFHttpMsg(httpSession);
+                        AFHttpMsg* pMsg = ARK_NEW AFHttpMsg(pWSServer->GetHeadLength(), httpSession);
                         pMsg->conn_id_ = conn_id;
                         pMsg->event_ = DISCONNECTED;
 

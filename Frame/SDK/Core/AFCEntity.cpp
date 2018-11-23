@@ -93,11 +93,6 @@ namespace ark
         return GetNodeManager()->SetNodeString(name.c_str(), value);
     }
 
-    bool AFCEntity::SetNodeObject(const std::string& name, const AFGUID& value)
-    {
-        return GetNodeManager()->SetNodeObject(name.c_str(), value);
-    }
-
     bool AFCEntity::GetNodeBool(const std::string& name)
     {
         return GetNodeManager()->GetNodeBool(name.c_str());
@@ -126,11 +121,6 @@ namespace ark
     const char* AFCEntity::GetNodeString(const std::string& name)
     {
         return GetNodeManager()->GetNodeString(name.c_str());
-    }
-
-    const AFGUID AFCEntity::GetNodeObject(const std::string& name)
-    {
-        return GetNodeManager()->GetNodeObject(name.c_str());
     }
 
     bool AFCEntity::CheckTableExist(const std::string& name)
@@ -169,11 +159,6 @@ namespace ark
         return GetTableManager()->SetTableString(name.c_str(), row, col, value.c_str());
     }
 
-    bool AFCEntity::SetTableObject(const std::string& name, const int row, const int col, const AFGUID& value)
-    {
-        return GetTableManager()->SetTableObject(name.c_str(), row, col, value);
-    }
-
     bool AFCEntity::GetTableBool(const std::string& name, const int row, const int col)
     {
         return GetTableManager()->GetTableBool(name.c_str(), row, col);
@@ -202,11 +187,6 @@ namespace ark
     const char* AFCEntity::GetTableString(const std::string& name, const int row, const int col)
     {
         return GetTableManager()->GetTableString(name.c_str(), row, col);
-    }
-
-    const AFGUID AFCEntity::GetTableObject(const std::string& name, const int row, const int col)
-    {
-        return GetTableManager()->GetTableObject(name.c_str(), row, col);
     }
 
     ARK_SHARE_PTR<AFIDataNodeManager>& AFCEntity::GetNodeManager()

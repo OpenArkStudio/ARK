@@ -369,14 +369,6 @@ namespace ark
             return true;
         }
 
-        bool AddObject(const AFGUID& value) override
-        {
-            dynamic_data_t* p = AddDynamicData();
-            p->nType = DT_OBJECT;
-            p->mxGUID = value;
-            return true;
-        }
-
         bool AddPointer(void* value) override
         {
             dynamic_data_t* p = AddDynamicData();
@@ -505,23 +497,6 @@ namespace ark
             else
             {
                 return NULL_STR.c_str();
-            }
-        }
-
-        AFGUID Object(size_t index) const override
-        {
-            if (index > mnDataUsed)
-            {
-                return NULL_GUID;
-            }
-
-            if (mpData[index].nType == DT_OBJECT)
-            {
-                return mpData[index].mxGUID;
-            }
-            else
-            {
-                return NULL_GUID;
             }
         }
 
@@ -701,24 +676,6 @@ namespace ark
             return true;
         }
 
-        virtual bool SetObject(size_t index, const AFGUID& value)
-        {
-            if (index >= mnDataUsed)
-            {
-                return false;
-            }
-
-            if (mpData[index].nType != DT_OBJECT)
-            {
-                return false;
-            }
-            else
-            {
-                mpData[index].mxGUID = value;
-                return true;
-            }
-        }
-
         virtual bool SetPointer(size_t index, void* value)
         {
             if (index >= mnDataUsed)
@@ -764,9 +721,6 @@ namespace ark
                 break;
             case DT_STRING:
                 data = String(index);
-                break;
-            case DT_OBJECT:
-                data = Object(index).ToString();
                 break;
             case DT_POINTER:
                 break;
@@ -857,35 +811,24 @@ namespace ark
             case DT_BOOLEAN:
                 bRet = AddBool(data.GetBool());
                 break;
-
             case DT_INT:
                 bRet = AddInt(data.GetInt());
                 break;
-
             case DT_INT64:
                 bRet = AddInt64(data.GetInt64());
                 break;
-
             case DT_FLOAT:
                 bRet = AddFloat(data.GetFloat());
                 break;
-
             case DT_DOUBLE:
                 bRet = AddDouble(data.GetDouble());
                 break;
-
             case DT_STRING:
                 bRet = AddString(data.GetString());
                 break;
-
-            case DT_OBJECT:
-                bRet = AddObject(data.GetObject());
-                break;
-
             case DT_POINTER:
                 bRet = AddPointer(data.GetPointer());
                 break;
-
             case DT_USERDATA:
                 {
                     size_t size;
@@ -893,7 +836,6 @@ namespace ark
                     bRet = AddUserData(pData, size);
                 }
                 break;
-
             default:
                 ARK_ASSERT_NO_EFFECT(0);
                 break;
@@ -913,35 +855,24 @@ namespace ark
                 case DT_BOOLEAN:
                     bRet = AddBool(src.Bool(i));
                     break;
-
                 case DT_INT:
                     bRet = AddInt(src.Int(i));
                     break;
-
                 case DT_INT64:
                     bRet = AddInt64(src.Int64(i));
                     break;
-
                 case DT_FLOAT:
                     bRet = AddFloat(src.Float(i));
                     break;
-
                 case DT_DOUBLE:
                     bRet = AddDouble(src.Double(i));
                     break;
-
                 case DT_STRING:
                     bRet = AddString(src.String(i));
                     break;
-
-                case DT_OBJECT:
-                    bRet = AddObject(src.Object(i));
-                    break;
-
                 case DT_POINTER:
                     bRet = AddPointer(src.Pointer(i));
                     break;
-
                 case DT_USERDATA:
                     {
                         size_t size;
@@ -949,7 +880,6 @@ namespace ark
                         bRet = AddUserData(pData, size);
                     }
                     break;
-
                 default:
                     ARK_ASSERT_NO_EFFECT(0);
                     break;

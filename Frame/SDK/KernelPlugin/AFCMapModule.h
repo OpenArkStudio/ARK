@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Core/AFIEntity.h"
-#include "SDK/Core/AFGUID.hpp"
+//#include "SDK/Core/AFGUID.hpp"
 #include "SDK/Interface/AFIMapModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFILogModule.h"

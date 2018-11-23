@@ -50,9 +50,6 @@
 #define MAX_PATH    256
 #endif
 
-#define ARK_GUID_POWER 100000
-#define ARK_EPOCH 1533657600000L //2018/8/8 00:00:00
-
 //////////////////////////////////////////////////////////////////////////
 /* isaacs - added strlcpy implementation for systems that lack it. */
 #ifndef strlcpy

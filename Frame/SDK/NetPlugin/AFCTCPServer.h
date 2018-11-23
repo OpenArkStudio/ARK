@@ -72,23 +72,23 @@ namespace ark
         bool SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_id) override;
         bool SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_id) override;
 
-        bool CloseNetEntity(const AFGUID& conn_id) override;
+        bool CloseNetEntity(const int64_t& conn_id) override;
         bool Log(int severity, const char* msg) override;
 
     protected:
         bool SendMsgToAllClient(const char* msg, const size_t msg_len);
-        bool SendMsg(const char* msg, const size_t msg_len, const AFGUID& conn_id);
-        bool AddNetEntity(const AFGUID& conn_id, AFTCPEntityPtr entity_ptr);
-        bool RemoveNetEntity(const AFGUID& conn_id);
-        AFTCPEntityPtr GetNetEntity(const AFGUID& conn_id);
+        bool SendMsg(const char* msg, const size_t msg_len, const int64_t& conn_id);
+        bool AddNetEntity(const int64_t& conn_id, AFTCPEntityPtr entity_ptr);
+        bool RemoveNetEntity(const int64_t& conn_id);
+        AFTCPEntityPtr GetNetEntity(const int64_t& conn_id);
 
         void ProcessMsgLogicThread();
         void ProcessMsgLogicThread(AFTCPEntityPtr entity_ptr);
         bool CloseSocketAll();
-        bool DismantleNet(AFTCPEntityPtr entity_ptr);
+        bool unwrap_msg(AFTCPEntityPtr entity_ptr);
 
     private:
-        std::map<AFGUID, AFTCPEntityPtr> net_entities_;
+        std::map<int64_t, AFTCPEntityPtr> net_entities_;
         AFCReaderWriterLock rw_lock_;
         int max_connection_{ 0 };
         int thread_num_{ 0 };

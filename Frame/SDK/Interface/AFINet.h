@@ -26,12 +26,26 @@
 #include "SDK/Core/AFGUID.hpp"
 #include "SDK/Core/AFLockFreeQueue.hpp"
 #include "SDK/Core/AFBuffer.hpp"
-#include "AFNetPacket.h"
+#include "AFNetMsg.h"
 
 namespace ark
 {
 
     class AFINet;
+
+    enum AFNetEvent
+    {
+        NONE = 0,
+        CONNECTED = 1,
+        DISCONNECTED = 2,
+        RECV_DATA = 3,
+    };
+
+    using NET_PKG_RECV_FUNCTOR = std::function<void(const AFIMsgHead& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)>;
+    using NET_PKG_RECV_FUNCTOR_PTR = std::shared_ptr<NET_PKG_RECV_FUNCTOR>;
+
+    using NET_EVENT_FUNCTOR = std::function<void(const AFNetEvent event, const AFGUID& conn_id, const std::string& ip, const int bus_id)>;
+    using NET_EVENT_FUNCTOR_PTR = std::shared_ptr<NET_EVENT_FUNCTOR>;
 
     class AFBaseNetEntity
     {
@@ -45,21 +59,20 @@ namespace ark
 
         virtual ~AFBaseNetEntity() = default;
 
-        int AddBuff(const char* str, size_t nLen)
+        int AddBuff(const char* data, size_t len)
         {
-            buffer_.write(str, nLen);
+            buffer_.write(data, len);
             return (int)buffer_.getlength();
         }
 
-        size_t RemoveBuff(size_t nLen)
+        size_t RemoveBuff(size_t len)
         {
-            if (nLen > buffer_.getlength())
+            if (len > buffer_.getlength())
             {
                 return 0;
             }
 
-            buffer_.removedata(nLen);
-
+            buffer_.removedata(len);
             return buffer_.getlength();
         }
 
@@ -95,7 +108,7 @@ namespace ark
             user_data_ = strData;
         }
 
-        const AFGUID& GetConnID()
+        const int64_t& GetConnID()
         {
             return conn_id_;
         }
@@ -108,7 +121,7 @@ namespace ark
     private:
         AFBuffer buffer_;
         std::string user_data_;
-        int64_t conn_id_;//temporary client id
+        int64_t conn_id_;//net connection id
 
         AFINet* net_ptr_;
         mutable bool need_remove_;
@@ -142,7 +155,7 @@ namespace ark
             return false;
         }
 
-        virtual bool CloseNetEntity(const AFGUID& conn_id) = 0;
+        virtual bool CloseNetEntity(const int64_t& conn_id) = 0;
 
         virtual bool IsServer() = 0;
 
@@ -214,26 +227,10 @@ namespace ark
     //////////////////////////////////////////////////////////////////////////
 
     template <typename SessionPTR>
-    class AFNetMsg
-    {
-    public:
-        AFNetMsg(const SessionPTR session_ptr) : session_(session_ptr) {}
-
-        AFNetEvent event_{ NONE };
-        AFGUID conn_id_{ 0 };
-        SessionPTR session_{ nullptr };
-        std::string msg_data_{};
-        AFIMsgHead head_;
-    };
-
-    using AFTCPMsg = AFNetMsg<brynet::net::DataSocket::PTR>;
-    using AFHttpMsg = AFNetMsg<brynet::net::HttpSession::PTR>;
-
-    template <typename SessionPTR>
     class AFNetEntity : public AFBaseNetEntity
     {
     public:
-        AFNetEntity(AFINet* net_ptr, const AFGUID& conn_id, const SessionPTR session) :
+        AFNetEntity(AFINet* net_ptr, const int64_t& conn_id, const SessionPTR session) :
             AFBaseNetEntity(net_ptr, conn_id),
             session_(session)
         {

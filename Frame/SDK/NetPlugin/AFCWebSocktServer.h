@@ -89,7 +89,7 @@ namespace ark
         bool DismantleNet(AFHttpEntityPtr entity_ptr);
 
     private:
-        std::map<AFGUID, AFHttpEntityPtr> net_entities_;
+        std::map<int64_t, AFHttpEntityPtr> net_entities_;
         AFCReaderWriterLock rw_lock_;
         int max_connection_{ 0 };
         int thread_num_{ 0 };

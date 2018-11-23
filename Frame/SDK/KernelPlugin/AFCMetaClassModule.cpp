@@ -88,11 +88,6 @@ namespace ark
             var.SetString(NULL_STR.c_str());
             return var.GetType();
         }
-        else if (0 == ARK_STRICMP(pstrTypeName, "object"))
-        {
-            var.SetObject(NULL_GUID);
-            return var.GetType();
-        }
 
         return DT_UNKNOWN;
     }

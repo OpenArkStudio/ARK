@@ -52,7 +52,7 @@ namespace ark
         }
         else
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
     }
@@ -68,7 +68,7 @@ namespace ark
         ARK_SHARE_PTR<AFIEntity>& pEntity = m_pKernelModule->GetEntity(self);
         if (pEntity == nullptr)
         {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self.ToString());
+            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
             return false;
         }
 
@@ -215,9 +215,9 @@ namespace ark
         for (ARK_SHARE_PTR<AFMapInstance>& pMapInstance = pMapInfo->First(); pMapInstance != nullptr; pMapInstance = pMapInfo->Next())
         {
             AFGUID entity_id;
-            for (pMapInstance->mxPlayerList.First(entity_id); !entity_id.IsNULL(); pMapInstance->mxPlayerList.Next(entity_id))
+            for (pMapInstance->mxPlayerList.First(entity_id); entity_id != NULL_GUID; pMapInstance->mxPlayerList.Next(entity_id))
             {
-                list.AddObject(entity_id);
+                list.AddInt64(entity_id);
                 entity_id = NULL_GUID;
             }
         }
@@ -270,11 +270,11 @@ namespace ark
         {
             for (size_t i = 0; i < listObject.GetCount(); ++i)
             {
-                AFGUID ident = listObject.Object(i);
+                AFGUID ident = listObject.Int64(i);
 
                 if (!m_pKernelModule->DestroyEntity(ident))
                 {
-                    ARK_LOG_ERROR("Destory entity failed, id  = {}, pls check", ident.ToString().c_str());
+                    ARK_LOG_ERROR("Destory entity failed, id  = {}, please check", ident);
                 }
             }
         }
@@ -311,16 +311,16 @@ namespace ark
         }
 
         AFGUID entity_id = NULL_GUID;
-        for (pMapInstance->mxPlayerList.First(entity_id); !entity_id.IsNULL(); pMapInstance->mxPlayerList.Next(entity_id))
+        for (pMapInstance->mxPlayerList.First(entity_id); entity_id != NULL_GUID; pMapInstance->mxPlayerList.Next(entity_id))
         {
-            list.AddObject(entity_id);
+            list.AddInt64(entity_id);
             entity_id = NULL_GUID;
         }
 
         entity_id = NULL_GUID;
-        for (pMapInstance->mxOtherList.First(entity_id); !entity_id.IsNULL(); pMapInstance->mxOtherList.Next(entity_id))
+        for (pMapInstance->mxOtherList.First(entity_id); entity_id != NULL_GUID; pMapInstance->mxOtherList.Next(entity_id))
         {
-            list.AddObject(entity_id);
+            list.AddInt64(entity_id);
             entity_id = NULL_GUID;
         }
 
@@ -334,7 +334,7 @@ namespace ark
         size_t entity_count = varObjectList.GetCount();
         for (size_t i = 0; i < entity_count; ++i)
         {
-            AFGUID ident = varObjectList.Object(i);
+            AFGUID ident = varObjectList.Int64(i);
             ARK_SHARE_PTR<AFIEntity>& pEntity = m_pKernelModule->GetEntity(ident);
             if (pEntity == nullptr)
             {
@@ -350,7 +350,7 @@ namespace ark
             AFDataNode* pDataNode = pNodeManager->GetNode(name.c_str());
             if (pDataNode != nullptr && value_args.Equal(0, pDataNode->value))
             {
-                list.AddObject(ident);
+                list.AddInt64(ident);
             }
         }
 

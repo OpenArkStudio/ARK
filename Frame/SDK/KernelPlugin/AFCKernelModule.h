@@ -25,7 +25,6 @@
 #include "SDK/Core/AFIEntity.h"
 #include "SDK/Core/AFCDataList.hpp"
 #include "SDK/Core/AFDataTable.h"
-#include "SDK/Core/AFGUID.hpp"
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
@@ -66,7 +65,6 @@ namespace ark
         bool SetNodeFloat(const AFGUID& self, const std::string& name, const float value) override;
         bool SetNodeDouble(const AFGUID& self, const std::string& name, const double value) override;
         bool SetNodeString(const AFGUID& self, const std::string& name, const std::string& value) override;
-        bool SetNodeObject(const AFGUID& self, const std::string& name, const AFGUID& value) override;
 
         bool GetNodeBool(const AFGUID& self, const std::string& name) override;
         int32_t GetNodeInt(const AFGUID& self, const std::string& name) override;
@@ -74,7 +72,6 @@ namespace ark
         float GetNodeFloat(const AFGUID& self, const std::string& name) override;
         double GetNodeDouble(const AFGUID& self, const std::string& name) override;
         const char* GetNodeString(const AFGUID& self, const std::string& name) override;
-        const AFGUID GetNodeObject(const AFGUID& self, const std::string& name) override;
         //////////////////////////////////////////////////////////////////////////
         AFDataTable* FindTable(const AFGUID& self, const std::string& name) override;
         bool ClearTable(const AFGUID& self, const std::string& name) override;
@@ -85,7 +82,6 @@ namespace ark
         bool SetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col, const float value) override;
         bool SetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col, const double value) override;
         bool SetTableString(const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value) override;
-        bool SetTableObject(const AFGUID& self, const std::string& name, const int row, const int col, const AFGUID& value) override;
 
         bool GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col) override;
         int32_t GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col) override;
@@ -93,7 +89,6 @@ namespace ark
         float GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col) override;
         double GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col) override;
         const char* GetTableString(const AFGUID& self, const std::string& name, const int row, const int col) override;
-        const AFGUID GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col) override;
 
         //////////////////////////////////////////////////////////////////////////
         bool LogInfo(const AFGUID& id) override;

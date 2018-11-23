@@ -21,7 +21,6 @@
 #pragma once
 
 #include "SDK/Core/AFIEntity.h"
-#include "SDK/Core/AFGUID.hpp"
 #include "AFIModule.h"
 
 namespace ark
@@ -100,7 +99,6 @@ namespace ark
         virtual bool SetNodeFloat(const AFGUID& self, const std::string& name, const float value) = 0;
         virtual bool SetNodeDouble(const AFGUID& self, const std::string& name, const double value) = 0;
         virtual bool SetNodeString(const AFGUID& self, const std::string& name, const std::string& value) = 0;
-        virtual bool SetNodeObject(const AFGUID& self, const std::string& name, const AFGUID& value) = 0;
 
         virtual bool GetNodeBool(const AFGUID& self, const std::string& name) = 0;
         virtual int32_t GetNodeInt(const AFGUID& self, const std::string& name) = 0;
@@ -108,7 +106,6 @@ namespace ark
         virtual float GetNodeFloat(const AFGUID& self, const std::string& name) = 0;
         virtual double GetNodeDouble(const AFGUID& self, const std::string& name) = 0;
         virtual const char*  GetNodeString(const AFGUID& self, const std::string& name) = 0;
-        virtual const AFGUID GetNodeObject(const AFGUID& self, const std::string& name) = 0;
         //////////////////////////////////////////////////////////////////////////
         virtual AFDataTable* FindTable(const AFGUID& self, const std::string& name) = 0;
         virtual bool ClearTable(const AFGUID& self, const std::string& name) = 0;
@@ -119,7 +116,6 @@ namespace ark
         virtual bool SetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col, const float value) = 0;
         virtual bool SetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col, const double value) = 0;
         virtual bool SetTableString(const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value) = 0;
-        virtual bool SetTableObject(const AFGUID& self, const std::string& name, const int row, const int col, const AFGUID& value) = 0;
 
         virtual bool GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
         virtual int32_t GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
@@ -127,7 +123,6 @@ namespace ark
         virtual float GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
         virtual double GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
         virtual const char* GetTableString(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
-        virtual const AFGUID GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
 
         //////////////////////////////////////////////////////////////////////////
         virtual bool LogInfo(const AFGUID& ident) = 0;

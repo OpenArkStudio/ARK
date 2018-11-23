@@ -52,7 +52,6 @@ namespace ark
         bool SetNodeFloat(const char* name, const float value) override;
         bool SetNodeDouble(const char* name, const double value) override;
         bool SetNodeString(const char* name, const std::string& value) override;
-        bool SetNodeObject(const char* name, const AFGUID& value) override;
 
         bool GetNodeBool(const char* name) override;
         int32_t GetNodeInt(const char* name) override;
@@ -60,7 +59,6 @@ namespace ark
         float GetNodeFloat(const char* name) override;
         double GetNodeDouble(const char* name) override;
         const char* GetNodeString(const char* name) override;
-        const AFGUID GetNodeObject(const char* name) override;
 
     protected:
         bool FindIndex(const char* name, size_t& index);

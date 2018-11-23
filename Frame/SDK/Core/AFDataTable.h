@@ -97,7 +97,6 @@ namespace ark
         bool SetFloat(size_t row, size_t col, const float value);
         bool SetDouble(size_t row, size_t col, const double value);
         bool SetString(size_t row, size_t col, const char* value);
-        bool SetObject(size_t row, size_t col, const AFGUID& value);
 
         bool GetValue(size_t row, size_t col, AFIData& value);
         bool GetBool(size_t row, size_t col);
@@ -106,7 +105,6 @@ namespace ark
         float GetFloat(size_t row, size_t col);
         double GetDouble(size_t row, size_t col);
         const char* GetString(size_t row, size_t col);
-        const AFGUID& GetObject(size_t row, size_t col);
 
         const char* GetStringValue(size_t row, size_t col);
         bool GetColTypeList(AFIDataList& col_type_list);
@@ -118,7 +116,6 @@ namespace ark
         int FindFloat(size_t col, const float key, size_t begin_row = 0);
         int FindDouble(size_t col, const double key, size_t begin_row = 0);
         int FindString(size_t col, const char* key, size_t begin_row = 0);
-        int FindObject(size_t col, const AFGUID& key, size_t begin_row = 0);
 
         bool QueryRow(const size_t row, AFIDataList& varList);
         bool RegisterCallback(const LITLE_DATA_TABLE_EVENT_FUNCTOR_PTR& cb);
