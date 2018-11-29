@@ -9,12 +9,12 @@
 - [ ] 5.增加kcp
 - [x] 6.修改bin文件夹debug和release在一起，debug和release分开配置(方便配置是一套)
 - [ ] 7.增加运维工具(tcm & deploy)
-- [ ] 8.guid改为内部指针类型(降低其他非guid类型的内存占用)
+- [x] 8.guid改为内部指针类型(降低其他非guid类型的内存占用)***修改为int64_t了,不需要再考虑内存占用了***
 - [ ] 9.修改进程启动优先链接logserver，如果logserver连不上，则直接不能启动，这样就可以从一开始就能打log了
 - [x] 10.增加网络插件,这样可以将网络模块和业务逻辑模块拆分开(现在NetClient和NetServer还是跟业务关联太紧密了)
 - [ ] 11.增加dirty data layer, 当一个客户端请求处理完成后统一下发变化数据，不能有变有发，会导致小包太碎，并且浪费协议的head
 - [ ] 12.关于背包类的table，整理或者交换，需要改成别的方式
-- [ ] 13.excel工具修改为https://github.com/davyxu/tabtoy
+- [ ] 13.excel格式修改为一张excel里放所有的schema,其他配置表分开来写,兼容现在的格式
 - [x] 14.net plugin增加endpoint
 - [ ] 51.优化数据同步的流量,减小属性同步的体积(去掉`NodeName`和`TableName`类似的string同步, 上线先同步index和name的映射，后续全部用index下发，入库用name)
 - [ ] 52.拓展DataTable的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，DataTable现有的二维结构是特定的，不方便做扩展
