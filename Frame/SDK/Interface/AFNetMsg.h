@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@
 
 #include "SDK/Core/AFPlatform.hpp"
 #include "SDK/Core/AFMacros.hpp"
-#include "SDK/Core/AFGUID.hpp"
 
 #pragma pack(push, 1)
 
@@ -37,35 +36,183 @@ namespace ark
     enum AFHeadLength
     {
         CS_HEAD_LENGTH = 14, //cs head
-        SS_HEAD_LENGTH = 24, //ss head
+        SS_HEAD_LENGTH = 22, //ss head
     };
 
-    class  AFIMsgHead
+    class AFIMsgHead
     {
     public:
         virtual ~AFIMsgHead() = default;
+        virtual uint32_t get_body_length() const = 0;
+        virtual int encode(char* buffer) = 0;
+        virtual int decode(const char* buffer) = 0;
     };
-
+    /*
+    +--------+---------+----------+
+    | msg_id | msg_len | actor_id |
+    +--------+---------+----------+
+    | 2bytes |  4bytes |  8bytes  |
+    |           14bytes           |
+    */
     class AFCSMsgHead : public AFIMsgHead
     {
     public:
-        uint32_t msg_len_{ 0 };
         uint16_t msg_id_{ 0 };
-        int64_t ident_{ 0 }; //进游戏前是conn_id, 进入游戏后是actor_rid.low, actor_rid.high可以通过busid获取
+        uint32_t msg_len_{ 0 };
+        int64_t actor_id_{ 0 }; //进游戏前是session_id, 进入游戏后是actor_id
         //uint8_t seq_{0};
         //uint32_t verify_code_{0};
         //uint8_t child_count_{0};
+
+        uint32_t get_body_length() const override
+        {
+            return msg_len_;
+        }
+
+        int encode(char* buffer) override
+        {
+            uint32_t offset(0);
+
+            uint16_t msg_id = ARK_HTONS(msg_id_);
+            memcpy(buffer + offset, (void*)(&msg_id), sizeof(msg_id_));
+            offset += sizeof(msg_id_);
+
+            uint32_t msg_len = msg_len_ + CS_HEAD_LENGTH;
+            uint32_t size = ARK_HTONL(msg_len);
+            memcpy(buffer + offset, (void*)(&size), sizeof(msg_len_));
+            offset += sizeof(msg_len_);
+
+            uint64_t actor_id = ARK_HTONLL(actor_id_);
+            memcpy(buffer + offset, (void*)(&actor_id), sizeof(actor_id));
+            offset += sizeof(actor_id);
+
+            if (offset != CS_HEAD_LENGTH)
+            {
+                assert(0);
+            }
+
+            return offset;
+        }
+
+        int decode(const char* buffer) override
+        {
+            uint32_t offset(0);
+
+            uint16_t msg_id(0);
+            memcpy(&msg_id, buffer + offset, sizeof(msg_id_));
+            msg_id_ = ARK_NTOHS(msg_id);
+            offset += sizeof(msg_id_);
+
+            uint32_t msg_len(0);
+            memcpy(&msg_len, buffer + offset, sizeof(msg_len_));
+            msg_len_ = ARK_NTOHL(msg_len) - CS_HEAD_LENGTH;
+            offset += sizeof(msg_len_);
+
+            uint64_t actor_id(0);
+            memcpy(&actor_id, buffer + offset, sizeof(actor_id));
+            actor_id_ = ARK_NTOHLL(actor_id);
+            offset += sizeof(actor_id);
+
+            if (offset != CS_HEAD_LENGTH)
+            {
+                assert(0);
+            }
+
+            return offset;
+        }
     };
 
+    /*
+    +--------+---------+----------+-----------+-----------+
+    | msg_id | msg_len | actor_id |  src_bus  |  dst_bus  |
+    +--------+---------+----------+-----------+-----------+
+    | 2bytes |  4bytes |  8bytes  |  4bytes   |  4bytes   |
+    |                      22bytes                        |
+    */
     class AFSSMsgHead : public AFIMsgHead
     {
     public:
-        uint32_t msg_len_{ 0 };
         uint16_t msg_id_{ 0 };
-        int64_t uid_{ 0 }; //actor_rid.low, actor_rid.high可以通过busid获取
-        int32_t bus_src_{ 0 };
-        int32_t bus_dst_{ 0 };
+        uint32_t msg_len_{ 0 };
+        int64_t actor_id_{ 0 };
+        int32_t src_bus_{ 0 };
+        int32_t dst_bus_{ 0 };
         //uint8_t child_pkg_count_{ 0 };
+
+        uint32_t get_body_length() const override
+        {
+            return msg_len_;
+        }
+
+        int encode(char* buffer) override
+        {
+            uint32_t offset(0);
+
+            uint16_t msg_id = ARK_HTONS(msg_id_);
+            memcpy(buffer + offset, (void*)(&msg_id), sizeof(msg_id_));
+            offset += sizeof(msg_id_);
+
+            uint32_t msg_len = msg_len_ + SS_HEAD_LENGTH;
+            uint32_t size = ARK_HTONL(msg_len);
+            memcpy(buffer + offset, (void*)(&size), sizeof(msg_len_));
+            offset += sizeof(msg_len_);
+
+            uint64_t actor_id = ARK_HTONLL(actor_id_);
+            memcpy(buffer + offset, (void*)(&actor_id), sizeof(actor_id));
+            offset += sizeof(actor_id);
+
+            uint32_t src_bus = ARK_HTONL(src_bus_);
+            memcpy(buffer + offset, (void*)(&src_bus), sizeof(src_bus_));
+            offset += sizeof(src_bus_);
+
+            uint32_t dst_bus = ARK_HTONL(dst_bus_);
+            memcpy(buffer + offset, (void*)(&dst_bus), sizeof(dst_bus_));
+            offset += sizeof(dst_bus_);
+
+            if (offset != SS_HEAD_LENGTH)
+            {
+                assert(0);
+            }
+
+            return offset;
+        }
+
+        int decode(const char* buffer) override
+        {
+            uint32_t offset(0);
+
+            uint16_t msg_id(0);
+            memcpy(&msg_id, buffer + offset, sizeof(msg_id_));
+            msg_id_ = ARK_NTOHS(msg_id);
+            offset += sizeof(msg_id_);
+
+            uint32_t msg_len(0);
+            memcpy(&msg_len, buffer + offset, sizeof(msg_len_));
+            msg_len_ = ARK_NTOHL(msg_len) - SS_HEAD_LENGTH;
+            offset += sizeof(msg_len_);
+
+            uint64_t actor_id(0);
+            memcpy(&actor_id, buffer + offset, sizeof(actor_id));
+            actor_id_ = ARK_NTOHLL(actor_id);
+            offset += sizeof(actor_id);
+
+            uint32_t src_bus(0);
+            memcpy(&src_bus, buffer + offset, sizeof(src_bus_));
+            src_bus_ = ARK_NTOHL(msg_len);
+            offset += sizeof(src_bus_);
+
+            uint32_t dst_bus(0);
+            memcpy(&dst_bus, buffer + offset, sizeof(dst_bus_));
+            dst_bus_ = ARK_NTOHL(dst_bus);
+            offset += sizeof(dst_bus_);
+
+            if (offset != SS_HEAD_LENGTH)
+            {
+                assert(0);
+            }
+
+            return offset;
+        }
     };
 
     class AFNetMsg

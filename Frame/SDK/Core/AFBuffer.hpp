@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -28,20 +28,18 @@ namespace ark
     public:
         ~AFBuffer()
         {
-            if (mData != nullptr)
+            if (data_ != nullptr)
             {
-                free(mData);
-                mData = nullptr;
+                free(data_);
+                data_ = nullptr;
             }
         }
 
-        explicit AFBuffer(size_t nBufferSize = 1024 * 512) : mData(nullptr), mnDataSize(0), mWritePos(0), mnReadPos(0)
+        explicit AFBuffer(size_t buffer_size = 1024 * 512)
         {
-            if ((mData = (char*)malloc(sizeof(char) * nBufferSize)) != NULL)
+            if ((data_ = (char*)malloc(sizeof(char) * buffer_size)) != NULL)
             {
-                mnDataSize = nBufferSize;
-                mnReadPos = 0;
-                mWritePos = 0;
+                data_size_ = buffer_size;
             }
         }
 
@@ -49,18 +47,18 @@ namespace ark
         {
             bool write_ret = true;
 
-            if (getwritevalidcount() >= len)
+            if (get_write_valid_count() >= len)
             {
-                memcpy(getwriteptr(), data, len);
-                addwritepos(len);
+                memcpy(get_write_ptr(), data, len);
+                add_write_pos(len);
             }
             else
             {
-                size_t left_len = mnDataSize - getlength();
+                size_t left_len = data_size_ - get_length();
 
                 if (left_len >= len)
                 {
-                    AdjusttoHead();
+                    adjust_to_head();
                     write(data, len);
                 }
                 else
@@ -82,16 +80,16 @@ namespace ark
             return write_ret;
         }
 
-        size_t getlength()
+        size_t get_length()
         {
-            return mWritePos - mnReadPos;
+            return write_pos_ - read_pos_;
         }
 
-        char* getdata()
+        char* get_data()
         {
-            if (mnReadPos < mnDataSize)
+            if (read_pos_ < data_size_)
             {
-                return mData + mnReadPos;
+                return data_ + read_pos_;
             }
             else
             {
@@ -99,81 +97,78 @@ namespace ark
             }
         }
 
-        void removedata(size_t value)
+        void remove_data(size_t value)
         {
-            size_t temp = mnReadPos + value;
+            size_t temp = read_pos_ + value;
 
-            if (temp <= mnDataSize)
+            if (temp <= data_size_)
             {
-                mnReadPos = temp;
+                read_pos_ = temp;
             }
         }
 
     private:
-        void AdjusttoHead()
+        void adjust_to_head()
         {
             size_t len = 0;
 
-            if (mnReadPos <= 0)
+            if (read_pos_ <= 0)
             {
                 return;
             }
 
-            len = getlength();
+            len = get_length();
 
             if (len > 0)
             {
-                memmove(mData, mData + mnReadPos, len);
+                memmove(data_, data_ + read_pos_, len);
             }
 
-            mnReadPos = 0;
-            mWritePos = len;
+            read_pos_ = 0;
+            write_pos_ = len;
         }
 
-        //Remove unused function
-        //void init()
-        //{
-        //    mnReadPos = 0;
-        //    mWritePos = 0;
-        //}
-
-        size_t getwritepos()
+        void init()
         {
-            return mWritePos;
+            read_pos_ = 0;
+            write_pos_ = 0;
         }
 
-        //Remove unused function
-        //size_t getreadpos()
-        //{
-        //    return mnReadPos;
-        //}
-
-        void addwritepos(size_t value)
+        size_t get_write_pos()
         {
-            size_t temp = mWritePos + value;
+            return write_pos_;
+        }
 
-            if (temp <= mnDataSize)
+        size_t get_read_pos()
+        {
+            return read_pos_;
+        }
+
+        void add_write_pos(size_t value)
+        {
+            size_t temp = write_pos_ + value;
+
+            if (temp <= data_size_)
             {
-                mWritePos = temp;
+                write_pos_ = temp;
             }
         }
 
-        size_t getwritevalidcount()
+        size_t get_write_valid_count()
         {
-            return mnDataSize - mWritePos;
+            return data_size_ - write_pos_;
         }
 
-        //Remove unused function
-        //size_t getsize()
-        //{
-        //    return mnDataSize;
-        //}
-
-        char* getwriteptr()
+        size_t get_size()
         {
-            if (mWritePos < mnDataSize)
+            return data_size_;
+        }
+
+        char* get_write_ptr()
+        {
+            if (write_pos_ < data_size_)
             {
-                return mData + mWritePos;
+                return data_ + write_pos_;
             }
             else
             {
@@ -183,20 +178,20 @@ namespace ark
 
         void grow(size_t len)
         {
-            size_t n = mnDataSize + len;
+            size_t n = data_size_ + len;
             char* d = new char[n];
 
-            memcpy(d, mData, getwritepos());
-            mnDataSize = n;
-            delete[] mData;
-            mData = d;
+            memcpy(d, data_, get_write_pos());
+            data_size_ = n;
+            delete[] data_;
+            data_ = d;
         }
 
-        char*   mData;
-        size_t mnDataSize;
+        char* data_{ nullptr };
+        size_t data_size_{ 0 };
 
-        size_t mWritePos;
-        size_t mnReadPos;
+        size_t write_pos_{ 0 };
+        size_t read_pos_{ 0 };
     };
 
 }

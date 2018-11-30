@@ -64,7 +64,7 @@ namespace ark
             return net_ptr->SendRawMsg(msg_id, msg, msg_len, conn_id, actor_id);
         }
 
-        ARK_LOG_ERROR("send ss msg error, src_bus={} target_bus={} msg_id={} conn_id={} target_role_id={}", src_bus, target_bus, msg_id, conn_id.ToString(), actor_id.ToString());
+        ARK_LOG_ERROR("send ss msg error, src_bus={} target_bus={} msg_id={} conn_id={} target_role_id={}", src_bus, target_bus, msg_id, conn_id, actor_id);
         return false;
     }
 

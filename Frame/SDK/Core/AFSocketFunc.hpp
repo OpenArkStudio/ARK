@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -54,6 +54,13 @@ namespace ark
     bool is_ipv6_address(const string& str);
     bool GetHost(const std::string& host, bool& is_ip_v6, std::string& ip);
 
+    //hton ntoh functions
+    int64_t ARK_HTONLL(const int64_t data);
+    int64_t ARK_NTOHLL(const int64_t data);
+    int32_t ARK_HTONL(const int32_t data);
+    int32_t ARK_NTOHL(const int32_t data);
+    int16_t ARK_HTONS(const int16_t data);
+    int16_t ARK_NTOHS(const int16_t data);
 
     struct AFEndpoint
     {

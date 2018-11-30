@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -28,7 +28,8 @@
 #include "SDK/Core/AFList.hpp"
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
-#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIMetaClassModule.h"
+#include "SDK/Interface/AFIMapModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "Server/Interface/AFISceneProcessModule.h"
@@ -64,8 +65,9 @@ namespace ark
 
     private:
         AFIConfigModule* m_pConfigModule;
-        AFIClassModule* m_pClassModule;
+        AFIMetaClassModule* m_pClassModule;
         AFIKernelModule* m_pKernelModule;
+        AFIMapModule* m_pMapModule;
         AFILogModule* m_pLogModule;
         AFIGameNetModule* m_pGameNetModule;
         //////////////////////////////////////////////////////////////////////////

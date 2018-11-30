@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -114,7 +114,7 @@ void PrintLogo()
     CONSOLE_LOG_NO_FILE << std::endl;
     CONSOLE_LOG_NO_FILE << "Copyright 2018 (c) Ark Studio. All Rights Reserved." << std::endl;
     CONSOLE_LOG_NO_FILE << "Website: https://arkgame.net" << std::endl;
-    CONSOLE_LOG_NO_FILE << "Github:  https://github.com/ArkGame" << std::endl;
+    CONSOLE_LOG_NO_FILE << "Github:  https://github.com/QuadHex" << std::endl;
     CONSOLE_LOG_NO_FILE << "***********************************************************" << std::endl;
     CONSOLE_LOG_NO_FILE << std::endl;
 

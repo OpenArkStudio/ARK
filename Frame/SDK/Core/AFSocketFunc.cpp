@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -119,6 +119,73 @@ namespace ark
         std::string domain = protocol + "://" + hostname + ":" + ARK_TO_STRING(port);
         return domain;
     }
+
+    int64_t ARK_HTONLL(const int64_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return htonll(data);
+#elif ARK_PLATFORM == PLATFORM_LINUX
+        return htobe64(data);
+#else
+#error "unsupported platform"
+#endif
+    }
+
+    int64_t ARK_NTOHLL(const int64_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return ntohll(data);
+#elif ARK_PLATFORM == PLATFORM_LINUX
+        return be64toh(data);
+#else
+#error "unsupported platform"
+#endif
+    }
+
+    int32_t ARK_HTONL(const int32_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return htonl(data);
+#elif ARK_PLATFORM == PLATFORM_LINUX
+        return htobe32(data);
+#else
+#error "unsupported platform"
+#endif
+    }
+
+    int32_t ARK_NTOHL(const int32_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return ntohl(data);
+#elif ARK_PLATFORM == PLATFORM_LINUX
+        return be32toh(data);
+#else
+#error "unsupported platform"
+#endif
+    }
+
+    int16_t ARK_HTONS(const int16_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return htons(data);
+#elif ARK_PLATFORM == PLATFORM_APPLE
+        return htobe16(data);
+#else
+#error "unsupported platform"
+#endif
+    }
+
+    int16_t ARK_NTOHS(const int16_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return ntohs(data);
+#elif ARK_PLATFORM == PLATFORM_LINUX
+        return be16toh(data);
+#else
+#error "unsupported platform"
+#endif
+    }
+
 
 #if ARK_PLATFORM == PLATFORM_WIN
     bool GetLocalIP(char* ip)

@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -30,7 +30,8 @@ namespace ark
     {
         m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
         m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-        m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+        m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
+        m_pMapModule = pPluginManager->FindModule<AFIMapModule>();
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
         m_pGameNetModule = pPluginManager->FindModule<AFIGameNetModule>();
 
@@ -42,8 +43,7 @@ namespace ark
     bool AFCSceneProcessModule::PostInit()
     {
         //Init scene container
-        ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->GetElement("Scene");
-
+        ARK_SHARE_PTR<AFIMetaClass>& pLogicClass = m_pClassModule->GetElement("Scene");
         if (nullptr == pLogicClass)
         {
             return false;
@@ -60,7 +60,7 @@ namespace ark
                 return false;
             }
 
-            m_pKernelModule->CreateScene(nSceneID);
+            m_pMapModule->CreateMap(nSceneID);
         }
 
         return true;
@@ -94,7 +94,7 @@ namespace ark
     int AFCSceneProcessModule::CreateCloneScene(const int& nSceneID)
     {
         const E_SCENE_TYPE eType = GetCloneSceneType(nSceneID);
-        int nTargetGroupID = m_pKernelModule->RequestGroupScene(nSceneID);
+        int nTargetGroupID = m_pMapModule->CreateMapInstance(nSceneID);
 
         if (nTargetGroupID > 0 && eType == SCENE_TYPE_CLONE_SCENE && !CreateSceneObject(nSceneID, nTargetGroupID))
         {
@@ -107,13 +107,13 @@ namespace ark
     int AFCSceneProcessModule::OnEnterSceneEvent(const AFGUID& self, const int nEventID, const AFIDataList& var)
     {
         if (var.GetCount() != 4
-                || !var.TypeEx(AF_DATA_TYPE::DT_OBJECT, AF_DATA_TYPE::DT_INT,
+                || !var.TypeEx(AF_DATA_TYPE::DT_INT64, AF_DATA_TYPE::DT_INT,
                                AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_INT, AF_DATA_TYPE::DT_UNKNOWN))
         {
             return 0;
         }
 
-        const AFGUID ident = var.Object(0);
+        const AFGUID ident = var.Int64(0);
         const int nTargetScene = var.Int(2);
         const int nTargetGroupID = var.Int(3);
         const int nNowSceneID = m_pKernelModule->GetNodeInt(self, ark::Player::SceneID());
