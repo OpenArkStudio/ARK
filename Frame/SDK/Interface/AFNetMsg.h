@@ -126,7 +126,7 @@ namespace ark
     protected:
         void AllocData(uint32_t len)
         {
-            if (len > 0);
+            if (len > 0)
             {
                 msg_data_ = ARK_NEW char[len];
             }

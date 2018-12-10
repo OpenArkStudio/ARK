@@ -72,7 +72,7 @@ namespace ark
                 httpSession->setWSConnected([this_ptr, len](const brynet::net::HttpSession::PTR & httpSession, const brynet::net::HTTPParser&)
                 {
                     //now conn_id
-                    int cur_session_id = this_ptr->trust_session_id_++;
+                    int64_t cur_session_id = this_ptr->trust_session_id_++;
 
                     //create net event
                     AFNetEvent* net_event_ptr = AFNetEvent::AllocEvent();

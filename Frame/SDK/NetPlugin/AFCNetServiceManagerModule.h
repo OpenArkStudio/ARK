@@ -56,7 +56,7 @@ namespace ark
         AFMap<int, AFINetServerService> net_servers_;
         AFMap<uint8_t, AFINetClientService> net_clients_;
 
-        AFMap<AFGUID, AFINet> net_bus_relations_;
+        AFMap<std::pair<int, int>, AFINet> net_bus_relations_;
 
         AFIBusModule* m_pBusModule;
         AFILogModule* m_pLogModule;

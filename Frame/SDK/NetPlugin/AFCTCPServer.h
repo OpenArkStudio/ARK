@@ -32,7 +32,7 @@ namespace ark
         AFCTCPServer();
 
         template<typename BaseType>
-        AFCTCPServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(AFNetMsg*), void (BaseType::*handleEvent)(const AFNetEvent*))
+        AFCTCPServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFNetMsg*), void (BaseType::*handleEvent)(const AFNetEvent*))
         {
             net_recv_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1);
             net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
@@ -54,7 +54,6 @@ namespace ark
 
         bool StartServer(AFHeadLength head_length, const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false) override;
         bool Shutdown() override final;
-        bool IsServer() override;
 
         bool SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_id) override;
         bool SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_id) override;

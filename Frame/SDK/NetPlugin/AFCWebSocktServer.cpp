@@ -198,7 +198,7 @@ namespace ark
             CloseSession(session_id);
         }
 
-        remove_sessions.clear;
+        remove_sessions.clear();
     }
 
     void AFCWebSocktServer::UpdateNetEvent(AFHttpSessionPtr session)

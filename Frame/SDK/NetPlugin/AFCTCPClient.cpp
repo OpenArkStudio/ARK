@@ -63,7 +63,7 @@ namespace ark
             AFCTCPClient* this_ptr = this;
 
             //now conn_id
-            int cur_session_id = this_ptr->trust_session_id_++;
+            int64_t cur_session_id = this_ptr->trust_session_id_++;
 
             //set session ud
             session->setUD(cur_session_id);

@@ -45,21 +45,21 @@ namespace ark
         virtual bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
 
 
-        static bool RecvPB(const ARK_PKG_BASE_HEAD& xHead, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
+        static bool RecvPB(const AFNetMsg* msg, std::string& strMsg, AFGUID& nPlayer)
         {
-            strMsg.assign(msg, nLen);
-            nPlayer = xHead.GetUID();
+            strMsg.assign(msg->msg_data_, msg->length_);
+            nPlayer = msg->actor_id_;
             return true;
         }
 
-        static bool RecvPB(const ARK_PKG_BASE_HEAD& xHead, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, AFGUID& nPlayer)
+        static bool RecvPB(const AFNetMsg* msg, google::protobuf::Message& xData, AFGUID& nPlayer)
         {
-            if (!xData.ParseFromString(std::string(msg, nLen)))
+            if (!xData.ParseFromString(std::string(msg->msg_data_, msg->length_)))
             {
                 return false;
             }
 
-            nPlayer = xHead.GetUID();
+            nPlayer = msg->actor_id_;
             return true;
         }
 
@@ -227,9 +227,9 @@ namespace ark
         static bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager, AFMsg::EntityDataTableList& xPBData, const AFFeatureType nFeature)
         {
             AFMsg::EntityDataTableList* pPBData = &xPBData;
-            *(pPBData->mutable_entity_id()) = self;
+            pPBData->set_entity_id(self);
 
-            if (!pTableManager)
+            if (pTableManager == nullptr)
             {
                 return false;
             }
@@ -258,7 +258,7 @@ namespace ark
 
         static bool NodeListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const AFFeatureType nFeature)
         {
-            if (!pNodeManager)
+            if (pNodeManager == nullptr)
             {
                 return false;
             }

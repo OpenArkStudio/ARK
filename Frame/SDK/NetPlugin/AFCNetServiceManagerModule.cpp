@@ -169,10 +169,8 @@ namespace ark
         {
             ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), url);
         }
-        else
-        {
-            return ret;
-        }
+
+        return ret;
     }
 
     AFINetClientService* AFCNetServiceManagerModule::GetNetClientService(const uint8_t& app_type)
@@ -194,8 +192,7 @@ namespace ark
         }
 
         int self_bus_id = m_pBusModule->GetSelfBusID();
-        AFGUID bus_relation_id(self_bus_id, client_bus_id);
-        return net_bus_relations_.AddElement(bus_relation_id, net_server_ptr);
+        return net_bus_relations_.AddElement(std::make_pair(self_bus_id, client_bus_id), net_server_ptr);
     }
 
     bool AFCNetServiceManagerModule::RemoveNetConnectionBus(int client_bus_id)
@@ -206,13 +203,12 @@ namespace ark
         }
 
         int self_bus_id = m_pBusModule->GetSelfBusID();
-        AFGUID bus_relation_id(self_bus_id, client_bus_id);
-        return net_bus_relations_.RemoveElement(bus_relation_id);
+        return net_bus_relations_.RemoveElement(std::make_pair(self_bus_id, client_bus_id));
     }
 
     AFINet* AFCNetServiceManagerModule::GetNetConnectionBus(int src_bus, int target_bus)
     {
-        return net_bus_relations_.GetElement(AFGUID(src_bus, target_bus));
+        return net_bus_relations_.GetElement(std::make_pair(src_bus, target_bus));
     }
 
 }

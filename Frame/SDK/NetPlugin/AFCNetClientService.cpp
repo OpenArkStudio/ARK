@@ -154,7 +154,7 @@ namespace ark
     {
         if (proto == proto_type::tcp)
         {
-            return ARK_NEW AFCTCPClient(this, &AFCNetClientService::OnNetMsg, &AFCNetClientService::OnNetMsg);
+            return ARK_NEW AFCTCPClient(this, &AFCNetClientService::OnNetMsg, &AFCNetClientService::OnNetEvent);
         }
         else if (proto == proto_type::udp)
         {
@@ -258,7 +258,7 @@ namespace ark
     {
         ARK_LOG_INFO("Disconnect [{}] successfully, ip={} conn_id={}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
 
-        ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(bus_id);
+        ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(event->bus_id_);
 
         if (pServerInfo != nullptr)
         {
@@ -266,7 +266,7 @@ namespace ark
             pServerInfo->net_state_ = AFConnectionData::DISCONNECT;
             pServerInfo->last_active_time_ = m_pPluginManager->GetNowTime();
             //remove net bus
-            m_pNetServiceManagerModule->RemoveNetConnectionBus(bus_id);
+            m_pNetServiceManagerModule->RemoveNetConnectionBus(event->bus_id_);
         }
 
         return 0;
@@ -309,7 +309,7 @@ namespace ark
 
                 //based on protocol to create a new client
                 target_connection_data->net_client_ptr_ = CreateNet(target_connection_data->endpoint_.proto());
-                int ret = target_connection_data->net_client_ptr_->Start(target_connection_data->server_bus_id_, target_connection_data->endpoint_.ip(), target_connection_data->endpoint_.port());
+                int ret = target_connection_data->net_client_ptr_->StartClient(target_connection_data->head_len_, target_connection_data->server_bus_id_, target_connection_data->endpoint_.ip(), target_connection_data->endpoint_.port());
                 if (!ret)
                 {
                     target_connection_data->net_state_ = AFConnectionData::RECONNECT;
@@ -367,129 +367,6 @@ namespace ark
         }
     }
 
-    //void AFCNetClientService::SendByServerID(const int nServerID, const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
-    //{
-    //    SendByServerID(nServerID, nMsgID, strData.c_str(), strData.length(), nPlayerID);
-    //}
-
-    //void AFCNetClientService::SendByServerID(const int nServerID, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nPlayerID)
-    //{
-    //    ARK_SHARE_PTR<AFConnectionData> pServer = mxTargetServerMap.GetElement(nServerID);
-    //    if (pServer != nullptr)
-    //    {
-    //        if (pServer->net_client_ptr_ != nullptr)
-    //        {
-    //            pServer->net_client_ptr_->SendRawMsg(nMsgID, msg, nLen, 0, nPlayerID);
-    //        }
-    //    }
-    //}
-
-    //void AFCNetClientService::SendToAllServer(const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
-    //{
-    //    for (ARK_SHARE_PTR<AFConnectionData> pServer = mxTargetServerMap.First(); pServer != nullptr; pServer = mxTargetServerMap.Next())
-    //    {
-    //        if (pServer->net_client_ptr_ != nullptr)
-    //        {
-    //            pServer->net_client_ptr_->SendRawMsg(nMsgID, strData.data(), strData.size(), 0, nPlayerID);
-    //        }
-    //    }
-    //}
-
-    //void AFCNetClientService::SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
-    //{
-    //    std::string strData;
-
-    //    if (!xData.SerializeToString(&strData))
-    //    {
-    //        return;
-    //    }
-
-    //    ARK_SHARE_PTR<AFConnectionData> pServer = mxTargetServerMap.GetElement(nServerID);
-
-    //    if (pServer)
-    //    {
-    //        if (pServer->net_client_ptr_ != nullptr)
-    //        {
-    //            pServer->net_client_ptr_->SendRawMsg(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
-    //        }
-    //    }
-    //}
-
-    //void AFCNetClientService::SendToAllServerByPB(const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
-    //{
-    //    std::string strData;
-
-    //    if (!xData.SerializeToString(&strData))
-    //    {
-    //        return;
-    //    }
-
-    //    for (ARK_SHARE_PTR<AFConnectionData> pServer = mxTargetServerMap.First(); pServer != nullptr; pServer = mxTargetServerMap.Next())
-    //    {
-    //        if (pServer->net_client_ptr_ != nullptr)
-    //        {
-    //            pServer->net_client_ptr_->SendRawMsg(nMsgID, strData.data(), strData.length(), AFGUID(0), nPlayerID);
-    //        }
-    //    }
-    //}
-
-    //void AFCNetClientService::SendBySuit(const std::string& strHashKey, const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
-    //{
-    //    uint32_t nCRC32 = CRC32(strHashKey);
-    //    SendBySuit(nCRC32, nMsgID, strData, nPlayerID);
-    //}
-
-    //void AFCNetClientService::SendBySuit(const std::string& strHashKey, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nPlayerID)
-    //{
-    //    uint32_t nCRC32 = CRC32(strHashKey);
-    //    SendBySuit(nCRC32, nMsgID, msg, nLen, nPlayerID);
-    //}
-
-    //void AFCNetClientService::SendBySuit(const int& nHashKey, const int nMsgID, const std::string& strData, const AFGUID& nPlayerID)
-    //{
-    //    SendBySuit(nHashKey, nMsgID, strData.c_str(), strData.length(), nPlayerID);
-    //}
-
-    //void AFCNetClientService::SendBySuit(const int& nHashKey, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nPlayerID)
-    //{
-    //    if (mxConsistentHash.Size() <= 0)
-    //    {
-    //        return;
-    //    }
-
-    //    AFCMachineNode xNode;
-
-    //    if (!GetServerMachineData(ARK_LEXICAL_CAST<std::string>(nHashKey), xNode))
-    //    {
-    //        return;
-    //    }
-
-    //    SendByServerID(xNode.nMachineID, nMsgID, msg, nLen, nPlayerID);
-    //}
-
-    //void AFCNetClientService::SendSuitByPB(const std::string& strHashKey, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
-    //{
-    //    uint32_t nCRC32 = CRC32(strHashKey);
-    //    SendSuitByPB(nCRC32, nMsgID, xData, nPlayerID);
-    //}
-
-    //void AFCNetClientService::SendSuitByPB(const int& nHashKey, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID)
-    //{
-    //    if (mxConsistentHash.Size() <= 0)
-    //    {
-    //        return;
-    //    }
-
-    //    AFCMachineNode xNode;
-
-    //    if (!GetServerMachineData(ARK_LEXICAL_CAST<std::string>(nHashKey), xNode))
-    //    {
-    //        return;
-    //    }
-
-    //    SendToServerByPB(xNode.nMachineID, nMsgID, xData, nPlayerID);
-    //}
-
     const ARK_SHARE_PTR<AFConnectionData>& AFCNetClientService::GetServerNetInfo(const int nServerID)
     {
         return target_servers_.GetElement(nServerID);
@@ -502,34 +379,34 @@ namespace ark
 
     void AFCNetClientService::OnServerNotify(const AFNetMsg* msg)
     {
-        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_notify);
-        for (int i = 0; i < x_msg.server_list_size(); ++i)
-        {
-            const AFMsg::msg_ss_server_report& report = x_msg.server_list(i);
-            if (!m_pBusModule->IsUndirectBusRelation(report.bus_id()))
-            {
-                continue;
-            }
+        //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_notify);
+        //for (int i = 0; i < x_msg.server_list_size(); ++i)
+        //{
+        //    const AFMsg::msg_ss_server_report& report = x_msg.server_list(i);
+        //    if (!m_pBusModule->IsUndirectBusRelation(report.bus_id()))
+        //    {
+        //        continue;
+        //    }
 
-            //Create single cluster client with bus id and url
-            m_pNetServiceManagerModule->CreateClusterClient(report.bus_id(), report.url());
+        //    //Create single cluster client with bus id and url
+        //    m_pNetServiceManagerModule->CreateClusterClient(report.bus_id(), report.url());
 
-            //管理为三个数值，channel zone proc
-            AFBusAddr bus_addr(report.bus_id());
-            bus_addr.inst_id = 0;//前三个数值相同表示同一个区
+        //    //管理为三个数值，channel zone proc
+        //    AFBusAddr bus_addr(report.bus_id());
+        //    bus_addr.inst_id = 0;//前三个数值相同表示同一个区
 
-            auto iter = reg_servers_.find(bus_addr.bus_id);
-            if (iter != reg_servers_.end())
-            {
-                iter->second.insert(std::make_pair(report.bus_id(), report));
-            }
-            else
-            {
-                std::map<int, AFMsg::msg_ss_server_report> others;
-                others.insert(std::make_pair(report.bus_id(), report));
-                reg_servers_.insert(std::make_pair(bus_addr.bus_id, others));
-            }
-        }
+        //    auto iter = reg_servers_.find(bus_addr.bus_id);
+        //    if (iter != reg_servers_.end())
+        //    {
+        //        iter->second.insert(std::make_pair(report.bus_id(), report));
+        //    }
+        //    else
+        //    {
+        //        std::map<int, AFMsg::msg_ss_server_report> others;
+        //        others.insert(std::make_pair(report.bus_id(), report));
+        //        reg_servers_.insert(std::make_pair(bus_addr.bus_id, others));
+        //    }
+        //}
     }
 
 }

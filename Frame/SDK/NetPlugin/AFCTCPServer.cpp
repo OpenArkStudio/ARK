@@ -161,7 +161,6 @@ namespace ark
             auto& session_id = iter;
             AFScopeWLock guard(rw_lock_);
             CloseSession(session_id);
-            RemoveNetSession(session_id);
         }
     }
 
@@ -214,11 +213,6 @@ namespace ark
         tcp_service_ptr_->stopWorkerThread();
 
         SetWorking(false);
-        return true;
-    }
-
-    bool AFCTCPServer::IsServer()
-    {
         return true;
     }
 

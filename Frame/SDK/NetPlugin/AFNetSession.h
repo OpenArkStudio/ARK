@@ -39,9 +39,9 @@ namespace ark
     class AFNetSession
     {
     public:
-        AFNetSession(AFHeadLength head_len, const int64_t& conn_id, const SessionPTR session) :
+        AFNetSession(AFHeadLength head_len, int64_t session_id, const SessionPTR session) :
             head_len_(head_len_),
-            conn_id_(conn_id),
+            session_id_(session_id),
             session_(session)
         {
         }
@@ -59,7 +59,7 @@ namespace ark
                 while (event != nullptr)
                 {
                     ARK_DELETE(event);
-                    PopNetEvent(event)
+                    PopNetEvent(event);
                 }
             }
 
@@ -96,7 +96,7 @@ namespace ark
             return buffer_.get_length();
         }
 
-        const char* GetBuffer()
+        char* GetBuffer()
         {
             return buffer_.get_data();
         }
@@ -148,7 +148,7 @@ namespace ark
 
         bool PopNetMsg(AFNetMsg* msg)
         {
-            return msg_queue_.Pop(msg)
+            return msg_queue_.Pop(msg);
         }
 
         void ParseBufferToMsg()
@@ -168,7 +168,7 @@ namespace ark
                 pos += GetHeadLen();
                 if (msg_head->length_ > 0)
                 {
-                    msg->CopyFrom(GetBuffer() + pos, msg_head->length_);
+                    msg->CopyData(GetBuffer() + pos, msg_head->length_);
                     pos += msg_head->length_;
                 }
 
