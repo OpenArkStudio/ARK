@@ -57,27 +57,27 @@ namespace ark
         virtual ~AFINetServerService() = default;
 
         template<typename BaseType>
-        bool RegMsgCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
+        bool RegMsgCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*))
         {
-            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
+            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1);
             return RegMsgCallback(nMsgID, std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
         }
 
         template<typename BaseType>
-        bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
+        bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*))
         {
-            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
+            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1);
             return RegForwardMsgCallback(std::make_shared < NET_PKG_RECV_FUNCTOR>(functor));
         }
 
         template<typename BaseType>
-        bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const std::string&, const int))
+        bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const AFNetEvent*))
         {
-            NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+            NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1);
             return RegNetEventCallback(std::make_shared<NET_EVENT_FUNCTOR>(functor));
         }
 
-        virtual bool Start(const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) = 0;
+        virtual bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) = 0;
         virtual bool Update() = 0;
 
         //virtual bool SendBroadcastMsg(const int nMsgID, const std::string& msg, const AFGUID& player_id) = 0;

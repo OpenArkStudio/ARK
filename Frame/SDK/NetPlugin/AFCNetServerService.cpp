@@ -19,19 +19,16 @@ namespace ark
 
     AFCNetServerService::~AFCNetServerService()
     {
-        if (m_pNet)
-        {
-            ARK_DELETE(m_pNet);
-        }
+        ARK_DELETE(m_pNet);
     }
 
-    bool AFCNetServerService::Start(const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection)
+    bool AFCNetServerService::Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection)
     {
         bool ret = false;
         if (ep.proto() == proto_type::tcp)
         {
-            m_pNet = ARK_NEW AFCTCPServer(this, &AFCNetServerService::OnRecvNetPack, &AFCNetServerService::OnSocketNetEvent);
-            ret = m_pNet->Start(bus_id, ep.ip(), ep.port(), thread_count, max_connection, ep.is_v6());
+            m_pNet = ARK_NEW AFCTCPServer(this, &AFCNetServerService::OnNetMsg, &AFCNetServerService::OnNetEvent);
+            ret = m_pNet->StartServer(len, bus_id, ep.ip(), ep.port(), thread_count, max_connection, ep.is_v6());
 
             AFINetServerService::RegMsgCallback(AFMsg::E_SS_MSG_ID_SERVER_REPORT, this, &AFCNetServerService::OnClientRegister);
         }
@@ -58,68 +55,6 @@ namespace ark
         m_pNet->Update();
         return true;
     }
-
-    //bool AFCNetServerService::SendBroadcastMsg(const int msg_id, const std::string& msg, const AFGUID& player_id)
-    //{
-    //    return m_pNet->SendMsgToAllClient(msg.c_str(), msg.length(), player_id);
-    //}
-
-    //bool AFCNetServerService::SendBroadcastPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& player_id)
-    //{
-    //    std::string send_data;
-    //    if (!pb_msg.SerializeToString(&send_data))
-    //    {
-    //        return false;
-    //    }
-
-    //    return SendBroadcastMsg(msg_id, send_data, player_id);
-    //}
-
-    //bool AFCNetServerService::SendPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list/* = nullptr*/)
-    //{
-    //    std::string send_data;
-    //    if (!pb_msg.SerializeToString(&send_data))
-    //    {
-    //        return false;
-    //    }
-
-    //    return SendMsg(msg_id, send_data, connect_id, player_id, target_list);
-    //}
-
-    //bool AFCNetServerService::SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list/* = nullptr*/)
-    //{
-    //    if (m_pNet != nullptr)
-    //    {
-    //        return false;
-    //    }
-
-    //    if (target_list != nullptr && !target_list->empty())
-    //    {
-    //        //playerid主要是网关转发消息的时候做识别使用，其他情况不使用
-    //        AFMsg::BrocastMsg xMsg;
-    //        *xMsg.mutable_entity_id() = AFIMsgModule::GUIDToPB(player_id);
-    //        xMsg.set_msg_data(data);
-    //        xMsg.set_msg_id(msg_id);
-
-    //        for (auto iter : *target_list)
-    //        {
-    //            AFMsg::PBGUID* pData = xMsg.add_target_entity_list();
-    //            *pData = AFIMsgModule::GUIDToPB(iter);
-    //        }
-
-    //        std::string send_data;
-    //        if (!xMsg.SerializeToString(&send_data))
-    //        {
-    //            return false;
-    //        }
-
-    //        return m_pNet->SendRawMsg(AFMsg::EGMI_GTG_BROCASTMSG, data.data(), data.size(), connect_id, player_id);
-    //    }
-    //    else
-    //    {
-    //        return m_pNet->SendRawMsg(msg_id, data.data(), data.size(), connect_id, player_id);
-    //    }
-    //}
 
     AFINet* AFCNetServerService::GetNet()
     {
@@ -151,18 +86,18 @@ namespace ark
         return true;
     }
 
-    void AFCNetServerService::OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id)
+    void AFCNetServerService::OnNetMsg(const AFNetMsg* msg)
     {
-        auto it = net_msg_callbacks_.find(msg_id);
+        auto it = net_msg_callbacks_.find(msg->id_);
         if (it != net_msg_callbacks_.end())
         {
-            (*it->second)(head, msg_id, msg, msg_len, conn_id);
+            (*it->second)(msg);
         }
         else
         {
             //TODO:forward to other server process
 
-            ARK_LOG_ERROR("Invalid message, id = {}", msg_id);
+            ARK_LOG_ERROR("Invalid message, id = {}", msg->id_);
 
             //for (const auto& iter : mxCallBackList)
             //{
@@ -171,16 +106,16 @@ namespace ark
         }
     }
 
-    void AFCNetServerService::OnSocketNetEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id)
+    void AFCNetServerService::OnNetEvent(const AFNetEvent* event)
     {
-        switch (event)
+        switch (event->type_)
         {
         case CONNECTED:
-            ARK_LOG_INFO("Connected server = {} succenssfully, ip = {}, conn_id = {}", AFBusAddr(bus_id).ToString(), ip, conn_id.ToString());
+            ARK_LOG_INFO("Connected server = {} succenssfully, ip = {}, conn_id = {}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
             break;
         case DISCONNECTED:
-            ARK_LOG_ERROR("Disconnected server = {} succenssfully, ip = {}, conn_id = {}", AFBusAddr(bus_id).ToString(), ip, conn_id.ToString());
-            m_pNetServiceManagerModule->RemoveNetConnectionBus(bus_id);
+            ARK_LOG_ERROR("Disconnected server = {} succenssfully, ip = {}, conn_id = {}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
+            m_pNetServiceManagerModule->RemoveNetConnectionBus(event->bus_id_);
             break;
         default:
             break;
@@ -188,28 +123,28 @@ namespace ark
 
         for (const auto& it : net_event_callbacks_)
         {
-            (*it)(event, conn_id, ip, bus_id);
+            (*it)(event);
         }
     }
 
-    void AFCNetServerService::OnClientRegister(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    void AFCNetServerService::OnClientRegister(const AFNetMsg* msg)
     {
-        ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_report);
+        //ARK_PROCESS_MSG(msg, AFMsg::msg_ss_server_report);
 
-        //Add server_bus_id -> client_bus_id relationship with net
-        m_pNetServiceManagerModule->AddNetConnectionBus(x_msg.bus_id(), m_pNet);
-        //////////////////////////////////////////////////////////////////////////
-        ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_clients_.GetElement(x_msg.bus_id());
-        if (nullptr == server_data_ptr)
-        {
-            server_data_ptr = std::make_shared<AFServerData>();
-            reg_clients_.AddElement(x_msg.bus_id(), server_data_ptr);
-        }
+        ////Add server_bus_id -> client_bus_id relationship with net
+        //m_pNetServiceManagerModule->AddNetConnectionBus(x_msg.bus_id(), m_pNet);
+        ////////////////////////////////////////////////////////////////////////////
+        //ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_clients_.GetElement(x_msg.bus_id());
+        //if (nullptr == server_data_ptr)
+        //{
+        //    server_data_ptr = std::make_shared<AFServerData>();
+        //    reg_clients_.AddElement(x_msg.bus_id(), server_data_ptr);
+        //}
 
-        server_data_ptr->Init(conn_id, x_msg);
-        //////////////////////////////////////////////////////////////////////////
+        //server_data_ptr->Init(conn_id, x_msg);
+        ////////////////////////////////////////////////////////////////////////////
 
-        SyncToAllClient(x_msg.bus_id(), conn_id);
+        //SyncToAllClient(x_msg.bus_id(), conn_id);
     }
 
     void AFCNetServerService::SyncToAllClient(const int bus_id, const AFGUID& conn_id)

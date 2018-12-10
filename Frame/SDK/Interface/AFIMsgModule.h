@@ -63,24 +63,6 @@ namespace ark
             return true;
         }
 
-        static AFGUID PBToGUID(AFMsg::PBGUID xID)
-        {
-            AFGUID xIdent;
-            xIdent.nHigh = xID.high();
-            xIdent.nLow = xID.low();
-
-            return xIdent;
-        }
-
-        static AFMsg::PBGUID GUIDToPB(AFGUID xID)
-        {
-            AFMsg::PBGUID  xIdent;
-            xIdent.set_high(xID.nHigh);
-            xIdent.set_low(xID.nLow);
-
-            return xIdent;
-        }
-
         static Point3D PBToVec(AFMsg::Point3D xPoint)
         {
             Point3D xID;
@@ -126,9 +108,6 @@ namespace ark
             case DT_STRING:
                 variantData->set_str_value(DataVar.GetString());
                 break;
-            case DT_OBJECT:
-                *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
-                break;
             default:
                 ARK_ASSERT_RET_VAL(0, false);
                 break;
@@ -173,31 +152,21 @@ namespace ark
             case DT_BOOLEAN:
                 variantData->set_bool_value(DataList.Bool(nCol));
                 break;
-
             case DT_INT:
                 variantData->set_int_value(DataList.Int(nCol));
                 break;
-
             case DT_INT64:
                 variantData->set_int64_value(DataList.Int64(nCol));
                 break;
-
             case DT_FLOAT:
                 variantData->set_float_value(DataList.Float(nCol));
                 break;
-
             case DT_DOUBLE:
                 variantData->set_double_value(DataList.Double(nCol));
                 break;
-
             case DT_STRING:
                 variantData->set_str_value(DataList.String(nCol));
                 break;
-
-            case DT_OBJECT:
-                *variantData->mutable_guid_value() = GUIDToPB(DataList.Object(nCol));
-                break;
-
             default:
                 ARK_ASSERT_RET_VAL(0, false);
                 break;
@@ -258,7 +227,7 @@ namespace ark
         static bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager, AFMsg::EntityDataTableList& xPBData, const AFFeatureType nFeature)
         {
             AFMsg::EntityDataTableList* pPBData = &xPBData;
-            *(pPBData->mutable_entity_id()) = GUIDToPB(self);
+            *(pPBData->mutable_entity_id()) = self;
 
             if (!pTableManager)
             {
@@ -340,7 +309,7 @@ namespace ark
         return;                                                                                                         \
     }
 
-#define ARK_PROCESS_MSG(head, msg, msg_len, pb_msg)                             \
+#define ARK_PROCESS_MSG(net_msg)                                                \
     AFGUID actor_id;                                                            \
     pb_msg x_msg;                                                               \
     if (!AFIMsgModule::RecvPB(head, msg, msg_len, x_msg, actor_id))             \

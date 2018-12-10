@@ -35,13 +35,9 @@ namespace ark
         explicit AFCNetServerService(AFIPluginManager* p);
         virtual ~AFCNetServerService();
 
-        bool Start(const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) override;
+        bool Start(const AFHeadLength len, const int bus_id, const AFEndpoint& ep, const uint8_t thread_count, const uint32_t max_connection) override;
         bool Update() override;
 
-        //bool SendBroadcastMsg(const int msg_id, const std::string& msg, const AFGUID& player_id) override;
-        //bool SendBroadcastPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& player_id) override;
-        //bool SendPBMsg(const uint16_t msg_id, const google::protobuf::Message& pb_msg, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
-        //bool SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) override;
         AFINet* GetNet() override;
 
         bool RegMsgCallback(const int msg_id, const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
@@ -49,10 +45,10 @@ namespace ark
         bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) override;
 
     protected:
-        void OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id);
-        void OnSocketNetEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
+        void OnNetMsg(const AFNetMsg* msg);
+        void OnNetEvent(const AFNetEvent* event);
 
-        void OnClientRegister(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        void OnClientRegister(const AFNetMsg* msg);
         void SyncToAllClient(const int bus_id, const AFGUID& conn_id);
 
     private:

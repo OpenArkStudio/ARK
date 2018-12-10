@@ -20,15 +20,8 @@
 
 #pragma once
 
-#include <brynet/net/SocketLibFunction.h>
-#include <brynet/net/TCPService.h>
-#include <brynet/net/ListenThread.h>
-#include <brynet/net/Socket.h>
 #include "SDK/Interface/AFINet.h"
-#include "SDK/Core/AFQueue.hpp"
-#include "SDK/Core/AFRWLock.hpp"
-
-#pragma pack(push, 1)
+#include "AFNetSession.h"
 
 namespace ark
 {
@@ -36,21 +29,15 @@ namespace ark
     class AFCTCPServer : public AFINet
     {
     public:
-        using AFTCPEntityPtr = AFTCPEntity*;
-
         AFCTCPServer();
 
         template<typename BaseType>
-        AFCTCPServer(AFHeadLength head_length, BaseType* pBaseType, void (BaseType::*handleRecieve)(const AFIMsgHead&, const int, const char*, const size_t, const AFGUID&), void (BaseType::*handleEvent)(const NetEventType, const AFGUID&, const std::string&, const int))
+        AFCTCPServer(BaseType* pBaseType, void (BaseType::*handleRecieve)(AFNetMsg*), void (BaseType::*handleEvent)(const AFNetEvent*))
         {
-            net_recv_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-            net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            SetWorking(false);
-
-            SetHeadLength(head_length);
+            net_recv_cb_ = std::bind(handleRecieve, pBaseType, std::placeholders::_1);
+            net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
 
             brynet::net::base::InitSocket();
-
             tcp_service_ptr_ = brynet::net::TcpService::Create();
             listen_thread_ptr_ = brynet::net::ListenThread::Create();
         }
@@ -60,38 +47,39 @@ namespace ark
         void Update() override;
 
         //Just for pure virtual function
-        bool Start(const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) override
+        bool StartClient(AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) override
         {
             return false;
         }
 
-        bool Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false) override;
+        bool StartServer(AFHeadLength head_length, const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false) override;
         bool Shutdown() override final;
         bool IsServer() override;
 
         bool SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_id) override;
         bool SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_id) override;
 
-        bool CloseNetEntity(const int64_t& conn_id) override;
-        bool Log(int severity, const char* msg) override;
+        bool CloseSession(const int64_t& conn_id) override;
 
     protected:
         bool SendMsgToAllClient(const char* msg, const size_t msg_len);
-        bool SendMsg(const char* msg, const size_t msg_len, const int64_t& conn_id);
-        bool AddNetEntity(const int64_t& conn_id, AFTCPEntityPtr entity_ptr);
-        bool RemoveNetEntity(const int64_t& conn_id);
-        AFTCPEntityPtr GetNetEntity(const int64_t& conn_id);
+        bool SendMsg(const char* msg, const size_t msg_len, const int64_t& session_id);
 
-        void ProcessMsgLogicThread();
-        void ProcessMsgLogicThread(AFTCPEntityPtr entity_ptr);
-        bool CloseSocketAll();
-        bool unwrap_msg(AFTCPEntityPtr entity_ptr);
+        bool AddNetSession(AFTCPSessionPtr session);
+        AFTCPSessionPtr GetNetSession(const int64_t& conn_id);
+        bool CloseSession(AFTCPSessionPtr& session);
+
+        void UpdateNetSession();
+        void UpdateNetEvent(AFTCPSessionPtr session);
+        void UpdateNetMsg(AFTCPSessionPtr session);
+
+        bool CloseAllSession();
 
     private:
-        std::map<int64_t, AFTCPEntityPtr> net_entities_;
+        std::map<int64_t, AFTCPSessionPtr> sessions_;
         AFCReaderWriterLock rw_lock_;
         int max_connection_{ 0 };
-        int thread_num_{ 0 };
+        //int thread_num_{ 0 };
         int bus_id_{ 0 };
 
         NET_PKG_RECV_FUNCTOR net_recv_cb_;
@@ -99,9 +87,7 @@ namespace ark
 
         brynet::net::TcpService::PTR tcp_service_ptr_{ nullptr };
         brynet::net::ListenThread::PTR listen_thread_ptr_{ nullptr };
-        std::atomic<std::int64_t> next_conn_id_{ 1 };
+        std::atomic<std::int64_t> trusted_session_id_{ 1 };
     };
 
 }
-
-#pragma pack(pop)

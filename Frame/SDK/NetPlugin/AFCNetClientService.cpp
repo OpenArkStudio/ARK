@@ -24,9 +24,10 @@ namespace ark
         Shutdown();
     }
 
-    bool AFCNetClientService::StartClient(const int& target_bus_id, const AFEndpoint& endpoint)
+    bool AFCNetClientService::StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint)
     {
         AFConnectionData data;
+        data.head_len_ = head_len;
         data.server_bus_id_ = target_bus_id;
         data.endpoint_ = endpoint;
 
@@ -131,7 +132,7 @@ namespace ark
 
                     //based on protocol to create a new client
                     //connection_data->_net_client_ptr = CreateNet(connection_data->_protocol);
-                    bool ret = connection_data->net_client_ptr_->Start(connection_data->server_bus_id_, connection_data->endpoint_.ip(), connection_data->endpoint_.port(), connection_data->endpoint_.is_v6());
+                    bool ret = connection_data->net_client_ptr_->StartClient(connection_data->head_len_, connection_data->server_bus_id_, connection_data->endpoint_.ip(), connection_data->endpoint_.port(), connection_data->endpoint_.is_v6());
                     if (!ret)
                     {
                         connection_data->net_state_ = AFConnectionData::RECONNECT;
@@ -153,7 +154,7 @@ namespace ark
     {
         if (proto == proto_type::tcp)
         {
-            return ARK_NEW AFCTCPClient(this, &AFCNetClientService::OnRecvNetPack, &AFCNetClientService::OnSocketEvent);
+            return ARK_NEW AFCTCPClient(this, &AFCNetClientService::OnNetMsg, &AFCNetClientService::OnNetMsg);
         }
         else if (proto == proto_type::udp)
         {
@@ -233,11 +234,11 @@ namespace ark
         }
     }
 
-    int AFCNetClientService::OnConnect(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
+    int AFCNetClientService::OnConnect(const AFNetEvent* event)
     {
-        ARK_LOG_INFO("Connected [{}] successfully, ip={} conn_id={}", AFBusAddr(bus_id).ToString(), ip, conn_id.ToString());
+        ARK_LOG_INFO("Connected [{}] successfully, ip={} conn_id={}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
 
-        ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(bus_id);
+        ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(event->bus_id_);
 
         if (pServerInfo != nullptr)
         {
@@ -245,9 +246,27 @@ namespace ark
             pServerInfo->net_state_ = AFConnectionData::CONNECTED;
 
             //add server-bus-id -> client-bus-id
-            m_pNetServiceManagerModule->AddNetConnectionBus(bus_id, pServerInfo->net_client_ptr_);
+            m_pNetServiceManagerModule->AddNetConnectionBus(event->bus_id_, pServerInfo->net_client_ptr_);
             //register to this server
-            RegisterToServer(conn_id, bus_id);
+            RegisterToServer(event->id_, event->bus_id_);
+        }
+
+        return 0;
+    }
+
+    int AFCNetClientService::OnDisconnect(const AFNetEvent* event)
+    {
+        ARK_LOG_INFO("Disconnect [{}] successfully, ip={} conn_id={}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
+
+        ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(bus_id);
+
+        if (pServerInfo != nullptr)
+        {
+            RemoveServerWeightData(pServerInfo);
+            pServerInfo->net_state_ = AFConnectionData::DISCONNECT;
+            pServerInfo->last_active_time_ = m_pPluginManager->GetNowTime();
+            //remove net bus
+            m_pNetServiceManagerModule->RemoveNetConnectionBus(bus_id);
         }
 
         return 0;
@@ -272,24 +291,6 @@ namespace ark
 
         m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg, conn_id);
         ARK_LOG_INFO("Register self server_id = {}, target_id = {}", server_config->self_id, bus_id);
-    }
-
-    int AFCNetClientService::OnDisconnect(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
-    {
-        ARK_LOG_INFO("Disconnect [{}], ip={} conn_id={}", AFBusAddr(bus_id).ToString(), ip, conn_id.ToString());
-
-        ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(bus_id);
-
-        if (pServerInfo != nullptr)
-        {
-            RemoveServerWeightData(pServerInfo);
-            pServerInfo->net_state_ = AFConnectionData::DISCONNECT;
-            pServerInfo->last_active_time_ = m_pPluginManager->GetNowTime();
-            //remove net bus
-            m_pNetServiceManagerModule->RemoveNetConnectionBus(bus_id);
-        }
-
-        return 0;
     }
 
     void AFCNetClientService::ProcessAddNewNetClient()
@@ -326,19 +327,19 @@ namespace ark
         _tmp_nets.clear();
     }
 
-    void AFCNetClientService::OnRecvNetPack(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id)
+    void AFCNetClientService::OnNetMsg(const AFNetMsg* msg)
     {
-        auto it = net_msg_callbacks_.find(msg_id);
+        auto it = net_msg_callbacks_.find(msg->id_);
 
         if (net_msg_callbacks_.end() != it)
         {
-            (*it->second)(head, msg_id, msg, msg_len, conn_id);
+            (*it->second)(msg);
         }
         else
         {
             //TODO:forward to other server process
 
-            ARK_LOG_ERROR("Invalid message, id = {}", msg_id);
+            ARK_LOG_ERROR("Invalid message, id = {}", msg->id_);
             //for (const auto& iter : mxCallBackList)
             //{
             //    (*iter)(head, msg_id, msg, msg_len, conn_id);
@@ -346,15 +347,15 @@ namespace ark
         }
     }
 
-    void AFCNetClientService::OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, int bus_id)
+    void AFCNetClientService::OnNetEvent(const AFNetEvent* event)
     {
-        switch (event)
+        switch (event->type_)
         {
         case CONNECTED:
-            OnConnect(event, conn_id, ip, bus_id);
+            OnConnect(event);
             break;
         case DISCONNECTED:
-            OnDisconnect(event, conn_id, ip, bus_id);
+            OnDisconnect(event);
             break;
         default:
             break;
@@ -362,7 +363,7 @@ namespace ark
 
         for (const auto& it : net_event_callbacks_)
         {
-            (*it)(event, conn_id, ip, bus_id);
+            (*it)(event);
         }
     }
 
@@ -499,7 +500,7 @@ namespace ark
         return target_servers_;
     }
 
-    void AFCNetClientService::OnServerNotify(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id)
+    void AFCNetClientService::OnServerNotify(const AFNetMsg* msg)
     {
         ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_notify);
         for (int i = 0; i < x_msg.server_list_size(); ++i)

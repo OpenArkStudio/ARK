@@ -38,11 +38,11 @@ namespace ark
         bool Update() override;
         bool Shut() override;
 
-        int CreateServer() override;
+        int CreateServer(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
         AFINetServerService* GetSelfNetServer() override;
 
-        int CreateClusterClients() override;
-        int CreateClusterClient(const int bus_id, const std::string& url) override;
+        int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
+        int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) override;
 
         AFINetClientService* GetNetClientService(const uint8_t& app_type) override;
         AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;

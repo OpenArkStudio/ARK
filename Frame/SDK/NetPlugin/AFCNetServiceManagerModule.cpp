@@ -38,7 +38,7 @@ namespace ark
     {
         net_servers_.DoEveryElement([ & ](AFMap<int, AFINetServerService>::PTRTYPE & pServerData)
         {
-            if (pServerData)
+            if (pServerData != nullptr)
             {
                 pServerData->Update();
             }
@@ -47,7 +47,7 @@ namespace ark
 
         net_clients_.DoEveryElement([&](AFMap<uint8_t, AFINetClientService>::PTRTYPE & pData)
         {
-            if (pData)
+            if (pData != nullptr)
             {
                 pData->Update();
             }
@@ -61,7 +61,7 @@ namespace ark
     {
         net_servers_.DoEveryElement([ = ](AFMap<int, AFINetServerService>::PTRTYPE & pServerData)
         {
-            if (pServerData)
+            if (pServerData != nullptr)
             {
                 ARK_DELETE(pServerData);
             }
@@ -80,7 +80,7 @@ namespace ark
         return true;
     }
 
-    int AFCNetServiceManagerModule::CreateServer()
+    int AFCNetServiceManagerModule::CreateServer(const AFHeadLength head_len/* = AFHeadLength::SS_HEAD_LENGTH*/)
     {
         const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
         if (server_config == nullptr)
@@ -93,7 +93,7 @@ namespace ark
         AFINetServerService* pServer = ARK_NEW AFCNetServerService(pPluginManager);
         net_servers_.AddElement(m_pBusModule->GetSelfBusID(), pServer);
 
-        int nRet = pServer->Start(m_pBusModule->GetSelfBusID(), server_config->local_ep_, server_config->thread_num, server_config->max_connection);
+        int nRet = pServer->Start(head_len, m_pBusModule->GetSelfBusID(), server_config->local_ep_, server_config->thread_num, server_config->max_connection);
         if (nRet)
         {
             ARK_LOG_INFO("Start net server successful, url = {}", server_config->local_ep_.to_string());
@@ -113,7 +113,7 @@ namespace ark
         return net_servers_.GetElement(m_pBusModule->GetSelfBusID());
     }
 
-    int AFCNetServiceManagerModule::CreateClusterClients()
+    int AFCNetServiceManagerModule::CreateClusterClients(const AFHeadLength head_len/* = AFHeadLength::SS_HEAD_LENGTH*/)
     {
         std::vector<AFServerConfig> target_list;
         if (!m_pBusModule->GetDirectBusRelations(target_list))
@@ -136,17 +136,18 @@ namespace ark
                 net_clients_.AddElement(app_type, pClient);
             }
 
-            bool ret = pClient->StartClient(target.self_id, target.public_ep_);
+            bool ret = pClient->StartClient(head_len, target.self_id, target.public_ep_);
             if (!ret)
             {
                 ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), target.public_ep_.to_string());
+                return ret;
             }
         }
 
         return 0;
     }
 
-    int AFCNetServiceManagerModule::CreateClusterClient(const int bus_id, const std::string& url)
+    int AFCNetServiceManagerModule::CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url)
     {
         if (!m_pBusModule->IsUndirectBusRelation(bus_id))
         {
@@ -163,7 +164,7 @@ namespace ark
 
         std::error_code ec;
         AFEndpoint target_ep = AFEndpoint::from_string(url, ec);
-        bool ret = pClient->StartClient(bus_id, target_ep);
+        bool ret = pClient->StartClient(head_len, bus_id, target_ep);
         if (!ret)
         {
             ARK_LOG_ERROR("start net client failed, self_bus_id={} target_url={}", m_pBusModule->GetSelfBusName(), url);
@@ -172,8 +173,6 @@ namespace ark
         {
             return ret;
         }
-
-        return 0;
     }
 
     AFINetClientService* AFCNetServiceManagerModule::GetNetClientService(const uint8_t& app_type)
