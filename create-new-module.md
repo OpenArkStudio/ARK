@@ -84,4 +84,4 @@ namespace ark
 
 Module execution flowchart:
 
-![module-flow](../_images/module-flow.png)
+![module-flow](/_images/module-flow.png)
