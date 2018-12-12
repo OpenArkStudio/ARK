@@ -337,7 +337,7 @@ namespace ark
         return ((pClass != nullptr) ? pClass->AddCommonTableCallback(cb) : false);
     }
 
-    bool AFCMetaClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass>& pParentClass)
+    bool AFCMetaClassModule::Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass> pParentClass)
     {
         const char* pstrLogicClassName = attrNode->first_attribute("Id")->value();
         const char* pstrType = attrNode->first_attribute("Type")->value();

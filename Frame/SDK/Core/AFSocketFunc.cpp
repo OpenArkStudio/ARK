@@ -160,7 +160,7 @@ namespace ark
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return htons(data);
-#else ARK_PLATFORM == PLATFORM_APPLE
+#else
         return htobe16(data);
 #endif
     }
@@ -169,7 +169,7 @@ namespace ark
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return ntohs(data);
-#else ARK_PLATFORM == PLATFORM_LINUX
+#else
         return be16toh(data);
 #endif
     }

@@ -342,14 +342,14 @@ namespace ark
         bool AddClass(const std::string& class_name, const std::string& parent_name);
 
     protected:
-        virtual int ComputerType(const char* type_name, AFIData& var);
-        virtual bool AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass);
-        virtual bool AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass);
-        virtual bool AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass);
-        virtual bool AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIMetaClass>& pClass);
-        virtual bool AddClass(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIMetaClass>& pClass);
+        int ComputerType(const char* type_name, AFIData& var);
+        bool AddNodes(rapidxml::xml_node<>* pNodeRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass);
+        bool AddTables(rapidxml::xml_node<>* pTableRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass);
+        bool AddComponents(rapidxml::xml_node<>* pComponentRootNode, ARK_SHARE_PTR<AFIMetaClass>& pClass);
+        bool AddClassInclude(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIMetaClass>& pClass);
+        bool AddClass(const char* pstrClassFilePath, ARK_SHARE_PTR<AFIMetaClass>& pClass);
 
-        virtual bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass>& pParentClass);
+        bool Load(rapidxml::xml_node<>* attrNode, ARK_SHARE_PTR<AFIMetaClass> pParentClass);
 
     private:
         AFIConfigModule* m_pConfigModule;

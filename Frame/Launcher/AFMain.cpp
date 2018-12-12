@@ -374,7 +374,7 @@ void MainLoop()
     }
 
 #else
-    AFCPluginManager::GetInstancePtr()->Update();
+    AFCPluginManager::get()->Update();
 #endif
 }
 
