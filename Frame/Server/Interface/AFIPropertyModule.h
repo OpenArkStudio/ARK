@@ -58,11 +58,6 @@ namespace ark
         virtual bool ConsumeMP(const AFGUID& self, const int32_t& nValue) = 0;
         virtual bool EnoughMP(const AFGUID& self, const int32_t& nValue) = 0;
 
-        virtual bool FullSP(const AFGUID& self) = 0;
-        virtual bool AddSP(const AFGUID& self, const int32_t& nValue) = 0;
-        virtual bool ConsumeSP(const AFGUID& self, const int32_t& nValue) = 0;
-        virtual bool EnoughSP(const AFGUID& self, const int32_t& nValue) = 0;
-
         virtual bool AddMoney(const AFGUID& self, const int32_t& nValue) = 0;
         virtual bool ConsumeMoney(const AFGUID& self, const int32_t& nValue) = 0;
         virtual bool EnoughMoney(const AFGUID& self, const int32_t& nValue) = 0;

@@ -22,7 +22,7 @@
 
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
-#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIMetaClassModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "Server/Interface/AFIPropertyModule.h"
@@ -54,7 +54,7 @@ namespace ark
     private:
         AFIKernelModule* m_pKernelModule;
         AFIConfigModule* m_pConfigModule;
-        AFIClassModule* m_pClassModule;
+        AFIMetaClassModule* m_pClassModule;
         AFILogModule* m_pLogModule;
     };
 

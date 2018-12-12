@@ -35,10 +35,10 @@ namespace ark
 
     int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
     {
-        int eJobType = m_pKernelModule->GetNodeInt(self, ark::Player::Job());
+        int eJobType = m_pKernelModule->GetNodeInt(self, ark::Player::Career());
         int nCurExp = m_pKernelModule->GetNodeInt(self, ark::Player::EXP());
         int nLevel = m_pKernelModule->GetNodeInt(self, ark::Player::Level());
-        int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::MAXEXP());
+        int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::EXP());//xx
 
         nCurExp += nExp;
 
@@ -53,7 +53,7 @@ namespace ark
 
             nCurExp = nRemainExp;
 
-            nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::MAXEXP());
+            nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::EXP());//xx
 
             if (nMaxExp <= 0)
             {

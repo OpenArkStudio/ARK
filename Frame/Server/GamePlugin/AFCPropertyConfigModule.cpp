@@ -26,7 +26,7 @@ namespace ark
 
     bool AFCPropertyConfigModule::Init()
     {
-        m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+        m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
         m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
 
         return true;
@@ -57,7 +57,7 @@ namespace ark
 
     void AFCPropertyConfigModule::Load()
     {
-        ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->GetElement(ark::InitProperty::ThisName());
+        ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->GetElement(ark::InitProperty::ThisName());
 
         if (nullptr != pLogicClass)
         {

@@ -33,7 +33,7 @@ namespace ark
 
     int Example3Module::OnEvent(const AFGUID& self, const int event, const AFIDataList& arg)
     {
-        std::cout << "OnEvent EventID: " << event << " self: " << self.ToString() << " argList: " << arg.String(0) << " " << " " << arg.Int(1) << std::endl;
+        std::cout << "OnEvent EventID: " << event << " self: " << self << " argList: " << arg.String(0) << " " << " " << arg.Int(1) << std::endl;
 
         m_pKernelModule->SetNodeString(self, "Hello", arg.String(0));
         m_pKernelModule->SetNodeInt(self, "World", arg.Int(1));
@@ -53,7 +53,7 @@ namespace ark
 
     int Example3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT event, const AFIDataList& arg)
     {
-        std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self.ToString() << " Event: " << event << std::endl;
+        std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self << " Event: " << event << std::endl;
 
         if (event == ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED)
         {
@@ -82,16 +82,6 @@ namespace ark
         return 0;
     }
 
-    int Example3Module::OnFightHeroTableCB(const AFGUID& self, const DATA_TABLE_EVENT_DATA& table_data, const AFIData& old_data, const AFIData& new_data)
-    {
-        if (table_data.nCol == ark::Player::PlayerFightHero::PlayerFightHero_FightPos)
-        {
-            std::cout << "OnFightHeroTableCB, table_name = " << table_data.strName.c_str() << " old_data = " << old_data.GetInt() << " new_data = " << new_data.GetInt();
-        }
-
-        return 0;
-    }
-
     bool Example3Module::PostInit()
     {
         std::cout << typeid(Example3Module).name() << ", PostInit" << std::endl;
@@ -99,24 +89,23 @@ namespace ark
         m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
         m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
-        m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+        m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
+        m_pMapModule = pPluginManager->FindModule<AFIMapModule>();
 
         ARK_LOG_INFO("Init finished...");
 
         //Create scene, all entity need in scene
-        m_pKernelModule->CreateScene(1);
+        m_pMapModule->CreateMap(1);
 
         //Add Class callback
         m_pKernelModule->AddClassCallBack(ark::Player::ThisName(), this, &Example3Module::OnClassCallBackEvent);
-        m_pClassModule->AddTableCallBack(ark::Player::ThisName(), ark::Player::R_PlayerFightHero(), this, &Example3Module::OnFightHeroTableCB);
         //Create Entity
         //Entity GUID is (0, 10)
         //SceneID = 1
         //GroupID = 0
         //Class Name = ark::Player::ThisName()
-        ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(AFGUID(0, 10), 1, 0, ark::Player::ThisName(), "", AFCDataList());
-
-        if (nullptr == pEntity)
+        ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->CreateEntity(1, 1, 0, ark::Player::ThisName(), "", AFCDataList());
+        if (pEntity == nullptr)
         {
             return false;
         }
@@ -124,48 +113,11 @@ namespace ark
         //to do
         AFCData xData;
         m_pClassModule->AddNodeCallBack(ark::Player::ThisName(), ark::Player::Gold(), this, &Example3Module::OnIntDataNodeCB);
-        m_pClassModule->AddNodeCallBack(ark::Player::ThisName(), ark::Player::ShowName(), this, &Example3Module::OnStrDataNodeCB);
-        m_pClassModule->AddTableCallBack(ark::Player::ThisName(), ark::Player::R_PlayerFightHero(), this, &Example3Module::OnFightHeroTableCB);
+        m_pClassModule->AddNodeCallBack(ark::Player::ThisName(), ark::Player::Name(), this, &Example3Module::OnStrDataNodeCB);
         m_pKernelModule->AddClassCallBack(ark::Player::ThisName(), this, &Example3Module::OnClassCallBackEvent);
 
-        pEntity->SetNodeInt(ark::Player::Gold(), 11);
-        pEntity->SetNodeString(ark::Player::ShowName(), "test");
-
-        AFDataTable* pTable = m_pKernelModule->FindTable(pEntity->Self(), ark::Player::R_PlayerFightHero());
-        if (pTable != nullptr)
-        {
-            int nRow = pTable->AddRow(AFCDataList() << AFGUID(0, 1000) << 1);
-            for (int i = 0; i < 5; ++i)
-            {
-                nRow = pTable->AddRow(AFCDataList() << AFGUID(0, 1000) << 1);
-            }
-
-            m_pKernelModule->SetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), nRow, ark::Player::PlayerFightHero::PlayerFightHero_FightPos, 2);
-            int pos = m_pKernelModule->GetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), nRow, ark::Player::PlayerFightHero::PlayerFightHero_FightPos);
-
-            for (int i = 0; i < 5; ++i)
-            {
-                m_pKernelModule->SetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), i, ark::Player::PlayerFightHero::PlayerFightHero_FightPos, i);
-                pos = m_pKernelModule->GetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), i, ark::Player::PlayerFightHero::PlayerFightHero_FightPos);
-            }
-
-            for (int i = 0; i < 6; ++i)
-            {
-                pTable->DeleteRow(i);
-                pos = m_pKernelModule->GetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), i, ark::Player::PlayerFightHero::PlayerFightHero_FightPos);
-            }
-
-            for (int i = 0; i < 5; ++i)
-            {
-                nRow = pTable->AddRow(AFCDataList() << AFGUID(0, 1000) << 1);
-            }
-
-            for (int i = 0; i < 5; ++i)
-            {
-                m_pKernelModule->SetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), i, ark::Player::PlayerFightHero::PlayerFightHero_FightPos, i);
-                pos = m_pKernelModule->GetTableInt(pEntity->Self(), ark::Player::R_PlayerFightHero(), i, ark::Player::PlayerFightHero::PlayerFightHero_FightPos);
-            }
-        }
+        pEntity->SetNodeInt(ark::Player::Gold(), 1000);
+        pEntity->SetNodeString(ark::Player::Name(), "test");
 
         m_pKernelModule->DoEvent(pEntity->Self(), 11111111, AFCDataList() << "another_test" << int(200));
         return true;

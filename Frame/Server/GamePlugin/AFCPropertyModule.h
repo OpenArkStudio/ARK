@@ -56,11 +56,6 @@ namespace ark
         virtual bool ConsumeMP(const AFGUID& self, const int32_t& nValue);
         virtual bool EnoughMP(const AFGUID& self, const int32_t& nValue);
 
-        virtual bool FullSP(const AFGUID& self);
-        virtual bool AddSP(const AFGUID& self, const int32_t& nValue);
-        virtual bool ConsumeSP(const AFGUID& self, const int32_t& nValue);
-        virtual bool EnoughSP(const AFGUID& self, const int32_t& nValue);
-
         virtual bool AddMoney(const AFGUID& self, const int32_t& nValue);
         virtual bool ConsumeMoney(const AFGUID& self, const int32_t& nValue);
         virtual bool EnoughMoney(const AFGUID& self, const int32_t& nValue);
@@ -77,7 +72,7 @@ namespace ark
         int OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
         const std::string& ColToPropertyName(const size_t nCol);
-        int64_t PropertyNameToCol(const std::string& strClassName);
+        int PropertyNameToCol(const std::string& strClassName);
 
     private:
         AFIKernelModule* m_pKernelModule;

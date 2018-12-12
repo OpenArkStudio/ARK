@@ -46,15 +46,15 @@ namespace ark
     bool AFCAccountModule::CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList)
     {
         AFMsg::RoleLiteInfo* pData = xAckRoleLiteInfoList.add_char_data();
-        pData->mutable_id()->CopyFrom(AFIMsgModule::GUIDToPB(m_pUUIDModule->CreateGUID()));
+        pData->set_id(m_pUUIDModule->CreateGUID());
 
-        int nCareer = varList.Int(0);
+        int career = varList.Int(0);
         int sex = varList.Int(1);
         int race = varList.Int(2);
         std::string noob_name = varList.String(3);
         int game_id = varList.Int(4);
 
-        pData->set_career(nCareer);
+        pData->set_career(career);
         pData->set_sex(sex);
         pData->set_race(race);
         pData->set_noob_name(noob_name);

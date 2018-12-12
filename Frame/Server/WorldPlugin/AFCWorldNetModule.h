@@ -71,7 +71,7 @@ namespace ark
         //void OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
         //void OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
-        int OnLeaveGameProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        int OnLeaveGameProcess(const AFNetMsg* msg);
         //////////////////////////////////////////////////////////////////////////
 
         void SynGameToProxy();
@@ -80,15 +80,15 @@ namespace ark
         //////////////////////////////////////////////////////////////////////////
         void LogGameServer();
 
-        void OnOnlineProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnOfflineProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        //void OnOnlineProcess(const AFNetMsg* msg);
+        //void OnOfflineProcess(const AFNetMsg* msg);
 
         //////////////////////////////////////////////////////////////////////////
 
         void RefreshWorldInfo();
 
-        void OnSelectServerProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
-        void OnKickClientProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        void OnSelectServerProcess(const AFNetMsg* msg);
+        void OnKickClientProcess(const AFNetMsg* msg);
 
     private:
         AFMapEx<int, AFServerData> reg_servers_;
@@ -96,7 +96,7 @@ namespace ark
 
         int64_t mnLastCheckTime;
 
-        //serverid,data
+        //server id, data
         AFMapEx<int, AFServerData> mGameMap;
         AFMapEx<int, AFServerData> mProxyMap;
 

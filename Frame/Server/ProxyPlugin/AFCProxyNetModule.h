@@ -40,49 +40,47 @@ namespace ark
         bool PostInit() override;
         bool PreUpdate() override;
 
-        virtual int Transpond(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen);
-        virtual int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer);
+        int Transpond(const AFNetMsg* msg) override;
+        int SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& nClientID, const AFGUID& nPlayer) override;
 
         bool VerifyConnectData(const std::string& strAccount, const std::string& strKey) override;
 
         //进入游戏成功
-        virtual int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID);
+        int EnterGameSuccessEvent(const AFGUID xClientID, const AFGUID xPlayerID) override;
 
     protected:
         int StartServer();
 
         int StartClient();
 
-        void OnSelectServerResultProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnServerInfoProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnSelectServerResultProcess(const AFNetMsg* msg);
+        void OnServerInfoProcess(const AFNetMsg* msg);
 
-        void OnOtherMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnBrocastmsg(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnAckEnterGame(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnOtherMessage(const AFNetMsg* msg);
+        void OnBrocastmsg(const AFNetMsg* msg);
+        void OnAckEnterGame(const AFNetMsg* msg);
 
-        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
+        void OnSocketEvent(const AFNetEvent* event);
 
         //连接丢失,删2层(连接对象，帐号对象)
         void OnClientDisconnect(const AFGUID& xClientID);
         //有连接
         void OnClientConnected(const AFGUID& xClientID);
 
-        void OnConnectKeyProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnReqServerListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnSelectServerProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnReqRoleListProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnReqCreateRoleProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnReqDelRoleProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
-        void OnReqEnterGameServer(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnConnectKeyProcess(const AFNetMsg* msg);
+        void OnReqServerListProcess(const AFNetMsg* msg);
+        void OnSelectServerProcess(const AFNetMsg* msg);
+        void OnReqRoleListProcess(const AFNetMsg* msg);
+        void OnReqCreateRoleProcess(const AFNetMsg* msg);
+        void OnReqDelRoleProcess(const AFNetMsg* msg);
+        void OnReqEnterGameServer(const AFNetMsg* msg);
 
-        //客户端的连接60秒删掉
-        int HB_OnConnectCheckTime(const AFGUID& self, const std::string& strHeartBeat, const float fTime, const int nCount, const AFIDataList& var);
         //////////////////////////////////////////////////////////////////////////
 
         //void OnTransMessage(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
 
         template<class TypeName>
-        void CheckSessionTransMsg(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID)
+        void CheckSessionTransMsg(const AFNetMsg* msg)
         {
             ////在没有正式进入游戏之前，nPlayerID都是FD
             //ARK_PROCESS_MSG(xHead, msg, nLen, TypeName);

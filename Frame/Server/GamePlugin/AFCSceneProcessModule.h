@@ -31,6 +31,7 @@
 #include "SDK/Interface/AFIMetaClassModule.h"
 #include "SDK/Interface/AFIMapModule.h"
 #include "SDK/Interface/AFILogModule.h"
+#include "SDK/Interface/AFIGUIDModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "Server/Interface/AFISceneProcessModule.h"
 #include "Server/Interface/AFIPropertyModule.h"
@@ -54,14 +55,14 @@ namespace ark
 
     protected:
         int CreateCloneScene(const int& nSceneID);
-        bool CreateSceneObject(const int nSceneID, const int nGroupID);
+        bool CreateMapEntities(const int nSceneID, const int nGroupID);
         bool LoadSceneResource(const int nSceneID);
 
         int OnObjectClassEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT eClassEvent, const AFIDataList& var);
         int OnEnterSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
         int OnLeaveSceneEvent(const AFGUID& object, const int nEventID, const AFIDataList& var);
 
-        void OnClientSwapSceneProcess(const ARK_PKG_BASE_HEAD& xHead, const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID& xClientID);
+        void OnClientSwapSceneProcess(const AFNetMsg* msg);
 
     private:
         AFIConfigModule* m_pConfigModule;
@@ -69,6 +70,7 @@ namespace ark
         AFIKernelModule* m_pKernelModule;
         AFIMapModule* m_pMapModule;
         AFILogModule* m_pLogModule;
+        AFIGUIDModule* m_pGUIDModule;
         AFIGameNetModule* m_pGameNetModule;
         //////////////////////////////////////////////////////////////////////////
         struct SceneSeedResource
@@ -81,7 +83,7 @@ namespace ark
         };
 
         //SceneID,(SeedID,SeedData)
-        AFMapEx<int, AFMapEx<std::string, SceneSeedResource>> mtSceneResourceConfig;
+        AFMapEx<int, AFMapEx<std::string, SceneSeedResource>> map_res;
     };
 
 }

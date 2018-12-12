@@ -124,10 +124,8 @@ namespace ark
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return htonll(data);
-#elif ARK_PLATFORM == PLATFORM_LINUX
-        return htobe64(data);
 #else
-#error "unsupported platform"
+        return htobe64(data);
 #endif
     }
 
@@ -135,10 +133,8 @@ namespace ark
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return ntohll(data);
-#elif ARK_PLATFORM == PLATFORM_LINUX
-        return be64toh(data);
 #else
-#error "unsupported platform"
+        return be64toh(data);
 #endif
     }
 
@@ -146,10 +142,8 @@ namespace ark
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return htonl(data);
-#elif ARK_PLATFORM == PLATFORM_LINUX
-        return htobe32(data);
 #else
-#error "unsupported platform"
+        return htobe32(data);
 #endif
     }
 
@@ -157,10 +151,8 @@ namespace ark
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return ntohl(data);
-#elif ARK_PLATFORM == PLATFORM_LINUX
-        return be32toh(data);
 #else
-#error "unsupported platform"
+        return be32toh(data);
 #endif
     }
 
@@ -168,10 +160,8 @@ namespace ark
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return htons(data);
-#elif ARK_PLATFORM == PLATFORM_APPLE
+#else ARK_PLATFORM == PLATFORM_APPLE
         return htobe16(data);
-#else
-#error "unsupported platform"
 #endif
     }
 
@@ -179,10 +169,8 @@ namespace ark
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         return ntohs(data);
-#elif ARK_PLATFORM == PLATFORM_LINUX
+#else ARK_PLATFORM == PLATFORM_LINUX
         return be16toh(data);
-#else
-#error "unsupported platform"
 #endif
     }
 
