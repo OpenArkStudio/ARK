@@ -297,7 +297,7 @@ namespace ark
 
     AFTCPSessionPtr AFCTCPServer::GetNetSession(const int64_t& session_id)
     {
-        auto& iter = sessions_.find(session_id);
+        auto iter = sessions_.find(session_id);
         return (iter != sessions_.end() ? iter->second : nullptr);
     }
 
