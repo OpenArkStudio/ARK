@@ -58,17 +58,17 @@ namespace ark
         virtual ~AFINetClientService() = default;
 
         template<typename BaseType>
-        bool RegMsgCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*))
+        bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
         {
-            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1);
-            return RegMsgCallback(nMsgID, std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
+            NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+            return RegMsgCallback(msg_id, std::make_shared<NET_MSG_FUNCTOR>(functor));
         }
 
         template<typename BaseType>
-        bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*))
+        bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
         {
-            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1);
-            return RegForwardMsgCallback(std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
+            NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+            return RegForwardMsgCallback(std::make_shared<NET_MSG_FUNCTOR>(functor));
         }
 
         template<typename BaseType>
@@ -85,8 +85,8 @@ namespace ark
         virtual const ARK_SHARE_PTR<AFConnectionData>& GetServerNetInfo(const int nServerID) = 0;
         virtual AFMapEx<int, AFConnectionData>& GetServerList() = 0;
 
-        virtual bool RegMsgCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
-        virtual bool RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegMsgCallback(const int nMsgID, const NET_MSG_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb) = 0;
         virtual bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
     };
 

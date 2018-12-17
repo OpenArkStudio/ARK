@@ -71,7 +71,7 @@ namespace ark
 
                 httpSession->setWSConnected([this_ptr, len](const brynet::net::HttpSession::PTR & httpSession, const brynet::net::HTTPParser&)
                 {
-                    //now conn_id
+                    //now session_id
                     int64_t cur_session_id = this_ptr->trust_session_id_++;
 
                     //create net event
@@ -210,7 +210,7 @@ namespace ark
         int msg_count = 0;
         while (msg != nullptr)
         {
-            net_recv_cb_(msg);
+            net_msg_cb_(msg, session->GetSessionId());
             AFNetMsg::Release(msg);
 
             ++msg_count;
@@ -223,7 +223,7 @@ namespace ark
         }
     }
 
-    bool AFCWebSocktClient::SendMsg(const char* msg, const size_t msg_len, const AFGUID& conn_id/* = 0*/)
+    bool AFCWebSocktClient::SendMsg(const char* msg, const size_t msg_len, const AFGUID& session_id/* = 0*/)
     {
         auto frame = std::make_shared<std::string>();
         brynet::net::WebSocketFormat::wsFrameBuild(msg,
@@ -233,7 +233,7 @@ namespace ark
                 true,
                 false);
 
-        if (client_session_ptr_->GetSession())
+        if (client_session_ptr_->GetSession() != nullptr)
         {
             client_session_ptr_->GetSession()->send(frame);
         }
@@ -247,7 +247,7 @@ namespace ark
         return true;
     }
 
-    bool AFCWebSocktClient::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id/* = 0*/, const AFGUID& actor_id/* = 0*/)
+    bool AFCWebSocktClient::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id/* = 0*/, const AFGUID& actor_id/* = 0*/)
     {
         //AFCSMsgHead head;
         //head.set_msg_id(msg_id);
@@ -258,7 +258,7 @@ namespace ark
         //size_t whole_len = EnCode(head, msg, msg_len, out_data);
         //if (whole_len == msg_len + GetHeadLength())
         //{
-        //    return SendMsg(out_data.c_str(), out_data.length(), conn_id);
+        //    return SendMsg(out_data.c_str(), out_data.length(), session_id);
         //}
         //else
         //{

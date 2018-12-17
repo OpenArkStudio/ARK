@@ -122,7 +122,7 @@ namespace ark
         return 0;
     }
 
-    void AFCProxyNetModule::OnServerInfoProcess(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnServerInfoProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ServerInfoReportList);
 
@@ -141,7 +141,7 @@ namespace ark
         //}
     }
 
-    void AFCProxyNetModule::OnSelectServerResultProcess(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnSelectServerResultProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::AckConnectWorldResult);
         //ARK_SHARE_PTR<ClientConnectData> pConnectData = mxWantToConnectMap.GetElement(xMsg.account());
@@ -191,7 +191,7 @@ namespace ark
     //    m_pMsgModule->SendSSMsg(pSessionData->mnGameID, nMsgID, msg, nLen, xHead.GetUID());
     //}
 
-    void AFCProxyNetModule::OnConnectKeyProcess(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnConnectKeyProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ReqAccountLogin);
         //bool bRet = m_pProxyNetClientModule->VerifyConnectData(xMsg.account(), xMsg.security_code());
@@ -270,7 +270,7 @@ namespace ark
         }
     }
 
-    void AFCProxyNetModule::OnSelectServerProcess(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnSelectServerProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ReqSelectServer);
         //AFINetClientService* pWorldNetService = m_pNetClientManagerModule->GetNetClientServiceByBusID(xMsg.world_id());
@@ -296,7 +296,7 @@ namespace ark
         //m_pNetServer->SendPBMsg(AFMsg::EGameMsgID::EGMI_ACK_SELECT_SERVER, xMsg, xClientID, nPlayerID);
     }
 
-    void AFCProxyNetModule::OnReqServerListProcess(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnReqServerListProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::ReqServerList);
 
@@ -355,23 +355,23 @@ namespace ark
         return true;
     }
 
-    void AFCProxyNetModule::OnReqRoleListProcess(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnReqRoleListProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //CheckSessionTransMsg<AFMsg::ReqRoleList>(xHead, nMsgID, msg, nLen, xClientID);
     }
 
-    void AFCProxyNetModule::OnReqCreateRoleProcess(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnReqCreateRoleProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //在没有正式进入游戏之前，nPlayerID都是FD
         //CheckSessionTransMsg<AFMsg::ReqCreateRole>(xHead, nMsgID, msg, nLen, xClientID);
     }
 
-    void AFCProxyNetModule::OnReqDelRoleProcess(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnReqDelRoleProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         // CheckSessionTransMsg<AFMsg::ReqDeleteRole>(xHead, nMsgID, msg, nLen, xClientID);
     }
 
-    void AFCProxyNetModule::OnReqEnterGameServer(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnReqEnterGameServer(const AFNetMsg* msg, const int64_t session_id)
     {
         //CheckSessionTransMsg<AFMsg::ReqEnterGameServer>(xHead, nMsgID, msg, nLen, xClientID);
     }
@@ -392,7 +392,7 @@ namespace ark
         return 0;
     }
 
-    bool AFCProxyNetModule::CheckSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount)
+    bool AFCProxyNetModule::CheckSessionState(const int nGameID, const AFGUID& xClientID, const std::string& strAccount)
     {
         AFINetClientService* pWorldNetService = m_pNetServiceManagerModule->GetNetClientServiceByBusID(nGameID);
         ARK_SHARE_PTR<AFConnectionData> pServerData = pWorldNetService->GetServerNetInfo(nGameID);
@@ -413,12 +413,12 @@ namespace ark
         return false;
     }
 
-    void AFCProxyNetModule::OnOtherMessage(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnOtherMessage(const AFNetMsg* msg, const int64_t session_id)
     {
         //Transpond(xHead, nMsgID, msg, nLen);
     }
 
-    void AFCProxyNetModule::OnBrocastmsg(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnBrocastmsg(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::BrocastMsg);
 
@@ -429,7 +429,7 @@ namespace ark
         //}
     }
 
-    void AFCProxyNetModule::OnAckEnterGame(const AFNetMsg* msg)
+    void AFCProxyNetModule::OnAckEnterGame(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(xHead, msg, nLen, AFMsg::AckEventResult);
 

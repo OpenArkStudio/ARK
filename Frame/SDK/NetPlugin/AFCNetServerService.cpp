@@ -61,7 +61,7 @@ namespace ark
         return m_pNet;
     }
 
-    bool AFCNetServerService::RegMsgCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb)
+    bool AFCNetServerService::RegMsgCallback(const int nMsgID, const NET_MSG_FUNCTOR_PTR& cb)
     {
         if (net_msg_callbacks_.find(nMsgID) != net_msg_callbacks_.end())
         {
@@ -74,7 +74,7 @@ namespace ark
         }
     }
 
-    bool AFCNetServerService::RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb)
+    bool AFCNetServerService::RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb)
     {
         net_forward_msg_callbacks_.push_back(cb);
         return true;
@@ -86,12 +86,12 @@ namespace ark
         return true;
     }
 
-    void AFCNetServerService::OnNetMsg(const AFNetMsg* msg)
+    void AFCNetServerService::OnNetMsg(const AFNetMsg* msg, const int64_t session_id)
     {
         auto it = net_msg_callbacks_.find(msg->id_);
         if (it != net_msg_callbacks_.end())
         {
-            (*it->second)(msg);
+            (*it->second)(msg, session_id);
         }
         else
         {
@@ -101,7 +101,7 @@ namespace ark
 
             //for (const auto& iter : mxCallBackList)
             //{
-            //    (*iter)(head, msg_id, msg, msg_len, conn_id);
+            //    (*iter)(head, msg_id, msg, msg_len, session_id);
             //}
         }
     }
@@ -111,10 +111,10 @@ namespace ark
         switch (event->type_)
         {
         case CONNECTED:
-            ARK_LOG_INFO("Connected server = {} succenssfully, ip = {}, conn_id = {}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
+            ARK_LOG_INFO("Connected server = {} succenssfully, ip = {}, session_id = {}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
             break;
         case DISCONNECTED:
-            ARK_LOG_ERROR("Disconnected server = {} succenssfully, ip = {}, conn_id = {}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
+            ARK_LOG_ERROR("Disconnected server = {} succenssfully, ip = {}, session_id = {}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
             m_pNetServiceManagerModule->RemoveNetConnectionBus(event->bus_id_);
             break;
         default:
@@ -127,7 +127,7 @@ namespace ark
         }
     }
 
-    void AFCNetServerService::OnClientRegister(const AFNetMsg* msg)
+    void AFCNetServerService::OnClientRegister(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(msg, AFMsg::msg_ss_server_report);
 
@@ -141,13 +141,13 @@ namespace ark
         //    reg_clients_.AddElement(x_msg.bus_id(), server_data_ptr);
         //}
 
-        //server_data_ptr->Init(conn_id, x_msg);
+        //server_data_ptr->Init(session_id, x_msg);
         ////////////////////////////////////////////////////////////////////////////
 
-        //SyncToAllClient(x_msg.bus_id(), conn_id);
+        //SyncToAllClient(x_msg.bus_id(), session_id);
     }
 
-    void AFCNetServerService::SyncToAllClient(const int bus_id, const AFGUID& conn_id)
+    void AFCNetServerService::SyncToAllClient(const int bus_id, const AFGUID& session_id)
     {
         AFMsg::msg_ss_server_notify msg;
 
@@ -158,6 +158,6 @@ namespace ark
             return true;
         });
 
-        m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg, conn_id);
+        m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg, session_id);
     }
 }

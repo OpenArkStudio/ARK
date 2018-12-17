@@ -126,7 +126,7 @@ namespace ark
         return 0;
     }
 
-    void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg* msg)
+    void AFCGameNetModule::OnClienEnterGameProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         ////Before enter game, PlayerID means gate fd
         //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqEnterGameServer);
@@ -201,7 +201,7 @@ namespace ark
         //m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
     }
 
-    void AFCGameNetModule::OnClientLeaveGameProcess(const AFNetMsg* msg)
+    void AFCGameNetModule::OnClientLeaveGameProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqLeaveGameServer);
 
@@ -1044,7 +1044,7 @@ namespace ark
         return 0;
     }
 
-    void AFCGameNetModule::OnReqiureRoleListProcess(const AFNetMsg* msg)
+    void AFCGameNetModule::OnReqiureRoleListProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         ////fd
         //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqRoleList);
@@ -1059,7 +1059,7 @@ namespace ark
         //m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, nGateClientID);
     }
 
-    void AFCGameNetModule::OnCreateRoleGameProcess(const AFNetMsg* msg)
+    void AFCGameNetModule::OnCreateRoleGameProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqCreateRole);
         //const AFGUID& nGateClientID = actor_id;
@@ -1080,7 +1080,7 @@ namespace ark
         // m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, nGateClientID);
     }
 
-    void AFCGameNetModule::OnDeleteRoleGameProcess(const AFNetMsg* msg)
+    void AFCGameNetModule::OnDeleteRoleGameProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ReqDeleteRole);
 
@@ -1094,7 +1094,7 @@ namespace ark
         //m_pNetServerService->SendPBMsg(AFMsg::EGMI_ACK_ROLE_LIST, xAckRoleLiteInfoList, conn_id, actor_id);
     }
 
-    void AFCGameNetModule::OnClienSwapSceneProcess(const AFNetMsg* msg)
+    void AFCGameNetModule::OnClienSwapSceneProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_ACTOR_MSG(head, msg_id, msg, msg_len, AFMsg::ReqAckSwapScene);
 
@@ -1106,7 +1106,7 @@ namespace ark
         //m_pKernelModule->DoEvent(pEntity->Self(), AFED_ON_CLIENT_ENTER_SCENE, varEntry);
     }
 
-    void AFCGameNetModule::OnProxyServerRegisteredProcess(const AFNetMsg* msg)
+    void AFCGameNetModule::OnProxyServerRegisteredProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
@@ -1128,7 +1128,7 @@ namespace ark
         //}
     }
 
-    void AFCGameNetModule::OnProxyServerUnRegisteredProcess(const AFNetMsg* msg)
+    void AFCGameNetModule::OnProxyServerUnRegisteredProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 
@@ -1140,7 +1140,7 @@ namespace ark
         //}
     }
 
-    void AFCGameNetModule::OnRefreshProxyServerInfoProcess(const AFNetMsg* msg)
+    void AFCGameNetModule::OnRefreshProxyServerInfoProcess(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::ServerInfoReportList);
 

@@ -54,20 +54,20 @@ namespace ark
         }
     }
 
-    bool AFCNetClientService::RegMsgCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb)
+    bool AFCNetClientService::RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR_PTR& cb)
     {
-        if (net_msg_callbacks_.find(nMsgID) != net_msg_callbacks_.end())
+        if (net_msg_callbacks_.find(msg_id) != net_msg_callbacks_.end())
         {
             return false;
         }
         else
         {
-            net_msg_callbacks_.insert(std::make_pair(nMsgID, cb));
+            net_msg_callbacks_.insert(std::make_pair(msg_id, cb));
             return true;
         }
     }
 
-    bool AFCNetClientService::RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb)
+    bool AFCNetClientService::RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb)
     {
         net_msg_forward_callbacks_.push_back(cb);
         return true;
@@ -236,7 +236,7 @@ namespace ark
 
     int AFCNetClientService::OnConnect(const AFNetEvent* event)
     {
-        ARK_LOG_INFO("Connected [{}] successfully, ip={} conn_id={}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
+        ARK_LOG_INFO("Connected [{}] successfully, ip={} session_id={}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
 
         ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(event->bus_id_);
 
@@ -256,7 +256,7 @@ namespace ark
 
     int AFCNetClientService::OnDisconnect(const AFNetEvent* event)
     {
-        ARK_LOG_INFO("Disconnect [{}] successfully, ip={} conn_id={}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
+        ARK_LOG_INFO("Disconnect [{}] successfully, ip={} session_id={}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
 
         ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(event->bus_id_);
 
@@ -272,7 +272,7 @@ namespace ark
         return 0;
     }
 
-    void AFCNetClientService::RegisterToServer(const AFGUID& conn_id, const int bus_id)
+    void AFCNetClientService::RegisterToServer(const AFGUID& session_id, const int bus_id)
     {
         const AFServerConfig* server_config = m_pBusModule->GetAppServerInfo();
         if (server_config == nullptr)
@@ -289,7 +289,7 @@ namespace ark
         msg.set_max_online(server_config->max_connection);
         msg.set_logic_status(AFMsg::E_ST_NARMAL);
 
-        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg, conn_id);
+        m_pMsgModule->SendParticularSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_REPORT, msg, session_id);
         ARK_LOG_INFO("Register self server_id = {}, target_id = {}", server_config->self_id, bus_id);
     }
 
@@ -327,13 +327,13 @@ namespace ark
         _tmp_nets.clear();
     }
 
-    void AFCNetClientService::OnNetMsg(const AFNetMsg* msg)
+    void AFCNetClientService::OnNetMsg(const AFNetMsg* msg, const int64_t session_id)
     {
         auto it = net_msg_callbacks_.find(msg->id_);
 
         if (net_msg_callbacks_.end() != it)
         {
-            (*it->second)(msg);
+            (*it->second)(msg, session_id);
         }
         else
         {
@@ -342,7 +342,7 @@ namespace ark
             ARK_LOG_ERROR("Invalid message, id = {}", msg->id_);
             //for (const auto& iter : mxCallBackList)
             //{
-            //    (*iter)(head, msg_id, msg, msg_len, conn_id);
+            //    (*iter)(head, msg_id, msg, msg_len, session_id);
             //}
         }
     }
@@ -377,7 +377,7 @@ namespace ark
         return target_servers_;
     }
 
-    void AFCNetClientService::OnServerNotify(const AFNetMsg* msg)
+    void AFCNetClientService::OnServerNotify(const AFNetMsg* msg, const int64_t session_id)
     {
         //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_notify);
         //for (int i = 0; i < x_msg.server_list_size(); ++i)

@@ -32,9 +32,9 @@ namespace ark
         AFCTCPClient(const brynet::net::TcpService::PTR& service = nullptr, const brynet::net::AsyncConnector::PTR& connector = nullptr);
 
         template<typename BaseType>
-        AFCTCPClient(BaseType* pBaseType, void (BaseType::*handleRecv)(const AFNetMsg*), void (BaseType::*handleEvent)(const AFNetEvent*))
+        AFCTCPClient(BaseType* pBaseType, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t), void (BaseType::*handleEvent)(const AFNetEvent*))
         {
-            net_recv_cb_ = std::bind(handleRecv, pBaseType, std::placeholders::_1);
+            net_msg_cb_ = std::bind(handleRecv, pBaseType, std::placeholders::_1, std::placeholders::_2);
             net_event_cb_ = std::bind(handleEvent, pBaseType, std::placeholders::_1);
 
             brynet::net::base::InitSocket();
@@ -48,13 +48,9 @@ namespace ark
         void Update() override;
 
         bool StartClient(AFHeadLength head_len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) override;
-        bool StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6 = false) override
-        {
-            return false;
-        }
 
         bool Shutdown() override final;
-        bool SendRawMsg(const uint16_t msg_id, const char* msg_data, const size_t msg_len, const AFGUID& conn_id = 0, const AFGUID& actor_id = 0) override;
+        bool SendRawMsg(const uint16_t msg_id, const char* msg_data, const size_t msg_len, const AFGUID& session_id = 0, const AFGUID& actor_id = 0) override;
 
         bool CloseSession(const AFGUID& session_id) override;
 
@@ -72,7 +68,7 @@ namespace ark
         int dst_bus_id_{ 0 };
         uint64_t trust_session_id_{ 1 };
 
-        NET_PKG_RECV_FUNCTOR net_recv_cb_;
+        NET_MSG_FUNCTOR net_msg_cb_;
         NET_EVENT_FUNCTOR net_event_cb_;
         AFCReaderWriterLock rw_lock_;
 

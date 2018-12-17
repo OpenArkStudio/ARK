@@ -167,7 +167,7 @@ namespace ark
     void AFCTCPServer::UpdateNetEvent(AFTCPSessionPtr session)
     {
         AFNetEvent* event = nullptr;
-        if (session->PopNetEvent(event))
+        if (!session->PopNetEvent(event))
         {
             return;
         }
@@ -192,7 +192,7 @@ namespace ark
         int msg_count = 0;
         while (msg != nullptr)
         {
-            net_recv_cb_(msg);
+            net_msg_cb_(msg, session->GetSessionId());
             AFNetMsg::Release(msg);
 
             ++msg_count;
@@ -250,17 +250,6 @@ namespace ark
         return sessions_.insert(std::make_pair(session->GetSessionId(), session)).second;
     }
 
-    //bool AFCTCPServer::RemoveNetSession(const int64_t& session_id)
-    //{
-    //    AFTCPSessionPtr session = GetNetSession(session_id);
-    //    if (session != nullptr)
-    //    {
-    //        ARK_DELETE(session);
-    //    }
-
-    //    return sessions_.erase(session_id);
-    //}
-
     bool AFCTCPServer::CloseSession(AFTCPSessionPtr& session)
     {
         if (session != nullptr)
@@ -301,7 +290,7 @@ namespace ark
         return (iter != sessions_.end() ? iter->second : nullptr);
     }
 
-    bool AFCTCPServer::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_id)
+    bool AFCTCPServer::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id, const AFGUID& actor_id)
     {
         //AFTCPMsg msg;
 
@@ -314,7 +303,7 @@ namespace ark
         //size_t whole_len = EnCode(head, msg, msg_len, out_data);
         //if (whole_len == msg_len + GetHeadLength())
         //{
-        //    return SendMsg(out_data.c_str(), out_data.length(), conn_id);
+        //    return SendMsg(out_data.c_str(), out_data.length(), session_id);
         //}
         //else
         //{

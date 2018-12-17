@@ -62,7 +62,7 @@ namespace ark
             //For lambda
             AFCTCPClient* this_ptr = this;
 
-            //now conn_id
+            //now session_id
             int64_t cur_session_id = this_ptr->trust_session_id_++;
 
             //set session ud
@@ -155,7 +155,7 @@ namespace ark
         return true;
     }
 
-    bool AFCTCPClient::SendMsg(const char* msg, const size_t msg_len, const AFGUID& conn_id/* = 0*/)
+    bool AFCTCPClient::SendMsg(const char* msg, const size_t msg_len, const AFGUID& session_id/* = 0*/)
     {
         if (nullptr != client_session_ptr_ && client_session_ptr_->GetSession())
         {
@@ -226,7 +226,7 @@ namespace ark
         int msg_count = 0;
         while (msg != nullptr)
         {
-            net_recv_cb_(msg);
+            net_msg_cb_(msg, session->GetSessionId());
             AFNetMsg::Release(msg);
 
             ++msg_count;
@@ -239,7 +239,7 @@ namespace ark
         }
     }
 
-    bool AFCTCPClient::SendRawMsg(const uint16_t msg_id, const char* msg_data, const size_t msg_len, const AFGUID& conn_id/* = 0*/, const AFGUID& actor_id/* = 0*/)
+    bool AFCTCPClient::SendRawMsg(const uint16_t msg_id, const char* msg_data, const size_t msg_len, const AFGUID& session_id/* = 0*/, const AFGUID& actor_id/* = 0*/)
     {
         //AFNetMsg msg;
         //msg.id_ = msg_id;
@@ -254,7 +254,7 @@ namespace ark
         //size_t whole_len = EnCode(head, msg, msg_len, out_data);
         //if (whole_len == msg_len + GetHeadLength())
         //{
-        //    return SendMsg(out_data.c_str(), out_data.length(), conn_id);
+        //    return SendMsg(out_data.c_str(), out_data.length(), session_id);
         //}
         //else
         //{

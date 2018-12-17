@@ -70,16 +70,16 @@ namespace ark
         //void OnClientDisconnect(const AFGUID& xClientID);
         //void OnClientConnected(const AFGUID& xClientID);
 
-        void OnProxyServerRegisteredProcess(const AFNetMsg* msg);
-        void OnProxyServerUnRegisteredProcess(const AFNetMsg* msg);
-        void OnRefreshProxyServerInfoProcess(const AFNetMsg* msg);
-        void OnReqiureRoleListProcess(const AFNetMsg* msg);
-        void OnCreateRoleGameProcess(const AFNetMsg* msg);
-        void OnDeleteRoleGameProcess(const AFNetMsg* msg);
+        void OnProxyServerRegisteredProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnProxyServerUnRegisteredProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnRefreshProxyServerInfoProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnReqiureRoleListProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnCreateRoleGameProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnDeleteRoleGameProcess(const AFNetMsg* msg, const int64_t session_id);
 
-        void OnClienEnterGameProcess(const AFNetMsg* msg);
-        void OnClientLeaveGameProcess(const AFNetMsg* msg);
-        void OnClienSwapSceneProcess(const AFNetMsg* msg);
+        void OnClienEnterGameProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnClientLeaveGameProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnClienSwapSceneProcess(const AFNetMsg* msg, const int64_t session_id);
 
 
         ///////////WORLD_START///////////////////////////////////////////////////////////////

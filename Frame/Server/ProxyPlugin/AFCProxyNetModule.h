@@ -53,12 +53,12 @@ namespace ark
 
         int StartClient();
 
-        void OnSelectServerResultProcess(const AFNetMsg* msg);
-        void OnServerInfoProcess(const AFNetMsg* msg);
+        void OnSelectServerResultProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnServerInfoProcess(const AFNetMsg* msg, const int64_t session_id);
 
-        void OnOtherMessage(const AFNetMsg* msg);
-        void OnBrocastmsg(const AFNetMsg* msg);
-        void OnAckEnterGame(const AFNetMsg* msg);
+        void OnOtherMessage(const AFNetMsg* msg, const int64_t session_id);
+        void OnBrocastmsg(const AFNetMsg* msg, const int64_t session_id);
+        void OnAckEnterGame(const AFNetMsg* msg, const int64_t session_id);
 
         void OnSocketEvent(const AFNetEvent* event);
 
@@ -67,13 +67,13 @@ namespace ark
         //有连接
         void OnClientConnected(const AFGUID& xClientID);
 
-        void OnConnectKeyProcess(const AFNetMsg* msg);
-        void OnReqServerListProcess(const AFNetMsg* msg);
-        void OnSelectServerProcess(const AFNetMsg* msg);
-        void OnReqRoleListProcess(const AFNetMsg* msg);
-        void OnReqCreateRoleProcess(const AFNetMsg* msg);
-        void OnReqDelRoleProcess(const AFNetMsg* msg);
-        void OnReqEnterGameServer(const AFNetMsg* msg);
+        void OnConnectKeyProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnReqServerListProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnSelectServerProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnReqRoleListProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnReqCreateRoleProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnReqDelRoleProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnReqEnterGameServer(const AFNetMsg* msg, const int64_t session_id);
 
         //////////////////////////////////////////////////////////////////////////
 
@@ -91,7 +91,7 @@ namespace ark
             //}
         }
 
-        bool CheckSessionState(const int64_t nGameID, const AFGUID& xClientID, const std::string& strAccount);
+        bool CheckSessionState(const int nGameID, const AFGUID& xClientID, const std::string& strAccount);
 
         class ClientConnectData
         {

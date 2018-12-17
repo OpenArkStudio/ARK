@@ -47,7 +47,6 @@ namespace ark
         int32_t game_id_{ 0 };
         AFGUID actor_id_{ 0 };
         AFGUID conn_id_{ 0 };
-        //AFGUID mnHashIdentID{ 0 };
         std::string account_{};
     };
 
@@ -57,17 +56,17 @@ namespace ark
         virtual ~AFINetServerService() = default;
 
         template<typename BaseType>
-        bool RegMsgCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*))
+        bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
         {
-            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1);
-            return RegMsgCallback(nMsgID, std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
+            NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+            return RegMsgCallback(msg_id, std::make_shared<NET_MSG_FUNCTOR>(functor));
         }
 
         template<typename BaseType>
-        bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*))
+        bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
         {
-            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1);
-            return RegForwardMsgCallback(std::make_shared < NET_PKG_RECV_FUNCTOR>(functor));
+            NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+            return RegForwardMsgCallback(std::make_shared < NET_MSG_FUNCTOR>(functor));
         }
 
         template<typename BaseType>
@@ -86,8 +85,8 @@ namespace ark
         //virtual bool SendMsg(const uint16_t msg_id, const std::string& data, const AFGUID& connect_id, const AFGUID& player_id, const std::vector<AFGUID>* target_list = nullptr) = 0;
         virtual AFINet* GetNet() = 0;
 
-        virtual bool RegMsgCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
-        virtual bool RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegMsgCallback(const int nMsgID, const NET_MSG_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb) = 0;
         virtual bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
     };
 

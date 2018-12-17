@@ -46,19 +46,20 @@ namespace ark
         bus_id_ = busid;
 
         tcp_service_ptr_->startWorkerThread(thread_num);
-        listen_thread_ptr_->startListen(ip_v6, ip, port, [ = ](brynet::net::TcpSocket::PTR socket)
+        listen_thread_ptr_->startListen(ip_v6, ip, port, [&](brynet::net::TcpSocket::PTR socket)
         {
+            std::string ip = socket->GetIP();
             AFCWebSocktServer* this_ptr = this;
-            auto OnEnterCallback = [this_ptr, head_len](const brynet::net::DataSocket::PTR & session)
+            auto OnEnterCallback = [this_ptr, &head_len, &ip](const brynet::net::DataSocket::PTR & session)
             {
-                brynet::net::HttpService::setup(session, [this_ptr, head_len](const brynet::net::HttpSession::PTR & httpSession)
+                brynet::net::HttpService::setup(session, [this_ptr, &head_len, &ip](const brynet::net::HttpSession::PTR & httpSession)
                 {
                     int64_t cur_session_id = this_ptr->trusted_session_id_++;
                     AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
                     net_connect_event->id_ = cur_session_id;
                     net_connect_event->type_ = AFNetEventType::CONNECTED;
                     net_connect_event->bus_id_ = this_ptr->bus_id_;
-                    //net_connect_event->ip_ = httpSession->getIP();
+                    net_connect_event->ip_ = ip;
 
                     do
                     {
@@ -133,7 +134,7 @@ namespace ark
                         });
                     });
 
-                    httpSession->setCloseCallback([this_ptr](const brynet::net::HttpSession::PTR & httpSession)
+                    httpSession->setCloseCallback([this_ptr, &ip](const brynet::net::HttpSession::PTR & httpSession)
                     {
                         const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
                         int64_t session_id = *ud;
@@ -142,7 +143,7 @@ namespace ark
                         net_disconnect_event->id_ = session_id;
                         net_disconnect_event->type_ = AFNetEventType::DISCONNECTED;
                         net_disconnect_event->bus_id_ = this_ptr->bus_id_;
-                        //net_disconnect_event->ip_ = httpSession->getIP();
+                        net_disconnect_event->ip_ = ip;
 
                         AFScopeWLock guard(this_ptr->rw_lock_);
                         const AFHttpSessionPtr session_ptr = this_ptr->GetNetSession(session_id);
@@ -229,7 +230,7 @@ namespace ark
         int msg_count = 0;
         while (msg != nullptr)
         {
-            net_recv_cb_(msg);
+            net_msg_cb_(msg, session->GetSessionId());
             AFNetMsg::Release(msg);
 
             ++msg_count;
@@ -271,11 +272,11 @@ namespace ark
         return true;
     }
 
-    bool AFCWebSocktServer::SendMsg(const char* msg, const size_t msg_len, const AFGUID& conn_id)
+    bool AFCWebSocktServer::SendMsg(const char* msg, const size_t msg_len, const AFGUID& session_id)
     {
         //AFScopeRdLock xGuard(rw_lock_);
 
-        //AFHttpEntity* pNetObject = GetNetSession(conn_id);
+        //AFHttpEntity* pNetObject = GetNetSession(session_id);
 
         //if (pNetObject == nullptr)
         //{
@@ -338,7 +339,7 @@ namespace ark
         return (it != sessions_.end() ? it->second : nullptr);
     }
 
-    bool AFCWebSocktServer::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_id)
+    bool AFCWebSocktServer::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id, const AFGUID& actor_id)
     {
         //AFCSMsgHead head;
         //head.set_msg_id(msg_id);
@@ -349,7 +350,7 @@ namespace ark
         //size_t whole_len = EnCode(head, msg, msg_len, out_data);
         //if (whole_len == msg_len + GetHeadLength())
         //{
-        //    return SendMsg(out_data.c_str(), out_data.length(), conn_id);
+        //    return SendMsg(out_data.c_str(), out_data.length(), session_id);
         //}
         //else
         //{

@@ -40,16 +40,16 @@ namespace ark
 
         AFINet* GetNet() override;
 
-        bool RegMsgCallback(const int msg_id, const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
-        bool RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) override;
+        bool RegMsgCallback(const int msg_id, const NET_MSG_FUNCTOR_PTR& cb) override;
+        bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb) override;
         bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) override;
 
     protected:
-        void OnNetMsg(const AFNetMsg* msg);
+        void OnNetMsg(const AFNetMsg* msg, const int64_t session_id);
         void OnNetEvent(const AFNetEvent* event);
 
-        void OnClientRegister(const AFNetMsg* msg);
-        void SyncToAllClient(const int bus_id, const AFGUID& conn_id);
+        void OnClientRegister(const AFNetMsg* msg, const int64_t session_id);
+        void SyncToAllClient(const int bus_id, const AFGUID& session_id);
 
     private:
         AFIPluginManager* m_pPluginManager;
@@ -59,9 +59,9 @@ namespace ark
 
         AFINet* m_pNet{ nullptr };
 
-        std::map<int, NET_PKG_RECV_FUNCTOR_PTR> net_msg_callbacks_;
+        std::map<int, NET_MSG_FUNCTOR_PTR> net_msg_callbacks_;
+        std::list<NET_MSG_FUNCTOR_PTR> net_forward_msg_callbacks_;
         std::list<NET_EVENT_FUNCTOR_PTR> net_event_callbacks_;
-        std::list<NET_PKG_RECV_FUNCTOR_PTR> net_forward_msg_callbacks_;
 
         AFMapEx<int, AFServerData> reg_clients_;
     };
