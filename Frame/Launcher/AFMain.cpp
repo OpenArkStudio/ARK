@@ -105,18 +105,22 @@ void PrintLogo()
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 
-    CONSOLE_LOG_NO_FILE << "     _         _          ____                      " << std::endl;
-    CONSOLE_LOG_NO_FILE << "    / \\   _ __| | __     / ___| __ _ _ __ ___   ___ " << std::endl;
-    CONSOLE_LOG_NO_FILE << "   / _ \\ | '__| |/ /    | |  _ / _` | '_ ` _ \\ / _ \\" << std::endl;
-    CONSOLE_LOG_NO_FILE << "  / ___ \\| |  |   <     | |_| | (_| | | | | | |  __/" << std::endl;
-    CONSOLE_LOG_NO_FILE << " /_/   \\_\\_|  |_|\\_\\     \\____|\\__,_|_| |_| |_|\\___|" << std::endl;
-    CONSOLE_LOG_NO_FILE << "                                                    " << std::endl;
-    CONSOLE_LOG_NO_FILE << std::endl;
-    CONSOLE_LOG_NO_FILE << "Copyright 2018 (c) Ark Studio. All Rights Reserved." << std::endl;
-    CONSOLE_LOG_NO_FILE << "Website: https://arkgame.net" << std::endl;
-    CONSOLE_LOG_NO_FILE << "Github:  https://github.com/QuadHex" << std::endl;
-    CONSOLE_LOG_NO_FILE << "***********************************************************" << std::endl;
-    CONSOLE_LOG_NO_FILE << std::endl;
+    std::string logo = R"(
+**********************************************************************
+  ___                  _ _   _                        _         _    
+ / _ \  __ _ _   _  __| | | | | _____  __            / \   _ __| | __
+| | | |/ _` | | | |/ _` | |_| |/ _ \ \/ /  _____    / _ \ | '__| |/ /
+| |_| | (_| | |_| | (_| |  _  |  __/>  <  |_____|  / ___ \| |  |   < 
+ \__\_\\__,_|\__,_|\__,_|_| |_|\___/_/\_\         /_/   \_\_|  |_|\_\
+
+Copyright 2018 (c) QuadHex. All Rights Reserved.
+Website: https://quadhex.io
+Github:  https://github.com/QuadHex
+Gitee:   https://gitee.com/QuadHex
+**********************************************************************
+)";
+
+    CONSOLE_LOG_NO_FILE << logo << std::endl;
 
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -296,9 +300,9 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set bus id
     if (busid)
-    {
-        AFCDataList temp_bus_id;
-        if (!temp_bus_id.Split(busid.Get(), "."))
+{
+    AFCDataList temp_bus_id;
+    if (!temp_bus_id.Split(busid.Get(), "."))
         {
             CONSOLE_LOG << "bus id is invalid, it likes 8.8.8.8" << std::endl;
             return false;
@@ -319,8 +323,8 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set app name
     if (name)
-    {
-        AFCPluginManager::get()->SetAppName(name.Get());
+{
+    AFCPluginManager::get()->SetAppName(name.Get());
 
         std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFCPluginManager::get()->BusID());
         //Set process name
@@ -337,8 +341,8 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set plugin file
     if (plugin_cfg)
-    {
-        AFCPluginManager::get()->SetPluginConf(plugin_cfg.Get());
+{
+    AFCPluginManager::get()->SetPluginConf(plugin_cfg.Get());
     }
     else
     {
@@ -346,8 +350,8 @@ bool ParseArgs(int argc, char* argv[])
     }
 
     if (logpath)
-    {
-        AFCPluginManager::get()->SetLogPath(logpath.Get());
+{
+    AFCPluginManager::get()->SetLogPath(logpath.Get());
     }
     else
     {

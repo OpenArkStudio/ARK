@@ -265,14 +265,14 @@ public:
 	static const std::string& Height() { static std::string xHeight = "Height"; return xHeight; } //float
 	static const std::string& EffectData() { static std::string xEffectData = "EffectData"; return xEffectData; } //string
 	static const std::string& ConsumeData() { static std::string xConsumeData = "ConsumeData"; return xConsumeData; } //string
-	static const std::string& LastAttacker() { static std::string xLastAttacker = "LastAttacker"; return xLastAttacker; } //object
+	static const std::string& LastAttacker() { static std::string xLastAttacker = "LastAttacker"; return xLastAttacker; } //int64
 	static const std::string& ShowName() { static std::string xShowName = "ShowName"; return xShowName; } //string
 	static const std::string& EquipIDRef() { static std::string xEquipIDRef = "EquipIDRef"; return xEquipIDRef; } //string
 	static const std::string& Icon() { static std::string xIcon = "Icon"; return xIcon; } //string
 	static const std::string& ShowCard() { static std::string xShowCard = "ShowCard"; return xShowCard; } //string
 	static const std::string& HeroType() { static std::string xHeroType = "HeroType"; return xHeroType; } //int
 	static const std::string& Camp() { static std::string xCamp = "Camp"; return xCamp; } //int
-	static const std::string& MasterID() { static std::string xMasterID = "MasterID"; return xMasterID; } //object
+	static const std::string& MasterID() { static std::string xMasterID = "MasterID"; return xMasterID; } //int64
 	static const std::string& NPCType() { static std::string xNPCType = "NPCType"; return xNPCType; } //int
 	static const std::string& SUCKBLOOD() { static std::string xSUCKBLOOD = "SUCKBLOOD"; return xSUCKBLOOD; } //int
 	static const std::string& REFLECTDAMAGE() { static std::string xREFLECTDAMAGE = "REFLECTDAMAGE"; return xREFLECTDAMAGE; } //int

@@ -52,14 +52,14 @@ namespace ark
             return true;
         }
 
-        static bool RecvPB(const AFNetMsg* msg, google::protobuf::Message& xData, AFGUID& nPlayer)
+        static bool RecvPB(const AFNetMsg* msg, google::protobuf::Message& pb_msg, AFGUID& actor_id)
         {
-            if (!xData.ParseFromString(std::string(msg->msg_data_, msg->length_)))
+            if (!pb_msg.ParseFromString(std::string(msg->msg_data_, msg->length_)))
             {
                 return false;
             }
 
-            nPlayer = msg->actor_id_;
+            actor_id = msg->actor_id_;
             return true;
         }
 
@@ -309,22 +309,27 @@ namespace ark
         return;                                                                                                         \
     }
 
-#define ARK_PROCESS_MSG(net_msg)                                                \
+#define ARK_PROCESS_MSG(msg, pb_msg_type)                                       \
     AFGUID actor_id;                                                            \
-    pb_msg x_msg;                                                               \
-    if (!AFIMsgModule::RecvPB(head, msg, msg_len, x_msg, actor_id))             \
+    pb_msg_type pb_msg;                                                         \
+    if (!AFIMsgModule::RecvPB(msg, pb_msg, actor_id))                           \
     {                                                                           \
-        ARK_LOG_ERROR("Parse msg error, msg_id = {}", msg_id);                  \
+        ARK_LOG_ERROR("Parse msg error, msg_id={} pb_msg_type={}", msg->id_, pb_msg.GetTypeName()); \
         return;                                                                 \
     }                                                                           \
-                                                                                \
-    ARK_LOG_DEBUG("Recv msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data=\n{}", \
-        "",                                                                         \
-        "",                                                                         \
-        x_msg.GetTypeName(),                                                        \
-        msg_id,                                                                     \
-        msg_len,                                                                    \
-        x_msg.DebugString());
+    else                                                                        \
+    {                                                                           \
+        std::string pb_json;                                                    \
+        google::protobuf::util::MessageToJsonString(pb_msg, &pb_json);          \
+        ARK_LOG_DEBUG("Recv msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data={}", \
+              msg->src_bus_,                                                    \
+              msg->dst_bus_,                                                    \
+              pb_msg.GetTypeName(),                                             \
+              msg->id_,                                                         \
+              msg->length_,                                                     \
+              pb_json);                                                         \
+    }
+
 
 #define  ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len)                       \
     std::string msg_data;                                                       \

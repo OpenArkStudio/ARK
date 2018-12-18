@@ -74,7 +74,6 @@ namespace ark
         AFNetMsg() = default;
         ~AFNetMsg()
         {
-            Release(this);
         }
 
         static AFNetMsg* AllocMsg(uint32_t len)
@@ -84,7 +83,7 @@ namespace ark
             return msg;
         }
 
-        static void Release(AFNetMsg* msg)
+        static void Release(AFNetMsg*& msg)
         {
             if (msg != nullptr)
             {

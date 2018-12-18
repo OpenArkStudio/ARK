@@ -131,22 +131,22 @@ namespace ark
             need_remove_ = value;
         }
 
-        bool AddNetEvent(AFNetEvent* event)
+        bool AddNetEvent(AFNetEvent*& event)
         {
             return event_queue_.Push(event);
         }
 
-        bool PopNetEvent(AFNetEvent* event)
+        bool PopNetEvent(AFNetEvent*& event)
         {
             return event_queue_.Pop(event);
         }
 
-        bool AddNetMsg(AFNetMsg* msg)
+        bool AddNetMsg(AFNetMsg*& msg)
         {
             return msg_queue_.Push(msg);
         }
 
-        bool PopNetMsg(AFNetMsg* msg)
+        bool PopNetMsg(AFNetMsg*& msg)
         {
             return msg_queue_.Pop(msg);
         }

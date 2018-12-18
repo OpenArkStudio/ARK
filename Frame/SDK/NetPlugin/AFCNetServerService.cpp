@@ -129,22 +129,22 @@ namespace ark
 
     void AFCNetServerService::OnClientRegister(const AFNetMsg* msg, const int64_t session_id)
     {
-        //ARK_PROCESS_MSG(msg, AFMsg::msg_ss_server_report);
+        ARK_PROCESS_MSG(msg, AFMsg::msg_ss_server_report);
 
-        ////Add server_bus_id -> client_bus_id relationship with net
-        //m_pNetServiceManagerModule->AddNetConnectionBus(x_msg.bus_id(), m_pNet);
-        ////////////////////////////////////////////////////////////////////////////
-        //ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_clients_.GetElement(x_msg.bus_id());
-        //if (nullptr == server_data_ptr)
-        //{
-        //    server_data_ptr = std::make_shared<AFServerData>();
-        //    reg_clients_.AddElement(x_msg.bus_id(), server_data_ptr);
-        //}
+        //Add server_bus_id -> client_bus_id relationship with net
+        m_pNetServiceManagerModule->AddNetConnectionBus(pb_msg.bus_id(), m_pNet);
+        //////////////////////////////////////////////////////////////////////////
+        ARK_SHARE_PTR<AFServerData> server_data_ptr = reg_clients_.GetElement(pb_msg.bus_id());
+        if (nullptr == server_data_ptr)
+        {
+            server_data_ptr = std::make_shared<AFServerData>();
+            reg_clients_.AddElement(pb_msg.bus_id(), server_data_ptr);
+        }
 
-        //server_data_ptr->Init(session_id, x_msg);
-        ////////////////////////////////////////////////////////////////////////////
+        server_data_ptr->Init(session_id, pb_msg);
+        //////////////////////////////////////////////////////////////////////////
 
-        //SyncToAllClient(x_msg.bus_id(), session_id);
+        SyncToAllClient(pb_msg.bus_id(), session_id);
     }
 
     void AFCNetServerService::SyncToAllClient(const int bus_id, const AFGUID& session_id)

@@ -282,7 +282,6 @@ namespace ark
         }
 
         AFMsg::msg_ss_server_report msg;
-
         msg.set_bus_id(server_config->self_id);
         msg.set_cur_online(0);
         msg.set_url(server_config->public_ep_.to_string());
@@ -379,34 +378,35 @@ namespace ark
 
     void AFCNetClientService::OnServerNotify(const AFNetMsg* msg, const int64_t session_id)
     {
-        //ARK_PROCESS_MSG(head, msg, msg_len, AFMsg::msg_ss_server_notify);
-        //for (int i = 0; i < x_msg.server_list_size(); ++i)
-        //{
-        //    const AFMsg::msg_ss_server_report& report = x_msg.server_list(i);
-        //    if (!m_pBusModule->IsUndirectBusRelation(report.bus_id()))
-        //    {
-        //        continue;
-        //    }
+        ARK_PROCESS_MSG(msg, AFMsg::msg_ss_server_notify);
 
-        //    //Create single cluster client with bus id and url
-        //    m_pNetServiceManagerModule->CreateClusterClient(report.bus_id(), report.url());
+        for (int i = 0; i < pb_msg.server_list_size(); ++i)
+        {
+            const AFMsg::msg_ss_server_report& report = pb_msg.server_list(i);
+            if (!m_pBusModule->IsUndirectBusRelation(report.bus_id()))
+            {
+                continue;
+            }
 
-        //    //管理为三个数值，channel zone proc
-        //    AFBusAddr bus_addr(report.bus_id());
-        //    bus_addr.inst_id = 0;//前三个数值相同表示同一个区
+            //Create single cluster client with bus id and url
+            m_pNetServiceManagerModule->CreateClusterClient(AFHeadLength::SS_HEAD_LENGTH, report.bus_id(), report.url());
 
-        //    auto iter = reg_servers_.find(bus_addr.bus_id);
-        //    if (iter != reg_servers_.end())
-        //    {
-        //        iter->second.insert(std::make_pair(report.bus_id(), report));
-        //    }
-        //    else
-        //    {
-        //        std::map<int, AFMsg::msg_ss_server_report> others;
-        //        others.insert(std::make_pair(report.bus_id(), report));
-        //        reg_servers_.insert(std::make_pair(bus_addr.bus_id, others));
-        //    }
-        //}
+            //管理为三个数值，channel zone proc
+            AFBusAddr bus_addr(report.bus_id());
+            bus_addr.inst_id = 0;//前三个数值相同表示同一个区
+
+            auto iter = reg_servers_.find(bus_addr.bus_id);
+            if (iter != reg_servers_.end())
+            {
+                iter->second.insert(std::make_pair(report.bus_id(), report));
+            }
+            else
+            {
+                std::map<int, AFMsg::msg_ss_server_report> others;
+                others.insert(std::make_pair(report.bus_id(), report));
+                reg_servers_.insert(std::make_pair(bus_addr.bus_id, others));
+            }
+        }
     }
 
 }

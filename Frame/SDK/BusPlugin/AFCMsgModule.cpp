@@ -40,13 +40,15 @@ namespace ark
 
         int src_bus = m_pBusModule->GetSelfBusID();
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-        ARK_LOG_DEBUG("Send msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data=\n{}",
+        std::string pb_json;
+        google::protobuf::util::MessageToJsonString(msg, &pb_json);
+        ARK_LOG_DEBUG("Send msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data={}",
                       AFMisc::Bus2Str(src_bus),
                       AFMisc::Bus2Str(target_bus),
                       msg.GetTypeName(),
                       msg_id,
                       msg_data.length(),
-                      msg.DebugString());
+                      pb_json);
 #endif
         return SendSSMsg(src_bus, target_bus, msg_id, msg_data.c_str(), msg_data.length(), conn_id, actor_id);
     }

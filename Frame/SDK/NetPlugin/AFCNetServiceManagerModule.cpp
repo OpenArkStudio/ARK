@@ -135,7 +135,6 @@ namespace ark
                 pClient = ARK_NEW AFCNetClientService(pPluginManager);
                 net_clients_.AddElement(app_type, pClient);
             }
-
             bool ret = pClient->StartClient(head_len, target.self_id, target.public_ep_);
             if (!ret)
             {

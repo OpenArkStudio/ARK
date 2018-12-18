@@ -179,8 +179,8 @@ namespace ark
             return;
         }
 
-        AFNetEvent* event = nullptr;
-        if (session->PopNetEvent(event))
+        AFNetEvent* event(nullptr);
+        if (!session->PopNetEvent(event))
         {
             return;
         }

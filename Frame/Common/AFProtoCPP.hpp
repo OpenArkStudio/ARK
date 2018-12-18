@@ -20,6 +20,7 @@
 
 #pragma once
 
+#include "google/protobuf/util/json_util.h"
 #include "SDK/Proto/cpp/AFCSMsg.pb.h"
 #include "SDK/Proto/cpp/AFSSMsg.pb.h"
 #include "SDK/Proto/cpp/AFMsgURl.pb.h"

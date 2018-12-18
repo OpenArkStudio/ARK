@@ -43,7 +43,6 @@ namespace ark
 
         ~AFNetEvent()
         {
-            Release(this);
         }
 
         static AFNetEvent* AllocEvent()
@@ -51,7 +50,7 @@ namespace ark
             return ARK_NEW AFNetEvent();
         }
 
-        static void Release(AFNetEvent* event)
+        static void Release(AFNetEvent*& event)
         {
             ARK_DELETE(event);
         }

@@ -166,7 +166,7 @@ namespace ark
 
     void AFCTCPServer::UpdateNetEvent(AFTCPSessionPtr session)
     {
-        AFNetEvent* event = nullptr;
+        AFNetEvent* event(nullptr);
         if (!session->PopNetEvent(event))
         {
             return;
@@ -183,7 +183,7 @@ namespace ark
 
     void AFCTCPServer::UpdateNetMsg(AFTCPSessionPtr session)
     {
-        AFNetMsg* msg = nullptr;
+        AFNetMsg* msg(nullptr);
         if (!session->PopNetMsg(msg))
         {
             return;
