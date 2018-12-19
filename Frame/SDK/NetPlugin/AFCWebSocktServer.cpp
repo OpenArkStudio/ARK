@@ -52,7 +52,7 @@ namespace ark
             AFCWebSocktServer* this_ptr = this;
             auto OnEnterCallback = [this_ptr, &head_len, &ip](const brynet::net::DataSocket::PTR & session)
             {
-                brynet::net::HttpService::setup(session, [this_ptr, &head_len, &ip](const brynet::net::HttpSession::PTR & httpSession)
+                brynet::net::http::HttpService::setup(session, [this_ptr, &head_len, &ip](const brynet::net::http::HttpSession::PTR & httpSession)
                 {
                     int64_t cur_session_id = this_ptr->trusted_session_id_++;
                     AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
@@ -71,36 +71,36 @@ namespace ark
                         }
                     } while (false);
 
-                    httpSession->setWSCallback([this_ptr](const brynet::net::HttpSession::PTR & httpSession,
-                                                          brynet::net::WebSocketFormat::WebSocketFrameType opcode,
+                    httpSession->setWSCallback([this_ptr](const brynet::net::http::HttpSession::PTR & httpSession,
+                                                          brynet::net::http::WebSocketFormat::WebSocketFrameType opcode,
                                                           const std::string & payload)
                     {
                         switch (opcode)
                         {
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::ERROR_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::ERROR_FRAME:
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::CONTINUATION_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::CONTINUATION_FRAME:
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::TEXT_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::TEXT_FRAME:
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::BINARY_FRAME:
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::CLOSE_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::CLOSE_FRAME:
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::PING_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::PING_FRAME:
                             {
                                 auto frame = std::make_shared<std::string>();
-                                brynet::net::WebSocketFormat::wsFrameBuild(payload.c_str(),
+                                brynet::net::http::WebSocketFormat::wsFrameBuild(payload.c_str(),
                                         payload.size(),
                                         *frame,
-                                        brynet::net::WebSocketFormat::WebSocketFrameType::PONG_FRAME,
+                                        brynet::net::http::WebSocketFormat::WebSocketFrameType::PONG_FRAME,
                                         true,
                                         false);
                                 httpSession->send(frame);
                                 return;
                             }
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::PONG_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::PONG_FRAME:
                             break;
                         default:
                             break;
@@ -123,9 +123,9 @@ namespace ark
                         } while (false);
                     });
 
-                    httpSession->setHttpCallback([](const brynet::net::HTTPParser & httpParser, const brynet::net::HttpSession::PTR & session)
+                    httpSession->setHttpCallback([](const brynet::net::http::HTTPParser & httpParser, const brynet::net::http::HttpSession::PTR & session)
                     {
-                        brynet::net::HttpResponse response;
+                        brynet::net::http::HttpResponse response;
                         response.setBody("<html>Hello QuadHex.ARK</html>");
                         std::string result = response.getResult();
                         session->send(result.c_str(), result.size(), [session]()
@@ -134,7 +134,7 @@ namespace ark
                         });
                     });
 
-                    httpSession->setCloseCallback([this_ptr, &ip](const brynet::net::HttpSession::PTR & httpSession)
+                    httpSession->setCloseCallback([this_ptr, &ip](const brynet::net::http::HttpSession::PTR & httpSession)
                     {
                         const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
                         int64_t session_id = *ud;

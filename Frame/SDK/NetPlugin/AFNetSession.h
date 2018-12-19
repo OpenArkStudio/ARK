@@ -220,7 +220,7 @@ namespace ark
     using AFTCPSession = AFNetSession<brynet::net::DataSocket::PTR>;
     using AFTCPSessionPtr = AFTCPSession * ;
 
-    using AFHttpSession = AFNetSession<brynet::net::HttpSession::PTR>;
+    using AFHttpSession = AFNetSession<brynet::net::http::HttpSession::PTR>;
     using AFHttpSessionPtr = AFHttpSession * ;
 
 }
