@@ -40,6 +40,7 @@ namespace ark
 
     AFCTCPServer::~AFCTCPServer()
     {
+        CloseAllSession();
         Shutdown();
         brynet::net::base::DestroySocket();
     }
@@ -276,8 +277,9 @@ namespace ark
     {
         for (auto& iter : sessions_)
         {
-            iter.second->GetSession()->postDisConnect();
-            ARK_DELETE(iter.second);
+            auto& session = iter.second;
+            session->GetSession()->postShutdown();
+            ARK_DELETE(session);
         }
 
         sessions_.clear();

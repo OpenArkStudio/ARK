@@ -32,6 +32,7 @@ namespace ark
 
     AFCWebSocktServer::~AFCWebSocktServer()
     {
+        CloseAllSession();
         Shutdown();
         brynet::net::base::DestroySocket();
     }
@@ -326,7 +327,9 @@ namespace ark
     {
         for (auto& iter : sessions_)
         {
-            CloseSession(iter.second);
+            auto& session = iter.second;
+            session->GetSession()->postShutdown();
+            ARK_DELETE(session);
         }
 
         sessions_.clear();

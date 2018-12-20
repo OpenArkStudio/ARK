@@ -34,6 +34,7 @@ namespace ark
 
     AFCTCPClient::~AFCTCPClient()
     {
+        CloseAllSession();
         Shutdown();
         brynet::net::base::DestroySocket();
     }

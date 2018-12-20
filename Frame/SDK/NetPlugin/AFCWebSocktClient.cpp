@@ -33,6 +33,7 @@ namespace ark
 
     AFCWebSocktClient::~AFCWebSocktClient()
     {
+        CloseAllSession();
         Shutdown();
         brynet::net::base::DestroySocket();
     }
