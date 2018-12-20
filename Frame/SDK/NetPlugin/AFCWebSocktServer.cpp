@@ -49,18 +49,18 @@ namespace ark
         tcp_service_ptr_->startWorkerThread(thread_num);
         listen_thread_ptr_->startListen(ip_v6, ip, port, [&](brynet::net::TcpSocket::PTR socket)
         {
-            std::string ip = socket->GetIP();
+            std::string session_ip = socket->GetIP();
             AFCWebSocktServer* this_ptr = this;
-            auto OnEnterCallback = [this_ptr, &head_len, &ip](const brynet::net::DataSocket::PTR & session)
+            auto OnEnterCallback = [this_ptr, &head_len, &session_ip](const brynet::net::DataSocket::PTR & session)
             {
-                brynet::net::http::HttpService::setup(session, [this_ptr, &head_len, &ip](const brynet::net::http::HttpSession::PTR & httpSession)
+                brynet::net::http::HttpService::setup(session, [this_ptr, &head_len, &session_ip](const brynet::net::http::HttpSession::PTR & httpSession)
                 {
                     int64_t cur_session_id = this_ptr->trusted_session_id_++;
                     AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
                     net_connect_event->id_ = cur_session_id;
                     net_connect_event->type_ = AFNetEventType::CONNECTED;
                     net_connect_event->bus_id_ = this_ptr->bus_id_;
-                    net_connect_event->ip_ = ip;
+                    net_connect_event->ip_ = session_ip;
 
                     do
                     {
@@ -135,7 +135,7 @@ namespace ark
                         });
                     });
 
-                    httpSession->setCloseCallback([this_ptr, &ip](const brynet::net::http::HttpSession::PTR & httpSession)
+                    httpSession->setCloseCallback([this_ptr, &session_ip](const brynet::net::http::HttpSession::PTR & httpSession)
                     {
                         const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
                         int64_t session_id = *ud;
@@ -144,11 +144,11 @@ namespace ark
                         net_disconnect_event->id_ = session_id;
                         net_disconnect_event->type_ = AFNetEventType::DISCONNECTED;
                         net_disconnect_event->bus_id_ = this_ptr->bus_id_;
-                        net_disconnect_event->ip_ = ip;
+                        net_disconnect_event->ip_ = session_ip;
 
                         AFScopeWLock guard(this_ptr->rw_lock_);
                         const AFHttpSessionPtr session_ptr = this_ptr->GetNetSession(session_id);
-                        if (session_ptr != nullptr)
+                        if (session_ptr == nullptr)
                         {
                             return;
                         }

@@ -53,10 +53,11 @@ namespace ark
         socket->SocketNodelay();
 
         CONSOLE_LOG_NO_FILE << "connect success" << std::endl;
-        auto OnEnterCallback = [ = ](const brynet::net::DataSocket::PTR & session)
+        auto OnEnterCallback = [&](const brynet::net::DataSocket::PTR & socket)
         {
+            std::string session_ip = socket->getIP();
             AFCWebSocktClient* this_ptr = this;
-            brynet::net::http::HttpService::setup(session, [this_ptr, len, ip](const brynet::net::http::HttpSession::PTR & httpSession)
+            brynet::net::http::HttpService::setup(socket, [this_ptr, &len, &ip, &session_ip](const brynet::net::http::HttpSession::PTR & httpSession)
             {
                 brynet::net::http::HttpRequest request;
                 request.setMethod(brynet::net::http::HttpRequest::HTTP_METHOD::HTTP_METHOD_GET);
@@ -70,7 +71,7 @@ namespace ark
                 std::string requestStr = request.getResult();
                 httpSession->send(requestStr.c_str(), requestStr.size());
 
-                httpSession->setWSConnected([this_ptr, len](const brynet::net::http::HttpSession::PTR & httpSession, const brynet::net::http::HTTPParser&)
+                httpSession->setWSConnected([this_ptr, &len, &session_ip](const brynet::net::http::HttpSession::PTR & httpSession, const brynet::net::http::HTTPParser&)
                 {
                     //now session_id
                     int64_t cur_session_id = this_ptr->trust_session_id_++;
@@ -80,7 +81,7 @@ namespace ark
                     net_event_ptr->id_ = cur_session_id;
                     net_event_ptr->type_ = AFNetEventType::CONNECTED;
                     net_event_ptr->bus_id_ = this_ptr->dst_bus_id_;
-                    //net_event_ptr->ip_ = httpSession->();
+                    net_event_ptr->ip_ = session_ip;
 
                     //set session ud
                     httpSession->setUD(cur_session_id);
@@ -111,7 +112,7 @@ namespace ark
                     } while (false);
                 });
 
-                httpSession->setCloseCallback([this_ptr](const brynet::net::http::HttpSession::PTR & httpSession)
+                httpSession->setCloseCallback([this_ptr, &session_ip](const brynet::net::http::HttpSession::PTR & httpSession)
                 {
                     const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
                     int64_t session_id = *ud;
@@ -121,7 +122,7 @@ namespace ark
                     net_event_ptr->id_ = session_id;
                     net_event_ptr->type_ = AFNetEventType::DISCONNECTED;
                     net_event_ptr->bus_id_ = this_ptr->dst_bus_id_;
-                    //net_event_ptr->ip_ = session->getIP();
+                    net_event_ptr->ip_ = session_ip;
 
                     do
                     {

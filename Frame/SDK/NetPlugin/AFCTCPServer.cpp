@@ -55,7 +55,7 @@ namespace ark
         bus_id_ = busid;
 
         tcp_service_ptr_->startWorkerThread(thread_num);
-        listen_thread_ptr_->startListen(ip_v6, ip, port, [ = ](brynet::net::TcpSocket::PTR socket)
+        listen_thread_ptr_->startListen(ip_v6, ip, port, [&](brynet::net::TcpSocket::PTR socket)
         {
             AFCTCPServer* this_ptr = this;
             socket->SocketNodelay();
@@ -111,7 +111,7 @@ namespace ark
                     net_disconnect_event->ip_ = session->getIP();
 
                     const AFTCPSessionPtr session_ptr = this_ptr->GetNetSession(session_id);
-                    if (session_ptr != nullptr)
+                    if (session_ptr == nullptr)
                     {
                         return;
                     }

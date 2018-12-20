@@ -58,7 +58,7 @@ namespace ark
         }
 
         socket->SocketNodelay();
-        auto OnEnterCallback = [ = ](const brynet::net::DataSocket::PTR & session)
+        auto OnEnterCallback = [&](const brynet::net::DataSocket::PTR & session)
         {
             //For lambda
             AFCTCPClient* this_ptr = this;
