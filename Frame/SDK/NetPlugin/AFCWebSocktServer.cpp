@@ -51,7 +51,7 @@ namespace ark
             AFCWebSocktServer* pWSServer = this;
             auto OnEnterCallback = [pWSServer](const brynet::net::DataSocket::PTR & session)
             {
-                brynet::net::HttpService::setup(session, [pWSServer](const brynet::net::HttpSession::PTR & httpSession)
+                brynet::net::http::HttpService::setup(session, [pWSServer](const brynet::net::http::HttpSession::PTR & httpSession)
                 {
                     AFHttpMsg* pMsg = new AFHttpMsg(httpSession);
                     pMsg->conn_id_.nLow = pWSServer->next_conn_id_++;
@@ -70,36 +70,36 @@ namespace ark
                         }
                     } while (false);
 
-                    httpSession->setWSCallback([pWSServer](const brynet::net::HttpSession::PTR & httpSession,
-                                                           brynet::net::WebSocketFormat::WebSocketFrameType opcode,
+                    httpSession->setWSCallback([pWSServer](const brynet::net::http::HttpSession::PTR & httpSession,
+                                                           brynet::net::http::WebSocketFormat::WebSocketFrameType opcode,
                                                            const std::string & payload)
                     {
                         switch (opcode)
                         {
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::ERROR_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::ERROR_FRAME:
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::CONTINUATION_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::CONTINUATION_FRAME:
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::TEXT_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::TEXT_FRAME:
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::BINARY_FRAME:
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::CLOSE_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::CLOSE_FRAME:
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::PING_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::PING_FRAME:
                             {
                                 auto frame = std::make_shared<std::string>();
-                                brynet::net::WebSocketFormat::wsFrameBuild(payload.c_str(),
+                                brynet::net::http::WebSocketFormat::wsFrameBuild(payload.c_str(),
                                         payload.size(),
                                         *frame,
-                                        brynet::net::WebSocketFormat::WebSocketFrameType::PONG_FRAME,
+                                        brynet::net::http::WebSocketFormat::WebSocketFrameType::PONG_FRAME,
                                         true,
                                         false);
                                 httpSession->send(frame);
                                 return;
                             }
                             break;
-                        case brynet::net::WebSocketFormat::WebSocketFrameType::PONG_FRAME:
+                        case brynet::net::http::WebSocketFormat::WebSocketFrameType::PONG_FRAME:
                             break;
                         default:
                             break;
@@ -119,9 +119,9 @@ namespace ark
                         pWSServer->DismantleNet(xFind->second);
                     });
 
-                    httpSession->setHttpCallback([](const brynet::net::HTTPParser & httpParser, const brynet::net::HttpSession::PTR & session)
+                    httpSession->setHttpCallback([](const brynet::net::http::HTTPParser & httpParser, const brynet::net::http::HttpSession::PTR & session)
                     {
-                        brynet::net::HttpResponse response;
+                        brynet::net::http::HttpResponse response;
                         response.setBody("<html>Hello ArkGame</html>");
                         std::string result = response.getResult();
                         session->send(result.c_str(), result.size(), [session]()
@@ -130,7 +130,7 @@ namespace ark
                         });
                     });
 
-                    httpSession->setCloseCallback([pWSServer](const brynet::net::HttpSession::PTR & httpSession)
+                    httpSession->setCloseCallback([pWSServer](const brynet::net::http::HttpSession::PTR & httpSession)
                     {
                         const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
                         AFGUID conn_id(0, 0);
@@ -247,10 +247,10 @@ namespace ark
     bool AFCWebSocktServer::SendMsgToAllClient(const char* msg, const size_t nLen)
     {
         auto frame = std::make_shared<std::string>();
-        brynet::net::WebSocketFormat::wsFrameBuild(msg,
+        brynet::net::http::WebSocketFormat::wsFrameBuild(msg,
                 nLen,
                 *frame,
-                brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
+                brynet::net::http::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
                 true,
                 false);
 
@@ -279,10 +279,10 @@ namespace ark
         }
 
         auto frame = std::make_shared<std::string>();
-        brynet::net::WebSocketFormat::wsFrameBuild(msg,
+        brynet::net::http::WebSocketFormat::wsFrameBuild(msg,
                 msg_len,
                 *frame,
-                brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
+                brynet::net::http::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
                 true,
                 false);
 

@@ -183,7 +183,7 @@ namespace ark
     };
 
     using AFTCPMsg = AFNetMsg<brynet::net::DataSocket::PTR>;
-    using AFHttpMsg = AFNetMsg<brynet::net::HttpSession::PTR>;
+    using AFHttpMsg = AFNetMsg<brynet::net::http::HttpSession::PTR>;
 
     template <typename SessionPTR>
     class AFNetEntity : public AFBaseNetEntity
@@ -209,6 +209,6 @@ namespace ark
     };
 
     using AFTCPEntity = AFNetEntity<brynet::net::DataSocket::PTR>;
-    using AFHttpEntity = AFNetEntity<brynet::net::HttpSession::PTR>;
+    using AFHttpEntity = AFNetEntity<brynet::net::http::HttpSession::PTR>;
 
 }
