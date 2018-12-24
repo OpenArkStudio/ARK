@@ -208,7 +208,6 @@ namespace ark
         AFGUID object_id_{ 0 };
         AFBuffer buffer_;
 
-        //AFINet* net_ptr_{ nullptr };
         AFLockFreeQueue<AFNetMsg*> msg_queue_;
         AFLockFreeQueue<AFNetEvent*> event_queue_;
         const SessionPTR session_;

@@ -43,6 +43,8 @@ namespace ark
         bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
         bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) override;
 
+        bool SendSSMsgByRouter() override;
+
     private:
         AFINetServiceManagerModule* m_pNetServiceManagerModule;
         AFIBusModule* m_pBusModule;

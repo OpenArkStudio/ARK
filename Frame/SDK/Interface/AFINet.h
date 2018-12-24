@@ -59,17 +59,8 @@ namespace ark
 
         virtual bool Shutdown() = 0;
 
-        //send a message with out msg-head[auto add msg-head in this function]
-        virtual bool SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_id) = 0;
-
-        //send a message to all client[need to add msg-head for this message by yourself]
-        virtual bool SendMsgToAllClient(const char* msg, const uint32_t msg_len, const AFGUID& actor_id)
-        {
-            return false;
-        }
-
-        //send a message with out msg-head to all client[auto add msg-head in this function]
-        virtual bool SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_id)
+        virtual bool SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id) = 0;
+        virtual bool BroadcastMsg(AFMsgHead* head, const char* msg_data)
         {
             return false;
         }

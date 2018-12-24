@@ -4,7 +4,8 @@ about: Create a report to help us improve
 
 ---
 
-## Describe the bug
+# Describe the bug
+
 A clear and concise description of what the bug is.
 
 ## Branch or tag or release
@@ -21,6 +22,7 @@ A clear and concise description of what the bug is.
 - OS: [e.g. Windows 10]
 
 ## To Reproduce
+
 1. do something
 2. do something
 3. ...
@@ -33,9 +35,14 @@ A clear and concise description of what you expected to happen.
 
 A clear and concise description of what really happened.
 
-## Screenshots
+## Screenshots (optional)
+
 If you have screenshots, please upload it here.
 
-## Additional context
+## Logs (optional)
+
+Parse your log here please.
+
+## Additional context (optional)
 
 Add any other context about the problem here.

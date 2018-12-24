@@ -249,7 +249,7 @@ namespace ark
         return true;
     }
 
-    bool AFCWebSocktClient::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id/* = 0*/, const AFGUID& actor_id/* = 0*/)
+    bool AFCWebSocktClient::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
     {
         //AFCSMsgHead head;
         //head.set_msg_id(msg_id);

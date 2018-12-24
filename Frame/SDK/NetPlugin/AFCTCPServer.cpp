@@ -292,46 +292,78 @@ namespace ark
         return (iter != sessions_.end() ? iter->second : nullptr);
     }
 
-    bool AFCTCPServer::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id, const AFGUID& actor_id)
+    //bool AFCTCPServer::SendMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id, const AFGUID& actor_id)
+    //{
+    //    //AFTCPMsg msg;
+
+    //    //AFCSMsgHead head;
+    //    //head.set_msg_id(msg_id);
+    //    //head.set_uid(actor_id);
+    //    //head.set_body_length(msg_len);
+
+    //    //std::string out_data;
+    //    //size_t whole_len = EnCode(head, msg, msg_len, out_data);
+    //    //if (whole_len == msg_len + GetHeadLength())
+    //    //{
+    //    //    return SendMsg(out_data.c_str(), out_data.length(), session_id);
+    //    //}
+    //    //else
+    //    //{
+    //    //    return false;
+    //    //}
+
+    //    return true;
+    //}
+
+    bool AFCTCPServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
     {
-        //AFTCPMsg msg;
+        if (head == nullptr || msg_data == nullptr || session_id <= 0)
+        {
+            return false;
+        }
 
-        //AFCSMsgHead head;
-        //head.set_msg_id(msg_id);
-        //head.set_uid(actor_id);
-        //head.set_body_length(msg_len);
+        auto session = GetNetSession(session_id);
+        if (session == nullptr)
+        {
+            return false;
+        }
 
-        //std::string out_data;
-        //size_t whole_len = EnCode(head, msg, msg_len, out_data);
-        //if (whole_len == msg_len + GetHeadLength())
-        //{
-        //    return SendMsg(out_data.c_str(), out_data.length(), session_id);
-        //}
-        //else
-        //{
-        //    return false;
-        //}
+        char* new_buffer = reinterpret_cast<char*>(head);
 
+        uint32_t new_buffer_len = session->GetHeadLen() + head->length_;
+        memcpy(new_buffer + session->GetHeadLen(), msg_data, head->length_);
+        session->GetSession()->send(new_buffer, new_buffer_len);
         return true;
     }
 
-    bool AFCTCPServer::SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_id)
+    bool AFCTCPServer::BroadcastMsg(AFMsgHead* head, const char* msg_data)
     {
-        //AFCSMsgHead head;
-        //head.set_msg_id(msg_id);
-        //head.set_uid(actor_id);
-        //head.set_body_length(msg_len);
+        if (head == nullptr || msg_data == nullptr)
+        {
+            return false;
+        }
 
-        //std::string out_data;
-        //size_t whole_len = EnCode(head, msg, msg_len, out_data);
-        //if (whole_len == msg_len + GetHeadLength())
-        //{
-        //    return SendMsgToAllClient(out_data.c_str(), out_data.length());
-        //}
-        //else
-        //{
-        //    return false;
-        //}
+        if (sessions_.empty())
+        {
+            return false;
+        }
+
+        auto iter = sessions_.begin();
+        auto first_session = iter->second;
+        if (first_session == nullptr)
+        {
+            return false;
+        }
+
+        char* new_buffer = reinterpret_cast<char*>(head);
+
+        uint32_t new_buffer_len = first_session->GetHeadLen() + head->length_;
+        memcpy(new_buffer + first_session->GetHeadLen(), msg_data, head->length_);
+
+        for (auto& session : sessions_)
+        {
+            session.second->GetSession()->send(new_buffer, new_buffer_len);
+        }
 
         return true;
     }

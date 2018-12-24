@@ -342,7 +342,7 @@ namespace ark
         return (it != sessions_.end() ? it->second : nullptr);
     }
 
-    bool AFCWebSocktServer::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id, const AFGUID& actor_id)
+    bool AFCWebSocktServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
     {
         //AFCSMsgHead head;
         //head.set_msg_id(msg_id);
@@ -363,7 +363,7 @@ namespace ark
         return true;
     }
 
-    bool AFCWebSocktServer::SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_id)
+    bool AFCWebSocktServer::BroadcastMsg(AFMsgHead* head, const char* msg_data)
     {
         //AFCSMsgHead head;
         //head.set_msg_id(msg_id);

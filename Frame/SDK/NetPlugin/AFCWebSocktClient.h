@@ -49,7 +49,7 @@ namespace ark
         bool StartClient(AFHeadLength len, const int dst_busid, const std::string& ip, const int port, bool ip_v6 = false) override;
 
         bool Shutdown() override final;
-        bool SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& session_id = 0, const AFGUID& actor_id = 0) override;
+        bool SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id) override;
         bool CloseSession(const AFGUID& session_id) override;
 
     protected:

@@ -350,7 +350,7 @@ namespace ark
 
     int AFCProxyNetModule::SendToPlayerClient(const int nMsgID, const char* msg, const uint32_t nLen, const AFGUID&  nClientID, const AFGUID&  nPlayer)
     {
-        m_pNetServer->GetNet()->SendRawMsg(nMsgID, msg, nLen, nClientID, nPlayer);
+        //m_pNetServer->GetNet()->SendRawMsg(nMsgID, msg, nLen, nClientID, nPlayer);
 
         return true;
     }

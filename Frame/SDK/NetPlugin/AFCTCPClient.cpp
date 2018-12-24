@@ -240,7 +240,7 @@ namespace ark
         }
     }
 
-    bool AFCTCPClient::SendRawMsg(const uint16_t msg_id, const char* msg_data, const size_t msg_len, const AFGUID& session_id/* = 0*/, const AFGUID& actor_id/* = 0*/)
+    bool AFCTCPClient::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
     {
         //AFNetMsg msg;
         //msg.id_ = msg_id;

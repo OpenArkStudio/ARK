@@ -44,6 +44,7 @@ namespace ark
         virtual bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
         virtual bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
 
+        virtual bool SendSSMsgByRouter() = 0;
 
         static bool RecvPB(const AFNetMsg* msg, std::string& strMsg, AFGUID& nPlayer)
         {

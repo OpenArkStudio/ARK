@@ -58,16 +58,42 @@ namespace ark
         return SendSSMsg(m_pBusModule->GetSelfBusID(), target_bus, msg_id, msg, msg_len, conn_id, actor_id);
     }
 
-    bool AFCMsgModule::SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id/* = 0*/)
+    bool AFCMsgModule::SendSSMsg(const int src_bus, const int target_bus, const int msg_id, const char* msg_data, const int msg_len, const AFGUID& session_id, const AFGUID& actor_id/* = 0*/)
     {
+        AFSSMsgHead head;
+        head.id_ = msg_id;
+        head.length_ = msg_len;
+        head.actor_id_ = actor_id;
+        head.src_bus_ = src_bus;
+        head.dst_bus_ = target_bus;
+
+        //AFBusAddr target_bus_addr(target_bus);
+        //if (target_bus_addr.zone_id == 0)
+        //{
+        //    //send to cluster through router
+        //    return SendSSMsgByRouter();
+        //}
+        //else
+        //{
+        //    //send to zone
+        //}
+
+
         AFINet* net_ptr = m_pNetServiceManagerModule->GetNetConnectionBus(src_bus, target_bus);
         if (net_ptr != nullptr)
         {
-            return net_ptr->SendRawMsg(msg_id, msg, msg_len, conn_id, actor_id);
+            //return net_ptr->SendRawMsg(msg_id, msg, msg_len, conn_id, actor_id);
+            return net_ptr->SendMsg(&head, msg_data, session_id);
         }
 
-        ARK_LOG_ERROR("send ss msg error, src_bus={} target_bus={} msg_id={} conn_id={} target_role_id={}", src_bus, target_bus, msg_id, conn_id, actor_id);
+        ARK_LOG_ERROR("send ss msg error, src_bus={} target_bus={} msg_id={} conn_id={} target_role_id={}", src_bus, target_bus, msg_id, session_id, actor_id);
         return false;
+    }
+
+    bool AFCMsgModule::SendSSMsgByRouter()
+    {
+        //TODO:
+        return true;
     }
 
 }

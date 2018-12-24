@@ -36,29 +36,29 @@ namespace ark
 
     enum AFHeadLength
     {
-        CS_HEAD_LENGTH = 7,  //cs head
-        SS_HEAD_LENGTH = 23, //ss head
+        CS_HEAD_LENGTH = 6,  //cs head
+        SS_HEAD_LENGTH = 22, //ss head
     };
 
     class AFMsgHead
     {
     public:
-        uint32_t length_{ 0 };  //Msg length(without header length)
         uint16_t id_{ 0 };      //Msg id
-        uint8_t children_{ 0 }; //The number of the children msg(include self)
+        uint32_t length_{ 0 };  //Msg length(without header length)
+        //uint8_t children_{ 0 }; //The number of the children msg(include self)
     };
 
     /*
-    | msg len | msg id | msg_child |
-    |    4    |    2   |     1     | = 7
+    | msg id | msg len |
+    |    2   |    4    | = 6
     */
     class AFCSMsgHead : public AFMsgHead
     {
     };
 
     /*
-    | msg len | msg id | msg_child | actor id | src bus | dst bus |
-    |    4    |    2   |     1     |     8    |    4    |    4    | = 23
+    | msg id | msg len | actor id | src bus | dst bus |
+    |    2   |    4    |     8    |    4    |    4    | = 22
     */
     class AFSSMsgHead : public AFMsgHead
     {
@@ -102,7 +102,7 @@ namespace ark
         void CopyFrom(AFNetMsg* msg)
         {
             this->id_ = msg->id_;
-            this->children_ = msg->children_;
+            //this->children_ = msg->children_;
             this->actor_id_ = msg->actor_id_;
             this->src_bus_ = msg->src_bus_;
             this->dst_bus_ = msg->dst_bus_;
@@ -115,7 +115,7 @@ namespace ark
         void CopyFrom(const int64_t actor_id, const uint16_t msg_id, const char* data, const uint32_t len, int src_bus, int dst_bus)
         {
             this->id_ = msg_id;
-            this->children_ = 0;
+            //this->children_ = 0;
             this->actor_id_ = actor_id;
             this->src_bus_ = src_bus;
             this->dst_bus_ = dst_bus;
