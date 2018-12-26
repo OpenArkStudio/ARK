@@ -67,7 +67,7 @@ namespace ark
 
         AFGUID& operator=(const AFGUID& rhs)
         {
-			if(this != &rht)
+			if(this != &rhs)
 			{
 				this->nHigh = rhs.nHigh;
 				this->nLow = rhs.nLow;

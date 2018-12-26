@@ -63,7 +63,7 @@ namespace ark
 
         AFTimespan& operator=(const AFTimespan& timespan)
         {
-			if(this != &rht)
+			if(this != &timespan)
 			{
 				this->_span = timespan._span;
 			}
