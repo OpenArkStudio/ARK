@@ -63,7 +63,10 @@ namespace ark
 
         AFTimespan& operator=(const AFTimespan& timespan)
         {
-            _span = timespan._span;
+			if(this != &timespan)
+			{
+				this->_span = timespan._span;
+			}
             return *this;
         }
 

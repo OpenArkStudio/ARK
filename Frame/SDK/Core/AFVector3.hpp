@@ -62,9 +62,12 @@ namespace ark
 
         const Point3D& operator=(const Point3D& rht)
         {
-            x = rht.x;
-            y = rht.y;
-            z = rht.z;
+			if(this != &rht)
+			{
+				x = rht.x;
+				y = rht.y;
+				z = rht.z;
+			}
             return *this;
         }
 
