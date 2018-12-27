@@ -50,16 +50,16 @@ namespace ark
         UpdateNetSession();
     }
 
-    bool AFCTCPServer::StartServer(AFHeadLength head_length, const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6/* = false*/)
+    bool AFCTCPServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6/* = false*/)
     {
-        bus_id_ = busid;
+        this->bus_id_ = busid;
 
         tcp_service_ptr_->startWorkerThread(thread_num);
-        listen_thread_ptr_->startListen(ip_v6, ip, port, [&](brynet::net::TcpSocket::PTR socket)
+        listen_thread_ptr_->startListen(ip_v6, ip, port, [&, head_len](brynet::net::TcpSocket::PTR socket)
         {
             AFCTCPServer* this_ptr = this;
             socket->SocketNodelay();
-            auto OnEnterCallback = [this_ptr, head_length](const brynet::net::DataSocket::PTR & session)
+            auto OnEnterCallback = [this_ptr, head_len](const brynet::net::DataSocket::PTR & session)
             {
                 int64_t cur_session_id = this_ptr->trusted_session_id_++;
 
@@ -74,7 +74,7 @@ namespace ark
                 do
                 {
                     AFScopeWLock guard(this_ptr->rw_lock_);
-                    AFTCPSessionPtr session_ptr = ARK_NEW AFTCPSession(head_length, cur_session_id, session);
+                    AFTCPSessionPtr session_ptr = ARK_NEW AFTCPSession(head_len, cur_session_id, session);
                     if (this_ptr->AddNetSession(session_ptr))
                     {
                         session_ptr->AddNetEvent(net_connect_event);
@@ -328,11 +328,27 @@ namespace ark
             return false;
         }
 
-        char* new_buffer = reinterpret_cast<char*>(head);
+        std::string buffer;
+        switch (session->GetHeadLen())
+        {
+        case AFHeadLength::CS_HEAD_LENGTH:
+            buffer.append(reinterpret_cast<char*>(head), AFHeadLength::CS_HEAD_LENGTH);
+            break;
+        case AFHeadLength::SS_HEAD_LENGTH:
+            buffer.append(reinterpret_cast<char*>(head), AFHeadLength::SS_HEAD_LENGTH);
+            break;
+        default:
+            return false;
+            break;
+        }
 
-        uint32_t new_buffer_len = session->GetHeadLen() + head->length_;
-        memcpy(new_buffer + session->GetHeadLen(), msg_data, head->length_);
-        session->GetSession()->send(new_buffer, new_buffer_len);
+        if (buffer.empty())
+        {
+            return false;
+        }
+
+        buffer.append(msg_data, head->length_);
+        session->GetSession()->send(buffer.c_str(), buffer.length());
         return true;
     }
 

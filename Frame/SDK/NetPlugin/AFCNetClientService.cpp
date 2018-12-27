@@ -256,7 +256,7 @@ namespace ark
 
     int AFCNetClientService::OnDisconnect(const AFNetEvent* event)
     {
-        ARK_LOG_INFO("Disconnect [{}] successfully, ip={} session_id={}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
+        ARK_LOG_ERROR("Disconnect [{}] successfully, ip={} session_id={}", AFBusAddr(event->bus_id_).ToString(), event->ip_, event->id_);
 
         ARK_SHARE_PTR<AFConnectionData> pServerInfo = GetServerNetInfo(event->bus_id_);
 

@@ -155,9 +155,8 @@ namespace ark
         {
             AFMsg::msg_ss_server_report* report = msg.add_server_list();
             *report = server_data->server_info_;
+            m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg, session_id);
             return true;
         });
-
-        m_pMsgModule->SendSSMsg(bus_id, AFMsg::E_SS_MSG_ID_SERVER_NOTIFY, msg, session_id);
     }
 }

@@ -58,7 +58,7 @@ namespace ark
         }
 
         socket->SocketNodelay();
-        auto OnEnterCallback = [&](const brynet::net::DataSocket::PTR & session)
+        auto OnEnterCallback = [&, head_len](const brynet::net::DataSocket::PTR & session)
         {
             //For lambda
             AFCTCPClient* this_ptr = this;
@@ -242,26 +242,37 @@ namespace ark
 
     bool AFCTCPClient::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
     {
-        //AFNetMsg msg;
-        //msg.id_ = msg_id;
-        //msg.actor_id_ = actor_id;
-        //msg.CopyFrom(actor_id, msg_id, msg_data, msg_len, 0, 0);
+        if (head == nullptr || msg_data == nullptr)
+        {
+            return false;
+        }
 
-        //head.set_msg_id(msg_id);
-        //head.set_uid(actor_id);
-        //head.set_body_length(msg_len);
+        if (client_session_ptr_ == nullptr)
+        {
+            return false;
+        }
 
-        //std::string out_data;
-        //size_t whole_len = EnCode(head, msg, msg_len, out_data);
-        //if (whole_len == msg_len + GetHeadLength())
-        //{
-        //    return SendMsg(out_data.c_str(), out_data.length(), session_id);
-        //}
-        //else
-        //{
-        //    return false;
-        //}
+        std::string buffer;
+        switch (client_session_ptr_->GetHeadLen())
+        {
+        case AFHeadLength::CS_HEAD_LENGTH:
+            buffer.append(reinterpret_cast<char*>(head), AFHeadLength::CS_HEAD_LENGTH);
+            break;
+        case AFHeadLength::SS_HEAD_LENGTH:
+            buffer.append(reinterpret_cast<char*>(head), AFHeadLength::SS_HEAD_LENGTH);
+            break;
+        default:
+            return false;
+            break;
+        }
 
+        if (buffer.empty())
+        {
+            return false;
+        }
+
+        buffer.append(msg_data, head->length_);
+        client_session_ptr_->GetSession()->send(buffer.c_str(), buffer.length());
         return true;
     }
 

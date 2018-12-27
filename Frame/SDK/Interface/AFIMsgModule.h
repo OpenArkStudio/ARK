@@ -295,7 +295,7 @@ namespace ark
         return;                                                                     \
     }                                                                               \
                                                                                     \
-    ARK_LOG_DEBUG("Recv msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data=\n{}", \
+    ARK_LOG_DEBUG("Recv msg log src={} dst={} msg_name={} msg_id={} msg_len={}\nmsg_data={}", \
         "",                                                                         \
         "",                                                                         \
         x_msg.GetTypeName(),                                                        \
@@ -306,7 +306,7 @@ namespace ark
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(actor_id);        \
     if (nullptr == pEntity)                                                                                             \
     {                                                                                                                   \
-        ARK_LOG_ERROR("FromClient actor_entity do not Exist, msg_id = {} player_id = {}", msg_id, actor_id.ToString()); \
+        ARK_LOG_ERROR("FromClient actor_entity do not Exist, msg_id={} player_id={}", msg_id, actor_id.ToString());     \
         return;                                                                                                         \
     }
 
@@ -322,7 +322,7 @@ namespace ark
     {                                                                           \
         std::string pb_json;                                                    \
         google::protobuf::util::MessageToJsonString(pb_msg, &pb_json);          \
-        ARK_LOG_DEBUG("Recv msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data={}", \
+        ARK_LOG_DEBUG("Recv msg log src={} dst={} msg_name={} msg_id={} nmsg_len={}\nmsg_data={}", \
               msg->src_bus_,                                                    \
               msg->dst_bus_,                                                    \
               pb_msg.GetTypeName(),                                             \
