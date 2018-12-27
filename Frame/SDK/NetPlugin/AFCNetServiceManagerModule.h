@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -38,11 +38,11 @@ namespace ark
         bool Update() override;
         bool Shut() override;
 
-        int CreateServer() override;
+        int CreateServer(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
         AFINetServerService* GetSelfNetServer() override;
 
-        int CreateClusterClients() override;
-        int CreateClusterClient(const int bus_id, const std::string& url) override;
+        int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) override;
+        int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) override;
 
         AFINetClientService* GetNetClientService(const uint8_t& app_type) override;
         AFINetClientService* GetNetClientServiceByBusID(const int bus_id) override;
@@ -56,7 +56,7 @@ namespace ark
         AFMap<int, AFINetServerService> net_servers_;
         AFMap<uint8_t, AFINetClientService> net_clients_;
 
-        AFMap<AFGUID, AFINet> net_bus_relations_;
+        AFMap<std::pair<int, int>, AFINet> net_bus_relations_;
 
         AFIBusModule* m_pBusModule;
         AFILogModule* m_pLogModule;

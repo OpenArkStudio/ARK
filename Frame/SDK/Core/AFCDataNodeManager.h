@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -52,7 +52,6 @@ namespace ark
         bool SetNodeFloat(const char* name, const float value) override;
         bool SetNodeDouble(const char* name, const double value) override;
         bool SetNodeString(const char* name, const std::string& value) override;
-        bool SetNodeObject(const char* name, const AFGUID& value) override;
 
         bool GetNodeBool(const char* name) override;
         int32_t GetNodeInt(const char* name) override;
@@ -60,7 +59,6 @@ namespace ark
         float GetNodeFloat(const char* name) override;
         double GetNodeDouble(const char* name) override;
         const char* GetNodeString(const char* name) override;
-        const AFGUID GetNodeObject(const char* name) override;
 
     protected:
         bool FindIndex(const char* name, size_t& index);

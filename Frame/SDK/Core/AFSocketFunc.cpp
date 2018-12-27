@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -119,6 +119,61 @@ namespace ark
         std::string domain = protocol + "://" + hostname + ":" + ARK_TO_STRING(port);
         return domain;
     }
+
+    int64_t ARK_HTONLL(const int64_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return htonll(data);
+#else
+        return htobe64(data);
+#endif
+    }
+
+    int64_t ARK_NTOHLL(const int64_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return ntohll(data);
+#else
+        return be64toh(data);
+#endif
+    }
+
+    int32_t ARK_HTONL(const int32_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return htonl(data);
+#else
+        return htobe32(data);
+#endif
+    }
+
+    int32_t ARK_NTOHL(const int32_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return ntohl(data);
+#else
+        return be32toh(data);
+#endif
+    }
+
+    int16_t ARK_HTONS(const int16_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return htons(data);
+#else
+        return htobe16(data);
+#endif
+    }
+
+    int16_t ARK_NTOHS(const int16_t data)
+    {
+#if ARK_PLATFORM == PLATFORM_WIN
+        return ntohs(data);
+#else
+        return be16toh(data);
+#endif
+    }
+
 
 #if ARK_PLATFORM == PLATFORM_WIN
     bool GetLocalIP(char* ip)

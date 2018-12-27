@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ namespace ark
     {
         m_pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
         m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
-        m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+        m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
         m_pLogModule = pPluginManager->FindModule<AFILogModule>();
 
         return true;
@@ -65,7 +65,7 @@ namespace ark
             for (size_t i = 0; i < nodeCount; ++i)
             {
                 AFDataNode* pNode = xNodeManager->GetNodeByIndex(i);
-                ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self.ToString(), pNode->GetName(), pNode->ToString());
+                ARK_LOG_TRACE("Player[{}] Node[{}] Value[{}]", self, pNode->GetName(), pNode->ToString());
             }
         }
 
@@ -92,7 +92,7 @@ namespace ark
 
                     for (size_t k = 0; k < xDataList.GetCount(); ++k)
                     {
-                        ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self.ToString(), pTable->GetName(), j, k, xDataList.ToString(k));
+                        ARK_LOG_TRACE("Player[{}] Table[{}] Row[{}] Col[{}] Value[{}]", self, pTable->GetName(), j, k, xDataList.ToString(k));
                     }
                 }
             }
@@ -103,7 +103,7 @@ namespace ark
 
     int AFCPropertyTrailModule::OnObjectPropertyEvent(const AFGUID& self, const std::string& nodeName, const AFIData& oldVar, const AFIData& newVar)
     {
-        ARK_LOG_INFO("Trace id[{}] Name[{}] Old[{}] New[{}]", self.ToString(), nodeName, oldVar.GetString(), newVar.GetString());
+        ARK_LOG_INFO("Trace id[{}] Name[{}] Old[{}] New[{}]", self, nodeName, oldVar.GetString(), newVar.GetString());
         return 0;
     }
 

@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -54,8 +54,11 @@ void CreateDumpFile(const std::string& strDumpFilePathName, EXCEPTION_POINTERS* 
 long ApplicationCrashHandler(EXCEPTION_POINTERS* pException)
 {
     AFDateTime now;
-    tm* ptm = now.GetLocalTime();
-    std::string dump_name = ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp", AFCPluginManager::GetInstancePtr()->AppName(), ptm->tm_year + 1900, ptm->tm_mon + 1, ptm->tm_mday, ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
+    std::string dump_name = ARK_FORMAT("{}-{:04d}{:02d}{:02d}_{:02d}_{:02d}_{:02d}.dmp",
+                                       AFCPluginManager::get()->AppName(),
+                                       now.GetYear(), now.GetMonth(), now.GetDay(),
+                                       now.GetHour(), now.GetMinute(), now.GetSecond());
+
     CreateDumpFile(dump_name.c_str(), pException);
 
     FatalAppExit(-1, dump_name.c_str());
@@ -102,18 +105,22 @@ void PrintLogo()
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 #endif
 
-    CONSOLE_LOG_NO_FILE << "     _         _          ____                      " << std::endl;
-    CONSOLE_LOG_NO_FILE << "    / \\   _ __| | __     / ___| __ _ _ __ ___   ___ " << std::endl;
-    CONSOLE_LOG_NO_FILE << "   / _ \\ | '__| |/ /    | |  _ / _` | '_ ` _ \\ / _ \\" << std::endl;
-    CONSOLE_LOG_NO_FILE << "  / ___ \\| |  |   <     | |_| | (_| | | | | | |  __/" << std::endl;
-    CONSOLE_LOG_NO_FILE << " /_/   \\_\\_|  |_|\\_\\     \\____|\\__,_|_| |_| |_|\\___|" << std::endl;
-    CONSOLE_LOG_NO_FILE << "                                                    " << std::endl;
-    CONSOLE_LOG_NO_FILE << std::endl;
-    CONSOLE_LOG_NO_FILE << "Copyright 2018 (c) Ark Studio. All Rights Reserved." << std::endl;
-    CONSOLE_LOG_NO_FILE << "Website: https://arkgame.net" << std::endl;
-    CONSOLE_LOG_NO_FILE << "Github:  https://github.com/ArkGame" << std::endl;
-    CONSOLE_LOG_NO_FILE << "***********************************************************" << std::endl;
-    CONSOLE_LOG_NO_FILE << std::endl;
+    std::string logo = R"(
+**********************************************************************
+  ___                  _ _   _                        _         _    
+ / _ \  __ _ _   _  __| | | | | _____  __            / \   _ __| | __
+| | | |/ _` | | | |/ _` | |_| |/ _ \ \/ /  _____    / _ \ | '__| |/ /
+| |_| | (_| | |_| | (_| |  _  |  __/>  <  |_____|  / ___ \| |  |   < 
+ \__\_\\__,_|\__,_|\__,_|_| |_|\___/_/\_\         /_/   \_\_|  |_|\_\
+
+Copyright 2018 (c) QuadHex. All Rights Reserved.
+Website: https://quadhex.io
+Github:  https://github.com/QuadHex
+Gitee:   https://gitee.com/QuadHex
+**********************************************************************
+)";
+
+    CONSOLE_LOG_NO_FILE << logo << std::endl;
 
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -293,9 +300,9 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set bus id
     if (busid)
-    {
-        AFCDataList temp_bus_id;
-        if (!temp_bus_id.Split(busid.Get(), "."))
+{
+    AFCDataList temp_bus_id;
+    if (!temp_bus_id.Split(busid.Get(), "."))
         {
             CONSOLE_LOG << "bus id is invalid, it likes 8.8.8.8" << std::endl;
             return false;
@@ -307,7 +314,7 @@ bool ParseArgs(int argc, char* argv[])
         busaddr.proc_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(2));
         busaddr.inst_id = ARK_LEXICAL_CAST<int>(temp_bus_id.String(3));
 
-        AFCPluginManager::GetInstancePtr()->SetBusID(busaddr.bus_id);
+        AFCPluginManager::get()->SetBusID(busaddr.bus_id);
     }
     else
     {
@@ -316,10 +323,10 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set app name
     if (name)
-    {
-        AFCPluginManager::GetInstancePtr()->SetAppName(name.Get());
+{
+    AFCPluginManager::get()->SetAppName(name.Get());
 
-        std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFCPluginManager::GetInstancePtr()->BusID());
+        std::string process_name = ARK_FORMAT("{}-{}-{}", name.Get(), busid.Get(), AFCPluginManager::get()->BusID());
         //Set process name
 #if ARK_PLATFORM == PLATFORM_WIN
         SetConsoleTitle(process_name.c_str());
@@ -334,8 +341,8 @@ bool ParseArgs(int argc, char* argv[])
 
     //Set plugin file
     if (plugin_cfg)
-    {
-        AFCPluginManager::GetInstancePtr()->SetPluginConf(plugin_cfg.Get());
+{
+    AFCPluginManager::get()->SetPluginConf(plugin_cfg.Get());
     }
     else
     {
@@ -343,8 +350,8 @@ bool ParseArgs(int argc, char* argv[])
     }
 
     if (logpath)
-    {
-        AFCPluginManager::GetInstancePtr()->SetLogPath(logpath.Get());
+{
+    AFCPluginManager::get()->SetLogPath(logpath.Get());
     }
     else
     {
@@ -363,7 +370,7 @@ void MainLoop()
 
     __try
     {
-        AFCPluginManager::GetInstancePtr()->Update();
+        AFCPluginManager::get()->Update();
     }
     __except (ApplicationCrashHandler(GetExceptionInformation()))
     {
@@ -371,19 +378,12 @@ void MainLoop()
     }
 
 #else
-    AFCPluginManager::GetInstancePtr()->Update();
+    AFCPluginManager::get()->Update();
 #endif
 }
 
 int main(int argc, char* argv[])
 {
-    //std::error_code ec;
-    //AFEndpoint ep = AFEndpoint::from_string("tcp://127.0.0.1:8080", ec);
-    //if (!ec)
-    //{
-    //    return -1;
-    //}
-
     if (!ParseArgs(argc, argv))
     {
         CONSOLE_LOG_NO_FILE << "Application parameter is invalid, please check it..." << std::endl;
@@ -392,10 +392,10 @@ int main(int argc, char* argv[])
 
     PrintLogo();
 
-    AFCPluginManager::GetInstancePtr()->Init();
-    AFCPluginManager::GetInstancePtr()->PostInit();
-    AFCPluginManager::GetInstancePtr()->CheckConfig();
-    AFCPluginManager::GetInstancePtr()->PreUpdate();
+    AFCPluginManager::get()->Init();
+    AFCPluginManager::get()->PostInit();
+    AFCPluginManager::get()->CheckConfig();
+    AFCPluginManager::get()->PreUpdate();
 
     while (!g_exit_loop)
     {
@@ -412,8 +412,8 @@ int main(int argc, char* argv[])
         }
     }
 
-    AFCPluginManager::GetInstancePtr()->PreShut();
-    AFCPluginManager::GetInstancePtr()->Shut();
+    AFCPluginManager::get()->PreShut();
+    AFCPluginManager::get()->Shut();
 
     g_cmd_thread.join();
 

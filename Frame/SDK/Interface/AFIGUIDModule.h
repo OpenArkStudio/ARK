@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2017 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -28,9 +28,8 @@ namespace ark
     class AFIGUIDModule : public AFIModule
     {
     public:
-        //You need to call this function first then you can call CreateGUID, please follow this order
-        virtual void SetGUIDMask(uint64_t mask) = 0;
         virtual AFGUID CreateGUID() = 0;
+        virtual std::string ParseUID(const AFGUID& id) = 0;
     };
 
 }

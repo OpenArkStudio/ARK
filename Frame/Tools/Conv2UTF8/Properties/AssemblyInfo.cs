@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Conv2UTF8")]
 [assembly: AssemblyDescription("This program can transfer files to UTF-8 in special path")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("ArkGame")]
+[assembly: AssemblyCompany("QuadHex")]
 [assembly: AssemblyProduct("Conv2UTF8")]
-[assembly: AssemblyCopyright("Copyright © ArkGame 2018")]
+[assembly: AssemblyCopyright("Copyright © QuadHex 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

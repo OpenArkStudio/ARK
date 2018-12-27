@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -35,10 +35,10 @@ namespace ark
 
     int AFCLevelModule::AddExp(const AFGUID& self, const int nExp)
     {
-        int eJobType = m_pKernelModule->GetNodeInt(self, ark::Player::Job());
+        int eJobType = m_pKernelModule->GetNodeInt(self, ark::Player::Career());
         int nCurExp = m_pKernelModule->GetNodeInt(self, ark::Player::EXP());
         int nLevel = m_pKernelModule->GetNodeInt(self, ark::Player::Level());
-        int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::MAXEXP());
+        int nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::EXP());//xx
 
         nCurExp += nExp;
 
@@ -53,7 +53,7 @@ namespace ark
 
             nCurExp = nRemainExp;
 
-            nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::MAXEXP());
+            nMaxExp = m_pPropertyConfigModule->CalculateBaseValue(eJobType, nLevel, ark::Player::EXP());//xx
 
             if (nMaxExp <= 0)
             {

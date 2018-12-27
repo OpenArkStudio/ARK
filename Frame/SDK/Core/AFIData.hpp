@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@
 
 #pragma once
 
-#include "SDK/Core/AFPlatform.hpp"
-#include "SDK/Core/AFGUID.hpp"
+#include "SDK/Core/AFMacros.hpp"
+//#include "SDK/Core/AFGUID.hpp"
 
 namespace ark
 {
@@ -35,7 +35,6 @@ namespace ark
         DT_FLOAT,       //float
         DT_DOUBLE,      //double
         DT_STRING,      //string(char*)
-        DT_OBJECT,      //object(high + low)
         DT_POINTER,     //pointer(void*)
         DT_USERDATA,    //user data(char*)
         DT_TABLE,       //table
@@ -48,7 +47,7 @@ namespace ark
     const static float NULL_FLOAT = 0.0f;
     const static double NULL_DOUBLE = 0.0;
     const static std::string NULL_STR = "";
-    const static AFGUID NULL_GUID = AFGUID();
+    const static AFGUID NULL_GUID = 0;//AFGUID();
     const static void*  NULL_POINT = nullptr;
 
     class AFIData
@@ -90,39 +89,28 @@ namespace ark
             case DT_BOOLEAN:
                 bRet = (GetBool() == src.GetBool());
                 break;
-
             case DT_INT:
                 bRet = (GetInt() == src.GetInt());
                 break;
-
             case DT_INT64:
                 bRet = (GetInt64() == src.GetInt64());
                 break;
-
             case DT_FLOAT:
                 bRet = (GetFloat() == src.GetFloat());
                 break;
-
             case DT_DOUBLE:
                 bRet = (GetDouble() == src.GetDouble());
                 break;
-
             case DT_STRING:
+                bRet = (GetString() == src.GetString());
                 break;
-
-            case DT_OBJECT:
-                bRet = (GetObject() == src.GetObject());
-                break;
-
             case DT_POINTER:
                 bRet = (GetPointer() == src.GetPointer());
                 break;
-
             case DT_USERDATA:
                 break;
-
             default:
-                ARK_ASSERT_NO_EFFECT(0);
+                ARK_ASSERT_NO_EFFECT(false);
                 break;
             }
 
@@ -188,16 +176,6 @@ namespace ark
 
             return GetString() == value;
         }
-        bool equal(const AFGUID& value)
-        {
-            if (this->GetType() != DT_OBJECT)
-            {
-                return false;
-            }
-
-            return GetObject() == value;
-        }
-
 
         bool equal(const void* value)
         {
@@ -223,7 +201,6 @@ namespace ark
         virtual float GetFloat() const = 0;
         virtual double GetDouble() const = 0;
         virtual const char* GetString() const = 0;
-        virtual const AFGUID& GetObject() const = 0;
         virtual void* GetPointer() const = 0;
         virtual const void* GetUserData(size_t& size) const = 0;
         virtual void* GetRawUserData() const = 0;
@@ -236,7 +213,6 @@ namespace ark
         virtual void SetFloat(float value) = 0;
         virtual void SetDouble(double value) = 0;
         virtual void SetString(const char* value) = 0;
-        virtual void SetObject(const AFGUID& value) = 0;
         virtual void SetPointer(void* value) = 0;
         virtual void SetUserData(const void* value, size_t size) = 0;
         virtual void SetRawUserData(void* value) = 0;

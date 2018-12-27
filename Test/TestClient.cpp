@@ -1,5 +1,5 @@
 /*
-* This source file is part of ArkGameFrame
+* This source file is part of ARK
 * For the latest info, see https://github.com/ArkGame
 *
 * Copyright (c) 2013-2018 ArkGame authors.

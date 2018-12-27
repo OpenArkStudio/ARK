@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "SDK/Core/AFGUID.hpp"
+//#include "SDK/Core/AFGUID.hpp"
 #include "SDK/Core/AFIDataList.hpp"
 #include "SDK/Core/AFDefine.hpp"
 
@@ -60,7 +60,6 @@ namespace ark
         virtual bool SetTableFloat(const char* name, const int row, const int col, const float value) = 0;
         virtual bool SetTableDouble(const char* name, const int row, const int col, const double value) = 0;
         virtual bool SetTableString(const char* name, const int row, const int col, const char* value) = 0;
-        virtual bool SetTableObject(const char* name, const int row, const int col, const AFGUID& value) = 0;
 
         virtual bool GetTableBool(const char* name, const int row, const int col) = 0;
         virtual int32_t GetTableInt(const char* name, const int row, const int col) = 0;
@@ -68,7 +67,6 @@ namespace ark
         virtual float GetTableFloat(const char* name, const int row, const int col) = 0;
         virtual double GetTableDouble(const char* name, const int row, const int col) = 0;
         virtual const char* GetTableString(const char* name, const int row, const int col) = 0;
-        virtual const AFGUID GetTableObject(const char* name, const int row, const int col) = 0;
     };
 
 }

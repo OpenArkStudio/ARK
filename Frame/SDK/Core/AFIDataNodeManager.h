@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -58,7 +58,6 @@ namespace ark
         virtual bool SetNodeFloat(const char* name, const float value) = 0;
         virtual bool SetNodeDouble(const char* name, const double value) = 0;
         virtual bool SetNodeString(const char* name, const std::string& value) = 0;
-        virtual bool SetNodeObject(const char* name, const AFGUID& value) = 0;
 
         virtual bool GetNodeBool(const char* name) = 0;
         virtual int32_t GetNodeInt(const char* name) = 0;
@@ -66,7 +65,6 @@ namespace ark
         virtual float GetNodeFloat(const char* name) = 0;
         virtual double GetNodeDouble(const char* name) = 0;
         virtual const char* GetNodeString(const char* name) = 0;
-        virtual const AFGUID GetNodeObject(const char* name) = 0;
     };
 
 }

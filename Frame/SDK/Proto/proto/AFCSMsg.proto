@@ -4,3 +4,553 @@ package AFMsg;
 //Import all ss proto files in here.
 import "AFEventCode.proto";
 import "AFErrorCode.proto";
+import "AFCommonMsg.proto";
+
+enum EGameMsgID
+{
+	EGMI_UNKNOW						= 0;         // 位知
+	EGMI_EVENT_RESULT				= 1;         // 事件结果
+	EGMI_EVENT_TRANSPOND			= 2;         // 网关转发
+	EGMI_CLOSE_SOCKET				= 3;         // 想要关闭某个网络对象
+
+	EGMI_MTL_WORLD_REGISTERED		= 10;
+	EGMI_MTL_WORLD_UNREGISTERED		= 11;
+	EGMI_MTL_WORLD_REFRESH			= 12;
+
+	EGMI_LTM_LOGIN_REGISTERED		= 20;
+	EGMI_LTM_LOGIN_UNREGISTERED		= 21;
+	EGMI_LTM_LOGIN_REFRESH			= 22;
+
+	EGMI_PTWG_PROXY_REGISTERED		= 30;
+	EGMI_PTWG_PROXY_UNREGISTERED	= 31;
+	EGMI_PTWG_PROXY_REFRESH			= 32;
+
+	EGMI_GTW_GAME_REGISTERED		= 40;
+	EGMI_GTW_GAME_UNREGISTERED		= 41;
+	EGMI_GTW_GAME_REFRESH			= 42;
+	EGMI_GTG_BROCASTMSG				= 43;
+
+	EGMI_STS_NET_INFO				= 50;
+	EGMI_STS_HEART_BEAT				= 100;
+	//////////////////////////////////////////////////////////////////////////////////////
+	EGMI_REQ_LOGIN									= 101;     // 登陆帐号
+	EGMI_ACK_LOGIN									= 102;     // 登陆帐号
+	EGMI_REQ_LOGOUT									= 103;		// 登出帐号
+
+	EGMI_REQ_WORLD_LIST							= 110;			// 申请世界列表
+	EGMI_ACK_WORLD_LIST							= 111;			//
+	EGMI_REQ_CONNECT_WORLD						= 112;			// 申请连接到世界
+	EGMI_ACK_CONNECT_WORLD						= 113;
+	EGMI_REQ_KICK_CLIENT_INWORLD				= 114;			//要求在此世界T人
+	
+	EGMI_REQ_CONNECT_KEY						= 120;         // 用KEY连接世界的网关
+	EGMI_ACK_CONNECT_KEY						= 122;         // 
+
+
+	EGMI_REQ_SELECT_SERVER						= 130;			// 选择一个单服
+	EGMI_ACK_SELECT_SERVER						= 131;			// 选择一个单服
+	EGMI_REQ_ROLE_LIST							= 132;			// 申请角色列表
+	EGMI_ACK_ROLE_LIST							= 133;			// 
+	EGMI_REQ_CREATE_ROLE						= 134;			// 申请创建一个角色
+	EGMI_REQ_DELETE_ROLE						= 135;			// 申请删除一个角色
+	EGMI_REQ_RECOVER_ROLE						= 136;			// 申请恢复一个角色
+
+	EGMI_REQ_ENTER_GAME							= 150;			// 申请进入游戏世界
+	EGMI_ACK_ENTER_GAME							= 151;			// 回复进入了游戏世界成功
+	EGMI_REQ_LEAVE_GAME							= 152;			// 申请离开游戏世界, 回到选人
+	EGMI_ACK_LEAVE_GAME							= 153;			// 回复,申请离开游戏世界
+	EGMI_REQ_SWAP_GAME							= 154;			//
+	EGMI_REQ_SWAP_SCENE							= 155;			// 申请切换场景
+	EGMI_ACK_SWAP_SCENE							= 156;			// 回复切换场景结果
+	EGMI_REQ_END_BATTLE							= 157;			// 申请副本结算
+	EGMI_ACK_END_BATTLE							= 158;			// 回复副本结算
+
+	EGMI_ACK_ENTITY_ENTER						= 200;			// 有对象进入
+	EGMI_ACK_ENTITY_LEAVE						= 201;			// 有对象出去
+	
+	EGMI_ACK_ENTITY_DATA_NODE_ENTER				= 202;			// 有对象属性进入
+	EGMI_ACK_ENTITY_DATA_TABLE_ENTER            = 203;			// 有对象表进入
+	
+	EGMI_ACK_NODE_DATA						    = 210;			// 属性变更
+
+	EGMI_ACK_ADD_ROW							= 220;
+	EGMI_ACK_REMOVE_ROW							= 221;
+	EGMI_ACK_SWAP_ROW							= 222;
+	EGMI_ACK_TABLE_DATA						    = 223;
+	EGMI_ACK_TABLE_CLEAR						= 229;
+	EGMI_ACK_TABLE_SORT						    = 230;
+
+	EGMI_REQ_MOVE								= 235;
+	EGMI_ACK_MOVE								= 236;
+	EGMI_REQ_MOVE_IMMUNE						= 237;
+	EGMI_ACK_MOVE_IMMUNE						= 238;
+
+	EGMI_REQ_SKILL_OBJECTX						= 240;
+	EGMI_ACK_SKILL_OBJECTX						= 241;
+	EGMI_REQ_SKILL_POS							= 242;
+	EGMI_ACK_SKILL_POS							= 243;
+	EGMI_REQ_ITEM_OBJECT						= 244;
+	EGMI_ACK_ITEM_OBJECT						= 245;
+	EGMI_REQ_ITEM_POS							= 246;
+	EGMI_ACK_ITEM_POS							= 247;
+
+
+	EGMI_REQ_CHAT								= 250;
+	EGMI_ACK_CHAT								= 251;
+	EGMI_REQ_SALE_ITEM							= 252;
+	EGMI_REQ_SPLIT_ITEM							= 253;
+	EGMI_REQ_PRODUCE_ITEM						= 254;
+	EGMI_REQ_PICK_ITEM							= 255;
+	EGMI_REQ_ACCEPT_TASK						= 256;
+	EGMI_REQ_COMPELETE_TASK						= 257;
+	
+	//对象clone
+	EGMI_ACK_CLONE_OBJECT_ENTRY						= 800;			// 有对象进入
+	EGMI_ACK_CLONE_OBJECT_LEAVE						= 801;			// 有对象出去
+	        
+	EGMI_ACK_CLONE_OBJECT_PROPERTY_ENTRY			= 802;			// 有对象属性进入
+	EGMI_ACK_CLONE_OBJECT_RECORD_ENTRY				= 803;			// 有对象表进入
+	       
+	EGMI_ACK_CLONE_PROPERTY_INT						= 810;			// 属性变更
+	EGMI_ACK_CLONE_PROPERTY_FLOAT					= 811;			// 属性变更
+	EGMI_ACK_CLONE_PROPERTY_STRING					= 812;			// 属性变更
+	EGMI_ACK_CLONE_PROPERTY_DOUBLE					= 813;			// 属性变更
+	EGMI_ACK_CLONE_PROPERTY_OBJECT					= 814;			// 属性变更
+            
+	EGMI_ACK_CLONE_ADD_ROW							= 820;
+	EGMI_ACK_CLONE_REMOVE_ROW						= 821;
+	EGMI_ACK_CLONE_SWAP_ROW							= 822;
+	EGMI_ACK_CLONE_RECORD_INT						= 823;
+	EGMI_ACK_CLONE_RECORD_FLOAT						= 824;
+	EGMI_ACK_CLONE_RECORD_DOUBLE					= 825;
+	EGMI_ACK_CLONE_RECORD_STRING					= 826;
+	EGMI_ACK_CLONE_RECORD_OBJECT					= 827;
+	EGMI_ACK_CLONE_RECORD_CLEAR						= 828;
+	EGMI_ACK_CLONE_RECORD_SORT						= 829;
+	
+	EGMI_REQSWICHSERVER								= 840;	// 申请转服
+	EGMI_ACKSWICHSERVER								= 841;	// 申请转服
+}
+
+// 任务状态
+enum ETaskState
+{
+    TASK_IN_PROCESS             = 0; // 任务进行中
+    TASK_DONE                   = 1; // 任务完成
+    TASK_DRAW_AWARD             = 2; // 领取过任务奖励了
+    TASK_FINISH                 = 3; // 任务结束
+}
+
+// 任务类型
+enum ETaskType
+{
+    TASK_LEVEL_UPDATE_SOME_LEVEL        = 0; // 主角升级到某个等级
+    TASK_PASS_ECTYPE                    = 1; // 通过某个副本
+    TASK_PASS_ECTYPE_COUNT              = 2; // 通过任意副本多少次
+    TASK_PASS_SOME_TYPE_ECTYPE_COUNT    = 3; // 通过某类副本多少次
+    TASK_UPDATE_SKILL_COUNT             = 4; // 升级技能多少次
+    TASK_CONSUME_MONEY                  = 5; // 消费多少金币
+    TASK_CONSUME_DIAMOND                = 6; // 消费多少钻石
+    TASK_ARENA_COUNT                    = 7; // 参加竞技场多少次
+    TASK_KILL_MONSTER_COUNT             = 8; // 累计杀怪多少只
+    TASK_KILL_SOME_MONSTER_COUNT        = 9; // 杀死某个特定怪度多少只
+    // TODO
+}
+
+// 战斗类型
+enum EBattleType
+{
+	BATTLE_SINGLE        = 0; // 主角单人打副本
+	BATTLE_PVE_TEAM      = 1; // 多人打副本
+}
+
+///////////////排行榜相关////////////////////////////////////////////////////////////////////////////////////
+
+enum ERankType
+{
+    ERT_PLAYER_NONE 			= 0;
+	ERT_PLAYER_LEVEL 			= 1;
+	ERT_FIGHT_VALUE				= 2;
+	ERT_PLAYER_MONEY			= 3;
+	ERT_GUILD_LEVEL				= 4;
+	ERT_GUILD_KINGSOURCE		= 5;
+}
+
+
+//这里主要是与游戏内容关系不是很大的协议，比如登录，创建角色，平台扣费等
+enum EServerState
+{
+	EST_CRASH = 0;
+	EST_NARMAL = 1;
+	EST_BUSY = 2;
+	EST_FIRE = 3;
+	EST_MAINTEN = 4;
+}
+
+message ServerInfoReport		//服务器之间报告服务器状态
+{
+	int32   bus_id = 1;
+	string  url = 2;
+	int32   max_online = 3;
+	int32   cur_online = 4;
+	EServerState logic_status = 5; //logic status
+}
+
+message ServerInfoReportList		//服务器之间报告服务器状态
+{
+	repeated ServerInfoReport server_list = 1;
+}
+
+message AckEventResult		//返回事件结果(对或错等详细)
+{
+	E_EVENT_CODE event_code = 1;
+	int64 event_object 	= 2;//playerID
+	int64 event_client 	= 3;//clientID
+	string	Parame1 	= 4;
+	string	Parame2 	= 5;
+	string	Parame3 	= 6;
+}
+
+////////////////////////////////////////////////////
+message ReqAccountLogin		//向网关(登录服务器)申请登录
+{ 
+	string 			account = 2;
+	string 			password = 3;
+	string 			security_code = 4;
+    string 			signBuff = 5;
+    int32 			clientVersion = 6;
+    int32 			loginMode = 7;
+    int32 			clientIP = 8;
+    int64 			clientMAC = 9;
+	string 			device_info = 10;
+	string 			extra_info = 11;
+	int32 			platform_type = 12;
+}
+
+message ReqAccountLogout		//向网关(登录服务器)申请登出
+{ 
+	string 		account = 2;
+	string 		extra_info = 3;
+}
+
+message ServerInfo		//服务器信息---这个是面向玩家的
+{
+    int32  			server_id = 1;
+	int32			wait_count = 2;
+	EServerState	status = 3;
+}
+
+//请求大世界服务器列表，请求单世界游戏服务器列表
+enum ReqServerListType
+{
+	RSLT_WORLD_SERVER = 0;
+	RSLT_GAMES_ERVER = 1;
+};
+
+message ReqServerList		//请求游戏服务器列表
+{
+	ReqServerListType type = 1;
+}
+
+message AckServerList		//服务器信息列表
+{
+	ReqServerListType type = 1;
+	repeated ServerInfo info = 2;
+}
+
+message ReqConnectWorld		//玩家想连到世界服务器,进游戏世界--登录通过后选世界
+{
+	int32   world_id = 1;//想去的世界ID
+	string  account = 2;//玩家帐号--客户度发送时可以不填--转发需填
+	int64  sender = 3;//玩家临时ID--客户度发送时可以不填--转发需填
+	int32   login_id = 4;//登录服务器ID--客户度发送时可以不填--转发需填
+}
+
+message AckConnectWorldResult		//返回申请到世界服务器的结果
+{
+	int32   world_id = 1;//申请者想去的世界ID
+	int64  sender = 2;//申请者临时ID
+	int32   login_id = 3;//申请者所在的登录服务器ID
+	string  account = 4;//申请者的帐号
+	string  world_url = 5;//得到的世界服务器分配的网关IP
+	string  world_key = 7;//得到的握手KEY
+}
+
+message ReqSelectServer		//玩家想选择单服务器
+{
+	int32   world_id = 1;//想去的服务器ID
+}
+
+message ReqKickFromWorld		//玩家想退出游戏世界
+{
+	int32   world_id = 1;
+	string   account = 2;//帐号
+}
+
+//继续登录进大世界网关
+
+////////////////////////////////////////////
+message ReqRoleList		//请求得到角色列表
+{
+	int32   game_id = 1;
+	string   account = 2;	
+}
+
+message RoleLiteInfo		//角色基础信息
+{
+	int64 		id = 1;
+	int32 		career = 2;
+    int32 		sex = 3;
+    int32 		race = 4;
+    string 		noob_name = 5;
+    int32 		game_id = 6;
+	int32 		role_level = 7;
+	int32		delete_time = 8;
+	int32		reg_time = 9;
+	int32		last_offline_time = 10;
+	int32		last_offline_ip = 11;
+	string		view_record = 12;
+}
+
+message AckRoleLiteInfoList		//角色基础信息列表
+{
+	repeated RoleLiteInfo char_data = 1;
+}
+
+message ReqCreateRole		//创建角色
+{
+	string 		account = 1;
+	int32 		career = 2;
+    int32 		sex = 3;
+    int32 		race = 4;
+    string 		noob_name = 5;
+    int32 		game_id = 6;
+}
+
+message ReqDeleteRole		//删除角色
+{
+	string 	account = 1;
+    string	name = 2;
+	int32 	game_id = 3;
+}
+
+message ReqRecoverRole		//恢复角色
+{
+	string 	account = 1;
+    string	name = 2;
+	int32 	game_id = 3;
+}
+
+message ServerHeartBeat // 心跳
+{
+	int32 count = 1; // 数量，暂时没用到，以后可以用来做角色数量报告等
+}
+
+
+
+//除 去基础对象身上的属性外，这里全部游戏中的逻辑协议
+
+message ReqEnterGameServer
+{
+	int64 		id = 1;
+	string 		account = 2;
+    int32 		game_id = 3;
+	string 		name = 4;
+}
+
+message ReqHeartBeat
+{
+}
+
+message ReqLeaveGameServer
+{
+}
+
+message EntityEnterInfo		//对象出现基本信息
+{
+	int64	object_guid = 1;
+	Point3D pos = 2;
+	int32	career_type = 3;
+	int32	player_state = 4;
+	string  config_id = 5;
+	int32   scene_id = 6;
+	string  class_id = 7;
+}
+
+message AckEntityEnterList		//对象出现列表
+{
+	repeated EntityEnterInfo entity_list = 1;
+}
+
+message AckEntityLeaveList		//对象离去列表
+{
+	repeated int64 entity_list = 1;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+message ReqAckSynData		//对象离去列表
+{
+	enum SynType
+	{
+        EST_NONE = 0;	//无
+		EST_SCENE = 1;	//场景
+		EST_GROUP = 2;	//层
+		EST_GUILD = 3;	//公会
+		EST_FRIEND = 4;	//好友
+	}
+	int64 syser = 1;
+	repeated int64 object_list = 2;
+	string data = 3;
+	SynType syn_type = 4;
+	EGameMsgID msg_id = 5;//有消息ID限制
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+message ReqAckPlayerMove
+{
+	int64 	mover = 1;
+	int32  moveType = 2;
+	repeated Position target_pos = 3;
+	repeated Position source_pos = 4;
+}
+
+message ChatContainer
+{
+	enum ContainerType
+	{
+        EGCT_NONE = 0;	//无
+		EGCT_ITEM = 1;	//道具
+	}
+	
+	int32 ConTainerType = 2;
+	string data_info = 3;
+}
+
+message ReqAckPlayerChat
+{
+	enum EGameChatType
+	{
+		EGCT_GUILD = 0;
+		EGCT_PRIVATE = 1;
+		EGCT_TEAM = 2;
+		EGCT_WORLD = 3;
+	}
+
+	int64	chat_id = 1;
+	EGameChatType  chat_type = 2;
+	string chat_info = 3;
+	string chat_name = 4;
+	int64	target_id = 5;
+	repeated ChatContainer Container_data = 6;
+}
+
+message EffectData
+{
+	enum EResultType
+	{
+		EET_SUCCESS = 0;
+		EET_FAIL = 1;
+		EET_REFUSE = 2;		
+	}
+	int64 effect_ident = 1;
+	int32 effect_value = 2;
+	EResultType effect_rlt = 3;
+}
+
+message ReqAckUseSkill
+{
+	int64 	user = 1;
+	string skill_id = 2;
+	Position now_pos = 3;
+	Position tar_pos = 4;
+	int32  use_index = 5;//因为客户端要先展示
+	repeated EffectData 	effect_data = 6;
+}
+
+message ReqAckUseItem
+{
+	int64 user = 1;
+	int64 item_guid	= 2;
+	repeated EffectData effect_data = 3;
+	ItemStruct item = 4;
+	int64 targetid = 5;
+}
+
+message ReqAckSwapScene
+{
+	enum EGameSwapType
+	{
+		EGST_NARMAL = 0;//普通城镇传送
+		EGST_CLONE = 1;//普通副本
+		EGST_ARENA = 2;//竞技场
+		EGST_MIRROR = 3;//镜像空间
+	}
+
+    EGameSwapType		transfer_type = 1;
+	int32		scene_id = 2;
+	int32		line_id = 3;
+	float 		x = 4;
+	float 		y = 5;
+	float 		z = 6;
+}
+
+message ItemStruct
+{
+    string item_id            = 1; // 配置ID
+    int32 item_count          = 2; // 数量
+}
+
+message CurrencyStruct
+{
+    int32 currency_type        = 1;// 金币，钻石，体力等等东西的类型
+    int32 currency_count       = 2;// 数量
+}
+
+message ReqAckEndBattle
+{
+	//下发的时候则为道具列表
+	//获得的金币等列表
+    int32 money            = 1; // 副本获得的金币
+    int32 exp              = 2; // 副本获得的经验
+    int32 diamond          = 3; // 副本获得的经验
+    repeated ItemStruct item_list   = 4; // 副本获得的道具列表
+}
+
+
+message ReqPickDropItem		//拾取物品
+{
+	int64 item_guid = 2;
+}
+
+message ReqAcceptTask		//接受任务
+{
+	string task_id = 1;
+}
+
+message ReqCompeleteTask		//完成任务后申请领奖
+{
+	string task_id = 1;
+}
+
+//EGEC_REQSWICHSERVER							= 210;		 // 申请转服
+message ReqSwitchServer
+{
+    int64      selfid              = 1; // 角色ID
+	int64      self_serverid		= 2; // 本来所在的服务器
+    int64      target_serverid		= 3; // 目标ID
+	int64      gate_serverid		= 4; // 目标ID
+	int64      SceneID				= 5; // 
+	int64      client_id			= 6; // 客户端id
+	int64      groupID				= 7; //  group
+}
+
+//EGEC_ACKSWICHSERVER							= 211;		 // 申请转服
+message AckSwitchServer
+{
+    int64      selfid              = 1; // 角色ID
+    int64      self_serverid		= 2; // 目标ID
+	int64      target_serverid		= 3; // 目标ID
+	int64      gate_serverid		= 4; // 目标ID
+}

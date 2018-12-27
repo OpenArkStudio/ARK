@@ -1,3 +1,167 @@
 syntax = "proto3";
 package AFMsg;
 
+//基础结构，不直接发送
+message Point3D
+{
+    float      x = 1;
+    float      y = 2;
+    float      z = 3;
+}
+
+message VariantData
+{
+    oneof AFData {
+        bool 		bool_value      = 1;
+        int32 		int_value       = 2;
+        int64 		int64_value		= 3;
+        float 		float_value     = 4;
+        double 	    double_value    = 5;
+        string 		str_value		= 6;
+    }
+}
+
+////////////////////////BaseCommon/////////////////////////////
+//Node data, do not send directly
+message PBNodeData
+{ 
+    string node_name = 1;
+    int32 data_type = 2;
+    VariantData variant_data = 3;
+}
+
+//Table cell data, do not send directly
+message PBCellData
+{
+    int32 row 			= 1;
+	int32 col 			= 2;
+    int32 data_type    = 3;
+    VariantData variant_data    = 4;
+}
+
+message PBData		//基础结构，不直接发送
+{
+    int32 data_type = 1;
+    VariantData variant_data = 2;
+}      
+
+message PBDataList
+{
+	repeated PBData data_list = 1;
+}                                  
+
+//Table添加基础行结构，不直接发送
+message DataTableAddRow		
+{
+	int32 row = 1;
+	repeated PBCellData cell_list = 2;
+}
+
+message EntityDataTableBase
+{ 
+	string table_name = 1;
+	repeated DataTableAddRow row = 2;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//个人玩家全部属性列表，可直接发送--统一发,为节约包
+message EntityDataNodeList
+{
+	int64 entity_id = 1;
+	repeated PBNodeData data_node_list = 2;
+}
+
+//多人玩家全部属性列表，可直接发送--统一发,为节约包
+message MultiEntityDataNodeList		
+{
+    repeated EntityDataNodeList multi_entity_data_node_list = 1;
+}
+
+//个人玩家全部表数据，可直接发送--统一发,为节约包
+message EntityDataTableList		
+{
+	int64 entity_id = 1;
+	repeated EntityDataTableBase data_table_list = 2;
+}
+
+//多人玩家全部表数据，可直接发送--统一发,为节约包
+message MultiEntityDataTableList		
+{
+    repeated EntityDataTableList multi_entity_data_table_list = 1;
+}
+
+//======================TO DELETE
+//个人玩家单类型属性数据，可直接发送---变化时
+message EntityDataNode		
+{
+	int64 entity_id = 1;
+    repeated PBNodeData	data_node_list = 2;
+} 
+//个人玩家单表属性数据，可直接发送---变化时
+message EntityDataTable
+{
+	int64 entity_id = 1;
+	string table_name = 2;
+    repeated PBCellData table_cell_list = 3;
+}
+
+//个人玩家单类型属性数据，可直接发送---变化时
+message EntityDataTableSwap		
+{
+	int64 entity_id = 1;
+	string origin_table_name = 2;
+	string target_table_name = 3;
+	int32 row_origin = 4;
+	int32 row_target = 5;
+}
+
+////////////////////////////////////////////////////////////////////////////
+//Entity add row data sync
+message EntityDataTableAddRow
+{
+	int64 entity_id = 1;
+	string table_name = 2;
+	repeated DataTableAddRow row_data = 3;
+}
+
+message EntityDataTableRemove		
+{
+	int64 entity_id = 1;
+	string table_name = 2;  
+	repeated int32 remove_row = 3;
+}
+
+///////////////////////////////////////////////////////////////////
+//===========TO DELETE
+message PlayerDataNodes
+{
+	repeated PBNodeData data_node_list = 1;
+}
+
+////////////////////////////////////////////////////////////
+message PlayerDataTable
+{
+	string table_name = 1;
+	repeated PBCellData data_table_cell_list = 2;
+}
+
+message PlayerDataTables
+{
+	repeated PlayerDataTable table_list = 1;
+}
+
+///////////////////////////////////////////////////////////////////
+message BrocastMsg
+{
+	int64 entity_id = 1;
+	string msg_data = 2;
+	int32 msg_id = 3;
+	repeated int64 target_entity_list = 4;
+}
+
+message Position
+{
+	float  x = 1;
+	float  y = 2;
+	float  z = 3;
+}

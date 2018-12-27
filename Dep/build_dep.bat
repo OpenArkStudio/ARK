@@ -39,7 +39,7 @@ cd ..\..\..\
 REM ####################################################################################################
 echo "Building brynet..."
 if exist brynet (rd brynet /q /s)
-git clone -b master https://github.com/ArkGame/brynet.git --depth 1
+git clone -b master https://github.com/QuadHex/brynet.git --depth 1
 
 cd brynet
 md build

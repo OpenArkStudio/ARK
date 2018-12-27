@@ -4,7 +4,7 @@
     <LocalDebuggerWorkingDirectory>$(SolutionDir)..\Bin\bin\</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerCommand>$(SolutionDir)..\Bin\bin\Launcher_d.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>--busid=0.0.0.1 --name=example1 --plugin=..\plugin_conf\example1.plugin --logpath=..\binlog</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>--busid=1.1.0.1 --name=example1 --plugin=..\plugin_conf\example1.plugin --logpath=..\binlog</LocalDebuggerCommandArguments>
     <LocalDebuggerEnvironment>PATH=$(SolutionDir)..\Bin\lib\</LocalDebuggerEnvironment>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

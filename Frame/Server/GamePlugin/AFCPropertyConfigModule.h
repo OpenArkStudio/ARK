@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIMetaClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "Common/AFDataDefine.hpp"
 #include "Server/Interface/AFIPropertyConfigModule.h"
@@ -44,10 +44,10 @@ namespace ark
 
     private:
         //
-        //diffent job, diffrent PropertyID[Level->EffectData]
+        //different job, different PropertyID[Level->EffectData]
         AFMapEx<int, AFMapEx<int, std::string> > mhtCoefficienData;
 
-        AFIClassModule* m_pClassModule;
+        AFIMetaClassModule* m_pClassModule;
         AFIConfigModule* m_pConfigModule;
     };
 

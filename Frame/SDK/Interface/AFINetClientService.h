@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ namespace ark
 
         AFConnectionData() = default;
 
+        AFHeadLength head_len_{ AFHeadLength::SS_HEAD_LENGTH };
         int server_bus_id_{ 0 };
         AFEndpoint endpoint_;
         AFINet* net_client_ptr_{ nullptr };
@@ -57,38 +58,36 @@ namespace ark
         virtual ~AFINetClientService() = default;
 
         template<typename BaseType>
-        bool RegMsgCallback(const int nMsgID, BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
+        bool RegMsgCallback(const int msg_id, BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
         {
-            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-            return RegMsgCallback(nMsgID, std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
+            NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+            return RegMsgCallback(msg_id, std::make_shared<NET_MSG_FUNCTOR>(functor));
         }
 
         template<typename BaseType>
-        bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const ARK_PKG_BASE_HEAD&, const int, const char*, const uint32_t, const AFGUID&))
+        bool RegForwardMsgCallback(BaseType* pBase, void (BaseType::*handleRecv)(const AFNetMsg*, const int64_t))
         {
-            NET_PKG_RECV_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4, std::placeholders::_5);
-            return RegForwardMsgCallback(std::make_shared<NET_PKG_RECV_FUNCTOR>(functor));
+            NET_MSG_FUNCTOR functor = std::bind(handleRecv, pBase, std::placeholders::_1, std::placeholders::_2);
+            return RegForwardMsgCallback(std::make_shared<NET_MSG_FUNCTOR>(functor));
         }
 
         template<typename BaseType>
-        bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const NetEventType, const AFGUID&, const std::string&, const int))
+        bool RegNetEventCallback(BaseType* pBase, void (BaseType::*handler)(const AFNetEvent&))
         {
-            NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
+            NET_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1);
             return RegNetEventCallback(std::make_shared<NET_EVENT_FUNCTOR>(functor));
         }
 
-        virtual bool StartClient(const int& target_bus_id, const AFEndpoint& endpoint) = 0;
+        virtual bool StartClient(const AFHeadLength head_len, const int& target_bus_id, const AFEndpoint& endpoint) = 0;
         virtual void Update() = 0;
         virtual void Shutdown() = 0;
 
         virtual const ARK_SHARE_PTR<AFConnectionData>& GetServerNetInfo(const int nServerID) = 0;
         virtual AFMapEx<int, AFConnectionData>& GetServerList() = 0;
 
-        virtual bool RegMsgCallback(const int nMsgID, const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
-        virtual bool RegForwardMsgCallback(const NET_PKG_RECV_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegMsgCallback(const int nMsgID, const NET_MSG_FUNCTOR_PTR& cb) = 0;
+        virtual bool RegForwardMsgCallback(const NET_MSG_FUNCTOR_PTR& cb) = 0;
         virtual bool RegNetEventCallback(const NET_EVENT_FUNCTOR_PTR& cb) = 0;
-
-        //virtual void SendToServerByPB(const int nServerID, const uint16_t nMsgID, google::protobuf::Message& xData, const AFGUID& nPlayerID) = 0;
     };
 
 }

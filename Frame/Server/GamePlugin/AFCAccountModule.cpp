@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -46,15 +46,15 @@ namespace ark
     bool AFCAccountModule::CreateRole(const std::string& strAccount, AFMsg::AckRoleLiteInfoList& xAckRoleLiteInfoList, const AFIDataList& varList)
     {
         AFMsg::RoleLiteInfo* pData = xAckRoleLiteInfoList.add_char_data();
-        pData->mutable_id()->CopyFrom(AFIMsgModule::GUIDToPB(m_pUUIDModule->CreateGUID()));
+        pData->set_id(m_pUUIDModule->CreateGUID());
 
-        int nCareer = varList.Int(0);
+        int career = varList.Int(0);
         int sex = varList.Int(1);
         int race = varList.Int(2);
         std::string noob_name = varList.String(3);
         int game_id = varList.Int(4);
 
-        pData->set_career(nCareer);
+        pData->set_career(career);
         pData->set_sex(sex);
         pData->set_race(race);
         pData->set_noob_name(noob_name);

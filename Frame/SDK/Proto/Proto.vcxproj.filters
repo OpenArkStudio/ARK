@@ -18,25 +18,13 @@
     <ClCompile Include="cpp\AFCSMsg.pb.cc">
       <Filter>cpp</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\AFDefine.pb.cc">
-      <Filter>cpp</Filter>
-    </ClCompile>
     <ClCompile Include="cpp\AFErrorCode.pb.cc">
       <Filter>cpp</Filter>
     </ClCompile>
     <ClCompile Include="cpp\AFEventCode.pb.cc">
       <Filter>cpp</Filter>
     </ClCompile>
-    <ClCompile Include="cpp\AFMsgBase.pb.cc">
-      <Filter>cpp</Filter>
-    </ClCompile>
     <ClCompile Include="cpp\AFMsgMysql.pb.cc">
-      <Filter>cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\AFMsgPreGame.pb.cc">
-      <Filter>cpp</Filter>
-    </ClCompile>
-    <ClCompile Include="cpp\AFMsgShare.pb.cc">
       <Filter>cpp</Filter>
     </ClCompile>
     <ClCompile Include="cpp\AFMsgURl.pb.cc">
@@ -59,25 +47,13 @@
     <ClInclude Include="cpp\AFCSMsg.pb.h">
       <Filter>cpp</Filter>
     </ClInclude>
-    <ClInclude Include="cpp\AFDefine.pb.h">
-      <Filter>cpp</Filter>
-    </ClInclude>
     <ClInclude Include="cpp\AFErrorCode.pb.h">
       <Filter>cpp</Filter>
     </ClInclude>
     <ClInclude Include="cpp\AFEventCode.pb.h">
       <Filter>cpp</Filter>
     </ClInclude>
-    <ClInclude Include="cpp\AFMsgBase.pb.h">
-      <Filter>cpp</Filter>
-    </ClInclude>
     <ClInclude Include="cpp\AFMsgMysql.pb.h">
-      <Filter>cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="cpp\AFMsgPreGame.pb.h">
-      <Filter>cpp</Filter>
-    </ClInclude>
-    <ClInclude Include="cpp\AFMsgShare.pb.h">
       <Filter>cpp</Filter>
     </ClInclude>
     <ClInclude Include="cpp\AFMsgURl.pb.h">

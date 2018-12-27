@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2017 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -31,11 +31,12 @@ namespace ark
     {
     public:
         //server-side net service
-        virtual int CreateServer() = 0;
+        virtual int CreateServer(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) = 0;
         virtual AFINetServerService* GetSelfNetServer() = 0;
 
-        virtual int CreateClusterClients() = 0;
-        virtual int CreateClusterClient(const int bus_id, const std::string& url) = 0;
+        //client
+        virtual int CreateClusterClients(const AFHeadLength head_len = AFHeadLength::SS_HEAD_LENGTH) = 0;
+        virtual int CreateClusterClient(const AFHeadLength head_len, const int bus_id, const std::string& url) = 0;
 
         virtual AFINetClientService* GetNetClientService(const uint8_t& app_type) = 0;
         virtual AFINetClientService* GetNetClientServiceByBusID(const int bus_id) = 0;

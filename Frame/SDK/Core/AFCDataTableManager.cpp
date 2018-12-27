@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -168,12 +168,6 @@ namespace ark
         return ((pTable == nullptr) ? false : pTable->SetString(row, col, value));
     }
 
-    bool AFCDataTableManager::SetTableObject(const char* name, const int row, const int col, const AFGUID& value)
-    {
-        AFDataTable* pTable = GetTable(name);
-        return ((pTable == nullptr) ? false : pTable->SetObject(row, col, value));
-    }
-
     bool AFCDataTableManager::GetTableBool(const char* name, const int row, const int col)
     {
         AFDataTable* pTable = GetTable(name);
@@ -208,12 +202,6 @@ namespace ark
     {
         AFDataTable* pTable = GetTable(name);
         return ((pTable == nullptr) ? NULL_STR.c_str() : pTable->GetString(row, col));
-    }
-
-    const AFGUID AFCDataTableManager::GetTableObject(const char* name, const int row, const int col)
-    {
-        AFDataTable* pTable = GetTable(name);
-        return ((pTable == nullptr) ? NULL_GUID : pTable->GetObject(row, col));
     }
 
 }

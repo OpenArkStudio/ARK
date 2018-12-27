@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@
 
 #include "Example2Module.h"
 #include "SDK/Core/AFCEntity.h"
-#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIMetaClassModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
 
 namespace ark
@@ -41,7 +41,7 @@ namespace ark
     bool Example2Module::PostInit()
     {
         AFIKernelModule* pKernelModule = pPluginManager->FindModule<AFIKernelModule>();
-        AFIClassModule* pClassModule = pPluginManager->FindModule<AFIClassModule>();
+        AFIMetaClassModule* pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
 
         AFCDataList xData;
         xData.AddInt(111);
@@ -49,7 +49,7 @@ namespace ark
         std::cout << typeid(Example2Module).name() << ", PostInit" << std::endl;
 
         //Create an Entity for this test
-        AFIEntity* pEntity = ARK_NEW AFCEntity(AFGUID(0, 1));
+        AFIEntity* pEntity = ARK_NEW AFCEntity(1);
 
         //Add a DataNode name is "my_test1" of this Entity
         pEntity->GetNodeManager()->AddNode("my_test1", AFCData(DT_INT, 1), 0);

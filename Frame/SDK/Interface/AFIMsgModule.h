@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2017 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -44,41 +44,24 @@ namespace ark
         virtual bool SendSSMsg(const int target_bus, const int msg_id, const google::protobuf::Message& msg, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
         virtual bool SendSSMsg(const int target_bus, const int msg_id, const char* msg, const int msg_len, const AFGUID& conn_id, const AFGUID& actor_id = 0) = 0;
 
+        virtual bool SendSSMsgByRouter() = 0;
 
-        static bool RecvPB(const ARK_PKG_BASE_HEAD& xHead, const char* msg, const uint32_t nLen, std::string& strMsg, AFGUID& nPlayer)
+        static bool RecvPB(const AFNetMsg* msg, std::string& strMsg, AFGUID& nPlayer)
         {
-            strMsg.assign(msg, nLen);
-            nPlayer = xHead.GetUID();
+            strMsg.assign(msg->msg_data_, msg->length_);
+            nPlayer = msg->actor_id_;
             return true;
         }
 
-        static bool RecvPB(const ARK_PKG_BASE_HEAD& xHead, const char* msg, const uint32_t nLen, google::protobuf::Message& xData, AFGUID& nPlayer)
+        static bool RecvPB(const AFNetMsg* msg, google::protobuf::Message& pb_msg, AFGUID& actor_id)
         {
-            if (!xData.ParseFromString(std::string(msg, nLen)))
+            if (!pb_msg.ParseFromString(std::string(msg->msg_data_, msg->length_)))
             {
                 return false;
             }
 
-            nPlayer = xHead.GetUID();
+            actor_id = msg->actor_id_;
             return true;
-        }
-
-        static AFGUID PBToGUID(AFMsg::PBGUID xID)
-        {
-            AFGUID xIdent;
-            xIdent.nHigh = xID.high();
-            xIdent.nLow = xID.low();
-
-            return xIdent;
-        }
-
-        static AFMsg::PBGUID GUIDToPB(AFGUID xID)
-        {
-            AFMsg::PBGUID  xIdent;
-            xIdent.set_high(xID.nHigh);
-            xIdent.set_low(xID.nLow);
-
-            return xIdent;
         }
 
         static Point3D PBToVec(AFMsg::Point3D xPoint)
@@ -126,9 +109,6 @@ namespace ark
             case DT_STRING:
                 variantData->set_str_value(DataVar.GetString());
                 break;
-            case DT_OBJECT:
-                *variantData->mutable_guid_value() = GUIDToPB(DataVar.GetObject());
-                break;
             default:
                 ARK_ASSERT_RET_VAL(0, false);
                 break;
@@ -173,31 +153,21 @@ namespace ark
             case DT_BOOLEAN:
                 variantData->set_bool_value(DataList.Bool(nCol));
                 break;
-
             case DT_INT:
                 variantData->set_int_value(DataList.Int(nCol));
                 break;
-
             case DT_INT64:
                 variantData->set_int64_value(DataList.Int64(nCol));
                 break;
-
             case DT_FLOAT:
                 variantData->set_float_value(DataList.Float(nCol));
                 break;
-
             case DT_DOUBLE:
                 variantData->set_double_value(DataList.Double(nCol));
                 break;
-
             case DT_STRING:
                 variantData->set_str_value(DataList.String(nCol));
                 break;
-
-            case DT_OBJECT:
-                *variantData->mutable_guid_value() = GUIDToPB(DataList.Object(nCol));
-                break;
-
             default:
                 ARK_ASSERT_RET_VAL(0, false);
                 break;
@@ -258,9 +228,9 @@ namespace ark
         static bool TableListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataTableManager>& pTableManager, AFMsg::EntityDataTableList& xPBData, const AFFeatureType nFeature)
         {
             AFMsg::EntityDataTableList* pPBData = &xPBData;
-            *(pPBData->mutable_entity_id()) = GUIDToPB(self);
+            pPBData->set_entity_id(self);
 
-            if (!pTableManager)
+            if (pTableManager == nullptr)
             {
                 return false;
             }
@@ -289,7 +259,7 @@ namespace ark
 
         static bool NodeListToPB(AFGUID self, ARK_SHARE_PTR<AFIDataNodeManager> pNodeManager, AFMsg::EntityDataNodeList& xPBData, const AFFeatureType nFeature)
         {
-            if (!pNodeManager)
+            if (pNodeManager == nullptr)
             {
                 return false;
             }
@@ -325,7 +295,7 @@ namespace ark
         return;                                                                     \
     }                                                                               \
                                                                                     \
-    ARK_LOG_DEBUG("Recv msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data=\n{}", \
+    ARK_LOG_DEBUG("Recv msg log src={} dst={} msg_name={} msg_id={} msg_len={}\nmsg_data={}", \
         "",                                                                         \
         "",                                                                         \
         x_msg.GetTypeName(),                                                        \
@@ -336,26 +306,31 @@ namespace ark
     ARK_SHARE_PTR<AFIEntity> pEntity = m_pKernelModule->GetEntity(actor_id);        \
     if (nullptr == pEntity)                                                                                             \
     {                                                                                                                   \
-        ARK_LOG_ERROR("FromClient actor_entity do not Exist, msg_id = {} player_id = {}", msg_id, actor_id.ToString()); \
+        ARK_LOG_ERROR("FromClient actor_entity do not Exist, msg_id={} player_id={}", msg_id, actor_id.ToString());     \
         return;                                                                                                         \
     }
 
-#define ARK_PROCESS_MSG(head, msg, msg_len, pb_msg)                             \
+#define ARK_PROCESS_MSG(msg, pb_msg_type)                                       \
     AFGUID actor_id;                                                            \
-    pb_msg x_msg;                                                               \
-    if (!AFIMsgModule::RecvPB(head, msg, msg_len, x_msg, actor_id))             \
+    pb_msg_type pb_msg;                                                         \
+    if (!AFIMsgModule::RecvPB(msg, pb_msg, actor_id))                           \
     {                                                                           \
-        ARK_LOG_ERROR("Parse msg error, msg_id = {}", msg_id);                  \
+        ARK_LOG_ERROR("Parse msg error, msg_id={} pb_msg_type={}", msg->id_, pb_msg.GetTypeName()); \
         return;                                                                 \
     }                                                                           \
-                                                                                \
-    ARK_LOG_DEBUG("Recv msg log\nsrc={}\ndst={}\nmsg_name={}\nmsg_id={}\nmsg_len={}\nmsg_data=\n{}", \
-        "",                                                                         \
-        "",                                                                         \
-        x_msg.GetTypeName(),                                                        \
-        msg_id,                                                                     \
-        msg_len,                                                                    \
-        x_msg.DebugString());
+    else                                                                        \
+    {                                                                           \
+        std::string pb_json;                                                    \
+        google::protobuf::util::MessageToJsonString(pb_msg, &pb_json);          \
+        ARK_LOG_DEBUG("Recv msg log src={} dst={} msg_name={} msg_id={} nmsg_len={}\nmsg_data={}", \
+              msg->src_bus_,                                                    \
+              msg->dst_bus_,                                                    \
+              pb_msg.GetTypeName(),                                             \
+              msg->id_,                                                         \
+              msg->length_,                                                     \
+              pb_json);                                                         \
+    }
+
 
 #define  ARK_PROCESS_ACTOR_STRING_MSG(head, msg, msg_len)                       \
     std::string msg_data;                                                       \

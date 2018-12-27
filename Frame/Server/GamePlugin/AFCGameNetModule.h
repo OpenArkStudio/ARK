@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,12 +23,13 @@
 #include "Common/AFProtoCPP.hpp"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIKernelModule.h"
-#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIMetaClassModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "SDK/Interface/AFIGUIDModule.h"
 #include "SDK/Interface/AFIBusModule.h"
 #include "SDK/Interface/AFIMsgModule.h"
+#include "SDK/Interface/AFIMapModule.h"
 #include "SDK/Interface/AFINetServiceManagerModule.h"
 #include "Server/Interface/AFISceneProcessModule.h"
 #include "Server/Interface/AFIAccountModule.h"
@@ -65,24 +66,24 @@ namespace ark
         virtual int OnEntityListEnter(const AFIDataList& self, const AFIDataList& argVar);
         virtual int OnEntityListLeave(const AFIDataList& self, const AFIDataList& argVar);
 
-        void OnSocketEvent(const NetEventType event, const AFGUID& conn_id, const std::string& ip, const int bus_id);
-        void OnClientDisconnect(const AFGUID& xClientID);
-        void OnClientConnected(const AFGUID& xClientID);
+        //void OnSocketEvent(const AFNetEvent* event);
+        //void OnClientDisconnect(const AFGUID& xClientID);
+        //void OnClientConnected(const AFGUID& xClientID);
 
-        void OnProxyServerRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
-        void OnProxyServerUnRegisteredProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
-        void OnRefreshProxyServerInfoProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
-        void OnReqiureRoleListProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
-        void OnCreateRoleGameProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
-        void OnDeleteRoleGameProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        void OnProxyServerRegisteredProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnProxyServerUnRegisteredProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnRefreshProxyServerInfoProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnReqiureRoleListProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnCreateRoleGameProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnDeleteRoleGameProcess(const AFNetMsg* msg, const int64_t session_id);
 
-        void OnClienEnterGameProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
-        void OnClientLeaveGameProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
-        void OnClienSwapSceneProcess(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        void OnClienEnterGameProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnClientLeaveGameProcess(const AFNetMsg* msg, const int64_t session_id);
+        void OnClienSwapSceneProcess(const AFNetMsg* msg, const int64_t session_id);
 
 
         ///////////WORLD_START///////////////////////////////////////////////////////////////
-        void OnTransWorld(const ARK_PKG_BASE_HEAD& head, const int msg_id, const char* msg, const uint32_t msg_len, const AFGUID& conn_id);
+        void OnTransWorld(const AFNetMsg* msg);
 
         //Common Node & table & class event
         int OnCommonDataNodeEvent(const AFGUID& self, const std::string& strPropertyName, const AFIData& oldVar, const AFIData& newVar);
@@ -121,14 +122,13 @@ namespace ark
         //////////////////////////////////////////////////////////////////////////
         AFIGUIDModule* m_pUUIDModule;
         AFIKernelModule* m_pKernelModule;
-        AFIClassModule* m_pClassModule;
+        AFIMetaClassModule* m_pClassModule;
         AFILogModule* m_pLogModule;
         AFIConfigModule* m_pConfigModule;
         AFIBusModule* m_pBusModule;
         AFINetServiceManagerModule* m_pNetServiceManagerModule;
+        AFIMapModule* m_pMapModule;
         //////////////////////////////////////////////////////////////////////////
-
-
         AFISceneProcessModule* m_pSceneProcessModule;
         AFIAccountModule* m_AccountModule;
 

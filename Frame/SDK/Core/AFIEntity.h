@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -59,7 +59,6 @@ namespace ark
         virtual bool SetNodeFloat(const std::string& name, const float value) = 0;
         virtual bool SetNodeDouble(const std::string& name, const double value) = 0;
         virtual bool SetNodeString(const std::string& name, const std::string& value) = 0;
-        virtual bool SetNodeObject(const std::string& name, const AFGUID& value) = 0;
 
         virtual bool GetNodeBool(const std::string& name) = 0;
         virtual int32_t GetNodeInt(const std::string& name) = 0;
@@ -67,7 +66,6 @@ namespace ark
         virtual float GetNodeFloat(const std::string& name) = 0;
         virtual double GetNodeDouble(const std::string& name) = 0;
         virtual const char* GetNodeString(const std::string& name) = 0;
-        virtual const AFGUID GetNodeObject(const std::string& name) = 0;
 
         virtual bool CheckTableExist(const std::string& name) = 0;
 
@@ -77,7 +75,6 @@ namespace ark
         virtual bool SetTableFloat(const std::string& name, const int row, const int col, const float value) = 0;
         virtual bool SetTableDouble(const std::string& name, const int row, const int col, const double value) = 0;
         virtual bool SetTableString(const std::string& name, const int row, const int col, const std::string& value) = 0;
-        virtual bool SetTableObject(const std::string& name, const int row, const int col, const AFGUID& value) = 0;
 
         virtual bool GetTableBool(const std::string& name, const int row, const int col) = 0;
         virtual int32_t GetTableInt(const std::string& name, const int row, const int col) = 0;
@@ -85,7 +82,6 @@ namespace ark
         virtual float GetTableFloat(const std::string& name, const int row, const int col) = 0;
         virtual double GetTableDouble(const std::string& name, const int row, const int col) = 0;
         virtual const char* GetTableString(const std::string& name, const int row, const int col) = 0;
-        virtual const AFGUID GetTableObject(const std::string& name, const int row, const int col) = 0;
 
         virtual ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager() = 0;
         virtual ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager() = 0;

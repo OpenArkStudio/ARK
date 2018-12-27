@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -32,47 +32,49 @@ namespace ark
 
     AFCWebSocktServer::~AFCWebSocktServer()
     {
+        CloseAllSession();
         Shutdown();
         brynet::net::base::DestroySocket();
     }
 
     void AFCWebSocktServer::Update()
     {
-        ProcessMsgLogicThread();
+        UpdateNetSession();
     }
 
-    bool AFCWebSocktServer::Start(const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6/* = false*/)
+    bool AFCWebSocktServer::StartServer(AFHeadLength head_len, const int busid, const std::string& ip, const int port, const int thread_num, const unsigned int max_client, bool ip_v6/* = false*/)
     {
         bus_id_ = busid;
-        tcp_service_ptr_->startWorkerThread(thread_num);
 
-        listen_thread_ptr_->startListen(ip_v6, ip, port, [ = ](brynet::net::TcpSocket::PTR socket)
+        tcp_service_ptr_->startWorkerThread(thread_num);
+        listen_thread_ptr_->startListen(ip_v6, ip, port, [&](brynet::net::TcpSocket::PTR socket)
         {
-            AFCWebSocktServer* pWSServer = this;
-            auto OnEnterCallback = [pWSServer](const brynet::net::DataSocket::PTR & session)
+            std::string session_ip = socket->GetIP();
+            AFCWebSocktServer* this_ptr = this;
+            auto OnEnterCallback = [this_ptr, &head_len, &session_ip](const brynet::net::DataSocket::PTR & session)
             {
-                brynet::net::http::HttpService::setup(session, [pWSServer](const brynet::net::http::HttpSession::PTR & httpSession)
+                brynet::net::http::HttpService::setup(session, [this_ptr, &head_len, &session_ip](const brynet::net::http::HttpSession::PTR & httpSession)
                 {
-                    AFHttpMsg* pMsg = new AFHttpMsg(httpSession);
-                    pMsg->conn_id_.nLow = pWSServer->next_conn_id_++;
-                    httpSession->setUD(static_cast<int64_t>(pMsg->conn_id_.nLow));
-                    pMsg->event_ = CONNECTED;
+                    int64_t cur_session_id = this_ptr->trusted_session_id_++;
+                    AFNetEvent* net_connect_event = AFNetEvent::AllocEvent();
+                    net_connect_event->id_ = cur_session_id;
+                    net_connect_event->type_ = AFNetEventType::CONNECTED;
+                    net_connect_event->bus_id_ = this_ptr->bus_id_;
+                    net_connect_event->ip_ = session_ip;
 
                     do
                     {
-                        AFScopeWrLock xGuard(pWSServer->rw_lock_);
-
-                        AFHttpEntity* pEntity = new AFHttpEntity(pWSServer, pMsg->conn_id_, httpSession);
-
-                        if (pWSServer->AddNetEntity(pMsg->conn_id_, pEntity))
+                        AFScopeWLock guard(this_ptr->rw_lock_);
+                        AFHttpSessionPtr session_ptr = ARK_NEW AFHttpSession(head_len, cur_session_id, httpSession);
+                        if (this_ptr->AddNetSession(session_ptr))
                         {
-                            pEntity->msg_queue_.Push(pMsg);
+                            session_ptr->AddNetEvent(net_connect_event);
                         }
                     } while (false);
 
-                    httpSession->setWSCallback([pWSServer](const brynet::net::http::HttpSession::PTR & httpSession,
-                                                           brynet::net::http::WebSocketFormat::WebSocketFrameType opcode,
-                                                           const std::string & payload)
+                    httpSession->setWSCallback([this_ptr](const brynet::net::http::HttpSession::PTR & httpSession,
+                                                          brynet::net::http::WebSocketFormat::WebSocketFrameType opcode,
+                                                          const std::string & payload)
                     {
                         switch (opcode)
                         {
@@ -106,23 +108,26 @@ namespace ark
                         }
 
                         const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
-                        AFGUID xClient(0, *ud);
+                        int64_t session_id = *ud;
 
-                        AFScopeRdLock xGuard(pWSServer->rw_lock_);
-                        auto xFind = pWSServer->net_entities_.find(xClient);
-                        if (xFind == pWSServer->net_entities_.end())
+                        do
                         {
-                            return;
-                        }
+                            AFScopeRLock guard(this_ptr->rw_lock_);
+                            auto session_ptr = this_ptr->GetNetSession(session_id);
+                            if (session_ptr == nullptr)
+                            {
+                                return;
+                            }
 
-                        xFind->second->AddBuff(payload.c_str(), payload.size());
-                        pWSServer->DismantleNet(xFind->second);
+                            session_ptr->AddBuffer(payload.c_str(), payload.size());
+                            session_ptr->ParseBufferToMsg();
+                        } while (false);
                     });
 
                     httpSession->setHttpCallback([](const brynet::net::http::HTTPParser & httpParser, const brynet::net::http::HttpSession::PTR & session)
                     {
                         brynet::net::http::HttpResponse response;
-                        response.setBody("<html>Hello ArkGame</html>");
+                        response.setBody("<html>Hello QuadHex.ARK</html>");
                         std::string result = response.getResult();
                         session->send(result.c_str(), result.size(), [session]()
                         {
@@ -130,24 +135,26 @@ namespace ark
                         });
                     });
 
-                    httpSession->setCloseCallback([pWSServer](const brynet::net::http::HttpSession::PTR & httpSession)
+                    httpSession->setCloseCallback([this_ptr, &session_ip](const brynet::net::http::HttpSession::PTR & httpSession)
                     {
                         const auto ud = brynet::net::cast<int64_t>(httpSession->getUD());
-                        AFGUID conn_id(0, 0);
-                        conn_id.nLow = *ud;
-                        AFScopeWrLock xGuard(pWSServer->rw_lock_);
+                        int64_t session_id = *ud;
 
-                        auto xFind = pWSServer->net_entities_.find(conn_id);
-                        if (xFind == pWSServer->net_entities_.end())
+                        AFNetEvent* net_disconnect_event = AFNetEvent::AllocEvent();
+                        net_disconnect_event->id_ = session_id;
+                        net_disconnect_event->type_ = AFNetEventType::DISCONNECTED;
+                        net_disconnect_event->bus_id_ = this_ptr->bus_id_;
+                        net_disconnect_event->ip_ = session_ip;
+
+                        AFScopeWLock guard(this_ptr->rw_lock_);
+                        const AFHttpSessionPtr session_ptr = this_ptr->GetNetSession(session_id);
+                        if (session_ptr == nullptr)
                         {
                             return;
                         }
 
-                        AFHttpMsg* pMsg = ARK_NEW AFHttpMsg(httpSession);
-                        pMsg->conn_id_ = conn_id;
-                        pMsg->event_ = DISCONNECTED;
-
-                        xFind->second->msg_queue_.Push(pMsg);
+                        session_ptr->AddNetEvent(net_disconnect_event);
+                        session_ptr->SetNeedRemove(true);
                     });
                 });
             };
@@ -160,76 +167,80 @@ namespace ark
         return true;
     }
 
-    void AFCWebSocktServer::ProcessMsgLogicThread()
+    void AFCWebSocktServer::UpdateNetSession()
     {
-        std::list<AFGUID> need_remove_list;
+        std::list<AFGUID> remove_sessions;
         do
         {
-            AFScopeRdLock xGuard(rw_lock_);
-
-            for (auto& iter : net_entities_)
+            AFScopeRLock guard(rw_lock_);
+            for (auto& iter : sessions_)
             {
-                ProcessMsgLogicThread(iter.second);
-
-                if (!iter.second->NeedRemove())
+                auto& session = iter.second;
+                if (session == nullptr)
                 {
                     continue;
                 }
 
-                need_remove_list.push_back(iter.second->GetConnID());
+                UpdateNetEvent(session);
+                UpdateNetMsg(session);
+
+                if (!session->NeedRemove())
+                {
+                    continue;
+                }
+
+                remove_sessions.push_back(session->GetSessionId());
             }
         } while (false);
 
-        for (auto iter : need_remove_list)
+        for (auto iter : remove_sessions)
         {
-            AFScopeWrLock xGuard(rw_lock_);
-            RemoveNetEntity(iter);
+            auto& session_id = iter;
+            AFScopeWLock guard(rw_lock_);
+            CloseSession(session_id);
+        }
+
+        remove_sessions.clear();
+    }
+
+    void AFCWebSocktServer::UpdateNetEvent(AFHttpSessionPtr session)
+    {
+        AFNetEvent* event(nullptr);
+        if (!session->PopNetEvent(event))
+        {
+            return;
+        }
+
+        while (event != nullptr)
+        {
+            net_event_cb_(event);
+            AFNetEvent::Release(event);
+
+            session->PopNetEvent(event);
         }
     }
 
-    void AFCWebSocktServer::ProcessMsgLogicThread(AFHttpEntityPtr pEntity)
+    void AFCWebSocktServer::UpdateNetMsg(AFHttpSessionPtr session)
     {
-        //Handle Msg
-        size_t queue_size = pEntity->msg_queue_.Count();
-        for (size_t i = 0; i < queue_size && i < 100; ++i)
+        AFNetMsg* msg(nullptr);
+        if (!session->PopNetMsg(msg))
         {
-            AFHttpMsg* pMsg(nullptr);
+            return;
+        }
 
-            if (!pEntity->msg_queue_.Pop(pMsg))
+        int msg_count = 0;
+        while (msg != nullptr)
+        {
+            net_msg_cb_(msg, session->GetSessionId());
+            AFNetMsg::Release(msg);
+
+            ++msg_count;
+            if (msg_count > ARK_PROCESS_NET_MSG_COUNT_ONCE)
             {
                 break;
             }
 
-            if (pMsg == nullptr)
-            {
-                continue;
-            }
-
-            switch (pMsg->event_)
-            {
-            case RECVDATA:
-                {
-                    if (net_recv_cb_)
-                    {
-                        net_recv_cb_(pMsg->head_, pMsg->head_.GetMsgID(), pMsg->msg_data_.c_str(), pMsg->msg_data_.size(), pEntity->GetConnID());
-                    }
-                }
-                break;
-            case CONNECTED:
-                net_event_cb_(pMsg->event_, pMsg->conn_id_, "unknown", bus_id_); //TODO:Wanna get ip, need to change brynet interface, give "unknown" for temp
-                break;
-            case DISCONNECTED:
-                {
-                    net_event_cb_(pMsg->event_, pMsg->conn_id_, "unknown", bus_id_);
-                    pEntity->SetNeedRemove(true);
-                }
-                break;
-
-            default:
-                break;
-            }
-
-            delete pMsg;
+            session->PopNetMsg(msg);
         }
     }
 
@@ -239,80 +250,65 @@ namespace ark
         return true;
     }
 
-    bool AFCWebSocktServer::IsServer()
-    {
-        return true;
-    }
-
     bool AFCWebSocktServer::SendMsgToAllClient(const char* msg, const size_t nLen)
     {
-        auto frame = std::make_shared<std::string>();
-        brynet::net::http::WebSocketFormat::wsFrameBuild(msg,
-                nLen,
-                *frame,
-                brynet::net::http::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
-                true,
-                false);
+        //auto frame = std::make_shared<std::string>();
+        //brynet::net::WebSocketFormat::wsFrameBuild(msg,
+        //        nLen,
+        //        *frame,
+        //        brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
+        //        true,
+        //        false);
 
-        for (auto& it : net_entities_)
-        {
-            AFHttpEntityPtr pNetObject = it.second;
+        //for (auto& it : sessions_)
+        //{
+        //    AFHttpEntityPtr pNetObject = it.second;
 
-            if (pNetObject && !pNetObject->NeedRemove())
-            {
-                pNetObject->GetSession()->send(frame);
-            }
-        }
+        //    if (pNetObject && !pNetObject->NeedRemove())
+        //    {
+        //        pNetObject->GetSession()->send(frame);
+        //    }
+        //}
 
         return true;
     }
 
-    bool AFCWebSocktServer::SendMsg(const char* msg, const size_t msg_len, const AFGUID& conn_id)
+    bool AFCWebSocktServer::SendMsg(const char* msg, const size_t msg_len, const AFGUID& session_id)
     {
-        AFScopeRdLock xGuard(rw_lock_);
+        //AFScopeRdLock xGuard(rw_lock_);
 
-        AFHttpEntity* pNetObject = GetNetEntity(conn_id);
+        //AFHttpEntity* pNetObject = GetNetSession(session_id);
 
-        if (pNetObject == nullptr)
-        {
-            return false;
-        }
+        //if (pNetObject == nullptr)
+        //{
+        //    return false;
+        //}
 
-        auto frame = std::make_shared<std::string>();
-        brynet::net::http::WebSocketFormat::wsFrameBuild(msg,
-                msg_len,
-                *frame,
-                brynet::net::http::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
-                true,
-                false);
+        //auto frame = std::make_shared<std::string>();
+        //brynet::net::WebSocketFormat::wsFrameBuild(msg,
+        //        msg_len,
+        //        *frame,
+        //        brynet::net::WebSocketFormat::WebSocketFrameType::BINARY_FRAME,
+        //        true,
+        //        false);
 
-        pNetObject->GetSession()->send(frame);
+        //pNetObject->GetSession()->send(frame);
         return true;
     }
 
-    bool AFCWebSocktServer::AddNetEntity(const AFGUID& conn_id, AFHttpEntityPtr entity_ptr)
+    bool AFCWebSocktServer::AddNetSession(AFHttpSessionPtr session)
     {
-        return net_entities_.insert(std::make_pair(conn_id, entity_ptr)).second;
+        return sessions_.insert(std::make_pair(session->GetSessionId(), session)).second;
     }
 
-    bool AFCWebSocktServer::RemoveNetEntity(const AFGUID& conn_id)
+    bool AFCWebSocktServer::CloseSession(AFHttpSessionPtr session)
     {
-        AFHttpEntity* pNetObject = GetNetEntity(conn_id);
-
-        if (pNetObject)
+        if (session != nullptr)
         {
-            delete pNetObject;
-        }
-
-        return net_entities_.erase(conn_id);
-    }
-
-    bool AFCWebSocktServer::CloseNetEntity(const AFGUID& conn_id)
-    {
-        AFHttpEntity* pEntity = GetNetEntity(conn_id);
-        if (pEntity)
-        {
-            pEntity->GetSession()->postShutdown();
+            auto session_id = session->GetSessionId();
+            session->GetSession()->postShutdown();
+            ARK_DELETE(session);
+            sessions_.erase(session_id);
             return true;
         }
         else
@@ -321,120 +317,71 @@ namespace ark
         }
     }
 
-    bool AFCWebSocktServer::Log(int severity, const char* msg)
+    bool AFCWebSocktServer::CloseSession(const AFGUID& session_id)
     {
+        auto session = GetNetSession(session_id);
+        return CloseSession(session);
+    }
+
+    bool AFCWebSocktServer::CloseAllSession()
+    {
+        for (auto& iter : sessions_)
+        {
+            auto& session = iter.second;
+            session->GetSession()->postShutdown();
+            ARK_DELETE(session);
+        }
+
+        sessions_.clear();
         return true;
     }
 
-    bool AFCWebSocktServer::DismantleNet(AFHttpEntityPtr entity_ptr)
+    AFHttpSessionPtr AFCWebSocktServer::GetNetSession(const AFGUID& session_id)
     {
-        while (entity_ptr->GetBuffLen() >= ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
-        {
-            ARK_PKG_CS_HEAD head;
-            int msg_body_len = DeCode(entity_ptr->GetBuff(), entity_ptr->GetBuffLen(), head);
-            if (msg_body_len >= 0 && head.GetMsgID() > 0)
-            {
-                AFHttpMsg* pMsg = ARK_NEW AFHttpMsg(entity_ptr->GetSession());
-                pMsg->head_ = head;
-                pMsg->event_ = RECVDATA;
-                pMsg->msg_data_.append(entity_ptr->GetBuff() + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH, msg_body_len);
-                entity_ptr->msg_queue_.Push(pMsg);
-                entity_ptr->RemoveBuff(msg_body_len + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH);
-            }
-            else
-            {
-                break;
-            }
-        }
+        auto it = sessions_.find(session_id);
+        return (it != sessions_.end() ? it->second : nullptr);
+    }
+
+    bool AFCWebSocktServer::SendMsg(AFMsgHead* head, const char* msg_data, const int64_t session_id)
+    {
+        //AFCSMsgHead head;
+        //head.set_msg_id(msg_id);
+        //head.set_uid(actor_id);
+        //head.set_body_length(msg_len);
+
+        //std::string out_data;
+        //size_t whole_len = EnCode(head, msg, msg_len, out_data);
+        //if (whole_len == msg_len + GetHeadLength())
+        //{
+        //    return SendMsg(out_data.c_str(), out_data.length(), session_id);
+        //}
+        //else
+        //{
+        //    return false;
+        //}
 
         return true;
     }
 
-    bool AFCWebSocktServer::CloseSocketAll()
+    bool AFCWebSocktServer::BroadcastMsg(AFMsgHead* head, const char* msg_data)
     {
-        for (auto it : net_entities_)
-        {
-            it.second->GetSession()->postShutdown();
-            ARK_DELETE(it.second);
-        }
+        //AFCSMsgHead head;
+        //head.set_msg_id(msg_id);
+        //head.set_uid(actor_id);
+        //head.set_body_length(msg_len);
 
-        net_entities_.clear();
+        //std::string out_data;
+        //size_t whole_len = EnCode(head, msg, msg_len, out_data);
+        //if (whole_len == msg_len + GetHeadLength())
+        //{
+        //    return SendMsgToAllClient(out_data.c_str(), out_data.length());
+        //}
+        //else
+        //{
+        //    return false;
+        //}
+
         return true;
-    }
-
-    AFCWebSocktServer::AFHttpEntityPtr AFCWebSocktServer::GetNetEntity(const AFGUID& conn_id)
-    {
-        auto it = net_entities_.find(conn_id);
-        return (it != net_entities_.end() ? it->second : nullptr);
-    }
-
-    bool AFCWebSocktServer::SendRawMsg(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& conn_id, const AFGUID& actor_rid)
-    {
-        ARK_PKG_CS_HEAD head;
-        head.SetMsgID(msg_id);
-        head.SetUID(actor_rid);
-        head.SetBodyLength(msg_len);
-
-        std::string out_data;
-        size_t whole_len = EnCode(head, msg, msg_len, out_data);
-        if (whole_len == msg_len + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
-        {
-            return SendMsg(out_data.c_str(), out_data.length(), conn_id);
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    bool AFCWebSocktServer::SendRawMsgToAllClient(const uint16_t msg_id, const char* msg, const size_t msg_len, const AFGUID& actor_rid)
-    {
-        std::string out_data;
-        ARK_PKG_CS_HEAD head;
-        head.SetMsgID(msg_id);
-        head.SetUID(actor_rid);
-
-        size_t whole_len = EnCode(head, msg, msg_len, out_data);
-        if (whole_len == msg_len + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
-        {
-            return SendMsgToAllClient(out_data.c_str(), out_data.length());
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    int AFCWebSocktServer::EnCode(const ARK_PKG_CS_HEAD& head, const char* msg, const size_t len, OUT std::string& out_data)
-    {
-        char head_string[ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH] = { 0 };
-        head.EnCode(head_string);
-
-        out_data.clear();
-        out_data.append(head_string, ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH);
-        out_data.append(msg, len);
-
-        return head.GetBodyLength() + ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH;
-    }
-
-    int AFCWebSocktServer::DeCode(const char* data, const size_t len, ARK_PKG_CS_HEAD& head)
-    {
-        if (len < ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH)
-        {
-            return -1;
-        }
-
-        if (ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH != head.DeCode(data))
-        {
-            return -2;
-        }
-
-        if (head.GetBodyLength() > (len - ARK_PKG_BASE_HEAD::ARK_CS_HEADER_LENGTH))
-        {
-            return -3;
-        }
-
-        return head.GetBodyLength();
     }
 
 }

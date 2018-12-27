@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@
 
 #include "AFKernelPlugin.h"
 #include "AFCKernelModule.h"
-#include "AFCClassModule.h"
+#include "AFCMetaClassModule.h"
 #include "AFCConfigModule.h"
-#include "AFCSceneModule.h"
+#include "AFCMapModule.h"
 
 namespace ark
 {
@@ -44,18 +44,18 @@ namespace ark
 
     void AFKernelPlugin::Install()
     {
-        RegisterModule< AFIClassModule, AFCClassModule>();
-        RegisterModule< AFIConfigModule, AFCConfigModule>();
-        RegisterModule< AFIKernelModule, AFCKernelModule>();
-        RegisterModule< AFISceneModule, AFCSceneModule>();
+        RegisterModule<AFIMetaClassModule, AFCMetaClassModule>();
+        RegisterModule<AFIConfigModule, AFCConfigModule>();
+        RegisterModule<AFIKernelModule, AFCKernelModule>();
+        RegisterModule<AFIMapModule, AFCMapModule>();
     }
 
     void AFKernelPlugin::Uninstall()
     {
-        DeregisterModule<AFISceneModule, AFCSceneModule>();
+        DeregisterModule<AFIMapModule, AFCMapModule>();
         DeregisterModule<AFIKernelModule, AFCKernelModule>();
         DeregisterModule<AFIConfigModule, AFCConfigModule>();
-        DeregisterModule<AFIClassModule, AFCClassModule>();
+        DeregisterModule<AFIMetaClassModule, AFCMetaClassModule>();
     }
 
 }

@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2017 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -57,11 +57,6 @@ namespace ark
         virtual bool AddMP(const AFGUID& self, const int32_t& nValue) = 0;
         virtual bool ConsumeMP(const AFGUID& self, const int32_t& nValue) = 0;
         virtual bool EnoughMP(const AFGUID& self, const int32_t& nValue) = 0;
-
-        virtual bool FullSP(const AFGUID& self) = 0;
-        virtual bool AddSP(const AFGUID& self, const int32_t& nValue) = 0;
-        virtual bool ConsumeSP(const AFGUID& self, const int32_t& nValue) = 0;
-        virtual bool EnoughSP(const AFGUID& self, const int32_t& nValue) = 0;
 
         virtual bool AddMoney(const AFGUID& self, const int32_t& nValue) = 0;
         virtual bool ConsumeMoney(const AFGUID& self, const int32_t& nValue) = 0;

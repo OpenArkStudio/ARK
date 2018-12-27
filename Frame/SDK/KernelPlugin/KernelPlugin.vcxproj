@@ -110,17 +110,17 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AFCClassModule.h" />
     <ClInclude Include="AFCConfigModule.h" />
     <ClInclude Include="AFCKernelModule.h" />
-    <ClInclude Include="AFCSceneModule.h" />
+    <ClInclude Include="AFCMapModule.h" />
+    <ClInclude Include="AFCMetaClassModule.h" />
     <ClInclude Include="AFKernelPlugin.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AFCClassModule.cpp" />
     <ClCompile Include="AFCConfigModule.cpp" />
     <ClCompile Include="AFCKernelModule.cpp" />
-    <ClCompile Include="AFCSceneModule.cpp" />
+    <ClCompile Include="AFCMapModule.cpp" />
+    <ClCompile Include="AFCMetaClassModule.cpp" />
     <ClCompile Include="AFKernelPlugin.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>

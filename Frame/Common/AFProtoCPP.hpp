@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -20,10 +20,8 @@
 
 #pragma once
 
-#include "SDK/Proto/cpp/AFDefine.pb.h"
-#include "SDK/Proto/cpp/AFMsgBase.pb.h"
-#include "SDK/Proto/cpp/AFMsgPreGame.pb.h"
-#include "SDK/Proto/cpp/AFMsgShare.pb.h"
+#include "google/protobuf/util/json_util.h"
+#include "SDK/Proto/cpp/AFCSMsg.pb.h"
+#include "SDK/Proto/cpp/AFSSMsg.pb.h"
 #include "SDK/Proto/cpp/AFMsgURl.pb.h"
 #include "SDK/Proto/cpp/AFMsgMysql.pb.h"
-#include "SDK/Proto/cpp/AFSSMsg.pb.h"

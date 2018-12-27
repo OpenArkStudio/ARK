@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ namespace ark
 
     bool AFCPropertyConfigModule::Init()
     {
-        m_pClassModule = pPluginManager->FindModule<AFIClassModule>();
+        m_pClassModule = pPluginManager->FindModule<AFIMetaClassModule>();
         m_pConfigModule = pPluginManager->FindModule<AFIConfigModule>();
 
         return true;
@@ -57,7 +57,7 @@ namespace ark
 
     void AFCPropertyConfigModule::Load()
     {
-        ARK_SHARE_PTR<AFIClass> pLogicClass = m_pClassModule->GetElement(ark::InitProperty::ThisName());
+        ARK_SHARE_PTR<AFIMetaClass> pLogicClass = m_pClassModule->GetElement(ark::InitProperty::ThisName());
 
         if (nullptr != pLogicClass)
         {

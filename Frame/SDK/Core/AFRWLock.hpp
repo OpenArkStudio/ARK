@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -134,15 +134,15 @@ namespace ark
     };
 #endif
 
-    class AFScopeRdLock : public AFNoncopyable
+    class AFScopeRLock : public AFNoncopyable
     {
     public:
-        explicit AFScopeRdLock(AFCReaderWriterLock& lock) : rwlock(lock)
+        explicit AFScopeRLock(AFCReaderWriterLock& lock) : rwlock(lock)
         {
             rwlock.ReaderLock();
         }
 
-        ~AFScopeRdLock()
+        ~AFScopeRLock()
         {
             rwlock.ReaderUnlock();
         }
@@ -150,15 +150,15 @@ namespace ark
         AFCReaderWriterLock& rwlock;
     };
 
-    class AFScopeWrLock : public AFNoncopyable
+    class AFScopeWLock : public AFNoncopyable
     {
     public:
-        explicit AFScopeWrLock(AFCReaderWriterLock& lock) : rwlock(lock)
+        explicit AFScopeWLock(AFCReaderWriterLock& lock) : rwlock(lock)
         {
             rwlock.WriterLock();
         }
 
-        ~AFScopeWrLock()
+        ~AFScopeWLock()
         {
             rwlock.WriterUnLock();
         }

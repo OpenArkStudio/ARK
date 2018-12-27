@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 
 #include "SDK/Interface/AFIKernelModule.h"
 #include "SDK/Interface/AFIConfigModule.h"
-#include "SDK/Interface/AFIClassModule.h"
+#include "SDK/Interface/AFIMetaClassModule.h"
 #include "SDK/Interface/AFIPluginManager.h"
 #include "Common/AFDataDefine.hpp"
 #include "Server/Interface/AFIPropertyConfigModule.h"
@@ -56,11 +56,6 @@ namespace ark
         virtual bool ConsumeMP(const AFGUID& self, const int32_t& nValue);
         virtual bool EnoughMP(const AFGUID& self, const int32_t& nValue);
 
-        virtual bool FullSP(const AFGUID& self);
-        virtual bool AddSP(const AFGUID& self, const int32_t& nValue);
-        virtual bool ConsumeSP(const AFGUID& self, const int32_t& nValue);
-        virtual bool EnoughSP(const AFGUID& self, const int32_t& nValue);
-
         virtual bool AddMoney(const AFGUID& self, const int32_t& nValue);
         virtual bool ConsumeMoney(const AFGUID& self, const int32_t& nValue);
         virtual bool EnoughMoney(const AFGUID& self, const int32_t& nValue);
@@ -77,13 +72,13 @@ namespace ark
         int OnPropertyTableEvent(const AFGUID& self, const DATA_TABLE_EVENT_DATA& xEventData, const AFIData& oldVar, const AFIData& newVar);
 
         const std::string& ColToPropertyName(const size_t nCol);
-        int64_t PropertyNameToCol(const std::string& strClassName);
+        int PropertyNameToCol(const std::string& strClassName);
 
     private:
         AFIKernelModule* m_pKernelModule;
         AFIPropertyConfigModule* m_pPropertyConfigModule;
         AFIConfigModule* m_pConfigModule;
-        AFIClassModule* m_pClassModule;
+        AFIMetaClassModule* m_pClassModule;
         AFILevelModule* m_pLevelModule;
         std::map<std::string, int> mNameToCol;
         std::vector<std::string> mColToName;

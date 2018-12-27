@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -301,6 +301,7 @@ namespace ark
         {
         }
 
+        //TODO:test
         AFDateTime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int tzd = 8)
         {
             struct tm tmp_tm;
@@ -422,17 +423,17 @@ namespace ark
             return *this;
         }
 
-        AFDateTime  operator + (const AFTimespan& span) const
+        AFDateTime operator + (const AFTimespan& span) const
         {
             return *this + span.totalMilliseconds();
         }
 
-        AFDateTime  operator - (const AFTimespan& span) const
+        AFDateTime operator - (const AFTimespan& span) const
         {
             return *this - span.totalMilliseconds();
         }
 
-        TimeDiff     operator - (const AFDateTime& ts) const
+        TimeDiff operator - (const AFDateTime& ts) const
         {
             return _ts - ts._ts;
         }

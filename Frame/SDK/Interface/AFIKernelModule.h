@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2017 ArkGame authors.
+* Copyright (c) 2013-2017 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@
 #pragma once
 
 #include "SDK/Core/AFIEntity.h"
-#include "SDK/Core/AFGUID.hpp"
 #include "AFIModule.h"
 
 namespace ark
@@ -85,13 +84,9 @@ namespace ark
             DATA_TABLE_EVENT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
             return RegCommonDataTableEvent(std::make_shared<DATA_TABLE_EVENT_FUNCTOR>(functor));
         }
-
         /////////////////////////////////////////////////////////////////
-        virtual bool IsContainer(const AFGUID& self) = 0;
-        virtual bool ExistContainer(const int nContainerIndex) = 0;
-
-        virtual ARK_SHARE_PTR<AFIEntity> GetEntity(const AFGUID& ident) = 0;
-        virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg) = 0;
+        virtual ARK_SHARE_PTR<AFIEntity>& GetEntity(const AFGUID& self) = 0;
+        virtual ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id, const std::string& class_name, const std::string& config_index, const AFIDataList& args) = 0;
 
         virtual bool DestroyEntity(const AFGUID& self) = 0;
         virtual bool DestroyAll() = 0;
@@ -104,7 +99,6 @@ namespace ark
         virtual bool SetNodeFloat(const AFGUID& self, const std::string& name, const float value) = 0;
         virtual bool SetNodeDouble(const AFGUID& self, const std::string& name, const double value) = 0;
         virtual bool SetNodeString(const AFGUID& self, const std::string& name, const std::string& value) = 0;
-        virtual bool SetNodeObject(const AFGUID& self, const std::string& name, const AFGUID& value) = 0;
 
         virtual bool GetNodeBool(const AFGUID& self, const std::string& name) = 0;
         virtual int32_t GetNodeInt(const AFGUID& self, const std::string& name) = 0;
@@ -112,7 +106,6 @@ namespace ark
         virtual float GetNodeFloat(const AFGUID& self, const std::string& name) = 0;
         virtual double GetNodeDouble(const AFGUID& self, const std::string& name) = 0;
         virtual const char*  GetNodeString(const AFGUID& self, const std::string& name) = 0;
-        virtual const AFGUID GetNodeObject(const AFGUID& self, const std::string& name) = 0;
         //////////////////////////////////////////////////////////////////////////
         virtual AFDataTable* FindTable(const AFGUID& self, const std::string& name) = 0;
         virtual bool ClearTable(const AFGUID& self, const std::string& name) = 0;
@@ -123,7 +116,6 @@ namespace ark
         virtual bool SetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col, const float value) = 0;
         virtual bool SetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col, const double value) = 0;
         virtual bool SetTableString(const AFGUID& self, const std::string& name, const int row, const int col, const std::string& value) = 0;
-        virtual bool SetTableObject(const AFGUID& self, const std::string& name, const int row, const int col, const AFGUID& value) = 0;
 
         virtual bool GetTableBool(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
         virtual int32_t GetTableInt(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
@@ -131,27 +123,8 @@ namespace ark
         virtual float GetTableFloat(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
         virtual double GetTableDouble(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
         virtual const char* GetTableString(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
-        virtual const AFGUID GetTableObject(const AFGUID& self, const std::string& name, const int row, const int col) = 0;
 
         //////////////////////////////////////////////////////////////////////////
-        virtual bool SwitchScene(const AFGUID& self, const int nTargetSceneID, const int nTargetGroupID, const Point3D& pos, const float fOrient, const AFIDataList& arg) = 0;
-
-        virtual bool CreateScene(const int nSceneID) = 0;
-        virtual bool DestroyScene(const int nSceneID) = 0;
-
-        virtual int GetOnLineCount() = 0;
-        virtual int GetMaxOnLineCount() = 0;
-        virtual int GetSceneOnLineCount(const int nSceneID) = 0;
-        virtual int GetSceneOnLineCount(const int nSceneID, const int nGroupID) = 0;
-        virtual int GetSceneOnLineList(const int nSceneID, AFIDataList& var) = 0;
-
-        virtual int RequestGroupScene(const int nSceneID) = 0;
-        virtual bool ReleaseGroupScene(const int nSceneID, const int nGroupID) = 0;
-        virtual bool ExitGroupScene(const int nSceneID, const int nGroupID) = 0;
-
-        virtual bool GetGroupEntityList(const int nSceneID, const int nGroupID, AFIDataList& list) = 0;
-        virtual int GetEntityByDataNode(const int nSceneID, const std::string& strPropertyName, const AFIDataList& valueArg, AFIDataList& list) = 0;
-
         virtual bool LogInfo(const AFGUID& ident) = 0;
 
     protected:

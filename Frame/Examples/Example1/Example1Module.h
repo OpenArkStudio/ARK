@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@
 #include "SDK/Interface/AFITimerModule.h"
 #include "SDK/Interface/AFILogModule.h"
 #include "SDK/Interface/AFIScheduleModule.h"
+#include "SDK/Interface/AFIGUIDModule.h"
 
 namespace ark
 {
@@ -46,6 +47,7 @@ namespace ark
     protected:
         AFITimerModule* m_pTimerModule;
         AFILogModule* m_pLogModule;
+        AFIGUIDModule* m_pGUIDModule;
         AFIDynamicLogModule* m_pDynamicLogModule;
         AFIScheduleModule* m_pScheduleModule;
     };

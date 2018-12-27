@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ArkGameFrame
-* For the latest info, see https://github.com/ArkGame
+* This source file is part of ARK
+* For the latest info, see https://github.com/QuadHex
 *
-* Copyright (c) 2013-2018 ArkGame authors.
+* Copyright (c) 2013-2018 QuadHex authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -21,15 +21,11 @@
 #pragma once
 
 #include "SDK/Interface/AFIGUIDModule.h"
+#include "SDK/Core/AFUidGenerator.hpp"
+
 
 namespace ark
 {
-
-    namespace guid_module
-    {
-        class IdWorkerThreadUnsafe;
-        class IdWorkerThreadSafe;
-    }
 
     class AFCGUIDModule : public AFIGUIDModule
     {
@@ -39,15 +35,14 @@ namespace ark
         bool Init() override;
         bool PreShut() override;
 
-        void SetGUIDMask(uint64_t mask) override;
         AFGUID CreateGUID() override;
+        std::string ParseUID(const AFGUID& id) override;
 
     private:
-        uint64_t mnMask; //area_id * 100000 + server_id
 #ifdef AF_THREAD_SAFE
-        guid_module::IdWorkerThreadSafe* m_pIDWoker { nullptr };
+        AFUidGeneratorThreadSafe* uid_generator_ { nullptr };
 #else
-        guid_module::IdWorkerThreadUnsafe* m_pIDWoker { nullptr };
+        AFUidGenerator* uid_generator_ { nullptr };
 #endif // AF_THREAD_SAFE
     };
 
