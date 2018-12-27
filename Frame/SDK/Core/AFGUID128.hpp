@@ -25,19 +25,19 @@
 namespace ark
 {
 
-    class AFGUID128
+    class AFGUID
     {
     public:
         uint64_t nHigh;
         uint64_t nLow;
 
-        AFGUID128() = default;
+        AFGUID() = default;
 
-        AFGUID128(uint64_t value) : nHigh(0), nLow(value)
+        AFGUID(uint64_t value) : nHigh(0), nLow(value)
         {
         }
 
-        AFGUID128(uint64_t high, uint64_t low) : nHigh(high), nLow(low)
+        AFGUID(uint64_t high, uint64_t low) : nHigh(high), nLow(low)
         {
         }
 
@@ -51,41 +51,41 @@ namespace ark
             return (0 == nHigh) && (0 == nLow);
         }
 
-        AFGUID128& operator=(const int& rhs)
+        AFGUID& operator=(const int& rhs)
         {
             nHigh = 0;
             nLow = rhs;
             return *this;
         }
 
-        AFGUID128& operator=(const int64_t& rhs)
+        AFGUID& operator=(const int64_t& rhs)
         {
             nHigh = 0;
             nLow = rhs;
             return *this;
         }
 
-        AFGUID128& operator=(const AFGUID128& rhs)
+        AFGUID& operator=(const AFGUID& rhs)
         {
 			if(this != &rhs)
 			{
-				nHigh = rhs.nHigh;
-				nLow = rhs.nLow;
+				this->nHigh = rhs.nHigh;
+				this->nLow = rhs.nLow;
 			}
             return *this;
         }
 
-        bool operator==(const AFGUID128& rhs) const
+        bool operator==(const AFGUID& rhs) const
         {
             return (this->nHigh == rhs.nHigh) && (this->nLow == rhs.nLow);
         }
 
-        bool operator!=(const AFGUID128& rhs) const
+        bool operator!=(const AFGUID& rhs) const
         {
             return !(*this == rhs);
         }
 
-        bool operator<(const AFGUID128& rhs) const
+        bool operator<(const AFGUID& rhs) const
         {
             if (this->nHigh == rhs.nHigh)
             {

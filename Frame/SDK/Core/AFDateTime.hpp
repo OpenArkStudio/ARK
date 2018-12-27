@@ -1,8 +1,8 @@
 ﻿/*
-* This source file is part of ARK
-* For the latest info, see https://github.com/QuadHex
+* This source file is part of ArkGameFrame
+* For the latest info, see https://github.com/ArkGame
 *
-* Copyright (c) 2013-2018 QuadHex authors.
+* Copyright (c) 2013-2018 ArkGame authors.
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -63,10 +63,10 @@ namespace ark
 
         AFTimespan& operator=(const AFTimespan& timespan)
         {
-            if (this != &timespan)
-            {
-                this->_span = timespan._span;
-            }
+			if(this != &timespan)
+			{
+				this->_span = timespan._span;
+			}
             return *this;
         }
 
@@ -328,11 +328,7 @@ namespace ark
 
         AFDateTime& operator = (const AFDateTime& other)
         {
-            if (this != &other)
-            {
-                _ts = other._ts;
-            }
-
+            this->_ts = other._ts;
             return *this;
         }
 
@@ -426,17 +422,17 @@ namespace ark
             return *this;
         }
 
-        AFDateTime operator + (const AFTimespan& span) const
+        AFDateTime  operator + (const AFTimespan& span) const
         {
             return *this + span.totalMilliseconds();
         }
 
-        AFDateTime operator - (const AFTimespan& span) const
+        AFDateTime  operator - (const AFTimespan& span) const
         {
             return *this - span.totalMilliseconds();
         }
 
-        TimeDiff operator - (const AFDateTime& ts) const
+        TimeDiff     operator - (const AFDateTime& ts) const
         {
             return _ts - ts._ts;
         }
