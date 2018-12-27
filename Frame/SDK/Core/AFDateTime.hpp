@@ -63,10 +63,10 @@ namespace ark
 
         AFTimespan& operator=(const AFTimespan& timespan)
         {
-			if(this != &timespan)
-			{
-				this->_span = timespan._span;
-			}
+            if (this != &timespan)
+            {
+                this->_span = timespan._span;
+            }
             return *this;
         }
 
@@ -301,7 +301,6 @@ namespace ark
         {
         }
 
-        //TODO:test
         AFDateTime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0, int tzd = 8)
         {
             struct tm tmp_tm;
@@ -329,7 +328,11 @@ namespace ark
 
         AFDateTime& operator = (const AFDateTime& other)
         {
-            _ts = other._ts;
+            if (this != &other)
+            {
+                _ts = other._ts;
+            }
+
             return *this;
         }
 
