@@ -28,14 +28,11 @@ namespace ark
     class Point3D
     {
     public:
-        float x;
-        float y;
-        float z;
+        float x{ NULL_FLOAT };
+        float y{ NULL_FLOAT };
+        float z{ NULL_FLOAT };
 
         Point3D()
-            : x(.0f)
-            , y(.0f)
-            , z(.0f)
         {
         }
 
@@ -53,32 +50,32 @@ namespace ark
         {
         }
 
-        Point3D(const Point3D& rht)
+        Point3D(const Point3D& rhs)
         {
-            x = rht.x;
-            y = rht.y;
-            z = rht.z;
+            x = rhs.x;
+            y = rhs.y;
+            z = rhs.z;
         }
 
-        const Point3D& operator=(const Point3D& rht)
+        const Point3D& operator=(const Point3D& rhs)
         {
-			if(this != &rht)
-			{
-				x = rht.x;
-				y = rht.y;
-				z = rht.z;
-			}
+            if (this != &rhs)
+            {
+                x = rhs.x;
+                y = rhs.y;
+                z = rhs.z;
+            }
             return *this;
         }
 
-        inline bool operator==(const Point3D& rht) const
+        inline bool operator==(const Point3D& rhs) const
         {
-            return AFMisc::IsZeroFloat(Distance(*this, rht));
+            return AFMisc::IsZeroFloat(Distance(*this, rhs));
         }
 
-        inline bool operator!=(const Point3D& rht) const
+        inline bool operator!=(const Point3D& rhs) const
         {
-            return !(*this == rht);
+            return !(*this == rhs);
         }
 
         float GetLength() const
@@ -137,7 +134,7 @@ namespace ark
             }
             catch (std::system_error& ex)
             {
-                CONSOLE_LOG_NO_FILE << "Vector3 FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+                CONSOLE_INFO_LOG << "Vector3 FromString failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
                 ARK_ASSERT_NO_EFFECT(0);
                 return false;
             }

@@ -95,7 +95,7 @@ static size_t strlcpy(char* dst, const char* src, size_t siz)
     size_t n = siz;
 
     /* Copy as many bytes as will fit */
-    if (n != 0 && --n != 0)
+    if ((n != 0) && ((--n) != 0))
     {
         do
         {
@@ -314,7 +314,8 @@ using ARK_SHARE_PTR = std::shared_ptr<TD>;
 #define ARK_TO_STRING(value) std::to_string(value)
 
 #define CONSOLE_LOG std::cout << __FUNCTION__ << ":" << __LINE__ << " "
-#define CONSOLE_LOG_NO_FILE std::cout << ""
+#define CONSOLE_INFO_LOG std::cout << ""
+#define CONSOLE_ERROR_LOG std::cerr << ""
 
 #define ARK_FORMAT(my_fmt, ...)             fmt::format(my_fmt, ##__VA_ARGS__);
 #define ARK_FORMAT_FUNCTION(my_fmt, ...)    fmt::format(std::string("[{}:{}]") + my_fmt, ARK_FUNCTION_LINE, ##__VA_ARGS__);

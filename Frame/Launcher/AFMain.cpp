@@ -120,7 +120,7 @@ Gitee:   https://gitee.com/QuadHex
 **********************************************************************
 )";
 
-    CONSOLE_LOG_NO_FILE << logo << std::endl;
+    CONSOLE_INFO_LOG << logo << std::endl;
 
 #if ARK_PLATFORM == PLATFORM_WIN
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_INTENSITY | FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
@@ -190,7 +190,7 @@ int realloc_environ()
             ++var_count;
             ++ep;
         }
-    } while (0);
+    } while (false);
 
     char* new_env_buf = new char[env_size];
     std::memcpy((void*)new_env_buf, (void*)*environ, env_size);
@@ -209,7 +209,7 @@ int realloc_environ()
             offset += std::strlen(*ep) + 1;
             ++ep;
         }
-    } while (0);
+    } while (false);
 
     new_env[var_count] = 0;
 
@@ -254,7 +254,7 @@ bool ParseArgs(int argc, char* argv[])
 {
     args::ArgumentParser parser("Here is ark plugin loader argument tools", "If you have any questions, please report an issue in GitHub.");
     args::HelpFlag help(parser, "help", "Display the help menu", {'h', "help"});
-    args::ActionFlag xbutton(parser, "close", "Close [x] button in Windows", { 'x' }, [&]()
+    args::ActionFlag xbutton(parser, "close", "Close [x] button in Windows", { 'x' }, []()
     {
 #if ARK_PLATFORM == PLATFORM_WIN
         SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
@@ -262,7 +262,7 @@ bool ParseArgs(int argc, char* argv[])
 #endif
     });
 
-    args::ActionFlag daemon(parser, "daemon", "Run application as daemon", { 'd' }, [&]()
+    args::ActionFlag daemon(parser, "daemon", "Run application as daemon", { 'd' }, []()
     {
 #if ARK_PLATFORM == PLATFORM_UNIX
         InitDaemon();
@@ -282,19 +282,19 @@ bool ParseArgs(int argc, char* argv[])
     }
     catch (args::Help)
     {
-        std::cerr << parser;
+        CONSOLE_ERROR_LOG << parser;
         return false;
     }
     catch (args::ParseError& e)
     {
-        std::cerr << e.what() << std::endl;
-        std::cerr << parser;
+        CONSOLE_ERROR_LOG << e.what() << std::endl;
+        CONSOLE_ERROR_LOG << parser;
         return false;
     }
     catch (args::ValidationError& e)
     {
-        std::cerr << e.what() << std::endl;
-        std::cerr << parser;
+        CONSOLE_ERROR_LOG << e.what() << std::endl;
+        CONSOLE_ERROR_LOG << parser;
         return false;
     }
 
@@ -304,7 +304,7 @@ bool ParseArgs(int argc, char* argv[])
     AFCDataList temp_bus_id;
     if (!temp_bus_id.Split(busid.Get(), "."))
         {
-            CONSOLE_LOG << "bus id is invalid, it likes 8.8.8.8" << std::endl;
+            CONSOLE_ERROR_LOG << "bus id is invalid, it likes 8.8.8.8" << std::endl;
             return false;
         }
 
@@ -386,7 +386,7 @@ int main(int argc, char* argv[])
 {
     if (!ParseArgs(argc, argv))
     {
-        CONSOLE_LOG_NO_FILE << "Application parameter is invalid, please check it..." << std::endl;
+        CONSOLE_INFO_LOG << "Application parameter is invalid, please check it..." << std::endl;
         return 0;
     }
 

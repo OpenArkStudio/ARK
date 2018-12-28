@@ -126,10 +126,10 @@ namespace ark
     public:
         StringPodIter() = delete;
 
-        StringPodIter(const hash_t* self, node_t* node)
+        StringPodIter(const hash_t* self, node_t* node) :
+            mpSelf(self),
+            mpNode(node),
         {
-            mpSelf = self;
-            mpNode = node;
         }
 
         StringPodIter& operator++()
@@ -195,9 +195,9 @@ namespace ark
         using const_iterator = StringPodIter<TYPE, DATA, TRAITS, ALLOC>;
 
     public:
-        explicit StringPod(size_t size = 0)
+        explicit StringPod(size_t size = 0) :
+            mnSize(size)
         {
-            mnSize = size;
             mnCount = 0;
 
             if (size > 0)

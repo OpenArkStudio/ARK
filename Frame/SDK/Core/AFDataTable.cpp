@@ -595,18 +595,6 @@ namespace ark
         return row_data[col].GetString();
     }
 
-    const char* AFDataTable::GetStringValue(size_t row, size_t col)
-    {
-        if ((row >= GetRowCount()) || (col >= GetColCount()))
-        {
-            return NULL_STR.c_str();
-        }
-
-        RowData* row_data = mxRowDatas[row];
-        ARK_ASSERT_RET_VAL_NO_EFFECT(nullptr != row_data, NULL_STR.c_str());
-        return row_data[col].GetString();
-    }
-
     bool AFDataTable::GetColTypeList(AFIDataList& col_type_list)
     {
         int col_count = GetColCount();

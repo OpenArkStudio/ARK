@@ -35,15 +35,15 @@ namespace ark
     public:
         enum DATA_NODE_FEATURE
         {
-            PF_PUBLIC = 0, //send to others
-            PF_PRIVATE = 1, //send to self
-            PF_REAL_TIME = 2, //send real-time when changed
-            PF_SAVE = 3, //if need save to database
+            PF_PUBLIC       = 0, //send to others
+            PF_PRIVATE      = 1, //send to self
+            PF_REAL_TIME    = 2, //send real-time when changed
+            PF_SAVE         = 3, //if need save to database
         };
 
-        DataNodeName name = ""; //DataNode name, max = 16 bytes
+        DataNodeName name;      //DataNode name, max = 16 bytes
         AFCData value;          //DataNode value
-        AFFeatureType feature; //DataNode feature
+        AFFeatureType feature;  //DataNode feature
 
         bool IsPublic() const
         {

@@ -62,7 +62,7 @@ namespace ark
     int16_t ARK_HTONS(const int16_t data);
     int16_t ARK_NTOHS(const int16_t data);
 
-    struct AFEndpoint
+    class AFEndpoint
     {
     public:
         AFEndpoint() = default;

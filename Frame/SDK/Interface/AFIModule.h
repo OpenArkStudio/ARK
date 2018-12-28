@@ -88,7 +88,7 @@ namespace ark
             return pPluginManager;
         }
 
-        void SetPluginManager( AFIPluginManager* p )
+        void SetPluginManager(AFIPluginManager* p)
         {
             pPluginManager = p;
         }
@@ -102,6 +102,8 @@ namespace ark
 
     protected:
         AFIPluginManager* pPluginManager{ nullptr };
+
+    private:
         bool mbReloading{ false };
     };
 

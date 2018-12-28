@@ -136,7 +136,7 @@ namespace ark
             Init(src.c_str(), src.length());
         }
 
-        AFString(const TYPE* src)
+        explicit AFString(const TYPE* src)
         {
             Init(src, TRAITS::Length(src));
         }
@@ -157,7 +157,7 @@ namespace ark
         }
 
         template<size_t NEW_SIZE>
-        AFString(const AFString<TYPE, NEW_SIZE, TRAITS, ALLOC>& src)
+        explicit AFString(const AFString<TYPE, NEW_SIZE, TRAITS, ALLOC>& src)
         {
             Init(src.c_str(), src.length());
         }
@@ -205,7 +205,12 @@ namespace ark
 
         self_t& operator=(const self_t& src)
         {
-            return InnerAssign(src.c_str(), src.length());
+            if (this != &src)
+            {
+                InnerAssign(src.c_str(), src.length());
+            }
+
+            return *this;
         }
 
         template<size_t NEW_SIZE>

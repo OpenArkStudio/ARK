@@ -25,21 +25,21 @@ namespace ark
 
     bool AFCDynLib::Load(std::string const& path)
     {
-        std::string strLibPath = path + mstrName;
-        mInst = (DYNLIB_HANDLE)DYNLIB_LOAD(strLibPath.c_str());
+        std::string strLibPath = path + name_;
+        lib_inst_ = (DYNLIB_HANDLE)DYNLIB_LOAD(strLibPath.c_str());
 
-        return mInst != nullptr;
+        return lib_inst_ != nullptr;
     }
 
     bool AFCDynLib::UnLoad()
     {
-        DYNLIB_UNLOAD(mInst);
+        DYNLIB_UNLOAD(lib_inst_);
         return true;
     }
 
     void* AFCDynLib::GetSymbol(const char* szProcName)
     {
-        return (DYNLIB_HANDLE)DYNLIB_GETSYM(mInst, szProcName);
+        return (DYNLIB_HANDLE)DYNLIB_GETSYM(lib_inst_, szProcName);
     }
 
 }

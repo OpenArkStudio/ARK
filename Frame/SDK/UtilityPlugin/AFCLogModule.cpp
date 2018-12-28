@@ -34,7 +34,7 @@ namespace ark
         }
         catch (std::system_error& error)
         {
-            CONSOLE_LOG_NO_FILE << "Create logger failed, error = " << error.what() << std::endl;
+            CONSOLE_INFO_LOG << "Create logger failed, error = " << error.what() << std::endl;
             ARK_ASSERT_RET_VAL(0, false);
         }
 
@@ -107,7 +107,7 @@ namespace ark
             }
             catch (std::system_error& error)
             {
-                CONSOLE_LOG_NO_FILE << "Create logger failed, error = " << error.what() << std::endl;
+                CONSOLE_INFO_LOG << "Create logger failed, error = " << error.what() << std::endl;
                 ARK_ASSERT_NO_EFFECT(0);
             }
 

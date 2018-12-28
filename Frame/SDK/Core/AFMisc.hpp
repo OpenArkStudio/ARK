@@ -92,7 +92,7 @@ namespace ark
             }
             catch (std::system_error& ex)
             {
-                std::cout << "ARK_FROM_STR failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
+                CONSOLE_ERROR_LOG << "ARK_FROM_STR failed, code = " << ex.code().message() << " msg = " << ex.what() << std::endl;
                 ARK_ASSERT_NO_EFFECT(0);
                 return false;
             }

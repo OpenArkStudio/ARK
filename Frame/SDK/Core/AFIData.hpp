@@ -21,7 +21,6 @@
 #pragma once
 
 #include "SDK/Core/AFMacros.hpp"
-//#include "SDK/Core/AFGUID.hpp"
 
 namespace ark
 {
@@ -42,9 +41,9 @@ namespace ark
     };
 
     const static bool NULL_BOOLEAN = false;
-    const static int NULL_INT = 0;
-    const static int64_t NULL_INT64 = 0;
-    const static float NULL_FLOAT = 0.0f;
+    const static int NULL_INT = 0U;
+    const static int64_t NULL_INT64 = 0L;
+    const static float NULL_FLOAT = 0.0F;
     const static double NULL_DOUBLE = 0.0;
     const static std::string NULL_STR = "";
     const static AFGUID NULL_GUID = 0;//AFGUID();

@@ -29,21 +29,21 @@ namespace ark
     {
     public:
         explicit AFCDynLib(const std::string& strName) :
-            mstrName(strName)
+            name_(strName)
         {
 #if ARK_RUN_MODE == ARK_RUN_MODE_DEBUG
-            mstrName.append("_d");
+            name_.append("_d");
 #endif
 
 #if ARK_PLATFORM == PLATFORM_WIN
-            mstrName.append(".dll");
+            name_.append(".dll");
 #elif ARK_PLATFORM == PLATFORM_UNIX || ARK_PLATFORM == AF_PLATFORM_ANDROID
-            mstrName.append(".so");
+            name_.append(".so");
 #elif ARK_PLATFORM == PLATFORM_APPLE || ARK_PLATFORM == AF_PLATFORM_APPLE_IOS
-            mstrName.append(".so");
+            name_.append(".so");
 #endif
 
-            CONSOLE_LOG << "LoadPlugin: " << mstrName << std::endl;
+            CONSOLE_LOG << "LoadPlugin: " << name_ << std::endl;
         }
 
         ~AFCDynLib() = default;
@@ -54,16 +54,15 @@ namespace ark
         //Get the name of the library
         const std::string& GetName(void) const
         {
-            return mstrName;
+            return name_;
         }
 
         void* GetSymbol(const char* szProcName);
 
     private:
-        std::string mstrName;
-        bool mbMain;
+        std::string name_;
 
-        DYNLIB_HANDLE mInst;
+        DYNLIB_HANDLE lib_inst_;
     };
 
 }

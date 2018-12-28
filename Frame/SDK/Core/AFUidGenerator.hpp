@@ -127,7 +127,7 @@ namespace ark
             ARK_DELETE(bits_alloc_);
         }
 
-        int64_t GetUID(const int64_t worker_id)
+        virtual int64_t GetUID(const int64_t worker_id)
         {
             return NextID(worker_id);
         }
@@ -203,7 +203,7 @@ namespace ark
     class AFUidGeneratorThreadSafe : public AFUidGenerator
     {
     public:
-        int64_t GetUID(const int64_t worker_id)
+        int64_t GetUID(const int64_t worker_id) override
         {
             std::lock_guard<std::mutex> lock(mutex_);
             return NextID(worker_id);

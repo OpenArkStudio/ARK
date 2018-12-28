@@ -235,7 +235,9 @@ namespace ark
             }
         }
 #else
-        struct addrinfo hints, *answer, *curr;
+        struct addrinfo hints;
+        struct addrinfo* answer;
+        struct addrinfo* curr;
 
         memset(&hints, 0, sizeof(struct addrinfo));
         hints.ai_family = AF_UNSPEC;
@@ -254,7 +256,7 @@ namespace ark
         for (curr = answer; curr != NULL; curr = curr->ai_next)
         {
             int pf_family = answer->ai_family;
-            switch (answer->ai_family)
+            switch (pf_family)
             {
             case PF_INET:
                 {

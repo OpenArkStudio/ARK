@@ -33,9 +33,9 @@ namespace ark
     {
         AFBusAddr() = default;
 
-        explicit AFBusAddr(const int id)
+        explicit AFBusAddr(const int id) :
+            bus_id(id)
         {
-            bus_id = id;
         }
 
         explicit AFBusAddr(const uint8_t c_id, const uint8_t z_id, const uint8_t p_id, const uint8_t i_id) :

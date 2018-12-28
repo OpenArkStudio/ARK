@@ -39,9 +39,11 @@ namespace ark
         switch (err_val)
         {
         case 1:
-            return "test error";
-        //TODO:will add message here
+            return "first error";
+        case 2:
+            return "second error";
         default:
+            return "unknown error";
             break;
         }
 

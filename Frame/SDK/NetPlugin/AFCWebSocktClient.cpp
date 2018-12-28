@@ -52,7 +52,7 @@ namespace ark
         auto socket = brynet::net::TcpSocket::Create(fd, false);
         socket->SocketNodelay();
 
-        CONSOLE_LOG_NO_FILE << "connect success" << std::endl;
+        CONSOLE_INFO_LOG << "connect success" << std::endl;
         auto OnEnterCallback = [&](const brynet::net::DataSocket::PTR & socket)
         {
             std::string session_ip = socket->getIP();
