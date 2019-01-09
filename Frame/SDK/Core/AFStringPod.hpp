@@ -128,7 +128,7 @@ namespace ark
 
         StringPodIter(const hash_t* self, node_t* node) :
             mpSelf(self),
-            mpNode(node),
+            mpNode(node)
         {
         }
 
