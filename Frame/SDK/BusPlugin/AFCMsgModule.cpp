@@ -87,22 +87,9 @@ namespace ark
         head.src_bus_ = src_bus;
         head.dst_bus_ = target_bus;
 
-        //AFBusAddr target_bus_addr(target_bus);
-        //if (target_bus_addr.zone_id == 0)
-        //{
-        //    //send to cluster through router
-        //    return SendSSMsgByRouter();
-        //}
-        //else
-        //{
-        //    //send to zone
-        //}
-
-
         AFINet* net_ptr = m_pNetServiceManagerModule->GetNetConnectionBus(src_bus, target_bus);
         if (net_ptr != nullptr)
         {
-            //return net_ptr->SendRawMsg(msg_id, msg, msg_len, conn_id, actor_id);
             return net_ptr->SendMsg(&head, msg_data, session_id);
         }
 
@@ -110,9 +97,67 @@ namespace ark
         return false;
     }
 
-    bool AFCMsgModule::SendSSMsgByRouter()
+    bool AFCMsgModule::SendSSMsgByRouter(const AFSSMsgHead& head)
     {
-        //TODO:
+        AFBusAddr src_bus(head.src_bus_);
+        AFBusAddr dst_bus(head.dst_bus_);
+        if (src_bus.zone_id == 0)
+        {
+            //src is cluster
+            if (dst_bus.zone_id == 0)
+            {
+                //cluster -> cluster
+            }
+            else
+            {
+                //cluster -> zone
+            }
+        }
+        else
+        {
+            //src is zone
+            if (dst_bus.zone_id == 0)
+            {
+                //zone -> cluster
+            }
+            else
+            {
+                //zone -> zone
+            }
+        }
+
+
+
+
+        //if (src_bus.proc_id == ARK_APP_WORLD)
+        //{
+        //    //if the msg is in world, then the sending order is world -> router
+        //    int router_bus_id = GetSuitRouterBus();
+        //}
+        //else if (src_bus.zone_id != 0)
+        //{
+        //    //if the msg belongs to zone, then the sending order is zone-proc -> world -> router
+        //    sendMsgToWorld();
+        //}
+        //else if (src_bus.zone_id == 0)
+        //{
+        //    //other situations
+        //    //cluster send msg to zone through router
+
+        //}
+        //else
+        //{
+
+        //}
+
+
+
+        //AFINet* net_ptr = m_pNetServiceManagerModule->GetNetConnectionBus(head.src_bus_, target_bus);
+        //if (net_ptr != nullptr)
+        //{
+        //    return net_ptr->SendMsg(&head, msg_data, session_id);
+        //}
+
         return true;
     }
 

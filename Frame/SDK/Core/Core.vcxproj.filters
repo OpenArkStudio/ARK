@@ -24,9 +24,6 @@
     <ClInclude Include="AFBuffer.hpp">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="AFCAddConsistentHash.hpp">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="AFCConsistentHash.hpp">
       <Filter>Core</Filter>
     </ClInclude>
@@ -46,9 +43,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFCEventManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFCHeartBeatManager.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFCoreDef.hpp">
@@ -91,9 +85,6 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFIEventManager.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="AFIHeartBeatManager.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="AFList.hpp">
@@ -168,9 +159,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFCEventManager.cpp">
-      <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="AFCHeartBeatManager.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="AFDataTable.cpp">

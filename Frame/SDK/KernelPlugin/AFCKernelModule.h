@@ -46,10 +46,6 @@ namespace ark
         bool PreShut() override;
 
         ///////////////////////////////////////////////////////////////////////
-
-        bool FindHeartBeat(const AFGUID& self, const std::string& name) override;
-        bool RemoveHeartBeat(const AFGUID& self, const std::string& name) override;
-
         ARK_SHARE_PTR<AFIEntity>& GetEntity(const AFGUID& self) override;
         ARK_SHARE_PTR<AFIEntity> CreateEntity(const AFGUID& self, const int nSceneID, const int nGroupID, const std::string& strClassName, const std::string& strConfigIndex, const AFIDataList& arg) override;
 

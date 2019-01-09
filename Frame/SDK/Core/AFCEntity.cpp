@@ -20,7 +20,6 @@
 
 #include "AFCEntity.h"
 #include "AFCDataTableManager.h"
-#include "AFCHeartBeatManager.h"
 #include "AFCDataNodeManager.h"
 #include "AFCEventManager.h"
 
@@ -33,29 +32,12 @@ namespace ark
     {
         m_pNodeManager = std::make_shared<AFCDataNodeManager>(mSelf);
         m_pTableManager = std::make_shared<AFCDataTableManager>(mSelf);
-        m_pHeartBeatManager = std::make_shared<AFCHeartBeatManager>(mSelf);
         m_pEventManager = std::make_shared<AFCEventManager>(mSelf);
     }
 
     void AFCEntity::Update()
     {
-        GetHeartBeatManager()->Update();
         GetEventManager()->Update();
-    }
-
-    bool AFCEntity::AddHeartBeat(const std::string& name, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever)
-    {
-        return GetHeartBeatManager()->AddHeartBeat(mSelf, name, cb, nTime, nCount, bForever);
-    }
-
-    bool AFCEntity::CheckHeartBeatExist(const std::string& name)
-    {
-        return GetHeartBeatManager()->Exist(name);
-    }
-
-    bool AFCEntity::RemoveHeartBeat(const std::string& name)
-    {
-        return GetHeartBeatManager()->RemoveHeartBeat(name);
     }
 
     bool AFCEntity::CheckNodeExist(const std::string& name)
@@ -197,11 +179,6 @@ namespace ark
     ARK_SHARE_PTR<AFIDataTableManager>& AFCEntity::GetTableManager()
     {
         return m_pTableManager;
-    }
-
-    ARK_SHARE_PTR<AFIHeartBeatManager>& AFCEntity::GetHeartBeatManager()
-    {
-        return m_pHeartBeatManager;
     }
 
     ARK_SHARE_PTR<AFIEventManager>& AFCEntity::GetEventManager()

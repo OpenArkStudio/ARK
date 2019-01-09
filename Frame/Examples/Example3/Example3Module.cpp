@@ -41,16 +41,6 @@ namespace ark
         return 0;
     }
 
-    int Example3Module::OnHeartBeat(const AFGUID& self, const std::string& strHeartBeat, const int64_t nTime, const int nCount)
-    {
-        int64_t unNowTime = AFDateTime::GetNowTime();
-        std::cout << "strHeartBeat: " << nTime << " Count: " << nCount << "  TimeDis: " << unNowTime - mLastTime << std::endl;
-
-        mLastTime = unNowTime;
-
-        return 0;
-    }
-
     int Example3Module::OnClassCallBackEvent(const AFGUID& self, const std::string& strClassName, const ARK_ENTITY_EVENT event, const AFIDataList& arg)
     {
         std::cout << "OnClassCallBackEvent ClassName: " << strClassName << " ID: " << self << " Event: " << event << std::endl;
@@ -58,10 +48,6 @@ namespace ark
         if (event == ARK_ENTITY_EVENT::ENTITY_EVT_DATA_FINISHED)
         {
             m_pKernelModule->AddEventCallBack(self, 11111111, this, &Example3Module::OnEvent);
-
-            m_pKernelModule->AddHeartBeat(self, "OnHeartBeat", this, &Example3Module::OnHeartBeat, 1000, 1, true);
-
-            mLastTime = AFDateTime::GetNowTime();
         }
 
         return 0;

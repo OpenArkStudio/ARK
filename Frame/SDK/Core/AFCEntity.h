@@ -22,7 +22,6 @@
 
 #include "SDK/Core/AFIEntity.h"
 #include "SDK/Core/AFIDataTableManager.h"
-#include "SDK/Core/AFIHeartBeatManager.h"
 #include "SDK/Core/AFIDataNodeManager.h"
 
 namespace ark
@@ -39,9 +38,6 @@ namespace ark
         ///////////////////////////////////////////////////////////////////////
         const AFGUID& Self() override;
 
-        bool CheckHeartBeatExist(const std::string& name) override;
-        bool RemoveHeartBeat(const std::string& name) override;
-        /////////////////////////////////////////////////////////////////
         bool CheckNodeExist(const std::string& name) override;
 
         bool SetNodeBool(const std::string& name, const bool value) override;
@@ -77,11 +73,7 @@ namespace ark
         //////////////////////////////////////////////////////////////////////////
         ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager() override;
         ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager() override;
-        ARK_SHARE_PTR<AFIHeartBeatManager>& GetHeartBeatManager() override;
         ARK_SHARE_PTR<AFIEventManager>& GetEventManager() override;
-
-    protected:
-        bool AddHeartBeat(const std::string& col, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever) override;
 
     private:
         AFGUID mSelf;
@@ -89,7 +81,6 @@ namespace ark
         ARK_SHARE_PTR<AFIDataNodeManager> m_pNodeManager;
         ARK_SHARE_PTR<AFIDataTableManager> m_pTableManager;
         ARK_SHARE_PTR<AFIEventManager> m_pEventManager;
-        ARK_SHARE_PTR<AFIHeartBeatManager> m_pHeartBeatManager;
     };
 
 }

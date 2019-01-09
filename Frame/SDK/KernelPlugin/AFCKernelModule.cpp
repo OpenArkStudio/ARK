@@ -89,36 +89,6 @@ namespace ark
         return DestroyAll();
     }
 
-    bool AFCKernelModule::FindHeartBeat(const AFGUID& self, const std::string& name)
-    {
-        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-
-        if (pEntity != nullptr)
-        {
-            return pEntity->CheckHeartBeatExist(name);
-        }
-        else
-        {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-            return false;
-        }
-    }
-
-    bool AFCKernelModule::RemoveHeartBeat(const AFGUID& self, const std::string& name)
-    {
-        ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-
-        if (pEntity != nullptr)
-        {
-            return pEntity->RemoveHeartBeat(name);
-        }
-        else
-        {
-            ARK_LOG_ERROR("Cannot find entity, id = {}", self);
-            return false;
-        }
-    }
-
     ARK_SHARE_PTR<AFIEntity> AFCKernelModule::CreateEntity(const AFGUID& self, const int map_id, const int map_instance_id, const std::string& class_name, const std::string& config_index, const AFIDataList& args)
     {
         AFGUID entity_id = self;

@@ -24,7 +24,6 @@
 #include "SDK/Interface/AFIPluginManager.h"
 #include "AFDataTable.h"
 #include "AFIDataTableManager.h"
-#include "AFIHeartBeatManager.h"
 #include "AFIDataNodeManager.h"
 #include "AFIEventManager.h"
 
@@ -40,16 +39,6 @@ namespace ark
 
         virtual void Update() = 0;
         virtual const AFGUID& Self() = 0;
-
-        template<typename BaseType>
-        bool AddHeartBeat(const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const int64_t, const int), const int64_t nTime, const int nCount, const bool bForever)
-        {
-            HEART_BEAT_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4);
-            return AddHeartBeat(name, std::make_shared<HEART_BEAT_FUNCTOR>(functor), nTime, nCount, bForever);
-        }
-
-        virtual bool CheckHeartBeatExist(const std::string& name) = 0;
-        virtual bool RemoveHeartBeat(const std::string& name) = 0;
 
         virtual bool CheckNodeExist(const std::string& name) = 0;
 
@@ -85,11 +74,7 @@ namespace ark
 
         virtual ARK_SHARE_PTR<AFIDataNodeManager>& GetNodeManager() = 0;
         virtual ARK_SHARE_PTR<AFIDataTableManager>& GetTableManager() = 0;
-        virtual ARK_SHARE_PTR<AFIHeartBeatManager>& GetHeartBeatManager() = 0;
         virtual ARK_SHARE_PTR<AFIEventManager>& GetEventManager() = 0;
-
-    protected:
-        virtual bool AddHeartBeat(const std::string& name, const HEART_BEAT_FUNCTOR_PTR& cb, const int64_t nTime, const int nCount, const bool bForever) = 0;
     };
 
 }

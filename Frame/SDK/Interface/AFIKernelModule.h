@@ -30,23 +30,6 @@ namespace ark
     {
     public:
         template<typename BaseType>
-        bool AddHeartBeat(const AFGUID self, const std::string& name, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const std::string&, const int64_t, const int), const int64_t nTime, const int nCount, const bool bForever = false)
-        {
-            ARK_SHARE_PTR<AFIEntity> pEntity = GetEntity(self);
-
-            if (nullptr != pEntity)
-            {
-                return pEntity->AddHeartBeat(name, pBase, handler, nTime, nCount, bForever);
-            }
-
-            return false;
-        }
-
-        virtual bool FindHeartBeat(const AFGUID& self, const std::string& name) = 0;
-        virtual bool RemoveHeartBeat(const AFGUID& self, const std::string& name) = 0;
-
-        //////////////////////////////////////////////////////////////////////////
-        template<typename BaseType>
         bool AddEventCallBack(const AFGUID& self, const int nEventID, BaseType* pBase, int (BaseType::*handler)(const AFGUID&, const int, const AFIDataList&))
         {
             EVENT_PROCESS_FUNCTOR functor = std::bind(handler, pBase, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3);

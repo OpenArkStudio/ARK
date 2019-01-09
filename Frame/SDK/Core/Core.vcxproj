@@ -111,7 +111,6 @@
     <ClInclude Include="AFArrayPod.hpp" />
     <ClInclude Include="AFBitValue.hpp" />
     <ClInclude Include="AFBuffer.hpp" />
-    <ClInclude Include="AFCAddConsistentHash.hpp" />
     <ClInclude Include="AFCConsistentHash.hpp" />
     <ClInclude Include="AFCData.hpp" />
     <ClInclude Include="AFCDataList.hpp" />
@@ -119,7 +118,6 @@
     <ClInclude Include="AFCDataTableManager.h" />
     <ClInclude Include="AFCEntity.h" />
     <ClInclude Include="AFCEventManager.h" />
-    <ClInclude Include="AFCHeartBeatManager.h" />
     <ClInclude Include="AFCoreDef.hpp" />
     <ClInclude Include="AFCronScheduler.hpp" />
     <ClInclude Include="AFDataNode.hpp" />
@@ -135,7 +133,6 @@
     <ClInclude Include="AFIDataTableManager.h" />
     <ClInclude Include="AFIEntity.h" />
     <ClInclude Include="AFIEventManager.h" />
-    <ClInclude Include="AFIHeartBeatManager.h" />
     <ClInclude Include="AFList.hpp" />
     <ClInclude Include="AFLockFreeQueue.hpp" />
     <ClInclude Include="AFMacros.hpp" />
@@ -161,7 +158,6 @@
     <ClCompile Include="AFCDataTableManager.cpp" />
     <ClCompile Include="AFCEntity.cpp" />
     <ClCompile Include="AFCEventManager.cpp" />
-    <ClCompile Include="AFCHeartBeatManager.cpp" />
     <ClCompile Include="AFDataTable.cpp" />
     <ClCompile Include="AFError.cpp" />
     <ClCompile Include="AFSocketFunc.cpp" />
