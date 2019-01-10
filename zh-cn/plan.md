@@ -16,6 +16,7 @@
 - [ ] 12.关于背包类的table，整理或者交换，需要改成别的方式
 - [ ] 13.excel格式修改为一张excel里放所有的schema,其他配置表分开来写,兼容现在的格式
 - [x] 14.net plugin增加endpoint
+- [ ] 15.增加consistent_hash_map
 - [ ] 51.优化数据同步的流量,减小属性同步的体积(去掉`NodeName`和`TableName`类似的string同步, 上线先同步index和name的映射，后续全部用index下发，入库用name)
 - [ ] 52.拓展DataTable的组成，例如道具包含了宝石(带经验，附魔等)、武器(带随机属性)等东西，DataTable现有的二维结构是特定的，不方便做扩展
 - [ ] 53.文档逐步补齐，概念介绍、设计理念、服务器架构、使用例子
