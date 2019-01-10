@@ -1,5 +1,5 @@
-//C++ 11实现的lexical_cast，为了剥离boost
-//代码来自: https://github.com/qicosmos/cosmos
+//C++ 11瀹炵幇鐨刲exical_cast锛屼负浜嗗墺绂籦oost
+//浠ｇ爜鏉ヨ嚜: https://github.com/qicosmos/cosmos
 
 #ifndef CPP_11_LEXICAL_CAST_HPP
 #define CPP_11_LEXICAL_CAST_HPP
@@ -154,7 +154,7 @@ static bool convert(const char* from)
     }
     else
     {
-        // 数字转为bool
+        // 鏁板瓧杞负bool
         int value = Converter<int, const char*>::convert(from);
         return (value > 0);
     }

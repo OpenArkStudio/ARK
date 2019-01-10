@@ -119,6 +119,7 @@
     <ClInclude Include="AFCEntity.h" />
     <ClInclude Include="AFCEventManager.h" />
     <ClInclude Include="AFCoreDef.hpp" />
+    <ClInclude Include="AFCRC.hpp" />
     <ClInclude Include="AFCronScheduler.hpp" />
     <ClInclude Include="AFDataNode.hpp" />
     <ClInclude Include="AFDataTable.h" />

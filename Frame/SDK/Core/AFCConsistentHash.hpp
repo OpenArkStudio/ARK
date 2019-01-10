@@ -20,7 +20,7 @@
 
 #pragma once
 
-#include "common/crc32.hpp"
+#include "AFCRC.hpp"
 #include "AFMacros.hpp"
 
 namespace ark
@@ -126,7 +126,7 @@ namespace ark
         virtual uint32_t GetHashValue(const AFIVirtualNode& vNode)
         {
             std::string vnode = vNode.ToStr();
-            return CRC32(vnode);
+            return AFCRC32::Sum(vnode);
         }
     };
 
@@ -228,7 +228,7 @@ namespace ark
 
         bool GetSuitNode(const std::string& str, AFCMachineNode& node) override
         {
-            uint32_t nCRC32 = CRC32(str);
+            uint32_t nCRC32 = AFCRC32::Sum(str);
             return GetSuitNode(nCRC32, node);
         }
 
@@ -253,9 +253,9 @@ namespace ark
 
         bool GetNodeList(std::list<AFCMachineNode>& nodeList) override
         {
-            for (std::map<uint32_t, AFCMachineNode>::iterator it = mxNodes.begin(); it != mxNodes.end(); ++it)
+            for (auto it : mxNodes)
             {
-                nodeList.push_back(it->second);
+                nodeList.push_back(it.second);
             }
 
             return true;

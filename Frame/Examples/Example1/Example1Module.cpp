@@ -22,6 +22,7 @@
 #include "SDK/Core/AFDateTime.hpp"
 #include "SDK/Core/AFRandom.hpp"
 #include "SDK/Core/AFTimer.hpp"
+#include "SDK/Core/AFCRC.hpp"
 #include "SDK/Core/Common/cronexpr.h"
 #include "Example1Module.h"
 
@@ -111,22 +112,22 @@ namespace ark
         }
     }
 
-    void testtime()
+    void TestCRC()
     {
-        AFDateTime time;
-        for (int i = 0; i < 10; ++i)
-        {
-            std::cout << "111   GetTickCount64 = " << GetTickCount64() << std::endl;
-            time.update();
-            std::cout << "DateTime = " << time.GetMilliseconds() << std::endl;
-            std::cout << "222   GetTickCount64 = " << GetTickCount64() << std::endl;
-        }
+        std::string s = "hello";
+        uint16_t crc16 = AFCRC16::Sum(s);
+        std::cout << "CRC16 [" << s << "] -> [" << crc16 << "]" << std::endl;
+
+        s = "world";
+        uint32_t crc32 = AFCRC32::Sum(s);
+        std::cout << "CRC32 [" << s << "] -> [" << crc32 << "]" << std::endl;
     }
 
     bool Example1Module::PostInit()
     {
         std::cout << typeid(Example1Module).name() << ", PostInit" << std::endl;
 
+        TestCRC();
         //////////////////////////////////////////////////////////////////////////
         //Test guid
         AFGUID id = m_pGUIDModule->CreateGUID();

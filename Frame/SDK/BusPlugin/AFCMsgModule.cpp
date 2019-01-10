@@ -35,7 +35,7 @@ namespace ark
 
     bool AFCMsgModule::SendSuitSSMsg(const uint8_t app_type, const std::string& hash_key, const int msg_id, const google::protobuf::Message& msg, const AFGUID& actor_id/* = 0*/)
     {
-        uint32_t crc32 = CRC32(hash_key);
+        uint32_t crc32 = AFCRC32::Sum(hash_key);
         return SendSuitSSMsg(app_type, crc32, msg_id, msg, actor_id);
     }
 

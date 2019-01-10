@@ -144,6 +144,9 @@
     <ClInclude Include="AFUidGenerator.hpp">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="AFCRC.hpp">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Common\cronexpr.cpp">

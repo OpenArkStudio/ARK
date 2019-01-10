@@ -221,7 +221,7 @@ namespace ark
 
     bool AFCNetClientService::GetServerMachineData(const std::string& strServerID, AFCMachineNode& xMachineData)
     {
-        uint32_t nCRC32 = CRC32(strServerID);
+        uint32_t nCRC32 = AFCRC32::Sum(strServerID);
         return mxConsistentHash.GetSuitNode(nCRC32, xMachineData);
     }
 
