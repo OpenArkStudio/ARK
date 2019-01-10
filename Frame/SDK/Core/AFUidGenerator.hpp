@@ -122,7 +122,7 @@ namespace ark
             bits_alloc_ = ARK_NEW AFBitsAllocator(time_bits, worker_bit, seq_bits);
         }
 
-        ~AFUidGenerator()
+        virtual ~AFUidGenerator()
         {
             ARK_DELETE(bits_alloc_);
         }
