@@ -300,12 +300,10 @@ namespace ark
             return nodes_.insert(value_type(hash, node));
         }
 
-
         void erase(iterator it)
         {
             nodes_.erase(it);
         }
-
 
         std::size_t erase(const T& node)
         {

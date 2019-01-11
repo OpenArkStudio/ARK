@@ -153,17 +153,17 @@ namespace ark
     class AFScopeWLock : public AFNoncopyable
     {
     public:
-        explicit AFScopeWLock(AFCReaderWriterLock& lock) : rwlock(lock)
+        explicit AFScopeWLock(AFCReaderWriterLock& lock) : rwlock_(lock)
         {
-            rwlock.WriterLock();
+            rwlock_.WriterLock();
         }
 
         ~AFScopeWLock()
         {
-            rwlock.WriterUnLock();
+            rwlock_.WriterUnLock();
         }
     private:
-        AFCReaderWriterLock& rwlock;
+        AFCReaderWriterLock& rwlock_;
     };
 
 }

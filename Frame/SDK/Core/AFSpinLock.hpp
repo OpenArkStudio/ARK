@@ -28,7 +28,7 @@ namespace ark
     class AFSpinLock
     {
     public:
-        AFSpinLock() : _atomic_lock(false) {}
+        AFSpinLock() : atomic_lock_(false) {}
         AFSpinLock(AFSpinLock const&) = default;
         AFSpinLock(AFSpinLock&&) = default;
         AFSpinLock& operator=(AFSpinLock const&) = default;
@@ -38,21 +38,21 @@ namespace ark
 
         inline void lock()
         {
-            while (_atomic_lock.exchange(true));
+            while (atomic_lock_.exchange(true));
         }
 
         inline void unlock()
         {
-            _atomic_lock = false;
+            atomic_lock_ = false;
         }
 
         inline bool isLocked() const
         {
-            return _atomic_lock;
+            return atomic_lock_;
         }
 
     private:
-        std::atomic_bool _atomic_lock;
+        std::atomic_bool atomic_lock_;
     };
 
 }

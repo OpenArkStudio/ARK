@@ -21,7 +21,7 @@
 #pragma once
 
 #include "SDK/Core/AFPlatform.hpp"
-#include "common/readerwriterqueue.h"
+#include "Common/readerwriterqueue.h"
 
 namespace ark
 {
@@ -30,32 +30,26 @@ namespace ark
     class AFLockFreeQueue
     {
     public:
-        AFLockFreeQueue()
-        {
-        }
-
-        virtual ~AFLockFreeQueue()
-        {
-        }
+        AFLockFreeQueue() = default;
+        ~AFLockFreeQueue() = default;
 
         bool Push(const T& object)
         {
-            return mList.enqueue(object);
+            return queue_.enqueue(object);
         }
 
         bool Pop(T& object)
         {
-            //return mList.wait_dequeue_timed(object, std::chrono::milliseconds(5));
-            return mList.try_dequeue(object);
+            return queue_.try_dequeue(object);
         }
 
         size_t Count()
         {
-            return mList.size_approx();
+            return queue_.size_approx();
         }
 
     private:
-        moodycamel::BlockingReaderWriterQueue<T> mList;
+        moodycamel::BlockingReaderWriterQueue<T> queue_;
     };
 
 }
